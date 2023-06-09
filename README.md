@@ -6,10 +6,10 @@ First, run the development server:
 
 ```bash
 # Install package
-npm install or yarn
+npm install
 
 # Run
-npm run dev or yarn dev
+npm run dev
 ```
 
 ## Library Docs
