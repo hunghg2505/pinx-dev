@@ -1,0 +1,13 @@
+.checked{
+  &:after{
+    position: absolute;
+    content: '';
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #333333;
+    border-radius: 50%;
+  }
+}
