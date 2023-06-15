@@ -12,4 +12,7 @@
   "editor.quickSuggestions": {
     "strings": true
   },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
 }
