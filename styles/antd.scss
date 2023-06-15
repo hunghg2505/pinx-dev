@@ -1,0 +1,39 @@
+.rc-tabs.tabHome{
+  .rc-tabs-nav-wrap{
+    border-bottom: 1px solid #999999;
+  }
+  .rc-tabs-nav-list{
+    display: flex;
+    padding-left: 8px;
+    .rc-tabs-tab{
+      margin-right: 30px;
+      padding-bottom: 10px;
+      cursor: pointer;
+      .rc-tabs-tab-btn{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #808080;
+      }
+      &.rc-tabs-tab-active{
+        border-bottom: 3px solid #1F6EAC;
+        .rc-tabs-tab-btn{
+          color: #1F6EAC;
+        }
+      }
+    }
+  }
+}
+.rc-dialog{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%, -50%);
+}
+.slide-watchlist{
+  .slick-list{
+    overflow: visible !important;
+    width: 80%;
+  }
+}
+
