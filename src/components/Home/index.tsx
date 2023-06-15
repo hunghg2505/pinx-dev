@@ -13,6 +13,7 @@ function Home() {
         <div className='flex-initial w-64 ...'>02</div>
         <div className='flex-initial w-32 ...'>03</div>
       </div>
+      <input placeholder='123'></input>
     </>
   );
 }

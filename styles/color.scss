@@ -2,6 +2,8 @@
   --white: #ffffff;
   --black: #000000;
 
+  --semantic-1: #DB4444;
+
   --primary-1: #589DC0;
   --primary-2: #1F6EAC;
   --primary-3: #EAF4FB;
@@ -69,4 +71,8 @@
 }
 .neutral-9 {
   color: var(--neutral-9);
+}
+
+.semantic-1 {
+  color: var(--semantic-1);
 }
