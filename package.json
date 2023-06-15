@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f .env.development next dev",
+    "dev": "cp env.development .env && next dev",
     "build": "next build",
-    "start": "env-cmd -f .env.production next start",
+    "start": "env-cmd -f .env.production next start -p 80",
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
