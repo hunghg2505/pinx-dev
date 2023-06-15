@@ -1,0 +1,25 @@
+.otpInput {
+  max-width: 368px;
+  margin: 24px 8px;
+
+  @media (max-width: 768px) {
+    margin: 24px 4px;
+  }
+
+  input {
+    width: 48px !important;
+    height: 48px !important;
+    background: #ffffff;
+    border: 1px solid #EAF4FB !important;
+    background: #EAF4FB !important;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    @media (max-width: 365px) {
+      width: 42px !important;
+      height: 42px !important;
+    }
+  }
+}

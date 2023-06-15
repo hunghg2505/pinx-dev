@@ -1,7 +1,7 @@
-const AppLayout = ({ children, WaterfallFont }: any) => {
+const AppLayout = ({ children, InterFont }: any) => {
   return (
     <>
-      <main className={WaterfallFont.variable}>{children}</main>
+      <main className={InterFont.variable}>{children}</main>
     </>
   );
 };

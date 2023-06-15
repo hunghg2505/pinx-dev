@@ -6,7 +6,7 @@ import { ReactElement, ReactNode } from 'react';
 
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { Waterfall } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
@@ -22,10 +22,10 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const WaterfallFont = Waterfall({
+const InterFont = Inter({
   subsets: ['latin'],
   weight: '400',
-  variable: '--font-waterfall',
+  variable: '--font-inter',
 });
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <ErrorBoundary>
-        <AppLayout WaterfallFont={WaterfallFont}>
+        <AppLayout InterFont={InterFont}>
           {getLayout(<Component {...pageProps} />)}
         </AppLayout>
       </ErrorBoundary>
