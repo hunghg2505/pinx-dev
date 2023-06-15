@@ -83,7 +83,7 @@ const RegisterVerification = () => {
   return (
     <>
       <div className='flex flex-col items-center  justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
-        <div className='w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
+        <div className='w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0'>
           <div className='w-full flex'>
             <Image src='/static/icons/back_icon.svg' alt='' width='0' height='0' className={'w-[20px] h-[20px]'} />
           </div>
