@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 
+import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Home from '@components/Home';
@@ -7,9 +8,12 @@ import MainLayout from '@layout/MainLayout';
 
 const HomePage = () => {
   return (
-    <div>
+    <>
+      <Head>
+        <title>Trang chủ</title>
+      </Head>
       <Home />
-    </div>
+    </>
   );
 };
 

@@ -14,16 +14,19 @@ interface TextProps {
     | 'body-12-regular'
     | 'body-12-medium'
     | 'body-12-bold'
+    | 'body-12-semibold'
     | 'body-14-regular'
     | 'body-14-bold'
+    | 'body-14-semibold'
+    | 'body-14-medium'
     | 'body-16-bold'
     | 'body-18-regular'
     | 'body-20-bold'
     | 'body-22-bold'
     | undefined;
   color?:
-    | 'cwhite'
-    | 'cblack'
+    | 'cbwhite'
+    | 'cbblack'
     | 'primary-1'
     | 'primary-2'
     | 'primary-3'
@@ -38,6 +41,10 @@ interface TextProps {
     | 'neutral-7'
     | 'neutral-8'
     | 'neutral-9'
+    | 'semantic-1'
+    | 'semantic-2-1'
+    | 'semantic-2-2'
+    | 'semantic-3'
     | undefined;
   disabled?: boolean;
   state?: null | 'disable';

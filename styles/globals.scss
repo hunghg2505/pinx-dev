@@ -3,7 +3,7 @@
 @import './color.scss';
 @import './space.scss';
 @import './text.scss';
-
+@import './antd.scss';
 *,
 html,
 body {
@@ -14,4 +14,5 @@ body {
   font-size: 14px;
   line-height: normal;
   text-rendering: optimizeSpeed;
+  font-family: 'Inter', sans-serif;
 }
