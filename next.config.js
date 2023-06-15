@@ -37,6 +37,7 @@ const nextConfig = {
       },
     ];
   },
+  output: 'standalone',
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

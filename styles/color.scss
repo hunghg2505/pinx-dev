@@ -19,6 +19,11 @@
   --neutral-7: #E6E6E6;
   --neutral-8: #F3F2F6;
   --neutral-9: #FFFFFF;
+
+  --semantic-1 : #DB4444;
+  --semantic-2-1 : #128F63;
+  --semantic-2-2 : #E3F6E2;
+  --semantic-3 : #F6C23B;
 }
 .cbwhite {
   color: var(--white);
@@ -72,7 +77,15 @@
 .neutral-9 {
   color: var(--neutral-9);
 }
-
 .semantic-1 {
   color: var(--semantic-1);
+}
+.semantic-2-1 {
+  color: var(--semantic-2-1);
+}
+.semantic-2-2 {
+  color: var(--semantic-2-2);
+}
+.semantic-3 {
+  color: var(--semantic-3);
 }

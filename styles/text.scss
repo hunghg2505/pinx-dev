@@ -45,6 +45,10 @@
   @extend .body-12;
   font-weight: 500;
 }
+.body-12-semibold{
+  @extend .body-12;
+  font-weight: 600;
+}
 .body-12-bold{
   @extend .body-12;
   font-weight: 700;
@@ -58,6 +62,16 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
+}
+.body-14-semibold{
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+}
+.body-14-medium{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
 }
 .body-16-bold{
   font-weight: 700;

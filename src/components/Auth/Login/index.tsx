@@ -1,7 +1,7 @@
 // import { useTranslation } from 'next-i18next';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
-import Image from 'next/image'
+import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -16,10 +16,10 @@ import { ROUTE_PATH } from '@utils/common';
 import { useLogin } from './service';
 
 const encryptPassword = (value: string) => {
-  const hash = sha256(value)
-  const pass = Base64.stringify(hash)
-  return pass
-}
+  const hash = sha256(value);
+  const pass = Base64.stringify(hash);
+  return pass;
+};
 
 const Login = () => {
   const router = useRouter();
@@ -52,15 +52,17 @@ const Login = () => {
 
   return (
     <>
-      <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
-        <div className='w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
-          <Form
-            className='space-y-6 md:space-y-8'
-            form={form}
-            onFinish={onSubmit}
-          >
+      <div className='mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+        <div className='w-full rounded-lg bg-white dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0'>
+          <Form className='space-y-6 md:space-y-8' form={form} onFinish={onSubmit}>
             <div className='flex justify-center max-sm:mt-6'>
-              <Image src='/static/icons/pinex_logo.svg' alt='' width='0' height='0' className={'w-[77px] h-[77px] mb-6'} />
+              <Image
+                src='/static/icons/pinex_logo.svg'
+                alt=''
+                width='0'
+                height='0'
+                className={'mb-6 h-[77px] w-[77px]'}
+              />
             </div>
             <div>
               <label htmlFor='userName'>
@@ -71,7 +73,7 @@ const Login = () => {
               <FormItem name='userName'>
                 <Input
                   placeholder='Username/ Account'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] primary-1 placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 primary-1 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
@@ -85,7 +87,7 @@ const Login = () => {
                 <Input
                   placeholder='Password'
                   type='password'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] primary-1 placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 primary-1 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
@@ -97,31 +99,25 @@ const Login = () => {
               </NextLink>
             </div>
 
-            <div className='flex justify-center !mt-8'>
+            <div className='!mt-8 flex justify-center'>
               <ReCAPTCHA
-                sitekey="Your client site key"
+                sitekey='Your client site key'
                 // onChange={onChange}
                 size='normal'
               />
             </div>
 
-
-            <button type='submit' className='w-full text-white font-[700] text-[17px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] rounded-[10px] py-[14px] text-center !mt-10'>Sign in</button>
-            {/* <div className='text-center !mt-8'>
-                <Text type='body-14-regular'>
-                  Don’t have an account ?
-                </Text>
-                <NextLink href={ROUTE_PATH.REGISTER}>
-                  <Text type='body-14-bold' color='primary-2'>
-                    Sign up
-                  </Text>
-                </NextLink>
-              </div> */}
+            <button
+              type='submit'
+              className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
+            >
+              Sign in
+            </button>
           </Form>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default Login;

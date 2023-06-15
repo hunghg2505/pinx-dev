@@ -1,5 +1,5 @@
 // import { useTranslation } from 'next-i18next';
-import Image from 'next/image'
+import Image from 'next/image';
 import NextLink from 'next/link';
 import Form from 'rc-field-form';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -11,14 +11,13 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 // import styles from './index.module.scss';
 
-
 const Register = () => {
   // const { t } = useTranslation('common');
 
   return (
     <>
-      <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
-        <div className='w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
+      <div className='mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+        <div className='w-full rounded-lg bg-white dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0'>
           <Form
             className='space-y-6'
             action='#'
@@ -27,10 +26,22 @@ const Register = () => {
             }}
           >
             <div className='flex justify-center max-sm:mt-6'>
-              <Image src='/static/icons/pinex_logo.svg' alt='' width='0' height='0' className={'w-[77px] h-[77px] mb-6'} />
+              <Image
+                src='/static/icons/pinex_logo.svg'
+                alt=''
+                width='0'
+                height='0'
+                className={'mb-6 h-[77px] w-[77px]'}
+              />
             </div>
-            <div className='flex items-center !mb-6'>
-              <Image src='/static/icons/regis_guide.svg' alt='' width='0' height='0' className={'w-[38px] h-[38px] mr-2'} />
+            <div className='!mb-6 flex items-center'>
+              <Image
+                src='/static/icons/regis_guide.svg'
+                alt=''
+                width='0'
+                height='0'
+                className={'mr-2 h-[38px] w-[38px]'}
+              />
               <Text type='body-12-medium'>
                 Don’t know how to set up your account? Read our
                 <span>
@@ -49,7 +60,7 @@ const Register = () => {
               <FormItem name='fullName'>
                 <Input
                   placeholder='Enter your full name'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
@@ -62,7 +73,7 @@ const Register = () => {
               <FormItem name='phoneNumber'>
                 <Input
                   placeholder='Enter phone number'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
@@ -75,7 +86,7 @@ const Register = () => {
               <FormItem name='email'>
                 <Input
                   placeholder='Enter email'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
@@ -89,7 +100,7 @@ const Register = () => {
                 <Input
                   placeholder='Enter password'
                   type='password'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
@@ -104,33 +115,30 @@ const Register = () => {
                 <Input
                   placeholder='Enter password'
                   type='password'
-                  className='w-full font-[500] text-[14px] p-4 border rounded-xl border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 !bg-[--primary-3] placeholder:text-[--primary-1]'
+                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
 
-            <div className='flex justify-center !mt-8'>
+            <div className='!mt-8 flex justify-center'>
               <ReCAPTCHA
-                sitekey="Your client site key"
+                sitekey='Your client site key'
                 // onChange={onChange}
                 size='normal'
               />
             </div>
 
-            <div>
-              {/* <FormItem name='signUpTerm'>
-                <CustomCheckbox>
-                  123
-                </CustomCheckbox>
-              </FormItem> */}
-
-            </div>
-            <button type='submit' className='w-full text-white font-[700] text-[17px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] rounded-[10px] py-[14px] text-center !mt-10'>Continue</button>
+            <button
+              type='submit'
+              className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
+            >
+              Continue
+            </button>
           </Form>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default Register;
