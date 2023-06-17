@@ -28,7 +28,8 @@
 .rc-dialog{
   position: fixed;
   top: 50%;
-  transform: translateY(-50%, -50%);
+  transform: translateY(-50%);
+  margin: auto !important;
 }
 .slide-watchlist{
   .slick-list{
@@ -36,4 +37,7 @@
     width: 80%;
   }
 }
-
+// custom fancybox
+.fancybox__toolbar__column.is-right{
+  display: none !important;
+}

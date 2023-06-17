@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import PostAdmin from '@components/Post/PostAdmin';
+import PostSell from '@components/Post/PostBuy';
+import RCSelect from '@components/UI/Select';
 import Text from '@components/UI/Text';
 
 import ListTheme from './ListTheme';
@@ -41,12 +43,52 @@ function Home() {
             </TabPane>
           </Tabs>
         </div>
+        <div className='filter'>
+          <RCSelect
+            className='w-[]'
+            options={[
+              {
+                label: '1',
+                value: 1,
+              },
+              {
+                label: '2',
+                value: 2,
+              },
+              {
+                label: '3',
+                value: 3,
+              },
+            ]}
+            onChange={(value) => console.log('value', value)}
+          />
+        </div>
         <div>
           <NewsFeed />
           <PostAdmin />
+          <PostSell />
         </div>
         <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px]'>
           <Trending />
+          <div className='filter'>
+            <RCSelect
+              options={[
+                {
+                  label: '1',
+                  value: 1,
+                },
+                {
+                  label: '2',
+                  value: 2,
+                },
+                {
+                  label: '3',
+                  value: 3,
+                },
+              ]}
+              onChange={(value) => console.log('value', value)}
+            />
+          </div>
         </div>
         <div className='mt-[2px] bg-[#ffffff] px-[16px]'>
           <Text type='body-16-bold' color='neutral-2' className='mb-[14px] pt-[20px]'>

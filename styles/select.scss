@@ -1,0 +1,127 @@
+.checkbox-container {
+  cursor: pointer;
+  position: relative;
+  & > svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.5s ease-in-out;
+    pointer-events: none;
+  }
+}
+.rcselect {
+  background: transparent;
+  border: 1px solid var(--primary-100);
+  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+  height: 40px !important;
+  color: var(--primary-100);
+  cursor: pointer;
+
+  &.rc-select-open {
+    & + svg {
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+
+  .rc-select-selector {
+    cursor: pointer;
+    height: 40px !important;
+    border: 1px solid transparent;
+    .rc-select-selection-placeholder {
+      position: absolute;
+      top: 7px;
+      left: 12px;
+      color: var(--primary-100);
+    }
+    .rc-select-selection-search {
+      input {
+        max-width: 148px;
+      }
+    }
+    input {
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+    .rc-select-selection-item {
+      position: absolute;
+      top: 7px;
+      left: 12px;
+      color: var(--neutral-0);
+      @media (max-width: 480px) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 14px;
+        svg {
+          margin-right: 5px;
+          path {
+            fill: var(--accent-500);
+          }
+        }
+      }
+
+      display: flex;
+      align-items: center;
+      svg {
+        margin-right: 6px;
+      }
+      svg > * {
+        fill: var(--accent-500);
+        margin-right: 6px;
+      }
+    }
+  }
+}
+.rc-select-dropdown {
+  &.rc-select-dropdown-hidden {
+    display: none;
+  }
+  background: var(--primary-400);
+  border: 1px solid var(--primary-100);
+  color: var(--primary-100);
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 3px 0;
+  position: relative;
+  box-sizing: border-box;
+  z-index: 2000;
+  .rc-select-item {
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    padding: 6px 12px;
+    overflow-y: hidden;
+    opacity: 0.8;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    &:hover {
+      opacity: 1;
+      // color: var(--neutral-0);
+    }
+    &.disable {
+      pointer-events: none;
+    }
+    .rc-select-item-option-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      // justify-content: center;
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .rc-select-item-option-selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .rc-select-item-option-state-icon {
+      display: none;
+    }
+  }
+}
