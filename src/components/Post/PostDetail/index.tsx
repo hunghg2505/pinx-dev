@@ -1,3 +1,6 @@
+import React, { useRef } from 'react';
+
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -7,29 +10,13 @@ import data from '../data.json';
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment } from '../service';
-import dynamic from 'next/dynamic';
-import React, { forwardRef, useRef } from 'react';
-import { useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Mention from '@tiptap/extension-mention';
-import suggestion from '@components/Editor/Suggestion';
-// import Editor from '@components/Editor';
-const Editor = dynamic(() => import('@components/Editor'), {
-  ssr: false,
-});
+
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
 });
 const ForwardedRefComponent = React.forwardRef((props, ref) => (
   <ComponentRef {...props} forwardedRef={ref} />
 ));
-// const ForwardRefEditor = forwardRef((props, ref) => <Editor {...props} forwardedRef={ref} />);
-// const Editor = dynamic(() => import('@components/Editor'), {
-//   ssr: false,
-// });
-// const NewFeedItem = dynamic(() => import('../NewsFeed/NewFeedItem'), {
-//   ssr: false,
-// });
 const getSubComment = (payload: IComment[]) => {
   if (payload.length > 0) {
     return (
@@ -49,7 +36,9 @@ const PostDetail = () => {
     router.back();
   };
   const onReplie = (value: string) => {
-    if (refReplie?.current?.onComment) refReplie?.current?.onComment(value);
+    if (refReplie?.current?.onComment) {
+      refReplie?.current?.onComment(value);
+    }
   };
   return (
     <>

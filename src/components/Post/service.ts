@@ -33,3 +33,43 @@ export interface IComment {
   isLike: boolean;
   isReport: boolean;
 }
+export interface IPost {
+  children: any;
+  customerId: number;
+  id: string;
+  isLike: boolean;
+  isReport: boolean;
+  likes: any;
+  post: IContentPost;
+  postId: string;
+  postType: string;
+  publishedAt: number;
+  reactionScore: number;
+  report: any;
+  status: string;
+  textSearch: string;
+  timeString: string;
+  totalChildren: number;
+  totalLikes: number;
+  totalReports: number;
+  totalViews: number;
+}
+export interface IContentPost {
+  customerId: number;
+  customerInfo: ICustomerInfo;
+  id: string;
+  message: string;
+  metadata: any;
+  metadataList: any;
+  postCategory: any;
+  postThemeId: any;
+  postType: string;
+  postTypeGroup: string;
+  status: string;
+  tagExchanges: any;
+  tagPeople: any;
+  tagStocks: string[];
+  textSearch: string;
+  urlImages: string[];
+  urlLinks: string[];
+}

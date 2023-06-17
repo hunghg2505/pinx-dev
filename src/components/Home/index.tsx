@@ -1,25 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import PostAdmin from '@components/Post/PostAdmin';
-import PostSell from '@components/Post/PostBuy';
-import RCSelect from '@components/UI/Select';
 import Text from '@components/UI/Text';
 
 import ListTheme from './ListTheme';
+import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import Influencer from './People/Influencer';
 import PeopleList from './People/PeopleList';
+import { useGetInfluencer, useGetListNewFeed } from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
 import NewsFeed from '../Post/NewsFeed';
 
 function Home() {
   // const { t } = useTranslation('home');
+  const { listNewFeed, run } = useGetListNewFeed();
+  const { KOL } = useGetInfluencer();
+  console.log('🚀 ~ file: index.tsx:25 ~ Home ~ KOL:', KOL);
+  useEffect(() => {
+    run(FILTER_TYPE.MOST_RECENT);
+  }, []);
+  console.log('🚀 ~ file: index.tsx:25 ~ Home ~ listNewFeed:', listNewFeed);
   return (
-    <div className='bg-[#F2F1F1] pt-[10px]'>
+    <div className='bg-[#F8FAFD] pt-[10px]'>
       <div className='mx-[auto] my-[0] w-[375px]'>
         <div className='relative bg-[#ffffff] pb-[12px] pt-[26px]'>
           <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
@@ -43,52 +49,17 @@ function Home() {
             </TabPane>
           </Tabs>
         </div>
-        <div className='filter'>
-          <RCSelect
-            className='w-[]'
-            options={[
-              {
-                label: '1',
-                value: 1,
-              },
-              {
-                label: '2',
-                value: 2,
-              },
-              {
-                label: '3',
-                value: 3,
-              },
-            ]}
-            onChange={(value) => console.log('value', value)}
-          />
+        <div className='my-[12px] flex items-center pl-[16px] filter'>
+          <Text type='body-16-bold' color='neutral-2' className='mr-[12px]'>
+            News feed
+          </Text>
+          <ModalFilter run={run} />
         </div>
         <div>
           <NewsFeed />
-          <PostAdmin />
-          <PostSell />
         </div>
         <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px]'>
           <Trending />
-          <div className='filter'>
-            <RCSelect
-              options={[
-                {
-                  label: '1',
-                  value: 1,
-                },
-                {
-                  label: '2',
-                  value: 2,
-                },
-                {
-                  label: '3',
-                  value: 3,
-                },
-              ]}
-              onChange={(value) => console.log('value', value)}
-            />
-          </div>
         </div>
         <div className='mt-[2px] bg-[#ffffff] px-[16px]'>
           <Text type='body-16-bold' color='neutral-2' className='mb-[14px] pt-[20px]'>

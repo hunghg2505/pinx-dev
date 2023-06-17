@@ -11,21 +11,7 @@
   }
 }
 .rcselect {
-  background: transparent;
-  border: 1px solid var(--primary-100);
-  box-sizing: border-box;
-  border-radius: 8px;
-  position: relative;
-  height: 40px !important;
-  color: var(--primary-100);
   cursor: pointer;
-
-  &.rc-select-open {
-    & + svg {
-      transform: translateY(-50%) rotate(180deg);
-    }
-  }
-
   .rc-select-selector {
     cursor: pointer;
     height: 40px !important;

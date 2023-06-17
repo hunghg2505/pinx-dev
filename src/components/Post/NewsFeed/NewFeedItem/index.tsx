@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
+
 import ModalReport from '../ModalReport';
 
 interface IProps {
