@@ -4,7 +4,7 @@ import tippy from 'tippy.js';
 import MentionList from './MentionList';
 
 export default {
-  items: ({ query }) => {
+  items: ({ query }: { query: any }) => {
     return [
       'Lea Thompson',
       'Cyndi Lauper',
@@ -37,11 +37,11 @@ export default {
   },
 
   render: () => {
-    let component;
-    let popup;
+    let component: any;
+    let popup: any;
 
     return {
-      onStart: (props) => {
+      onStart: (props: any) => {
         component = new ReactRenderer(MentionList, {
           props,
           editor: props.editor,
@@ -62,7 +62,7 @@ export default {
         });
       },
 
-      onUpdate(props) {
+      onUpdate(props: any) {
         component.updateProps(props);
 
         if (!props.clientRect) {
@@ -74,7 +74,7 @@ export default {
         });
       },
 
-      onKeyDown(props) {
+      onKeyDown(props: any) {
         if (props.event.key === 'Escape') {
           popup[0].hide();
 
