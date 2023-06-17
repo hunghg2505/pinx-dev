@@ -1,8 +1,10 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
+
+import Mention from '@tiptap/extension-mention';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from 'next/image';
-import Mention from '@tiptap/extension-mention';
+
 import suggestion from './Suggestion';
 
 interface IProps {}

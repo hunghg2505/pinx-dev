@@ -50,19 +50,15 @@ export default forwardRef((props: any, ref) => {
 
   return (
     <div className='items'>
-      {props.items.length ? (
-        props.items.map((item: any, index: number) => (
-          <button
-            className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
-            key={index}
-            onClick={() => selectItem(index)}
-          >
-            {item}
-          </button>
-        ))
-      ) : (
-        <div className='item'>No result</div>
-      )}
+      {props.items.map((item: any, index: number) => (
+        <button
+          className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
+          key={index}
+          onClick={() => selectItem(index)}
+        >
+          {item}
+        </button>
+      ))}
     </div>
   );
 });

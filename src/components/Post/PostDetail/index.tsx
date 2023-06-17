@@ -1,22 +1,15 @@
+import React, { useRef } from 'react';
+
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
 
-import data from '../data.json';
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
-import { IComment } from '../service';
-import dynamic from 'next/dynamic';
-import React, { forwardRef, useRef } from 'react';
-import { useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Mention from '@tiptap/extension-mention';
-import suggestion from '@components/Editor/Suggestion';
-// import Editor from '@components/Editor';
-const Editor = dynamic(() => import('@components/Editor'), {
-  ssr: false,
-});
+import { IComment, useCommentsOfPost, usePostDetail } from '../service';
+
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
 });
@@ -43,17 +36,27 @@ const getSubComment = (payload: IComment[]) => {
 };
 
 const PostDetail = () => {
-  const refReplie: any = useRef();
+  const refReplies: any = useRef();
   const router = useRouter();
+
+  const { postDetail, loading, onRefreshPostDetail } = usePostDetail(String(router.query.id));
+  console.log(postDetail, loading, { onRefreshPostDetail });
+
+  const { commentsOfPost, loading: loadingComments } = useCommentsOfPost(String(router.query.id));
+  console.log(commentsOfPost, loadingComments);
+
   const onGoToBack = () => {
     router.back();
   };
-  const onReplie = (value: string) => {
-    if (refReplie?.current?.onComment) refReplie?.current?.onComment(value);
+  const onReplies = (value: string) => {
+    if (refReplies?.current?.onComment) {
+      refReplies?.current?.onComment(value);
+    }
   };
+
   return (
     <>
-      <div className='header relative '>
+      <div className='header relative'>
         <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center'>
           Post detail
         </Text>
@@ -66,7 +69,11 @@ const PostDetail = () => {
           onClick={onGoToBack}
         />
       </div>
-      <NewFeedItem />
+      <NewFeedItem
+        postDetail={postDetail?.data}
+        totalComments={commentsOfPost?.data?.list.length}
+        onRefreshPostDetail={() => onRefreshPostDetail()}
+      />
       <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
         <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]'>
           <Text type='body-14-semibold' color='cbwhite'>
@@ -86,18 +93,18 @@ const PostDetail = () => {
         </Text>
       </div>
       <div>
-        {data.map((item: IComment, index) => {
+        {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
           console.log('children', item.children);
           return (
             <>
-              <ItemComment key={index} data={item} onReplie={onReplie} />
+              <ItemComment key={index} data={item} onReplies={onReplies} />
               {getSubComment(item.children)}
             </>
           );
         })}
       </div>
       <div>
-        <ForwardedRefComponent ref={refReplie} />
+        <ForwardedRefComponent ref={refReplies} />
       </div>
     </>
   );

@@ -17,7 +17,6 @@ import WatchList from './WatchList';
 import NewsFeed from '../Post/NewsFeed';
 
 function Home() {
-  // const { t } = useTranslation('home');
   return (
     <div className='bg-[#F2F1F1] pt-[10px]'>
       <div className='mx-[auto] my-[0] w-[375px]'>

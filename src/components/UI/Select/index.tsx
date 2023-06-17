@@ -1,6 +1,8 @@
-import Select, { Option } from 'rc-select';
-import cls from 'classnames';
 import React from 'react';
+
+import cls from 'classnames';
+import Select, { Option } from 'rc-select';
+
 export interface OptionSelect {
   value: string | number;
   label: string;
@@ -26,7 +28,6 @@ const RCSelect: React.FC<SelectProps> = (props: SelectProps) => {
     options = [],
     className,
     classNameDropdown,
-    icon,
     onChange,
     defaultValue,
     value,
@@ -61,12 +62,6 @@ const RCSelect: React.FC<SelectProps> = (props: SelectProps) => {
           },
         )}
       </Select>
-
-      {/* <Icon
-        icon='chevron_down'
-        color={props?.value ? NEUTRAL.NEUTRAL_0 : PRIMARY.PRIMARY_100}
-        size={23}
-      /> */}
     </div>
   );
 };
