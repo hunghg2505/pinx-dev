@@ -8,25 +8,26 @@ import Text from '@components/UI/Text';
 dayjs.extend(relativeTime);
 interface IProps {
   onNavigate?: () => void;
-  onReplie?: (value: string) => void;
+  onReplies?: (value: string) => void;
   data?: IComment;
 }
 const ItemComment = (props: IProps) => {
-  const { onNavigate, data, onReplie } = props;
+  const { onNavigate, data, onReplies } = props;
   // const { customerInfo, timeString, message, totalLikes } = data;
   const onComment = (value: string) => {
     if (onNavigate) {
       onNavigate();
     } else {
-      onReplie && onReplie(value);
+      onReplies && onReplies(value);
     }
   };
+
   const name = data?.customerInfo?.name || '';
   return (
     <div className='comment p-[16px]'>
       <div className='flex flex-row items-start'>
         <Image
-          src='/static/icons/avatar.svg'
+          src={data?.customerInfo.avatar || ''}
           alt=''
           width='0'
           height='0'

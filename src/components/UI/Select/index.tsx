@@ -62,12 +62,6 @@ const RCSelect: React.FC<SelectProps> = (props: SelectProps) => {
           },
         )}
       </Select>
-
-      {/* <Icon
-        icon='chevron_down'
-        color={props?.value ? NEUTRAL.NEUTRAL_0 : PRIMARY.PRIMARY_100}
-        size={23}
-      /> */}
     </div>
   );
 };

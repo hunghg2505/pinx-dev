@@ -18,7 +18,7 @@ const nextConfig = {
   },
   images: {
     minimumCacheTTL: 60,
-    domains: [],
+    domains: ['static.pinetree.com.vn'],
   },
   httpAgentOptions: {
     keepAlive: false,
