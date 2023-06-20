@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 
+import styles from './index.module.scss'
 import { Eye, EyeHide } from '../Icon';
-// import EyeHide from '../Icon/EyeHide';
+
 
 interface InputProps {
   className?: string;
@@ -21,6 +22,7 @@ interface InputProps {
   value?: string | number | undefined;
   step?: string | undefined;
   removeCommon?: boolean;
+  name?: string;
 }
 
 interface Ref {
@@ -37,6 +39,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
     suffix,
     removeCommon = false,
     step,
+    maxLength,
     ...rest
   } = props;
   const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
@@ -137,6 +140,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
         onBlur={handleBlur}
         onKeyDown={onKeyDown}
         step={step}
+        maxLength={maxLength}
         {...rest}
       />
 
@@ -152,3 +156,25 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
 });
 
 export default Input;
+
+export const StyledInput = ({ ...props }) => <Input {...props} className='w-full font-[500] text-[14px] p-4 border rounded-xl text-[--neutral-2] focus:border-primary-600 !bg-[--neutral-8] placeholder:text-[--neutral-5]' />;
+
+export const LabelInsideInput = ({ labelContent, ...props }: { labelContent: string }) => {
+  const inputRef = React.createRef<HTMLInputElement>();
+
+  console.log('xxx inputRef', inputRef)
+  return (
+    <div className={styles.formGroup}>
+      <input
+        {...props}
+        ref={inputRef}
+        className={classNames(styles.inputField)}
+        placeholder={labelContent}
+        name='test'
+      />
+      <label className={classNames(styles.inputLabel)} htmlFor='test'>
+        {labelContent}
+      </label>
+    </div>
+  )
+}

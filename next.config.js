@@ -13,7 +13,9 @@ const nextConfig = {
   // config env
   publicRuntimeConfig: {
     NODE_ENV: process.env.NODE_ENV,
-    APP_API_URL: process.env.NEXT_PUBLIC_APP_API_URL,
+    URL_API_PIST: process.env.URL_API_PIST,
+    URL_API_COMMUNITY: process.env.URL_API_COMMUNITY,
+    RECAPTHCHA_SITE_KEY: process.env.RECAPTHCHA_SITE_KEY,
   },
   images: {
     minimumCacheTTL: 60,

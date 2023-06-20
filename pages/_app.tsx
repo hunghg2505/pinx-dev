@@ -51,6 +51,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ErrorBoundary>
         <AppLayout InterFont={InterFont}>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
+
     </>
   );
 }

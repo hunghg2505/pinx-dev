@@ -26,16 +26,17 @@ const RcCheckBox = React.forwardRef((props: CheckBoxProps, ref: Ref['ref']) => {
   return (
     <div className={className}>
       <div className='checkbox'>
-        <Checkbox
-          ref={checkboxRef}
-          disabled={disabled}
-          onChange={onChange}
-          checked={checked}
-          {...rest}
-        />
+        <label>
+          <Checkbox
+            ref={checkboxRef}
+            disabled={disabled}
+            onChange={onChange}
+            checked={checked}
+            {...rest}
+          />
+          {children}
+        </label>
       </div>
-
-      {children}
     </div>
   );
 });

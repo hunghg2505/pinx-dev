@@ -1,47 +1,46 @@
 // import { useTranslation } from 'next-i18next';
-import Base64 from 'crypto-js/enc-base64';
-import sha256 from 'crypto-js/sha256';
-import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
-import ReCAPTCHA from 'react-google-recaptcha';
 
+import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import Input from '@components/UI/Input';
+import { StyledInput } from '@components/UI/Input';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
+import ModalLoginTerm from './ModalLoginTerm';
 import { useLogin } from './service';
 
-const encryptPassword = (value: string) => {
-  const hash = sha256(value);
-  const pass = Base64.stringify(hash);
-  return pass;
-};
+
 
 const Login = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
+  const { setUserLoginInfo } = useUserLoginInfo();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
-      email: values?.email,
-      password: encryptPassword(values?.password),
+      userName: values?.userName,
+      password: values?.password,
     });
-    // router.push(ROUTE_PATH.UserList);
   };
 
   const requestLogin = useLogin({
     onSuccess: (res: any) => {
-      if (res?.token) {
+      if (res?.data.token) {
         onLogin({
-          token: res?.token,
+          token: res?.data.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
+        setUserLoginInfo(res?.data);
+        // if (res?.data.isReadTerms) {
+        //   router.push(ROUTE_PATH.Home);
+        // }
         router.push(ROUTE_PATH.Home);
       }
     },
@@ -52,72 +51,59 @@ const Login = () => {
 
   return (
     <>
-      <div className='mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='w-full rounded-lg bg-white dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0'>
-          <Form className='space-y-6 md:space-y-8' form={form} onFinish={onSubmit}>
-            <div className='flex justify-center max-sm:mt-6'>
-              <Image
-                src='/static/icons/pinex_logo.svg'
-                alt=''
-                width='0'
-                height='0'
-                className={'mb-6 h-[77px] w-[77px]'}
-              />
-            </div>
+      <div className='min-w-[98vw] mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
+          <Form
+            className='space-y-6'
+            form={form}
+            onFinish={onSubmit}
+          >
             <div>
-              <label htmlFor='userName'>
+              {/* <label htmlFor='userName'>
                 <Text type='body-12-bold' color='primary-5' className='mb-2'>
                   User ID
                 </Text>
-              </label>
-              <FormItem name='userName'>
-                <Input
-                  placeholder='Username/ Account'
-                  className='focus:ring-primary-600 focus:border-primary-600 primary-1 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
-                />
+              </label> */}
+              <FormItem name='userName' rules={[{ required: true, message: 'Please enter username!' }]}>
+                <StyledInput placeholder='Username/ Account' />
               </FormItem>
             </div>
             <div>
-              <label htmlFor='password'>
+              {/* <label htmlFor='password'>
                 <Text type='body-12-bold' color='primary-5' className='mb-2'>
                   Password
                 </Text>
-              </label>
-              <FormItem name='password'>
-                <Input
-                  placeholder='Password'
-                  type='password'
-                  className='focus:ring-primary-600 focus:border-primary-600 primary-1 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
-                />
+              </label> */}
+              <FormItem name='password' rules={[{ required: true, message: 'Please enter password!' }]}>
+                <StyledInput placeholder='Password' type='password' />
               </FormItem>
             </div>
             <div className='!mt-3 flex flex-row-reverse'>
               <NextLink href={ROUTE_PATH.FORGOT_PASSWORD}>
-                <Text type='body-14-regular' color='primary-2'>
+                <Text type='body-14-medium' color='primary-2'>
                   Forgot password?
                 </Text>
               </NextLink>
             </div>
 
-            <div className='!mt-8 flex justify-center'>
-              <ReCAPTCHA
-                sitekey='Your client site key'
-                // onChange={onChange}
-                size='normal'
-              />
-            </div>
-
-            <button
-              type='submit'
-              className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
-            >
-              Sign in
-            </button>
+            <ModalLoginTerm>
+              <MainButton type='submit' className='w-full !mt-10'>Sign in</MainButton>
+            </ModalLoginTerm>
+            {/* <div className='text-center !mt-8'>
+                <Text type='body-14-regular'>
+                  Don’t have an account ?
+                </Text>
+                <NextLink href={ROUTE_PATH.REGISTER}>
+                  <Text type='body-14-bold' color='primary-2'>
+                    Sign up
+                  </Text>
+                </NextLink>
+              </div> */}
           </Form>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
-};
+}
 
 export default Login;

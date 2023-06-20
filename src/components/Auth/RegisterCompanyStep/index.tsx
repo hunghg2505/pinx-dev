@@ -113,10 +113,8 @@ const RegisterCompanyStep = () => {
             />
           </div>
           <div className='flex flex-col items-center max-sm:mt-6'>
-            <Text type='body-24-bold' className='mt-6'>
-              What are you up to?
-            </Text>
-            <div className='neutral-4 mt-6 flex flex-col items-center text-[body-14-medium]'>
+            <Text type='body-24-bold' className='mt-6'>What are you up to?</Text>
+            <div className='flex flex-col items-center text-[body-14-medium] neutral-4'>
               <Text>Choose companies you would like to get </Text>
               <Text>updates from</Text>
             </div>
@@ -136,14 +134,14 @@ const RegisterCompanyStep = () => {
                     },
                   )}
                 >
-                  <Image
-                    src='/static/icons/pinex_logo.svg'
-                    alt=''
-                    width='0'
-                    height='0'
-                    className={'mr-[6px] h-[36px] w-[36px] rounded-full'}
-                  />
-                  <Text>{item.name}</Text>
+                  <div
+                    className={classNames('flex justify-center items-center rounded-full px-2 py-[6px] bg-[--neutral-8]', {
+                      [styles.selected]: checkIsSelected(item)
+                    })}
+                  >
+                    <Image src='/static/icons/pinex_logo.svg' alt='' width='0' height='0' className={'w-[36px] h-[36px] rounded-full mr-[6px]'} />
+                    <Text type='body-14-bold'>{item.name}</Text>
+                  </div>
                 </div>
               </div>
             ))}

@@ -1,13 +1,28 @@
+import { ReactElement } from 'react';
+
+import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Login from '@components/Auth/Login';
-// import Register from '@components/Auth/Register';
+import Auth from '@components/Auth';
+import LoginLayout from '@layout/LoginLayout';
+
 
 const LoginPage = () => {
   return (
-    <div>
-      <Login />
-    </div>
+    <>
+      <Head>
+        <title>Log In</title>
+      </Head>
+      <Auth />
+    </>
+  );
+};
+
+LoginPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <LoginLayout>
+      {page}
+    </LoginLayout>
   );
 };
 
