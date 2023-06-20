@@ -10,10 +10,10 @@ interface IOptionsRequest {
 }
 
 const encryptPassword = (value: string) => {
-  const hash = sha256(value)
-  const pass = Base64.stringify(hash)
-  return pass
-}
+  const hash = sha256(value);
+  const pass = Base64.stringify(hash);
+  return pass;
+};
 
 export const useLogin = (options?: IOptionsRequest) => {
   return useRequest(

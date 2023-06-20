@@ -10,6 +10,7 @@ const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
 export const PREFIX_API_PIST = ENV.URL_API_PIST;
+
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 
 const requestPist = extend({
@@ -20,7 +21,7 @@ const requestPist = extend({
   },
 });
 
-const requestComunity = extend({
+const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
   errorHandler: (error) => {
@@ -44,6 +45,7 @@ const tokenManager = new TokenManager({
 
 const privateRequest = async (request: any, suffixUrl: string, configs?: any) => {
   const token: string = configs?.token ?? ((await tokenManager.getToken()) as string);
+  console.log(token);
   return request(suffixUrl, injectBearer(token, configs));
 };
 
@@ -94,4 +96,4 @@ const API_PATH = {
   LOGOUT: '',
 };
 
-export { API_PATH, privateRequest, requestPist, requestComunity };
+export { API_PATH, privateRequest, requestPist, requestCommunity };

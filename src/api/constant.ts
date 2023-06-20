@@ -1,6 +1,6 @@
 export const API_PATH = {
   // Auth
-  AUTH_LOGIN: '/auth/login',
+  AUTH_LOGIN: '',
 
   // Home
   FILTER_LIST: '/public/mapping/filter/list',

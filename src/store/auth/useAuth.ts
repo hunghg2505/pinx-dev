@@ -42,6 +42,7 @@ export const useAuth = () => {
   };
 
   const onLogin = (data: IAuth) => {
+    console.log(data);
     try {
       setAuthCookies({
         token: `${data.token}`,

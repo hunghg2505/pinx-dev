@@ -2,7 +2,7 @@ import { useRequest } from 'ahooks';
 import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestComunity } from '@api/request';
+import { privateRequest, requestCommunity } from '@api/request';
 import { ENV } from '@utils/env';
 
 export interface ITrending {
@@ -572,7 +572,7 @@ const KOL: IKOL[] = [
 
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
-    return requestComunity.get(API_PATH.FILTER_LIST);
+    return requestCommunity.get(API_PATH.FILTER_LIST);
   });
   return {
     data,
@@ -581,7 +581,7 @@ export const useGetListFillter = () => {
 export const useGetListNewFeed = () => {
   const { data, run } = useRequest(
     (type: string) => {
-      return requestComunity.get(API_PATH.NEWFEED_LIST + `?filterType=${type}`);
+      return requestCommunity.get(API_PATH.NEWFEED_LIST + `?filterType=${type}`);
     },
     {
       manual: true,
@@ -634,7 +634,7 @@ export const requestLeaveIndex = () => {
 
 export const useSuggestPeople = () => {
   const { data } = useRequest(() => {
-    return privateRequest(requestComunity.get, API_PATH.SUGGESTION_PEOPLE);
+    return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
   });
   return {
     suggestionPeople: data?.list,
