@@ -93,4 +93,10 @@ export const requestFromServer = async (ctx: any, suffixUrl: string) => {
   // }).then((r) => r.json());
 };
 
-export { privateRequest, request };
+const API_PATH = {
+  // Auth
+  LOGIN: '/public/customer/website/login',
+  LOGOUT: '',
+}
+
+export { API_PATH, privateRequest, request };

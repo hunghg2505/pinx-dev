@@ -1,14 +1,15 @@
-import '../styles/tailwind.css';
-import '../styles/globals.scss';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { ReactElement, ReactNode } from 'react';
 
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import { Waterfall } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
+
+import '../styles/tailwind.css';
+import '../styles/globals.scss';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
@@ -22,10 +23,10 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const WaterfallFont = Waterfall({
+const InterFont = Inter({
   subsets: ['latin'],
   weight: '400',
-  variable: '--font-waterfall',
+  variable: '--font-inter',
 });
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -49,13 +50,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <ErrorBoundary>
-        <AppLayout WaterfallFont={WaterfallFont}>
-          {getLayout(<Component {...pageProps} />)}
-        </AppLayout>
+        <AppLayout InterFont={InterFont}>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>
   );
 }
 
-// @ts-ignore
 export default appWithTranslation(MyApp, nextI18nConfig);

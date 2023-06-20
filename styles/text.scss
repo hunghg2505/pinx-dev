@@ -33,68 +33,78 @@
   font-size: 24px;
   line-height: 36px;
 }
-.body-12{
+.body-12 {
   font-size: 12px;
   line-height: 14px;
 }
-.body-12-regular{
+.body-12-regular {
   font-weight: 400;
   @extend .body-12;
 }
-.body-12-medium{
+.body-12-medium {
   @extend .body-12;
   font-weight: 500;
 }
-.body-12-semibold{
+.body-12-semibold {
   @extend .body-12;
   font-weight: 600;
 }
-.body-12-bold{
+.body-12-bold {
   @extend .body-12;
   font-weight: 700;
 }
-.body-14-regular{
+.body-14-regular {
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
 }
-.body-14-bold{
+.body-14-bold {
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
 }
-.body-14-semibold{
+.body-14-semibold {
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
 }
-.body-14-medium{
+.body-14-medium {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
 }
-.body-16-bold{
+.body-16-bold {
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
 }
-.body-16-semibold{
+.body-16-semibold {
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
 }
-.body-18-regular{
+.body-18-regular {
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
 }
-.body-20-bold{
+.body-20-bold {
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
 }
-.body-22-bold{
+.body-22-bold {
   font-weight: 700;
   font-size: 22px;
   line-height: 27px;
+}
+.body-28-bold {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+}
+.body-24-bold {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
 }
