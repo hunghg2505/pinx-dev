@@ -3,7 +3,7 @@
 import { useRequest } from 'ahooks';
 import request from 'umi-request';
 
-import { API_PATH, PREFIX_API } from '@api/request';
+import { API_PATH, PREFIX_API_PIST } from '@api/request';
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies } from '.';
@@ -19,7 +19,7 @@ export interface IAuth {
 export const useAuth = () => {
   const requestLogout = useRequest(
     async (token: any) => {
-      return request.post(`${PREFIX_API}${API_PATH.LOGOUT}`, {
+      return request.post(`${PREFIX_API_PIST}${API_PATH.LOGOUT}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

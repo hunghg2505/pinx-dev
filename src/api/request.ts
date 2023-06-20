@@ -3,15 +3,25 @@
 import TokenManager, { injectBearer } from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
+import { getAccessToken } from '@store/auth';
 import { ENV } from 'src/utils/env';
 
 const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
-export const PREFIX_API = ENV.URL_API_COMMUNITY;
+export const PREFIX_API_PIST = ENV.URL_API_PIST;
+export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 
-const request = extend({
-  prefix: PREFIX_API,
+const requestPist = extend({
+  prefix: PREFIX_API_PIST,
+  timeout: REQ_TIMEOUT,
+  errorHandler: (error) => {
+    throw error?.data || error?.response;
+  },
+});
+
+const requestComunity = extend({
+  prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
   errorHandler: (error) => {
     throw error?.data || error?.response;
@@ -20,34 +30,20 @@ const request = extend({
 
 const tokenManager = new TokenManager({
   getAccessToken: async () => {
-    // const token = getAccessToken();
-
-    // return token || '';
-    return '';
+    const token = getAccessToken();
+    return `${token}`;
   },
   getRefreshToken: async () => {
-    // const refreshToken = getRefreshToken();
-
-    // return refreshToken || '';
-    return '';
-  },
-  executeRefreshToken: async () => {
-    return {
-      token: '',
-      refresh_token: '',
-    };
-  },
-  onRefreshTokenSuccess: ({ token, refresh_token: refreshToken }) => {
-    console.log(refreshToken);
+    const token = getAccessToken();
+    return `${token}`;
   },
   onInvalidRefreshToken: async () => {
-    // Logout
+    // remove token from cookie
   },
 });
 
 const privateRequest = async (request: any, suffixUrl: string, configs?: any) => {
   const token: string = configs?.token ?? ((await tokenManager.getToken()) as string);
-
   return request(suffixUrl, injectBearer(token, configs));
 };
 
@@ -92,8 +88,10 @@ export const requestFromServer = async (ctx: any, suffixUrl: string) => {
 
 const API_PATH = {
   // Auth
-  LOGIN: '/public/customer/website/login',
+  LOGIN: '/public/customer/loginSSO',
+  REGISTER: '/public/customer/register/credentials',
+  REGISTER_OTP: '/public/customer/register/otp/verify',
   LOGOUT: '',
 };
 
-export { API_PATH, privateRequest, request };
+export { API_PATH, privateRequest, requestPist, requestComunity };

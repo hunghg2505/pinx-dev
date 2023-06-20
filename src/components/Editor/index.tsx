@@ -8,7 +8,7 @@ import Upload from 'rc-upload';
 
 import suggestion from './Suggestion';
 
-interface IProps {}
+interface IProps { }
 
 const Editor = (props: IProps, ref: any) => {
   const editor = useEditor({

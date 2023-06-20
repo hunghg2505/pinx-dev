@@ -1,40 +1,82 @@
-// import { useTranslation } from 'next-i18next';
-import Image from 'next/image';
-import NextLink from 'next/link';
-import Form from 'rc-field-form';
-import ReCAPTCHA from 'react-google-recaptcha';
+/* eslint-disable indent */
+import { useCallback, useState } from 'react';
 
-// import Checkbox from 'rc-checkbox';
-// import CustomCheckbox from '@components/UI/Checkbox';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import Form from 'rc-field-form';
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+
+
+import Checkbox from '@components/UI/Checkbox';
 import FormItem from '@components/UI/FormItem';
-import Input from '@components/UI/Input';
-import Text from '@components/UI/Text';
-// import styles from './index.module.scss';
+import { StyledInput } from '@components/UI/Input';
+// import Text from '@components/UI/Text';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
+import { useAuth } from '@store/auth/useAuth';
+import { ROUTE_PATH } from '@utils/common';
+import { ENV } from '@utils/env';
+import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
+
+import styles from './index.module.scss';
+import { useRegister } from './service';
+
 
 const Register = () => {
-  // const { t } = useTranslation('common');
+  const router = useRouter();
+  const [form] = Form.useForm();
+  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
+  const { onLogin } = useAuth();
+  const { setUserRegisterInfo } = useUserRegisterInfo();
+
+  const onSubmit = (values: any) => {
+    const registerParams = {
+      phoneNumber: values?.phoneNumber,
+      password: values?.password,
+      email: values?.email,
+      recaptcha: recaptchaToken,
+    };
+    requestRegister.run(registerParams);
+    setUserRegisterInfo(registerParams);
+  };
+
+  const requestRegister = useRegister({
+    onSuccess: (res: any) => {
+      if (res?.data.token) {
+        onLogin({
+          token: res?.data.token,
+          refreshToken: res?.refresh_token,
+          expiredTime: res?.expired_time || 0,
+        });
+        switch (res?.data.nextStep) {
+          case 'OTP':
+            router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+        }
+      }
+    },
+    onError(e) {
+      console.log(e?.errors?.[0] || e?.message, 'error');
+    },
+  });
+
+  const onVerify = useCallback((token: any) => {
+    setRecaptchaToken(token);
+  }, []);
 
   return (
-    <>
-      <div className='mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='w-full rounded-lg bg-white dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0'>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}
+    >
+      <GoogleReCaptcha
+        onVerify={onVerify}
+      />
+      <div className='min-w-[98vw] mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
           <Form
             className='space-y-6'
-            action='#'
-            onFinish={(values) => {
-              console.log('Finish:', values);
-            }}
+            form={form}
+            onFinish={onSubmit}
           >
-            <div className='flex justify-center max-sm:mt-6'>
-              <Image
-                src='/static/icons/pinex_logo.svg'
-                alt=''
-                width='0'
-                height='0'
-                className={'mb-6 h-[77px] w-[77px]'}
-              />
-            </div>
-            <div className='!mb-6 flex items-center'>
+            {/* <div className='!mb-6 flex items-center'>
               <Image
                 src='/static/icons/regis_guide.svg'
                 alt=''
@@ -50,94 +92,117 @@ const Register = () => {
                   </NextLink>
                 </span>
               </Text>
-            </div>
+            </div> */}
             <div>
-              <label htmlFor='fullName'>
-                <Text type='body-12-bold' color='primary-5' className='mb-2'>
-                  Full name
-                </Text>
-              </label>
-              <FormItem name='fullName'>
-                <Input
-                  placeholder='Enter your full name'
-                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
-                />
-              </FormItem>
-            </div>
-            <div>
-              <label htmlFor='phoneNumber'>
+              {/* <label htmlFor='phoneNumber'>
                 <Text type='body-12-bold' color='primary-5' className='mb-2'>
                   Phone number
                 </Text>
-              </label>
-              <FormItem name='phoneNumber'>
-                <Input
-                  placeholder='Enter phone number'
-                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
+              </label> */}
+              <FormItem
+                name='phoneNumber'
+                rules={[
+                  {
+                    pattern: REG_PHONE_NUMBER,
+                    required: true,
+                    message: 'Please enter valid phone number!'
+                  }
+                ]}
+              >
+                <StyledInput
+                  type='number'
+                  placeholder='Phone number'
                 />
               </FormItem>
             </div>
             <div>
-              <label htmlFor='email'>
+              {/* <label htmlFor='email'>
                 <Text type='body-12-bold' color='primary-5' className='mb-2'>
                   Email
                 </Text>
-              </label>
-              <FormItem name='email'>
-                <Input
-                  placeholder='Enter email'
-                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
+              </label> */}
+              <FormItem
+                name='email'
+                rules={[
+                  {
+                    pattern: REG_EMAIL,
+                    required: true,
+                    message: 'Please enter valid email!'
+                  }
+                ]}
+              >
+                <StyledInput
+                  placeholder='Email'
                 />
               </FormItem>
             </div>
             <div>
-              <label htmlFor='password'>
+              {/* <label htmlFor='password'>
                 <Text type='body-12-bold' color='primary-5' className='mb-2'>
                   Password
                 </Text>
-              </label>
-              <FormItem name='password'>
-                <Input
-                  placeholder='Enter password'
+              </label> */}
+              <FormItem
+                name='password'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter password!'
+                  }
+                ]}
+              >
+                <StyledInput
+                  placeholder='Password'
                   type='password'
-                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
 
             <div>
-              <label htmlFor='confirmPassword'>
+              {/* <label htmlFor='confirmPassword'>
                 <Text type='body-12-bold' color='primary-5' className='mb-2'>
                   Confirm password
                 </Text>
-              </label>
-              <FormItem name='confirmPassword'>
-                <Input
-                  placeholder='Enter password'
+              </label> */}
+              <FormItem
+                name='confirmPassword'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter password!'
+                  }
+                ]}
+              >
+                <StyledInput
+                  placeholder='Confirm password'
                   type='password'
-                  className='focus:ring-primary-600 focus:border-primary-600 w-full rounded-xl border border-gray-300 !bg-[--primary-3] p-4 text-[14px] font-[500] text-gray-900 placeholder:text-[--primary-1]'
                 />
               </FormItem>
             </div>
 
-            <div className='!mt-8 flex justify-center'>
-              <ReCAPTCHA
-                sitekey='Your client site key'
-                // onChange={onChange}
-                size='normal'
-              />
+            <div>
+              <FormItem name='acceptSignUpTerm'>
+                {({ value, onChange }: { value: boolean; onChange: any }) => {
+                  return (
+                    <Checkbox onChange={() => onChange(!value)} checked={!!value} className={styles.checkbox}>
+                      <span className='ml-3 font-[500] text-[12px] --neutral-1'>
+                        By signing up, I agree to the
+                        <span>
+                          <NextLink href='#' className='!text-[--primary-2]'>
+                            &nbsp;Terms & Conditions
+                          </NextLink>
+                        </span>
+                      </span>
+                    </Checkbox>
+                  );
+                }}
+              </FormItem>
             </div>
-
-            <button
-              type='submit'
-              className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
-            >
-              Continue
-            </button>
+            <button type='submit' className='w-full text-white font-[700] text-[17px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] rounded-[10px] py-[14px] text-center !mt-10'>Continue</button>
           </Form>
         </div>
       </div>
-    </>
+    </GoogleReCaptchaProvider>
   );
 };
 

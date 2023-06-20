@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, request } from '@api/request';
+import { privateRequest, requestComunity } from '@api/request';
 
 export interface ICustomerInfo {
   id: number;
@@ -80,7 +80,7 @@ export interface IContentPost {
 }
 
 const getPostDetail = async (postId: string) => {
-  return await privateRequest(request.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
+  return await privateRequest(requestComunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };
 
 export const usePostDetail = (postId: string) => {
@@ -102,7 +102,7 @@ export const usePostDetail = (postId: string) => {
 export const useGetPostDetailUnAuth = (postId: string) => {
   const { data, loading } = useRequest(
     () => {
-      return request.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
+      return requestComunity.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
     },
     {
       refreshDeps: [postId],
@@ -116,7 +116,7 @@ export const useGetPostDetailUnAuth = (postId: string) => {
 };
 
 const getCommentsOfPost = async (postId: string) => {
-  return await privateRequest(request.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId));
+  return await privateRequest(requestComunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId));
 };
 
 export const useCommentsOfPost = (postId: string) => {
@@ -133,7 +133,7 @@ export const useCommentsOfPost = (postId: string) => {
 export const useCommentsOfPostUnAuth = (postId: string) => {
   const { data, loading } = useRequest(
     () => {
-      return request.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
+      return requestComunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
     },
     {
       refreshDeps: [postId],
@@ -146,7 +146,7 @@ export const useCommentsOfPostUnAuth = (postId: string) => {
 };
 
 const likePost = async (postId: string) => {
-  return await privateRequest(request.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
+  return await privateRequest(requestComunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
 };
 
 export const useLikePost = (postId: string) => {
@@ -168,7 +168,7 @@ export const useLikePost = (postId: string) => {
 };
 
 const unlikePost = async (postId: string) => {
-  return await privateRequest(request.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
+  return await privateRequest(requestComunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
 };
 
 export const useUnlikePost = (postId: string) => {
