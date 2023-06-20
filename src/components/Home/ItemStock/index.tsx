@@ -1,9 +1,16 @@
+import React from 'react';
+
 import clx from 'classnames';
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
 const ItemStock = () => {
+  // socket.on('connect', function () {
+  //   console.log('check 2', socket.connected);
+  // });
+  // console.log('check 1', socket.connected);
+
   return (
     <div className='mr-[10px] w-[121px]'>
       <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] p-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>

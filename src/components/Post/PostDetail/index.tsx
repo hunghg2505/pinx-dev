@@ -8,7 +8,13 @@ import Text from '@components/UI/Text';
 
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
-import { IComment, useCommentsOfPost, usePostDetail } from '../service';
+import {
+  IComment,
+  useCommentsOfPost,
+  useCommentsOfPostUnAuth,
+  useGetPostDetailUnAuth,
+  usePostDetail,
+} from '../service';
 
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
@@ -16,28 +22,20 @@ const ComponentRef = dynamic(import('@components/ComponentRef'), {
 const ForwardedRefComponent = React.forwardRef((props, ref) => (
   <ComponentRef {...props} forwardedRef={ref} />
 ));
-const getSubComment = (payload: IComment[]) => {
-  if (payload.length > 0) {
-    return (
-      <div className='sub-comment ml-[48px]'>
-        {payload?.map((comment: IComment, index: number) => (
-          <ItemComment data={comment} key={index} />
-        ))}
-      </div>
-    );
-  }
-};
 
 const PostDetail = () => {
   const refReplies: any = useRef();
   const router = useRouter();
 
-  const { postDetail, loading, onRefreshPostDetail } = usePostDetail(String(router.query.id));
-  console.log(postDetail, loading, { onRefreshPostDetail });
+  // is login
+  const { postDetail, onRefreshPostDetail } = usePostDetail(String(router.query.id));
 
-  const { commentsOfPost, loading: loadingComments } = useCommentsOfPost(String(router.query.id));
-  console.log(commentsOfPost, loadingComments);
+  const { commentsOfPost } = useCommentsOfPost(String(router.query.id));
 
+  // not login
+  const { postDetailUnAuth } = useGetPostDetailUnAuth(String(router.query.id));
+
+  const { commentsOfPostUnAuth } = useCommentsOfPostUnAuth(String(router.query.id));
   const onGoToBack = () => {
     router.back();
   };
@@ -46,7 +44,17 @@ const PostDetail = () => {
       refReplies?.current?.onComment(value);
     }
   };
-
+  const getSubComment = (payload: IComment[]) => {
+    if (payload.length > 0) {
+      return (
+        <div className='sub-comment ml-[48px]'>
+          {payload?.map((comment: IComment, index: number) => (
+            <ItemComment data={comment} key={index} onReplies={onReplies} />
+          ))}
+        </div>
+      );
+    }
+  };
   return (
     <>
       <div className='header relative'>
@@ -63,8 +71,8 @@ const PostDetail = () => {
         />
       </div>
       <NewFeedItem
-        postDetail={postDetail?.data}
-        totalComments={commentsOfPost?.data?.list.length}
+        postDetail={postDetailUnAuth?.data}
+        totalComments={commentsOfPostUnAuth?.data?.list.length}
         onRefreshPostDetail={() => onRefreshPostDetail()}
       />
       <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
@@ -87,7 +95,6 @@ const PostDetail = () => {
       </div>
       <div>
         {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-          console.log('children', item.children);
           return (
             <>
               <ItemComment key={index} data={item} onReplies={onReplies} />

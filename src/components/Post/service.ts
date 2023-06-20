@@ -79,7 +79,7 @@ export interface IContentPost {
   urlLinks: string[];
 }
 
-const FIXED_TOKEN =
+export const FIXED_TOKEN =
   'eyJhbGciOiJIUzI1NiJ9.eyJjaWYiOiIwMDExMjUzMyIsImZpcnN0TG9naW4iOmZhbHNlLCJ2c2QiOiIwMTBDMDcxNzU4Iiwic2Vzc2lvbiI6IktRUG9CVUpySnhIamsxRlk1TTVhWURYNEh2WGlwNXlZYmRycGpSTWlybzFtM0JUbmdWRmRmWmNkZGNyVUZCVG0iLCJhY250U3RhdCI6IkFDVElWRSIsImF1dGhEZWYiOiJUT1AiLCJ1c2VySWQiOjE1NTAsImF1dGhvcml0aWVzIjoiUk9MRV9DVVNUT01FUiIsImV4cGlyZWRBdCI6MTcxODA4MDI5MjQxOSwic3ViQWNjb3VudE5vIjoiTjAwMDc4ODkzIiwiY3VzdFN0YXQiOiJQUk8iLCJwaG9uZSI6IjA5ODYwNTcxNDciLCJhY2NvdW50Tm8iOiIwMDA3ODg3OSIsIm5hbWUiOiJU4buQTkcgVEjhu4ogTUFJIE1BSSBNQUkgTkdBIiwiZW1haWwiOiJza3NrZmxkQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiMDk4NjA1NzE0NyJ9.oHSZrVhA4OYhIJ-JqlygDhKUcAFUtGWV4Ld-poJxwvQ';
 
 const getPostDetail = async (postId: string) => {
@@ -106,6 +106,22 @@ export const usePostDetail = (postId: string) => {
   };
 };
 
+export const useGetPostDetailUnAuth = (postId: string) => {
+  const { data, loading } = useRequest(
+    () => {
+      return request.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
+    },
+    {
+      refreshDeps: [postId],
+    },
+  );
+
+  return {
+    postDetailUnAuth: data,
+    loading,
+  };
+};
+
 const getCommentsOfPost = async (postId: string) => {
   return await privateRequest(request.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId), {
     headers: {
@@ -121,6 +137,21 @@ export const useCommentsOfPost = (postId: string) => {
 
   return {
     commentsOfPost: data,
+    loading,
+  };
+};
+
+export const useCommentsOfPostUnAuth = (postId: string) => {
+  const { data, loading } = useRequest(
+    () => {
+      return request.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
+    },
+    {
+      refreshDeps: [postId],
+    },
+  );
+  return {
+    commentsOfPostUnAuth: data,
     loading,
   };
 };

@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { IComment } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import { formatMessage } from '@utils/common';
 
 dayjs.extend(relativeTime);
 interface IProps {
@@ -13,7 +14,6 @@ interface IProps {
 }
 const ItemComment = (props: IProps) => {
   const { onNavigate, data, onReplies } = props;
-  // const { customerInfo, timeString, message, totalLikes } = data;
   const onComment = (value: string) => {
     if (onNavigate) {
       onNavigate();
@@ -21,7 +21,7 @@ const ItemComment = (props: IProps) => {
       onReplies && onReplies(value);
     }
   };
-
+  const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.name || '';
   return (
     <div className='comment p-[16px]'>
@@ -33,6 +33,7 @@ const ItemComment = (props: IProps) => {
           height='0'
           className='mr-[12px] w-[36px] rounded-full'
         />
+
         <div className='content w-full'>
           <div className='rounded-[12px] bg-[#F6FAFD] px-[16px] py-[12px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.12)]'>
             <div className='mb-[12px] flex w-full flex-row items-center justify-between border-b border-solid border-[#E6E6E6] pb-[12px]'>
@@ -44,7 +45,9 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
             <Text type='body-14-medium' color='primary-5'>
-              {data?.message}
+              {message && (
+                <div dangerouslySetInnerHTML={{ __html: message }} className='messageFormat'></div>
+              )}
             </Text>
           </div>
           <div>
@@ -69,9 +72,6 @@ const ItemComment = (props: IProps) => {
                   height='0'
                   className='mr-[10px] w-[18px]'
                 />
-                <Text type='body-12-medium' color='primary-5'>
-                  Reply
-                </Text>
               </div>
               {/* <Fancybox>
                 <a data-fancybox='gallery' href='/static/images/image_post.jpg'>

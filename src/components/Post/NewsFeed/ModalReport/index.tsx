@@ -5,8 +5,8 @@ import 'rc-dialog/assets/index.css';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 
-import RcCheckBox from '@components/UI/Checkbox';
 import FormItem from '@components/UI/FormItem';
+import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 
 import Reason from './Reason';
@@ -55,11 +55,14 @@ const ModalReport = (props: IProps) => {
       <span onClick={onVisible} className='cursor-pointer'>
         {children}
       </span>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
         <div>
-          <Text>Báo cáo</Text>
-          <Text>Lý do mà bạn muốn báo cáo vi phạm phản hồi này.</Text>
-          <Text>Cho chúng tôi biết chuyện gì đang diễn ra</Text>
+          <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
+            Report
+          </Text>
+          <Text type='body-12-medium' color='neutral-3' className='mb-[16px] text-center'>
+            Tell us the reason why you want to report this section so we can help you better
+          </Text>
           <Form form={form} onFinish={onFinish}>
             <FormItem
               name='reason'
@@ -72,19 +75,38 @@ const ModalReport = (props: IProps) => {
             >
               <Reason options={options} />
             </FormItem>
-            <FormItem name='remember'>
-              {({ value, onChange }: { value: boolean; onChange: any }) => {
-                return (
-                  <RcCheckBox onChange={() => onChange(!value)} checked={!!value}>
-                    <Text>Remember</Text>
-                  </RcCheckBox>
-                );
+            <FormItem
+              shouldUpdate={(prevValues: any, curValues: any) =>
+                prevValues.reason !== curValues.reason
+              }
+            >
+              {() => {
+                const reason = form.getFieldValue('reason');
+                if (reason === '4') {
+                  return (
+                    <FormItem name='text'>
+                      <Input
+                        placeholder='Tell us your reason...'
+                        className='h-[34px] w-full pl-[5px]'
+                      />
+                    </FormItem>
+                  );
+                }
               }}
             </FormItem>
-            <div className='w-full border-t border-solid border-black'>
-              <div onClick={onVisible}>123</div>
-              <button className='w-2/4' type='submit'>
-                Gửi
+            <div className='flex w-full gap-x-[13px] border-t border-solid border-[#1F6EAC] pt-[16px]'>
+              <div
+                onClick={onVisible}
+                className='flex h-[49px] w-full items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB]'
+              >
+                <Text type='body-16-bold' color='primary-2'>
+                  Cancel
+                </Text>
+              </div>
+              <button className='h-[49px] w-full rounded-[8px] bg-[#1F6EAC]' type='submit'>
+                <Text type='body-16-bold' color='cbwhite'>
+                  Send
+                </Text>
               </button>
             </div>
           </Form>

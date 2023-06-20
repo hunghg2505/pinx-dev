@@ -37,6 +37,12 @@
     width: 80%;
   }
 }
+.slide-theme{
+  .slick-list{
+    overflow: visible !important;
+    width: calc(100% - 63px);
+  }
+}
 // custom fancybox
 .fancybox__toolbar__column.is-right{
   display: none !important;
@@ -44,4 +50,18 @@
 .rc-dialog-close{
   opacity: 1 !important;
   top: 20px !important;
+}
+.rc-dialog-content{
+  @media screen and (max-width: 480px){
+    width: calc(100% - 32px) !important;
+    margin: 0 auto !important;
+  }
+}
+.messageFormat{
+  a{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1A1A1A;
+  }
 }

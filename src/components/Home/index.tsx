@@ -1,29 +1,37 @@
 import React, { useEffect } from 'react';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
+import Upload, { UploadProps } from 'rc-upload';
+import { RcFile } from 'rc-upload/lib/interface';
 
+import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 
 import ListTheme from './ListTheme';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import Influencer from './People/Influencer';
 import PeopleList from './People/PeopleList';
-import { useGetInfluencer, useGetListNewFeed } from './service';
+import { IKOL, requestJoinChannel, socket, useGetInfluencer, useGetListNewFeed } from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
 import NewsFeed from '../Post/NewsFeed';
 
+// const MyComponent = dynamic(() => import('../components/myClientComponent'), {
+//   loading: () => <div>loading...</div>,
+//   ssr: false,
+// });
 function Home() {
   // const { t } = useTranslation('home');
   const { listNewFeed, run } = useGetListNewFeed();
+  console.log('🚀 ~ file: index.tsx:29 ~ Home ~ listNewFeed:', listNewFeed);
   const { KOL } = useGetInfluencer();
-  console.log('🚀 ~ file: index.tsx:25 ~ Home ~ KOL:', KOL);
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
+    // requestJoinChannel('VNM');
   }, []);
-  console.log('🚀 ~ file: index.tsx:25 ~ Home ~ listNewFeed:', listNewFeed);
   return (
     <div className='bg-[#F8FAFD] pt-[10px]'>
       <div className='mx-[auto] my-[0] w-[375px]'>
@@ -40,6 +48,7 @@ function Home() {
               className='ml-[11px] w-[10px]'
             />
           </button>
+
           <Tabs defaultActiveKey='1' className='tabHome'>
             <TabPane tab='Watchlist' key='1'>
               <WatchList />
@@ -56,7 +65,9 @@ function Home() {
           <ModalFilter run={run} />
         </div>
         <div>
-          <NewsFeed />
+          {listNewFeed?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} />;
+          })}
         </div>
         <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px]'>
           <Trending />
@@ -66,8 +77,9 @@ function Home() {
             People in spotlight
           </Text>
           <div className='flex gap-[15px] pb-[15px]'>
-            <Influencer />
-            <Influencer />
+            {KOL?.map((kol: IKOL, index: number) => {
+              return <Influencer key={index} data={kol} />;
+            })}
           </div>
           <button className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
             <Text type='body-14-bold' color='primary-2'>
@@ -87,6 +99,13 @@ function Home() {
         </div>
         <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
           <PeopleList />
+        </div>
+        <div className='bg-[#ffffff] pt-[15px] text-center'>
+          <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
+            <Text type='body-14-bold' color='primary-2'>
+              Explore people
+            </Text>
+          </button>
         </div>
         <div className='bg-[#ffffff] pl-[16px]'>
           <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>

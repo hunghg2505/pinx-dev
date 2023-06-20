@@ -64,7 +64,7 @@ const ModalFilter = (props: IProps) => {
     <>
       <span
         onClick={onVisible}
-        className='flex h-[34px] w-[89px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-solid border-[#B1D5F1] bg-[#F0F7FC] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.06)]'
+        className='flex h-[34px] min-w-[89px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-solid border-[#B1D5F1] bg-[#F0F7FC] px-[5px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.06)]'
       >
         <Text type='body-14-regular' color='primary-2' className='mr-[8px]'>
           {renderText()}
@@ -98,7 +98,7 @@ const ModalFilter = (props: IProps) => {
                   <div
                     className={classNames(
                       'mb-[12px] flex cursor-pointer items-center justify-between rounded-[8px] bg-[#F3F2F6] px-[16px] py-[12px]',
-                      { 'bg-[#589DC0]': isChecked },
+                      { '!bg-[#589DC0]': isChecked },
                     )}
                     key={index}
                     onClick={() => onFilter(item.filterType)}

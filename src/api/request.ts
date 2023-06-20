@@ -8,7 +8,7 @@ import { ENV } from 'src/utils/env';
 const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
-export const PREFIX_API = ENV.URL_API_PIST;
+export const PREFIX_API = ENV.URL_API_COMMUNITY;
 
 const request = extend({
   prefix: PREFIX_API,

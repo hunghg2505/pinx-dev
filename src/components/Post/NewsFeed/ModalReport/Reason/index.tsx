@@ -15,27 +15,25 @@ interface Props {
 
 const Reason = ({ value, onChange, options }: Props) => {
   const onValueChange = (val: string) => {
-    // if (isNumber(value) && val === +value) {
-    //   return onChange?.(undefined);
-    // }
     onChange?.(val);
   };
 
   return (
-    <div className=''>
-      <div className=''>
-        {options?.map((item, index) => {
-          return (
-            <Radio
-              checked={!value ? false : value === item.value}
-              onChange={() => onValueChange(item.value)}
-              key={index}
-            >
-              <Text>{item.label}</Text>
-            </Radio>
-          );
-        })}
-      </div>
+    <div className='mb-[22px]'>
+      {options?.map((item, index) => {
+        return (
+          <Radio
+            checked={!value ? false : value === item.value}
+            onChange={() => onValueChange(item.value)}
+            key={index}
+            className='mb-[22px]'
+          >
+            <Text type='body-14-medium' color='cbblack'>
+              {item.label}
+            </Text>
+          </Radio>
+        );
+      })}
     </div>
   );
 };
