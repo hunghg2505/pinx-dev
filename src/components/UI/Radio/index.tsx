@@ -5,14 +5,18 @@ import classNames from 'classnames';
 import styles from './index.module.scss';
 
 interface Props {
+  className?: string;
   children: React.ReactNode;
   checked?: boolean;
   onChange?: () => void;
 }
 
-const Radio: React.FC<Props> = ({ children, checked = false, onChange }: Props) => {
+const Radio: React.FC<Props> = ({ children, checked = false, onChange, className }: Props) => {
   return (
-    <div className='mb-[5px] mr-[12px] flex cursor-pointer items-center' onClick={onChange}>
+    <div
+      className={classNames('mb-[5px] mr-[12px] flex cursor-pointer items-center', className)}
+      onClick={onChange}
+    >
       <div
         className={classNames(
           'relative h-[15px] w-[15px] rounded-full border border-solid border-black',
