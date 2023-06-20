@@ -1,8 +1,11 @@
-import React from 'react';
+/* eslint-disable react/display-name */
+import React, { useState } from 'react';
 
 import classNames from 'classnames';
-// import Eye from '../Icon/Eye';
-// import EyeHide from '../Icon/EyeHide';
+
+import styles from './index.module.scss'
+import { Eye, EyeHide } from '../Icon';
+
 
 interface InputProps {
   className?: string;
@@ -19,6 +22,7 @@ interface InputProps {
   value?: string | number | undefined;
   step?: string | undefined;
   removeCommon?: boolean;
+  name?: string;
 }
 
 interface Ref {
@@ -35,9 +39,12 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
     suffix,
     removeCommon = false,
     step,
+    maxLength,
     ...rest
   } = props;
   const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
 
   // const { state: isVisibleEye, toggle: toggleEye } = useToggle(false);
 
@@ -83,22 +90,23 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
     onBlur?.();
   };
 
-  // const handleToggleEyes = () => toggleEye();
+  const handleToggleEyes = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  }
 
-  // const EyePassword = () => {
-  //   if (isVisibleEye) {
-  //     return <EyeHide onClick={handleToggleEyes} />;
-  //   }
+  const EyePassword = () => {
+    if (isPasswordVisible) {
+      return <EyeHide onClick={handleToggleEyes} />;
+    }
 
-  //   return <Eye onClick={handleToggleEyes} />;
-  // };
+    return <Eye onClick={handleToggleEyes} />;
+  };
 
   const implicitType = (): InputProps['type'] => {
     if (isTypePassword) {
-      // if (true) {
-      //   return 'text';
-      // }
-
+      if (isPasswordVisible) {
+        return 'text';
+      }
       return 'password';
     }
 
@@ -122,7 +130,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
   };
 
   return (
-    <div className='wrapper-input'>
+    <div className='relative'>
       <input
         ref={inputRef}
         type={implicitType()}
@@ -132,14 +140,15 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
         onBlur={handleBlur}
         onKeyDown={onKeyDown}
         step={step}
+        maxLength={maxLength}
         {...rest}
       />
 
-      {/* {isTypePassword && !disabled && (
-          <div className="eye-password">
-            <EyePassword />
-          </div>
-        )} */}
+      {isTypePassword && !disabled && (
+        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+          <EyePassword />
+        </div>
+      )}
 
       {suffix && <div className={classNames('icon-suffix')}>{suffix}</div>}
     </div>
@@ -147,3 +156,25 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
 });
 
 export default Input;
+
+export const StyledInput = ({ ...props }) => <Input {...props} className='w-full font-[500] text-[14px] p-4 border rounded-xl text-[--neutral-2] focus:border-primary-600 !bg-[--neutral-8] placeholder:text-[--neutral-5]' />;
+
+export const LabelInsideInput = ({ labelContent, ...props }: { labelContent: string }) => {
+  const inputRef = React.createRef<HTMLInputElement>();
+
+  console.log('xxx inputRef', inputRef)
+  return (
+    <div className={styles.formGroup}>
+      <input
+        {...props}
+        ref={inputRef}
+        className={classNames(styles.inputField)}
+        placeholder={labelContent}
+        name='test'
+      />
+      <label className={classNames(styles.inputLabel)} htmlFor='test'>
+        {labelContent}
+      </label>
+    </div>
+  )
+}

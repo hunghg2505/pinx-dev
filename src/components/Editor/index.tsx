@@ -9,12 +9,13 @@ import Form from 'rc-field-form';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 
-import { requestAddComment } from '@components/Post/service';
-import FormItem from '@components/UI/FormItem';
+// import { requestAddComment } from '@components/Post/service';
+// import FormItem from '@components/UI/FormItem';
 // import Input from '@components/UI/Input';
-import { base64ToBlob, isImage, toBase64 } from '@utils/common';
 
 import suggestion from './Suggestion';
+import { base64ToBlob, isImage, toBase64 } from '../../utils/common';
+// import { toBase64 } from '@';
 
 interface IProps {
   id: string;
@@ -111,9 +112,9 @@ const Editor = (props: IProps, ref: any) => {
               />
             </Upload>
             <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6]'></div>
-            <FormItem name='message' className='w-full'>
-              {/* <Input onChange={onChangeInput} onKeyPress={onKeyPress} /> */}
-            </FormItem>
+            {/* <FormItem name='message' className='w-full'>
+              <Input onChange={onChangeInput} onKeyPress={onKeyPress} />
+            </FormItem> */}
             <EditorContent editor={editor} className='w-full' />
             {/* {image && <Image src={image} alt='' width={200} height={100} />} */}
           </div>

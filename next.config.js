@@ -17,6 +17,7 @@ const nextConfig = {
     URL_API_COMMUNITY: process.env.URL_API_COMMUNITY,
     URL_SOCKET: process.env.URL_SOCKET,
     URL_API_PIST: process.env.URL_API_PIST,
+    RECAPTHCHA_SITE_KEY: process.env.RECAPTHCHA_SITE_KEY,
   },
   images: {
     minimumCacheTTL: 60,
