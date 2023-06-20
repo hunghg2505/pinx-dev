@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestComunity } from '@api/request';
-import { FIXED_TOKEN } from '@components/Post/service';
 import { ENV } from '@utils/env';
 
 export interface ITrending {
@@ -573,7 +572,7 @@ const KOL: IKOL[] = [
 
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
-    return request.get(API_PATH.FILTER_LIST);
+    return requestComunity.get(API_PATH.FILTER_LIST);
   });
   return {
     data,
@@ -635,11 +634,7 @@ export const requestLeaveIndex = () => {
 
 export const useSuggestPeople = () => {
   const { data } = useRequest(() => {
-    return privateRequest(requestComunity.get, API_PATH.SUGGESTION_PEOPLE, {
-      headers: {
-        Authorization: FIXED_TOKEN,
-      },
-    });
+    return privateRequest(requestComunity.get, API_PATH.SUGGESTION_PEOPLE);
   });
   return {
     suggestionPeople: data?.list,
