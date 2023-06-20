@@ -1,7 +1,11 @@
 import Image from 'next/image';
 
+import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
+interface IProps {
+  theme: ITheme;
+}
 const IconPlus = () => (
   <svg width='7' height='7' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
@@ -10,25 +14,30 @@ const IconPlus = () => (
     />
   </svg>
 );
-const ThemesItem = () => {
+
+const ThemesItem = (props: IProps) => {
+  const { theme } = props;
   return (
-    <div className=' pr-[10px]'>
+    <div className='w-[162px] pr-[10px]'>
       <div className='relative min-h-[172px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
         <Image
-          src='/static/images/themeDetail.svg'
+          src={theme?.url}
           alt=''
           width='0'
-          height={0}
-          className='absolute right-[0] top-[10px] w-[100px]'
+          height='0'
+          sizes='100vw'
+          className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
         />
-        <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] p-[8px] backdrop-blur-[2px] backdrop-filter'>
-          <Text type='body-12-semibold' color='primary-5'>
-            Industrial park
-          </Text>
-          <Text type='body-12-medium' color='neutral-4' className='mb-[6px]'>
-            2K Subcribers
-          </Text>
-          <button className='flex w-full flex-row items-center justify-center'>
+        <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
+          <div className='flex h-[56px] flex-col items-center justify-center px-[8px]'>
+            <Text type='body-12-bold' color='primary-5' className='text-center'>
+              {theme?.name}
+            </Text>
+            <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
+              2K Subcribers
+            </Text>
+          </div>
+          <button className='flex h-[32px] w-full flex-row items-center justify-center [border-top:1px_solid_#B1D5F1] '>
             <IconPlus />
             <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
               Subcribe

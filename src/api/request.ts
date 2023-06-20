@@ -34,24 +34,16 @@ const tokenManager = new TokenManager({
     return `${token}`;
   },
   getRefreshToken: async () => {
-    // const refreshToken = getRefreshToken();
-
-    // return refreshToken || '';
-    return '';
-  },
-  executeRefreshToken: async () => {
-    return {
-      token: '',
-      refresh_token: '',
-    };
-  },
-  onRefreshTokenSuccess: ({ token, refresh_token: refreshToken }) => {
-    console.log(refreshToken);
+    const token = getAccessToken();
+    return `${token}`;
   },
   onInvalidRefreshToken: async () => {
-    // Logout
+    // remove token from cookie
   },
 });
+
+// const FIXED_TOKEN =
+// 'eyJhbGciOiJIUzI1NiJ9.eyJjaWYiOiIwMDExMjUzMyIsImZpcnN0TG9naW4iOmZhbHNlLCJ2c2QiOiIwMTBDMDcxNzU4Iiwic2Vzc2lvbiI6IktRUG9CVUpySnhIamsxRlk1TTVhWURYNEh2WGlwNXlZYmRycGpSTWlybzFtM0JUbmdWRmRmWmNkZGNyVUZCVG0iLCJhY250U3RhdCI6IkFDVElWRSIsImF1dGhEZWYiOiJUT1AiLCJ1c2VySWQiOjE1NTAsImF1dGhvcml0aWVzIjoiUk9MRV9DVVNUT01FUiIsImV4cGlyZWRBdCI6MTcxODA4MDI5MjQxOSwic3ViQWNjb3VudE5vIjoiTjAwMDc4ODkzIiwiY3VzdFN0YXQiOiJQUk8iLCJwaG9uZSI6IjA5ODYwNTcxNDciLCJhY2NvdW50Tm8iOiIwMDA3ODg3OSIsIm5hbWUiOiJU4buQTkcgVEjhu4ogTUFJIE1BSSBNQUkgTkdBIiwiZW1haWwiOiJza3NrZmxkQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiMDk4NjA1NzE0NyJ9.oHSZrVhA4OYhIJ-JqlygDhKUcAFUtGWV4Ld-poJxwvQ';
 
 const privateRequest = async (request: any, suffixUrl: string, configs?: any) => {
   const token: string = configs?.token ?? ((await tokenManager.getToken()) as string);
@@ -103,6 +95,6 @@ const API_PATH = {
   REGISTER: '/public/customer/register/credentials',
   REGISTER_OTP: '/public/customer/register/otp/verify',
   LOGOUT: '',
-}
+};
 
 export { API_PATH, privateRequest, requestPist, requestComunity };
