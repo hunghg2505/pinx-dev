@@ -1,4 +1,6 @@
 // import { useTranslation } from 'next-i18next';
+import { useState } from 'react';
+
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -21,6 +23,7 @@ const Login = () => {
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo } = useUserLoginInfo();
+  const [showModalLoginTerm, setShowModalLoginTerm] = useState<boolean>(false);
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -38,16 +41,21 @@ const Login = () => {
           expiredTime: res?.expired_time || 0,
         });
         setUserLoginInfo(res?.data);
-        // if (res?.data.isReadTerms) {
-        //   router.push(ROUTE_PATH.Home);
-        // }
-        router.push(ROUTE_PATH.Home);
+        if (res?.data.isReadTerms) {
+          router.push(ROUTE_PATH.Home);
+        } else {
+          setShowModalLoginTerm(true);
+        }
       }
     },
     onError(e) {
       console.log(e?.errors?.[0] || e?.message, 'error');
     },
   });
+
+  const onToggleModalLoginTerm = () => {
+    setShowModalLoginTerm(!showModalLoginTerm);
+  }
 
   return (
     <>
@@ -86,9 +94,8 @@ const Login = () => {
               </NextLink>
             </div>
 
-            <ModalLoginTerm>
-              <MainButton type='submit' className='w-full !mt-10'>Sign in</MainButton>
-            </ModalLoginTerm>
+            <ModalLoginTerm visible={showModalLoginTerm} onToggle={onToggleModalLoginTerm} />
+            <MainButton type='submit' className='w-full !mt-10'>Sign in</MainButton>
             {/* <div className='text-center !mt-8'>
                 <Text type='body-14-regular'>
                   Don’t have an account ?

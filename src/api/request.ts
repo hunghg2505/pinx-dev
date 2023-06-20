@@ -3,7 +3,7 @@
 import TokenManager, { injectBearer } from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
-import { getAccessToken } from '@store/auth';
+import { getAccessToken, deleteAuthCookies } from '@store/auth';
 import { ENV } from 'src/utils/env';
 
 const REQ_TIMEOUT = 25 * 1000;
@@ -40,6 +40,7 @@ const tokenManager = new TokenManager({
   },
   onInvalidRefreshToken: async () => {
     // remove token from cookie
+    deleteAuthCookies();
   },
 });
 

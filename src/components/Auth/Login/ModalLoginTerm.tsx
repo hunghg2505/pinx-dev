@@ -9,7 +9,6 @@ import Dialog from 'rc-dialog';
 
 import { NegativeButton, PositiveButton } from '@components/UI/Button';
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 
 const mockData = [
@@ -24,19 +23,14 @@ const mockData = [
 ];
 
 interface IProps {
-  children: any;
+  visible: boolean;
   closeIcon?: boolean;
+  onToggle: () => void;
 }
 
 
 const ModalLoginTerm = (props: IProps) => {
-  const { children, closeIcon } = props;
-  const [visible, setVisible] = React.useState(false);
-  const { userLoginInfo } = useUserLoginInfo();
-
-  const onVisible = () => {
-    setVisible(!visible);
-  };
+  const { visible, closeIcon, onToggle } = props;
 
   const renderCloseIcon = (): React.ReactNode => {
     if (closeIcon) {
@@ -44,14 +38,12 @@ const ModalLoginTerm = (props: IProps) => {
     }
     return <>X</>;
   };
+
   return (
     <>
-      <span onClick={onVisible} className='cursor-pointer'>
-        {children}
-      </span>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+      <Dialog visible={visible} onClose={onToggle} closeIcon={renderCloseIcon()}>
         <div>
-          <Text type='body-16-bold' className='text-center' onClick={() => console.log('xxx userLoginInfo', userLoginInfo)}>Cập nhật điều khoản dịch vụ</Text>
+          <Text type='body-16-bold' className='text-center'>Cập nhật điều khoản dịch vụ</Text>
           <Text type='body-14-bold' color='neutral-4' className='mt-5'>Theo <span className='text-[--primary-2]'>nghị định 13</span> mới ban hành của chính phủ, để sử dụng PineX quý khách vui lòng kiểm tra lại điều khoản dịch vụ mới cập nhật</Text>
         </div>
         <div>
@@ -70,7 +62,7 @@ const ModalLoginTerm = (props: IProps) => {
             <NegativeButton className='w-full'>Contact support</NegativeButton>
           </a>
           <div className='w-[48%]'>
-            <PositiveButton className='w-full'>Agree</PositiveButton>
+            <PositiveButton className='w-full' onClick={onToggle}>Agree</PositiveButton>
           </div>
         </div>
       </Dialog>
