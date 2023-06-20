@@ -2,6 +2,8 @@ import React from 'react';
 
 import Slider from 'react-slick';
 
+import { ISuggestionPeople, useSuggestPeople } from '@components/Home/service';
+
 import ItemPeople from '../ItemPeople';
 
 const settings = {
@@ -14,21 +16,17 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const PeopleList = () => {
+  const { suggestionPeople } = useSuggestPeople();
   return (
     <div className='overflow-hidden'>
       <Slider {...settings} className='slide-watchlist'>
-        <div>
-          <ItemPeople />
-        </div>
-        <div>
-          <ItemPeople />
-        </div>
-        <div>
-          <ItemPeople />
-        </div>
-        <div>
-          <ItemPeople />
-        </div>
+        {suggestionPeople?.map((item: ISuggestionPeople, index: number) => {
+          return (
+            <div key={index}>
+              <ItemPeople data={item} />
+            </div>
+          );
+        })}
       </Slider>
     </div>
   );
