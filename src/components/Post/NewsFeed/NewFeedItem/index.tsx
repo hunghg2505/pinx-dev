@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useLikePost, useUnlikePost } from '@components/Post/service';
+import { IPost, useLikePost, useUnlikePost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { formatMessage } from '@utils/common';
 
@@ -23,7 +23,7 @@ import ModalReport from '../ModalReport';
 // }
 
 interface IProps {
-  postDetail: any;
+  postDetail: IPost;
   totalComments: number;
   onNavigate?: () => void;
   onRefreshPostDetail: () => void;
@@ -131,7 +131,7 @@ const NewFeedItem = (props: IProps) => {
                     sizes='100vw'
                     className='mr-[10px] w-[17px]'
                   />
-                  <ModalReport>
+                  <ModalReport postID={postDetail?.id}>
                     <Text type='body-14-medium' color='neutral-2'>
                       Report
                     </Text>

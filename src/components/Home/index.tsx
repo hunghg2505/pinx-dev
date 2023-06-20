@@ -8,22 +8,42 @@ import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 
 import ListTheme from './ListTheme';
+import Market from './Market';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import Influencer from './People/Influencer';
 import PeopleList from './People/PeopleList';
-import { IKOL, useGetInfluencer, useGetListNewFeed } from './service';
+import {
+  IKOL,
+  requestJoinChannel,
+  requestJoinIndex,
+  requestLeaveChannel,
+  requestLeaveIndex,
+  useGetInfluencer,
+  useGetListNewFeed,
+} from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
 import NewsFeed from '../Post/NewsFeed';
 
-function Home() {
+const onChangeTab = (key: string) => {
+  if (key === '1') {
+    requestJoinChannel('VNM');
+    requestLeaveIndex();
+  }
+  if (key === '2') {
+    requestLeaveChannel('VNM');
+    requestJoinIndex();
+  }
+};
+const Home = () => {
   // const { t } = useTranslation('home');
   const { listNewFeed, run } = useGetListNewFeed();
   const { KOL } = useGetInfluencer();
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
-    // requestJoinChannel('VNM');
+    requestJoinChannel('VNM');
   }, []);
+
   return (
     <div className='bg-[#F8FAFD] pt-[10px]'>
       <div className='mx-[auto] my-[0] w-[375px]'>
@@ -41,12 +61,12 @@ function Home() {
             />
           </button>
 
-          <Tabs defaultActiveKey='1' className='tabHome'>
+          <Tabs defaultActiveKey='1' className='tabHome' onChange={onChangeTab}>
             <TabPane tab='Watchlist' key='1'>
               <WatchList />
             </TabPane>
             <TabPane tab='Market' key='2'>
-              Market
+              <Market />
             </TabPane>
           </Tabs>
         </div>
@@ -57,7 +77,7 @@ function Home() {
           <ModalFilter run={run} />
         </div>
         <div>
-          {listNewFeed?.map((item: IPost, index: number) => {
+          {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
             return <NewsFeed key={index} data={item} />;
           })}
         </div>
@@ -99,15 +119,25 @@ function Home() {
             </Text>
           </button>
         </div>
+        <div>
+          {listNewFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} />;
+          })}
+        </div>
         <div className='bg-[#ffffff] pl-[16px]'>
           <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
             Economy in the themes
           </Text>
           <ListTheme />
         </div>
+        <div>
+          {listNewFeed?.slice(5)?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} />;
+          })}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Home;

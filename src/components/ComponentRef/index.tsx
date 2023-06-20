@@ -1,6 +1,6 @@
 import Editor from '@components/Editor';
 
-const ComponentRef = ({ forwardedRef }: { forwardedRef: any }) => {
-  return <Editor ref={forwardedRef} />;
+const ComponentRef = ({ forwardedRef, id }: { forwardedRef: any; id: string }) => {
+  return <Editor ref={forwardedRef} id={id} />;
 };
 export default ComponentRef;

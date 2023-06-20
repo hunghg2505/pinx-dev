@@ -55,6 +55,21 @@ export interface ITheme {
   description: string;
   stocks: string[];
 }
+export interface IStockIndex {
+  accVol: any;
+  cIndex: number;
+  displayName: string;
+  id: number;
+  index: string;
+  isBeforeTransactionTime: boolean;
+  mc: string;
+  oIndex: number;
+  ot: string;
+  status: string;
+  time: string;
+  value: number;
+  vol: number;
+}
 const dataTrending = [
   {
     keyword: 'ssi',
@@ -649,5 +664,15 @@ export const useSuggestPeople = () => {
 export const useGetTheme = () => {
   return {
     theme,
+  };
+};
+
+// get stock market
+export const useGetStock = () => {
+  const { data } = useRequest(() => {
+    return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+  });
+  return {
+    stockIndex: data?.data,
   };
 };

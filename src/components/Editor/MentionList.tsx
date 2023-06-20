@@ -7,6 +7,7 @@ export default forwardRef((props: any, ref) => {
 
   const selectItem = (index: any) => {
     const item = props.items[index];
+    console.log('🚀 ~ file: MentionList.tsx:10 ~ selectItem ~ item:', item);
 
     if (item) {
       props.command({ id: item });

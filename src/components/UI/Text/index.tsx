@@ -23,6 +23,8 @@ interface TextProps {
     | 'body-18-regular'
     | 'body-20-bold'
     | 'body-22-bold'
+    | 'body-20-semibold'
+    | 'body-24-regular'
     | undefined;
   color?:
     | 'cbwhite'
