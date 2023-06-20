@@ -5,9 +5,6 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from 'next/image';
 import Upload from 'rc-upload';
-import { BeforeUploadFileType } from 'rc-upload/lib/interface';
-
-import { base64ToBlob, toBase64 } from '@utils/common';
 
 import suggestion from './Suggestion';
 
@@ -50,30 +47,12 @@ const Editor = (props: IProps, ref: any) => {
     console.log('🚀 ~ file: index.tsx:10 ~ Tiptap ~ text:', text);
   };
 
-  const handleBeforeUpload: any = async (info: any) => {
-    console.log('🚀 ~ file: index.tsx:54 ~ consthandleBeforeUpload:any= ~ info:', info);
-    try {
-      if (!info?.file?.originFileObj?.type?.includes('image')) {
-        return;
-      }
-
-      const base64 = await toBase64(info?.file?.originFileObj);
-      const toBlob = await base64ToBlob(base64, info?.file?.originFileObj?.type);
-
-      const objectImg = {
-        blobUrl: toBlob,
-        file: info?.file?.originFileObj,
-      };
-      console.log('🚀 ~ file: index.tsx:66 ~ consthandleBeforeUpload:any= ~ objectImg:', objectImg);
-    } catch {}
-  };
   return (
     <>
       <div className='flex h-[40px] justify-between rounded-[1000px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]'>
         <div className='flex w-full items-center'>
           <Upload
             accept='png, jpeg, jpg'
-            beforeUpload={handleBeforeUpload}
             onSuccess={(data: any) => console.log('123', data)}
             onChange={(data) => console.log('data on change', data)}
           >

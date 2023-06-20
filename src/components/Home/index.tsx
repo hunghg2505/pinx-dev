@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
-import Upload, { UploadProps } from 'rc-upload';
-import { RcFile } from 'rc-upload/lib/interface';
 
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
@@ -14,19 +11,14 @@ import ListTheme from './ListTheme';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import Influencer from './People/Influencer';
 import PeopleList from './People/PeopleList';
-import { IKOL, requestJoinChannel, socket, useGetInfluencer, useGetListNewFeed } from './service';
+import { IKOL, useGetInfluencer, useGetListNewFeed } from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
 import NewsFeed from '../Post/NewsFeed';
 
-// const MyComponent = dynamic(() => import('../components/myClientComponent'), {
-//   loading: () => <div>loading...</div>,
-//   ssr: false,
-// });
 function Home() {
   // const { t } = useTranslation('home');
   const { listNewFeed, run } = useGetListNewFeed();
-  console.log('🚀 ~ file: index.tsx:29 ~ Home ~ listNewFeed:', listNewFeed);
   const { KOL } = useGetInfluencer();
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);

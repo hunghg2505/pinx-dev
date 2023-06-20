@@ -28,7 +28,7 @@ const PostDetail = () => {
   const router = useRouter();
 
   // is login
-  const { postDetail, onRefreshPostDetail } = usePostDetail(String(router.query.id));
+  const { onRefreshPostDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost } = useCommentsOfPost(String(router.query.id));
 
