@@ -3,7 +3,7 @@
 import TokenManager, { injectBearer } from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
-import { getAccessToken, deleteAuthCookies } from '@store/auth';
+import { getAccessToken } from '@store/auth';
 import { ENV } from 'src/utils/env';
 
 const REQ_TIMEOUT = 25 * 1000;
@@ -16,6 +16,9 @@ export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+  },
   errorHandler: (error) => {
     throw error?.data || error?.response;
   },
@@ -24,6 +27,7 @@ const requestPist = extend({
 const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
+  headers: {},
   errorHandler: (error) => {
     throw error?.data || error?.response;
   },
@@ -32,22 +36,34 @@ const requestCommunity = extend({
 const tokenManager = new TokenManager({
   getAccessToken: async () => {
     const token = getAccessToken();
+
     return `${token}`;
   },
   getRefreshToken: async () => {
     const token = getAccessToken();
     return `${token}`;
   },
-  onInvalidRefreshToken: async () => {
-    // remove token from cookie
-    deleteAuthCookies();
+  onInvalidRefreshToken: () => {
+    // Logout, redirect to login
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  },
+  isValidToken: async (token) => {
+    return true;
+  },
+  isValidRefreshToken: async (token) => {
+    return true;
   },
 });
 
 const privateRequest = async (request: any, suffixUrl: string, configs?: any) => {
   const token: string = configs?.token ?? ((await tokenManager.getToken()) as string);
-  console.log(token);
-  return request(suffixUrl, injectBearer(token, configs));
+  return request(suffixUrl, {
+    headers: {
+      Authorization: token,
+    },
+    ...configs,
+  });
 };
 
 // dùng cái này khi gọi nhiều api ở phía server => đảm bảo có token mới nhất cho các request ở sau, tránh bị call reuqest đồng thời

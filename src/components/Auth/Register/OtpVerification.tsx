@@ -1,16 +1,7 @@
 import { useRegisterOtp } from './service';
 import OtpVerification from '../OtpVerification';
 
-
-
-
 const Register = () => {
-  // const { run } = useRegisterOtp();
-  const onSubmit = (value: string) => {
-    console.log('123')
-    requestRegisterOtp.run({ otp: value });
-  };
-
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
       console.log('xxx res', res)
@@ -31,8 +22,9 @@ const Register = () => {
     },
   });
 
-  console.log('xxx requestRegisterOtp', requestRegisterOtp)
-
+  const onSubmit = (value: string) => {
+    requestRegisterOtp.run({ otp: value });
+  };
 
   return (
     <OtpVerification onSubmit={onSubmit} />
