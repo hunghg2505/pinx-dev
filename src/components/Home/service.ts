@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, request } from '@api/request';
-import { FIXED_TOKEN } from '@components/Post/service';
 import { ENV } from '@utils/env';
 
 export interface ITrending {
@@ -635,11 +634,7 @@ export const requestLeaveIndex = () => {
 
 export const useSuggestPeople = () => {
   const { data } = useRequest(() => {
-    return privateRequest(request.get, API_PATH.SUGGESTION_PEOPLE, {
-      headers: {
-        Authorization: FIXED_TOKEN,
-      },
-    });
+    return privateRequest(request.get, API_PATH.SUGGESTION_PEOPLE);
   });
   return {
     suggestionPeople: data?.list,
