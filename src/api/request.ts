@@ -110,6 +110,9 @@ const API_PATH = {
   LOGIN: '/public/customer/loginSSO',
   REGISTER: '/public/customer/register/credentials',
   REGISTER_OTP: '/public/customer/register/otp/verify',
+  RESEND_REGISTER_OTP: '/public/customer/register/otp/resend',
+  CREATE_USER_NAME: '/public/customer/register/login-id',
+  GET_USER_CONTRACT: '/private/user-info/contract',
   LOGOUT: '',
 };
 

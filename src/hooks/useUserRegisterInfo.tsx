@@ -1,6 +1,17 @@
 import { useAtom, atom } from 'jotai';
 
-const userRegisterInfoAtom = atom({});
+interface InitUserRegisterInfo {
+  phoneNumber?: string;
+  password?: string;
+  email?: string;
+  recaptcha?: string;
+}
+
+const initialUserRegisterInfo: InitUserRegisterInfo = {
+  phoneNumber: '',
+};
+
+const userRegisterInfoAtom = atom(initialUserRegisterInfo);
 
 export const useUserRegisterInfo = () => {
   const [userRegisterInfo, setUserRegisterInfo] = useAtom(userRegisterInfoAtom);

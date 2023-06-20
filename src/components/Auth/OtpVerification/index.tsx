@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import classNames from 'classnames';
 import Image from 'next/image';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
@@ -12,9 +13,10 @@ import Text from '@components/UI/Text';
 
 import 'rc-picker/assets/index.css';
 
-
 interface IProps {
+  onResendOtp: () => void;
   onSubmit: (otp: string) => void;
+  phoneNumber?: string;
 }
 
 interface Itime {
@@ -45,7 +47,7 @@ const secondsToTime = (secs: number) => {
 };
 
 const OtpVerification = (props: IProps) => {
-  // const { t } = useTranslation('common');
+  const { t } = useTranslation('auth');
   const [form] = Form.useForm();
   const [otp, setOtp] = useState<string>('');
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
@@ -54,9 +56,13 @@ const OtpVerification = (props: IProps) => {
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
-  const [resendCount, setResendCount] = useState<number>(60);
+  const [resendCount, setResendCount] = useState<number>(5);
   const [resendTime, setResendTime] = useState<Itime>();
   const [isResendAvailable, setIsResendAvailable] = useState<boolean>(false);
+
+  const replacedPhoneNumber = () => {
+    return props.phoneNumber && props.phoneNumber.slice(0, 4) + '****' + props.phoneNumber.slice(8);
+  };
 
   const onChange = useCallback(
     (e: any) => {
@@ -69,9 +75,12 @@ const OtpVerification = (props: IProps) => {
   );
 
   const onSubmit = () => {
-    console.log('xxx submit OTP');
     props.onSubmit(otp);
-  }
+  };
+
+  const onResendOtp = () => {
+    isResendAvailable && props.onResendOtp();
+  };
 
   // otp count down
   const startOtpTimer = () => {
@@ -118,7 +127,7 @@ const OtpVerification = (props: IProps) => {
     return () => {
       clearInterval(otpCounterInterval);
       clearInterval(resendCounterInterval);
-    }
+    };
   }, [otpCounter, resendCounter]);
 
   useEffect(() => {
@@ -129,18 +138,24 @@ const OtpVerification = (props: IProps) => {
   return (
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='w-full rounded-lg bg-white dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0'>
+        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
           <div className='mt-[56px]'>
-            <Text type='body-24-bold'>Confirm phone number</Text>
-            <Text type='body-18-regular' color='neutral-4'>Enter OTP sent to <span className='text-[--neutral-1] font-[700]'>0987****321</span></Text>
+            <Text type='body-24-bold'>{t('comfirm_phone_number')}</Text>
+            <Text type='body-18-regular' color='neutral-4'>
+              {t('input_otp_from')}{' '}
+              <span className='font-[700] text-[--neutral-1]'>{replacedPhoneNumber()}</span>
+            </Text>
           </div>
 
-          <Text type='body-14-bold' className={classNames('mt-12 mb-3 text-center', {
-            'text-[--semantic-1]': isOtpExpired,
-          })}>
+          <Text
+            type='body-14-bold'
+            className={classNames('mb-3 mt-12 text-center', {
+              'text-[--semantic-1]': isOtpExpired,
+            })}
+          >
             {isOtpExpired
-              ? 'The OTP is expired'
-              : `The OTP will be expired in ${otpTime?.m}:${otpTime?.s} min`}
+              ? t('otp_is_expired')
+              : `${t('otp_expire_after')} ${otpTime?.m}:${otpTime?.s} ${t('minutes')}`}
           </Text>
 
           <Form className='space-y-6' form={form} onFinish={onSubmit}>
@@ -149,32 +164,36 @@ const OtpVerification = (props: IProps) => {
               rules={[
                 {
                   max: 6,
-                  message: 'Max characters is 6!'
-                }
+                  message: 'Max characters is 6!',
+                },
               ]}
             >
-              <StyledInput
-                type='number'
-                placeholder='OTP'
-                onChange={onChange}
-              />
+              <StyledInput type='number' placeholder={t('otp_code')} onChange={onChange} />
             </FormItem>
           </Form>
 
-          <div className='flex justify-between mt-6 items-center'>
-            <Text type='body-12-regular' color='neutral-4'>Cannot retrieve code via SMS?</Text>
-            <RoundButton className='flex px-4 justify-center items-center min-w-[120px]' disabled={!isResendAvailable}>
+          <div className='mt-6 flex items-center justify-between'>
+            <Text type='body-12-regular' color='neutral-4'>
+              {t('not_recieve_otp')}
+            </Text>
+            <RoundButton
+              className='flex min-w-[120px] items-center justify-center px-4'
+              disabled={!isResendAvailable}
+              onClick={onResendOtp}
+            >
               <Image
-                src={isResendAvailable ? '/static/icons/resend.svg' : '/static/icons/resend_disabled.svg'}
+                src={
+                  isResendAvailable
+                    ? '/static/icons/resend.svg'
+                    : '/static/icons/resend_disabled.svg'
+                }
                 alt=''
                 width='0'
                 height='0'
                 className={'mr-2 h-[15px] w-[15px]'}
               />
               <Text type='body-12-regular' color={isResendAvailable ? 'primary-2' : 'neutral-5'}>
-                {isResendAvailable
-                  ? 'Resend SMS'
-                  : `${resendTime?.m}:${resendTime?.s} mins`}
+                {isResendAvailable ? t('resend_otp') : `${resendTime?.m}:${resendTime?.s}`}
               </Text>
             </RoundButton>
           </div>

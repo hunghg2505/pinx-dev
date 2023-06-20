@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterTopicStep from '@components/Auth/RegisterTopicStep';
+import RegisterTopicStep from '@components/Auth/Register/TopicStep';
 
 const RegisterTopicStepPage = () => {
   return (

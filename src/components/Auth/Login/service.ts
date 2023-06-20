@@ -1,3 +1,4 @@
+/* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
@@ -18,10 +19,10 @@ const encryptPassword = (value: string) => {
 export const useLogin = (options?: IOptionsRequest) => {
   return useRequest(
     // eslint-disable-next-line require-await
-    async ({ userName, password }: { userName?: string; password: string }) => {
+    async ({ username, password }: { username?: string; password: string }) => {
       return requestPist.post(API_PATH.LOGIN, {
         data: {
-          connId: userName,
+          connId: username,
           connSecrNo: encryptPassword(password),
         },
       });
