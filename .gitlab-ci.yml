@@ -45,7 +45,6 @@ lint-test-job:   # This job also runs in the test stage.
 build-job:
   stage: build-image
   image: docker:stable
-  stage: build
   only: 
     - main
   services: docker:dind
