@@ -47,7 +47,8 @@ build-job:
   image: docker:stable
   only: 
     - main
-  services: docker:dind
+  services:
+    - docker:dind
   before_script:
     - apk add --no-cache python3 py3-pip
     - pip3 install --nocache-dir awscli
