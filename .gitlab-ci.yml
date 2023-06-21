@@ -32,7 +32,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test-lint    # It can run at the same time as unit-test-job (in parallel).
-  node: node:18
+  image: node:18
   script:
     - yarn
     - yarn lint
