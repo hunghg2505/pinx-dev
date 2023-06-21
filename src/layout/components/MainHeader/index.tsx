@@ -6,6 +6,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useRouter } from 'next/router';
 import { PATH } from '@utils/constant';
+import { getAccessToken } from '@store/auth';
 
 const Header = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const Header = () => {
   };
   const { userLoginInfo } = useUserLoginInfo();
   console.log('🚀 ~ file: index.tsx:11 ~ Header ~ userLoginInfo:', userLoginInfo);
-  const isLogin = !!userLoginInfo.token;
+  const isLogin = !!getAccessToken();
   return (
     <>
       <div className='flex justify-between bg-[#EAF4FB] px-[16px] py-[12px]'>
@@ -50,7 +51,7 @@ const Header = () => {
             ))}
           </div>
         </div>
-        {isLogin && (
+        {!isLogin && (
           <div className='flex flex-row  items-center'>
             <div className='mr-[21px] w-[18px] cursor-pointer'>
               <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
