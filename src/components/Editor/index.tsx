@@ -13,6 +13,7 @@ import { RcFile } from 'rc-upload/lib/interface';
 // import FormItem from '@components/UI/FormItem';
 // import Input from '@components/UI/Input';
 
+import { requestAddComment } from '@components/Post/service';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 
@@ -38,6 +39,7 @@ const beforeUpload = (file: RcFile) => {
 //   // if()
 // };
 const Editor = (props: IProps, ref: any) => {
+  const { id } = props;
   const [image, setImage] = React.useState<any>('');
   const editor = useEditor({
     extensions: [
@@ -63,6 +65,7 @@ const Editor = (props: IProps, ref: any) => {
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any) => onComment(value),
+      // onLike: () => onLike(),
     };
   });
   const onComment = (value: any) => {
@@ -70,6 +73,7 @@ const Editor = (props: IProps, ref: any) => {
       `<span data-type="mention" class="mention bg-[red]" data-id="${value}" contenteditable="false">@${value}</span>`,
     );
   };
+  // const onLike = () => {};
   const useAddComment = useRequest(
     (data: any) => {
       return requestAddComment(data);
@@ -88,11 +92,9 @@ const Editor = (props: IProps, ref: any) => {
     const text = editor?.getHTML();
     const data = {
       message: text,
-      parentId: '64910d67c8c0ef50430c413f',
+      parentId: id,
     };
     useAddComment.run(data);
-    console.log(props.id, data);
-    console.log('🚀 ~ file: index.tsx:10 ~ Tiptap ~ text:', text);
   };
 
   // const onChangeInput = (event: any) => {

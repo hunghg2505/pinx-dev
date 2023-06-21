@@ -15,9 +15,10 @@ export const API_PATH = {
   PRIVATE_MAPPING_LIKE_POST: (post_id: string) => `/private/mapping/${post_id}/like`,
   PRIVATE_MAPPING_UNLIKE_POST: (post_id: string) => `/private/mapping/${post_id}/unlike`,
   PRIVATE_MAPPING_REPORT_POST: (post_id: string) => `/private/mapping/${post_id}/report`,
+  PRIVATE_HIDE_POST: '/private/mapping/hide',
+
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
-  PRIVATE_HIDE_POST: '/private/mapping/hide',
 
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
@@ -37,4 +38,6 @@ export const API_PATH = {
   PRIVATE_FOLLOW_THEME: '/private/theme/subscribe',
   PRIVATE_UNFOLLOW_THEME: '/private/theme/unsubscribe',
   PRIVATE_LIST_THEME_SUBSCRIBED: '/private/subscribed/themes',
+  PRIVATE_ALL_THEME: '/private/themes',
+  PUBLIC_ALL_THEME: '/public/theme/all',
 };

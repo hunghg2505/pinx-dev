@@ -1,10 +1,17 @@
+import { useRequest } from 'ahooks';
 import Image from 'next/image';
+import { Toaster, toast } from 'react-hot-toast';
 
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 
 interface IProps {
   theme: ITheme;
+  isLogin: boolean;
+  refresh: () => void;
 }
 const IconPlus = () => (
   <svg width='7' height='7' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -14,38 +21,156 @@ const IconPlus = () => (
     />
   </svg>
 );
-
-const ThemesItem = (props: IProps) => {
-  const { theme } = props;
-  return (
-    <div className='w-[162px] pr-[10px]'>
-      <div className='relative min-h-[172px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-        <Image
-          src={theme?.url}
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
+const IconChecked = () => (
+  <svg width='13' height='12' viewBox='0 0 13 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <g filter='url(#filter0_d_492_24620)'>
+      <path
+        d='M10.5 3L5 8.5L2.5 6'
+        stroke='#1F6EAC'
+        strokeWidth='2'
+        strokeLinecap='square'
+        shapeRendering='crispEdges'
+      />
+    </g>
+    <defs>
+      <filter
+        id='filter0_d_492_24620'
+        x='-0.514063'
+        y='0.785937'
+        width='14.0281'
+        height='11.5281'
+        filterUnits='userSpaceOnUse'
+        colorInterpolationFilters='sRGB'
+      >
+        <feFlood floodOpacity='0' result='BackgroundImageFix' />
+        <feColorMatrix
+          in='SourceAlpha'
+          type='matrix'
+          values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+          result='hardAlpha'
         />
-        <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
-          <div className='flex h-[56px] flex-col items-center justify-center px-[8px]'>
-            <Text type='body-12-bold' color='primary-5' className='text-center'>
-              {theme?.name}
-            </Text>
-            <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
-              2K Subcribers
-            </Text>
+        <feOffset dy='0.8' />
+        <feGaussianBlur stdDeviation='0.8' />
+        <feComposite in2='hardAlpha' operator='out' />
+        <feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0' />
+        <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_492_24620' />
+        <feBlend
+          mode='normal'
+          in='SourceGraphic'
+          in2='effect1_dropShadow_492_24620'
+          result='shape'
+        />
+      </filter>
+    </defs>
+  </svg>
+);
+const ThemesItem = (props: IProps) => {
+  const { theme, isLogin, refresh } = props;
+  console.log('🚀 ~ file: index.tsx:68 ~ ThemesItem ~ theme:', theme);
+  const useSubcribe = useRequest(
+    (code: string) => {
+      return privateRequest(
+        requestPist.post,
+        API_PATH.PRIVATE_FOLLOW_THEME + `?themeCodes=${code}`,
+      );
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        console.log('thanh cong');
+        refresh();
+      },
+      onError: () => {
+        console.log('err');
+      },
+    },
+  );
+  const useUnSubcribe = useRequest(
+    (code: string) => {
+      return privateRequest(
+        requestPist.put,
+        API_PATH.PRIVATE_UNFOLLOW_THEME + `?themeCodes=${code}`,
+      );
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        console.log('thanh cong');
+        refresh();
+      },
+      onError: () => {
+        console.log('err');
+      },
+    },
+  );
+  const onSubcribe = () => {
+    if (isLogin) {
+      if (theme?.isSubsribed) {
+        useUnSubcribe.run(theme.code);
+      } else {
+        useSubcribe.run(theme.code);
+      }
+    } else {
+      toast(() => (
+        <Notification type='error' message='Bạn phải đăng nhập để thực hiện chức năng này' />
+      ));
+    }
+  };
+  const renderSubcribe = () => {
+    if (theme?.isSubsribed) {
+      return (
+        <>
+          <IconChecked />
+          <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
+            unSubcribe
+          </Text>
+        </>
+      );
+    }
+    return (
+      <>
+        <IconPlus />
+        <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
+          Subcribe
+        </Text>
+      </>
+    );
+  };
+  return (
+    <>
+      <Toaster />
+
+      <div className='w-[162px] pr-[10px]'>
+        <div className='relative min-h-[172px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
+          <Image
+            src={theme?.url}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
+          />
+          <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
+            <div className='flex h-[56px] flex-col items-center justify-center px-[8px]'>
+              <Text type='body-12-bold' color='primary-5' className='text-center'>
+                {theme?.name}
+              </Text>
+              {theme.totalSubscribe && (
+                <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
+                  {theme.totalSubscribe} Subcribers
+                </Text>
+              )}
+            </div>
+            <button
+              className='flex h-[32px] w-full flex-row items-center justify-center [border-top:1px_solid_#B1D5F1]'
+              onClick={onSubcribe}
+            >
+              {renderSubcribe()}
+            </button>
           </div>
-          <button className='flex h-[32px] w-full flex-row items-center justify-center [border-top:1px_solid_#B1D5F1] '>
-            <IconPlus />
-            <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
-              Subcribe
-            </Text>
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default ThemesItem;

@@ -70,7 +70,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )} */}
         <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
           <Image
-            src={postDetail?.post.bgImage}
+            src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt=''
             width='0'
             height='0'
@@ -107,6 +107,7 @@ const ContentPostTypeHome = (props: IProps) => {
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
+    console.log('postDetail?.post.headImageUrl', postDetail?.post.headImageUrl);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>

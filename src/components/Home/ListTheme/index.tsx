@@ -1,6 +1,7 @@
 import Slider from 'react-slick';
 
 import ThemesItem from '@components/Themes/ThemesItem';
+import { getAccessToken } from '@store/auth';
 
 import { ITheme, useGetTheme } from '../service';
 
@@ -15,12 +16,14 @@ const settings = {
 };
 
 const ListTheme = () => {
-  const { theme } = useGetTheme();
+  const token = getAccessToken();
+  const isLogin = !!token;
+  const { theme, refresh } = useGetTheme();
   return (
     <div className='relative h-[172px] overflow-hidden'>
       <Slider {...settings} variableWidth>
         {theme?.map((item: ITheme, index: number) => {
-          return <ThemesItem theme={item} key={index} />;
+          return <ThemesItem theme={item} key={index} isLogin={isLogin} refresh={refresh} />;
         })}
       </Slider>
     </div>

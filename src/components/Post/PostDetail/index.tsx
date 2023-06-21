@@ -8,13 +8,7 @@ import Text from '@components/UI/Text';
 
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
-import {
-  IComment,
-  useCommentsOfPost,
-  useCommentsOfPostUnAuth,
-  useGetPostDetailUnAuth,
-  usePostDetail,
-} from '../service';
+import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
@@ -28,14 +22,12 @@ const PostDetail = () => {
   const router = useRouter();
 
   // is login
-  const { onRefreshPostDetail, postDetail } = usePostDetail(String(router.query.id));
+  const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost } = useCommentsOfPost(String(router.query.id));
 
   // not login
-  const { postDetailUnAuth } = useGetPostDetailUnAuth(String(router.query.id));
 
-  const { commentsOfPostUnAuth } = useCommentsOfPostUnAuth(String(router.query.id));
   const onGoToBack = () => {
     router.back();
   };
@@ -71,9 +63,9 @@ const PostDetail = () => {
         />
       </div>
       <NewFeedItem
-        postDetail={postDetailUnAuth?.data}
-        totalComments={commentsOfPostUnAuth?.data?.list.length}
-        onRefreshPostDetail={() => onRefreshPostDetail()}
+        postDetail={postDetail?.data}
+        totalComments={commentsOfPost?.data?.list.length}
+        onRefreshPostDetail={() => refresh()}
       />
       <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
         <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]'>

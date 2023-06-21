@@ -16,14 +16,14 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const PeopleList = () => {
-  const { suggestionPeople } = useSuggestPeople();
+  const { suggestionPeople, refresh } = useSuggestPeople();
   return (
     <div className='overflow-hidden'>
       <Slider {...settings} className='slide-watchlist'>
         {suggestionPeople?.map((item: ISuggestionPeople, index: number) => {
           return (
             <div key={index}>
-              <ItemPeople data={item} />
+              <ItemPeople data={item} refresh={refresh} />
             </div>
           );
         })}

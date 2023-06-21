@@ -8,7 +8,6 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { getAccessToken } from '@store/auth';
 
 import ListTheme from './ListTheme';
 import Market from './Market';
@@ -24,7 +23,7 @@ import {
   socket,
   useGetInfluencer,
   useGetListNewFeed,
-  useGetListNewFeedAuth,
+  useSuggestPeople,
 } from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
@@ -47,19 +46,13 @@ const Home = () => {
     requestJoinIndex();
   });
   // const { t } = useTranslation('home');
-  const token = getAccessToken();
-  const isLogin = !!token;
-  const { listNewFeed, run } = useGetListNewFeed();
-  const { listNewFeedAuth, refresh, runNewFeedAuth } = useGetListNewFeedAuth();
-  const newFeedHome = isLogin ? listNewFeedAuth : listNewFeed;
-  console.log('🚀 ~ file: index.tsx:55 ~ Home ~ newFeedHome:', newFeedHome);
+  const { listNewFeed, run, refresh } = useGetListNewFeed();
+  // const { listNewFeedAuth, refresh, runNewFeedAuth } = useGetListNewFeedAuth();
+  const { suggestionPeople } = useSuggestPeople();
+  // const newFeedHome = isLogin ? listNewFeedAuth : listNewFeed;
   const { KOL } = useGetInfluencer();
   useEffect(() => {
-    if (isLogin) {
-      runNewFeedAuth(FILTER_TYPE.MOST_RECENT);
-    } else {
-      run(FILTER_TYPE.MOST_RECENT);
-    }
+    run(FILTER_TYPE.MOST_RECENT);
   }, []);
   return (
     <div className='bg-[#F8FAFD] pt-[10px]'>
@@ -94,7 +87,7 @@ const Home = () => {
           <ModalFilter run={run} />
         </div>
         <div>
-          {newFeedHome?.slice(0, 1)?.map((item: IPost, index: number) => {
+          {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
             return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
@@ -110,34 +103,41 @@ const Home = () => {
               return <Influencer key={index} data={kol} />;
             })}
           </div>
-          <button className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
+          <button className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
             <Text type='body-14-bold' color='primary-2'>
               Explore influencer
             </Text>
           </button>
-          <div className='mt-[15px] flex flex-row items-center'>
-            <Image
-              src='/static/icons/iconPeople.svg'
-              alt=''
-              width='0'
-              height='0'
-              className='mr-2 w-[14px]'
-            />
-            <Text type='body-12-regular'>People you may know</Text>
-          </div>
+          {suggestionPeople && (
+            <div className='flex flex-row items-center'>
+              <Image
+                src='/static/icons/iconPeople.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='mr-2 w-[14px]'
+              />
+              <Text type='body-12-regular'>People you may know</Text>
+            </div>
+          )}
         </div>
-        <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
-          <PeopleList />
-        </div>
-        <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
-          <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
-            <Text type='body-14-bold' color='primary-2'>
-              Explore people
-            </Text>
-          </button>
-        </div>
+        {suggestionPeople && (
+          <>
+            <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
+              <PeopleList />
+            </div>
+            <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
+              <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
+                <Text type='body-14-bold' color='primary-2'>
+                  Explore people
+                </Text>
+              </button>
+            </div>
+          </>
+        )}
+
         <div>
-          {newFeedHome?.slice(1, 4)?.map((item: IPost, index: number) => {
+          {listNewFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
             return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
@@ -148,7 +148,7 @@ const Home = () => {
           <ListTheme />
         </div>
         <div>
-          {newFeedHome?.slice(5)?.map((item: IPost, index: number) => {
+          {listNewFeed?.slice(5)?.map((item: IPost, index: number) => {
             return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
