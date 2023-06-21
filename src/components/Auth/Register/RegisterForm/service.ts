@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/numeric-separators-style */
-/* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 
 import { API_PATH, requestPist } from '@api/request';

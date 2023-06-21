@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { useRef } from 'react';
 
 import dynamic from 'next/dynamic';

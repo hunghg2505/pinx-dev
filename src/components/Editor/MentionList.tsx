@@ -1,5 +1,4 @@
-// import './MentionList.scss';
-
+/* eslint-disable react/display-name */
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 export default forwardRef((props: any, ref) => {

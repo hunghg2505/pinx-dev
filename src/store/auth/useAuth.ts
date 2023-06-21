@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/consistent-function-scoping */
-/* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 import request from 'umi-request';
 
