@@ -58,12 +58,12 @@ success_notification:
   stage: notification
   script:
     - chmod +x ./discordhook.sh;
-    - ./discordhook.sh success '$DISCORD_WEBHOOK'
+    - ./discordhook.sh success $DISCORD_WEBHOOK
   when: on_success
 
 failure_notification:
   stage: notification
   script:
     - chmod +x ./discordhook.sh
-    - ./discordhook.sh failure '$DISCORD_WEBHOOK'
+    - ./discordhook.sh failure $DISCORD_WEBHOOK
   when: on_failure
