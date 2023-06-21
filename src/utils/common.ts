@@ -4,7 +4,9 @@ export const ROUTE_PATH = {
   REGISTER: '/auth/register',
   FORGOT_PASSWORD: '/auth/forgot-password',
   REGISTER_OTP_VERIFICATION: '/auth/register-verification',
+  REGISTER_USER_NAME: '/auth/register-user-name',
   LOGIN_OTP_VERIFICATION: '/auth/login-verification',
+  TERMS_OF_SERVICE: '/auth/terms-of-service',
 };
 
 export const formatMessage = (message: string, data: any) => {

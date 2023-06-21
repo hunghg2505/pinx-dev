@@ -1,6 +1,8 @@
+/* eslint-disable indent */
 // import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 
+import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -16,12 +18,24 @@ import { ROUTE_PATH } from '@utils/common';
 import ModalLoginTerms from './ModelLoginTerms';
 import { useLogin } from './service';
 
+const checkUserType = (custStat: string, acntStat: string) => {
+  if (custStat === 'NEW') {
+    return 'NEW';
+  }
+  if ((custStat === 'PRO' && acntStat === 'VSD_PENDING') || (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')) {
+    return 'EKYC'
+  }
+  return 'VSD';
+}
+
 const Login = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo } = useUserLoginInfo();
   const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(false);
+  const [userType, setUserType] = useState<string>('');
+
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -39,9 +53,21 @@ const Login = () => {
           expiredTime: res?.expired_time || 0,
         });
         setUserLoginInfo(res?.data);
-        if (res?.data.isReadTerms) {
+
+        if (res?.data.isReadTerms === 'true') {
           router.push(ROUTE_PATH.Home);
         } else {
+          switch (checkUserType(res?.data?.custStat, res?.data?.acntStat)) {
+            case 'NEW':
+              setUserType('NEW')
+              break;
+            case 'EKYC':
+              setUserType('EKYC')
+              break;
+            case 'VSD':
+              setUserType('VSD')
+              break;
+          }
           setShowModalLoginTerms(true);
         }
       }
@@ -84,7 +110,20 @@ const Login = () => {
               </NextLink>
             </div>
 
-            <ModalLoginTerms visible={showModalLoginTerms} onToggle={onToggleModalLoginTerms} />
+            <ModalLoginTerms
+              visible={showModalLoginTerms}
+              onToggle={onToggleModalLoginTerms}
+              userType={userType}
+              closeIcon={
+                <Image
+                  src='/static/icons/close_modal_icon.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='h-[24px] w-[24px]'
+                />
+              }
+            />
             <MainButton type='submit' className='!mt-10 w-full'>
               Sign in
             </MainButton>

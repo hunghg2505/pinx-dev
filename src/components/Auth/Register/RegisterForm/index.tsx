@@ -39,7 +39,7 @@ const Register = () => {
 
   const requestRegister = useRegister({
     onSuccess: (res: any) => {
-      if (res?.data.token) {
+      if (res?.data) {
         onLogin({
           token: res?.data.token,
           refreshToken: res?.refresh_token,
@@ -48,6 +48,10 @@ const Register = () => {
         switch (res?.data.nextStep) {
           case 'OTP':
             router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+            break;
+          case 'LOGIN_ID':
+            router.push(ROUTE_PATH.REGISTER_USER_NAME);
+            break;
         }
       }
     },
