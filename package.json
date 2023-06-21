@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cp env.development .env && next dev",
+    "standalone": "PORT=80 node server.js",
     "build": "next build",
     "start": "env-cmd -f .env.production next start -p 80",
     "lint": "next lint",
@@ -54,7 +55,6 @@
     "umi-request": "^1.4.0"
   },
   "devDependencies": {
-    "@hunghg255/eslint-config-react": "^0.0.6",
     "@next/bundle-analyzer": "^12.2.1",
     "@total-typescript/ts-reset": "^0.4.2",
     "@types/node": "18.7.16",
