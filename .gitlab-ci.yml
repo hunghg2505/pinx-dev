@@ -16,6 +16,9 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+variables:
+  WEBHOOK_URL: https://discord.com/api/webhooks/1116567519004733540/4x9K_xxPeb2SvXW7aOs4lPQuBTsMh_0hVprgU374CcAIgiTu0LbBnZYTWT7ZGSo6h1fk
+
 workflow:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "web"'
@@ -54,15 +57,13 @@ deploy-job:      # This job runs in the deploy stage.
 success_notification:
   stage: notification
   script:
-    - wget https://raw.githubusercontent.com/DiscordHooks/gitlab-ci-discord-webhook/master/send.sh
-    - chmod +x send.sh
-    - ./send.sh success $WEBHOOK_URL
+    - chmod +x ./discordhook.sh;
+    - ./discordhook.sh success $  
   when: on_success
 
 failure_notification:
   stage: notification
   script:
-    - wget https://raw.githubusercontent.com/DiscordHooks/gitlab-ci-discord-webhook/master/send.sh
-    - chmod +x send.sh
-    - ./send.sh failure $WEBHOOK_URL
+    - chmod +x ./discordhook.sh
+    - ./discordhook.sh failure $WEBHOOK_URL
   when: on_failure
