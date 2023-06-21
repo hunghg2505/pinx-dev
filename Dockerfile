@@ -10,7 +10,6 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm i yarn;
 RUN yarn --frozen-lockfile;
 
 # Rebuild the source code only when needed
