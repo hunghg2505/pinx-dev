@@ -77,6 +77,31 @@ export interface IContentPost {
   textSearch: string;
   urlImages: string[];
   urlLinks: string[];
+  action: string;
+  bgImage: string;
+  themeName: string;
+  head: string;
+  headImageUrl: string;
+  url: string;
+  stockCode: string;
+  timeString: string;
+  contentText: string;
+}
+export enum TYPEPOST {
+  POST = 'Post',
+  ActivityTheme = 'ActivityTheme',
+  ActivityWatchlist = 'ActivityWatchlist',
+  ActivityMatchOrder = 'ActivityMatchOrder',
+  VietstockNews = 'VietstockNews',
+  VietstockLatestNews = 'VietstockLatestNews',
+  VietstockStockNews = 'VietstockStockNews',
+  TNCKNews = 'TNCKNews',
+  PinetreeDailyNews = 'PinetreeDailyNews',
+  PinetreeWeeklyNews = 'PinetreeWeeklyNews',
+  PinetreeMorningBrief = 'PinetreeMorningBrief',
+  PinetreeMarketBrief = 'PinetreeMarketBrief',
+  PinetreePost = 'PinetreePost',
+  CafeFNews = 'CafeFNews',
 }
 
 const getPostDetail = async (postId: string) => {
@@ -88,14 +113,10 @@ export const usePostDetail = (postId: string) => {
     refreshDeps: [postId],
   });
 
-  const onRefreshPostDetail = () => {
-    refresh();
-  };
-
   return {
     postDetail: data,
     loading,
-    onRefreshPostDetail,
+    onRefreshPostDetail: refresh,
   };
 };
 
@@ -145,8 +166,7 @@ export const useCommentsOfPostUnAuth = (postId: string) => {
   };
 };
 
-const likePost = async (postId: string) => {
-  console.log('service like post', postId);
+export const likePost = async (postId: string) => {
   return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
 };
 
@@ -168,7 +188,7 @@ export const useLikePost = (postId: string) => {
   };
 };
 
-const unlikePost = async (postId: string) => {
+export const unlikePost = async (postId: string) => {
   return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
 };
 
@@ -189,3 +209,28 @@ export const useUnlikePost = (postId: string) => {
     onUnlikePost,
   };
 };
+
+// like comment
+export const requestLikeComment = (id: string) => {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_LIKE_COMMENT(id));
+};
+// unlike comment
+export const requestUnLikeComment = (id: string) => {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_UNLIKE_COMMENT(id));
+};
+export const requestReplyCommnet = (id: string, payload: any) => {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_REPLY_COMMENT(id), {
+    data: payload,
+  });
+};
+export const requestAddComment = (payload: any) => {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_ADD_COMMENT, {
+    data: payload,
+  });
+};
+export const requestHidePost = (id: string) => {
+  return privateRequest(requestCommunity.put, API_PATH.PRIVATE_HIDE_POST + `?mappingId=${id}`);
+};
+// export const requestSearch = () => {
+//   return privateRequest
+// }

@@ -5,13 +5,16 @@ import Text from '@components/UI/Text';
 
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
-import { IPost, usePostDetail } from '../service';
+import { IPost } from '../service';
 
 interface IProps {
   data: IPost;
+  id: string;
+  refresh: () => void;
 }
 const NewsFeed = (props: IProps) => {
-  const { data } = props;
+  const { data, refresh } = props;
+  console.log('🚀 ~ file: index.tsx:17 ~ NewsFeed ~ data:', data);
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
@@ -30,7 +33,7 @@ const NewsFeed = (props: IProps) => {
       );
     }
   };
-  const { onRefreshPostDetail } = usePostDetail(String(data?.postId));
+  // const { onRefreshPostDetail } = usePostDetail(id);
   return (
     <>
       <div className={classNames('bg-[#ffffff]', { 'pb-[28px]': data?.totalChildren > 1 })}>
@@ -38,7 +41,7 @@ const NewsFeed = (props: IProps) => {
           onNavigate={onNavigate}
           postDetail={data}
           totalComments={data?.totalChildren}
-          onRefreshPostDetail={onRefreshPostDetail}
+          onRefreshPostDetail={refresh}
         />
         {data?.totalChildren > 0 && (
           <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} />

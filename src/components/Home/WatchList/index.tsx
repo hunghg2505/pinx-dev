@@ -15,6 +15,10 @@ const WatchList = () => {
     // autoplay: true,
     // autoplaySpeed: 1000,
   };
+  // socket.on('public', (message: any) => {
+  //   const data = message.data;
+  //   console.log('🚀 ~ file: index.tsx:21 ~ socket.on ~ data:', data);
+  // });
   return (
     <div className='mt-[22px] h-[179px] min-w-[375px] overflow-hidden'>
       <Slider {...settings} className='slide-watchlist flex' variableWidth>

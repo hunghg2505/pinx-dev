@@ -1,28 +1,65 @@
 import React, { useEffect } from 'react';
 
+// import Cookies from 'js-cookie';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
+// import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { getAccessToken } from '@store/auth';
 
 import ListTheme from './ListTheme';
+import Market from './Market';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import Influencer from './People/Influencer';
 import PeopleList from './People/PeopleList';
-import { IKOL, useGetInfluencer, useGetListNewFeed } from './service';
+import {
+  IKOL,
+  requestJoinChannel,
+  requestJoinIndex,
+  requestLeaveChannel,
+  requestLeaveIndex,
+  socket,
+  useGetInfluencer,
+  useGetListNewFeed,
+  useGetListNewFeedAuth,
+} from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
 import NewsFeed from '../Post/NewsFeed';
 
-function Home() {
+const onChangeTab = (key: string) => {
+  if (key === '1') {
+    requestJoinChannel('VNM');
+    requestLeaveIndex();
+  }
+  if (key === '2') {
+    requestLeaveChannel('VNM');
+    requestJoinIndex();
+  }
+};
+const Home = () => {
+  // console.log('check 1', socket.connected);
+  socket.on('connect', function () {
+    requestJoinChannel('VNM');
+    requestJoinIndex();
+  });
   // const { t } = useTranslation('home');
+  const token = getAccessToken();
+  const isLogin = !!token;
   const { listNewFeed, run } = useGetListNewFeed();
+  const { listNewFeedAuth, refresh, runNewFeedAuth } = useGetListNewFeedAuth();
+  const newFeedHome = isLogin ? listNewFeedAuth : listNewFeed;
+  console.log('🚀 ~ file: index.tsx:55 ~ Home ~ newFeedHome:', newFeedHome);
   const { KOL } = useGetInfluencer();
   useEffect(() => {
-    run(FILTER_TYPE.MOST_RECENT);
-    // requestJoinChannel('VNM');
+    if (isLogin) {
+      runNewFeedAuth(FILTER_TYPE.MOST_RECENT);
+    } else {
+      run(FILTER_TYPE.MOST_RECENT);
+    }
   }, []);
   return (
     <div className='bg-[#F8FAFD] pt-[10px]'>
@@ -41,12 +78,12 @@ function Home() {
             />
           </button>
 
-          <Tabs defaultActiveKey='1' className='tabHome'>
+          <Tabs defaultActiveKey='1' className='tabHome' onChange={onChangeTab}>
             <TabPane tab='Watchlist' key='1'>
               <WatchList />
             </TabPane>
             <TabPane tab='Market' key='2'>
-              Market
+              <Market />
             </TabPane>
           </Tabs>
         </div>
@@ -57,8 +94,8 @@ function Home() {
           <ModalFilter run={run} />
         </div>
         <div>
-          {listNewFeed?.map((item: IPost, index: number) => {
-            return <NewsFeed key={index} data={item} />;
+          {newFeedHome?.slice(0, 1)?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
         <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px]'>
@@ -69,7 +106,7 @@ function Home() {
             People in spotlight
           </Text>
           <div className='flex gap-[15px] pb-[15px]'>
-            {KOL?.map((kol: IKOL, index: number) => {
+            {KOL?.slice(0, 2)?.map((kol: IKOL, index: number) => {
               return <Influencer key={index} data={kol} />;
             })}
           </div>
@@ -92,12 +129,17 @@ function Home() {
         <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
           <PeopleList />
         </div>
-        <div className='bg-[#ffffff] pt-[15px] text-center'>
+        <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
           <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
             <Text type='body-14-bold' color='primary-2'>
               Explore people
             </Text>
           </button>
+        </div>
+        <div>
+          {newFeedHome?.slice(1, 4)?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+          })}
         </div>
         <div className='bg-[#ffffff] pl-[16px]'>
           <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
@@ -105,9 +147,14 @@ function Home() {
           </Text>
           <ListTheme />
         </div>
+        <div>
+          {newFeedHome?.slice(5)?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+          })}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Home;

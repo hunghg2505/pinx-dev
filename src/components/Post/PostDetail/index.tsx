@@ -21,8 +21,8 @@ import { PATH } from '@utils/constant';
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
 });
-const ForwardedRefComponent = React.forwardRef((props, ref) => (
-  <ComponentRef {...props} forwardedRef={ref} />
+const ForwardedRefComponent = React.forwardRef((props: any, ref) => (
+  <ComponentRef {...props} forwardedRef={ref} id={props.id} />
 ));
 
 const PostDetail = () => {
@@ -30,7 +30,7 @@ const PostDetail = () => {
   const router = useRouter();
 
   // is login
-  const { onRefreshPostDetail } = usePostDetail(String(router.query.id));
+  const { onRefreshPostDetail, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost } = useCommentsOfPost(String(router.query.id));
 
@@ -120,7 +120,7 @@ const PostDetail = () => {
         })}
       </div>
       <div>
-        <ForwardedRefComponent ref={refReplies} />
+        <ForwardedRefComponent ref={refReplies} id={postDetail?.id} />
       </div>
     </>
   );

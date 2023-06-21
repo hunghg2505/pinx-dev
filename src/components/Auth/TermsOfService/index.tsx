@@ -10,7 +10,6 @@ import { ENV } from 'src/utils/env';
 import { serviceReadContract } from './service';
 import { useRequest } from 'ahooks';
 
-
 const TermsOfService = () => {
   const PREFIX_API_PIST = ENV.URL_API_PIST;
   const router = useRouter();
@@ -23,11 +22,11 @@ const TermsOfService = () => {
       return serviceReadContract({ link, session });
     },
     {
-      onSuccess: () => { },
+      onSuccess: () => {},
       onError(e) {
         console.log(e);
       },
-    }
+    },
   );
 
   return (
@@ -35,9 +34,21 @@ const TermsOfService = () => {
       <div className='mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
           <div className='mt-11'>
-            <Text type='body-20-bold' className='mb-4'>Điều khoản sử dụng</Text>
+            <Text type='body-20-bold' className='mb-4'>
+              Điều khoản sử dụng
+            </Text>
           </div>
-          <iframe className='w-full min-h-[100vh]' src={PREFIX_API_PIST + API_PATH.READ_CONTRACT + '?link=' + encodeURIComponent(link) + '&session=' + router?.query?.session} />
+          <iframe
+            className='min-h-[100vh] w-full'
+            src={
+              PREFIX_API_PIST +
+              API_PATH.READ_CONTRACT +
+              '?link=' +
+              encodeURIComponent(link) +
+              '&session=' +
+              router?.query?.session
+            }
+          />
         </div>
       </div>
     </>

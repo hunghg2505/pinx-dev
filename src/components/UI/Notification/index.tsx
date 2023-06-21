@@ -9,7 +9,7 @@ interface NotificationProps {
 }
 
 const Notification: React.FC<NotificationProps> = ({ type, message, customImage }) => {
-  const recderImage = () => {
+  const renderImage = () => {
     switch (type) {
       case 'success':
         return (
@@ -55,7 +55,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message, customImage 
 
   return (
     <div className='flex w-full max-w-xs items-center'>
-      {recderImage()}
+      {renderImage()}
       {renderMessage()}
     </div>
   );

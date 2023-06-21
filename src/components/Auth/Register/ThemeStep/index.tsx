@@ -57,11 +57,11 @@ const RegisterThemes = () => {
   };
 
   const onSelect = (value: any) => {
-    if (!checkIsSelected(value)) {
-      setSelected([...selected, value]);
-    } else {
+    if (checkIsSelected(value)) {
       const selectedDraft = selected.filter((item) => item.id !== value.id);
       setSelected(selectedDraft);
+    } else {
+      setSelected([...selected, value]);
     }
   };
 

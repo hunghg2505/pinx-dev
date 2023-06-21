@@ -13,18 +13,21 @@ const settings = {
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
-const ListStock = () => {
+const ListStock = ({ listStock }: { listStock: string[] }) => {
   return (
     <Slider {...settings} className='slidePostAdmin'>
+      {listStock?.map((item: string, index: number) => {
+        return <ItemStock key={index} data={item} />;
+      })}
+
+      {/* <ItemStock />
       <ItemStock />
       <ItemStock />
       <ItemStock />
       <ItemStock />
       <ItemStock />
       <ItemStock />
-      <ItemStock />
-      <ItemStock />
-      <ItemStock />
+      <ItemStock /> */}
     </Slider>
   );
 };
