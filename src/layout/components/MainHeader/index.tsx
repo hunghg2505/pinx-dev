@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-useless-spread */
 import React from 'react';
 
 import Image from 'next/image';

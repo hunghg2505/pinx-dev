@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 
 import Mention from '@tiptap/extension-mention';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
@@ -13,19 +13,17 @@ import { RcFile } from 'rc-upload/lib/interface';
 // import FormItem from '@components/UI/FormItem';
 // import Input from '@components/UI/Input';
 
+import FormItem from '@components/UI/FormItem';
+import Input from '@components/UI/Input';
+
 import suggestion from './Suggestion';
-import { base64ToBlob, isImage, toBase64 } from '../../utils/common';
+import { isImage, toBase64 } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
   id: string;
 }
-const onStart = async (file: File) => {
-  const imgae = await toBase64(file);
-  // setImage(imgae);
-  const stringImage = await base64ToBlob(imgae, file.type);
-  console.log('🚀 ~ file: index.tsx:73 ~ onStart ~ imgae:', stringImage);
-};
+
 const beforeUpload = (file: RcFile) => {
   const isJpgOrPng = isImage(file);
   if (!isJpgOrPng) {
@@ -33,8 +31,14 @@ const beforeUpload = (file: RcFile) => {
   }
   return isJpgOrPng;
 };
+// const onKeyPress = (data: any) => {
+//   console.log('data', data.charCode);
+//   // 64 -> @
+//   // 37 -> %
+//   // if()
+// };
 const Editor = (props: IProps, ref: any) => {
-  // const [image, setImage] = React.useState<any>('');
+  const [image, setImage] = React.useState<any>('');
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -51,7 +55,11 @@ const Editor = (props: IProps, ref: any) => {
       },
     },
   });
-
+  const onStart = async (file: File) => {
+    const imgae = await toBase64(file);
+    setImage(imgae);
+    // const stringImage = await base64ToBlob(imgae, file.type);
+  };
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any) => onComment(value),
@@ -90,45 +98,51 @@ const Editor = (props: IProps, ref: any) => {
   // const onChangeInput = (event: any) => {
   //   // console.log('data', event.key);
   // };
-  // const onKeyPress = (data: any) => {
-  //   console.log('data', data.charCode);
-  //   // 64 -> @
-  //   // 37 -> %
-  //   // if()
-  // };
+
   return (
     <>
-      <div className='flex min-h-[40px] justify-between rounded-[1000px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]'>
-        <Form>
-          <div className='flex w-full items-center'>
-            <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
-              <Image
-                src='/static/icons/iconCamnera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='mr-[8px] w-[19px]'
-              />
-            </Upload>
-            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6]'></div>
-            {/* <FormItem name='message' className='w-full'>
-              <Input onChange={onChangeInput} onKeyPress={onKeyPress} />
-            </FormItem> */}
-            <EditorContent editor={editor} className='w-full' />
-            {/* {image && <Image src={image} alt='' width={200} height={100} />} */}
-          </div>
-        </Form>
+      <div>
+        <div className='flex min-h-[40px] justify-between rounded-[1000px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]'>
+          <Form className='w-full'>
+            <div className='flex min-h-[40px] w-full items-center'>
+              <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
+                <Image
+                  src='/static/icons/iconCamnera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='mr-[8px] w-[19px]'
+                />
+              </Upload>
+              <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6]'></div>
+              <FormItem name='message' className=' w-full'>
+                <Input className='h-[30px] w-full outline-none' />
+              </FormItem>
+              {/* <EditorContent editor={editor} className='w-full' /> */}
+            </div>
+          </Form>
 
-        <Image
-          src='/static/icons/iconSend.svg'
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='w-[19px]'
-          onClick={onSend}
-        />
+          <Image
+            src='/static/icons/iconSend.svg'
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='w-[19px]'
+            onClick={onSend}
+          />
+        </div>
+        {image && (
+          <Image
+            src={image}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='h-[100px] w-[100px]'
+          />
+        )}
       </div>
     </>
   );

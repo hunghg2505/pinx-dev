@@ -77,9 +77,17 @@ export interface IContentPost {
   textSearch: string;
   urlImages: string[];
   urlLinks: string[];
+  action: string;
+  bgImage: string;
+  themeName: string;
+  head: string;
+  headImageUrl: string;
+  url: string;
+  stockCode: string;
+  timeString: string;
 }
 export enum TYPEPOST {
-  POST = 'POST',
+  POST = 'Post',
   ActivityTheme = 'ActivityTheme',
   ActivityWatchlist = 'ActivityWatchlist',
   ActivityMatchOrder = 'ActivityMatchOrder',
@@ -224,8 +232,8 @@ export const requestAddComment = (payload: any) => {
     data: payload,
   });
 };
-export const requestHidePost = () => {
-  return privateRequest;
+export const requestHidePost = (id: string) => {
+  return privateRequest(requestCommunity.put, API_PATH.PRIVATE_HIDE_POST + `?mappingId=${id}`);
 };
 // export const requestSearch = () => {
 //   return privateRequest

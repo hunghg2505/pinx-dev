@@ -61,7 +61,7 @@ export const toBase64 = (file: any) =>
   });
 export const base64ToBlob = (base64: any, type: any) => {
   const base64Slice = base64.split(',')[1];
-  const binStr = window.atob(base64Slice.replace(/\s/g, ''));
+  const binStr = window.atob(base64Slice.replaceAll(/\s/g, ''));
   const len = binStr.length;
   const buffer = new ArrayBuffer(len);
   const arr = new Uint8Array(buffer);

@@ -20,6 +20,7 @@ interface TextProps {
     | 'body-14-semibold'
     | 'body-14-medium'
     | 'body-16-bold'
+    | 'body-16-medium'
     | 'body-18-regular'
     | 'body-20-bold'
     | 'body-22-bold'

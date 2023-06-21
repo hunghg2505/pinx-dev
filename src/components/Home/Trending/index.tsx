@@ -8,6 +8,7 @@ export enum TYPETRENDING {
 }
 const Trending = () => {
   const { dataTrending } = useGetTrending();
+  console.log('🚀 ~ file: index.tsx:11 ~ Trending ~ dataTrending:', dataTrending);
   return (
     <>
       <Text type='body-16-bold' color='neutral-2' className='mb-4'>
@@ -15,7 +16,7 @@ const Trending = () => {
       </Text>
       <div className='flex flex-wrap gap-x-[18px] gap-y-[10px]'>
         {dataTrending
-          .filter((item) => item.type !== TYPETRENDING.STOCK)
+          ?.filter((item: ITrending) => item.type !== TYPETRENDING.STOCK)
           .map((item: ITrending, index: number) => {
             return (
               <div

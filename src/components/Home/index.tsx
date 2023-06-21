@@ -6,6 +6,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 import ListTheme from './ListTheme';
 import Market from './Market';
@@ -18,8 +19,10 @@ import {
   requestJoinIndex,
   requestLeaveChannel,
   requestLeaveIndex,
+  socket,
   useGetInfluencer,
   useGetListNewFeed,
+  // useGetListNewFeedAuth,
 } from './service';
 import Trending from './Trending';
 import WatchList from './WatchList';
@@ -37,13 +40,18 @@ const onChangeTab = (key: string) => {
 };
 const Home = () => {
   // const { t } = useTranslation('home');
+  const { userLoginInfo } = useUserLoginInfo();
+  console.log('🚀 ~ file: index.tsx:43 ~ Home ~ userLoginInfo:', userLoginInfo.token);
   const { listNewFeed, run } = useGetListNewFeed();
+  // const { listNewFeedAuth, refresh, runNewFeedAuth } = useGetListNewFeedAuth();
   const { KOL } = useGetInfluencer();
+  console.log('🚀 ~ file: index.tsx:48 ~ Home ~ KOL:', KOL);
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
     requestJoinChannel('VNM');
+    requestJoinIndex();
   }, []);
-
+  console.log('check 1', socket.connected);
   return (
     <div className='bg-[#F8FAFD] pt-[10px]'>
       <div className='mx-[auto] my-[0] w-[375px]'>
@@ -89,7 +97,7 @@ const Home = () => {
             People in spotlight
           </Text>
           <div className='flex gap-[15px] pb-[15px]'>
-            {KOL?.map((kol: IKOL, index: number) => {
+            {KOL?.slice(0, 2)?.map((kol: IKOL, index: number) => {
               return <Influencer key={index} data={kol} />;
             })}
           </div>

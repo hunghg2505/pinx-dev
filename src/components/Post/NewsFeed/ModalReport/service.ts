@@ -1,5 +1,5 @@
 import { API_PATH } from '@api/constant';
-import { privateRequest, request } from '@api/request';
+import { privateRequest, requestCommunity } from '@api/request';
 
 export enum TYPEREPORT {
   INAPPROPRIATE = 'INAPPROPRIATE',
@@ -8,7 +8,7 @@ export enum TYPEREPORT {
   OTHER = 'OTHER',
 }
 export const requestReportPost = (postId: string, payload: any) => {
-  return privateRequest(request.post, API_PATH.PRIVATE_MAPPING_REPORT_POST(postId), {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_REPORT_POST(postId), {
     data: payload,
   });
 };

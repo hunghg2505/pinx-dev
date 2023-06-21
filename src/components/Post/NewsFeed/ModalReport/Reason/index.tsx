@@ -23,7 +23,7 @@ const Reason = ({ value, onChange, options }: Props) => {
       {options?.map((item, index) => {
         return (
           <Radio
-            checked={!value ? false : value === item.value}
+            checked={value ? value === item.value : false}
             onChange={() => onValueChange(item.value)}
             key={index}
             className='mb-[22px]'
