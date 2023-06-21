@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/consistent-destructuring */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 

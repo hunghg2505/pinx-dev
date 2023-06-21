@@ -7,7 +7,7 @@ import Form from 'rc-field-form';
 import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 import FormItem from '@components/UI/FormItem';
-import { StyledInput } from '@components/UI/Input';
+import LabelInput from '@components/UI/LabelInput';
 // import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -87,7 +87,12 @@ const Register = () => {
                     },
                   ]}
                 >
-                  <StyledInput type='number' placeholder='Phone number' />
+                  <LabelInput
+                    type='number'
+                    placeholder='Phone number'
+                    labelContent='Phone number'
+                    name='phoneNumber'
+                  />
                 </FormItem>
               </div>
               <div>
@@ -101,7 +106,7 @@ const Register = () => {
                     },
                   ]}
                 >
-                  <StyledInput placeholder='Email' />
+                  <LabelInput placeholder='Email' labelContent='Email' name='email' />
                 </FormItem>
               </div>
               <div>
@@ -114,7 +119,12 @@ const Register = () => {
                     },
                   ]}
                 >
-                  <StyledInput placeholder='Password' type='password' />
+                  <LabelInput
+                    placeholder='Password'
+                    type='password'
+                    labelContent='Password'
+                    name='password'
+                  />
                 </FormItem>
               </div>
 
@@ -128,7 +138,12 @@ const Register = () => {
                     },
                   ]}
                 >
-                  <StyledInput placeholder='Confirm password' type='password' />
+                  <LabelInput
+                    placeholder='Confirm password'
+                    type='password'
+                    labelContent='Confirm password'
+                    name='confirmPassword'
+                  />
                 </FormItem>
               </div>
 

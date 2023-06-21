@@ -6,7 +6,7 @@ import Form from 'rc-field-form';
 import 'rc-picker/assets/index.css';
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import { StyledInput } from '@components/UI/Input';
+import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -28,9 +28,9 @@ const CreateUsername = () => {
           expiredTime: res?.expired_time || 0,
         });
         switch (res?.data.nextStep) {
-        case 'OTP':
-          router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
-          break;
+          case 'OTP':
+            router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+            break;
         }
       }
     },
@@ -59,7 +59,11 @@ const CreateUsername = () => {
               name='username'
               rules={[{ required: true, message: 'Please enter user name!' }]}
             >
-              <StyledInput placeholder={t('user_name')} />
+              <LabelInput
+                placeholder={t('user_name')}
+                name='username'
+                labelContent={t('user_name')}
+              />
             </FormItem>
             <Text type='body-12-regular' className='!mt-1'>
               {t('create_user_name_rule')}
