@@ -17,7 +17,7 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
 variables:
-  WEBHOOK_URL: "https://discord.com/api/webhooks/1116567519004733540/4x9K_xxPeb2SvXW7aOs4lPQuBTsMh_0hVprgU374CcAIgiTu0LbBnZYTWT7ZGSo6h1fk"
+  DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1116567519004733540/4x9K_xxPeb2SvXW7aOs4lPQuBTsMh_0hVprgU374CcAIgiTu0LbBnZYTWT7ZGSo6h1fk"
 
 workflow:
   rules:
@@ -58,12 +58,12 @@ success_notification:
   stage: notification
   script:
     - chmod +x ./discordhook.sh;
-    - ./discordhook.sh success $  
+    - ./discordhook.sh success '$DISCORD_WEBHOOK'
   when: on_success
 
 failure_notification:
   stage: notification
   script:
     - chmod +x ./discordhook.sh
-    - ./discordhook.sh failure '$WEBHOOK_URL'
+    - ./discordhook.sh failure '$DISCORD_WEBHOOK'
   when: on_failure
