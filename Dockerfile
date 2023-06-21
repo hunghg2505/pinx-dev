@@ -10,6 +10,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN npm i yarn;
 RUN yarn --frozen-lockfile;
 
 # Rebuild the source code only when needed
@@ -37,4 +38,4 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-CMD ["yarn", "standalone"]
+CMD ["yarn"]
