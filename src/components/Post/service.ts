@@ -85,6 +85,7 @@ export interface IContentPost {
   url: string;
   stockCode: string;
   timeString: string;
+  contentText: string;
 }
 export enum TYPEPOST {
   POST = 'Post',
@@ -112,14 +113,10 @@ export const usePostDetail = (postId: string) => {
     refreshDeps: [postId],
   });
 
-  const onRefreshPostDetail = () => {
-    refresh();
-  };
-
   return {
     postDetail: data,
     loading,
-    onRefreshPostDetail,
+    onRefreshPostDetail: refresh,
   };
 };
 
@@ -169,8 +166,7 @@ export const useCommentsOfPostUnAuth = (postId: string) => {
   };
 };
 
-const likePost = async (postId: string) => {
-  console.log('service like post', postId);
+export const likePost = async (postId: string) => {
   return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
 };
 
@@ -192,7 +188,7 @@ export const useLikePost = (postId: string) => {
   };
 };
 
-const unlikePost = async (postId: string) => {
+export const unlikePost = async (postId: string) => {
   return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
 };
 

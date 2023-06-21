@@ -8,7 +8,6 @@ export enum TYPETRENDING {
 }
 const Trending = () => {
   const { dataTrending } = useGetTrending();
-  console.log('🚀 ~ file: index.tsx:11 ~ Trending ~ dataTrending:', dataTrending);
   return (
     <>
       <Text type='body-16-bold' color='neutral-2' className='mb-4'>

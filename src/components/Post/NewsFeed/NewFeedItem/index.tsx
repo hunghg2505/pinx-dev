@@ -7,13 +7,7 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import {
-  IPost,
-  TYPEPOST,
-  requestHidePost,
-  useLikePost,
-  useUnlikePost,
-} from '@components/Post/service';
+import { IPost, TYPEPOST, likePost, requestHidePost, unlikePost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { formatMessage } from '@utils/common';
 
@@ -35,11 +29,10 @@ const NewFeedItem = (props: IProps) => {
   }, ref);
   const router = useRouter();
   const id = router.query?.id;
-  const { onNavigate } = props;
+  const { onNavigate, onRefreshPostDetail } = props;
   const onComment = () => {
     onNavigate && onNavigate();
   };
-
   const { postDetail, totalComments } = props;
 
   const [isLike, setIsLike] = useState<boolean>(false);
@@ -49,19 +42,46 @@ const NewFeedItem = (props: IProps) => {
       setIsLike(postDetail?.isLike);
     }
   }, [postDetail?.isLike]);
+  const idPost = id || postDetail?.id;
 
-  const { onLikePost } = useLikePost(String(router.query.id));
-
-  const { onUnlikePost } = useUnlikePost(String(router.query.id));
-
+  const useLikePost = useRequest(
+    () => {
+      return likePost(String(idPost));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsLike(true);
+        onRefreshPostDetail();
+      },
+      onError: () => {
+        setIsLike(false);
+      },
+    },
+  );
+  const useUnLike = useRequest(
+    () => {
+      return unlikePost(String(idPost));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsLike(false);
+        onRefreshPostDetail();
+      },
+      onError: () => {
+        setIsLike(true);
+      },
+    },
+  );
   const handleLikeOrUnLikePost = () => {
     setIsLike(!isLike);
     if (isLike) {
-      onUnlikePost();
+      useUnLike.run();
     } else {
-      onLikePost();
+      useLikePost.run();
     }
-    return () => props.onRefreshPostDetail();
+    // return () => props?.onRefreshPostDetail() && refresh();
   };
 
   // hide post
@@ -142,6 +162,9 @@ const NewFeedItem = (props: IProps) => {
     ) {
       name = 'Vietstock';
     }
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+      name = 'CafeFNews';
+    }
     return name;
   };
   const renderContentPost = () => {
@@ -158,7 +181,7 @@ const NewFeedItem = (props: IProps) => {
           onClick={() => console.log('go to profile')}
         >
           <Image
-            src={renderLogo()}
+            src={renderLogo() || ''}
             alt='avatar'
             className='mr-2 w-[44px] rounded-full'
             width={36}

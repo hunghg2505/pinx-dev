@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
+// import { useContainerDimensions } from '@hooks/useDimensions';
 import { formatMessage } from '@utils/common';
+
+import ListStock from './ListStock';
 
 const IconHeart = () => (
   <svg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -38,7 +42,9 @@ interface IProps {
 }
 const ContentPostTypeHome = (props: IProps) => {
   const { postDetail, onNavigate } = props;
-  // console.log('🚀 ~ file: index.tsx:38 ~ ContentPostType ~ postDetail:', postDetail);
+  // console.log('🚀 ~ file: index.tsx:45 ~ ContentPostTypeHome ~ postDetail:', postDetail.postType);
+  // const [readMore, setReadMore] = useState(false);
+  const ref = useRef(null);
 
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
@@ -52,11 +58,16 @@ const ContentPostTypeHome = (props: IProps) => {
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment}>
+        <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {message}
           </Text>
         </div>
+        {/* {isReadMore && (
+          <Text type='body-14-regular' color='neutral-3' className='cursor-pointer'>
+            See more
+          </Text>
+        )} */}
         <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
           <Image
             src={postDetail?.post.bgImage}
@@ -92,12 +103,13 @@ const ContentPostTypeHome = (props: IProps) => {
       TYPEPOST.PinetreeDailyNews,
       TYPEPOST.PinetreeMorningBrief,
       TYPEPOST.PinetreeMarketBrief,
+      TYPEPOST.PinetreeWeeklyNews,
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment}>
+        <div className='cursor-pointer' onClick={onComment} ref={ref}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {postDetail?.post.head}
           </Text>
@@ -139,12 +151,11 @@ const ContentPostTypeHome = (props: IProps) => {
       TYPEPOST.VietstockNews,
       TYPEPOST.VietstockStockNews,
       TYPEPOST.TNCKNews,
-      TYPEPOST.CafeFNews,
     ].includes(postDetail?.postType)
   ) {
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment}>
+        <div className='cursor-pointer' onClick={onComment} ref={ref}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {postDetail?.post.head}
           </Text>
@@ -191,10 +202,11 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
+
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment}>
+        <div className='cursor-pointer' onClick={onComment} ref={ref}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {message}
           </Text>
@@ -295,9 +307,52 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
+  if (postDetail?.postType === TYPEPOST.CafeFNews) {
+    const url = postDetail?.post.url ?? '';
+    return (
+      <>
+        <div className='cursor-pointer' onClick={onComment} ref={ref}>
+          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+            {postDetail?.post?.contentText}
+          </Text>
+        </div>
+        <div className='relative h-[204px] w-[343px] rounded-[15px]'>
+          <Image
+            src={postDetail?.post.headImageUrl}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
+          />
+          <div className='absolute bottom-[56px] left-0 w-full pl-[8px]'>
+            <ListStock listStock={postDetail?.post?.tagStocks} />
+          </div>
+          <div className='absolute bottom-0 left-0 h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] py-[10px]'>
+            <Text type='body-16-bold' color='cbblack'>
+              Bản tin sáng ngày 20/06/2023
+            </Text>
+          </div>
+          <Link
+            href={url}
+            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          >
+            <Image
+              src='/static/icons/iconLink.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='w-[18px]'
+            />
+          </Link>
+        </div>
+      </>
+    );
+  }
   return (
     <>
-      <div className='cursor-pointer' onClick={onComment}>
+      <div className='cursor-pointer' onClick={onComment} ref={ref}>
         {message && (
           <div
             className='desc messageFormat mb-[15px] mt-[18px]'

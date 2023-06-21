@@ -21,7 +21,14 @@ const nextConfig = {
   },
   images: {
     minimumCacheTTL: 60,
-    domains: ['static.pinetree.com.vn', 'cdn.pixabay.com', 'pinetree.vn', 'image.vietstock.vn'],
+    domains: [
+      'static.pinetree.com.vn',
+      'cdn.pixabay.com',
+      'pinetree.vn',
+      'image.vietstock.vn',
+      'cafefcdn.com',
+      'photo-cms-tinnhanhchungkhoan.epicdn.me',
+    ],
   },
   httpAgentOptions: {
     keepAlive: false,

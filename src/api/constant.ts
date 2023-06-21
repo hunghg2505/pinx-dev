@@ -28,4 +28,13 @@ export const API_PATH = {
   PRIVATE_REPLY_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/reply`,
   PRIVATE_REPORT_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/report`,
   PRIVATE_ADD_COMMENT: '/private/comment/add',
+
+  // user
+  PRIVATE_FOLLOW_USER: '/private/customer/follow',
+  PRIVATE_UNFOLLOW_USER: '/private/customer/unfollow',
+
+  // theme
+  PRIVATE_FOLLOW_THEME: '/private/theme/subscribe',
+  PRIVATE_UNFOLLOW_THEME: '/private/theme/unsubscribe',
+  PRIVATE_LIST_THEME_SUBSCRIBED: '/private/subscribed/themes',
 };

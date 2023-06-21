@@ -34,7 +34,6 @@ const PostDetail = () => {
 
   // not login
   const { postDetailUnAuth } = useGetPostDetailUnAuth(String(router.query.id));
-  console.log('🚀 ~ file: index.tsx:37 ~ PostDetail ~ postDetailUnAuth:', postDetailUnAuth);
 
   const { commentsOfPostUnAuth } = useCommentsOfPostUnAuth(String(router.query.id));
   const onGoToBack = () => {

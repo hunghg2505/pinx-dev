@@ -4,8 +4,12 @@ import React from 'react';
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 const Header = () => {
+  const { userLoginInfo } = useUserLoginInfo();
+  console.log('🚀 ~ file: index.tsx:11 ~ Header ~ userLoginInfo:', userLoginInfo);
+  const isLogin = !!userLoginInfo.token;
   return (
     <>
       <div className='flex justify-between bg-[#EAF4FB] px-[16px] py-[12px]'>
@@ -41,16 +45,18 @@ const Header = () => {
             ))}
           </div>
         </div>
-        <div className='flex flex-row  items-center'>
-          <div className='mr-[21px] w-[18px] cursor-pointer'>
-            <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
+        {isLogin && (
+          <div className='flex flex-row  items-center'>
+            <div className='mr-[21px] w-[18px] cursor-pointer'>
+              <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
+            </div>
+            <button className='h-[34px] w-[90px] rounded-[4px] bg-[#EAF4FB] '>
+              <Text type='body-14-bold' color='primary-2'>
+                Log in
+              </Text>
+            </button>
           </div>
-          <button className='h-[34px] w-[90px] rounded-[4px] bg-[#EAF4FB] '>
-            <Text type='body-14-bold' color='primary-2'>
-              Log in
-            </Text>
-          </button>
-        </div>
+        )}
       </div>
     </>
   );
