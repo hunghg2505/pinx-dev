@@ -65,5 +65,5 @@ failure_notification:
   stage: notification
   script:
     - chmod +x ./discordhook.sh
-    - ./discordhook.sh failure $WEBHOOK_URL
+    - ./discordhook.sh failure '$WEBHOOK_URL'
   when: on_failure
