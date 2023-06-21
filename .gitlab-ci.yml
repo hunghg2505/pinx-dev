@@ -18,6 +18,7 @@
 
 variables:
   DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1116567519004733540/4x9K_xxPeb2SvXW7aOs4lPQuBTsMh_0hVprgU374CcAIgiTu0LbBnZYTWT7ZGSo6h1fk"
+  IMAGE_NAME: pinex
 
 workflow:
   rules:
@@ -27,7 +28,8 @@ workflow:
 
 stages:          # List of stages for jobs, and their order of execution
   - test-lint
-  - deploy
+  - build-image
+  # - deploy // disable for now
   - notification
 
 lint-test-job:   # This job also runs in the test stage.
@@ -40,12 +42,24 @@ lint-test-job:   # This job also runs in the test stage.
     paths:
       - node_modules
 
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
+build-job:
+  stage: build-image
+  image: docker:stable
+  stage: build
+  only: 
+    - main
+  services: docker:dind
+  before_script:
+    - apk add --no-cache python3 py3-pip
+    - pip3 install --nocache-dir awscli
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - docker build -t $IMAGE_NAME .
+
+# deploy-job:      # This job runs in the deploy stage.
+#   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+#   script:
+#     - echo "Deploying application..."
+#     - echo "Application successfully deployed."
 
 success_notification:
   stage: notification
