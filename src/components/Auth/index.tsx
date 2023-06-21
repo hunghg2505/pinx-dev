@@ -6,8 +6,11 @@ import Tabs, { TabPane } from 'rc-tabs';
 import styles from './index.module.scss';
 import Login from './Login';
 import Register from './Register/RegisterForm';
+import { useRouter } from 'next/router';
 
 function Home() {
+  const router = useRouter();
+  const defaultActiveTab: '1' | '2' = router.query?.type === 'register' ? '2' : '1';
   return (
     <>
       <div className='mx-auto flex flex-col items-center justify-center px-6 md:h-screen lg:py-0'>
@@ -20,7 +23,7 @@ function Home() {
           onClick={() => console.log('xxx go back')}
         />
         <div className='pt-[10px]'>
-          <Tabs defaultActiveKey='1' className={styles.tabLogin}>
+          <Tabs defaultActiveKey={defaultActiveTab} className={styles.tabLogin}>
             <TabPane tab='Login' key='1'>
               <Login />
             </TabPane>

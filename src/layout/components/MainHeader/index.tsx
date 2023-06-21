@@ -3,8 +3,15 @@ import React from 'react';
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
+import { useRouter } from 'next/router';
+import { PATH } from '@utils/constant';
 
 const Header = () => {
+  const router = useRouter();
+  const redirectToLogin = () => {
+    router.push(PATH.AUTH_LOGIN);
+  };
+
   return (
     <>
       <div className='flex justify-between bg-[#EAF4FB] px-[16px] py-[12px]'>
@@ -44,7 +51,10 @@ const Header = () => {
           <div className='mr-[21px] w-[18px] cursor-pointer'>
             <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
           </div>
-          <button className='h-[34px] w-[90px] rounded-[4px] bg-[#EAF4FB] '>
+          <button
+            className='h-[34px] w-[90px] rounded-[4px] bg-[#EAF4FB]'
+            onClick={redirectToLogin}
+          >
             <Text type='body-14-bold' color='primary-2'>
               Log in
             </Text>
