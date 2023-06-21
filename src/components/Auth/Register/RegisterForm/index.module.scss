@@ -1,0 +1,31 @@
+.checkbox {
+  margin-left: 12px;
+  :global {
+    .rc-checkbox:hover .rc-checkbox-inner,
+    .rc-checkbox-input:focus + .rc-checkbox-inner {
+      border-color: #1f6eac;
+    }
+
+    .rc-checkbox-checked .rc-checkbox-inner {
+      background-color: #1f6eac;
+    }
+
+    .rc-checkbox-inner:after {
+      left: 7px;
+      top: 2px;
+      width: 9px;
+      height: 14px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    .rc-checkbox-inner {
+      width: 24px;
+      height: 24px;
+      border-color: #1f6eac;
+    }
+  }
+}

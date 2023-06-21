@@ -3,7 +3,10 @@
 @import './color.scss';
 @import './space.scss';
 @import './text.scss';
-
+@import './antd.scss';
+@import './editor.scss';
+@import './select.scss';
+@import './scrollBar.scss';
 *,
 html,
 body {
@@ -14,4 +17,5 @@ body {
   font-size: 14px;
   line-height: normal;
   text-rendering: optimizeSpeed;
+  font-family: 'Inter', sans-serif;
 }

@@ -1,18 +1,31 @@
-/* eslint-disable require-await */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import TokenManager, { injectBearer } from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
+import { getAccessToken } from '@store/auth';
 import { ENV } from 'src/utils/env';
 
 const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
-export const PREFIX_API = ENV.APP_API_URL;
+export const PREFIX_API_PIST = ENV.URL_API_PIST;
 
-const request = extend({
-  prefix: PREFIX_API,
+export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
+
+const requestPist = extend({
+  prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  errorHandler: (error) => {
+    throw error?.data || error?.response;
+  },
+});
+
+const requestCommunity = extend({
+  prefix: PREFIX_API_COMMUNITY,
+  timeout: REQ_TIMEOUT,
+  headers: {},
   errorHandler: (error) => {
     throw error?.data || error?.response;
   },
@@ -20,35 +33,35 @@ const request = extend({
 
 const tokenManager = new TokenManager({
   getAccessToken: async () => {
-    // const token = getAccessToken();
+    const token = getAccessToken();
 
-    // return token || '';
-    return '';
+    return `${token}`;
   },
   getRefreshToken: async () => {
-    // const refreshToken = getRefreshToken();
-
-    // return refreshToken || '';
-    return '';
+    const token = getAccessToken();
+    return `${token}`;
   },
-  executeRefreshToken: async () => {
-    return {
-      token: '',
-      refresh_token: '',
-    };
+  onInvalidRefreshToken: () => {
+    // Logout, redirect to login
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   },
-  onRefreshTokenSuccess: ({ token, refresh_token: refreshToken }) => {
-    console.log(refreshToken);
+  isValidToken: async (token) => {
+    return true;
   },
-  onInvalidRefreshToken: async () => {
-    // Logout
+  isValidRefreshToken: async (token) => {
+    return true;
   },
 });
 
 const privateRequest = async (request: any, suffixUrl: string, configs?: any) => {
   const token: string = configs?.token ?? ((await tokenManager.getToken()) as string);
-
-  return request(suffixUrl, injectBearer(token, configs));
+  return request(suffixUrl, {
+    headers: {
+      Authorization: token,
+    },
+    ...configs,
+  });
 };
 
 // dùng cái này khi gọi nhiều api ở phía server => đảm bảo có token mới nhất cho các request ở sau, tránh bị call reuqest đồng thời
@@ -90,4 +103,15 @@ export const requestFromServer = async (ctx: any, suffixUrl: string) => {
   // }).then((r) => r.json());
 };
 
-export { privateRequest, request };
+const API_PATH = {
+  // Auth
+  LOGIN: '/public/customer/loginSSO',
+  REGISTER: '/public/customer/register/credentials',
+  REGISTER_OTP: '/public/customer/register/otp/verify',
+  RESEND_REGISTER_OTP: '/public/customer/register/otp/resend',
+  CREATE_USER_NAME: '/public/customer/register/login-id',
+  GET_USER_CONTRACT: '/private/user-info/contract',
+  LOGOUT: '',
+};
+
+export { API_PATH, privateRequest, requestPist, requestCommunity };

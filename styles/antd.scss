@@ -1,0 +1,67 @@
+.rc-tabs.tabHome{
+  .rc-tabs-nav-wrap{
+    border-bottom: 1px solid #999999;
+  }
+  .rc-tabs-nav-list{
+    display: flex;
+    padding-left: 8px;
+    .rc-tabs-tab{
+      margin-right: 30px;
+      padding-bottom: 10px;
+      cursor: pointer;
+      .rc-tabs-tab-btn{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #808080;
+      }
+      &.rc-tabs-tab-active{
+        border-bottom: 3px solid #1F6EAC;
+        .rc-tabs-tab-btn{
+          color: #1F6EAC;
+        }
+      }
+    }
+  }
+}
+.rc-dialog{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: auto !important;
+}
+.slide-watchlist{
+  .slick-list{
+    overflow: visible !important;
+    width: 80%;
+  }
+}
+.slide-theme{
+  .slick-list{
+    overflow: visible !important;
+    width: calc(100% - 63px);
+  }
+}
+// custom fancybox
+.fancybox__toolbar__column.is-right{
+  display: none !important;
+}
+.rc-dialog-close{
+  opacity: 1 !important;
+  top: 20px !important;
+}
+.rc-dialog-content{
+  @media screen and (max-width: 480px){
+    width: calc(100% - 32px) !important;
+    margin: 0 auto !important;
+  }
+}
+.messageFormat{
+  a{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1A1A1A;
+  }
+}

@@ -14,10 +14,14 @@ const nextConfig = {
   publicRuntimeConfig: {
     NODE_ENV: process.env.NODE_ENV,
     APP_API_URL: process.env.NEXT_PUBLIC_APP_API_URL,
+    URL_API_COMMUNITY: process.env.URL_API_COMMUNITY,
+    URL_SOCKET: process.env.URL_SOCKET,
+    URL_API_PIST: process.env.URL_API_PIST,
+    RECAPTHCHA_SITE_KEY: process.env.RECAPTHCHA_SITE_KEY,
   },
   images: {
     minimumCacheTTL: 60,
-    domains: [],
+    domains: ['static.pinetree.com.vn', 'cdn.pixabay.com'],
   },
   httpAgentOptions: {
     keepAlive: false,
