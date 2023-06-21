@@ -2,18 +2,18 @@ import { ReactElement } from 'react';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterVerification from '@components/Auth/Register/OtpVerification';
+import TermsOfService from '@components/Auth/TermsOfService';
 import LoginLayout from '@layout/LoginLayout';
 
-const RegisterVerificationPage = () => {
+const TermsOfServicePage = () => {
   return (
     <div>
-      <RegisterVerification />
+      <TermsOfService />
     </div>
   );
 };
 
-RegisterVerificationPage.getLayout = function getLayout(page: ReactElement) {
+TermsOfServicePage.getLayout = function getLayout(page: ReactElement) {
   return <LoginLayout>{page}</LoginLayout>;
 };
 
@@ -26,4 +26,4 @@ export async function getStaticProps({ locale }: any) {
   };
 }
 
-export default RegisterVerificationPage;
+export default TermsOfServicePage;

@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterCompanyStep from '@components/Auth/RegisterCompanyStep';
+import RegisterCompanyStep from '@components/Auth/Register/CompanyStep';
 
 const RegisterCompanyStepPage = () => {
   return (

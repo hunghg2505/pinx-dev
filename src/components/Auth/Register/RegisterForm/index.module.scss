@@ -1,12 +1,13 @@
 .checkbox {
   margin-left: 12px;
   :global {
-    .rc-checkbox:hover .rc-checkbox-inner, .rc-checkbox-input:focus + .rc-checkbox-inner {
-      border-color: #1F6EAC,
+    .rc-checkbox:hover .rc-checkbox-inner,
+    .rc-checkbox-input:focus + .rc-checkbox-inner {
+      border-color: #1f6eac;
     }
 
     .rc-checkbox-checked .rc-checkbox-inner {
-      background-color: #1F6EAC,
+      background-color: #1f6eac;
     }
 
     .rc-checkbox-inner:after {
@@ -24,7 +25,7 @@
     .rc-checkbox-inner {
       width: 24px;
       height: 24px;
-      border-color: #1F6EAC,
+      border-color: #1f6eac;
     }
   }
 }

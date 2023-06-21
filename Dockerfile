@@ -8,7 +8,7 @@ RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package*.json ./
 
 RUN yarn --frozen-lockfile;
 
@@ -37,4 +37,4 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-CMD ["yarn", "standalone"]
+CMD ["yarn"]

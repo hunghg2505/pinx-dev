@@ -102,7 +102,7 @@ const RegisterCompanyStep = () => {
   return (
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='companyCardmd:mt-0 w-full rounded-lg bg-white dark:border-gray-700 dark:bg-gray-800 sm:max-w-md xl:p-0'>
+        <div className='companyCardmd:mt-0 w-full rounded-lg bg-white sm:max-w-md xl:p-0'>
           <div className='flex w-full'>
             <Image
               src='/static/icons/back_icon.svg'

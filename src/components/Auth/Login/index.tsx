@@ -13,21 +13,19 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import ModalLoginTerm from './ModalLoginTerm';
+import ModalLoginTerms from './ModelLoginTerms';
 import { useLogin } from './service';
-
-
 
 const Login = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo } = useUserLoginInfo();
-  const [showModalLoginTerm, setShowModalLoginTerm] = useState<boolean>(false);
+  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(false);
 
   const onSubmit = (values: any) => {
     requestLogin.run({
-      userName: values?.userName,
+      username: values?.username,
       password: values?.password,
     });
   };
@@ -44,7 +42,7 @@ const Login = () => {
         if (res?.data.isReadTerms) {
           router.push(ROUTE_PATH.Home);
         } else {
-          setShowModalLoginTerm(true);
+          setShowModalLoginTerms(true);
         }
       }
     },
@@ -53,36 +51,28 @@ const Login = () => {
     },
   });
 
-  const onToggleModalLoginTerm = () => {
-    setShowModalLoginTerm(!showModalLoginTerm);
-  }
+  const onToggleModalLoginTerms = () => {
+    setShowModalLoginTerms(!showModalLoginTerms);
+  };
 
   return (
     <>
-      <div className='min-w-[98vw] mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+      <div className='mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
-          <Form
-            className='space-y-6'
-            form={form}
-            onFinish={onSubmit}
-          >
+          <Form className='space-y-6' form={form} onFinish={onSubmit}>
             <div>
-              {/* <label htmlFor='userName'>
-                <Text type='body-12-bold' color='primary-5' className='mb-2'>
-                  User ID
-                </Text>
-              </label> */}
-              <FormItem name='userName' rules={[{ required: true, message: 'Please enter username!' }]}>
+              <FormItem
+                name='username'
+                rules={[{ required: true, message: 'Please enter username!' }]}
+              >
                 <StyledInput placeholder='Username/ Account' />
               </FormItem>
             </div>
             <div>
-              {/* <label htmlFor='password'>
-                <Text type='body-12-bold' color='primary-5' className='mb-2'>
-                  Password
-                </Text>
-              </label> */}
-              <FormItem name='password' rules={[{ required: true, message: 'Please enter password!' }]}>
+              <FormItem
+                name='password'
+                rules={[{ required: true, message: 'Please enter password!' }]}
+              >
                 <StyledInput placeholder='Password' type='password' />
               </FormItem>
             </div>
@@ -94,23 +84,15 @@ const Login = () => {
               </NextLink>
             </div>
 
-            <ModalLoginTerm visible={showModalLoginTerm} onToggle={onToggleModalLoginTerm} />
-            <MainButton type='submit' className='w-full !mt-10'>Sign in</MainButton>
-            {/* <div className='text-center !mt-8'>
-                <Text type='body-14-regular'>
-                  Don’t have an account ?
-                </Text>
-                <NextLink href={ROUTE_PATH.REGISTER}>
-                  <Text type='body-14-bold' color='primary-2'>
-                    Sign up
-                  </Text>
-                </NextLink>
-              </div> */}
+            <ModalLoginTerms visible={showModalLoginTerms} onToggle={onToggleModalLoginTerms} />
+            <MainButton type='submit' className='!mt-10 w-full'>
+              Sign in
+            </MainButton>
           </Form>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default Login;
