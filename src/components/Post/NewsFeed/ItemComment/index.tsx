@@ -14,7 +14,6 @@ interface IProps {
 }
 const ItemComment = (props: IProps) => {
   const { onNavigate, data, onReplies } = props;
-  // console.log('🚀 ~ file: index.tsx:17 ~ ItemComment ~ data:', data);
   const onComment = (value: string) => {
     if (onNavigate) {
       onNavigate();

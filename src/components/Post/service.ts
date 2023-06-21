@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
+import { getAccessToken } from '@store/auth';
 
 export interface ICustomerInfo {
   id: number;
@@ -103,65 +104,60 @@ export enum TYPEPOST {
   PinetreePost = 'PinetreePost',
   CafeFNews = 'CafeFNews',
 }
-
+const isLogin = !!getAccessToken();
 const getPostDetail = async (postId: string) => {
   return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };
 
+// export const usePostDetail = (postId: string) => {
+//   const { data, loading, refresh } = useRequest(() => getPostDetail(postId), {
+//     refreshDeps: [postId],
+//   });
+
+//   return {
+//     postDetail: data,
+//     loading,
+//     onRefreshPostDetail: refresh,
+//   };
+// };
+
 export const usePostDetail = (postId: string) => {
-  const { data, loading, refresh } = useRequest(() => getPostDetail(postId), {
-    refreshDeps: [postId],
-  });
+  const { data, loading, refresh } = useRequest(
+    () => {
+      return isLogin
+        ? getPostDetail(postId)
+        : requestCommunity.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
+    },
+    {
+      refreshDeps: [postId],
+    },
+  );
 
   return {
     postDetail: data,
     loading,
-    onRefreshPostDetail: refresh,
+    refresh,
   };
 };
 
-export const useGetPostDetailUnAuth = (postId: string) => {
+const getCommentsOfPostAuth = async (postId: string) => {
+  return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId));
+};
+const getCommentsOfPost = (postId: string) => {
+  return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
+};
+export const useCommentsOfPost = (postId: string) => {
   const { data, loading } = useRequest(
     () => {
-      return requestCommunity.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
+      return isLogin ? getCommentsOfPostAuth(postId) : getCommentsOfPost(postId);
     },
     {
       refreshDeps: [postId],
     },
   );
-
-  return {
-    postDetailUnAuth: data,
-    loading,
-  };
-};
-
-const getCommentsOfPost = async (postId: string) => {
-  return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId));
-};
-
-export const useCommentsOfPost = (postId: string) => {
-  const { data, loading } = useRequest(() => getCommentsOfPost(postId), {
-    refreshDeps: [postId],
-  });
 
   return {
     commentsOfPost: data,
-    loading,
-  };
-};
-
-export const useCommentsOfPostUnAuth = (postId: string) => {
-  const { data, loading } = useRequest(
-    () => {
-      return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
-    },
-    {
-      refreshDeps: [postId],
-    },
-  );
-  return {
-    commentsOfPostUnAuth: data,
     loading,
   };
 };
