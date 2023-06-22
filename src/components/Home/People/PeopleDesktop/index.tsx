@@ -1,11 +1,20 @@
+import React from 'react';
+
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
 
 import { ISuggestionPeople, requestFollowUser, useSuggestPeople } from '@components/Home/service';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 
 const PeopleDesktop = () => {
-  const { suggestionPeople, refresh } = useSuggestPeople();
+  const { suggestionPeople, refresh, getSuggestFriend } = useSuggestPeople();
+  const isLogin = !!getAccessToken();
+  React.useEffect(() => {
+    if (isLogin) {
+      getSuggestFriend();
+    }
+  }, []);
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);

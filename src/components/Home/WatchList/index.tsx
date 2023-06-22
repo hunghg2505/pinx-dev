@@ -28,13 +28,6 @@ const WatchList = () => {
         {data?.map((item: IWatchListItem, index: number) => {
           return <ItemStock key={index} data={item} />;
         })}
-
-        {/* <ItemStock />
-        <ItemStock />
-        <ItemStock />
-        <ItemStock />
-        <ItemStock />
-        <ItemStock /> */}
       </Slider>
     </div>
   );

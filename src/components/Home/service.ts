@@ -188,12 +188,13 @@ export const requestLeaveIndex = () => {
 };
 
 export const useSuggestPeople = () => {
-  const { data, refresh } = useRequest(() => {
+  const { data, refresh, run } = useRequest(() => {
     return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
   });
   return {
     suggestionPeople: data?.list,
     refresh,
+    getSuggestFriend: run,
   };
 };
 
@@ -237,7 +238,6 @@ export const useGetWatchList = () => {
   const { data } = useRequest(() => {
     return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
   });
-  console.log('🚀 ~ file: service.ts:218 ~ const{data}=useRequest ~ data:', data);
 
   return {
     watchList: data?.data,

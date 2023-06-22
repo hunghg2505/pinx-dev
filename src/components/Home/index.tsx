@@ -51,12 +51,16 @@ const Home = () => {
   });
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
-  const { suggestionPeople } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
   // console.log('🚀 ~ file: index.tsx:71 ~ Home ~ suggestionPeople:', suggestionPeople);
-
   const isLogin = !!getAccessToken();
+  console.log('🚀 ~ file: index.tsx:57 ~ Home ~ isLogin:', isLogin);
+
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
+    if (isLogin) {
+      getSuggestFriend();
+    }
   }, []);
   return (
     <>
@@ -80,9 +84,11 @@ const Home = () => {
                 </button>
 
                 <Tabs defaultActiveKey='1' className='tabHome ' onChange={onChangeTab}>
-                  <TabPane tab='Watchlist' key='1'>
-                    <WatchList />
-                  </TabPane>
+                  {isLogin && (
+                    <TabPane tab='Watchlist' key='1'>
+                      <WatchList />
+                    </TabPane>
+                  )}
                   <TabPane tab='Market' key='2'>
                     <Market />
                   </TabPane>
