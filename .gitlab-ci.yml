@@ -45,7 +45,9 @@ publish-job:
     - docker --version
   script:
     - docker build -t $DOCKER_REGISTRY/$APP_NAME:$IMAGE_TAG .
-    - docker image ls
+    - docker images
+    docker tag pinex:latest $DOCKER_REGISTRY/$APP_NAME:$IMAGE_TAG
+BASH
     - docker push $DOCKER_REGISTRY/$APP_NAME:$IMAGE_TAG
 
 success_notification:
