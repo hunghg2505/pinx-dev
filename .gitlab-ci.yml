@@ -51,11 +51,10 @@ publish-job:
   
 deploy-job:
   stage: deploy
-  script:
-    - echo "$EC2_SSH_KEY" > "key.pem"
-    - chmod 600 key.pem
+  before_script:
     - apk update && apk add openssh
-    - ssh -i "key.pem" ubuntu@54.151.229.11 
+  script:
+    - ssh -i $EC2_SSH_KEY ubuntu@54.151.229.11 
     - sudo su
     - cd /home/ubuntu
     - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com
