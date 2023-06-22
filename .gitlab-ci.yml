@@ -53,16 +53,21 @@ deploy-job:
   image: ubuntu:latest
   stage: deploy
   script:
-  - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
-    "
-      sudo su;
-      cd /home/ubuntu;
-      aws ecr get-login-password --region ap-southeast-1;
-      docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com;
-      docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest;
-      docker compose up -d;
-      exit;
-    "
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
+    - eval $(ssh-agent -s)
+    - echo "$EC2_SSH_KEY1" > "key.pem"
+    - chmod 600 key.pem
+    - >
+      - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
+      "
+        sudo su;
+        cd /home/ubuntu;
+        aws ecr get-login-password --region ap-southeast-1;
+        docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com;
+        docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest;
+        docker compose up -d;
+        exit;
+      "
   # script:
   #   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
   #   - eval $(ssh-agent -s)
