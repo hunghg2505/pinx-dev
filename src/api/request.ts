@@ -1,5 +1,3 @@
-/* eslint-disable require-await */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import TokenManager, { injectBearer } from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
@@ -43,11 +41,7 @@ const tokenManager = new TokenManager({
     const token = getAccessToken();
     return `${token}`;
   },
-  onInvalidRefreshToken: () => {
-    // Logout, redirect to login
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-  },
+  onInvalidRefreshToken: () => {},
   isValidToken: async (token) => {
     return true;
   },
@@ -110,10 +104,13 @@ const API_PATH = {
   LOGIN: '/public/customer/loginSSO',
   REGISTER: '/public/customer/register/credentials',
   REGISTER_OTP: '/public/customer/register/otp/verify',
+  SUBMIT_LOGIN_OTP: '/private/get-token',
   RESEND_REGISTER_OTP: '/public/customer/register/otp/resend',
   CREATE_USER_NAME: '/public/customer/register/login-id',
   GET_USER_CONTRACT: '/private/user-info/contract',
-  LOGOUT: '',
+  CONFIRM_CONTRACT: '/private/user-info/confirm',
+  READ_CONTRACT: '/public/contract/read',
+  SEND_LOGIN_OTP: '/private/generate-auth',
 };
 
 export { API_PATH, privateRequest, requestPist, requestCommunity };

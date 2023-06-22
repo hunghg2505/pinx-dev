@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -10,11 +11,13 @@ import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
   const { userRegisterInfo } = useUserRegisterInfo();
+  const { setUserLoginInfo } = useUserLoginInfo();
   const router = useRouter();
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
-      console.log('xxx res', res);
+      router.push(ROUTE_PATH.Home);
+      setUserLoginInfo(res?.data)
       // if (res?.data.token) {
       //   onLogin({
       //     token: res?.data.token,

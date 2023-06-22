@@ -5,15 +5,16 @@ import { useRouter } from 'next/router';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useRegisterOtp, useResendRegisterOtp } from './service';
+import { useLoginOtp, useResendLoginOtp } from './service';
 import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const router = useRouter();
 
-  const requestRegisterOtp = useRegisterOtp({
+  const requestRegisterOtp = useLoginOtp({
     onSuccess: (res: any) => {
+      router.push(ROUTE_PATH.Home);
       console.log('xxx res', res);
       // if (res?.data.token) {
       //   onLogin({
@@ -33,9 +34,14 @@ const Register = () => {
   });
 
   const onSubmit = (value: string) => {
-    requestRegisterOtp.run({ otp: value });
+    const payload = {
+      cif: userLoginInfo.cif || '',
+      type: '1',
+      value
+    };
+    requestRegisterOtp.run(payload);
   };
-  const requestResendRegisterOtp = useResendRegisterOtp({
+  const requestResendRegisterOtp = useResendLoginOtp({
     onSuccess: (res: any) => {
       console.log('xxx res', res);
     },

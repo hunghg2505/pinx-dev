@@ -1,9 +1,6 @@
-/* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable require-await */
-import { useRequest } from 'ahooks';
-import request from 'umi-request';
+import { useRouter } from 'next/router';
 
-import { API_PATH, PREFIX_API_PIST } from '@api/request';
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies } from '.';
@@ -17,25 +14,13 @@ export interface IAuth {
 }
 
 export const useAuth = () => {
-  const requestLogout = useRequest(
-    async (token: any) => {
-      return request.post(`${PREFIX_API_PIST}${API_PATH.LOGOUT}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    },
-    {
-      manual: true,
-    },
-  );
-
+  const router = useRouter();
   const onLogout = async () => {
     try {
-      const token = getAccessToken();
-      requestLogout.run(token);
       deleteAuthCookies();
-      window.location.href = ROUTE_PATH.LOGIN;
+      if (router.pathname !== ROUTE_PATH.LOGIN) {
+        window.location.href = ROUTE_PATH.LOGIN;
+      }
     } catch (error) {
       console.log('Logout error', error);
     }

@@ -1,7 +1,3 @@
 {
-  "extends": ["next/core-web-vitals", "@hunghg255/eslint-config-react"],
-  "rules": {
-    "unicorn/no-new-array": "off",
-    "react/display-name": "off"
-  }
+  "extends": ["next/core-web-vitals"]
 }

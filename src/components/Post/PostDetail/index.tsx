@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { useRef } from 'react';
 
 import dynamic from 'next/dynamic';
@@ -9,6 +10,7 @@ import Text from '@components/UI/Text';
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
+import { PATH } from '@utils/constant';
 
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
@@ -47,6 +49,20 @@ const PostDetail = () => {
       );
     }
   };
+
+  const redirectToLogin = () => {
+    router.push(PATH.AUTH_LOGIN);
+  };
+
+  const redirectToSignUp = () => {
+    router.push({
+      pathname: PATH.AUTH_LOGIN,
+      query: {
+        type: 'register',
+      },
+    });
+  };
+
   return (
     <>
       <div className='header relative'>
@@ -68,7 +84,7 @@ const PostDetail = () => {
         onRefreshPostDetail={() => refresh()}
       />
       <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
-        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]'>
+        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]' onClick={redirectToSignUp}>
           <Text type='body-14-semibold' color='cbwhite'>
             Sign up
           </Text>
@@ -76,7 +92,7 @@ const PostDetail = () => {
         <Text type='body-14-regular' color='primary-5' className='mx-[8px]'>
           or
         </Text>
-        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#EAF4FB]'>
+        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#EAF4FB]' onClick={redirectToLogin}>
           <Text type='body-14-semibold' color='primary-2'>
             Log in
           </Text>

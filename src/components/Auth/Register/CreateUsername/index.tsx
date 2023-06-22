@@ -1,23 +1,37 @@
 // import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
+import 'rc-picker/assets/index.css';
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import { StyledInput } from '@components/UI/Input';
 import Text from '@components/UI/Text';
+import { useAuth } from '@store/auth/useAuth';
+import { ROUTE_PATH } from '@utils/common';
 
-import 'rc-picker/assets/index.css';
 import { useCreateUsername } from './service';
 
 const CreateUsername = () => {
+  const router = useRouter();
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
+  const { onLogin } = useAuth();
 
   const requestCreateUsername = useCreateUsername({
     onSuccess: (res: any) => {
       if (res?.data.token) {
-        console.log(res);
+        onLogin({
+          token: res?.data.token,
+          refreshToken: res?.refresh_token,
+          expiredTime: res?.expired_time || 0,
+        });
+        switch (res?.data.nextStep) {
+        case 'OTP':
+          router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+          break;
+        }
       }
     },
     onError(e) {

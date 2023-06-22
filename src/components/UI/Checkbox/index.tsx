@@ -1,4 +1,4 @@
-/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/display-name */
 import React from 'react';
 
 import Checkbox from 'rc-checkbox';

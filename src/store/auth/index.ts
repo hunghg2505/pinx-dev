@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/numeric-separators-style */
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 export const getAccessToken = (res?: any, req?: any) => {
