@@ -47,9 +47,10 @@ publish-job:
   script:
     - ls
     - docker build -t pinex .
-    - docker images
-    - docker tag pinex@latest $DOCKER_REGISTRY/$APP_NAME:$IMAGE_TAG
-    - docker push $DOCKER_REGISTRY/$APP_NAME:$IMAGE_TAG
+    - docker pull $TAG_LATEST || true
+    - docker build --cache-from $TAG_LATEST -t $TAG_COMMIT -t $TAG_LATEST .
+    - docker push $TAG_COMMIT
+    - docker push $TAG_LATEST
 
 success_notification:
   stage: notification
