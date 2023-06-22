@@ -1,30 +1,25 @@
 import { ReactElement } from 'react';
-
-import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Auth from '@components/Auth';
+import StepOne from '@components/Auth/ForgotPassword/StepOne';
 import LoginLayout from '@layout/LoginLayout';
 
-
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   return (
-    <>
-      <Head>
-        <title>Log In</title>
-      </Head>
-      <Auth />
-    </>
+    <div>
+      <StepOne />
+    </div>
   );
 };
 
-LoginPage.getLayout = function getLayout(page: ReactElement) {
+ForgotPasswordPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <LoginLayout>
       {page}
     </LoginLayout>
   );
 };
+
 
 export async function getStaticProps({ locale }: any) {
   return {
@@ -35,4 +30,4 @@ export async function getStaticProps({ locale }: any) {
   };
 }
 
-export default LoginPage;
+export default ForgotPasswordPage;

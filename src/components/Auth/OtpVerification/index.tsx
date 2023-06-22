@@ -11,8 +11,6 @@ import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
 
-import 'rc-picker/assets/index.css';
-
 interface IProps {
   onResendOtp: () => void;
   onSubmit: (otp: string) => void;
@@ -56,7 +54,7 @@ const OtpVerification = (props: IProps) => {
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
-  const [resendCount, setResendCount] = useState<number>(5);
+  const [resendCount, setResendCount] = useState<number>(30);
   const [resendTime, setResendTime] = useState<Itime>();
   const [isResendAvailable, setIsResendAvailable] = useState<boolean>(false);
 
@@ -79,7 +77,10 @@ const OtpVerification = (props: IProps) => {
   };
 
   const onResendOtp = () => {
-    isResendAvailable && props.onResendOtp();
+    if (isResendAvailable) {
+      props.onResendOtp();
+      setOtpCount(120);
+    }
   };
 
   // otp count down
@@ -139,7 +140,7 @@ const OtpVerification = (props: IProps) => {
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
-          <div className='mt-[56px]'>
+          <div className='mt-[46px]'>
             <Text type='body-24-bold'>{t('comfirm_phone_number')}</Text>
             <Text type='body-18-regular' color='neutral-4'>
               {t('input_otp_from')}{' '}

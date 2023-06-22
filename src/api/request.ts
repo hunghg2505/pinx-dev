@@ -127,6 +127,7 @@ const API_PATH = {
   CONFIRM_CONTRACT: '/private/user-info/confirm',
   READ_CONTRACT: '/public/contract/read',
   SEND_LOGIN_OTP: '/private/generate-auth',
+  USER_PROFILE: '/private/customer/profile',
 };
 
 export { API_PATH, privateRequest, requestPist, requestCommunity, requestMarket };
