@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
-import { Toaster, toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -64,9 +64,9 @@ const IconChecked = () => (
     </defs>
   </svg>
 );
+
 const ThemesItem = (props: IProps) => {
   const { theme, isLogin, refresh } = props;
-  console.log('🚀 ~ file: index.tsx:68 ~ ThemesItem ~ theme:', theme);
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -138,8 +138,6 @@ const ThemesItem = (props: IProps) => {
   };
   return (
     <>
-      <Toaster />
-
       <div className='w-[162px] pr-[10px]'>
         <div className='relative min-h-[172px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           <Image
