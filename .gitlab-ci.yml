@@ -57,8 +57,7 @@ deploy-job:
     - eval $(ssh-agent -s)
     - echo "$EC2_SSH_KEY1" > "key.pem"
     - chmod 600 key.pem
-    - >
-      - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
+    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
       "
         sudo su;
         cd /home/ubuntu;
