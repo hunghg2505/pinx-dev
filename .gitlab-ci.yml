@@ -50,6 +50,7 @@ publish-job:
     - docker push $TAG_LATEST
   
 deploy-job:
+  image: ubuntu:latest
   stage: deploy
   before_script:
     - apk update && apk add openssh
