@@ -13,7 +13,7 @@ export const serviceGetUserProfile = async () => {
 export const useProfileInitial = (options = {}) => {
   const { userLoginInfo, setUserLoginInfo } = useUserLoginInfo();
 
-  const requestGetProfile = useRequest(
+  const { data } = useRequest(
     async () => {
       const isLogin = getAccessToken();
       if (isLogin) {
@@ -33,7 +33,8 @@ export const useProfileInitial = (options = {}) => {
       ...options,
     },
   );
+
   return {
-    requestGetProfile,
+    requestGetProfile: data?.data,
   };
 };

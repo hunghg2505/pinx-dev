@@ -6,7 +6,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import MainLayout from '@layout/MainLayout';
 
-const Home = dynamic(() => import('@components/Home'), { ssr: false });
+const Home = dynamic(() => import('@components/Home'), {
+  ssr: false,
+});
 
 const HomePage = () => {
   return (

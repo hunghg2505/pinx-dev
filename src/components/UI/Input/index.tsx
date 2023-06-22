@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 
-import styles from './index.module.scss'
+import styles from './index.module.scss';
 import { Eye, EyeHide } from '../Icon';
-
 
 interface InputProps {
   className?: string;
@@ -23,6 +22,7 @@ interface InputProps {
   step?: string | undefined;
   removeCommon?: boolean;
   name?: string;
+  icon?: any;
 }
 
 interface Ref {
@@ -31,6 +31,7 @@ interface Ref {
 
 const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, ref: Ref['ref']) => {
   const {
+    icon,
     className,
     disabled = false,
     type = 'text',
@@ -44,7 +45,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
   } = props;
   const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   // const { state: isVisibleEye, toggle: toggleEye } = useToggle(false);
 
@@ -92,7 +93,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
 
   const handleToggleEyes = () => {
     setIsPasswordVisible(!isPasswordVisible);
-  }
+  };
 
   const EyePassword = () => {
     if (isPasswordVisible) {
@@ -145,9 +146,12 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
       />
 
       {isTypePassword && !disabled && (
-        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+        <div className='absolute inset-y-0 right-0 flex items-center pr-3 text-sm leading-5'>
           <EyePassword />
         </div>
+      )}
+      {icon && (
+        <div className='absolute left-[10px] top-2/4 -translate-y-2/4 transform'>{icon}</div>
       )}
 
       {suffix && <div className={classNames('icon-suffix')}>{suffix}</div>}
@@ -157,12 +161,17 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
 
 export default Input;
 
-export const StyledInput = ({ ...props }) => <Input {...props} className='w-full font-[500] text-[14px] p-4 border rounded-xl text-[--neutral-2] focus:border-primary-600 !bg-[--neutral-8] placeholder:text-[--neutral-5]' />;
+export const StyledInput = ({ ...props }) => (
+  <Input
+    {...props}
+    className='focus:border-primary-600 w-full rounded-xl border !bg-[--neutral-8] p-4 text-[14px] font-[500] text-[--neutral-2] placeholder:text-[--neutral-5]'
+  />
+);
 
 export const LabelInsideInput = ({ labelContent, ...props }: { labelContent: string }) => {
   const inputRef = React.createRef<HTMLInputElement>();
 
-  console.log('xxx inputRef', inputRef)
+  console.log('xxx inputRef', inputRef);
   return (
     <div className={styles.formGroup}>
       <input
@@ -176,5 +185,5 @@ export const LabelInsideInput = ({ labelContent, ...props }: { labelContent: str
         {labelContent}
       </label>
     </div>
-  )
-}
+  );
+};

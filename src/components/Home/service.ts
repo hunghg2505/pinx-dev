@@ -72,6 +72,25 @@ export interface IStockIndex {
   value: number;
   vol: number;
 }
+export interface IWatchListItem {
+  ceilPrice: number;
+  change: number;
+  changePercent: number;
+  floorPrice: number;
+  highPrice: number;
+  id: string;
+  isHnx30: boolean;
+  isVn30: boolean;
+  lastPrice: number;
+  lastVolume: number;
+  lowPrice: number;
+  name: string;
+  nameEn: string;
+  refPrice: number;
+  shortName: string;
+  stockCode: string;
+  stockExchange: string;
+}
 const isLogin = !!getAccessToken();
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
@@ -134,11 +153,14 @@ export const useGetTrending = () => {
 };
 
 export const useGetInfluencer = () => {
-  const { data } = useRequest(() => {
-    return requestPist.get(API_PATH.KOL);
+  const { data, refresh } = useRequest(() => {
+    return isLogin
+      ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
+      : requestPist.get(API_PATH.KOL);
   });
   return {
-    KOL: data?.data?.list,
+    KOL: data?.data?.list || data?.data,
+    refresh,
   };
 };
 export const socket = io(ENV.URL_SOCKET, {
@@ -166,12 +188,13 @@ export const requestLeaveIndex = () => {
 };
 
 export const useSuggestPeople = () => {
-  const { data, refresh } = useRequest(() => {
+  const { data, refresh, run } = useRequest(() => {
     return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
   });
   return {
     suggestionPeople: data?.list,
     refresh,
+    getSuggestFriend: run,
   };
 };
 
@@ -188,12 +211,18 @@ export const useGetTheme = () => {
 };
 // get stock market
 export const useGetStock = () => {
-  const { data, loading } = useRequest(() => {
-    return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
-  });
+  const { data, loading, run } = useRequest(
+    () => {
+      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+    },
+    {
+      manual: true,
+    },
+  );
   return {
     stockIndex: data?.data,
     loading,
+    run,
   };
 };
 
@@ -204,4 +233,13 @@ export const requestFollowUser = (id: number) => {
 // unfollow user
 export const requestUnFollowUser = (id: number) => {
   return privateRequest(requestPist.put, API_PATH.PRIVATE_UNFOLLOW_USER + `?idFriend=${id}`);
+};
+export const useGetWatchList = () => {
+  const { data } = useRequest(() => {
+    return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+  });
+
+  return {
+    watchList: data?.data,
+  };
 };

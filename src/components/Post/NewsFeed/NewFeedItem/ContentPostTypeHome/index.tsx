@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
+import { useContainerDimensions } from '@hooks/useDimensions';
 import { formatMessage } from '@utils/common';
 
 import ListStock from './ListStock';
@@ -43,13 +44,17 @@ interface IProps {
 const ContentPostTypeHome = (props: IProps) => {
   const { postDetail, onNavigate } = props;
   // console.log('🚀 ~ file: index.tsx:45 ~ ContentPostTypeHome ~ postDetail:', postDetail.postType);
-  // const [readMore, setReadMore] = useState(false);
+  const [readMore, setReadMore] = React.useState(false);
   const ref = useRef(null);
-
+  const { height } = useContainerDimensions(ref);
+  const isReadMore = height > 70;
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
     onNavigate && onNavigate();
+  };
+  const onReadMore = () => {
+    setReadMore(!readMore);
   };
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
@@ -59,16 +64,28 @@ const ContentPostTypeHome = (props: IProps) => {
     return (
       <>
         <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('my-[16px]', {
+              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
             {message}
           </Text>
         </div>
-        {/* {isReadMore && (
-          <Text type='body-14-regular' color='neutral-3' className='cursor-pointer'>
-            See more
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
           </Text>
-        )} */}
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        )}
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[312px] desktop:w-full'>
           <Image
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt=''
@@ -104,20 +121,40 @@ const ContentPostTypeHome = (props: IProps) => {
       TYPEPOST.PinetreeMorningBrief,
       TYPEPOST.PinetreeMarketBrief,
       TYPEPOST.PinetreeWeeklyNews,
+      TYPEPOST.PinetreePost,
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
-    console.log('postDetail?.post.headImageUrl', postDetail?.post.headImageUrl);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('my-[16px]', {
+              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
             {postDetail?.post.head}
           </Text>
         </div>
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
+          </Text>
+        )}
         <div className='relative h-[204px] w-[343px] rounded-[15px]'>
           <Image
-            src={postDetail?.post.headImageUrl}
+            src={
+              postDetail?.post.headImageUrl ||
+              'https://image.vietstock.vn/2023/06/21/ca-map-ava-20230504_1743152.jpg'
+            }
             alt=''
             width='0'
             height='0'
@@ -156,12 +193,29 @@ const ContentPostTypeHome = (props: IProps) => {
   ) {
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment} ref={ref}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+        <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('my-[16px]', {
+              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
             {postDetail?.post.head}
           </Text>
         </div>
-        <Link
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
+          </Text>
+        )}
+        {/* <Link
           className='mb-[13px] flex items-center justify-end text-right'
           href={postDetail?.post.url || ''}
         >
@@ -176,7 +230,7 @@ const ContentPostTypeHome = (props: IProps) => {
             sizes='100vw'
             className='w-[5px]'
           />
-        </Link>
+        </Link> */}
         <div className='relative h-[204px] w-[343px] rounded-[15px]'>
           <Image
             src={postDetail?.post.headImageUrl || ''}
@@ -208,10 +262,27 @@ const ContentPostTypeHome = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('my-[16px]', {
+              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
             {message}
           </Text>
         </div>
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
+          </Text>
+        )}
         <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
           <Image
             src={postDetail?.post.bgImage}
@@ -254,10 +325,27 @@ const ContentPostTypeHome = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('my-[16px]', {
+              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
             Username has just sold $VPG get a profit of 6.16%
           </Text>
         </div>
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
+          </Text>
+        )}
         <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
           <Image
             src='/static/images/postSellStock.png'
@@ -313,10 +401,27 @@ const ContentPostTypeHome = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('my-[16px]', {
+              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
             {postDetail?.post?.contentText}
           </Text>
         </div>
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
+          </Text>
+        )}
         <div className='relative h-[204px] w-[343px] rounded-[15px]'>
           <Image
             src={postDetail?.post.headImageUrl}
@@ -326,7 +431,7 @@ const ContentPostTypeHome = (props: IProps) => {
             sizes='100vw'
             className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
           />
-          <div className='absolute bottom-[56px] left-0 w-full pl-[8px]'>
+          <div className='absolute bottom-[56px] left-0 w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />
           </div>
           <div className='absolute bottom-0 left-0 h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] py-[10px]'>

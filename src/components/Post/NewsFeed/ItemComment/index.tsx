@@ -50,35 +50,33 @@ const ItemComment = (props: IProps) => {
               )}
             </Text>
           </div>
-          <div>
-            <div className='action mt-[11px] flex'>
-              <div className='like mr-[50px] flex cursor-pointer'>
-                <Image
-                  src='/static/icons/iconUnLike.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  className='mr-[10px] w-[20px]'
-                />
-                <Text type='body-12-medium' color='primary-5'>
-                  {data?.totalLikes}
-                </Text>
-              </div>
-              <div className='comment flex cursor-pointer' onClick={() => onComment(name)}>
-                <Image
-                  src='/static/icons/iconComment.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  className='mr-[10px] w-[18px]'
-                />
-              </div>
-              {/* <Fancybox>
+          <div className='action mt-[11px] flex'>
+            <div className='like mr-[50px] flex cursor-pointer'>
+              <Image
+                src='/static/icons/iconUnLike.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='mr-[10px] w-[20px]'
+              />
+              <Text type='body-12-medium' color='primary-5'>
+                {data?.totalLikes}
+              </Text>
+            </div>
+            <div className='comment flex cursor-pointer' onClick={() => onComment(name)}>
+              <Image
+                src='/static/icons/iconComment.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='mr-[10px] w-[18px]'
+              />
+            </div>
+            {/* <Fancybox>
                 <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
                   <Image alt='' src='/static/images/image_post.jpg' width='200' height='150' />
                 </a>
               </Fancybox> */}
-            </div>
           </div>
         </div>
       </div>

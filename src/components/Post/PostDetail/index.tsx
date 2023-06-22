@@ -82,6 +82,7 @@ const PostDetail = () => {
         postDetail={postDetail?.data}
         totalComments={commentsOfPost?.data?.list.length}
         onRefreshPostDetail={() => refresh()}
+        postId={postDetail?.data?.id}
       />
       <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
         <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]' onClick={redirectToSignUp}>
@@ -101,19 +102,15 @@ const PostDetail = () => {
           to join the discussion
         </Text>
       </div>
-      <div>
-        {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-          return (
-            <>
-              <ItemComment key={index} data={item} onReplies={onReplies} />
-              {getSubComment(item.children)}
-            </>
-          );
-        })}
-      </div>
-      <div>
-        <ForwardedRefComponent ref={refReplies} id={postDetail?.id} />
-      </div>
+      {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+        return (
+          <>
+            <ItemComment key={index} data={item} onReplies={onReplies} />
+            {getSubComment(item.children)}
+          </>
+        );
+      })}
+      <ForwardedRefComponent ref={refReplies} id={postDetail?.id} />
     </>
   );
 };
