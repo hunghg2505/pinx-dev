@@ -1,109 +1,58 @@
-.formGroup {
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  width: 50%;
-}
-
-.inputField {
-  border-bottom: none;
-  outline: 0;
-  background: transparent;
-  transition: border-color 0.2s;
-
-  &:placeholder-shown ~ .inputLabel {
-    font-size: 1.3rem;
-    cursor: text;
-    top: 20px;
-  }
-}
-
-.inputLabel {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: #808080;
-}
-
-.inputField:focus {
-  ~ .inputLabel {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: #589DC0;
-    font-weight:700;    
-  }
-  padding-bottom: 6px;  
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, #589DC0, #808080);
-  border-image-slice: 1;
-}
-/* reset input */
-.inputField{
-  &:required,&:invalid { box-shadow:none; }
-}
-
-.formGroup {
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  width: 50%;
+.inputGroup:focus-within {
+  background: #eaf4fb;
+  border-bottom: 1px solid #589dc0;
 }
 
 .inputField {
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid #808080;
   outline: 0;
-  font-size: 1.3rem;
-  color: #FFFFFF;
-  padding: 7px 0;
+  font-size: 16px;
+  color: var(--neutral-5);
+  padding-top: 15px;
+  padding-bottom: 4px;
   background: transparent;
-  transition: border-color 0.2s;
+  color: #333333;
+  font-weight: 500;
 
   &::placeholder {
     color: transparent;
   }
 
   &:placeholder-shown ~ .inputLabel {
-    font-size: 1.3rem;
+    font-weight: 400;
+    font-size: 14px;
     cursor: text;
-    top: 20px;
+    top: 15px;
   }
 }
 
 .inputLabel {
   position: absolute;
-  top: 0;
+  top: 7px;
   display: block;
   transition: 0.2s;
-  font-size: 1rem;
+  font-size: 10px;
   color: #808080;
 }
 
 .inputField:focus {
   ~ .inputLabel {
     position: absolute;
-    top: 0;
+    top: 7px;
     display: block;
     transition: 0.2s;
-    font-size: 1rem;
-    color: #589DC0;
-    font-weight:700;    
+    font-size: 10px;
+    color: #589dc0;
   }
-  padding-bottom: 6px;  
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, #589DC0, #808080);
-  border-image-slice: 1;
+  font-size: 16px;
 }
+
 /* reset input */
-.inputField{
-  &:required,&:invalid { box-shadow:none; }
+.inputField {
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
 }

@@ -2,9 +2,7 @@ import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
-import ListStock from './ListStock';
-
-const PostAdmin = () => {
+const PostCafeNew = () => {
   return (
     <div className='newsfeed mt-[10px] bg-[#ffffff] px-[16px] py-[24px]'>
       <div className='flex flex-row justify-between'>
@@ -47,42 +45,54 @@ const PostAdmin = () => {
           />
         </div>
       </div>
-      <div className='desc mb-[15px] mt-[18px]'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec $HPG, nisl in lacinia
-        vehicula, nisi augue tincidunt neque, pellentesque mattis tortor ante eu nisl. #IronicTrend
-      </div>
-      <div className='mb-[16px] flex gap-x-[6px]'>
-        <div className='inline-block rounded-[4px] border-[1px] border-solid border-[#B1D5F1] px-[12px] py-[4px]'>
-          <Text type='body-12-medium' color='primary-2'>
-            $HPG
-          </Text>
-        </div>
-        <div className='inline-block rounded-[4px] border-[1px] border-solid border-[#B1D5F1] px-[12px] py-[4px]'>
-          <Text type='body-12-medium' color='primary-2'>
-            $HPG
-          </Text>
-        </div>
-        <div className='inline-block rounded-[4px] border-[1px] border-solid border-[#B1D5F1] px-[12px] py-[4px]'>
-          <Text type='body-12-medium' color='primary-2'>
-            $HPG
-          </Text>
-        </div>
-      </div>
-      <div className='theme relative'>
+      <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+        Username invested in $VPG
+      </Text>
+      <div className='relative h-[185px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
         <Image
-          src='/static/images/image_post.jpg'
+          src='/static/images/postSell.png'
           alt=''
-          width={343}
-          height={168}
-          className='rounded-bl-none rounded-br-none rounded-tl-[8px] rounded-tr-[8px]'
+          width='0'
+          height='0'
+          sizes='100vw'
+          className='absolute right-0 top-0'
         />
-        <div className='absolute bottom-[8px] left-0 w-full pl-[8px]'>
-          <ListStock />
+        <div className='absolute bottom-[19px] left-[19px] h-[132px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
+          <div className='absolute -top-[14px] left-2/4 flex h-[28px] w-[67px] -translate-x-1/2 transform flex-row items-center rounded-[100px] bg-[#F3F2F6] px-[4px]'>
+            <Image
+              src='/static/icons/logoStock.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='mr-[6px] w-[20px]'
+            />
+            <Text type='body-12-medium' color='primary-5'>
+              $VPG
+            </Text>
+          </div>
+          <div className='mt-[27.5px] flex flex-col items-center justify-center'>
+            <Image
+              src='/static/icons/iconPostBuy.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='mb-[10px] w-[20px]'
+            />
+            <div className='flex w-[97px] justify-center rounded-[4px] bg-[#F3F2F6] px-[13.5px] py-[4px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.12)]'>
+              <Text type='body-12-medium' color='primary-5'>
+                Buy
+              </Text>
+            </div>
+            <Text type='body-12-medium' color='neutral-9' className='mb-[2px] mt-[10px]'>
+              Transaction date
+            </Text>
+            <Text type='body-12-medium' color='neutral-7'>
+              13/06/2023
+            </Text>
+          </div>
         </div>
-      </div>
-      <div className='flex h-[62px] items-center justify-between rounded-bl-[8px] rounded-br-[8px] rounded-tl-none rounded-tr-none border-[1px] border-solid border-[#EAF4FB] bg-[#F3F2F6] px-[12px] py-[5px]'>
-        <Text>Title to webpage article</Text>
-        <Image src='/static/icons/iconLink.svg' alt='' width='0' height='0' className='w-[21px]' />
       </div>
       <div className='action mt-[15px] flex flex-row items-center justify-between'>
         <div className='like flex flex-row items-center justify-center'>
@@ -125,4 +135,4 @@ const PostAdmin = () => {
     </div>
   );
 };
-export default PostAdmin;
+export default PostCafeNew;

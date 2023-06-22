@@ -2,6 +2,7 @@ import React from 'react';
 
 import 'rc-dialog/assets/index.css';
 
+import { useRequest } from 'ahooks';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 
@@ -10,44 +11,61 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 
 import Reason from './Reason';
+import { TYPEREPORT, requestReportPost } from './service';
 
 interface IProps {
   children: any;
   closeIcon?: boolean;
+  postID: string;
 }
 const ModalReport = (props: IProps) => {
-  const { children, closeIcon } = props;
+  const { children, closeIcon, postID } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const onVisible = () => {
     setVisible(!visible);
   };
+
   const renderCloseIcon = (): React.ReactNode => {
     if (closeIcon) {
       return closeIcon;
     }
     return <>x</>;
   };
+  const onReport = useRequest(
+    (payload: any) => {
+      return requestReportPost(postID, payload);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        console.log('thanh cong');
+      },
+      onError: () => {
+        console.log('that bai');
+      },
+    },
+  );
   const onFinish = () => {
     const value = form.getFieldsValue();
-    console.log('🚀 ~ file: index.tsx:25 ~ onFinish ~ value:', value);
+    onReport.run(value);
   };
   const options = [
     {
       label: 'Ngôn ngữ không phù hợp',
-      value: '1',
+      value: TYPEREPORT.INAPPROPRIATE,
     },
     {
       label: 'Spam',
-      value: '2',
+      value: TYPEREPORT.SPAM,
     },
     {
       label: 'Ngôn ngữ gây kích động / bạo lực',
-      value: '3',
+      value: TYPEREPORT.PROVOKE,
     },
     {
       label: 'Khác',
-      value: '4',
+      value: TYPEREPORT.OTHER,
     },
   ];
   return (
@@ -65,7 +83,7 @@ const ModalReport = (props: IProps) => {
           </Text>
           <Form form={form} onFinish={onFinish}>
             <FormItem
-              name='reason'
+              name='reportType'
               rules={[
                 {
                   required: true,
@@ -77,14 +95,15 @@ const ModalReport = (props: IProps) => {
             </FormItem>
             <FormItem
               shouldUpdate={(prevValues: any, curValues: any) =>
-                prevValues.reason !== curValues.reason
+                prevValues.reportType !== curValues.reportType
               }
             >
               {() => {
-                const reason = form.getFieldValue('reason');
-                if (reason === '4') {
+                const reason = form.getFieldValue('reportType');
+                console.log('🚀 ~ file: index.tsx:103 ~ ModalReport ~ reason:', reason);
+                if (reason === TYPEREPORT.OTHER) {
                   return (
-                    <FormItem name='text'>
+                    <FormItem name='message'>
                       <Input
                         placeholder='Tell us your reason...'
                         className='h-[34px] w-full pl-[5px]'

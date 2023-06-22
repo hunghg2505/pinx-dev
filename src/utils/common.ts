@@ -1,10 +1,15 @@
 export const ROUTE_PATH = {
-  Home: '/',
+  HOME: '/',
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   FORGOT_PASSWORD: '/auth/forgot-password',
   REGISTER_OTP_VERIFICATION: '/auth/register-verification',
+  REGISTER_USER_NAME: '/auth/register-user-name',
   LOGIN_OTP_VERIFICATION: '/auth/login-verification',
+  TERMS_OF_SERVICE: '/auth/terms-of-service',
+  REGISTER_COMPANY: '/auth/register-company',
+  REGISTER_THEME: '/auth/register-theme',
+  REGISTER_TOPIC: '/auth/register-topic',
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -51,4 +56,33 @@ export const formatMessage = (message: string, data: any) => {
     }
   }
   return message;
+};
+export const toBase64 = (file: any) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener('load', () => resolve(reader.result));
+    reader.onerror = reject;
+  });
+export const base64ToBlob = (base64: any, type: any) => {
+  const base64Slice = base64.split(',')[1];
+  const binStr = window.atob(base64Slice.replaceAll(/\s/g, ''));
+  const len = binStr.length;
+  const buffer = new ArrayBuffer(len);
+  const arr = new Uint8Array(buffer);
+  for (let i = 0; i < len; i++) {
+    arr[i] = binStr.charCodeAt(i);
+  }
+  const blob = new Blob([arr], { type });
+  return URL.createObjectURL(blob);
+};
+export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'gif', 'heic', 'webp'];
+export const isImage = (file: any) => {
+  if (!file) {
+    return false;
+  }
+
+  const name = file?.name?.split('.');
+
+  return file.type?.includes('image') && EXT_IMAGE.includes(name[name?.length - 1]?.toLowerCase());
 };

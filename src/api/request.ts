@@ -7,12 +7,28 @@ import { ENV } from 'src/utils/env';
 const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
-export const PREFIX_API_PIST = ENV.URL_API_PIST;
+export interface IOptions {
+  onSuccess?: (r: any) => void;
+  onError?: (e: any) => void;
+}
 
+export const PREFIX_API_PIST = ENV.URL_API_PIST;
+export const PREFIX_API_MARKET = ENV.URL_API_MARKET;
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
+  timeout: REQ_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  errorHandler: (error) => {
+    throw error?.data || error?.response;
+  },
+});
+
+const requestMarket = extend({
+  prefix: PREFIX_API_MARKET,
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
@@ -41,11 +57,7 @@ const tokenManager = new TokenManager({
     const token = getAccessToken();
     return `${token}`;
   },
-  onInvalidRefreshToken: () => {
-    // Logout, redirect to login
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-  },
+  onInvalidRefreshToken: () => {},
   isValidToken: async (token) => {
     return true;
   },
@@ -108,10 +120,14 @@ const API_PATH = {
   LOGIN: '/public/customer/loginSSO',
   REGISTER: '/public/customer/register/credentials',
   REGISTER_OTP: '/public/customer/register/otp/verify',
+  SUBMIT_LOGIN_OTP: '/private/get-token',
   RESEND_REGISTER_OTP: '/public/customer/register/otp/resend',
   CREATE_USER_NAME: '/public/customer/register/login-id',
   GET_USER_CONTRACT: '/private/user-info/contract',
-  LOGOUT: '',
+  CONFIRM_CONTRACT: '/private/user-info/confirm',
+  READ_CONTRACT: '/public/contract/read',
+  SEND_LOGIN_OTP: '/private/generate-auth',
+  USER_PROFILE: '/private/customer/profile',
 };
 
-export { API_PATH, privateRequest, requestPist, requestCommunity };
+export { API_PATH, privateRequest, requestPist, requestCommunity, requestMarket };

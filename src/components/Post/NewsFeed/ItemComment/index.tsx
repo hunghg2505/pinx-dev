@@ -27,7 +27,7 @@ const ItemComment = (props: IProps) => {
     <div className='comment p-[16px]'>
       <div className='flex flex-row items-start'>
         <Image
-          src={data?.customerInfo.avatar || ''}
+          src={data?.customerInfo?.avatar || ''}
           alt=''
           width='0'
           height='0'
@@ -38,7 +38,7 @@ const ItemComment = (props: IProps) => {
           <div className='rounded-[12px] bg-[#F6FAFD] px-[16px] py-[12px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.12)]'>
             <div className='mb-[12px] flex w-full flex-row items-center justify-between border-b border-solid border-[#E6E6E6] pb-[12px]'>
               <Text type='body-14-bold' color='neutral-1'>
-                {data?.customerInfo.name}
+                {data?.customerInfo?.name}
               </Text>
               <Text type='body-12-medium' color='neutral-5'>
                 {dayjs(data?.timeString).fromNow()}

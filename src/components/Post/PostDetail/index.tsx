@@ -9,19 +9,14 @@ import Text from '@components/UI/Text';
 
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
-import {
-  IComment,
-  useCommentsOfPost,
-  useCommentsOfPostUnAuth,
-  useGetPostDetailUnAuth,
-  usePostDetail,
-} from '../service';
+import { IComment, useCommentsOfPost, usePostDetail } from '../service';
+import { ROUTE_PATH } from '@utils/common';
 
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
 });
-const ForwardedRefComponent = React.forwardRef((props, ref) => (
-  <ComponentRef {...props} forwardedRef={ref} />
+const ForwardedRefComponent = React.forwardRef((props: any, ref) => (
+  <ComponentRef {...props} forwardedRef={ref} id={props.id} />
 ));
 
 const PostDetail = () => {
@@ -29,14 +24,12 @@ const PostDetail = () => {
   const router = useRouter();
 
   // is login
-  const { onRefreshPostDetail } = usePostDetail(String(router.query.id));
+  const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost } = useCommentsOfPost(String(router.query.id));
 
   // not login
-  const { postDetailUnAuth } = useGetPostDetailUnAuth(String(router.query.id));
 
-  const { commentsOfPostUnAuth } = useCommentsOfPostUnAuth(String(router.query.id));
   const onGoToBack = () => {
     router.back();
   };
@@ -56,6 +49,20 @@ const PostDetail = () => {
       );
     }
   };
+
+  const redirectToLogin = () => {
+    router.push(ROUTE_PATH.LOGIN);
+  };
+
+  const redirectToSignUp = () => {
+    router.push({
+      pathname: ROUTE_PATH.LOGIN,
+      query: {
+        type: 'register',
+      },
+    });
+  };
+
   return (
     <>
       <div className='header relative'>
@@ -72,12 +79,12 @@ const PostDetail = () => {
         />
       </div>
       <NewFeedItem
-        postDetail={postDetailUnAuth?.data}
-        totalComments={commentsOfPostUnAuth?.data?.list.length}
-        onRefreshPostDetail={() => onRefreshPostDetail()}
+        postDetail={postDetail?.data}
+        totalComments={commentsOfPost?.data?.list.length}
+        onRefreshPostDetail={() => refresh()}
       />
       <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
-        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]'>
+        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]' onClick={redirectToSignUp}>
           <Text type='body-14-semibold' color='cbwhite'>
             Sign up
           </Text>
@@ -85,7 +92,7 @@ const PostDetail = () => {
         <Text type='body-14-regular' color='primary-5' className='mx-[8px]'>
           or
         </Text>
-        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#EAF4FB]'>
+        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#EAF4FB]' onClick={redirectToLogin}>
           <Text type='body-14-semibold' color='primary-2'>
             Log in
           </Text>
@@ -105,7 +112,7 @@ const PostDetail = () => {
         })}
       </div>
       <div>
-        <ForwardedRefComponent ref={refReplies} />
+        <ForwardedRefComponent ref={refReplies} id={postDetail?.id} />
       </div>
     </>
   );

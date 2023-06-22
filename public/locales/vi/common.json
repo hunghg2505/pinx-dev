@@ -1,1 +1,19 @@
-{}
+{
+  "topic.stock_trading": "Chứng Khoán",
+  "topic.bonds": "Trái Phiếu",
+  "topic.derivatives": "Phái Sinh",
+  "topic.currencies": "Ngoại Hối",
+  "topic.real_estate": "Bất Động Sản",
+  "topic.company_performance": "Kinh Doanh",
+  "topic.commodities": "Vàng",
+  "topic.technology": "Công Nghệ",
+  "topic.investing_stories": "Câu Chuyện Đầu Tư",
+  "topic.business_news": "Tin Kinh Tế",
+  "topic.financial_investment": "Tin Đầu Tư",
+  "topic.global_economy": "Kinh Tế Thế Giới",
+  "topic.consumption": "Tiêu Dùng",
+  "topic.travel": "Du Lịch",
+  "topic.entertainment": "Giải Trí",
+  "topic.sports": "Thể Thao",
+  "topic.oil_and_gas": "Dầu và Gas"
+}

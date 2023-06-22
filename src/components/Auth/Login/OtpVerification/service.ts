@@ -8,30 +8,32 @@ interface IOptionsRequest {
 }
 
 interface IBodySubmitOtp {
-  otp: string;
+  cif: string;
+  type: string;
+  value: string;
 }
 
-const serviceRegisterOtp = async (value: IBodySubmitOtp) => {
-  return privateRequest(requestPist.post, API_PATH.REGISTER_OTP, {
-    params: value,
+const serviceSubmitOtp = async (values: IBodySubmitOtp) => {
+  return privateRequest(requestPist.post, API_PATH.SUBMIT_LOGIN_OTP, {
+    data: values,
   });
 };
 
-export const useRegisterOtp = (options: IOptionsRequest) => {
-  const requestRegisterOtp = useRequest(serviceRegisterOtp, {
+export const useLoginOtp = (options: IOptionsRequest) => {
+  const requestSubmitOtp = useRequest(serviceSubmitOtp, {
     manual: true,
     ...options,
   });
 
-  return requestRegisterOtp;
+  return requestSubmitOtp;
 };
 
-const serviceResendRegisterOtp = async () => {
+const serviceResendLoginOtp = async () => {
   return privateRequest(requestPist.post, API_PATH.RESEND_REGISTER_OTP);
 };
 
-export const useResendRegisterOtp = (options: IOptionsRequest) => {
-  const requestResendRegisterOtp = useRequest(serviceResendRegisterOtp, {
+export const useResendLoginOtp = (options: IOptionsRequest) => {
+  const requestResendRegisterOtp = useRequest(serviceResendLoginOtp, {
     manual: true,
     ...options,
   });

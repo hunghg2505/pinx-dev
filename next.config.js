@@ -17,11 +17,19 @@ const nextConfig = {
     URL_API_COMMUNITY: process.env.URL_API_COMMUNITY,
     URL_SOCKET: process.env.URL_SOCKET,
     URL_API_PIST: process.env.URL_API_PIST,
+    URL_API_MARKET: process.env.URL_API_MARKET,
     RECAPTHCHA_SITE_KEY: process.env.RECAPTHCHA_SITE_KEY,
   },
   images: {
     minimumCacheTTL: 60,
-    domains: ['static.pinetree.com.vn', 'cdn.pixabay.com'],
+    domains: [
+      'static.pinetree.com.vn',
+      'cdn.pixabay.com',
+      'pinetree.vn',
+      'image.vietstock.vn',
+      'cafefcdn.com',
+      'photo-cms-tinnhanhchungkhoan.epicdn.me',
+    ],
   },
   httpAgentOptions: {
     keepAlive: false,
