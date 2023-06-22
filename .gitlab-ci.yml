@@ -53,8 +53,7 @@ deploy-job:
   image: ubuntu:latest
   stage: deploy
   script:
-  - >
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
+  - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
     "
       sudo su;
       cd /home/ubuntu;
