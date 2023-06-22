@@ -52,14 +52,22 @@ stages:
 deploy-job:
   image: ubuntu:latest
   stage: deploy
-  before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
-    - eval $(ssh-agent -s)
-    - echo "$EC2_SSH_KEY1" > "key.pem"
-    - chmod 600 key.pem
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
-  script:
-    - sudo su | cd /home/ubuntu
+  script: |
+    ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 << EOF
+    sudo -E sudo su
+    sudo -E cd /home/ubuntu
+    sudo -E ls -la
+    EOF
+    exit 0
+  # before_script:
+  #   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
+  #   - eval $(ssh-agent -s)
+  #   - echo "$EC2_SSH_KEY1" > "key.pem"
+  #   - chmod 600 key.pem
+  #   - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
+  #   - gitlab-runner ALL=(ALL) NOPASSWD:ALL su another-user
+  # script:
+  #   - sudo su | cd /home/ubuntu
 
   # script:
   #   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
