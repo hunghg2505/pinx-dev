@@ -1,5 +1,5 @@
 export const ROUTE_PATH = {
-  Home: '/',
+  HOME: '/',
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -7,6 +7,9 @@ export const ROUTE_PATH = {
   REGISTER_USER_NAME: '/auth/register-user-name',
   LOGIN_OTP_VERIFICATION: '/auth/login-verification',
   TERMS_OF_SERVICE: '/auth/terms-of-service',
+  REGISTER_COMPANY: '/auth/register-company',
+  REGISTER_THEME: '/auth/register-theme',
+  REGISTER_TOPIC: '/auth/register-topic',
 };
 
 export const formatMessage = (message: string, data: any) => {

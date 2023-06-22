@@ -22,11 +22,14 @@ const checkUserType = (custStat: string, acntStat: string) => {
   if (custStat === 'NEW') {
     return 'NEW';
   }
-  if ((custStat === 'PRO' && acntStat === 'VSD_PENDING') || (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')) {
-    return 'EKYC'
+  if (
+    (custStat === 'PRO' && acntStat === 'VSD_PENDING') ||
+    (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')
+  ) {
+    return 'EKYC';
   }
   return 'VSD';
-}
+};
 
 const Login = () => {
   const router = useRouter();
@@ -35,7 +38,6 @@ const Login = () => {
   const { setUserLoginInfo } = useUserLoginInfo();
   const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(false);
   const [userType, setUserType] = useState<string>('');
-
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -55,17 +57,17 @@ const Login = () => {
         setUserLoginInfo(res?.data);
 
         if (res?.data.isReadTerms === 'true') {
-          router.push(ROUTE_PATH.Home);
+          router.push(ROUTE_PATH.HOME);
         } else {
           switch (checkUserType(res?.data?.custStat, res?.data?.acntStat)) {
             case 'NEW':
-              setUserType('NEW')
+              setUserType('NEW');
               break;
             case 'EKYC':
-              setUserType('EKYC')
+              setUserType('EKYC');
               break;
             case 'VSD':
-              setUserType('VSD')
+              setUserType('VSD');
               break;
           }
           setShowModalLoginTerms(true);

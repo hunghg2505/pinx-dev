@@ -5,13 +5,13 @@ import Image from 'next/image';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useRouter } from 'next/router';
-import { PATH } from '@utils/constant';
 import { getAccessToken } from '@store/auth';
+import { ROUTE_PATH } from '@utils/common';
 
 const Header = () => {
   const router = useRouter();
   const redirectToLogin = () => {
-    router.push(PATH.AUTH_LOGIN);
+    router.push(ROUTE_PATH.LOGIN);
   };
   const { userLoginInfo } = useUserLoginInfo();
   console.log('🚀 ~ file: index.tsx:11 ~ Header ~ userLoginInfo:', userLoginInfo);

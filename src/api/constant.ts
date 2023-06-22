@@ -40,4 +40,18 @@ export const API_PATH = {
   PRIVATE_LIST_THEME_SUBSCRIBED: '/private/subscribed/themes',
   PRIVATE_ALL_THEME: '/private/themes',
   PUBLIC_ALL_THEME: '/public/theme/all',
+
+  //stock
+  PUBLIC_SUGGEST_STOCK_CODE: '/public/suggested/stockcodes',
+  PUBLIC_COMPANY_GET_BY_STOCK_BRIEF: (stockCodes: string) =>
+    `/public/company/get-by-stocks-brief?stockCodes=${stockCodes}`,
+  PRIVATE_WATCH_LIST_CREATE: '/private/watchlist/create',
+
+  //theme
+  PRIVATE_THEMES: '/private/themes',
+  PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
+  //topic
+  PRIVATE_TOPIC_ALL: (limit?: number) =>
+    limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',
+  PRIVATE_TOPIC_SELECTED: '/private/topic/selected',
 };

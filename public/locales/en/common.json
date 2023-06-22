@@ -1,1 +1,19 @@
-{}
+{
+  "topic.stock_trading": "Stock Trading",
+  "topic.bonds": "Bonds",
+  "topic.derivatives": "Derivatives",
+  "topic.currencies": "Currencies",
+  "topic.real_estate": "Real Estate",
+  "topic.company_performance": "Company Performance",
+  "topic.commodities": "Commodities",
+  "topic.technology": "Technology",
+  "topic.investing_stories": "Investing Stories",
+  "topic.business_news": "Business News",
+  "topic.financial_investment": "Financial Investment",
+  "topic.global_economy": "Global Economy",
+  "topic.consumption": "Consumption",
+  "topic.travel": "Travel",
+  "topic.entertainment": "Entertainment",
+  "topic.sports": "Sports",
+  "topic.oil_and_gas": "Oil and Gas"
+}
