@@ -53,7 +53,7 @@ deploy-job:
   image: ubuntu:latest
   stage: deploy
   before_script:
-    - apt-get update -y && apt-get install openssh
+    - apt-get update -y && apt-get install openssh-client -y
   script:
     - ssh -i $EC2_SSH_KEY ubuntu@54.151.229.11 
     - sudo su
