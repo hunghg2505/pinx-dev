@@ -58,7 +58,7 @@ deploy-job:
     - echo "$EC2_SSH_KEY1" > "key.pem"
     - chmod 600 key.pem
     - ls -la
-    - ssh -oStrictHostKeyChecking=no -tt -i key.pem ubuntu@54.151.229.11 "sudo su && cd /home/ubuntu && aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com && docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest && docker compose up -d"
+    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo su && cd /home/ubuntu && aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com && docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest && docker compose up -d"
     # - ssh -oStrictHostKeyChecking=no -tt -i key.pem ubuntu@54.151.229.11 "ls"
     # - ssh "sudo su"
     # - ssh "cd /home/ubuntu"
