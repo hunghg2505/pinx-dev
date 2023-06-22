@@ -49,6 +49,7 @@ publish-job:
     - docker --version
   script:
     - docker build -t $TAG_LATEST .
+    - docker tag $TAG_LATEST 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/$TAG_LATEST
     - docker push 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/$TAG_LATEST
 
 success_notification:
