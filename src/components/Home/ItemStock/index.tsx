@@ -4,17 +4,30 @@ import clx from 'classnames';
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
+import { IWatchListItem } from '../service';
 
-const ItemStock = () => {
+const ItemStock = ({ data }: { data: IWatchListItem }) => {
   // socket.on('connect', function () {
   //   console.log('check 2', socket.connected);
   // });
   // console.log('check 1', socket.connected);
-
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const url = `${imageCompanyUrl}${
+    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
+      ? data?.stockCode
+      : data?.stockCode?.slice(1, 4)
+  }.png`;
   return (
     <div className='mr-[10px] w-[121px]'>
       <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] p-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
-        <Image src='/static/icons/iconFpt.svg' alt='' width={44} height={44} className='w-[44px]' />
+        <Image
+          src={url}
+          alt=''
+          width={0}
+          height={0}
+          sizes='100vw'
+          className='h-[44px] w-[44px] rounded-full object-contain'
+        />
         <Text type='body-14-bold' color='primary-5' className='mt-1'>
           Vinamilk
         </Text>

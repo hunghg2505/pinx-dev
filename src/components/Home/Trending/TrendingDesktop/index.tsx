@@ -7,7 +7,6 @@ const TrendingDesktop = () => {
     <>
       <div>
         {dataTrending?.map((item: ITrending, index: number) => {
-          console.log('🚀 ~ file: index.tsx:10 ~ {dataTrending?.map ~ item:', item);
           return (
             <div
               className='item flex items-center py-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none'

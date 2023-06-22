@@ -35,8 +35,7 @@ const NewFeedItem = (props: IProps) => {
   const router = useRouter();
   const id = router.query?.id;
   const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
-  console.log('🚀 ~ file: index.tsx:38 ~ NewFeedItem ~ postDetail:', postDetail);
-  console.log('🚀 ~ file: index.tsx:38 ~ NewFeedItem ~ postId:', postId);
+
   const isLogin = !!getAccessToken();
   const onComment = () => {
     onNavigate && onNavigate();
@@ -183,6 +182,9 @@ const NewFeedItem = (props: IProps) => {
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
       name = 'CafeFNews';
+    }
+    if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
+      name = 'TNCKNews';
     }
     return name;
   };

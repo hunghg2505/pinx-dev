@@ -72,6 +72,25 @@ export interface IStockIndex {
   value: number;
   vol: number;
 }
+export interface IWatchListItem {
+  ceilPrice: number;
+  change: number;
+  changePercent: number;
+  floorPrice: number;
+  highPrice: number;
+  id: string;
+  isHnx30: boolean;
+  isVn30: boolean;
+  lastPrice: number;
+  lastVolume: number;
+  lowPrice: number;
+  name: string;
+  nameEn: string;
+  refPrice: number;
+  shortName: string;
+  stockCode: string;
+  stockExchange: string;
+}
 const isLogin = !!getAccessToken();
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
@@ -134,11 +153,14 @@ export const useGetTrending = () => {
 };
 
 export const useGetInfluencer = () => {
-  const { data } = useRequest(() => {
-    return requestPist.get(API_PATH.KOL);
+  const { data, refresh } = useRequest(() => {
+    return isLogin
+      ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
+      : requestPist.get(API_PATH.KOL);
   });
   return {
-    KOL: data?.data?.list,
+    KOL: data?.data?.list || data?.data,
+    refresh,
   };
 };
 export const socket = io(ENV.URL_SOCKET, {
@@ -211,11 +233,13 @@ export const requestFollowUser = (id: number) => {
 export const requestUnFollowUser = (id: number) => {
   return privateRequest(requestPist.put, API_PATH.PRIVATE_UNFOLLOW_USER + `?idFriend=${id}`);
 };
-export const useGetWatchList = (id: number) => {
+export const useGetWatchList = () => {
   const { data } = useRequest(() => {
-    return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK(id));
+    return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
   });
+  console.log('🚀 ~ file: service.ts:218 ~ const{data}=useRequest ~ data:', data);
+
   return {
-    watchList: data,
+    watchList: data?.data,
   };
 };

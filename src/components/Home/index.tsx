@@ -51,7 +51,7 @@ const Home = () => {
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const { suggestionPeople } = useSuggestPeople();
   // console.log('🚀 ~ file: index.tsx:71 ~ Home ~ suggestionPeople:', suggestionPeople);
-  const { KOL } = useGetInfluencer();
+
   const isLogin = !!getAccessToken();
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
@@ -60,7 +60,7 @@ const Home = () => {
     <>
       <Toaster />
       <div className='flex'>
-        <div className='mr-[24px] desktop:w-[750px]'>
+        <div className='mobile:mr-0 desktop:mr-[24px] desktop:w-[750px]'>
           <div className='mobile:bg-[#F8FAFD] mobile:pt-[10px] desktop:bg-[#ffffff] desktop:pt-0'>
             <div className='mx-[auto] my-[0] mobile:w-[375px] desktop:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block desktop:hidden'>
@@ -87,7 +87,7 @@ const Home = () => {
                 </Tabs>
               </div>
               {isLogin && (
-                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
+                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden desktop:block'>
                   <div className='flex items-center'>
                     <Image
                       src='/static/logo/logoPintree.svg'
@@ -154,29 +154,28 @@ const Home = () => {
                 </Text>
                 <ModalFilter run={run} />
               </div>
-              <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
+              <div className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
                 <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px] mobile:block desktop:hidden'>
                   <Trending />
                 </div>
-                <div className='mt-[2px] bg-[#ffffff] px-[16px]'>
+                <div className='mt-[2px] bg-[#ffffff] pl-[16px]'>
                   <Text type='body-16-bold' color='neutral-2' className='mb-[14px] pt-[20px]'>
                     People in spotlight
                   </Text>
-                  <div className='flex gap-[15px] pb-[15px]'>
-                    {KOL?.slice(0, 2)?.map((kol: IKOL, index: number) => {
-                      return <Influencer key={index} data={kol} />;
-                    })}
+                  <Influencer />
+                  <div className='mt-[16px] w-full pr-[16px]'>
+                    <button className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
+                      <Text type='body-14-bold' color='primary-2'>
+                        Explore influencer
+                      </Text>
+                    </button>
                   </div>
-                  <button className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
-                    <Text type='body-14-bold' color='primary-2'>
-                      Explore influencer
-                    </Text>
-                  </button>
+
                   {suggestionPeople && (
-                    <div className='flex flex-row items-center mobile:block desktop:hidden'>
+                    <div className='mr-[16px] flex-row items-center mobile:flex desktop:hidden'>
                       <Image
                         src='/static/icons/iconPeople.svg'
                         alt=''

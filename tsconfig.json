@@ -25,6 +25,6 @@
       "@services/*": ["src/services/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/ReadMore.js"],
   "exclude": ["node_modules"]
 }

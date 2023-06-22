@@ -55,7 +55,7 @@ const MarketDesktop = () => {
           const isChange = findIndex === index;
           return (
             <TabPane tab={item.displayName} key={index + 1}>
-              <div>
+              <div className='mt-[20px]'>
                 <div className='flex items-center justify-between'>
                   <div>
                     <Text type='body-14-semibold' color='semantic-2-1'>

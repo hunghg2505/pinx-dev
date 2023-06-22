@@ -20,7 +20,6 @@ const Market = () => {
       manual: true,
       onSuccess: (res) => {
         setDataStockIndex(res.data);
-        console.log('🚀 ~ file: index.tsx:26 ~ Market ~ res:', res);
       },
     },
   );

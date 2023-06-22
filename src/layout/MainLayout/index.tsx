@@ -10,8 +10,8 @@ const MainLayout = ({ children }: any) => {
   return (
     <>
       <MainHeader />
-      <div className='flex justify-center desktop:container'>
-        <div className='sidebar desktop:mr-[25px] desktop:w-[218px]'>
+      <div className='flex justify-center mobile:container desktop:container'>
+        <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
           <SideBar />
         </div>
         <main className='desktop:w-[1124px]'>{children}</main>
