@@ -1,18 +1,17 @@
-// import { useTranslation } from 'next-i18next';
 import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
+import { IMAGE_COMPANY_URL } from '@utils/constant';
 
 import styles from './index.module.scss';
 import { useGetDetailStockCode, useSelectedTopics, useSuggestStockCode } from './service';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
-import toast from 'react-hot-toast';
-import Notification from '@components/UI/Notification';
-import { ROUTE_PATH } from '@utils/common';
-import { useRouter } from 'next/router';
 
 const RegisterCompanyStep = () => {
   // const { t } = useTranslation('common');
@@ -28,7 +27,9 @@ const RegisterCompanyStep = () => {
   });
 
   useEffect(() => {
-    if (listSuggestStock.stockCodes) detailStockSuggested.run();
+    if (listSuggestStock.stockCodes) {
+      detailStockSuggested.run();
+    }
   }, [listSuggestStock.stockCodes]);
 
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);

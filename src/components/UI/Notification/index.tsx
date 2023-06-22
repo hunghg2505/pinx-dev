@@ -8,10 +8,10 @@ interface NotificationProps {
   customImage?: string;
 }
 
-const Notification: React.FC<NotificationProps> = ({ type, message, customImage }) => {
+const Notification: React.FC<NotificationProps> = ({ type, message }) => {
   const renderImage = () => {
     switch (type) {
-      case 'success':
+      case 'success': {
         return (
           <Image
             src='/static/icons/success_noti.svg'
@@ -21,7 +21,8 @@ const Notification: React.FC<NotificationProps> = ({ type, message, customImage 
             className={'h-[46px] w-[46px]'}
           />
         );
-      case 'error':
+      }
+      case 'error': {
         return (
           <Image
             src='/static/icons/error_noti.svg'
@@ -31,25 +32,28 @@ const Notification: React.FC<NotificationProps> = ({ type, message, customImage 
             className={'h-[46px} w-[46px]'}
           />
         );
+      }
     }
   };
 
   const renderMessage = () => {
     switch (type) {
-      case 'success':
+      case 'success': {
         return (
           <div className='ml-3'>
             <div className='text-[20px] font-[700]'>Success</div>
             <div className='text-[14px] font-[500]'>{message}</div>
           </div>
         );
-      case 'error':
+      }
+      case 'error': {
         return (
           <div className='ml-3'>
             <div className='text-[20px] font-[700]'>Error</div>
             <div className='text-[14px] font-[500] text-[--neutral-4]'>{message}</div>
           </div>
         );
+      }
     }
   };
 

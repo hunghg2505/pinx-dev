@@ -38,7 +38,7 @@ export interface IProfile {
   vsd?: string;
 }
 
-export let initialProfile: IProfile = {
+export const initialProfile: IProfile = {
   username: '',
   phone: '',
   email: '',

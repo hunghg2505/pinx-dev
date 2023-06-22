@@ -1,6 +1,7 @@
+import { useRequest } from 'ahooks';
+
 import { API_PATH } from '@api/constant';
 import { IOptions, privateRequest, requestMarket, requestPist } from '@api/request';
-import { useRequest } from 'ahooks';
 
 interface IOptionsRequest {
   onSuccess?: (r: any) => void;

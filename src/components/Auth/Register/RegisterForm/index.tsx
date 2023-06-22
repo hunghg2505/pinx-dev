@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
+import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 // import Text from '@components/UI/Text';
@@ -16,7 +17,6 @@ import { ENV } from '@utils/env';
 import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
-import { MainButton } from '@components/UI/Button';
 
 const Register = () => {
   const router = useRouter();
@@ -47,12 +47,14 @@ const Register = () => {
           expiredTime: res?.expired_time || 0,
         });
         switch (res?.data.nextStep) {
-          case 'OTP':
+          case 'OTP': {
             router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
             break;
-          case 'LOGIN_ID':
+          }
+          case 'LOGIN_ID': {
             router.push(ROUTE_PATH.REGISTER_USER_NAME);
             break;
+          }
         }
       }
     },

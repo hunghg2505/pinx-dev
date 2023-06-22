@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-// import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 
 import Image from 'next/image';
@@ -60,15 +58,18 @@ const Login = () => {
           router.push(ROUTE_PATH.HOME);
         } else {
           switch (checkUserType(res?.data?.custStat, res?.data?.acntStat)) {
-            case 'NEW':
+            case 'NEW': {
               setUserType('NEW');
               break;
-            case 'EKYC':
+            }
+            case 'EKYC': {
               setUserType('EKYC');
               break;
-            case 'VSD':
+            }
+            case 'VSD': {
               setUserType('VSD');
               break;
+            }
           }
           setShowModalLoginTerms(true);
         }

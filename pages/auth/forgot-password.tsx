@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import StepOne from '@components/Auth/ForgotPassword/StepOne';
@@ -13,13 +14,8 @@ const ForgotPasswordPage = () => {
 };
 
 ForgotPasswordPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <LoginLayout>
-      {page}
-    </LoginLayout>
-  );
+  return <LoginLayout>{page}</LoginLayout>;
 };
-
 
 export async function getStaticProps({ locale }: any) {
   return {

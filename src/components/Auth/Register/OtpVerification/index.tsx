@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
-import { useAuth } from '@store/auth/useAuth';
 
 const Register = () => {
   const { userRegisterInfo } = useUserRegisterInfo();

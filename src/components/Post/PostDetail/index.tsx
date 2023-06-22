@@ -6,11 +6,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
-import { ROUTE_PATH } from '@utils/common';
 
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,

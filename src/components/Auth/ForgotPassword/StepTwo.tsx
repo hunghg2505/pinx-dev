@@ -1,32 +1,26 @@
-import { useTranslation } from 'next-i18next';
-import Image from 'next/image';
-import NextLink from 'next/link';
-import Form from 'rc-field-form';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/router';
-import React, { useRef } from "react";
+/* eslint-disable import/named */
+import React from 'react';
 
-import FormItem from '@components/UI/FormItem';
-import Notification from '@components/UI/Notification';
-import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
-import LabelInput from '@components/UI/LabelInput';
-import { MainButton } from '@components/UI/Button';
-import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
-import Picker, { PickerProps, RangePicker, RangePickerProps } from 'rc-picker';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import NextLink from 'next/link';
+import { useTranslation } from 'next-i18next';
+import Form from 'rc-field-form';
+import Picker, { PickerProps } from 'rc-picker';
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
 import enUS from 'rc-picker/lib/locale/en_US';
-import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
+
+import { MainButton } from '@components/UI/Button';
+import FormItem from '@components/UI/FormItem';
+import LabelInput from '@components/UI/LabelInput';
+import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
+import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
+
 import 'rc-picker/assets/index.css';
 
-const notifySuccess = () =>
-  toast(() => <Notification type='success' message='Password request is successful' />);
-
-const MyPicker = (
-  props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>
-) => (
-  //@ts-ignore
+const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) => (
+  // @ts-ignore
   <Picker
     generateConfig={dayjsGenerateConfig}
     locale={enUS}
@@ -35,11 +29,13 @@ const MyPicker = (
   />
 );
 
+const onSubmit = () => {
+  // requestCreateUsername.run({ username: value.username });
+};
+
 const ForgotPasswordStepOne = () => {
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
-  const router = useRouter();
-  const test = React.createRef();
 
   // const requestCreateUsername = useCreateUsername({
   //   onSuccess: (res: any) => {
@@ -50,17 +46,6 @@ const ForgotPasswordStepOne = () => {
   //   },
   // });
 
-  const onSubmit = (value: any) => {
-    // requestCreateUsername.run({ username: value.username });
-  };
-
-  const onFocus = (): any => {
-    console.log('xxx');
-  }
-
-  const onBlur = (): any => {
-    console.log('xxx');
-  }
   return (
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
@@ -83,7 +68,11 @@ const ForgotPasswordStepOne = () => {
               name='customerName'
               rules={[{ required: true, message: 'Please enter customer name!' }]}
             >
-              <LabelInput placeholder='Customer name' name='customerName' labelContent='Customer name' />
+              <LabelInput
+                placeholder='Customer name'
+                name='customerName'
+                labelContent='Customer name'
+              />
             </FormItem>
             <FormItem
               name='email'
@@ -122,7 +111,7 @@ const ForgotPasswordStepOne = () => {
 
           <div className='mt-9 text-center'>
             <Text type='body-14-regular'>{t('do_not_want_log_in')}</Text>
-            <NextLink href={ROUTE_PATH.Home}>
+            <NextLink href={ROUTE_PATH.HOME}>
               <Text type='body-14-medium' color='primary-1'>
                 {t('skip_forgot_password')}
               </Text>

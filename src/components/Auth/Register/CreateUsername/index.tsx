@@ -27,9 +27,10 @@ const CreateUsername = () => {
           expiredTime: res?.expired_time || 0,
         });
         switch (res?.data.nextStep) {
-          case 'OTP':
+          case 'OTP': {
             router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
             break;
+          }
         }
       }
     },

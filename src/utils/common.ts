@@ -31,7 +31,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/profile/${ID}" className="tagStock">@${name}</a> 
+          <a href="/profile/${ID}" className="tagStock">@${name}</a>
           `,
         );
       }
@@ -49,7 +49,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/stock/${ID}" className="tagStock">%${name}</a> 
+          <a href="/stock/${ID}" className="tagStock">%${name}</a>
           `,
         );
       }
@@ -62,6 +62,7 @@ export const toBase64 = (file: any) =>
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', () => resolve(reader.result));
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
     reader.onerror = reject;
   });
 export const base64ToBlob = (base64: any, type: any) => {
@@ -71,6 +72,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   const buffer = new ArrayBuffer(len);
   const arr = new Uint8Array(buffer);
   for (let i = 0; i < len; i++) {
+    // eslint-disable-next-line unicorn/prefer-code-point
     arr[i] = binStr.charCodeAt(i);
   }
   const blob = new Blob([arr], { type });

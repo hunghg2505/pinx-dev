@@ -1,4 +1,4 @@
-// import { useTranslation } from 'next-i18next';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useCallback, useEffect } from 'react';
 
 import classNames from 'classnames';
@@ -61,16 +61,6 @@ const OtpVerification = (props: IProps) => {
   const replacedPhoneNumber = () => {
     return props.phoneNumber && props.phoneNumber.slice(0, 4) + '****' + props.phoneNumber.slice(8);
   };
-
-  const onChange = useCallback(
-    (e: any) => {
-      if (e.target.value.length === 6) {
-        setOtp(e.target.value);
-        form.submit();
-      }
-    },
-    [form],
-  );
 
   const onSubmit = () => {
     props.onSubmit(otp);

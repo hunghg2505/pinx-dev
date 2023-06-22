@@ -41,16 +41,16 @@ export const API_PATH = {
   PRIVATE_ALL_THEME: '/private/themes',
   PUBLIC_ALL_THEME: '/public/theme/all',
 
-  //stock
+  // stock
   PUBLIC_SUGGEST_STOCK_CODE: '/public/suggested/stockcodes',
   PUBLIC_COMPANY_GET_BY_STOCK_BRIEF: (stockCodes: string) =>
     `/public/company/get-by-stocks-brief?stockCodes=${stockCodes}`,
   PRIVATE_WATCH_LIST_CREATE: '/private/watchlist/create',
 
-  //theme
+  // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
-  //topic
+  // topic
   PRIVATE_TOPIC_ALL: (limit?: number) =>
     limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',
   PRIVATE_TOPIC_SELECTED: '/private/topic/selected',

@@ -1,10 +1,10 @@
+/* eslint-disable unicorn/no-useless-spread */
 import React from 'react';
 
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useRouter } from 'next/router';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -13,8 +13,6 @@ const Header = () => {
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
   };
-  const { userLoginInfo } = useUserLoginInfo();
-  console.log('🚀 ~ file: index.tsx:11 ~ Header ~ userLoginInfo:', userLoginInfo);
   const isLogin = !!getAccessToken();
   return (
     <>
