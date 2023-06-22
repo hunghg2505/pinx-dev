@@ -59,7 +59,7 @@ deploy-job:
     - chmod 600 key.pem
   script: |
     ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 << EOF
-    sudo -E aws ecr get-login-password --region ap-southeast-1
+    sudo -E "sudo su && aws ecr get-login-password --region ap-southeast-1"
     EOF
     exit 0
   # before_script:
