@@ -1,0 +1,57 @@
+.inputGroup:focus-within {
+  background: #eaf4fb;
+  border-bottom: 1px solid #589dc0;
+}
+
+.customDatePicker {
+  :global {
+    width: 100%;
+
+    .rc-picker-input > input {
+      font-family: inherit;
+      border: 0;
+      outline: 0;
+      font-size: 16px;
+      color: var(--neutral-5);
+      background: transparent;
+      color: #333333;
+      font-weight: 500;
+      padding-top: 15px;
+      padding-bottom: 4px;
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    .rc-picker-input > input {
+      &:required,
+      &:invalid {
+        box-shadow: none;
+      }
+    }
+
+    .rc-picker-suffix {
+      position: absolute;
+      right: 0;
+      top: 5px;
+    }
+  }
+}
+
+.inputLabel {
+  position: absolute;
+  display: block;
+  color: #808080;
+  font-size: 14px;
+  cursor: text;
+  top: 15px;
+}
+
+.inputLabelFocus {
+  color: #589dc0;
+  top: 7px;
+  transition: 0.2s;
+  font-size: 10px;
+  color: #808080;
+}

@@ -1,43 +1,27 @@
 /* eslint-disable import/named */
 import React from 'react';
 
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
 import NextLink from 'next/link';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
-import Picker, { PickerProps } from 'rc-picker';
-import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
-import enUS from 'rc-picker/lib/locale/en_US';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import LabelDatePicker from '@components/UI/LabelDatePicker';
 import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
 
-import 'rc-picker/assets/index.css';
-
-const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) => (
-  // @ts-ignore
-  <Picker
-    generateConfig={dayjsGenerateConfig}
-    locale={enUS}
-    defaultPickerValue={dayjs().add(28, 'day')}
-    {...props}
-  />
-);
-
-const onSubmit = () => {
+const onSubmit = (values: any) => {
   // requestCreateUsername.run({ username: value.username });
+  console.log('xxx values', values);
 };
 
 const ForgotPasswordStepOne = () => {
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
 
-  // const requestCreateUsername = useCreateUsername({
   //   onSuccess: (res: any) => {
   //     router.push(ROUTE_PATH.LOGIN);
   //   },
@@ -45,6 +29,10 @@ const ForgotPasswordStepOne = () => {
   //     console.log(e?.errors?.[0] || e?.message, 'error');
   //   },
   // });
+
+  const onChangeDate = (value: any) => {
+    form.setFieldValue('birthday', value);
+  };
 
   return (
     <>
@@ -60,13 +48,13 @@ const ForgotPasswordStepOne = () => {
           <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
             <FormItem
               name='username'
-              rules={[{ required: true, message: 'Please enter username!' }]}
+              // rules={[{ required: true, message: 'Please enter username!' }]}
             >
               <LabelInput placeholder='Username' name='username' labelContent='Username' />
             </FormItem>
             <FormItem
               name='customerName'
-              rules={[{ required: true, message: 'Please enter customer name!' }]}
+              // rules={[{ required: true, message: 'Please enter customer name!' }]}
             >
               <LabelInput
                 placeholder='Customer name'
@@ -79,7 +67,7 @@ const ForgotPasswordStepOne = () => {
               rules={[
                 {
                   pattern: REG_EMAIL,
-                  required: true,
+                  // required: true,
                   message: 'Please enter valid email!',
                 },
               ]}
@@ -91,7 +79,7 @@ const ForgotPasswordStepOne = () => {
               rules={[
                 {
                   pattern: REG_PHONE_NUMBER,
-                  required: true,
+                  // required: true,
                   message: 'Please enter valid phone number!',
                 },
               ]}
@@ -103,7 +91,22 @@ const ForgotPasswordStepOne = () => {
                 name='phoneNumber'
               />
             </FormItem>
-            <MyPicker placeholder='hoang' />
+            <FormItem
+              name='birthday'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter birthday!',
+                },
+              ]}
+            >
+              <LabelDatePicker
+                onChange={onChangeDate}
+                placeholder='Birthday'
+                labelContent='Birthday'
+                name='birthday'
+              />
+            </FormItem>
             <MainButton type='submit' className='!mt-1 w-full'>
               {t('send_request')}
             </MainButton>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useCallback, useEffect } from 'react';
 
 import classNames from 'classnames';
@@ -47,7 +46,6 @@ const secondsToTime = (secs: number) => {
 const OtpVerification = (props: IProps) => {
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
-  const [otp, setOtp] = useState<string>('');
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
   const [otpCount, setOtpCount] = useState<number>(120);
   const [otpTime, setOtpTime] = useState<Itime>();
@@ -62,8 +60,18 @@ const OtpVerification = (props: IProps) => {
     return props.phoneNumber && props.phoneNumber.slice(0, 4) + '****' + props.phoneNumber.slice(8);
   };
 
-  const onSubmit = () => {
-    props.onSubmit(otp);
+  const onChange = useCallback(
+    (e: any) => {
+      if (e.target.value.length === 6) {
+        form.setFieldValue('otp', e.target.value);
+        form.submit();
+      }
+    },
+    [form],
+  );
+
+  const onSubmit = (values: any) => {
+    props.onSubmit(values.otp);
   };
 
   const onResendOtp = () => {
@@ -164,6 +172,7 @@ const OtpVerification = (props: IProps) => {
                 placeholder={t('otp_code')}
                 name='otp'
                 labelContent={t('otp_code')}
+                onChange={onChange}
               />
             </FormItem>
           </Form>
