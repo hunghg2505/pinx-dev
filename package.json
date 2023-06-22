@@ -48,6 +48,7 @@
     "react-hot-toast": "^2.4.1",
     "react-slick": "^0.29.0",
     "reactjs-otp-input": "^2.0.8",
+    "sharethis-reactjs": "^1.6.0",
     "sharp": "^0.32.1",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",

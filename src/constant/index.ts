@@ -1,1 +1,3 @@
-export {};
+const ZALO_OAID = '3853758560685742933';
+
+export { ZALO_OAID };

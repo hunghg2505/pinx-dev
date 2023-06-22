@@ -14,6 +14,7 @@ import Text from '@components/UI/Text';
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
 import ModalReport from '../ModalReport';
+import ModalShare from '../ModalShare';
 
 interface IProps {
   postDetail: IPost;
@@ -23,6 +24,8 @@ interface IProps {
 }
 const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
+  const [showModalShare, setShowModalShare] = useState(false);
+  const [currentSiteUrl, setCurrentSiteUrl] = useState('');
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
     // showReport && setShowReport(false);
@@ -43,6 +46,10 @@ const NewFeedItem = (props: IProps) => {
     }
   }, [postDetail?.isLike]);
   const idPost = id || postDetail?.id;
+
+  useEffect(() => {
+    setCurrentSiteUrl(window.location.origin);
+  }, []);
 
   const useLikePost = useRequest(
     () => {
@@ -290,7 +297,10 @@ const NewFeedItem = (props: IProps) => {
             {totalComments} Comments
           </Text>
         </div>
-        <div className='report flex flex-row items-center justify-center'>
+        <div
+          className='report flex cursor-pointer flex-row items-center justify-center'
+          onClick={() => setShowModalShare(true)}
+        >
           <Image
             src='/static/icons/iconSharePrimary.svg'
             alt=''
@@ -303,6 +313,14 @@ const NewFeedItem = (props: IProps) => {
           </Text>
         </div>
       </div>
+
+      <ModalShare
+        url={currentSiteUrl + '/post/' + idPost}
+        visible={showModalShare}
+        handleClose={() => {
+          setShowModalShare(false);
+        }}
+      />
     </div>
   );
 };
