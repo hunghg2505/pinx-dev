@@ -52,16 +52,32 @@ stages:
 deploy-job:
   image: ubuntu:latest
   stage: deploy
-  script:
+  before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
     - eval $(ssh-agent -s)
     - echo "$EC2_SSH_KEY1" > "key.pem"
     - chmod 600 key.pem
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo aws ecr get-login-password --region ap-southeast-1"
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com"
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest"
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo docker compose up -d"
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "exit"
+  script: |
+    ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 << EOF
+    sudo aws ecr get-login-password --region ap-southeast-1
+    EOF
+    exit 0
+  # script:
+  #   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
+  #   - eval $(ssh-agent -s)
+  #   - echo "$EC2_SSH_KEY1" > "key.pem"
+  #   - chmod 600 key.pem
+    
+  #   - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo su"
+  #   - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "aws ecr get-login-password --region ap-southeast-1"
+  #   - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com"
+  #   - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest"
+  #   - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "docker compose up -d"
+    # - ssh "sudo su"
+    # - ssh "cd /home/ubuntu"
+    # - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com
+    # - docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest
+    # - docker compose up -d
 
 # success_notification:
 #   stage: notification
