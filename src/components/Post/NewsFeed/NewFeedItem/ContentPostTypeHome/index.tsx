@@ -68,7 +68,7 @@ const ContentPostTypeHome = (props: IProps) => {
             See more
           </Text>
         )} */}
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[312px] desktop:w-full'>
           <Image
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt=''

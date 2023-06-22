@@ -10,7 +10,6 @@ import Text from '@components/UI/Text';
 import { socket } from '../service';
 
 const Market = () => {
-  // const { stockIndex, run } = useGetStock();
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run } = useRequest(

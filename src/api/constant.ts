@@ -15,6 +15,7 @@ export const API_PATH = {
   PRIVATE_MAPPING_LIKE_POST: (post_id: string) => `/private/mapping/${post_id}/like`,
   PRIVATE_MAPPING_UNLIKE_POST: (post_id: string) => `/private/mapping/${post_id}/unlike`,
   PRIVATE_MAPPING_REPORT_POST: (post_id: string) => `/private/mapping/${post_id}/report`,
+  PRIVATE_WATCHLIST_STOCK: (id: number) => `/private/watchlist/list/${id}`,
   PRIVATE_HIDE_POST: '/private/mapping/hide',
 
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
@@ -28,6 +29,7 @@ export const API_PATH = {
   PRIVATE_UNLIKE_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/unlike`,
   PRIVATE_REPLY_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/reply`,
   PRIVATE_REPORT_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/report`,
+
   PRIVATE_ADD_COMMENT: '/private/comment/add',
 
   // user

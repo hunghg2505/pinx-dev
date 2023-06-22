@@ -1,13 +1,32 @@
 import Image from 'next/image';
 
-import { IKOL } from '@components/Home/service';
+import { IKOL, requestFollowUser } from '@components/Home/service';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
+import ToastUnAuth from '@components/UI/ToastUnAuth';
+import { useRequest } from 'ahooks';
 
 interface IProps {
   data: IKOL;
 }
 const Influencer = (props: IProps) => {
   const { data } = props;
+  const isLogin = !!getAccessToken();
+  const useFollowUser = useRequest(
+    () => {
+      return requestFollowUser(data.id);
+    },
+    {
+      manual: true,
+    },
+  );
+  const onFollow = () => {
+    if (!isLogin) {
+      ToastUnAuth();
+    } else {
+      useFollowUser.run();
+    }
+  };
   return (
     <>
       <div className="relative h-[252px] w-[100%] rounded-[15px] before:absolute before:bottom-[0] before:left-[0] before:z-10 before:h-full before:w-full before:rounded-[15px] before:bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)] before:content-['']">
@@ -19,7 +38,10 @@ const Influencer = (props: IProps) => {
             {data.position}
           </Text>
         </div>
-        <div className='absolute right-[13px] top-[13px] z-10 flex h-[36px] w-[89px] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[rgba(14,_29,_37,_0.5)]'>
+        <div
+          className='absolute right-[13px] top-[13px] z-10 flex h-[36px] w-[89px] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[rgba(14,_29,_37,_0.5)]'
+          onClick={onFollow}
+        >
           <Image
             src='/static/icons/iconPlus.svg'
             alt=''

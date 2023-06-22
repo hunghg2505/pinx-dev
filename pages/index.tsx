@@ -3,9 +3,11 @@ import { ReactElement } from 'react';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Home from '@components/Home';
 import MainLayout from '@layout/MainLayout';
-
+import dynamic from 'next/dynamic';
+const Home = dynamic(() => import('@components/Home'), {
+  ssr: false,
+});
 const HomePage = () => {
   return (
     <>

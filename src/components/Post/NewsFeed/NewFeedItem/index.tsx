@@ -14,12 +14,17 @@ import Text from '@components/UI/Text';
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
 import ModalReport from '../ModalReport';
+import { getAccessToken } from '@store/auth';
+import { toast } from 'react-hot-toast';
+import Notification from '@components/UI/Notification';
+import ToastUnAuth from '@components/UI/ToastUnAuth';
 
 interface IProps {
   postDetail: IPost;
   totalComments: number;
   onNavigate?: () => void;
   onRefreshPostDetail: () => void;
+  postId: string;
 }
 const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
@@ -29,11 +34,13 @@ const NewFeedItem = (props: IProps) => {
   }, ref);
   const router = useRouter();
   const id = router.query?.id;
-  const { onNavigate, onRefreshPostDetail } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
+  console.log('🚀 ~ file: index.tsx:38 ~ NewFeedItem ~ postDetail:', postDetail);
+  console.log('🚀 ~ file: index.tsx:38 ~ NewFeedItem ~ postId:', postId);
+  const isLogin = !!getAccessToken();
   const onComment = () => {
     onNavigate && onNavigate();
   };
-  const { postDetail, totalComments } = props;
 
   const [isLike, setIsLike] = useState<boolean>(false);
 
@@ -75,23 +82,29 @@ const NewFeedItem = (props: IProps) => {
     },
   );
   const handleLikeOrUnLikePost = () => {
-    setIsLike(!isLike);
-    if (isLike) {
-      useUnLike.run();
+    if (!isLogin) {
+      ToastUnAuth();
     } else {
-      useLikePost.run();
+      setIsLike(!isLike);
+      if (isLike) {
+        useUnLike.run();
+      } else {
+        useLikePost.run();
+      }
     }
+
     // return () => props?.onRefreshPostDetail() && refresh();
   };
 
   // hide post
   const onHidePost = useRequest(
     () => {
-      return requestHidePost(postDetail?.id);
+      return requestHidePost(postId);
     },
     {
       manual: true,
       onSuccess: () => {
+        onRefreshPostDetail();
         console.log('thanh cong');
       },
       onError: (err: any) => {
@@ -99,7 +112,13 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
-
+  const handleHidePost = () => {
+    if (!isLogin) {
+      ToastUnAuth();
+    } else {
+      onHidePost.run();
+    }
+  };
   const renderLogo = () => {
     let logo = '';
     if (
@@ -216,10 +235,10 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 top-[29px] h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
+              <div className='popup absolute right-0 top-[29px] z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
                 <div
                   className='flex h-[44px] items-center justify-center [border-bottom:1px_solid_#EAF4FB]'
-                  onClick={() => onHidePost.run()}
+                  onClick={handleHidePost}
                 >
                   <Image
                     src='/static/icons/iconUnHide.svg'

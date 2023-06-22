@@ -211,3 +211,11 @@ export const requestFollowUser = (id: number) => {
 export const requestUnFollowUser = (id: number) => {
   return privateRequest(requestPist.put, API_PATH.PRIVATE_UNFOLLOW_USER + `?idFriend=${id}`);
 };
+export const useGetWatchList = (id: number) => {
+  const { data } = useRequest(() => {
+    return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK(id));
+  });
+  return {
+    watchList: data,
+  };
+};
