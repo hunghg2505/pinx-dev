@@ -5,12 +5,13 @@ variables:
   DOCKER_REGISTRY: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com
   AWS_DEFAULT_REGION: ap-southeast-1
   APP_NAME: pinex
-  TAG_LATEST: $IMAGE_NAME:latest
-  TAG_COMMIT: $CI_COMMIT_SHORT_SHA
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ''
   IMAGE_TAG: latest # use latest for demo
+
+  TAG_LATEST: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_NAME:latest
+  TAG_COMMIT: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA
 
 workflow:
   rules:
@@ -41,16 +42,14 @@ publish-job:
   services:
     - docker:dind
   before_script:
-    - apk add --no-cache curl jq python3 py3-pip
-    - pip install awscli
-    - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-    - aws --version
-    - docker info
-    - docker --version
+    - apk add --no-cache python3 py3-pip
+    - pip3 install --no-cache-dir awscli
   script:
-    - docker build -t $TAG_LATEST .
-    - docker tag $TAG_LATEST 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/$TAG_LATEST
-    - docker push 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/$TAG_LATEST
+    - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker pull $TAG_LATEST || true
+    - docker build --cache-from $TAG_LATEST -t $TAG_COMMIT -t $TAG_LATEST .
+    - docker push $TAG_COMMIT
+    - docker push $TAG_LATEST
 
 success_notification:
   stage: notification
