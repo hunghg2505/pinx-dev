@@ -8,7 +8,6 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 const Header = () => {
   const { userLoginInfo } = useUserLoginInfo();
-  console.log('🚀 ~ file: index.tsx:11 ~ Header ~ userLoginInfo:', userLoginInfo);
   const isLogin = !!userLoginInfo.token;
   return (
     <>

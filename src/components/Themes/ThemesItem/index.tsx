@@ -66,7 +66,6 @@ const IconChecked = () => (
 );
 const ThemesItem = (props: IProps) => {
   const { theme, isLogin, refresh } = props;
-  console.log('🚀 ~ file: index.tsx:68 ~ ThemesItem ~ theme:', theme);
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(

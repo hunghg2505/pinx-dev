@@ -188,12 +188,18 @@ export const useGetTheme = () => {
 };
 // get stock market
 export const useGetStock = () => {
-  const { data, loading } = useRequest(() => {
-    return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
-  });
+  const { data, loading, run } = useRequest(
+    () => {
+      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+    },
+    {
+      manual: true,
+    },
+  );
   return {
     stockIndex: data?.data,
     loading,
+    run,
   };
 };
 

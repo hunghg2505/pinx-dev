@@ -107,7 +107,6 @@ const ContentPostTypeHome = (props: IProps) => {
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
-    console.log('postDetail?.post.headImageUrl', postDetail?.post.headImageUrl);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>
@@ -161,7 +160,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {postDetail?.post.head}
           </Text>
         </div>
-        <Link
+        {/* <Link
           className='mb-[13px] flex items-center justify-end text-right'
           href={postDetail?.post.url || ''}
         >
@@ -176,7 +175,7 @@ const ContentPostTypeHome = (props: IProps) => {
             sizes='100vw'
             className='w-[5px]'
           />
-        </Link>
+        </Link> */}
         <div className='relative h-[204px] w-[343px] rounded-[15px]'>
           <Image
             src={postDetail?.post.headImageUrl || ''}

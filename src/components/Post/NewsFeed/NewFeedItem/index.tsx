@@ -198,14 +198,14 @@ const NewFeedItem = (props: IProps) => {
           </div>
         </div>
         <div className='flex'>
-          <Image
+          {/* <Image
             src='/static/icons/iconUserFollow.svg'
             alt=''
             width='0'
             height='0'
             className='mr-[22px] w-[20px] cursor-pointer'
             onClick={() => console.log('follow')}
-          />
+          /> */}
           <button className='relative' ref={ref}>
             <Image
               src='/static/icons/iconDot.svg'
