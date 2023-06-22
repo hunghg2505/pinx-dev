@@ -2,7 +2,7 @@ import { useMount } from 'ahooks';
 
 const AppLayout = ({ children, InterFont }: any) => {
   useMount(() => {
-    console.log('App Running 11');
+    console.log('App Running 11 222');
   });
 
   return (
