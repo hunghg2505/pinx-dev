@@ -8,27 +8,25 @@ import { ROUTE_PATH } from '@utils/common';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
+import { useAuth } from '@store/auth/useAuth';
 
 const Register = () => {
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo } = useUserLoginInfo();
   const router = useRouter();
+  const { onLogin } = useAuth();
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
-      router.push(ROUTE_PATH.Home);
-      setUserLoginInfo(res?.data)
-      // if (res?.data.token) {
-      //   onLogin({
-      //     token: res?.data.token,
-      //     refreshToken: res?.refresh_token,
-      //     expiredTime: res?.expired_time || 0,
-      //   });
-      //   switch (res?.data.nextStep) {
-      //     case 'OTP':
-      //       router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
-      //   }
-      // }
+      setUserLoginInfo(res?.data);
+      if (res?.data.token) {
+        onLogin({
+          token: res?.data.token,
+          refreshToken: res?.refresh_token,
+          expiredTime: res?.expired_time || 0,
+        });
+      }
+      router.push(ROUTE_PATH.REGISTER_COMPANY);
     },
     onError: (e: any) => {
       console.log(e?.errors?.[0] || e?.message, 'error');
@@ -53,7 +51,7 @@ const Register = () => {
 
   useEffect(() => {
     if (!userRegisterInfo.phoneNumber) {
-      router.push(ROUTE_PATH.Home);
+      router.push(ROUTE_PATH.HOME);
     }
   }, []);
 

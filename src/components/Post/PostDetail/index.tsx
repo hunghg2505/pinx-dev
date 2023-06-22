@@ -10,7 +10,7 @@ import Text from '@components/UI/Text';
 import ItemComment from '../NewsFeed/ItemComment';
 import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
-import { PATH } from '@utils/constant';
+import { ROUTE_PATH } from '@utils/common';
 
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
@@ -51,12 +51,12 @@ const PostDetail = () => {
   };
 
   const redirectToLogin = () => {
-    router.push(PATH.AUTH_LOGIN);
+    router.push(ROUTE_PATH.LOGIN);
   };
 
   const redirectToSignUp = () => {
     router.push({
-      pathname: PATH.AUTH_LOGIN,
+      pathname: ROUTE_PATH.LOGIN,
       query: {
         type: 'register',
       },

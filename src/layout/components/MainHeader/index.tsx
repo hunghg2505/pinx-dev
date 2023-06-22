@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Form from 'rc-field-form';
 import Text from '@components/UI/Text';
 import { useRouter } from 'next/router';
-import { PATH } from '@utils/constant';
 import { getAccessToken } from '@store/auth';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
@@ -24,7 +23,7 @@ const IconSearchWhite = () => (
 const Header = () => {
   const router = useRouter();
   const redirectToLogin = () => {
-    router.push(PATH.AUTH_LOGIN);
+    router.push(ROUTE_PATH.LOGIN);
   };
   const redirectToSignUp = () => {
     router.push({

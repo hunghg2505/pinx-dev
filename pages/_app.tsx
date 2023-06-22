@@ -15,6 +15,7 @@ import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
 
 import nextI18nConfig from '../next-i18next.config';
+import { Toaster } from 'react-hot-toast';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -50,6 +51,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <ErrorBoundary>
+        <Toaster />
         <AppLayout InterFont={InterFont}>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>

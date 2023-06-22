@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 const WatchListDesktop = () => {
   // const { watchList } = useGetWatchList();
+
   return (
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>

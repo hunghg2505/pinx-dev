@@ -1,10 +1,16 @@
 // import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
+import { useSelectedTopics, useSuggestTopic } from './service';
+import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
+import Notification from '@components/UI/Notification';
+import { useRouter } from 'next/router';
+import { ROUTE_PATH } from '@utils/common';
 
 // import styles from './index.module.scss';
 
@@ -73,10 +79,25 @@ interface ITopicCard {
 }
 
 const RegisterCompanyStep = () => {
+  const { t } = useTranslation();
+  const router = useRouter();
   const [selected, setSelected] = useState<ITopicCard[]>([]);
 
+  const listTopicSuggest = useSuggestTopic();
+
+  const { onSelectedTopics } = useSelectedTopics({
+    onSuccess: () => {
+      toast(() => <Notification type='success' message='Subscribe successfully!' />);
+      router.push(ROUTE_PATH.HOME);
+    },
+  });
+
+  useEffect(() => {
+    listTopicSuggest.getTopics();
+  }, []);
+
   const checkIsSelected = (value: ITopicCard) => {
-    const findItem = selected.find((item) => item.id === value.id);
+    const findItem = selected.find((item) => item === value);
     if (findItem) {
       return true;
     }
@@ -85,11 +106,15 @@ const RegisterCompanyStep = () => {
 
   const onSelect = (value: ITopicCard) => {
     if (checkIsSelected(value)) {
-      const selectedDraft = selected.filter((item) => item.id !== value.id);
+      const selectedDraft = selected.filter((item) => item !== value);
       setSelected(selectedDraft);
     } else {
       setSelected([...selected, value]);
     }
+  };
+
+  const handleContinue = () => {
+    onSelectedTopics(selected.toString());
   };
 
   return (
@@ -118,27 +143,37 @@ const RegisterCompanyStep = () => {
               'mt-9 flex w-full flex-wrap items-center justify-center gap-x-[8px] gap-y-[16px]'
             }
           >
-            {mockData.map((item: any, index: number) => (
-              <div className='flex justify-center' key={index} onClick={() => onSelect(item)}>
+            {listTopicSuggest.topics?.data?.map((item: any) => (
+              <div
+                className='flex justify-center'
+                key={item?.topicCode}
+                onClick={() => onSelect(item?.topicCode)}
+              >
                 <div
                   className={classNames(
                     'flex items-center justify-center rounded-xl border-2 border-solid border-[--neutral-6] p-4',
                     {
-                      'bg-[--primary-2]': checkIsSelected(item),
+                      'bg-[--primary-2]': checkIsSelected(item?.topicCode),
                     },
                   )}
                 >
-                  {checkIsSelected(item) && (
-                    <Image
-                      src='/static/icons/check_mark.svg'
-                      alt=''
-                      width='0'
-                      height='0'
-                      className={'mr-[9px] h-[9px] w-[15px] rounded-full'}
-                    />
-                  )}
-                  <Text type='body-14-bold' color={checkIsSelected(item) ? 'cbwhite' : 'cbblack'}>
-                    {item.name}
+                  <div className='mr-[4px] w-[16px]'>
+                    {checkIsSelected(item?.topicCode) && (
+                      <Image
+                        src='/static/icons/check_mark.svg'
+                        alt=''
+                        width='0'
+                        height='0'
+                        className={'mr-[9px] h-[9px] w-[15px] rounded-full'}
+                      />
+                    )}
+                  </div>
+                  <Text
+                    type='body-14-bold'
+                    color={checkIsSelected(item?.topicCode) ? 'cbwhite' : 'cbblack'}
+                    className='mr-[16px]'
+                  >
+                    {t(`${item.topicName}`)}
                   </Text>
                 </div>
               </div>
@@ -147,9 +182,10 @@ const RegisterCompanyStep = () => {
 
           <button
             type='submit'
-            className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
+            onClick={handleContinue}
+            className='!mt-10 flex w-full justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
           >
-            Continue
+            Continue {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
           </button>
         </div>
       </div>

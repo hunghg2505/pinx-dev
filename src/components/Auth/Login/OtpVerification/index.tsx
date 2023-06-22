@@ -14,7 +14,7 @@ const Register = () => {
 
   const requestRegisterOtp = useLoginOtp({
     onSuccess: (res: any) => {
-      router.push(ROUTE_PATH.Home);
+      router.push(ROUTE_PATH.HOME);
       console.log('xxx res', res);
       // if (res?.data.token) {
       //   onLogin({
@@ -37,7 +37,7 @@ const Register = () => {
     const payload = {
       cif: userLoginInfo.cif || '',
       type: '1',
-      value
+      value,
     };
     requestRegisterOtp.run(payload);
   };
@@ -56,7 +56,7 @@ const Register = () => {
 
   useEffect(() => {
     if (!userLoginInfo.phone) {
-      router.push(ROUTE_PATH.Home);
+      router.push(ROUTE_PATH.HOME);
     }
   }, []);
 

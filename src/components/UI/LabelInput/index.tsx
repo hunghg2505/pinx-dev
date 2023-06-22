@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 
+import styles from './index.module.scss';
 import { Eye, EyeHide } from '../Icon';
-
 
 interface InputProps {
   className?: string;
@@ -22,137 +22,152 @@ interface InputProps {
   step?: string | undefined;
   removeCommon?: boolean;
   name?: string;
+  labelContent?: string;
 }
 
 interface Ref {
   ref?: React.Ref<HTMLInputElement>;
 }
 
-const LabelInput: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, ref: Ref['ref']) => {
-  const {
-    className,
-    disabled = false,
-    type = 'text',
-    onClick,
-    onBlur,
-    suffix,
-    removeCommon = false,
-    step,
-    maxLength,
-    ...rest
-  } = props;
-  const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
+const LabelInput: React.FC<InputProps & Ref> = React.forwardRef(
+  (props: InputProps, ref: Ref['ref']) => {
+    const {
+      className,
+      disabled = false,
+      type = 'text',
+      onClick,
+      onBlur,
+      suffix,
+      removeCommon = false,
+      step,
+      maxLength,
+      name,
+      labelContent,
+      ...rest
+    } = props;
+    const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
+    const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  // const { state: isVisibleEye, toggle: toggleEye } = useToggle(false);
+    // const { state: isVisibleEye, toggle: toggleEye } = useToggle(false);
 
-  const isTypePassword: boolean = type === 'password';
+    const isTypePassword: boolean = type === 'password';
 
-  const prefixCls = 'input';
+    const prefixCls = 'input';
 
-  const classes: string = classNames(
-    prefixCls,
-    {
-      [`${prefixCls}-disabled`]: disabled,
-      [`${prefixCls}-${type}`]: type,
-    },
-    className,
-  );
+    const classes: string = classNames(
+      prefixCls,
+      {
+        [`${prefixCls}-disabled`]: disabled,
+        [`${prefixCls}-${type}`]: type,
+      },
+      className,
+      styles.inputField,
+    );
 
-  const handleClick = () => {
-    if (disabled) {
-      return;
-    }
-
-    onClick && onClick();
-  };
-
-  const handleBlur = () => {
-    if (type === 'number') {
-      const inputValue: number = inputRef?.current?.value;
-
-      const minNumber: number = (rest as any)?.min;
-      const maxNumber: number = (rest as any)?.max;
-
-      if (minNumber && minNumber > inputValue) {
-        // Set number value to min if value less than min number
-        inputRef.current.value = minNumber;
+    const handleClick = () => {
+      if (disabled) {
+        return;
       }
 
-      if (maxNumber && maxNumber < inputValue) {
-        // Set number value to max if value greater than max number
-        inputRef.current.value = maxNumber;
+      onClick && onClick();
+    };
+
+    const handleBlur = () => {
+      if (type === 'number') {
+        const inputValue: number = inputRef?.current?.value;
+
+        const minNumber: number = (rest as any)?.min;
+        const maxNumber: number = (rest as any)?.max;
+
+        if (minNumber && minNumber > inputValue) {
+          // Set number value to min if value less than min number
+          inputRef.current.value = minNumber;
+        }
+
+        if (maxNumber && maxNumber < inputValue) {
+          // Set number value to max if value greater than max number
+          inputRef.current.value = maxNumber;
+        }
       }
-    }
 
-    onBlur?.();
-  };
+      onBlur?.();
+    };
 
-  const handleToggleEyes = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  }
+    const handleToggleEyes = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+    };
 
-  const EyePassword = () => {
-    if (isPasswordVisible) {
-      return <EyeHide onClick={handleToggleEyes} />;
-    }
-
-    return <Eye onClick={handleToggleEyes} />;
-  };
-
-  const implicitType = (): InputProps['type'] => {
-    if (isTypePassword) {
+    const EyePassword = () => {
       if (isPasswordVisible) {
-        return 'text';
-      }
-      return 'password';
-    }
-
-    return type;
-  };
-
-  const blockInvalidCharNumber: string[] = ['e', 'E', '+', '-'];
-
-  const onKeyDown = (event: React.KeyboardEvent) => {
-    if (type === 'number') {
-      if (removeCommon) {
-        blockInvalidCharNumber.push(',', '.');
+        return <EyeHide onClick={handleToggleEyes} />;
       }
 
-      const isBlockChar: boolean = blockInvalidCharNumber.includes(event.key);
+      return <Eye onClick={handleToggleEyes} />;
+    };
 
-      if (isBlockChar) {
-        return event.preventDefault();
+    const implicitType = (): InputProps['type'] => {
+      if (isTypePassword) {
+        if (isPasswordVisible) {
+          return 'text';
+        }
+        return 'password';
       }
-    }
-  };
 
-  return (
-    <div className='relative'>
-      <input
-        ref={inputRef}
-        type={implicitType()}
-        disabled={disabled}
-        className={classes}
-        onClick={handleClick}
-        onBlur={handleBlur}
-        onKeyDown={onKeyDown}
-        step={step}
-        maxLength={maxLength}
-        {...rest}
-      />
+      return type;
+    };
 
-      {isTypePassword && !disabled && (
-        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-          <EyePassword />
-        </div>
-      )}
+    const blockInvalidCharNumber: string[] = ['e', 'E', '+', '-'];
 
-      {suffix && <div className={classNames('icon-suffix')}>{suffix}</div>}
-    </div>
-  );
-});
+    const onKeyDown = (event: React.KeyboardEvent) => {
+      if (type === 'number') {
+        if (removeCommon) {
+          blockInvalidCharNumber.push(',', '.');
+        }
+
+        const isBlockChar: boolean = blockInvalidCharNumber.includes(event.key);
+
+        if (isBlockChar) {
+          return event.preventDefault();
+        }
+      }
+    };
+
+    return (
+      <div
+        className={classNames(
+          'relative rounded-t-lg border border-b-[1px] border-[--neutral-8] bg-[--neutral-8] px-3 pb-1 pt-2',
+          styles.inputGroup,
+        )}
+      >
+        <input
+          ref={inputRef}
+          type={implicitType()}
+          disabled={disabled}
+          className={classes}
+          onClick={handleClick}
+          onBlur={handleBlur}
+          onKeyDown={onKeyDown}
+          step={step}
+          maxLength={maxLength}
+          id={'input-' + name}
+          {...rest}
+        />
+
+        <label className={styles.inputLabel} htmlFor={'input-' + name}>
+          {labelContent}
+        </label>
+
+        {isTypePassword && !disabled && (
+          <div className='absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-sm leading-5'>
+            <EyePassword />
+          </div>
+        )}
+
+        {suffix && <div className={classNames('icon-suffix')}>{suffix}</div>}
+      </div>
+    );
+  },
+);
 
 export default LabelInput;
-

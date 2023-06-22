@@ -1,5 +1,5 @@
 // import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import Image from 'next/image';
@@ -7,96 +7,57 @@ import Image from 'next/image';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
-
-const mockData = [
-  {
-    name: 'test1',
-    img: '',
-    id: 1,
-  },
-  {
-    name: 'test2',
-    img: '',
-    id: 2,
-  },
-  {
-    name: 'test3',
-    img: '',
-    id: 3,
-  },
-  {
-    name: 'test4',
-    img: '',
-    id: 4,
-  },
-  {
-    name: 'test5',
-    img: '',
-    id: 5,
-  },
-  {
-    name: 'test6',
-    img: '',
-    id: 6,
-  },
-  {
-    name: 'test7',
-    img: '',
-    id: 7,
-  },
-  {
-    name: 'test8',
-    img: '',
-    id: 8,
-  },
-  {
-    name: 'test9',
-    img: '',
-    id: 9,
-  },
-  {
-    name: 'test10',
-    img: '',
-    id: 10,
-  },
-  {
-    name: 'test11',
-    img: '',
-    id: 11,
-  },
-  {
-    name: 'test12',
-    img: '',
-    id: 12,
-  },
-];
-
-interface ICompanyCard {
-  name: string;
-  img: string;
-  id: number;
-}
+import { useGetDetailStockCode, useSelectedTopics, useSuggestStockCode } from './service';
+import { IMAGE_COMPANY_URL } from '@utils/constant';
+import toast from 'react-hot-toast';
+import Notification from '@components/UI/Notification';
+import { ROUTE_PATH } from '@utils/common';
+import { useRouter } from 'next/router';
 
 const RegisterCompanyStep = () => {
   // const { t } = useTranslation('common');
   // const [form] = Form.useForm();
-  const [selected, setSelected] = useState<ICompanyCard[]>([]);
+  const router = useRouter();
+  const [selected, setSelected] = useState<any[]>([]);
+  const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
 
-  const checkIsSelected = (value: ICompanyCard) => {
-    const findItem = selected.find((item) => item.id === value.id);
+  const listSuggestStock = useSuggestStockCode({
+    onSuccess: async (res: any) => {
+      paramsGetDetailStockCodesRef.current.params = await res.data.toString();
+    },
+  });
+
+  useEffect(() => {
+    if (listSuggestStock.stockCodes) detailStockSuggested.run();
+  }, [listSuggestStock.stockCodes]);
+
+  const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
+
+  const { onSelectedStocks } = useSelectedTopics({
+    onSuccess: () => {
+      toast(() => <Notification type='success' message='Subscribe successfully!' />);
+      router.push(ROUTE_PATH.REGISTER_THEME);
+    },
+  });
+
+  const checkIsSelected = (value: any) => {
+    const findItem = selected.find((item) => item === value);
     if (findItem) {
       return true;
     }
     return false;
   };
-
-  const onSelect = (value: ICompanyCard) => {
+  const onSelect = (value: any) => {
     if (checkIsSelected(value)) {
-      const selectedDraft = selected.filter((item) => item.id !== value.id);
+      const selectedDraft = selected.filter((item) => item !== value);
       setSelected(selectedDraft);
     } else {
       setSelected([...selected, value]);
     }
+  };
+
+  const handleContinue = () => {
+    onSelectedStocks(selected.toString());
   };
 
   return (
@@ -117,52 +78,61 @@ const RegisterCompanyStep = () => {
               What are you up to?
             </Text>
             <div className='neutral-4 flex flex-col items-center text-[body-14-medium]'>
-              <Text>Choose companies you would like to get </Text>
-              <Text>updates from</Text>
+              <Text type='body-14-regular'>Choose companies you would like </Text>
+              <Text type='body-14-regular'>to get updates from</Text>
             </div>
           </div>
           <div className={'mt-9 flex w-full flex-wrap items-center justify-center gap-y-[16px]'}>
-            {mockData.map((item: any, index: number) => (
-              <div
-                className={classNames('flex justify-center', styles.companyCard)}
-                key={index}
-                onClick={() => onSelect(item)}
-              >
+            {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
+              const urlImageCompany = `${
+                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                  ? item.stockCode
+                  : item.stockCode?.slice(1, 4)
+              }.png`;
+              return (
                 <div
-                  className={classNames(
-                    'flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]',
-                    {
-                      [styles.selected]: checkIsSelected(item),
-                    },
-                  )}
+                  className={classNames('flex justify-center', styles.companyCard)}
+                  key={item.stockCode}
+                  onClick={() => onSelect(item?.stockCode)}
                 >
                   <div
                     className={classNames(
                       'flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]',
                       {
-                        [styles.selected]: checkIsSelected(item),
+                        [styles.selected]: checkIsSelected(item?.stockCode),
                       },
                     )}
                   >
-                    <Image
-                      src='/static/icons/pinex_logo.svg'
-                      alt=''
-                      width='0'
-                      height='0'
-                      className={'mr-[6px] h-[36px] w-[36px] rounded-full'}
-                    />
-                    <Text type='body-14-bold'>{item.name}</Text>
+                    <div
+                      className={classNames(
+                        'flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]',
+                        {
+                          [styles.selected]: checkIsSelected(item?.stockCode),
+                        },
+                      )}
+                    >
+                      <Image
+                        src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
+                        alt=''
+                        width='0'
+                        height='0'
+                        sizes='100vw'
+                        className={'mr-[6px] h-[48px] w-[48px] rounded-full object-contain'}
+                      />
+                      <Text type='body-14-bold'>{item.stockCode}</Text>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <button
             type='submit'
-            className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
+            onClick={handleContinue}
+            className='!mt-10 flex w-full justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
           >
-            Continue
+            Continue {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
           </button>
         </div>
       </div>
