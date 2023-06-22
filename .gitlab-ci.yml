@@ -5,8 +5,8 @@ variables:
   DOCKER_REGISTRY: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com
   AWS_DEFAULT_REGION: ap-southeast-1
   APP_NAME: pinex
-  TAG_LATEST: 590774876296.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
-  TAG_COMMIT: 590774876296.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+  TAG_LATEST: $IMAGE_NAME:latest
+  TAG_COMMIT: $CI_COMMIT_SHORT_SHA
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ''
