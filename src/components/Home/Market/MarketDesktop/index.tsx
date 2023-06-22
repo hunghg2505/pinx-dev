@@ -1,8 +1,10 @@
-import { socket } from '@components/Home/service';
-import Text from '@components/UI/Text';
+import React from 'react';
+
 import { useRequest } from 'ahooks';
 import Tabs, { TabPane } from 'rc-tabs';
-import React from 'react';
+
+import { socket } from '@components/Home/service';
+import Text from '@components/UI/Text';
 
 const MarketDesktop = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
@@ -50,9 +52,9 @@ const MarketDesktop = () => {
         {dataStockIndex?.map((item: any, index: number) => {
           const [change, changePercent] = item.ot.split('|');
           const isIncrease = item?.cIndex > item?.oIndex;
-          const isDecrease = item?.cIndex < item?.oIndex;
-          const isNoChange = item?.cIndex === item?.oIndex;
-          const isChange = findIndex === index;
+          // const isDecrease = item?.cIndex < item?.oIndex;
+          // const isNoChange = item?.cIndex === item?.oIndex;
+          // const isChange = findIndex === index;
           return (
             <TabPane tab={item.displayName} key={index + 1}>
               <div className='mt-[20px]'>

@@ -1,7 +1,7 @@
-import Image from 'next/image';
+import Slider from 'react-slick';
 
 import { IKOL, useGetInfluencer } from '@components/Home/service';
-import Slider from 'react-slick';
+
 import ItemInfluence from './ItemInfluence';
 
 const settings = {

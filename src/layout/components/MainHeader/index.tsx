@@ -1,20 +1,23 @@
+/* eslint-disable unicorn/no-useless-spread */
 import React from 'react';
 
 import Image from 'next/image';
-import Form from 'rc-field-form';
-import Text from '@components/UI/Text';
 import { useRouter } from 'next/router';
-import { getAccessToken } from '@store/auth';
+import Form from 'rc-field-form';
+
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
+
 const IconSearchWhite = () => (
   <svg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       d='M8.94349 8.94354L11.3333 11.3333M10.3636 5.51513C10.3636 8.19287 8.19289 10.3636 5.51516 10.3636C2.83737 10.3636 0.666626 8.19287 0.666626 5.51513C0.666626 2.8374 2.83737 0.666668 5.51516 0.666668C8.19289 0.666668 10.3636 2.8374 10.3636 5.51513Z'
       stroke='#A6B0C3'
       strokeWidth='1.33333'
-      stroke-miterlimit='10'
+      strokeMiterlimit='10'
       strokeLinecap='round'
       strokeLinejoin='round'
     />

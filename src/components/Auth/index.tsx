@@ -1,12 +1,12 @@
 import React from 'react';
 
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import styles from './index.module.scss';
 import Login from './Login';
 import Register from './Register/RegisterForm';
-import { useRouter } from 'next/router';
 
 function Home() {
   const router = useRouter();

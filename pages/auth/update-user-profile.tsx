@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import StepTwo from '@components/Auth/ForgotPassword/StepTwo';
@@ -13,13 +14,8 @@ const UpdateUserProfilePage = () => {
 };
 
 UpdateUserProfilePage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <LoginLayout>
-      {page}
-    </LoginLayout>
-  );
+  return <LoginLayout>{page}</LoginLayout>;
 };
-
 
 export async function getStaticProps({ locale }: any) {
   return {

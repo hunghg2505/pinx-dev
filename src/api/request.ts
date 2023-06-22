@@ -1,4 +1,4 @@
-import TokenManager, { injectBearer } from 'brainless-token-manager';
+import TokenManager from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
 import { getAccessToken } from '@store/auth';
@@ -58,10 +58,10 @@ const tokenManager = new TokenManager({
     return `${token}`;
   },
   onInvalidRefreshToken: () => {},
-  isValidToken: async (token) => {
+  isValidToken: async () => {
     return true;
   },
-  isValidRefreshToken: async (token) => {
+  isValidRefreshToken: async () => {
     return true;
   },
 });
@@ -77,7 +77,7 @@ const privateRequest = async (request: any, suffixUrl: string, configs?: any) =>
 };
 
 // dùng cái này khi gọi nhiều api ở phía server => đảm bảo có token mới nhất cho các request ở sau, tránh bị call reuqest đồng thời
-export const checkTokenExpiredOnServer = async (ctx: any) => {
+export const checkTokenExpiredOnServer = async () => {
   try {
     // const token = getAccessToken(ctx?.res, ctx?.req);
     // const salonRefreshToken = getRefreshToken(ctx?.res, ctx?.req);
@@ -105,7 +105,7 @@ export const checkTokenExpiredOnServer = async (ctx: any) => {
   } catch {}
 };
 
-export const requestFromServer = async (ctx: any, suffixUrl: string) => {
+export const requestFromServer = async () => {
   // await checkTokenExpiredOnServer(ctx);
   // const token = getAccessToken(ctx?.res, ctx?.req);
   // const salonId = getSalonIdFromCookie(ctx?.req, ctx?.res);

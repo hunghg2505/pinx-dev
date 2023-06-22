@@ -1,7 +1,5 @@
 import { IWatchListItem, useGetWatchList } from '@components/Home/service';
-import Text from '@components/UI/Text';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
-import Image from 'next/image';
+
 import ItemStock from './ItemStock';
 
 const WatchListDesktop = () => {

@@ -9,15 +9,12 @@ import { useRouter } from 'next/router';
 
 import { IPost, TYPEPOST, likePost, requestHidePost, unlikePost } from '@components/Post/service';
 import Text from '@components/UI/Text';
-// import { formatMessage } from '@utils/common';
+import ToastUnAuth from '@components/UI/ToastUnAuth';
+import { getAccessToken } from '@store/auth';
 
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
 import ModalReport from '../ModalReport';
-import { getAccessToken } from '@store/auth';
-import { toast } from 'react-hot-toast';
-import Notification from '@components/UI/Notification';
-import ToastUnAuth from '@components/UI/ToastUnAuth';
 
 interface IProps {
   postDetail: IPost;
@@ -81,15 +78,15 @@ const NewFeedItem = (props: IProps) => {
     },
   );
   const handleLikeOrUnLikePost = () => {
-    if (!isLogin) {
-      ToastUnAuth();
-    } else {
+    if (isLogin) {
       setIsLike(!isLike);
       if (isLike) {
         useUnLike.run();
       } else {
         useLikePost.run();
       }
+    } else {
+      ToastUnAuth();
     }
 
     // return () => props?.onRefreshPostDetail() && refresh();
@@ -112,10 +109,10 @@ const NewFeedItem = (props: IProps) => {
     },
   );
   const handleHidePost = () => {
-    if (!isLogin) {
-      ToastUnAuth();
-    } else {
+    if (isLogin) {
       onHidePost.run();
+    } else {
+      ToastUnAuth();
     }
   };
   const renderLogo = () => {

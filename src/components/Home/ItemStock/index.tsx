@@ -4,6 +4,7 @@ import clx from 'classnames';
 import Image from 'next/image';
 
 import Text from '@components/UI/Text';
+
 import { IWatchListItem } from '../service';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {

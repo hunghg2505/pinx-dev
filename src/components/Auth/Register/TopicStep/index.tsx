@@ -3,75 +3,15 @@ import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import Image from 'next/image';
-
-import Text from '@components/UI/Text';
-import { useSelectedTopics, useSuggestTopic } from './service';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
+
 import Notification from '@components/UI/Notification';
-import { useRouter } from 'next/router';
+import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-// import styles from './index.module.scss';
-
-const mockData = [
-  {
-    name: 'Stock trading',
-    id: 1,
-  },
-  {
-    name: 'Bonds',
-    id: 2,
-  },
-  {
-    name: 'Derivatives',
-    id: 3,
-  },
-  {
-    name: 'Business news',
-    id: 4,
-  },
-  {
-    name: 'Real estate',
-    id: 5,
-  },
-  {
-    name: 'Homes',
-    id: 6,
-  },
-  {
-    name: 'Commodities',
-    id: 7,
-  },
-  {
-    name: 'Technology',
-    id: 8,
-  },
-  {
-    name: 'Consumption',
-    id: 9,
-  },
-  {
-    name: 'Entertainment',
-    id: 10,
-  },
-  {
-    name: 'World economy',
-    id: 11,
-  },
-  {
-    name: 'Travel',
-    id: 12,
-  },
-  {
-    name: 'Vehicles',
-    id: 13,
-  },
-  {
-    name: 'Financial Invest ',
-    id: 14,
-  },
-];
+import { useSelectedTopics, useSuggestTopic } from './service';
 
 interface ITopicCard {
   name: string;

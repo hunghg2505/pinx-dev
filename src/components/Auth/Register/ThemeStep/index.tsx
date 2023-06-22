@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
 import Image from 'next/image';
-
-import Text from '@components/UI/Text';
-
-import ThemeCard from './ThemeCard';
-import { useSubscribeThemes, useSuggestThemes } from './service';
-import { Toaster, toast } from 'react-hot-toast';
-import Notification from '@components/UI/Notification';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
+
+import Notification from '@components/UI/Notification';
+import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+
+import { useSubscribeThemes, useSuggestThemes } from './service';
+import ThemeCard from './ThemeCard';
 
 const RegisterThemes = () => {
   const router = useRouter();

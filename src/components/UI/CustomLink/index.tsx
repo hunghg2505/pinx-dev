@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
+
+import Link from 'next/link';
 
 interface ICustomLink {
   children: React.ReactNode | string;
@@ -15,10 +16,8 @@ const CustomLink = ({
   children,
   href,
   className = '',
-  isNoFollow,
   ariaLabel = '',
   prefetch = false,
-  target,
 }: ICustomLink) => {
   return (
     <Link href={href} passHref prefetch={!!prefetch}>

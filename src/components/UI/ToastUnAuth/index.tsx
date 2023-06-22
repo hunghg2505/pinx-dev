@@ -1,4 +1,5 @@
 import { toast } from 'react-hot-toast';
+
 import Notification from '../Notification';
 
 const ToastUnAuth = () => {

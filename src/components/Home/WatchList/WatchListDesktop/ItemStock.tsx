@@ -1,6 +1,7 @@
+import Image from 'next/image';
+
 import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import Image from 'next/image';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';

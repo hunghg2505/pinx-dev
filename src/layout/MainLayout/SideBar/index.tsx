@@ -1,11 +1,14 @@
 import { useMemo } from 'react';
-import Menu, { MenuProps } from 'rc-menu';
-import { useRouter } from 'next/router';
-import CustomLink from '@components/UI/CustomLink';
-import { IconAssets, IconExplore, IconGiftCash, IconHomeActive, IconWatchList } from './icon';
+
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
+import Menu from 'rc-menu';
+
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-export type MenuItem = Required<MenuProps>['items'][number];
+
+import { IconAssets, IconExplore, IconGiftCash, IconHomeActive, IconWatchList } from './icon';
+
 const SideBar = () => {
   const router = useRouter();
   const MENUS = useMemo(() => {
@@ -47,7 +50,7 @@ const SideBar = () => {
       },
     ];
   }, []);
-  const items: MenuItem[] = useMemo(() => {
+  const items = useMemo(() => {
     return MENUS.map((menu) => {
       const checkPathExist = router.pathname === menu.path || router.pathname?.includes(menu?.path);
       const icon = checkPathExist ? menu.iconActive : menu.icon;
@@ -61,7 +64,7 @@ const SideBar = () => {
             <Text type='body-14-regular'>{menu.label}</Text>
           </CustomLink>
         ),
-      } as MenuItem;
+      };
     });
   }, [MENUS]);
   return (

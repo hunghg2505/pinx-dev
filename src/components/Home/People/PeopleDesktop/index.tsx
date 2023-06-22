@@ -1,7 +1,8 @@
-import { ISuggestionPeople, requestFollowUser, useSuggestPeople } from '@components/Home/service';
-import Text from '@components/UI/Text';
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
+
+import { ISuggestionPeople, requestFollowUser, useSuggestPeople } from '@components/Home/service';
+import Text from '@components/UI/Text';
 
 const PeopleDesktop = () => {
   const { suggestionPeople, refresh } = useSuggestPeople();

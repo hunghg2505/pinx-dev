@@ -1,9 +1,10 @@
+import { useRequest } from 'ahooks';
+import Image from 'next/image';
+
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import ToastUnAuth from '@components/UI/ToastUnAuth';
 import { getAccessToken } from '@store/auth';
-import { useRequest } from 'ahooks';
-import Image from 'next/image';
 
 interface IProps {
   data: IKOL;
@@ -38,14 +39,14 @@ const ItemInfluence = (props: IProps) => {
     },
   );
   const onFollow = () => {
-    if (!isLogin) {
-      ToastUnAuth();
-    } else {
+    if (isLogin) {
       if (isFollow) {
         useUnFollow.run();
       } else {
         useFollowUser.run();
       }
+    } else {
+      ToastUnAuth();
     }
   };
   return (

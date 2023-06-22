@@ -1,33 +1,27 @@
-// import { useTranslation } from 'next-i18next';
-import { useEffect } from 'react';
-
 import { useRouter } from 'next/router';
 
 import { API_PATH } from '@api/request';
 import Text from '@components/UI/Text';
 import { ENV } from 'src/utils/env';
 
-import { serviceReadContract } from './service';
-import { useRequest } from 'ahooks';
-
 const TermsOfService = () => {
   const PREFIX_API_PIST = ENV.URL_API_PIST;
   const router = useRouter();
   const link = router?.query?.link as string;
 
-  const requestReadContract = useRequest(
-    () => {
-      const link = router?.query?.link as string;
-      const session = router?.query?.session as string;
-      return serviceReadContract({ link, session });
-    },
-    {
-      onSuccess: () => {},
-      onError(e) {
-        console.log(e);
-      },
-    },
-  );
+  // const requestReadContract = useRequest(
+  //   () => {
+  //     const link = router?.query?.link as string;
+  //     const session = router?.query?.session as string;
+  //     return serviceReadContract({ link, session });
+  //   },
+  //   {
+  //     onSuccess: () => {},
+  //     onError(e) {
+  //       console.log(e);
+  //     },
+  //   },
+  // );
 
   return (
     <>

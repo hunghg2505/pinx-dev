@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -64,10 +64,7 @@ const IconChecked = () => (
     </defs>
   </svg>
 );
-const notifiError = () =>
-  toast(() => (
-    <Notification type='error' message='Bạn phải đăng nhập để thực hiện chức năng này' />
-  ));
+
 const ThemesItem = (props: IProps) => {
   const { theme, isLogin, refresh } = props;
   const useSubcribe = useRequest(

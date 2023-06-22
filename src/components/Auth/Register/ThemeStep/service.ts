@@ -1,6 +1,7 @@
+import { useRequest } from 'ahooks';
+
 import { API_PATH } from '@api/constant';
 import { IOptions, privateRequest, requestPist } from '@api/request';
-import { useRequest } from 'ahooks';
 
 const requestGetSuggestThemes = async () => {
   return await privateRequest(requestPist.get, API_PATH.PRIVATE_THEMES);

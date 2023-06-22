@@ -1,26 +1,28 @@
 import React, { useEffect } from 'react';
+
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
+import { Toaster } from 'react-hot-toast';
+
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
+
 import ListTheme from './ListTheme';
 import Market from './Market';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import {
-  IKOL,
   requestJoinChannel,
   requestJoinIndex,
   requestLeaveChannel,
   requestLeaveIndex,
   socket,
-  useGetInfluencer,
   useGetListNewFeed,
   useSuggestPeople,
 } from './service';
-import { Toaster } from 'react-hot-toast';
-import { getAccessToken } from '@store/auth';
-import dynamic from 'next/dynamic';
+
 const Influencer = dynamic(() => import('./People/Influencer'));
 const PeopleList = dynamic(() => import('./People/PeopleList'));
 const Trending = dynamic(() => import('./Trending'));

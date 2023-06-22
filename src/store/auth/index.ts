@@ -27,17 +27,17 @@ export const setAuthCookies = (
   reqOnServer?: any,
 ) => {
   setCookie('accessToken', token, {
-    maxAge: 2147483647,
+    maxAge: 2_147_483_647,
     res: reqOnServer?.res,
     req: reqOnServer?.req,
   });
   setCookie('accessRefreshToken', refreshToken, {
-    maxAge: 2147483647,
+    maxAge: 2_147_483_647,
     res: reqOnServer?.res,
     req: reqOnServer?.req,
   });
   setCookie('tokenExpiredTime', expiredTime, {
-    maxAge: 2147483647,
+    maxAge: 2_147_483_647,
     res: reqOnServer?.res,
     req: reqOnServer?.req,
   });

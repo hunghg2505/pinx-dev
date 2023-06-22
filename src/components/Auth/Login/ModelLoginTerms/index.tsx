@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-// eslint-disable-next-line import/order
 import NextLink from 'next/link';
-import 'rc-dialog/assets/index.css';
-
 import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
 
@@ -15,6 +12,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetContract, useAgreeContract } from './service';
+import 'rc-dialog/assets/index.css';
 
 interface IProps {
   userType: string;
@@ -29,7 +27,7 @@ const ModalLoginTerms = (props: IProps) => {
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
   const otherContract =
-    contractList?.length > 0 ? [...contractList.filter((item, index) => index > 0)] : [];
+    contractList?.length > 0 ? contractList.filter((item, index) => index > 0) : [];
   const { userLoginInfo } = useUserLoginInfo();
   const { onLogout } = useAuth();
 

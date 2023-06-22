@@ -1,6 +1,7 @@
+import { useRequest } from 'ahooks';
+
 import { API_PATH } from '@api/constant';
 import { IOptions, privateRequest, requestPist } from '@api/request';
-import { useRequest } from 'ahooks';
 
 const requestGetSuggestTopic = async (limit?: number) => {
   return await privateRequest(requestPist.get, API_PATH.PRIVATE_TOPIC_ALL(limit));

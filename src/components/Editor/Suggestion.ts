@@ -3,6 +3,7 @@ import tippy from 'tippy.js';
 
 import MentionList from './MentionList';
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   items: ({ query }: { query: any }) => {
     return [

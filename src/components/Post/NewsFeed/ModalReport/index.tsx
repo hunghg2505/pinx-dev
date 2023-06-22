@@ -9,11 +9,11 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
+import ToastUnAuth from '@components/UI/ToastUnAuth';
+import { getAccessToken } from '@store/auth';
 
 import Reason from './Reason';
 import { TYPEREPORT, requestReportPost } from './service';
-import { getAccessToken } from '@store/auth';
-import ToastUnAuth from '@components/UI/ToastUnAuth';
 
 interface IProps {
   children: any;
@@ -51,10 +51,10 @@ const ModalReport = (props: IProps) => {
   );
   const onFinish = () => {
     const value = form.getFieldsValue();
-    if (!isLogin) {
-      ToastUnAuth();
-    } else {
+    if (isLogin) {
       onReport.run(value);
+    } else {
+      ToastUnAuth();
     }
   };
   const options = [
