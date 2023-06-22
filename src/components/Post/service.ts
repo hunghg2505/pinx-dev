@@ -3,6 +3,7 @@ import { useRequest } from 'ahooks';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
 import { getAccessToken } from '@store/auth';
+import request from 'umi-request';
 
 export interface ICustomerInfo {
   id: number;
@@ -88,6 +89,14 @@ export interface IContentPost {
   timeString: string;
   contentText: string;
 }
+
+interface IResponseTotalShare {
+  shares: {
+    all: number;
+  };
+  total: number;
+}
+
 export enum TYPEPOST {
   POST = 'Post',
   ActivityTheme = 'ActivityTheme',
@@ -230,3 +239,9 @@ export const requestHidePost = (id: string) => {
 // export const requestSearch = () => {
 //   return privateRequest
 // }
+
+// total share of post
+export const getTotalSharePost = (url: string): Promise<IResponseTotalShare> => {
+  const API_URL = 'https://count-server.sharethis.com/v2.0/get_counts?url=';
+  return request.get(API_URL + url);
+};

@@ -7,7 +7,14 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { IPost, TYPEPOST, likePost, requestHidePost, unlikePost } from '@components/Post/service';
+import {
+  IPost,
+  TYPEPOST,
+  getTotalSharePost,
+  likePost,
+  requestHidePost,
+  unlikePost,
+} from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { formatMessage } from '@utils/common';
 
@@ -25,7 +32,8 @@ interface IProps {
 const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
-  const [currentSiteUrl, setCurrentSiteUrl] = useState('');
+  const [urlPost, setUrlPost] = useState('');
+  const [totalSharePost, setTotalSharePost] = useState(0);
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
     // showReport && setShowReport(false);
@@ -48,8 +56,16 @@ const NewFeedItem = (props: IProps) => {
   const idPost = id || postDetail?.id;
 
   useEffect(() => {
-    setCurrentSiteUrl(window.location.origin);
-  }, []);
+    const urlPost = window.location.origin + '/post/' + idPost;
+    setUrlPost(urlPost);
+  }, [idPost]);
+
+  useEffect(() => {
+    if (urlPost && !showModalShare) {
+      requestGetTotalShare.run(urlPost);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showModalShare, urlPost]);
 
   const useLikePost = useRequest(
     () => {
@@ -106,6 +122,16 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
+
+  const requestGetTotalShare = useRequest(getTotalSharePost, {
+    manual: true,
+    onSuccess: (res) => {
+      setTotalSharePost(res.shares.all);
+    },
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
 
   const renderLogo = () => {
     let logo = '';
@@ -309,13 +335,13 @@ const NewFeedItem = (props: IProps) => {
             className='mr-[10px] w-[13px]'
           />
           <Text type='body-12-medium' color='primary-5'>
-            32 Shares
+            {totalSharePost} Shares
           </Text>
         </div>
       </div>
 
       <ModalShare
-        url={currentSiteUrl + '/post/' + idPost}
+        url={urlPost}
         visible={showModalShare}
         handleClose={() => {
           setShowModalShare(false);
