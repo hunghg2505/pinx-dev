@@ -57,9 +57,9 @@ deploy-job:
     - eval $(ssh-agent -s)
     - echo "$EC2_SSH_KEY1" > "key.pem"
     - chmod 600 key.pem
-    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11 "sudo su"
+    - ssh -tt -i key.pem -o StrictHostKeyChecking=no ubuntu@54.151.229.11
   script:
-    - cd /home/ubuntu
+    - sudo su | cd /home/ubuntu
 
   # script:
   #   - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client wget gnupg -y )'
