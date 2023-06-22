@@ -8,7 +8,7 @@ import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import { StyledInput } from '@components/UI/Input';
+import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
 
 import 'rc-picker/assets/index.css';
@@ -168,7 +168,12 @@ const OtpVerification = (props: IProps) => {
                 },
               ]}
             >
-              <StyledInput type='number' placeholder={t('otp_code')} onChange={onChange} />
+              <LabelInput
+                type='number'
+                placeholder={t('otp_code')}
+                name='otp'
+                labelContent={t('otp_code')}
+              />
             </FormItem>
           </Form>
 

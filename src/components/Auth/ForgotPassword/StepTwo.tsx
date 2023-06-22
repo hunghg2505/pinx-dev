@@ -103,9 +103,6 @@ const ForgotPasswordStepTwo = () => {
                     placeholder='Select date'
                   />
                 </div>
-                {/* <StyledInput
-                  placeholder='Pick date'
-                /> */}
               </FormItem>
             </div>
             <button
