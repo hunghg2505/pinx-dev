@@ -46,10 +46,20 @@ publish-job:
     - pip3 install --no-cache-dir awscli
   script:
     - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-    - docker pull $TAG_LATEST || true
     - docker build --cache-from $TAG_LATEST -t $TAG_COMMIT -t $TAG_LATEST .
     - docker push $TAG_COMMIT
     - docker push $TAG_LATEST
+  
+deploy-job:
+  stage: deploy
+  script:
+    - echo "$EC2_SSH_KEY" > "key.pem"
+    - chmod 600 key.pem
+    - apk update && apk add openssh
+    - ssh -i "key.pem" ubuntu@54.151.229.11 
+    - cd /home/ubuntu
+    - docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest
+    - docker compose up -d
 
 success_notification:
   stage: notification
