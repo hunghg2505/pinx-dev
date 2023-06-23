@@ -14,7 +14,7 @@ export const ROUTE_PATH = {
 
 export const formatMessage = (message: string, data: any) => {
   const tagPeople = data?.tagPeople?.map((item: any) => {
-    return `@[${item.displayName}](${item.customerId})`;
+    return `@[${item?.displayName}](${item?.customerId})`;
   });
   const listStock = data?.tagStocks?.map((item: string) => {
     return `%[${item}](${item})`;

@@ -5,38 +5,6 @@ import MentionList from './MentionList';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  items: ({ query }: { query: any }) => {
-    return [
-      'Lea Thompson',
-      'Cyndi Lauper',
-      'Tom Cruise',
-      'Madonna',
-      'Jerry Hall',
-      'Joan Collins',
-      'Winona Ryder',
-      'Christina Applegate',
-      'Alyssa Milano',
-      'Molly Ringwald',
-      'Ally Sheedy',
-      'Debbie Harry',
-      'Olivia Newton-John',
-      'Elton John',
-      'Michael J. Fox',
-      'Axl Rose',
-      'Emilio Estevez',
-      'Ralph Macchio',
-      'Rob Lowe',
-      'Jennifer Grey',
-      'Mickey Rourke',
-      'John Cusack',
-      'Matthew Broderick',
-      'Justine Bateman',
-      'Lisa Bonet',
-    ]
-      .filter((item) => item.toLowerCase().startsWith(query.toLowerCase()))
-      .slice(0, 5);
-  },
-
   render: () => {
     let component: any;
     let popup: any;
@@ -47,7 +15,6 @@ export default {
           props,
           editor: props.editor,
         });
-
         if (!props.clientRect) {
           return;
         }
@@ -82,7 +49,7 @@ export default {
           return true;
         }
 
-        return component.ref?.onKeyDown(props);
+        return component?.ref?.onKeyDown(props);
       },
 
       onExit() {

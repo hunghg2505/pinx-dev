@@ -23,6 +23,7 @@ interface InputProps {
   removeCommon?: boolean;
   name?: string;
   icon?: any;
+  onKeyPress?: () => void;
 }
 
 interface Ref {
@@ -41,6 +42,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
     removeCommon = false,
     step,
     maxLength,
+    onKeyPress,
     ...rest
   } = props;
   const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
@@ -142,6 +144,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
         onKeyDown={onKeyDown}
         step={step}
         maxLength={maxLength}
+        onKeyUp={onKeyPress}
         {...rest}
       />
 

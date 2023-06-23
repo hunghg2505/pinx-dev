@@ -15,6 +15,7 @@ const MainLayout = ({ children }: any) => {
           <SideBar />
         </div>
         <main className='desktop:w-[1124px]'>{children}</main>
+        <div id='md-popup-container'></div>
       </div>
     </>
   );

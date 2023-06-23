@@ -9,8 +9,8 @@ import { useRouter } from 'next/router';
 
 import { IPost, TYPEPOST, likePost, requestHidePost, unlikePost } from '@components/Post/service';
 import Text from '@components/UI/Text';
-import ToastUnAuth from '@components/UI/ToastUnAuth';
 import { getAccessToken } from '@store/auth';
+import PopupComponent from '@utils/PopupComponent';
 
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
@@ -86,7 +86,8 @@ const NewFeedItem = (props: IProps) => {
         useLikePost.run();
       }
     } else {
-      ToastUnAuth();
+      // ToastUnAuth();
+      PopupComponent.open();
     }
 
     // return () => props?.onRefreshPostDetail() && refresh();
@@ -112,7 +113,8 @@ const NewFeedItem = (props: IProps) => {
     if (isLogin) {
       onHidePost.run();
     } else {
-      ToastUnAuth();
+      // ToastUnAuth();
+      PopupComponent.open();
     }
   };
   const renderLogo = () => {

@@ -9,7 +9,9 @@ import { Toaster } from 'react-hot-toast';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 
+import ContentRight from './ContentRight';
 import ListTheme from './ListTheme';
 import Market from './Market';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
@@ -26,12 +28,8 @@ import {
 const Influencer = dynamic(() => import('./People/Influencer'));
 const PeopleList = dynamic(() => import('./People/PeopleList'));
 const Trending = dynamic(() => import('./Trending'));
-const TrendingDesktop = dynamic(() => import('./Trending/TrendingDesktop'));
 const WatchList = dynamic(() => import('./WatchList'));
-const WatchListDesktop = dynamic(() => import('./WatchList/WatchListDesktop'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
-const PeopleDesktop = dynamic(() => import('./People/PeopleDesktop'));
-const MarketDesktop = dynamic(() => import('./Market/MarketDesktop'));
 
 const onChangeTab = (key: string) => {
   if (key === '1') {
@@ -51,11 +49,9 @@ const Home = () => {
   });
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
-  const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
-  // console.log('🚀 ~ file: index.tsx:71 ~ Home ~ suggestionPeople:', suggestionPeople);
   const isLogin = !!getAccessToken();
-  console.log('🚀 ~ file: index.tsx:57 ~ Home ~ isLogin:', isLogin);
-
+  const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
+  const { requestGetProfile } = useProfileInitial();
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
@@ -98,13 +94,14 @@ const Home = () => {
                 <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden desktop:block'>
                   <div className='flex items-center'>
                     <Image
-                      src='/static/logo/logoPintree.svg'
+                      src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
                       alt=''
                       width={0}
                       height={0}
+                      sizes='100vw'
                       className='mr-[10px] h-[56px] w-[56px] rounded-full '
                     />
-                    <Text type='body-16-semibold'>Ben Gia Mint</Text>
+                    <Text type='body-16-semibold'>{requestGetProfile?.displayName}</Text>
                   </div>
                   <div className='mt-[5px] pl-[61px]'>
                     <textarea
@@ -226,51 +223,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className='mobile:hidden desktop:block desktop:w-[350px]'>
-          <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-            <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-              Market
-            </Text>
-            <MarketDesktop />
-          </div>
-          {isLogin && (
-            <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-              <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-                Watchlist
-              </Text>
-              <WatchListDesktop />
-              <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  View more
-                </Text>
-              </div>
-            </div>
-          )}
-          <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-            <Text type='body-16-bold' color='cbblack' className='mb-[15px]'>
-              Trending
-            </Text>
-            <TrendingDesktop />
-            <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
-              <Text type='body-14-bold' color='primary-2'>
-                View more
-              </Text>
-            </div>
-          </div>
-          {isLogin && suggestionPeople && (
-            <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-              <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-                People you may know
-              </Text>
-              <PeopleDesktop />
-              <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  View more
-                </Text>
-              </div>
-            </div>
-          )}
-        </div>
+        <ContentRight />
       </div>
     </>
   );

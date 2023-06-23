@@ -6,36 +6,46 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
-import ItemComment from '../NewsFeed/ItemComment';
-import NewFeedItem from '../NewsFeed/NewFeedItem';
+// import ItemComment from '../NewsFeed/ItemComment';
+// import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
+const ItemComment = dynamic(import('../NewsFeed/ItemComment'), {
+  ssr: false,
+});
+const NewFeedItem = dynamic(import('../NewsFeed/NewFeedItem'), {
+  ssr: false,
+});
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
 });
-const ForwardedRefComponent = React.forwardRef((props: any, ref) => (
-  <ComponentRef {...props} forwardedRef={ref} id={props.id} />
-));
+const ContentRight = dynamic(import('@components/Home/ContentRight'), {
+  ssr: false,
+});
+const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
+  console.log('🚀 ~ file: index.tsx:29 ~ ForwardedRefComponent ~ props:', props);
+  return <ComponentRef {...props} forwardedRef={ref} id={props.id} refresh={props.refresh} />;
+});
 
 const PostDetail = () => {
   const refReplies: any = useRef();
   const router = useRouter();
-
+  const isLogin = !!getAccessToken();
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
+  console.log('🚀 ~ file: index.tsx:39 ~ PostDetail ~ postDetail:', postDetail);
 
-  const { commentsOfPost } = useCommentsOfPost(String(router.query.id));
-
-  // not login
+  const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
   const onGoToBack = () => {
     router.back();
   };
-  const onReplies = (value: string) => {
+  const onReplies = (value: string, customerId: number, id: string) => {
     if (refReplies?.current?.onComment) {
-      refReplies?.current?.onComment(value);
+      refReplies?.current?.onComment(value, customerId, id);
     }
   };
   const getSubComment = (payload: IComment[]) => {
@@ -43,13 +53,17 @@ const PostDetail = () => {
       return (
         <div className='sub-comment ml-[48px]'>
           {payload?.map((comment: IComment, index: number) => (
-            <ItemComment data={comment} key={index} onReplies={onReplies} />
+            <ItemComment
+              data={comment}
+              key={index}
+              onReplies={onReplies}
+              refresh={refreshCommentOfPOst}
+            />
           ))}
         </div>
       );
     }
   };
-
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
   };
@@ -65,52 +79,79 @@ const PostDetail = () => {
 
   return (
     <>
-      <div className='header relative'>
-        <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center'>
-          Post detail
-        </Text>
-        <Image
-          src='/static/icons/iconBack.svg'
-          alt=''
-          width='0'
-          height='0'
-          className='absolute left-[16px] top-2/4 w-[18px] -translate-y-1/2 transform cursor-pointer'
-          onClick={onGoToBack}
-        />
+      <div className='flex flex-row items-start'>
+        <div className='rounded-[8px] mobile:w-[375px] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
+          <div className='header relative mobile:h-auto desktop:h-[60px]'>
+            <Text
+              type='body-16-bold'
+              color='primary-5'
+              className='py-[17px] text-center mobile:block desktop:hidden'
+            >
+              Post detail
+            </Text>
+            <Image
+              src='/static/icons/iconBack.svg'
+              alt=''
+              width='0'
+              height='0'
+              className='absolute left-[16px] top-2/4 w-[18px] -translate-y-1/2 transform cursor-pointer'
+              onClick={onGoToBack}
+            />
+          </div>
+          <NewFeedItem
+            postDetail={postDetail?.data}
+            totalComments={commentsOfPost?.data?.list.length}
+            onRefreshPostDetail={refresh}
+            postId={postDetail?.data?.id}
+          />
+          {!isLogin && (
+            <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
+              <button
+                className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]'
+                onClick={redirectToSignUp}
+              >
+                <Text type='body-14-semibold' color='cbwhite'>
+                  Sign up
+                </Text>
+              </button>
+              <Text type='body-14-regular' color='primary-5' className='mx-[8px]'>
+                or
+              </Text>
+              <button
+                className='h-[28px] w-[83px] rounded-[4px] bg-[#EAF4FB]'
+                onClick={redirectToLogin}
+              >
+                <Text type='body-14-semibold' color='primary-2'>
+                  Log in
+                </Text>
+              </button>
+              <Text type='body-14-regular' color='primary-5' className='ml-[7px]'>
+                to join the discussion
+              </Text>
+            </div>
+          )}
+
+          {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+            return (
+              <>
+                <ItemComment
+                  key={index}
+                  data={item}
+                  onReplies={onReplies}
+                  refresh={refreshCommentOfPOst}
+                />
+                {getSubComment(item.children)}
+              </>
+            );
+          })}
+          <ForwardedRefComponent
+            ref={refReplies}
+            id={postDetail?.data?.id}
+            refresh={refreshCommentOfPOst}
+          />
+        </div>
+        <ContentRight />
       </div>
-      <NewFeedItem
-        postDetail={postDetail?.data}
-        totalComments={commentsOfPost?.data?.list.length}
-        onRefreshPostDetail={() => refresh()}
-        postId={postDetail?.data?.id}
-      />
-      <div className='unAuth flex flex-row items-center border-b border-t border-solid border-[#E6E6E6] px-[16px] py-[10px]'>
-        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#1F6EAC]' onClick={redirectToSignUp}>
-          <Text type='body-14-semibold' color='cbwhite'>
-            Sign up
-          </Text>
-        </button>
-        <Text type='body-14-regular' color='primary-5' className='mx-[8px]'>
-          or
-        </Text>
-        <button className='h-[28px] w-[83px] rounded-[4px] bg-[#EAF4FB]' onClick={redirectToLogin}>
-          <Text type='body-14-semibold' color='primary-2'>
-            Log in
-          </Text>
-        </button>
-        <Text type='body-14-regular' color='primary-5' className='ml-[7px]'>
-          to join the discussion
-        </Text>
-      </div>
-      {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-        return (
-          <>
-            <ItemComment key={index} data={item} onReplies={onReplies} />
-            {getSubComment(item.children)}
-          </>
-        );
-      })}
-      <ForwardedRefComponent ref={refReplies} id={postDetail?.id} />
     </>
   );
 };

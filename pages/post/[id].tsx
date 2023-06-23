@@ -1,11 +1,13 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import PostDetail from '@components/Post/PostDetail';
-import MainLayout from '@layout/MainLayout';
-
+const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
+  ssr: false,
+});
+const MainLayout = dynamic(() => import('@layout/MainLayout'));
 const PostDetailPage = () => {
   return (
     <>
