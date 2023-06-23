@@ -11,7 +11,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useSelectedTopics, useSuggestTopic } from './service';
+import { useSelectTopic, useSuggestTopic } from './service';
 
 interface ITopicCard {
   name: string;
@@ -25,7 +25,7 @@ const RegisterCompanyStep = () => {
 
   const listTopicSuggest = useSuggestTopic();
 
-  const { onSelectedTopics } = useSelectedTopics({
+  const { onSelectTopic } = useSelectTopic({
     onSuccess: () => {
       toast(() => <Notification type='success' message='Subscribe successfully!' />);
       router.push(ROUTE_PATH.HOME);
@@ -54,22 +54,13 @@ const RegisterCompanyStep = () => {
   };
 
   const handleContinue = () => {
-    onSelectedTopics(selected.toString());
+    onSelectTopic(selected.toString());
   };
 
   return (
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='companyCardmd:mt-0 w-full rounded-lg bg-white sm:max-w-md xl:p-0'>
-          <div className='flex w-full'>
-            <Image
-              src='/static/icons/back_icon.svg'
-              alt=''
-              width='0'
-              height='0'
-              className={'h-[20px] w-[20px]'}
-            />
-          </div>
           <div className='flex flex-col items-center max-sm:mt-6'>
             <Text type='body-24-bold' className='mt-6'>
               Your favourite topics

@@ -11,7 +11,7 @@ import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
 
 import styles from './index.module.scss';
-import { useGetDetailStockCode, useSelectedTopics, useSuggestStockCode } from './service';
+import { useGetDetailStockCode, useSelectStock, useSuggestStockCode } from './service';
 
 const RegisterCompanyStep = () => {
   // const { t } = useTranslation('common');
@@ -34,7 +34,7 @@ const RegisterCompanyStep = () => {
 
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
-  const { onSelectedStocks } = useSelectedTopics({
+  const requestSelectStock = useSelectStock({
     onSuccess: () => {
       toast(() => <Notification type='success' message='Subscribe successfully!' />);
       router.push(ROUTE_PATH.REGISTER_THEME);
@@ -58,22 +58,13 @@ const RegisterCompanyStep = () => {
   };
 
   const handleContinue = () => {
-    onSelectedStocks(selected.toString());
+    requestSelectStock.run(selected.toString());
   };
 
   return (
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='companyCardmd:mt-0 w-full rounded-lg bg-white sm:max-w-md xl:p-0'>
-          <div className='flex w-full'>
-            <Image
-              src='/static/icons/back_icon.svg'
-              alt=''
-              width='0'
-              height='0'
-              className={'h-[20px] w-[20px]'}
-            />
-          </div>
           <div className='flex flex-col items-center max-sm:mt-6'>
             <Text type='body-24-bold' className='mt-6'>
               What are you up to?
@@ -85,11 +76,10 @@ const RegisterCompanyStep = () => {
           </div>
           <div className={'mt-9 flex w-full flex-wrap items-center justify-center gap-y-[16px]'}>
             {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-              const urlImageCompany = `${
-                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                  ? item.stockCode
-                  : item.stockCode?.slice(1, 4)
-              }.png`;
+              const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                ? item.stockCode
+                : item.stockCode?.slice(1, 4)
+                }.png`;
               return (
                 <div
                   className={classNames('flex justify-center', styles.companyCard)}

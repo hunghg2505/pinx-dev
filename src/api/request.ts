@@ -123,6 +123,7 @@ const API_PATH = {
   READ_CONTRACT: '/public/contract/read',
   SEND_LOGIN_OTP: '/private/generate-auth',
   USER_PROFILE: '/private/customer/profile',
+  RESET_PASSWORD: '/public/reset-password',
 };
 
 export { API_PATH, privateRequest, requestPist, requestCommunity, requestMarket };

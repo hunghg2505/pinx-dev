@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -49,15 +48,6 @@ const RegisterThemes = () => {
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='companyCardmd:mt-0 w-full rounded-lg bg-white sm:max-w-md xl:p-0'>
-          <div className='flex w-full'>
-            <Image
-              src='/static/icons/back_icon.svg'
-              alt=''
-              width='0'
-              height='0'
-              className={'h-[20px] w-[20px]'}
-            />
-          </div>
           <div className='flex flex-col items-center justify-center max-sm:mt-6'>
             <div className='w-[227px]'>
               <Text type='body-24-bold' className='mt-6'>

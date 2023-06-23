@@ -28,14 +28,18 @@ export const useSuggestTopic = () => {
   };
 };
 
-export const useSelectedTopics = (options: IOptions) => {
+const requestSelectTopic = async (topicCodes: string) => {
+  return await privateRequest(requestPist.post, API_PATH.PRIVATE_TOPIC_SELECTED, {
+    data: {
+      topicCodes,
+    },
+  });
+};
+
+export const useSelectTopic = (options: IOptions) => {
   const { loading, run } = useRequest(
     async ({ topicCodes }: { topicCodes: string }) => {
-      return requestPist.post(API_PATH.PRIVATE_TOPIC_SELECTED, {
-        data: {
-          topicCodes,
-        },
-      });
+      return requestSelectTopic(topicCodes);
     },
     {
       manual: true,
@@ -43,7 +47,7 @@ export const useSelectedTopics = (options: IOptions) => {
     },
   );
 
-  const onSelectedTopics = (topicCodes: string) => {
+  const onSelectTopic = (topicCodes: string) => {
     run({
       topicCodes,
     });
@@ -51,6 +55,6 @@ export const useSelectedTopics = (options: IOptions) => {
 
   return {
     loading,
-    onSelectedTopics,
+    onSelectTopic,
   };
 };

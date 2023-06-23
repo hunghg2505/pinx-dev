@@ -5,11 +5,13 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 // import Text from '@components/UI/Text';
+import Notification from '@components/UI/Notification';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -59,7 +61,7 @@ const Register = () => {
       }
     },
     onError(e) {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      toast(() => <Notification type='error' message={e.error} />);
     },
   });
 
