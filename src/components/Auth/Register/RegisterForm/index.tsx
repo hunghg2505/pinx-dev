@@ -78,7 +78,7 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <div className='mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+        <div className='mx-auto flex mobile:min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
           <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
             <Form className='space-y-6' form={form} onFinish={onSubmit}>
               <FormItem
@@ -143,16 +143,14 @@ const Register = () => {
                     required: true,
                     message: 'Please retype password',
                   },
-                  {
-                    validator: () => {
-                      if (form.getFieldValue('password') !== form.getFieldValue('confirmPassword')) {
-                        form.setFields([{
-                          name: 'confirmPassword',
-                          errors: ['Confirm password is incorrect'],
-                        }])
+                  ({ getFieldValue }: { getFieldValue: any }) => ({
+                    validator(_: any, value: any) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
                       }
+                      return Promise.reject(new Error('Confirm password is incorrect'));
                     },
-                  }
+                  }),
                 ]}
               >
                 <LabelInput
