@@ -156,7 +156,7 @@ const getCommentsOfPost = (postId: string) => {
   return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
 };
 export const useCommentsOfPost = (postId: string) => {
-  const { data, loading } = useRequest(
+  const { data, loading, refresh } = useRequest(
     () => {
       return isLogin ? getCommentsOfPostAuth(postId) : getCommentsOfPost(postId);
     },
@@ -168,6 +168,7 @@ export const useCommentsOfPost = (postId: string) => {
   return {
     commentsOfPost: data,
     loading,
+    refreshCommentOfPOst: refresh,
   };
 };
 

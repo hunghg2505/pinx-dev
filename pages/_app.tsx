@@ -5,14 +5,15 @@ import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
+import { Toaster } from 'react-hot-toast';
+
+import ErrorBoundary from '@components/ErrorBoundary';
+import AppLayout from '@layout/AppLayout';
 
 import '../styles/tailwind.css';
 import '../styles/globals.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-import ErrorBoundary from '@components/ErrorBoundary';
-import AppLayout from '@layout/AppLayout';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -50,6 +51,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <ErrorBoundary>
+        <Toaster />
         <AppLayout InterFont={InterFont}>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>

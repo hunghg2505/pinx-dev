@@ -1,55 +1,30 @@
 import React, { useState } from 'react';
 
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
+import { useSubscribeThemes, useSuggestThemes } from './service';
 import ThemeCard from './ThemeCard';
 
-const mockData = [
-  {
-    name: 'test1',
-    title: 'Renewable energy for a stable future',
-    img: '',
-    id: 1,
-  },
-  {
-    name: 'test2',
-    img: '',
-    title: 'Renewable energy for a stable future 1',
-    id: 2,
-  },
-  {
-    name: 'test3',
-    img: '',
-    title: 'Renewable energy for a stable future 2',
-    id: 3,
-  },
-  {
-    name: 'test4',
-    img: '',
-    title: 'Renewable energy for a stable future 3',
-    id: 4,
-  },
-  {
-    name: 'test5',
-    img: '',
-    title: 'Renewable energy for a stable future 4',
-    id: 5,
-  },
-  {
-    name: 'test6',
-    img: '',
-    title: 'Renewable energy for a stable future 5',
-    id: 6,
-  },
-];
-
 const RegisterThemes = () => {
+  const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
+  const listThemesSuggest = useSuggestThemes();
+
+  const { onSubscribeThemes } = useSubscribeThemes({
+    onSuccess: () => {
+      toast(() => <Notification type='success' message='Subscribe successfully!' />);
+      router.push(ROUTE_PATH.REGISTER_TOPIC);
+    },
+  });
 
   const checkIsSelected = (value: any) => {
-    const findItem = selected.find((item) => item.id === value.id);
+    const findItem = selected.find((item) => item === value);
     if (findItem) {
       return true;
     }
@@ -58,11 +33,16 @@ const RegisterThemes = () => {
 
   const onSelect = (value: any) => {
     if (checkIsSelected(value)) {
-      const selectedDraft = selected.filter((item) => item.id !== value.id);
+      const selectedDraft = selected.filter((item) => item !== value);
       setSelected(selectedDraft);
     } else {
       setSelected([...selected, value]);
     }
+  };
+
+  const handleContinue = () => {
+    const paramsThemesSelected = selected.toString();
+    onSubscribeThemes(paramsThemesSelected);
   };
 
   return (
@@ -91,16 +71,23 @@ const RegisterThemes = () => {
             </div>
           </div>
           <div className={'mt-9 flex w-full flex-wrap items-center justify-center gap-[12px]'}>
-            {mockData.map((item: any) => {
+            {listThemesSuggest.themes?.data?.map((item: any) => {
               return (
-                <div className='w-[48%]' key={item?.id} onClick={() => onSelect(item)}>
-                  <ThemeCard isSelected={checkIsSelected(item)} title={item?.title} />
+                <div className='w-[48%]' key={item?.code} onClick={() => onSelect(item?.code)}>
+                  <ThemeCard
+                    isSelected={checkIsSelected(item?.code)}
+                    title={item?.name}
+                    image={item?.url}
+                    totalSubscribe={item?.totalSubscribe}
+                    latestUserLikeThis={item?.latestSubscribe}
+                  />
                 </div>
               );
             })}
           </div>
           <button
             type='submit'
+            onClick={handleContinue}
             className='!mt-10 flex w-full justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
           >
             Continue {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}

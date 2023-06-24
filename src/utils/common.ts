@@ -1,5 +1,5 @@
 export const ROUTE_PATH = {
-  Home: '/',
+  HOME: '/',
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -7,11 +7,14 @@ export const ROUTE_PATH = {
   REGISTER_USER_NAME: '/auth/register-user-name',
   LOGIN_OTP_VERIFICATION: '/auth/login-verification',
   TERMS_OF_SERVICE: '/auth/terms-of-service',
+  REGISTER_COMPANY: '/auth/register-company',
+  REGISTER_THEME: '/auth/register-theme',
+  REGISTER_TOPIC: '/auth/register-topic',
 };
 
 export const formatMessage = (message: string, data: any) => {
   const tagPeople = data?.tagPeople?.map((item: any) => {
-    return `@[${item.displayName}](${item.customerId})`;
+    return `@[${item?.displayName}](${item?.customerId})`;
   });
   const listStock = data?.tagStocks?.map((item: string) => {
     return `%[${item}](${item})`;
@@ -28,7 +31,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/profile/${ID}" className="tagStock">@${name}</a> 
+          <a href="/profile/${ID}" className="tagStock">@${name}</a>
           `,
         );
       }
@@ -46,7 +49,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/stock/${ID}" className="tagStock">%${name}</a> 
+          <a href="/stock/${ID}" className="tagStock">%${name}</a>
           `,
         );
       }
@@ -59,6 +62,7 @@ export const toBase64 = (file: any) =>
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', () => resolve(reader.result));
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
     reader.onerror = reject;
   });
 export const base64ToBlob = (base64: any, type: any) => {
@@ -68,6 +72,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   const buffer = new ArrayBuffer(len);
   const arr = new Uint8Array(buffer);
   for (let i = 0; i < len; i++) {
+    // eslint-disable-next-line unicorn/prefer-code-point
     arr[i] = binStr.charCodeAt(i);
   }
   const blob = new Blob([arr], { type });

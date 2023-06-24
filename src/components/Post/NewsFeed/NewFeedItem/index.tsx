@@ -16,7 +16,8 @@ import {
   unlikePost,
 } from '@components/Post/service';
 import Text from '@components/UI/Text';
-// import { formatMessage } from '@utils/common';
+import { getAccessToken } from '@store/auth';
+import PopupComponent from '@utils/PopupComponent';
 
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
@@ -28,6 +29,7 @@ interface IProps {
   totalComments: number;
   onNavigate?: () => void;
   onRefreshPostDetail: () => void;
+  postId: string;
 }
 const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
@@ -40,11 +42,12 @@ const NewFeedItem = (props: IProps) => {
   }, ref);
   const router = useRouter();
   const id = router.query?.id;
-  const { onNavigate, onRefreshPostDetail } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
+
+  const isLogin = !!getAccessToken();
   const onComment = () => {
     onNavigate && onNavigate();
   };
-  const { postDetail, totalComments } = props;
 
   const [isLike, setIsLike] = useState<boolean>(false);
 
@@ -98,23 +101,30 @@ const NewFeedItem = (props: IProps) => {
     },
   );
   const handleLikeOrUnLikePost = () => {
-    setIsLike(!isLike);
-    if (isLike) {
-      useUnLike.run();
+    if (isLogin) {
+      setIsLike(!isLike);
+      if (isLike) {
+        useUnLike.run();
+      } else {
+        useLikePost.run();
+      }
     } else {
-      useLikePost.run();
+      // ToastUnAuth();
+      PopupComponent.open();
     }
+
     // return () => props?.onRefreshPostDetail() && refresh();
   };
 
   // hide post
   const onHidePost = useRequest(
     () => {
-      return requestHidePost(postDetail?.id);
+      return requestHidePost(postId);
     },
     {
       manual: true,
       onSuccess: () => {
+        onRefreshPostDetail();
         console.log('thanh cong');
       },
       onError: (err: any) => {
@@ -133,6 +143,14 @@ const NewFeedItem = (props: IProps) => {
     },
   });
 
+  const handleHidePost = () => {
+    if (isLogin) {
+      onHidePost.run();
+    } else {
+      // ToastUnAuth();
+      PopupComponent.open();
+    }
+  };
   const renderLogo = () => {
     let logo = '';
     if (
@@ -198,6 +216,9 @@ const NewFeedItem = (props: IProps) => {
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
       name = 'CafeFNews';
     }
+    if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
+      name = 'TNCKNews';
+    }
     return name;
   };
   const renderContentPost = () => {
@@ -231,14 +252,14 @@ const NewFeedItem = (props: IProps) => {
           </div>
         </div>
         <div className='flex'>
-          <Image
+          {/* <Image
             src='/static/icons/iconUserFollow.svg'
             alt=''
             width='0'
             height='0'
             className='mr-[22px] w-[20px] cursor-pointer'
             onClick={() => console.log('follow')}
-          />
+          /> */}
           <button className='relative' ref={ref}>
             <Image
               src='/static/icons/iconDot.svg'
@@ -249,10 +270,10 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 top-[29px] h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
+              <div className='popup absolute right-0 top-[29px] z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
                 <div
                   className='flex h-[44px] items-center justify-center [border-bottom:1px_solid_#EAF4FB]'
-                  onClick={() => onHidePost.run()}
+                  onClick={handleHidePost}
                 >
                   <Image
                     src='/static/icons/iconUnHide.svg'

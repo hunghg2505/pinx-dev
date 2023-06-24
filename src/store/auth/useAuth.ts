@@ -1,4 +1,3 @@
-/* eslint-disable require-await */
 import { useRouter } from 'next/router';
 
 import { ROUTE_PATH } from '@utils/common';
@@ -15,7 +14,7 @@ export interface IAuth {
 
 export const useAuth = () => {
   const router = useRouter();
-  const onLogout = async () => {
+  const onLogout = () => {
     try {
       deleteAuthCookies();
       if (router.pathname !== ROUTE_PATH.LOGIN) {
@@ -26,8 +25,8 @@ export const useAuth = () => {
     }
   };
 
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   const onLogin = (data: IAuth) => {
-    console.log(data);
     try {
       setAuthCookies({
         token: `${data.token}`,

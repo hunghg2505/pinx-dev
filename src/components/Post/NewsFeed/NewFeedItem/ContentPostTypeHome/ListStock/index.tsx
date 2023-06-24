@@ -19,15 +19,6 @@ const ListStock = ({ listStock }: { listStock: string[] }) => {
       {listStock?.map((item: string, index: number) => {
         return <ItemStock key={index} data={item} />;
       })}
-
-      {/* <ItemStock />
-      <ItemStock />
-      <ItemStock />
-      <ItemStock />
-      <ItemStock />
-      <ItemStock />
-      <ItemStock />
-      <ItemStock /> */}
     </Slider>
   );
 };

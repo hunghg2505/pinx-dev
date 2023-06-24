@@ -1,4 +1,4 @@
-import TokenManager, { injectBearer } from 'brainless-token-manager';
+import TokenManager from 'brainless-token-manager';
 import { extend } from 'umi-request';
 
 import { getAccessToken } from '@store/auth';
@@ -7,12 +7,28 @@ import { ENV } from 'src/utils/env';
 const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
-export const PREFIX_API_PIST = ENV.URL_API_PIST;
+export interface IOptions {
+  onSuccess?: (r: any) => void;
+  onError?: (e: any) => void;
+}
 
+export const PREFIX_API_PIST = ENV.URL_API_PIST;
+export const PREFIX_API_MARKET = ENV.URL_API_MARKET;
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
+  timeout: REQ_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  errorHandler: (error) => {
+    throw error?.data || error?.response;
+  },
+});
+
+const requestMarket = extend({
+  prefix: PREFIX_API_MARKET,
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
@@ -42,10 +58,10 @@ const tokenManager = new TokenManager({
     return `${token}`;
   },
   onInvalidRefreshToken: () => {},
-  isValidToken: async (token) => {
+  isValidToken: async () => {
     return true;
   },
-  isValidRefreshToken: async (token) => {
+  isValidRefreshToken: async () => {
     return true;
   },
 });
@@ -61,7 +77,7 @@ const privateRequest = async (request: any, suffixUrl: string, configs?: any) =>
 };
 
 // dùng cái này khi gọi nhiều api ở phía server => đảm bảo có token mới nhất cho các request ở sau, tránh bị call reuqest đồng thời
-export const checkTokenExpiredOnServer = async (ctx: any) => {
+export const checkTokenExpiredOnServer = async () => {
   try {
     // const token = getAccessToken(ctx?.res, ctx?.req);
     // const salonRefreshToken = getRefreshToken(ctx?.res, ctx?.req);
@@ -89,7 +105,7 @@ export const checkTokenExpiredOnServer = async (ctx: any) => {
   } catch {}
 };
 
-export const requestFromServer = async (ctx: any, suffixUrl: string) => {
+export const requestFromServer = async () => {
   // await checkTokenExpiredOnServer(ctx);
   // const token = getAccessToken(ctx?.res, ctx?.req);
   // const salonId = getSalonIdFromCookie(ctx?.req, ctx?.res);
@@ -111,6 +127,7 @@ const API_PATH = {
   CONFIRM_CONTRACT: '/private/user-info/confirm',
   READ_CONTRACT: '/public/contract/read',
   SEND_LOGIN_OTP: '/private/generate-auth',
+  USER_PROFILE: '/private/customer/profile',
 };
 
-export { API_PATH, privateRequest, requestPist, requestCommunity };
+export { API_PATH, privateRequest, requestPist, requestCommunity, requestMarket };

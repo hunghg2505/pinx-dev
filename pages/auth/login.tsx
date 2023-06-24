@@ -29,7 +29,7 @@ LoginPage.getLayout = function getLayout(page: ReactElement) {
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'login'])),
+      ...(await serverSideTranslations(locale, ['common', 'auth'])),
       // Will be passed to the page component as props
     },
   };

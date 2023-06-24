@@ -64,7 +64,7 @@ const ModalFilter = (props: IProps) => {
     <>
       <span
         onClick={onVisible}
-        className='flex h-[34px] min-w-[89px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-solid border-[#B1D5F1] bg-[#F0F7FC] px-[5px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.06)]'
+        className='flex min-w-[89px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-solid border-[#B1D5F1] bg-[#F0F7FC] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.06)] mobile:h-[34px] mobile:px-[5px] desktop:h-[38px] desktop:px-[14px]'
       >
         <Text type='body-14-regular' color='primary-2' className='mr-[8px]'>
           {renderText()}
@@ -78,60 +78,58 @@ const ModalFilter = (props: IProps) => {
         />
       </span>
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
-        <div>
-          <div className='absolute left-[20px] top-[20px] flex flex-row items-center'>
-            <Image
-              src='/static/icons/iconFilter.svg'
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='mr-[8px] w-[16px]'
-            />
-            <Text className=''>Filter posts by</Text>
-          </div>
-          <div className='list mt-[36px]'>
-            {data &&
-              data?.data?.map((item: IFilter, index: string) => {
-                const isChecked: boolean = item.filterType === filterType;
-                return (
-                  <div
-                    className={classNames(
-                      'mb-[12px] flex cursor-pointer items-center justify-between rounded-[8px] bg-[#F3F2F6] px-[16px] py-[12px]',
-                      { '!bg-[#589DC0]': isChecked },
-                    )}
-                    key={index}
-                    onClick={() => onFilter(item.filterType)}
-                  >
-                    <div>
-                      <Text
-                        type='body-14-semibold'
-                        color='neutral-1'
-                        className={classNames({ '!text-[#ffffff]': isChecked })}
-                      >
-                        {item.title}
-                      </Text>
-                      <Text
-                        type='body-12-regular'
-                        color='neutral-1'
-                        className={classNames({ '!text-[#ffffff]': isChecked })}
-                      >
-                        {item.description}
-                      </Text>
-                    </div>
-                    {isChecked && (
-                      <Image
-                        src='/static/icons/iconCheckedFilter.svg'
-                        alt=''
-                        width='0'
-                        height='0'
-                        className='w-[21px]'
-                      />
-                    )}
+        <div className='absolute left-[20px] top-[20px] flex flex-row items-center'>
+          <Image
+            src='/static/icons/iconFilter.svg'
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='mr-[8px] w-[16px]'
+          />
+          <Text className=''>Filter posts by</Text>
+        </div>
+        <div className='list mt-[36px]'>
+          {data &&
+            data?.data?.map((item: IFilter, index: string) => {
+              const isChecked: boolean = item.filterType === filterType;
+              return (
+                <div
+                  className={classNames(
+                    'mb-[12px] flex cursor-pointer items-center justify-between rounded-[8px] bg-[#F3F2F6] px-[16px] py-[12px]',
+                    { '!bg-[#589DC0]': isChecked },
+                  )}
+                  key={index}
+                  onClick={() => onFilter(item.filterType)}
+                >
+                  <div>
+                    <Text
+                      type='body-14-semibold'
+                      color='neutral-1'
+                      className={classNames({ '!text-[#ffffff]': isChecked })}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text
+                      type='body-12-regular'
+                      color='neutral-1'
+                      className={classNames({ '!text-[#ffffff]': isChecked })}
+                    >
+                      {item.description}
+                    </Text>
                   </div>
-                );
-              })}
-          </div>
+                  {isChecked && (
+                    <Image
+                      src='/static/icons/iconCheckedFilter.svg'
+                      alt=''
+                      width='0'
+                      height='0'
+                      className='w-[21px]'
+                    />
+                  )}
+                </div>
+              );
+            })}
         </div>
       </Dialog>
     </>

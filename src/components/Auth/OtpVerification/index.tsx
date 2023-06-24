@@ -1,4 +1,4 @@
-// import { useTranslation } from 'next-i18next';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useCallback, useEffect } from 'react';
 
 import classNames from 'classnames';
@@ -8,10 +8,8 @@ import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import { StyledInput } from '@components/UI/Input';
+import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
-
-import 'rc-picker/assets/index.css';
 
 interface IProps {
   onResendOtp: () => void;
@@ -56,7 +54,7 @@ const OtpVerification = (props: IProps) => {
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
-  const [resendCount, setResendCount] = useState<number>(5);
+  const [resendCount, setResendCount] = useState<number>(30);
   const [resendTime, setResendTime] = useState<Itime>();
   const [isResendAvailable, setIsResendAvailable] = useState<boolean>(false);
 
@@ -64,22 +62,15 @@ const OtpVerification = (props: IProps) => {
     return props.phoneNumber && props.phoneNumber.slice(0, 4) + '****' + props.phoneNumber.slice(8);
   };
 
-  const onChange = useCallback(
-    (e: any) => {
-      if (e.target.value.length === 6) {
-        setOtp(e.target.value);
-        form.submit();
-      }
-    },
-    [form],
-  );
-
   const onSubmit = () => {
     props.onSubmit(otp);
   };
 
   const onResendOtp = () => {
-    isResendAvailable && props.onResendOtp();
+    if (isResendAvailable) {
+      props.onResendOtp();
+      setOtpCount(120);
+    }
   };
 
   // otp count down
@@ -139,7 +130,7 @@ const OtpVerification = (props: IProps) => {
     <>
       <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
-          <div className='mt-[56px]'>
+          <div className='mt-[46px]'>
             <Text type='body-24-bold'>{t('comfirm_phone_number')}</Text>
             <Text type='body-18-regular' color='neutral-4'>
               {t('input_otp_from')}{' '}
@@ -168,7 +159,12 @@ const OtpVerification = (props: IProps) => {
                 },
               ]}
             >
-              <StyledInput type='number' placeholder={t('otp_code')} onChange={onChange} />
+              <LabelInput
+                type='number'
+                placeholder={t('otp_code')}
+                name='otp'
+                labelContent={t('otp_code')}
+              />
             </FormItem>
           </Form>
 

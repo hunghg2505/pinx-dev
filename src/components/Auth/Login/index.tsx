@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-// import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 
 import Image from 'next/image';
@@ -9,7 +7,7 @@ import Form from 'rc-field-form';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import { StyledInput } from '@components/UI/Input';
+import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -22,11 +20,14 @@ const checkUserType = (custStat: string, acntStat: string) => {
   if (custStat === 'NEW') {
     return 'NEW';
   }
-  if ((custStat === 'PRO' && acntStat === 'VSD_PENDING') || (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')) {
-    return 'EKYC'
+  if (
+    (custStat === 'PRO' && acntStat === 'VSD_PENDING') ||
+    (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')
+  ) {
+    return 'EKYC';
   }
   return 'VSD';
-}
+};
 
 const Login = () => {
   const router = useRouter();
@@ -35,7 +36,6 @@ const Login = () => {
   const { setUserLoginInfo } = useUserLoginInfo();
   const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(false);
   const [userType, setUserType] = useState<string>('');
-
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -55,18 +55,21 @@ const Login = () => {
         setUserLoginInfo(res?.data);
 
         if (res?.data.isReadTerms === 'true') {
-          router.push(ROUTE_PATH.Home);
+          router.push(ROUTE_PATH.HOME);
         } else {
           switch (checkUserType(res?.data?.custStat, res?.data?.acntStat)) {
-            case 'NEW':
-              setUserType('NEW')
+            case 'NEW': {
+              setUserType('NEW');
               break;
-            case 'EKYC':
-              setUserType('EKYC')
+            }
+            case 'EKYC': {
+              setUserType('EKYC');
               break;
-            case 'VSD':
-              setUserType('VSD')
+            }
+            case 'VSD': {
+              setUserType('VSD');
               break;
+            }
           }
           setShowModalLoginTerms(true);
         }
@@ -86,22 +89,24 @@ const Login = () => {
       <div className='mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
           <Form className='space-y-6' form={form} onFinish={onSubmit}>
-            <div>
-              <FormItem
-                name='username'
-                rules={[{ required: true, message: 'Please enter username!' }]}
-              >
-                <StyledInput placeholder='Username/ Account' />
-              </FormItem>
-            </div>
-            <div>
-              <FormItem
+            <FormItem
+              name='username'
+              rules={[{ required: true, message: 'Please enter username!' }]}
+            >
+              <LabelInput placeholder='Username' name='username' labelContent='Username' />
+            </FormItem>
+            <FormItem
+              name='password'
+              rules={[{ required: true, message: 'Please enter password!' }]}
+            >
+              <LabelInput
+                placeholder='Password'
+                type='password'
                 name='password'
-                rules={[{ required: true, message: 'Please enter password!' }]}
-              >
-                <StyledInput placeholder='Password' type='password' />
-              </FormItem>
-            </div>
+                labelContent='Password'
+              />
+            </FormItem>
+
             <div className='!mt-3 flex flex-row-reverse'>
               <NextLink href={ROUTE_PATH.FORGOT_PASSWORD}>
                 <Text type='body-14-medium' color='primary-2'>

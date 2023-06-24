@@ -6,8 +6,9 @@ import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
+import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import { StyledInput } from '@components/UI/Input';
+import LabelInput from '@components/UI/LabelInput';
 // import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -46,12 +47,14 @@ const Register = () => {
           expiredTime: res?.expired_time || 0,
         });
         switch (res?.data.nextStep) {
-          case 'OTP':
+          case 'OTP': {
             router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
             break;
-          case 'LOGIN_ID':
+          }
+          case 'LOGIN_ID': {
             router.push(ROUTE_PATH.REGISTER_USER_NAME);
             break;
+          }
         }
       }
     },
@@ -76,62 +79,67 @@ const Register = () => {
         <div className='mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
           <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
             <Form className='space-y-6' form={form} onFinish={onSubmit}>
-              <div>
-                <FormItem
+              <FormItem
+                name='phoneNumber'
+                rules={[
+                  {
+                    pattern: REG_PHONE_NUMBER,
+                    required: true,
+                    message: 'Please enter valid phone number!',
+                  },
+                ]}
+              >
+                <LabelInput
+                  type='number'
+                  placeholder='Phone number'
+                  labelContent='Phone number'
                   name='phoneNumber'
-                  rules={[
-                    {
-                      pattern: REG_PHONE_NUMBER,
-                      required: true,
-                      message: 'Please enter valid phone number!',
-                    },
-                  ]}
-                >
-                  <StyledInput type='number' placeholder='Phone number' />
-                </FormItem>
-              </div>
-              <div>
-                <FormItem
-                  name='email'
-                  rules={[
-                    {
-                      pattern: REG_EMAIL,
-                      required: true,
-                      message: 'Please enter valid email!',
-                    },
-                  ]}
-                >
-                  <StyledInput placeholder='Email' />
-                </FormItem>
-              </div>
-              <div>
-                <FormItem
+                />
+              </FormItem>
+              <FormItem
+                name='email'
+                rules={[
+                  {
+                    pattern: REG_EMAIL,
+                    required: true,
+                    message: 'Please enter valid email!',
+                  },
+                ]}
+              >
+                <LabelInput placeholder='Email' labelContent='Email' name='email' />
+              </FormItem>
+              <FormItem
+                name='password'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter password!',
+                  },
+                ]}
+              >
+                <LabelInput
+                  placeholder='Password'
+                  type='password'
+                  labelContent='Password'
                   name='password'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please enter password!',
-                    },
-                  ]}
-                >
-                  <StyledInput placeholder='Password' type='password' />
-                </FormItem>
-              </div>
-
-              <div>
-                <FormItem
+                />
+              </FormItem>
+              <FormItem
+                name='confirmPassword'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter password!',
+                  },
+                ]}
+              >
+                <LabelInput
+                  placeholder='Confirm password'
+                  type='password'
+                  labelContent='Confirm password'
                   name='confirmPassword'
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please enter password!',
-                    },
-                  ]}
-                >
-                  <StyledInput placeholder='Confirm password' type='password' />
-                </FormItem>
-              </div>
-
+                />
+              </FormItem>
               <div className='--neutral-1 ml-3 text-[12px] font-[500]'>
                 By signing up, I agree to the
                 <span>
@@ -140,13 +148,9 @@ const Register = () => {
                   </NextLink>
                 </span>
               </div>
-
-              <button
-                type='submit'
-                className='!mt-10 w-full rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
-              >
+              <MainButton type='submit' className='!mt-10 w-full'>
                 Continue
-              </button>
+              </MainButton>
             </Form>
           </div>
         </div>

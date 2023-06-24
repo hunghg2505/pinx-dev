@@ -13,7 +13,7 @@ interface IProps {
   refresh: () => void;
 }
 const NewsFeed = (props: IProps) => {
-  const { data, refresh } = props;
+  const { data, refresh, id } = props;
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
@@ -41,9 +41,10 @@ const NewsFeed = (props: IProps) => {
           postDetail={data}
           totalComments={data?.totalChildren}
           onRefreshPostDetail={refresh}
+          postId={id}
         />
         {data?.totalChildren > 0 && (
-          <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} />
+          <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
         )}
         {renderViewMore()}
       </div>
