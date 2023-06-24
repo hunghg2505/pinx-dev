@@ -9,10 +9,7 @@ import Image from 'next/image';
 import Form from 'rc-field-form';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
-// import request from 'umi-request';
-// import { requestAddComment } from '@components/Post/service';
-// import FormItem from '@components/UI/FormItem';
-// import Input from '@components/UI/Input';
+import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
 import {
@@ -25,7 +22,7 @@ import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 
 import suggestion from './Suggestion';
-import { isImage, toBase64 } from '../../utils/common';
+import { isImage } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
@@ -111,26 +108,34 @@ const Editor = (props: IProps, ref: any) => {
       }
     },
   });
-
+  const useUploadImage = useRequest(
+    (formData: any) => {
+      return request.post(
+        'https://static.pinetree.com.vn/cloud/internal/public/images/upload/pist?type=PIST_COMMUNITY',
+        {
+          data: formData,
+        },
+      );
+    },
+    {
+      manual: true,
+      onSuccess: (res: any) => {
+        console.log('res', res?.files?.[0]);
+        const url = res?.files?.[0]?.url;
+        setImage(url);
+      },
+      onError: (err: any) => {
+        console.log('err', err);
+      },
+    },
+  );
   const onStart = async (file: File) => {
     const formData = new FormData();
     formData.append('files', file);
-    // const data = await requestUploadPhoto.post('/public/images/upload/pist?type=PIST_COMMUNITY', {
-    //   data: formData,
-    // });
-    const response = await fetch(
-      'https://static.pinetree.com.vn/cloud/internal/public/images/upload/pist?type=PIST_COMMUNITY',
-      {
-        method: 'POST', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: formData,
-      },
-    );
-    console.log('data', response);
-    const imgae = await toBase64(file);
-    setImage(imgae);
+    useUploadImage.run(formData);
+    // console.log('data', response);
+    // const imgae = await toBase64(file);
+    // setImage(imgae);
     // const stringImage = await base64ToBlob(imgae, file.type);
   };
 
@@ -224,9 +229,8 @@ const Editor = (props: IProps, ref: any) => {
       tagPeople: formatTagPeople,
       tagStocks: stock,
       parentId: idReply === '' ? id : idReply,
+      urlImages: [image],
     };
-    console.log('🚀 ~ file: index.tsx:200 ~ onSend ~ data:', data);
-
     if (idReply === '') {
       useAddComment.run(data);
     } else {
@@ -236,9 +240,9 @@ const Editor = (props: IProps, ref: any) => {
 
   return (
     <>
-      <div>
+      <div className='mb-[20px]'>
         <div
-          className='mb-[20px] flex min-h-[40px] justify-between rounded-[1000px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]'
+          className='flex min-h-[40px] justify-between rounded-[1000px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]'
           ref={messagesEndRef}
         >
           <Form className='w-full' form={form}>
@@ -278,7 +282,6 @@ const Editor = (props: IProps, ref: any) => {
             className='h-[100px] w-[100px]'
           />
         )}
-        {/* <div ref={messagesEndRef}></div> */}
       </div>
     </>
   );

@@ -51,7 +51,6 @@ const Home = () => {
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  console.log('🚀 ~ file: index.tsx:54 ~ Home ~ suggestionPeople:', suggestionPeople);
   const { requestGetProfile } = useProfileInitial();
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
