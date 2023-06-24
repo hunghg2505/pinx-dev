@@ -352,14 +352,16 @@ const ContentPostTypeHome = (props: IProps) => {
           </Text>
         )}
         <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
-          <Image
-            src='/static/images/postSellStock.png'
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='absolute right-0 top-0 h-full w-full'
-          />
+          <Link href={postDetailUrl}>
+            <Image
+              src='/static/images/postSellStock.png'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='absolute right-0 top-0 h-full w-full'
+            />
+          </Link>
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
               src='/static/icons/logoStock.svg'
