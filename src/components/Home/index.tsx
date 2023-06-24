@@ -50,7 +50,8 @@ const Home = () => {
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const isLogin = !!getAccessToken();
-  const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  console.log('🚀 ~ file: index.tsx:54 ~ Home ~ suggestionPeople:', suggestionPeople);
   const { requestGetProfile } = useProfileInitial();
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
@@ -195,7 +196,7 @@ const Home = () => {
                 {suggestionPeople && (
                   <div className='mobile:block desktop:hidden'>
                     <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
-                      <PeopleList />
+                      <PeopleList data={suggestionPeople} refresh={refreshList} />
                     </div>
                     <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
                       <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>

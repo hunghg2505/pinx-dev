@@ -10,7 +10,7 @@ import enUS from 'rc-picker/lib/locale/en_US';
 
 import styles from './index.module.scss';
 import 'rc-picker/assets/index.css';
-import { Calender } from '../Icon';
+import { Calender, PrevIcon, NextIcon, SuperNextIcon, SuperPrevIcon } from '../Icon';
 
 const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) => (
   // @ts-ignore
@@ -18,6 +18,10 @@ const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) 
     generateConfig={dayjsGenerateConfig}
     locale={enUS}
     defaultPickerValue={dayjs().add(28, 'day')}
+    prevIcon={<PrevIcon />}
+    nextIcon={<NextIcon />}
+    superNextIcon={<SuperNextIcon />}
+    superPrevIcon={<SuperPrevIcon />}
     {...props}
   />
 );
@@ -29,6 +33,7 @@ interface CustomPickerProps {
   onClick?: () => void;
   suffix?: React.ReactNode;
   onChange: (value: any) => void;
+  onFocus?: () => void;
   onBlur?: () => void;
   value?: string | number | undefined;
   name?: string;
@@ -61,19 +66,13 @@ const LabelDatePicker = (props: CustomPickerProps) => {
     styles.customDatePicker,
   );
 
-  const handleClick = () => {
-    if (disabled) {
-      return;
-    }
-
-    onClick && onClick();
-  };
-
   const onFocus = () => {
+    props.onFocus && props.onFocus();
     setIsFocus(true);
   };
 
   const onBlur = () => {
+    props.onBlur && props.onBlur();
     setIsFocus(false);
   };
 
@@ -100,7 +99,7 @@ const LabelDatePicker = (props: CustomPickerProps) => {
       <MyPicker
         disabled={disabled}
         className={classes}
-        onClick={handleClick}
+        onClick={onClick}
         id={'picker-' + name}
         suffixIcon={<Calender />}
         onFocus={onFocus}

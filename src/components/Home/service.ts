@@ -209,7 +209,7 @@ export const useSuggestPeople = () => {
   );
   return {
     suggestionPeople: data?.list,
-    refresh,
+    refreshList: refresh,
     getSuggestFriend: run,
   };
 };

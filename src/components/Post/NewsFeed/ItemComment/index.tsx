@@ -1,4 +1,5 @@
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
@@ -8,6 +9,8 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
+
+import ModalReportComment from './ModalReportComment';
 
 dayjs.extend(relativeTime);
 interface IProps {
@@ -19,7 +22,6 @@ interface IProps {
 const ItemComment = (props: IProps) => {
   const isLogin = !!getAccessToken();
   const { onNavigate, data, onReplies, refresh } = props;
-  console.log('🚀 ~ file: index.tsx:17 ~ ItemComment ~ data:', data);
   const onComment = (value: string, customerId: number, id: string) => {
     if (onNavigate) {
       onNavigate();
@@ -30,6 +32,7 @@ const ItemComment = (props: IProps) => {
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.name || '';
   const isLike = data?.isLike;
+  const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
   const useLike = useRequest(
     () => {
       return requestLikeComment(data.id);
@@ -77,7 +80,7 @@ const ItemComment = (props: IProps) => {
         />
 
         <div className='content w-full'>
-          <div className='rounded-[12px] bg-[#F6FAFD] px-[16px] py-[12px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.12)]'>
+          <div className='relative rounded-[12px] bg-[#F6FAFD] px-[16px] py-[12px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.12)]'>
             <div className='mb-[12px] flex w-full flex-row items-center justify-between border-b border-solid border-[#E6E6E6] pb-[12px]'>
               <Text type='body-14-bold' color='neutral-1'>
                 {data?.customerInfo?.name}
@@ -91,32 +94,52 @@ const ItemComment = (props: IProps) => {
                 <div dangerouslySetInnerHTML={{ __html: message }} className='messageFormat'></div>
               )}
             </Text>
+            {data?.totalLikes > 0 && (
+              <div className='absolute -bottom-3 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+                <Image
+                  src='/static/icons/iconLike.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='mr-[10px] w-[15px]'
+                />
+                <Text type='body-12-regular' color='primary-1'>
+                  {data?.totalLikes}
+                </Text>
+              </div>
+            )}
           </div>
           <div className='action mt-[11px] flex'>
-            <div className='like mr-[50px] flex cursor-pointer' onClick={onLike}>
-              <Image
-                src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
-                alt=''
-                width='0'
-                height='0'
-                className='mr-[10px] w-[20px]'
-              />
-              <Text type='body-12-medium' color='primary-5'>
-                {data?.totalLikes}
+            <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
+              <Text
+                type='body-14-regular'
+                className={classNames({
+                  'text-[#589DC0]': data.isLike,
+                  'text-[#808080]': !data.isLike,
+                })}
+              >
+                Like
               </Text>
             </div>
             <div
-              className='comment flex cursor-pointer'
+              className='comment mr-[38px] flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
-              <Image
+              {/* <Image
                 src='/static/icons/iconComment.svg'
                 alt=''
                 width='0'
                 height='0'
                 className='mr-[10px] w-[18px]'
-              />
+              /> */}
+              <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
+                {data?.children?.length > 0 ? data?.children?.length : ''}
+              </Text>
+              <Text type='body-14-regular' color='neutral-4'>
+                Reply
+              </Text>
             </div>
+            <ModalReportComment postID={data?.id}>{numberReport} Report</ModalReportComment>
             {/* <Fancybox>
                 <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
                   <Image alt='' src='/static/images/image_post.jpg' width='200' height='150' />

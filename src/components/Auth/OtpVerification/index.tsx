@@ -183,7 +183,7 @@ const OtpVerification = (props: IProps) => {
               ]}
             >
               <LabelInput
-                type='number'
+                type='tel'
                 placeholder={t('otp_code')}
                 name='otp'
                 labelContent={t('otp_code')}

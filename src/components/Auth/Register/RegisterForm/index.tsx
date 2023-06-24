@@ -16,7 +16,7 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { ENV } from '@utils/env';
-import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
+import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
 
@@ -85,14 +85,17 @@ const Register = () => {
                 name='phoneNumber'
                 rules={[
                   {
-                    pattern: REG_PHONE_NUMBER,
                     required: true,
-                    message: 'Please enter valid phone number!',
+                    message: 'Please enter phone number',
+                  },
+                  {
+                    pattern: REG_PHONE_NUMBER,
+                    message: 'Please enter valid phone number',
                   },
                 ]}
               >
                 <LabelInput
-                  type='number'
+                  type='tel'
                   placeholder='Phone number'
                   labelContent='Phone number'
                   name='phoneNumber'
@@ -102,9 +105,12 @@ const Register = () => {
                 name='email'
                 rules={[
                   {
-                    pattern: REG_EMAIL,
                     required: true,
-                    message: 'Please enter valid email!',
+                    message: 'Please enter email',
+                  },
+                  {
+                    pattern: REG_EMAIL,
+                    message: 'Please enter valid email',
                   },
                 ]}
               >
@@ -115,7 +121,11 @@ const Register = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter password!',
+                    message: 'Please enter password',
+                  },
+                  {
+                    pattern: REG_PASSWORD,
+                    message: 'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.'
                   },
                 ]}
               >
@@ -131,8 +141,18 @@ const Register = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter password!',
+                    message: 'Please retype password',
                   },
+                  {
+                    validator: () => {
+                      if (form.getFieldValue('password') !== form.getFieldValue('confirmPassword')) {
+                        form.setFields([{
+                          name: 'confirmPassword',
+                          errors: ['Confirm password is incorrect'],
+                        }])
+                      }
+                    },
+                  }
                 ]}
               >
                 <LabelInput

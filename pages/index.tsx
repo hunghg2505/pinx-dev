@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
 
 const Home = dynamic(() => import('@components/Home'), {
@@ -13,9 +13,7 @@ const Home = dynamic(() => import('@components/Home'), {
 const HomePage = () => {
   return (
     <>
-      <Head>
-        <title>Trang chủ</title>
-      </Head>
+      <SEO title={'Pinex'} />
       <Home />
     </>
   );
