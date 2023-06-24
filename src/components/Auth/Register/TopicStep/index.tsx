@@ -58,51 +58,55 @@ const RegisterCompanyStep = () => {
   };
 
   return (
-    <>
-      <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='companyCardmd:mt-0 w-full rounded-lg bg-white sm:max-w-md xl:p-0'>
-          <div className='flex flex-col items-center max-sm:mt-6'>
-            <Text type='body-24-bold' className='mt-6'>
+    <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
+      <div className='md:h-screen lg:py-0 mx-auto  flex flex-col items-center justify-center px-6 py-8'>
+        <div className='topicCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
+          <div className='flex justify-center mobile:w-0 tablet:mb-[27px] tablet:w-full desktop:mb-[27px] desktop:w-full'>
+            <Image
+              src='/static/icons/logo.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className={'h-[72px] w-[72px] object-contain'}
+            />
+          </div>
+          <div className='flex flex-col items-center'>
+            <Text type='body-28-bold' className='mt-6'>
               Your favourite topics
             </Text>
-            <div className='neutral-4 flex flex-col items-center text-[body-14-medium]'>
-              <Text>Select what you would like to get updates </Text>
+            <div className='neutral-4 mt-[8px] flex flex-col items-center'>
+              <Text type='body-16-regular'>Select what you would like to get updates </Text>
             </div>
           </div>
           <div
             className={
-              'mt-9 flex w-full flex-wrap items-center justify-center gap-x-[8px] gap-y-[16px]'
+              'mt-9 flex w-full flex-wrap items-center justify-center gap-x-[20px] gap-y-[24px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
             }
           >
             {listTopicSuggest.topics?.data?.map((item: any) => (
               <div
-                className='flex justify-center'
+                className='relative flex justify-center'
                 key={item?.topicCode}
                 onClick={() => onSelect(item?.topicCode)}
               >
                 <div
                   className={classNames(
-                    'flex items-center justify-center rounded-xl border-2 border-solid border-[--neutral-6] p-4',
+                    'flex cursor-pointer items-center justify-center rounded-[30px] border-[1px] bg-[rgba(234,244,251,1)] p-4 shadow-[4px_0_5px_0_rgba(195,216,227,0.5)]',
                     {
-                      'bg-[--primary-2]': checkIsSelected(item?.topicCode),
+                      'border-solid border-[#1F6EAC]': checkIsSelected(item?.topicCode),
+                      'border-solid border-[#FFFFFF]': !checkIsSelected(item?.topicCode),
                     },
                   )}
                 >
-                  <div className='mr-[4px] w-[16px]'>
+                  <div className='absolute right-[4px] top-[-8px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
                     {checkIsSelected(item?.topicCode) && (
-                      <Image
-                        src='/static/icons/check_mark.svg'
-                        alt=''
-                        width='0'
-                        height='0'
-                        className={'mr-[9px] h-[9px] w-[15px] rounded-full'}
-                      />
+                      <Image src='/static/icons/iconSelected.svg' alt='' width='24' height='24' />
                     )}
                   </div>
                   <Text
-                    type='body-14-bold'
-                    color={checkIsSelected(item?.topicCode) ? 'cbwhite' : 'cbblack'}
-                    className='mr-[16px]'
+                    type={'body-16-bold'}
+                    color={checkIsSelected(item?.topicCode) ? 'primary-2' : 'neutral-1'}
                   >
                     {t(`${item.topicName}`)}
                   </Text>
@@ -110,17 +114,19 @@ const RegisterCompanyStep = () => {
               </div>
             ))}
           </div>
-
-          <button
-            type='submit'
-            onClick={handleContinue}
-            className='!mt-10 flex w-full justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
-          >
-            Continue {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
-          </button>
+          <div className='flex w-full justify-center mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+            <button
+              type='submit'
+              onClick={handleContinue}
+              className='flex justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white mobile:px-[48px] tablet:px-[130px] desktop:px-[130px]'
+            >
+              Continue{' '}
+              {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
