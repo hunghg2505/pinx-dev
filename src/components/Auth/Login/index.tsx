@@ -4,10 +4,12 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -76,7 +78,7 @@ const Login = () => {
       }
     },
     onError(e) {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      toast(() => <Notification type='error' message={e.error} />);
     },
   });
 
@@ -97,7 +99,12 @@ const Login = () => {
             </FormItem>
             <FormItem
               name='password'
-              rules={[{ required: true, message: 'Please enter password!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter password!'
+                }
+              ]}
             >
               <LabelInput
                 placeholder='Password'
