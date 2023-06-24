@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import ToastUnAuth from '@components/UI/ToastUnAuth';
 import { getAccessToken } from '@store/auth';
+import PopupComponent from '@utils/PopupComponent';
 
 interface IProps {
   data: IKOL;
@@ -46,7 +46,8 @@ const ItemInfluence = (props: IProps) => {
         useFollowUser.run();
       }
     } else {
-      ToastUnAuth();
+      // ToastUnAuth();
+      PopupComponent.open();
     }
   };
   return (

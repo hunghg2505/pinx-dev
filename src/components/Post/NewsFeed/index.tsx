@@ -44,7 +44,7 @@ const NewsFeed = (props: IProps) => {
           postId={id}
         />
         {data?.totalChildren > 0 && (
-          <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} />
+          <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
         )}
         {renderViewMore()}
       </div>

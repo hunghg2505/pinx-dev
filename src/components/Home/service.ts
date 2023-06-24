@@ -91,6 +91,17 @@ export interface IWatchListItem {
   stockCode: string;
   stockExchange: string;
 }
+export enum TYPESEARCH {
+  ALL = 'ALL',
+  FRIEND = 'FRIEND',
+  NEWS = 'NEWS',
+  POST = 'POST',
+  STOCK = 'STOCK',
+}
+export interface ISearch {
+  keyword: string;
+  searchType: string;
+}
 const isLogin = !!getAccessToken();
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
@@ -188,9 +199,14 @@ export const requestLeaveIndex = () => {
 };
 
 export const useSuggestPeople = () => {
-  const { data, refresh, run } = useRequest(() => {
-    return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
-  });
+  const { data, refresh, run } = useRequest(
+    () => {
+      return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
+    },
+    {
+      manual: true,
+    },
+  );
   return {
     suggestionPeople: data?.list,
     refresh,
@@ -241,5 +257,22 @@ export const useGetWatchList = () => {
 
   return {
     watchList: data?.data,
+  };
+};
+export const useSearch = () => {
+  const { data, run, loading } = useRequest(
+    (payload: ISearch) => {
+      return privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+        data: payload,
+      });
+    },
+    {
+      manual: true,
+    },
+  );
+  return {
+    data,
+    search: run,
+    loading,
   };
 };

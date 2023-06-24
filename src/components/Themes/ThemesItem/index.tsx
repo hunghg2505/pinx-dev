@@ -1,12 +1,11 @@
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
-import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import PopupComponent from '@utils/PopupComponent';
 
 interface IProps {
   theme: ITheme;
@@ -111,9 +110,7 @@ const ThemesItem = (props: IProps) => {
         useSubcribe.run(theme.code);
       }
     } else {
-      toast(() => (
-        <Notification type='error' message='Bạn phải đăng nhập để thực hiện chức năng này' />
-      ));
+      PopupComponent.open();
     }
   };
   const renderSubcribe = () => {
