@@ -9,13 +9,18 @@ import Image from 'next/image';
 import Form from 'rc-field-form';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
-
+// import request from 'umi-request';
 // import { requestAddComment } from '@components/Post/service';
 // import FormItem from '@components/UI/FormItem';
 // import Input from '@components/UI/Input';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestPist } from '@api/request';
+import {
+  // PREFIX_API_UPLOADPHOTO,
+  privateRequest,
+  requestPist,
+  // requestUploadPhoto,
+} from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 
@@ -101,20 +106,34 @@ const Editor = (props: IProps, ref: any) => {
     },
     onUpdate({ editor }) {
       const text = editor.getText();
-      const html = editor.getHTML();
-      console.log('🚀 ~ file: index.tsx:109 ~ onUpdate ~ html:', html);
       if (idReply && text === '') {
         setIdReply('');
       }
-      console.log('🚀 ~ file: index.tsx:107 ~ onUpdate ~ text:', text);
-      // The content has changed.
     },
   });
+
   const onStart = async (file: File) => {
+    const formData = new FormData();
+    formData.append('files', file);
+    // const data = await requestUploadPhoto.post('/public/images/upload/pist?type=PIST_COMMUNITY', {
+    //   data: formData,
+    // });
+    const response = await fetch(
+      'https://static.pinetree.com.vn/cloud/internal/public/images/upload/pist?type=PIST_COMMUNITY',
+      {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: formData,
+      },
+    );
+    console.log('data', response);
     const imgae = await toBase64(file);
     setImage(imgae);
     // const stringImage = await base64ToBlob(imgae, file.type);
   };
+
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
@@ -122,7 +141,6 @@ const Editor = (props: IProps, ref: any) => {
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {
-    console.log('🚀 ~ file: index.tsx:124 ~ onComment ~ customerId:', customerId);
     setIdReply(id);
     scrollToBottom();
     editor?.commands.clearContent();
@@ -166,7 +184,7 @@ const Editor = (props: IProps, ref: any) => {
       if (item.type === 'userMention') {
         const query = item.attrs.label;
         users.push(query);
-        p = `@[${item.attrs.label}](${item.attrs.label})`;
+        p = `@[${item.attrs.label}](${item.attrs.id})`;
       }
       if (item.type === 'stockMention') {
         const query = item.attrs.label;
@@ -205,8 +223,10 @@ const Editor = (props: IProps, ref: any) => {
       message,
       tagPeople: formatTagPeople,
       tagStocks: stock,
-      parentId: id,
+      parentId: idReply === '' ? id : idReply,
     };
+    console.log('🚀 ~ file: index.tsx:200 ~ onSend ~ data:', data);
+
     if (idReply === '') {
       useAddComment.run(data);
     } else {
