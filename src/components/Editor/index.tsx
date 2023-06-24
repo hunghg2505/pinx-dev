@@ -104,7 +104,7 @@ const Editor = (props: IProps, ref: any) => {
       const html = editor.getHTML();
       console.log('🚀 ~ file: index.tsx:109 ~ onUpdate ~ html:', html);
       if (idReply && text === '') {
-        setIdReply('0');
+        setIdReply('');
       }
       console.log('🚀 ~ file: index.tsx:107 ~ onUpdate ~ text:', text);
       // The content has changed.
