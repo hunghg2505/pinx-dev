@@ -47,8 +47,12 @@ const NewFeedItem = (props: IProps) => {
   }, ref);
   const id = router.query?.id;
   const isKol = postDetail?.post?.customerInfo?.isKol;
-  const onComment = () => {
-    onNavigate && onNavigate();
+  const handleComment = () => {
+    if (isLogin) {
+      onNavigate && onNavigate();
+    } else {
+      PopupComponent.open();
+    }
   };
 
   useEffect(() => {
@@ -333,7 +337,7 @@ const NewFeedItem = (props: IProps) => {
           </div>
           <div
             className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
-            onClick={onComment}
+            onClick={handleComment}
           >
             <Image
               src='/static/icons/iconComment.svg'
