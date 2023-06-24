@@ -5,10 +5,11 @@ import styles from './index.module.scss';
 import classNames from 'classnames/bind';
 import Text from '@components/UI/Text';
 import Image from 'next/image';
-import { InlineShareButtons, InlineShareButtonsConfig } from 'sharethis-reactjs';
-import { ZALO_OAID } from 'src/constant';
+import { SHARE_THIS_PROPERTY_ID, ZALO_OAID } from 'src/constant';
 
 const cx = classNames.bind(styles);
+const ZALO_SCRIPT_ID = 'zalo-share-script';
+const SHARE_THIS_SCRIPT_ID = 'share-this-script';
 
 interface IModalShareProps {
   url: string;
@@ -21,6 +22,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    handleAppendShareThisScript();
     handleAppendZaloScript();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -43,7 +45,6 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
     if (!visible) return;
 
     const ZALO_SCRIPT_SRC = 'https://sp.zalo.me/plugins/sdk.js';
-    const ZALO_SCRIPT_ID = 'zalo-share-script';
     const zaloScriptElm = document.getElementById(ZALO_SCRIPT_ID);
 
     if (zaloScriptElm) zaloScriptElm.remove();
@@ -56,19 +57,28 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
     document.body.appendChild(script);
   };
 
-  const INLINE_SHARE_BTN_CONFIG: InlineShareButtonsConfig = {
-    alignment: 'center',
-    color: 'social',
-    enabled: true,
-    font_size: 16,
-    labels: 'cta',
-    language: 'en',
-    networks: ['facebook', 'messenger', 'linkedin', 'twitter', 'whatsapp'],
-    padding: 12,
-    radius: 4,
-    show_total: true,
-    size: 40,
-    url,
+  const handleAppendShareThisScript = () => {
+    if (!visible) return;
+
+    const SHARE_THIS_SCRIPT_SRC = `https://platform-api.sharethis.com/js/sharethis.js#property=${SHARE_THIS_PROPERTY_ID}&product=inline-share-buttons&source=platform`;
+    const shareThisScriptElm = document.getElementById(SHARE_THIS_SCRIPT_ID);
+    if (shareThisScriptElm) shareThisScriptElm.remove();
+
+    const shareThisBtnScriptElm = document.querySelector(
+      `script[src='https://buttons-config.sharethis.com/js/${SHARE_THIS_PROPERTY_ID}.js']`,
+    );
+    if (shareThisBtnScriptElm) shareThisScriptElm?.remove();
+
+    const script = document.createElement('script');
+    script.src = SHARE_THIS_SCRIPT_SRC;
+    script.id = SHARE_THIS_SCRIPT_ID;
+    script.async = true;
+
+    const shareThisBtnScript = document.createElement('script');
+    shareThisBtnScript.src = `https://buttons-config.sharethis.com/js/${SHARE_THIS_PROPERTY_ID}.js`;
+
+    document.head.appendChild(shareThisBtnScript);
+    document.head.appendChild(script);
   };
 
   return (
@@ -84,7 +94,8 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
         <div>
           <Text type='body-16-regular'>Share this link via</Text>
           <div className='mt-[16px] flex flex-wrap items-center justify-center'>
-            <InlineShareButtons config={INLINE_SHARE_BTN_CONFIG} />
+            {/* <InlineShareButtons config={INLINE_SHARE_BTN_CONFIG} /> */}
+            <div className='sharethis-inline-share-buttons' data-url={url}></div>
             <div
               className='zalo-share-button mb-[8px] ml-[8px]'
               data-href={url}
