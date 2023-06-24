@@ -15,7 +15,7 @@ export interface IOptions {
 export const PREFIX_API_PIST = ENV.URL_API_PIST;
 export const PREFIX_API_MARKET = ENV.URL_API_MARKET;
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
-
+export const PREFIX_API_UPLOADPHOTO = ENV.URL_UPLOADPHOTO;
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,
@@ -29,6 +29,16 @@ const requestPist = extend({
 
 const requestMarket = extend({
   prefix: PREFIX_API_MARKET,
+  timeout: REQ_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  errorHandler: (error) => {
+    throw error?.data || error?.response;
+  },
+});
+const requestUploadPhoto = extend({
+  prefix: PREFIX_API_UPLOADPHOTO,
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
@@ -131,4 +141,11 @@ const API_PATH = {
   RESET_PASSWORD: '/public/reset-password',
 };
 
-export { API_PATH, privateRequest, requestPist, requestCommunity, requestMarket };
+export {
+  API_PATH,
+  privateRequest,
+  requestPist,
+  requestCommunity,
+  requestMarket,
+  requestUploadPhoto,
+};

@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+import SEO from '@components/SEO';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   ssr: false,
@@ -11,9 +12,7 @@ const MainLayout = dynamic(() => import('@layout/MainLayout'));
 const PostDetailPage = () => {
   return (
     <>
-      <Head>
-        <title>Post detail</title>
-      </Head>
+      <SEO title={'Pinex Detail'} />
       <PostDetail />
     </>
   );

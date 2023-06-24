@@ -9,7 +9,6 @@ const ComponentRef = ({
   id: string;
   refresh: () => void;
 }) => {
-  console.log('id-123', id);
   return <Editor ref={forwardedRef} id={id} refresh={refresh} />;
 };
 export default ComponentRef;

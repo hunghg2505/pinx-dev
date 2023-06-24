@@ -1,0 +1,29 @@
+// custom css sharethis-reactjs package
+.st-inline-share-buttons {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .st-total {
+    display: none !important;
+  }
+
+  .st-label {
+    line-height: unset;
+    display: none !important;
+  }
+
+  .st-btn {
+    min-width: 40px !important;
+    margin-bottom: 8px;
+
+    &:hover {
+      top: 0 !important;
+    }
+  }
+
+  .st-remove-label {
+    display: inline-block !important;
+  }
+}
