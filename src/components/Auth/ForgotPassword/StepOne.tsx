@@ -61,10 +61,13 @@ const ForgotPasswordStepOne = () => {
               name='phoneNumber'
               rules={[
                 {
-                  pattern: REG_PHONE_NUMBER,
                   required: true,
-                  message: 'Please enter valid phone number',
+                  message: 'Please enter phone number',
                 },
+                {
+                  pattern: REG_PHONE_NUMBER,
+                  message: 'Please enter valid phone number',
+                }
               ]}
             >
               <LabelInput
