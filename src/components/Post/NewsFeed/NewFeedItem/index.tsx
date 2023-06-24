@@ -283,9 +283,9 @@ const NewFeedItem = (props: IProps) => {
             src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
             color='#FFFFFF'
             alt=''
-            width='0'
-            height='0'
-            className='mr-[8px] h-[18px] w-[20px]'
+            width={16}
+            height={14}
+            className='mr-[8px] h-[14px] w-[16px] object-contain'
           />
           <Text
             type='body-12-medium'
@@ -300,11 +300,11 @@ const NewFeedItem = (props: IProps) => {
           onClick={onComment}
         >
           <Image
-            src='/static/icons/iconCommentPrimary.svg'
+            src='/static/icons/iconComment.svg'
             alt=''
             width={14}
             height={14}
-            className='mr-[9px] w-[14px]'
+            className='mr-[8px] h-[14px] w-[14px] object-contain'
           />
           <Text type='body-12-medium' color='primary-5'>
             {totalComments} Comments
@@ -312,11 +312,11 @@ const NewFeedItem = (props: IProps) => {
         </div>
         <div className='report flex flex-row items-center justify-center'>
           <Image
-            src='/static/icons/iconSharePrimary.svg'
+            src='/static/icons/iconShare.svg'
             alt=''
-            width={13}
+            width={14}
             height={14}
-            className='mr-[10px] w-[13px]'
+            className='mr-[8px] h-[14px] w-[14px] object-contain'
           />
           <Text type='body-12-medium' color='primary-5'>
             32 Shares
