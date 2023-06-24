@@ -13,7 +13,7 @@ function Home() {
   const defaultActiveTab: '1' | '2' = router.query?.type === 'register' ? '2' : '1';
   return (
     <>
-      <div className='mx-auto flex flex-col items-center justify-center px-6 md:h-screen lg:py-0'>
+      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6'>
         <Image
           src='/static/icons/register_help_icon.svg'
           alt=''
@@ -27,7 +27,7 @@ function Home() {
             <TabPane tab='Login' key='1'>
               <Login />
             </TabPane>
-            <TabPane tab='Register' key='2'>
+            <TabPane tab='Sign up' key='2'>
               <Register />
             </TabPane>
           </Tabs>
