@@ -1,6 +1,7 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH, privateRequest, requestPist } from '@api/request';
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { API_PATH } from '@api/request';
+import { API_PATH } from '@api/constant';
 import Text from '@components/UI/Text';
 import { ENV } from 'src/utils/env';
 

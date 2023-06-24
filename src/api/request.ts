@@ -125,27 +125,4 @@ export const requestFromServer = async () => {
   // }).then((r) => r.json());
 };
 
-const API_PATH = {
-  // Auth
-  LOGIN: '/public/customer/loginSSO',
-  REGISTER: '/public/customer/register/credentials',
-  REGISTER_OTP: '/public/customer/register/otp/verify',
-  SUBMIT_LOGIN_OTP: '/private/get-token',
-  RESEND_REGISTER_OTP: '/public/customer/register/otp/resend',
-  CREATE_USER_NAME: '/public/customer/register/login-id',
-  GET_USER_CONTRACT: '/private/user-info/contract',
-  CONFIRM_CONTRACT: '/private/user-info/confirm',
-  READ_CONTRACT: '/public/contract/read',
-  SEND_LOGIN_OTP: '/private/generate-auth',
-  USER_PROFILE: '/private/customer/profile',
-  RESET_PASSWORD: '/public/reset-password',
-};
-
-export {
-  API_PATH,
-  privateRequest,
-  requestPist,
-  requestCommunity,
-  requestMarket,
-  requestUploadPhoto,
-};
+export { privateRequest, requestPist, requestCommunity, requestMarket, requestUploadPhoto };

@@ -100,7 +100,7 @@ const ForgotPasswordStepOne = () => {
               ]}
             >
               <LabelInput
-                type='number'
+                type='tel'
                 placeholder='Phone number'
                 labelContent='Phone number'
                 name='phoneNumber'

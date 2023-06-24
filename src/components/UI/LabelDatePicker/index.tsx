@@ -10,7 +10,7 @@ import enUS from 'rc-picker/lib/locale/en_US';
 
 import styles from './index.module.scss';
 import 'rc-picker/assets/index.css';
-import { Calender } from '../Icon';
+import { Calender, PrevIcon, NextIcon, SuperNextIcon, SuperPrevIcon } from '../Icon';
 
 const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) => (
   // @ts-ignore
@@ -18,6 +18,10 @@ const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) 
     generateConfig={dayjsGenerateConfig}
     locale={enUS}
     defaultPickerValue={dayjs().add(28, 'day')}
+    prevIcon={<PrevIcon />}
+    nextIcon={<NextIcon />}
+    superNextIcon={<SuperNextIcon />}
+    superPrevIcon={<SuperPrevIcon />}
     {...props}
   />
 );
