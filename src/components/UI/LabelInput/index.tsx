@@ -9,7 +9,7 @@ import { Eye, EyeHide } from '../Icon';
 interface InputProps {
   className?: string;
   disabled?: boolean;
-  type?: 'text' | 'password' | 'number' | 'hidden';
+  type?: 'text' | 'password' | 'number' | 'hidden' | 'tel';
   placeholder?: string;
   onClick?: () => void;
   min?: number;

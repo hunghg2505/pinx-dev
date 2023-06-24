@@ -202,6 +202,11 @@ const ContentPostTypeDetail = (props: IProps) => {
     );
   }
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
+    const stockCode = postDetail.post?.stockCode;
+    const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+    const url = `${imageCompanyUrl}${
+      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+    }.png`;
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -220,7 +225,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
-              src='/static/icons/logoStock.svg'
+              src={url || '/static/icons/logoStock.svg'}
               alt=''
               width='0'
               height='0'
@@ -239,7 +244,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 Made on PineX
               </Text>
               <Text type='body-12-medium' color='neutral-7'>
-                {dayjs(postDetail?.post.timeString).format('DD/MM/YYYY')}
+                {dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
               </Text>
             </div>
           </div>

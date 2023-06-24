@@ -20,7 +20,7 @@ interface IProps {
   closeIcon?: boolean;
   postID: string;
 }
-const ModalReport = (props: IProps) => {
+const ModalReportComment = (props: IProps) => {
   const { children, closeIcon, postID } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
@@ -79,9 +79,9 @@ const ModalReport = (props: IProps) => {
   ];
   return (
     <>
-      <span onClick={onVisible} className='cursor-pointer'>
+      <Text onClick={onVisible} className='cursor-pointer' type='body-14-regular' color='neutral-4'>
         {children}
-      </span>
+      </Text>
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
           Report
@@ -140,4 +140,4 @@ const ModalReport = (props: IProps) => {
     </>
   );
 };
-export default ModalReport;
+export default ModalReportComment;

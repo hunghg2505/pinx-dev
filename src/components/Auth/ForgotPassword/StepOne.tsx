@@ -53,7 +53,7 @@ const ForgotPasswordStepOne = () => {
           <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
             <FormItem
               name='username'
-              rules={[{ required: true, message: 'Please enter username!' }]}
+              rules={[{ required: true, message: 'Please enter username' }]}
             >
               <LabelInput placeholder='Username' name='username' labelContent='Username' />
             </FormItem>
@@ -61,14 +61,17 @@ const ForgotPasswordStepOne = () => {
               name='phoneNumber'
               rules={[
                 {
-                  pattern: REG_PHONE_NUMBER,
                   required: true,
-                  message: 'Please enter valid phone number!',
+                  message: 'Please enter phone number',
                 },
+                {
+                  pattern: REG_PHONE_NUMBER,
+                  message: 'Please enter valid phone number',
+                }
               ]}
             >
               <LabelInput
-                type='number'
+                type='tel'
                 placeholder='Phone number'
                 labelContent='Phone number'
                 name='phoneNumber'

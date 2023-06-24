@@ -60,7 +60,7 @@ export default forwardRef((props: any, ref) => {
   }));
 
   return (
-    <div className='fixed -left-[46px] bg-[#ffffff] p-[15px]  mobile:bottom-[3px] mobile:w-[375px] desktop:bottom-[40px]'>
+    <div className='fixed -left-[46px] bg-[#ffffff] p-[15px]  mobile:bottom-[45px] mobile:w-[375px] desktop:bottom-[40px]'>
       <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
         {props.items?.map((item: any, index: number) => {
           const isStock = !!item.stockCode;

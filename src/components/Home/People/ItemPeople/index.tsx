@@ -55,7 +55,7 @@ const ItemPeople = (props: IProps) => {
           {data?.numberFollowers} follower
         </Text>
         <div
-          className='flex h-[24px] w-[33px] items-center justify-center rounded-[16px] bg-[#589DC0]'
+          className='flex h-[24px] w-[33px] cursor-pointer items-center justify-center rounded-[16px] bg-[#589DC0]'
           onClick={onFollow}
         >
           <Image
