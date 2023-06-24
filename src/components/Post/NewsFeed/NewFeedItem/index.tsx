@@ -32,24 +32,24 @@ interface IProps {
   postId: string;
 }
 const NewFeedItem = (props: IProps) => {
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
   const [showReport, setShowReport] = React.useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
   const [urlPost, setUrlPost] = useState('');
+  const [isLike, setIsLike] = useState<boolean>(false);
   const [totalSharePost, setTotalSharePost] = useState(0);
+  const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
     // showReport && setShowReport(false);
   }, ref);
-  const router = useRouter();
   const id = router.query?.id;
-  const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
-
+  console.log('🚀 ~ file: index.tsx:46 ~ NewFeedItem ~ postDetail:', postDetail);
+  // const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLogin = !!getAccessToken();
   const onComment = () => {
     onNavigate && onNavigate();
   };
-
-  const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
     if (postDetail?.isLike) {
@@ -228,26 +228,28 @@ const NewFeedItem = (props: IProps) => {
     return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
   };
   return (
-    <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] px-[16px] py-[24px]'>
+    <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
       <div className='flex flex-row justify-between'>
-        <div
-          className='flex cursor-pointer flex-row items-center'
-          onClick={() => console.log('go to profile')}
-        >
+        <div className='flex cursor-pointer flex-row items-center'>
           <Image
             src={renderLogo() || ''}
             alt='avatar'
-            className='mr-2 w-[44px] rounded-full'
-            width={36}
-            height={36}
+            sizes='100vw'
+            className='mr-2 rounded-full mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+            width={0}
+            height={0}
           />
 
           <div>
-            <Text type='body-14-semibold' color='neutral-1'>
-              {renderDisplayName()}
-            </Text>
+            <div>
+              <Text type='body-14-semibold' color='neutral-1'>
+                {renderDisplayName()}
+              </Text>
+              {/* <Image src="/static/icons/"/> */}
+            </div>
+
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
-              {dayjs(postDetail?.timeString).fromNow()}
+              {dayjs(postDetail?.timeString)?.fromNow()}
             </Text>
           </div>
         </div>
