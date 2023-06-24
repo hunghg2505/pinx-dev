@@ -1,12 +1,12 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 
 import Mention from '@tiptap/extension-mention';
+import Placeholder from '@tiptap/extension-placeholder';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
-import Form from 'rc-field-form';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 import request from 'umi-request';
@@ -20,6 +20,7 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 import suggestion from './Suggestion';
 import { isImage } from '../../utils/common';
@@ -42,14 +43,18 @@ const Editor = (props: IProps, ref: any) => {
   const { id, refresh } = props;
   const [image, setImage] = React.useState<any>('');
   const [idReply, setIdReply] = React.useState<string>('');
-  const [form] = Form.useForm();
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
+  const { requestGetProfile } = useProfileInitial();
+  console.log('🚀 ~ file: index.tsx:51 ~ Editor ~ requestGetProfile:', requestGetProfile);
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Placeholder.configure({
+        placeholder: 'What do you want to comment?',
+      }),
       Mention.extend({
         name: 'userMention',
       }).configure({
@@ -240,27 +245,69 @@ const Editor = (props: IProps, ref: any) => {
 
   return (
     <>
-      <div className='mb-[20px]'>
+      <div className='mb-[20px] mobile:block desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:flex'>
+        <Image
+          src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+          alt=''
+          width={0}
+          height={0}
+          sizes='100vw'
+          className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden desktop:block'
+        />
         <div
-          className='flex min-h-[40px] justify-between rounded-[1000px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]'
+          className='flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:rounded-[1000px] desktop:w-full desktop:rounded-[20px]'
           ref={messagesEndRef}
         >
-          <Form className='w-full' form={form}>
-            <div className='flex min-h-[40px] w-full items-center'>
+          <div className='flex min-h-[40px] w-full mobile:items-center desktop:flex-col desktop:items-start desktop:pb-[10px] desktop:pt-[12px]'>
+            <Upload
+              accept='png, jpeg, jpg'
+              onStart={onStart}
+              beforeUpload={beforeUpload}
+              className='desktop:hidden'
+            >
+              <Image
+                src='/static/icons/iconCamnera.svg'
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='mr-[8px] w-[19px]'
+              />
+            </Upload>
+            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] desktop:hidden'></div>
+            <EditorContent editor={editor} className='w-full desktop:mb-[5px]' />
+            <div className='w-full justify-between mobile:hidden desktop:flex'>
               <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <Image
-                  src='/static/icons/iconCamnera.svg'
+                  src='/static/icons/iconImage.svg'
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='mr-[8px] w-[19px]'
+                  className='mr-[8px] w-[28px]'
                 />
               </Upload>
-              <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6]'></div>
-              <EditorContent editor={editor} className='w-full' />
+              <Image
+                src='/static/icons/iconSend.svg'
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='w-[19px] cursor-pointer'
+                onClick={onSend}
+              />
             </div>
-          </Form>
+            {image && (
+              <Image
+                src={image}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='h-[100px] w-[100px] mobile:hidden desktop:block'
+              />
+            )}
+          </div>
 
           <Image
             src='/static/icons/iconSend.svg'
@@ -268,7 +315,7 @@ const Editor = (props: IProps, ref: any) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='w-[19px] cursor-pointer'
+            className='w-[19px] cursor-pointer mobile:block desktop:hidden'
             onClick={onSend}
           />
         </div>
@@ -279,7 +326,7 @@ const Editor = (props: IProps, ref: any) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-[100px] w-[100px]'
+            className='h-[100px] w-[100px] mobile:block desktop:hidden'
           />
         )}
       </div>

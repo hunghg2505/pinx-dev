@@ -128,25 +128,36 @@ const PostDetail = () => {
               </Text>
             </div>
           )}
+          <div className='mobile:hidden desktop:block'>
+            <ForwardedRefComponent
+              ref={refReplies}
+              id={postDetail?.data?.id}
+              refresh={refreshCommentOfPOst}
+            />
+          </div>
+          <div className='desktop:ml-[48px] desktop:mr-[72px]'>
+            {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+              return (
+                <>
+                  <ItemComment
+                    key={index}
+                    data={item}
+                    onReplies={onReplies}
+                    refresh={refreshCommentOfPOst}
+                  />
+                  {getSubComment(item.children)}
+                </>
+              );
+            })}
+          </div>
 
-          {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-            return (
-              <>
-                <ItemComment
-                  key={index}
-                  data={item}
-                  onReplies={onReplies}
-                  refresh={refreshCommentOfPOst}
-                />
-                {getSubComment(item.children)}
-              </>
-            );
-          })}
-          <ForwardedRefComponent
-            ref={refReplies}
-            id={postDetail?.data?.id}
-            refresh={refreshCommentOfPOst}
-          />
+          <div className='mobile:block desktop:hidden'>
+            <ForwardedRefComponent
+              ref={refReplies}
+              id={postDetail?.data?.id}
+              refresh={refreshCommentOfPOst}
+            />
+          </div>
         </div>
         <ContentRight />
       </div>

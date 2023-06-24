@@ -2,6 +2,7 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 
+import PopUpEkyc from '@components/PopUpEkyc';
 import PopUpHome from '@components/PopUpHome';
 
 export enum TypePopup {
@@ -26,6 +27,14 @@ class PopupComponent {
   }
 
   public static close() {
+    ReactDOM.unmountComponentAtNode(document.querySelector('#md-popup-container') as HTMLElement);
+  }
+
+  public static openEKYC() {
+    ReactDOM.render(React.createElement(PopUpEkyc), document.querySelector('#md-popup-container'));
+  }
+
+  public static closeEKYC() {
     ReactDOM.unmountComponentAtNode(document.querySelector('#md-popup-container') as HTMLElement);
   }
 }

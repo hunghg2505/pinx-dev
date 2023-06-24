@@ -67,7 +67,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('my-[16px]', {
+            className={classNames('mb-[16px]', {
               'h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -85,14 +85,14 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[312px] desktop:w-full'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:mr-[88px] desktop:h-[312px] desktop:w-full'>
           <Image
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full'
+            className='absolute right-0 top-0 h-full w-full'
           />
           <div className='absolute bottom-[19px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <div className='flex flex-col items-center justify-center'>
@@ -131,7 +131,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('my-[16px]', {
+            className={classNames('mb-[16px]', {
               'h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -149,7 +149,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative h-[204px] w-[343px] rounded-[15px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={
               postDetail?.post.headImageUrl ||
@@ -197,7 +197,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('my-[16px]', {
+            className={classNames('mb-[16px]', {
               'h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -231,7 +231,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='w-[5px]'
           />
         </Link> */}
-        <div className='relative h-[204px] w-[343px] rounded-[15px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.headImageUrl || ''}
             alt=''
@@ -270,7 +270,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('my-[16px]', {
+            className={classNames('mb-[16px]', {
               'h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -288,14 +288,14 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.bgImage}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full'
+            className='absolute right-0 top-0 h-full desktop:pr-[88px]'
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
@@ -318,7 +318,7 @@ const ContentPostTypeHome = (props: IProps) => {
                 Made on PineX
               </Text>
               <Text type='body-12-medium' color='neutral-7'>
-                {dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
+                {postDetail?.timeString && dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
               </Text>
             </div>
           </div>
@@ -333,7 +333,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('my-[16px]', {
+            className={classNames('mb-[16px]', {
               'h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -351,7 +351,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src='/static/images/postSellStock.png'
             alt=''
@@ -409,7 +409,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('my-[16px]', {
+            className={classNames('mb-[16px]', {
               'h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -427,7 +427,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative h-[204px] w-[343px] rounded-[15px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.headImageUrl}
             alt=''
@@ -466,7 +466,7 @@ const ContentPostTypeHome = (props: IProps) => {
       <div className='cursor-pointer' onClick={onComment} ref={ref}>
         {message && (
           <div
-            className='desc messageFormat mb-[15px] mt-[18px]'
+            className='desc messageFormat mb-[15px]'
             dangerouslySetInnerHTML={{ __html: message }}
           ></div>
         )}
