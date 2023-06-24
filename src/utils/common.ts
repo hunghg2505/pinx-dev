@@ -10,11 +10,12 @@ export const ROUTE_PATH = {
   REGISTER_COMPANY: '/auth/register-company',
   REGISTER_THEME: '/auth/register-theme',
   REGISTER_TOPIC: '/auth/register-topic',
+  UPDATE_USSR_PROFILE: '/auth/update-user-profile',
 };
 
 export const formatMessage = (message: string, data: any) => {
   const tagPeople = data?.tagPeople?.map((item: any) => {
-    return `@[${item.displayName}](${item.customerId})`;
+    return `@[${item?.displayName}](${item?.customerId})`;
   });
   const listStock = data?.tagStocks?.map((item: string) => {
     return `%[${item}](${item})`;

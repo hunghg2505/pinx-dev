@@ -1,28 +1,69 @@
+import { useRequest } from 'ahooks';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 
-import { IComment } from '@components/Post/service';
+import { IComment, requestLikeComment, requestUnLikeComment } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 import { formatMessage } from '@utils/common';
+import PopupComponent from '@utils/PopupComponent';
 
 dayjs.extend(relativeTime);
 interface IProps {
   onNavigate?: () => void;
-  onReplies?: (value: string) => void;
-  data?: IComment;
+  onReplies?: (value: string, customerId: number, id: string) => void;
+  data: IComment;
+  refresh: () => void;
 }
 const ItemComment = (props: IProps) => {
-  const { onNavigate, data, onReplies } = props;
-  const onComment = (value: string) => {
+  const isLogin = !!getAccessToken();
+  const { onNavigate, data, onReplies, refresh } = props;
+  console.log('🚀 ~ file: index.tsx:17 ~ ItemComment ~ data:', data);
+  const onComment = (value: string, customerId: number, id: string) => {
     if (onNavigate) {
       onNavigate();
     } else {
-      onReplies && onReplies(value);
+      onReplies && onReplies(value, customerId, id);
     }
   };
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.name || '';
+  const isLike = data?.isLike;
+  const useLike = useRequest(
+    () => {
+      return requestLikeComment(data.id);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        refresh();
+      },
+    },
+  );
+  const useUnLike = useRequest(
+    () => {
+      return requestUnLikeComment(data.id);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        refresh();
+      },
+    },
+  );
+  const onLike = () => {
+    if (isLogin) {
+      if (isLike) {
+        useUnLike.run();
+      } else {
+        useLike.run();
+      }
+    } else {
+      PopupComponent.open();
+    }
+    // console.log('like');
+  };
   return (
     <div className='comment p-[16px]'>
       <div className='flex flex-row items-start'>
@@ -31,6 +72,7 @@ const ItemComment = (props: IProps) => {
           alt=''
           width='0'
           height='0'
+          sizes='100vw'
           className='mr-[12px] w-[36px] rounded-full'
         />
 
@@ -51,9 +93,9 @@ const ItemComment = (props: IProps) => {
             </Text>
           </div>
           <div className='action mt-[11px] flex'>
-            <div className='like mr-[50px] flex cursor-pointer'>
+            <div className='like mr-[50px] flex cursor-pointer' onClick={onLike}>
               <Image
-                src='/static/icons/iconUnLike.svg'
+                src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
                 alt=''
                 width='0'
                 height='0'
@@ -63,7 +105,10 @@ const ItemComment = (props: IProps) => {
                 {data?.totalLikes}
               </Text>
             </div>
-            <div className='comment flex cursor-pointer' onClick={() => onComment(name)}>
+            <div
+              className='comment flex cursor-pointer'
+              onClick={() => onComment(name, data?.customerId, data?.id)}
+            >
               <Image
                 src='/static/icons/iconComment.svg'
                 alt=''

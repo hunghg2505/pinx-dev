@@ -9,8 +9,8 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import ToastUnAuth from '@components/UI/ToastUnAuth';
 import { getAccessToken } from '@store/auth';
+import PopupComponent from '@utils/PopupComponent';
 
 import Reason from './Reason';
 import { TYPEREPORT, requestReportPost } from './service';
@@ -54,7 +54,8 @@ const ModalReport = (props: IProps) => {
     if (isLogin) {
       onReport.run(value);
     } else {
-      ToastUnAuth();
+      // ToastUnAuth();
+      PopupComponent.open();
     }
   };
   const options = [

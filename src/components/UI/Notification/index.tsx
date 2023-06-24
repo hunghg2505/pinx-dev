@@ -41,16 +41,16 @@ const Notification: React.FC<NotificationProps> = ({ type, message }) => {
       case 'success': {
         return (
           <div className='ml-3'>
-            <div className='text-[20px] font-[700]'>Success</div>
-            <div className='text-[14px] font-[500]'>{message}</div>
+            <div className='text-[16px] font-[400]'>Success</div>
+            <div className='text-[14px] font-[400]'>{message}</div>
           </div>
         );
       }
       case 'error': {
         return (
           <div className='ml-3'>
-            <div className='text-[20px] font-[700]'>Error</div>
-            <div className='text-[14px] font-[500] text-[--neutral-4]'>{message}</div>
+            <div className='text-[16px] font-[400]'>Error</div>
+            <div className='text-[14px] font-[400] text-[--neutral-4]'>{message}</div>
           </div>
         );
       }

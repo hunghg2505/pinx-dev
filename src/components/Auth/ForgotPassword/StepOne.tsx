@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
@@ -9,22 +10,34 @@ import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { REG_PHONE_NUMBER } from '@utils/reg';
 
-const onSubmit = () => {
-  // requestCreateUsername.run({ username: value.username });
-};
+import { useForgotPassword } from './service';
+
+
+const ERROR_CODE = new Set(['10009', '10011', '10148', '10149', '10020']);
 
 const ForgotPasswordStepOne = () => {
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
+  const router = useRouter();
 
-  // const requestCreateUsername = useCreateUsername({
-  //   onSuccess: (res: any) => {
-  //     router.push(ROUTE_PATH.LOGIN);
-  //   },
-  //   onError(e: any) {
-  //     console.log(e?.errors?.[0] || e?.message, 'error');
-  //   },
-  // });
+  const requestForgotPassword = useForgotPassword({
+    onSuccess: () => {
+      router.push(ROUTE_PATH.LOGIN);
+    },
+    onError(e: any) {
+      if (ERROR_CODE.has(e.errorWTSCode)) {
+        router.push(ROUTE_PATH.UPDATE_USSR_PROFILE);
+      }
+    },
+  });
+
+  const onSubmit = (values: any) => {
+    const payload = {
+      username: values.username,
+      phoneNumber: values.phoneNumber,
+    };
+    requestForgotPassword.run(payload);
+  };
 
   return (
     <>
@@ -66,7 +79,7 @@ const ForgotPasswordStepOne = () => {
             </MainButton>
           </Form>
 
-          <div className='mt-9 text-center'>
+          <div className='mt-9 flex flex-col items-center'>
             <Text type='body-14-regular'>{t('do_not_want_log_in')}</Text>
             <NextLink href={ROUTE_PATH.HOME}>
               <Text type='body-14-medium' color='primary-1'>

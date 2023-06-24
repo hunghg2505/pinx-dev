@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useCallback, useEffect } from 'react';
 
+import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
@@ -16,7 +16,6 @@ interface IProps {
   onSubmit: (otp: string) => void;
   phoneNumber?: string;
 }
-
 interface Itime {
   m: string;
   s: string;
@@ -47,7 +46,7 @@ const secondsToTime = (secs: number) => {
 const OtpVerification = (props: IProps) => {
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
-  const [otp, setOtp] = useState<string>('');
+  const [otp, setOtp] = useState<string>('')
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
   const [otpCount, setOtpCount] = useState<number>(120);
   const [otpTime, setOtpTime] = useState<Itime>();
@@ -62,14 +61,38 @@ const OtpVerification = (props: IProps) => {
     return props.phoneNumber && props.phoneNumber.slice(0, 4) + '****' + props.phoneNumber.slice(8);
   };
 
+  const { run: onClearOtp } = useDebounceFn(
+    () => {
+      form.resetFields(['otp']);
+    },
+    {
+      wait: 300
+    }
+  );
+
+
+  const onChange = (e: any) => {
+    console.log('xxx e', e.target.value)
+    if (e.target.value.length === 6) {
+      setOtp(e.target.value);
+      form.submit();
+    }
+  }
+
   const onSubmit = () => {
     props.onSubmit(otp);
+    onClearOtp();
   };
 
   const onResendOtp = () => {
     if (isResendAvailable) {
       props.onResendOtp();
+      startOtpTimer();
       setOtpCount(120);
+      setIsOtpExpired(false);
+      setResendCount(30);
+      setIsResendAvailable(false);
+      startResendTimer();
     }
   };
 
@@ -164,6 +187,7 @@ const OtpVerification = (props: IProps) => {
                 placeholder={t('otp_code')}
                 name='otp'
                 labelContent={t('otp_code')}
+                onChange={onChange}
               />
             </FormItem>
           </Form>

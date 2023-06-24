@@ -52,29 +52,19 @@ export const useGetDetailStockCode = (stockCodes: string) => {
   };
 };
 
-export const useSelectedTopics = (options: IOptions) => {
-  const { loading, run } = useRequest(
-    async ({ stocks }: { stocks: string }) => {
-      return requestPist.post(API_PATH.PRIVATE_WATCH_LIST_CREATE, {
-        data: {
-          stocks,
-        },
-      });
+const serviceSelectStock = async (stockCodes: string) => {
+  return await privateRequest(requestPist.post, API_PATH.PRIVATE_WATCH_LIST_CREATE, {
+    data: {
+      stockCodes,
     },
-    {
-      manual: true,
-      ...options,
-    },
-  );
+  });
+};
 
-  const onSelectedStocks = (stocks: string) => {
-    run({
-      stocks,
-    });
-  };
+export const useSelectStock = (options: IOptions) => {
+  const requestSelectStock = useRequest(serviceSelectStock, {
+    manual: true,
+    ...options,
+  });
 
-  return {
-    loading,
-    onSelectedStocks,
-  };
+  return requestSelectStock;
 };
