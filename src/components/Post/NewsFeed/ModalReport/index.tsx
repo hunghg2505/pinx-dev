@@ -9,7 +9,7 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 
 import Reason from './Reason';
@@ -22,11 +22,19 @@ interface IProps {
 }
 const ModalReport = (props: IProps) => {
   const { children, closeIcon, postID } = props;
+  const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
-  const isLogin = !!getAccessToken();
   const onVisible = () => {
-    setVisible(!visible);
+    if (isLogin) {
+      if (statusUser === USERTYPE.VSD) {
+        setVisible(!visible);
+      } else {
+        PopupComponent.openEKYC();
+      }
+    } else {
+      PopupComponent.open();
+    }
   };
 
   const renderCloseIcon = (): React.ReactNode => {
@@ -42,6 +50,7 @@ const ModalReport = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        onVisible();
         console.log('thanh cong');
       },
       onError: () => {
@@ -53,9 +62,6 @@ const ModalReport = (props: IProps) => {
     const value = form.getFieldsValue();
     if (isLogin) {
       onReport.run(value);
-    } else {
-      // ToastUnAuth();
-      PopupComponent.open();
     }
   };
   const options = [

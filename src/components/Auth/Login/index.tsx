@@ -4,16 +4,18 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import ModalLoginTerms from './ModelLoginTerms';
+import ModalLoginTerms from './ModalLoginTerms';
 import { useLogin } from './service';
 
 const checkUserType = (custStat: string, acntStat: string) => {
@@ -76,7 +78,7 @@ const Login = () => {
       }
     },
     onError(e) {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      toast(() => <Notification type='error' message={e.error} />);
     },
   });
 
@@ -86,7 +88,7 @@ const Login = () => {
 
   return (
     <>
-      <div className='mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+      <div className='mx-auto flex min-w-[98vw] laptop:min-w-min flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0 laptop:px-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
           <Form className='space-y-6' form={form} onFinish={onSubmit}>
             <FormItem
@@ -97,7 +99,12 @@ const Login = () => {
             </FormItem>
             <FormItem
               name='password'
-              rules={[{ required: true, message: 'Please enter password!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter password!'
+                }
+              ]}
             >
               <LabelInput
                 placeholder='Password'

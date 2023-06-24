@@ -16,7 +16,7 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { ENV } from '@utils/env';
-import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
+import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
 
@@ -78,21 +78,24 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8'>
+        <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 laptop:min-w-min laptop:max-w-[420px] laptop:px-0'>
           <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
             <Form className='space-y-6' form={form} onFinish={onSubmit}>
               <FormItem
                 name='phoneNumber'
                 rules={[
                   {
-                    pattern: REG_PHONE_NUMBER,
                     required: true,
-                    message: 'Please enter valid phone number!',
+                    message: 'Please enter phone number',
+                  },
+                  {
+                    pattern: REG_PHONE_NUMBER,
+                    message: 'Please enter valid phone number',
                   },
                 ]}
               >
                 <LabelInput
-                  type='number'
+                  type='tel'
                   placeholder='Phone number'
                   labelContent='Phone number'
                   name='phoneNumber'
@@ -102,9 +105,12 @@ const Register = () => {
                 name='email'
                 rules={[
                   {
-                    pattern: REG_EMAIL,
                     required: true,
-                    message: 'Please enter valid email!',
+                    message: 'Please enter email',
+                  },
+                  {
+                    pattern: REG_EMAIL,
+                    message: 'Please enter valid email',
                   },
                 ]}
               >
@@ -115,7 +121,12 @@ const Register = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter password!',
+                    message: 'Please enter password',
+                  },
+                  {
+                    pattern: REG_PASSWORD,
+                    message:
+                      'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
                   },
                 ]}
               >
@@ -131,8 +142,16 @@ const Register = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter password!',
+                    message: 'Please retype password',
                   },
+                  ({ getFieldValue }: { getFieldValue: any }) => ({
+                    validator(_: any, value: any) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error('Confirm password is incorrect'));
+                    },
+                  }),
                 ]}
               >
                 <LabelInput

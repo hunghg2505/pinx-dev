@@ -59,14 +59,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             {message}
           </Text>
         </div>
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.bgImage}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full'
+            className='absolute right-0 top-0 h-full desktop:pr-[88px]'
           />
           <div className='absolute bottom-[19px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <div className='flex flex-col items-center justify-center'>
@@ -117,7 +117,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </Link>
-        <div className='relative h-[204px] w-[343px] rounded-[15px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.headImageUrl}
             alt=''
@@ -175,7 +175,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </Link>
-        <div className='relative h-[204px] w-[343px] rounded-[15px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.headImageUrl || ''}
             alt=''
@@ -202,6 +202,11 @@ const ContentPostTypeDetail = (props: IProps) => {
     );
   }
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
+    const stockCode = postDetail.post?.stockCode;
+    const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+    const url = `${imageCompanyUrl}${
+      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+    }.png`;
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -209,18 +214,18 @@ const ContentPostTypeDetail = (props: IProps) => {
             {message}
           </Text>
         </div>
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src={postDetail?.post.bgImage}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full'
+            className='absolute right-0 top-0 h-full desktop:pr-[88px]'
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
-              src='/static/icons/logoStock.svg'
+              src={url || '/static/icons/logoStock.svg'}
               alt=''
               width='0'
               height='0'
@@ -239,7 +244,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 Made on PineX
               </Text>
               <Text type='body-12-medium' color='neutral-7'>
-                {dayjs(postDetail?.post.timeString).format('DD/MM/YYYY')}
+                {postDetail?.timeString && dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
               </Text>
             </div>
           </div>
@@ -255,14 +260,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             Username has just sold $VPG get a profit of 6.16%
           </Text>
         </div>
-        <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
+        <div className='relative rounded-[15px]  mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
             src='/static/images/postSellStock.png'
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full w-full'
+            className='absolute right-0 top-0 h-full w-full desktop:pr-[88px]'
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image

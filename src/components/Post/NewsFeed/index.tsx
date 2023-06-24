@@ -43,10 +43,12 @@ const NewsFeed = (props: IProps) => {
           onRefreshPostDetail={refresh}
           postId={id}
         />
-        {data?.totalChildren > 0 && (
-          <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
-        )}
-        {renderViewMore()}
+        <div className='desktop:ml-[64px] desktop:mr-[88px]'>
+          {data?.totalChildren > 0 && (
+            <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
+          )}
+          {renderViewMore()}
+        </div>
       </div>
     </>
   );

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 
 interface IProps {
@@ -11,9 +11,9 @@ interface IProps {
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
+  const { statusUser, isLogin } = useUserType();
   const { data, refresh } = props;
   const isFollow = data?.isFollowed;
-  const isLogin = !!getAccessToken();
   const useFollowUser = useRequest(
     () => {
       return requestFollowUser(data.id);
@@ -40,13 +40,14 @@ const ItemInfluence = (props: IProps) => {
   );
   const onFollow = () => {
     if (isLogin) {
-      if (isFollow) {
+      if (statusUser !== USERTYPE.VSD) {
+        PopupComponent.openEKYC();
+      } else if (isFollow) {
         useUnFollow.run();
       } else {
         useFollowUser.run();
       }
     } else {
-      // ToastUnAuth();
       PopupComponent.open();
     }
   };

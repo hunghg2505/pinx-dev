@@ -26,7 +26,6 @@ const ContentRight = dynamic(import('@components/Home/ContentRight'), {
   ssr: false,
 });
 const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
-  console.log('🚀 ~ file: index.tsx:29 ~ ForwardedRefComponent ~ props:', props);
   return <ComponentRef {...props} forwardedRef={ref} id={props.id} refresh={props.refresh} />;
 });
 
@@ -36,7 +35,6 @@ const PostDetail = () => {
   const isLogin = !!getAccessToken();
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
-  console.log('🚀 ~ file: index.tsx:39 ~ PostDetail ~ postDetail:', postDetail);
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
@@ -130,25 +128,36 @@ const PostDetail = () => {
               </Text>
             </div>
           )}
+          <div className='mobile:hidden desktop:block'>
+            <ForwardedRefComponent
+              ref={refReplies}
+              id={postDetail?.data?.id}
+              refresh={refreshCommentOfPOst}
+            />
+          </div>
+          <div className='desktop:ml-[48px] desktop:mr-[72px]'>
+            {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+              return (
+                <>
+                  <ItemComment
+                    key={index}
+                    data={item}
+                    onReplies={onReplies}
+                    refresh={refreshCommentOfPOst}
+                  />
+                  {getSubComment(item.children)}
+                </>
+              );
+            })}
+          </div>
 
-          {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-            return (
-              <>
-                <ItemComment
-                  key={index}
-                  data={item}
-                  onReplies={onReplies}
-                  refresh={refreshCommentOfPOst}
-                />
-                {getSubComment(item.children)}
-              </>
-            );
-          })}
-          <ForwardedRefComponent
-            ref={refReplies}
-            id={postDetail?.data?.id}
-            refresh={refreshCommentOfPOst}
-          />
+          <div className='mobile:block desktop:hidden'>
+            <ForwardedRefComponent
+              ref={refReplies}
+              id={postDetail?.data?.id}
+              refresh={refreshCommentOfPOst}
+            />
+          </div>
         </div>
         <ContentRight />
       </div>

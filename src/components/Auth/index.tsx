@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
+
+import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
 import Login from './Login';
@@ -11,19 +14,37 @@ import Register from './Register/RegisterForm';
 function Home() {
   const router = useRouter();
   const defaultActiveTab: '1' | '2' = router.query?.type === 'register' ? '2' : '1';
+  const [curTab, setCurTab] = useState<string>();
   return (
     <>
-      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6'>
+      <div className='mx-auto flex flex-col items-center justify-center md:h-screen lg:py-0'>
+        {
+          curTab === '2' && (
+            <div>
+              <NextLink href='#' className='z-999 fixed right-[14px] top-[23px] flex items-center gap-2'>
+                <Image
+                  src='/static/icons/register_help_icon.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='h-[28px] w-[28px]'
+                />
+                <Text type='body-14-regular' className='mobile:hidden laptop:block'>Hướng dẫn đăng kí tài khoản</Text>
+              </NextLink>
+            </div>
+          )
+        }
+
         <Image
-          src='/static/icons/register_help_icon.svg'
+          src='/static/images/pinex_logo.png'
           alt=''
           width='0'
           height='0'
-          className={'z-999 fixed right-[14px] top-[23px] h-[28px] w-[28px]'}
-          onClick={() => console.log('xxx go back')}
+          sizes='50vw'
+          className='h-[72px] w-[72px] !mt-[150px] mb-12 mobile:hidden laptop:block'
         />
         <div className='pt-[10px]'>
-          <Tabs defaultActiveKey={defaultActiveTab} className={styles.tabLogin}>
+          <Tabs defaultActiveKey={defaultActiveTab} className={styles.tabLogin} onChange={(value) => setCurTab(value)}>
             <TabPane tab='Login' key='1'>
               <Login />
             </TabPane>
