@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { IComment, requestLikeComment, requestUnLikeComment } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -21,9 +21,8 @@ interface IProps {
   refresh: () => void;
 }
 const ItemComment = (props: IProps) => {
-  const isLogin = !!getAccessToken();
+  const { statusUser } = useUserType();
   const { onNavigate, data, onReplies, refresh } = props;
-  console.log('🚀 ~ file: index.tsx:25 ~ ItemComment ~ data:', data);
   const onComment = (value: string, customerId: number, id: string) => {
     if (onNavigate) {
       onNavigate();
@@ -60,8 +59,10 @@ const ItemComment = (props: IProps) => {
     },
   );
   const onLike = () => {
-    if (isLogin) {
-      if (isLike) {
+    if (statusUser === USERTYPE.ACTIVE) {
+      if (statusUser !== USERTYPE.VSD) {
+        PopupComponent.openEKYC();
+      } else if (isLike) {
         useUnLike.run();
       } else {
         useLike.run();
@@ -69,7 +70,6 @@ const ItemComment = (props: IProps) => {
     } else {
       PopupComponent.open();
     }
-    // console.log('like');
   };
   return (
     <div className='comment p-[16px]'>

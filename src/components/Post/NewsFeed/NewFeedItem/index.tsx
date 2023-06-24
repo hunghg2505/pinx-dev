@@ -16,7 +16,7 @@ import {
   unlikePost,
 } from '@components/Post/service';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 
 import ContentPostTypeDetail from './ContentPostTypeDetail';
@@ -38,15 +38,15 @@ const NewFeedItem = (props: IProps) => {
   const [urlPost, setUrlPost] = useState('');
   const [isLike, setIsLike] = useState<boolean>(false);
   const [totalSharePost, setTotalSharePost] = useState(0);
+  const { statusUser, isLogin } = useUserType();
+  console.log('🚀 ~ file: index.tsx:42 ~ NewFeedItem ~ statusUser:', statusUser);
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
     // showReport && setShowReport(false);
   }, ref);
   const id = router.query?.id;
-  console.log('🚀 ~ file: index.tsx:46 ~ NewFeedItem ~ postDetail:', postDetail);
-  // const isKol = postDetail?.post?.customerInfo?.isKol;
-  const isLogin = !!getAccessToken();
+  const isKol = postDetail?.post?.customerInfo?.isKol;
   const onComment = () => {
     onNavigate && onNavigate();
   };
@@ -102,18 +102,18 @@ const NewFeedItem = (props: IProps) => {
   );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
-      setIsLike(!isLike);
-      if (isLike) {
+      if (statusUser !== USERTYPE.VSD) {
+        console.log('123');
+        PopupComponent.openEKYC();
+        // setIsLike(!isLike);
+      } else if (isLike) {
         useUnLike.run();
       } else {
         useLikePost.run();
       }
     } else {
-      // ToastUnAuth();
       PopupComponent.open();
     }
-
-    // return () => props?.onRefreshPostDetail() && refresh();
   };
 
   // hide post
@@ -147,7 +147,6 @@ const NewFeedItem = (props: IProps) => {
     if (isLogin) {
       onHidePost.run();
     } else {
-      // ToastUnAuth();
       PopupComponent.open();
     }
   };
@@ -235,21 +234,29 @@ const NewFeedItem = (props: IProps) => {
             src={renderLogo() || ''}
             alt='avatar'
             sizes='100vw'
-            className='mr-2 rounded-full mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+            className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
             width={0}
             height={0}
           />
 
           <div>
-            <div>
-              <Text type='body-14-semibold' color='neutral-1'>
+            <div className='flex'>
+              <Text type='body-14-semibold' color='neutral-1' className='mr-[5px]'>
                 {renderDisplayName()}
               </Text>
-              {/* <Image src="/static/icons/"/> */}
+              {isKol && (
+                <Image
+                  src='/static/icons/iconKol.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[20px] w-[20px]'
+                />
+              )}
             </div>
-
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
-              {dayjs(postDetail?.timeString)?.fromNow()}
+              {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
             </Text>
           </div>
         </div>
@@ -301,66 +308,71 @@ const NewFeedItem = (props: IProps) => {
           </button>
         </div>
       </div>
-      {renderContentPost()}
-      <div className='action mt-[15px] flex flex-row items-center justify-between'>
-        <div
-          className='like z-10 flex cursor-pointer flex-row items-center justify-center'
-          onClick={() => handleLikeOrUnLikePost()}
-        >
-          <Image
-            src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
-            color='#FFFFFF'
-            alt=''
-            width='0'
-            height='0'
-            className='mr-[8px] h-[18px] w-[20px]'
-          />
-          <Text
-            type='body-12-medium'
-            color='primary-5'
-            className={classNames({ '!text-[#589DC0]': isLike })}
+      <div className='desktop:ml-[64px]'>
+        {renderContentPost()}
+        <div className='action mt-[15px] flex flex-row items-center'>
+          <div
+            className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
+            onClick={() => handleLikeOrUnLikePost()}
           >
-            {postDetail?.totalLikes || ''} Likes
-          </Text>
-        </div>
-        <div
-          className='comment flex cursor-pointer flex-row items-center justify-center'
-          onClick={onComment}
-        >
-          <Image
-            src='/static/icons/iconCommentPrimary.svg'
-            alt=''
-            width={14}
-            height={14}
-            className='mr-[9px] w-[14px]'
-          />
-          <Text type='body-12-medium' color='primary-5'>
-            {totalComments} Comments
-          </Text>
-        </div>
-        <div
-          className='report flex cursor-pointer flex-row items-center justify-center'
-          onClick={() => {
-            if (isLogin) {
-              setShowModalShare(true);
-            } else {
-              PopupComponent.open();
-            }
-          }}
-        >
-          <Image
-            src='/static/icons/iconSharePrimary.svg'
-            alt=''
-            width={13}
-            height={14}
-            className='mr-[10px] w-[13px]'
-          />
-          <Text type='body-12-medium' color='primary-5'>
-            {totalSharePost} Shares
-          </Text>
+            <Image
+              src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
+              color='#FFFFFF'
+              alt=''
+              width='0'
+              height='0'
+              className='mr-[8px] h-[18px] w-[20px]'
+            />
+            <Text
+              type='body-12-medium'
+              color='primary-5'
+              className={classNames({ '!text-[#589DC0]': isLike })}
+            >
+              {postDetail?.totalLikes || ''} Likes
+            </Text>
+          </div>
+          <div
+            className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
+            onClick={onComment}
+          >
+            <Image
+              src='/static/icons/iconCommentPrimary.svg'
+              alt=''
+              width={14}
+              height={14}
+              className='mr-[9px] w-[14px]'
+            />
+            <Text type='body-12-medium' color='primary-5'>
+              {totalComments > 0 ? totalComments : ''} Comments
+            </Text>
+          </div>
+          <div
+            className='report flex cursor-pointer flex-row items-center justify-center'
+            onClick={() => {
+              if (isLogin) {
+                if (statusUser === USERTYPE.VSD) {
+                  setShowModalShare(true);
+                } else {
+                  PopupComponent.openEKYC();
+                }
+              } else {
+                PopupComponent.open();
+              }
+            }}
+          >
+            <Image
+              src='/static/icons/iconSharePrimary.svg'
+              alt=''
+              width={13}
+              height={14}
+              className='mr-[10px] w-[13px]'
+            />
+            <Text type='body-12-medium' color='primary-5'>
+              {totalSharePost} Shares
+            </Text>
+          </div>
         </div>
       </div>
-
       <ModalShare
         url={urlPost}
         visible={showModalShare}
