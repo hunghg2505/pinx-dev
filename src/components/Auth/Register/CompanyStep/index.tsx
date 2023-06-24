@@ -62,72 +62,97 @@ const RegisterCompanyStep = () => {
   };
 
   return (
-    <>
-      <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='companyCardmd:mt-0 w-full rounded-lg bg-white sm:max-w-md xl:p-0'>
-          <div className='flex flex-col items-center max-sm:mt-6'>
-            <Text type='body-24-bold' className='mt-6'>
+    <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
+      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8'>
+        <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
+          <div className='flex justify-center mobile:w-0 tablet:mb-[27px] tablet:w-full desktop:mb-[27px] desktop:w-full'>
+            <Image
+              src='/static/icons/logo.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className={'h-[72px] w-[72px] object-contain'}
+            />
+          </div>
+          <div className='max-sm:mt-6 flex flex-col items-center'>
+            <Text type='body-28-bold' className='mt-6'>
               What are you up to?
             </Text>
-            <div className='neutral-4 flex flex-col items-center text-[body-14-medium]'>
-              <Text type='body-14-regular'>Choose companies you would like </Text>
-              <Text type='body-14-regular'>to get updates from</Text>
+            <div className='neutral-4 mt-[8px] flex flex-col items-center'>
+              <Text
+                type='body-16-regular'
+                className='text-center mobile:w-[269px] tablet:w-full desktop:w-full'
+              >
+                Choose companies you would like to get updates from
+              </Text>
             </div>
           </div>
-          <div className={'mt-9 flex w-full flex-wrap items-center justify-center gap-y-[16px]'}>
+          <div
+            className={
+              'flex w-full flex-wrap items-center justify-center gap-y-[16px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
+            }
+          >
             {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-              const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                ? item.stockCode
-                : item.stockCode?.slice(1, 4)
-                }.png`;
+              const urlImageCompany = `${
+                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                  ? item.stockCode
+                  : item.stockCode?.slice(1, 4)
+              }.png`;
               return (
                 <div
-                  className={classNames('flex justify-center', styles.companyCard)}
+                  className={classNames('relative flex justify-center', styles.companyCard)}
                   key={item.stockCode}
                   onClick={() => onSelect(item?.stockCode)}
                 >
                   <div
                     className={classNames(
-                      'flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]',
+                      'flex cursor-pointer items-center justify-center  rounded-full border-[1px] px-2 py-[6px] shadow-[0_2px_4px_0_rgba(0,0,0,0.1)]',
                       {
-                        [styles.selected]: checkIsSelected(item?.stockCode),
+                        'border-solid border-[#1F6EAC]': checkIsSelected(item?.stockCode),
+                        'border-solid border-[#FFFFFF]': !checkIsSelected(item?.stockCode),
                       },
                     )}
                   >
-                    <div
-                      className={classNames(
-                        'flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]',
-                        {
-                          [styles.selected]: checkIsSelected(item?.stockCode),
-                        },
-                      )}
-                    >
+                    <div className='flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]'>
+                      <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
+                        {checkIsSelected(item?.stockCode) && (
+                          <Image
+                            src='/static/icons/iconSelected.svg'
+                            alt=''
+                            width='24'
+                            height='24'
+                          />
+                        )}
+                      </div>
                       <Image
                         src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
                         alt=''
                         width='0'
                         height='0'
                         sizes='100vw'
-                        className={'mr-[6px] h-[48px] w-[48px] rounded-full object-contain'}
+                        className={'h-[48px] w-[48px] rounded-full object-contain'}
                       />
-                      <Text type='body-14-bold'>{item.stockCode}</Text>
+                      {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                     </div>
                   </div>
                 </div>
               );
             })}
           </div>
-
-          <button
-            type='submit'
-            onClick={handleContinue}
-            className='!mt-10 flex w-full justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white'
-          >
-            Continue {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
-          </button>
+          <div className='flex w-full justify-center mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+            <button
+              type='submit'
+              onClick={handleContinue}
+              className='flex justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white mobile:px-[48px] tablet:px-[130px] desktop:px-[130px]'
+            >
+              Continue{' '}
+              {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
