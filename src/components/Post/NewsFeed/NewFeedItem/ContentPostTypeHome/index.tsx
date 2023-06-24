@@ -56,6 +56,7 @@ const ContentPostTypeHome = (props: IProps) => {
   const onReadMore = () => {
     setReadMore(!readMore);
   };
+  const postDetailUrl = `/post/${postDetail.id}`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
@@ -86,14 +87,16 @@ const ContentPostTypeHome = (props: IProps) => {
           </Text>
         )}
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[312px] desktop:w-full'>
-          <Image
-            src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='absolute right-0 top-0 h-full'
-          />
+          <Link href={postDetailUrl}>
+            <Image
+              src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='absolute right-0 top-0 h-full'
+            />
+          </Link>
           <div className='absolute bottom-[19px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <div className='flex flex-col items-center justify-center'>
               <Image
@@ -284,14 +287,16 @@ const ContentPostTypeHome = (props: IProps) => {
           </Text>
         )}
         <div className='relative h-[204px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
-          <Image
-            src={postDetail?.post.bgImage}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='absolute right-0 top-0 h-full'
-          />
+          <Link href={postDetailUrl}>
+            <Image
+              src={postDetail?.post.bgImage}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='absolute right-0 top-0 h-full'
+            />
+          </Link>
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
               src='/static/icons/logoStock.svg'
