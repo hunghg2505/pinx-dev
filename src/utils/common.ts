@@ -50,7 +50,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/stock/${ID}" className="tagStock">%${name}</a>
+          <a href="/stock/${ID}" className="tagStock">${name}</a>
           `,
         );
       }
