@@ -25,7 +25,7 @@ export interface IComment {
   tagStocks: any;
   metadata: null;
   metadataList: null;
-  urlImages: null;
+  urlImages: string[];
   urlLinks: null;
   tagPeople: ICustomerInfo[];
   children: IComment[];

@@ -26,7 +26,11 @@ const ModalReportComment = (props: IProps) => {
   const [visible, setVisible] = React.useState(false);
   const isLogin = !!getAccessToken();
   const onVisible = () => {
-    setVisible(!visible);
+    if (isLogin) {
+      setVisible(!visible);
+    } else {
+      PopupComponent.open();
+    }
   };
 
   const renderCloseIcon = (): React.ReactNode => {
