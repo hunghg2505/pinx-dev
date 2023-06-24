@@ -10,6 +10,7 @@ export const enum USERTYPE {
   VSD = 'VSD',
   LOGIN = 'LOGIN',
   NOTLOGIN = 'NOTLOGIN',
+  ACTIVE = 'ACTIVE',
 }
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
