@@ -5,6 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 
 import { IComment, requestLikeComment, requestUnLikeComment } from '@components/Post/service';
+import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { formatMessage } from '@utils/common';
@@ -22,6 +23,7 @@ interface IProps {
 const ItemComment = (props: IProps) => {
   const isLogin = !!getAccessToken();
   const { onNavigate, data, onReplies, refresh } = props;
+  console.log('🚀 ~ file: index.tsx:25 ~ ItemComment ~ data:', data);
   const onComment = (value: string, customerId: number, id: string) => {
     if (onNavigate) {
       onNavigate();
@@ -33,6 +35,8 @@ const ItemComment = (props: IProps) => {
   const name = data?.customerInfo?.name || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
+  const urlImage =
+    data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '/static/images/influencer.jpg';
   const useLike = useRequest(
     () => {
       return requestLikeComment(data.id);
@@ -94,6 +98,7 @@ const ItemComment = (props: IProps) => {
                 <div dangerouslySetInnerHTML={{ __html: message }} className='messageFormat'></div>
               )}
             </Text>
+
             {data?.totalLikes > 0 && (
               <div className='absolute -bottom-3 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <Image
@@ -109,6 +114,21 @@ const ItemComment = (props: IProps) => {
               </div>
             )}
           </div>
+          {data?.urlImages?.length > 0 && (
+            <Fancybox>
+              <a data-fancybox='gallery' href={urlImage}>
+                <Image
+                  src={urlImage}
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='mt-[10px] h-[100px] w-[100px] rounded-[8px]'
+                />
+              </a>
+            </Fancybox>
+          )}
+
           <div className='action mt-[11px] flex'>
             <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
               <Text
@@ -125,13 +145,6 @@ const ItemComment = (props: IProps) => {
               className='comment mr-[38px] flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
-              {/* <Image
-                src='/static/icons/iconComment.svg'
-                alt=''
-                width='0'
-                height='0'
-                className='mr-[10px] w-[18px]'
-              /> */}
               <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
                 {data?.children?.length > 0 ? data?.children?.length : ''}
               </Text>

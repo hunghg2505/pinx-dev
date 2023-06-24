@@ -338,7 +338,13 @@ const NewFeedItem = (props: IProps) => {
         </div>
         <div
           className='report flex cursor-pointer flex-row items-center justify-center'
-          onClick={() => setShowModalShare(true)}
+          onClick={() => {
+            if (isLogin) {
+              setShowModalShare(true);
+            } else {
+              PopupComponent.open();
+            }
+          }}
         >
           <Image
             src='/static/icons/iconSharePrimary.svg'
