@@ -47,6 +47,7 @@
     "react-google-recaptcha": "^3.1.0",
     "react-google-recaptcha-v3": "^1.10.1",
     "react-hot-toast": "^2.4.1",
+    "react-pdf": "^7.1.2",
     "react-slick": "^0.29.0",
     "reactjs-otp-input": "^2.0.8",
     "sharp": "^0.32.1",
