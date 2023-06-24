@@ -7,7 +7,14 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { IPost, TYPEPOST, likePost, requestHidePost, unlikePost } from '@components/Post/service';
+import {
+  IPost,
+  TYPEPOST,
+  getTotalSharePost,
+  likePost,
+  requestHidePost,
+  unlikePost,
+} from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import PopupComponent from '@utils/PopupComponent';
@@ -15,6 +22,7 @@ import PopupComponent from '@utils/PopupComponent';
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
 import ModalReport from '../ModalReport';
+import ModalShare from '../ModalShare';
 
 interface IProps {
   postDetail: IPost;
@@ -25,6 +33,9 @@ interface IProps {
 }
 const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
+  const [showModalShare, setShowModalShare] = useState(false);
+  const [urlPost, setUrlPost] = useState('');
+  const [totalSharePost, setTotalSharePost] = useState(0);
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
     // showReport && setShowReport(false);
@@ -46,6 +57,18 @@ const NewFeedItem = (props: IProps) => {
     }
   }, [postDetail?.isLike]);
   const idPost = id || postDetail?.id;
+
+  useEffect(() => {
+    const urlPost = window.location.origin + '/post/' + idPost;
+    setUrlPost(urlPost);
+  }, [idPost]);
+
+  useEffect(() => {
+    if (urlPost && !showModalShare) {
+      requestGetTotalShare.run(urlPost);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showModalShare, urlPost]);
 
   const useLikePost = useRequest(
     () => {
@@ -109,6 +132,17 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
+
+  const requestGetTotalShare = useRequest(getTotalSharePost, {
+    manual: true,
+    onSuccess: (res) => {
+      setTotalSharePost(res.shares.all);
+    },
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
+
   const handleHidePost = () => {
     if (isLogin) {
       onHidePost.run();
@@ -310,7 +344,10 @@ const NewFeedItem = (props: IProps) => {
             {totalComments} Comments
           </Text>
         </div>
-        <div className='report flex flex-row items-center justify-center'>
+        <div
+          className='report flex cursor-pointer flex-row items-center justify-center'
+          onClick={() => setShowModalShare(true)}
+        >
           <Image
             src='/static/icons/iconSharePrimary.svg'
             alt=''
@@ -319,10 +356,18 @@ const NewFeedItem = (props: IProps) => {
             className='mr-[10px] w-[13px]'
           />
           <Text type='body-12-medium' color='primary-5'>
-            32 Shares
+            {totalSharePost} Shares
           </Text>
         </div>
       </div>
+
+      <ModalShare
+        url={urlPost}
+        visible={showModalShare}
+        handleClose={() => {
+          setShowModalShare(false);
+        }}
+      />
     </div>
   );
 };
