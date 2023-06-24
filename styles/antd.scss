@@ -159,7 +159,6 @@
   font-size: 14px !important;
   font-weight: 400;
   color: #b3b3b3;
-  width: 26px !important;
   min-width: 26px !important;
   height: 26px !important;
   line-height: 26px !important;
@@ -186,6 +185,8 @@
 .rc-picker-header-super-prev-btn:hover,
 .rc-picker-header-prev-btn:hover,
 .rc-picker-header-next-btn:hover,
-.rc-picker-header-super-next-btn:hover {
+.rc-picker-header-super-next-btn:hover,
+.rc-picker-year-btn:hover,
+.rc-picker-month-btn:hover {
   filter: invert(37%) sepia(17%) saturate(3633%) hue-rotate(175deg) brightness(91%) contrast(87%);
 }
