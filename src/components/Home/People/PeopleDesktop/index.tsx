@@ -8,7 +8,7 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
 const PeopleDesktop = () => {
-  const { suggestionPeople, refresh, getSuggestFriend } = useSuggestPeople();
+  const { suggestionPeople, refreshList, getSuggestFriend } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   React.useEffect(() => {
     if (isLogin) {
@@ -23,7 +23,7 @@ const PeopleDesktop = () => {
       manual: true,
       onSuccess: () => {
         console.log('thanh cong');
-        refresh();
+        refreshList();
       },
       onError: () => {
         console.log('err');
