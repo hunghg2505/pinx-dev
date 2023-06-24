@@ -41,7 +41,7 @@ const Editor = (props: IProps, ref: any) => {
   const [image, setImage] = React.useState<any>('');
   const [idReply, setIdReply] = React.useState<string>('');
   const [form] = Form.useForm();
-  const messagesEndRef = React.useRef(null);
+  const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
@@ -104,7 +104,7 @@ const Editor = (props: IProps, ref: any) => {
       const html = editor.getHTML();
       console.log('🚀 ~ file: index.tsx:109 ~ onUpdate ~ html:', html);
       if (idReply && text === '') {
-        setIdReply(0);
+        setIdReply('0');
       }
       console.log('🚀 ~ file: index.tsx:107 ~ onUpdate ~ text:', text);
       // The content has changed.
