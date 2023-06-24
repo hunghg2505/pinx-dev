@@ -150,8 +150,16 @@ const OtpVerification = (props: IProps) => {
   }, []);
 
   return (
-    <>
-      <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
+    <div className='mx-auto flex flex-col items-center justify-center md:h-screen lg:py-0'>
+      <Image
+        src='/static/images/pinex_logo.png'
+        alt=''
+        width='0'
+        height='0'
+        sizes='50vw'
+        className='h-[72px] w-[72px] !mt-[150px] mb-12 mobile:hidden laptop:block'
+      />
+      <div className='mx-auto flex min-w-[98vw] laptop:min-w-[450px] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0 laptop:px-0 laptop:py-0'>
         <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
           <div className='mt-[46px]'>
             <Text type='body-24-bold'>{t('comfirm_phone_number')}</Text>
@@ -219,7 +227,7 @@ const OtpVerification = (props: IProps) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
