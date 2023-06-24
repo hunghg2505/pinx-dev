@@ -33,6 +33,7 @@ interface CustomPickerProps {
   onClick?: () => void;
   suffix?: React.ReactNode;
   onChange: (value: any) => void;
+  onFocus?: () => void;
   onBlur?: () => void;
   value?: string | number | undefined;
   name?: string;
@@ -65,19 +66,13 @@ const LabelDatePicker = (props: CustomPickerProps) => {
     styles.customDatePicker,
   );
 
-  const handleClick = () => {
-    if (disabled) {
-      return;
-    }
-
-    onClick && onClick();
-  };
-
   const onFocus = () => {
+    props.onFocus && props.onFocus();
     setIsFocus(true);
   };
 
   const onBlur = () => {
+    props.onBlur && props.onBlur();
     setIsFocus(false);
   };
 
@@ -104,7 +99,7 @@ const LabelDatePicker = (props: CustomPickerProps) => {
       <MyPicker
         disabled={disabled}
         className={classes}
-        onClick={handleClick}
+        onClick={onClick}
         id={'picker-' + name}
         suffixIcon={<Calender />}
         onFocus={onFocus}
