@@ -1,13 +1,14 @@
-import Dialog from 'rc-dialog';
 import React, { useEffect, useRef, useState } from 'react';
 
-import styles from './index.module.scss';
-import classNames from 'classnames/bind';
-import Text from '@components/UI/Text';
+import classNames from 'classnames';
 import Image from 'next/image';
+import Dialog from 'rc-dialog';
+
+import Text from '@components/UI/Text';
 import { SHARE_THIS_PROPERTY_ID, ZALO_OAID } from 'src/constant';
 
-const cx = classNames.bind(styles);
+import styles from './index.module.scss';
+
 const ZALO_SCRIPT_ID = 'zalo-share-script';
 const SHARE_THIS_SCRIPT_ID = 'share-this-script';
 
@@ -28,7 +29,9 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
   }, [visible]);
 
   const handleCopy = () => {
-    if (isCopied) return;
+    if (isCopied) {
+      return;
+    }
 
     inputRef.current?.select();
     navigator.clipboard.writeText(url);
@@ -42,32 +45,42 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
   };
 
   const handleAppendZaloScript = () => {
-    if (!visible) return;
+    if (!visible) {
+      return;
+    }
 
     const ZALO_SCRIPT_SRC = 'https://sp.zalo.me/plugins/sdk.js';
-    const zaloScriptElm = document.getElementById(ZALO_SCRIPT_ID);
+    const zaloScriptElm = document.querySelector(`#${ZALO_SCRIPT_ID}`);
 
-    if (zaloScriptElm) zaloScriptElm.remove();
+    if (zaloScriptElm) {
+      zaloScriptElm.remove();
+    }
 
     const script = document.createElement('script');
     script.src = ZALO_SCRIPT_SRC;
     script.id = ZALO_SCRIPT_ID;
     script.async = true;
 
-    document.body.appendChild(script);
+    document.body.append(script);
   };
 
   const handleAppendShareThisScript = () => {
-    if (!visible) return;
+    if (!visible) {
+      return;
+    }
 
     const SHARE_THIS_SCRIPT_SRC = `https://platform-api.sharethis.com/js/sharethis.js#property=${SHARE_THIS_PROPERTY_ID}&product=inline-share-buttons&source=platform`;
-    const shareThisScriptElm = document.getElementById(SHARE_THIS_SCRIPT_ID);
-    if (shareThisScriptElm) shareThisScriptElm.remove();
+    const shareThisScriptElm = document.querySelector(`#${SHARE_THIS_SCRIPT_ID}`);
+    if (shareThisScriptElm) {
+      shareThisScriptElm.remove();
+    }
 
     const shareThisBtnScriptElm = document.querySelector(
       `script[src='https://buttons-config.sharethis.com/js/${SHARE_THIS_PROPERTY_ID}.js']`,
     );
-    if (shareThisBtnScriptElm) shareThisScriptElm?.remove();
+    if (shareThisBtnScriptElm) {
+      shareThisScriptElm?.remove();
+    }
 
     const script = document.createElement('script');
     script.src = SHARE_THIS_SCRIPT_SRC;
@@ -77,8 +90,8 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
     const shareThisBtnScript = document.createElement('script');
     shareThisBtnScript.src = `https://buttons-config.sharethis.com/js/${SHARE_THIS_PROPERTY_ID}.js`;
 
-    document.head.appendChild(shareThisBtnScript);
-    document.head.appendChild(script);
+    document.head.append(shareThisBtnScript);
+    document.head.append(script);
   };
 
   return (
@@ -111,12 +124,10 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
           </Text>
 
           <div
-            className={`mt-[8px] flex h-[45px] items-center justify-between rounded-[4px] border border-solid border-[#757171] px-[5px] ${cx(
-              'field',
-              {
-                active: isCopied,
-              },
-            )}`}
+            className={classNames(
+              'field mt-[8px] flex h-[45px] items-center justify-between rounded-[4px] border border-solid border-[#757171] px-[5px]',
+              { [styles.active]: isCopied },
+            )}
           >
             <Image
               src='/static/icons/iconLink-02.svg'
@@ -139,7 +150,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
               onClick={handleCopy}
             >
               <Text type='body-14-medium' color='cbwhite'>
-                {!isCopied ? 'Copy' : 'Copied'}
+                {isCopied ? 'Copied' : 'Copy'}
               </Text>
             </button>
           </div>
