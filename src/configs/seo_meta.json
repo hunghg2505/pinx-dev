@@ -1,0 +1,26 @@
+{
+  "title": "Pinex",
+  "titleTemplate": "Pinex",
+  "description": "Pinex",
+  "siteUrl": "http://18.143.188.87/",
+  "openGraph": {
+    "title": "Pinex",
+    "description": "Pinex",
+    "type": "website",
+    "url": "http://18.143.188.87/",
+    "site_name": "Pinex",
+    "images": [
+      {
+        "url": "/card.png",
+        "width": "800",
+        "height": "600",
+        "alt": "Pinex"
+      }
+    ]
+  },
+  "twitter": {
+    "handle": "Pinex",
+    "site": "Pinex",
+    "cardType": "summary_large_image"
+  }
+}
