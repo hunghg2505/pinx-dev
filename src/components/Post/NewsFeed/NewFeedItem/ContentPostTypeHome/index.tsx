@@ -47,7 +47,7 @@ const ContentPostTypeHome = (props: IProps) => {
   const [readMore, setReadMore] = React.useState(false);
   const ref = useRef(null);
   const { height } = useContainerDimensions(ref);
-  const isReadMore = height > 70;
+  const isReadMore = height > 84;
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
@@ -69,7 +69,7 @@ const ContentPostTypeHome = (props: IProps) => {
             type='body-14-regular'
             color='neutral-1'
             className={classNames('mb-[16px]', {
-              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
@@ -135,7 +135,7 @@ const ContentPostTypeHome = (props: IProps) => {
             type='body-14-regular'
             color='neutral-1'
             className={classNames('mb-[16px]', {
-              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
@@ -196,12 +196,12 @@ const ContentPostTypeHome = (props: IProps) => {
   ) {
     return (
       <>
-        <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
+        <div className={classNames(' cursor-pointer')} onClick={onComment} ref={ref}>
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
-              'h-[85px] overflow-hidden': isReadMore && !readMore,
+            className={classNames('mb-[16px] ', {
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
@@ -274,7 +274,7 @@ const ContentPostTypeHome = (props: IProps) => {
             type='body-14-regular'
             color='neutral-1'
             className={classNames('mb-[16px]', {
-              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
@@ -339,7 +339,7 @@ const ContentPostTypeHome = (props: IProps) => {
             type='body-14-regular'
             color='neutral-1'
             className={classNames('mb-[16px]', {
-              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
@@ -417,7 +417,7 @@ const ContentPostTypeHome = (props: IProps) => {
             type='body-14-regular'
             color='neutral-1'
             className={classNames('mb-[16px]', {
-              'h-[85px] overflow-hidden': isReadMore && !readMore,
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >

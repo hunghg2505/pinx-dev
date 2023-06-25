@@ -23,6 +23,7 @@ interface TextProps {
     | 'body-16-medium'
     | 'body-18-regular'
     | 'body-20-semibold'
+    | 'body-20-medium'
     | 'body-24-regular'
     | 'body-16-regular'
     | 'body-16-bold'

@@ -35,11 +35,7 @@ const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
   const [showReport, setShowReport] = React.useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
-  const [urlPost, setUrlPost] = useState('');
-  const [isLike, setIsLike] = useState<boolean>(false);
-  const [totalSharePost, setTotalSharePost] = useState(0);
   const { statusUser, isLogin } = useUserType();
-  console.log('🚀 ~ file: index.tsx:42 ~ NewFeedItem ~ statusUser:', statusUser);
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
@@ -47,6 +43,7 @@ const NewFeedItem = (props: IProps) => {
   }, ref);
   const id = router.query?.id;
   const isKol = postDetail?.post?.customerInfo?.isKol;
+  const isLike = postDetail?.isLike;
   const handleComment = () => {
     if (isLogin) {
       onNavigate && onNavigate();
@@ -54,25 +51,15 @@ const NewFeedItem = (props: IProps) => {
       PopupComponent.open();
     }
   };
-
-  useEffect(() => {
-    if (postDetail?.isLike) {
-      setIsLike(postDetail?.isLike);
-    }
-  }, [postDetail?.isLike]);
   const idPost = id || postDetail?.id;
+  const urlPost = window.location.origin + '/post/' + idPost;
 
   useEffect(() => {
-    const urlPost = window.location.origin + '/post/' + idPost;
-    setUrlPost(urlPost);
-  }, [idPost]);
-
-  useEffect(() => {
-    if (urlPost && !showModalShare) {
+    if (!showModalShare) {
       requestGetTotalShare.run(urlPost);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModalShare, urlPost]);
+  }, [showModalShare]);
 
   const useLikePost = useRequest(
     () => {
@@ -81,12 +68,9 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        setIsLike(true);
         onRefreshPostDetail();
       },
-      onError: () => {
-        setIsLike(false);
-      },
+      onError: () => {},
     },
   );
   const useUnLike = useRequest(
@@ -96,20 +80,15 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        setIsLike(false);
         onRefreshPostDetail();
       },
-      onError: () => {
-        setIsLike(true);
-      },
+      onError: () => {},
     },
   );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
       if (statusUser !== USERTYPE.VSD) {
-        console.log('123');
         PopupComponent.openEKYC();
-        // setIsLike(!isLike);
       } else if (isLike) {
         useUnLike.run();
       } else {
@@ -129,7 +108,6 @@ const NewFeedItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onRefreshPostDetail();
-        console.log('thanh cong');
       },
       onError: (err: any) => {
         console.log('err', err);
@@ -139,9 +117,7 @@ const NewFeedItem = (props: IProps) => {
 
   const requestGetTotalShare = useRequest(getTotalSharePost, {
     manual: true,
-    onSuccess: (res) => {
-      setTotalSharePost(res.shares.all);
-    },
+    onSuccess: () => {},
     onError: (error: any) => {
       console.log(error);
     },
@@ -312,7 +288,7 @@ const NewFeedItem = (props: IProps) => {
           </button>
         </div>
       </div>
-      <div className='desktop:ml-[64px]'>
+      <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
         {renderContentPost()}
         <div className='action mt-[15px] flex flex-row items-center justify-between desktop:justify-start'>
           <div
@@ -325,7 +301,8 @@ const NewFeedItem = (props: IProps) => {
               alt=''
               width={16}
               height={14}
-              className='mr-[8px] h-[14px] w-[16px] object-contain'
+              sizes='100vw'
+              className='mr-[8px] h-[14px] w-[18px] object-contain'
             />
             <Text
               type='body-12-medium'
@@ -372,7 +349,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {totalSharePost} Shares
+              {requestGetTotalShare?.data?.shares?.all} Shares
             </Text>
           </div>
         </div>
