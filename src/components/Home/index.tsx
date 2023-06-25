@@ -23,6 +23,7 @@ import {
   requestLeaveIndex,
   socket,
   useGetListNewFeed,
+  useGetWatchList,
   useSuggestPeople,
 } from './service';
 
@@ -32,27 +33,29 @@ const Trending = dynamic(() => import('./Trending'));
 const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
-const onChangeTab = (key: string) => {
-  if (key === '1') {
-    requestJoinChannel('VNM');
-    requestLeaveIndex();
-  }
-  if (key === '2') {
-    requestLeaveChannel('VNM');
-    requestJoinIndex();
-  }
-};
 const Home = () => {
-  // console.log('check 1', socket.connected);
   socket.on('connect', function () {
     requestJoinChannel('VNM');
     requestJoinIndex();
   });
+  const [selectTab, setSelectTab] = React.useState<string>('1');
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
+  const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
+  const onChangeTab = (key: string) => {
+    setSelectTab(key);
+    if (key === '1') {
+      requestJoinChannel('VNM');
+      requestLeaveIndex();
+    }
+    if (key === '2') {
+      requestLeaveChannel('VNM');
+      requestJoinIndex();
+    }
+  };
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
@@ -67,18 +70,20 @@ const Home = () => {
           <div className='mobile:bg-[#F8FAFD] mobile:pt-[10px] desktop:bg-[#ffffff] desktop:pt-0'>
             <div className='mx-[auto] my-[0] mobile:w-[375px] desktop:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block desktop:hidden'>
-                <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
-                  <Text type='body-14-medium' color='primary-1'>
-                    See all
-                  </Text>
-                  <Image
-                    src='/static/icons/iconNext.svg'
-                    width={5}
-                    height={5}
-                    alt=''
-                    className='ml-[11px] w-[10px]'
-                  />
-                </button>
+                {selectTab === '1' && watchList && (
+                  <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
+                    <Text type='body-14-medium' color='primary-1'>
+                      See all
+                    </Text>
+                    <Image
+                      src='/static/icons/iconNext.svg'
+                      width={5}
+                      height={5}
+                      alt=''
+                      className='ml-[11px] w-[10px]'
+                    />
+                  </button>
+                )}
 
                 <Tabs defaultActiveKey='1' className='tabHome ' onChange={onChangeTab}>
                   {isLogin && (
@@ -165,7 +170,9 @@ const Home = () => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
                 <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px] mobile:block desktop:hidden'>
-                  <Trending />
+                  <div className='pb-[13px] pt-[10px] [border-bottom:1px_solid_#EAF4FB] [border-top:1px_solid_#EAF4FB]'>
+                    <Trending />
+                  </div>
                 </div>
                 <div className='mt-[2px] bg-[#ffffff] pl-[16px]'>
                   <Text type='body-16-bold' color='neutral-2' className='mb-[14px] pt-[20px]'>

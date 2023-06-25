@@ -252,7 +252,11 @@ export const requestUnFollowUser = (id: number) => {
 };
 export const useGetWatchList = () => {
   const { data } = useRequest(() => {
-    return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+    return isLogin
+      ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
+      : new Promise<void>((resolve) => {
+          resolve();
+        });
   });
 
   return {
