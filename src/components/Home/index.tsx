@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Toaster } from 'react-hot-toast';
 
+import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
@@ -225,6 +226,8 @@ const Home = () => {
         </div>
         <ContentRight />
       </div>
+
+      {!isLogin && <FooterSignUp />}
     </>
   );
 };

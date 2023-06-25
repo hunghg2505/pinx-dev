@@ -78,8 +78,8 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <div className='mx-auto flex min-w-[98vw] laptop:min-w-min flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0 laptop:px-0 laptop:max-w-[420px]'>
-          <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
+        <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 py-8 laptop:min-w-min laptop:max-w-[420px] laptop:px-0'>
+          <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
             <Form className='space-y-6' form={form} onFinish={onSubmit}>
               <FormItem
                 name='phoneNumber'
@@ -125,7 +125,8 @@ const Register = () => {
                   },
                   {
                     pattern: REG_PASSWORD,
-                    message: 'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.'
+                    message:
+                      'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
                   },
                 ]}
               >
@@ -160,7 +161,7 @@ const Register = () => {
                   name='confirmPassword'
                 />
               </FormItem>
-              <div className='--neutral-1 ml-3 text-[12px] font-[500]'>
+              <div className='--neutral-1 text-[12px] font-[500]'>
                 By signing up, I agree to the
                 <span>
                   <NextLink href='#' className='!text-[--primary-2]'>

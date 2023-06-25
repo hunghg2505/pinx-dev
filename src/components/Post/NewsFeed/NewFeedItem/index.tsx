@@ -47,8 +47,12 @@ const NewFeedItem = (props: IProps) => {
   }, ref);
   const id = router.query?.id;
   const isKol = postDetail?.post?.customerInfo?.isKol;
-  const onComment = () => {
-    onNavigate && onNavigate();
+  const handleComment = () => {
+    if (isLogin) {
+      onNavigate && onNavigate();
+    } else {
+      PopupComponent.open();
+    }
   };
 
   useEffect(() => {
@@ -273,7 +277,7 @@ const NewFeedItem = (props: IProps) => {
             {showReport && (
               <div className='popup absolute right-0 top-[29px] z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
                 <div
-                  className='flex h-[44px] items-center justify-center [border-bottom:1px_solid_#EAF4FB]'
+                  className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'
                   onClick={handleHidePost}
                 >
                   <Image
@@ -282,20 +286,20 @@ const NewFeedItem = (props: IProps) => {
                     width='0'
                     height='0'
                     sizes='100vw'
-                    className='mr-[10px] w-[20px]'
+                    className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
                   <Text type='body-14-medium' color='neutral-2'>
                     Hide
                   </Text>
                 </div>
-                <div className='flex h-[44px] items-center justify-center'>
+                <div className='ml-[12px] flex h-[44px] items-center'>
                   <Image
                     src='/static/icons/iconFlag.svg'
                     alt=''
                     width='0'
                     height='0'
                     sizes='100vw'
-                    className='mr-[10px] w-[17px]'
+                    className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
                   <ModalReport postID={postDetail?.id}>
                     <Text type='body-14-medium' color='neutral-2'>
@@ -310,7 +314,7 @@ const NewFeedItem = (props: IProps) => {
       </div>
       <div className='desktop:ml-[64px]'>
         {renderContentPost()}
-        <div className='action mt-[15px] flex flex-row items-center'>
+        <div className='action mt-[15px] flex flex-row items-center justify-between desktop:justify-start'>
           <div
             className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={() => handleLikeOrUnLikePost()}
@@ -319,9 +323,9 @@ const NewFeedItem = (props: IProps) => {
               src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
               color='#FFFFFF'
               alt=''
-              width='0'
-              height='0'
-              className='mr-[8px] h-[18px] w-[20px]'
+              width={16}
+              height={14}
+              className='mr-[8px] h-[14px] w-[16px] object-contain'
             />
             <Text
               type='body-12-medium'
@@ -333,14 +337,14 @@ const NewFeedItem = (props: IProps) => {
           </div>
           <div
             className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
-            onClick={onComment}
+            onClick={handleComment}
           >
             <Image
-              src='/static/icons/iconCommentPrimary.svg'
+              src='/static/icons/iconComment.svg'
               alt=''
               width={14}
               height={14}
-              className='mr-[9px] w-[14px]'
+              className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
               {totalComments > 0 ? totalComments : ''} Comments
@@ -361,11 +365,11 @@ const NewFeedItem = (props: IProps) => {
             }}
           >
             <Image
-              src='/static/icons/iconSharePrimary.svg'
+              src='/static/icons/iconShare.svg'
               alt=''
-              width={13}
+              width={14}
               height={14}
-              className='mr-[10px] w-[13px]'
+              className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
               {totalSharePost} Shares
