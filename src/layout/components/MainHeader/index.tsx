@@ -9,6 +9,7 @@ import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 const IconSearchWhite = () => (
@@ -37,6 +38,7 @@ const Header = () => {
     });
   };
   const isLogin = !!getAccessToken();
+  const { requestGetProfile } = useProfileInitial();
   return (
     <>
       <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px]'>
@@ -72,22 +74,33 @@ const Header = () => {
             ))}
           </div>
         </div>
-        {!isLogin && (
-          <div className='flex flex-row  items-center'>
-            <div className='mr-[21px] w-[18px] cursor-pointer mobile:block desktop:hidden'>
-              <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
-            </div>
-            <div className='mr-[12px] mobile:hidden desktop:block'>
-              <Form>
-                <FormItem name='search'>
-                  <Input
-                    className='h-[36px] w-[220px] rounded-[8px] bg-[#EFF2F5] placeholder:pl-[28px]'
-                    placeholder='Search'
-                    icon={<IconSearchWhite />}
-                  />
-                </FormItem>
-              </Form>
-            </div>
+        <div className='flex flex-row  items-center'>
+          <div className='mr-[21px] w-[18px] cursor-pointer mobile:block desktop:hidden'>
+            <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
+          </div>
+          <div className='mr-[12px] mobile:hidden desktop:block'>
+            <Form>
+              <FormItem name='search'>
+                <Input
+                  className='h-[36px] w-[220px] rounded-[8px] bg-[#EFF2F5] placeholder:pl-[28px]'
+                  placeholder='Search'
+                  icon={<IconSearchWhite />}
+                />
+              </FormItem>
+            </Form>
+          </div>
+          {isLogin ? (
+            <>
+              <Image
+                src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+              />
+            </>
+          ) : (
             <button
               className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
               onClick={redirectToLogin}
@@ -96,16 +109,32 @@ const Header = () => {
                 Log in
               </Text>
             </button>
+          )}
+          {isLogin ? (
+            <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
+              <Text type='body-20-medium' color='neutral-1'>
+                {requestGetProfile?.name}
+              </Text>
+              <Image
+                src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[10px] h-[52px] w-[52px] rounded-full'
+              />
+            </div>
+          ) : (
             <button
-              className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden mobile:w-[90px] desktop:block desktop:w-[122px]'
+              className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
               onClick={redirectToSignUp}
             >
               <Text type='body-14-bold' color='cbwhite'>
                 Sign up
               </Text>
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );

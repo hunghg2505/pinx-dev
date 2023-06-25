@@ -15,7 +15,6 @@ export const enum USERTYPE {
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
   const { requestGetProfile } = useProfileInitial();
-  console.log('🚀 ~ file: useUserType.ts:17 ~ requestGetProfile:', requestGetProfile);
   const custStat = requestGetProfile?.custStat;
   const acntStat = requestGetProfile?.acntStat;
   let statusUser;

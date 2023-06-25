@@ -26,7 +26,7 @@ const NewsFeed = (props: IProps) => {
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
-            View more {data?.totalChildren - 1} replies...
+            View more {data?.totalChildren - 1} comments...
           </Text>
         </div>
       );

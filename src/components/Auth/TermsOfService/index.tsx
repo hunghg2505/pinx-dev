@@ -5,6 +5,7 @@ import { pdfjs, Document, Page } from 'react-pdf';
 
 import { API_PATH } from '@api/constant';
 import Text from '@components/UI/Text';
+import LoginHeader from '@layout/components/LoginHeader';
 import { ENV } from 'src/utils/env';
 
 import styles from './index.module.scss';
@@ -58,8 +59,9 @@ const TermsOfService = () => {
 
   return (
     <>
-      <div className='mx-auto flex mobile:min-w-[98vw] flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
+      <LoginHeader />
+      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8 mobile:min-w-[98vw]'>
+        <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
           <div className='mt-11'>
             <Text type='body-20-bold' className='mb-4'>
               Điều khoản sử dụng

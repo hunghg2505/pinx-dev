@@ -16,6 +16,7 @@ const Trending = () => {
       <div className='flex flex-wrap gap-x-[18px] gap-y-[10px]'>
         {dataTrending
           ?.filter((item: ITrending) => item.type !== TYPETRENDING.STOCK)
+          ?.slice(0, 5)
           .map((item: ITrending, index: number) => {
             return (
               <div
