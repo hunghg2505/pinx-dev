@@ -88,7 +88,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:mr-[88px] desktop:h-[312px] desktop:w-full'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
@@ -153,7 +153,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             <Image
               src={
@@ -239,7 +239,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='w-[5px]'
           />
         </Link> */}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             <Image
               src={postDetail?.post.headImageUrl || ''}
@@ -301,14 +301,14 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
               src={postDetail?.post.bgImage}
               alt=''
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute right-0 top-0 h-full desktop:pr-[88px]'
+              className='absolute right-0 top-0 h-full'
             />
             <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
               <Image
@@ -367,7 +367,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
               src='/static/images/postSellStock.png'
               alt=''
@@ -444,7 +444,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             <Image
               src={postDetail?.post.headImageUrl}
