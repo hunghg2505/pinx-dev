@@ -17,6 +17,7 @@ import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from 
 const WatchList = () => {
   const router = useRouter();
   const [dataStock, setDataStock] = React.useState<any>([]);
+  console.log('🚀 ~ file: index.tsx:20 ~ WatchList ~ dataStock:', dataStock);
 
   const useWatchList = useRequest(
     () => {
@@ -79,7 +80,7 @@ const WatchList = () => {
   return (
     <>
       <div className='mt-[22px] h-[179px] min-w-[375px] justify-center overflow-hidden mobile:block tablet:hidden'>
-        {dataStock ? (
+        {dataStock?.length > 0 ? (
           <div>
             <Slider
               {...settings}
@@ -111,7 +112,7 @@ const WatchList = () => {
         )}
       </div>
       <div className='mobile:hidden tablet:block'>
-        {dataStock ? (
+        {dataStock?.length > 0 ? (
           <WatchListDesktop dataStock={dataStock} />
         ) : (
           <div
