@@ -17,9 +17,7 @@ import ListTheme from './ListTheme';
 import Market from './Market';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import {
-  requestJoinChannel,
   requestJoinIndex,
-  requestLeaveChannel,
   requestLeaveIndex,
   socket,
   useGetListNewFeed,
@@ -35,7 +33,6 @@ const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
   socket.on('connect', function () {
-    requestJoinChannel('VNM');
     requestJoinIndex();
   });
   const [selectTab, setSelectTab] = React.useState<string>('1');
@@ -48,11 +45,9 @@ const Home = () => {
   const onChangeTab = (key: string) => {
     setSelectTab(key);
     if (key === '1') {
-      requestJoinChannel('VNM');
       requestLeaveIndex();
     }
     if (key === '2') {
-      requestLeaveChannel('VNM');
       requestJoinIndex();
     }
   };
@@ -66,10 +61,10 @@ const Home = () => {
     <>
       <Toaster />
       <div className='flex'>
-        <div className='mobile:mr-0 desktop:mr-[24px] desktop:w-[750px]'>
+        <div className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'>
           <div className='mobile:bg-[#F8FAFD] mobile:pt-[10px] desktop:bg-[#ffffff] desktop:pt-0'>
-            <div className='mx-[auto] my-[0] mobile:w-[375px] desktop:w-full'>
-              <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block desktop:hidden'>
+            <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
+              <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList && (
                   <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
                     <Text type='body-14-medium' color='primary-1'>
@@ -97,7 +92,7 @@ const Home = () => {
                 </Tabs>
               </div>
               {isLogin && (
-                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden desktop:block'>
+                <div className='tablet::block rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden'>
                   <div className='flex items-center'>
                     <Image
                       src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
@@ -169,13 +164,17 @@ const Home = () => {
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
-                <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px] mobile:block desktop:hidden'>
-                  <div className='pb-[13px] pt-[10px] [border-bottom:1px_solid_#EAF4FB] [border-top:1px_solid_#EAF4FB]'>
+                <div className='bg-[#ffffff] px-[16px] mobile:block desktop:hidden'>
+                  <div className='pb-[13px] pt-[10px] [border-top:1px_solid_#EAF4FB]'>
                     <Trending />
                   </div>
                 </div>
-                <div className='mt-[2px] bg-[#ffffff] pl-[16px]'>
-                  <Text type='body-16-bold' color='neutral-2' className='mb-[14px] pt-[20px]'>
+                <div className='bg-[#ffffff] pl-[16px] [border-top:1px_solid_#EAF4FB]'>
+                  <Text
+                    type='body-16-bold'
+                    color='neutral-2'
+                    className='mb-[14px] mobile:pt-[20px] desktop:pt-[16px]'
+                  >
                     People in spotlight
                   </Text>
                   <Influencer />

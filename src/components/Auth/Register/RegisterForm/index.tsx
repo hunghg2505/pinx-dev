@@ -159,7 +159,7 @@ const Register = () => {
               name='confirmPassword'
             />
           </FormItem>
-          <div className='--neutral-1 ml-3 text-[12px] font-[500]'>
+          <div className='--neutral-1 text-[12px] font-[500]'>
             By signing up, I agree to the
             <span>
               <NextLink href='#' className='!text-[--primary-2]'>

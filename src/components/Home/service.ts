@@ -90,6 +90,9 @@ export interface IWatchListItem {
   shortName: string;
   stockCode: string;
   stockExchange: string;
+  last_price: string;
+  cl: string;
+  changePc: string;
 }
 export enum TYPESEARCH {
   ALL = 'ALL',
@@ -179,6 +182,7 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
+  console.log('join');
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
