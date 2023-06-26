@@ -18,13 +18,15 @@ const Influencer = () => {
   return (
     <div className='overflow-hidden'>
       <Slider {...settings} className=''>
-        {KOL?.map((item: IKOL, index: number) => {
-          return (
-            <div key={index}>
-              <ItemInfluence data={item} refresh={refresh} />
-            </div>
-          );
-        })}
+        {KOL?.filter((item: IKOL) => item.isFeatureProfile === true).map(
+          (item: IKOL, index: number) => {
+            return (
+              <div key={index}>
+                <ItemInfluence data={item} refresh={refresh} />
+              </div>
+            );
+          },
+        )}
       </Slider>
     </div>
   );

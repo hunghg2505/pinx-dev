@@ -51,11 +51,8 @@ const ModalReport = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
-        console.log('thanh cong');
       },
-      onError: () => {
-        console.log('that bai');
-      },
+      onError: () => {},
     },
   );
   const onFinish = () => {
@@ -66,7 +63,7 @@ const ModalReport = (props: IProps) => {
   };
   const options = [
     {
-      label: 'Ngôn ngữ không phù hợp',
+      label: 'Bad content',
       value: TYPEREPORT.INAPPROPRIATE,
     },
     {
@@ -74,11 +71,11 @@ const ModalReport = (props: IProps) => {
       value: TYPEREPORT.SPAM,
     },
     {
-      label: 'Ngôn ngữ gây kích động / bạo lực',
+      label: 'Violent content',
       value: TYPEREPORT.PROVOKE,
     },
     {
-      label: 'Khác',
+      label: 'Other',
       value: TYPEREPORT.OTHER,
     },
   ];
@@ -91,10 +88,21 @@ const ModalReport = (props: IProps) => {
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
           Report
         </Text>
-        <Text type='body-12-medium' color='neutral-3' className='mb-[16px] text-center'>
-          Tell us the reason why you want to report this section so we can help you better
+        <Text
+          type='body-12-medium'
+          color='neutral-3'
+          className='mb-[16px] text-center !leading-[16px]'
+        >
+          Let us know your reason to report this post. <br />
+          You are always welcome!
         </Text>
-        <Form form={form} onFinish={onFinish}>
+        <Form
+          form={form}
+          initialValues={{
+            reportType: TYPEREPORT.INAPPROPRIATE,
+          }}
+          onFinish={onFinish}
+        >
           <FormItem
             name='reportType'
             rules={[

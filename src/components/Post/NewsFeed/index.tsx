@@ -35,7 +35,11 @@ const NewsFeed = (props: IProps) => {
   // const { onRefreshPostDetail } = usePostDetail(id);
   return (
     <>
-      <div className={classNames('bg-[#ffffff]', { 'pb-[28px]': data?.totalChildren > 1 })}>
+      <div
+        className={classNames('bg-[#ffffff]', {
+          'mobile:pb-[30px] desktop:pb-[20px]': data?.totalChildren > 1,
+        })}
+      >
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={data}
