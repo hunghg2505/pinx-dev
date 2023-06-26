@@ -15,7 +15,6 @@ export default forwardRef((props: any, ref) => {
     const item = props.items[index];
     if (item) {
       const isStock = !!item?.stockCode;
-      console.log('🚀 ~ file: MentionList.tsx:22 ~ selectItem ~ item:', item);
       if (isStock) {
         props.command({ id: item.id, label: item.stockCode });
       } else {

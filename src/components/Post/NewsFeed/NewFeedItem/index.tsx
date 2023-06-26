@@ -7,6 +7,7 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import {
   IPost,
   TYPEPOST,
@@ -31,6 +32,14 @@ interface IProps {
   onRefreshPostDetail: () => void;
   postId: string;
 }
+const IconPlus = () => (
+  <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path
+      d='M5.00501 10C5.49649 10 5.81745 9.6432 5.81745 9.17068V5.78592H9.13741C9.62889 5.78592 10 5.47734 10 5.00482C10 4.5323 9.62889 4.22372 9.13741 4.22372H5.81745V0.829315C5.81745 0.356798 5.49649 0 5.00501 0C4.51354 0 4.19258 0.356798 4.19258 0.829315V4.22372H0.862588C0.371113 4.22372 0 4.5323 0 5.00482C0 5.47734 0.371113 5.78592 0.862588 5.78592H4.19258V9.17068C4.19258 9.6432 4.51354 10 5.00501 10Z'
+      fill='#1F6EAC'
+    />
+  </svg>
+);
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
   const [showReport, setShowReport] = React.useState(false);
@@ -114,7 +123,30 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
-
+  // follow user
+  const onFollowUser = useRequest(
+    () => {
+      return requestFollowUser(postDetail?.customerId);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        onRefreshPostDetail();
+      },
+    },
+  );
+  // un follow user
+  const onUnFollowUser = useRequest(
+    () => {
+      return requestUnFollowUser(postDetail?.customerId);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        onRefreshPostDetail();
+      },
+    },
+  );
   const requestGetTotalShare = useRequest(getTotalSharePost, {
     manual: true,
     onSuccess: () => {},
@@ -122,7 +154,17 @@ const NewFeedItem = (props: IProps) => {
       console.log(error);
     },
   });
-
+  const onFollow = () => {
+    if (isLogin) {
+      if (postDetail?.isFollowing) {
+        onUnFollowUser.run();
+      } else {
+        onFollowUser.run();
+      }
+    } else {
+      PopupComponent.open();
+    }
+  };
   const handleHidePost = () => {
     if (isLogin) {
       onHidePost.run();
@@ -206,6 +248,56 @@ const NewFeedItem = (props: IProps) => {
     }
     return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
   };
+  const renderTextFollow = () => {
+    if (postDetail?.isFollowing) {
+      return (
+        <>
+          <div
+            className={classNames(
+              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:block ',
+              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+            )}
+          >
+            <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
+              Following
+            </Text>
+          </div>
+
+          <Image
+            src='/static/icons/iconUserFollow.svg'
+            alt=''
+            width={0}
+            height={0}
+            className='w-[24px]'
+            sizes='100vw'
+          />
+        </>
+      );
+    }
+    return (
+      <>
+        <div
+          className={classNames(
+            'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+            { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+          )}
+        >
+          <IconPlus />
+          <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+            Follow
+          </Text>
+        </div>
+        <Image
+          src='/static/icons/iconUserUnFollow.svg'
+          alt=''
+          width={0}
+          height={0}
+          className='w-[24px] mobile:block tablet:hidden'
+          sizes='100vw'
+        />
+      </>
+    );
+  };
   return (
     <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
       <div className='flex flex-row justify-between'>
@@ -240,7 +332,10 @@ const NewFeedItem = (props: IProps) => {
             </Text>
           </div>
         </div>
-        <div className='flex'>
+        <div className='flex items-center'>
+          <div className='cursor-pointer' onClick={onFollow}>
+            {renderTextFollow()}
+          </div>
           <button className='relative' ref={ref}>
             <Image
               src='/static/icons/iconDot.svg'
@@ -251,7 +346,7 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 top-[29px] z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
+              <div className='popup absolute right-0 z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
                 <div
                   className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'
                   onClick={handleHidePost}
@@ -349,7 +444,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {requestGetTotalShare?.data?.shares?.all} Shares
+              {requestGetTotalShare?.data?.shares?.all || ''} Shares
             </Text>
           </div>
         </div>

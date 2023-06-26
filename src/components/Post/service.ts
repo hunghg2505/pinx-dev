@@ -60,6 +60,7 @@ export interface IPost {
   totalLikes: number;
   totalReports: number;
   totalViews: number;
+  isFollowing: boolean;
 }
 export interface IContentPost {
   customerId: number;
@@ -88,6 +89,8 @@ export interface IContentPost {
   stockCode: string;
   timeString: string;
   contentText: string;
+  tradingDate: string;
+  pnlRate: number;
 }
 
 interface IResponseTotalShare {

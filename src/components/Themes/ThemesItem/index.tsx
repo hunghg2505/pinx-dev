@@ -66,7 +66,6 @@ const IconChecked = () => (
 
 const ThemesItem = (props: IProps) => {
   const { theme, isLogin, refresh } = props;
-  console.log('🚀 ~ file: index.tsx:69 ~ ThemesItem ~ theme:', theme);
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -77,12 +76,9 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
         refresh();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const useUnSubcribe = useRequest(
@@ -95,12 +91,9 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
         refresh();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const onSubcribe = () => {
