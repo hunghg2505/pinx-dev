@@ -12,6 +12,7 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
+import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
 import ListTheme from './ListTheme';
 import Market from './Market';
@@ -238,6 +239,7 @@ const Home = () => {
         <ContentRight />
       </div>
 
+      <ComposeButton />
       {!isLogin && <FooterSignUp />}
     </>
   );
