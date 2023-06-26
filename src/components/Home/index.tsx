@@ -169,13 +169,17 @@ const Home = () => {
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
-                <div className='mt-[2px] bg-[#ffffff] px-[16px] py-[10px] mobile:block desktop:hidden'>
-                  <div className='pb-[13px] pt-[10px] [border-bottom:1px_solid_#EAF4FB] [border-top:1px_solid_#EAF4FB]'>
+                <div className='bg-[#ffffff] px-[16px] mobile:block desktop:hidden'>
+                  <div className='pb-[13px] pt-[10px] [border-top:1px_solid_#EAF4FB]'>
                     <Trending />
                   </div>
                 </div>
-                <div className='mt-[2px] bg-[#ffffff] pl-[16px]'>
-                  <Text type='body-16-bold' color='neutral-2' className='mb-[14px] pt-[20px]'>
+                <div className='bg-[#ffffff] pl-[16px] [border-top:1px_solid_#EAF4FB]'>
+                  <Text
+                    type='body-16-bold'
+                    color='neutral-2'
+                    className='mb-[14px] mobile:pt-[20px] desktop:pt-[16px]'
+                  >
                     People in spotlight
                   </Text>
                   <Influencer />
