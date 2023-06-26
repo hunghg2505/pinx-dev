@@ -80,6 +80,7 @@ const ModalLoginTerms = (props: IProps) => {
   };
 
   const handleClose = () => {
+    // if (moment(new Date()).isBefore('2010-10-21')) { }
     onLogout();
     onToggle();
   };
@@ -117,8 +118,9 @@ const ModalLoginTerms = (props: IProps) => {
         <div className='mt-8'>
           {otherContract?.map((item: any, index: number) => (
             <div
-              className='flex items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
+              className='flex items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px] cursor-pointer'
               key={index}
+              onClick={() => console.log('xxx other contract')}
             >
               <div className='flex items-center'>
                 <Image

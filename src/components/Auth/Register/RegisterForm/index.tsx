@@ -78,7 +78,7 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <Form className='mt-10 space-y-6 laptop:max-w-[450px]' form={form} onFinish={onSubmit}>
+        <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
           <FormItem
             name='phoneNumber'
             rules={[
