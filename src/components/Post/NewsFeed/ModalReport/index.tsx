@@ -19,9 +19,10 @@ interface IProps {
   children: any;
   closeIcon?: boolean;
   postID: string;
+  onOpenPopupRequireLogin: (v: boolean) => void;
 }
 const ModalReport = (props: IProps) => {
-  const { children, closeIcon, postID } = props;
+  const { children, closeIcon, postID, onOpenPopupRequireLogin } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
@@ -32,8 +33,10 @@ const ModalReport = (props: IProps) => {
       } else {
         PopupComponent.openEKYC();
       }
+      onOpenPopupRequireLogin(true);
     } else {
       PopupComponent.open();
+      onOpenPopupRequireLogin(true);
     }
   };
 

@@ -35,11 +35,16 @@ const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
   const [showReport, setShowReport] = React.useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
+  const [isPopupRequireLoginOpen, setIsPopupRequireLoginOpen] = useState(false);
   const { statusUser, isLogin } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
   useClickAway(() => {
-    // showReport && setShowReport(false);
+    if (isPopupRequireLoginOpen) {
+      setIsPopupRequireLoginOpen(false);
+    } else {
+      showReport && setShowReport(false);
+    }
   }, ref);
   const id = router.query?.id;
   const isKol = postDetail?.post?.customerInfo?.isKol;
@@ -128,6 +133,7 @@ const NewFeedItem = (props: IProps) => {
       onHidePost.run();
     } else {
       PopupComponent.open();
+      setIsPopupRequireLoginOpen(true);
     }
   };
   const renderLogo = () => {
@@ -277,7 +283,10 @@ const NewFeedItem = (props: IProps) => {
                     sizes='100vw'
                     className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
-                  <ModalReport postID={postDetail?.id}>
+                  <ModalReport
+                    onOpenPopupRequireLogin={setIsPopupRequireLoginOpen}
+                    postID={postDetail?.id}
+                  >
                     <Text type='body-14-medium' color='neutral-2'>
                       Report
                     </Text>
