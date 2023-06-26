@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -88,60 +87,44 @@ const Login = () => {
 
   return (
     <>
-      <div className='mx-auto flex min-w-[98vw] laptop:min-w-min flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0 laptop:px-0'>
-        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
-          <Form className='space-y-6' form={form} onFinish={onSubmit}>
-            <FormItem
-              name='username'
-              rules={[{ required: true, message: 'Please enter username!' }]}
-            >
-              <LabelInput placeholder='Username' name='username' labelContent='Username' />
-            </FormItem>
-            <FormItem
-              name='password'
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter password!'
-                }
-              ]}
-            >
-              <LabelInput
-                placeholder='Password'
-                type='password'
-                name='password'
-                labelContent='Password'
-              />
-            </FormItem>
+      <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
+        <FormItem name='username' rules={[{ required: true, message: 'Please enter username!' }]}>
+          <LabelInput placeholder='Username' name='username' labelContent='Username' />
+        </FormItem>
+        <FormItem
+          name='password'
+          rules={[
+            {
+              required: true,
+              message: 'Please enter password!',
+            },
+          ]}
+        >
+          <LabelInput
+            placeholder='Password'
+            type='password'
+            name='password'
+            labelContent='Password'
+          />
+        </FormItem>
 
-            <div className='!mt-3 flex flex-row-reverse'>
-              <NextLink href={ROUTE_PATH.FORGOT_PASSWORD}>
-                <Text type='body-14-medium' color='primary-2'>
-                  Forgot password?
-                </Text>
-              </NextLink>
-            </div>
-
-            <ModalLoginTerms
-              visible={showModalLoginTerms}
-              onToggle={onToggleModalLoginTerms}
-              userType={userType}
-              closeIcon={
-                <Image
-                  src='/static/icons/close_modal_icon.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  className='h-[24px] w-[24px]'
-                />
-              }
-            />
-            <MainButton type='submit' className='!mt-10 w-full'>
-              Sign in
-            </MainButton>
-          </Form>
+        <div className='!mt-3 flex flex-row-reverse'>
+          <NextLink href={ROUTE_PATH.FORGOT_PASSWORD}>
+            <Text type='body-14-medium' color='primary-2'>
+              Forgot password?
+            </Text>
+          </NextLink>
         </div>
-      </div>
+
+        <ModalLoginTerms
+          visible={showModalLoginTerms}
+          onToggle={onToggleModalLoginTerms}
+          userType={userType}
+        />
+        <MainButton type='submit' className='!mt-10 w-full'>
+          Sign in
+        </MainButton>
+      </Form>
     </>
   );
 };

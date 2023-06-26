@@ -7,23 +7,35 @@ const LoginLayout = ({ children }: any) => {
   return (
     <>
       <LoginHeader />
-      <div className='flex justify-center laptop:min-h-[98vh] w-full'>
-        <div className='h-auto mobile:hidden laptop:w-2/5 laptop:block'>
+      <div className='flex w-full justify-center laptop:min-h-[98vh]'>
+        <div className='h-auto mobile:hidden laptop:block laptop:w-[35%]'>
           <Image
             src='/static/images/left_login_container.png'
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='w-full h-[100vh]'
+            className='h-[100vh] w-full'
           />
-
         </div>
-        <main className='laptop:w-3/5'>
-          {children}
+        <main className='laptop:w-[65%]'>
+          <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>
+            <Image
+              src='/static/images/pinex_logo.png'
+              alt=''
+              width='0'
+              height='0'
+              sizes='50vw'
+              className='!mt-[160px] mb-12 h-[72px] w-[72px] mobile:hidden laptop:block'
+            />
+            <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 laptop:min-w-min laptop:px-0'>
+              <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
+                {children}
+              </div>
+            </div>
+          </div>
         </main>
       </div>
-
     </>
   );
 };

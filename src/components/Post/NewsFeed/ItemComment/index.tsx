@@ -21,9 +21,14 @@ interface IProps {
   refresh: () => void;
 }
 const ItemComment = (props: IProps) => {
-  const { statusUser } = useUserType();
+  const { statusUser, isLogin } = useUserType();
   const { onNavigate, data, onReplies, refresh } = props;
   const onComment = (value: string, customerId: number, id: string) => {
+    if (!isLogin) {
+      PopupComponent.open();
+      return;
+    }
+
     if (onNavigate) {
       onNavigate();
     } else {

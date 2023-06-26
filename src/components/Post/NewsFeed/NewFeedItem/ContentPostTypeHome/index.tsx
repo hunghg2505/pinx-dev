@@ -9,7 +9,7 @@ import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
 import { useContainerDimensions } from '@hooks/useDimensions';
-import { formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessage } from '@utils/common';
 
 import ListStock from './ListStock';
 
@@ -56,11 +56,11 @@ const ContentPostTypeHome = (props: IProps) => {
   const onReadMore = () => {
     setReadMore(!readMore);
   };
-  const postDetailUrl = `/post/${postDetail.id}`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
       : '/static/icons/iconUnSubcribe.svg';
+  const postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail.id);
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     return (
       <>
@@ -86,8 +86,9 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:mr-[88px] desktop:h-[312px] desktop:w-full'>
-          <Link href={postDetailUrl}>
+
+        <Link href={postDetailUrl}>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
@@ -96,25 +97,25 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='absolute right-0 top-0 h-full w-full'
             />
-          </Link>
-          <div className='absolute bottom-[19px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
-            <div className='flex flex-col items-center justify-center'>
-              <Image
-                src={iconPost}
-                alt=''
-                width='0'
-                height='0'
-                className='mt-[19px] h-[22px] w-[22px]'
-              />
-              <Text type='body-12-medium' color='primary-5' className='mt-[27px]'>
-                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
-              </Text>
-              <Text type='body-12-bold' color='neutral-2' className='mt-[25px] text-center'>
-                {postDetail?.post.themeName}
-              </Text>
+            <div className='absolute bottom-[19px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
+              <div className='flex flex-col items-center justify-center'>
+                <Image
+                  src={iconPost}
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='mt-[19px] h-[22px] w-[22px]'
+                />
+                <Text type='body-12-medium' color='primary-5' className='mt-[27px]'>
+                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
+                </Text>
+                <Text type='body-12-bold' color='neutral-2' className='mt-[25px] text-center'>
+                  {postDetail?.post.themeName}
+                </Text>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
       </>
     );
   }
@@ -130,7 +131,7 @@ const ContentPostTypeHome = (props: IProps) => {
     const url = postDetail?.post.url ?? '';
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment} ref={ref}>
+        <div ref={ref}>
           <Text
             type='body-14-regular'
             color='neutral-1'
@@ -152,22 +153,26 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
-          <Image
-            src={
-              postDetail?.post.headImageUrl ||
-              'https://image.vietstock.vn/2023/06/21/ca-map-ava-20230504_1743152.jpg'
-            }
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
-          />
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <Link href={postDetailUrl}>
+            <Image
+              src={
+                postDetail?.post.headImageUrl ||
+                'https://image.vietstock.vn/2023/06/21/ca-map-ava-20230504_1743152.jpg'
+              }
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
+            />
+          </Link>
           <div className='absolute bottom-0 left-0 h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] py-[10px]'>
-            <Text type='body-16-bold' color='cbblack'>
-              Bản tin sáng ngày 20/06/2023
-            </Text>
+            <Link href={postDetailUrl}>
+              <Text type='body-16-bold' color='cbblack'>
+                Bản tin sáng ngày 20/06/2023
+              </Text>
+            </Link>
           </div>
           <Link
             href={url}
@@ -196,7 +201,7 @@ const ContentPostTypeHome = (props: IProps) => {
   ) {
     return (
       <>
-        <div className={classNames(' cursor-pointer')} onClick={onComment} ref={ref}>
+        <div ref={ref}>
           <Text
             type='body-14-regular'
             color='neutral-1'
@@ -234,15 +239,17 @@ const ContentPostTypeHome = (props: IProps) => {
             className='w-[5px]'
           />
         </Link> */}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
-          <Image
-            src={postDetail?.post.headImageUrl || ''}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-full w-full'
-          />
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <Link href={postDetailUrl}>
+            <Image
+              src={postDetail?.post.headImageUrl || ''}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-full w-full'
+            />
+          </Link>
           <Link
             href={postDetail?.post.url || ''}
             className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
@@ -267,6 +274,7 @@ const ContentPostTypeHome = (props: IProps) => {
     const url = `${imageCompanyUrl}${
       stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
     }.png`;
+
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>
@@ -291,43 +299,44 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
-          <Link href={postDetailUrl}>
+
+        <Link href={postDetailUrl}>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
               src={postDetail?.post.bgImage}
               alt=''
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute right-0 top-0 h-full desktop:pr-[88px]'
+              className='absolute right-0 top-0 h-full'
             />
-          </Link>
-          <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
-            <Image
-              src={url || '/static/icons/logoStock.svg'}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='absolute -top-[14px] left-2/4 mr-[6px] w-[36px] -translate-x-1/2 transform'
-            />
-            <div className='mt-[26px] flex flex-col items-center justify-center'>
-              <Text type='body-16-bold' color='neutral-1' className='mb-[4px]'>
-                {postDetail?.post.stockCode}
-              </Text>
-              {postDetail?.post.action === 'ADD' ? <IconHeart /> : <IconHeartAction />}
-              <Text type='body-12-medium' color='primary-5' className='mt-[24px]'>
-                {postDetail?.post.action === 'ADD' ? 'Watching' : 'Unwatch'}
-              </Text>
-              <Text type='body-12-medium' color='neutral-9' className='mb-[2px] mt-[12px]'>
-                Made on PineX
-              </Text>
-              <Text type='body-12-medium' color='neutral-7'>
-                {postDetail?.timeString && dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
-              </Text>
+            <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
+              <Image
+                src={url || '/static/icons/logoStock.svg'}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='absolute -top-[14px] left-2/4 mr-[6px] w-[36px] -translate-x-1/2 transform'
+              />
+              <div className='mt-[26px] flex flex-col items-center justify-center'>
+                <Text type='body-16-bold' color='neutral-1' className='mb-[4px]'>
+                  {postDetail?.post.stockCode}
+                </Text>
+                {postDetail?.post.action === 'ADD' ? <IconHeart /> : <IconHeartAction />}
+                <Text type='body-12-medium' color='primary-5' className='mt-[24px]'>
+                  {postDetail?.post.action === 'ADD' ? 'Watching' : 'Unwatch'}
+                </Text>
+                <Text type='body-12-medium' color='neutral-9' className='mb-[2px] mt-[12px]'>
+                  Made on PineX
+                </Text>
+                <Text type='body-12-medium' color='neutral-7'>
+                  {postDetail?.timeString && dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
+                </Text>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
       </>
     );
   }
@@ -356,8 +365,9 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
-          <Link href={postDetailUrl}>
+
+        <Link href={postDetailUrl}>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
               src='/static/images/postSellStock.png'
               alt=''
@@ -366,45 +376,45 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='absolute right-0 top-0 h-full w-full'
             />
-          </Link>
-          <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
-            <Image
-              src='/static/icons/logoStock.svg'
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='absolute -top-[14px] left-2/4 mr-[6px] w-[36px] -translate-x-1/2 transform'
-            />
-            <div className='mt-[25px] flex flex-col items-center justify-center'>
-              <Text type='body-16-bold' color='neutral-1'>
-                VPG
-              </Text>
-              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF]'>
-                <Image
-                  src='/static/icons/iconPostBuy.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  sizes='100vw'
-                  className='w-[12px]'
-                />
+            <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
+              <Image
+                src='/static/icons/logoStock.svg'
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='absolute -top-[14px] left-2/4 mr-[6px] w-[36px] -translate-x-1/2 transform'
+              />
+              <div className='mt-[25px] flex flex-col items-center justify-center'>
+                <Text type='body-16-bold' color='neutral-1'>
+                  VPG
+                </Text>
+                <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF]'>
+                  <Image
+                    src='/static/icons/iconPostBuy.svg'
+                    alt=''
+                    width='0'
+                    height='0'
+                    sizes='100vw'
+                    className='w-[12px]'
+                  />
+                </div>
+                <Text type='body-12-medium' color='neutral-1' className='mb-[4px] mt-[4px]'>
+                  Sell
+                </Text>
+                <Text type='body-16-medium' color='semantic-1'>
+                  -6.16%
+                </Text>
+                <Text type='body-12-medium' color='neutral-4' className='mb-[2px] mt-[10px]'>
+                  Made on PineX
+                </Text>
+                <Text type='body-12-medium' color='neutral-4'>
+                  13/06/2023
+                </Text>
               </div>
-              <Text type='body-12-medium' color='neutral-1' className='mb-[4px] mt-[4px]'>
-                Sell
-              </Text>
-              <Text type='body-16-medium' color='semantic-1'>
-                -6.16%
-              </Text>
-              <Text type='body-12-medium' color='neutral-4' className='mb-[2px] mt-[10px]'>
-                Made on PineX
-              </Text>
-              <Text type='body-12-medium' color='neutral-4'>
-                13/06/2023
-              </Text>
             </div>
           </div>
-        </div>
+        </Link>
       </>
     );
   }
@@ -412,7 +422,7 @@ const ContentPostTypeHome = (props: IProps) => {
     const url = postDetail?.post.url ?? '';
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment} ref={ref}>
+        <div ref={ref}>
           <Text
             type='body-14-regular'
             color='neutral-1'
@@ -434,22 +444,26 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
-          <Image
-            src={postDetail?.post.headImageUrl}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
-          />
-          <div className='absolute bottom-[56px] left-0 w-full overflow-hidden pl-[8px]'>
-            <ListStock listStock={postDetail?.post?.tagStocks} />
-          </div>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <Link href={postDetailUrl}>
+            <Image
+              src={postDetail?.post.headImageUrl}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
+            />
+            <div className='absolute bottom-[56px] left-0 w-full overflow-hidden pl-[8px]'>
+              <ListStock listStock={postDetail?.post?.tagStocks} />
+            </div>
+          </Link>
           <div className='absolute bottom-0 left-0 h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] py-[10px]'>
-            <Text type='body-16-bold' color='cbblack'>
-              Bản tin sáng ngày 20/06/2023
-            </Text>
+            <Link href={postDetailUrl}>
+              <Text type='body-16-bold' color='cbblack'>
+                Bản tin sáng ngày 20/06/20233
+              </Text>
+            </Link>
           </div>
           <Link
             href={url}

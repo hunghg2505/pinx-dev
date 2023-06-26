@@ -43,7 +43,7 @@ const Register = () => {
       console.log('xxx res', res);
     },
     onError: (e: any) => {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      toast(() => <Notification type='error' message={e.error} />);
     },
   });
 

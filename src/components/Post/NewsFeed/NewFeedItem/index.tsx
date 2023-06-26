@@ -349,7 +349,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {requestGetTotalShare?.data?.shares?.all} Shares
+              {requestGetTotalShare?.data?.shares?.all || ''} Shares
             </Text>
           </div>
         </div>

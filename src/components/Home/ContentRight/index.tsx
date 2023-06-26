@@ -46,11 +46,6 @@ const ContentRight = () => {
             Trending
           </Text>
           <TrendingDesktop />
-          <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
-            <Text type='body-14-bold' color='primary-2'>
-              View more
-            </Text>
-          </div>
         </div>
         {isLogin && suggestionPeople && (
           <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>

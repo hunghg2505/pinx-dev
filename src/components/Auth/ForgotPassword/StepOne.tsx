@@ -12,7 +12,6 @@ import { REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useForgotPassword } from './service';
 
-
 const ERROR_CODE = new Set(['10009', '10011', '10148', '10149', '10020']);
 
 const ForgotPasswordStepOne = () => {
@@ -40,59 +39,52 @@ const ForgotPasswordStepOne = () => {
   };
 
   return (
-    <>
-      <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
-          <div className='mt-[46px]'>
-            <Text type='body-28-bold'>{t('forgot_password')}</Text>
-            <Text type='body-16-regular' color='neutral-4'>
-              {t('forgot_password_note')}
-            </Text>
-          </div>
-
-          <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
-            <FormItem
-              name='username'
-              rules={[{ required: true, message: 'Please enter username' }]}
-            >
-              <LabelInput placeholder='Username' name='username' labelContent='Username' />
-            </FormItem>
-            <FormItem
-              name='phoneNumber'
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter phone number',
-                },
-                {
-                  pattern: REG_PHONE_NUMBER,
-                  message: 'Please enter valid phone number',
-                }
-              ]}
-            >
-              <LabelInput
-                type='tel'
-                placeholder='Phone number'
-                labelContent='Phone number'
-                name='phoneNumber'
-              />
-            </FormItem>
-            <MainButton type='submit' className='!mt-1 w-full'>
-              {t('send_request')}
-            </MainButton>
-          </Form>
-
-          <div className='mt-9 flex flex-col items-center'>
-            <Text type='body-14-regular'>{t('do_not_want_log_in')}</Text>
-            <NextLink href={ROUTE_PATH.HOME}>
-              <Text type='body-14-medium' color='primary-1'>
-                {t('skip_forgot_password')}
-              </Text>
-            </NextLink>
-          </div>
-        </div>
+    <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
+      <div className='mt-[36px]'>
+        <Text type='body-28-bold'>{t('forgot_password')}</Text>
+        <Text type='body-16-regular' color='neutral-4'>
+          {t('forgot_password_note')}
+        </Text>
       </div>
-    </>
+
+      <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
+        <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
+          <LabelInput placeholder='Username' name='username' labelContent='Username' />
+        </FormItem>
+        <FormItem
+          name='phoneNumber'
+          rules={[
+            {
+              required: true,
+              message: 'Please enter phone number',
+            },
+            {
+              pattern: REG_PHONE_NUMBER,
+              message: 'Please enter valid phone number',
+            },
+          ]}
+        >
+          <LabelInput
+            type='tel'
+            placeholder='Phone number'
+            labelContent='Phone number'
+            name='phoneNumber'
+          />
+        </FormItem>
+        <MainButton type='submit' className='!mt-1 w-full'>
+          {t('send_request')}
+        </MainButton>
+      </Form>
+
+      <div className='mt-9 flex flex-col items-center'>
+        <Text type='body-14-regular'>{t('do_not_want_log_in')}</Text>
+        <NextLink href={ROUTE_PATH.HOME}>
+          <Text type='body-14-medium' color='primary-1'>
+            {t('skip_forgot_password')}
+          </Text>
+        </NextLink>
+      </div>
+    </div>
   );
 };
 

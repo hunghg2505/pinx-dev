@@ -4,8 +4,10 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
+import toast from 'react-hot-toast';
 
 import { RoundButton } from '@components/UI/Button';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -39,7 +41,7 @@ const ModalLoginTerms = (props: IProps) => {
       }
     },
     onError(e) {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
@@ -52,7 +54,8 @@ const ModalLoginTerms = (props: IProps) => {
       }
     },
     onError(e) {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      onLogout();
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 

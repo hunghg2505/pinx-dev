@@ -64,16 +64,14 @@ const ItemInfluence = (props: IProps) => {
               {data?.displayName}
             </Text>
 
-            {data.isKol && (
-              <Image
-                src='/static/icons/iconKol.svg'
-                alt=''
-                width={16}
-                height={16}
-                sizes='100vw'
-                className='ml-[2px] w-[16px]'
-              />
-            )}
+            <Image
+              src='/static/icons/iconKol.svg'
+              alt=''
+              width={16}
+              height={16}
+              sizes='100vw'
+              className='ml-[2px] w-[16px]'
+            />
           </div>
 
           <Text type='body-14-regular' color='cbwhite' className='mt-[6px]'>
