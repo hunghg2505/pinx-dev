@@ -78,7 +78,7 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
+        <Form className='mt-10 space-y-6 laptop:max-w-[450px]' form={form} onFinish={onSubmit}>
           <FormItem
             name='phoneNumber'
             rules={[
@@ -147,7 +147,7 @@ const Register = () => {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('Confirm password is incorrect'));
+                  return Promise.reject(new Error('Password does not match'));
                 },
               }),
             ]}
