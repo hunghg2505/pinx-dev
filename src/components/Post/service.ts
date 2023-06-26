@@ -249,3 +249,8 @@ export const getTotalSharePost = (url: string): Promise<IResponseTotalShare> => 
   const API_URL = 'https://count-server.sharethis.com/v2.0/get_counts?url=';
   return request.get(API_URL + url);
 };
+
+// hide comment
+export const requestHideComment = (id: string) => {
+  return privateRequest(requestCommunity.delete, API_PATH.PRIVATE_DELETE_COMMENT(id));
+};

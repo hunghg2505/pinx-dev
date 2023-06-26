@@ -42,7 +42,7 @@ export const API_PATH = {
   PRIVATE_UNLIKE_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/unlike`,
   PRIVATE_REPLY_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/reply`,
   PRIVATE_REPORT_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/report`,
-
+  PRIVATE_DELETE_COMMENT: (id: string) => `/private/comment/${id}`,
   PRIVATE_ADD_COMMENT: '/private/comment/add',
 
   // user

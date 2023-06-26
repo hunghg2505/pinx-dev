@@ -20,7 +20,9 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
 import { isImage } from '../../utils/common';
@@ -47,6 +49,8 @@ const Editor = (props: IProps, ref: any) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
+  const { statusUser } = useUserType();
+  console.log('🚀 ~ file: index.tsx:52 ~ Editor ~ statusUser:', statusUser);
   const { requestGetProfile } = useProfileInitial();
   const editor = useEditor({
     extensions: [
@@ -136,10 +140,6 @@ const Editor = (props: IProps, ref: any) => {
     const formData = new FormData();
     formData.append('files', file);
     useUploadImage.run(formData);
-    // console.log('data', response);
-    // const imgae = await toBase64(file);
-    // setImage(imgae);
-    // const stringImage = await base64ToBlob(imgae, file.type);
   };
 
   useImperativeHandle(ref, () => {
@@ -234,10 +234,15 @@ const Editor = (props: IProps, ref: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [image],
     };
-    if (idReply === '') {
-      useAddComment.run(data);
+
+    if (statusUser === USERTYPE.VSD) {
+      if (idReply === '') {
+        useAddComment.run(data);
+      } else {
+        useReplyComment.run(data);
+      }
     } else {
-      useReplyComment.run(data);
+      PopupComponent.openEKYC();
     }
   };
 

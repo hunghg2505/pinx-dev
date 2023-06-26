@@ -41,7 +41,7 @@ const IconPlus = () => (
   </svg>
 );
 const NewFeedItem = (props: IProps) => {
-  const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail } = props;
   const [showReport, setShowReport] = React.useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
   const { statusUser, isLogin } = useUserType();
@@ -254,7 +254,7 @@ const NewFeedItem = (props: IProps) => {
         <>
           <div
             className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:block ',
+              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
               { 'bg-[#F3F2F6]': postDetail?.isFollowing },
             )}
           >
@@ -268,7 +268,7 @@ const NewFeedItem = (props: IProps) => {
             alt=''
             width={0}
             height={0}
-            className='w-[24px]'
+            className='w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </>
@@ -303,7 +303,7 @@ const NewFeedItem = (props: IProps) => {
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
           <Image
-            src={renderLogo() || ''}
+            src={renderLogo() || '/static/logo/logoPintree.svg'}
             alt='avatar'
             sizes='100vw'
             className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
@@ -333,9 +333,12 @@ const NewFeedItem = (props: IProps) => {
           </div>
         </div>
         <div className='flex items-center'>
-          <div className='cursor-pointer' onClick={onFollow}>
-            {renderTextFollow()}
-          </div>
+          {postDetail?.post.postType === TYPEPOST.POST && (
+            <div className='cursor-pointer' onClick={onFollow}>
+              {renderTextFollow()}
+            </div>
+          )}
+
           <button className='relative' ref={ref}>
             <Image
               src='/static/icons/iconDot.svg'
@@ -419,7 +422,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {totalComments > 0 ? totalComments : ''} Comments
+              {postDetail?.totalChildren > 0 ? postDetail?.totalChildren : ''} Comments
             </Text>
           </div>
           <div

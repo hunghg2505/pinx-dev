@@ -39,6 +39,7 @@ const Home = () => {
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const { watchList } = useGetWatchList();
+  console.log('🚀 ~ file: index.tsx:42 ~ Home ~ watchList:', watchList);
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
@@ -65,7 +66,7 @@ const Home = () => {
           <div className='mobile:bg-[#F8FAFD] mobile:pt-[10px] desktop:bg-[#ffffff] desktop:pt-0'>
             <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
-                {selectTab === '1' && watchList && (
+                {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
                   <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
                     <Text type='body-14-medium' color='primary-1'>
                       See all
@@ -80,7 +81,11 @@ const Home = () => {
                   </button>
                 )}
 
-                <Tabs defaultActiveKey='1' className='tabHome ' onChange={onChangeTab}>
+                <Tabs
+                  defaultActiveKey={watchList ? '1' : '2'}
+                  className='tabHome '
+                  onChange={onChangeTab}
+                >
                   {isLogin && (
                     <TabPane tab='Watchlist' key='1'>
                       <WatchList />
