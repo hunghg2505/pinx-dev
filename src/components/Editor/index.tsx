@@ -253,7 +253,7 @@ const Editor = (props: IProps, ref: any) => {
           className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
         />
         <div
-          className='bottom-0 left-0 flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:fixed mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px] '
+          className='bottom-0 left-0 flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px] '
           ref={messagesEndRef}
         >
           <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>

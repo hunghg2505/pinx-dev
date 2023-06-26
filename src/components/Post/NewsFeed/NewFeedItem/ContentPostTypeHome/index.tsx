@@ -56,6 +56,11 @@ const ContentPostTypeHome = (props: IProps) => {
   const onReadMore = () => {
     setReadMore(!readMore);
   };
+  const stockCode = postDetail.post?.stockCode;
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const urlStock = `${imageCompanyUrl}${
+    stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+  }.png`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
@@ -269,12 +274,6 @@ const ContentPostTypeHome = (props: IProps) => {
   }
 
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
-    const stockCode = postDetail.post?.stockCode;
-    const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-    const url = `${imageCompanyUrl}${
-      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
-
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={ref}>
@@ -312,7 +311,7 @@ const ContentPostTypeHome = (props: IProps) => {
             />
             <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
               <Image
-                src={url || '/static/icons/logoStock.svg'}
+                src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
                 width='0'
                 height='0'
@@ -341,6 +340,7 @@ const ContentPostTypeHome = (props: IProps) => {
     );
   }
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
+    const pnRate = postDetail?.post?.pnlRate;
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -352,7 +352,7 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            Username has just sold $VPG get a profit of 6.16%
+            {postDetail?.post?.message}
           </Text>
         </div>
         {isReadMore && (
@@ -369,7 +369,7 @@ const ContentPostTypeHome = (props: IProps) => {
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             <Image
-              src='/static/images/postSellStock.png'
+              src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
               width='0'
               height='0'
@@ -378,7 +378,7 @@ const ContentPostTypeHome = (props: IProps) => {
             />
             <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
               <Image
-                src='/static/icons/logoStock.svg'
+                src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
                 width='0'
                 height='0'
@@ -387,7 +387,7 @@ const ContentPostTypeHome = (props: IProps) => {
               />
               <div className='mt-[25px] flex flex-col items-center justify-center'>
                 <Text type='body-16-bold' color='neutral-1'>
-                  VPG
+                  {postDetail?.post?.stockCode}
                 </Text>
                 <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF]'>
                   <Image
@@ -402,14 +402,20 @@ const ContentPostTypeHome = (props: IProps) => {
                 <Text type='body-12-medium' color='neutral-1' className='mb-[4px] mt-[4px]'>
                   Sell
                 </Text>
-                <Text type='body-16-medium' color='semantic-1'>
-                  -6.16%
+                <Text
+                  type='body-16-medium'
+                  className={classNames({
+                    'text-[#128F63]': pnRate > 0,
+                    'text-[#DB4444]': pnRate < 0,
+                  })}
+                >
+                  {pnRate.toFixed(2)}%
                 </Text>
                 <Text type='body-12-medium' color='neutral-4' className='mb-[2px] mt-[10px]'>
                   Made on PineX
                 </Text>
                 <Text type='body-12-medium' color='neutral-4'>
-                  13/06/2023
+                  {dayjs(postDetail?.post?.tradingDate).format('DD/MM/YYYY')}
                 </Text>
               </div>
             </div>

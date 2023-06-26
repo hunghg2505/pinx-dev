@@ -45,6 +45,12 @@ const ContentPostTypeDetail = (props: IProps) => {
   const onComment = () => {
     onNavigate && onNavigate();
   };
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const urlStock = `${imageCompanyUrl}${
+    postDetail?.post?.stockCode?.length === 3 || postDetail?.post?.stockCode?.[0] !== 'C'
+      ? postDetail?.post?.stockCode
+      : postDetail?.post?.stockCode?.slice(1, 4)
+  }.png`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
@@ -272,7 +278,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
-              src='/static/icons/logoStock.svg'
+              src={urlStock || '/static/icons/logoStock.svg'}
               alt=''
               width='0'
               height='0'
