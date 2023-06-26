@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { pdfjs, Document, Page } from 'react-pdf';
 
 import { API_PATH } from '@api/constant';
 import Text from '@components/UI/Text';
-import LoginHeader from '@layout/components/LoginHeader';
+import MainHeader from '@layout/components/MainHeader';
 import { ENV } from 'src/utils/env';
 
 import styles from './index.module.scss';
@@ -36,14 +37,14 @@ const TermsOfService = () => {
     setNumPages(numPages);
     setPageNumber(1);
   }
-  console.log(numPages);
   const pdfFile =
+    link &&
     PREFIX_API_PIST +
-    API_PATH.READ_CONTRACT +
-    '?link=' +
-    encodeURIComponent(link) +
-    '&session=' +
-    router?.query?.session;
+      API_PATH.READ_CONTRACT +
+      '?link=' +
+      encodeURIComponent(link) +
+      '&session=' +
+      router?.query?.session;
 
   function changePage(offset: any) {
     setPageNumber((prevPageNumber) => prevPageNumber + offset);
@@ -57,42 +58,52 @@ const TermsOfService = () => {
     changePage(1);
   }
 
+  console.log('xxx dayjs', dayjs().isBefore(dayjs('2023-07-22')));
   return (
     <>
-      <LoginHeader />
-      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8 mobile:min-w-[98vw]'>
-        <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
-          <div className='mt-11'>
-            <Text type='body-20-bold' className='mb-4'>
-              Điều khoản sử dụng
-            </Text>
-          </div>
-          <Document
-            file={pdfFile}
-            onLoadSuccess={onDocumentLoadSuccess}
-            className={styles.pdfContainer}
-          >
-            <Page pageNumber={pageNumber} className='page' />
-          </Document>
-          <div>
-            <div className='pagec'>
-              Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
-            </div>
-            <div className='buttonc'>
-              <button
-                type='button'
-                disabled={pageNumber <= 1}
-                onClick={previousPage}
-                className='Pre'
-              >
-                Previous
-              </button>
-              <button type='button' disabled={pageNumber >= numPages} onClick={nextPage}>
-                Next
-              </button>
-            </div>
-          </div>
+      <MainHeader />
+      <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
+        <div className='mt-11 text-center laptop:mt-4'>
+          <Text className='mb-4 font-[700] mobile:text-[20px] laptop:text-[30px] laptop:text-[--primary-2]'>
+            Terms & Conditions
+          </Text>
         </div>
+        <div className='w-full border-b-[1px] border-solid border-[#D9D9D9] laptop:hidden' />
+
+        {link ? (
+          <>
+            <Document
+              file={pdfFile}
+              onLoadSuccess={onDocumentLoadSuccess}
+              className={styles.pdfContainer}
+            >
+              <Page pageNumber={pageNumber} className='page' />
+            </Document>
+            <div>
+              <div className='pagec'>
+                Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
+              </div>
+              <div className='buttonc'>
+                <button
+                  type='button'
+                  disabled={pageNumber <= 1}
+                  onClick={previousPage}
+                  className='Pre'
+                >
+                  Previous
+                </button>
+                <button type='button' disabled={pageNumber >= numPages} onClick={nextPage}>
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <iframe
+            className='min-h-screen w-full'
+            src='https://pinetree.vn/html/pinex-disclosures.html'
+          ></iframe>
+        )}
       </div>
     </>
   );

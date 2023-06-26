@@ -162,7 +162,7 @@ const Register = () => {
           <div className='--neutral-1 text-[12px] font-[500]'>
             By signing up, I agree to the
             <span>
-              <NextLink href='#' className='!text-[--primary-2]'>
+              <NextLink href={ROUTE_PATH.TERMS_OF_SERVICE} className='!text-[--primary-2]'>
                 &nbsp;Terms & Conditions
               </NextLink>
             </span>

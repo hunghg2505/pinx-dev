@@ -124,6 +124,10 @@ const Login = () => {
         <MainButton type='submit' className='!mt-10 w-full'>
           Sign in
         </MainButton>
+
+        <div
+          dangerouslySetInnerHTML={{ __html: 'https://pinetree.vn/html/pinex-disclosures.html' }}
+        />
       </Form>
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetContract, useAgreeContract } from './service';
+
 import 'rc-dialog/assets/index.css';
 
 interface IProps {
@@ -30,7 +32,9 @@ const ModalLoginTerms = (props: IProps) => {
   const [session, setSession] = useState<string>('');
   // const otherContract =
   //   contractList?.length > 0 ? contractList.filter((item, index) => index > 0) : [];
-  const otherContract = [{ fileName: userType === 'NEW' ? 'Terms & Conditions' : 'Consent to Data processing' }]
+  const otherContract = [
+    { fileName: userType === 'NEW' ? 'Terms & Conditions' : 'Consent to Data processing' },
+  ];
   const { userLoginInfo } = useUserLoginInfo();
   const { onLogout } = useAuth();
 
@@ -80,8 +84,10 @@ const ModalLoginTerms = (props: IProps) => {
   };
 
   const handleClose = () => {
-    // if (moment(new Date()).isBefore('2010-10-21')) { }
-    onLogout();
+    const now = dayjs();
+    if (!now.isBefore(dayjs('2023-07-22')) && userType !== 'VSD') {
+      onLogout();
+    }
     onToggle();
   };
 
@@ -112,13 +118,14 @@ const ModalLoginTerms = (props: IProps) => {
             >
               <span>&nbsp;DECREE 13/2023/NĐ-CP&nbsp;</span>
             </NextLink>
-            on Protection of Personal Data, please read carefully and confirm your agreement to the Adjustment of Conditions and Privacy by selecting Agree:
+            on Protection of Personal Data, please read carefully and confirm your agreement to the
+            Adjustment of Conditions and Privacy by selecting Agree:
           </Text>
         </div>
         <div className='mt-8'>
           {otherContract?.map((item: any, index: number) => (
             <div
-              className='flex items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px] cursor-pointer'
+              className='flex cursor-pointer items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
               key={index}
               onClick={() => console.log('xxx other contract')}
             >
