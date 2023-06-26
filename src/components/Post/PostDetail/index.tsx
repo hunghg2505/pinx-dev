@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -36,19 +36,18 @@ const PostDetail = () => {
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const { width } = useContainerDimensions(refContainer);
-  const [showReply, setShowReply] = useState(false);
+  // const [showReply, setShowReply] = useState(false);
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
   console.log('🚀 ~ file: index.tsx:42 ~ PostDetail ~ postDetail:', postDetail);
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
-  console.log('🚀 ~ file: index.tsx:44 ~ PostDetail ~ commentsOfPost:', commentsOfPost);
 
   const onGoToBack = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
-    setShowReply(true);
+    // setShowReply(true);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
@@ -119,13 +118,13 @@ const PostDetail = () => {
                     refresh={refreshCommentOfPOst}
                   />
                   {getSubComment(item.children)}
-                  {showReply && (
+                  {/* {showReply && width > 737 && (
                     <ForwardedRefComponent
                       ref={refReplies}
                       id={postDetail?.data?.id}
                       refresh={refreshCommentOfPOst}
                     />
-                  )}
+                  )} */}
                 </>
               );
             })}
