@@ -182,6 +182,12 @@
   }
 }
 
+.rc-picker-cell-today {
+  .rc-picker-cell-inner {
+    border: 1px solid #1f6eac !important;
+  }
+}
+
 .rc-picker-header-super-prev-btn:hover,
 .rc-picker-header-prev-btn:hover,
 .rc-picker-header-next-btn:hover,

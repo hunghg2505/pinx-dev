@@ -57,14 +57,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             {message}
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post.bgImage}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full desktop:pr-[88px]'
+            className='absolute right-0 top-0 h-full'
           />
           <div className='absolute bottom-[19px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <div className='flex flex-col items-center justify-center'>
@@ -92,6 +92,8 @@ const ContentPostTypeDetail = (props: IProps) => {
       TYPEPOST.PinetreeDailyNews,
       TYPEPOST.PinetreeMorningBrief,
       TYPEPOST.PinetreeMarketBrief,
+      TYPEPOST.PinetreeWeeklyNews,
+      TYPEPOST.PinetreePost,
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
@@ -115,7 +117,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </Link>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post.headImageUrl}
             alt=''
@@ -173,7 +175,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </Link>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post.headImageUrl || ''}
             alt=''
@@ -212,14 +214,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             {message}
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post.bgImage}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full desktop:pr-[88px]'
+            className='absolute right-0 top-0 h-full'
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
@@ -259,14 +261,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             {postDetail?.post?.message}
           </Text>
         </div>
-        <div className='relative rounded-[15px]  mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full w-full desktop:pr-[88px]'
+            className='absolute right-0 top-0 h-full w-full'
           />
           <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
             <Image
