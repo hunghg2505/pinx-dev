@@ -28,8 +28,9 @@ const ModalLoginTerms = (props: IProps) => {
   const { visible, closeIcon, onToggle, userType } = props;
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
-  const otherContract =
-    contractList?.length > 0 ? contractList.filter((item, index) => index > 0) : [];
+  // const otherContract =
+  //   contractList?.length > 0 ? contractList.filter((item, index) => index > 0) : [];
+  const otherContract = [{ fileName: userType === 'NEW' ? 'Terms & Conditions' : 'Consent to Data processing' }]
   const { userLoginInfo } = useUserLoginInfo();
   const { onLogout } = useAuth();
 
@@ -94,10 +95,10 @@ const ModalLoginTerms = (props: IProps) => {
       <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <div>
           <Text type='body-22-bold' className='mt-16 text-center'>
-            Kính gửi quý khách
+            Dear Customer
           </Text>
           <Text type='body-14-regular' color='neutral-4' className='mt-5 text-center'>
-            Tuân thủ
+            In compliance with
             <NextLink
               href={{
                 pathname: ROUTE_PATH.TERMS_OF_SERVICE,
@@ -108,10 +109,9 @@ const ModalLoginTerms = (props: IProps) => {
               }}
               className='text-[#EAA100]'
             >
-              <span>&nbsp;NGHỊ ĐỊNH 13/2023/NĐ-CP&nbsp;</span>
+              <span>&nbsp;DECREE 13/2023/NĐ-CP&nbsp;</span>
             </NextLink>
-            về Bảo vệ Dữ liệu Cá nhân, Quý Khách vui lòng đọc kỹ và xác nhận đồng ý với bản Điều
-            Khoản Điều Kiện và Chính Sách Bảo Mật bằng cách chọn Đồng ý:
+            on Protection of Personal Data, please read carefully and confirm your agreement to the Adjustment of Conditions and Privacy by selecting Agree:
           </Text>
         </div>
         <div className='mt-8'>
@@ -144,8 +144,8 @@ const ModalLoginTerms = (props: IProps) => {
         </div>
         <Text type='body-12-regular' className='mt-2 text-center'>
           {userType === 'VSD'
-            ? '(!) Vui lòng xác nhận trước 22/07/2023, sau thời hạn trên, tính năng giao dịch trực tuyến bị ngưng do hạn chế về xử lý dữ liệu giao dịch'
-            : 'Bạn cần đồng ý để tiếp tục sử dụng dịch vụ này'}
+            ? '(!) Please confirm before July 22, 2023. After the above period, the online trading feature will be discontinued due to limitations on data processing transactions.'
+            : 'You need to agree to continue using the services'}
         </Text>
         <div className='mt-12'>
           <a className='w-full' href='tel:090000000'>
