@@ -22,7 +22,6 @@ const ItemInfluence = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
-        console.log('thanh cong');
       },
     },
   );
@@ -34,7 +33,6 @@ const ItemInfluence = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
-        console.log('thanh cong');
       },
     },
   );

@@ -1,10 +1,13 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import { socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
+
+import styles from '../index.module.scss';
 
 const MarketDesktop = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
@@ -52,18 +55,38 @@ const MarketDesktop = () => {
         {dataStockIndex?.map((item: any, index: number) => {
           const [change, changePercent] = item.ot.split('|');
           const isIncrease = item?.cIndex > item?.oIndex;
-          // const isDecrease = item?.cIndex < item?.oIndex;
-          // const isNoChange = item?.cIndex === item?.oIndex;
-          // const isChange = findIndex === index;
+          const isDecrease = item?.cIndex < item?.oIndex;
+          const isNoChange = item?.cIndex === item?.oIndex;
+          const isChange = findIndex === index;
           return (
             <TabPane tab={item.displayName} key={index + 1}>
               <div className='mt-[20px]'>
                 <div className='flex items-center justify-between'>
                   <div>
-                    <Text type='body-14-semibold' color='semantic-2-1'>
+                    <Text
+                      type='body-14-semibold'
+                      className={classNames('', {
+                        'text-[#128F63]': isIncrease,
+                        'text-[#DB4444]': isDecrease,
+                        'text-[#E6A70A]': isNoChange,
+                        [styles.isDecrease]: isDecrease && isChange,
+                        [styles.isIncrease]: isIncrease && isChange,
+                        [styles.isNoChange]: isNoChange && isChange,
+                      })}
+                    >
                       {item?.cIndex}
                     </Text>
-                    <Text type='body-12-medium' color='semantic-2-1' className='mt-[2px]'>
+                    <Text
+                      type='body-12-medium'
+                      className={classNames('mt-[2px]', {
+                        'text-[#128F63]': isIncrease,
+                        'text-[#DB4444]': isDecrease,
+                        'text-[#E6A70A]': isNoChange,
+                        [styles.isDecrease]: isDecrease && isChange,
+                        [styles.isIncrease]: isIncrease && isChange,
+                        [styles.isNoChange]: isNoChange && isChange,
+                      })}
+                    >
                       {isIncrease ? '+' : '-'}
                       {item?.change || change} / {isIncrease ? '+' : ''}
                       {item?.changePercent || changePercent}
@@ -90,7 +113,7 @@ const MarketDesktop = () => {
                 </div>
                 <iframe
                   src={`https://price.pinetree.vn/chart-index/market-chart?marketCode=${item.mc}`}
-                  className='h-[248px] w-full rounded-[8px]'
+                  className='w-full rounded-[8px] tablet:h-[150px] desktop:h-[248px]'
                 ></iframe>
               </div>
             </TabPane>

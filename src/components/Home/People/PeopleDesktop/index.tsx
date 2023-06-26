@@ -22,12 +22,9 @@ const PeopleDesktop = () => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
         refreshList();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const onFollow = (id: number) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,10 +38,7 @@ interface IProps {
   onNavigate?: () => void;
 }
 const ContentPostTypeDetail = (props: IProps) => {
-  console.log('ContentPostTypeDetail');
   const { postDetail, onNavigate } = props;
-  // console.log('🚀 ~ file: index.tsx:38 ~ ContentPostType ~ postDetail:', postDetail);
-  // const { postType, post } = postDetail;
 
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
@@ -253,16 +251,17 @@ const ContentPostTypeDetail = (props: IProps) => {
     );
   }
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
+    const pnlRate = postDetail?.post?.pnlRate;
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
-            Username has just sold $VPG get a profit of 6.16%
+            {postDetail?.post?.message}
           </Text>
         </div>
         <div className='relative rounded-[15px]  mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-full desktop:pr-[88px]'>
           <Image
-            src='/static/images/postSellStock.png'
+            src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
             alt=''
             width='0'
             height='0'
@@ -280,7 +279,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             />
             <div className='mt-[25px] flex flex-col items-center justify-center'>
               <Text type='body-16-bold' color='neutral-1'>
-                VPG
+                {postDetail?.post?.stockCode}
               </Text>
               <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF]'>
                 <Image
@@ -295,14 +294,20 @@ const ContentPostTypeDetail = (props: IProps) => {
               <Text type='body-12-medium' color='neutral-1' className='mb-[4px] mt-[4px]'>
                 Sell
               </Text>
-              <Text type='body-16-medium' color='semantic-1'>
-                -6.16%
+              <Text
+                type='body-16-medium'
+                className={classNames({
+                  'text-[#128F63]': pnlRate > 0,
+                  'text-[#DB4444]': pnlRate < 0,
+                })}
+              >
+                {pnlRate.toFixed(2)}%
               </Text>
               <Text type='body-12-medium' color='neutral-4' className='mb-[2px] mt-[10px]'>
                 Made on PineX
               </Text>
               <Text type='body-12-medium' color='neutral-4'>
-                13/06/2023
+                {dayjs(postDetail?.post?.tradingDate).format('DD/MM/YYYY')}
               </Text>
             </div>
           </div>
