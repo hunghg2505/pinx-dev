@@ -24,11 +24,17 @@ const ForgotPasswordStepOne = () => {
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
       router.push(ROUTE_PATH.LOGIN);
-      toast(() => <Notification type='error' message='Password request is successful' />);
+      toast(() => <Notification type='success' message='Password request is successful' />);
     },
     onError(e: any) {
       if (ERROR_CODE.has(e.errorWTSCode)) {
-        router.push(ROUTE_PATH.UPDATE_USSR_PROFILE);
+        router.push({
+          pathname: ROUTE_PATH.UPDATE_USSR_PROFILE,
+          query: {
+            username: form.getFieldValue('username'),
+            phone_number: form.getFieldValue('phoneNumber')
+          },
+        });
       }
     },
   });
@@ -51,7 +57,7 @@ const ForgotPasswordStepOne = () => {
       </div>
 
       <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
-        <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
+        <FormItem name='username'>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
         <FormItem
@@ -72,6 +78,7 @@ const ForgotPasswordStepOne = () => {
             placeholder='Phone number'
             labelContent='Phone number'
             name='phoneNumber'
+            maxLength={10}
           />
         </FormItem>
         <MainButton type='submit' className='!mt-1 w-full'>
