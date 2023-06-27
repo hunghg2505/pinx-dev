@@ -59,14 +59,6 @@ jobs:
           script: |
             cd /home/ubuntu
             echo "Hello"
-            sudo aws ecr get-login-password --region ap-southeast-1 | sudo docker login --username AWS --password-stdin 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com
-            echo "Hello 1"
-            sudo docker pull 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest
-            echo "Hello 2"
-            sudo docker compose up -d
-            echo "Hello 3"
-            sudo docker system prune -f
-            echo "Hello 4"
 
       - name: On Failure
         if: failure()
