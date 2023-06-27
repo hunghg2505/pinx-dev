@@ -54,7 +54,7 @@ const FooterSignUp = () => {
   return (
     <div
       style={{ transform: `translateY(${scrollTop.toFixed(0)}px)`, height: HEADER_HEIGHT }}
-      className='fixed bottom-0 z-10 flex min-w-[375px] items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition desktop:hidden'
+      className='fixed bottom-0 z-10 flex min-w-[375px] items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition tablet:left-0 tablet:justify-center desktop:w-full'
     >
       <Text type='body-14-regular' className='primary-5'>
         Sign up or Log in to join the discussion

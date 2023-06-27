@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import FooterSignUp from '@components/FooterSignup';
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { getAccessToken } from '@store/auth';
@@ -14,6 +13,9 @@ import { getAccessToken } from '@store/auth';
 // import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
+const FooterSignUp = dynamic(import('@components/FooterSignup'), {
+  ssr: false,
+});
 const ItemComment = dynamic(import('../NewsFeed/ItemComment'), {
   ssr: false,
 });
@@ -49,10 +51,7 @@ const PostDetail = () => {
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
-  console.log(
-    '🚀 ~ file: index.tsx:52 ~ PostDetail ~ commentsOfPost:',
-    commentsOfPost?.data?.list?.length > 0,
-  );
+
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const onGoToBack = () => {
     router.back();
@@ -77,6 +76,7 @@ const PostDetail = () => {
               onReplies={onReplies}
               refresh={refreshCommentOfPOst}
               refreshTotal={refresh}
+              isChildren={true}
             />
           ))}
         </div>
@@ -89,11 +89,7 @@ const PostDetail = () => {
       <div className='flex flex-row items-start' ref={refContainer}>
         <div className='rounded-[8px] mobile:w-[375px] tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <div className='header relative mobile:h-auto desktop:h-[60px]'>
-            <Text
-              type='body-16-bold'
-              color='primary-5'
-              className='py-[17px] text-center mobile:block desktop:hidden'
-            >
+            <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
               Post detail
             </Text>
             <Image
@@ -111,15 +107,17 @@ const PostDetail = () => {
             onRefreshPostDetail={refresh}
             postId={postDetail?.data?.id}
           />
+          {isLogin && (
+            <div className='mobile:hidden tablet:block'>
+              <ForwardedRefComponent
+                ref={refReplies}
+                id={postDetail?.data?.id}
+                refresh={refreshCommentOfPOst}
+                refreshTotal={refresh}
+              />
+            </div>
+          )}
 
-          <div className='mobile:hidden tablet:block'>
-            <ForwardedRefComponent
-              ref={refReplies}
-              id={postDetail?.data?.id}
-              refresh={refreshCommentOfPOst}
-              refreshTotal={refresh}
-            />
-          </div>
           <div className='mobile:mb-[50px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px]'>
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
