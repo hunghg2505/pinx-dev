@@ -41,6 +41,7 @@ interface TextProps {
     | 'primary-1'
     | 'primary-2'
     | 'primary-3'
+    | 'primary-4'
     | 'primary-5'
     | 'primary-6'
     | 'neutral-1'

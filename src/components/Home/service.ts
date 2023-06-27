@@ -2,7 +2,7 @@ import { useRequest } from 'ahooks';
 import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestPist } from '@api/request';
+import { PREFIX_API_MARKET, privateRequest, requestCommunity, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 import { ENV } from '@utils/env';
 
@@ -233,7 +233,7 @@ export const useGetTheme = () => {
 export const useGetStock = () => {
   const { data, loading, run } = useRequest(
     () => {
-      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
     },
     {
       manual: true,

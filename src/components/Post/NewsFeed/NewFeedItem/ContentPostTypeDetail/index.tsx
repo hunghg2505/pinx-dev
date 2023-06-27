@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
@@ -15,12 +15,13 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
-
+  const router = useRouter();
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
     onNavigate && onNavigate();
   };
+  const url = postDetail?.post.url ?? '';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
     postDetail?.post?.stockCode?.length === 3 || postDetail?.post?.stockCode?.[0] !== 'C'
@@ -31,6 +32,12 @@ const ContentPostTypeDetail = (props: IProps) => {
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
       : '/static/icons/iconUnSubcribe.svg';
+  const onRedirect = () => {
+    router.push({
+      pathname: '/redirecting',
+      query: { url },
+    });
+  };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     return (
       <>
@@ -86,7 +93,6 @@ const ContentPostTypeDetail = (props: IProps) => {
       TYPEPOST.PinetreePost,
     ].includes(postDetail?.postType)
   ) {
-    const url = postDetail?.post.url ?? '';
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -94,7 +100,10 @@ const ContentPostTypeDetail = (props: IProps) => {
             {postDetail?.post.head}
           </Text>
         </div>
-        <Link className='mb-[13px] flex items-center justify-end text-right' href={url}>
+        <div
+          className='mb-[13px] flex cursor-pointer items-center justify-end text-right'
+          onClick={onRedirect}
+        >
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
             Read more
           </Text>
@@ -106,7 +115,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='w-[5px]'
           />
-        </Link>
+        </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post.headImageUrl}
@@ -116,9 +125,10 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='h-full w-full'
           />
-          <Link
-            href={url}
-            className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          <div
+            // href={url}
+            onClick={onRedirect}
+            className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <Image
               src='/static/icons/iconLink.svg'
@@ -128,7 +138,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               sizes='100vw'
               className='w-[18px]'
             />
-          </Link>
+          </div>
         </div>
       </>
     );
@@ -149,9 +159,10 @@ const ContentPostTypeDetail = (props: IProps) => {
             {postDetail?.post.head}
           </Text>
         </div>
-        <Link
-          className='mb-[13px] flex items-center justify-end text-right'
-          href={postDetail?.post.url || ''}
+        <div
+          className='mb-[13px] flex cursor-pointer items-center justify-end text-right'
+          // href={postDetail?.post.url || ''}
+          onClick={onRedirect}
         >
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
             Read more
@@ -164,7 +175,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='w-[5px]'
           />
-        </Link>
+        </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Image
             src={postDetail?.post.headImageUrl || ''}
@@ -174,9 +185,10 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='h-full w-full'
           />
-          <Link
-            href={postDetail?.post.url || ''}
-            className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          <div
+            // href={postDetail?.post.url || ''}
+            onClick={onRedirect}
+            className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <Image
               src='/static/icons/iconLink.svg'
@@ -186,7 +198,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               sizes='100vw'
               className='w-[18px]'
             />
-          </Link>
+          </div>
         </div>
       </>
     );

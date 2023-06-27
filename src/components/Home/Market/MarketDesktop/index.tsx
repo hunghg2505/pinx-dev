@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import { PREFIX_API_MARKET } from '@api/request';
 import { socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
@@ -14,7 +15,7 @@ const MarketDesktop = () => {
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run } = useRequest(
     () => {
-      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
     },
     {
       manual: true,
