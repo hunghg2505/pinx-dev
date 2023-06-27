@@ -12,7 +12,7 @@ const WatchListDesktop = (props: IProps) => {
   const { dataStock } = props;
   return (
     <>
-      {dataStock?.map((item: IWatchListItem, index: number) => {
+      {dataStock?.slice(0, 5)?.map((item: IWatchListItem, index: number) => {
         return <ItemStock key={index} data={item} />;
       })}
       <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>

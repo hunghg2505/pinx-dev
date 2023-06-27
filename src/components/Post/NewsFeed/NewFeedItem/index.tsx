@@ -333,7 +333,12 @@ const NewFeedItem = (props: IProps) => {
           </div>
         </div>
         <div className='flex items-center'>
-          {postDetail?.post.postType === TYPEPOST.POST && (
+          {[
+            TYPEPOST.POST,
+            TYPEPOST.ActivityTheme,
+            TYPEPOST.ActivityMatchOrder,
+            TYPEPOST.ActivityWatchlist,
+          ].includes(postDetail?.post.postType) && (
             <div className='cursor-pointer' onClick={onFollow}>
               {renderTextFollow()}
             </div>

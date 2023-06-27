@@ -9,8 +9,10 @@ const SideBar = dynamic(() => import('./SideBar'), {
 const MainLayout = ({ children }: any) => {
   return (
     <>
+      {/* <div className='fixed left-0 top-0 z-10 w-full bg-[#ffffff]'> */}
       <MainHeader />
-      <div className='flex justify-center mobile:container desktop:container'>
+      {/* </div> */}
+      <div className='relative flex justify-center overflow-auto mobile:container desktop:container'>
         <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
           <SideBar />
         </div>

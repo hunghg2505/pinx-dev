@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
-  const { statusUser, isLogin } = useUserType();
+  const { isLogin } = useUserType();
   const { data, refresh } = props;
   const isFollow = data?.isFollowed;
   const useFollowUser = useRequest(
@@ -38,9 +38,14 @@ const ItemInfluence = (props: IProps) => {
   );
   const onFollow = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
-      } else if (isFollow) {
+      // if (statusUser !== USERTYPE.VSD) {
+      //   PopupComponent.openEKYC();
+      // } else if (isFollow) {
+      //   useUnFollow.run();
+      // } else {
+      //   useFollowUser.run();
+      // }
+      if (isFollow) {
         useUnFollow.run();
       } else {
         useFollowUser.run();
