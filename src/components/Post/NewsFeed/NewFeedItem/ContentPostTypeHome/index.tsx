@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -12,8 +13,9 @@ import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
-import ListStock from './ListStock';
-
+const ListStock = dynamic(import('./ListStock'), {
+  ssr: false,
+});
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;

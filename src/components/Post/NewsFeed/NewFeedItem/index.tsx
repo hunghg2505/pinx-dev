@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -24,11 +25,18 @@ import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
-import ContentPostTypeDetail from './ContentPostTypeDetail';
-import ContentPostTypeHome from './ContentPostTypeHome';
-import ModalReport from '../ModalReport';
-import ModalShare from '../ModalShare';
-
+const ModalShare = dynamic(import('../ModalShare'), {
+  ssr: false,
+});
+const ModalReport = dynamic(import('../ModalReport'), {
+  ssr: false,
+});
+const ContentPostTypeHome = dynamic(import('./ContentPostTypeHome'), {
+  ssr: false,
+});
+const ContentPostTypeDetail = dynamic(import('./ContentPostTypeDetail'), {
+  ssr: false,
+});
 dayjs.extend(relativeTime);
 interface IProps {
   postDetail: IPost;

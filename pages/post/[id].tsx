@@ -5,15 +5,16 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
-  ssr: false,
-});
+// const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
+//   ssr: false,
+// });
 const MainLayout = dynamic(() => import('@layout/MainLayout'));
 const PostDetailPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <PostDetail />
+      {/* <PostDetail /> */}
+      <>123</>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
 import {
@@ -19,7 +20,9 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
-import ModalReportComment from './ModalReportComment';
+const ModalReportComment = dynamic(import('./ModalReportComment'), {
+  ssr: false,
+});
 
 dayjs.extend(relativeTime);
 interface IProps {
