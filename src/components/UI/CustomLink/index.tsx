@@ -24,8 +24,8 @@ const CustomLink = ({
       <div
         className={className}
         aria-label={ariaLabel || 'label'}
-        // rel={`noreferrer ${isNoFollow ? 'nofollow' : ''}`}
-        // target={target}
+      // rel={`noreferrer ${isNoFollow ? 'nofollow' : ''}`}
+      // target={target}
       >
         {children}
       </div>

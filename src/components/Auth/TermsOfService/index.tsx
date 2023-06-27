@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { pdfjs, Document, Page } from 'react-pdf';
 
@@ -40,11 +39,11 @@ const TermsOfService = () => {
   const pdfFile =
     link &&
     PREFIX_API_PIST +
-      API_PATH.READ_CONTRACT +
-      '?link=' +
-      encodeURIComponent(link) +
-      '&session=' +
-      router?.query?.session;
+    API_PATH.READ_CONTRACT +
+    '?link=' +
+    encodeURIComponent(link) +
+    '&session=' +
+    router?.query?.session;
 
   function changePage(offset: any) {
     setPageNumber((prevPageNumber) => prevPageNumber + offset);
@@ -58,7 +57,6 @@ const TermsOfService = () => {
     changePage(1);
   }
 
-  console.log('xxx dayjs', dayjs().isBefore(dayjs('2023-07-22')));
   return (
     <>
       <MainHeader />
