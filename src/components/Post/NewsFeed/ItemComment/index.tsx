@@ -27,7 +27,7 @@ interface IProps {
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
   refresh: () => void;
-  refreshTotal: () => void;
+  refreshTotal?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
@@ -100,7 +100,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
-        refreshTotal();
+        refreshTotal && refreshTotal();
         setShowDelete(false);
       },
     },
