@@ -53,12 +53,12 @@ const OtpVerification = (props: IProps) => {
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
-  const [resendCount, setResendCount] = useState<number>(30);
+  const [resendCount, setResendCount] = useState<number>(15);
   const [resendTime, setResendTime] = useState<Itime>();
   const [isResendAvailable, setIsResendAvailable] = useState<boolean>(false);
 
   const replacedPhoneNumber = () => {
-    return props.phoneNumber && props.phoneNumber.slice(0, 4) + '****' + props.phoneNumber.slice(8);
+    return props.phoneNumber && props.phoneNumber.slice(0, 3) + '****' + props.phoneNumber.slice(7);
   };
 
   const { run: onClearOtp } = useDebounceFn(

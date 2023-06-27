@@ -18,12 +18,9 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
         refresh();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const onFollow = () => {
@@ -42,17 +39,31 @@ const ItemPeople = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className='mb-[10px] h-[56px] w-[56px] rounded-full object-cover'
+          className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
         />
-        <Text
-          type='body-14-semibold'
-          color='cbblack'
-          className='mb-[3px] h-[34px] text-center !leading-4'
-        >
-          {data?.displayName}
-        </Text>
-        <Text type='body-12-medium' className='mb-[9px]' color='neutral-4'>
-          {data?.numberFollowers} follower
+        <div className='relative'>
+          <Text
+            type='body-12-semibold'
+            color='neutral-3'
+            className='relative mb-[3px] line-clamp-1 text-center !leading-4'
+          >
+            {data?.displayName}
+          </Text>
+          {data?.isKol && (
+            <Image
+              src='/static/icons/iconKol.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='absolute -right-[10px] bottom-[10px] w-[16px]'
+            />
+          )}
+        </div>
+
+        <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
+          <p>{data?.numberFollowers}</p>
+          <p>Followers</p>
         </Text>
         <div
           className='flex h-[24px] w-[33px] cursor-pointer items-center justify-center rounded-[16px] bg-[#589DC0]'

@@ -53,9 +53,7 @@ const ModalReport = (props: IProps) => {
     {
       manual: true,
       onSuccess: onReportSuccess,
-      onError: () => {
-        console.log('that bai');
-      },
+      onError: () => {},
     },
   );
   const onFinish = () => {

@@ -1,13 +1,21 @@
-import { useRequest } from 'ahooks';
+import React from 'react';
+
+import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 
-import { IComment, requestLikeComment, requestUnLikeComment } from '@components/Post/service';
+import {
+  IComment,
+  requestHideComment,
+  requestLikeComment,
+  requestUnLikeComment,
+} from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -22,25 +30,30 @@ interface IProps {
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
+  const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh } = props;
+  const { requestGetProfile } = useProfileInitial();
+  const isComment = requestGetProfile?.id === data?.customerId;
+  const ref = React.useRef<HTMLButtonElement>(null);
   const onComment = (value: string, customerId: number, id: string) => {
     if (!isLogin) {
       PopupComponent.open();
       return;
     }
-
     if (onNavigate) {
       onNavigate();
     } else {
       onReplies && onReplies(value, customerId, id);
     }
   };
+  useClickAway(() => {
+    showDelete && setShowDelete(false);
+  }, ref);
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.name || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
-  const urlImage =
-    data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '/static/images/influencer.jpg';
+  const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const useLike = useRequest(
     () => {
       return requestLikeComment(data.id);
@@ -64,7 +77,7 @@ const ItemComment = (props: IProps) => {
     },
   );
   const onLike = () => {
-    if (statusUser === USERTYPE.ACTIVE) {
+    if (isLogin) {
       if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
@@ -76,33 +89,88 @@ const ItemComment = (props: IProps) => {
       PopupComponent.open();
     }
   };
+
+  // hide comment
+  const useHideComment = useRequest(
+    () => {
+      return requestHideComment(data?.id);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        refresh();
+        setShowDelete(false);
+      },
+    },
+  );
+  const onShowDelete = () => {
+    setShowDelete(!showDelete);
+  };
+  const onDelete = () => {
+    useHideComment.run();
+  };
   return (
     <div className='comment p-[16px]'>
       <div className='flex flex-row items-start'>
         <Image
-          src={data?.customerInfo?.avatar || ''}
+          src={data?.customerInfo?.avatar || '/static/logo/logoPintree.svg'}
           alt=''
           width='0'
           height='0'
           sizes='100vw'
           className='mr-[12px] w-[36px] rounded-full'
         />
-
+        {/* bg-[#F6FAFD] */}
         <div className='content w-full'>
-          <div className='relative rounded-[12px] bg-[#F6FAFD] px-[16px] py-[12px] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.12)]'>
-            <div className='mb-[12px] flex w-full flex-row items-center justify-between border-b border-solid border-[#E6E6E6] pb-[12px]'>
+          <div className='relative rounded-[12px] py-[12px]'>
+            <div className='mb-[12px] flex w-full flex-row items-center justify-between'>
               <Text type='body-14-bold' color='neutral-1'>
                 {data?.customerInfo?.name}
               </Text>
-              <Text type='body-12-medium' color='neutral-5'>
-                {dayjs(data?.timeString).fromNow()}
+              <button className='relative flex items-center' ref={ref}>
+                <Text type='body-12-medium' color='neutral-5' className='mr-[12px]'>
+                  {dayjs(data?.timeString).fromNow()}
+                </Text>
+                {isComment && (
+                  <Image
+                    src='/static/icons/iconDot.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    className='h-[18px] w-[18px] rotate-90 transform cursor-pointer'
+                    onClick={onShowDelete}
+                  />
+                )}
+
+                {showDelete && (
+                  <div
+                    className=' absolute -bottom-[55px] right-0 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
+                    onClick={onDelete}
+                  >
+                    <Image
+                      src='/static/icons/iconDelete.svg'
+                      alt=''
+                      width={0}
+                      height={0}
+                      className='mr-[8px] h-[24px] w-[24px]'
+                    />
+                    <Text type='body-16-regular' color='primary-5'>
+                      Delete
+                    </Text>
+                  </div>
+                )}
+              </button>
+            </div>
+            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
+              <Text type='body-14-medium' color='primary-5'>
+                {message && (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: message }}
+                    className='messageFormat'
+                  ></div>
+                )}
               </Text>
             </div>
-            <Text type='body-14-medium' color='primary-5'>
-              {message && (
-                <div dangerouslySetInnerHTML={{ __html: message }} className='messageFormat'></div>
-              )}
-            </Text>
 
             {data?.totalLikes > 0 && (
               <div className='absolute -bottom-3 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
@@ -119,7 +187,7 @@ const ItemComment = (props: IProps) => {
               </div>
             )}
           </div>
-          {data?.urlImages?.length > 0 && (
+          {urlImage !== '' && (
             <Fancybox>
               <a data-fancybox='gallery' href={urlImage}>
                 <Image

@@ -20,7 +20,9 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
 import { isImage } from '../../utils/common';
@@ -47,8 +49,8 @@ const Editor = (props: IProps, ref: any) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
+  const { statusUser } = useUserType();
   const { requestGetProfile } = useProfileInitial();
-  console.log('🚀 ~ file: index.tsx:51 ~ Editor ~ requestGetProfile:', requestGetProfile);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -125,7 +127,6 @@ const Editor = (props: IProps, ref: any) => {
     {
       manual: true,
       onSuccess: (res: any) => {
-        console.log('res', res?.files?.[0]);
         const url = res?.files?.[0]?.url;
         setImage(url);
       },
@@ -138,10 +139,6 @@ const Editor = (props: IProps, ref: any) => {
     const formData = new FormData();
     formData.append('files', file);
     useUploadImage.run(formData);
-    // console.log('data', response);
-    // const imgae = await toBase64(file);
-    // setImage(imgae);
-    // const stringImage = await base64ToBlob(imgae, file.type);
   };
 
   useImperativeHandle(ref, () => {
@@ -236,34 +233,39 @@ const Editor = (props: IProps, ref: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [image],
     };
-    if (idReply === '') {
-      useAddComment.run(data);
+
+    if (statusUser === USERTYPE.VSD) {
+      if (idReply === '') {
+        useAddComment.run(data);
+      } else {
+        useReplyComment.run(data);
+      }
     } else {
-      useReplyComment.run(data);
+      PopupComponent.openEKYC();
     }
   };
 
   return (
     <>
-      <div className='mb-[20px] mobile:block desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:flex'>
+      <div className='mb-[20px] mobile:block tablet:flex tablet:px-[16px] desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:px-0'>
         <Image
           src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
           alt=''
           width={0}
           height={0}
           sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden desktop:block'
+          className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
         />
         <div
-          className='flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:rounded-[1000px] desktop:w-full desktop:rounded-[20px]'
+          className='bottom-0 left-0 flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px] '
           ref={messagesEndRef}
         >
-          <div className='flex min-h-[40px] w-full mobile:items-center desktop:flex-col desktop:items-start desktop:pb-[10px] desktop:pt-[12px]'>
+          <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
             <Upload
               accept='png, jpeg, jpg'
               onStart={onStart}
               beforeUpload={beforeUpload}
-              className='desktop:hidden'
+              className='tablet:hidden'
             >
               <Image
                 src='/static/icons/iconCamnera.svg'
@@ -274,9 +276,9 @@ const Editor = (props: IProps, ref: any) => {
                 className='mr-[8px] w-[19px]'
               />
             </Upload>
-            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] desktop:hidden'></div>
-            <EditorContent editor={editor} className='w-full desktop:mb-[5px]' />
-            <div className='w-full justify-between mobile:hidden desktop:flex'>
+            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+            <EditorContent editor={editor} className='w-full tablet:mb-[5px]' />
+            <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <Image
                   src='/static/icons/iconImage.svg'
@@ -304,7 +306,7 @@ const Editor = (props: IProps, ref: any) => {
                 width='0'
                 height='0'
                 sizes='100vw'
-                className='h-[100px] w-[100px] mobile:hidden desktop:block'
+                className='h-[100px] w-[100px] mobile:hidden tablet:block'
               />
             )}
           </div>
@@ -315,7 +317,7 @@ const Editor = (props: IProps, ref: any) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='w-[19px] cursor-pointer mobile:block desktop:hidden'
+            className='w-[19px] cursor-pointer mobile:block tablet:hidden'
             onClick={onSend}
           />
         </div>
@@ -326,7 +328,7 @@ const Editor = (props: IProps, ref: any) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-[100px] w-[100px] mobile:block desktop:hidden'
+            className='h-[100px] w-[100px] mobile:block tablet:hidden'
           />
         )}
       </div>

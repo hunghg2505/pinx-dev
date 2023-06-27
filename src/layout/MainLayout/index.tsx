@@ -9,12 +9,16 @@ const SideBar = dynamic(() => import('./SideBar'), {
 const MainLayout = ({ children }: any) => {
   return (
     <>
+      {/* <div className='fixed left-0 top-0 z-10 w-full bg-[#ffffff]'> */}
       <MainHeader />
-      <div className='flex justify-center mobile:container desktop:container'>
+      {/* </div> */}
+      <div className='relative flex justify-center overflow-auto mobile:container desktop:container'>
         <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
           <SideBar />
         </div>
-        <main className='desktop:w-[1124px]'>{children}</main>
+        <main className='tablet:w-full tablet:px-[15px] desktop:w-[1124px] desktop:px-0'>
+          {children}
+        </main>
         <div id='md-popup-container'></div>
       </div>
     </>

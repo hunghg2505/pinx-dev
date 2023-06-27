@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 
 import FooterSignUp from '@components/FooterSignup';
 import Text from '@components/UI/Text';
+import { useContainerDimensions } from '@hooks/useDimensions';
 import { getAccessToken } from '@store/auth';
 
 // import ItemComment from '../NewsFeed/ItemComment';
@@ -31,8 +32,11 @@ const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
 
 const PostDetail = () => {
   const refReplies: any = useRef();
+  const refContainer: any = useRef();
   const router = useRouter();
   const isLogin = !!getAccessToken();
+  const { width } = useContainerDimensions(refContainer);
+  // const [showReply, setShowReply] = useState(false);
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
@@ -41,7 +45,11 @@ const PostDetail = () => {
   const onGoToBack = () => {
     router.back();
   };
-  const onReplies = (value: string, customerId: number, id: string) => {
+  const onReplies = async (value: string, customerId: number, id: string) => {
+    // setShowReply(true);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100);
+    });
     if (refReplies?.current?.onComment) {
       refReplies?.current?.onComment(value, customerId, id);
     }
@@ -65,8 +73,8 @@ const PostDetail = () => {
 
   return (
     <>
-      <div className='flex flex-row items-start'>
-        <div className='rounded-[8px] mobile:w-[375px] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
+      <div className='flex flex-row items-start' ref={refContainer}>
+        <div className='rounded-[8px] mobile:w-[375px] tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <div className='header relative mobile:h-auto desktop:h-[60px]'>
             <Text
               type='body-16-bold'
@@ -112,13 +120,20 @@ const PostDetail = () => {
                     refresh={refreshCommentOfPOst}
                   />
                   {getSubComment(item.children)}
+                  {/* {showReply && width > 737 && (
+                    <ForwardedRefComponent
+                      ref={refReplies}
+                      id={postDetail?.data?.id}
+                      refresh={refreshCommentOfPOst}
+                    />
+                  )} */}
                 </>
               );
             })}
           </div>
 
-          {isLogin && (
-            <div className='mobile:block desktop:hidden'>
+          {width < 738 && isLogin && (
+            <div className='mobile:block tablet:hidden'>
               <div className='fixed bottom-0 -mb-[10px] min-w-[375px]'>
                 <ForwardedRefComponent
                   ref={refReplies}

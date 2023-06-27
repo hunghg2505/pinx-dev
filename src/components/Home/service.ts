@@ -2,7 +2,7 @@ import { useRequest } from 'ahooks';
 import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestPist } from '@api/request';
+import { PREFIX_API_MARKET, privateRequest, requestCommunity, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 import { ENV } from '@utils/env';
 
@@ -90,6 +90,9 @@ export interface IWatchListItem {
   shortName: string;
   stockCode: string;
   stockExchange: string;
+  last_price: string;
+  cl: string;
+  changePc: string;
 }
 export enum TYPESEARCH {
   ALL = 'ALL',
@@ -179,6 +182,7 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
+  console.log('join');
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
@@ -229,7 +233,7 @@ export const useGetTheme = () => {
 export const useGetStock = () => {
   const { data, loading, run } = useRequest(
     () => {
-      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
     },
     {
       manual: true,

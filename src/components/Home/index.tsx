@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Toaster } from 'react-hot-toast';
 
+import ModalLoginTerms from '@components/Auth/Login/ModalLoginTerms';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
@@ -18,9 +20,7 @@ import ListTheme from './ListTheme';
 import Market from './Market';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import {
-  requestJoinChannel,
   requestJoinIndex,
-  requestLeaveChannel,
   requestLeaveIndex,
   socket,
   useGetListNewFeed,
@@ -35,8 +35,8 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
+  const router = useRouter()
   socket.on('connect', function () {
-    requestJoinChannel('VNM');
     requestJoinIndex();
   });
   const [selectTab, setSelectTab] = React.useState<string>('1');
@@ -46,14 +46,15 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
+  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(!!router.query.modal_login_terms);
+  const userType = router.query.user_type as string;
+
   const onChangeTab = (key: string) => {
     setSelectTab(key);
     if (key === '1') {
-      requestJoinChannel('VNM');
       requestLeaveIndex();
     }
     if (key === '2') {
-      requestLeaveChannel('VNM');
       requestJoinIndex();
     }
   };
@@ -63,15 +64,24 @@ const Home = () => {
       getSuggestFriend();
     }
   }, []);
+
+  const onToggleModalLoginTerms = () => {
+    setShowModalLoginTerms(!showModalLoginTerms);
+  };
   return (
     <>
+      <ModalLoginTerms
+        visible={showModalLoginTerms}
+        onToggle={onToggleModalLoginTerms}
+        userType={userType}
+      />
       <Toaster />
       <div className='flex'>
-        <div className='mobile:mr-0 desktop:mr-[24px] desktop:w-[750px]'>
+        <div className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'>
           <div className='mobile:bg-[#F8FAFD] mobile:pt-[10px] desktop:bg-[#ffffff] desktop:pt-0'>
-            <div className='mx-[auto] my-[0] mobile:w-[375px] desktop:w-full'>
-              <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block desktop:hidden'>
-                {selectTab === '1' && watchList && (
+            <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
+              <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
+                {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
                   <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
                     <Text type='body-14-medium' color='primary-1'>
                       See all
@@ -86,7 +96,11 @@ const Home = () => {
                   </button>
                 )}
 
-                <Tabs defaultActiveKey='1' className='tabHome ' onChange={onChangeTab}>
+                <Tabs
+                  defaultActiveKey={watchList ? '1' : '2'}
+                  className='tabHome '
+                  onChange={onChangeTab}
+                >
                   {isLogin && (
                     <TabPane tab='Watchlist' key='1'>
                       <WatchList />
@@ -98,7 +112,7 @@ const Home = () => {
                 </Tabs>
               </div>
               {isLogin && (
-                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden desktop:block'>
+                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:block'>
                   <div className='flex items-center'>
                     <Image
                       src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
@@ -166,7 +180,8 @@ const Home = () => {
                 </Text>
                 <ModalFilter run={run} />
               </div>
-              <div className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
+              <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
+                <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}

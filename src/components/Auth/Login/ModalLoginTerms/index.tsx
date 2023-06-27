@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetContract, useAgreeContract } from './service';
+
 import 'rc-dialog/assets/index.css';
 
 interface IProps {
@@ -28,8 +30,6 @@ const ModalLoginTerms = (props: IProps) => {
   const { visible, closeIcon, onToggle, userType } = props;
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
-  const otherContract =
-    contractList?.length > 0 ? contractList.filter((item, index) => index > 0) : [];
   const { userLoginInfo } = useUserLoginInfo();
   const { onLogout } = useAuth();
 
@@ -79,7 +79,13 @@ const ModalLoginTerms = (props: IProps) => {
   };
 
   const handleClose = () => {
-    onLogout();
+    if (userType === 'VSD') {
+      if (dayjs().isAfter(dayjs('2023-07-22'))) {
+        onLogout();
+      }
+    } else {
+      onLogout();
+    }
     onToggle();
   };
 
@@ -94,31 +100,27 @@ const ModalLoginTerms = (props: IProps) => {
       <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <div>
           <Text type='body-22-bold' className='mt-16 text-center'>
-            Kính gửi quý khách
+            Dear Customer
           </Text>
           <Text type='body-14-regular' color='neutral-4' className='mt-5 text-center'>
-            Tuân thủ
-            <NextLink
-              href={{
-                pathname: ROUTE_PATH.TERMS_OF_SERVICE,
-                query: {
-                  link: contractList[0]?.fileUrl,
-                  session,
-                },
-              }}
-              className='text-[#EAA100]'
-            >
-              <span>&nbsp;NGHỊ ĐỊNH 13/2023/NĐ-CP&nbsp;</span>
-            </NextLink>
-            về Bảo vệ Dữ liệu Cá nhân, Quý Khách vui lòng đọc kỹ và xác nhận đồng ý với bản Điều
-            Khoản Điều Kiện và Chính Sách Bảo Mật bằng cách chọn Đồng ý:
+            In compliance with
+            <span className='text-[#EAA100]'>&nbsp;DECREE 13/2023/NĐ-CP&nbsp;</span>
+            on Protection of Personal Data, please read carefully and confirm your agreement to the
+            Adjustment of Conditions and Privacy by selecting Agree:
           </Text>
         </div>
         <div className='mt-8'>
-          {otherContract?.map((item: any, index: number) => (
-            <div
-              className='flex items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
+          {contractList?.map((item: any, index: number) => (
+            <NextLink
+              className='flex cursor-pointer items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
               key={index}
+              href={{
+                pathname: ROUTE_PATH.TERMS_OF_SERVICE,
+                query: {
+                  link: item.fileUrl,
+                  session,
+                },
+              }}
             >
               <div className='flex items-center'>
                 <Image
@@ -139,13 +141,13 @@ const ModalLoginTerms = (props: IProps) => {
                 height='0'
                 className='h-[28px] w-[28px]'
               />
-            </div>
+            </NextLink>
           ))}
         </div>
         <Text type='body-12-regular' className='mt-2 text-center'>
           {userType === 'VSD'
-            ? '(!) Vui lòng xác nhận trước 22/07/2023, sau thời hạn trên, tính năng giao dịch trực tuyến bị ngưng do hạn chế về xử lý dữ liệu giao dịch'
-            : 'Bạn cần đồng ý để tiếp tục sử dụng dịch vụ này'}
+            ? '(!) Please confirm before July 22, 2023. After the above period, the online trading feature will be discontinued due to limitations on data processing transactions.'
+            : 'You need to agree to continue using the services'}
         </Text>
         <div className='mt-12'>
           <a className='w-full' href='tel:090000000'>

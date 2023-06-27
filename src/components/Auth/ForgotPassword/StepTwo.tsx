@@ -57,7 +57,7 @@ const ForgotPasswordStepOne = () => {
         </Text>
       </div>
 
-      <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
         <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
@@ -112,14 +112,14 @@ const ForgotPasswordStepOne = () => {
           rules={[
             {
               required: true,
-              message: 'Please enter birthday',
+              message: 'Please select a date of birth',
             },
           ]}
         >
           <LabelDatePicker
             onChange={onChangeDate}
-            placeholder='Birthday'
-            labelContent='Birthday'
+            placeholder='Date of birth'
+            labelContent='Date of birth'
             name='birthday'
           />
         </FormItem>

@@ -78,7 +78,7 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
+        <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
           <FormItem
             name='phoneNumber'
             rules={[
@@ -147,7 +147,7 @@ const Register = () => {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('Confirm password is incorrect'));
+                  return Promise.reject(new Error('Password does not match'));
                 },
               }),
             ]}
@@ -162,7 +162,7 @@ const Register = () => {
           <div className='--neutral-1 text-[12px] font-[500]'>
             By signing up, I agree to the
             <span>
-              <NextLink href='#' className='!text-[--primary-2]'>
+              <NextLink href={ROUTE_PATH.TERMS_OF_SERVICE} className='!text-[--primary-2]'>
                 &nbsp;Terms & Conditions
               </NextLink>
             </span>

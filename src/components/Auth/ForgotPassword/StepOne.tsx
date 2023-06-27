@@ -2,10 +2,12 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { REG_PHONE_NUMBER } from '@utils/reg';
@@ -22,6 +24,7 @@ const ForgotPasswordStepOne = () => {
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
       router.push(ROUTE_PATH.LOGIN);
+      toast(() => <Notification type='error' message='Password request is successful' />);
     },
     onError(e: any) {
       if (ERROR_CODE.has(e.errorWTSCode)) {
@@ -47,7 +50,7 @@ const ForgotPasswordStepOne = () => {
         </Text>
       </div>
 
-      <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
         <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>

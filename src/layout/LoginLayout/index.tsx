@@ -15,7 +15,7 @@ const LoginLayout = ({ children }: any) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-[100vh] w-full'
+            className='min-h-[700px] h-[100vh] w-full'
           />
         </div>
         <main className='laptop:w-[65%]'>
@@ -26,7 +26,7 @@ const LoginLayout = ({ children }: any) => {
               width='0'
               height='0'
               sizes='50vw'
-              className='!mt-[160px] mb-12 h-[72px] w-[72px] mobile:hidden laptop:block'
+              className='!mt-[15vh] mb-12 h-[72px] w-[72px] mobile:hidden laptop:block'
             />
             <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 laptop:min-w-min laptop:px-0'>
               <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
