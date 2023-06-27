@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetContract, useAgreeContract } from './service';
+
 import 'rc-dialog/assets/index.css';
 
 interface IProps {
@@ -28,9 +30,6 @@ const ModalLoginTerms = (props: IProps) => {
   const { visible, closeIcon, onToggle, userType } = props;
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
-  // const otherContract =
-  //   contractList?.length > 0 ? contractList.filter((item, index) => index > 0) : [];
-  const otherContract = [{ fileName: userType === 'NEW' ? 'Terms & Conditions' : 'Consent to Data processing' }]
   const { userLoginInfo } = useUserLoginInfo();
   const { onLogout } = useAuth();
 
@@ -80,7 +79,13 @@ const ModalLoginTerms = (props: IProps) => {
   };
 
   const handleClose = () => {
-    onLogout();
+    if (userType === 'VSD') {
+      if (dayjs().isAfter(dayjs('2023-07-22'))) {
+        onLogout();
+      }
+    } else {
+      onLogout();
+    }
     onToggle();
   };
 
@@ -99,26 +104,23 @@ const ModalLoginTerms = (props: IProps) => {
           </Text>
           <Text type='body-14-regular' color='neutral-4' className='mt-5 text-center'>
             In compliance with
-            <NextLink
-              href={{
-                pathname: ROUTE_PATH.TERMS_OF_SERVICE,
-                query: {
-                  link: contractList[0]?.fileUrl,
-                  session,
-                },
-              }}
-              className='text-[#EAA100]'
-            >
-              <span>&nbsp;DECREE 13/2023/NĐ-CP&nbsp;</span>
-            </NextLink>
-            on Protection of Personal Data, please read carefully and confirm your agreement to the Adjustment of Conditions and Privacy by selecting Agree:
+            <span className='text-[#EAA100]'>&nbsp;DECREE 13/2023/NĐ-CP&nbsp;</span>
+            on Protection of Personal Data, please read carefully and confirm your agreement to the
+            Adjustment of Conditions and Privacy by selecting Agree:
           </Text>
         </div>
         <div className='mt-8'>
-          {otherContract?.map((item: any, index: number) => (
-            <div
-              className='flex items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
+          {contractList?.map((item: any, index: number) => (
+            <NextLink
+              className='flex cursor-pointer items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
               key={index}
+              href={{
+                pathname: ROUTE_PATH.TERMS_OF_SERVICE,
+                query: {
+                  link: item.fileUrl,
+                  session,
+                },
+              }}
             >
               <div className='flex items-center'>
                 <Image
@@ -139,7 +141,7 @@ const ModalLoginTerms = (props: IProps) => {
                 height='0'
                 className='h-[28px] w-[28px]'
               />
-            </div>
+            </NextLink>
           ))}
         </div>
         <Text type='body-12-regular' className='mt-2 text-center'>
