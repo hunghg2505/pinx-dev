@@ -7,9 +7,6 @@ variables:
   TAG_LATEST: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest
   TAG_COMMIT: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:$CI_COMMIT_SHORT_SHA
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
-
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
