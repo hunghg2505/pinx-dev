@@ -225,7 +225,14 @@ const ItemComment = (props: IProps) => {
                 Reply
               </Text>
             </div>
-            <ModalReportComment postID={data?.id}>{numberReport} Report</ModalReportComment>
+            <ModalReportComment isReported={data.isReport} postID={data?.id}>
+              {numberReport} Report
+            </ModalReportComment>
+            {/* <Fancybox>
+                <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
+                  <Image alt='' src='/static/images/image_post.jpg' width='200' height='150' />
+                </a>
+              </Fancybox> */}
           </div>
         </div>
       </div>

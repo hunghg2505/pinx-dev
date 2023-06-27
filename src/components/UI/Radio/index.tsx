@@ -19,7 +19,7 @@ const Radio: React.FC<Props> = ({ children, checked = false, onChange, className
     >
       <div
         className={classNames(
-          'relative h-[15px] w-[15px] rounded-full border border-solid border-black',
+          'relative h-[20px] w-[20px] rounded-full border border-solid border-[#E6E6E6]',
           { [styles.checked]: checked },
         )}
       />
