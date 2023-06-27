@@ -31,15 +31,18 @@ interface IProps {
   data: IComment;
   refresh: () => void;
   refreshTotal?: () => void;
+  isChildren?: boolean;
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal } = props;
+  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false } = props;
   const { requestGetProfile } = useProfileInitial();
   const isComment = requestGetProfile?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
+
   const onComment = (value: string, customerId: number, id: string) => {
+    const idComment = isChildren ? data?.parentId : id;
     if (!isLogin) {
       PopupComponent.open();
       return;
@@ -47,7 +50,7 @@ const ItemComment = (props: IProps) => {
     if (onNavigate) {
       onNavigate();
     } else {
-      onReplies && onReplies(value, customerId, id);
+      onReplies && onReplies(value, customerId, idComment);
     }
   };
   useClickAway(() => {

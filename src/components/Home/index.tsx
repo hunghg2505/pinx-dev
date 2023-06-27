@@ -35,7 +35,7 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
-  const router = useRouter()
+  const router = useRouter();
   socket.on('connect', function () {
     requestJoinIndex();
   });
@@ -46,7 +46,9 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
-  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(!!router.query.modal_login_terms);
+  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(
+    !!router.query.modal_login_terms,
+  );
   const userType = router.query.user_type as string;
 
   const onChangeTab = (key: string) => {

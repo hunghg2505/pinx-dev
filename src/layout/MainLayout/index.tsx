@@ -12,7 +12,7 @@ const MainLayout = ({ children }: any) => {
       {/* <div className='fixed left-0 top-0 z-10 w-full bg-[#ffffff]'> */}
       <MainHeader />
       {/* </div> */}
-      <div className='relative flex justify-center overflow-auto mobile:container desktop:container'>
+      <div className='relative flex justify-center overflow-auto mobile:container desktop:container tablet:mt-[20px]'>
         <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
           <SideBar />
         </div>
