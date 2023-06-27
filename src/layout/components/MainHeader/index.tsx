@@ -41,6 +41,7 @@ const Header = () => {
   };
   const isLogin = !!getAccessToken();
   const { requestGetProfile } = useProfileInitial();
+  // const { onLogout } = useAuth();
   return (
     <>
       <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px]'>

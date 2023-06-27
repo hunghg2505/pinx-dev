@@ -32,6 +32,7 @@ interface TextProps {
     | 'body-22-bold'
     | 'body-24-bold'
     | 'body-28-bold'
+    | 'body-30-bold'
     | 'barlow-16-medium'
     | 'barlow-12-medium'
     | undefined;

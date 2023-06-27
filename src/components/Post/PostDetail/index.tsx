@@ -139,7 +139,8 @@ const PostDetail = () => {
               );
             })}
           </div>
-          {width < 738 && (
+
+          {width < 738 && isLogin && (
             <div className='mobile:block tablet:hidden'>
               <ForwardedRefComponent
                 ref={refReplies}

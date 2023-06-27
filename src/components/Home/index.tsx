@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Toaster } from 'react-hot-toast';
 
+import ModalLoginTerms from '@components/Auth/Login/ModalLoginTerms';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
+import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
 import ListTheme from './ListTheme';
 import Market from './Market';
@@ -32,6 +35,7 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
+  const router = useRouter()
   socket.on('connect', function () {
     requestJoinIndex();
   });
@@ -42,6 +46,9 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
+  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(!!router.query.modal_login_terms);
+  const userType = router.query.user_type as string;
+
   const onChangeTab = (key: string) => {
     setSelectTab(key);
     if (key === '1') {
@@ -57,8 +64,17 @@ const Home = () => {
       getSuggestFriend();
     }
   }, []);
+
+  const onToggleModalLoginTerms = () => {
+    setShowModalLoginTerms(!showModalLoginTerms);
+  };
   return (
     <>
+      <ModalLoginTerms
+        visible={showModalLoginTerms}
+        onToggle={onToggleModalLoginTerms}
+        userType={userType}
+      />
       <Toaster />
       <div className='flex'>
         <div className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'>
@@ -238,6 +254,7 @@ const Home = () => {
         <ContentRight />
       </div>
 
+      <ComposeButton />
       {!isLogin && <FooterSignUp />}
     </>
   );
