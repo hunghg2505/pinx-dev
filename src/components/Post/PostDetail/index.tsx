@@ -47,7 +47,6 @@ const PostDetail = () => {
   // const [showReply, setShowReply] = useState(false);
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
-  console.log('🚀 ~ file: index.tsx:42 ~ PostDetail ~ postDetail:', postDetail);
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 

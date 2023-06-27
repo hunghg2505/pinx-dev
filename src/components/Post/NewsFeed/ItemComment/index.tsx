@@ -33,7 +33,6 @@ const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal } = props;
-  console.log('🚀 ~ file: index.tsx:35 ~ ItemComment ~ data:', data);
   const { requestGetProfile } = useProfileInitial();
   const isComment = requestGetProfile?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
