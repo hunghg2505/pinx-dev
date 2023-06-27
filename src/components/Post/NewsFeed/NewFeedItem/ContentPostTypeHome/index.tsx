@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
@@ -18,6 +19,7 @@ interface IProps {
   onNavigate?: () => void;
 }
 const ContentPostTypeHome = (props: IProps) => {
+  const router = useRouter();
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
   const ref = useRef(null);
@@ -30,6 +32,12 @@ const ContentPostTypeHome = (props: IProps) => {
   };
   const onReadMore = () => {
     setReadMore(!readMore);
+  };
+  const onRedirect = (url: string) => {
+    router.push({
+      pathname: '/redirecting',
+      query: { url },
+    });
   };
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
@@ -162,9 +170,10 @@ const ContentPostTypeHome = (props: IProps) => {
               </Text>
             </Link>
           </div>
-          <Link
-            href={url}
-            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          <div
+            onClick={() => onRedirect(url)}
+            // href={url}
+            className=' absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <Image
               src='/static/icons/iconLink.svg'
@@ -174,7 +183,7 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='w-[18px]'
             />
-          </Link>
+          </div>
         </div>
       </>
     );
@@ -238,9 +247,10 @@ const ContentPostTypeHome = (props: IProps) => {
               className='h-full w-full'
             />
           </Link>
-          <Link
-            href={postDetail?.post.url || ''}
-            className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          <div
+            onClick={() => onRedirect(postDetail?.post.url)}
+            // href={postDetail?.post.url || ''}
+            className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <Image
               src='/static/icons/iconLink.svg'
@@ -250,7 +260,7 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='w-[18px]'
             />
-          </Link>
+          </div>
         </div>
       </>
     );
@@ -504,9 +514,9 @@ const ContentPostTypeHome = (props: IProps) => {
               </Text>
             </Link>
           </div>
-          <Link
-            href={url}
-            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          <div
+            onClick={() => onRedirect(url)}
+            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <Image
               src='/static/icons/iconLink.svg'
@@ -516,7 +526,7 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='w-[18px]'
             />
-          </Link>
+          </div>
         </div>
       </>
     );

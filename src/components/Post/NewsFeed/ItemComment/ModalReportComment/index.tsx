@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import 'rc-dialog/assets/index.css';
 
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 
@@ -19,14 +20,20 @@ interface IProps {
   children: any;
   closeIcon?: boolean;
   postID: string;
+  isReported?: boolean;
 }
 const ModalReportComment = (props: IProps) => {
-  const { children, closeIcon, postID } = props;
+  const { children, closeIcon, postID, isReported: isReportedProp = false } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
+  const [isReported, setIsReported] = useState(isReportedProp);
   // const isLogin = !!getAccessToken();
   const onVisible = () => {
+    if (isReported) {
+      return;
+    }
+
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
         setVisible(!visible);
@@ -52,8 +59,12 @@ const ModalReportComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
+        setIsReported(true);
+        console.log('thanh cong');
       },
-      onError: () => {},
+      onError: () => {
+        console.log('that bai');
+      },
     },
   );
   const onFinish = () => {
@@ -82,7 +93,14 @@ const ModalReportComment = (props: IProps) => {
   ];
   return (
     <>
-      <Text onClick={onVisible} className='cursor-pointer' type='body-14-regular' color='neutral-4'>
+      <Text
+        onClick={onVisible}
+        className={classNames('cursor-pointer', {
+          'text-[#589DC0]': isReported,
+          'text-[#808080]': !isReported,
+        })}
+        type='body-14-regular'
+      >
         {children}
       </Text>
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
@@ -124,17 +142,20 @@ const ModalReportComment = (props: IProps) => {
               const reason = form.getFieldValue('reportType');
               if (reason === TYPEREPORT.OTHER) {
                 return (
-                  <FormItem name='message'>
+                  <FormItem
+                    name='message'
+                    className='mt-[10px] border-b border-solid border-[#1F6EAC]'
+                  >
                     <Input
                       placeholder='Tell us your reason...'
-                      className='h-[34px] w-full pl-[5px]'
+                      className='h-[38px] w-full pl-[5px] outline-none'
                     />
                   </FormItem>
                 );
               }
             }}
           </FormItem>
-          <div className='flex w-full gap-x-[13px] border-t border-solid border-[#1F6EAC] pt-[16px]'>
+          <div className='flex w-full gap-x-[13px] pt-[16px]'>
             <div
               onClick={onVisible}
               className='flex h-[49px] w-full cursor-pointer items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB]'

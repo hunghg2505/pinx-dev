@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 import PopUpEkyc from '@components/PopUpEkyc';
 import PopUpHome from '@components/PopUpHome';
+import { POPUP_COMPONENT_ID } from 'src/constant';
 
 export enum TypePopup {
   Success = 'success',
@@ -22,20 +23,27 @@ class PopupComponent {
   public static open(options?: PopupOptions) {
     ReactDOM.render(
       React.createElement(PopUpHome, options),
-      document.querySelector('#md-popup-container'),
+      document.querySelector(`#${POPUP_COMPONENT_ID}`),
     );
   }
 
   public static close() {
-    ReactDOM.unmountComponentAtNode(document.querySelector('#md-popup-container') as HTMLElement);
+    ReactDOM.unmountComponentAtNode(
+      document.querySelector(`#${POPUP_COMPONENT_ID}`) as HTMLElement,
+    );
   }
 
   public static openEKYC() {
-    ReactDOM.render(React.createElement(PopUpEkyc), document.querySelector('#md-popup-container'));
+    ReactDOM.render(
+      React.createElement(PopUpEkyc),
+      document.querySelector(`#${POPUP_COMPONENT_ID}`),
+    );
   }
 
   public static closeEKYC() {
-    ReactDOM.unmountComponentAtNode(document.querySelector('#md-popup-container') as HTMLElement);
+    ReactDOM.unmountComponentAtNode(
+      document.querySelector(`#${POPUP_COMPONENT_ID}`) as HTMLElement,
+    );
   }
 }
 

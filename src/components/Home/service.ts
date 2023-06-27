@@ -105,7 +105,6 @@ export interface ISearch {
   keyword: string;
   searchType: string;
 }
-const isLogin = !!getAccessToken();
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
     return requestCommunity.get(API_PATH.FILTER_LIST);
@@ -124,6 +123,7 @@ const requestGetList = (type: string) => {
 export const useGetListNewFeed = () => {
   const { data, run, refresh } = useRequest(
     (type: string) => {
+      const isLogin = !!getAccessToken();
       return isLogin
         ? requestGetList(type)
         : requestCommunity.get(API_PATH.NEWFEED_LIST + `?filterType=${type}`);
@@ -168,6 +168,8 @@ export const useGetTrending = () => {
 
 export const useGetInfluencer = () => {
   const { data, refresh } = useRequest(() => {
+    const isLogin = !!getAccessToken();
+
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
       : requestPist.get(API_PATH.KOL);
@@ -220,6 +222,7 @@ export const useSuggestPeople = () => {
 
 export const useGetTheme = () => {
   const { data, refresh } = useRequest(() => {
+    const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
       : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
@@ -256,6 +259,7 @@ export const requestUnFollowUser = (id: number) => {
 };
 export const useGetWatchList = () => {
   const { data } = useRequest(() => {
+    const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
       : new Promise<void>((resolve) => {
