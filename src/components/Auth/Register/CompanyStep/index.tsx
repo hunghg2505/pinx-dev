@@ -27,10 +27,10 @@ const RegisterCompanyStep = () => {
   });
 
   useEffect(() => {
-    if (listSuggestStock.stockCodes) {
+    if (listSuggestStock.stocks) {
       detailStockSuggested.run();
     }
-  }, [listSuggestStock.stockCodes]);
+  }, [listSuggestStock.stocks]);
 
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
