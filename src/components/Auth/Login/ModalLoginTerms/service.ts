@@ -79,7 +79,7 @@ const agreeContract = async (values: any) => {
     const resConfirmContract = serviceConfirmContract(confirmContractValues);
     const sendLoginOtp = serviceSendLoginOtp(confirmSendLoginOtp);
 
-    return Promise.all([resConfirmContract, sendLoginOtp]);
+    return Promise.all([sendLoginOtp, resConfirmContract]);
   } catch {}
 };
 
@@ -89,8 +89,8 @@ export const useAgreeContract = (options: IOptionsRequest) => {
       const [resConfirmContract, sendLoginOtp] = (await agreeContract(values)) || [];
 
       return {
-        resConfirmContract,
         sendLoginOtp,
+        resConfirmContract,
       };
     },
     {

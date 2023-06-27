@@ -16,6 +16,7 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { ENV } from '@utils/env';
+import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
@@ -81,6 +82,7 @@ const Register = () => {
         <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
           <FormItem
             name='phoneNumber'
+            normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
             rules={[
               {
                 required: true,
@@ -97,6 +99,7 @@ const Register = () => {
               placeholder='Phone number'
               labelContent='Phone number'
               name='phoneNumber'
+              maxLength={10}
             />
           </FormItem>
           <FormItem

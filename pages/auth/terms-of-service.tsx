@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import TermsOfService from '@components/Auth/TermsOfService';
+const TermsOfService = dynamic(() => import('@components/Auth/TermsOfService'), {
+  ssr: false,
+});
 
 const TermsOfServicePage = () => {
   return (

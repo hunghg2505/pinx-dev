@@ -23,6 +23,12 @@ const ForgotPasswordStepOne = () => {
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
   const router = useRouter();
+  const initialValues = {
+    username: router.query.username,
+    phoneNumber: router.query.phone_number
+  }
+
+  console.log('xxx initialValues', initialValues)
 
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
@@ -57,7 +63,7 @@ const ForgotPasswordStepOne = () => {
         </Text>
       </div>
 
-      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit} initialValues={initialValues}>
         <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
@@ -105,6 +111,7 @@ const ForgotPasswordStepOne = () => {
             placeholder='Phone number'
             labelContent='Phone number'
             name='phoneNumber'
+            maxLength={10}
           />
         </FormItem>
         <FormItem
