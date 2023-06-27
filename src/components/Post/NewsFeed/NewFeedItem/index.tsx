@@ -360,17 +360,7 @@ const NewFeedItem = (props: IProps) => {
           </div>
           <div
             className='report flex cursor-pointer flex-row items-center justify-center'
-            onClick={() => {
-              if (isLogin) {
-                if (statusUser === USERTYPE.VSD) {
-                  setShowModalShare(true);
-                } else {
-                  PopupComponent.openEKYC();
-                }
-              } else {
-                PopupComponent.open();
-              }
-            }}
+            onClick={() => setShowModalShare(true)}
           >
             <Image
               src='/static/icons/iconShare.svg'
