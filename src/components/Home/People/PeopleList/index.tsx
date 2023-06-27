@@ -10,7 +10,7 @@ const settings = {
   dots: false,
   infinite: true,
   speed: 500,
-  slidesToShow: 2,
+  slidesToShow: 3,
   slidesToScroll: 1,
   // autoplay: true,
   // autoplaySpeed: 1000,
@@ -23,8 +23,8 @@ const PeopleList = (props: IProps) => {
   const { data, refresh } = props;
   return (
     <div className='overflow-hidden'>
-      <Slider {...settings} className='slide-watchlist'>
-        {data?.map((item: ISuggestionPeople, index: number) => {
+      <Slider {...settings} className=''>
+        {data?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
           return (
             <div key={index}>
               <ItemPeople data={item} refresh={refresh} />

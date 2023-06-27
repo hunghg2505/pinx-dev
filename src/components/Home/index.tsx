@@ -39,7 +39,6 @@ const Home = () => {
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const { watchList } = useGetWatchList();
-  console.log('🚀 ~ file: index.tsx:42 ~ Home ~ watchList:', watchList);
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
@@ -97,7 +96,7 @@ const Home = () => {
                 </Tabs>
               </div>
               {isLogin && (
-                <div className='tablet::block rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden'>
+                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:block'>
                   <div className='flex items-center'>
                     <Image
                       src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
@@ -165,7 +164,8 @@ const Home = () => {
                 </Text>
                 <ModalFilter run={run} />
               </div>
-              <div className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
+              <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
+                <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}

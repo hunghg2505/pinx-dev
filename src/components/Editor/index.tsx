@@ -50,7 +50,6 @@ const Editor = (props: IProps, ref: any) => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
   const { statusUser } = useUserType();
-  console.log('🚀 ~ file: index.tsx:52 ~ Editor ~ statusUser:', statusUser);
   const { requestGetProfile } = useProfileInitial();
   const editor = useEditor({
     extensions: [

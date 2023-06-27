@@ -53,7 +53,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#E6A70A]  ': data?.change === 0,
             })}
           >
-            {data?.lastPrice}
+            {data?.lastPrice.toFixed(2)}
           </Text>
 
           <Text

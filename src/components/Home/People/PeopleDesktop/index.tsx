@@ -32,7 +32,7 @@ const PeopleDesktop = () => {
   };
   return (
     <>
-      {suggestionPeople?.slice(0, 5)?.map((item: ISuggestionPeople, index: number) => {
+      {suggestionPeople?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
         const image = item?.avatar?.includes('http');
         return (
           <div
