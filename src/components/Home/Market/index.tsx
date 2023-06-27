@@ -5,6 +5,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 
+import { PREFIX_API_MARKET } from '@api/request';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -59,7 +60,7 @@ const Market = () => {
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run } = useRequest(
     () => {
-      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
     },
     {
       manual: true,
