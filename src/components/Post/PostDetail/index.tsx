@@ -49,7 +49,11 @@ const PostDetail = () => {
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
-
+  console.log(
+    '🚀 ~ file: index.tsx:52 ~ PostDetail ~ commentsOfPost:',
+    commentsOfPost?.data?.list?.length > 0,
+  );
+  const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const onGoToBack = () => {
     router.back();
   };
@@ -116,32 +120,42 @@ const PostDetail = () => {
               refreshTotal={refresh}
             />
           </div>
-          <div className='desktop:ml-[48px] desktop:mr-[72px]'>
-            {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-              return (
-                <>
-                  <ItemComment
-                    key={index}
-                    data={item}
-                    onReplies={onReplies}
-                    refresh={refreshCommentOfPOst}
-                    refreshTotal={refresh}
-                  />
-                  {getSubComment(item.children)}
-                  {/* {showReply && width > 737 && (
+          <div className='mobile:mb-[50px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px]'>
+            {isHaveComment ? (
+              commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+                return (
+                  <>
+                    <ItemComment
+                      key={index}
+                      data={item}
+                      onReplies={onReplies}
+                      refresh={refreshCommentOfPOst}
+                      refreshTotal={refresh}
+                    />
+                    {getSubComment(item.children)}
+                    {/* {showReply && width > 737 && (
                     <ForwardedRefComponent
                       ref={refReplies}
                       id={postDetail?.data?.id}
                       refresh={refreshCommentOfPOst}
                     />
                   )} */}
-                </>
-              );
-            })}
+                  </>
+                );
+              })
+            ) : (
+              <Text
+                type='body-14-regular'
+                color='neutral-3'
+                className='mt-[16px] text-center tablet:hidden'
+              >
+                There is no comments
+              </Text>
+            )}
           </div>
 
           {width < 738 && isLogin && (
-            <div className='mobile:block tablet:hidden'>
+            <div className='fixed -bottom-[20px] left-0 w-full mobile:block tablet:hidden'>
               <ForwardedRefComponent
                 ref={refReplies}
                 id={postDetail?.data?.id}

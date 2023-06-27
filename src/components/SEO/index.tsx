@@ -31,7 +31,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <title>{title || config.title}</title>
       <meta name='title' content={title || config.title} />
       <meta name='description' content={description || config.description} />
-
+      <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       {openGraph?.locale && (
         <meta key='og:locale' property='og:locale' content={openGraph?.locale} />
       )}
