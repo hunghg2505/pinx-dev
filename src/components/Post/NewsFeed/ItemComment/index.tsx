@@ -15,6 +15,7 @@ import {
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -31,6 +32,8 @@ const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh } = props;
+  const { requestGetProfile } = useProfileInitial();
+  const isComment = requestGetProfile?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const onComment = (value: string, customerId: number, id: string) => {
     if (!isLogin) {
@@ -50,8 +53,7 @@ const ItemComment = (props: IProps) => {
   const name = data?.customerInfo?.name || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
-  const urlImage =
-    data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '/static/images/influencer.jpg';
+  const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const useLike = useRequest(
     () => {
       return requestLikeComment(data.id);
@@ -97,6 +99,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        setShowDelete(false);
       },
     },
   );
@@ -119,7 +122,7 @@ const ItemComment = (props: IProps) => {
         />
         {/* bg-[#F6FAFD] */}
         <div className='content w-full'>
-          <div className='relative rounded-[12px]  px-[16px] py-[12px]'>
+          <div className='relative rounded-[12px] py-[12px]'>
             <div className='mb-[12px] flex w-full flex-row items-center justify-between'>
               <Text type='body-14-bold' color='neutral-1'>
                 {data?.customerInfo?.name}
@@ -128,14 +131,17 @@ const ItemComment = (props: IProps) => {
                 <Text type='body-12-medium' color='neutral-5' className='mr-[12px]'>
                   {dayjs(data?.timeString).fromNow()}
                 </Text>
-                <Image
-                  src='/static/icons/iconDot.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  className='h-[18px] w-[18px] rotate-90 transform cursor-pointer'
-                  onClick={onShowDelete}
-                />
+                {isComment && (
+                  <Image
+                    src='/static/icons/iconDot.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    className='h-[18px] w-[18px] rotate-90 transform cursor-pointer'
+                    onClick={onShowDelete}
+                  />
+                )}
+
                 {showDelete && (
                   <div
                     className=' absolute -bottom-[55px] right-0 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
@@ -181,11 +187,11 @@ const ItemComment = (props: IProps) => {
               </div>
             )}
           </div>
-          {data?.urlImages?.length > 0 && (
+          {urlImage !== '' && (
             <Fancybox>
               <a data-fancybox='gallery' href={urlImage}>
                 <Image
-                  src={urlImage || '/static/logo/logoPintree.svg'}
+                  src={urlImage}
                   alt=''
                   width={0}
                   height={0}

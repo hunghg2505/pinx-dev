@@ -17,7 +17,6 @@ import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from 
 const WatchList = () => {
   const router = useRouter();
   const [dataStock, setDataStock] = React.useState<any>([]);
-  console.log('🚀 ~ file: index.tsx:20 ~ WatchList ~ dataStock:', dataStock);
 
   const useWatchList = useRequest(
     () => {
@@ -87,7 +86,7 @@ const WatchList = () => {
               className='mx-[auto] my-[0] flex w-[calc(100%_-_32px)]'
               variableWidth
             >
-              {dataStock?.map((item: IWatchListItem, index: number) => {
+              {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
                 return <ItemStock key={index} data={item} />;
               })}
             </Slider>

@@ -9,30 +9,6 @@ import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { formatMessage } from '@utils/common';
 
-const IconHeart = () => (
-  <svg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <rect x='0.5' width='24' height='24' rx='12' fill='white' />
-    <rect x='6.5' y='6' width='12' height='12' rx='6' fill='#FF5757' />
-    <path
-      fillRule='evenodd'
-      clipRule='evenodd'
-      d='M12.4978 9.71856C11.8251 8.93218 10.7034 8.72064 9.86065 9.44073C9.01787 10.1608 8.89922 11.3648 9.56106 12.2164C10.1113 12.9245 11.7767 14.4179 12.3225 14.9013C12.3835 14.9554 12.4141 14.9824 12.4497 14.993C12.4808 15.0023 12.5148 15.0023 12.5459 14.993C12.5815 14.9824 12.612 14.9554 12.6731 14.9013C13.2189 14.4179 14.8842 12.9245 15.4345 12.2164C16.0963 11.3648 15.9921 10.1532 15.1349 9.44073C14.2776 8.72822 13.1704 8.93218 12.4978 9.71856Z'
-      fill='white'
-    />
-  </svg>
-);
-const IconHeartAction = () => (
-  <svg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <rect x='0.5' width='24' height='24' rx='12' fill='white' />
-    <rect x='6.5' y='6' width='12' height='12' rx='6' fill='#989898' />
-    <path
-      fillRule='evenodd'
-      clipRule='evenodd'
-      d='M12.4978 9.71856C11.8251 8.93218 10.7034 8.72064 9.86065 9.44073C9.01787 10.1608 8.89922 11.3648 9.56106 12.2164C10.1113 12.9245 11.7767 14.4179 12.3225 14.9013C12.3835 14.9554 12.4141 14.9824 12.4497 14.993C12.4808 15.0023 12.5148 15.0023 12.5459 14.993C12.5815 14.9824 12.612 14.9554 12.6731 14.9013C13.2189 14.4179 14.8842 12.9245 15.4345 12.2164C16.0963 11.3648 15.9921 10.1532 15.1349 9.44073C14.2776 8.72822 13.1704 8.93218 12.4978 9.71856Z'
-      fill='white'
-    />
-  </svg>
-);
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
@@ -72,7 +48,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='absolute right-0 top-0 h-full'
           />
-          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] tablet:h-[269px] tablet:w-[192px]'>
+          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] tablet:bottom-[11px] tablet:left-[32px] tablet:h-[269px] tablet:w-[192px]'>
             <div className='flex flex-col items-center justify-center'>
               <Image
                 src={iconPost}
@@ -237,27 +213,61 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='absolute right-0 top-0 h-full'
           />
-          <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
+          <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[9px] mobile:left-[19px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
             <Image
               src={url || '/static/icons/logoStock.svg'}
               alt=''
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute -top-[14px] left-2/4 mr-[6px] w-[36px] -translate-x-1/2 transform'
+              className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain tablet:-top-[24px] tablet:h-[48px] tablet:w-[48px]'
             />
-            <div className='mt-[26px] flex flex-col items-center justify-center'>
-              <Text type='body-16-bold' color='neutral-1' className='mb-[4px]'>
+            <div className='mt-[26px] flex flex-col items-center justify-center tablet:mt-[36px]'>
+              <Text
+                type='body-16-bold'
+                color='neutral-1'
+                className='mb-[4px] desktop:!text-[24px] desktop:!leading-[32px]'
+              >
                 {postDetail?.post.stockCode}
               </Text>
-              {postDetail?.post.action === 'ADD' ? <IconHeart /> : <IconHeartAction />}
-              <Text type='body-12-medium' color='primary-5' className='mt-[24px]'>
+              {postDetail?.post.action === 'ADD' ? (
+                <Image
+                  src='/static/icons/iconHeartActive.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
+                />
+              ) : (
+                <Image
+                  src='/static/icons/iconHeart.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
+                />
+              )}
+              <Text
+                type='body-12-medium'
+                color='primary-5'
+                className='mt-[24px] desktop:mt-[36px] desktop:!text-[20px] desktop:!leading-[28px]'
+              >
                 {postDetail?.post.action === 'ADD' ? 'Watching' : 'Unwatch'}
               </Text>
-              <Text type='body-12-medium' color='neutral-9' className='mb-[2px] mt-[12px]'>
+              <Text
+                type='body-12-medium'
+                color='neutral-9'
+                className='mb-[2px] mt-[12px] desktop:mt-[19px] desktop:!text-[20px] desktop:!leading-[28px]'
+              >
                 Made on PineX
               </Text>
-              <Text type='body-12-medium' color='neutral-7'>
+              <Text
+                type='body-12-medium'
+                color='neutral-7'
+                className='desktop:!text-[20px] desktop:!leading-[28px]'
+              >
                 {postDetail?.timeString && dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
               </Text>
             </div>
@@ -284,45 +294,61 @@ const ContentPostTypeDetail = (props: IProps) => {
             sizes='100vw'
             className='absolute right-0 top-0 h-full w-full'
           />
-          <div className='absolute bottom-[9px] left-[19px] h-[168px] w-[120px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter'>
+          <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[9px] mobile:left-[19px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
             <Image
               src={urlStock || '/static/icons/logoStock.svg'}
               alt=''
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute -top-[14px] left-2/4 mr-[6px] w-[36px] -translate-x-1/2 transform'
+              className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain tablet:h-[48px] tablet:w-[48px]'
             />
-            <div className='mt-[25px] flex flex-col items-center justify-center'>
-              <Text type='body-16-bold' color='neutral-1'>
+            <div className='mt-[25px] flex flex-col items-center justify-center tablet:mt-[36px]'>
+              <Text
+                type='body-16-bold'
+                color='neutral-1'
+                className='tablet:!text-[24px] tablet:!leading-[32px]'
+              >
                 {postDetail?.post?.stockCode}
               </Text>
-              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF]'>
+              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] tablet:my-[7px] tablet:h-[32px] tablet:w-[32px]'>
                 <Image
                   src='/static/icons/iconPostBuy.svg'
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='w-[12px]'
+                  className='w-[12px] tablet:w-[20px]'
                 />
               </div>
-              <Text type='body-12-medium' color='neutral-1' className='mb-[4px] mt-[4px]'>
+              <Text
+                type='body-12-medium'
+                color='neutral-1'
+                className='mb-[4px] mt-[4px] tablet:!text-[20px] tablet:!leading-[28px]'
+              >
                 Sell
               </Text>
               <Text
                 type='body-16-medium'
-                className={classNames({
+                className={classNames('tablet:!text-[24px] tablet:!leading-[32px]', {
                   'text-[#128F63]': pnlRate > 0,
                   'text-[#DB4444]': pnlRate < 0,
                 })}
               >
                 {pnlRate.toFixed(2)}%
               </Text>
-              <Text type='body-12-medium' color='neutral-4' className='mb-[2px] mt-[10px]'>
+              <Text
+                type='body-12-medium'
+                color='neutral-3'
+                className='mb-[2px] mt-[10px] tablet:mt-[24px] tablet:!text-[20px] tablet:!leading-[28px]'
+              >
                 Made on PineX
               </Text>
-              <Text type='body-12-medium' color='neutral-4'>
+              <Text
+                type='body-12-medium'
+                color='neutral-3'
+                className='tablet:!text-[20px] tablet:!leading-[28px]'
+              >
                 {dayjs(postDetail?.post?.tradingDate).format('DD/MM/YYYY')}
               </Text>
             </div>
