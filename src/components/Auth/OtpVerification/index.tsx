@@ -16,31 +16,14 @@ interface IProps {
   onSubmit: (otp: string) => void;
   phoneNumber?: string;
 }
-interface Itime {
-  m: string;
-  s: string;
-}
 
-const secondsToTime = (secs: number) => {
-  const divisor_for_minutes = secs % (60 * 60);
-  const minutes = Math.floor(divisor_for_minutes / 60);
-  const minutesText =
-    minutes < 10
-      ? '0' + Math.floor(divisor_for_minutes / 60).toString()
-      : Math.floor(divisor_for_minutes / 60).toString();
-
-  const divisor_for_seconds = divisor_for_minutes % 60;
-  const seconds = Math.ceil(divisor_for_seconds);
+const convertSecond = (secs: number) => {
   const secondsText =
-    seconds < 10
-      ? '0' + Math.ceil(divisor_for_seconds).toString()
-      : Math.ceil(divisor_for_seconds).toString();
+    secs < 10
+      ? '0' + Math.ceil(secs).toString()
+      : Math.ceil(secs).toString();
 
-  const obj = {
-    m: minutesText,
-    s: secondsText,
-  };
-  return obj;
+  return secondsText;
 };
 
 const OtpVerification = (props: IProps) => {
@@ -49,12 +32,10 @@ const OtpVerification = (props: IProps) => {
   const [otp, setOtp] = useState<string>('');
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
   const [otpCount, setOtpCount] = useState<number>(120);
-  const [otpTime, setOtpTime] = useState<Itime>();
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
   const [resendCount, setResendCount] = useState<number>(15);
-  const [resendTime, setResendTime] = useState<Itime>();
   const [isResendAvailable, setIsResendAvailable] = useState<boolean>(false);
 
   const replacedPhoneNumber = () => {
@@ -88,7 +69,7 @@ const OtpVerification = (props: IProps) => {
       startOtpTimer();
       setOtpCount(120);
       setIsOtpExpired(false);
-      setResendCount(30);
+      setResendCount(15);
       setIsResendAvailable(false);
       startResendTimer();
     }
@@ -106,7 +87,6 @@ const OtpVerification = (props: IProps) => {
   }, [otpRunning]);
 
   useEffect(() => {
-    setOtpTime(secondsToTime(otpCount));
     if (otpCount === 0) {
       setOtpRunning(false);
       setIsOtpExpired(true);
@@ -125,7 +105,6 @@ const OtpVerification = (props: IProps) => {
   }, [resendRunning]);
 
   useEffect(() => {
-    setResendTime(secondsToTime(resendCount));
     if (resendCount === 0) {
       setResendRunning(false);
       setIsResendAvailable(true);
@@ -165,7 +144,7 @@ const OtpVerification = (props: IProps) => {
       >
         {isOtpExpired
           ? t('otp_is_expired')
-          : `${t('otp_expire_after')} ${otpTime?.m}:${otpTime?.s} ${t('minutes')}`}
+          : `${t('otp_expire_after')} ${convertSecond(otpCount)}s`}
       </Text>
 
       <Form className='space-y-6' form={form} onFinish={onSubmit}>
@@ -207,7 +186,7 @@ const OtpVerification = (props: IProps) => {
             className={'mr-2 h-[15px] w-[15px]'}
           />
           <Text type='body-12-regular' color={isResendAvailable ? 'primary-2' : 'neutral-5'}>
-            {isResendAvailable ? t('resend_otp') : `${resendTime?.m}:${resendTime?.s}`}
+            {isResendAvailable ? t('resend_otp') : `00:${convertSecond(resendCount)}`}
           </Text>
         </RoundButton>
       </div>

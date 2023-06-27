@@ -31,7 +31,7 @@ function Home() {
               className='h-[28px] w-[28px]'
             />
             <Text type='body-14-regular' className='mobile:hidden laptop:block'>
-              Hướng dẫn đăng kí tài khoản
+              Sign up instructions
             </Text>
           </NextLink>
         </div>

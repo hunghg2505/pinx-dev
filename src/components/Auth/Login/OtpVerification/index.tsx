@@ -7,14 +7,14 @@ import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useLoginOtp, useResendLoginOtp } from './service';
+import { useAgreeContract, useResendLoginOtp } from './service';
 import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const router = useRouter();
 
-  const requestRegisterOtp = useLoginOtp({
+  const requestAgreeContract = useAgreeContract({
     onSuccess: (res: any) => {
       router.push(ROUTE_PATH.HOME);
       console.log('xxx res', res);
@@ -40,10 +40,11 @@ const Register = () => {
       cif: userLoginInfo.cif || '',
       type: '1',
       value,
+      authType: '1',
     };
-    requestRegisterOtp.run(payload);
+    requestAgreeContract.run(payload);
   };
-  const requestResendRegisterOtp = useResendLoginOtp({
+  const requestResendLoginOtp = useResendLoginOtp({
     onSuccess: (res: any) => {
       console.log('xxx res', res);
     },
@@ -53,7 +54,7 @@ const Register = () => {
   });
 
   const onResendOtp = () => {
-    requestResendRegisterOtp.run();
+    requestResendLoginOtp.run();
   };
 
   useEffect(() => {
