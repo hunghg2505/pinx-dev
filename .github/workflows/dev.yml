@@ -55,6 +55,7 @@ jobs:
           host: 54.151.229.11
           username: ubuntu
           key: ${{ secrets.KEY }}
+          port: 22
           script: |
             cd /home/ubuntu
             echo "Hello"
