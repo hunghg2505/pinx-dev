@@ -340,7 +340,7 @@ const NewFeedItem = (props: IProps) => {
               color='primary-5'
               className={classNames({ '!text-[#589DC0]': isLike })}
             >
-              {postDetail?.totalLikes || ''} Likes
+              {postDetail?.totalLikes || ''} Like
             </Text>
           </div>
           <div
@@ -355,7 +355,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {totalComments > 0 ? totalComments : ''} Comments
+              {totalComments > 0 ? totalComments : ''} Comment
             </Text>
           </div>
           <div
@@ -370,7 +370,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {requestGetTotalShare?.data?.shares?.all || ''} Shares
+              {requestGetTotalShare?.data?.shares?.all || ''} Share
             </Text>
           </div>
         </div>
