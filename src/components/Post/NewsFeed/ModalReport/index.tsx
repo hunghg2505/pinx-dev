@@ -132,17 +132,20 @@ const ModalReport = (props: IProps) => {
               const reason = form.getFieldValue('reportType');
               if (reason === TYPEREPORT.OTHER) {
                 return (
-                  <FormItem name='message'>
+                  <FormItem
+                    name='message'
+                    className='mt-[10px] border-b border-solid border-[#1F6EAC]'
+                  >
                     <Input
                       placeholder='Tell us your reason...'
-                      className='h-[34px] w-full pl-[5px]'
+                      className='h-[38px] w-full pl-[5px] outline-none'
                     />
                   </FormItem>
                 );
               }
             }}
           </FormItem>
-          <div className='flex w-full gap-x-[13px] border-t border-solid border-[#1F6EAC] pt-[16px]'>
+          <div className='flex w-full gap-x-[13px] pt-[16px]'>
             <div
               onClick={onVisible}
               className='flex h-[49px] w-full cursor-pointer items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB]'

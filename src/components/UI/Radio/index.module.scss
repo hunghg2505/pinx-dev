@@ -1,13 +1,13 @@
-.checked{
-  &:after{
+.checked {
+  &:after {
     position: absolute;
     content: '';
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    background-color: #1F6EAC;
+    width: 12px;
+    height: 12px;
+    background-color: #1f6eac;
     border-radius: 50%;
   }
 }
