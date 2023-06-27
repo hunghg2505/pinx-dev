@@ -27,7 +27,15 @@ const ContentRight = dynamic(import('@components/Home/ContentRight'), {
   ssr: false,
 });
 const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
-  return <ComponentRef {...props} forwardedRef={ref} id={props.id} refresh={props.refresh} />;
+  return (
+    <ComponentRef
+      {...props}
+      forwardedRef={ref}
+      id={props.id}
+      refresh={props.refresh}
+      refreshTotal={props.refresh}
+    />
+  );
 });
 
 const PostDetail = () => {
@@ -41,7 +49,11 @@ const PostDetail = () => {
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
-
+  console.log(
+    '🚀 ~ file: index.tsx:52 ~ PostDetail ~ commentsOfPost:',
+    commentsOfPost?.data?.list?.length > 0,
+  );
+  const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const onGoToBack = () => {
     router.back();
   };
@@ -64,6 +76,7 @@ const PostDetail = () => {
               key={index}
               onReplies={onReplies}
               refresh={refreshCommentOfPOst}
+              refreshTotal={refresh}
             />
           ))}
         </div>
@@ -94,7 +107,7 @@ const PostDetail = () => {
           </div>
           <NewFeedItem
             postDetail={postDetail?.data}
-            totalComments={commentsOfPost?.data?.list.length}
+            totalComments={postDetail?.data?.totalChildren}
             onRefreshPostDetail={refresh}
             postId={postDetail?.data?.id}
           />
@@ -104,36 +117,50 @@ const PostDetail = () => {
               ref={refReplies}
               id={postDetail?.data?.id}
               refresh={refreshCommentOfPOst}
+              refreshTotal={refresh}
             />
           </div>
-          <div className='desktop:ml-[48px] desktop:mr-[72px]'>
-            {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-              return (
-                <>
-                  <ItemComment
-                    key={index}
-                    data={item}
-                    onReplies={onReplies}
-                    refresh={refreshCommentOfPOst}
-                  />
-                  {getSubComment(item.children)}
-                  {/* {showReply && width > 737 && (
+          <div className='mobile:mb-[50px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px]'>
+            {isHaveComment ? (
+              commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+                return (
+                  <>
+                    <ItemComment
+                      key={index}
+                      data={item}
+                      onReplies={onReplies}
+                      refresh={refreshCommentOfPOst}
+                      refreshTotal={refresh}
+                    />
+                    {getSubComment(item.children)}
+                    {/* {showReply && width > 737 && (
                     <ForwardedRefComponent
                       ref={refReplies}
                       id={postDetail?.data?.id}
                       refresh={refreshCommentOfPOst}
                     />
                   )} */}
-                </>
-              );
-            })}
+                  </>
+                );
+              })
+            ) : (
+              <Text
+                type='body-14-regular'
+                color='neutral-3'
+                className='mt-[16px] text-center tablet:hidden'
+              >
+                There is no comments
+              </Text>
+            )}
           </div>
-          {width < 738 && (
-            <div className='mobile:block tablet:hidden'>
+
+          {width < 738 && isLogin && (
+            <div className='fixed -bottom-[20px] left-0 w-full mobile:block tablet:hidden'>
               <ForwardedRefComponent
                 ref={refReplies}
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPOst}
+                refreshTotal={refresh}
               />
             </div>
           )}

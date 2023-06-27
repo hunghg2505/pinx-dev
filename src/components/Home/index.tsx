@@ -14,6 +14,7 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
+import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
 import ListTheme from './ListTheme';
 import Market from './Market';
@@ -38,7 +39,7 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
-  const [selectTab, setSelectTab] = React.useState<string>('1');
+  const [selectTab, setSelectTab] = React.useState<string>('2');
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const { watchList } = useGetWatchList();
@@ -253,6 +254,7 @@ const Home = () => {
         <ContentRight />
       </div>
 
+      <ComposeButton />
       {!isLogin && <FooterSignUp />}
     </>
   );

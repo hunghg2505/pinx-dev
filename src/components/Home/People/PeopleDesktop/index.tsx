@@ -55,20 +55,20 @@ const PeopleDesktop = () => {
               <div>
                 <div className='flex items-center'>
                   <Text type='body-14-semibold' color='cbblack'>
-                    Darrell Steward
+                    {item.displayName}
                   </Text>
                   {item.isKol && (
                     <Image
-                      src='/static/icons/iconTick.svg'
+                      src='/static/icons/iconStarFollow.svg'
                       alt=''
                       width={0}
                       height={0}
-                      className='ml-[6px] w-[13px]'
+                      className='ml-[6px] w-[16px]'
                     />
                   )}
                 </div>
                 <Text type='body-12-regular' className='mt-[4px] text-[#666666]'>
-                  {item.numberFollowers} theo dõi
+                  {item.numberFollowers} Followers
                 </Text>
               </div>
             </div>

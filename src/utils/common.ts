@@ -33,7 +33,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/profile/${ID}" className="tagStock">@${name}</a>
+          <a href="/profile/${ID}" className="tagStock">${name}</a>
           `,
         );
       }

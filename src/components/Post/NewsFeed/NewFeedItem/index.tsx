@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 
-import { useClickAway, useRequest } from 'ahooks';
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,14 +19,17 @@ import {
   unlikePost,
 } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
+import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
 import ModalReport from '../ModalReport';
 import ModalShare from '../ModalShare';
 
+dayjs.extend(relativeTime);
 interface IProps {
   postDetail: IPost;
   totalComments: number;
@@ -43,13 +48,28 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail } = props;
   const [showReport, setShowReport] = React.useState(false);
+  const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
+  const [isReported, setIsReported] = useState(postDetail?.isReport);
+  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { statusUser, isLogin } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
-  useClickAway(() => {
-    // showReport && setShowReport(false);
-  }, ref);
+
+  const handleHidePopup = () => {
+    showReport && setShowReport(false);
+  };
+  useClickOutSide(ref, handleHidePopup, excludeElements);
+
+  useEffect(() => {
+    setExcludeElements(() => {
+      return [
+        document.querySelector(`#${POPUP_COMPONENT_ID}`),
+        document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
+      ];
+    });
+  }, [modalReportVisible]);
+
   const id = router.query?.id;
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
@@ -172,6 +192,12 @@ const NewFeedItem = (props: IProps) => {
       PopupComponent.open();
     }
   };
+
+  const handleReportPostSuccess = () => {
+    setModalReportVisible(false);
+    setIsReported(true);
+  };
+
   const renderLogo = () => {
     let logo = '';
     if (
@@ -354,9 +380,9 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+              <div className='popup absolute right-0 z-10 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
                 <div
-                  className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'
+                  className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                   onClick={handleHidePost}
                 >
                   <Image
@@ -371,21 +397,28 @@ const NewFeedItem = (props: IProps) => {
                     Hide
                   </Text>
                 </div>
-                <div className='ml-[12px] flex h-[44px] items-center'>
-                  <Image
-                    src='/static/icons/iconFlag.svg'
-                    alt=''
-                    width='0'
-                    height='0'
-                    sizes='100vw'
-                    className='mr-[8px] h-[20px] w-[20px] object-contain'
-                  />
-                  <ModalReport postID={postDetail?.id}>
-                    <Text type='body-14-medium' color='neutral-2'>
-                      Report
-                    </Text>
-                  </ModalReport>
-                </div>
+                {!isReported && (
+                  <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                    <Image
+                      src='/static/icons/iconFlag.svg'
+                      alt=''
+                      width='0'
+                      height='0'
+                      sizes='100vw'
+                      className='mr-[8px] h-[20px] w-[20px] object-contain'
+                    />
+                    <ModalReport
+                      visible={modalReportVisible}
+                      onModalReportVisible={setModalReportVisible}
+                      postID={postDetail?.id}
+                      onReportSuccess={handleReportPostSuccess}
+                    >
+                      <Text type='body-14-medium' color='neutral-2'>
+                        Report
+                      </Text>
+                    </ModalReport>
+                  </div>
+                )}
               </div>
             )}
           </button>
@@ -412,7 +445,7 @@ const NewFeedItem = (props: IProps) => {
               color='primary-5'
               className={classNames({ '!text-[#589DC0]': isLike })}
             >
-              {postDetail?.totalLikes || ''} Likes
+              {postDetail?.totalLikes || ''} Like
             </Text>
           </div>
           <div
@@ -427,22 +460,12 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {postDetail?.totalChildren > 0 ? postDetail?.totalChildren : ''} Comments
+              {postDetail?.totalChildren > 0 ? postDetail?.totalChildren : ''} Comment
             </Text>
           </div>
           <div
             className='report flex cursor-pointer flex-row items-center justify-center'
-            onClick={() => {
-              if (isLogin) {
-                if (statusUser === USERTYPE.VSD) {
-                  setShowModalShare(true);
-                } else {
-                  PopupComponent.openEKYC();
-                }
-              } else {
-                PopupComponent.open();
-              }
-            }}
+            onClick={() => setShowModalShare(true)}
           >
             <Image
               src='/static/icons/iconShare.svg'
@@ -452,7 +475,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {requestGetTotalShare?.data?.shares?.all || ''} Shares
+              {requestGetTotalShare?.data?.shares?.all || ''} Share
             </Text>
           </div>
         </div>

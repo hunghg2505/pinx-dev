@@ -113,7 +113,7 @@ const ThemesItem = (props: IProps) => {
         <>
           <IconChecked />
           <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
-            unSubcribe
+            Subscribed
           </Text>
         </>
       );

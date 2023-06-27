@@ -54,7 +54,7 @@ const FooterSignUp = () => {
   return (
     <div
       style={{ transform: `translateY(${scrollTop.toFixed(0)}px)`, height: HEADER_HEIGHT }}
-      className='fixed bottom-0 z-10 flex items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition desktop:hidden'
+      className='fixed bottom-0 z-10 flex min-w-[375px] items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition desktop:hidden'
     >
       <Text type='body-14-regular' className='primary-5'>
         Sign up or Log in to join the discussion
@@ -62,7 +62,7 @@ const FooterSignUp = () => {
 
       <button
         onClick={redirectToSignUp}
-        className='ml-[6px] h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
+        className='ml-[5px] h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
       >
         <Text type='body-14-semibold' color='cbwhite'>
           Sign up

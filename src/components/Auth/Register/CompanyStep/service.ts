@@ -23,7 +23,7 @@ export const useSuggestStockCode = (options: IOptionsRequest) => {
   );
 
   return {
-    stocks: data,
+    stockCodes: data,
     loading,
   };
 };
@@ -55,7 +55,7 @@ export const useGetDetailStockCode = (stockCodes: string) => {
 const serviceSelectStock = async (stockCodes: string) => {
   return await privateRequest(requestPist.post, API_PATH.PRIVATE_WATCH_LIST_CREATE, {
     data: {
-      stockCodes,
+      stocks: stockCodes,
     },
   });
 };

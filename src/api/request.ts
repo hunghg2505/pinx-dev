@@ -21,6 +21,7 @@ const requestPist = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
+    'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
     throw error?.data || error?.response;
@@ -32,6 +33,7 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
+    'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
     throw error?.data || error?.response;
@@ -42,6 +44,7 @@ const requestUploadPhoto = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
+    'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
     throw error?.data || error?.response;
@@ -51,7 +54,9 @@ const requestUploadPhoto = extend({
 const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
-  headers: {},
+  headers: {
+    'Accept-Language': 'EN',
+  },
   errorHandler: (error) => {
     throw error?.data || error?.response;
   },
@@ -81,7 +86,6 @@ const privateRequest = async (request: any, suffixUrl: string, configs?: any) =>
   return request(suffixUrl, {
     headers: {
       Authorization: token,
-      'Accept-Language': 'EN',
     },
     ...configs,
   });

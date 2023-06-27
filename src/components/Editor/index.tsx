@@ -31,6 +31,7 @@ import { isImage } from '../../utils/common';
 interface IProps {
   id: string;
   refresh: () => void;
+  refreshTotal: () => void;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -42,7 +43,7 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref: any) => {
-  const { id, refresh } = props;
+  const { id, refresh, refreshTotal } = props;
   const [image, setImage] = React.useState<any>('');
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
@@ -163,6 +164,7 @@ const Editor = (props: IProps, ref: any) => {
     {
       manual: true,
       onSuccess: () => {
+        refreshTotal();
         refresh();
         editor?.commands.clearContent();
       },
@@ -175,6 +177,7 @@ const Editor = (props: IProps, ref: any) => {
     {
       manual: true,
       onSuccess: () => {
+        refreshTotal();
         refresh();
         editor?.commands.clearContent();
       },
@@ -233,7 +236,6 @@ const Editor = (props: IProps, ref: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [image],
     };
-
     if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);
@@ -300,14 +302,24 @@ const Editor = (props: IProps, ref: any) => {
               />
             </div>
             {image && (
-              <Image
-                src={image}
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='h-[100px] w-[100px] mobile:hidden tablet:block'
-              />
+              <div className='relative'>
+                <Image
+                  src={image}
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='h-[100px] w-[100px] mobile:hidden tablet:block'
+                />
+                <Image
+                  src='/static/icons/iconCloseWhite.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
+                  onClick={() => setImage('')}
+                />
+              </div>
             )}
           </div>
 
