@@ -39,6 +39,7 @@ const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
+  const [isReported, setIsReported] = useState(postDetail.isReport);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { statusUser, isLogin } = useUserType();
   const router = useRouter();
@@ -147,6 +148,12 @@ const NewFeedItem = (props: IProps) => {
       PopupComponent.open();
     }
   };
+
+  const handleReportPostSuccess = () => {
+    setModalReportVisible(false);
+    setIsReported(true);
+  };
+
   const renderLogo = () => {
     let logo = '';
     if (
@@ -268,9 +275,9 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 top-[29px] z-10 h-[88px] w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
+              <div className='popup absolute right-0 top-[29px] z-10 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'>
                 <div
-                  className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'
+                  className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                   onClick={handleHidePost}
                 >
                   <Image
@@ -285,25 +292,28 @@ const NewFeedItem = (props: IProps) => {
                     Hide
                   </Text>
                 </div>
-                <div className='ml-[12px] flex h-[44px] items-center'>
-                  <Image
-                    src='/static/icons/iconFlag.svg'
-                    alt=''
-                    width='0'
-                    height='0'
-                    sizes='100vw'
-                    className='mr-[8px] h-[20px] w-[20px] object-contain'
-                  />
-                  <ModalReport
-                    visible={modalReportVisible}
-                    onModalReportVisible={setModalReportVisible}
-                    postID={postDetail?.id}
-                  >
-                    <Text type='body-14-medium' color='neutral-2'>
-                      Report
-                    </Text>
-                  </ModalReport>
-                </div>
+                {!isReported && (
+                  <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                    <Image
+                      src='/static/icons/iconFlag.svg'
+                      alt=''
+                      width='0'
+                      height='0'
+                      sizes='100vw'
+                      className='mr-[8px] h-[20px] w-[20px] object-contain'
+                    />
+                    <ModalReport
+                      visible={modalReportVisible}
+                      onModalReportVisible={setModalReportVisible}
+                      postID={postDetail?.id}
+                      onReportSuccess={handleReportPostSuccess}
+                    >
+                      <Text type='body-14-medium' color='neutral-2'>
+                        Report
+                      </Text>
+                    </ModalReport>
+                  </div>
+                )}
               </div>
             )}
           </button>

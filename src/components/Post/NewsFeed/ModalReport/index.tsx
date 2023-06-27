@@ -22,9 +22,10 @@ interface IProps {
   postID: string;
   visible: boolean;
   onModalReportVisible: (v: boolean) => void;
+  onReportSuccess: () => void;
 }
 const ModalReport = (props: IProps) => {
-  const { children, closeIcon, postID, visible, onModalReportVisible } = props;
+  const { children, closeIcon, postID, visible, onModalReportVisible, onReportSuccess } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const onVisible = () => {
@@ -51,10 +52,7 @@ const ModalReport = (props: IProps) => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        onVisible();
-        console.log('thanh cong');
-      },
+      onSuccess: onReportSuccess,
       onError: () => {
         console.log('that bai');
       },
