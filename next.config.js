@@ -8,7 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   // i18n
   i18n,
-  swcMinify: true,
+  output: 'standalone',
 
   // config env
   publicRuntimeConfig: {
@@ -32,9 +32,6 @@ const nextConfig = {
       'photo-cms-tinnhanhchungkhoan.epicdn.me',
     ],
   },
-  httpAgentOptions: {
-    keepAlive: false,
-  },
   headers: async function headers() {
     if (process.env.NODE_ENV === 'development') return [];
     return [
@@ -50,7 +47,6 @@ const nextConfig = {
       },
     ];
   },
-  output: 'standalone',
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
