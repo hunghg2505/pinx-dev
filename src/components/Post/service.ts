@@ -116,7 +116,6 @@ export enum TYPEPOST {
   PinetreePost = 'PinetreePost',
   CafeFNews = 'CafeFNews',
 }
-const isLogin = !!getAccessToken();
 const getPostDetail = async (postId: string) => {
   return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };
@@ -136,6 +135,7 @@ const getPostDetail = async (postId: string) => {
 export const usePostDetail = (postId: string) => {
   const { data, loading, refresh } = useRequest(
     () => {
+      const isLogin = !!getAccessToken();
       return isLogin
         ? getPostDetail(postId)
         : requestCommunity.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
@@ -161,6 +161,7 @@ const getCommentsOfPost = (postId: string) => {
 export const useCommentsOfPost = (postId: string) => {
   const { data, loading, refresh } = useRequest(
     () => {
+      const isLogin = !!getAccessToken();
       return isLogin ? getCommentsOfPostAuth(postId) : getCommentsOfPost(postId);
     },
     {

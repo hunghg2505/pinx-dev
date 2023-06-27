@@ -27,11 +27,12 @@ interface IProps {
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
   refresh: () => void;
+  refreshTotal?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh } = props;
+  const { onNavigate, data, onReplies, refresh, refreshTotal } = props;
   const { requestGetProfile } = useProfileInitial();
   const isComment = requestGetProfile?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -50,7 +51,7 @@ const ItemComment = (props: IProps) => {
     showDelete && setShowDelete(false);
   }, ref);
   const message = data?.message && formatMessage(data?.message, data);
-  const name = data?.customerInfo?.name || '';
+  const name = data?.customerInfo?.displayName || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
   const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
@@ -99,6 +100,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        refreshTotal && refreshTotal();
         setShowDelete(false);
       },
     },
@@ -125,7 +127,7 @@ const ItemComment = (props: IProps) => {
           <div className='relative rounded-[12px] py-[12px]'>
             <div className='mb-[12px] flex w-full flex-row items-center justify-between'>
               <Text type='body-14-bold' color='neutral-1'>
-                {data?.customerInfo?.name}
+                {data?.customerInfo?.displayName}
               </Text>
               <button className='relative flex items-center' ref={ref}>
                 <Text type='body-12-medium' color='neutral-5' className='mr-[12px]'>
