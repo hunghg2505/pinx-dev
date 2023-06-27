@@ -26,7 +26,7 @@ const NewsFeed = (props: IProps) => {
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
-            View more {data?.totalChildren - 1} replies...
+            View more {data?.totalChildren - 1} comments...
           </Text>
         </div>
       );
@@ -35,7 +35,11 @@ const NewsFeed = (props: IProps) => {
   // const { onRefreshPostDetail } = usePostDetail(id);
   return (
     <>
-      <div className={classNames('bg-[#ffffff]', { 'pb-[28px]': data?.totalChildren > 1 })}>
+      <div
+        className={classNames('bg-[#ffffff]', {
+          'mobile:pb-[30px] desktop:pb-[20px]': data?.totalChildren > 1,
+        })}
+      >
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={data}
@@ -43,10 +47,12 @@ const NewsFeed = (props: IProps) => {
           onRefreshPostDetail={refresh}
           postId={id}
         />
-        {data?.totalChildren > 0 && (
-          <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
-        )}
-        {renderViewMore()}
+        <div className='desktop:ml-[64px] desktop:mr-[88px]'>
+          {data?.totalChildren > 0 && (
+            <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
+          )}
+          {renderViewMore()}
+        </div>
       </div>
     </>
   );

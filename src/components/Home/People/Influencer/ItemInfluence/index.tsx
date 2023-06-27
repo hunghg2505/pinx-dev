@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 
 interface IProps {
@@ -11,9 +11,9 @@ interface IProps {
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
+  const { isLogin } = useUserType();
   const { data, refresh } = props;
   const isFollow = data?.isFollowed;
-  const isLogin = !!getAccessToken();
   const useFollowUser = useRequest(
     () => {
       return requestFollowUser(data.id);
@@ -22,7 +22,6 @@ const ItemInfluence = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
-        console.log('thanh cong');
       },
     },
   );
@@ -34,38 +33,48 @@ const ItemInfluence = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
-        console.log('thanh cong');
       },
     },
   );
   const onFollow = () => {
     if (isLogin) {
+      // if (statusUser !== USERTYPE.VSD) {
+      //   PopupComponent.openEKYC();
+      // } else if (isFollow) {
+      //   useUnFollow.run();
+      // } else {
+      //   useFollowUser.run();
+      // }
       if (isFollow) {
         useUnFollow.run();
       } else {
         useFollowUser.run();
       }
     } else {
-      // ToastUnAuth();
       PopupComponent.open();
     }
   };
   return (
     <div className='mr-[16px]'>
       <div className="relative mr-[10px] h-[252px] w-[100%] rounded-[15px] before:absolute before:bottom-[0] before:left-[0] before:z-10 before:h-full before:w-full before:rounded-[15px] before:bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)] before:content-['']">
-        <div className='absolute bottom-[19px] left-[15px] z-10 pr-[10px]'>
+        <div className='absolute bottom-[20px] left-[12px] right-[12px] z-10'>
           <div className='flex items-center'>
-            <Text type='body-16-bold' color='cbwhite'>
+            <Text
+              type='body-16-bold'
+              color='cbwhite'
+              className='overflow-hidden text-ellipsis whitespace-nowrap'
+            >
               {data?.displayName}
             </Text>
-            {/* <Image
-              src='/static/icons/iconStarFollow.svg'
+
+            <Image
+              src='/static/icons/iconKol.svg'
               alt=''
-              width={0}
-              height={0}
+              width={16}
+              height={16}
               sizes='100vw'
-              className='w-[16px]'
-            /> */}
+              className='ml-[2px] w-[16px]'
+            />
           </div>
 
           <Text type='body-14-regular' color='cbwhite' className='mt-[6px]'>

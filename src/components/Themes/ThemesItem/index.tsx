@@ -76,12 +76,9 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
         refresh();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const useUnSubcribe = useRequest(
@@ -94,12 +91,9 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
         refresh();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const onSubcribe = () => {
@@ -136,7 +130,7 @@ const ThemesItem = (props: IProps) => {
   return (
     <>
       <div className='w-[162px] pr-[10px]'>
-        <div className='relative min-h-[172px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
+        <div className='relative min-h-[191px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           <Image
             src={theme?.url}
             alt=''

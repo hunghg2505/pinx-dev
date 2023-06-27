@@ -5,16 +5,62 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 
+import { PREFIX_API_MARKET } from '@api/request';
 import Text from '@components/UI/Text';
 
+import styles from './index.module.scss';
 import { socket } from '../service';
 
+const enum MARKET_STATUS {
+  P = 'ATO session',
+  O = 'Continuous session',
+  I = 'Time break',
+  A = 'ATC session',
+  Z = 'Put Through session',
+  C = 'Market Closed',
+  S = 'Market Paused',
+  W = 'Market Closed',
+  L = 'PLO session',
+  WO = 'Waiting Open',
+}
+const renderMarketStatus = (type: string) => {
+  if (type === 'P') {
+    return MARKET_STATUS.P;
+  }
+  if (type === 'O') {
+    return MARKET_STATUS.O;
+  }
+  if (type === 'I') {
+    return MARKET_STATUS.I;
+  }
+  if (type === 'A') {
+    return MARKET_STATUS.A;
+  }
+  if (type === 'Z') {
+    return MARKET_STATUS.Z;
+  }
+  if (type === 'C') {
+    return MARKET_STATUS.C;
+  }
+  if (type === 'S') {
+    return MARKET_STATUS.S;
+  }
+  if (type === 'W') {
+    return MARKET_STATUS.W;
+  }
+  if (type === 'L') {
+    return MARKET_STATUS.L;
+  }
+  if (type === 'WO') {
+    return MARKET_STATUS.WO;
+  }
+};
 const Market = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run } = useRequest(
     () => {
-      return fetch('https://testapi.pinex.vn/market/public/index').then((data: any) => data.json());
+      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
     },
     {
       manual: true,
@@ -47,10 +93,10 @@ const Market = () => {
   const findIndex = dataStockIndex?.findIndex((item: any) => item.mc === dataStock.mc);
   if (findIndex !== -1) {
     const data = dataStockIndex[findIndex];
-    dataStockIndex[findIndex] = { ...dataStock, ...data };
+    dataStockIndex[findIndex] = { ...data, ...dataStock };
   }
   return (
-    <div className='px-[8px]'>
+    <div className='mt-[24px] px-[16px]'>
       <div className='flex flex-wrap items-center gap-[16px]'>
         {dataStockIndex?.map((item: any, index: number) => {
           const [change, changePercent] = item.ot.split('|');
@@ -61,14 +107,14 @@ const Market = () => {
           return (
             <div
               key={index}
-              className='w-[171px] rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'
+              className='w-[163px] rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'
             >
               <div className='item p-[20px] text-center ' key={index}>
                 <Text type='body-20-bold' color='neutral-1'>
                   {item?.displayName}
                 </Text>
                 <Text type='body-12-regular' color='neutral-4'>
-                  Phiên liên tục
+                  {renderMarketStatus(item.status)}
                 </Text>
                 <Text
                   type='body-24-regular'
@@ -76,9 +122,9 @@ const Market = () => {
                     'text-[#128F63]': isIncrease,
                     'text-[#DB4444]': isDecrease,
                     'text-[#E6A70A]': isNoChange,
-                    'bg-[#128F63] text-[#ffffff]': isIncrease && isChange,
-                    'bg-[#DB4444] text-[#ffffff]': isDecrease && isChange,
-                    'bg-[#E6A70A] text-[#ffffff]': isNoChange && isChange,
+                    [styles.isDecrease]: isDecrease && isChange,
+                    [styles.isIncrease]: isIncrease && isChange,
+                    [styles.isNoChange]: isNoChange && isChange,
                   })}
                 >
                   {item?.cIndex}
@@ -96,9 +142,9 @@ const Market = () => {
                       'text-[#128F63]': isIncrease,
                       'text-[#DB4444]': isDecrease,
                       'text-[#E6A70A]': isNoChange,
-                      'bg-[#128F63] text-[#ffffff]': isIncrease && isChange,
-                      'bg-[#DB4444] text-[#ffffff]': isDecrease && isChange,
-                      'bg-[#E6A70A] text-[#ffffff]': isNoChange && isChange,
+                      [styles.isDecrease]: isDecrease && isChange,
+                      [styles.isIncrease]: isIncrease && isChange,
+                      [styles.isNoChange]: isNoChange && isChange,
                     })}
                   >
                     {isIncrease ? '+' : '-'}

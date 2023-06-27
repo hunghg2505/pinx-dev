@@ -28,16 +28,17 @@ export const convertStockDataMarketInfo = (data: any) => {
   }
 };
 export const convertStockDataPriceChange = (data: any) => {
-  const unit = data.cl === 'd' || data.cl === 'f' ? '-' : '+';
+  const unit = data?.cl === 'd' || data?.cl === 'f' ? '-' : '+';
   return {
-    stock_code: data.sym,
-    last_price: data.lastPrice,
-    last_vol: data.lastVol,
-    change_price_percent: +`${unit}${data.changePc}`,
-    change_price: +`${unit}${data.change}`,
-    highest_price: data.hp,
-    lowest_price: data.lp,
-    total_vol: data.totalVol,
+    stock_code: data?.sym,
+    last_price: data?.lastPrice,
+    last_vol: data?.lastVol,
+    change_price_percent: +`${unit}${data?.changePc || data?.changePercent}`,
+    change_price: +`${unit}${data?.change}`,
+    highest_price: data?.hp,
+    lowest_price: data?.lp,
+    total_vol: data?.totalVol,
+    unit,
   };
   // const stockCode = data.symbol || data.sym;
   // if (stockCode === product.stock_code) {

@@ -5,6 +5,7 @@
     "react/display-name": "off",
     "indent": "off",
     "require-await": "off",
+    "multiline-ternary" : "off",
     "import/no-named-as-default-member": "off"
   }
 }

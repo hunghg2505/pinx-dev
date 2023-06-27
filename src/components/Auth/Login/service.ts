@@ -3,7 +3,8 @@ import { useRequest } from 'ahooks';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
-import { API_PATH, requestPist } from '@api/request';
+import { API_PATH } from '@api/constant';
+import { requestPist } from '@api/request';
 
 interface IOptionsRequest {
   onSuccess?: (r: any) => void;

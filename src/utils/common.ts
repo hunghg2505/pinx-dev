@@ -11,6 +11,7 @@ export const ROUTE_PATH = {
   REGISTER_THEME: '/auth/register-theme',
   REGISTER_TOPIC: '/auth/register-topic',
   UPDATE_USSR_PROFILE: '/auth/update-user-profile',
+  POST_DETAIL: (id: string) => `/post/${id}`,
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -50,7 +51,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="/stock/${ID}" className="tagStock">%${name}</a>
+          <a href="/stock/${ID}" className="tagStock">${name}</a>
           `,
         );
       }

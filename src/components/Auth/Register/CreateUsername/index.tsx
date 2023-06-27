@@ -2,10 +2,12 @@
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
+import toast from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -35,7 +37,7 @@ const CreateUsername = () => {
       }
     },
     onError(e) {
-      console.log(e?.errors?.[0] || e?.message, 'error');
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
@@ -44,38 +46,27 @@ const CreateUsername = () => {
   };
 
   return (
-    <>
-      <div className='mx-auto flex flex-col  items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-        <div className='w-full rounded-lg bg-white sm:max-w-md md:mt-0 xl:p-0'>
-          <div className='mt-[46px]'>
-            <Text type='body-28-bold'>{t('create_user_name')}</Text>
-            <Text type='body-16-regular' color='neutral-4'>
-              {t('create_user_name_note')}
-            </Text>
-          </div>
-
-          <Form className='mt-10 space-y-6' form={form} onFinish={onSubmit}>
-            <FormItem
-              name='username'
-              rules={[{ required: true, message: 'Please enter user name!' }]}
-            >
-              <LabelInput
-                placeholder={t('user_name')}
-                name='username'
-                labelContent={t('user_name')}
-              />
-            </FormItem>
-            <Text type='body-12-regular' className='!mt-1'>
-              {t('create_user_name_rule')}
-            </Text>
-
-            <MainButton type='submit' className='!mt-10 w-full'>
-              {t('create_user_name')}
-            </MainButton>
-          </Form>
-        </div>
+    <div className='mobile:mt-20 laptop:m-0 laptop:w-[450px]'>
+      <div className='mt-[36px]'>
+        <Text type='body-28-bold'>{t('create_user_name')}</Text>
+        <Text type='body-16-regular' color='neutral-4'>
+          {t('create_user_name_note')}
+        </Text>
       </div>
-    </>
+
+      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
+        <FormItem name='username' rules={[{ required: true, message: 'Please enter user name' }]}>
+          <LabelInput placeholder={t('user_name')} name='username' labelContent={t('user_name')} />
+        </FormItem>
+        <Text type='body-12-regular' className='!mt-1'>
+          {t('create_user_name_rule')}
+        </Text>
+
+        <MainButton type='submit' className='!mt-10 w-full'>
+          {t('create_user_name')}
+        </MainButton>
+      </Form>
+    </div>
   );
 };
 

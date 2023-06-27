@@ -23,6 +23,7 @@ interface TextProps {
     | 'body-16-medium'
     | 'body-18-regular'
     | 'body-20-semibold'
+    | 'body-20-medium'
     | 'body-24-regular'
     | 'body-16-regular'
     | 'body-16-bold'
@@ -31,6 +32,9 @@ interface TextProps {
     | 'body-22-bold'
     | 'body-24-bold'
     | 'body-28-bold'
+    | 'body-30-bold'
+    | 'barlow-16-medium'
+    | 'barlow-12-medium'
     | undefined;
   color?:
     | 'cbwhite'
@@ -38,6 +42,7 @@ interface TextProps {
     | 'primary-1'
     | 'primary-2'
     | 'primary-3'
+    | 'primary-4'
     | 'primary-5'
     | 'primary-6'
     | 'neutral-1'

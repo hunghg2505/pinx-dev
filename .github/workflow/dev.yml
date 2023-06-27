@@ -1,0 +1,83 @@
+name: Build Image And Deploy
+
+on: 
+  push:
+    branches:
+      - deploy
+
+jobs:
+  cancel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+          
+  deploy:
+    needs: cancel
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image-dev
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: lmsad
+          IMAGE_TAG: latest # use latest for demo
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -f Dockerfile.dev -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Run Service
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: 13.231.205.243
+          username: ubuntu
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /home/ubuntu/lmsad
+            sudo aws ecr get-login-password --region ap-northeast-1 | sudo docker login --username AWS --password-stdin 715812532320.dkr.ecr.ap-northeast-1.amazonaws.com
+            sudo docker --version
+            sudo docker pull 715812532320.dkr.ecr.ap-northeast-1.amazonaws.com/lmsad:latest
+            sudo docker compose up -d
+            sudo docker system prune -f
+
+      - name: On Failure
+        if: failure()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_URL }}
+
+  notifification:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_URL }}

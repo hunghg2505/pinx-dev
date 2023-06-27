@@ -81,6 +81,7 @@ const privateRequest = async (request: any, suffixUrl: string, configs?: any) =>
   return request(suffixUrl, {
     headers: {
       Authorization: token,
+      'Accept-Language': 'EN',
     },
     ...configs,
   });

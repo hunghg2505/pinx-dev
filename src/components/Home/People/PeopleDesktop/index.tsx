@@ -8,7 +8,7 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
 const PeopleDesktop = () => {
-  const { suggestionPeople, refresh, getSuggestFriend } = useSuggestPeople();
+  const { suggestionPeople, refreshList, getSuggestFriend } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   React.useEffect(() => {
     if (isLogin) {
@@ -22,12 +22,9 @@ const PeopleDesktop = () => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('thanh cong');
-        refresh();
+        refreshList();
       },
-      onError: () => {
-        console.log('err');
-      },
+      onError: () => {},
     },
   );
   const onFollow = (id: number) => {
@@ -35,7 +32,7 @@ const PeopleDesktop = () => {
   };
   return (
     <>
-      {suggestionPeople?.slice(0, 5)?.map((item: ISuggestionPeople, index: number) => {
+      {suggestionPeople?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
         const image = item?.avatar?.includes('http');
         return (
           <div

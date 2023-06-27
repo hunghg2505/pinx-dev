@@ -9,7 +9,7 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
 
 import Reason from './Reason';
@@ -22,12 +22,17 @@ interface IProps {
 }
 const ModalReportComment = (props: IProps) => {
   const { children, closeIcon, postID } = props;
+  const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
-  const isLogin = !!getAccessToken();
+  // const isLogin = !!getAccessToken();
   const onVisible = () => {
     if (isLogin) {
-      setVisible(!visible);
+      if (statusUser === USERTYPE.VSD) {
+        setVisible(!visible);
+      } else {
+        PopupComponent.openEKYC();
+      }
     } else {
       PopupComponent.open();
     }
@@ -47,25 +52,19 @@ const ModalReportComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
-        console.log('thanh cong');
       },
-      onError: () => {
-        console.log('that bai');
-      },
+      onError: () => {},
     },
   );
   const onFinish = () => {
     const value = form.getFieldsValue();
     if (isLogin) {
       onReport.run(value);
-    } else {
-      // ToastUnAuth();
-      PopupComponent.open();
     }
   };
   const options = [
     {
-      label: 'Ngôn ngữ không phù hợp',
+      label: 'Bad content',
       value: TYPEREPORT.INAPPROPRIATE,
     },
     {
@@ -73,11 +72,11 @@ const ModalReportComment = (props: IProps) => {
       value: TYPEREPORT.SPAM,
     },
     {
-      label: 'Ngôn ngữ gây kích động / bạo lực',
+      label: 'Violent content',
       value: TYPEREPORT.PROVOKE,
     },
     {
-      label: 'Khác',
+      label: 'Other',
       value: TYPEREPORT.OTHER,
     },
   ];
@@ -90,10 +89,21 @@ const ModalReportComment = (props: IProps) => {
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
           Report
         </Text>
-        <Text type='body-12-medium' color='neutral-3' className='mb-[16px] text-center'>
-          Tell us the reason why you want to report this section so we can help you better
+        <Text
+          type='body-12-medium'
+          color='neutral-3'
+          className='mb-[16px] text-center !leading-[16px]'
+        >
+          Let us know your reason to report this post. <br />
+          You are always welcome!
         </Text>
-        <Form form={form} onFinish={onFinish}>
+        <Form
+          form={form}
+          initialValues={{
+            reportType: TYPEREPORT.INAPPROPRIATE,
+          }}
+          onFinish={onFinish}
+        >
           <FormItem
             name='reportType'
             rules={[
