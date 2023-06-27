@@ -6,7 +6,6 @@ variables:
   DOCKER_TLS_CERTDIR: ''
   TAG_LATEST: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:latest
   TAG_COMMIT: 590774876296.dkr.ecr.ap-southeast-1.amazonaws.com/pinex:$CI_COMMIT_SHORT_SHA
-  SAST_IMAGE_SUFFIX: '-fips'
 
 include:
   - template: Security/SAST.gitlab-ci.yml
