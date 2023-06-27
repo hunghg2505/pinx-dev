@@ -11,6 +11,7 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
+import { RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import Reason from './Reason';
 import { TYPEREPORT, requestReportPost } from './service';
@@ -19,16 +20,17 @@ interface IProps {
   children: any;
   closeIcon?: boolean;
   postID: string;
+  visible: boolean;
+  onModalReportVisible: (v: boolean) => void;
 }
 const ModalReport = (props: IProps) => {
-  const { children, closeIcon, postID } = props;
+  const { children, closeIcon, postID, visible, onModalReportVisible } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
-  const [visible, setVisible] = React.useState(false);
   const onVisible = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
-        setVisible(!visible);
+        onModalReportVisible(!visible);
       } else {
         PopupComponent.openEKYC();
       }
@@ -87,7 +89,13 @@ const ModalReport = (props: IProps) => {
       <span onClick={onVisible} className='cursor-pointer'>
         {children}
       </span>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
+      <Dialog
+        rootClassName={RC_DIALOG_CLASS_NAME}
+        visible={visible}
+        onClose={onVisible}
+        closeIcon={renderCloseIcon()}
+        closable={false}
+      >
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
           Report
         </Text>

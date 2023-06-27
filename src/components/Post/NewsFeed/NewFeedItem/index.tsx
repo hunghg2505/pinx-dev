@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 
-import { useClickAway, useRequest } from 'ahooks';
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Image from 'next/image';
@@ -16,8 +17,10 @@ import {
   unlikePost,
 } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import useClickOutSide from '@hooks/useClickOutSide';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
+import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import ContentPostTypeDetail from './ContentPostTypeDetail';
 import ContentPostTypeHome from './ContentPostTypeHome';
@@ -34,13 +37,27 @@ interface IProps {
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, totalComments } = props;
   const [showReport, setShowReport] = React.useState(false);
+  const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
+  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { statusUser, isLogin } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
-  useClickAway(() => {
-    // showReport && setShowReport(false);
-  }, ref);
+
+  const handleHidePopup = () => {
+    showReport && setShowReport(false);
+  };
+  useClickOutSide(ref, handleHidePopup, excludeElements);
+
+  useEffect(() => {
+    setExcludeElements(() => {
+      return [
+        document.querySelector(`#${POPUP_COMPONENT_ID}`),
+        document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
+      ];
+    });
+  }, [modalReportVisible]);
+
   const id = router.query?.id;
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
@@ -277,7 +294,11 @@ const NewFeedItem = (props: IProps) => {
                     sizes='100vw'
                     className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
-                  <ModalReport postID={postDetail?.id}>
+                  <ModalReport
+                    visible={modalReportVisible}
+                    onModalReportVisible={setModalReportVisible}
+                    postID={postDetail?.id}
+                  >
                     <Text type='body-14-medium' color='neutral-2'>
                       Report
                     </Text>
