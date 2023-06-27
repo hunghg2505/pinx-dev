@@ -62,7 +62,7 @@ const FooterSignUp = () => {
 
       <button
         onClick={redirectToSignUp}
-        className='ml-[6px] h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
+        className='ml-[5px] h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
       >
         <Text type='body-14-semibold' color='cbwhite'>
           Sign up
