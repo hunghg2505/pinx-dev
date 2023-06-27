@@ -39,7 +39,7 @@ const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
-  const [isReported, setIsReported] = useState(postDetail.isReport);
+  const [isReported, setIsReported] = useState(postDetail?.isReport);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { statusUser, isLogin } = useUserType();
   const router = useRouter();
