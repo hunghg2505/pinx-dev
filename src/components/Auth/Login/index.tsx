@@ -122,7 +122,7 @@ const Login = () => {
           userType={userType}
         />
         <MainButton type='submit' className='!mt-10 w-full'>
-          Sign in
+          Login
         </MainButton>
       </Form>
     </>
