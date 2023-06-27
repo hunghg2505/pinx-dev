@@ -23,7 +23,7 @@ export const useSuggestStockCode = (options: IOptionsRequest) => {
   );
 
   return {
-    stockCodes: data,
+    stocks: data,
     loading,
   };
 };

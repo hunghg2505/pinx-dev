@@ -9,6 +9,7 @@ import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -39,6 +40,7 @@ const Header = () => {
   };
   const isLogin = !!getAccessToken();
   const { requestGetProfile } = useProfileInitial();
+  const { onLogout } = useAuth();
   return (
     <>
       <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px]'>
@@ -98,6 +100,7 @@ const Header = () => {
                 height={0}
                 sizes='100vw'
                 className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+                onClick={onLogout}
               />
             </>
           ) : (

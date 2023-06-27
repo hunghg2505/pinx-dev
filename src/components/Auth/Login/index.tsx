@@ -1,9 +1,7 @@
-import { useState } from 'react';
-
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
@@ -14,7 +12,6 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import ModalLoginTerms from './ModalLoginTerms';
 import { useLogin } from './service';
 
 const checkUserType = (custStat: string, acntStat: string) => {
@@ -35,8 +32,6 @@ const Login = () => {
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo } = useUserLoginInfo();
-  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(false);
-  const [userType, setUserType] = useState<string>('');
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -58,21 +53,28 @@ const Login = () => {
         if (res?.data.isReadTerms === 'true') {
           router.push(ROUTE_PATH.HOME);
         } else {
+          let userType = '';
           switch (checkUserType(res?.data?.custStat, res?.data?.acntStat)) {
             case 'NEW': {
-              setUserType('NEW');
+              userType = 'NEW';
               break;
             }
             case 'EKYC': {
-              setUserType('EKYC');
+              userType = 'EKYC';
               break;
             }
             case 'VSD': {
-              setUserType('VSD');
+              userType = 'VSD';
               break;
             }
           }
-          setShowModalLoginTerms(true);
+          router.push({
+            pathname: ROUTE_PATH.HOME,
+            query: {
+              modal_login_terms: 1,
+              user_type: userType
+            },
+          });
         }
       }
     },
@@ -81,13 +83,9 @@ const Login = () => {
     },
   });
 
-  const onToggleModalLoginTerms = () => {
-    setShowModalLoginTerms(!showModalLoginTerms);
-  };
-
   return (
     <>
-      <Form className='mt-10 space-y-6 laptop:max-w-[450px]' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
         <FormItem name='username' rules={[{ required: true, message: 'Please enter username!' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
@@ -116,11 +114,6 @@ const Login = () => {
           </NextLink>
         </div>
 
-        <ModalLoginTerms
-          visible={showModalLoginTerms}
-          onToggle={onToggleModalLoginTerms}
-          userType={userType}
-        />
         <MainButton type='submit' className='!mt-10 w-full'>
           Sign in
         </MainButton>
