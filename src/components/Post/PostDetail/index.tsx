@@ -101,7 +101,7 @@ const PostDetail = () => {
             </div>
           )}
 
-          <div className='desktop:ml-[48px] desktop:mr-[72px]'>
+          <div className='mobile:mb-[52px] desktop:ml-[48px] desktop:mr-[72px]'>
             {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
               return (
                 <>
@@ -119,11 +119,13 @@ const PostDetail = () => {
 
           {isLogin && (
             <div className='mobile:block desktop:hidden'>
-              <ForwardedRefComponent
-                ref={refReplies}
-                id={postDetail?.data?.id}
-                refresh={refreshCommentOfPOst}
-              />
+              <div className='fixed bottom-0 -mb-[10px] min-w-[375px]'>
+                <ForwardedRefComponent
+                  ref={refReplies}
+                  id={postDetail?.data?.id}
+                  refresh={refreshCommentOfPOst}
+                />
+              </div>
             </div>
           )}
         </div>
