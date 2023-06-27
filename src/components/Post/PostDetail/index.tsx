@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import FooterSignUp from '@components/FooterSignup';
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { getAccessToken } from '@store/auth';
@@ -14,6 +13,9 @@ import { getAccessToken } from '@store/auth';
 // import NewFeedItem from '../NewsFeed/NewFeedItem';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
+const FooterSignUp = dynamic(import('@components/FooterSignup'), {
+  ssr: false,
+});
 const ItemComment = dynamic(import('../NewsFeed/ItemComment'), {
   ssr: false,
 });
@@ -49,10 +51,7 @@ const PostDetail = () => {
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
-  console.log(
-    '🚀 ~ file: index.tsx:52 ~ PostDetail ~ commentsOfPost:',
-    commentsOfPost?.data?.list?.length > 0,
-  );
+
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const onGoToBack = () => {
     router.back();
