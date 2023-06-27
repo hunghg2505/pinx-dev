@@ -99,14 +99,17 @@ const PostDetail = () => {
             postId={postDetail?.data?.id}
           />
 
-          <div className='mobile:hidden tablet:block'>
-            <ForwardedRefComponent
-              ref={refReplies}
-              id={postDetail?.data?.id}
-              refresh={refreshCommentOfPOst}
-            />
-          </div>
-          <div className='desktop:ml-[48px] desktop:mr-[72px]'>
+          {isLogin && (
+            <div className='mobile:hidden desktop:block'>
+              <ForwardedRefComponent
+                ref={refReplies}
+                id={postDetail?.data?.id}
+                refresh={refreshCommentOfPOst}
+              />
+            </div>
+          )}
+
+          <div className='mobile:mb-[52px] desktop:ml-[48px] desktop:mr-[72px]'>
             {commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
               return (
                 <>
@@ -128,13 +131,16 @@ const PostDetail = () => {
               );
             })}
           </div>
-          {width < 738 && (
+
+          {width < 738 && isLogin && (
             <div className='mobile:block tablet:hidden'>
-              <ForwardedRefComponent
-                ref={refReplies}
-                id={postDetail?.data?.id}
-                refresh={refreshCommentOfPOst}
-              />
+              <div className='fixed bottom-0 -mb-[10px] min-w-[375px]'>
+                <ForwardedRefComponent
+                  ref={refReplies}
+                  id={postDetail?.data?.id}
+                  refresh={refreshCommentOfPOst}
+                />
+              </div>
             </div>
           )}
         </div>

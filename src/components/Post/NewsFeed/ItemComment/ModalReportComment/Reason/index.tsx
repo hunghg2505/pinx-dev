@@ -19,19 +19,20 @@ const Reason = ({ value, onChange, options }: Props) => {
   };
 
   return (
-    <div className='mb-[22px]'>
+    <div>
       {options?.map((item, index) => {
         return (
-          <Radio
-            checked={value ? value === item.value : false}
-            onChange={() => onValueChange(item.value)}
-            key={index}
-            className='mb-[22px]'
-          >
-            <Text type='body-14-medium' color='cbblack'>
-              {item.label}
-            </Text>
-          </Radio>
+          <div key={index} className='[&:not(:last-child)]:mb-[20px]'>
+            <Radio
+              checked={value ? value === item.value : false}
+              onChange={() => onValueChange(item.value)}
+              className='mb-[22px]'
+            >
+              <Text type='body-14-medium' color='cbblack'>
+                {item.label}
+              </Text>
+            </Radio>
+          </div>
         );
       })}
     </div>
