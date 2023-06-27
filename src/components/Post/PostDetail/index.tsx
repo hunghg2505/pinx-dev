@@ -27,7 +27,15 @@ const ContentRight = dynamic(import('@components/Home/ContentRight'), {
   ssr: false,
 });
 const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
-  return <ComponentRef {...props} forwardedRef={ref} id={props.id} refresh={props.refresh} />;
+  return (
+    <ComponentRef
+      {...props}
+      forwardedRef={ref}
+      id={props.id}
+      refresh={props.refresh}
+      refreshTotal={props.refresh}
+    />
+  );
 });
 
 const PostDetail = () => {
@@ -39,6 +47,7 @@ const PostDetail = () => {
   // const [showReply, setShowReply] = useState(false);
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
+  console.log('🚀 ~ file: index.tsx:42 ~ PostDetail ~ postDetail:', postDetail);
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
@@ -64,6 +73,7 @@ const PostDetail = () => {
               key={index}
               onReplies={onReplies}
               refresh={refreshCommentOfPOst}
+              refreshTotal={refresh}
             />
           ))}
         </div>
@@ -94,7 +104,7 @@ const PostDetail = () => {
           </div>
           <NewFeedItem
             postDetail={postDetail?.data}
-            totalComments={commentsOfPost?.data?.list.length}
+            totalComments={postDetail?.data?.totalChildren}
             onRefreshPostDetail={refresh}
             postId={postDetail?.data?.id}
           />
@@ -104,6 +114,7 @@ const PostDetail = () => {
               ref={refReplies}
               id={postDetail?.data?.id}
               refresh={refreshCommentOfPOst}
+              refreshTotal={refresh}
             />
           </div>
           <div className='desktop:ml-[48px] desktop:mr-[72px]'>
@@ -115,6 +126,7 @@ const PostDetail = () => {
                     data={item}
                     onReplies={onReplies}
                     refresh={refreshCommentOfPOst}
+                    refreshTotal={refresh}
                   />
                   {getSubComment(item.children)}
                   {/* {showReply && width > 737 && (
@@ -134,6 +146,7 @@ const PostDetail = () => {
                 ref={refReplies}
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPOst}
+                refreshTotal={refresh}
               />
             </div>
           )}

@@ -22,7 +22,8 @@ const RegisterCompanyStep = () => {
 
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
-      paramsGetDetailStockCodesRef.current.params = await res.data.toString();
+      // file deepcode ignore BadAwaitExpression: <please specify a reason of ignoring this>
+      paramsGetDetailStockCodesRef.current.params = res.data.toString();
     },
   });
 
@@ -30,6 +31,7 @@ const RegisterCompanyStep = () => {
     if (listSuggestStock.stockCodes) {
       detailStockSuggested.run();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listSuggestStock.stockCodes]);
 
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);

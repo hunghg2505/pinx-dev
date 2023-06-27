@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useClickAway, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -25,6 +26,7 @@ import ContentPostTypeHome from './ContentPostTypeHome';
 import ModalReport from '../ModalReport';
 import ModalShare from '../ModalShare';
 
+dayjs.extend(relativeTime);
 interface IProps {
   postDetail: IPost;
   totalComments: number;

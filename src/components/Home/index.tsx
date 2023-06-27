@@ -35,7 +35,7 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
-  const [selectTab, setSelectTab] = React.useState<string>('1');
+  const [selectTab, setSelectTab] = React.useState<string>('2');
   // const { t } = useTranslation('home');
   const { listNewFeed, run, refresh } = useGetListNewFeed();
   const { watchList } = useGetWatchList();

@@ -9,7 +9,7 @@ interface IProps {
   refresh: () => void;
 }
 const ItemPeople = (props: IProps) => {
-  const { data, refresh } = props;
+  const { data } = props;
   const image = data.avatar.includes('http');
   const useFollowUser = useRequest(
     () => {
@@ -18,7 +18,7 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        // refresh();
       },
       onError: () => {},
     },
