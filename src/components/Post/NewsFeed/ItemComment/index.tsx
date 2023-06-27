@@ -77,7 +77,7 @@ const ItemComment = (props: IProps) => {
     },
   );
   const onLike = () => {
-    if (statusUser === USERTYPE.ACTIVE) {
+    if (isLogin) {
       if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
