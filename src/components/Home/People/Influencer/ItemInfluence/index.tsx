@@ -1,7 +1,9 @@
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
@@ -23,6 +25,9 @@ const ItemInfluence = (props: IProps) => {
       onSuccess: () => {
         refresh();
       },
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e.error} />);
+      },
     },
   );
   const useUnFollow = useRequest(
@@ -38,13 +43,6 @@ const ItemInfluence = (props: IProps) => {
   );
   const onFollow = () => {
     if (isLogin) {
-      // if (statusUser !== USERTYPE.VSD) {
-      //   PopupComponent.openEKYC();
-      // } else if (isFollow) {
-      //   useUnFollow.run();
-      // } else {
-      //   useFollowUser.run();
-      // }
       if (isFollow) {
         useUnFollow.run();
       } else {
@@ -55,8 +53,8 @@ const ItemInfluence = (props: IProps) => {
     }
   };
   return (
-    <div className='mr-[16px]'>
-      <div className="relative mr-[10px] h-[252px] w-[100%] rounded-[15px] before:absolute before:bottom-[0] before:left-[0] before:z-10 before:h-full before:w-full before:rounded-[15px] before:bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)] before:content-['']">
+    <div className='mr-[16px] mobile:w-[161px] tablet:w-[161px]'>
+      <div className="relative h-[252px] w-[100%] rounded-[15px] before:absolute before:bottom-[0] before:left-[0] before:z-10 before:h-full before:w-full before:rounded-[15px] before:bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)] before:content-['']">
         <div className='absolute bottom-[20px] left-[12px] right-[12px] z-10'>
           <div className='flex items-center'>
             <Text
@@ -93,15 +91,16 @@ const ItemInfluence = (props: IProps) => {
             className='w-[10px]'
           />
         </div>
-
-        <Image
-          src={data.avatar}
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
-        />
+        {data.avatar && (
+          <Image
+            src={data.avatar}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
+          />
+        )}
       </div>
     </div>
   );

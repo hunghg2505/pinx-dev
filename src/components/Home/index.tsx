@@ -39,9 +39,19 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
+
   const [selectTab, setSelectTab] = React.useState<string>('2');
   // const { t } = useTranslation('home');
-  const { listNewFeed, run, refresh } = useGetListNewFeed();
+  // const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
+  // const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
+  const { listNewFeed, run, refresh } = useGetListNewFeed({
+    // onSuccess: (res) => {
+    //   // console.log('🚀 ~ file: index.tsx:53 ~ Home ~ res:', res);
+    //   // setLastNewFeed(res?.data?.last);
+    //   // const newData = [...newFeed];
+    //   // setNewFeed((data) => [...data, ...res?.data?.list]);
+    // },
+  });
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
@@ -50,7 +60,25 @@ const Home = () => {
     !!router.query.modal_login_terms,
   );
   const userType = router.query.user_type as string;
-
+  // React.useEffect(() => {
+  //   window.addEventListener('scroll', loadMore);
+  //   return () => {
+  //     window.removeEventListener('scroll', loadMore);
+  //   };
+  // }, [lastNewFeed]);
+  // const loadMore = () => {
+  //   if (
+  //     window.innerHeight + document.documentElement?.scrollTop ===
+  //     document.scrollingElement?.scrollHeight
+  //   ) {
+  //     run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
+  //   }
+  // };
+  const onFilter = async (value: string) => {
+    // setNewFeed([]);
+    // await new Promise((resolve) => setTimeout(resolve, 100));
+    run(value);
+  };
   const onChangeTab = (key: string) => {
     setSelectTab(key);
     if (key === '1') {
@@ -60,13 +88,16 @@ const Home = () => {
       requestJoinIndex();
     }
   };
+  const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
       getSuggestFriend();
     }
   }, []);
-
+  useEffect(() => {
+    setSelectTab('1');
+  }, [isHaveStockWatchList]);
   const onToggleModalLoginTerms = () => {
     setShowModalLoginTerms(!showModalLoginTerms);
   };
@@ -78,9 +109,9 @@ const Home = () => {
         userType={userType}
       />
       <Toaster />
-      <div className='flex'>
+      <div className='flex desktop:bg-[#F8FAFD]'>
         <div className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'>
-          <div className='mobile:bg-[#F8FAFD] mobile:pt-[10px] desktop:bg-[#ffffff] desktop:pt-0'>
+          <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
             <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
@@ -99,8 +130,9 @@ const Home = () => {
                 )}
 
                 <Tabs
-                  defaultActiveKey={watchList ? '1' : '2'}
-                  className='tabHome '
+                  defaultActiveKey='2'
+                  activeKey={selectTab}
+                  className='tabHome'
                   onChange={onChangeTab}
                 >
                   {isLogin && (
@@ -114,16 +146,19 @@ const Home = () => {
                 </Tabs>
               </div>
               {isLogin && (
-                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:block'>
+                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
                   <div className='flex items-center'>
-                    <Image
-                      src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
-                      alt=''
-                      width={0}
-                      height={0}
-                      sizes='100vw'
-                      className='mr-[10px] h-[56px] w-[56px] rounded-full '
-                    />
+                    {requestGetProfile?.avatar && (
+                      <Image
+                        src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                        alt=''
+                        width={0}
+                        height={0}
+                        sizes='100vw'
+                        className='mr-[10px] h-[56px] w-[56px] rounded-full '
+                      />
+                    )}
+
                     <Text type='body-16-semibold'>{requestGetProfile?.displayName}</Text>
                   </div>
                   <div className='mt-[5px] pl-[61px]'>
@@ -171,8 +206,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-
-              <div className='flex items-center pl-[16px] filter mobile:my-[12px] desktop:my-[20px]'>
+              <div className='flex items-center pl-[16px] filter mobile:my-[12px] desktop:mb-[20px] '>
                 <Text
                   type='body-16-bold'
                   color='neutral-2'
@@ -180,7 +214,7 @@ const Home = () => {
                 >
                   News feed
                 </Text>
-                <ModalFilter run={run} />
+                <ModalFilter run={onFilter} />
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
@@ -192,7 +226,7 @@ const Home = () => {
                     <Trending />
                   </div>
                 </div>
-                <div className='bg-[#ffffff] pl-[16px] [border-top:1px_solid_#EAF4FB]'>
+                <div className='bg-[#ffffff] pl-[16px] [border-top:1px_solid_#EAF4FB] mobile:pr-[16px] desktop:pr-[0]'>
                   <Text
                     type='body-16-bold'
                     color='neutral-2'
@@ -201,7 +235,7 @@ const Home = () => {
                     People in spotlight
                   </Text>
                   <Influencer />
-                  <div className='mt-[16px] w-full pr-[16px]'>
+                  <div className='mt-[16px] w-full tablet:pr-[16px]'>
                     <button className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
                       <Text type='body-14-bold' color='primary-2'>
                         Explore influencer

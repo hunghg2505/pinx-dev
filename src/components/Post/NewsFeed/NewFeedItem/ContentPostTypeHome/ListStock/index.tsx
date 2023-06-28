@@ -15,7 +15,7 @@ const settings = {
 };
 const ListStock = ({ listStock }: { listStock: string[] }) => {
   return (
-    <Slider {...settings} className='slidePostAdmin'>
+    <Slider {...settings} className='slidePostAdmin' variableWidth>
       {listStock?.map((item: string, index: number) => {
         return <ItemStock key={index} data={item} />;
       })}

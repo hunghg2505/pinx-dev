@@ -249,7 +249,7 @@ const Editor = (props: IProps, ref: any) => {
 
   return (
     <>
-      <div className='mb-[20px] mobile:block tablet:flex tablet:px-[16px] desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:px-0'>
+      <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px] desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:px-0'>
         <Image
           src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
           alt=''
@@ -334,14 +334,24 @@ const Editor = (props: IProps, ref: any) => {
           />
         </div>
         {image && (
-          <Image
-            src={image}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-[100px] w-[100px] mobile:block tablet:hidden'
-          />
+          <div className='relative'>
+            <Image
+              src={image}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='mt-[16px] h-[100px] w-[100px] object-cover mobile:block tablet:hidden'
+            />
+            <Image
+              src='/static/icons/iconCloseWhite.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
+              onClick={() => setImage('')}
+            />
+          </div>
         )}
       </div>
     </>

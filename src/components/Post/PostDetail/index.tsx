@@ -35,7 +35,7 @@ const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
       forwardedRef={ref}
       id={props.id}
       refresh={props.refresh}
-      refreshTotal={props.refresh}
+      refreshTotal={props.refreshTotal}
     />
   );
 });

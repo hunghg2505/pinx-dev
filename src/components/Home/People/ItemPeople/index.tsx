@@ -1,7 +1,9 @@
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 
 import { ISuggestionPeople, requestFollowUser } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 
 interface IProps {
@@ -9,7 +11,7 @@ interface IProps {
   refresh: () => void;
 }
 const ItemPeople = (props: IProps) => {
-  const { data } = props;
+  const { data, refresh } = props;
   const image = data.avatar.includes('http');
   const useFollowUser = useRequest(
     () => {
@@ -18,9 +20,11 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        // refresh();
+        refresh();
       },
-      onError: () => {},
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e.error} />);
+      },
     },
   );
   const onFollow = () => {

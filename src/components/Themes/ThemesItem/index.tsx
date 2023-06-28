@@ -131,14 +131,17 @@ const ThemesItem = (props: IProps) => {
     <>
       <div className='w-[162px] pr-[10px]'>
         <div className='relative min-h-[191px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-          <Image
-            src={theme?.url}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
-          />
+          {theme?.url && (
+            <Image
+              src={theme?.url}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
+            />
+          )}
+
           <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
             <div className='flex h-[56px] flex-col items-center justify-center px-[8px]'>
               <Text type='body-12-bold' color='primary-5' className='text-center'>

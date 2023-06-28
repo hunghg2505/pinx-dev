@@ -6,7 +6,7 @@ import ItemInfluence from './ItemInfluence';
 
 const settings = {
   dots: false,
-  infinite: true,
+  infinite: false,
   speed: 500,
   slidesToShow: 2,
   slidesToScroll: 1,
@@ -16,15 +16,11 @@ const settings = {
 const Influencer = () => {
   const { KOL, refresh } = useGetInfluencer();
   return (
-    <div className='overflow-hidden'>
-      <Slider {...settings} className=''>
+    <div className='peopleInfluence overflow-hidden'>
+      <Slider {...settings} variableWidth>
         {KOL?.filter((item: IKOL) => item.isFeatureProfile === true).map(
           (item: IKOL, index: number) => {
-            return (
-              <div key={index}>
-                <ItemInfluence data={item} refresh={refresh} />
-              </div>
-            );
+            return <ItemInfluence data={item} refresh={refresh} key={index} />;
           },
         )}
       </Slider>
