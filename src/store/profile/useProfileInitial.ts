@@ -24,7 +24,7 @@ export const useProfileInitial = (options = {}) => {
     },
     {
       onSuccess: (res) => {
-        setUserLoginInfo(res?.data);
+        setUserLoginInfo({ ...res?.data, ...userLoginInfo });
       },
       onError: () => {
         setUserLoginInfo({

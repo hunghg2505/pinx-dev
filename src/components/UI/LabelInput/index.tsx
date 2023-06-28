@@ -140,6 +140,7 @@ const LabelInput: React.FC<InputProps & Ref> = React.forwardRef(
           styles.inputGroup,
         )}
       >
+
         <input
           ref={inputRef}
           type={implicitType()}

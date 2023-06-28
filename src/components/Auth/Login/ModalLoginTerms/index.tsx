@@ -10,11 +10,10 @@ import toast from 'react-hot-toast';
 import { RoundButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useGetContract, useAgreeContract } from './service';
+import { useGetContract, useSendLoginOtp } from './service';
 
 import 'rc-dialog/assets/index.css';
 
@@ -30,7 +29,6 @@ const ModalLoginTerms = (props: IProps) => {
   const { visible, closeIcon, onToggle, userType } = props;
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
-  const { userLoginInfo } = useUserLoginInfo();
   const { onLogout } = useAuth();
 
   const requestGetContract = useGetContract({
@@ -45,7 +43,7 @@ const ModalLoginTerms = (props: IProps) => {
     },
   });
 
-  const requestAgreeContract = useAgreeContract({
+  const requestSendLoginOtp = useSendLoginOtp({
     onSuccess: () => {
       if (userType === 'NEW') {
         router.push(ROUTE_PATH.HOME);
@@ -54,7 +52,7 @@ const ModalLoginTerms = (props: IProps) => {
       }
     },
     onError(e) {
-      onLogout();
+      // onLogout();
       toast(() => <Notification type='error' message={e?.error} />);
     },
   });
@@ -66,15 +64,13 @@ const ModalLoginTerms = (props: IProps) => {
     return <>X</>;
   };
 
-  const onAgreeContract = () => {
+  const onSendLoginOtp = () => {
     const payload = {
       authType: '1',
-      cif: userLoginInfo.cif || '',
-      token: userLoginInfo.token || '',
       positionNo: '',
       trdType: '1',
     };
-    requestAgreeContract.run(payload);
+    requestSendLoginOtp.run(payload);
     onToggle();
   };
 
@@ -165,7 +161,7 @@ const ModalLoginTerms = (props: IProps) => {
           <div className='w-full'>
             <RoundButton
               className='mt-3 w-full bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-[--white]'
-              onClick={onAgreeContract}
+              onClick={onSendLoginOtp}
             >
               Agree
             </RoundButton>
