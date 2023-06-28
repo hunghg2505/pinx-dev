@@ -1,4 +1,5 @@
 import { useAtom, atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils'
 
 interface InitUserLoginInfo {
   token?: string;
@@ -32,11 +33,14 @@ const initialUserLoginInfo: InitUserLoginInfo = {
   isReadTerms: 'false'
 };
 
-
+const isReadTermsAtom = atomWithStorage('isReadTerms', false);
+const userTypeAtom = atomWithStorage('userType', '');
 const userLoginInfoAtom = atom({ ...initialUserLoginInfo });
 
 export const useUserLoginInfo = () => {
   const [userLoginInfo, setUserLoginInfo] = useAtom(userLoginInfoAtom);
+  const [isReadTerms, setIsReadTerms] = useAtom(isReadTermsAtom)
+  const [userType, setUserType] = useAtom(userTypeAtom)
 
-  return { userLoginInfo, setUserLoginInfo };
+  return { userLoginInfo, setUserLoginInfo, isReadTerms, setIsReadTerms, userType, setUserType };
 };

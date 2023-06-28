@@ -54,7 +54,12 @@ const Register = () => {
   });
 
   const onResendOtp = () => {
-    requestResendLoginOtp.run();
+    const payload = {
+      authType: '1',
+      positionNo: '',
+      trdType: '1',
+    };
+    requestResendLoginOtp.run(payload);
   };
 
   useEffect(() => {
