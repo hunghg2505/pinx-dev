@@ -129,7 +129,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
             <Text type='body-14-medium' color='neutral-4' className='mb-[12px]'>
               Or share to:
             </Text>
-            <div className='sharethis-inline-share-buttons' data-url={url}></div>
+            <div className='sharethis-inline-share-buttons gap-4' data-url={url}></div>
           </div>
 
           <div className='field mt-[12px] flex h-[44px] items-center justify-between rounded-[8px]'>
