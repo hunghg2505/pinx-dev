@@ -151,13 +151,11 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
         filterType: type,
         last,
       };
-      console.log('params', params);
       for (const key of Object.keys(params)) {
         if (params[key] === null || params[key] === undefined || params[key] === '') {
           delete params[key];
         }
       }
-      console.log('params', params);
       return isLogin
         ? requestGetList(params)
         : requestCommunity.get(API_PATH.NEWFEED_LIST, { params });

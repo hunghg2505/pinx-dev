@@ -72,6 +72,11 @@
     width: calc(100% - 63px);
   }
 }
+.peopleInfluence{
+  .slick-track{
+    display: flex;
+  }
+}
 // custom fancybox
 .fancybox__toolbar__column.is-right {
   display: none !important;
