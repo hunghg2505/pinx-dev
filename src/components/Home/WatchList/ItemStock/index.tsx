@@ -18,14 +18,17 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
   return (
     <div className='mr-[16px] w-[104px]'>
       <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
-        <Image
-          src={url}
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='h-[40px] w-[40px] rounded-full object-contain'
-        />
+        {url && (
+          <Image
+            src={url}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='h-[40px] w-[40px] rounded-full object-contain'
+          />
+        )}
+
         <Text
           type='barlow-16-medium'
           color='semantic-2-1'

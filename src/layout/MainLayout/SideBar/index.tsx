@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
 
@@ -69,7 +71,59 @@ const SideBar = () => {
   }, [MENUS]);
   return (
     <>
-      <Menu defaultSelectedKeys={['1']} items={items} />
+      <div className='px-[10px]'>
+        <Menu defaultSelectedKeys={['1']} items={items} />
+        <div className='pt-[25px] [border-top:1px_solid_#ECECEC]'>
+          <Text type='body-12-regular' className='text-[#78909C]'>
+            Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
+          </Text>
+          <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
+            GPKD: <span className='text-[#474D57]'>0101294902</span>
+          </Text>
+          <div className='mt-[20px] flex gap-x-[10px]'>
+            <Link href='/#'>
+              <Image
+                src='/static/social/facebook.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </Link>
+            <Link href='/#'>
+              <Image
+                src='/static/social/zalo.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </Link>
+            <Link href='/#'>
+              <Image
+                src='/static/social/youtube.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </Link>
+            <Link href='/#'>
+              <Image
+                src='/static/social/tik_tok.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

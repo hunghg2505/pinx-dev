@@ -4,6 +4,7 @@ import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
 import {
@@ -19,7 +20,9 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
-import ModalReportComment from './ModalReportComment';
+const ModalReportComment = dynamic(import('./ModalReportComment'), {
+  ssr: false,
+});
 
 dayjs.extend(relativeTime);
 interface IProps {
@@ -28,15 +31,18 @@ interface IProps {
   data: IComment;
   refresh: () => void;
   refreshTotal?: () => void;
+  isChildren?: boolean;
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal } = props;
+  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false } = props;
   const { requestGetProfile } = useProfileInitial();
   const isComment = requestGetProfile?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
+
   const onComment = (value: string, customerId: number, id: string) => {
+    const idComment = isChildren ? data?.parentId : id;
     if (!isLogin) {
       PopupComponent.open();
       return;
@@ -44,7 +50,7 @@ const ItemComment = (props: IProps) => {
     if (onNavigate) {
       onNavigate();
     } else {
-      onReplies && onReplies(value, customerId, id);
+      onReplies && onReplies(value, customerId, idComment);
     }
   };
   useClickAway(() => {
@@ -112,7 +118,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment p-[16px]'>
+    <div className='comment p-[20px]'>
       <div className='flex flex-row items-start'>
         <Image
           src={data?.customerInfo?.avatar || '/static/logo/logoPintree.svg'}
@@ -192,14 +198,16 @@ const ItemComment = (props: IProps) => {
           {urlImage !== '' && (
             <Fancybox>
               <a data-fancybox='gallery' href={urlImage}>
-                <Image
-                  src={urlImage}
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='mt-[10px] h-[100px] w-[100px] rounded-[8px]'
-                />
+                {urlImage && (
+                  <Image
+                    src={urlImage}
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='mt-[10px] h-[100px] w-[100px] rounded-[8px]'
+                  />
+                )}
               </a>
             </Fancybox>
           )}

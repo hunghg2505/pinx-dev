@@ -11,6 +11,7 @@ export const ROUTE_PATH = {
   REGISTER_THEME: '/auth/register-theme',
   REGISTER_TOPIC: '/auth/register-topic',
   UPDATE_USSR_PROFILE: '/auth/update-user-profile',
+  REDIRECT: '/redirecting',
   POST_DETAIL: (id: string) => `/post/${id}`,
 };
 

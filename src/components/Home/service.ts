@@ -94,6 +94,28 @@ export interface IWatchListItem {
   cl: string;
   changePc: string;
 }
+export interface INewFeed {
+  children: any;
+  customerId: number;
+  id: string;
+  isFollowing: boolean;
+  isReport: boolean;
+  isLike: boolean;
+  likes: number[];
+  reports: any;
+  post: any;
+  postId: string;
+  postType: string;
+  publishedAt: number;
+  reactionScore: number;
+  status: string;
+  textSearch: string;
+  timeString: string;
+  totalChildren: number;
+  totalLikes: number;
+  totalReports: number;
+  totalViews: number;
+}
 export enum TYPESEARCH {
   ALL = 'ALL',
   FRIEND = 'FRIEND',
@@ -105,6 +127,10 @@ export interface ISearch {
   keyword: string;
   searchType: string;
 }
+interface IOptionsRequest {
+  onSuccess?: (r: any) => void;
+  onError?: (e: any) => void;
+}
 export const useGetListFillter = () => {
   const { data } = useRequest(() => {
     return requestCommunity.get(API_PATH.FILTER_LIST);
@@ -113,22 +139,29 @@ export const useGetListFillter = () => {
     data,
   };
 };
-const requestGetList = (type: string) => {
-  return privateRequest(
-    requestCommunity.get,
-    API_PATH.PRIVATE_NEWFEED_LIST + `?filterType=${type}`,
-  );
+const requestGetList = (params: any) => {
+  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_NEWFEED_LIST, { params });
 };
-// unauth
-export const useGetListNewFeed = () => {
+
+export const useGetListNewFeed = (options?: IOptionsRequest) => {
   const { data, run, refresh } = useRequest(
-    (type: string) => {
+    (type: string, last?: string) => {
       const isLogin = !!getAccessToken();
+      const params: any = {
+        filterType: type,
+        last,
+      };
+      for (const key of Object.keys(params)) {
+        if (params[key] === null || params[key] === undefined || params[key] === '') {
+          delete params[key];
+        }
+      }
       return isLogin
-        ? requestGetList(type)
-        : requestCommunity.get(API_PATH.NEWFEED_LIST + `?filterType=${type}`);
+        ? requestGetList(params)
+        : requestCommunity.get(API_PATH.NEWFEED_LIST, { params });
     },
     {
+      ...options,
       manual: true,
     },
   );

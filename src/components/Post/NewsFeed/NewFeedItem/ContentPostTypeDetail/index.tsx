@@ -47,23 +47,29 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
-            src={postDetail?.post.bgImage}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='absolute right-0 top-0 h-full'
-          />
+          {postDetail?.post?.bgImage && (
+            <Image
+              src={postDetail?.post.bgImage}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='absolute right-0 top-0 h-full'
+            />
+          )}
+
           <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] tablet:bottom-[11px] tablet:left-[32px] tablet:h-[269px] tablet:w-[192px]'>
             <div className='flex flex-col items-center justify-center'>
-              <Image
-                src={iconPost}
-                alt=''
-                width='0'
-                height='0'
-                className='mobile:mt-[19px] mobile:h-[22px] mobile:w-[22px] tablet:mt-[30px] tablet:h-[32px] tablet:w-[32px]'
-              />
+              {iconPost && (
+                <Image
+                  src={iconPost}
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='mobile:mt-[19px] mobile:h-[22px] mobile:w-[22px] tablet:mt-[30px] tablet:h-[32px] tablet:w-[32px]'
+                />
+              )}
+
               <Text
                 type='body-12-medium'
                 color='primary-5'
@@ -117,14 +123,16 @@ const ContentPostTypeDetail = (props: IProps) => {
           />
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
-            src={postDetail?.post.headImageUrl}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-full w-full'
-          />
+          {postDetail?.post?.headImageUrl && (
+            <Image
+              src={postDetail?.post?.headImageUrl}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-full w-full'
+            />
+          )}
           <div
             // href={url}
             onClick={onRedirect}
@@ -217,14 +225,17 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
-            src={postDetail?.post.bgImage}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='absolute right-0 top-0 h-full'
-          />
+          {postDetail?.post?.bgImage && (
+            <Image
+              src={postDetail?.post?.bgImage}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='absolute right-0 top-0 h-full'
+            />
+          )}
+
           <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[9px] mobile:left-[19px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
             <Image
               src={url || '/static/icons/logoStock.svg'}
@@ -270,14 +281,14 @@ const ContentPostTypeDetail = (props: IProps) => {
               </Text>
               <Text
                 type='body-12-medium'
-                color='neutral-9'
+                color='neutral-3'
                 className='mb-[2px] mt-[12px] desktop:mt-[19px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 Made on PineX
               </Text>
               <Text
                 type='body-12-medium'
-                color='neutral-7'
+                color='neutral-3'
                 className='desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 {postDetail?.timeString && dayjs(postDetail?.timeString).format('DD/MM/YYYY')}
@@ -313,36 +324,36 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain tablet:h-[48px] tablet:w-[48px]'
+              className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain desktop:h-[48px] desktop:w-[48px]'
             />
-            <div className='mt-[25px] flex flex-col items-center justify-center tablet:mt-[36px]'>
+            <div className='mt-[25px] flex flex-col items-center justify-center desktop:mt-[36px]'>
               <Text
                 type='body-16-bold'
                 color='neutral-1'
-                className='tablet:!text-[24px] tablet:!leading-[32px]'
+                className='desktop:!text-[24px] desktop:!leading-[32px]'
               >
                 {postDetail?.post?.stockCode}
               </Text>
-              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] tablet:my-[7px] tablet:h-[32px] tablet:w-[32px]'>
+              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
                 <Image
                   src='/static/icons/iconPostBuy.svg'
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='w-[12px] tablet:w-[20px]'
+                  className='w-[12px] desktop:w-[20px]'
                 />
               </div>
               <Text
                 type='body-12-medium'
                 color='neutral-1'
-                className='mb-[4px] mt-[4px] tablet:!text-[20px] tablet:!leading-[28px]'
+                className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 Sell
               </Text>
               <Text
                 type='body-16-medium'
-                className={classNames('tablet:!text-[24px] tablet:!leading-[32px]', {
+                className={classNames('desktop:!text-[24px] desktop:!leading-[32px]', {
                   'text-[#128F63]': pnlRate > 0,
                   'text-[#DB4444]': pnlRate < 0,
                 })}
@@ -352,14 +363,14 @@ const ContentPostTypeDetail = (props: IProps) => {
               <Text
                 type='body-12-medium'
                 color='neutral-3'
-                className='mb-[2px] mt-[10px] tablet:mt-[24px] tablet:!text-[20px] tablet:!leading-[28px]'
+                className='mb-[2px] mt-[10px] desktop:mt-[24px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 Made on PineX
               </Text>
               <Text
                 type='body-12-medium'
                 color='neutral-3'
-                className='tablet:!text-[20px] tablet:!leading-[28px]'
+                className='desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 {dayjs(postDetail?.post?.tradingDate).format('DD/MM/YYYY')}
               </Text>
