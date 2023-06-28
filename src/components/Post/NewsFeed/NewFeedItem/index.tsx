@@ -83,7 +83,11 @@ const NewFeedItem = (props: IProps) => {
   const isLike = postDetail?.isLike;
   const handleComment = () => {
     if (isLogin) {
-      onNavigate && onNavigate();
+      if (statusUser === USERTYPE.VSD) {
+        onNavigate && onNavigate();
+      } else {
+        PopupComponent.openEKYC();
+      }
     } else {
       PopupComponent.open();
     }

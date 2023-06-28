@@ -44,14 +44,16 @@ const ItemComment = (props: IProps) => {
 
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
-    if (!isLogin) {
-      PopupComponent.open();
-      return;
-    }
-    if (onNavigate) {
-      onNavigate();
+    if (isLogin) {
+      if (statusUser !== USERTYPE.VSD) {
+        PopupComponent.openEKYC();
+      } else if (onNavigate) {
+        onNavigate();
+      } else {
+        onReplies && onReplies(value, customerId, idComment);
+      }
     } else {
-      onReplies && onReplies(value, customerId, idComment);
+      PopupComponent.open();
     }
   };
   useClickAway(() => {
