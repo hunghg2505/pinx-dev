@@ -56,7 +56,7 @@ const ForgotPasswordStepOne = () => {
         </Text>
       </div>
 
-      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
         <FormItem name='username'>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>

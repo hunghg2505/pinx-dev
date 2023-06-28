@@ -1,28 +1,34 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { requestPist, privateRequest } from '@api/request';
+import { requestPist } from '@api/request';
+import { getRegisterToken } from '@store/auth';
 
 interface IOptionsRequest {
   onSuccess?: (r: any) => void;
   onError?: (e: any) => void;
 }
 
-interface IBodySubmitOtp {
+interface IBodySubmitUsername {
   username: string;
 }
 
-const serviceCreateUsername = async (value: IBodySubmitOtp) => {
-  return privateRequest(requestPist.post, API_PATH.CREATE_USER_NAME, {
-    params: value,
-  });
-};
+const token = getRegisterToken() as string;
 
 export const useCreateUsername = (options: IOptionsRequest) => {
-  const requestCreateUsername = useRequest(serviceCreateUsername, {
-    manual: true,
-    ...options,
-  });
-
-  return requestCreateUsername;
+  return useRequest(
+    // eslint-disable-next-line require-await
+    async (value: IBodySubmitUsername) => {
+      return requestPist.post(API_PATH.CREATE_USER_NAME, {
+        headers: {
+          Authorization: token,
+        },
+        params: value,
+      });
+    },
+    {
+      manual: true,
+      ...options,
+    },
+  );
 };

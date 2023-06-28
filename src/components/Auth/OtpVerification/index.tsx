@@ -3,7 +3,6 @@ import { useState, useCallback, useEffect } from 'react';
 import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
@@ -11,7 +10,6 @@ import { RoundButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
 
 interface IProps {
   onResendOtp: () => void;
@@ -26,8 +24,6 @@ const convertSecond = (secs: number) => {
 };
 
 const OtpVerification = (props: IProps) => {
-  const router = useRouter();
-  const { onLogout } = useAuth();
   const { t } = useTranslation('auth');
   const [form] = Form.useForm();
   const [otp, setOtp] = useState<string>('');
@@ -127,21 +123,8 @@ const OtpVerification = (props: IProps) => {
     startResendTimer();
   }, []);
 
-  const onBack = () => {
-    router.back();
-    onLogout();
-  };
-
   return (
     <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
-      <Image
-        src='/static/icons/back_icon.svg'
-        alt=''
-        width='0'
-        height='0'
-        className='z-999 fixed left-[10px] top-[23px] h-[28px] w-[28px] laptop:hidden'
-        onClick={onBack}
-      />
       <div className='mt-[46px]'>
         <Text type='body-24-bold'>{t('comfirm_phone_number')}</Text>
         <Text type='body-18-regular' color='neutral-4'>

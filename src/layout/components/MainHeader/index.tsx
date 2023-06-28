@@ -10,6 +10,7 @@ import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -28,6 +29,7 @@ const IconSearchWhite = () => (
 const Header = () => {
   const router = useRouter();
   const isPathName = router?.pathname === ROUTE_PATH.REDIRECT;
+  const { onLogout } = useAuth();
   const id = !!router?.query?.id;
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
@@ -108,6 +110,7 @@ const Header = () => {
                   height={0}
                   sizes='100vw'
                   className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+                  onClick={() => onLogout()}
                 />
               </>
             ) : (

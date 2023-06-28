@@ -1,7 +1,8 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { requestPist, privateRequest } from '@api/request';
+import { requestPist } from '@api/request';
+import { getRegisterToken } from '@store/auth';
 
 interface IOptionsRequest {
   onSuccess?: (r: any) => void;
@@ -12,30 +13,39 @@ interface IBodySubmitOtp {
   otp: string;
 }
 
-const serviceRegisterOtp = async (value: IBodySubmitOtp) => {
-  return privateRequest(requestPist.post, API_PATH.REGISTER_OTP, {
-    params: value,
-  });
-};
+const token = getRegisterToken() as string;
 
 export const useRegisterOtp = (options: IOptionsRequest) => {
-  const requestRegisterOtp = useRequest(serviceRegisterOtp, {
-    manual: true,
-    ...options,
-  });
-
-  return requestRegisterOtp;
-};
-
-const serviceResendRegisterOtp = async () => {
-  return privateRequest(requestPist.post, API_PATH.RESEND_REGISTER_OTP);
+  return useRequest(
+    // eslint-disable-next-line require-await
+    async (value: IBodySubmitOtp) => {
+      return requestPist.post(API_PATH.REGISTER_OTP, {
+        headers: {
+          Authorization: token,
+        },
+        params: value,
+      });
+    },
+    {
+      manual: true,
+      ...options,
+    },
+  );
 };
 
 export const useResendRegisterOtp = (options: IOptionsRequest) => {
-  const requestResendRegisterOtp = useRequest(serviceResendRegisterOtp, {
-    manual: true,
-    ...options,
-  });
-
-  return requestResendRegisterOtp;
+  return useRequest(
+    // eslint-disable-next-line require-await
+    async () => {
+      return requestPist.post(API_PATH.RESEND_REGISTER_OTP, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    },
+    {
+      manual: true,
+      ...options,
+    },
+  );
 };
