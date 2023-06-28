@@ -20,6 +20,12 @@ interface IBodyConfirmContract {
   token: string;
 }
 
+interface IBodyResendLoginOtp {
+  authType: string;
+  positionNo: string;
+  trdType: string;
+}
+
 const serviceSubmitOtp = async (values: IBodySubmitOtp) => {
   return privateRequest(requestPist.post, API_PATH.SUBMIT_LOGIN_OTP, {
     data: values,
@@ -35,8 +41,10 @@ export const useLoginOtp = (options: IOptionsRequest) => {
   return requestSubmitOtp;
 };
 
-const serviceResendLoginOtp = async () => {
-  return privateRequest(requestPist.post, API_PATH.RESEND_REGISTER_OTP);
+const serviceResendLoginOtp = async (value: IBodyResendLoginOtp) => {
+  return privateRequest(requestPist.post, API_PATH.SEND_LOGIN_OTP, {
+    data: value,
+  });
 };
 
 const serviceConfirmContract = async (values: IBodyConfirmContract) => {

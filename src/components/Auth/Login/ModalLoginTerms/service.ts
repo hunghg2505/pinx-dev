@@ -15,6 +15,12 @@ interface IBodySendLoginOtp {
   trdType: string;
 }
 
+interface IBodyConfirmContract {
+  authType: string;
+  cif: string;
+  token: string;
+}
+
 const serviceGetContract = async () => {
   return privateRequest(requestPist.get, API_PATH.GET_USER_CONTRACT);
 };
@@ -41,4 +47,19 @@ export const useSendLoginOtp = (options: IOptionsRequest) => {
   });
 
   return requestSendLoginOtp;
+};
+
+const serviceConfirmContract = async (values: IBodyConfirmContract) => {
+  return privateRequest(requestPist.post, API_PATH.CONFIRM_CONTRACT, {
+    data: values,
+  });
+};
+
+export const useConfirmContract = (options?: IOptionsRequest) => {
+  const requestConfirmContract = useRequest(serviceConfirmContract, {
+    manual: true,
+    ...options,
+  });
+
+  return requestConfirmContract;
 };

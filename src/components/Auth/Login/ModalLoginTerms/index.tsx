@@ -10,10 +10,11 @@ import toast from 'react-hot-toast';
 import { RoundButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useGetContract, useSendLoginOtp } from './service';
+import { useGetContract, useSendLoginOtp, useConfirmContract } from './service';
 
 import 'rc-dialog/assets/index.css';
 
@@ -30,6 +31,7 @@ const ModalLoginTerms = (props: IProps) => {
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
   const { onLogout } = useAuth();
+  const { userLoginInfo } = useUserLoginInfo();
 
   const requestGetContract = useGetContract({
     onSuccess: (res: any) => {
@@ -45,11 +47,17 @@ const ModalLoginTerms = (props: IProps) => {
 
   const requestSendLoginOtp = useSendLoginOtp({
     onSuccess: () => {
-      if (userType === 'NEW') {
-        router.push(ROUTE_PATH.HOME);
-      } else {
-        router.push(ROUTE_PATH.LOGIN_OTP_VERIFICATION);
-      }
+      router.push(ROUTE_PATH.LOGIN_OTP_VERIFICATION);
+    },
+    onError(e) {
+      // onLogout();
+      toast(() => <Notification type='error' message={e?.error} />);
+    },
+  });
+
+  const requestConfirmContract = useConfirmContract({
+    onSuccess: () => {
+      router.push(ROUTE_PATH.HOME);
     },
     onError(e) {
       // onLogout();
@@ -73,6 +81,22 @@ const ModalLoginTerms = (props: IProps) => {
     requestSendLoginOtp.run(payload);
     onToggle();
   };
+
+  const onConfirmContract = () => {
+    const payload = {
+      authType: '1',
+      cif: userLoginInfo.cif || '',
+      token: '',
+    };
+    requestConfirmContract.run(payload);
+    onToggle();
+  };
+
+  const onSubmit = () => {
+    if (userType === 'NEW') {
+      onConfirmContract();
+    } else { onSendLoginOtp() }
+  }
 
   const handleClose = () => {
     if (userType === 'VSD') {
@@ -161,7 +185,7 @@ const ModalLoginTerms = (props: IProps) => {
           <div className='w-full'>
             <RoundButton
               className='mt-3 w-full bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-[--white]'
-              onClick={onSendLoginOtp}
+              onClick={onSubmit}
             >
               Agree
             </RoundButton>
