@@ -57,7 +57,7 @@ const Home = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
   const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(
-    !!userType && !isReadTerms
+    !!userType && !isReadTerms,
   );
 
   // const userType = router.query.user_type as string;
@@ -207,7 +207,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              <div className='flex items-center pl-[16px] filter mobile:my-[12px] desktop:mb-[20px] '>
+              <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
                 <Text
                   type='body-16-bold'
                   color='neutral-2'
@@ -222,8 +222,8 @@ const Home = () => {
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
-                <div className='bg-[#ffffff] px-[16px] mobile:block desktop:hidden'>
-                  <div className='pb-[13px] pt-[10px] [border-top:1px_solid_#EAF4FB]'>
+                <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
+                  <div className='pb-[13px] pt-[10px] '>
                     <Trending />
                   </div>
                 </div>

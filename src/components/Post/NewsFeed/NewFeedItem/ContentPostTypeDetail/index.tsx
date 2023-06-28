@@ -274,7 +274,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               )}
               <Text
                 type='body-12-medium'
-                color='primary-5'
+                color='neutral-1'
                 className='mt-[24px] desktop:mt-[36px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 {postDetail?.post.action === 'ADD' ? 'Watching' : 'Unwatch'}
