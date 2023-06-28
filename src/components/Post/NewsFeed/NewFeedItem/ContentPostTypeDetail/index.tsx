@@ -313,36 +313,36 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain tablet:h-[48px] tablet:w-[48px]'
+              className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain desktop:h-[48px] desktop:w-[48px]'
             />
-            <div className='mt-[25px] flex flex-col items-center justify-center tablet:mt-[36px]'>
+            <div className='mt-[25px] flex flex-col items-center justify-center desktop:mt-[36px]'>
               <Text
                 type='body-16-bold'
                 color='neutral-1'
-                className='tablet:!text-[24px] tablet:!leading-[32px]'
+                className='desktop:!text-[24px] desktop:!leading-[32px]'
               >
                 {postDetail?.post?.stockCode}
               </Text>
-              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] tablet:my-[7px] tablet:h-[32px] tablet:w-[32px]'>
+              <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
                 <Image
                   src='/static/icons/iconPostBuy.svg'
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='w-[12px] tablet:w-[20px]'
+                  className='w-[12px] desktop:w-[20px]'
                 />
               </div>
               <Text
                 type='body-12-medium'
                 color='neutral-1'
-                className='mb-[4px] mt-[4px] tablet:!text-[20px] tablet:!leading-[28px]'
+                className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 Sell
               </Text>
               <Text
                 type='body-16-medium'
-                className={classNames('tablet:!text-[24px] tablet:!leading-[32px]', {
+                className={classNames('desktop:!text-[24px] desktop:!leading-[32px]', {
                   'text-[#128F63]': pnlRate > 0,
                   'text-[#DB4444]': pnlRate < 0,
                 })}
@@ -352,14 +352,14 @@ const ContentPostTypeDetail = (props: IProps) => {
               <Text
                 type='body-12-medium'
                 color='neutral-3'
-                className='mb-[2px] mt-[10px] tablet:mt-[24px] tablet:!text-[20px] tablet:!leading-[28px]'
+                className='mb-[2px] mt-[10px] desktop:mt-[24px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 Made on PineX
               </Text>
               <Text
                 type='body-12-medium'
                 color='neutral-3'
-                className='tablet:!text-[20px] tablet:!leading-[28px]'
+                className='desktop:!text-[20px] desktop:!leading-[28px]'
               >
                 {dayjs(postDetail?.post?.tradingDate).format('DD/MM/YYYY')}
               </Text>

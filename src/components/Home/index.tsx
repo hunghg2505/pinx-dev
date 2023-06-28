@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
+import { useMount } from 'ahooks';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
@@ -39,9 +40,17 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
+
   const [selectTab, setSelectTab] = React.useState<string>('2');
   // const { t } = useTranslation('home');
-  const { listNewFeed, run, refresh } = useGetListNewFeed();
+  const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
+  const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
+  const { run, refresh } = useGetListNewFeed({
+    onSuccess: (res) => {
+      setLastNewFeed(res.data.last);
+      setNewFeed((data) => [...data, ...res?.data?.list]);
+    },
+  });
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
@@ -50,7 +59,20 @@ const Home = () => {
     !!router.query.modal_login_terms,
   );
   const userType = router.query.user_type as string;
-
+  React.useEffect(() => {
+    window.addEventListener('scroll', loadMore);
+    return () => {
+      window.removeEventListener('scroll', loadMore);
+    };
+  }, [lastNewFeed]);
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.scrollingElement?.scrollHeight
+    ) {
+      run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
+    }
+  };
   const onChangeTab = (key: string) => {
     setSelectTab(key);
     if (key === '1') {
@@ -60,12 +82,12 @@ const Home = () => {
       requestJoinIndex();
     }
   };
-  useEffect(() => {
+  useMount(() => {
     run(FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
       getSuggestFriend();
     }
-  }, []);
+  });
 
   const onToggleModalLoginTerms = () => {
     setShowModalLoginTerms(!showModalLoginTerms);
@@ -184,7 +206,7 @@ const Home = () => {
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
-                {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
+                {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
                 <div className='bg-[#ffffff] px-[16px] mobile:block desktop:hidden'>
@@ -237,7 +259,7 @@ const Home = () => {
                   </div>
                 )}
 
-                {listNewFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
+                {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
                 <div className='bg-[#ffffff] pl-[16px]'>
@@ -246,7 +268,7 @@ const Home = () => {
                   </Text>
                   <ListTheme />
                 </div>
-                {listNewFeed?.slice(5)?.map((item: IPost, index: number) => {
+                {newFeed?.slice(5)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
               </div>

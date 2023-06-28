@@ -17,7 +17,7 @@ const ItemStock = ({ data }: { data: string }) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-[24px] w-[24px] rounded-full'
+            className='h-[24px] w-[24px] rounded-full object-contain'
           />
           <Text type='body-12-medium' color='neutral-9'>
             ${data}

@@ -32,7 +32,7 @@ const RegisterCompanyStep = () => {
       detailStockSuggested.run();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listSuggestStock.stockCodes]);
+  }, []);
 
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
