@@ -434,7 +434,7 @@ const NewFeedItem = (props: IProps) => {
       </div>
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
         {renderContentPost()}
-        <div className='action mt-[15px] flex flex-row items-center justify-between desktop:justify-start'>
+        <div className='action flex flex-row items-center justify-between mobile:mt-[15px] desktop:mt-[24px] desktop:justify-start'>
           <div
             className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={() => handleLikeOrUnLikePost()}

@@ -65,7 +65,7 @@ const WatchList = () => {
   }
   const settings = {
     dots: false,
-    infinite: true,
+    // infinite: true,
     speed: 500,
     // slidesToShow: ,
     slidesToScroll: 1,

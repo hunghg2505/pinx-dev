@@ -118,7 +118,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment p-[16px]'>
+    <div className='comment p-[20px]'>
       <div className='flex flex-row items-start'>
         <Image
           src={data?.customerInfo?.avatar || '/static/logo/logoPintree.svg'}
@@ -198,14 +198,16 @@ const ItemComment = (props: IProps) => {
           {urlImage !== '' && (
             <Fancybox>
               <a data-fancybox='gallery' href={urlImage}>
-                <Image
-                  src={urlImage}
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='mt-[10px] h-[100px] w-[100px] rounded-[8px]'
-                />
+                {urlImage && (
+                  <Image
+                    src={urlImage}
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='mt-[10px] h-[100px] w-[100px] rounded-[8px]'
+                  />
+                )}
               </a>
             </Fancybox>
           )}

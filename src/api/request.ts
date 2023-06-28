@@ -83,12 +83,14 @@ const tokenManager = new TokenManager({
 
 const privateRequest = async (request: any, suffixUrl: string, configs?: any) => {
   const token: string = configs?.token ?? ((await tokenManager.getToken()) as string);
-  return request(suffixUrl, {
-    headers: {
-      Authorization: token,
-    },
-    ...configs,
-  });
+  if (token) {
+    return request(suffixUrl, {
+      headers: {
+        Authorization: token,
+      },
+      ...configs,
+    });
+  }
 };
 
 // dùng cái này khi gọi nhiều api ở phía server => đảm bảo có token mới nhất cho các request ở sau, tránh bị call reuqest đồng thời

@@ -2,8 +2,10 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 
 import { ISuggestionPeople, requestFollowUser, useSuggestPeople } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
@@ -24,7 +26,9 @@ const PeopleDesktop = () => {
       onSuccess: () => {
         refreshList();
       },
-      onError: () => {},
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e.error} />);
+      },
     },
   );
   const onFollow = (id: number) => {

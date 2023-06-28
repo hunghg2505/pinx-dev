@@ -1,4 +1,5 @@
 import { useMount } from 'ahooks';
+import classNames from 'classnames';
 
 const AppLayout = ({ children, InterFont }: any) => {
   useMount(() => {
@@ -7,7 +8,7 @@ const AppLayout = ({ children, InterFont }: any) => {
 
   return (
     <>
-      <main className={InterFont.variable}>{children}</main>
+      <main className={classNames(InterFont.variable)}>{children}</main>
     </>
   );
 };
