@@ -389,22 +389,31 @@ const NewFeedItem = (props: IProps) => {
             />
             {showReport && (
               <div className='popup absolute right-0 z-10 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
-                <div
-                  className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                  onClick={handleHidePost}
-                >
-                  <Image
-                    src='/static/icons/iconUnHide.svg'
-                    alt=''
-                    width='0'
-                    height='0'
-                    sizes='100vw'
-                    className='mr-[8px] h-[20px] w-[20px] object-contain'
-                  />
-                  <Text type='body-14-medium' color='neutral-2'>
-                    Hide
-                  </Text>
-                </div>
+                {[
+                  TYPEPOST.POST,
+                  TYPEPOST.ActivityTheme,
+                  TYPEPOST.ActivityMatchOrder,
+                  TYPEPOST.ActivityWatchlist,
+                  TYPEPOST.PinetreePost,
+                ].includes(postDetail?.post.postType) && (
+                  <div
+                    className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+                    onClick={handleHidePost}
+                  >
+                    <Image
+                      src='/static/icons/iconUnHide.svg'
+                      alt=''
+                      width='0'
+                      height='0'
+                      sizes='100vw'
+                      className='mr-[8px] h-[20px] w-[20px] object-contain'
+                    />
+                    <Text type='body-14-medium' color='neutral-2'>
+                      Hide
+                    </Text>
+                  </div>
+                )}
+
                 {!isReported && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                     <Image
