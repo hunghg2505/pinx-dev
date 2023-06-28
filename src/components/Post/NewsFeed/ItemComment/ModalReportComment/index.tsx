@@ -21,14 +21,15 @@ interface IProps {
   closeIcon?: boolean;
   postID: string;
   isReported?: boolean;
+  refresh: () => void;
 }
 const ModalReportComment = (props: IProps) => {
-  const { children, closeIcon, postID, isReported: isReportedProp = false } = props;
+  const { children, closeIcon, postID, isReported: isReportedProp = false, refresh } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [isReported, setIsReported] = useState(isReportedProp);
-  // const isLogin = !!getAccessToken();
+  // const isLogin = !!getAccessToken();,
   const onVisible = () => {
     if (isReported) {
       return;
@@ -60,7 +61,7 @@ const ModalReportComment = (props: IProps) => {
       onSuccess: () => {
         onVisible();
         setIsReported(true);
-        console.log('thanh cong');
+        refresh();
       },
       onError: () => {
         console.log('that bai');

@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
+import { useContainerDimensions } from '@hooks/useDimensions';
 import { ROUTE_PATH } from '@utils/common';
 
-const HEADER_HEIGHT = 50;
+const SCREEN_MOBILE_WIDTH = 768;
 const FooterSignUp = () => {
   const [scrollTop, setScrollTop] = useState(0);
+  const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
+
+  const footerRef = useRef(null);
+
+  const { width } = useContainerDimensions(footerRef);
+
+  useEffect(() => {
+    setFooterHeight(width <= SCREEN_MOBILE_WIDTH ? 49 : 64);
+  }, [width]);
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -25,7 +35,7 @@ const FooterSignUp = () => {
       scrollSpeed = scrollDistance / elapsedTime;
 
       if (scrollTop > lastScrollTop) {
-        setScrollTop(scrollTop > HEADER_HEIGHT ? HEADER_HEIGHT : scrollTop);
+        setScrollTop(scrollTop > footerHeight ? footerHeight : scrollTop);
       } else {
         // scrolling to top
         setScrollTop((prev) => (scrollSpeed > 1 ? 0 : prev));
@@ -40,7 +50,7 @@ const FooterSignUp = () => {
     return () => {
       document.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [footerHeight]);
 
   const redirectToSignUp = () => {
     router.push({
@@ -51,24 +61,84 @@ const FooterSignUp = () => {
     });
   };
 
-  return (
-    <div
-      style={{ transform: `translateY(${scrollTop.toFixed(0)}px)`, height: HEADER_HEIGHT }}
-      className='fixed bottom-0 z-10 flex min-w-[375px] items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition tablet:left-0 tablet:justify-center desktop:w-full'
-    >
-      <Text type='body-14-regular' className='primary-5'>
-        Sign up or Log in to join the discussion
-      </Text>
+  const redirectToLogin = () => {
+    router.push({
+      pathname: ROUTE_PATH.LOGIN,
+    });
+  };
 
-      <button
-        onClick={redirectToSignUp}
-        className='ml-[5px] h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
+  return (
+    <footer
+      ref={footerRef}
+      className='fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center'
+      style={{ height: `${footerHeight}px` }}
+    >
+      {/* mobile */}
+      <div
+        style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
+        className='flex h-full min-w-[375px] items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition tablet:hidden desktop:hidden'
       >
-        <Text type='body-14-semibold' color='cbwhite'>
-          Sign up
+        <button
+          onClick={redirectToSignUp}
+          className='h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
+        >
+          <Text type='body-14-semibold' color='cbwhite'>
+            Sign up
+          </Text>
+        </button>
+
+        <Text type='body-14-regular' color='primary-5' className='mx-[8px]'>
+          or
         </Text>
-      </button>
-    </div>
+
+        <button
+          onClick={redirectToLogin}
+          className='h-[26px] min-w-[73px] rounded-[4px] border border-solid border-[var(--primary-6)] bg-[var(--primary-3)] px-[16px]'
+        >
+          <Text type='body-14-semibold' color='primary-2'>
+            Log in
+          </Text>
+        </button>
+
+        <Text type='body-14-regular' color='primary-5' className='ml-[8px] flex-1'>
+          to join the discussion
+        </Text>
+      </div>
+
+      {/* > tablet */}
+      <div
+        style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
+        className='flex h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white px-[16px] transition mobile:hidden tablet:flex desktop:flex'
+      >
+        <Text
+          type='body-20-medium'
+          color='primary-5'
+          className='tablet:mr-[100px] desktop:mr-[352px]'
+        >
+          Sign up or Log in to join the discussion
+        </Text>
+
+        <div className='flex h-[37px] items-center'>
+          <button
+            onClick={redirectToSignUp}
+            className='mr-[16px] h-full min-w-[107px] rounded-[4px] bg-[var(--primary-2)] px-[24px]'
+          >
+            <Text type='body-16-semibold' color='cbwhite'>
+              Sign up
+            </Text>
+          </button>
+
+          <button
+            onClick={redirectToLogin}
+            className='h-full min-w-[73px] rounded-[4px] border border-solid border-[var(--primary-6)] bg-[var(--primary-3)] px-[30px]'
+          >
+            <Text type='body-16-semibold' color='primary-2'>
+              Log in
+            </Text>
+          </button>
+        </div>
+      </div>
+    </footer>
   );
 };
 

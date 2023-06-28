@@ -1,8 +1,9 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import { useRouter } from 'next/router';
 
 import { ROUTE_PATH } from '@utils/common';
 
-import { deleteAuthCookies, getAccessToken, setAuthCookies } from '.';
+import { deleteAuthCookies, getAccessToken, setAuthCookies, setRegisterCookies } from '.';
 
 export interface IAuth {
   loading?: boolean;
@@ -25,10 +26,22 @@ export const useAuth = () => {
     }
   };
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
   const onLogin = (data: IAuth) => {
     try {
       setAuthCookies({
+        token: `${data.token}`,
+        refreshToken: data.refreshToken || '',
+        expiredTime: data.expiredTime,
+      });
+      // requestGetProfile();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onRegister = (data: IAuth) => {
+    try {
+      setRegisterCookies({
         token: `${data.token}`,
         refreshToken: data.refreshToken || '',
         expiredTime: data.expiredTime,
@@ -43,5 +56,6 @@ export const useAuth = () => {
     isLogin: !!getAccessToken(),
     onLogin,
     onLogout,
+    onRegister,
   };
 };

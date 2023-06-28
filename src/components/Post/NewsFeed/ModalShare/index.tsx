@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import classNames from 'classnames';
 import Image from 'next/image';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
 import { SHARE_THIS_PROPERTY_ID, ZALO_OAID } from 'src/constant';
-
-import styles from './index.module.scss';
 
 const ZALO_SCRIPT_ID = 'zalo-share-script';
 const SHARE_THIS_SCRIPT_ID = 'share-this-script';
@@ -102,15 +99,24 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
         setIsCopied(false);
       }}
       wrapClassName='px-[16px]'
+      closeIcon={
+        <Image
+          src='/static/icons/iconClose.svg'
+          alt='Icon close'
+          width={21}
+          height={21}
+          className='h-[21px] w-[21px] object-contain'
+        />
+      }
     >
       <div className='mt-[24px]'>
         <div>
-          <Text type='body-16-regular'>Share this link via</Text>
-          <div className='mt-[16px] flex flex-wrap items-center justify-center'>
-            {/* <InlineShareButtons config={INLINE_SHARE_BTN_CONFIG} /> */}
-            <div className='sharethis-inline-share-buttons' data-url={url}></div>
+          <Text type='body-20-bold' className='mb-[18px] text-center'>
+            Share to...
+          </Text>
+          <div className='mb-[12px] text-center'>
             <div
-              className='zalo-share-button mb-[8px] ml-[8px]'
+              className='zalo-share-button'
               data-href={url}
               data-oaid={ZALO_OAID}
               data-layout='4'
@@ -119,38 +125,28 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
             ></div>
           </div>
 
-          <Text type='body-16-regular' className='mt-[16px]'>
-            Or copy link
-          </Text>
+          <div className='border-b border-solid border-[var(--neutral-7)] pb-[12px]'>
+            <Text type='body-14-medium' color='neutral-4' className='mb-[12px]'>
+              Or share to:
+            </Text>
+            <div className='sharethis-inline-share-buttons gap-4' data-url={url}></div>
+          </div>
 
-          <div
-            className={classNames(
-              'field mt-[8px] flex h-[45px] items-center justify-between rounded-[4px] border border-solid border-[#757171] px-[5px]',
-              { [styles.active]: isCopied },
-            )}
-          >
-            <Image
-              src='/static/icons/iconLink-02.svg'
-              alt='Icon link'
-              width={4}
-              height={4}
-              className='filter-[invert(0.5)] ml-[8px] w-[20px]'
-            />
-
+          <div className='field mt-[12px] flex h-[44px] items-center justify-between rounded-[8px]'>
             <input
               type='text'
               readOnly
               value={url}
-              className='w-full border-none px-[8px] text-[15px] outline-none'
+              className='h-full w-full rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
               ref={inputRef}
             />
 
             <button
-              className='cursor-pointer rounded-[4px] bg-[var(--primary-2)] px-[18px] py-[5px] transition-all hover:opacity-80'
+              className='h-full min-w-[112px] cursor-pointer rounded-br-[8px] rounded-tr-[8px] bg-[var(--primary-2)] px-[18px] transition-all hover:opacity-80'
               onClick={handleCopy}
             >
               <Text type='body-14-medium' color='cbwhite'>
-                {isCopied ? 'Copied' : 'Copy'}
+                {isCopied ? 'Copied' : 'Copy link'}
               </Text>
             </button>
           </div>

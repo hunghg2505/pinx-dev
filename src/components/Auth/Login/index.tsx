@@ -85,7 +85,7 @@ const Login = () => {
 
   return (
     <>
-      <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
         <FormItem name='username' rules={[{ required: true, message: 'Please enter username!' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>

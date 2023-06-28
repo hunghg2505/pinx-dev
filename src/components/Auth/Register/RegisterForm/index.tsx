@@ -26,7 +26,7 @@ const Register = () => {
   const [form] = Form.useForm();
   const [recaptchaToken, setRecaptchaToken] = useState<string>('');
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
-  const { onLogin } = useAuth();
+  const { onRegister } = useAuth();
   const { setUserRegisterInfo } = useUserRegisterInfo();
 
   const onSubmit = (values: any) => {
@@ -44,7 +44,7 @@ const Register = () => {
   const requestRegister = useRegister({
     onSuccess: (res: any) => {
       if (res?.data) {
-        onLogin({
+        onRegister({
           token: res?.data.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
@@ -79,7 +79,7 @@ const Register = () => {
     <>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
         <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        <Form className='mt-10 space-y-6 laptop:max-w-[439px]' form={form} onFinish={onSubmit}>
+        <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
           <FormItem
             name='phoneNumber'
             normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}

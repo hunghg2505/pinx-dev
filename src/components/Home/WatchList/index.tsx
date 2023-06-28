@@ -65,9 +65,9 @@ const WatchList = () => {
   }
   const settings = {
     dots: false,
-    // infinite: true,
+    infinite: false,
     speed: 500,
-    // slidesToShow: ,
+    slidesToShow: 3,
     slidesToScroll: 1,
     arrows: false,
     // autoplay: true,
@@ -81,11 +81,7 @@ const WatchList = () => {
       <div className='mt-[22px] h-[179px] min-w-[375px] justify-center overflow-hidden mobile:block tablet:hidden'>
         {dataStock?.length > 0 ? (
           <div>
-            <Slider
-              {...settings}
-              className='mx-[auto] my-[0] flex w-[calc(100%_-_32px)]'
-              variableWidth
-            >
+            <Slider {...settings} className='mx-[auto] my-[0] flex w-[calc(100%_-_32px)]'>
               {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
                 return <ItemStock key={index} data={item} />;
               })}

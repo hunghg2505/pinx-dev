@@ -73,13 +73,13 @@ const RegisterThemes = () => {
           </div>
           <div
             className={
-              'm-auto flex w-full flex-wrap items-center gap-[12px] mobile:mt-9 tablet:mt-[64px] tablet:max-w-[905px] tablet:gap-[20px] desktop:mt-[64px] desktop:w-[905px] desktop:gap-[20px]'
+              'm-auto flex w-full flex-wrap items-center gap-[10px] mobile:mt-9 tablet:mt-[64px] tablet:max-w-[905px] tablet:gap-[20px] desktop:mt-[64px] desktop:w-[905px] desktop:gap-[20px]'
             }
           >
             {listThemesSuggest.themes?.data?.map((item: any) => {
               return (
                 <div
-                  className='w-[165px] cursor-pointer'
+                  className='w-[160px] cursor-pointer'
                   key={item?.code}
                   onClick={() => onSelect(item?.code)}
                 >

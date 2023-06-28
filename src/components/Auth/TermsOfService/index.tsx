@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -10,6 +10,8 @@ import MainHeader from '@layout/components/MainHeader';
 import { ENV } from 'src/utils/env';
 
 import styles from './index.module.scss';
+
+const pdfPages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const TermsOfService = () => {
   const PREFIX_API_PIST = ENV.URL_API_PIST;
@@ -30,13 +32,7 @@ const TermsOfService = () => {
   //   },
   // );
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-  const [numPages, setNumPages] = useState<any>();
-  const [pageNumber, setPageNumber] = useState(1);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: any }) {
-    setNumPages(numPages);
-    setPageNumber(1);
-  }
   const pdfFile =
     link &&
     PREFIX_API_PIST +
@@ -45,18 +41,6 @@ const TermsOfService = () => {
     encodeURIComponent(link) +
     '&session=' +
     router?.query?.session;
-
-  function changePage(offset: any) {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
-  }
-
-  function previousPage() {
-    changePage(-1);
-  }
-
-  function nextPage() {
-    changePage(1);
-  }
 
   return (
     <>
@@ -75,41 +59,26 @@ const TermsOfService = () => {
       </div>
 
 
-      <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white'>
+      <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white mobile:min-w-[600px] '>
         <div className='mt-8 text-center laptop:mt-4'>
           <Text className='mb-4 font-[700] mobile:text-[20px] laptop:text-[30px] laptop:text-[--primary-2]'>
             Terms & Conditions
           </Text>
         </div>
-        <div className='w-full border-b-[1px] border-solid border-[#D9D9D9] mobile:min-w-[600px] laptop:hidden' />
+        <div className='w-full border-b-[1px] border-solid border-[#D9D9D9]  laptop:hidden' />
 
         {link ? (
           <>
-            <Document
-              file={pdfFile}
-              onLoadSuccess={onDocumentLoadSuccess}
-              className={styles.pdfContainer}
-            >
-              <Page pageNumber={pageNumber} className='page' />
-            </Document>
-            <div>
-              <div className='pagec'>
-                Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
-              </div>
-              <div className='buttonc'>
-                <button
-                  type='button'
-                  disabled={pageNumber <= 1}
-                  onClick={previousPage}
-                  className='Pre'
-                >
-                  Previous
-                </button>
-                <button type='button' disabled={pageNumber >= numPages} onClick={nextPage}>
-                  Next
-                </button>
-              </div>
-            </div>
+            {pdfPages.map((item: number) => (
+              <Document
+                file={pdfFile}
+                className={styles.pdfContainer}
+                key={item}
+              >
+                <Page pageNumber={item} className='page' />
+              </Document>
+            ))}
+
           </>
         ) : (
           <iframe
