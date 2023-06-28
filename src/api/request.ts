@@ -1,7 +1,8 @@
 import TokenManager from 'brainless-token-manager';
+import toast from 'react-hot-toast';
 import { extend } from 'umi-request';
 
-import { getAccessToken } from '@store/auth';
+import { deleteAuthCookies, getAccessToken } from '@store/auth';
 import { ENV } from 'src/utils/env';
 
 const REQ_TIMEOUT = 25 * 1000;
@@ -16,6 +17,18 @@ export const PREFIX_API_PIST = ENV.URL_API_PIST;
 export const PREFIX_API_MARKET = ENV.URL_API_MARKET;
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 export const PREFIX_API_UPLOADPHOTO = ENV.URL_UPLOADPHOTO;
+
+const redirectlogin = (error: any) => {
+  if (getAccessToken() && error?.response?.status === 401) {
+    deleteAuthCookies();
+    window.location.href = '/auth/login';
+    toast('Session expired');
+    return;
+  }
+
+  throw error?.data || error?.response;
+};
+
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,
@@ -24,7 +37,7 @@ const requestPist = extend({
     'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
-    throw error?.data || error?.response;
+    redirectlogin(error);
   },
 });
 
@@ -36,7 +49,7 @@ const requestMarket = extend({
     'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
-    throw error?.data || error?.response;
+    redirectlogin(error);
   },
 });
 const requestUploadPhoto = extend({
@@ -47,7 +60,7 @@ const requestUploadPhoto = extend({
     'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
-    throw error?.data || error?.response;
+    redirectlogin(error);
   },
 });
 
@@ -58,7 +71,7 @@ const requestCommunity = extend({
     'Accept-Language': 'EN',
   },
   errorHandler: (error) => {
-    throw error?.data || error?.response;
+    redirectlogin(error);
   },
 });
 

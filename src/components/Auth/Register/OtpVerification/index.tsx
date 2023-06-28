@@ -16,7 +16,7 @@ const Register = () => {
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo } = useUserLoginInfo();
   const router = useRouter();
-  const { onLogin, onLogout } = useAuth();
+  const { onLogin } = useAuth();
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
@@ -54,7 +54,6 @@ const Register = () => {
   useEffect(() => {
     if (!userRegisterInfo.phoneNumber) {
       router.push(ROUTE_PATH.HOME);
-      onLogout();
     }
   }, []);
 

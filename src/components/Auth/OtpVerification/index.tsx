@@ -18,10 +18,7 @@ interface IProps {
 }
 
 const convertSecond = (secs: number) => {
-  const secondsText =
-    secs < 10
-      ? '0' + Math.ceil(secs).toString()
-      : Math.ceil(secs).toString();
+  const secondsText = secs < 10 ? '0' + Math.ceil(secs).toString() : Math.ceil(secs).toString();
 
   return secondsText;
 };

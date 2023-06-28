@@ -11,10 +11,10 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const isMatchPath = PATH.find((path: string) => request.nextUrl.pathname.includes(path));
 
-  // if (token && request.nextUrl.pathname === '/auth/login') {
-  //   url.pathname = '/';
-  //   return NextResponse.redirect(url);
-  // }
+  if (token && request.nextUrl.pathname === '/auth/login') {
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
 
   return NextResponse.next();
 }
