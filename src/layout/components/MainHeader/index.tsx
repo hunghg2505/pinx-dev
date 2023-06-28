@@ -2,6 +2,7 @@
 import React from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 
@@ -52,9 +53,11 @@ const Header = () => {
               <Text type='body-14-regular' color='primary-5'>
                 Try full experience on
               </Text>
-              <Text type='body-14-medium' color='primary-5'>
-                Mobile App
-              </Text>
+              <Link href='https://onelink.to/cgarrk'>
+                <Text type='body-14-medium' color='primary-5'>
+                  Mobile App
+                </Text>
+              </Link>
             </div>
           </div>
           <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
