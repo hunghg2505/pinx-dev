@@ -21,5 +21,8 @@
     .react-pdf__message--error {
       display: none;
     }
+    .react-pdf__message--loading {
+      display: none !important;
+    }
   }
 }

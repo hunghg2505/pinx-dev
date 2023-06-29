@@ -28,11 +28,10 @@ const ForgotPasswordStepOne = () => {
     phoneNumber: router.query.phone_number
   }
 
-  console.log('xxx initialValues', initialValues)
-
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
       router.push(ROUTE_PATH.LOGIN);
+      toast(() => <Notification type='success' message='Password request is successful' />);
     },
     onError(e: any) {
       toast(() => <Notification type='error' message={e?.error} />);
@@ -128,6 +127,7 @@ const ForgotPasswordStepOne = () => {
             placeholder='Date of birth'
             labelContent='Date of birth'
             name='birthday'
+            format='DD/MM/YYYY'
           />
         </FormItem>
         <MainButton type='submit' className='!mt-1 w-full'>

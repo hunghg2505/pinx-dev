@@ -137,7 +137,7 @@ const ModalLoginTerms = (props: IProps) => {
               href={{
                 pathname: ROUTE_PATH.TERMS_OF_SERVICE,
                 query: {
-                  link: item.fileUrl,
+                  link: userType === 'NEW' ? undefined : item.fileUrl,
                   session,
                 },
               }}
@@ -170,7 +170,7 @@ const ModalLoginTerms = (props: IProps) => {
             : 'You need to agree to continue using the services'}
         </Text>
         <div className='mt-12'>
-          <a className='w-full' href='tel:090000000'>
+          <a className='w-full' href='tel:02462823535'>
             <RoundButton className='flex w-full items-center justify-center border-none'>
               <Image
                 src='/static/icons/contact_icon.svg'

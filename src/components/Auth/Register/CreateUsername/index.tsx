@@ -11,6 +11,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { REG_USERNAME } from '@utils/reg';
 
 import { useCreateUsername } from './service';
 
@@ -55,7 +56,18 @@ const CreateUsername = () => {
       </div>
 
       <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
-        <FormItem name='username' rules={[{ required: true, message: 'Please enter user name' }]}>
+        <FormItem
+          name='username'
+          rules={[
+            {
+              required: true,
+              message: 'Please enter user name'
+            },
+            {
+              pattern: REG_USERNAME,
+              message: 'Please check username format'
+            }
+          ]}>
           <LabelInput placeholder={t('user_name')} name='username' labelContent={t('user_name')} />
         </FormItem>
         <Text type='body-12-regular' className='!mt-1'>
