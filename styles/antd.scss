@@ -91,7 +91,6 @@
   margin: 0 auto;
   @media screen and (max-width: 480px) {
     width: calc(100% - 32px) !important;
-    margin: 0 auto !important;
   }
 }
 .messageFormat {
@@ -101,11 +100,11 @@
     line-height: 18px;
     color: #1a1a1a;
   }
-  .hashtag{
-    color: #1F6EAC !important;
+  .hashtag {
+    color: #1f6eac !important;
   }
-  .link{
-    color: #3449D7 !important;
+  .link {
+    color: #3449d7 !important;
   }
 }
 // menu
@@ -220,4 +219,4 @@
 .slick-track {
   margin-left: 0 !important;
 }
-// format post 
+// format post

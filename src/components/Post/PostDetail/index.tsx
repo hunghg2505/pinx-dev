@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
+import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -32,6 +33,8 @@ const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
   return (
     <ComponentRef
       {...props}
+      imageComment={props.imageComment}
+      onCommentImage={props.onCommentImage}
       forwardedRef={ref}
       id={props.id}
       refresh={props.refresh}
@@ -46,6 +49,7 @@ const PostDetail = () => {
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const { width } = useContainerDimensions(refContainer);
+  const [imageComment, setImageComment] = useState('');
   // const [showReply, setShowReply] = useState(false);
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
@@ -57,6 +61,7 @@ const PostDetail = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
+    refReplies?.current?.onReply();
     // setShowReply(true);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -114,11 +119,18 @@ const PostDetail = () => {
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPOst}
                 refreshTotal={refresh}
+                imageComment={imageComment}
+                onCommentImage={setImageComment}
               />
             </div>
           )}
 
-          <div className='mobile:mb-[50px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px]'>
+          <div
+            className={classNames('tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px]', {
+              'mobile:mb-[79px]': imageComment.length === 0,
+              'mobile:mb-[179px]': imageComment.length,
+            })}
+          >
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
                 return (
@@ -153,13 +165,17 @@ const PostDetail = () => {
           </div>
 
           {width < 738 && isLogin && (
-            <div className='fixed -bottom-[20px] left-0 w-full mobile:block tablet:hidden'>
-              <ForwardedRefComponent
-                ref={refReplies}
-                id={postDetail?.data?.id}
-                refresh={refreshCommentOfPOst}
-                refreshTotal={refresh}
-              />
+            <div className='mobile:block tablet:hidden'>
+              <div className='fixed bottom-0 z-10 -mb-[4px] min-w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+                <ForwardedRefComponent
+                  ref={refReplies}
+                  id={postDetail?.data?.id}
+                  refresh={refreshCommentOfPOst}
+                  refreshTotal={refresh}
+                  imageComment={imageComment}
+                  onCommentImage={setImageComment}
+                />
+              </div>
             </div>
           )}
         </div>
