@@ -59,12 +59,12 @@ const NewFeedItem = (props: IProps) => {
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
-  const [isReported, setIsReported] = useState(postDetail?.isReport);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { statusUser, isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
 
+  const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail.customerId === userId;
 
   const handleHidePopup = () => {
@@ -214,7 +214,7 @@ const NewFeedItem = (props: IProps) => {
 
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
-    setIsReported(true);
+    onRefreshPostDetail();
   };
 
   const renderLogo = () => {
