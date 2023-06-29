@@ -90,6 +90,8 @@ const Home = () => {
       requestJoinIndex();
     }
   };
+
+  // console.log('🚀 ~ file: index.tsx:95 ~ Home ~ bgTheme:', bgTheme);
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
