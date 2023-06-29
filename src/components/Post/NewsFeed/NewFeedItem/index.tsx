@@ -152,6 +152,7 @@ const NewFeedItem = (props: IProps) => {
         if (id) {
           router.push(ROUTE_PATH.HOME);
         }
+        setShowReport(false);
         onRefreshPostDetail();
       },
       onError: (err: any) => {
