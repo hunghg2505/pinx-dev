@@ -171,12 +171,12 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
-            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
+            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px] mobile:max-w-[287px] tablet:max-w-full'>
               <Text type='body-14-medium' color='primary-5'>
                 {message && (
                   <div
                     dangerouslySetInnerHTML={{ __html: message }}
-                    className='messageFormat'
+                    className='messageFormat [word-wrap:break-word]'
                   ></div>
                 )}
               </Text>
