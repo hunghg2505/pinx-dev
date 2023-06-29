@@ -84,7 +84,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-            <Image
+            <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
               width='0'
@@ -162,7 +162,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
-            <Image
+            <img
               src={
                 postDetail?.post.headImageUrl ||
                 'https://image.vietstock.vn/2023/06/21/ca-map-ava-20230504_1743152.jpg'
@@ -522,7 +522,7 @@ const ContentPostTypeHome = (props: IProps) => {
         <div className='relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
-              <Image
+              <img
                 src={postDetail?.post?.headImageUrl}
                 alt=''
                 width='0'
