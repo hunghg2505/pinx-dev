@@ -49,7 +49,7 @@ const ItemPeople = (props: IProps) => {
           <Text
             type='body-12-semibold'
             color='neutral-3'
-            className='relative mb-[3px] line-clamp-1 text-center !leading-4'
+            className='relative mb-[3px] line-clamp-1 inline-block overflow-ellipsis whitespace-nowrap text-center !leading-4 mobile:max-w-[70px]'
           >
             {data?.displayName}
           </Text>
