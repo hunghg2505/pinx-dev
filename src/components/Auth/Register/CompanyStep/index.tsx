@@ -3,9 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import toast from 'react-hot-toast';
 
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
@@ -38,7 +36,6 @@ const RegisterCompanyStep = () => {
 
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Subscribe successfully!' />);
       router.push(ROUTE_PATH.REGISTER_THEME);
     },
   });
@@ -92,7 +89,7 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={
-              'flex w-full flex-wrap items-center justify-center gap-y-[16px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
+              'mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
             }
           >
             {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
@@ -109,14 +106,14 @@ const RegisterCompanyStep = () => {
                 >
                   <div
                     className={classNames(
-                      'flex cursor-pointer items-center justify-center  rounded-full border-[1px] px-2 py-[6px] shadow-[0_2px_4px_0_rgba(0,0,0,0.1)]',
+                      'flex cursor-pointer items-center justify-center rounded-full border border-solid bg-[rgba(255,255,255,0.33)] p-[8.5px] shadow-[0_4px_5px_0_rgba(195,216,227,0.46)] backdrop-blur-[2.7182817459106445px]',
                       {
-                        'border-solid border-[#1F6EAC]': checkIsSelected(item?.stockCode),
-                        'border-solid border-[#FFFFFF]': !checkIsSelected(item?.stockCode),
+                        'border-[var(--primary-1)]': checkIsSelected(item?.stockCode),
+                        'border-[rgba(255,255,255,0.25)]': !checkIsSelected(item?.stockCode),
                       },
                     )}
                   >
-                    <div className='flex items-center justify-center rounded-full bg-[--neutral-8] px-2 py-[6px]'>
+                    <div className='flex items-center justify-center rounded-full bg-[--neutral-9]'>
                       <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
                         {checkIsSelected(item?.stockCode) && (
                           <Image
@@ -133,7 +130,7 @@ const RegisterCompanyStep = () => {
                         width='0'
                         height='0'
                         sizes='100vw'
-                        className={'h-[48px] w-[48px] rounded-full object-contain'}
+                        className='h-[48px] w-[48px] rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'
                       />
                       {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                     </div>
@@ -142,14 +139,13 @@ const RegisterCompanyStep = () => {
               );
             })}
           </div>
-          <div className='flex w-full justify-center mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white'>
             <button
               type='submit'
               onClick={handleContinue}
-              className='flex justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white mobile:px-[48px] tablet:px-[130px] desktop:px-[130px]'
+              className='my-auto flex h-[49px] min-w-[343px] items-center justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-center text-[17px] font-[700] text-white'
             >
-              Continue{' '}
-              {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
+              Select <Text className='ml-[3px]'>({selected.length})</Text>
             </button>
           </div>
         </div>
