@@ -386,6 +386,7 @@ const ContentPostTypeDetail = (props: IProps) => {
   if ([TYPEPOST.POST].includes(postDetail?.postType)) {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
+    const color = BgThemePost?.color?.code;
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -400,6 +401,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 <div
                   className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
                   dangerouslySetInnerHTML={{ __html: message }}
+                  style={{ color }}
                 ></div>
               )}
             </div>
@@ -422,5 +424,6 @@ const ContentPostTypeDetail = (props: IProps) => {
       </>
     );
   }
+  return <></>;
 };
 export default ContentPostTypeDetail;
