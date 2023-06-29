@@ -1,5 +1,5 @@
 const ZALO_OAID = '3853758560685742933';
-const SHARE_THIS_PROPERTY_ID = '649659d71b502e0012c3f309';
+const SHARE_THIS_PROPERTY_ID = '649bee74839d0c001293568e';
 const POPUP_COMPONENT_ID = 'md-popup-container';
 const RC_DIALOG_CLASS_NAME = 'rc-dialog-container';
 

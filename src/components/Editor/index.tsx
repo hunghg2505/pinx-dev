@@ -34,6 +34,8 @@ interface IProps {
   id: string;
   refresh: () => void;
   refreshTotal: () => void;
+  imageComment: string;
+  onCommentImage: (v: string) => void;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -45,8 +47,7 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref: any) => {
-  const { id, refresh, refreshTotal } = props;
-  const [image, setImage] = React.useState<any>('');
+  const { id, refresh, refreshTotal, imageComment, onCommentImage } = props;
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -131,10 +132,11 @@ const Editor = (props: IProps, ref: any) => {
       manual: true,
       onSuccess: (res: any) => {
         const url = res?.files?.[0]?.url;
+
         if (!url) {
           toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
         }
-        setImage(url);
+        onCommentImage(url);
       },
       onError: (err: any) => {
         console.log('err', err);
@@ -150,7 +152,9 @@ const Editor = (props: IProps, ref: any) => {
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
-      // onLike: () => onLike(),
+      onReply: () => {
+        editor?.commands.focus();
+      },
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {
@@ -172,7 +176,9 @@ const Editor = (props: IProps, ref: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
-        setImage('');
+        if (imageComment) {
+          onCommentImage('');
+        }
       },
     },
   );
@@ -186,7 +192,10 @@ const Editor = (props: IProps, ref: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
-        setImage('');
+
+        if (imageComment) {
+          onCommentImage('');
+        }
       },
     },
   );
@@ -241,7 +250,7 @@ const Editor = (props: IProps, ref: any) => {
       tagPeople: formatTagPeople,
       tagStocks: stock,
       parentId: idReply === '' ? id : idReply,
-      urlImages: [image],
+      urlImages: [imageComment],
     };
     if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
@@ -311,15 +320,15 @@ const Editor = (props: IProps, ref: any) => {
                 onClick={onSend}
               />
             </div>
-            {image && (
+            {imageComment && (
               <div className='relative'>
                 <Image
-                  src={image}
+                  src={imageComment}
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='h-[100px] w-[100px] mobile:hidden tablet:block'
+                  className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
                 />
                 <Image
                   src='/static/icons/iconCloseWhite.svg'
@@ -327,7 +336,7 @@ const Editor = (props: IProps, ref: any) => {
                   width={0}
                   height={0}
                   className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
-                  onClick={() => setImage('')}
+                  onClick={() => onCommentImage('')}
                 />
               </div>
             )}
@@ -343,10 +352,10 @@ const Editor = (props: IProps, ref: any) => {
             onClick={onSend}
           />
         </div>
-        {image && (
+        {imageComment && (
           <div className='relative'>
             <Image
-              src={image}
+              src={imageComment}
               alt=''
               width='0'
               height='0'
@@ -359,7 +368,7 @@ const Editor = (props: IProps, ref: any) => {
               width={0}
               height={0}
               className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
-              onClick={() => setImage('')}
+              onClick={() => onCommentImage('')}
             />
           </div>
         )}
