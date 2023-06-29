@@ -3,7 +3,6 @@ import { useState, useCallback, useEffect } from 'react';
 import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
 import Image from 'next/image';
-import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
@@ -24,7 +23,6 @@ const convertSecond = (secs: number) => {
 };
 
 const OtpVerification = (props: IProps) => {
-  const { t } = useTranslation('auth');
   const [form] = Form.useForm();
   const [otp, setOtp] = useState<string>('');
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
@@ -126,9 +124,9 @@ const OtpVerification = (props: IProps) => {
   return (
     <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
       <div className='mt-[46px]'>
-        <Text type='body-24-bold'>{t('comfirm_phone_number')}</Text>
+        <Text type='body-24-bold'>Confirm phone number</Text>
         <Text type='body-18-regular' color='neutral-4'>
-          {t('input_otp_from')}{' '}
+          Enter OTP sent to{' '}
           <span className='font-[700] text-[--neutral-1]'>{replacedPhoneNumber()}</span>
         </Text>
       </div>
@@ -140,8 +138,8 @@ const OtpVerification = (props: IProps) => {
         })}
       >
         {isOtpExpired
-          ? t('otp_is_expired')
-          : `${t('otp_expire_after')} ${convertSecond(otpCount)}s`}
+          ? 'The OTP is expired'
+          : `The OTP will be expired in ${convertSecond(otpCount)}s`}
       </Text>
 
       <Form className='space-y-6' form={form} onFinish={onSubmit}>
@@ -156,9 +154,9 @@ const OtpVerification = (props: IProps) => {
         >
           <LabelInput
             type='tel'
-            placeholder={t('otp_code')}
+            placeholder='SMS OTP'
             name='otp'
-            labelContent={t('otp_code')}
+            labelContent='SMS OTP'
             onChange={onChange}
           />
         </FormItem>
@@ -166,7 +164,7 @@ const OtpVerification = (props: IProps) => {
 
       <div className='mt-6 flex items-center justify-between'>
         <Text type='body-12-regular' color='neutral-4'>
-          {t('not_recieve_otp')}
+          Cannot retrieve code via SMS?
         </Text>
         <RoundButton
           className='flex min-w-[120px] items-center justify-center px-4'
@@ -183,7 +181,7 @@ const OtpVerification = (props: IProps) => {
             className={'mr-2 h-[15px] w-[15px]'}
           />
           <Text type='body-12-regular' color={isResendAvailable ? 'primary-2' : 'neutral-5'}>
-            {isResendAvailable ? t('resend_otp') : `00:${convertSecond(resendCount)}`}
+            {isResendAvailable ? 'Resend SMS' : `00:${convertSecond(resendCount)}`}
           </Text>
         </RoundButton>
       </div>

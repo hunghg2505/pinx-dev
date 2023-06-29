@@ -1,7 +1,7 @@
 export const ROUTE_PATH = {
   HOME: '/',
   LOGIN: '/auth/login',
-  REGISTER: '/auth/register',
+  REGISTER: '/auth/sign-up',
   FORGOT_PASSWORD: '/auth/forgot-password',
   REGISTER_OTP_VERIFICATION: '/auth/register-verification',
   REGISTER_USER_NAME: '/auth/register-user-name',

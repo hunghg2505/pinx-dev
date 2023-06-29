@@ -2,9 +2,11 @@ import { ReactElement } from 'react';
 
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import Auth from '@components/Auth';
 import LoginLayout from '@layout/LoginLayout';
+import { ENV } from '@utils/env';
 
 
 const LoginPage = () => {
@@ -13,7 +15,9 @@ const LoginPage = () => {
       <Head>
         <title>Log In</title>
       </Head>
-      <Auth />
+      <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
+        <Auth />
+      </GoogleReCaptchaProvider>
     </>
   );
 };
