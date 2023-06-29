@@ -21,6 +21,7 @@ export const API_PATH = {
   PRIVATE_NEWFEED_LIST: '/private/mapping/filter',
   PUBLIC_GET_TRENDING: '/public/search/keyword/trending',
   PRIVATE_SEARCH: '/private/search',
+  PUBLIC_THEME: '/public/post-themes',
   // post
   PRIVATE_MAPPING_POST_DETAIL: (post_id: string) => `/private/mapping/${post_id}/details`,
   PRIVATE_MAPPING_POST_COMMENTS: (post_id: string) => `/private/mapping/${post_id}/comments`,

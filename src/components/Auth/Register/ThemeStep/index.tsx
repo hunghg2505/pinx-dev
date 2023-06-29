@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { toast } from 'react-hot-toast';
 
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -18,7 +16,6 @@ const RegisterThemes = () => {
 
   const { onSubscribeThemes } = useSubscribeThemes({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Subscribe successfully!' />);
       router.push(ROUTE_PATH.REGISTER_TOPIC);
     },
   });
@@ -47,9 +44,9 @@ const RegisterThemes = () => {
 
   return (
     <div className='desktop:container'>
-      <div className='md:h-screen lg:py-0 mx-auto  flex flex-col items-center justify-center px-6 py-8'>
+      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-[10px] tablet:pt-8 desktop:pt-8'>
         <div className='themeCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
-          <div className='flex justify-center mobile:w-0 tablet:mb-[27px] tablet:w-full desktop:mb-[27px] desktop:w-full'>
+          <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
             <Image
               src='/static/icons/logo.svg'
               alt=''
@@ -73,13 +70,13 @@ const RegisterThemes = () => {
           </div>
           <div
             className={
-              'm-auto flex w-full flex-wrap items-center gap-[10px] mobile:mt-9 tablet:mt-[64px] tablet:max-w-[905px] tablet:gap-[20px] desktop:mt-[64px] desktop:w-[905px] desktop:gap-[20px]'
+              'mx-auto mb-[81px] flex w-full flex-wrap items-center justify-center gap-[12px] mobile:mt-9 tablet:mt-[64px] tablet:max-w-[905px] tablet:gap-[20px] desktop:mt-[64px] desktop:w-[905px] desktop:gap-[20px]'
             }
           >
             {listThemesSuggest.themes?.data?.map((item: any) => {
               return (
                 <div
-                  className='w-[160px] cursor-pointer'
+                  className='w-[166px] cursor-pointer'
                   key={item?.code}
                   onClick={() => onSelect(item?.code)}
                 >
@@ -94,14 +91,13 @@ const RegisterThemes = () => {
               );
             })}
           </div>
-          <div className='flex w-full justify-center mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}
-              className='flex justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white mobile:px-[48px] tablet:px-[130px] desktop:px-[130px]'
+              className='my-auto flex h-[49px] w-[343px] items-center justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-center text-[17px] font-[700] text-white'
             >
-              Continue{' '}
-              {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
+              Select <Text className='ml-[3px]'>({selected.length})</Text>
             </button>
           </div>
         </div>

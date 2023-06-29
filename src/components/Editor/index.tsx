@@ -9,6 +9,7 @@ import { useRequest } from 'ahooks';
 import Image from 'next/image';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
+import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
@@ -20,6 +21,8 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import Loading from '@components/UI/Loading';
+import Notification from '@components/UI/Notification';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import PopupComponent from '@utils/PopupComponent';
@@ -32,6 +35,8 @@ interface IProps {
   id: string;
   refresh: () => void;
   refreshTotal: () => void;
+  imageComment: string;
+  onCommentImage: (v: string) => void;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -43,8 +48,7 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref: any) => {
-  const { id, refresh, refreshTotal } = props;
-  const [image, setImage] = React.useState<any>('');
+  const { id, refresh, refreshTotal, imageComment, onCommentImage } = props;
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -129,7 +133,11 @@ const Editor = (props: IProps, ref: any) => {
       manual: true,
       onSuccess: (res: any) => {
         const url = res?.files?.[0]?.url;
-        setImage(url);
+
+        if (!url) {
+          toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
+        }
+        onCommentImage(url);
       },
       onError: (err: any) => {
         console.log('err', err);
@@ -145,7 +153,9 @@ const Editor = (props: IProps, ref: any) => {
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
-      // onLike: () => onLike(),
+      onReply: () => {
+        editor?.commands.focus();
+      },
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {
@@ -167,7 +177,9 @@ const Editor = (props: IProps, ref: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
-        setImage('');
+        if (imageComment) {
+          onCommentImage('');
+        }
       },
     },
   );
@@ -181,7 +193,10 @@ const Editor = (props: IProps, ref: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
-        setImage('');
+
+        if (imageComment) {
+          onCommentImage('');
+        }
       },
     },
   );
@@ -236,7 +251,7 @@ const Editor = (props: IProps, ref: any) => {
       tagPeople: formatTagPeople,
       tagStocks: stock,
       parentId: idReply === '' ? id : idReply,
-      urlImages: [image],
+      urlImages: [imageComment],
     };
     if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
@@ -296,25 +311,31 @@ const Editor = (props: IProps, ref: any) => {
                   className='mr-[8px] w-[28px]'
                 />
               </Upload>
-              <Image
-                src='/static/icons/iconSend.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='w-[19px] cursor-pointer'
-                onClick={onSend}
-              />
-            </div>
-            {image && (
-              <div className='relative'>
+              {useAddComment?.loading || useReplyComment?.loading ? (
+                <div>
+                  <Loading />
+                </div>
+              ) : (
                 <Image
-                  src={image}
+                  src='/static/icons/iconSend.svg'
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='h-[100px] w-[100px] mobile:hidden tablet:block'
+                  className='w-[19px] cursor-pointer'
+                  onClick={onSend}
+                />
+              )}
+            </div>
+            {imageComment && (
+              <div className='relative'>
+                <Image
+                  src={imageComment}
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
                 />
                 <Image
                   src='/static/icons/iconCloseWhite.svg'
@@ -322,26 +343,32 @@ const Editor = (props: IProps, ref: any) => {
                   width={0}
                   height={0}
                   className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
-                  onClick={() => setImage('')}
+                  onClick={() => onCommentImage('')}
                 />
               </div>
             )}
           </div>
 
-          <Image
-            src='/static/icons/iconSend.svg'
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='w-[19px] cursor-pointer mobile:block tablet:hidden'
-            onClick={onSend}
-          />
+          {useAddComment?.loading || useReplyComment?.loading ? (
+            <div className='mobile:block tablet:hidden'>
+              <Loading />
+            </div>
+          ) : (
+            <Image
+              src='/static/icons/iconSend.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='w-[19px] cursor-pointer mobile:block tablet:hidden'
+              onClick={onSend}
+            />
+          )}
         </div>
-        {image && (
+        {imageComment && (
           <div className='relative'>
             <Image
-              src={image}
+              src={imageComment}
               alt=''
               width='0'
               height='0'
@@ -354,7 +381,7 @@ const Editor = (props: IProps, ref: any) => {
               width={0}
               height={0}
               className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
-              onClick={() => setImage('')}
+              onClick={() => onCommentImage('')}
             />
           </div>
         )}

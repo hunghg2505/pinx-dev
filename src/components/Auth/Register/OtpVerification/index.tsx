@@ -14,7 +14,7 @@ import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
   const { userRegisterInfo } = useUserRegisterInfo();
-  const { setUserLoginInfo } = useUserLoginInfo();
+  const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
   const { onLogin } = useAuth();
 
@@ -29,6 +29,7 @@ const Register = () => {
         });
       }
       router.push(ROUTE_PATH.REGISTER_COMPANY);
+      setIsReadTerms(true);
     },
     onError: (e) => {
       toast(() => <Notification type='error' message={e.error} />);

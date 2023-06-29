@@ -5,9 +5,7 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { toast } from 'react-hot-toast';
 
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -27,7 +25,6 @@ const RegisterCompanyStep = () => {
 
   const { onSelectTopic } = useSelectTopic({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Subscribe successfully!' />);
       router.push(ROUTE_PATH.HOME);
     },
   });
@@ -61,7 +58,7 @@ const RegisterCompanyStep = () => {
     <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
       <div className='md:h-screen lg:py-0 mx-auto  flex flex-col items-center justify-center px-6 py-8'>
         <div className='topicCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
-          <div className='flex justify-center mobile:w-0 tablet:mb-[27px] tablet:w-full desktop:mb-[27px] desktop:w-full'>
+          <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
             <Image
               src='/static/icons/logo.svg'
               alt=''
@@ -81,7 +78,7 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={
-              'mt-9 flex w-full flex-wrap items-center justify-center gap-x-[20px] gap-y-[24px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
+              'mb-[81px] mt-9 flex w-full flex-wrap items-center justify-center gap-x-[20px] gap-y-[24px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
             }
           >
             {listTopicSuggest.topics?.data?.map((item: any) => (
@@ -114,14 +111,14 @@ const RegisterCompanyStep = () => {
               </div>
             ))}
           </div>
-          <div className='flex w-full justify-center mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+
+          <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}
-              className='flex justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] py-[14px] text-center text-[17px] font-[700] text-white mobile:px-[48px] tablet:px-[130px] desktop:px-[130px]'
+              className='my-auto flex h-[49px] w-[343px] items-center justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-center text-[17px] font-[700] text-white'
             >
-              Continue{' '}
-              {selected.length > 0 && <Text className='ml-[3px]'>({selected.length})</Text>}
+              Select <Text className='ml-[3px]'>({selected.length})</Text>
             </button>
           </div>
         </div>

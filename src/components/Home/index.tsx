@@ -100,6 +100,8 @@ const Home = () => {
       requestJoinIndex();
     }
   };
+
+  // console.log('🚀 ~ file: index.tsx:95 ~ Home ~ bgTheme:', bgTheme);
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
@@ -159,6 +161,7 @@ const Home = () => {
                   </TabPane>
                 </Tabs>
               </div>
+
               {isLogin && (
                 <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
                   <div className='flex items-center'>
@@ -228,6 +231,7 @@ const Home = () => {
                 >
                   News feed
                 </Text>
+
                 <ModalFilter run={onFilter} />
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
@@ -25,6 +26,8 @@ const ContentPostTypeHome = (props: IProps) => {
   const [readMore, setReadMore] = React.useState(false);
   const ref = useRef(null);
   const [height, setHeight] = React.useState<number>(0);
+  const { bgTheme } = useGetBgTheme();
+
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
@@ -559,22 +562,48 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
-  return (
-    <>
-      <div className='cursor-pointer' onClick={onComment} ref={onRef}>
-        {message && (
-          <div
-            className='desc messageFormat mb-[15px]'
-            dangerouslySetInnerHTML={{ __html: message }}
-          ></div>
-        )}
-        {postDetail?.post?.urlImages?.length > 0 && (
-          <div className='theme'>
-            <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
-          </div>
-        )}
-      </div>
-    </>
-  );
+  if ([TYPEPOST.POST].includes(postDetail?.postType)) {
+    const postThemeId = postDetail?.post?.postThemeId;
+    const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
+    const color = BgThemePost?.color?.code;
+    return (
+      <>
+        <div className='cursor-pointer' onClick={onComment} ref={onRef}>
+          {postThemeId ? (
+            <div className='theme relative'>
+              <img
+                src={BgThemePost?.bgImage}
+                alt=''
+                className='left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+              />
+              {message && (
+                <div
+                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
+                  dangerouslySetInnerHTML={{ __html: message }}
+                  style={{ color }}
+                ></div>
+              )}
+            </div>
+          ) : (
+            <>
+              {message && (
+                <div
+                  className='desc messageFormat my-[0] mb-[15px] text-center'
+                  dangerouslySetInnerHTML={{ __html: message }}
+                ></div>
+              )}
+            </>
+          )}
+
+          {postDetail?.post?.urlImages?.length > 0 && (
+            <div className='theme'>
+              <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
+  return <></>;
 };
 export default ContentPostTypeHome;
