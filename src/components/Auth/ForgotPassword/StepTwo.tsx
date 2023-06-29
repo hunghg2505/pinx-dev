@@ -4,7 +4,6 @@ import React from 'react';
 import dayjs from 'dayjs';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -20,7 +19,6 @@ import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
 import { useForgotPassword } from './service';
 
 const ForgotPasswordStepOne = () => {
-  const { t } = useTranslation('auth');
   const [form] = Form.useForm();
   const router = useRouter();
   const initialValues = {
@@ -56,9 +54,9 @@ const ForgotPasswordStepOne = () => {
   return (
     <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
       <div className='mt-[36px]'>
-        <Text type='body-28-bold'>{t('forgot_password')}</Text>
+        <Text type='body-28-bold'>Forgot password?</Text>
         <Text type='body-16-regular' color='neutral-4'>
-          {t('update_user_profile_note')}
+          Please fill in your infomation below
         </Text>
       </div>
 
@@ -131,15 +129,15 @@ const ForgotPasswordStepOne = () => {
           />
         </FormItem>
         <MainButton type='submit' className='!mt-1 w-full'>
-          {t('send_request')}
+          Send request
         </MainButton>
       </Form>
 
       <div className='mt-9 flex flex-col items-center'>
-        <Text type='body-14-regular'>{t('do_not_want_log_in')}</Text>
+        <Text type='body-14-regular'>Don’t want to log in yet?</Text>
         <NextLink href={ROUTE_PATH.HOME}>
           <Text type='body-14-medium' color='primary-1'>
-            {t('skip_forgot_password')}
+            Skip and view as anonymous
           </Text>
         </NextLink>
       </div>
