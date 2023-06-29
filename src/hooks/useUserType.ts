@@ -17,6 +17,8 @@ export const useUserType: any = () => {
   const { requestGetProfile } = useProfileInitial();
   const custStat = requestGetProfile?.custStat;
   const acntStat = requestGetProfile?.acntStat;
+  const userId = requestGetProfile?.id;
+
   let statusUser;
 
   if (isLogin) {
@@ -32,5 +34,5 @@ export const useUserType: any = () => {
     }
   }
 
-  return { isLogin, statusUser };
+  return { isLogin, statusUser, userId };
 };
