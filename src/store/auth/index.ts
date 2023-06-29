@@ -92,7 +92,7 @@ export const setRegisterCookies = (
   });
 };
 
-export const deleteRegisterCookiess = () => {
+export const deleteRegisterCookies = () => {
   deleteCookie('registerToken');
   deleteCookie('refreshRegisterToken');
   deleteCookie('registertokenExpiredTime');
