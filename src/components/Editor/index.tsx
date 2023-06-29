@@ -146,7 +146,9 @@ const Editor = (props: IProps, ref: any) => {
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
-      // onLike: () => onLike(),
+      onReply: () => {
+        editor?.commands.focus();
+      },
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {

@@ -61,6 +61,7 @@ const PostDetail = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
+    refReplies?.current?.onReply();
     // setShowReply(true);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
