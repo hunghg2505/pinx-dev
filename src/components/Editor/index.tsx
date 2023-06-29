@@ -21,6 +21,7 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
@@ -310,15 +311,21 @@ const Editor = (props: IProps, ref: any) => {
                   className='mr-[8px] w-[28px]'
                 />
               </Upload>
-              <Image
-                src='/static/icons/iconSend.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='w-[19px] cursor-pointer'
-                onClick={onSend}
-              />
+              {useAddComment?.loading || useReplyComment?.loading ? (
+                <div>
+                  <Loading />
+                </div>
+              ) : (
+                <Image
+                  src='/static/icons/iconSend.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='w-[19px] cursor-pointer'
+                  onClick={onSend}
+                />
+              )}
             </div>
             {imageComment && (
               <div className='relative'>
@@ -342,15 +349,21 @@ const Editor = (props: IProps, ref: any) => {
             )}
           </div>
 
-          <Image
-            src='/static/icons/iconSend.svg'
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='w-[19px] cursor-pointer mobile:block tablet:hidden'
-            onClick={onSend}
-          />
+          {useAddComment?.loading || useReplyComment?.loading ? (
+            <div className='mobile:block tablet:hidden'>
+              <Loading />
+            </div>
+          ) : (
+            <Image
+              src='/static/icons/iconSend.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='w-[19px] cursor-pointer mobile:block tablet:hidden'
+              onClick={onSend}
+            />
+          )}
         </div>
         {imageComment && (
           <div className='relative'>
