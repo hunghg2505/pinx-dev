@@ -48,7 +48,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
-            <Image
+            <img
               src={postDetail?.post.bgImage}
               alt=''
               width='0'
@@ -124,7 +124,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.headImageUrl && (
-            <Image
+            <img
               src={postDetail?.post?.headImageUrl}
               alt=''
               width='0'
@@ -185,7 +185,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           />
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
+          <img
             src={postDetail?.post.headImageUrl || ''}
             alt=''
             width='0'
@@ -226,7 +226,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
-            <Image
+            <img
               src={postDetail?.post?.bgImage}
               alt=''
               width='0'
@@ -309,7 +309,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
+          <img
             src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
             alt=''
             width='0'
