@@ -9,6 +9,7 @@ import { useRequest } from 'ahooks';
 import Image from 'next/image';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
+import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
@@ -20,6 +21,7 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import Notification from '@components/UI/Notification';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import PopupComponent from '@utils/PopupComponent';
@@ -129,6 +131,9 @@ const Editor = (props: IProps, ref: any) => {
       manual: true,
       onSuccess: (res: any) => {
         const url = res?.files?.[0]?.url;
+        if (!url) {
+          toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
+        }
         setImage(url);
       },
       onError: (err: any) => {

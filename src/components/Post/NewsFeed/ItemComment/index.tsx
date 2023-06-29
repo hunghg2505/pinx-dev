@@ -207,7 +207,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='mt-[10px] h-[100px] w-[100px] rounded-[8px]'
+                    className='mb-[10px] h-[100px] w-[100px] rounded-[8px]'
                   />
                 )}
               </a>

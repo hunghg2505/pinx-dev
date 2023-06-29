@@ -17,6 +17,7 @@ export const ROUTE_PATH = {
 };
 
 export const formatMessage = (message: string, data: any) => {
+  const str = message.split(' ');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
   });
@@ -59,6 +60,38 @@ export const formatMessage = (message: string, data: any) => {
       }
     }
   }
+  // eslint-disable-next-line array-callback-return
+  str?.map((item) => {
+    if (item.includes('#')) {
+      message = message.replace(
+        item,
+        `
+        <a href="/#" class="hashtag">${item}</a>
+        `,
+      );
+    }
+    if (item.includes('http') && !item.includes('\n')) {
+      message = message.replace(
+        item,
+        `
+        <a href="${item}" class="link">${item}</a>
+        `,
+      );
+    }
+    if (item.includes('http') && item.includes('\n')) {
+      const newItem = item?.split('\n');
+      for (const item of newItem) {
+        if (item.includes('http')) {
+          message = message.replace(
+            item,
+            `
+            <a href="${item}" class="link">${item}</a>
+            `,
+          );
+        }
+      }
+    }
+  });
   return message;
 };
 export const toBase64 = (file: any) =>
