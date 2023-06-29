@@ -61,9 +61,11 @@ const NewFeedItem = (props: IProps) => {
   const [showModalShare, setShowModalShare] = useState(false);
   const [isReported, setIsReported] = useState(postDetail?.isReport);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
-  const { statusUser, isLogin } = useUserType();
+  const { statusUser, isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
+
+  const isMyPost = isLogin && postDetail.customerId === userId;
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
@@ -319,17 +321,19 @@ const NewFeedItem = (props: IProps) => {
     }
     return (
       <>
-        <div
-          className={classNames(
-            'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-            { 'bg-[#F3F2F6]': postDetail?.isFollowing },
-          )}
-        >
-          <IconPlus />
-          <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-            Follow
-          </Text>
-        </div>
+        {!isMyPost && (
+          <div
+            className={classNames(
+              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+            )}
+          >
+            <IconPlus />
+            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+              Follow
+            </Text>
+          </div>
+        )}
         <Image
           src='/static/icons/iconUserUnFollow.svg'
           alt=''
@@ -423,7 +427,7 @@ const NewFeedItem = (props: IProps) => {
                   </div>
                 )}
 
-                {!isReported && (
+                {!isReported && !isMyPost && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                     <Image
                       src='/static/icons/iconFlag.svg'
