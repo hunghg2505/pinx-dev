@@ -17,7 +17,9 @@
   font-weight: 500;
 
   &::placeholder {
+    color: transparent;
     visibility: hidden;
+    font-size: 0;
   }
 
   &:placeholder-shown ~ .inputLabel {
