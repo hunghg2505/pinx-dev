@@ -14,7 +14,7 @@ const Redirect = () => {
     url && window.open(`${url}`, '_self');
   };
   React.useEffect(() => {
-    setTargetDate(Date.now() + 50_000_000);
+    setTargetDate(Date.now() + 5000);
   }, []);
   const [countdown] = useCountDown({
     targetDate,
@@ -29,7 +29,7 @@ const Redirect = () => {
 
   return (
     <>
-      <div className='header relative mb-[37px] border-b border-solid border-[#D8EBFC] mobile:h-auto desktop:h-[60px]'>
+      <div className='header relative mb-[37px] border-b border-solid border-[#D8EBFC] tablet:hidden desktop:hidden'>
         <Text type='body-16-bold' color='primary-5' className='py-[16px] text-center '>
           Redirect
         </Text>
