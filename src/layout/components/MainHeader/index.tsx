@@ -103,6 +103,15 @@ const Header = () => {
             </div>
             {isLogin ? (
               <>
+                <button onClick={() => onLogout()}>
+                  <Image
+                    src='/static/icons/iconLogout.svg'
+                    alt='Icon logout'
+                    width={24}
+                    height={24}
+                    className='mr-[21px] h-[24px] w-[24px] object-contain'
+                  />
+                </button>
                 <Image
                   src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
                   alt=''
@@ -110,7 +119,6 @@ const Header = () => {
                   height={0}
                   sizes='100vw'
                   className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-                  onClick={() => onLogout()}
                 />
               </>
             ) : (
