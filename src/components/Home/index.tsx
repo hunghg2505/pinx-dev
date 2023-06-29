@@ -43,15 +43,26 @@ const Home = () => {
   const [selectTab, setSelectTab] = React.useState<string>('2');
 
   // const { t } = useTranslation('home');
-  // const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
-  // const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
-  const { listNewFeed, run, refresh } = useGetListNewFeed({
-    // onSuccess: (res) => {
-    //   // console.log('🚀 ~ file: index.tsx:53 ~ Home ~ res:', res);
-    //   // setLastNewFeed(res?.data?.last);
-    //   // const newData = [...newFeed];
-    //   // setNewFeed((data) => [...data, ...res?.data?.list]);
-    // },
+  const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
+  const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
+  const { run, refresh } = useGetListNewFeed({
+    onSuccess: (res) => {
+      setLastNewFeed(res?.data?.last);
+      const newData = [...newFeed];
+      const check = res?.data?.list;
+      for (const item of check) {
+        const index = newData.findIndex((fi) => fi.id === item.id);
+
+        if (index < 0) {
+          newData.push(item);
+        }
+
+        if (index >= 0) {
+          newData.splice(index, 1, item);
+        }
+      }
+      setNewFeed(newData);
+    },
   });
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
@@ -61,24 +72,23 @@ const Home = () => {
     !!userType && !isReadTerms,
   );
 
-  // const userType = router.query.user_type as string;
-  // React.useEffect(() => {
-  //   window.addEventListener('scroll', loadMore);
-  //   return () => {
-  //     window.removeEventListener('scroll', loadMore);
-  //   };
-  // }, [lastNewFeed]);
-  // const loadMore = () => {
-  //   if (
-  //     window.innerHeight + document.documentElement?.scrollTop ===
-  //     document.scrollingElement?.scrollHeight
-  //   ) {
-  //     run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
-  //   }
-  // };
-  const onFilter = (value: string) => {
-    // setNewFeed([]);
-    // await new Promise((resolve) => setTimeout(resolve, 100));
+  React.useEffect(() => {
+    window.addEventListener('scroll', loadMore);
+    return () => {
+      window.removeEventListener('scroll', loadMore);
+    };
+  }, [lastNewFeed]);
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement?.scrollTop - 0.5 ===
+      document.scrollingElement?.scrollHeight
+    ) {
+      run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
+    }
+  };
+  const onFilter = async (value: string) => {
+    setNewFeed([]);
+    await new Promise((resolve) => setTimeout(resolve, 100));
     run(value);
   };
   const onChangeTab = (key: string) => {
@@ -151,6 +161,7 @@ const Home = () => {
                   </TabPane>
                 </Tabs>
               </div>
+
               {isLogin && (
                 <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
                   <div className='flex items-center'>
@@ -220,11 +231,12 @@ const Home = () => {
                 >
                   News feed
                 </Text>
+
                 <ModalFilter run={onFilter} />
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
-                {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
+                {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
                 <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
@@ -277,7 +289,7 @@ const Home = () => {
                   </div>
                 )}
 
-                {listNewFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
+                {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
                 <div className='bg-[#ffffff] pl-[16px]'>
@@ -286,7 +298,7 @@ const Home = () => {
                   </Text>
                   <ListTheme />
                 </div>
-                {listNewFeed?.slice(5)?.map((item: IPost, index: number) => {
+                {newFeed?.slice(5)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
               </div>
