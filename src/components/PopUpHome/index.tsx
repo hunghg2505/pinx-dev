@@ -33,7 +33,7 @@ const PopUpHome = () => {
             onClick={onOke}
           >
             <Text type='body-16-bold' color='cbwhite'>
-              Ok
+              OK
             </Text>
           </div>
         </div>

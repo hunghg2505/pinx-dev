@@ -66,7 +66,7 @@ const ModalFilter = (props: IProps) => {
         onClick={onVisible}
         className='flex min-w-[89px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-solid border-[#B1D5F1] bg-[#F0F7FC] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.06)] mobile:h-[34px] mobile:px-[5px] desktop:h-[38px] desktop:px-[14px]'
       >
-        <Text type='body-14-regular' color='primary-2' className='mr-[8px]'>
+        <Text type='body-14-semibold' color='neutral-1' className='mr-[8px]'>
           {renderText()}
         </Text>
         <Image

@@ -139,7 +139,7 @@ const ItemComment = (props: IProps) => {
                 {data?.customerInfo?.displayName}
               </Text>
               <button className='relative flex items-center' ref={ref}>
-                <Text type='body-12-medium' color='neutral-5' className='mr-[12px]'>
+                <Text type='body-12-regular' color='neutral-5' className='mr-[12px]'>
                   {dayjs(data?.timeString).fromNow()}
                 </Text>
                 {isComment && (
@@ -184,7 +184,7 @@ const ItemComment = (props: IProps) => {
             </div>
 
             {data?.totalLikes > 0 && (
-              <div className='absolute -bottom-3 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+              <div className='absolute bottom-0 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <Image
                   src='/static/icons/iconLike.svg'
                   alt=''
@@ -215,7 +215,7 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action mt-[11px] flex'>
+          <div className='action flex'>
             <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
