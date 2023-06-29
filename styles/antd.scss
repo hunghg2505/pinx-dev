@@ -19,12 +19,12 @@
           font-size: 16px;
           line-height: 21px;
           text-align: center;
-          color: #B3B3B3;
+          color: #b3b3b3;
         }
         &.rc-tabs-tab-active {
           border-bottom: 3px solid #1f6eac;
           .rc-tabs-tab-btn {
-            color: #0D0D0D;
+            color: #0d0d0d;
             font-weight: 600;
           }
         }
@@ -88,6 +88,7 @@
 }
 .rc-dialog-content {
   width: 431px;
+  margin: 0 auto;
   @media screen and (max-width: 480px) {
     width: calc(100% - 32px) !important;
     margin: 0 auto !important;
