@@ -10,14 +10,14 @@ const LoginLayout = ({ children }: any) => {
     <>
       <LoginHeader />
       <div className='flex w-full justify-center laptop:min-h-[98vh]'>
-        <div className='h-[100vh] mobile:hidden laptop:flex flex-col w-[40%] items-center bg-[#6DB6E1]'>
+        <div className='h-[100vh] w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex'>
           <Image
             src='/static/images/pinex_logo.png'
             alt=''
             width='0'
             height='0'
             sizes='50vw'
-            className='!mt-[18vh] mb-24 h-[200px] w-[200px] mobile:hidden laptop:block text-center'
+            className='!mt-[18vh] mb-24 h-[200px] w-[200px] text-center mobile:hidden laptop:block'
           />
           <Text className='text-[64px] font-[600] text-white'>Grow</Text>
           <Text className='text-[64px] font-[600] text-white'>Steadily</Text>
