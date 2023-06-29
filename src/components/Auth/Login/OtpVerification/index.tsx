@@ -11,24 +11,13 @@ import { useAgreeContract, useResendLoginOtp } from './service';
 import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
-  const { userLoginInfo } = useUserLoginInfo();
+  const { userLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
 
   const requestAgreeContract = useAgreeContract({
-    onSuccess: (res: any) => {
+    onSuccess: () => {
       router.push(ROUTE_PATH.HOME);
-      console.log('xxx res', res);
-      // if (res?.data.token) {
-      //   onLogin({
-      //     token: res?.data.token,
-      //     refreshToken: res?.refresh_token,
-      //     expiredTime: res?.expired_time || 0,
-      //   });
-      //   switch (res?.data.nextStep) {
-      //     case 'OTP':
-      //       router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
-      //   }
-      // }
+      setIsReadTerms(true);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);

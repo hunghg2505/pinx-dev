@@ -18,6 +18,7 @@ export const useAuth = () => {
   const onLogout = () => {
     try {
       deleteAuthCookies();
+      localStorage.clear();
       if (router.pathname !== ROUTE_PATH.LOGIN) {
         window.location.href = ROUTE_PATH.LOGIN;
       }
