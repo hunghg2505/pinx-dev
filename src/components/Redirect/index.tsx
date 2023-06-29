@@ -14,7 +14,7 @@ const Redirect = () => {
     url && window.open(`${url}`, '_self');
   };
   React.useEffect(() => {
-    setTargetDate(Date.now() + 5000);
+    setTargetDate(Date.now() + 50_000_000);
   }, []);
   const [countdown] = useCountDown({
     targetDate,
@@ -22,8 +22,27 @@ const Redirect = () => {
       url && window.open(`${url}`, '_self');
     },
   });
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
   return (
     <>
+      <div className='header relative mb-[37px] border-b border-solid border-[#D8EBFC] mobile:h-auto desktop:h-[60px]'>
+        <Text type='body-16-bold' color='primary-5' className='py-[16px] text-center '>
+          Redirect
+        </Text>
+        <Image
+          src='/static/icons/iconBack.svg'
+          alt=''
+          width={32}
+          height={32}
+          className='absolute left-[16px] top-2/4 h-[32px] w-[32px] -translate-y-1/2 transform cursor-pointer'
+          onClick={handleGoBack}
+        />
+      </div>
+
       <div className='flex flex-col items-center mobile:px-[30px]'>
         <Image
           src='/static/images/redirect.png'
