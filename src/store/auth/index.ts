@@ -48,3 +48,52 @@ export const deleteAuthCookies = () => {
   deleteCookie('accessRefreshToken');
   deleteCookie('tokenExpiredTime');
 };
+
+export const getRegisterToken = (res?: any, req?: any) => {
+  if (res && req) {
+    return getCookie('registerToken', { req, res });
+  }
+  return getCookie('registerToken') || '';
+};
+
+export const getRefreshRegisterToken = (res?: any, req?: any) => {
+  if (res && req) {
+    return getCookie('refreshRegisterToken', { req, res });
+  }
+  return getCookie('refreshRegisterToken') || '';
+};
+
+export const setRegisterCookies = (
+  {
+    token,
+    refreshToken,
+    expiredTime,
+  }: {
+    token: string;
+    refreshToken: string;
+    expiredTime?: number;
+  },
+  reqOnServer?: any,
+) => {
+  setCookie('registerToken', token, {
+    maxAge: 2_147_483_647,
+    res: reqOnServer?.res,
+    req: reqOnServer?.req,
+  });
+  setCookie('refreshRegisterToken', refreshToken, {
+    maxAge: 2_147_483_647,
+    res: reqOnServer?.res,
+    req: reqOnServer?.req,
+  });
+  setCookie('registertokenExpiredTime', expiredTime, {
+    maxAge: 2_147_483_647,
+    res: reqOnServer?.res,
+    req: reqOnServer?.req,
+  });
+};
+
+export const deleteRegisterCookiess = () => {
+  deleteCookie('registerToken');
+  deleteCookie('refreshRegisterToken');
+  deleteCookie('registertokenExpiredTime');
+};

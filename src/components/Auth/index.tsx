@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 import Image from 'next/image';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
+import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
 
 import styles from './index.module.scss';
 import Login from './Login';
@@ -19,9 +19,10 @@ function Home() {
     <>
       {curTab === '2' && (
         <div>
-          <NextLink
-            href='#'
+          <a
+            href={REGISTER_INSTRUCTIONS_LINK}
             className='z-999 fixed right-[14px] top-[23px] flex items-center gap-2'
+            target='_blank' rel="noreferrer"
           >
             <Image
               src='/static/icons/register_help_icon.svg'
@@ -33,7 +34,7 @@ function Home() {
             <Text type='body-14-regular' className='mobile:hidden laptop:block'>
               Sign up instructions
             </Text>
-          </NextLink>
+          </a>
         </div>
       )}
 
