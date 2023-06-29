@@ -22,6 +22,7 @@ import {
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
@@ -148,6 +149,10 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        if (id) {
+          router.push(ROUTE_PATH.HOME);
+        }
+        setShowReport(false);
         onRefreshPostDetail();
       },
       onError: (err: any) => {

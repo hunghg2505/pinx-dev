@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
+import Text from '@components/UI/Text';
+
 const LoginHeader = dynamic(() => import('../components/LoginHeader'));
 
 const LoginLayout = ({ children }: any) => {
@@ -8,15 +10,18 @@ const LoginLayout = ({ children }: any) => {
     <>
       <LoginHeader />
       <div className='flex w-full justify-center laptop:min-h-[98vh]'>
-        <div className='h-auto mobile:hidden laptop:block laptop:w-[40%]'>
+        <div className='h-[100vh] w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex'>
           <Image
-            src='/static/images/left_login_container.png'
+            src='/static/images/pinex_logo.png'
             alt=''
             width='0'
             height='0'
-            sizes='100vw'
-            className='min-h-[700px] h-[100vh] w-full'
+            sizes='50vw'
+            className='!mt-[18vh] mb-24 h-[200px] w-[200px] text-center mobile:hidden laptop:block'
           />
+          <Text className='text-[64px] font-[600] text-white'>Grow</Text>
+          <Text className='text-[64px] font-[600] text-white'>Steadily</Text>
+          <Text className='text-[64px] font-[600] text-white'>Together.</Text>
         </div>
         <main className='laptop:w-[60%]'>
           <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>

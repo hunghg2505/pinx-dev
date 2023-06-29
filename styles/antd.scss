@@ -88,7 +88,7 @@
 }
 .rc-dialog-content {
   width: 431px;
-  margin: 0 auto !important;
+  margin: 0 auto;
   @media screen and (max-width: 480px) {
     width: calc(100% - 32px) !important;
   }
@@ -99,6 +99,12 @@
     font-size: 14px;
     line-height: 18px;
     color: #1a1a1a;
+  }
+  .hashtag {
+    color: #1f6eac !important;
+  }
+  .link {
+    color: #3449d7 !important;
   }
 }
 // menu
@@ -213,3 +219,4 @@
 .slick-track {
   margin-left: 0 !important;
 }
+// format post

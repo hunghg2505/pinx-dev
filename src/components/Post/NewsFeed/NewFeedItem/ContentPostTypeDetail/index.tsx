@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { formatMessage } from '@utils/common';
@@ -15,12 +16,14 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
+
   const router = useRouter();
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
     onNavigate && onNavigate();
   };
+  const { bgTheme } = useGetBgTheme();
   const url = postDetail?.post.url ?? '';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
@@ -48,7 +51,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
-            <Image
+            <img
               src={postDetail?.post.bgImage}
               alt=''
               width='0'
@@ -124,7 +127,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.headImageUrl && (
-            <Image
+            <img
               src={postDetail?.post?.headImageUrl}
               alt=''
               width='0'
@@ -185,7 +188,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           />
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
+          <img
             src={postDetail?.post.headImageUrl || ''}
             alt=''
             width='0'
@@ -226,7 +229,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
-            <Image
+            <img
               src={postDetail?.post?.bgImage}
               alt=''
               width='0'
@@ -309,7 +312,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-          <Image
+          <img
             src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
             alt=''
             width='0'
@@ -380,22 +383,44 @@ const ContentPostTypeDetail = (props: IProps) => {
       </>
     );
   }
-  return (
-    <>
-      <div className='cursor-pointer' onClick={onComment}>
-        {message && (
-          <div
-            className='desc messageFormat mb-[15px] mt-[18px]'
-            dangerouslySetInnerHTML={{ __html: message }}
-          ></div>
-        )}
-        {postDetail?.post?.urlImages?.length > 0 && (
-          <div className='theme'>
-            <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
-          </div>
-        )}
-      </div>
-    </>
-  );
+  if ([TYPEPOST.POST].includes(postDetail?.postType)) {
+    const postThemeId = postDetail?.post?.postThemeId;
+    const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
+    return (
+      <>
+        <div className='cursor-pointer' onClick={onComment}>
+          {postThemeId ? (
+            <div className='theme relative'>
+              <img
+                src={BgThemePost?.bgImage}
+                alt=''
+                className='left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+              />
+              {message && (
+                <div
+                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
+                  dangerouslySetInnerHTML={{ __html: message }}
+                ></div>
+              )}
+            </div>
+          ) : (
+            <>
+              {message && (
+                <div
+                  className='desc messageFormat my-[0] mb-[15px] text-center'
+                  dangerouslySetInnerHTML={{ __html: message }}
+                ></div>
+              )}
+            </>
+          )}
+          {postDetail?.post?.urlImages?.length > 0 && (
+            <div className='theme'>
+              <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
 };
 export default ContentPostTypeDetail;

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
 import toast from 'react-hot-toast';
 
+import { API_PATH } from '@api/constant';
+import { PREFIX_API_PIST } from '@api/request';
 import { RoundButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -115,6 +116,15 @@ const ModalLoginTerms = (props: IProps) => {
     }
   }, [visible]);
 
+  const getLinkContract = (linkUrl: string) => {
+    return PREFIX_API_PIST +
+      API_PATH.READ_CONTRACT +
+      '?link=' +
+      encodeURIComponent(linkUrl) +
+      '&session=' +
+      session;
+  }
+
   return (
     <>
       <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
@@ -131,16 +141,15 @@ const ModalLoginTerms = (props: IProps) => {
         </div>
         <div className='mt-8'>
           {contractList?.map((item: any, index: number) => (
-            <NextLink
+            <a
               className='flex cursor-pointer items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
               key={index}
-              href={{
-                pathname: ROUTE_PATH.TERMS_OF_SERVICE,
-                query: {
-                  link: item.fileUrl,
-                  session,
-                },
-              }}
+              href={
+                userType === 'NEW'
+                  ? item.fileUrl
+                  : getLinkContract(item.fileUrl)}
+              target='_blank'
+              rel="noreferrer"
             >
               <div className='flex items-center'>
                 <Image
@@ -161,7 +170,7 @@ const ModalLoginTerms = (props: IProps) => {
                 height='0'
                 className='h-[28px] w-[28px]'
               />
-            </NextLink>
+            </a>
           ))}
         </div>
         <Text type='body-12-regular' className='mt-2 text-center'>
@@ -170,7 +179,7 @@ const ModalLoginTerms = (props: IProps) => {
             : 'You need to agree to continue using the services'}
         </Text>
         <div className='mt-12'>
-          <a className='w-full' href='tel:090000000'>
+          <a className='w-full' href='tel:02462823535'>
             <RoundButton className='flex w-full items-center justify-center border-none'>
               <Image
                 src='/static/icons/contact_icon.svg'

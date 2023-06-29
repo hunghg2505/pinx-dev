@@ -9,6 +9,7 @@ import { useRequest } from 'ahooks';
 import Image from 'next/image';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
+import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
@@ -20,6 +21,7 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import Notification from '@components/UI/Notification';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import PopupComponent from '@utils/PopupComponent';
@@ -130,6 +132,10 @@ const Editor = (props: IProps, ref: any) => {
       manual: true,
       onSuccess: (res: any) => {
         const url = res?.files?.[0]?.url;
+
+        if (!url) {
+          toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
+        }
         onCommentImage(url);
       },
       onError: (err: any) => {
@@ -289,7 +295,10 @@ const Editor = (props: IProps, ref: any) => {
               />
             </Upload>
             <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
-            <EditorContent editor={editor} className='w-full tablet:mb-[5px]' />
+            <EditorContent
+              editor={editor}
+              className='w-full mobile:max-w-[305px] mobile:px-[5px] desktop:max-w-[500px]'
+            />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <Image

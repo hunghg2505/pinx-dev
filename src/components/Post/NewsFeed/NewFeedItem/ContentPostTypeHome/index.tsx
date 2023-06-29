@@ -7,10 +7,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
-import { useContainerDimensions } from '@hooks/useDimensions';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
 const ListStock = dynamic(import('./ListStock'), {
@@ -25,8 +25,9 @@ const ContentPostTypeHome = (props: IProps) => {
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
   const ref = useRef(null);
-  const { height } = useContainerDimensions(ref);
-  const isReadMore = height > 84;
+  const [height, setHeight] = React.useState<number>(0);
+  const { bgTheme } = useGetBgTheme();
+
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
@@ -41,6 +42,12 @@ const ContentPostTypeHome = (props: IProps) => {
       query: { url },
     });
   };
+  const onRef = (ele: any) => {
+    if (!ele) {
+      return;
+    }
+    setHeight(ele?.offsetHeight);
+  };
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
@@ -52,6 +59,7 @@ const ContentPostTypeHome = (props: IProps) => {
       : '/static/icons/iconUnSubcribe.svg';
   const postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail.id);
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
+    const isReadMore = height > 84;
     return (
       <>
         <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
@@ -79,7 +87,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-            <Image
+            <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
               width='0'
@@ -130,9 +138,10 @@ const ContentPostTypeHome = (props: IProps) => {
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
+    const isReadMore = height > 84;
     return (
       <>
-        <div ref={ref}>
+        <div ref={onRef}>
           <Text
             type='body-14-regular'
             color='neutral-1'
@@ -156,7 +165,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
-            <Image
+            <img
               src={
                 postDetail?.post.headImageUrl ||
                 'https://image.vietstock.vn/2023/06/21/ca-map-ava-20230504_1743152.jpg'
@@ -272,9 +281,10 @@ const ContentPostTypeHome = (props: IProps) => {
   // }
 
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
+    const isReadMore = height > 84;
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment} ref={ref}>
+        <div className='cursor-pointer' onClick={onComment} ref={onRef}>
           <Text
             type='body-14-regular'
             color='neutral-1'
@@ -376,6 +386,7 @@ const ContentPostTypeHome = (props: IProps) => {
   }
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
     const pnlRate = postDetail?.post?.pnlRate;
+    const isReadMore = height > 84;
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -485,20 +496,22 @@ const ContentPostTypeHome = (props: IProps) => {
     ].includes(postDetail?.postType)
   ) {
     const url = postDetail?.post.url ?? '';
+    const isReadMore = height > 84;
     return (
       <>
-        <div ref={ref}>
-          <Text
-            type='body-14-regular'
-            color='neutral-1'
-            className={classNames('mb-[16px]', {
+        {(postDetail?.post.head || postDetail?.post?.contentText) && (
+          <div
+            ref={onRef}
+            className={classNames({
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
-            {postDetail?.post.head || postDetail?.post?.contentText}
-          </Text>
-        </div>
+            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+              {postDetail?.post.head || postDetail?.post?.contentText}
+            </Text>
+          </div>
+        )}
         {isReadMore && (
           <Text
             type='body-14-regular'
@@ -512,7 +525,7 @@ const ContentPostTypeHome = (props: IProps) => {
         <div className='relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
-              <Image
+              <img
                 src={postDetail?.post?.headImageUrl}
                 alt=''
                 width='0'
@@ -549,22 +562,45 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
-  return (
-    <>
-      <div className='cursor-pointer' onClick={onComment} ref={ref}>
-        {message && (
-          <div
-            className='desc messageFormat mb-[15px]'
-            dangerouslySetInnerHTML={{ __html: message }}
-          ></div>
-        )}
-        {postDetail?.post?.urlImages?.length > 0 && (
-          <div className='theme'>
-            <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
-          </div>
-        )}
-      </div>
-    </>
-  );
+  if ([TYPEPOST.POST].includes(postDetail?.postType)) {
+    const postThemeId = postDetail?.post?.postThemeId;
+    const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
+    return (
+      <>
+        <div className='cursor-pointer' onClick={onComment} ref={onRef}>
+          {postThemeId ? (
+            <div className='theme relative'>
+              <img
+                src={BgThemePost?.bgImage}
+                alt=''
+                className='left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+              />
+              {message && (
+                <div
+                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
+                  dangerouslySetInnerHTML={{ __html: message }}
+                ></div>
+              )}
+            </div>
+          ) : (
+            <>
+              {message && (
+                <div
+                  className='desc messageFormat my-[0] mb-[15px] text-center'
+                  dangerouslySetInnerHTML={{ __html: message }}
+                ></div>
+              )}
+            </>
+          )}
+
+          {postDetail?.post?.urlImages?.length > 0 && (
+            <div className='theme'>
+              <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
 };
 export default ContentPostTypeHome;

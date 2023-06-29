@@ -41,6 +41,7 @@ const Home = () => {
   });
 
   const [selectTab, setSelectTab] = React.useState<string>('2');
+
   // const { t } = useTranslation('home');
   // const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   // const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
@@ -75,7 +76,7 @@ const Home = () => {
   //     run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
   //   }
   // };
-  const onFilter = async (value: string) => {
+  const onFilter = (value: string) => {
     // setNewFeed([]);
     // await new Promise((resolve) => setTimeout(resolve, 100));
     run(value);
@@ -89,6 +90,8 @@ const Home = () => {
       requestJoinIndex();
     }
   };
+
+  // console.log('🚀 ~ file: index.tsx:95 ~ Home ~ bgTheme:', bgTheme);
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
     run(FILTER_TYPE.MOST_RECENT);
@@ -97,7 +100,9 @@ const Home = () => {
     }
   }, []);
   useEffect(() => {
-    setSelectTab('1');
+    if (isHaveStockWatchList) {
+      setSelectTab('1');
+    }
   }, [isHaveStockWatchList]);
   const onToggleModalLoginTerms = () => {
     setShowModalLoginTerms(!showModalLoginTerms);
