@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Toaster } from 'react-hot-toast';
 
@@ -11,6 +10,7 @@ import ModalLoginTerms from '@components/Auth/Login/ModalLoginTerms';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
@@ -35,7 +35,7 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
-  const router = useRouter();
+  const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
     requestJoinIndex();
   });
@@ -57,9 +57,10 @@ const Home = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { requestGetProfile } = useProfileInitial();
   const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(
-    !!router.query.modal_login_terms,
+    !!userType && !isReadTerms,
   );
-  const userType = router.query.user_type as string;
+
+  // const userType = router.query.user_type as string;
   // React.useEffect(() => {
   //   window.addEventListener('scroll', loadMore);
   //   return () => {
@@ -206,7 +207,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              <div className='flex items-center pl-[16px] filter mobile:my-[12px] desktop:mb-[20px] '>
+              <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
                 <Text
                   type='body-16-bold'
                   color='neutral-2'
@@ -221,8 +222,8 @@ const Home = () => {
                 {listNewFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                   return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
                 })}
-                <div className='bg-[#ffffff] px-[16px] mobile:block desktop:hidden'>
-                  <div className='pb-[13px] pt-[10px] [border-top:1px_solid_#EAF4FB]'>
+                <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
+                  <div className='pb-[13px] pt-[10px] '>
                     <Trending />
                   </div>
                 </div>

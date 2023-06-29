@@ -109,16 +109,16 @@ const Market = () => {
               key={index}
               className='w-[163px] rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'
             >
-              <div className='item p-[20px] text-center ' key={index}>
+              <div className='item p-[20px] text-left ' key={index}>
                 <Text type='body-20-bold' color='neutral-1'>
                   {item?.displayName}
                 </Text>
-                <Text type='body-12-regular' color='neutral-4'>
+                <Text type='body-12-regular' color='neutral-4' className='mt-[4px]'>
                   {renderMarketStatus(item.status)}
                 </Text>
                 <Text
                   type='body-24-regular'
-                  className={classNames('mt-[22px]', {
+                  className={classNames('mt-[10px]', {
                     'text-[#128F63]': isIncrease,
                     'text-[#DB4444]': isDecrease,
                     'text-[#E6A70A]': isNoChange,
@@ -130,7 +130,7 @@ const Market = () => {
                   {item?.cIndex}
                 </Text>
                 <div
-                  className={classNames('mt-[10px] rounded-[100px]', {
+                  className={classNames('mt-[6px] inline-block rounded-[100px] px-[8px] py-[4px]', {
                     'bg-[#E3F6E2]': isIncrease,
                     'bg-[#F5E4E7]': isDecrease,
                     'bg-[#FCECC4]': isNoChange,
