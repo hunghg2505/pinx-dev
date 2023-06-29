@@ -65,7 +65,7 @@ const NewFeedItem = (props: IProps) => {
   const ref = useRef<HTMLButtonElement>(null);
 
   const isReported = postDetail?.isReport;
-  const isMyPost = isLogin && postDetail.customerId === userId;
+  const isMyPost = isLogin && postDetail?.customerId === userId;
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
