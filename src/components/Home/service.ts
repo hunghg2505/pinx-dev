@@ -321,3 +321,12 @@ export const useSearch = () => {
     loading,
   };
 };
+// get list theme
+export const useGetBgTheme = () => {
+  const { data } = useRequest(() => {
+    return requestCommunity.get(API_PATH.PUBLIC_THEME);
+  });
+  return {
+    bgTheme: data?.data,
+  };
+};
