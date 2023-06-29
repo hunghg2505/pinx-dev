@@ -15,7 +15,7 @@ const LoginLayout = ({ children }: any) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='min-h-[700px] h-[100vh] w-full'
+            className='h-[100vh] min-h-[700px] w-full object-cover'
           />
         </div>
         <main className='laptop:w-[60%]'>

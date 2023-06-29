@@ -167,6 +167,7 @@ const Editor = (props: IProps, ref: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
+        setImage('');
       },
     },
   );
@@ -180,6 +181,7 @@ const Editor = (props: IProps, ref: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
+        setImage('');
       },
     },
   );
