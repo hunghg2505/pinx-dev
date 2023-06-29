@@ -79,10 +79,12 @@ const Home = () => {
     };
   }, [lastNewFeed]);
   const loadMore = () => {
-    if (
-      window.innerHeight + document.documentElement?.scrollTop - 0.5 ===
-      document.scrollingElement?.scrollHeight
-    ) {
+    const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
+    let heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
+    if (isLogin) {
+      heightTop = heightTop - 0.5;
+    }
+    if (heightTop === heigtBottom) {
       run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };
@@ -270,7 +272,7 @@ const Home = () => {
                         height='0'
                         className='mr-2 w-[14px]'
                       />
-                      <Text type='body-12-regular'>People you may know</Text>
+                      <Text type='body-16-bold'>People you may know</Text>
                     </div>
                   )}
                 </div>

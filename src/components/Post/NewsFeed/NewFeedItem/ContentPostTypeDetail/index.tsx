@@ -395,7 +395,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               <img
                 src={BgThemePost?.bgImage}
                 alt=''
-                className='left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+                className='pointer-events-none left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
               />
               {message && (
                 <div
