@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import React from 'react';
+import React, { useRef } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
+import { useContainerDimensions } from '@hooks/useDimensions';
 import { getAccessToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
@@ -44,9 +45,11 @@ const Header = () => {
   };
   const isLogin = !!getAccessToken();
   const { requestGetProfile } = useProfileInitial();
+  const headerRef = useRef(null);
+  const { width } = useContainerDimensions(headerRef);
   // const { onLogout } = useAuth();
   return (
-    <>
+    <div ref={headerRef}>
       {!isPathName && (
         <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
           <div className='flex flex-row'>
@@ -70,7 +73,7 @@ const Header = () => {
         </div>
       )}
 
-      {!id && (
+      {!id && (!isPathName || width >= 768) && (
         <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
           <div className='flex flex-row items-center'>
             <Image
@@ -159,7 +162,7 @@ const Header = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
