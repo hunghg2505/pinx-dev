@@ -151,7 +151,6 @@ const Header = () => {
                   height={0}
                   sizes='100vw'
                   className='ml-[10px] h-[52px] w-[52px] rounded-full'
-                  onClick={() => onLogout()}
                 />
               </div>
             ) : (
