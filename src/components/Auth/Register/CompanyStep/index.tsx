@@ -124,7 +124,7 @@ const RegisterCompanyStep = () => {
                           />
                         )}
                       </div>
-                      <Image
+                      <img
                         src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
                         alt=''
                         width='0'

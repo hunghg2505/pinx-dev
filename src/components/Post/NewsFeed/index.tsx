@@ -11,9 +11,10 @@ interface IProps {
   data: IPost;
   id: string;
   refresh: () => void;
+  onHidePost: (id: string) => void;
 }
 const NewsFeed = (props: IProps) => {
-  const { data, refresh, id } = props;
+  const { data, refresh, id, onHidePost } = props;
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
@@ -46,6 +47,7 @@ const NewsFeed = (props: IProps) => {
           totalComments={data?.totalChildren}
           onRefreshPostDetail={refresh}
           postId={id}
+          onHidePostSuccess={onHidePost}
         />
         <div className='desktop:ml-[64px] desktop:mr-[88px]'>
           {data?.totalChildren > 0 && (
