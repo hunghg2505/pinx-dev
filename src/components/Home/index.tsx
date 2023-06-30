@@ -132,6 +132,7 @@ const Home = () => {
         userType={userType}
       />
       <Toaster />
+
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div
           className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'
