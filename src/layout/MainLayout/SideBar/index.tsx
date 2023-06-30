@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
@@ -82,7 +81,7 @@ const SideBar = () => {
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
             <Link href='javascript:void(0)'>
-              <Image
+              <img
                 src='/static/social/facebook.svg'
                 alt=''
                 width={0}
@@ -92,7 +91,7 @@ const SideBar = () => {
               />
             </Link>
             <Link href='javascript:void(0)'>
-              <Image
+              <img
                 src='/static/social/zalo.svg'
                 alt=''
                 width={0}
@@ -102,7 +101,7 @@ const SideBar = () => {
               />
             </Link>
             <Link href='javascript:void(0)'>
-              <Image
+              <img
                 src='/static/social/youtube.svg'
                 alt=''
                 width={0}
@@ -112,7 +111,7 @@ const SideBar = () => {
               />
             </Link>
             <Link href='javascript:void(0)'>
-              <Image
+              <img
                 src='/static/social/tik_tok.svg'
                 alt=''
                 width={0}

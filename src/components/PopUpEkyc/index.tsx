@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
@@ -22,7 +20,7 @@ const PopUpEkyc = () => {
       <div className='md-modal-mask' onClick={onCancel}></div>
       <div className='fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-white p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
         <div className='mobile:hidden tablet:block' onClick={onCancel}>
-          <Image
+          <img
             src='/static/icons/iconClose.svg'
             alt='Icon close'
             width={20}
@@ -62,7 +60,7 @@ const PopUpEkyc = () => {
         </div>
 
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
-          <Image
+          <img
             src='/static/images/googleplay.png'
             alt='Download google play'
             width={180}
@@ -71,7 +69,7 @@ const PopUpEkyc = () => {
             onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
           />
 
-          <Image
+          <img
             src='/static/images/appstore.png'
             alt='Download app store'
             width={180}

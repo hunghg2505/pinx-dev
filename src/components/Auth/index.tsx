@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
@@ -49,7 +48,7 @@ function Home() {
             target='_blank'
             rel='noreferrer'
           >
-            <Image
+            <img
               src='/static/icons/register_help_icon.svg'
               alt=''
               width='0'

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import Image from 'next/image';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
@@ -100,7 +99,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
       }}
       wrapClassName='px-[16px]'
       closeIcon={
-        <Image
+        <img
           src='/static/icons/iconClose.svg'
           alt='Icon close'
           width={21}

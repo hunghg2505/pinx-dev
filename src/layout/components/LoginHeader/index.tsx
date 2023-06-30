@@ -1,15 +1,13 @@
 import React from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-
 
 const Header = () => {
   const router = useRouter();
 
   return (
     <>
-      <Image
+      <img
         src='/static/icons/back_icon.svg'
         alt=''
         width='0'

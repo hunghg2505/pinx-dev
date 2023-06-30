@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
-import Image from 'next/image';
 import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
@@ -50,7 +49,7 @@ const OtpVerification = (props: IProps) => {
   const onChange = (values: any) => {
     if (values.otp.length === 6) {
       setOtp(values.otp);
-      onSubmit()
+      onSubmit();
     }
   };
 
@@ -174,7 +173,7 @@ const OtpVerification = (props: IProps) => {
           disabled={!isResendAvailable}
           onClick={onResendOtp}
         >
-          <Image
+          <img
             src={
               isResendAvailable ? '/static/icons/resend.svg' : '/static/icons/resend_disabled.svg'
             }

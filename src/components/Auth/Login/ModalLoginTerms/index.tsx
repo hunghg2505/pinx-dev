@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
 import toast from 'react-hot-toast';
@@ -97,8 +96,10 @@ const ModalLoginTerms = (props: IProps) => {
   const onSubmit = () => {
     if (userType === 'NEW') {
       onConfirmContract();
-    } else { onSendLoginOtp() }
-  }
+    } else {
+      onSendLoginOtp();
+    }
+  };
 
   const handleClose = () => {
     if (userType === 'VSD') {
@@ -118,13 +119,15 @@ const ModalLoginTerms = (props: IProps) => {
   }, [visible]);
 
   const getLinkContract = (linkUrl: string) => {
-    return PREFIX_API_PIST +
+    return (
+      PREFIX_API_PIST +
       API_PATH.READ_CONTRACT +
       '?link=' +
       encodeURIComponent(linkUrl) +
       '&session=' +
-      session;
-  }
+      session
+    );
+  };
 
   return (
     <>
@@ -145,15 +148,12 @@ const ModalLoginTerms = (props: IProps) => {
             <a
               className='flex cursor-pointer items-center justify-between border-t-[1px] !border-solid border-[--neutral-7] pb-3 pt-5 last:border-b-[1px]'
               key={index}
-              href={
-                userType === 'NEW'
-                  ? item.fileUrl
-                  : getLinkContract(item.fileUrl)}
+              href={userType === 'NEW' ? item.fileUrl : getLinkContract(item.fileUrl)}
               target='_blank'
-              rel="noreferrer"
+              rel='noreferrer'
             >
               <div className='flex items-center'>
-                <Image
+                <img
                   src='/static/icons/document_text.svg'
                   alt=''
                   width='32'
@@ -164,7 +164,7 @@ const ModalLoginTerms = (props: IProps) => {
                   {item.fileName}
                 </Text>
               </div>
-              <Image
+              <img
                 src='/static/icons/arrow_circle_right.svg'
                 alt=''
                 width='0'
@@ -182,7 +182,7 @@ const ModalLoginTerms = (props: IProps) => {
         <div className='mt-12'>
           <a className='w-full' href='tel:02462823535'>
             <RoundButton className='flex w-full items-center justify-center border-none'>
-              <Image
+              <img
                 src='/static/icons/contact_icon.svg'
                 alt=''
                 width='0'

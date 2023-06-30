@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
@@ -11,7 +10,7 @@ const LoginLayout = ({ children }: any) => {
       <LoginHeader />
       <div className='flex w-full justify-center laptop:min-h-[98vh]'>
         <div className='h-[100vh] w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex'>
-          <Image
+          <img
             src='/static/images/pinex_logo.png'
             alt=''
             width='0'
@@ -25,7 +24,7 @@ const LoginLayout = ({ children }: any) => {
         </div>
         <main className='laptop:w-[60%]'>
           <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>
-            <Image
+            <img
               src='/static/images/pinex_logo.png'
               alt=''
               width='0'

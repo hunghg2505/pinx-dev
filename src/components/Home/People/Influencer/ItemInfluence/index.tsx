@@ -1,5 +1,4 @@
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
@@ -65,7 +64,7 @@ const ItemInfluence = (props: IProps) => {
               {data?.displayName}
             </Text>
 
-            <Image
+            <img
               src='/static/icons/iconKol.svg'
               alt=''
               width={16}

@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -59,7 +58,7 @@ const RegisterCompanyStep = () => {
       <div className='md:h-screen lg:py-0 mx-auto  flex flex-col items-center justify-center px-6 py-8'>
         <div className='topicCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
-            <Image
+            <img
               src='/static/icons/logo.svg'
               alt=''
               width='0'
@@ -98,7 +97,7 @@ const RegisterCompanyStep = () => {
                 >
                   <div className='absolute right-[4px] top-[-8px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
                     {checkIsSelected(item?.topicCode) && (
-                      <Image src='/static/icons/iconSelected.svg' alt='' width='24' height='24' />
+                      <img src='/static/icons/iconSelected.svg' alt='' width='24' height='24' />
                     )}
                   </div>
                   <Text

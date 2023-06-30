@@ -2,7 +2,6 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
@@ -66,7 +65,7 @@ const ThemeCard = (props: IThemeCardProps) => {
         </div>
         <div className='absolute right-[13px] top-[13px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
           {props.isSelected && (
-            <Image
+            <img
               src='/static/icons/iconSelected.svg'
               alt=''
               width='24'

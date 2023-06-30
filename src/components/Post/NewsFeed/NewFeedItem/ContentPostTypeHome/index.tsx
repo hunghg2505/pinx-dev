@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -193,7 +192,7 @@ const ContentPostTypeHome = (props: IProps) => {
             // href={url}
             className=' absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -245,7 +244,7 @@ const ContentPostTypeHome = (props: IProps) => {
   //         <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
   //           Read more
   //         </Text>
-  //         <Image
+  //         <img
   //           src='/static/icons/iconNext.svg'
   //           alt=''
   //           width={0}
@@ -256,7 +255,7 @@ const ContentPostTypeHome = (props: IProps) => {
   //       </Link> */}
   //       <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
   //         <Link href={postDetailUrl}>
-  //           <Image
+  //           <img
   //             src={postDetail?.post.headImageUrl || ''}
   //             alt=''
   //             width='0'
@@ -270,7 +269,7 @@ const ContentPostTypeHome = (props: IProps) => {
   //           // href={postDetail?.post.url || ''}
   //           className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
   //         >
-  //           <Image
+  //           <img
   //             src='/static/icons/iconLink.svg'
   //             alt=''
   //             width='0'
@@ -343,7 +342,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   {postDetail?.post.stockCode}
                 </Text>
                 {postDetail?.post.action === 'ADD' ? (
-                  <Image
+                  <img
                     src='/static/icons/iconHeartActive.svg'
                     alt=''
                     width={0}
@@ -352,7 +351,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                   />
                 ) : (
-                  <Image
+                  <img
                     src='/static/icons/iconHeart.svg'
                     alt=''
                     width={0}
@@ -446,7 +445,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   {postDetail?.post?.stockCode}
                 </Text>
                 <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
-                  <Image
+                  <img
                     src='/static/icons/iconPostBuy.svg'
                     alt=''
                     width='0'
@@ -559,7 +558,7 @@ const ContentPostTypeHome = (props: IProps) => {
             onClick={() => onRedirect(url)}
             className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -618,7 +617,7 @@ const ContentPostTypeHome = (props: IProps) => {
             onClick={() => onRedirect(url)}
             className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
