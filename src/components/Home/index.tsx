@@ -79,10 +79,12 @@ const Home = () => {
     };
   }, [lastNewFeed]);
   const loadMore = () => {
-    if (
-      window.innerHeight + document.documentElement?.scrollTop - 0.5 ===
-      document.scrollingElement?.scrollHeight
-    ) {
+    const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
+    let heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
+    if (isLogin) {
+      heightTop = heightTop - 0.5;
+    }
+    if (heightTop === heigtBottom) {
       run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };

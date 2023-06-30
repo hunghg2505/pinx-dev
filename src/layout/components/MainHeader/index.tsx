@@ -31,7 +31,6 @@ const Header = () => {
   const router = useRouter();
   const isPathName = router?.pathname === ROUTE_PATH.REDIRECT;
   const { onLogout } = useAuth();
-  const id = !!router?.query?.id;
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
   };
@@ -73,7 +72,7 @@ const Header = () => {
         </div>
       )}
 
-      {!id && (!isPathName || width >= 768) && (
+      {(!isPathName || width >= 768) && (
         <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
           <div className='flex flex-row items-center'>
             <Image
