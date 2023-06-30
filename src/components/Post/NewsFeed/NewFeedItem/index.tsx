@@ -441,17 +441,28 @@ const NewFeedItem = (props: IProps) => {
     return (
       <>
         {!isMyPost && (
-          <div
-            className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
-            )}
-          >
-            <IconPlus />
-            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-              Follow
-            </Text>
-          </div>
+          <>
+            <div
+              className={classNames(
+                'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              )}
+            >
+              <IconPlus />
+              <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+                Follow
+              </Text>
+            </div>
+
+            <img
+              src='/static/icons/iconUserUnFollow.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='w-[24px] mobile:block tablet:hidden'
+              sizes='100vw'
+            />
+          </>
         )}
         <img
           src='/static/icons/iconUserUnFollow.svg'
@@ -470,7 +481,7 @@ const NewFeedItem = (props: IProps) => {
         <div className='flex cursor-pointer flex-row items-center'>
           {postDetail?.post?.customerInfo?.avatar === '' ? (
             <div
-              className='mr-2 flex items-center justify-center rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+              className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
               style={{ backgroundColor: renderColor(name) }}
             >
               <Text type='body-24-regular' color='cbwhite'>

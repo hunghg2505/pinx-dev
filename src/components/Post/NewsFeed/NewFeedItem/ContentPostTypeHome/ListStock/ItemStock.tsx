@@ -7,17 +7,14 @@ const ItemStock = ({ data }: { data: string }) => {
   }.png`;
   return (
     <>
-      <div className='mr-[10px]'>
-        <div className='flex h-[32px] flex-row items-center justify-between rounded-[1000px] border-[1px] border-solid border-[rgba(88,157,192,0.24)] bg-[#1F6EAC] px-[4px] backdrop-blur-[2px] backdrop-filter'>
+      <div className='mr-[6px]'>
+        <div className='flex h-[32px] flex-row items-center justify-between rounded-[1000px] border-[1px] border-solid border-[rgba(88,157,192,0.24)] bg-[#1F6EAC] pl-[4px] pr-[6px] backdrop-blur-[2px] backdrop-filter'>
           {url && (
-            <div className='w-24px mr-[10px] flex h-[24px] flex-row items-center justify-center rounded-full bg-[#ffffff]'>
+            <div className='mr-[6px] rounded-full bg-[#ffffff] shadow-[0_2px_4px_rgba(0,0,0,0.10)]'>
               <img
                 src={url}
                 alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='h-[22px] w-[22px] rounded-full object-contain'
+                className='block h-[24px] w-[24px] rounded-full border-2 border-solid border-white object-contain'
               />
             </div>
           )}

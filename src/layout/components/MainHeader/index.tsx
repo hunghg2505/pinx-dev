@@ -17,7 +17,7 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 
 const IconSearchWhite = () => (
-  <svg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <svg width='16' height='16' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       d='M8.94349 8.94354L11.3333 11.3333M10.3636 5.51513C10.3636 8.19287 8.19289 10.3636 5.51516 10.3636C2.83737 10.3636 0.666626 8.19287 0.666626 5.51513C0.666626 2.8374 2.83737 0.666668 5.51516 0.666668C8.19289 0.666668 10.3636 2.8374 10.3636 5.51513Z'
       stroke='#A6B0C3'
@@ -189,7 +189,7 @@ const Header = () => {
               <Form>
                 <FormItem name='search'>
                   <Input
-                    className='h-[36px] w-[220px] rounded-[8px] bg-[#EFF2F5] placeholder:pl-[28px]'
+                    className='h-[40px] w-[220px] rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
                     placeholder='Search'
                     icon={<IconSearchWhite />}
                   />
@@ -218,7 +218,7 @@ const Header = () => {
                   />
                 ) : (
                   <div
-                    className='mr-2 flex items-center justify-center rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+                    className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
                     style={{ backgroundColor: renderColor(name) }}
                   >
                     <Text type='body-24-regular' color='cbwhite'>
