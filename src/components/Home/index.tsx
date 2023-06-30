@@ -266,11 +266,13 @@ const Home = () => {
                       <Image
                         src='/static/icons/iconPeople.svg'
                         alt=''
-                        width='0'
-                        height='0'
-                        className='mr-2 w-[14px]'
+                        width={20}
+                        height={20}
+                        className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
-                      <Text type='body-12-regular'>People you may know</Text>
+                      <Text type='body-14-regular' color='neutral-4'>
+                        People you may know
+                      </Text>
                     </div>
                   )}
                 </div>
