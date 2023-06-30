@@ -697,15 +697,17 @@ const ContentPostTypeHome = (props: IProps) => {
             </Text>
           )}
           {postDetail?.post?.urlImages?.length > 0 && (
-            <div className='theme'>
-              <img
-                src={postDetail?.post?.urlImages?.[0]}
-                alt=''
-                width={326}
-                height={185}
-                className='h-[185px] w-[326px] object-contain'
-              />
-            </div>
+            <Link href={postDetailUrl}>
+              <div className='theme'>
+                <img
+                  src={postDetail?.post?.urlImages?.[0]}
+                  alt=''
+                  width={326}
+                  height={185}
+                  className='h-[185px] w-[326px] object-contain'
+                />
+              </div>
+            </Link>
           )}
         </div>
       </>
