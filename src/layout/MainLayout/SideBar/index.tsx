@@ -92,7 +92,7 @@ const SideBar = () => {
             </Link>
             <Link href='javascript:void(0)'>
               <img
-                src='/static/social/zalo.svg'
+                src='/static/social/zalo.png'
                 alt=''
                 width={0}
                 height={0}

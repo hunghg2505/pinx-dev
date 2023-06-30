@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 
 import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
+import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { formatMessage } from '@utils/common';
 
@@ -422,13 +423,19 @@ const ContentPostTypeDetail = (props: IProps) => {
           )}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <img
-                src={postDetail?.post?.urlImages?.[0]}
-                alt=''
-                width={326}
-                height={185}
-                className='h-[185px] w-[326px] object-contain'
-              />
+              <Fancybox>
+                <a data-fancybox='gallery' href={postDetail?.post?.urlImages?.[0]}>
+                  {postDetail?.post?.urlImages?.[0] && (
+                    <img
+                      src={postDetail?.post?.urlImages?.[0]}
+                      alt=''
+                      width={326}
+                      height={185}
+                      className='h-[185px] w-[326px] object-contain'
+                    />
+                  )}
+                </a>
+              </Fancybox>
             </div>
           )}
         </div>
