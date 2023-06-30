@@ -329,7 +329,7 @@ const Editor = (props: IProps, ref: any) => {
             </div>
             {imageComment && (
               <div className='relative'>
-                <Image
+                <img
                   src={imageComment}
                   alt=''
                   width='0'
@@ -367,7 +367,7 @@ const Editor = (props: IProps, ref: any) => {
         </div>
         {imageComment && (
           <div className='relative'>
-            <Image
+            <img
               src={imageComment}
               alt=''
               width='0'

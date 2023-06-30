@@ -1,5 +1,4 @@
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -132,7 +131,7 @@ const ThemesItem = (props: IProps) => {
       <div className='w-[162px] pr-[10px]'>
         <div className='relative min-h-[191px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           {theme?.url && (
-            <Image
+            <img
               src={theme?.url}
               alt=''
               width='0'

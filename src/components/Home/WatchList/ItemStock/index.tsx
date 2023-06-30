@@ -1,7 +1,6 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
@@ -19,7 +18,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
     <div className='mr-[16px] w-[104px]'>
       <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
         {url && (
-          <Image
+          <img
             src={url}
             alt=''
             width={0}

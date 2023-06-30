@@ -45,7 +45,7 @@ interface IProps {
   onNavigate?: () => void;
   onRefreshPostDetail: () => void;
   postId: string;
-  onHidePostSuccess: (id: string) => void;
+  onHidePostSuccess?: (id: string) => void;
 }
 const IconPlus = () => (
   <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -155,7 +155,7 @@ const NewFeedItem = (props: IProps) => {
         if (id) {
           router.push(ROUTE_PATH.HOME);
         }
-        onHidePostSuccess(postId);
+        onHidePostSuccess && onHidePostSuccess(postId);
         setShowReport(false);
         onRefreshPostDetail();
       },
