@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
@@ -11,6 +10,7 @@ import { PREFIX_API_PIST } from '@api/request';
 import { RoundButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -32,7 +32,8 @@ const ModalLoginTerms = (props: IProps) => {
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
   const { onLogout } = useAuth();
-  const { userLoginInfo } = useUserLoginInfo();
+  const { userLoginInfo, forceAllowTerm } = useUserLoginInfo();
+  const { isDesktop, isMobile } = useResponsive();
 
   const requestGetContract = useGetContract({
     onSuccess: (res: any) => {
@@ -101,7 +102,7 @@ const ModalLoginTerms = (props: IProps) => {
 
   const handleClose = () => {
     if (userType === 'VSD') {
-      if (dayjs().isAfter(dayjs('2023-07-22'))) {
+      if (forceAllowTerm) {
         onLogout();
       }
     } else {
@@ -188,7 +189,8 @@ const ModalLoginTerms = (props: IProps) => {
                 height='0'
                 className='mr-2 h-[20px] w-[20px]'
               />
-              Contact support
+              {isMobile && 'Contact support'}
+              {isDesktop && '024 6282 3535'}
             </RoundButton>
           </a>
           <div className='w-full'>

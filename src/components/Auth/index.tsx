@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
+import { AUTH_TAB_TYPE } from 'src/constant';
 
 import styles from './index.module.scss';
 import Login from './Login';
@@ -13,16 +15,39 @@ import Register from './Register/RegisterForm';
 
 function Home() {
   const router = useRouter();
-  const defaultActiveTab: '1' | '2' = router.query?.type === 'register' ? '2' : '1';
-  const [curTab, setCurTab] = useState<string>();
+  const defaultActiveTab = (router.query?.type || AUTH_TAB_TYPE.LOGIN) as string;
+  const [curTab, setCurTab] = useState<string>(defaultActiveTab);
+
+  useEffect(() => {
+    setCurTab(defaultActiveTab);
+  }, [defaultActiveTab]);
+
+  const handleChangeTab = (tabKey: string) => {
+    setCurTab(tabKey);
+
+    if (tabKey === AUTH_TAB_TYPE.REGISTER) {
+      router.replace({
+        pathname: ROUTE_PATH.LOGIN,
+        query: {
+          type: AUTH_TAB_TYPE.REGISTER,
+        },
+      });
+    } else {
+      router.replace({
+        pathname: ROUTE_PATH.LOGIN,
+      });
+    }
+  };
+
   return (
     <>
-      {curTab === '2' && (
+      {curTab === AUTH_TAB_TYPE.REGISTER && (
         <div>
           <a
             href={REGISTER_INSTRUCTIONS_LINK}
             className='z-999 fixed right-[14px] top-[23px] flex items-center gap-2'
-            target='_blank' rel="noreferrer"
+            target='_blank'
+            rel='noreferrer'
           >
             <Image
               src='/static/icons/register_help_icon.svg'
@@ -39,15 +64,11 @@ function Home() {
       )}
 
       <div className='pt-[10px]'>
-        <Tabs
-          defaultActiveKey={defaultActiveTab}
-          className={styles.tabLogin}
-          onChange={(value) => setCurTab(value)}
-        >
-          <TabPane tab='Login' key='1'>
+        <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
+          <TabPane tab='Login' key={AUTH_TAB_TYPE.LOGIN}>
             <Login />
           </TabPane>
-          <TabPane tab='Sign up' key='2'>
+          <TabPane tab='Sign up' key={AUTH_TAB_TYPE.REGISTER}>
             <Register />
           </TabPane>
         </Tabs>
