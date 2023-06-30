@@ -10,6 +10,25 @@ import Text from '@components/UI/Text';
 
 import styles from '../index.module.scss';
 
+export const getMarketCodeChart = (marketCode: string) => {
+  if (marketCode === '10') {
+    return 'VNINDEX';
+  }
+
+  if (marketCode === '02') {
+    return 'HNXINDEX';
+  }
+
+  if (marketCode === '03') {
+    return 'UPCOMINDEX';
+  }
+
+  if (marketCode === '11') {
+    return 'VN30';
+  }
+
+  return '';
+};
 const MarketDesktop = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);

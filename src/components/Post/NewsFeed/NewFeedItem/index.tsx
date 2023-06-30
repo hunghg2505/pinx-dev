@@ -45,6 +45,7 @@ interface IProps {
   onNavigate?: () => void;
   onRefreshPostDetail: () => void;
   postId: string;
+  onHidePostSuccess: (id: string) => void;
 }
 const IconPlus = () => (
   <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -55,7 +56,7 @@ const IconPlus = () => (
   </svg>
 );
 const NewFeedItem = (props: IProps) => {
-  const { onNavigate, onRefreshPostDetail, postId, postDetail } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -154,6 +155,7 @@ const NewFeedItem = (props: IProps) => {
         if (id) {
           router.push(ROUTE_PATH.HOME);
         }
+        onHidePostSuccess(postId);
         setShowReport(false);
         onRefreshPostDetail();
       },
@@ -229,6 +231,9 @@ const NewFeedItem = (props: IProps) => {
       ].includes(postDetail?.post.postType)
     ) {
       logo = '/static/logo/logoPintree.svg';
+    }
+    if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
+      logo = 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
     }
     if (
       [

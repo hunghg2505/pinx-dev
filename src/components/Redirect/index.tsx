@@ -14,7 +14,7 @@ const Redirect = () => {
     url && window.open(`${url}`, '_self');
   };
   React.useEffect(() => {
-    setTargetDate(Date.now() + 50_000_000);
+    setTargetDate(Date.now() + 5000);
   }, []);
   const [countdown] = useCountDown({
     targetDate,
@@ -29,7 +29,7 @@ const Redirect = () => {
 
   return (
     <>
-      <div className='header relative mb-[37px] border-b border-solid border-[#D8EBFC] mobile:h-auto desktop:h-[60px]'>
+      <div className='header relative mb-[37px] border-b border-solid border-[#D8EBFC] tablet:hidden desktop:hidden'>
         <Text type='body-16-bold' color='primary-5' className='py-[16px] text-center '>
           Redirect
         </Text>
@@ -43,16 +43,20 @@ const Redirect = () => {
         />
       </div>
 
-      <div className='flex flex-col items-center mobile:px-[30px]'>
+      <div className='flex flex-col items-center mobile:px-[30px] tablet:mt-[32px]'>
         <Image
           src='/static/images/redirect.png'
           alt=''
           width={0}
           height={0}
           sizes='100vw'
-          className='mobile:w-[250px] tablet:w-[329px]'
+          className='object-contain mobile:h-[200px] mobile:w-[168px] tablet:h-[250px] tablet:w-[220px]'
         />
-        <Text type='body-28-bold' color='neutral-2' className='mt-[40px]'>
+        <Text
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mt-[30px] tablet:mt-[36px] tablet:!text-[24px]'
+        >
           Redirecting you in {Math.round(countdown / 1000)}s...
         </Text>
         <div className='mt-[20px] flex'>
@@ -90,7 +94,7 @@ const Redirect = () => {
             <Text
               type='body-16-regular'
               color='primary-4'
-              className='inline-block overflow-hidden  overflow-ellipsis whitespace-nowrap mobile:max-w-[189px] tablet:max-w-[393px]'
+              className='inline-block overflow-hidden overflow-ellipsis whitespace-nowrap mobile:max-w-[189px] tablet:max-w-[393px]'
             >
               {url}
             </Text>
@@ -99,7 +103,7 @@ const Redirect = () => {
             className='cursor-pointer rounded-bl-none rounded-br-[8px] rounded-tl-none rounded-tr-[8px] bg-[#1F6EAC] px-[24px] mobile:py-[9px] tablet:py-[17px]'
             onClick={onContinute}
           >
-            <Text type='body-14-semibold' color='neutral-9' className='tablet:text-[16px]'>
+            <Text type='body-14-semibold' color='neutral-9' className='tablet:!text-[16px]'>
               Continue
             </Text>
           </div>

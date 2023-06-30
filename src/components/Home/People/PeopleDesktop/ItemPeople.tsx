@@ -69,7 +69,7 @@ const ItemPeople = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className='mr-[10px] w-[48px] rounded-full'
+          className='mr-[10px] h-[48px] w-[48px] rounded-full'
         />
         <div>
           <div className='flex items-center'>
