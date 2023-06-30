@@ -83,7 +83,7 @@ const ItemInfluence = (props: IProps) => {
           className='absolute right-[13px] top-[13px] z-10 flex h-[24px] w-[32px] cursor-pointer flex-row items-center justify-center rounded-[100px] bg-[#589DC0]'
           onClick={onFollow}
         >
-          <Image
+          <img
             src={isFollow ? '/static/icons/iconTickFollow.svg' : '/static/icons/iconPlus.svg'}
             alt=''
             width='0'
@@ -92,7 +92,7 @@ const ItemInfluence = (props: IProps) => {
           />
         </div>
         {data.avatar && (
-          <Image
+          <img
             src={data.avatar}
             alt=''
             width='0'

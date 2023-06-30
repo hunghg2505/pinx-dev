@@ -71,7 +71,8 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            {message}
+            {/* {message} */}
+            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
         {isReadMore && (
@@ -98,7 +99,7 @@ const ContentPostTypeHome = (props: IProps) => {
             <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
               <div className='flex flex-col items-center justify-center'>
                 {iconPost && (
-                  <Image
+                  <img
                     src={iconPost}
                     alt=''
                     width='0'
@@ -151,6 +152,7 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {postDetail?.post.head}
+            {/* <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div> */}
           </Text>
         </div>
         {isReadMore && (
@@ -293,7 +295,8 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            {message}
+            {/* {message} */}
+            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
         {isReadMore && (
@@ -310,7 +313,7 @@ const ContentPostTypeHome = (props: IProps) => {
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             {postDetail?.post?.bgImage && (
-              <Image
+              <img
                 src={postDetail?.post?.bgImage}
                 alt=''
                 width='0'
@@ -321,7 +324,7 @@ const ContentPostTypeHome = (props: IProps) => {
             )}
 
             <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
-              <Image
+              <img
                 src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
                 width='0'
@@ -398,7 +401,8 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            {postDetail?.post?.message}
+            {/* {postDetail?.post?.message} */}
+            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
         {isReadMore && (
@@ -414,7 +418,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-            <Image
+            <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
               width='0'
@@ -423,7 +427,7 @@ const ContentPostTypeHome = (props: IProps) => {
               className='absolute right-0 top-0 h-full w-full'
             />
             <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
-              <Image
+              <img
                 src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
                 width='0'
@@ -454,17 +458,20 @@ const ContentPostTypeHome = (props: IProps) => {
                   color='neutral-1'
                   className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
                 >
-                  Sell
+                  {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
                 </Text>
-                <Text
-                  type='body-16-medium'
-                  className={classNames('desktop:!text-[24px] desktop:!leading-[32px]', {
-                    'text-[#128F63]': pnlRate > 0,
-                    'text-[#DB4444]': pnlRate < 0,
-                  })}
-                >
-                  {pnlRate.toFixed(2)}%
-                </Text>
+                {postDetail?.post?.type === 'SELL' && (
+                  <Text
+                    type='body-16-medium'
+                    className={classNames('desktop:!text-[24px] desktop:!leading-[32px]', {
+                      'text-[#128F63]': pnlRate > 0,
+                      'text-[#DB4444]': pnlRate < 0,
+                    })}
+                  >
+                    {pnlRate.toFixed(2)}%
+                  </Text>
+                )}
+
                 <Text
                   type='body-12-medium'
                   color='neutral-3'
@@ -538,9 +545,9 @@ const ContentPostTypeHome = (props: IProps) => {
           <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />
           </div>
-          <div className='z-10 line-clamp-2 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
+          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
             <Link href={postDetailUrl}>
-              <Text type='body-16-bold' color='cbblack'>
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
               </Text>
             </Link>
@@ -588,7 +595,7 @@ const ContentPostTypeHome = (props: IProps) => {
             <>
               {message && (
                 <div
-                  className='desc messageFormat my-[0] mb-[15px] text-center'
+                  className='desc messageFormat my-[0] mb-[15px]'
                   dangerouslySetInnerHTML={{ __html: message }}
                 ></div>
               )}

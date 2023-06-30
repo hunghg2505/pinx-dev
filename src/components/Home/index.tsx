@@ -41,7 +41,7 @@ const Home = () => {
   });
 
   const [selectTab, setSelectTab] = React.useState<string>('2');
-
+  const refScroll = React.useRef(null);
   // const { t } = useTranslation('home');
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
@@ -61,6 +61,7 @@ const Home = () => {
           newData.splice(index, 1, item);
         }
       }
+
       setNewFeed(newData);
     },
   });
@@ -80,11 +81,8 @@ const Home = () => {
   }, [lastNewFeed]);
   const loadMore = () => {
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
-    let heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
-    if (isLogin) {
-      heightTop = heightTop - 0.5;
-    }
-    if (heightTop === heigtBottom) {
+    const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
+    if (Math.floor(heightTop) === heigtBottom) {
       run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };
@@ -102,7 +100,14 @@ const Home = () => {
       requestJoinIndex();
     }
   };
-
+  const onHidePost = (id: string) => {
+    const newData = [...newFeed];
+    const index = newData?.findIndex((item) => item.id === id);
+    if (index >= 0) {
+      newData.splice(index, 1);
+    }
+    setNewFeed(newData);
+  };
   // console.log('🚀 ~ file: index.tsx:95 ~ Home ~ bgTheme:', bgTheme);
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
@@ -128,7 +133,10 @@ const Home = () => {
       />
       <Toaster />
       <div className='flex desktop:bg-[#F8FAFD]'>
-        <div className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'>
+        <div
+          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'
+          ref={refScroll}
+        >
           <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
             <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
@@ -168,7 +176,7 @@ const Home = () => {
                 <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
                   <div className='flex items-center'>
                     {requestGetProfile?.avatar && (
-                      <Image
+                      <img
                         src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
                         alt=''
                         width={0}
@@ -239,7 +247,15 @@ const Home = () => {
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
                 {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
-                  return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+                  return (
+                    <NewsFeed
+                      key={index}
+                      data={item}
+                      id={item.id}
+                      refresh={refresh}
+                      onHidePost={onHidePost}
+                    />
+                  );
                 })}
                 <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
                   <div className='pb-[13px] pt-[10px] '>
@@ -294,7 +310,15 @@ const Home = () => {
                 )}
 
                 {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
-                  return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+                  return (
+                    <NewsFeed
+                      key={index}
+                      data={item}
+                      id={item.id}
+                      refresh={refresh}
+                      onHidePost={onHidePost}
+                    />
+                  );
                 })}
                 <div className='bg-[#ffffff] pl-[16px]'>
                   <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
@@ -303,7 +327,15 @@ const Home = () => {
                   <ListTheme />
                 </div>
                 {newFeed?.slice(5)?.map((item: IPost, index: number) => {
-                  return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+                  return (
+                    <NewsFeed
+                      key={index}
+                      data={item}
+                      id={item.id}
+                      refresh={refresh}
+                      onHidePost={onHidePost}
+                    />
+                  );
                 })}
               </div>
             </div>

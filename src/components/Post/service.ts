@@ -92,6 +92,7 @@ export interface IContentPost {
   tradingDate: string;
   pnlRate: number;
   title: string;
+  type: string;
 }
 
 interface IResponseTotalShare {

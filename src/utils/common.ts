@@ -30,14 +30,14 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      const startId = item.indexOf('(') + 1;
-      const endId = item.indexOf(')');
-      const ID = item.slice(startId, endId);
+      // const startId = item.indexOf('(') + 1;
+      // const endId = item.indexOf(')');
+      // const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
         message = message.replace(
           item,
           `
-          <a href="/profile/${ID}" className="tagStock">${name}</a>
+          <a href="javascript:void(0)" className="tagStock">${name}</a>
           `,
         );
       }
@@ -48,14 +48,14 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      const startId = item.indexOf('(') + 1;
-      const endId = item.indexOf(')');
-      const ID = item.slice(startId, endId);
+      // const startId = item.indexOf('(') + 1;
+      // const endId = item.indexOf(')');
+      // const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
         message = message.replace(
           item,
           `
-          <a href="/stock/${ID}" className="tagStock">${name}</a>
+          <a href="javascript:void(0)" className="tagStock">${name}</a>
           `,
         );
       }
@@ -67,7 +67,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="/#" class="hashtag">${item}</a>
+        <a href="javascript:void(0)" class="hashtag">${item}</a>
         `,
       );
     }
@@ -75,7 +75,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="${item}" class="link">${item}</a>
+        <a href="javascript:void(0)" class="link">${item}</a>
         `,
       );
     }
@@ -86,7 +86,7 @@ export const formatMessage = (message: string, data: any) => {
           message = message.replace(
             item,
             `
-            <a href="${item}" class="link">${item}</a>
+            <a href="javascript:void(0)" class="link">${item}</a>
             `,
           );
         }
