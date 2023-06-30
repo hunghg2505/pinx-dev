@@ -31,7 +31,7 @@ const Login = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
-  const { setUserLoginInfo, setIsReadTerms, setUserType } = useUserLoginInfo();
+  const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm } = useUserLoginInfo();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -49,6 +49,7 @@ const Login = () => {
           expiredTime: res?.expired_time || 0,
         });
         setUserLoginInfo(res?.data);
+        setForceAllowTerm(res?.data.forceAllow);
         let userType = '';
         switch (checkUserType(res?.data?.custStat, res?.data?.acntStat)) {
           case 'NEW': {

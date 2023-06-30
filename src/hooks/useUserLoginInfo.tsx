@@ -34,13 +34,24 @@ const initialUserLoginInfo: InitUserLoginInfo = {
 };
 
 const isReadTermsAtom = atomWithStorage('isReadTerms', false);
+const isForceAllowTermAtom = atomWithStorage('forceAllowTerm', false);
 const userTypeAtom = atomWithStorage('userType', '');
 const userLoginInfoAtom = atom({ ...initialUserLoginInfo });
 
 export const useUserLoginInfo = () => {
   const [userLoginInfo, setUserLoginInfo] = useAtom(userLoginInfoAtom);
-  const [isReadTerms, setIsReadTerms] = useAtom(isReadTermsAtom)
-  const [userType, setUserType] = useAtom(userTypeAtom)
+  const [isReadTerms, setIsReadTerms] = useAtom(isReadTermsAtom);
+  const [userType, setUserType] = useAtom(userTypeAtom);
+  const [forceAllowTerm, setForceAllowTerm] = useAtom(isForceAllowTermAtom);
 
-  return { userLoginInfo, setUserLoginInfo, isReadTerms, setIsReadTerms, userType, setUserType };
+  return {
+    userLoginInfo,
+    isReadTerms,
+    userType,
+    forceAllowTerm,
+    setUserLoginInfo,
+    setIsReadTerms,
+    setUserType,
+    setForceAllowTerm
+  };
 };
