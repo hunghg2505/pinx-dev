@@ -9,6 +9,7 @@ import { RoundButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 import Text from '@components/UI/Text';
+import { normalizeNumber } from '@utils/normalize';
 
 interface IProps {
   onResendOtp: () => void;
@@ -46,10 +47,10 @@ const OtpVerification = (props: IProps) => {
     },
   );
 
-  const onChange = (e: any) => {
-    if (e.target.value.length === 6) {
-      setOtp(e.target.value);
-      form.submit();
+  const onChange = (values: any) => {
+    if (values.otp.length === 6) {
+      setOtp(values.otp);
+      onSubmit()
     }
   };
 
@@ -142,22 +143,24 @@ const OtpVerification = (props: IProps) => {
           : `The OTP will be expired in ${convertSecond(otpCount)}s`}
       </Text>
 
-      <Form className='space-y-6' form={form} onFinish={onSubmit}>
+      <Form className='space-y-6' form={form} onValuesChange={onChange}>
         <FormItem
+          normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
           name='otp'
           rules={[
             {
-              max: 6,
-              message: 'Max characters is 6!',
+              required: true,
+              message: 'Please enter OTP',
             },
           ]}
+          onC
         >
           <LabelInput
             type='tel'
             placeholder='SMS OTP'
-            name='otp'
             labelContent='SMS OTP'
-            onChange={onChange}
+            name='otp'
+            maxLength={6}
           />
         </FormItem>
       </Form>

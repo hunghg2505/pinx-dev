@@ -14,6 +14,7 @@ import LabelInput from '@components/UI/LabelInput';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useForgotPassword } from './service';
@@ -78,7 +79,6 @@ const ForgotPasswordStepOne = () => {
           name='email'
           rules={[
             {
-              pattern: REG_EMAIL,
               required: true,
               message: 'Please enter email',
             },
@@ -91,6 +91,7 @@ const ForgotPasswordStepOne = () => {
           <LabelInput placeholder='Email' labelContent='Email' name='email' />
         </FormItem>
         <FormItem
+          normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
           name='phoneNumber'
           rules={[
             {

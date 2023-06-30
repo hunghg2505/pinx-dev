@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
+import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -16,7 +17,7 @@ const Register = () => {
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
-  const { onLogin } = useAuth();
+  const { onLogin, onLogout } = useAuth();
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
@@ -30,6 +31,7 @@ const Register = () => {
       }
       router.push(ROUTE_PATH.REGISTER_COMPANY);
       setIsReadTerms(true);
+      deleteRegisterCookies();
     },
     onError: (e) => {
       toast(() => <Notification type='error' message={e.error} />);
@@ -53,8 +55,8 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (!userRegisterInfo.phoneNumber) {
-      router.push(ROUTE_PATH.HOME);
+    if (!userRegisterInfo.phoneNumber || !getRegisterToken()) {
+      onLogout();
     }
   }, []);
 
