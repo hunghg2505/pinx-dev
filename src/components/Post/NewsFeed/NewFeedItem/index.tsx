@@ -328,6 +328,7 @@ const NewFeedItem = (props: IProps) => {
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
     onRefreshPostDetail();
+    setShowReport(false);
   };
 
   const renderLogo = () => {
