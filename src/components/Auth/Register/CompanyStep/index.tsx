@@ -93,11 +93,10 @@ const RegisterCompanyStep = () => {
             }
           >
             {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-              const urlImageCompany = `${
-                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+              const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
                   ? item.stockCode
                   : item.stockCode?.slice(1, 4)
-              }.png`;
+                }.png`;
               return (
                 <div
                   className={classNames('relative flex justify-center', styles.companyCard)}

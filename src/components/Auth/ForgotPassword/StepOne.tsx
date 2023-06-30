@@ -9,6 +9,7 @@ import LabelInput from '@components/UI/LabelInput';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { normalizeNumber } from '@utils/normalize';
 import { REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useForgotPassword } from './service';
@@ -59,6 +60,7 @@ const ForgotPasswordStepOne = () => {
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
         <FormItem
+          normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
           name='phoneNumber'
           rules={[
             {
