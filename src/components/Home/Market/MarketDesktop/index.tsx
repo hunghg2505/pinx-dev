@@ -132,8 +132,10 @@ const MarketDesktop = () => {
                   </div>
                 </div>
                 <iframe
-                  src={`https://price.pinetree.vn/chart-index/market-chart?marketCode=${item.mc}`}
-                  className='w-full rounded-[8px] tablet:h-[150px] desktop:h-[248px]'
+                  src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
+                    item.mc,
+                  )}&type=INDEX&ref=${item.oIndex}`}
+                  className='w-full rounded-[8px] tablet:h-[350px]'
                 ></iframe>
               </div>
             </TabPane>
