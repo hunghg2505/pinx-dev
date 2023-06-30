@@ -289,7 +289,7 @@ const Home = () => {
                         height={20}
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
-                      <Text type='body-14-regular' color='neutral-4'>
+                      <Text type='body-16-bold' color='neutral-2'>
                         People you may know
                       </Text>
                     </div>
