@@ -47,12 +47,13 @@ const PopUpEkyc = () => {
               Cancel
             </Text>
           </div>
-          <Link href='https://onelink.to/cgarrk'>
-            <div className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'>
-              <Text type='body-16-bold' color='cbwhite'>
-                Ok
-              </Text>
-            </div>
+          <Link
+            href='https://onelink.to/cgarrk'
+            className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
+          >
+            <Text type='body-16-bold' color='cbwhite'>
+              OK
+            </Text>
           </Link>
         </div>
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
