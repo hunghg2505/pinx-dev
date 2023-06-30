@@ -148,7 +148,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='w-[18px]'
+              className='h-[18px] w-[18px]'
             />
           </div>
         </div>
@@ -208,7 +208,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='w-[18px]'
+              className='h-[18px] w-[18px]'
             />
           </div>
         </div>
