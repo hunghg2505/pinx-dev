@@ -14,6 +14,7 @@ import { getAccessToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
+import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 
 const IconSearchWhite = () => (
   <svg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -29,7 +30,6 @@ const IconSearchWhite = () => (
 );
 const Header = () => {
   const router = useRouter();
-  const isPathName = router?.pathname === ROUTE_PATH.REDIRECT;
   const { onLogout } = useAuth();
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
@@ -46,10 +46,16 @@ const Header = () => {
   const { requestGetProfile } = useProfileInitial();
   const headerRef = useRef(null);
   const { width } = useContainerDimensions(headerRef);
-  // const { onLogout } = useAuth();
+
+  const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
+  const isHideHeaderLoginOnMobile =
+    (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
+      [ROUTE_PATH.REDIRECT].includes(router?.pathname)) &&
+    width <= MOBILE_SCREEN_MAX_WIDTH;
+
   return (
     <div ref={headerRef}>
-      {!isPathName && (
+      {!isHideHeaderOpenAppOnMobile && (
         <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
           <div className='flex flex-row'>
             <Image src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
@@ -72,7 +78,7 @@ const Header = () => {
         </div>
       )}
 
-      {(!isPathName || width >= 768) && (
+      {!isHideHeaderLoginOnMobile && (
         <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
           <div className='flex flex-row items-center'>
             <Image
