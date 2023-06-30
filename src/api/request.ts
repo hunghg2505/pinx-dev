@@ -20,6 +20,7 @@ export const PREFIX_API_UPLOADPHOTO = ENV.URL_UPLOADPHOTO;
 
 const redirectlogin = (error: any) => {
   if (getAccessToken() && (error?.response?.status === 401 || error?.response?.status === 403)) {
+    localStorage.clear();
     deleteAuthCookies();
     window.location.href = '/auth/login';
     toast('Session expired');

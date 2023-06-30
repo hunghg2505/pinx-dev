@@ -197,7 +197,7 @@ const ContentPostTypeHome = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='w-[18px]'
+              className='h-[18px] w-[18px]'
             />
           </div>
         </div>
@@ -562,7 +562,7 @@ const ContentPostTypeHome = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='w-[18px]'
+              className='h-[18px] w-[18px]'
             />
           </div>
         </div>
@@ -604,7 +604,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
+              <img src={postDetail?.post?.urlImages?.[0]} alt='' width={326} height={185} />
             </div>
           )}
         </div>
