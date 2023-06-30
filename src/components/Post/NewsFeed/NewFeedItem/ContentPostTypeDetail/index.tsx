@@ -46,7 +46,8 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
-            {message}
+            {/* {message} */}
+            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
@@ -224,7 +225,8 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
-            {message}
+            {/* {message} */}
+            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
@@ -308,7 +310,8 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
-            {postDetail?.post?.message}
+            {/* {postDetail?.post?.message} */}
+            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
@@ -352,17 +355,20 @@ const ContentPostTypeDetail = (props: IProps) => {
                 color='neutral-1'
                 className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
-                Sell
+                {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
               </Text>
-              <Text
-                type='body-16-medium'
-                className={classNames('desktop:!text-[24px] desktop:!leading-[32px]', {
-                  'text-[#128F63]': pnlRate > 0,
-                  'text-[#DB4444]': pnlRate < 0,
-                })}
-              >
-                {pnlRate.toFixed(2)}%
-              </Text>
+              {postDetail?.post?.type === 'SELL' && (
+                <Text
+                  type='body-16-medium'
+                  className={classNames('desktop:!text-[24px] desktop:!leading-[32px]', {
+                    'text-[#128F63]': pnlRate > 0,
+                    'text-[#DB4444]': pnlRate < 0,
+                  })}
+                >
+                  {pnlRate.toFixed(2)}%
+                </Text>
+              )}
+
               <Text
                 type='body-12-medium'
                 color='neutral-3'
@@ -409,7 +415,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <>
               {message && (
                 <div
-                  className='desc messageFormat my-[0] mb-[15px] text-center'
+                  className='desc messageFormat my-[0] mb-[15px]'
                   dangerouslySetInnerHTML={{ __html: message }}
                 ></div>
               )}
