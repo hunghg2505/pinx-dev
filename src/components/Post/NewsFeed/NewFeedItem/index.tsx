@@ -465,14 +465,6 @@ const NewFeedItem = (props: IProps) => {
             />
           </>
         )}
-        <img
-          src='/static/icons/iconUserUnFollow.svg'
-          alt=''
-          width={0}
-          height={0}
-          className='w-[24px] mobile:block tablet:hidden'
-          sizes='100vw'
-        />
       </>
     );
   };
