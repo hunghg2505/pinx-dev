@@ -29,7 +29,7 @@ const ThemeCard = (props: IThemeCardProps) => {
           "relative h-[247px] w-[100%] bg-cover bg-center bg-no-repeat before:absolute before:bottom-[0] before:left-[0] before:h-full before:w-full before:rounded-[12px] before:content-['']"
         }
       >
-        <Image src={props.image} height='247' width='100' className='w-100%' alt={''} />
+        <img src={props.image} height='247' width='100' className='w-100% h-[247px]' alt={''} />
         <div className='absolute left-0 top-[152px] z-10 h-[95px] w-[100%] rounded-tl-[12px] rounded-tr-[12px] bg-[rgba(248,248,248,0.5)]'></div>
         <div className='absolute bottom-[12px] left-[15px] z-10 pr-[10px]'>
           <Text type='body-14-bold' color='neutral-2'>
@@ -39,12 +39,12 @@ const ThemeCard = (props: IThemeCardProps) => {
             {props.latestUserLikeThis?.map((user: { id: number; avatar: string }) => {
               return (
                 <>
-                  <Image
+                  <img
                     src={user.avatar}
                     alt=''
                     width='20'
                     height='20'
-                    className='w-[20px] rounded-full'
+                    className='h-[20px] w-[20px] rounded-full'
                   />
                 </>
               );

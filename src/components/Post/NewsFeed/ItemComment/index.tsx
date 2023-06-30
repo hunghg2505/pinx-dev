@@ -122,7 +122,7 @@ const ItemComment = (props: IProps) => {
   return (
     <div className='comment p-[20px]'>
       <div className='flex flex-row items-start'>
-        <Image
+        <img
           src={data?.customerInfo?.avatar || '/static/logo/logoPintree.svg'}
           alt=''
           width='0'
@@ -201,7 +201,7 @@ const ItemComment = (props: IProps) => {
             <Fancybox>
               <a data-fancybox='gallery' href={urlImage}>
                 {urlImage && (
-                  <Image
+                  <img
                     src={urlImage}
                     alt=''
                     width={0}

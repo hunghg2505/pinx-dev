@@ -3,7 +3,6 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 
 import classNames from 'classnames';
 import { atom } from 'jotai';
-import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
@@ -81,7 +80,7 @@ export default forwardRef((props: any, ref) => {
                 key={index}
                 onClick={() => selectItem(index)}
               >
-                <Image
+                <img
                   src={isStock ? url : item.avatar || '/static/logo/logoPintree.svg'}
                   alt=''
                   width={0}
