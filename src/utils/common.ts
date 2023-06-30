@@ -75,7 +75,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="javascript:void(0)" class="link">${item}</a>
+        <a href="${item}" class="link">${item}</a>
         `,
       );
     }
@@ -86,7 +86,7 @@ export const formatMessage = (message: string, data: any) => {
           message = message.replace(
             item,
             `
-            <a href="javascript:void(0)" class="link">${item}</a>
+            <a href="${item}" class="link">${item}</a>
             `,
           );
         }
