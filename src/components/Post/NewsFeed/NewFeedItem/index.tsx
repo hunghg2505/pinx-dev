@@ -327,26 +327,29 @@ const NewFeedItem = (props: IProps) => {
     return (
       <>
         {!isMyPost && (
-          <div
-            className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
-            )}
-          >
-            <IconPlus />
-            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-              Follow
-            </Text>
-          </div>
+          <>
+            <div
+              className={classNames(
+                'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              )}
+            >
+              <IconPlus />
+              <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+                Follow
+              </Text>
+            </div>
+
+            <Image
+              src='/static/icons/iconUserUnFollow.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='w-[24px] mobile:block tablet:hidden'
+              sizes='100vw'
+            />
+          </>
         )}
-        <Image
-          src='/static/icons/iconUserUnFollow.svg'
-          alt=''
-          width={0}
-          height={0}
-          className='w-[24px] mobile:block tablet:hidden'
-          sizes='100vw'
-        />
       </>
     );
   };
