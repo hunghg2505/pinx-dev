@@ -81,7 +81,7 @@ const SideBar = () => {
             GPKD: <span className='text-[#474D57]'>0101294902</span>
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
-            <Link href='/#'>
+            <Link href='javascript:void(0)'>
               <Image
                 src='/static/social/facebook.svg'
                 alt=''
@@ -91,7 +91,7 @@ const SideBar = () => {
                 className='h-[32px] w-[32px]'
               />
             </Link>
-            <Link href='/#'>
+            <Link href='javascript:void(0)'>
               <Image
                 src='/static/social/zalo.svg'
                 alt=''
@@ -101,7 +101,7 @@ const SideBar = () => {
                 className='h-[32px] w-[32px]'
               />
             </Link>
-            <Link href='/#'>
+            <Link href='javascript:void(0)'>
               <Image
                 src='/static/social/youtube.svg'
                 alt=''
@@ -111,7 +111,7 @@ const SideBar = () => {
                 className='h-[32px] w-[32px]'
               />
             </Link>
-            <Link href='/#'>
+            <Link href='javascript:void(0)'>
               <Image
                 src='/static/social/tik_tok.svg'
                 alt=''
