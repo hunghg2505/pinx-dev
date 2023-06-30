@@ -118,7 +118,7 @@ const MarketDesktop = () => {
                         Val
                       </Text>
                       <Text type='body-13-semibold' className='mt-[6px] text-[#263238] '>
-                        39.2
+                        {item.value.toLocaleString('en-US')}
                       </Text>
                     </div>
                     <div className='text-right'>
@@ -126,7 +126,7 @@ const MarketDesktop = () => {
                         Vol
                       </Text>
                       <Text type='body-13-semibold' className='mt-[6px] text-[#263238]'>
-                        28,200
+                        {item.vol.toLocaleString('en-US')}
                       </Text>
                     </div>
                   </div>

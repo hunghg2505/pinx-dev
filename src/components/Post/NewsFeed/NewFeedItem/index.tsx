@@ -22,7 +22,7 @@ import {
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
@@ -55,6 +55,116 @@ const IconPlus = () => (
     />
   </svg>
 );
+export const AlphabetToColor = {
+  A: '#290ea3',
+  B: '#c6f46e',
+  C: '#ac82c1',
+  D: '#16e9c2',
+  E: '#c15c0b',
+  F: '#911371',
+  G: '#9987bd',
+  I: '#f26e0f',
+  J: '#716e40',
+  K: '#db4da2',
+  L: '#cf58db',
+  M: '#3e9833',
+  N: '#59b63d',
+  O: '#22788f',
+  P: '#5887e2',
+  Q: '#e1a1b9',
+  R: '#9b2a3d',
+  S: '#bb3466',
+  T: '#ca9809',
+  U: '#80cf09',
+  V: '#f0256a',
+  W: '#036869',
+  X: '#49e2aa',
+  Y: '#cbcf13',
+  Z: '#54af78',
+};
+const renderColor = (str: string) => {
+  switch (str) {
+    case 'A': {
+      return AlphabetToColor.A;
+    }
+    case 'B': {
+      return AlphabetToColor.B;
+    }
+    case 'C': {
+      return AlphabetToColor.C;
+    }
+    case 'D': {
+      return AlphabetToColor.D;
+    }
+    case 'E': {
+      return AlphabetToColor.E;
+    }
+    case 'F': {
+      return AlphabetToColor.F;
+    }
+    case 'G': {
+      return AlphabetToColor.G;
+    }
+
+    case 'I': {
+      return AlphabetToColor.I;
+    }
+    case 'J': {
+      return AlphabetToColor.J;
+    }
+    case 'K': {
+      return AlphabetToColor.K;
+    }
+    case 'L': {
+      return AlphabetToColor.L;
+    }
+    case 'M': {
+      return AlphabetToColor.M;
+    }
+    case 'N': {
+      return AlphabetToColor.N;
+    }
+    case 'O': {
+      return AlphabetToColor.O;
+    }
+    case 'P': {
+      return AlphabetToColor.P;
+    }
+    case 'Q': {
+      return AlphabetToColor.Q;
+    }
+    case 'R': {
+      return AlphabetToColor.R;
+    }
+    case 'S': {
+      return AlphabetToColor.S;
+    }
+    case 'T': {
+      return AlphabetToColor.T;
+    }
+    case 'U': {
+      return AlphabetToColor.U;
+    }
+    case 'V': {
+      return AlphabetToColor.V;
+    }
+    case 'W': {
+      return AlphabetToColor.W;
+    }
+    case 'X': {
+      return AlphabetToColor.X;
+    }
+    case 'Y': {
+      return AlphabetToColor.Y;
+    }
+    case 'Z': {
+      return AlphabetToColor.Z;
+    }
+    default: {
+      return AlphabetToColor.Z;
+    }
+  }
+};
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
   const [showReport, setShowReport] = React.useState(false);
@@ -64,7 +174,9 @@ const NewFeedItem = (props: IProps) => {
   const { statusUser, isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
-
+  const name =
+    postDetail?.post?.customerInfo?.displayName &&
+    toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
 
@@ -252,6 +364,9 @@ const NewFeedItem = (props: IProps) => {
     ) {
       logo = 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
     }
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+      logo = '/static/logo/logoCafeF.png';
+    }
     return logo;
   };
   const renderDisplayName = () => {
@@ -285,7 +400,7 @@ const NewFeedItem = (props: IProps) => {
       name = 'Vietstock';
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      name = 'CafeFNews';
+      name = 'CafeF';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
       name = 'TNCKNews';
@@ -357,14 +472,25 @@ const NewFeedItem = (props: IProps) => {
     <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
-          <Image
-            src={renderLogo() || '/static/logo/logoPintree.svg'}
-            alt='avatar'
-            sizes='100vw'
-            className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-            width={0}
-            height={0}
-          />
+          {postDetail?.post?.customerInfo?.avatar === '' ? (
+            <div
+              className='mr-2 flex items-center justify-center rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+              style={{ backgroundColor: renderColor(name) }}
+            >
+              <Text type='body-24-regular' color='cbwhite'>
+                {name}
+              </Text>
+            </div>
+          ) : (
+            <img
+              src={renderLogo()}
+              alt='avatar'
+              sizes='100vw'
+              className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+              width={0}
+              height={0}
+            />
+          )}
 
           <div>
             <div className='flex'>
