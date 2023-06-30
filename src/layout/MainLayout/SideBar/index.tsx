@@ -57,11 +57,11 @@ const SideBar = () => {
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: 'flex flex-row-reverse justify-end py-[16px] px-[10px]',
+        className: 'flex flex-row-reverse justify-end py-[16px] px-[10px] pointer-events-none',
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
-          <CustomLink href={menu.path} className={classNames('ml-[20px]')}>
+          <CustomLink href='javascript:void(0)' className={classNames(' ml-[20px]')}>
             <Text type='body-14-regular'>{menu.label}</Text>
           </CustomLink>
         ),
