@@ -14,7 +14,7 @@ interface IProps {
   closeIcon?: boolean;
   run: (value: string) => void;
 }
-interface IFilter {
+export interface IFilter {
   title: string;
   description: string;
   filterType: string;
