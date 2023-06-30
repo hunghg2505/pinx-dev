@@ -316,7 +316,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <img
-            src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
+            src={postDetail?.post?.bgImage}
             alt=''
             width='0'
             height='0'
@@ -423,7 +423,13 @@ const ContentPostTypeDetail = (props: IProps) => {
           )}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
+              <img
+                src={postDetail?.post?.urlImages?.[0]}
+                alt=''
+                width={326}
+                height={185}
+                className='h-[185px] w-[326px] object-contain'
+              />
             </div>
           )}
         </div>
