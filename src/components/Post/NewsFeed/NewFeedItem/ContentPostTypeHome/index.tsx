@@ -99,7 +99,7 @@ const ContentPostTypeHome = (props: IProps) => {
             <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
               <div className='flex flex-col items-center justify-center'>
                 {iconPost && (
-                  <Image
+                  <img
                     src={iconPost}
                     alt=''
                     width='0'
@@ -313,7 +313,7 @@ const ContentPostTypeHome = (props: IProps) => {
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
             {postDetail?.post?.bgImage && (
-              <Image
+              <img
                 src={postDetail?.post?.bgImage}
                 alt=''
                 width='0'
@@ -324,7 +324,7 @@ const ContentPostTypeHome = (props: IProps) => {
             )}
 
             <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
-              <Image
+              <img
                 src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
                 width='0'
@@ -418,7 +418,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
         <Link href={postDetailUrl}>
           <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-            <Image
+            <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
               width='0'
@@ -427,7 +427,7 @@ const ContentPostTypeHome = (props: IProps) => {
               className='absolute right-0 top-0 h-full w-full'
             />
             <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
-              <Image
+              <img
                 src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
                 width='0'

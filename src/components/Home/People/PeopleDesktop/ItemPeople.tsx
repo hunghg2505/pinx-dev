@@ -59,7 +59,7 @@ const ItemPeople = (props: IProps) => {
   return (
     <div className='item mb-[26px] flex items-center justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
       <div className='flex'>
-        <Image
+        <img
           src={
             data
               ? data?.avatar
