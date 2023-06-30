@@ -81,7 +81,7 @@ export default forwardRef((props: any, ref) => {
                 onClick={() => selectItem(index)}
               >
                 <img
-                  src={isStock ? url : item.avatar || '/static/logo/logoPintree.svg'}
+                  src={isStock ? url : item.avatar}
                   alt=''
                   width={0}
                   height={0}

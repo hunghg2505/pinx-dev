@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useCountDown } from 'ahooks';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -33,7 +32,7 @@ const Redirect = () => {
         <Text type='body-16-bold' color='primary-5' className='py-[16px] text-center '>
           Redirect
         </Text>
-        <Image
+        <img
           src='/static/icons/iconBack.svg'
           alt=''
           width={32}
@@ -44,7 +43,7 @@ const Redirect = () => {
       </div>
 
       <div className='flex flex-col items-center mobile:px-[30px] tablet:mt-[32px]'>
-        <Image
+        <img
           src='/static/images/redirect.png'
           alt=''
           width={0}
@@ -60,7 +59,7 @@ const Redirect = () => {
           Redirecting you in {Math.round(countdown / 1000)}s...
         </Text>
         <div className='mt-[20px] flex'>
-          <Image
+          <img
             src='/static/icons/iconWarning.svg'
             alt=''
             width={0}
@@ -84,7 +83,7 @@ const Redirect = () => {
         </Text>
         <div className='mt-[24px] flex'>
           <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px] tablet:py-[17px]'>
-            <Image
+            <img
               src='/static/icons/iconLink-02.svg'
               alt=''
               width={0}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { useGetBgTheme } from '@components/Home/service';
@@ -117,7 +116,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
             Read more
           </Text>
-          <Image
+          <img
             src='/static/icons/iconNext.svg'
             alt=''
             width={0}
@@ -142,7 +141,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             onClick={onRedirect}
             className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -179,7 +178,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
             Read more
           </Text>
-          <Image
+          <img
             src='/static/icons/iconNext.svg'
             alt=''
             width={0}
@@ -202,7 +201,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             onClick={onRedirect}
             className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -259,7 +258,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 {postDetail?.post.stockCode}
               </Text>
               {postDetail?.post.action === 'ADD' ? (
-                <Image
+                <img
                   src='/static/icons/iconHeartActive.svg'
                   alt=''
                   width={0}
@@ -268,7 +267,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                   className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                 />
               ) : (
-                <Image
+                <img
                   src='/static/icons/iconHeart.svg'
                   alt=''
                   width={0}
@@ -341,7 +340,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 {postDetail?.post?.stockCode}
               </Text>
               <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
-                <Image
+                <img
                   src='/static/icons/iconPostBuy.svg'
                   alt=''
                   width='0'

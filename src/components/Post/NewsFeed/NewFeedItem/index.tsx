@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -342,7 +341,7 @@ const NewFeedItem = (props: IProps) => {
         TYPEPOST.PinetreeWeeklyNews,
       ].includes(postDetail?.post.postType)
     ) {
-      logo = '/static/logo/logoPintree.svg';
+      logo = '/static/logo/logoPintree.png';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
       logo = 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
@@ -428,7 +427,7 @@ const NewFeedItem = (props: IProps) => {
             </Text>
           </div>
 
-          <Image
+          <img
             src='/static/icons/iconUserFollow.svg'
             alt=''
             width={0}
@@ -454,7 +453,7 @@ const NewFeedItem = (props: IProps) => {
             </Text>
           </div>
         )}
-        <Image
+        <img
           src='/static/icons/iconUserUnFollow.svg'
           alt=''
           width={0}
@@ -484,8 +483,6 @@ const NewFeedItem = (props: IProps) => {
               alt='avatar'
               sizes='100vw'
               className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-              width={0}
-              height={0}
             />
           )}
 
@@ -495,7 +492,7 @@ const NewFeedItem = (props: IProps) => {
                 {renderDisplayName()}
               </Text>
               {isKol && (
-                <Image
+                <img
                   src='/static/icons/iconKol.svg'
                   alt=''
                   width={0}
@@ -523,7 +520,7 @@ const NewFeedItem = (props: IProps) => {
           )}
 
           <button className='relative' ref={ref}>
-            <Image
+            <img
               src='/static/icons/iconDot.svg'
               alt=''
               width='0'
@@ -544,7 +541,7 @@ const NewFeedItem = (props: IProps) => {
                     className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                     onClick={handleHidePost}
                   >
-                    <Image
+                    <img
                       src='/static/icons/iconUnHide.svg'
                       alt=''
                       width='0'
@@ -560,7 +557,7 @@ const NewFeedItem = (props: IProps) => {
 
                 {!isReported && !isMyPost && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                    <Image
+                    <img
                       src='/static/icons/iconFlag.svg'
                       alt=''
                       width='0'
@@ -592,7 +589,7 @@ const NewFeedItem = (props: IProps) => {
             className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={() => handleLikeOrUnLikePost()}
           >
-            <Image
+            <img
               src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
               color='#FFFFFF'
               alt=''
@@ -613,7 +610,7 @@ const NewFeedItem = (props: IProps) => {
             className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={handleComment}
           >
-            <Image
+            <img
               src='/static/icons/iconComment.svg'
               alt=''
               width={14}
@@ -628,7 +625,7 @@ const NewFeedItem = (props: IProps) => {
             className='report flex cursor-pointer flex-row items-center justify-center'
             onClick={() => setShowModalShare(true)}
           >
-            <Image
+            <img
               src='/static/icons/iconShare.svg'
               alt=''
               width={14}

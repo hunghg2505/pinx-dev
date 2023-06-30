@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 
 import {
   IComment,
@@ -123,7 +122,7 @@ const ItemComment = (props: IProps) => {
     <div className='comment p-[20px]'>
       <div className='flex flex-row items-start'>
         <img
-          src={data?.customerInfo?.avatar || '/static/logo/logoPintree.svg'}
+          src={data?.customerInfo?.avatar}
           alt=''
           width='0'
           height='0'
@@ -142,7 +141,7 @@ const ItemComment = (props: IProps) => {
                   {dayjs(data?.timeString).fromNow()}
                 </Text>
                 {isComment && (
-                  <Image
+                  <img
                     src='/static/icons/iconDot.svg'
                     alt=''
                     width={0}
@@ -157,7 +156,7 @@ const ItemComment = (props: IProps) => {
                     className=' absolute -bottom-[55px] right-0 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
                     onClick={onDelete}
                   >
-                    <Image
+                    <img
                       src='/static/icons/iconDelete.svg'
                       alt=''
                       width={0}
@@ -184,7 +183,7 @@ const ItemComment = (props: IProps) => {
 
             {data?.totalLikes > 0 && (
               <div className='absolute bottom-0 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
-                <Image
+                <img
                   src='/static/icons/iconLike.svg'
                   alt=''
                   width='0'
@@ -242,7 +241,7 @@ const ItemComment = (props: IProps) => {
             </ModalReportComment>
             {/* <Fancybox>
                 <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
-                  <Image alt='' src='/static/images/image_post.jpg' width='200' height='150' />
+                  <img alt='' src='/static/images/image_post.jpg' width='200' height='150' />
                 </a>
               </Fancybox> */}
           </div>

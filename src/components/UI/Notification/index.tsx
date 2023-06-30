@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
-
 interface NotificationProps {
   type: 'success' | 'warning' | 'error';
   message: string;
@@ -13,7 +11,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message }) => {
     switch (type) {
       case 'success': {
         return (
-          <Image
+          <img
             src='/static/icons/success_noti.svg'
             alt=''
             width='0'
@@ -24,7 +22,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message }) => {
       }
       case 'error': {
         return (
-          <Image
+          <img
             src='/static/icons/error_noti.svg'
             alt=''
             width='0'

@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/no-useless-spread */
 import React, { useRef } from 'react';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -146,7 +145,7 @@ const Header = () => {
       {!isHideHeaderOpenAppOnMobile && (
         <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
           <div className='flex flex-row'>
-            <Image src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
+            <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
             <div className='ml-[8px]'>
               <Text type='body-14-regular' color='primary-5'>
                 Try full experience on
@@ -169,7 +168,7 @@ const Header = () => {
       {!isHideHeaderLoginOnMobile && (
         <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
           <div className='flex flex-row items-center'>
-            <Image
+            <img
               src='/static/icons/logo.svg'
               alt=''
               width='0'
@@ -184,7 +183,7 @@ const Header = () => {
           </div>
           <div className='flex flex-row  items-center'>
             <div className='mr-[21px] w-[18px] cursor-pointer mobile:block desktop:hidden'>
-              <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
+              <img src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
             </div>
             <div className='mr-[12px] mobile:hidden desktop:block'>
               <Form>
@@ -200,7 +199,7 @@ const Header = () => {
             {isLogin ? (
               <>
                 <button onClick={() => onLogout()}>
-                  <Image
+                  <img
                     src='/static/icons/iconLogout.svg'
                     alt='Icon logout'
                     width={24}
@@ -241,10 +240,10 @@ const Header = () => {
             {isLogin ? (
               <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
                 <Text type='body-20-medium' color='neutral-1'>
-                  {requestGetProfile?.name}
+                  {requestGetProfile?.displayName}
                 </Text>
-                <Image
-                  src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                <img
+                  src={requestGetProfile?.avatar}
                   alt=''
                   width={0}
                   height={0}

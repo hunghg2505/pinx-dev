@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 import { Toaster } from 'react-hot-toast';
@@ -146,7 +145,7 @@ const Home = () => {
                     <Text type='body-14-medium' color='primary-1'>
                       See all
                     </Text>
-                    <Image
+                    <img
                       src='/static/icons/iconNext.svg'
                       width={5}
                       height={5}
@@ -178,7 +177,7 @@ const Home = () => {
                   <div className='flex items-center'>
                     {requestGetProfile?.avatar && (
                       <img
-                        src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                        src={requestGetProfile?.avatar}
                         alt=''
                         width={0}
                         height={0}
@@ -197,28 +196,28 @@ const Home = () => {
                   </div>
                   <div className='mt-[15px] flex items-center justify-between pl-[61px]'>
                     <div className='flex items-center'>
-                      <Image
+                      <img
                         src='/static/icons/iconImage.svg'
                         alt=''
                         width={0}
                         height={0}
                         className='mr-[8px] w-[28px]'
                       />
-                      <Image
+                      <img
                         src='/static/icons/iconLinkHome.svg'
                         alt=''
                         width={0}
                         height={0}
                         className='mr-[8px] w-[20px]'
                       />
-                      <Image
+                      <img
                         src='/static/icons/iconEmotion.svg'
                         alt=''
                         width={0}
                         height={0}
                         className='mr-[8px] w-[25px]'
                       />
-                      <Image
+                      <img
                         src='/static/icons/iconPool.svg'
                         alt=''
                         width={0}
@@ -282,7 +281,7 @@ const Home = () => {
 
                   {suggestionPeople && (
                     <div className='mr-[16px] flex-row items-center mobile:flex desktop:hidden'>
-                      <Image
+                      <img
                         src='/static/icons/iconPeople.svg'
                         alt=''
                         width={20}

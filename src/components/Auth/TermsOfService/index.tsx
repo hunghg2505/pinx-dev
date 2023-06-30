@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { pdfjs, Document, Page } from 'react-pdf';
 
@@ -36,11 +35,11 @@ const TermsOfService = () => {
   const pdfFile =
     link &&
     PREFIX_API_PIST +
-    API_PATH.READ_CONTRACT +
-    '?link=' +
-    encodeURIComponent(link) +
-    '&session=' +
-    router?.query?.session;
+      API_PATH.READ_CONTRACT +
+      '?link=' +
+      encodeURIComponent(link) +
+      '&session=' +
+      router?.query?.session;
 
   return (
     <>
@@ -48,7 +47,7 @@ const TermsOfService = () => {
         <MainHeader />
       </div>
       <div>
-        <Image
+        <img
           src='/static/icons/back_icon.svg'
           alt=''
           width='0'
@@ -57,7 +56,6 @@ const TermsOfService = () => {
           onClick={() => router.back()}
         />
       </div>
-
 
       <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg bg-white mobile:min-w-[600px] '>
         <div className='mt-8 text-center laptop:mt-4'>
@@ -70,15 +68,10 @@ const TermsOfService = () => {
         {link ? (
           <>
             {pdfPages.map((item: number) => (
-              <Document
-                file={pdfFile}
-                className={styles.pdfContainer}
-                key={item}
-              >
+              <Document file={pdfFile} className={styles.pdfContainer} key={item}>
                 <Page pageNumber={item} className='page' />
               </Document>
             ))}
-
           </>
         ) : (
           <iframe
