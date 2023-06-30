@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import React from 'react';
+import React, { useRef } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
+import { useContainerDimensions } from '@hooks/useDimensions';
 import { getAccessToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
@@ -43,9 +44,11 @@ const Header = () => {
   };
   const isLogin = !!getAccessToken();
   const { requestGetProfile } = useProfileInitial();
+  const headerRef = useRef(null);
+  const { width } = useContainerDimensions(headerRef);
   // const { onLogout } = useAuth();
   return (
-    <>
+    <div ref={headerRef}>
       {!isPathName && (
         <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
           <div className='flex flex-row'>
@@ -69,94 +72,96 @@ const Header = () => {
         </div>
       )}
 
-      <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
-        <div className='flex flex-row items-center'>
-          <Image
-            src='/static/icons/logo.svg'
-            alt=''
-            width='0'
-            height='0'
-            className='mr-[16px] w-[35px]'
-          />
-          <div className='mobile:block desktop:hidden'>
-            {[...new Array(3)].map((_, index) => (
-              <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
-            ))}
-          </div>
-        </div>
-        <div className='flex flex-row  items-center'>
-          <div className='mr-[21px] w-[18px] cursor-pointer mobile:block desktop:hidden'>
-            <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
-          </div>
-          <div className='mr-[12px] mobile:hidden desktop:block'>
-            <Form>
-              <FormItem name='search'>
-                <Input
-                  className='h-[36px] w-[220px] rounded-[8px] bg-[#EFF2F5] placeholder:pl-[28px]'
-                  placeholder='Search'
-                  icon={<IconSearchWhite />}
-                />
-              </FormItem>
-            </Form>
-          </div>
-          {isLogin ? (
-            <>
-              <button onClick={() => onLogout()}>
-                <Image
-                  src='/static/icons/iconLogout.svg'
-                  alt='Icon logout'
-                  width={24}
-                  height={24}
-                  className='mr-[21px] h-[24px] w-[24px] object-contain'
-                />
-              </button>
-              <Image
-                src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-              />
-            </>
-          ) : (
-            <button
-              className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
-              onClick={redirectToLogin}
-            >
-              <Text type='body-14-bold' color='primary-2'>
-                Log in
-              </Text>
-            </button>
-          )}
-          {isLogin ? (
-            <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
-              <Text type='body-20-medium' color='neutral-1'>
-                {requestGetProfile?.name}
-              </Text>
-              <Image
-                src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='ml-[10px] h-[52px] w-[52px] rounded-full'
-                onClick={() => onLogout()}
-              />
+      {(!isPathName || width >= 768) && (
+        <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
+          <div className='flex flex-row items-center'>
+            <Image
+              src='/static/icons/logo.svg'
+              alt=''
+              width='0'
+              height='0'
+              className='mr-[16px] w-[35px]'
+            />
+            <div className='mobile:block desktop:hidden'>
+              {[...new Array(3)].map((_, index) => (
+                <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
+              ))}
             </div>
-          ) : (
-            <button
-              className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
-              onClick={redirectToSignUp}
-            >
-              <Text type='body-14-bold' color='cbwhite'>
-                Sign up
-              </Text>
-            </button>
-          )}
+          </div>
+          <div className='flex flex-row  items-center'>
+            <div className='mr-[21px] w-[18px] cursor-pointer mobile:block desktop:hidden'>
+              <Image src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
+            </div>
+            <div className='mr-[12px] mobile:hidden desktop:block'>
+              <Form>
+                <FormItem name='search'>
+                  <Input
+                    className='h-[36px] w-[220px] rounded-[8px] bg-[#EFF2F5] placeholder:pl-[28px]'
+                    placeholder='Search'
+                    icon={<IconSearchWhite />}
+                  />
+                </FormItem>
+              </Form>
+            </div>
+            {isLogin ? (
+              <>
+                <button onClick={() => onLogout()}>
+                  <Image
+                    src='/static/icons/iconLogout.svg'
+                    alt='Icon logout'
+                    width={24}
+                    height={24}
+                    className='mr-[21px] h-[24px] w-[24px] object-contain'
+                  />
+                </button>
+                <Image
+                  src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+                />
+              </>
+            ) : (
+              <button
+                className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
+                onClick={redirectToLogin}
+              >
+                <Text type='body-14-bold' color='primary-2'>
+                  Log in
+                </Text>
+              </button>
+            )}
+            {isLogin ? (
+              <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
+                <Text type='body-20-medium' color='neutral-1'>
+                  {requestGetProfile?.name}
+                </Text>
+                <Image
+                  src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='ml-[10px] h-[52px] w-[52px] rounded-full'
+                  onClick={() => onLogout()}
+                />
+              </div>
+            ) : (
+              <button
+                className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
+                onClick={redirectToSignUp}
+              >
+                <Text type='body-14-bold' color='cbwhite'>
+                  Sign up
+                </Text>
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
