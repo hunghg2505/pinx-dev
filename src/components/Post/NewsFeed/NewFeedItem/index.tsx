@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -22,7 +21,7 @@ import {
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
@@ -55,6 +54,116 @@ const IconPlus = () => (
     />
   </svg>
 );
+export const AlphabetToColor = {
+  A: '#290ea3',
+  B: '#c6f46e',
+  C: '#ac82c1',
+  D: '#16e9c2',
+  E: '#c15c0b',
+  F: '#911371',
+  G: '#9987bd',
+  I: '#f26e0f',
+  J: '#716e40',
+  K: '#db4da2',
+  L: '#cf58db',
+  M: '#3e9833',
+  N: '#59b63d',
+  O: '#22788f',
+  P: '#5887e2',
+  Q: '#e1a1b9',
+  R: '#9b2a3d',
+  S: '#bb3466',
+  T: '#ca9809',
+  U: '#80cf09',
+  V: '#f0256a',
+  W: '#036869',
+  X: '#49e2aa',
+  Y: '#cbcf13',
+  Z: '#54af78',
+};
+const renderColor = (str: string) => {
+  switch (str) {
+    case 'A': {
+      return AlphabetToColor.A;
+    }
+    case 'B': {
+      return AlphabetToColor.B;
+    }
+    case 'C': {
+      return AlphabetToColor.C;
+    }
+    case 'D': {
+      return AlphabetToColor.D;
+    }
+    case 'E': {
+      return AlphabetToColor.E;
+    }
+    case 'F': {
+      return AlphabetToColor.F;
+    }
+    case 'G': {
+      return AlphabetToColor.G;
+    }
+
+    case 'I': {
+      return AlphabetToColor.I;
+    }
+    case 'J': {
+      return AlphabetToColor.J;
+    }
+    case 'K': {
+      return AlphabetToColor.K;
+    }
+    case 'L': {
+      return AlphabetToColor.L;
+    }
+    case 'M': {
+      return AlphabetToColor.M;
+    }
+    case 'N': {
+      return AlphabetToColor.N;
+    }
+    case 'O': {
+      return AlphabetToColor.O;
+    }
+    case 'P': {
+      return AlphabetToColor.P;
+    }
+    case 'Q': {
+      return AlphabetToColor.Q;
+    }
+    case 'R': {
+      return AlphabetToColor.R;
+    }
+    case 'S': {
+      return AlphabetToColor.S;
+    }
+    case 'T': {
+      return AlphabetToColor.T;
+    }
+    case 'U': {
+      return AlphabetToColor.U;
+    }
+    case 'V': {
+      return AlphabetToColor.V;
+    }
+    case 'W': {
+      return AlphabetToColor.W;
+    }
+    case 'X': {
+      return AlphabetToColor.X;
+    }
+    case 'Y': {
+      return AlphabetToColor.Y;
+    }
+    case 'Z': {
+      return AlphabetToColor.Z;
+    }
+    default: {
+      return AlphabetToColor.Z;
+    }
+  }
+};
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
   const [showReport, setShowReport] = React.useState(false);
@@ -64,7 +173,9 @@ const NewFeedItem = (props: IProps) => {
   const { statusUser, isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
-
+  const name =
+    postDetail?.post?.customerInfo?.displayName &&
+    toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
 
@@ -217,6 +328,7 @@ const NewFeedItem = (props: IProps) => {
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
     onRefreshPostDetail();
+    setShowReport(false);
   };
 
   const renderLogo = () => {
@@ -230,7 +342,7 @@ const NewFeedItem = (props: IProps) => {
         TYPEPOST.PinetreeWeeklyNews,
       ].includes(postDetail?.post.postType)
     ) {
-      logo = '/static/logo/logoPintree.svg';
+      logo = '/static/logo/logoPintree.png';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
       logo = 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
@@ -251,6 +363,9 @@ const NewFeedItem = (props: IProps) => {
       )
     ) {
       logo = 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
+    }
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+      logo = '/static/logo/logoCafeF.png';
     }
     return logo;
   };
@@ -285,7 +400,7 @@ const NewFeedItem = (props: IProps) => {
       name = 'Vietstock';
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      name = 'CafeFNews';
+      name = 'CafeF';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
       name = 'TNCKNews';
@@ -313,7 +428,7 @@ const NewFeedItem = (props: IProps) => {
             </Text>
           </div>
 
-          <Image
+          <img
             src='/static/icons/iconUserFollow.svg'
             alt=''
             width={0}
@@ -327,19 +442,30 @@ const NewFeedItem = (props: IProps) => {
     return (
       <>
         {!isMyPost && (
-          <div
-            className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
-            )}
-          >
-            <IconPlus />
-            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-              Follow
-            </Text>
-          </div>
+          <>
+            <div
+              className={classNames(
+                'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              )}
+            >
+              <IconPlus />
+              <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+                Follow
+              </Text>
+            </div>
+
+            <img
+              src='/static/icons/iconUserUnFollow.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='w-[24px] mobile:block tablet:hidden'
+              sizes='100vw'
+            />
+          </>
         )}
-        <Image
+        <img
           src='/static/icons/iconUserUnFollow.svg'
           alt=''
           width={0}
@@ -354,14 +480,23 @@ const NewFeedItem = (props: IProps) => {
     <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
-          <Image
-            src={renderLogo() || '/static/logo/logoPintree.svg'}
-            alt='avatar'
-            sizes='100vw'
-            className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-            width={0}
-            height={0}
-          />
+          {postDetail?.post?.customerInfo?.avatar === '' ? (
+            <div
+              className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+              style={{ backgroundColor: renderColor(name) }}
+            >
+              <Text type='body-24-regular' color='cbwhite'>
+                {name}
+              </Text>
+            </div>
+          ) : (
+            <img
+              src={renderLogo()}
+              alt='avatar'
+              sizes='100vw'
+              className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+            />
+          )}
 
           <div>
             <div className='flex'>
@@ -369,7 +504,7 @@ const NewFeedItem = (props: IProps) => {
                 {renderDisplayName()}
               </Text>
               {isKol && (
-                <Image
+                <img
                   src='/static/icons/iconKol.svg'
                   alt=''
                   width={0}
@@ -397,7 +532,7 @@ const NewFeedItem = (props: IProps) => {
           )}
 
           <button className='relative' ref={ref}>
-            <Image
+            <img
               src='/static/icons/iconDot.svg'
               alt=''
               width='0'
@@ -418,7 +553,7 @@ const NewFeedItem = (props: IProps) => {
                     className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                     onClick={handleHidePost}
                   >
-                    <Image
+                    <img
                       src='/static/icons/iconUnHide.svg'
                       alt=''
                       width='0'
@@ -434,7 +569,7 @@ const NewFeedItem = (props: IProps) => {
 
                 {!isReported && !isMyPost && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                    <Image
+                    <img
                       src='/static/icons/iconFlag.svg'
                       alt=''
                       width='0'
@@ -466,7 +601,7 @@ const NewFeedItem = (props: IProps) => {
             className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={() => handleLikeOrUnLikePost()}
           >
-            <Image
+            <img
               src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
               color='#FFFFFF'
               alt=''
@@ -487,7 +622,7 @@ const NewFeedItem = (props: IProps) => {
             className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={handleComment}
           >
-            <Image
+            <img
               src='/static/icons/iconComment.svg'
               alt=''
               width={14}
@@ -502,7 +637,7 @@ const NewFeedItem = (props: IProps) => {
             className='report flex cursor-pointer flex-row items-center justify-center'
             onClick={() => setShowModalShare(true)}
           >
-            <Image
+            <img
               src='/static/icons/iconShare.svg'
               alt=''
               width={14}

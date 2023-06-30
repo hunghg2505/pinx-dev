@@ -3,7 +3,6 @@ import React from 'react';
 import 'rc-dialog/assets/index.css';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
@@ -38,7 +37,7 @@ const ModalFilter = (props: IProps) => {
       return closeIcon;
     }
     return (
-      <Image
+      <img
         src='/static/icons/iconClose.svg'
         alt=''
         width='0'
@@ -69,7 +68,7 @@ const ModalFilter = (props: IProps) => {
         <Text type='body-14-semibold' color='neutral-1' className='mr-[8px]'>
           {renderText()}
         </Text>
-        <Image
+        <img
           src='/static/icons/iconDropDown.svg'
           alt=''
           width='0'
@@ -79,7 +78,7 @@ const ModalFilter = (props: IProps) => {
       </span>
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
         <div className='absolute left-[20px] top-[20px] flex flex-row items-center'>
-          <Image
+          <img
             src='/static/icons/iconFilter.svg'
             alt=''
             width='0'
@@ -119,7 +118,7 @@ const ModalFilter = (props: IProps) => {
                     </Text>
                   </div>
                   {isChecked && (
-                    <Image
+                    <img
                       src='/static/icons/iconCheckedFilter.svg'
                       alt=''
                       width='0'

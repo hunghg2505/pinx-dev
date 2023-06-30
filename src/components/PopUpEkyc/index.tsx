@@ -1,15 +1,11 @@
-import Image from 'next/image';
+import Link from 'next/link';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 const onCancel = () => {
   PopupComponent.close();
-};
-const onOke = () => {
-  window.location.href = `${ROUTE_PATH.LOGIN}`;
 };
 
 const handleRedirect = (url: string) => {
@@ -22,7 +18,7 @@ const PopUpEkyc = () => {
       <div className='md-modal-mask' onClick={onCancel}></div>
       <div className='fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-white p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
         <div className='mobile:hidden tablet:block' onClick={onCancel}>
-          <Image
+          <img
             src='/static/icons/iconClose.svg'
             alt='Icon close'
             width={20}
@@ -51,18 +47,16 @@ const PopUpEkyc = () => {
               Cancel
             </Text>
           </div>
-          <div
-            className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
-            onClick={onOke}
-          >
-            <Text type='body-16-bold' color='cbwhite'>
-              Ok
-            </Text>
-          </div>
+          <Link href='https://onelink.to/cgarrk'>
+            <div className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'>
+              <Text type='body-16-bold' color='cbwhite'>
+                Ok
+              </Text>
+            </div>
+          </Link>
         </div>
-
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
-          <Image
+          <img
             src='/static/images/googleplay.png'
             alt='Download google play'
             width={180}
@@ -71,7 +65,7 @@ const PopUpEkyc = () => {
             onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
           />
 
-          <Image
+          <img
             src='/static/images/appstore.png'
             alt='Download app store'
             width={180}

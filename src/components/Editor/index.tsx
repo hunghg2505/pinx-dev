@@ -6,7 +6,6 @@ import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -267,8 +266,8 @@ const Editor = (props: IProps, ref: any) => {
   return (
     <>
       <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px] desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:px-0'>
-        <Image
-          src={requestGetProfile?.avatar || '/static/logo/logoPintree.svg'}
+        <img
+          src={requestGetProfile?.avatar}
           alt=''
           width={0}
           height={0}
@@ -286,7 +285,7 @@ const Editor = (props: IProps, ref: any) => {
               beforeUpload={beforeUpload}
               className='tablet:hidden'
             >
-              <Image
+              <img
                 src='/static/icons/iconCamnera.svg'
                 alt=''
                 width='0'
@@ -302,7 +301,7 @@ const Editor = (props: IProps, ref: any) => {
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
-                <Image
+                <img
                   src='/static/icons/iconImage.svg'
                   alt=''
                   width='0'
@@ -316,7 +315,7 @@ const Editor = (props: IProps, ref: any) => {
                   <Loading />
                 </div>
               ) : (
-                <Image
+                <img
                   src='/static/icons/iconSend.svg'
                   alt=''
                   width='0'
@@ -337,7 +336,7 @@ const Editor = (props: IProps, ref: any) => {
                   sizes='100vw'
                   className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
                 />
-                <Image
+                <img
                   src='/static/icons/iconCloseWhite.svg'
                   alt=''
                   width={0}
@@ -354,7 +353,7 @@ const Editor = (props: IProps, ref: any) => {
               <Loading />
             </div>
           ) : (
-            <Image
+            <img
               src='/static/icons/iconSend.svg'
               alt=''
               width='0'
@@ -375,7 +374,7 @@ const Editor = (props: IProps, ref: any) => {
               sizes='100vw'
               className='mt-[16px] h-[100px] w-[100px] object-cover mobile:block tablet:hidden'
             />
-            <Image
+            <img
               src='/static/icons/iconCloseWhite.svg'
               alt=''
               width={0}

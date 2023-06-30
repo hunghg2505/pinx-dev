@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -77,7 +76,7 @@ const ItemPeople = (props: IProps) => {
               {data.displayName}
             </Text>
             {data.isKol && (
-              <Image
+              <img
                 src='/static/icons/iconStarFollow.svg'
                 alt=''
                 width={0}
@@ -98,7 +97,7 @@ const ItemPeople = (props: IProps) => {
         onClick={() => onFollow(data.id)}
       >
         {isFollow ? (
-          <Image
+          <img
             src='/static/icons/iconFollowBlue.svg'
             alt=''
             width={0}
@@ -106,7 +105,7 @@ const ItemPeople = (props: IProps) => {
             className='w-[12px]'
           />
         ) : (
-          <Image src='/static/icons/iconAdd.svg' alt='' width={0} height={0} className='w-[24px]' />
+          <img src='/static/icons/iconAdd.svg' alt='' width={0} height={0} className='w-[24px]' />
         )}
       </div>
     </div>

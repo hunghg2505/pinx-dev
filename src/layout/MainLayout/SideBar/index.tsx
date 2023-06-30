@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
@@ -58,11 +57,11 @@ const SideBar = () => {
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: 'flex flex-row-reverse justify-end py-[16px] px-[10px]',
+        className: 'flex flex-row-reverse justify-end py-[16px] px-[10px] pointer-events-none',
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
-          <CustomLink href={menu.path} className={classNames('ml-[20px]')}>
+          <CustomLink href='javascript:void(0)' className={classNames(' ml-[20px]')}>
             <Text type='body-14-regular'>{menu.label}</Text>
           </CustomLink>
         ),
@@ -81,8 +80,8 @@ const SideBar = () => {
             GPKD: <span className='text-[#474D57]'>0101294902</span>
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
-            <Link href='/#'>
-              <Image
+            <Link href='javascript:void(0)'>
+              <img
                 src='/static/social/facebook.svg'
                 alt=''
                 width={0}
@@ -91,9 +90,9 @@ const SideBar = () => {
                 className='h-[32px] w-[32px]'
               />
             </Link>
-            <Link href='/#'>
-              <Image
-                src='/static/social/zalo.svg'
+            <Link href='javascript:void(0)'>
+              <img
+                src='/static/social/zalo.png'
                 alt=''
                 width={0}
                 height={0}
@@ -101,8 +100,8 @@ const SideBar = () => {
                 className='h-[32px] w-[32px]'
               />
             </Link>
-            <Link href='/#'>
-              <Image
+            <Link href='javascript:void(0)'>
+              <img
                 src='/static/social/youtube.svg'
                 alt=''
                 width={0}
@@ -111,8 +110,8 @@ const SideBar = () => {
                 className='h-[32px] w-[32px]'
               />
             </Link>
-            <Link href='/#'>
-              <Image
+            <Link href='javascript:void(0)'>
+              <img
                 src='/static/social/tik_tok.svg'
                 alt=''
                 width={0}

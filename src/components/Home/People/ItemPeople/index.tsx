@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -91,7 +90,7 @@ const ItemPeople = (props: IProps) => {
             {data?.displayName}
           </Text>
           {data?.isKol && (
-            <Image
+            <img
               src='/static/icons/iconKol.svg'
               alt=''
               width={0}
@@ -113,7 +112,7 @@ const ItemPeople = (props: IProps) => {
           {isFollow ? (
             <IconFollowBlue />
           ) : (
-            <Image
+            <img
               src='/static/icons/iconPlus.svg'
               alt=''
               width='0'

@@ -2,11 +2,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
+import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { formatMessage } from '@utils/common';
 
@@ -117,7 +117,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
             Read more
           </Text>
-          <Image
+          <img
             src='/static/icons/iconNext.svg'
             alt=''
             width={0}
@@ -142,7 +142,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             onClick={onRedirect}
             className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -179,7 +179,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
             Read more
           </Text>
-          <Image
+          <img
             src='/static/icons/iconNext.svg'
             alt=''
             width={0}
@@ -202,7 +202,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             onClick={onRedirect}
             className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -259,7 +259,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 {postDetail?.post.stockCode}
               </Text>
               {postDetail?.post.action === 'ADD' ? (
-                <Image
+                <img
                   src='/static/icons/iconHeartActive.svg'
                   alt=''
                   width={0}
@@ -268,7 +268,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                   className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                 />
               ) : (
-                <Image
+                <img
                   src='/static/icons/iconHeart.svg'
                   alt=''
                   width={0}
@@ -316,7 +316,7 @@ const ContentPostTypeDetail = (props: IProps) => {
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
           <img
-            src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
+            src={postDetail?.post?.bgImage}
             alt=''
             width='0'
             height='0'
@@ -341,7 +341,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 {postDetail?.post?.stockCode}
               </Text>
               <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
-                <Image
+                <img
                   src='/static/icons/iconPostBuy.svg'
                   alt=''
                   width='0'
@@ -423,7 +423,19 @@ const ContentPostTypeDetail = (props: IProps) => {
           )}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <Image src='/static/images/theme.jpg' alt='' width={326} height={185} />
+              <Fancybox>
+                <a data-fancybox='gallery' href={postDetail?.post?.urlImages?.[0]}>
+                  {postDetail?.post?.urlImages?.[0] && (
+                    <img
+                      src={postDetail?.post?.urlImages?.[0]}
+                      alt=''
+                      width={326}
+                      height={185}
+                      className='h-[185px] w-[326px] object-contain'
+                    />
+                  )}
+                </a>
+              </Fancybox>
             </div>
           )}
         </div>

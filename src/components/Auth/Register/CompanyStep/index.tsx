@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -65,7 +64,7 @@ const RegisterCompanyStep = () => {
       <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8'>
         <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
-            <Image
+            <img
               src='/static/icons/logo.svg'
               alt=''
               width='0'
@@ -93,10 +92,11 @@ const RegisterCompanyStep = () => {
             }
           >
             {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-              const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+              const urlImageCompany = `${
+                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
                   ? item.stockCode
                   : item.stockCode?.slice(1, 4)
-                }.png`;
+              }.png`;
               return (
                 <div
                   className={classNames('relative flex justify-center', styles.companyCard)}
@@ -115,12 +115,7 @@ const RegisterCompanyStep = () => {
                     <div className='flex items-center justify-center rounded-full bg-[--neutral-9]'>
                       <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
                         {checkIsSelected(item?.stockCode) && (
-                          <Image
-                            src='/static/icons/iconSelected.svg'
-                            alt=''
-                            width='24'
-                            height='24'
-                          />
+                          <img src='/static/icons/iconSelected.svg' alt='' width='24' height='24' />
                         )}
                       </div>
                       <img

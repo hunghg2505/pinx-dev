@@ -7,7 +7,6 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { PREFIX_API_MARKET } from '@api/request';
 import { socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { convertStockDataPriceChange } from '@utils/stock';
 
 import styles from '../index.module.scss';
 
@@ -70,7 +69,6 @@ const MarketDesktop = () => {
     const data = dataStockIndex[findIndex];
     dataStockIndex[findIndex] = { ...dataStock, ...data };
   }
-  console.log('dataStockIndex', dataStockIndex);
   return (
     <>
       <Tabs defaultActiveKey='1' className='tabHomePc'>
@@ -80,8 +78,6 @@ const MarketDesktop = () => {
           const isDecrease = item?.cIndex < item?.oIndex;
           const isNoChange = item?.cIndex === item?.oIndex;
           const isChange = findIndex === index;
-          const { total_vol } = convertStockDataPriceChange(item);
-          console.log('🚀 ~ file: index.tsx:83 ~ {dataStockIndex?.map ~ total_vol:', total_vol);
           return (
             <TabPane tab={item.displayName} key={index + 1}>
               <div className='mt-[20px]'>

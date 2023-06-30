@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -20,10 +19,12 @@ interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
 }
+
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
+  const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
   const ref = useRef(null);
   const [height, setHeight] = React.useState<number>(0);
   const { bgTheme } = useGetBgTheme();
@@ -191,7 +192,7 @@ const ContentPostTypeHome = (props: IProps) => {
             // href={url}
             className=' absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -243,7 +244,7 @@ const ContentPostTypeHome = (props: IProps) => {
   //         <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
   //           Read more
   //         </Text>
-  //         <Image
+  //         <img
   //           src='/static/icons/iconNext.svg'
   //           alt=''
   //           width={0}
@@ -254,7 +255,7 @@ const ContentPostTypeHome = (props: IProps) => {
   //       </Link> */}
   //       <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
   //         <Link href={postDetailUrl}>
-  //           <Image
+  //           <img
   //             src={postDetail?.post.headImageUrl || ''}
   //             alt=''
   //             width='0'
@@ -268,7 +269,7 @@ const ContentPostTypeHome = (props: IProps) => {
   //           // href={postDetail?.post.url || ''}
   //           className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
   //         >
-  //           <Image
+  //           <img
   //             src='/static/icons/iconLink.svg'
   //             alt=''
   //             width='0'
@@ -341,7 +342,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   {postDetail?.post.stockCode}
                 </Text>
                 {postDetail?.post.action === 'ADD' ? (
-                  <Image
+                  <img
                     src='/static/icons/iconHeartActive.svg'
                     alt=''
                     width={0}
@@ -350,7 +351,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                   />
                 ) : (
-                  <Image
+                  <img
                     src='/static/icons/iconHeart.svg'
                     alt=''
                     width={0}
@@ -444,7 +445,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   {postDetail?.post?.stockCode}
                 </Text>
                 <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
-                  <Image
+                  <img
                     src='/static/icons/iconPostBuy.svg'
                     alt=''
                     width='0'
@@ -495,7 +496,6 @@ const ContentPostTypeHome = (props: IProps) => {
   }
   if (
     [
-      TYPEPOST.CafeFNews,
       TYPEPOST.VietstockLatestNews,
       TYPEPOST.VietstockNews,
       TYPEPOST.VietstockStockNews,
@@ -504,6 +504,8 @@ const ContentPostTypeHome = (props: IProps) => {
   ) {
     const url = postDetail?.post.url ?? '';
     const isReadMore = height > 84;
+    console.log('postDetail?.post?.contentText', postDetail?.post);
+    // console.log('postDetail?.post.head', postDetail?.post.head);
     return (
       <>
         {(postDetail?.post.head || postDetail?.post?.contentText) && (
@@ -556,7 +558,66 @@ const ContentPostTypeHome = (props: IProps) => {
             onClick={() => onRedirect(url)}
             className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
+              src='/static/icons/iconLink.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-[18px] w-[18px]'
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
+  if ([TYPEPOST.CafeFNews].includes(postDetail?.postType)) {
+    const url = postDetail?.post.url ?? '';
+    const isReadMore = height > 84;
+    return (
+      <>
+        {postDetail?.post.head && (
+          <div
+            ref={onRef}
+            className={classNames({
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
+            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+              {postDetail?.post.head}
+            </Text>
+          </div>
+        )}
+
+        <div className='relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <Link href={postDetailUrl}>
+            {postDetail?.post?.headImageUrl && (
+              <img
+                src={postDetail?.post?.headImageUrl}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
+              />
+            )}
+          </Link>
+          <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
+            <ListStock listStock={postDetail?.post?.tagStocks} />
+          </div>
+          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
+            <Link href={postDetailUrl}>
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
+            </Link>
+          </div>
+          <div
+            onClick={() => onRedirect(url)}
+            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          >
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -573,39 +634,80 @@ const ContentPostTypeHome = (props: IProps) => {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
+    const onRefHtml = (ele: any) => {
+      if (!ele) {
+        return;
+      }
+      const isReadMore = ele?.offsetHeight > 70;
+      if (isReadMore) {
+        setIsReadMorePost(true);
+      }
+    };
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment} ref={onRef}>
+        <div className='cursor-pointer'>
           {postThemeId ? (
-            <div className='theme relative'>
+            <div className='theme relative' onClick={onComment}>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''
                 className='pointer-events-none left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
               />
               {message && (
-                <div
-                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
-                  dangerouslySetInnerHTML={{ __html: message }}
-                  style={{ color }}
-                ></div>
+                <div>
+                  <Text type='body-14-regular' color='neutral-1'>
+                    <div
+                      className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
+                      dangerouslySetInnerHTML={{ __html: message }}
+                      style={{ color }}
+                    ></div>
+                  </Text>
+                </div>
               )}
             </div>
           ) : (
             <>
               {message && (
                 <div
-                  className='desc messageFormat my-[0] mb-[15px]'
-                  dangerouslySetInnerHTML={{ __html: message }}
-                ></div>
+                  ref={onRefHtml}
+                  onClick={onComment}
+                  className={classNames({
+                    'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
+                    'h-auto': isReadMorePost && readMore,
+                  })}
+                >
+                  <Text type='body-14-regular' color='neutral-1'>
+                    <div
+                      className='desc messageFormat my-[0] mb-[15px]'
+                      dangerouslySetInnerHTML={{ __html: message }}
+                    ></div>
+                  </Text>
+                </div>
               )}
             </>
           )}
-
+          {isReadMorePost && (
+            <Text
+              type='body-14-regular'
+              color='neutral-3'
+              className='cursor-pointer'
+              onClick={onReadMore}
+            >
+              {readMore ? 'See less' : 'See more'}
+            </Text>
+          )}
           {postDetail?.post?.urlImages?.length > 0 && (
-            <div className='theme'>
-              <img src={postDetail?.post?.urlImages?.[0]} alt='' width={326} height={185} />
-            </div>
+            <Link href={postDetailUrl}>
+              <div className='theme'>
+                <img
+                  src={postDetail?.post?.urlImages?.[0]}
+                  alt=''
+                  width={326}
+                  height={185}
+                  className='h-[185px] w-[326px] object-contain'
+                />
+              </div>
+            </Link>
           )}
         </div>
       </>

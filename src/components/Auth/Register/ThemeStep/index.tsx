@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -47,7 +46,7 @@ const RegisterThemes = () => {
       <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-[10px] tablet:pt-8 desktop:pt-8'>
         <div className='themeCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
-            <Image
+            <img
               src='/static/icons/logo.svg'
               alt=''
               width='0'

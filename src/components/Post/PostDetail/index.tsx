@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -97,7 +96,7 @@ const PostDetail = () => {
             <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
               Post detail
             </Text>
-            <Image
+            <img
               src='/static/icons/iconBack.svg'
               alt=''
               width='0'
