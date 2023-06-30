@@ -5,6 +5,10 @@ const RC_DIALOG_CLASS_NAME = 'rc-dialog-container';
 const GOOGLE_PLAY_DOWNLOAD = 'https://play.google.com/store/apps/details?id=com.pinetree.pist';
 const APP_STORE_DOWNLOAD = 'https://apps.apple.com/vn/app/pinex/id1570570518';
 const MOBILE_SCREEN_MAX_WIDTH = 768;
+const AUTH_TAB_TYPE = {
+  LOGIN: 'login',
+  REGISTER: 'register',
+};
 
 export {
   ZALO_OAID,
@@ -14,4 +18,5 @@ export {
   GOOGLE_PLAY_DOWNLOAD,
   APP_STORE_DOWNLOAD,
   MOBILE_SCREEN_MAX_WIDTH,
+  AUTH_TAB_TYPE,
 };
