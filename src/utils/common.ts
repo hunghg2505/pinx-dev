@@ -13,7 +13,8 @@ export const ROUTE_PATH = {
   UPDATE_USSR_PROFILE: '/auth/update-user-profile',
   REDIRECT: '/redirecting',
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
-  POST_DETAIL: (id: string) => `/post/${id}`,
+  POST_DETAIL_PATH: '/post',
+  POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -74,7 +75,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="javascript:void(0)" class="link">${item}</a>
+        <a href="${item}" class="link">${item}</a>
         `,
       );
     }
@@ -85,7 +86,7 @@ export const formatMessage = (message: string, data: any) => {
           message = message.replace(
             item,
             `
-            <a href="javascript:void(0)" class="link">${item}</a>
+            <a href="${item}" class="link">${item}</a>
             `,
           );
         }

@@ -76,7 +76,7 @@ const RegisterThemes = () => {
             {listThemesSuggest.themes?.data?.map((item: any) => {
               return (
                 <div
-                  className='w-[166px] cursor-pointer'
+                  className='w-[166px] cursor-pointer max-[375px]:w-[150px]'
                   key={item?.code}
                   onClick={() => onSelect(item?.code)}
                 >

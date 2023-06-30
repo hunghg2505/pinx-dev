@@ -29,10 +29,12 @@ const ListTheme = () => {
           })}
         </Slider>
       </div>
-      <div className='mb-[20px] mt-[16px] flex h-[46px] w-full flex-row items-center justify-center rounded-[8px] bg-[#EAF4FB]'>
-        <Text type='body-14-bold' color='primary-2'>
-          Explore themes
-        </Text>
+      <div className='mb-[20px] mt-[16px] w-full pr-[16px]'>
+        <div className='flex h-[46px] w-full cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#EAF4FB]'>
+          <Text type='body-14-bold' color='primary-2'>
+            Explore themes
+          </Text>
+        </div>
       </div>
     </div>
   );
