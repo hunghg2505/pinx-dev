@@ -26,11 +26,17 @@ const ThemeCard = (props: IThemeCardProps) => {
     >
       <div
         className={
-          "relative h-[247px] w-[100%] bg-cover bg-center bg-no-repeat before:absolute before:bottom-[0] before:left-[0] before:h-full before:w-full before:rounded-[12px] before:content-['']"
+          "relative h-[247px] w-[100%] bg-cover bg-center bg-no-repeat before:absolute before:bottom-[0] before:left-[0] before:h-full before:w-full before:rounded-[12px] before:content-[''] max-[375px]:h-[250px]"
         }
       >
-        <Image src={props.image} height='247' width='100' className='w-100%' alt={''} />
-        <div className='absolute left-0 top-[152px] z-10 h-[95px] w-[100%] rounded-tl-[12px] rounded-tr-[12px] bg-[rgba(248,248,248,0.5)]'></div>
+        <Image
+          src={props.image}
+          height={247}
+          width='100'
+          className='w-100% h-[247px] max-[375px]:h-[250px]'
+          alt={''}
+        />
+        <div className='absolute bottom-0 left-0 z-10 h-[95px] w-[100%] rounded-tl-[12px] rounded-tr-[12px] bg-[rgba(248,248,248,0.5)]'></div>
         <div className='absolute bottom-[12px] left-[15px] z-10 pr-[10px]'>
           <Text type='body-14-bold' color='neutral-2'>
             {props.title}
