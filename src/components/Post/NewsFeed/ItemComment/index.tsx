@@ -138,7 +138,7 @@ const ItemComment = (props: IProps) => {
               </Text>
               <button className='relative flex items-center' ref={ref}>
                 <Text type='body-12-regular' color='neutral-5' className='mr-[12px]'>
-                  {dayjs(data?.timeString).fromNow()}
+                  {dayjs(data?.timeString).fromNow(true)}
                 </Text>
                 {isComment && (
                   <img
