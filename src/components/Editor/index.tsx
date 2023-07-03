@@ -180,6 +180,11 @@ const Editor = (props: IProps, ref: any) => {
           onCommentImage('');
         }
       },
+      onError: (error: any) => {
+        if (error.error) {
+          toast(() => <Notification type='error' message={error.error} />);
+        }
+      },
     },
   );
   const useReplyComment = useRequest(
