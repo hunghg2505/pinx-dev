@@ -504,8 +504,6 @@ const ContentPostTypeHome = (props: IProps) => {
   ) {
     const url = postDetail?.post.url ?? '';
     const isReadMore = height > 84;
-    console.log('postDetail?.post?.contentText', postDetail?.post);
-    // console.log('postDetail?.post.head', postDetail?.post.head);
     return (
       <>
         {(postDetail?.post.head || postDetail?.post?.contentText) && (

@@ -24,7 +24,6 @@ const convertSecond = (secs: number) => {
 
 const OtpVerification = (props: IProps) => {
   const [form] = Form.useForm();
-  const [otp, setOtp] = useState<string>('');
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
   const [otpCount, setOtpCount] = useState<number>(120);
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
@@ -48,14 +47,9 @@ const OtpVerification = (props: IProps) => {
 
   const onChange = (values: any) => {
     if (values.otp.length === 6) {
-      setOtp(values.otp);
-      onSubmit();
+      props.onSubmit(values.otp);
+      onClearOtp();
     }
-  };
-
-  const onSubmit = () => {
-    props.onSubmit(otp);
-    onClearOtp();
   };
 
   const onResendOtp = () => {
