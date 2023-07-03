@@ -647,11 +647,11 @@ const ContentPostTypeHome = (props: IProps) => {
       <>
         <div className='cursor-pointer'>
           {postThemeId ? (
-            <div className='theme relative' onClick={onComment}>
+            <div className='theme relative mobile:-mx-[16px] tablet:mx-0' onClick={onComment}>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''
-                className='pointer-events-none left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+                className='pointer-events-none left-0 top-0 w-full object-cover mobile:h-[300px] desktop:h-[500px]'
               />
               {message && (
                 <div>
