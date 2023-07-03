@@ -41,6 +41,7 @@ const Register = () => {
   const onSubmit = (value: string) => {
     requestRegisterOtp.run({ otp: value });
   };
+
   const requestResendRegisterOtp = useResendRegisterOtp({
     onSuccess: (res: any) => {
       console.log('xxx res', res);

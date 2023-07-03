@@ -63,6 +63,7 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
+    // console.log('🚀 ~ file: common.ts:68 ~ str?.map ~ item:', item);
     if (item.includes('#')) {
       message = message.replace(
         item,
@@ -75,7 +76,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="${item}" class="link">${item}</a>
+        <a href="javascript:void(0)" class="link">${item}</a>
         `,
       );
     }
@@ -86,7 +87,7 @@ export const formatMessage = (message: string, data: any) => {
           message = message.replace(
             item,
             `
-            <a href="${item}" class="link">${item}</a>
+            <a href="javascript:void(0)" class="link">${item}</a>
             `,
           );
         }
