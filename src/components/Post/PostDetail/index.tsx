@@ -28,7 +28,7 @@ const ComponentRef = dynamic(import('@components/ComponentRef'), {
 const ContentRight = dynamic(import('@components/Home/ContentRight'), {
   ssr: false,
 });
-const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
+export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
   return (
     <ComponentRef
       {...props}
@@ -43,14 +43,16 @@ const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
 });
 
 const PostDetail = () => {
-  const refReplies: any = useRef();
+  const refSubReplies: any = useRef();
+
   const refContainer: any = useRef();
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const { width } = useContainerDimensions(refContainer);
   const [imageComment, setImageComment] = useState('');
-  // const [showReply, setShowReply] = useState(false);
+  const [showReply, setShowReply]: any = useState('');
   // is login
+
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
@@ -60,13 +62,13 @@ const PostDetail = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
-    refReplies?.current?.onReply();
-    // setShowReply(true);
+    refSubReplies?.current?.onReply();
+    setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
-    if (refReplies?.current?.onComment) {
-      refReplies?.current?.onComment(value, customerId, id);
+    if (refSubReplies?.current?.onComment) {
+      refSubReplies?.current?.onComment(value, customerId, id);
     }
   };
   const getSubComment = (payload: IComment[]) => {
@@ -81,6 +83,7 @@ const PostDetail = () => {
               refresh={refreshCommentOfPOst}
               refreshTotal={refresh}
               isChildren={true}
+              width={width}
             />
           ))}
         </div>
@@ -112,9 +115,8 @@ const PostDetail = () => {
             postId={postDetail?.data?.id}
           />
           {isLogin && (
-            <div className='mobile:hidden tablet:block'>
+            <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
               <ForwardedRefComponent
-                ref={refReplies}
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPOst}
                 refreshTotal={refresh}
@@ -125,13 +127,19 @@ const PostDetail = () => {
           )}
 
           <div
-            className={classNames('tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px]', {
-              'mobile:mb-[79px]': imageComment.length === 0,
-              'mobile:mb-[179px]': imageComment.length,
-            })}
+            className={classNames(
+              'tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
+              {
+                'mobile:mb-[79px]': imageComment.length === 0,
+                'mobile:mb-[179px]': imageComment.length,
+              },
+            )}
           >
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+                const isReply = item.children?.find((i) => {
+                  return i?.id === showReply;
+                });
                 return (
                   <>
                     <ItemComment
@@ -140,15 +148,21 @@ const PostDetail = () => {
                       onReplies={onReplies}
                       refresh={refreshCommentOfPOst}
                       refreshTotal={refresh}
+                      width={width}
                     />
                     {getSubComment(item.children)}
-                    {/* {showReply && width > 737 && (
-                    <ForwardedRefComponent
-                      ref={refReplies}
-                      id={postDetail?.data?.id}
-                      refresh={refreshCommentOfPOst}
-                    />
-                  )} */}
+                    {(showReply === item?.id || isReply) && width > 737 && (
+                      <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                        <ForwardedRefComponent
+                          ref={refSubReplies}
+                          id={postDetail?.data?.id}
+                          refresh={refreshCommentOfPOst}
+                          refreshTotal={refresh}
+                          imageComment={imageComment}
+                          onCommentImage={setImageComment}
+                        />
+                      </div>
+                    )}
                   </>
                 );
               })
@@ -167,7 +181,7 @@ const PostDetail = () => {
             <div className='mobile:block tablet:hidden'>
               <div className='fixed bottom-0 z-10 -mb-[4px] min-w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
                 <ForwardedRefComponent
-                  ref={refReplies}
+                  ref={refSubReplies}
                   id={postDetail?.data?.id}
                   refresh={refreshCommentOfPOst}
                   refreshTotal={refresh}

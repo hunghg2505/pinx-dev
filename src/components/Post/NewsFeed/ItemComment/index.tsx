@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
@@ -31,14 +31,16 @@ interface IProps {
   refresh: () => void;
   refreshTotal?: () => void;
   isChildren?: boolean;
+  width: number;
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false } = props;
+  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
   const { requestGetProfile } = useProfileInitial();
   const isComment = requestGetProfile?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
+  const bottomRef: any = useRef(null);
 
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
@@ -49,6 +51,12 @@ const ItemComment = (props: IProps) => {
         onNavigate();
       } else {
         onReplies && onReplies(value, customerId, idComment);
+      }
+      if (width < 738) {
+        bottomRef?.current?.scrollIntoView(false);
+        bottomRef?.current?.scrollIntoView({
+          behavior: 'smooth',
+        });
       }
     } else {
       PopupComponent.open();
@@ -119,7 +127,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment p-[20px]'>
+    <div className='comment p-[16px]'>
       <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
@@ -228,13 +236,16 @@ const ItemComment = (props: IProps) => {
             <div
               className='comment mr-[38px] flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
+              ref={bottomRef}
             >
               <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
                 {data?.children?.length > 0 ? data?.children?.length : ''}
               </Text>
-              <Text type='body-14-regular' color='neutral-4'>
-                Reply
-              </Text>
+              <div>
+                <Text type='body-14-regular' color='neutral-4'>
+                  Reply
+                </Text>
+              </div>
             </div>
             <ModalReportComment isReported={data.isReport} postID={data?.id} refresh={refresh}>
               {numberReport} Report
