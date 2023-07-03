@@ -178,7 +178,6 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
-  console.log(isMyPost);
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
