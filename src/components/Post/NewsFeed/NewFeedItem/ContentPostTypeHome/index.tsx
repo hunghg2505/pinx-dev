@@ -704,7 +704,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   alt=''
                   width={326}
                   height={185}
-                  className='h-[185px] w-[326px] object-contain'
+                  className='h-[185px] w-full rounded-[15px] object-cover object-top tablet:h-[309px]'
                 />
               </div>
             </Link>
