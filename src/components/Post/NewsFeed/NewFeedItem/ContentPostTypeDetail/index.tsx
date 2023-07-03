@@ -25,6 +25,11 @@ const ContentPostTypeDetail = (props: IProps) => {
   };
   const { bgTheme } = useGetBgTheme();
   const url = postDetail?.post.url ?? '';
+  const metaData = postDetail?.post?.metadataList?.[0];
+  const imageMetaData = metaData?.images?.[0];
+  const siteName = metaData?.siteName;
+  const urlYoutube = metaData?.url?.split('/')?.slice(-1);
+  const urlImages = postDetail?.post?.urlImages;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
     postDetail?.post?.stockCode?.length === 3 || postDetail?.post?.stockCode?.[0] !== 'C'
@@ -40,6 +45,48 @@ const ContentPostTypeDetail = (props: IProps) => {
       pathname: '/redirecting',
       query: { url },
     });
+  };
+  React.useEffect(() => {
+    const handleClick = (event: any) => {
+      const textContent = event?.target?.textContent;
+      const classElement = event?.target?.className;
+      if (classElement === 'link') {
+        router.push({
+          pathname: '/redirecting',
+          query: { url: textContent },
+        });
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
+  const renderMetaData = () => {
+    if (siteName === 'YouTube' && !urlImages?.[0]) {
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
+          title='YouTube video player'
+          allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          className='h-[300px] w-full'
+        ></iframe>
+      );
+    }
+    if (imageMetaData) {
+      return (
+        <div className='theme'>
+          <img
+            src={imageMetaData}
+            alt=''
+            width={326}
+            height={185}
+            className='h-[185px] w-[326px] object-contain'
+          />
+        </div>
+      );
+    }
+    return <></>;
   };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     return (
@@ -365,7 +412,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                     'text-[#DB4444]': pnlRate < 0,
                   })}
                 >
-                  {pnlRate.toFixed(2)}%
+                  {pnlRate?.toFixed(2)}%
                 </Text>
               )}
 
@@ -421,6 +468,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               )}
             </>
           )}
+          {renderMetaData()}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
               <Fancybox>

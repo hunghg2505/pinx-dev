@@ -50,6 +50,7 @@ const WatchList = () => {
   socket.on('public', (message: any) => {
     const data = message.data;
     if (data?.id === 3220) {
+      console.log('data', data);
       setDataSocket(data);
     }
   });

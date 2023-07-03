@@ -23,14 +23,19 @@ interface IProps {
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
   const { postDetail, onNavigate } = props;
+  const metaData = postDetail?.post?.metadataList?.[0];
+  const imageMetaData = metaData?.images?.[0];
+  const siteName = metaData?.siteName;
+  const url = metaData?.url?.split('/')?.slice(-1);
+  const urlImages = postDetail?.post?.urlImages;
   const [readMore, setReadMore] = React.useState(false);
   const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
   const ref = useRef(null);
   const [height, setHeight] = React.useState<number>(0);
   const { bgTheme } = useGetBgTheme();
-
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+
   const onComment = () => {
     onNavigate && onNavigate();
   };
@@ -58,7 +63,34 @@ const ContentPostTypeHome = (props: IProps) => {
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
       : '/static/icons/iconUnSubcribe.svg';
+
   const postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail.id);
+  const renderMetaData = () => {
+    if (siteName === 'YouTube' && !urlImages?.[0]) {
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
+          title='YouTube video player'
+          allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          className='h-[300px] w-full'
+        ></iframe>
+      );
+    }
+    if (imageMetaData) {
+      return (
+        <div className='theme'>
+          <img
+            src={imageMetaData}
+            alt=''
+            width={326}
+            height={185}
+            className='h-[185px] w-[326px] object-contain'
+          />
+        </div>
+      );
+    }
+    return <></>;
+  };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     const isReadMore = height > 84;
     return (
@@ -205,83 +237,6 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
-  // if (
-  //   [
-  //     TYPEPOST.VietstockLatestNews,
-  //     TYPEPOST.VietstockNews,
-  //     TYPEPOST.VietstockStockNews,
-  //     TYPEPOST.TNCKNews,
-  //   ].includes(postDetail?.postType)
-  // ) {
-  //   return (
-  //     <>
-  //       <div ref={ref}>
-  //         <Text
-  //           type='body-14-regular'
-  //           color='neutral-1'
-  //           className={classNames('mb-[16px] ', {
-  //             'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
-  //             'h-auto': isReadMore && readMore,
-  //           })}
-  //         >
-  //           {postDetail?.post.head}
-  //         </Text>
-  //       </div>
-  //       {isReadMore && (
-  //         <Text
-  //           type='body-14-regular'
-  //           color='neutral-3'
-  //           className='cursor-pointer'
-  //           onClick={onReadMore}
-  //         >
-  //           {readMore ? 'See less' : 'See more'}
-  //         </Text>
-  //       )}
-  //       {/* <Link
-  //         className='mb-[13px] flex items-center justify-end text-right'
-  //         href={postDetail?.post.url || ''}
-  //       >
-  //         <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
-  //           Read more
-  //         </Text>
-  //         <img
-  //           src='/static/icons/iconNext.svg'
-  //           alt=''
-  //           width={0}
-  //           height={0}
-  //           sizes='100vw'
-  //           className='w-[5px]'
-  //         />
-  //       </Link> */}
-  //       <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-  //         <Link href={postDetailUrl}>
-  //           <img
-  //             src={postDetail?.post.headImageUrl || ''}
-  //             alt=''
-  //             width='0'
-  //             height='0'
-  //             sizes='100vw'
-  //             className='h-full w-full'
-  //           />
-  //         </Link>
-  //         <div
-  //           onClick={() => onRedirect(postDetail?.post.url)}
-  //           // href={postDetail?.post.url || ''}
-  //           className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
-  //         >
-  //           <img
-  //             src='/static/icons/iconLink.svg'
-  //             alt=''
-  //             width='0'
-  //             height='0'
-  //             sizes='100vw'
-  //             className='w-[18px]'
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // }
 
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
     const isReadMore = height > 84;
@@ -469,7 +424,7 @@ const ContentPostTypeHome = (props: IProps) => {
                       'text-[#DB4444]': pnlRate < 0,
                     })}
                   >
-                    {pnlRate.toFixed(2)}%
+                    {pnlRate?.toFixed(2)}%
                   </Text>
                 )}
 
@@ -636,7 +591,7 @@ const ContentPostTypeHome = (props: IProps) => {
       if (!ele) {
         return;
       }
-      const isReadMore = ele?.offsetHeight > 70;
+      const isReadMore = ele?.offsetHeight > 72;
       if (isReadMore) {
         setIsReadMorePost(true);
       }
@@ -694,11 +649,13 @@ const ContentPostTypeHome = (props: IProps) => {
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          {postDetail?.post?.urlImages?.length > 0 && (
+          {renderMetaData()}
+
+          {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>
               <div className='theme'>
                 <img
-                  src={postDetail?.post?.urlImages?.[0]}
+                  src={urlImages?.[0]}
                   alt=''
                   width={326}
                   height={185}
