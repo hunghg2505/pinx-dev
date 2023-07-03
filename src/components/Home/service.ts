@@ -159,7 +159,7 @@ const requestGetList = (params: any) => {
 };
 
 export const useGetListNewFeed = (options?: IOptionsRequest) => {
-  const { data, run, refresh } = useRequest(
+  const { data, run, refresh, loading } = useRequest(
     (type: string, last?: string) => {
       const isLogin = !!getAccessToken();
       const params: any = {
@@ -184,6 +184,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     listNewFeed: data?.data?.list,
     run,
     refresh,
+    loading,
   };
 };
 // get list new feed

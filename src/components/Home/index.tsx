@@ -8,7 +8,9 @@ import { Toaster } from 'react-hot-toast';
 import ModalLoginTerms from '@components/Auth/Login/ModalLoginTerms';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
+// import useGetMetaData from '@hooks/useGetMetaData';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
@@ -44,7 +46,7 @@ const Home = () => {
   // const { t } = useTranslation('home');
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
-  const { run, refresh } = useGetListNewFeed({
+  const { run, refresh, loading } = useGetListNewFeed({
     onSuccess: (res) => {
       setLastNewFeed(res?.data?.last);
       const newData = [...newFeed];
@@ -123,6 +125,11 @@ const Home = () => {
   const onToggleModalLoginTerms = () => {
     setShowModalLoginTerms(!showModalLoginTerms);
   };
+  // const metaData = useGetMetaData();
+  if (loading && lastNewFeed === '') {
+    return <SkeletonLoading />;
+  }
+
   return (
     <>
       <ModalLoginTerms
@@ -338,6 +345,12 @@ const Home = () => {
                   );
                 })}
               </div>
+              {loading && lastNewFeed !== '' && (
+                <div className='mt-[10px]'>
+                  <SkeletonLoading />
+                  <SkeletonLoading />
+                </div>
+              )}
             </div>
           </div>
         </div>
