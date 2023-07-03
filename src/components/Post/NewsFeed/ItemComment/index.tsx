@@ -31,7 +31,7 @@ interface IProps {
   refresh: () => void;
   refreshTotal?: () => void;
   isChildren?: boolean;
-  width: number;
+  width?: number;
 }
 const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
@@ -52,7 +52,7 @@ const ItemComment = (props: IProps) => {
       } else {
         onReplies && onReplies(value, customerId, idComment);
       }
-      if (width < 738) {
+      if (width && width < 738) {
         bottomRef?.current?.scrollIntoView(false);
         bottomRef?.current?.scrollIntoView({
           behavior: 'smooth',
