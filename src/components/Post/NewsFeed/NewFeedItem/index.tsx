@@ -178,6 +178,7 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
+  console.log(isMyPost);
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
@@ -465,14 +466,6 @@ const NewFeedItem = (props: IProps) => {
             />
           </>
         )}
-        <img
-          src='/static/icons/iconUserUnFollow.svg'
-          alt=''
-          width={0}
-          height={0}
-          className='w-[24px] mobile:block tablet:hidden'
-          sizes='100vw'
-        />
       </>
     );
   };
