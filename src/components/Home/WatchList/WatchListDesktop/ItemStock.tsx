@@ -6,8 +6,11 @@ import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
-  const unit = data?.cl === 'd' || data?.cl === 'f' ? '-' : '+';
-
+  const isFloor = data?.lastPrice === data?.floorPrice;
+  const isHigh = data?.lastPrice === data?.highPrice;
+  const isDecrease = data?.lastPrice < data?.refPrice;
+  const isIncrease = data?.lastPrice > data?.refPrice;
+  const unit = data?.cl === 'd' || data?.cl === 'f' || isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
@@ -47,20 +50,24 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           <Text
             type='body-14-semibold'
             className={classNames('mt-[5px]', {
-              'text-[#128F63]': unit === '+',
-              'text-[#DB4444]': unit === '-',
-              'text-[#E6A70A]  ': data?.change === 0,
+              'text-[#08AADD]': isFloor,
+              'text-[#B349C3]': isHigh,
+              'text-[#128F63]': isIncrease,
+              'text-[#DB4444]': isDecrease,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
             })}
           >
-            {data?.lastPrice.toFixed(2)}
+            {data?.lastPrice?.toFixed(2)}
           </Text>
 
           <Text
             type='body-12-medium'
             className={classNames('mt-[5px]', {
-              'text-[#128F63]': unit === '+',
-              'text-[#DB4444]': unit === '-',
-              'text-[#E6A70A]  ': data?.change === 0,
+              'text-[#08AADD]': isFloor,
+              'text-[#B349C3]': isHigh,
+              'text-[#128F63]': isIncrease,
+              'text-[#DB4444]': isDecrease,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
             })}
           >
             {unit}

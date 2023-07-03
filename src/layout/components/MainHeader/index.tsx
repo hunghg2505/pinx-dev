@@ -169,13 +169,16 @@ const Header = () => {
       {!isHideHeaderLoginOnMobile && (
         <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
           <div className='flex flex-row items-center'>
-            <img
-              src='/static/icons/logo.svg'
-              alt=''
-              width='0'
-              height='0'
-              className='mr-[16px] w-[35px]'
-            />
+            <Link href={ROUTE_PATH.HOME}>
+              <img
+                src='/static/icons/logo.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='mr-[16px] w-[35px]'
+              />
+            </Link>
+
             <div className='mobile:block desktop:hidden'>
               {[...new Array(3)].map((_, index) => (
                 <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
