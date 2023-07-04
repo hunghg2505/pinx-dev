@@ -110,7 +110,7 @@ const Market = () => {
               className='w-[163px] rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)]'
             >
               <div className='item p-[20px] text-left ' key={index}>
-                <Text type='body-20-bold' color='neutral-1'>
+                <Text type='body-20-semibold' color='neutral-1'>
                   {item?.displayName}
                 </Text>
                 <Text type='body-12-regular' color='neutral-4' className='mt-[4px]'>
