@@ -13,7 +13,6 @@ import Text from '@components/UI/Text';
 // import useGetMetaData from '@hooks/useGetMetaData';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
@@ -69,7 +68,7 @@ const Home = () => {
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  const { requestGetProfile } = useProfileInitial();
+  const { userLoginInfo } = useUserLoginInfo();
   const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(
     !!userType && !isReadTerms,
   );
@@ -141,7 +140,7 @@ const Home = () => {
 
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div
-          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'
+          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
           ref={refScroll}
         >
           <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
@@ -182,9 +181,9 @@ const Home = () => {
               {isLogin && (
                 <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
                   <div className='flex items-center'>
-                    {requestGetProfile?.avatar && (
+                    {userLoginInfo?.avatar && (
                       <img
-                        src={requestGetProfile?.avatar}
+                        src={userLoginInfo?.avatar}
                         alt=''
                         width={0}
                         height={0}
@@ -193,7 +192,7 @@ const Home = () => {
                       />
                     )}
 
-                    <Text type='body-16-semibold'>{requestGetProfile?.displayName}</Text>
+                    <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
                   </div>
                   <div className='mt-[5px] pl-[61px]'>
                     <textarea

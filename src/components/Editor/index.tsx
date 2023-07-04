@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -22,8 +22,8 @@ import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
@@ -34,8 +34,8 @@ interface IProps {
   id: string;
   refresh: () => void;
   refreshTotal: () => void;
-  imageComment: string;
-  onCommentImage: (v: string) => void;
+  setImageCommentMobile: (v: boolean) => void;
+  width?: number;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -47,14 +47,15 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref?: any) => {
-  const { id, refresh, refreshTotal, imageComment, onCommentImage } = props;
+  const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
+  const [imageComment, setImageComment] = useState('');
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
   const { statusUser } = useUserType();
-  const { requestGetProfile } = useProfileInitial();
+  const { userLoginInfo } = useUserLoginInfo();
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -136,7 +137,8 @@ const Editor = (props: IProps, ref?: any) => {
         if (!url) {
           toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
         }
-        onCommentImage(url);
+        setImageCommentMobile(true);
+        setImageComment(url);
       },
       onError: (err: any) => {
         console.log('err', err);
@@ -147,6 +149,10 @@ const Editor = (props: IProps, ref?: any) => {
     const formData = new FormData();
     formData.append('files', file);
     useUploadImage.run(formData);
+  };
+  const onCloseImage = () => {
+    setImageComment('');
+    setImageCommentMobile(false);
   };
 
   useImperativeHandle(ref, () => {
@@ -159,7 +165,11 @@ const Editor = (props: IProps, ref?: any) => {
   });
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
-    scrollToBottom();
+    editor?.commands.focus();
+    if (width && width >= 738) {
+      scrollToBottom();
+    }
+
     editor?.commands.clearContent();
     editor?.commands.insertContent(
       `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
@@ -177,7 +187,7 @@ const Editor = (props: IProps, ref?: any) => {
         refresh();
         editor?.commands.clearContent();
         if (imageComment) {
-          onCommentImage('');
+          onCloseImage();
         }
       },
       onError: (error: any) => {
@@ -199,7 +209,7 @@ const Editor = (props: IProps, ref?: any) => {
         editor?.commands.clearContent();
 
         if (imageComment) {
-          onCommentImage('');
+          onCloseImage();
         }
       },
     },
@@ -272,7 +282,7 @@ const Editor = (props: IProps, ref?: any) => {
     <>
       <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px]  desktop:mt-[12px] desktop:px-0'>
         <img
-          src={requestGetProfile?.avatar}
+          src={userLoginInfo?.avatar}
           alt=''
           width={0}
           height={0}
@@ -285,7 +295,7 @@ const Editor = (props: IProps, ref?: any) => {
         >
           <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
             <Upload
-              accept='png, jpeg, jpg'
+              accept='.png, .jpeg, .jpg'
               onStart={onStart}
               beforeUpload={beforeUpload}
               className='tablet:hidden'
@@ -305,7 +315,7 @@ const Editor = (props: IProps, ref?: any) => {
               className='w-full mobile:max-w-[305px] mobile:px-[5px] desktop:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
-              <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
+              <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <img
                   src='/static/icons/iconImage.svg'
                   alt=''
@@ -347,14 +357,14 @@ const Editor = (props: IProps, ref?: any) => {
                   width={0}
                   height={0}
                   className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
-                  onClick={() => onCommentImage('')}
+                  onClick={onCloseImage}
                 />
               </div>
             )}
           </div>
 
           {useAddComment?.loading || useReplyComment?.loading ? (
-            <div className='flex items-center mobile:block tablet:hidden'>
+            <div className='flex items-center  tablet:hidden'>
               <Loading />
             </div>
           ) : (
@@ -385,7 +395,7 @@ const Editor = (props: IProps, ref?: any) => {
               width={0}
               height={0}
               className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
-              onClick={() => onCommentImage('')}
+              onClick={onCloseImage}
             />
           </div>
         )}

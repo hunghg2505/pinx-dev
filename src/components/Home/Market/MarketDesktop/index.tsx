@@ -8,7 +8,7 @@ import { PREFIX_API_MARKET } from '@api/request';
 import { socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
-import styles from '../index.module.scss';
+import styles from './index.module.scss';
 
 export const getMarketCodeChart = (marketCode: string) => {
   if (marketCode === '10') {
@@ -98,7 +98,7 @@ const MarketDesktop = () => {
                     </Text>
                     <Text
                       type='body-12-medium'
-                      className={classNames('mt-[2px]', {
+                      className={classNames('mt-[2px] ', {
                         'text-[#128F63]': isIncrease,
                         'text-[#DB4444]': isDecrease,
                         'text-[#E6A70A]': isNoChange,
