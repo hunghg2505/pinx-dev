@@ -32,12 +32,11 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
   return (
     <ComponentRef
       {...props}
-      imageComment={props.imageComment}
-      onCommentImage={props.onCommentImage}
       forwardedRef={ref}
       id={props.id}
       refresh={props.refresh}
       refreshTotal={props.refreshTotal}
+      width={props?.width}
     />
   );
 });
@@ -49,8 +48,9 @@ const PostDetail = () => {
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const { width } = useContainerDimensions(refContainer);
-  const [imageComment, setImageComment] = useState('');
+  // const [imageComment, setImageComment] = useState('');
   const [showReply, setShowReply]: any = useState('');
+  const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   // is login
 
   const { refresh, postDetail } = usePostDetail(String(router.query.id));
@@ -62,7 +62,7 @@ const PostDetail = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
-    refSubReplies?.current?.onReply();
+    // refSubReplies?.current?.onReply();
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -120,8 +120,8 @@ const PostDetail = () => {
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPOst}
                 refreshTotal={refresh}
-                imageComment={imageComment}
-                onCommentImage={setImageComment}
+                setImageCommentMobile={setImageCommentMobile}
+                width={width}
               />
             </div>
           )}
@@ -130,8 +130,8 @@ const PostDetail = () => {
             className={classNames(
               'tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
               {
-                'mobile:mb-[79px]': imageComment.length === 0,
-                'mobile:mb-[179px]': imageComment.length,
+                'mobile:mb-[79px]': !isImageCommentMobile,
+                'mobile:mb-[179px]': isImageCommentMobile,
               },
             )}
           >
@@ -158,8 +158,8 @@ const PostDetail = () => {
                           id={postDetail?.data?.id}
                           refresh={refreshCommentOfPOst}
                           refreshTotal={refresh}
-                          imageComment={imageComment}
-                          onCommentImage={setImageComment}
+                          setImageCommentMobile={setImageCommentMobile}
+                          width={width}
                         />
                       </div>
                     )}
@@ -185,8 +185,8 @@ const PostDetail = () => {
                   id={postDetail?.data?.id}
                   refresh={refreshCommentOfPOst}
                   refreshTotal={refresh}
-                  imageComment={imageComment}
-                  onCommentImage={setImageComment}
+                  setImageCommentMobile={setImageCommentMobile}
+                  width={width}
                 />
               </div>
             </div>

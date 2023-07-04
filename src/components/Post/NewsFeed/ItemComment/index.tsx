@@ -14,8 +14,8 @@ import {
 } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { formatMessage } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -37,8 +37,8 @@ const ItemComment = (props: IProps) => {
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
-  const { requestGetProfile } = useProfileInitial();
-  const isComment = requestGetProfile?.id === data?.customerId;
+  const { userLoginInfo } = useUserLoginInfo();
+  const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
 
@@ -53,10 +53,7 @@ const ItemComment = (props: IProps) => {
         onReplies && onReplies(value, customerId, idComment);
       }
       if (width && width < 738) {
-        bottomRef?.current?.scrollIntoView(false);
-        bottomRef?.current?.scrollIntoView({
-          behavior: 'smooth',
-        });
+        bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     } else {
       PopupComponent.open();

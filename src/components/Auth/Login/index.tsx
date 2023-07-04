@@ -73,7 +73,7 @@ const Login = () => {
       }
     },
     onError(e) {
-      toast(() => <Notification type='error' message={e.error} />);
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
