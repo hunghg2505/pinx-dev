@@ -471,7 +471,11 @@ const ContentPostTypeDetail = (props: IProps) => {
           {renderMetaData()}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <Fancybox>
+              <Fancybox
+                options={{
+                  closeButton: true,
+                }}
+              >
                 <a data-fancybox='gallery' href={postDetail?.post?.urlImages?.[0]}>
                   {postDetail?.post?.urlImages?.[0] && (
                     <img
