@@ -1,9 +1,16 @@
 .rc-tabs {
+  &.tabHome {
+    .rc-tabs-nav-wrap {
+      border-bottom: 1px solid #b1d5f1;
+    }
+    &.tabHomePc {
+      .rc-tabs-nav-wrap {
+        border-bottom: 1px solid #999999;
+      }
+    }
+  }
   &.tabHome,
   &.tabHomePc {
-    .rc-tabs-nav-wrap {
-      border-bottom: 1px solid #999999;
-    }
     .rc-tabs-nav-list {
       display: flex;
       padding-left: 8px;
