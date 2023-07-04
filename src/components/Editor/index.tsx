@@ -22,8 +22,8 @@ import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
@@ -54,7 +54,7 @@ const Editor = (props: IProps, ref?: any) => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
   const { statusUser } = useUserType();
-  const { requestGetProfile } = useProfileInitial();
+  const { userLoginInfo } = useUserLoginInfo();
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -272,7 +272,7 @@ const Editor = (props: IProps, ref?: any) => {
     <>
       <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px]  desktop:mt-[12px] desktop:px-0'>
         <img
-          src={requestGetProfile?.avatar}
+          src={userLoginInfo?.avatar}
           alt=''
           width={0}
           height={0}

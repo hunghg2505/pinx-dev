@@ -34,7 +34,7 @@ const Register = () => {
       deleteRegisterCookies();
     },
     onError: (e) => {
-      toast(() => <Notification type='error' message={e.error} />);
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
@@ -47,7 +47,7 @@ const Register = () => {
       console.log('xxx res', res);
     },
     onError: (e: any) => {
-      toast(() => <Notification type='error' message={e.error} />);
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 

@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 
-import { AlphabetToColor } from '@components/Post/NewsFeed/NewFeedItem';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 
@@ -43,7 +43,7 @@ const Header = () => {
     });
   };
   const isLogin = !!getAccessToken();
-  const { requestGetProfile } = useProfileInitial();
+  const { userLoginInfo } = useUserLoginInfo();
   const headerRef = useRef(null);
   const { width } = useContainerDimensions(headerRef);
 
@@ -53,93 +53,9 @@ const Header = () => {
       [ROUTE_PATH.REDIRECT].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
   const name =
-    requestGetProfile?.displayName &&
-    toNonAccentVietnamese(requestGetProfile?.displayName)?.charAt(0)?.toUpperCase();
+    userLoginInfo?.displayName &&
+    toNonAccentVietnamese(userLoginInfo?.displayName)?.charAt(0)?.toUpperCase();
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const renderColor = (str: string) => {
-    switch (str) {
-      case 'A': {
-        return AlphabetToColor.A;
-      }
-      case 'B': {
-        return AlphabetToColor.B;
-      }
-      case 'C': {
-        return AlphabetToColor.C;
-      }
-      case 'D': {
-        return AlphabetToColor.D;
-      }
-      case 'E': {
-        return AlphabetToColor.E;
-      }
-      case 'F': {
-        return AlphabetToColor.F;
-      }
-      case 'G': {
-        return AlphabetToColor.G;
-      }
-
-      case 'I': {
-        return AlphabetToColor.I;
-      }
-      case 'J': {
-        return AlphabetToColor.J;
-      }
-      case 'K': {
-        return AlphabetToColor.K;
-      }
-      case 'L': {
-        return AlphabetToColor.L;
-      }
-      case 'M': {
-        return AlphabetToColor.M;
-      }
-      case 'N': {
-        return AlphabetToColor.N;
-      }
-      case 'O': {
-        return AlphabetToColor.O;
-      }
-      case 'P': {
-        return AlphabetToColor.P;
-      }
-      case 'Q': {
-        return AlphabetToColor.Q;
-      }
-      case 'R': {
-        return AlphabetToColor.R;
-      }
-      case 'S': {
-        return AlphabetToColor.S;
-      }
-      case 'T': {
-        return AlphabetToColor.T;
-      }
-      case 'U': {
-        return AlphabetToColor.U;
-      }
-      case 'V': {
-        return AlphabetToColor.V;
-      }
-      case 'W': {
-        return AlphabetToColor.W;
-      }
-      case 'X': {
-        return AlphabetToColor.X;
-      }
-      case 'Y': {
-        return AlphabetToColor.Y;
-      }
-      case 'Z': {
-        return AlphabetToColor.Z;
-      }
-      default: {
-        return AlphabetToColor.Z;
-      }
-    }
-  };
   return (
     <div ref={headerRef}>
       {!isHideHeaderOpenAppOnMobile && (
@@ -211,9 +127,9 @@ const Header = () => {
                     className='mr-[21px] h-[24px] w-[24px] object-contain'
                   />
                 </button>
-                {requestGetProfile?.avatar ? (
+                {userLoginInfo?.avatar ? (
                   <img
-                    src={requestGetProfile?.avatar}
+                    src={userLoginInfo?.avatar}
                     alt=''
                     width={0}
                     height={0}
@@ -221,14 +137,7 @@ const Header = () => {
                     className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
                   />
                 ) : (
-                  <div
-                    className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-                    style={{ backgroundColor: renderColor(name) }}
-                  >
-                    <Text type='body-24-regular' color='cbwhite'>
-                      {name}
-                    </Text>
-                  </div>
+                  <AvatarDefault name={name} />
                 )}
               </>
             ) : (
@@ -244,16 +153,18 @@ const Header = () => {
             {isLogin ? (
               <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
                 <Text type='body-20-medium' color='neutral-1'>
-                  {requestGetProfile?.displayName}
+                  {userLoginInfo?.displayName}
                 </Text>
-                <img
-                  src={requestGetProfile?.avatar}
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='ml-[10px] h-[52px] w-[52px] rounded-full'
-                />
+                {userLoginInfo?.avatar && (
+                  <img
+                    src={userLoginInfo?.avatar}
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[10px] h-[52px] w-[52px] rounded-full'
+                  />
+                )}
               </div>
             ) : (
               <button

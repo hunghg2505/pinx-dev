@@ -26,12 +26,12 @@ const ForgotPasswordStepOne = () => {
       toast(() => <Notification type='success' message='Password request is successful' />);
     },
     onError(e: any) {
-      if (ERROR_CODE.has(e.errorWTSCode)) {
+      if (ERROR_CODE.has(e?.errorWTSCode)) {
         router.push({
           pathname: ROUTE_PATH.UPDATE_USSR_PROFILE,
           query: {
             username: form.getFieldValue('username'),
-            phone_number: form.getFieldValue('phoneNumber')
+            phone_number: form.getFieldValue('phoneNumber'),
           },
         });
       }
