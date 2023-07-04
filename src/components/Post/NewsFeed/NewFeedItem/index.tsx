@@ -18,12 +18,15 @@ import {
   requestHidePost,
   unlikePost,
 } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
+
+import styles from './index.module.scss';
 
 const ModalShare = dynamic(import('../ModalShare'), {
   ssr: false,
@@ -54,118 +57,9 @@ const IconPlus = () => (
     />
   </svg>
 );
-export const AlphabetToColor = {
-  A: '#290ea3',
-  B: '#c6f46e',
-  C: '#ac82c1',
-  D: '#16e9c2',
-  E: '#c15c0b',
-  F: '#911371',
-  G: '#9987bd',
-  I: '#f26e0f',
-  J: '#716e40',
-  K: '#db4da2',
-  L: '#cf58db',
-  M: '#3e9833',
-  N: '#59b63d',
-  O: '#22788f',
-  P: '#5887e2',
-  Q: '#e1a1b9',
-  R: '#9b2a3d',
-  S: '#bb3466',
-  T: '#ca9809',
-  U: '#80cf09',
-  V: '#f0256a',
-  W: '#036869',
-  X: '#49e2aa',
-  Y: '#cbcf13',
-  Z: '#54af78',
-};
-const renderColor = (str: string) => {
-  switch (str) {
-    case 'A': {
-      return AlphabetToColor.A;
-    }
-    case 'B': {
-      return AlphabetToColor.B;
-    }
-    case 'C': {
-      return AlphabetToColor.C;
-    }
-    case 'D': {
-      return AlphabetToColor.D;
-    }
-    case 'E': {
-      return AlphabetToColor.E;
-    }
-    case 'F': {
-      return AlphabetToColor.F;
-    }
-    case 'G': {
-      return AlphabetToColor.G;
-    }
-
-    case 'I': {
-      return AlphabetToColor.I;
-    }
-    case 'J': {
-      return AlphabetToColor.J;
-    }
-    case 'K': {
-      return AlphabetToColor.K;
-    }
-    case 'L': {
-      return AlphabetToColor.L;
-    }
-    case 'M': {
-      return AlphabetToColor.M;
-    }
-    case 'N': {
-      return AlphabetToColor.N;
-    }
-    case 'O': {
-      return AlphabetToColor.O;
-    }
-    case 'P': {
-      return AlphabetToColor.P;
-    }
-    case 'Q': {
-      return AlphabetToColor.Q;
-    }
-    case 'R': {
-      return AlphabetToColor.R;
-    }
-    case 'S': {
-      return AlphabetToColor.S;
-    }
-    case 'T': {
-      return AlphabetToColor.T;
-    }
-    case 'U': {
-      return AlphabetToColor.U;
-    }
-    case 'V': {
-      return AlphabetToColor.V;
-    }
-    case 'W': {
-      return AlphabetToColor.W;
-    }
-    case 'X': {
-      return AlphabetToColor.X;
-    }
-    case 'Y': {
-      return AlphabetToColor.Y;
-    }
-    case 'Z': {
-      return AlphabetToColor.Z;
-    }
-    default: {
-      return AlphabetToColor.Z;
-    }
-  }
-};
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
+  console.log('🚀 ~ file: index.tsx:171 ~ NewFeedItem ~ postDetail:', postDetail);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -472,23 +366,90 @@ const NewFeedItem = (props: IProps) => {
     <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
-          {postDetail?.post?.customerInfo?.avatar === '' ? (
+          <div
+            className={classNames('relative', {
+              [styles.avatar]: [
+                TYPEPOST.POST,
+                TYPEPOST.ActivityTheme,
+                TYPEPOST.ActivityWatchlist,
+                TYPEPOST.ActivityMatchOrder,
+              ].includes(postDetail?.post.postType),
+            })}
+          >
+            {postDetail?.post?.customerInfo?.avatar === '' ? (
+              <AvatarDefault name={name} />
+            ) : (
+              <img
+                src={renderLogo()}
+                alt='avatar'
+                sizes='100vw'
+                className={classNames(
+                  'mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+                )}
+              />
+            )}
             <div
-              className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-              style={{ backgroundColor: renderColor(name) }}
+              className={classNames(
+                'absolute left-[50px] top-[45px] z-10 w-[352px] rounded-[16px] bg-[#FFF] px-[25px] py-[20px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)]',
+                styles.infoUser,
+              )}
             >
-              <Text type='body-24-regular' color='cbwhite'>
-                {name}
-              </Text>
+              <div className='flex'>
+                {postDetail?.post?.customerInfo?.avatar ? (
+                  <img
+                    src={postDetail?.post?.customerInfo?.avatar}
+                    className='mr-[10px] h-[72px] w-[72px] rounded-full'
+                    alt=''
+                  />
+                ) : (
+                  <div className='h-[72px] w-[72px]'>
+                    <AvatarDefault name={name} />
+                  </div>
+                )}
+
+                <div className='my-[4px] w-full'>
+                  <Text type='body-16-semibold' color='neutral-1'>
+                    {postDetail?.post?.customerInfo?.displayName}
+                  </Text>
+                  <div className='flex'>
+                    <Text type='body-12-regular' color='primary-5' className='mr-[5px]'>
+                      Join date:
+                    </Text>
+                    <Text type='body-12-semibold' color='neutral-1'>
+                      MM/YYYY
+                    </Text>
+                  </div>
+                  <div className='my-[15px] block h-[1px] bg-[#ECECEC]'></div>
+                  <div className='flex flex-row justify-between'>
+                    <div>
+                      <Text type='body-12-regular' color='primary-5'>
+                        Post:
+                      </Text>
+                      <Text type='body-12-semibold' color='neutral-1'>
+                        298
+                      </Text>
+                    </div>
+                    <div>
+                      <Text type='body-12-regular' color='primary-5'>
+                        Follower:
+                      </Text>
+                      <Text type='body-12-semibold' color='neutral-1'>
+                        {postDetail?.post?.customerInfo?.numberFollowers}
+                      </Text>
+                    </div>
+                    <div>
+                      <Text type='body-12-regular' color='primary-5'>
+                        Following:
+                      </Text>
+                      <Text type='body-12-semibold' color='neutral-1'>
+                        577
+                      </Text>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ) : (
-            <img
-              src={renderLogo()}
-              alt='avatar'
-              sizes='100vw'
-              className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-            />
-          )}
+          </div>
 
           <div>
             <div className='flex'>

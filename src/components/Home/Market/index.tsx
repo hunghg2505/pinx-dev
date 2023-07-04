@@ -118,33 +118,33 @@ const Market = () => {
                 </Text>
                 <Text
                   type='body-24-regular'
-                  className={classNames('mt-[10px]', {
+                  className={classNames('mt-[10px] h-[36px] ', {
                     'text-[#128F63]': isIncrease,
                     'text-[#DB4444]': isDecrease,
                     'text-[#E6A70A]': isNoChange,
                     [styles.isDecrease]: isDecrease && isChange,
                     [styles.isIncrease]: isIncrease && isChange,
-                    [styles.isNoChange]: isNoChange && isChange,
                   })}
                 >
-                  {item?.cIndex}
+                  {item?.cIndex?.toLocaleString('en-US')}
                 </Text>
                 <div
-                  className={classNames('mt-[6px] inline-block rounded-[100px] px-[8px] py-[4px]', {
+                  className={classNames('mt-[6px] inline-block rounded-[100px] ', {
                     'bg-[#E3F6E2]': isIncrease,
                     'bg-[#F5E4E7]': isDecrease,
                     'bg-[#FCECC4]': isNoChange,
+                    [styles.isDecrease]: isDecrease && isChange,
+                    [styles.isIncrease]: isIncrease && isChange,
                   })}
                 >
                   <Text
                     type='body-12-medium'
-                    className={classNames('', {
+                    className={classNames('px-[5px] py-[2px]', {
                       'text-[#128F63]': isIncrease,
                       'text-[#DB4444]': isDecrease,
                       'text-[#E6A70A]': isNoChange,
                       [styles.isDecrease]: isDecrease && isChange,
                       [styles.isIncrease]: isIncrease && isChange,
-                      [styles.isNoChange]: isNoChange && isChange,
                     })}
                   >
                     {isIncrease ? '+' : '-'}

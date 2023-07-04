@@ -1,0 +1,17 @@
+.avatar{
+  &:hover{
+    .infoUser{
+      opacity: 1;
+      pointer-events: unset;
+      @media (max-width : 1024px){
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+  }
+}
+.infoUser{
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+}
