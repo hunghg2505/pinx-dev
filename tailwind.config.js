@@ -16,15 +16,17 @@ module.exports = {
       laptop: '1024px',
       // => @media (min-width: 1024px) { ... }
       desktop: '1280px',
+      xdesktop: '1366px',
       // => @media (min-width: 1280px) { ... }
     },
     container: {
       center: true,
       screens: {
         mobile: '375px',
-        desktop: '1366px',
-        laptop: '1024px',
         tablet: '768px',
+        laptop: '1024px',
+        xl: '1280px',
+        desktop: '1366px',
       },
     },
     extend: {},

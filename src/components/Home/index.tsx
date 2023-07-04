@@ -141,7 +141,7 @@ const Home = () => {
 
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div
-          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[750px]'
+          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
           ref={refScroll}
         >
           <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
