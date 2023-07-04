@@ -69,7 +69,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           src={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
           title='YouTube video player'
           allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='h-[300px] w-full'
+          className='mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
         ></iframe>
       );
     }
@@ -81,7 +81,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             alt=''
             width={326}
             height={185}
-            className='h-[185px] w-[326px] object-contain'
+            className='object-contain mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
           />
         </div>
       );
