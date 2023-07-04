@@ -36,6 +36,7 @@ interface IProps {
   refreshTotal: () => void;
   imageComment: string;
   onCommentImage: (v: string) => void;
+  width?: number;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -47,7 +48,7 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref?: any) => {
-  const { id, refresh, refreshTotal, imageComment, onCommentImage } = props;
+  const { id, refresh, refreshTotal, imageComment, onCommentImage, width } = props;
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -159,7 +160,10 @@ const Editor = (props: IProps, ref?: any) => {
   });
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
-    scrollToBottom();
+    if (width && width >= 738) {
+      scrollToBottom();
+    }
+
     editor?.commands.clearContent();
     editor?.commands.insertContent(
       `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
@@ -354,7 +358,7 @@ const Editor = (props: IProps, ref?: any) => {
           </div>
 
           {useAddComment?.loading || useReplyComment?.loading ? (
-            <div className='flex items-center mobile:block tablet:hidden'>
+            <div className='flex items-center  tablet:hidden'>
               <Loading />
             </div>
           ) : (

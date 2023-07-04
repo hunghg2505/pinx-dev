@@ -53,10 +53,7 @@ const ItemComment = (props: IProps) => {
         onReplies && onReplies(value, customerId, idComment);
       }
       if (width && width < 738) {
-        bottomRef?.current?.scrollIntoView(false);
-        bottomRef?.current?.scrollIntoView({
-          behavior: 'smooth',
-        });
+        bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     } else {
       PopupComponent.open();

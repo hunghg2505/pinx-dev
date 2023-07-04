@@ -7,6 +7,7 @@ const ComponentRef = ({
   refreshTotal,
   imageComment,
   onCommentImage,
+  width,
 }: {
   forwardedRef?: any;
   id: string;
@@ -14,6 +15,7 @@ const ComponentRef = ({
   refreshTotal: () => void;
   imageComment: string;
   onCommentImage: (v: string) => void;
+  width?: number;
 }) => {
   return (
     <Editor
@@ -23,6 +25,7 @@ const ComponentRef = ({
       id={id}
       refresh={refresh}
       refreshTotal={refreshTotal}
+      width={width}
     />
   );
 };
