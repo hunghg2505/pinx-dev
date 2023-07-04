@@ -84,9 +84,11 @@ const ModalFilter = (props: IProps) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='mr-[8px] w-[16px]'
+            className='mr-[8px] h-[16px] w-[16px]'
           />
-          <Text className=''>Filter posts by</Text>
+          <Text className='' type='body-14-semibold'>
+            Filter posts by
+          </Text>
         </div>
         <div className='list mt-[36px]'>
           {data &&
@@ -105,7 +107,9 @@ const ModalFilter = (props: IProps) => {
                     <Text
                       type='body-14-semibold'
                       color='neutral-1'
-                      className={classNames({ '!text-[#ffffff]': isChecked })}
+                      className={classNames('lowercase first-letter:capitalize', {
+                        '!text-[#ffffff]': isChecked,
+                      })}
                     >
                       {item.title}
                     </Text>

@@ -165,6 +165,7 @@ const Editor = (props: IProps, ref?: any) => {
   });
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
+    editor?.commands.focus();
     if (width && width >= 738) {
       scrollToBottom();
     }
@@ -294,7 +295,7 @@ const Editor = (props: IProps, ref?: any) => {
         >
           <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
             <Upload
-              accept='png, jpeg, jpg'
+              accept='.png, .jpeg, .jpg'
               onStart={onStart}
               beforeUpload={beforeUpload}
               className='tablet:hidden'
@@ -314,7 +315,7 @@ const Editor = (props: IProps, ref?: any) => {
               className='w-full mobile:max-w-[305px] mobile:px-[5px] desktop:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
-              <Upload accept='png, jpeg, jpg' onStart={onStart} beforeUpload={beforeUpload}>
+              <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <img
                   src='/static/icons/iconImage.svg'
                   alt=''
