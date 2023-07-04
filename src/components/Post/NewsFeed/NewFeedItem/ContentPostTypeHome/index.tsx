@@ -80,13 +80,7 @@ const ContentPostTypeHome = (props: IProps) => {
     if (imageMetaData) {
       return (
         <div className='theme'>
-          <img
-            src={imageMetaData}
-            alt=''
-            width={326}
-            height={185}
-            className='h-[185px] w-[326px] object-contain'
-          />
+          <img src={imageMetaData} alt='' className='h-[185px] w-[326px] object-contain' />
         </div>
       );
     }
