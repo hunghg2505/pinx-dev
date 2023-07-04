@@ -38,6 +38,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
       id={props.id}
       refresh={props.refresh}
       refreshTotal={props.refreshTotal}
+      width={props?.width}
     />
   );
 });
@@ -122,6 +123,7 @@ const PostDetail = () => {
                 refreshTotal={refresh}
                 imageComment={imageComment}
                 onCommentImage={setImageComment}
+                width={width}
               />
             </div>
           )}
@@ -160,6 +162,7 @@ const PostDetail = () => {
                           refreshTotal={refresh}
                           imageComment={imageComment}
                           onCommentImage={setImageComment}
+                          width={width}
                         />
                       </div>
                     )}
@@ -187,6 +190,7 @@ const PostDetail = () => {
                   refreshTotal={refresh}
                   imageComment={imageComment}
                   onCommentImage={setImageComment}
+                  width={width}
                 />
               </div>
             </div>
