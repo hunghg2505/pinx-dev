@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 import Login from './Login';
 import Register from './Register/RegisterForm';
 
-function Home() {
+function Auth() {
   const router = useRouter();
   const defaultActiveTab = (router.query?.type || AUTH_TAB_TYPE.LOGIN) as string;
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
@@ -76,4 +76,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Auth;

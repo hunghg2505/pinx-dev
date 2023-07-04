@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -7,14 +7,15 @@ import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useAgreeContract, useResendLoginOtp } from './service';
+import { useLoginOtp, useResendLoginOtp, useConfirmContract } from './service';
 import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
   const { userLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
+  const [otp, setOtp] = useState<string>();
 
-  const requestAgreeContract = useAgreeContract({
+  const requestConfirmContract = useConfirmContract({
     onSuccess: () => {
       router.push(ROUTE_PATH.HOME);
       setIsReadTerms(true);
@@ -24,15 +25,30 @@ const Register = () => {
     },
   });
 
+  const requestLoginOtp = useLoginOtp({
+    onSuccess: () => {
+      const payload = {
+        cif: userLoginInfo.cif || '',
+        token: otp || '',
+        authType: '1',
+      };
+      requestConfirmContract.run(payload);
+    },
+    onError: (e: any) => {
+      toast(() => <Notification type='error' message={e?.error} />);
+    },
+  });
+
   const onSubmit = (value: string) => {
+    setOtp(value);
     const payload = {
       cif: userLoginInfo.cif || '',
       type: '1',
       value,
-      authType: '1',
     };
-    requestAgreeContract.run(payload);
+    requestLoginOtp.run(payload);
   };
+
   const requestResendLoginOtp = useResendLoginOtp({
     onSuccess: (res: any) => {
       console.log('xxx res', res);

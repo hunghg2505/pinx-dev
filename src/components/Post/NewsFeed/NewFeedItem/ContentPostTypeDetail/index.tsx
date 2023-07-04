@@ -69,7 +69,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           src={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
           title='YouTube video player'
           allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='h-[300px] w-full'
+          className='mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
         ></iframe>
       );
     }
@@ -81,7 +81,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             alt=''
             width={326}
             height={185}
-            className='h-[185px] w-[326px] object-contain'
+            className='object-contain mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
           />
         </div>
       );
@@ -126,7 +126,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 color='primary-5'
                 className='mobile:mt-[27px] tablet:mt-[45px] tablet:!text-[20px]'
               >
-                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
+                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
               </Text>
               <Text
                 type='body-12-bold'
@@ -471,7 +471,11 @@ const ContentPostTypeDetail = (props: IProps) => {
           {renderMetaData()}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <Fancybox>
+              <Fancybox
+                options={{
+                  closeButton: true,
+                }}
+              >
                 <a data-fancybox='gallery' href={postDetail?.post?.urlImages?.[0]}>
                   {postDetail?.post?.urlImages?.[0] && (
                     <img

@@ -73,14 +73,18 @@ const ContentPostTypeHome = (props: IProps) => {
           src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
           title='YouTube video player'
           allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='h-[300px] w-full'
+          className='mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
         ></iframe>
       );
     }
     if (imageMetaData) {
       return (
         <div className='theme'>
-          <img src={imageMetaData} alt='' className='h-[185px] w-[326px] object-contain' />
+          <img
+            src={imageMetaData}
+            alt=''
+            className='object-contain mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+          />
         </div>
       );
     }
@@ -141,7 +145,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   color='primary-5'
                   className='mobile:mt-[27px] desktop:mt-[45px] desktop:!text-[20px]'
                 >
-                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
+                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
                 </Text>
                 <Text
                   type='body-12-bold'
