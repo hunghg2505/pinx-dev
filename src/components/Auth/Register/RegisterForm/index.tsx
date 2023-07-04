@@ -82,7 +82,7 @@ const Register = () => {
   return (
     <>
       <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-      <Form className='mt-10 space-y-6 laptop:w-full max-w-[479px]' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 max-w-[479px] space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
         <FormItem
           name='phoneNumber'
           normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
@@ -165,10 +165,15 @@ const Register = () => {
             name='confirmPassword'
           />
         </FormItem>
-        <div className='--neutral-1 text-[12px] font-[500]'>
+        <div className='--neutral-1 text-center text-[12px] font-[500]'>
           By signing up, I agree to the
           <span>
-            <a href={TERM_AND_CONDITION_LINK} target='_blank' rel="noreferrer" className='!text-[--primary-2]'>
+            <a
+              href={TERM_AND_CONDITION_LINK}
+              target='_blank'
+              rel='noreferrer'
+              className='!text-[--primary-2]'
+            >
               &nbsp;Terms & Conditions
             </a>
           </span>
