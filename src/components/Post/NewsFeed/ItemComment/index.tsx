@@ -124,7 +124,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment p-[16px]'>
+    <div className='comment mb-[22px] px-[16px]'>
       <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
