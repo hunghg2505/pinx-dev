@@ -126,7 +126,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 color='primary-5'
                 className='mobile:mt-[27px] tablet:mt-[45px] tablet:!text-[20px]'
               >
-                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
+                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
               </Text>
               <Text
                 type='body-12-bold'
