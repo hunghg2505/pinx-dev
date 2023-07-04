@@ -165,7 +165,7 @@ const Register = () => {
             name='confirmPassword'
           />
         </FormItem>
-        <div className='--neutral-1 text-[12px] font-[500]'>
+        <div className='--neutral-1 text-center text-[12px] font-[500]'>
           By signing up, I agree to the
           <span>
             <a

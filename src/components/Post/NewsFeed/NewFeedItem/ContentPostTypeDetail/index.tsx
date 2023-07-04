@@ -126,7 +126,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 color='primary-5'
                 className='mobile:mt-[27px] tablet:mt-[45px] tablet:!text-[20px]'
               >
-                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
+                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
               </Text>
               <Text
                 type='body-12-bold'
@@ -471,7 +471,11 @@ const ContentPostTypeDetail = (props: IProps) => {
           {renderMetaData()}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
-              <Fancybox>
+              <Fancybox
+                options={{
+                  closeButton: true,
+                }}
+              >
                 <a data-fancybox='gallery' href={postDetail?.post?.urlImages?.[0]}>
                   {postDetail?.post?.urlImages?.[0] && (
                     <img
