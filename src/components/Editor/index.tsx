@@ -46,7 +46,7 @@ const beforeUpload = (file: RcFile) => {
   return isJpgOrPng;
 };
 
-const Editor = (props: IProps, ref: any) => {
+const Editor = (props: IProps, ref?: any) => {
   const { id, refresh, refreshTotal, imageComment, onCommentImage } = props;
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
@@ -270,7 +270,7 @@ const Editor = (props: IProps, ref: any) => {
 
   return (
     <>
-      <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px] desktop:ml-[64px] desktop:mr-[88px] desktop:mt-[12px] desktop:px-0'>
+      <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px]  desktop:mt-[12px] desktop:px-0'>
         <img
           src={requestGetProfile?.avatar}
           alt=''
@@ -354,7 +354,7 @@ const Editor = (props: IProps, ref: any) => {
           </div>
 
           {useAddComment?.loading || useReplyComment?.loading ? (
-            <div className='mobile:block tablet:hidden'>
+            <div className='flex items-center mobile:block tablet:hidden'>
               <Loading />
             </div>
           ) : (

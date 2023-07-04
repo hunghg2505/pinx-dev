@@ -8,7 +8,7 @@ const ComponentRef = ({
   imageComment,
   onCommentImage,
 }: {
-  forwardedRef: any;
+  forwardedRef?: any;
   id: string;
   refresh: () => void;
   refreshTotal: () => void;
