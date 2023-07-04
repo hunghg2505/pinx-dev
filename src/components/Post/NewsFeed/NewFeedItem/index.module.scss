@@ -1,0 +1,14 @@
+.avatar{
+  &:hover{
+    .infoUser{
+      opacity: 1;
+      pointer-events: unset;
+      // transition: 0.5s;
+    }
+  }
+}
+.infoUser{
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+}

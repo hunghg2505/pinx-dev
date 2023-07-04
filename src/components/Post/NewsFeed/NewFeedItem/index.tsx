@@ -25,6 +25,8 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
+import styles from './index.module.scss';
+
 const ModalShare = dynamic(import('../ModalShare'), {
   ssr: false,
 });
@@ -472,23 +474,81 @@ const NewFeedItem = (props: IProps) => {
     <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
-          {postDetail?.post?.customerInfo?.avatar === '' ? (
+          <div className={classNames('relative', styles.avatar)}>
+            {postDetail?.post?.customerInfo?.avatar === '' ? (
+              <div
+                className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+                style={{ backgroundColor: renderColor(name) }}
+              >
+                <Text type='body-24-regular' color='cbwhite'>
+                  {name}
+                </Text>
+              </div>
+            ) : (
+              <img
+                src={renderLogo()}
+                alt='avatar'
+                sizes='100vw'
+                className={classNames(
+                  'mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+                )}
+              />
+            )}
             <div
-              className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-              style={{ backgroundColor: renderColor(name) }}
+              className={classNames(
+                'absolute left-[50px] top-[45px] z-10 w-[352px] rounded-[16px] bg-[#FFF] px-[25px] py-[20px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)]',
+                styles.infoUser,
+              )}
             >
-              <Text type='body-24-regular' color='cbwhite'>
-                {name}
-              </Text>
+              <div className='flex'>
+                <img
+                  src='/static/logo/logoPintree.png'
+                  className='mr-[10px] h-[72px] w-[72px] rounded-full'
+                  alt=''
+                />
+                <div className='my-[4px] w-full'>
+                  <Text type='body-16-semibold' color='neutral-1'>
+                    Some usser name
+                  </Text>
+                  <div className='flex'>
+                    <Text type='body-12-regular' color='primary-5' className='mr-[5px]'>
+                      Join date:
+                    </Text>
+                    <Text type='body-12-semibold' color='neutral-1'>
+                      MM/YYYY
+                    </Text>
+                  </div>
+                  <div className='my-[15px] block h-[1px] bg-[#ECECEC]'></div>
+                  <div className='flex flex-row justify-between'>
+                    <div>
+                      <Text type='body-12-regular' color='primary-5'>
+                        Post:
+                      </Text>
+                      <Text type='body-12-semibold' color='neutral-1'>
+                        298
+                      </Text>
+                    </div>
+                    <div>
+                      <Text type='body-12-regular' color='primary-5'>
+                        Follower:
+                      </Text>
+                      <Text type='body-12-semibold' color='neutral-1'>
+                        3933
+                      </Text>
+                    </div>
+                    <div>
+                      <Text type='body-12-regular' color='primary-5'>
+                        Following:
+                      </Text>
+                      <Text type='body-12-semibold' color='neutral-1'>
+                        577
+                      </Text>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ) : (
-            <img
-              src={renderLogo()}
-              alt='avatar'
-              sizes='100vw'
-              className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-            />
-          )}
+          </div>
 
           <div>
             <div className='flex'>
