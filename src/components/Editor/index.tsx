@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -34,8 +34,7 @@ interface IProps {
   id: string;
   refresh: () => void;
   refreshTotal: () => void;
-  imageComment: string;
-  onCommentImage: (v: string) => void;
+  setImageCommentMobile: (v: boolean) => void;
   width?: number;
 }
 
@@ -48,7 +47,8 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref?: any) => {
-  const { id, refresh, refreshTotal, imageComment, onCommentImage, width } = props;
+  const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
+  const [imageComment, setImageComment] = useState('');
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -137,7 +137,8 @@ const Editor = (props: IProps, ref?: any) => {
         if (!url) {
           toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
         }
-        onCommentImage(url);
+        setImageCommentMobile(true);
+        setImageComment(url);
       },
       onError: (err: any) => {
         console.log('err', err);
@@ -148,6 +149,10 @@ const Editor = (props: IProps, ref?: any) => {
     const formData = new FormData();
     formData.append('files', file);
     useUploadImage.run(formData);
+  };
+  const onCloseImage = () => {
+    setImageComment('');
+    setImageCommentMobile(false);
   };
 
   useImperativeHandle(ref, () => {
@@ -181,7 +186,7 @@ const Editor = (props: IProps, ref?: any) => {
         refresh();
         editor?.commands.clearContent();
         if (imageComment) {
-          onCommentImage('');
+          onCloseImage();
         }
       },
       onError: (error: any) => {
@@ -203,7 +208,7 @@ const Editor = (props: IProps, ref?: any) => {
         editor?.commands.clearContent();
 
         if (imageComment) {
-          onCommentImage('');
+          onCloseImage();
         }
       },
     },
@@ -351,7 +356,7 @@ const Editor = (props: IProps, ref?: any) => {
                   width={0}
                   height={0}
                   className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
-                  onClick={() => onCommentImage('')}
+                  onClick={onCloseImage}
                 />
               </div>
             )}
@@ -389,7 +394,7 @@ const Editor = (props: IProps, ref?: any) => {
               width={0}
               height={0}
               className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
-              onClick={() => onCommentImage('')}
+              onClick={onCloseImage}
             />
           </div>
         )}
