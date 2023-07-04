@@ -8,9 +8,9 @@ RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package*.json ./
 
-RUN yarn --frozen-lockfile;
+RUN npm install --legacy-peer-deps
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -21,7 +21,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-RUN yarn build
+RUN npm run build
 
 FROM base AS runner
 WORKDIR /app
@@ -37,4 +37,4 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-CMD ["yarn", "standalone"]
+CMD ["npm", "run", "standalone"]
