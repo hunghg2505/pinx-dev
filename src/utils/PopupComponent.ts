@@ -2,8 +2,8 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 
-import PopUpEkyc from '@components/PopUpEkyc';
-import PopUpHome from '@components/PopUpHome';
+import PopUpEkyc from '@components/UI/Popup/PopUpEkyc';
+import PopUpHome from '@components/UI/Popup/PopUpHome';
 import { POPUP_COMPONENT_ID } from 'src/constant';
 
 export enum TypePopup {
