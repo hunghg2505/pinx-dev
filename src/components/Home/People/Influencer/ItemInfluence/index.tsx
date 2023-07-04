@@ -25,7 +25,7 @@ const ItemInfluence = (props: IProps) => {
         refresh();
       },
       onError: (e: any) => {
-        toast(() => <Notification type='error' message={e.error} />);
+        toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );

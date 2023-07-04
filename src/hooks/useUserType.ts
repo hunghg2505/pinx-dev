@@ -1,5 +1,6 @@
 import { getAccessToken } from '@store/auth';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
+
+import { useUserLoginInfo } from './useUserLoginInfo';
 
 export const enum USERTYPE {
   NEW = 'NEW',
@@ -14,10 +15,10 @@ export const enum USERTYPE {
 }
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
-  const { requestGetProfile } = useProfileInitial();
-  const custStat = requestGetProfile?.custStat;
-  const acntStat = requestGetProfile?.acntStat;
-  const userId = requestGetProfile?.id;
+  const { userLoginInfo } = useUserLoginInfo();
+  const custStat = userLoginInfo?.custStat;
+  const acntStat = userLoginInfo?.acntStat;
+  const userId = userLoginInfo?.id;
 
   let statusUser;
 

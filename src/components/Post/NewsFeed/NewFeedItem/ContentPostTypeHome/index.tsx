@@ -2,14 +2,15 @@ import React, { useRef } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
+import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
 const ListStock = dynamic(import('./ListStock'), {
@@ -23,16 +24,16 @@ interface IProps {
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
   const { postDetail, onNavigate } = props;
+  const [readMore, setReadMore] = React.useState(false);
+  const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
+  const [height, setHeight] = React.useState<number>(0);
+  const bgTheme = useAtomValue(postThemeAtom);
   const metaData = postDetail?.post?.metadataList?.[0];
   const imageMetaData = metaData?.images?.[0];
   const siteName = metaData?.siteName;
   const url = metaData?.url?.split('/')?.slice(-1);
   const urlImages = postDetail?.post?.urlImages;
-  const [readMore, setReadMore] = React.useState(false);
-  const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
   const ref = useRef(null);
-  const [height, setHeight] = React.useState<number>(0);
-  const { bgTheme } = useGetBgTheme();
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 

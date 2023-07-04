@@ -28,7 +28,7 @@ const ItemPeople = (props: IProps) => {
         // refreshList();
       },
       onError: (e: any) => {
-        toast(() => <Notification type='error' message={e.error} />);
+        toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );
@@ -43,7 +43,7 @@ const ItemPeople = (props: IProps) => {
         // refreshList();
       },
       onError: (e: any) => {
-        toast(() => <Notification type='error' message={e.error} />);
+        toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );

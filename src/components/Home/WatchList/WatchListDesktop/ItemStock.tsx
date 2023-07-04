@@ -6,8 +6,9 @@ import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
+  console.log('data', data);
   const isFloor = data?.lastPrice === data?.floorPrice;
-  const isHigh = data?.lastPrice === data?.highPrice;
+  const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < data?.refPrice;
   const isIncrease = data?.lastPrice > data?.refPrice;
   const unit = data?.cl === 'd' || data?.cl === 'f' || isDecrease ? '-' : '+';
@@ -50,10 +51,10 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           <Text
             type='body-14-semibold'
             className={classNames('mt-[5px]', {
+              'text-[#128F63]': isIncrease && !isHigh,
+              'text-[#DB4444]': isDecrease && !isFloor,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#128F63]': isIncrease,
-              'text-[#DB4444]': isDecrease,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
             })}
           >
@@ -63,10 +64,10 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           <Text
             type='body-12-medium'
             className={classNames('mt-[5px]', {
+              'text-[#128F63]': isIncrease && !isHigh,
+              'text-[#DB4444]': isDecrease && !isFloor,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#128F63]': isIncrease,
-              'text-[#DB4444]': isDecrease,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
             })}
           >

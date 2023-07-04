@@ -38,7 +38,7 @@ const Register = () => {
       console.log('xxx res', res);
     },
     onError: (e: any) => {
-      toast(() => <Notification type='error' message={e.error} />);
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
