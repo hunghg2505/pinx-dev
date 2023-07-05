@@ -53,16 +53,28 @@ const PostDetail = () => {
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   // is login
 
-  const { refresh, postDetail } = usePostDetail(String(router.query.id));
+  const { refresh, postDetail } = usePostDetail(String(router.query.id), {
+    onError: () => {
+      router.push('/page-not-found');
+    },
+  });
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
+  const totalComments = commentsOfPost?.data?.list?.length;
+  const commentChild = commentsOfPost?.data?.list?.reduce(
+    (acc: any, current: any) => acc + current?.totalChildren,
+    0,
+  );
+  const countComment = totalComments + commentChild;
+
   const onGoToBack = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
-    // refSubReplies?.current?.onReply();
+    //   refSubReplies?.current?.onReply();
+
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -90,6 +102,9 @@ const PostDetail = () => {
       );
     }
   };
+  if (!postDetail) {
+    return <></>;
+  }
 
   return (
     <>
@@ -99,18 +114,23 @@ const PostDetail = () => {
             <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
               Post detail
             </Text>
-            <img
-              src='/static/icons/iconBack.svg'
-              alt=''
-              width='0'
-              height='0'
-              className='absolute left-[16px] top-2/4 w-[18px] -translate-y-1/2 transform cursor-pointer'
+
+            <div
               onClick={onGoToBack}
-            />
+              className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[16px]'
+            >
+              <img
+                src='/static/icons/iconBack.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='w-[18px] cursor-pointer'
+              />
+            </div>
           </div>
           <NewFeedItem
             postDetail={postDetail?.data}
-            totalComments={postDetail?.data?.totalChildren}
+            totalComments={countComment}
             onRefreshPostDetail={refresh}
             postId={postDetail?.data?.id}
           />
@@ -128,7 +148,7 @@ const PostDetail = () => {
 
           <div
             className={classNames(
-              'tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
+              'mt-[16px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
               {
                 'mobile:mb-[79px]': !isImageCommentMobile,
                 'mobile:mb-[179px]': isImageCommentMobile,
@@ -176,10 +196,9 @@ const PostDetail = () => {
               </Text>
             )}
           </div>
-
           {width < 738 && isLogin && (
             <div className='mobile:block tablet:hidden'>
-              <div className='fixed bottom-0 z-10 -mb-[4px] min-w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+              <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={postDetail?.data?.id}

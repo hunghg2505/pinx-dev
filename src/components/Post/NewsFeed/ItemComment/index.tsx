@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import {
   IComment,
@@ -13,10 +15,11 @@ import {
   requestUnLikeComment,
 } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { formatMessage } from '@utils/common';
+import { formatMessage, ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -34,6 +37,7 @@ interface IProps {
   width?: number;
 }
 const ItemComment = (props: IProps) => {
+  const router = useRouter();
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
@@ -41,19 +45,20 @@ const ItemComment = (props: IProps) => {
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
       } else if (onNavigate) {
         onNavigate();
       } else {
         onReplies && onReplies(value, customerId, idComment);
-      }
-      if (width && width < 738) {
-        bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        if (width && width < 738) {
+          bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        }
       }
     } else {
       PopupComponent.open();
@@ -76,6 +81,16 @@ const ItemComment = (props: IProps) => {
       onSuccess: () => {
         refresh();
       },
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const useUnLike = useRequest(
@@ -86,6 +101,16 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+      },
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
       },
     },
   );
@@ -124,7 +149,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment p-[16px]'>
+    <div className='comment mb-[22px] px-[16px]'>
       <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
@@ -138,7 +163,12 @@ const ItemComment = (props: IProps) => {
           })}
         />
         {/* bg-[#F6FAFD] */}
-        <div className='content w-full'>
+        <div
+          className={classNames('content', {
+            'w-[calc(100%_-_40px)]': isChildren,
+            'w-[calc(100%_-_48px)]': !isChildren,
+          })}
+        >
           <div className='relative mb-[8px] rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
               <Text type='body-14-semibold' color='neutral-1'>
@@ -178,8 +208,8 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
-            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
-              <Text type='body-16-medium' color='primary-5'>
+            <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
+              <Text type='body-16-regular' className='text-[#0D0D0D]'>
                 {message && (
                   <div
                     dangerouslySetInnerHTML={{ __html: message }}
@@ -221,7 +251,7 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action flex'>
+          <div className='action flex' ref={bottomRef}>
             <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
@@ -236,7 +266,6 @@ const ItemComment = (props: IProps) => {
             <div
               className='comment mr-[38px] flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
-              ref={bottomRef}
             >
               <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
                 {data?.children?.length > 0 ? data?.children?.length : ''}

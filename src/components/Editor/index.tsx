@@ -66,7 +66,7 @@ const Editor = (props: IProps, ref?: any) => {
         name: 'userMention',
       }).configure({
         HTMLAttributes: {
-          class: 'userMention text-[14px] font-semibold leading-[18px]',
+          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
           ...suggestion,
@@ -113,12 +113,12 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none abcd',
       },
     },
-    onUpdate({ editor }) {
-      const text = editor.getText();
-      if (idReply && text === '') {
-        setIdReply('');
-      }
-    },
+    // onUpdate({ editor }) {
+    //   const text = editor.getText();
+    //   if (idReply && text === '') {
+    //     setIdReply('');
+    //   }
+    // },
   });
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -159,17 +159,16 @@ const Editor = (props: IProps, ref?: any) => {
     return {
       onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
       onReply: () => {
-        editor?.commands.focus();
+        editor?.commands?.focus(true, { scrollIntoView: false });
       },
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
-    editor?.commands.focus();
     if (width && width >= 738) {
       scrollToBottom();
+      editor?.commands?.focus(true, { scrollIntoView: false });
     }
-
     editor?.commands.clearContent();
     editor?.commands.insertContent(
       `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
@@ -191,7 +190,14 @@ const Editor = (props: IProps, ref?: any) => {
         }
       },
       onError: (error: any) => {
-        if (error.error) {
+        if (error?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else {
           toast(() => <Notification type='error' message={error.error} />);
         }
       },
@@ -210,6 +216,18 @@ const Editor = (props: IProps, ref?: any) => {
 
         if (imageComment) {
           onCloseImage();
+        }
+      },
+      onError: (error: any) => {
+        if (error?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else {
+          toast(() => <Notification type='error' message={error.error} />);
         }
       },
     },
@@ -267,7 +285,14 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-    if (statusUser === USERTYPE.VSD) {
+    if (message?.includes('script')) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+        />
+      ));
+    } else if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);
       } else {
@@ -280,7 +305,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px]  desktop:mt-[12px] desktop:px-0'>
+      <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-[16px] desktop:mt-[12px] desktop:px-0'>
         <img
           src={userLoginInfo?.avatar}
           alt=''

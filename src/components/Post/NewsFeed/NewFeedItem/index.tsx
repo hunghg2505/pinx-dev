@@ -8,6 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import {
@@ -19,6 +20,7 @@ import {
   unlikePost,
 } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
@@ -59,7 +61,8 @@ const IconPlus = () => (
   </svg>
 );
 const NewFeedItem = (props: IProps) => {
-  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
+    props;
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -74,6 +77,7 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
@@ -94,10 +98,10 @@ const NewFeedItem = (props: IProps) => {
   const isLike = postDetail?.isLike;
   const handleComment = () => {
     if (isLogin) {
-      if (statusUser === USERTYPE.VSD) {
-        onNavigate && onNavigate();
-      } else {
+      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
+      } else {
+        onNavigate && onNavigate();
       }
     } else {
       PopupComponent.open();
@@ -122,7 +126,16 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         onRefreshPostDetail();
       },
-      onError: () => {},
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const useUnLike = useRequest(
@@ -134,7 +147,16 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         onRefreshPostDetail();
       },
-      onError: () => {},
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const handleLikeOrUnLikePost = () => {
@@ -532,7 +554,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {postDetail?.totalChildren > 0 ? postDetail?.totalChildren : ''} Comment
+              {totalComments || ''} Comment
             </Text>
           </div>
           <div
