@@ -59,7 +59,8 @@ const IconPlus = () => (
   </svg>
 );
 const NewFeedItem = (props: IProps) => {
-  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
+    props;
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -532,7 +533,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {postDetail?.totalChildren > 0 ? postDetail?.totalChildren : ''} Comment
+              {totalComments || ''} Comment
             </Text>
           </div>
           <div
