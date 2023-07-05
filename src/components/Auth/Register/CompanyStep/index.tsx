@@ -92,7 +92,8 @@ const RegisterCompanyStep = () => {
               styles.listCompany,
             )}
           >
-            <div className='mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] max-[768px]:w-[1000px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+            {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] max-[768px]:w-[1000px] max-[480px]:h-[300px] max-[480px]:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
+            <div className='mb-[81px] flex-wrap max-[768px]:h-[350px] max-[768px]:columns-5 max-[480px]:columns-3 mobile:mt-9 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
                 const urlImageCompany = `${
                   item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
@@ -101,7 +102,7 @@ const RegisterCompanyStep = () => {
                 }.png`;
                 return (
                   <div
-                    className={classNames('relative flex justify-center', styles.companyCard)}
+                    className={classNames('relative h-[67px] w-[67px]', styles.companyCard)}
                     key={item.stockCode}
                     onClick={() => onSelect(item?.stockCode)}
                   >
