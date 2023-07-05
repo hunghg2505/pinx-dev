@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 import {
   IComment,
@@ -16,7 +17,7 @@ import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { formatMessage } from '@utils/common';
+import { formatMessage, ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -34,6 +35,7 @@ interface IProps {
   width?: number;
 }
 const ItemComment = (props: IProps) => {
+  const router = useRouter();
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
@@ -41,11 +43,12 @@ const ItemComment = (props: IProps) => {
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
       } else if (onNavigate) {
         onNavigate();
