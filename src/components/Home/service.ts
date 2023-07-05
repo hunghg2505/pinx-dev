@@ -93,6 +93,8 @@ export interface IWatchListItem {
   last_price: string;
   cl: string;
   changePc: string;
+  hp: number;
+  lp: number;
 }
 export interface INewFeed {
   children: any;

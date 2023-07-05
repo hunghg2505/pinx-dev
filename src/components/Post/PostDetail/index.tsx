@@ -58,11 +58,19 @@ const PostDetail = () => {
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
+  const totalComments = commentsOfPost?.data?.list?.length;
+  const commentChild = commentsOfPost?.data?.list?.reduce(
+    (acc: any, current: any) => acc + current?.totalChildren,
+    0,
+  );
+  const countComment = totalComments + commentChild;
+
   const onGoToBack = () => {
     router.back();
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
-    // refSubReplies?.current?.onReply();
+    //   refSubReplies?.current?.onReply();
+
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -90,7 +98,6 @@ const PostDetail = () => {
       );
     }
   };
-
   return (
     <>
       <div className='flex flex-row items-start' ref={refContainer}>
@@ -115,7 +122,7 @@ const PostDetail = () => {
           </div>
           <NewFeedItem
             postDetail={postDetail?.data}
-            totalComments={postDetail?.data?.totalChildren}
+            totalComments={countComment}
             onRefreshPostDetail={refresh}
             postId={postDetail?.data?.id}
           />
@@ -181,7 +188,6 @@ const PostDetail = () => {
               </Text>
             )}
           </div>
-
           {width < 738 && isLogin && (
             <div className='mobile:block tablet:hidden'>
               <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>

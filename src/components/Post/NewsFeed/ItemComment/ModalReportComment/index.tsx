@@ -6,9 +6,11 @@ import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import PopupComponent from '@utils/PopupComponent';
@@ -63,8 +65,15 @@ const ModalReportComment = (props: IProps) => {
         setIsReported(true);
         refresh();
       },
-      onError: () => {
-        console.log('that bai');
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
       },
     },
   );
