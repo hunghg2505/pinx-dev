@@ -228,7 +228,7 @@ const NewFeedItem = (props: IProps) => {
   );
   const requestGetTotalShare = useRequest(getTotalSharePost, {
     manual: true,
-    onSuccess: () => { },
+    onSuccess: () => {},
     onError: (error: any) => {
       console.log(error);
     },
