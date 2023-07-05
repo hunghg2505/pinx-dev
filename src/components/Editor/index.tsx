@@ -66,7 +66,7 @@ const Editor = (props: IProps, ref?: any) => {
         name: 'userMention',
       }).configure({
         HTMLAttributes: {
-          class: 'userMention text-[14px] font-semibold leading-[18px]',
+          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
           ...suggestion,
@@ -113,12 +113,12 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none abcd',
       },
     },
-    onUpdate({ editor }) {
-      const text = editor.getText();
-      if (idReply && text === '') {
-        setIdReply('');
-      }
-    },
+    // onUpdate({ editor }) {
+    //   const text = editor.getText();
+    //   if (idReply && text === '') {
+    //     setIdReply('');
+    //   }
+    // },
   });
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -159,17 +159,16 @@ const Editor = (props: IProps, ref?: any) => {
     return {
       onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
       onReply: () => {
-        editor?.commands.focus();
+        editor?.commands?.focus(true, { scrollIntoView: false });
       },
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
-    editor?.commands.focus();
     if (width && width >= 738) {
       scrollToBottom();
+      editor?.commands?.focus(true, { scrollIntoView: false });
     }
-
     editor?.commands.clearContent();
     editor?.commands.insertContent(
       `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,

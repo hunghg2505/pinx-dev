@@ -51,9 +51,9 @@ const ItemComment = (props: IProps) => {
         onNavigate();
       } else {
         onReplies && onReplies(value, customerId, idComment);
-      }
-      if (width && width < 738) {
-        bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        if (width && width < 738) {
+          bottomRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        }
       }
     } else {
       PopupComponent.open();
@@ -218,7 +218,7 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action flex'>
+          <div className='action flex' ref={bottomRef}>
             <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
@@ -233,7 +233,6 @@ const ItemComment = (props: IProps) => {
             <div
               className='comment mr-[38px] flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
-              ref={bottomRef}
             >
               <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
                 {data?.children?.length > 0 ? data?.children?.length : ''}
