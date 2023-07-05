@@ -146,7 +146,7 @@ const ThemesItem = (props: IProps) => {
               <Text type='body-12-bold' color='primary-5' className='text-center'>
                 {theme?.name}
               </Text>
-              {theme.totalSubscribe !== 0 && (
+              {theme.totalSubscribe !== 0 && isLogin && (
                 <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
                   {theme.totalSubscribe} Subcribers
                 </Text>
