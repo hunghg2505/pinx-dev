@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
+import PopupComponent from '@utils/PopupComponent';
 
 import { useGetListFillter } from '../service';
 
@@ -27,6 +29,7 @@ export enum FILTER_TYPE {
 const ModalFilter = (props: IProps) => {
   const [filterType, setFilterType] = React.useState<string>(FILTER_TYPE.MOST_RECENT);
   const { data } = useGetListFillter();
+  const { isLogin } = useUserType();
   const { closeIcon, run } = props;
   const [visible, setVisible] = React.useState(false);
   const onVisible = () => {
@@ -48,6 +51,11 @@ const ModalFilter = (props: IProps) => {
     );
   };
   const onFilter = (value: string) => {
+    if (!isLogin && [FILTER_TYPE.MOST_REACTED, FILTER_TYPE.POST].includes(value)) {
+      PopupComponent.open();
+      return;
+    }
+
     run(value);
     setFilterType(value);
     onVisible();
