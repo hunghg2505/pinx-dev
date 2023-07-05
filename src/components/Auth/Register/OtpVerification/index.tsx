@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -8,6 +9,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
@@ -18,6 +20,7 @@ interface IProps {
 }
 
 const Register = (props: IProps) => {
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
@@ -31,6 +34,12 @@ const Register = (props: IProps) => {
           token: res?.data.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
+        });
+      }
+      if (props.isModal) {
+        setPopupStatus({
+          ...popupStatus,
+          popupRegisterOtp: false,
         });
       }
       router.push(ROUTE_PATH.REGISTER_COMPANY);
