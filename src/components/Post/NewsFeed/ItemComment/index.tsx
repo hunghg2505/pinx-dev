@@ -209,7 +209,7 @@ const ItemComment = (props: IProps) => {
               </button>
             </div>
             <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
-              <Text type='body-16-medium' color='primary-5'>
+              <Text type='body-16-regular' className='text-[#0D0D0D]'>
                 {message && (
                   <div
                     dangerouslySetInnerHTML={{ __html: message }}

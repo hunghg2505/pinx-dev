@@ -6,8 +6,6 @@ import { PREFIX_API_MARKET, privateRequest, requestCommunity, requestPist } from
 import { getAccessToken } from '@store/auth';
 import { ENV } from '@utils/env';
 
-import { FILTER_TYPE, IFilter } from './ModalFilter';
-
 export interface ITrending {
   keyword: string;
   type: string;
@@ -139,21 +137,9 @@ export const useGetListFillter = () => {
   const { data } = useRequest(() => {
     return requestCommunity.get(API_PATH.FILTER_LIST);
   });
-  let newData = { ...data };
-  const isLogin = !!getAccessToken();
 
-  if (!isLogin) {
-    const newFilter = data?.data?.filter(
-      (item: IFilter) => ![FILTER_TYPE.MOST_REACTED, FILTER_TYPE.POST].includes(item.filterType),
-    );
-
-    newData = {
-      ...newData,
-      data: newFilter,
-    };
-  }
   return {
-    data: newData,
+    data,
   };
 };
 const requestGetList = (params: any) => {
