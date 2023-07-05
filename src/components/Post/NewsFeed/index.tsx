@@ -51,7 +51,9 @@ const NewsFeed = (props: IProps) => {
         />
         <div className='desktop:ml-[64px] desktop:mr-[88px]'>
           {data?.totalChildren > 0 && (
-            <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
+            <div className='mt-[22px]'>
+              <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
+            </div>
           )}
           {renderViewMore()}
         </div>

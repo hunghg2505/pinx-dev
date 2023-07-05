@@ -75,6 +75,7 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
@@ -95,10 +96,10 @@ const NewFeedItem = (props: IProps) => {
   const isLike = postDetail?.isLike;
   const handleComment = () => {
     if (isLogin) {
-      if (statusUser === USERTYPE.VSD) {
-        onNavigate && onNavigate();
-      } else {
+      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
+      } else {
+        onNavigate && onNavigate();
       }
     } else {
       PopupComponent.open();

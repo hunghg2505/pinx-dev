@@ -212,6 +212,11 @@ const Editor = (props: IProps, ref?: any) => {
           onCloseImage();
         }
       },
+      onError: (error: any) => {
+        if (error.error) {
+          toast(() => <Notification type='error' message={error.error} />);
+        }
+      },
     },
   );
   const onSend = async () => {
@@ -280,7 +285,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className='mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-[16px]  desktop:mt-[12px] desktop:px-0'>
+      <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-[16px] desktop:mt-[12px] desktop:px-0'>
         <img
           src={userLoginInfo?.avatar}
           alt=''
