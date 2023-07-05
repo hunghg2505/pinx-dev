@@ -190,7 +190,14 @@ const Editor = (props: IProps, ref?: any) => {
         }
       },
       onError: (error: any) => {
-        if (error.error) {
+        if (error?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else {
           toast(() => <Notification type='error' message={error.error} />);
         }
       },
@@ -212,7 +219,14 @@ const Editor = (props: IProps, ref?: any) => {
         }
       },
       onError: (error: any) => {
-        if (error.error) {
+        if (error?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else {
           toast(() => <Notification type='error' message={error.error} />);
         }
       },
@@ -271,7 +285,14 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-    if (statusUser === USERTYPE.VSD) {
+    if (message?.includes('script')) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+        />
+      ));
+    } else if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);
       } else {

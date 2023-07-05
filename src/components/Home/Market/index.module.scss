@@ -4,6 +4,7 @@
 .isIncrease{
   animation-name: isIncrease;
   animation-duration: 0.5s;
+  padding: 2px 5px;
 }
 @keyframes isDecrease {
   to {background-color: #FF5757;border-radius: 4px;color: #ffffff;padding: 2px 5px;}
@@ -11,4 +12,5 @@
 .isDecrease{
   animation-name: isDecrease;
   animation-duration: 0.5s;
+  padding: 2px 5px;
 }
