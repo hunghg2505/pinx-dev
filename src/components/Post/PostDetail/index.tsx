@@ -184,7 +184,7 @@ const PostDetail = () => {
 
           {width < 738 && isLogin && (
             <div className='mobile:block tablet:hidden'>
-              <div className='fixed bottom-0 z-10 -mb-[4px] min-w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+              <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={postDetail?.data?.id}
