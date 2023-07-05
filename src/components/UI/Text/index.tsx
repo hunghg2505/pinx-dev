@@ -58,6 +58,7 @@ interface TextProps {
     | 'semantic-2-1'
     | 'semantic-2-2'
     | 'semantic-3'
+    | 'gray'
     | undefined;
   disabled?: boolean;
   state?: null | 'disable';

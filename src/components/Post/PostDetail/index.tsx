@@ -53,7 +53,11 @@ const PostDetail = () => {
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   // is login
 
-  const { refresh, postDetail } = usePostDetail(String(router.query.id));
+  const { refresh, postDetail } = usePostDetail(String(router.query.id), {
+    onError: () => {
+      router.push('/page-not-found');
+    },
+  });
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
@@ -98,6 +102,9 @@ const PostDetail = () => {
       );
     }
   };
+  if (!postDetail) {
+    return <></>;
+  }
 
   return (
     <>

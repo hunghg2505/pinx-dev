@@ -15,6 +15,7 @@ export const ROUTE_PATH = {
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
+  PAGE_NOT_FOUND:'/page-not-found'
 };
 
 export const formatMessage = (message: string, data: any) => {
