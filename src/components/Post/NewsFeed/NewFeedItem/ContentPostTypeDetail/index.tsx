@@ -81,7 +81,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             alt=''
             width={326}
             height={185}
-            className='object-contain mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+            className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
           />
         </div>
       );
@@ -444,11 +444,11 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           {postThemeId ? (
-            <div className='theme relative'>
+            <div className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[705px]'>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''
-                className='pointer-events-none left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+                className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[300px] tablet:rounded-[8px] desktop:h-[393px]'
               />
               {message && (
                 <div
@@ -483,7 +483,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                       alt=''
                       width={326}
                       height={185}
-                      className='h-[185px] w-full rounded-[15px] object-cover object-top tablet:h-[309px]'
+                      className='h-[185px] w-[550px] rounded-[15px] object-cover object-top tablet:h-[309px]'
                     />
                   )}
                 </a>
