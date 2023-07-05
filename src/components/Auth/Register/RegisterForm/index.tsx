@@ -15,7 +15,7 @@ import Notification from '@components/UI/Notification';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { TERM_AND_CONDITION_LINK } from '@utils/constant';
 import { normalizeNumber } from '@utils/normalize';
@@ -29,13 +29,13 @@ interface IProps {
 
 const Register = (props: IProps) => {
   const { isModal } = props;
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
   const [recaptchaToken, setRecaptchaToken] = useState<string>('');
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const { onRegister } = useAuth();
-  const { setUserRegisterInfo } = useUserRegisterInfo();
+  const { userRegisterInfo, setUserRegisterInfo } = useUserRegisterInfo();
 
   const onSubmit = (values: any) => {
     const registerParams = {
@@ -52,6 +52,10 @@ const Register = (props: IProps) => {
   const requestRegister = useRegister({
     onSuccess: (res: any) => {
       if (res?.data) {
+        setUserRegisterInfo({
+          ...userRegisterInfo,
+          token: res?.data.token,
+        });
         onRegister({
           token: res?.data.token,
           refreshToken: res?.refresh_token,
@@ -61,11 +65,11 @@ const Register = (props: IProps) => {
           case 'OTP': {
             if (isModal) {
               form.resetFields();
-              setModalStatus({
-                ...modalStatus,
-                modalAuth: false,
-                modalRegisterOtp: true,
-              })
+              setPopupStatus({
+                ...popupStatus,
+                popupAuth: false,
+                popupRegisterOtp: true,
+              });
             } else {
               router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
             }
@@ -73,11 +77,11 @@ const Register = (props: IProps) => {
           }
           case 'LOGIN_ID': {
             if (isModal) {
-              setModalStatus({
-                ...modalStatus,
-                modalAuth: false,
-                modalRegisterUsername: true,
-              })
+              setPopupStatus({
+                ...popupStatus,
+                popupAuth: false,
+                popupRegisterUsername: true,
+              });
             } else {
               router.push(ROUTE_PATH.REGISTER_USER_NAME);
             }
@@ -107,7 +111,11 @@ const Register = (props: IProps) => {
   return (
     <>
       <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-      <Form className='mt-10 space-y-6 laptop:max-w-[479px] laptop:w-full' form={form} onFinish={onSubmit}>
+      <Form
+        className='mt-10 space-y-6 laptop:w-full laptop:max-w-[479px]'
+        form={form}
+        onFinish={onSubmit}
+      >
         <FormItem
           name='phoneNumber'
           normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}

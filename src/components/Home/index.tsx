@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
-import { Toaster } from 'react-hot-toast';
 
-import ModalLoginTerms from '@components/Auth/Login/ModalLoginTerms';
-import ModalAuth from '@components/Auth/ModalAuth';
-import ModalRegisterOtp from '@components/Auth/Register/ModalOtp';
-import ModalRegisterCreateUsername from '@components/Auth/Register/ModalUsername';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
+import ModalAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import PopupAuth from '@components/UI/Popup/PopupAuth';
+import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
+import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
+import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 // import useGetMetaData from '@hooks/useGetMetaData';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
-import { initialModalStatus, modalStatusAtom } from '@store/modal/modal';
+import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 
 import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
@@ -40,7 +40,7 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
     requestJoinIndex();
@@ -75,9 +75,6 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { userLoginInfo } = useUserLoginInfo();
-  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(
-    !!userType && !isReadTerms,
-  );
 
   React.useEffect(() => {
     window.addEventListener('scroll', loadMore);
@@ -127,37 +124,45 @@ const Home = () => {
       setSelectTab('1');
     }
   }, [isHaveStockWatchList]);
-  const onToggleModalLoginTerms = () => {
-    setShowModalLoginTerms(!showModalLoginTerms);
-  };
   const onCloseModal = () => {
-    setModalStatus(initialModalStatus);
+    setPopupStatus(initialPopupStatus);
   };
+  useEffect(() => {
+    if (!!userType && !isReadTerms) {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+    }
+  }, [userType, isReadTerms]);
   // const metaData = useGetMetaData();
   if (loading && lastNewFeed === '') {
     return <SkeletonLoading />;
   }
-
   return (
     <>
-      <ModalLoginTerms
-        visible={showModalLoginTerms}
-        onToggle={onToggleModalLoginTerms}
-        userType={userType}
-      />
-      <ModalAuth
-        visible={modalStatus.modalAuth}
-        onClose={onCloseModal}
-      />
-      <ModalRegisterOtp
-        visible={modalStatus.modalRegisterOtp}
-        onClose={onCloseModal}
-      />
-      <ModalRegisterCreateUsername
-        visible={modalStatus.modalRegisterUsername}
-        onClose={onCloseModal}
-      />
-      <Toaster />
+      {popupStatus.popupAccessLinmit && (
+        <ModalAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupLoginTerms && (
+        <PopupLoginTerms
+          visible={popupStatus.popupLoginTerms}
+          onClose={onCloseModal}
+          userType={userType}
+        />
+      )}
+      {popupStatus.popupAuth && (
+        <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupRegisterOtp && (
+        <PopupRegisterOtp visible={popupStatus.popupRegisterOtp} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupRegisterUsername && (
+        <PopupRegisterCreateUsername
+          visible={popupStatus.popupRegisterUsername}
+          onClose={onCloseModal}
+        />
+      )}
 
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div

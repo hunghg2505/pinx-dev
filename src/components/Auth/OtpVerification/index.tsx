@@ -19,7 +19,6 @@ interface IProps {
 
 const convertSecond = (secs: number) => {
   const secondsText = secs < 10 ? '0' + Math.ceil(secs).toString() : Math.ceil(secs).toString();
-
   return secondsText;
 };
 
@@ -57,11 +56,8 @@ const OtpVerification = (props: IProps) => {
     if (isResendAvailable) {
       props.onResendOtp();
       startOtpTimer();
-      setOtpCount(120);
-      setIsOtpExpired(false);
-      setResendCount(15);
-      setIsResendAvailable(false);
       startResendTimer();
+      resetTimer();
     }
   };
 
@@ -82,6 +78,13 @@ const OtpVerification = (props: IProps) => {
       setIsOtpExpired(true);
     }
   }, [otpCount]);
+
+  const resetTimer = () => {
+    setOtpCount(120);
+    setIsOtpExpired(false);
+    setResendCount(15);
+    setIsResendAvailable(false);
+  };
 
   // resend count down
   const startResendTimer = () => {
@@ -117,8 +120,12 @@ const OtpVerification = (props: IProps) => {
   }, []);
 
   return (
-    <div className={`mobile:mt-20 laptop:m-0 ${props.isModal ? '' : 'laptop:min-w-[450px]'}`}>
-      <div className='mt-[46px]'>
+    <div
+      className={`laptop:m-0 ${
+        props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
+      }`}
+    >
+      <div className={`${props.isModal ? 'mt-[36px]' : 'mt-[46px]'}`}>
         <Text type='body-24-bold'>Confirm phone number</Text>
         <Text type='body-18-regular' color='neutral-4'>
           Enter OTP sent to{' '}

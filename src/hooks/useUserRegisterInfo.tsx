@@ -5,13 +5,14 @@ interface InitUserRegisterInfo {
   password?: string;
   email?: string;
   recaptcha?: string;
+  token?: string;
 }
 
 const initialUserRegisterInfo: InitUserRegisterInfo = {
   phoneNumber: '',
 };
 
-const userRegisterInfoAtom = atom(initialUserRegisterInfo);
+export const userRegisterInfoAtom = atom(initialUserRegisterInfo);
 
 export const useUserRegisterInfo = () => {
   const [userRegisterInfo, setUserRegisterInfo] = useAtom(userRegisterInfoAtom);

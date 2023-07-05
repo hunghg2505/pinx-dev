@@ -11,7 +11,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useLogin } from './service';
@@ -34,7 +34,7 @@ const checkUserType = (custStat: string, acntStat: string) => {
 };
 
 const Login = (props: Iprops) => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isModal } = props;
   const router = useRouter();
   const [form] = Form.useForm();
@@ -78,10 +78,10 @@ const Login = (props: Iprops) => {
           setIsReadTerms(true);
         }
         if (isModal) {
-          setModalStatus({
-            ...modalStatus,
-            modalAuth: false,
-          })
+          setPopupStatus({
+            ...popupStatus,
+            popupAuth: false,
+          });
         } else {
           router.push(ROUTE_PATH.HOME);
         }
