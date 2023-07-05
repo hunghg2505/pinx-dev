@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -8,12 +9,18 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
+import { modalStatusAtom } from '@store/modal/modal';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
 
-const Register = () => {
+interface IProps {
+  isModal?: boolean;
+}
+
+const Register = (props: IProps) => {
+  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
@@ -29,7 +36,15 @@ const Register = () => {
           expiredTime: res?.expired_time || 0,
         });
       }
-      router.push(ROUTE_PATH.REGISTER_COMPANY);
+      if (props.isModal) {
+        setModalStatus({
+          ...modalStatus,
+          modalRegisterOtp: false,
+          modalRegisterUsername: true,
+        })
+      } else {
+        router.push(ROUTE_PATH.REGISTER_COMPANY);
+      }
       setIsReadTerms(true);
       deleteRegisterCookies();
     },
@@ -66,6 +81,7 @@ const Register = () => {
       onSubmit={onSubmit}
       onResendOtp={onResendOtp}
       phoneNumber={userRegisterInfo.phoneNumber}
+      isModal={props.isModal}
     />
   );
 };
