@@ -99,14 +99,19 @@ const PostDetail = () => {
             <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
               Post detail
             </Text>
-            <img
-              src='/static/icons/iconBack.svg'
-              alt=''
-              width='0'
-              height='0'
-              className='absolute left-[16px] top-2/4 w-[18px] -translate-y-1/2 transform cursor-pointer'
+
+            <div
               onClick={onGoToBack}
-            />
+              className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[16px]'
+            >
+              <img
+                src='/static/icons/iconBack.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='w-[18px] cursor-pointer'
+              />
+            </div>
           </div>
           <NewFeedItem
             postDetail={postDetail?.data}
