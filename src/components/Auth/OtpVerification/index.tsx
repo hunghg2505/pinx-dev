@@ -14,6 +14,7 @@ interface IProps {
   onResendOtp: () => void;
   onSubmit: (otp: string) => void;
   phoneNumber?: string;
+  isModal?: boolean;
 }
 
 const convertSecond = (secs: number) => {
@@ -116,7 +117,7 @@ const OtpVerification = (props: IProps) => {
   }, []);
 
   return (
-    <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
+    <div className={`mobile:mt-20 laptop:m-0 ${props.isModal ? '' : 'laptop:min-w-[450px]'}`}>
       <div className='mt-[46px]'>
         <Text type='body-24-bold'>Confirm phone number</Text>
         <Text type='body-18-regular' color='neutral-4'>

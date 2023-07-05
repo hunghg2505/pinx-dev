@@ -135,8 +135,6 @@ const LabelInput: React.FC<InputProps & Ref> = React.forwardRef(
       }
     };
 
-    console.log('xxx label input haserror', hasError);
-
     return (
       <div
         className={classNames(
