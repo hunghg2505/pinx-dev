@@ -212,6 +212,11 @@ const Editor = (props: IProps, ref?: any) => {
           onCloseImage();
         }
       },
+      onError: (error: any) => {
+        if (error.error) {
+          toast(() => <Notification type='error' message={error.error} />);
+        }
+      },
     },
   );
   const onSend = async () => {
