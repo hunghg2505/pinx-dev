@@ -25,7 +25,7 @@ const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...
             <div>
               {typeof children === 'function'
                 ? children({ onChange, value, meta, hasError }, context)
-                : React.cloneElement(children, { onChange, value, ...children.props })}
+                : React.cloneElement(children, { onChange, value, hasError, ...children.props })}
             </div>
 
             {!hideError && hasError && (

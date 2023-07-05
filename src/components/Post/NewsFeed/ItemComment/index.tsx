@@ -4,6 +4,7 @@ import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
@@ -19,6 +20,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { modalStatusAtom } from '@store/modal/modal';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -38,6 +40,7 @@ interface IProps {
 }
 const ItemComment = (props: IProps) => {
   const router = useRouter();
+  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
@@ -61,7 +64,10 @@ const ItemComment = (props: IProps) => {
         }
       }
     } else {
-      PopupComponent.open();
+      setModalStatus({
+        ...modalStatus,
+        modalAuth: true,
+      });
     }
   };
   useClickAway(() => {
@@ -124,7 +130,10 @@ const ItemComment = (props: IProps) => {
         useLike.run();
       }
     } else {
-      PopupComponent.open();
+      setModalStatus({
+        ...modalStatus,
+        modalAuth: true,
+      });
     }
   };
 

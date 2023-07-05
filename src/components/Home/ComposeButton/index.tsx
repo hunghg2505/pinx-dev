@@ -1,10 +1,14 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
+
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { modalStatusAtom } from '@store/modal/modal';
 import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
+  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
   const { isLogin, statusUser } = useUserType();
 
   const handleClick = () => {
@@ -15,7 +19,10 @@ const ComposeButton = () => {
         PopupComponent.openEKYC();
       }
     } else {
-      PopupComponent.open();
+      setModalStatus({
+        ...modalStatus,
+        modalAuth: true,
+      });
     }
   };
 

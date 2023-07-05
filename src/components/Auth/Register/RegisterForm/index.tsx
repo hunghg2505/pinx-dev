@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { useCallback, useEffect, useState } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -14,6 +15,7 @@ import Notification from '@components/UI/Notification';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
+import { modalStatusAtom } from '@store/modal/modal';
 import { ROUTE_PATH } from '@utils/common';
 import { TERM_AND_CONDITION_LINK } from '@utils/constant';
 import { normalizeNumber } from '@utils/normalize';
@@ -21,7 +23,13 @@ import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
 
-const Register = () => {
+interface IProps {
+  isModal?: boolean;
+}
+
+const Register = (props: IProps) => {
+  const { isModal } = props;
+  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
   const [recaptchaToken, setRecaptchaToken] = useState<string>('');
@@ -51,11 +59,28 @@ const Register = () => {
         });
         switch (res?.data.nextStep) {
           case 'OTP': {
-            router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+            if (isModal) {
+              form.resetFields();
+              setModalStatus({
+                ...modalStatus,
+                modalAuth: false,
+                modalRegisterOtp: true,
+              })
+            } else {
+              router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+            }
             break;
           }
           case 'LOGIN_ID': {
-            router.push(ROUTE_PATH.REGISTER_USER_NAME);
+            if (isModal) {
+              setModalStatus({
+                ...modalStatus,
+                modalAuth: false,
+                modalRegisterUsername: true,
+              })
+            } else {
+              router.push(ROUTE_PATH.REGISTER_USER_NAME);
+            }
             break;
           }
         }
@@ -72,7 +97,7 @@ const Register = () => {
 
   const onRefreshReCaptcha = () => {
     /* do something like submit a form and then refresh recaptcha */
-    setRefreshReCaptcha((r) => !r);
+    setRefreshReCaptcha((r: any) => !r);
   };
 
   useEffect(() => {
@@ -82,7 +107,7 @@ const Register = () => {
   return (
     <>
       <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-      <Form className='mt-10 max-w-[479px] space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
+      <Form className='mt-10 space-y-6 laptop:max-w-[479px] laptop:w-full' form={form} onFinish={onSubmit}>
         <FormItem
           name='phoneNumber'
           normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}

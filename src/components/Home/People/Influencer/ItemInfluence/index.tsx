@@ -1,17 +1,19 @@
 import { useRequest } from 'ahooks';
+import { useAtom } from 'jotai';
 import { toast } from 'react-hot-toast';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import PopupComponent from '@utils/PopupComponent';
+import { modalStatusAtom } from '@store/modal/modal';
 
 interface IProps {
   data: IKOL;
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
+  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
   const { isLogin } = useUserType();
   const { data, refresh } = props;
   const isFollow = data?.isFollowed;
@@ -48,7 +50,10 @@ const ItemInfluence = (props: IProps) => {
         useFollowUser.run();
       }
     } else {
-      PopupComponent.open();
+      setModalStatus({
+        ...modalStatus,
+        modalAuth: true,
+      });
     }
   };
   return (

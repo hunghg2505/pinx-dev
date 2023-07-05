@@ -22,7 +22,7 @@ const LoginLayout = ({ children }: any) => {
           <Text className='text-[64px] font-[600] text-white'>Steadily</Text>
           <Text className='text-[64px] font-[600] text-white'>Together.</Text>
         </div>
-        <main className='flex flex-col justify-center laptop:w-[60%]'>
+        <main className='flex flex-col laptop:w-[60%]'>
           <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>
             <img
               src='/static/images/pinex_logo.png'

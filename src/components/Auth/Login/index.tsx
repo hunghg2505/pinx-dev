@@ -1,3 +1,4 @@
+import { useAtom } from 'jotai';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -10,9 +11,14 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
+import { modalStatusAtom } from '@store/modal/modal';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useLogin } from './service';
+
+interface Iprops {
+  isModal?: boolean;
+}
 
 const checkUserType = (custStat: string, acntStat: string) => {
   if (custStat === 'NEW') {
@@ -27,7 +33,9 @@ const checkUserType = (custStat: string, acntStat: string) => {
   return 'VSD';
 };
 
-const Login = () => {
+const Login = (props: Iprops) => {
+  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const { isModal } = props;
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
@@ -69,7 +77,14 @@ const Login = () => {
         if (res?.data.isReadTerms === 'true') {
           setIsReadTerms(true);
         }
-        router.push(ROUTE_PATH.HOME);
+        if (isModal) {
+          setModalStatus({
+            ...modalStatus,
+            modalAuth: false,
+          })
+        } else {
+          router.push(ROUTE_PATH.HOME);
+        }
       }
     },
     onError(e) {
