@@ -5,7 +5,7 @@ import Dialog from 'rc-dialog';
 
 import { deleteRegisterCookies } from '@store/auth';
 
-import CreateUsername from '../CreateUsername';
+import CreateUsername from '../../../Auth/Register/CreateUsername';
 
 interface IProps {
   visible: boolean;
@@ -16,10 +16,7 @@ const ModalRegisterCreateUsername = (props: IProps) => {
   const { visible, onClose } = props;
 
   const renderCloseIcon = (): React.ReactNode => {
-    return <img
-      src='/static/icons/close_icon.svg'
-      alt=''
-    />;
+    return <img src='/static/icons/close_icon.svg' alt='' />;
   };
 
   const handleClose = () => {
@@ -29,7 +26,7 @@ const ModalRegisterCreateUsername = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()} className='max-w-[350px]'>
+      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <CreateUsername isModal />
       </Dialog>
     </>

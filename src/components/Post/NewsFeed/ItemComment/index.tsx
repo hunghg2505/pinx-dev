@@ -20,7 +20,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -40,7 +40,7 @@ interface IProps {
 }
 const ItemComment = (props: IProps) => {
   const router = useRouter();
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
@@ -64,9 +64,9 @@ const ItemComment = (props: IProps) => {
         }
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };
@@ -130,9 +130,9 @@ const ItemComment = (props: IProps) => {
         useLike.run();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };

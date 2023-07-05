@@ -4,12 +4,12 @@ import 'rc-dialog/assets/index.css';
 import Dialog from 'rc-dialog';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import Login from '@components/Auth/Login';
+import Register from '@components/Auth/Register/RegisterForm';
 import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import styles from './index.module.scss';
-import Login from '../Login';
-import Register from '../Register/RegisterForm';
 
 interface IProps {
   visible: boolean;
@@ -21,10 +21,7 @@ const ModalAuth = (props: IProps) => {
   const { visible, onClose } = props;
 
   const renderCloseIcon = (): React.ReactNode => {
-    return <img
-      src='/static/icons/close_icon.svg'
-      alt=''
-    />;
+    return <img src='/static/icons/close_icon.svg' alt='' />;
   };
 
   const handleClose = () => {
@@ -37,7 +34,7 @@ const ModalAuth = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()} className='max-w-[350px]'>
+      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         {curTab === AUTH_TAB_TYPE.REGISTER && (
           <div>
             <a

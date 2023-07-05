@@ -10,7 +10,7 @@ import LabelInput from '@components/UI/LabelInput';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { REG_USERNAME } from '@utils/reg';
 
@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const CreateUsername = (props: IProps) => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
@@ -37,11 +37,11 @@ const CreateUsername = (props: IProps) => {
         switch (res?.data.nextStep) {
           case 'OTP': {
             if (props.isModal) {
-              setModalStatus({
-                ...modalStatus,
-                modalRegisterOtp: false,
-                modalRegisterUsername: true,
-              })
+              setPopupStatus({
+                ...popupStatus,
+                popupRegisterOtp: false,
+                popupRegisterUsername: true,
+              });
             } else {
               router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
             }
@@ -60,7 +60,11 @@ const CreateUsername = (props: IProps) => {
   };
 
   return (
-    <div className={`mobile:mt-20 laptop:m-0 ${props.isModal ? '' : 'laptop:min-w-[450px]'}`}>
+    <div
+      className={`laptop:m-0 ${
+        props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
+      }`}
+    >
       <div className='mt-[36px]'>
         <Text type='body-28-bold'>Create username</Text>
         <Text type='body-16-regular' color='neutral-4'>
@@ -74,17 +78,19 @@ const CreateUsername = (props: IProps) => {
           rules={[
             {
               required: true,
-              message: 'Please enter user name'
+              message: 'Please enter user name',
             },
             {
               pattern: REG_USERNAME,
-              message: 'Please check username format'
-            }
-          ]}>
+              message: 'Please check username format',
+            },
+          ]}
+        >
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
         <Text type='body-12-regular' className='!mt-1'>
-          Username must contain at least 1 uppercase letter and not contain special characters including @ # $ % ^ & * ! ?
+          Username must contain at least 1 uppercase letter and not contain special characters
+          including @ # $ % ^ & * ! ?
         </Text>
 
         <MainButton type='submit' className='!mt-10 w-full'>

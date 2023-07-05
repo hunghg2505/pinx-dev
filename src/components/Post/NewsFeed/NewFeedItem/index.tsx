@@ -25,7 +25,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
@@ -65,7 +65,7 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -107,9 +107,9 @@ const NewFeedItem = (props: IProps) => {
         onNavigate && onNavigate();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };
@@ -175,9 +175,9 @@ const NewFeedItem = (props: IProps) => {
         useLikePost.run();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };
@@ -241,9 +241,9 @@ const NewFeedItem = (props: IProps) => {
         onFollowUser.run();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };
@@ -251,9 +251,9 @@ const NewFeedItem = (props: IProps) => {
     if (isLogin) {
       onHidePost.run();
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };
@@ -465,10 +465,10 @@ const NewFeedItem = (props: IProps) => {
             TYPEPOST.ActivityMatchOrder,
             TYPEPOST.ActivityWatchlist,
           ].includes(postDetail?.post.postType) && (
-              <div className='cursor-pointer' onClick={onFollow}>
-                {renderTextFollow()}
-              </div>
-            )}
+            <div className='cursor-pointer' onClick={onFollow}>
+              {renderTextFollow()}
+            </div>
+          )}
 
           <button className='relative' ref={ref}>
             <img
@@ -488,23 +488,23 @@ const NewFeedItem = (props: IProps) => {
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.PinetreePost,
                 ].includes(postDetail?.post.postType) && (
-                    <div
-                      className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                      onClick={handleHidePost}
-                    >
-                      <img
-                        src='/static/icons/iconUnHide.svg'
-                        alt=''
-                        width='0'
-                        height='0'
-                        sizes='100vw'
-                        className='mr-[8px] h-[20px] w-[20px] object-contain'
-                      />
-                      <Text type='body-14-medium' color='neutral-2'>
-                        Hide
-                      </Text>
-                    </div>
-                  )}
+                  <div
+                    className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+                    onClick={handleHidePost}
+                  >
+                    <img
+                      src='/static/icons/iconUnHide.svg'
+                      alt=''
+                      width='0'
+                      height='0'
+                      sizes='100vw'
+                      className='mr-[8px] h-[20px] w-[20px] object-contain'
+                    />
+                    <Text type='body-14-medium' color='neutral-2'>
+                      Hide
+                    </Text>
+                  </div>
+                )}
 
                 {!isReported && !isMyPost && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>

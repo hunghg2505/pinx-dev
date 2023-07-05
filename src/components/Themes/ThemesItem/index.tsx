@@ -5,7 +5,7 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 
 interface IProps {
   theme: ITheme;
@@ -65,7 +65,7 @@ const IconChecked = () => (
 );
 
 const ThemesItem = (props: IProps) => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { theme, isLogin, refresh } = props;
   const useSubcribe = useRequest(
     (code: string) => {
@@ -105,9 +105,9 @@ const ThemesItem = (props: IProps) => {
         useSubcribe.run(theme.code);
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };

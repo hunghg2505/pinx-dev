@@ -11,7 +11,7 @@ import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import PopupComponent from '@utils/PopupComponent';
 import { RC_DIALOG_CLASS_NAME } from 'src/constant';
 
@@ -27,7 +27,7 @@ interface IProps {
   onReportSuccess: () => void;
 }
 const ModalReport = (props: IProps) => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { children, closeIcon, postID, visible, onModalReportVisible, onReportSuccess } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
@@ -39,9 +39,9 @@ const ModalReport = (props: IProps) => {
         PopupComponent.openEKYC();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };
