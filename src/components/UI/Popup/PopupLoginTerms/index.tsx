@@ -22,12 +22,12 @@ interface IProps {
   userType: string;
   visible: boolean;
   closeIcon?: React.ReactNode;
-  onToggle: () => void;
+  onClose: () => void;
 }
 
 const ModalLoginTerms = (props: IProps) => {
   const router = useRouter();
-  const { visible, closeIcon, onToggle, userType } = props;
+  const { visible, closeIcon, onClose, userType } = props;
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
   const { onLogout } = useAuth();
@@ -80,7 +80,7 @@ const ModalLoginTerms = (props: IProps) => {
       trdType: '1',
     };
     requestSendLoginOtp.run(payload);
-    onToggle();
+    onClose();
   };
 
   const onConfirmContract = () => {
@@ -90,7 +90,7 @@ const ModalLoginTerms = (props: IProps) => {
       token: '',
     };
     requestConfirmContract.run(payload);
-    onToggle();
+    onClose();
   };
 
   const onSubmit = () => {
@@ -109,7 +109,7 @@ const ModalLoginTerms = (props: IProps) => {
     } else {
       onLogout();
     }
-    onToggle();
+    onClose();
   };
 
   useEffect(() => {

@@ -6,8 +6,6 @@ import Dialog from 'rc-dialog';
 import OtpVerification from '@components/Auth/Register/OtpVerification';
 import { deleteRegisterCookies } from '@store/auth';
 
-
-
 interface IProps {
   visible: boolean;
   onClose: () => void;
@@ -17,10 +15,7 @@ const ModalRegisterOtp = (props: IProps) => {
   const { visible, onClose } = props;
 
   const renderCloseIcon = (): React.ReactNode => {
-    return <img
-      src='/static/icons/close_icon.svg'
-      alt=''
-    />;
+    return <img src='/static/icons/close_icon.svg' alt='' />;
   };
 
   const handleClose = () => {
@@ -30,7 +25,7 @@ const ModalRegisterOtp = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()} className='max-w-[350px]'>
+      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <OtpVerification isModal />
       </Dialog>
     </>

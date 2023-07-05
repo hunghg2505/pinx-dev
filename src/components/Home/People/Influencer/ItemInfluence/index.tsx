@@ -6,14 +6,14 @@ import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/s
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 
 interface IProps {
   data: IKOL;
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
   const { data, refresh } = props;
   const isFollow = data?.isFollowed;
@@ -50,9 +50,9 @@ const ItemInfluence = (props: IProps) => {
         useFollowUser.run();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };

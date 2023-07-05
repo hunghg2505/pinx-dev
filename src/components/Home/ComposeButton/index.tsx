@@ -4,11 +4,11 @@ import { useAtom } from 'jotai';
 
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { modalStatusAtom } from '@store/modal/modal';
+import { popupStatusAtom } from '@store/popup/popup';
 import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
-  const [modalStatus, setModalStatus] = useAtom(modalStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin, statusUser } = useUserType();
 
   const handleClick = () => {
@@ -19,9 +19,9 @@ const ComposeButton = () => {
         PopupComponent.openEKYC();
       }
     } else {
-      setModalStatus({
-        ...modalStatus,
-        modalAuth: true,
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
       });
     }
   };

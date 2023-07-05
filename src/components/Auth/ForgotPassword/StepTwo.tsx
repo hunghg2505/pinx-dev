@@ -1,10 +1,11 @@
 /* eslint-disable import/named */
 import React from 'react';
 
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
+import { PickerProps } from 'rc-picker';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
@@ -19,13 +20,18 @@ import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useForgotPassword } from './service';
 
+const disabledDate: PickerProps<Dayjs>['disabledDate'] = (current) => {
+  // Can not select days before today and today
+  return current > dayjs().endOf('day');
+};
+
 const ForgotPasswordStepOne = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const initialValues = {
     username: router.query.username,
-    phoneNumber: router.query.phone_number
-  }
+    phoneNumber: router.query.phone_number,
+  };
 
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
@@ -61,7 +67,12 @@ const ForgotPasswordStepOne = () => {
         </Text>
       </div>
 
-      <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit} initialValues={initialValues}>
+      <Form
+        className='mt-10 space-y-6 laptop:w-full'
+        form={form}
+        onFinish={onSubmit}
+        initialValues={initialValues}
+      >
         <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
@@ -127,6 +138,7 @@ const ForgotPasswordStepOne = () => {
             labelContent='Date of birth'
             name='birthday'
             format='DD/MM/YYYY'
+            disabledDate={disabledDate}
           />
         </FormItem>
         <MainButton type='submit' className='!mt-1 w-full'>
