@@ -58,6 +58,13 @@ const PostDetail = () => {
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
+  const totalComments = commentsOfPost?.data?.list?.length;
+  const commentChild = commentsOfPost?.data?.list?.reduce(
+    (acc: any, current: any) => acc + current?.totalChildren,
+    0,
+  );
+  const countComment = totalComments + commentChild;
+
   const onGoToBack = () => {
     router.back();
   };
@@ -110,7 +117,7 @@ const PostDetail = () => {
           </div>
           <NewFeedItem
             postDetail={postDetail?.data}
-            totalComments={postDetail?.data?.totalChildren}
+            totalComments={countComment}
             onRefreshPostDetail={refresh}
             postId={postDetail?.data?.id}
           />
