@@ -50,6 +50,8 @@ export const API_PATH = {
   PRIVATE_FOLLOW_USER: '/private/customer/follow',
   PRIVATE_UNFOLLOW_USER: '/private/customer/unfollow',
   PRIVATE_LIST_KOLS: '/private/customer/kols',
+  PRIVATE_GET_OTHER_USER_PROFILE: (id: number) => `/private/customer/${id}/profile`,
+  PUBLIC_GET_OTHER_USER_PROFILE: (id: number) => `/public/customer/${id}/profile`,
 
   // theme
   PRIVATE_FOLLOW_THEME: '/private/theme/subscribe',

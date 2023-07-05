@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 
-import { useRequest } from 'ahooks';
+import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -27,6 +27,7 @@ import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
+import ItemHoverProfile from './ItemHoverProfile';
 
 const ModalShare = dynamic(import('../ModalShare'), {
   ssr: false,
@@ -59,7 +60,6 @@ const IconPlus = () => (
 );
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
-  console.log('🚀 ~ file: index.tsx:171 ~ NewFeedItem ~ postDetail:', postDetail);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -67,6 +67,8 @@ const NewFeedItem = (props: IProps) => {
   const { statusUser, isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
+  const refHover = useRef(null);
+  const isHovering = useHover(refHover);
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
@@ -367,6 +369,7 @@ const NewFeedItem = (props: IProps) => {
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
           <div
+            ref={refHover}
             className={classNames('relative', {
               [styles.avatar]: [
                 TYPEPOST.POST,
@@ -388,67 +391,13 @@ const NewFeedItem = (props: IProps) => {
                 )}
               />
             )}
-            <div
-              className={classNames(
-                'absolute left-[50px] top-[45px] z-10 w-[352px] rounded-[16px] bg-[#FFF] px-[25px] py-[20px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)]',
-                styles.infoUser,
-              )}
-            >
-              <div className='flex'>
-                {postDetail?.post?.customerInfo?.avatar ? (
-                  <img
-                    src={postDetail?.post?.customerInfo?.avatar}
-                    className='mr-[10px] h-[72px] w-[72px] rounded-full'
-                    alt=''
-                  />
-                ) : (
-                  <div className='h-[72px] w-[72px]'>
-                    <AvatarDefault name={name} />
-                  </div>
-                )}
-
-                <div className='my-[4px] w-full'>
-                  <Text type='body-16-semibold' color='neutral-1'>
-                    {postDetail?.post?.customerInfo?.displayName}
-                  </Text>
-                  <div className='flex'>
-                    <Text type='body-12-regular' color='primary-5' className='mr-[5px]'>
-                      Join date:
-                    </Text>
-                    <Text type='body-12-semibold' color='neutral-1'>
-                      MM/YYYY
-                    </Text>
-                  </div>
-                  <div className='my-[15px] block h-[1px] bg-[#ECECEC]'></div>
-                  <div className='flex flex-row justify-between'>
-                    <div>
-                      <Text type='body-12-regular' color='primary-5'>
-                        Post:
-                      </Text>
-                      <Text type='body-12-semibold' color='neutral-1'>
-                        298
-                      </Text>
-                    </div>
-                    <div>
-                      <Text type='body-12-regular' color='primary-5'>
-                        Follower:
-                      </Text>
-                      <Text type='body-12-semibold' color='neutral-1'>
-                        {postDetail?.post?.customerInfo?.numberFollowers}
-                      </Text>
-                    </div>
-                    <div>
-                      <Text type='body-12-regular' color='primary-5'>
-                        Following:
-                      </Text>
-                      <Text type='body-12-semibold' color='neutral-1'>
-                        577
-                      </Text>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {[
+              TYPEPOST.POST,
+              TYPEPOST.ActivityTheme,
+              TYPEPOST.ActivityWatchlist,
+              TYPEPOST.ActivityMatchOrder,
+            ].includes(postDetail?.post.postType) &&
+              isHovering && <ItemHoverProfile postDetail={postDetail} name={name} />}
           </div>
 
           <div>
