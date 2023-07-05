@@ -95,6 +95,7 @@ export const formatMessage = (message: string, data: any) => {
       }
     }
   });
+
   return message;
 };
 export const toBase64 = (file: any) =>

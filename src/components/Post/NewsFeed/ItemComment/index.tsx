@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import {
   IComment,
@@ -14,6 +15,7 @@ import {
   requestUnLikeComment,
 } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
@@ -79,6 +81,16 @@ const ItemComment = (props: IProps) => {
       onSuccess: () => {
         refresh();
       },
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const useUnLike = useRequest(
@@ -89,6 +101,16 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+      },
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
       },
     },
   );
@@ -141,7 +163,12 @@ const ItemComment = (props: IProps) => {
           })}
         />
         {/* bg-[#F6FAFD] */}
-        <div className='content w-full'>
+        <div
+          className={classNames('content', {
+            'w-[calc(100%_-_40px)]': isChildren,
+            'w-[calc(100%_-_48px)]': !isChildren,
+          })}
+        >
           <div className='relative mb-[8px] rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
               <Text type='body-14-semibold' color='neutral-1'>
@@ -181,8 +208,8 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
-            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
-              <Text type='body-16-medium' color='primary-5'>
+            <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
+              <Text type='body-16-regular' className='text-[#0D0D0D]'>
                 {message && (
                   <div
                     dangerouslySetInnerHTML={{ __html: message }}

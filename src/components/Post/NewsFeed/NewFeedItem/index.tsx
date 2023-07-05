@@ -8,6 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import {
@@ -19,6 +20,7 @@ import {
   unlikePost,
 } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
@@ -124,7 +126,16 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         onRefreshPostDetail();
       },
-      onError: () => {},
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const useUnLike = useRequest(
@@ -136,7 +147,16 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         onRefreshPostDetail();
       },
-      onError: () => {},
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const handleLikeOrUnLikePost = () => {
