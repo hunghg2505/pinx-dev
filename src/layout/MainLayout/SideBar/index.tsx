@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
@@ -57,12 +56,15 @@ const SideBar = () => {
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: 'flex flex-row-reverse justify-end py-[16px] px-[10px] pointer-events-none',
+        className:
+          'flex items-center flex-row-reverse justify-end py-[16px] px-[10px] pointer-events-none',
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
-          <CustomLink href='javascript:void(0)' className={classNames(' ml-[20px]')}>
-            <Text type='body-14-regular'>{menu.label}</Text>
+          <CustomLink href='javascript:void(0)' className='ml-[10px]'>
+            <Text type='body-16-semibold' color='neutral-3'>
+              {menu.label}
+            </Text>
           </CustomLink>
         ),
       };

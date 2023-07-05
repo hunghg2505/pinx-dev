@@ -13,7 +13,6 @@
   &.tabHomePc {
     .rc-tabs-nav-list {
       display: flex;
-      padding-left: 8px;
       .rc-tabs-tab {
         margin-right: 30px;
         padding-bottom: 10px;
@@ -103,7 +102,7 @@
 .messageFormat {
   a {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 18px;
     color: #1a1a1a;
   }
@@ -117,7 +116,7 @@
 }
 // menu
 .rc-menu-item-selected {
-  background-color: #f0f7fc;
+  background-color: #eaf4fb;
   padding: 10px;
   border-radius: 10px;
 }

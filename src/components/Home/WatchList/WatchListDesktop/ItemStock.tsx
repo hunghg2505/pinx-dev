@@ -6,7 +6,6 @@ import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
-  console.log('data', data);
   const isFloor = data?.lastPrice === data?.floorPrice;
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < data?.refPrice;

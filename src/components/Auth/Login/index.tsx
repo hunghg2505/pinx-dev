@@ -80,7 +80,7 @@ const Login = () => {
   return (
     <>
       <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
-        <FormItem name='username' rules={[{ required: true, message: 'Please enter username!' }]}>
+        <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
         <FormItem
@@ -88,7 +88,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: 'Please enter password!',
+              message: 'Please enter password',
             },
           ]}
         >
@@ -108,7 +108,7 @@ const Login = () => {
           </NextLink>
         </div>
 
-        <MainButton type='submit' className='!mt-10 w-full'>
+        <MainButton type='submit' className='!mt-2 w-full'>
           Login
         </MainButton>
       </Form>

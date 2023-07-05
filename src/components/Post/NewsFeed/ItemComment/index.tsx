@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 import {
   IComment,
@@ -16,7 +17,7 @@ import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { formatMessage } from '@utils/common';
+import { formatMessage, ROUTE_PATH } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -34,6 +35,7 @@ interface IProps {
   width?: number;
 }
 const ItemComment = (props: IProps) => {
+  const router = useRouter();
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
@@ -41,11 +43,12 @@ const ItemComment = (props: IProps) => {
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
       } else if (onNavigate) {
         onNavigate();
@@ -124,7 +127,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment p-[16px]'>
+    <div className='comment mb-[22px] px-[16px]'>
       <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
@@ -132,17 +135,20 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className='mr-[12px] w-[36px] rounded-full'
+          className={classNames('mr-[12px] rounded-full', {
+            'w-[36px]': !isChildren,
+            'w-[28px]': isChildren,
+          })}
         />
         {/* bg-[#F6FAFD] */}
         <div className='content w-full'>
-          <div className='relative rounded-[12px] py-[12px]'>
-            <div className='mb-[12px] flex w-full flex-row items-center justify-between'>
-              <Text type='body-14-bold' color='neutral-1'>
+          <div className='relative mb-[8px] rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
+            <div className='flex w-full flex-row items-center justify-between px-[16px]'>
+              <Text type='body-14-semibold' color='neutral-1'>
                 {data?.customerInfo?.displayName}
               </Text>
               <button className='relative flex items-center' ref={ref}>
-                <Text type='body-12-regular' color='neutral-5' className='mr-[12px]'>
+                <Text type='body-14-regular' color='neutral-5'>
                   {dayjs(data?.timeString).fromNow(true)}
                 </Text>
                 {isComment && (
@@ -175,8 +181,8 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
-            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px] mobile:max-w-[287px] tablet:max-w-full'>
-              <Text type='body-14-medium' color='primary-5'>
+            <div className='rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
+              <Text type='body-16-medium' color='primary-5'>
                 {message && (
                   <div
                     dangerouslySetInnerHTML={{ __html: message }}
@@ -187,7 +193,7 @@ const ItemComment = (props: IProps) => {
             </div>
 
             {data?.totalLikes > 0 && (
-              <div className='absolute bottom-0 right-0 flex h-[24px] w-[54px] flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+              <div className='absolute bottom-0 right-[6px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <img
                   src='/static/icons/iconLike.svg'
                   alt=''
@@ -211,7 +217,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='mb-[10px] h-[100px] w-[100px] rounded-[8px]'
+                    className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
                   />
                 )}
               </a>

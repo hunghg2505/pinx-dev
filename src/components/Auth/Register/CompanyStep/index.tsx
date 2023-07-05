@@ -87,51 +87,59 @@ const RegisterCompanyStep = () => {
             </div>
           </div>
           <div
-            className={
-              'mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
-            }
+            className={classNames(
+              'max-[768px]:flex max-[768px]:h-[60vh] max-[768px]:w-[80vw] max-[768px]:flex-col max-[768px]:justify-center max-[768px]:overflow-x-auto',
+              styles.listCompany,
+            )}
           >
-            {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-              const urlImageCompany = `${
-                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                  ? item.stockCode
-                  : item.stockCode?.slice(1, 4)
-              }.png`;
-              return (
-                <div
-                  className={classNames('relative flex justify-center', styles.companyCard)}
-                  key={item.stockCode}
-                  onClick={() => onSelect(item?.stockCode)}
-                >
+            <div className='mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] max-[768px]:w-[1000px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'>
+              {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
+                const urlImageCompany = `${
+                  item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                    ? item.stockCode
+                    : item.stockCode?.slice(1, 4)
+                }.png`;
+                return (
                   <div
-                    className={classNames(
-                      'flex cursor-pointer items-center justify-center rounded-full border border-solid bg-[rgba(255,255,255,0.33)] p-[8.5px] shadow-[0_4px_5px_0_rgba(195,216,227,0.46)] backdrop-blur-[2.7182817459106445px]',
-                      {
-                        'border-[var(--primary-1)]': checkIsSelected(item?.stockCode),
-                        'border-[rgba(255,255,255,0.25)]': !checkIsSelected(item?.stockCode),
-                      },
-                    )}
+                    className={classNames('relative flex justify-center', styles.companyCard)}
+                    key={item.stockCode}
+                    onClick={() => onSelect(item?.stockCode)}
                   >
-                    <div className='flex items-center justify-center rounded-full bg-[--neutral-9]'>
-                      <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
-                        {checkIsSelected(item?.stockCode) && (
-                          <img src='/static/icons/iconSelected.svg' alt='' width='24' height='24' />
-                        )}
+                    <div
+                      className={classNames(
+                        'flex cursor-pointer items-center justify-center rounded-full border border-solid bg-[rgba(255,255,255,0.33)] p-[8.5px] shadow-[0_4px_5px_0_rgba(195,216,227,0.46)] backdrop-blur-[2.7182817459106445px]',
+                        {
+                          'border-[var(--primary-1)]': checkIsSelected(item?.stockCode),
+                          'border-[rgba(255,255,255,0.25)]': !checkIsSelected(item?.stockCode),
+                        },
+                      )}
+                    >
+                      <div className='flex items-center justify-center rounded-full bg-[--neutral-9]'>
+                        <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
+                          {checkIsSelected(item?.stockCode) && (
+                            <img
+                              src='/static/icons/iconSelected.svg'
+                              alt=''
+                              width='24'
+                              height='24'
+                            />
+                          )}
+                        </div>
+                        <img
+                          src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
+                          alt=''
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='h-[48px] w-[48px] rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'
+                        />
+                        {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                       </div>
-                      <img
-                        src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
-                        alt=''
-                        width='0'
-                        height='0'
-                        sizes='100vw'
-                        className='h-[48px] w-[48px] rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'
-                      />
-                      {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
           <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button

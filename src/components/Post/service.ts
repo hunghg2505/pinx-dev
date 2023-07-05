@@ -146,7 +146,6 @@ export const usePostDetail = (postId: string) => {
       refreshDeps: [postId],
     },
   );
-
   return {
     postDetail: data,
     loading,
@@ -170,7 +169,6 @@ export const useCommentsOfPost = (postId: string) => {
       refreshDeps: [postId],
     },
   );
-
   return {
     commentsOfPost: data,
     loading,
