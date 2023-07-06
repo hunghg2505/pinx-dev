@@ -90,7 +90,7 @@ const RegisterCompanyStep = () => {
 
   return (
     <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
-      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8'>
+      <div className='md:h-screen lg:py-0 flex flex-1 flex-col items-center justify-center py-8 tablet:mx-auto'>
         <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
             <img
@@ -117,7 +117,7 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={classNames(
-              'tablet-max:flex tablet-max:h-[70vh] tablet-max:w-[80vw] tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
+              'tablet-max:flex tablet-max:h-[70vh] tablet-max:w-screen tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
               styles.listCompany,
             )}
           >
