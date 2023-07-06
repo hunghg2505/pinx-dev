@@ -10,10 +10,10 @@ interface IOptionsRequest {
 
 export interface ResultListStock {
   data: {
-    list: {
+    stocks: {
       stockCode: string;
     }[];
-  };
+  }[];
 }
 
 const requestGetSuggestStockCode = async () => {
@@ -78,7 +78,7 @@ export const useSelectStock = (options: IOptions) => {
 };
 
 const serviceGetMyStock = () => {
-  return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCH_LIST_STOCK);
+  return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
 };
 
 export const useGetMyStock = (options: IOptions) => {

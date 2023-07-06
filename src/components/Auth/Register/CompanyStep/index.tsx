@@ -55,8 +55,8 @@ const RegisterCompanyStep = () => {
 
   const requestGetMyStocks = useGetMyStock({
     onSuccess: (res: ResultListStock) => {
-      const listStock = res.data.list;
-      if (listStock) {
+      const listStock = res.data[0].stocks;
+      if (listStock.length > 0) {
         const listStockCode = listStock.map((item) => item.stockCode);
         setSelected(listStockCode);
         setMyListStock(listStockCode);
