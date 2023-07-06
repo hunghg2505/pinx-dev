@@ -6,7 +6,7 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import ModalAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
 import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
@@ -126,7 +126,7 @@ const PostDetail = () => {
     if (!!userType && !isReadTerms) {
       setPopupStatus({
         ...popupStatus,
-        popupAccessLinmit: true,
+        popupLoginTerms: true,
       });
     }
   }, [userType, isReadTerms]);
@@ -140,7 +140,7 @@ const PostDetail = () => {
   return (
     <>
       {popupStatus.popupAccessLinmit && (
-        <ModalAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
+        <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
       )}
       {popupStatus.popupLoginTerms && (
         <PopupLoginTerms
