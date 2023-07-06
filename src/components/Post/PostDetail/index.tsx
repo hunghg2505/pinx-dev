@@ -182,7 +182,7 @@ const PostDetail = () => {
               <Text
                 type='body-14-regular'
                 color='neutral-3'
-                className='mt-[16px] text-center tablet:hidden'
+                className='mt-[16px] text-center tablet:mb-[32px]'
               >
                 There is no comments
               </Text>
