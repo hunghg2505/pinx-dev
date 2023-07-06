@@ -166,11 +166,11 @@ const Home = () => {
 
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div
-          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
+          className='mobile:mr-0 mobile:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
           ref={refScroll}
         >
           <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
-            <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
+            <div className='mx-[auto] my-[0] mobile-max:w-full tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
                   <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>

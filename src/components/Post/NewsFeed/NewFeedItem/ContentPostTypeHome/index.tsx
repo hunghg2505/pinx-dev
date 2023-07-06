@@ -73,7 +73,7 @@ const ContentPostTypeHome = (props: IProps) => {
           src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
           title='YouTube video player'
           allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+          className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
         ></iframe>
       );
     }
@@ -83,7 +83,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <img
             src={imageMetaData}
             alt=''
-            className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+            className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
           />
         </div>
       );
@@ -119,7 +119,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
             <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
@@ -197,7 +197,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             <img
               src={
@@ -266,7 +266,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -372,7 +372,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
             <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
@@ -612,7 +612,7 @@ const ContentPostTypeHome = (props: IProps) => {
                 <div>
                   <Text type='body-14-regular' color='neutral-1'>
                     <div
-                      className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
+                      className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                       dangerouslySetInnerHTML={{ __html: message }}
                       style={{ color }}
                     ></div>
