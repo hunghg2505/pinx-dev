@@ -9,6 +9,7 @@ import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
@@ -24,12 +25,17 @@ const CreateUsername = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
-  const { onLogin } = useAuth();
+  const { onRegister } = useAuth();
+  const { userRegisterInfo, setUserRegisterInfo } = useUserRegisterInfo();
 
   const requestCreateUsername = useCreateUsername({
     onSuccess: (res: any) => {
       if (res?.data.token) {
-        onLogin({
+        setUserRegisterInfo({
+          ...userRegisterInfo,
+          token: res?.data.token,
+        });
+        onRegister({
           token: res?.data.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
@@ -39,8 +45,8 @@ const CreateUsername = (props: IProps) => {
             if (props.isModal) {
               setPopupStatus({
                 ...popupStatus,
-                popupRegisterOtp: false,
-                popupRegisterUsername: true,
+                popupRegisterOtp: true,
+                popupRegisterUsername: false,
               });
             } else {
               router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);

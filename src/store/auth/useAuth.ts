@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { useRouter } from 'next/router';
 
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies, setRegisterCookies } from '.';
@@ -16,7 +15,6 @@ export interface IAuth {
 
 export const useAuth = () => {
   const router = useRouter();
-  const { run } = useProfileInitial({ manual: true });
   const onLogout = () => {
     try {
       deleteAuthCookies();
@@ -36,8 +34,6 @@ export const useAuth = () => {
         refreshToken: data.refreshToken || '',
         expiredTime: data.expiredTime,
       });
-      run();
-      // requestGetProfile();
     } catch (error) {
       console.log(error);
     }

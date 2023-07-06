@@ -37,13 +37,24 @@ interface IProps {
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
+  refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
+  const {
+    onNavigate,
+    data,
+    onReplies,
+    refresh,
+    refreshTotal,
+    isChildren = false,
+    width,
+    refreshCommentOfPOst,
+  } = props;
+  console.log('data', data);
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -146,6 +157,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);
       },
@@ -229,7 +241,7 @@ const ItemComment = (props: IProps) => {
             </div>
 
             {data?.totalLikes > 0 && (
-              <div className='absolute bottom-0 right-[6px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+              <div className='absolute bottom-0 right-[1px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <img
                   src='/static/icons/iconLike.svg'
                   alt=''
@@ -269,8 +281,8 @@ const ItemComment = (props: IProps) => {
               <Text
                 type='body-14-regular'
                 className={classNames({
-                  'text-[#589DC0]': data.isLike,
-                  'text-[#808080]': !data.isLike,
+                  'text-[#589DC0]': data?.isLike,
+                  'text-[#808080]': !data?.isLike,
                 })}
               >
                 Like
@@ -289,7 +301,7 @@ const ItemComment = (props: IProps) => {
                 </Text>
               </div>
             </div>
-            <ModalReportComment isReported={data.isReport} postID={data?.id} refresh={refresh}>
+            <ModalReportComment isReported={data?.isReport} postID={data?.id} refresh={refresh}>
               {numberReport} Report
             </ModalReportComment>
             {/* <Fancybox>

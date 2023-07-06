@@ -25,6 +25,7 @@
   --semantic-2-1 : #128F63;
   --semantic-2-2 : #E3F6E2;
   --semantic-3 : #F6C23B;
+  --gray-1:#777777
 }
 .cbwhite {
   color: var(--white);
@@ -92,4 +93,8 @@
 }
 .semantic-3 {
   color: var(--semantic-3);
+}
+.gray-1{
+  color: var(--gray-1);
+
 }

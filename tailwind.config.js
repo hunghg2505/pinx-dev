@@ -11,12 +11,17 @@ module.exports = {
   theme: {
     screens: {
       mobile: '320px',
+      'mobile-max': { max: '480px' },
+      'tablet-max': { max: '768px' },
+      'laptop-max': { max: '1024px' },
+      'desktop-max': { max: '1366px' },
       tablet: '769px',
       //  @media (min-width: 640px) { ... }
       laptop: '1024px',
       // => @media (min-width: 1024px) { ... }
       desktop: '1280px',
       xdesktop: '1366px',
+
       // => @media (min-width: 1280px) { ... }
     },
     container: {

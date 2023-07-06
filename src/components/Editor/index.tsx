@@ -140,9 +140,6 @@ const Editor = (props: IProps, ref?: any) => {
         setImageCommentMobile(true);
         setImageComment(url);
       },
-      onError: (err: any) => {
-        console.log('err', err);
-      },
     },
   );
   const onStart = async (file: File) => {
@@ -250,6 +247,9 @@ const Editor = (props: IProps, ref?: any) => {
         stock.push(query);
         p = `%[${item.attrs.label}](${item.attrs.label})`;
       }
+      if (item.type === 'hardBreak') {
+        p = '\n';
+      }
       return p;
     });
     const tagPeople = await Promise.all(
@@ -264,7 +264,6 @@ const Editor = (props: IProps, ref?: any) => {
         return data?.data?.users;
       }),
     );
-
     const formatTagPeople = tagPeople.flat()?.map((item: any) => {
       return {
         avatar: item?.avatar,
@@ -277,7 +276,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = text?.join('');
+    const message = text?.join(' ');
     const data = {
       message,
       tagPeople: formatTagPeople,
