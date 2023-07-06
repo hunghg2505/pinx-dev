@@ -47,7 +47,6 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
-
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const refScroll = React.useRef(null);
   // const { t } = useTranslation('home');
