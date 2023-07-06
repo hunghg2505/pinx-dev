@@ -27,7 +27,7 @@ const NewsFeed = (props: IProps) => {
   );
   const countComment = totalComments + commentChild;
   const renderViewMore = () => {
-    if (data?.totalChildren > 1) {
+    if (countComment > 1) {
       return (
         <div
           className='mx-[auto] mt-[15px] flex h-[36px] w-[calc((100%_-_32px))] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'
@@ -44,7 +44,7 @@ const NewsFeed = (props: IProps) => {
     <>
       <div
         className={classNames('bg-[#ffffff]', {
-          'mobile:pb-[30px] desktop:pb-[20px]': data?.totalChildren > 1,
+          'mobile:pb-[30px] desktop:pb-[20px]': totalComments > 1,
         })}
       >
         <NewFeedItem
@@ -56,9 +56,13 @@ const NewsFeed = (props: IProps) => {
           onHidePostSuccess={onHidePost}
         />
         <div className='desktop:ml-[64px] desktop:mr-[88px]'>
-          {data?.totalChildren > 0 && (
+          {totalComments > 0 && (
             <div className='mt-[22px]'>
-              <ItemComment onNavigate={onNavigate} data={data?.children?.[0]} refresh={refresh} />
+              <ItemComment
+                onNavigate={onNavigate}
+                data={commentsOfPost?.data?.list?.[0]}
+                refresh={refresh}
+              />
             </div>
           )}
           {renderViewMore()}
