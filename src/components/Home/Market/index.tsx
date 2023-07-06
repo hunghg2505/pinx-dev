@@ -65,7 +65,7 @@ const Market = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        setDataStockIndex(res.data);
+        setDataStockIndex(res?.data);
       },
     },
   );

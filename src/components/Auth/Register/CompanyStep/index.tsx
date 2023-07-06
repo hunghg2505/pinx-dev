@@ -20,7 +20,7 @@ const RegisterCompanyStep = () => {
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
       // file deepcode ignore BadAwaitExpression: <please specify a reason of ignoring this>
-      paramsGetDetailStockCodesRef.current.params = res.data.toString();
+      paramsGetDetailStockCodesRef.current.params = res?.data.toString();
     },
   });
 
@@ -88,12 +88,12 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={classNames(
-              'max-[768px]:flex max-[768px]:h-[60vh] max-[768px]:w-[80vw] max-[768px]:flex-col max-[768px]:justify-center max-[768px]:overflow-x-auto',
+              'tablet-max:flex tablet-max:h-[60vh] tablet-max:w-[80vw] tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
               styles.listCompany,
             )}
           >
-            {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] max-[768px]:w-[1000px] max-[480px]:h-[300px] max-[480px]:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
-            <div className='mb-[81px] flex-wrap max-[768px]:h-[350px] max-[768px]:columns-5 max-[480px]:columns-3 mobile:mt-9 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
+            {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
+            <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
                 const urlImageCompany = `${
                   item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
