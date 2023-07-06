@@ -65,7 +65,9 @@ const RegisterThemes = () => {
     onSubscribeThemes(paramsThemesSelected);
 
     const unSubscribeTheme = subscribedTheme.filter((item) => !selected.includes(item));
-    requestUnSubscribeTheme.run(unSubscribeTheme.toString());
+    if (unSubscribeTheme.length > 0) {
+      requestUnSubscribeTheme.run(unSubscribeTheme.toString());
+    }
   };
 
   return (
