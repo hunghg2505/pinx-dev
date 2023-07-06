@@ -91,7 +91,7 @@ const Header = () => {
                 alt=''
                 width='0'
                 height='0'
-                className='mr-[16px] w-[35px]'
+                className='mr-[16px] w-[35px] tablet:ml-[24px]'
               />
             </Link>
 
