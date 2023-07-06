@@ -7,6 +7,7 @@ const AppLayout = ({ children, InterFont }: any) => {
   return (
     <>
       <main className={classNames(InterFont.variable)}>{children}</main>
+      <div id='md-popup-container'></div>
     </>
   );
 };

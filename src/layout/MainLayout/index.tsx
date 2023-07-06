@@ -18,7 +18,6 @@ const MainLayout = ({ children }: any) => {
           <main className='tablet:w-full tablet:px-[15px] desktop:w-[calc(100%_-_218px)] desktop:px-0 xdesktop:w-[1124px]'>
             {children}
           </main>
-          <div id='md-popup-container'></div>
         </div>
       </div>
     </>
