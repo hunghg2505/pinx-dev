@@ -37,13 +37,23 @@ interface IProps {
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
+  refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
+  const {
+    onNavigate,
+    data,
+    onReplies,
+    refresh,
+    refreshTotal,
+    isChildren = false,
+    width,
+    refreshCommentOfPOst,
+  } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -92,7 +102,7 @@ const ItemComment = (props: IProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -113,7 +123,7 @@ const ItemComment = (props: IProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -146,6 +156,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);
       },
@@ -200,7 +211,7 @@ const ItemComment = (props: IProps) => {
 
                 {showDelete && (
                   <div
-                    className=' absolute -bottom-[55px] right-0 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
+                    className=' absolute -bottom-[55px] right-0 z-20 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
                     onClick={onDelete}
                   >
                     <img
@@ -244,7 +255,11 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
           {urlImage !== '' && (
-            <Fancybox>
+            <Fancybox
+              options={{
+                closeButton: true,
+              }}
+            >
               <a data-fancybox='gallery' href={urlImage}>
                 {urlImage && (
                   <img

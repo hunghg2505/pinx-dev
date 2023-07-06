@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
@@ -62,7 +63,11 @@ const SideBar = () => {
         itemIcon: icon,
         label: (
           <CustomLink href='javascript:void(0)' className='ml-[10px]'>
-            <Text type='body-16-semibold' color='neutral-3'>
+            <Text
+              type='body-16-semibold'
+              color='neutral-3'
+              className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}
+            >
               {menu.label}
             </Text>
           </CustomLink>

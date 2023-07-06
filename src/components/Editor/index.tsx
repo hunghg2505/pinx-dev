@@ -140,9 +140,6 @@ const Editor = (props: IProps, ref?: any) => {
         setImageCommentMobile(true);
         setImageComment(url);
       },
-      onError: (err: any) => {
-        console.log('err', err);
-      },
     },
   );
   const onStart = async (file: File) => {
@@ -194,7 +191,7 @@ const Editor = (props: IProps, ref?: any) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         } else {
@@ -223,7 +220,7 @@ const Editor = (props: IProps, ref?: any) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         } else {
@@ -250,6 +247,9 @@ const Editor = (props: IProps, ref?: any) => {
         stock.push(query);
         p = `%[${item.attrs.label}](${item.attrs.label})`;
       }
+      if (item.type === 'hardBreak') {
+        p = '\n';
+      }
       return p;
     });
     const tagPeople = await Promise.all(
@@ -264,7 +264,6 @@ const Editor = (props: IProps, ref?: any) => {
         return data?.data?.users;
       }),
     );
-
     const formatTagPeople = tagPeople.flat()?.map((item: any) => {
       return {
         avatar: item?.avatar,
@@ -277,7 +276,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = text?.join('');
+    const message = text?.join(' ');
     const data = {
       message,
       tagPeople: formatTagPeople,
@@ -337,7 +336,7 @@ const Editor = (props: IProps, ref?: any) => {
             <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
             <EditorContent
               editor={editor}
-              className='w-full mobile:max-w-[305px] mobile:px-[5px] desktop:max-w-[500px]'
+              className='w-full mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>

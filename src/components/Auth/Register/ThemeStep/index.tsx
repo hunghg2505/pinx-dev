@@ -1,21 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useSubscribeThemes, useSuggestThemes } from './service';
+import {
+  ResultSubscribedTheme,
+  useGetSubscribedTheme,
+  useSubscribeThemes,
+  useSuggestThemes,
+  useUnSubscribeTheme,
+} from './service';
 import ThemeCard from './ThemeCard';
 
 const RegisterThemes = () => {
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
+  const [subscribedTheme, setSubscribedTheme] = useState<string[]>([]);
   const listThemesSuggest = useSuggestThemes();
 
   const { onSubscribeThemes } = useSubscribeThemes({
     onSuccess: () => {
       router.push(ROUTE_PATH.REGISTER_TOPIC);
+    },
+  });
+
+  useEffect(() => {
+    requestGetSubscribedTheme.run();
+  }, []);
+
+  const requestUnSubscribeTheme = useUnSubscribeTheme();
+
+  const requestGetSubscribedTheme = useGetSubscribedTheme({
+    onSuccess: (res: ResultSubscribedTheme) => {
+      const listTheme = res.data;
+      if (listTheme) {
+        const listThemeCode = listTheme.map((item) => item.code);
+        setSelected(listThemeCode);
+        setSubscribedTheme(listThemeCode);
+      }
     },
   });
 
@@ -39,6 +63,11 @@ const RegisterThemes = () => {
   const handleContinue = () => {
     const paramsThemesSelected = selected.toString();
     onSubscribeThemes(paramsThemesSelected);
+
+    const unSubscribeTheme = subscribedTheme.filter((item) => !selected.includes(item));
+    if (unSubscribeTheme.length > 0) {
+      requestUnSubscribeTheme.run(unSubscribeTheme.toString());
+    }
   };
 
   return (

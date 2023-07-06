@@ -8,13 +8,21 @@ import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
 
 import styles from './index.module.scss';
-import { useGetDetailStockCode, useSelectStock, useSuggestStockCode } from './service';
+import {
+  ResultListStock,
+  useGetDetailStockCode,
+  useGetMyStock,
+  useSelectStock,
+  useSuggestStockCode,
+  useUnSelectStock,
+} from './service';
 
 const RegisterCompanyStep = () => {
   // const { t } = useTranslation('common');
   // const [form] = Form.useForm();
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
+  const [myListStock, setMyListStock] = useState<string[]>([]);
   const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
 
   const listSuggestStock = useSuggestStockCode({
@@ -24,6 +32,8 @@ const RegisterCompanyStep = () => {
     },
   });
 
+  const requestUnSelectStock = useUnSelectStock();
+
   useEffect(() => {
     if (listSuggestStock.stockCodes) {
       detailStockSuggested.run();
@@ -31,11 +41,26 @@ const RegisterCompanyStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listSuggestStock.stockCodes]);
 
+  useEffect(() => {
+    requestGetMyStocks.run();
+  }, []);
+
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       router.push(ROUTE_PATH.REGISTER_THEME);
+    },
+  });
+
+  const requestGetMyStocks = useGetMyStock({
+    onSuccess: (res: ResultListStock) => {
+      const listStock = res.data[0].stocks;
+      if (listStock.length > 0) {
+        const listStockCode = listStock.map((item) => item.stockCode);
+        setSelected(listStockCode);
+        setMyListStock(listStockCode);
+      }
     },
   });
 
@@ -55,7 +80,11 @@ const RegisterCompanyStep = () => {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    const unselectedStock = myListStock.filter((item) => !selected.includes(item));
+    for await (const item of unselectedStock) {
+      requestUnSelectStock.run(item);
+    }
     requestSelectStock.run(selected.toString());
   };
 
@@ -88,7 +117,7 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={classNames(
-              'tablet-max:flex tablet-max:h-[60vh] tablet-max:w-[80vw] tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
+              'tablet-max:flex tablet-max:h-[70vh] tablet-max:w-[80vw] tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
               styles.listCompany,
             )}
           >
