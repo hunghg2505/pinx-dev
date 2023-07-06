@@ -16,6 +16,10 @@ import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
+import { ROUTE_PATH } from '@utils/common';
+
+// import ItemComment from '../NewsFeed/ItemComment';
+// import NewFeedItem from '../NewsFeed/NewFeedItem';
 
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
@@ -62,7 +66,7 @@ const PostDetail = () => {
 
   const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {
-      router.push('/page-not-found');
+      router.push(ROUTE_PATH.PAGE_NOT_FOUND);
     },
   });
 
