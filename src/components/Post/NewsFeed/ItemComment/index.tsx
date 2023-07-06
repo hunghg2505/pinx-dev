@@ -103,7 +103,7 @@ const ItemComment = (props: IProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -124,7 +124,7 @@ const ItemComment = (props: IProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -256,7 +256,11 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
           {urlImage !== '' && (
-            <Fancybox>
+            <Fancybox
+              options={{
+                closeButton: true,
+              }}
+            >
               <a data-fancybox='gallery' href={urlImage}>
                 {urlImage && (
                   <img
