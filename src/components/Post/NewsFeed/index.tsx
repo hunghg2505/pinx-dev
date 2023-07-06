@@ -5,7 +5,7 @@ import Text from '@components/UI/Text';
 
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
-import { IPost } from '../service';
+import { IPost, useCommentsOfPost } from '../service';
 
 interface IProps {
   data: IPost;
@@ -19,6 +19,13 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
   };
+  const { commentsOfPost } = useCommentsOfPost(String(data?.id));
+  const totalComments = commentsOfPost?.data?.list?.length;
+  const commentChild = commentsOfPost?.data?.list?.reduce(
+    (acc: any, current: any) => acc + current?.totalChildren,
+    0,
+  );
+  const countComment = totalComments + commentChild;
   const renderViewMore = () => {
     if (data?.totalChildren > 1) {
       return (
@@ -27,13 +34,12 @@ const NewsFeed = (props: IProps) => {
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
-            View more {data?.totalChildren - 1} comments...
+            View more {countComment - 1} comments...
           </Text>
         </div>
       );
     }
   };
-  // const { onRefreshPostDetail } = usePostDetail(id);
   return (
     <>
       <div
@@ -44,7 +50,7 @@ const NewsFeed = (props: IProps) => {
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={data}
-          totalComments={data?.totalChildren}
+          totalComments={countComment}
           onRefreshPostDetail={refresh}
           postId={id}
           onHidePostSuccess={onHidePost}
