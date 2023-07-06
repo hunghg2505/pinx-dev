@@ -336,7 +336,7 @@ const Editor = (props: IProps, ref?: any) => {
             <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
             <EditorContent
               editor={editor}
-              className='w-full mobile:max-w-[305px] mobile:px-[5px] desktop:max-w-[500px]'
+              className='w-full mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
