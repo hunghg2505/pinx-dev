@@ -2,15 +2,15 @@ import React from 'react';
 
 import dynamic from 'next/dynamic';
 
+import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
-import PeopleDesktop from '../People/PeopleDesktop';
 import { useSuggestPeople } from '../service';
 
-const MarketDesktop = dynamic(() => import('../Market/MarketDesktop'));
-const TrendingDesktop = dynamic(() => import('../Trending/TrendingDesktop'));
-const WatchList = dynamic(() => import('../WatchList'));
+const MarketDesktop = dynamic(() => import('@components/Home/Market/MarketDesktop'));
+const TrendingDesktop = dynamic(() => import('@components/Home/Trending/TrendingDesktop'));
+const WatchList = dynamic(() => import('@components/Home/WatchList'));
 const ContentRight = () => {
   const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
   const isLogin = !!getAccessToken();

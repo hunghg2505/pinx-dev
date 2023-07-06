@@ -8,23 +8,22 @@ import SEO from '@components/SEO';
 const Explore = dynamic(() => import('@components/Explore'), {
   ssr: false,
 });
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+const ExplorePage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
       <div>
         <Explore />
-        <div>content right</div>
       </div>
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+ExplorePage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -37,4 +36,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default ExplorePage;
