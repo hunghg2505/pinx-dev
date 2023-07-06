@@ -656,7 +656,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     ></div>
                   </Text>
                   {!message?.includes(urlLink) && urlLink !== '' && (
-                    <div className='messageFormat -mt-[15px] mb-[15px] inline-block'>
+                    <div className='messageFormat -mt-[15px] mb-[15px]'>
                       <Link href='javascript:void(0)' className='link'>
                         {urlLink}
                       </Link>
