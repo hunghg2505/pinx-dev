@@ -244,7 +244,11 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
           {urlImage !== '' && (
-            <Fancybox>
+            <Fancybox
+              options={{
+                closeButton: true,
+              }}
+            >
               <a data-fancybox='gallery' href={urlImage}>
                 {urlImage && (
                   <img
