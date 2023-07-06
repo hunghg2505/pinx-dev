@@ -19,6 +19,7 @@ export const ROUTE_PATH = {
 };
 
 export const formatMessage = (message: string, data: any) => {
+  message = message.replaceAll('\n', '<p></p>');
   const str = message.split(' ');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
@@ -64,14 +65,9 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    // console.log('🚀 ~ file: common.ts:68 ~ str?.map ~ item:', item);
-    if (item.includes('\n')) {
-      message = message.replaceAll(
-        item,
-        `
-        <p></p>
-        `,
-      );
+    if (item !== '') {
+      // console.log('item', item.split('\n'));
+      // message = message.replace('\n', '<p></p>');
     }
     if (item.includes('#')) {
       message = message.replace(
@@ -89,20 +85,22 @@ export const formatMessage = (message: string, data: any) => {
         `,
       );
     }
-    if (item.includes('http') && item.includes('\n')) {
-      const newItem = item?.split('\n');
-      for (const item of newItem) {
-        if (item.includes('http')) {
-          message = message.replace(
-            item,
-            `
+    if (
+      item.includes('http') &&
+      item.includes('\n') && // const newItem = item?.split('\n');
+      // for (const item of newItem) {
+      item.includes('http')
+    ) {
+      message = message.replace(
+        item,
+        `
             <a href="javascript:void(0)" class="link">${item}</a>
             `,
-          );
-        }
-      }
+      );
     }
+    // }
   });
+  console.log('message', message);
   return message;
 };
 export const toBase64 = (file: any) =>
