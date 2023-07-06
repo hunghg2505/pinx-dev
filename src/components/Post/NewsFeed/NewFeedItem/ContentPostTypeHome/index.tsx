@@ -602,6 +602,7 @@ const ContentPostTypeHome = (props: IProps) => {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
+    const urlLink = postDetail?.post?.urlLinks?.[0] || '';
     const onRefHtml = (ele: any) => {
       if (!ele) {
         return;
@@ -653,6 +654,13 @@ const ContentPostTypeHome = (props: IProps) => {
                       dangerouslySetInnerHTML={{ __html: message }}
                     ></div>
                   </Text>
+                  {!message?.includes(urlLink) && urlLink !== '' && (
+                    <div className='messageFormat -mt-[15px] mb-[15px]'>
+                      <Link href='javascript:void(0)' className='link'>
+                        {urlLink}
+                      </Link>
+                    </div>
+                  )}
                 </div>
               )}
             </>
@@ -667,7 +675,7 @@ const ContentPostTypeHome = (props: IProps) => {
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          {renderMetaData()}
+          <div onClick={onComment}>{renderMetaData()}</div>
 
           {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>

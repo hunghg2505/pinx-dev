@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useGetBgTheme } from '@components/Home/service';
@@ -16,11 +17,13 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
+  console.log('🚀 ~ file: index.tsx:19 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
 
   const router = useRouter();
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
+    console.log('123');
     onNavigate && onNavigate();
   };
   const { bgTheme } = useGetBgTheme();
@@ -440,6 +443,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
+    const urlLink = postDetail?.post?.urlLinks?.[0] || '';
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -467,6 +471,13 @@ const ContentPostTypeDetail = (props: IProps) => {
                 ></div>
               )}
             </>
+          )}
+          {!message?.includes(urlLink) && urlLink !== '' && (
+            <div className='messageFormat -mt-[15px] mb-[15px]'>
+              <Link href='javascript:void(0)' className='link'>
+                {urlLink}
+              </Link>
+            </div>
           )}
           {renderMetaData()}
           {postDetail?.post?.urlImages?.length > 0 && (
