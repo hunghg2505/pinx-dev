@@ -102,9 +102,9 @@ const PostDetail = () => {
       );
     }
   };
-  if (!postDetail) {
-    return <></>;
-  }
+  // if (!postDetail) {
+  //   return <></>;
+  // }
 
   return (
     <>
