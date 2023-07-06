@@ -651,11 +651,12 @@ const ContentPostTypeHome = (props: IProps) => {
                   <Text type='body-14-regular' color='neutral-1'>
                     <div
                       className='desc messageFormat my-[0] mb-[15px]'
+                      style={{ display: '-webkit-box' }}
                       dangerouslySetInnerHTML={{ __html: message }}
                     ></div>
                   </Text>
                   {!message?.includes(urlLink) && urlLink !== '' && (
-                    <div className='messageFormat -mt-[15px] mb-[15px]'>
+                    <div className='messageFormat -mt-[15px] mb-[15px] inline-block'>
                       <Link href='javascript:void(0)' className='link'>
                         {urlLink}
                       </Link>
