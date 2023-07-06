@@ -232,25 +232,29 @@ const Editor = (props: IProps, ref?: any) => {
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
-    const text = editor?.getJSON()?.content?.[0]?.content?.map((item: any) => {
-      let p = '';
-      if (item.type === 'text') {
-        p = item.text;
-      }
-      if (item.type === 'userMention') {
-        const query = item.attrs.label;
-        users.push(query);
-        p = `@[${item.attrs.label}](${item.attrs.id})`;
-      }
-      if (item.type === 'stockMention') {
-        const query = item.attrs.label;
-        stock.push(query);
-        p = `%[${item.attrs.label}](${item.attrs.label})`;
-      }
-      if (item.type === 'hardBreak') {
-        p = '\n';
-      }
-      return p;
+    const test = editor?.getJSON()?.content?.map((item: any) => {
+      const abcd = item?.content?.map((text: any) => {
+        let p = '';
+        if (text.type === 'text') {
+          p = text.text;
+        }
+        if (text.type === 'userMention') {
+          const query = text.attrs.label;
+          users.push(query);
+          p = `@[${text.attrs.label}](${text.attrs.id})`;
+        }
+        if (text.type === 'stockMention') {
+          const query = text.attrs.label;
+          stock.push(query);
+          p = `%[${text.attrs.label}](${text.attrs.label})`;
+        }
+        if (text.type === 'hardBreak') {
+          p = '\n';
+        }
+        return p;
+      });
+      return abcd.join('');
+      // console.log('abcd', abcd);
     });
     const tagPeople = await Promise.all(
       users?.map(async (item: string) => {
@@ -276,7 +280,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = text?.join(' ');
+    const message = test?.flat()?.join('\n');
     const data = {
       message,
       tagPeople: formatTagPeople,
