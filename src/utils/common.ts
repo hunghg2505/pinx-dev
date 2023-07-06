@@ -15,7 +15,7 @@ export const ROUTE_PATH = {
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
-  PAGE_NOT_FOUND:'/page-not-found'
+  PAGE_NOT_FOUND: '/page-not-found',
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -65,6 +65,14 @@ export const formatMessage = (message: string, data: any) => {
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
     // console.log('🚀 ~ file: common.ts:68 ~ str?.map ~ item:', item);
+    if (item.includes('\n')) {
+      message = message.replaceAll(
+        item,
+        `
+        <p></p>
+        `,
+      );
+    }
     if (item.includes('#')) {
       message = message.replace(
         item,
@@ -95,7 +103,6 @@ export const formatMessage = (message: string, data: any) => {
       }
     }
   });
-
   return message;
 };
 export const toBase64 = (file: any) =>

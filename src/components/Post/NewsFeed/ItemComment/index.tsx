@@ -37,13 +37,24 @@ interface IProps {
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
+  refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
+  const {
+    onNavigate,
+    data,
+    onReplies,
+    refresh,
+    refreshTotal,
+    isChildren = false,
+    width,
+    refreshCommentOfPOst,
+  } = props;
+  console.log('data', data);
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -146,6 +157,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);
       },
