@@ -76,7 +76,9 @@ export default forwardRef((props: any, ref) => {
             return (
               <button
                 // className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
-                className={classNames('item h-30px mb-[12px] flex items-center')}
+                className={classNames(
+                  'item h-30px flex items-center p-[6px] hover:bg-[var(--primary-3)] tablet:p-[12px]',
+                )}
                 key={index}
                 onClick={() => selectItem(index)}
               >
@@ -88,7 +90,10 @@ export default forwardRef((props: any, ref) => {
                   sizes='100vw'
                   className='mr-[12px] h-[36px] w-[36px] rounded-full object-contain'
                 />
-                <Text type='body-14-medium' color='cbblack'>
+                <Text
+                  type='body-14-medium'
+                  className='text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
+                >
                   {isStock ? item.stockCode : item.displayName}
                 </Text>
               </button>
