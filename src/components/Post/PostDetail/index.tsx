@@ -11,8 +11,8 @@ import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
@@ -55,16 +55,13 @@ const PostDetail = () => {
   const refSubReplies: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-  const refContainer: any = useRef();
   const router = useRouter();
   const isLogin = !!getAccessToken();
-  const { width } = useContainerDimensions(refContainer);
-  // const [imageComment, setImageComment] = useState('');
+  const [width, setWidth] = React.useState<number>(0);
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   // is login
-
-  const { refresh, postDetail } = usePostDetail(String(router.query.id), {
+  const { refresh, postDetail, loading } = usePostDetail(String(router.query.id), {
     onError: () => {
       router.push(ROUTE_PATH.PAGE_NOT_FOUND);
     },
@@ -82,6 +79,12 @@ const PostDetail = () => {
 
   const onGoToBack = () => {
     router.back();
+  };
+  const onRef = (ele: any) => {
+    if (!ele) {
+      return;
+    }
+    setWidth(ele?.offsetWidth);
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
@@ -127,6 +130,13 @@ const PostDetail = () => {
       });
     }
   }, [userType, isReadTerms]);
+  if (loading) {
+    return (
+      <>
+        <SkeletonLoading />
+      </>
+    );
+  }
   return (
     <>
       {popupStatus.popupAccessLinmit && (
@@ -151,7 +161,7 @@ const PostDetail = () => {
           onClose={onCloseModal}
         />
       )}
-      <div className='flex flex-row items-start' ref={refContainer}>
+      <div className='flex flex-row items-start' ref={onRef}>
         <div className='rounded-[8px] mobile:w-[375px] mobile-max:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <div className='header relative mobile:h-auto desktop:h-[60px]'>
             <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>

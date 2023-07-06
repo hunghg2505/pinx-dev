@@ -55,6 +55,22 @@ const ContentPostTypeHome = (props: IProps) => {
     }
     setHeight(ele?.offsetHeight);
   };
+  React.useEffect(() => {
+    const handleClick = (event: any) => {
+      const textContent = event?.target?.textContent;
+      const classElement = event?.target?.className;
+      if (classElement === 'link') {
+        router.push({
+          pathname: '/redirecting',
+          query: { url: textContent },
+        });
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
