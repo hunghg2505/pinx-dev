@@ -24,7 +24,7 @@ const Register = (props: IProps) => {
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
-  const { onLogin, onLogout } = useAuth();
+  const { onLogin } = useAuth();
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
@@ -67,7 +67,8 @@ const Register = (props: IProps) => {
 
   useEffect(() => {
     if (!userRegisterInfo.phoneNumber || !getRegisterToken()) {
-      onLogout();
+      deleteRegisterCookies();
+      router.push(ROUTE_PATH.LOGIN);
     }
   }, []);
 

@@ -18,6 +18,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
@@ -40,6 +41,7 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
+  const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
@@ -131,9 +133,10 @@ const Home = () => {
     if (!!userType && !isReadTerms) {
       setPopupStatus({
         ...popupStatus,
-        popupAccessLinmit: true,
+        popupLoginTerms: true,
       });
     }
+    initUserProfile();
   }, [userType, isReadTerms]);
   // const metaData = useGetMetaData();
   if (loading && lastNewFeed === '') {
