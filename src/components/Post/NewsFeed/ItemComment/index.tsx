@@ -265,8 +265,8 @@ const ItemComment = (props: IProps) => {
               <Text
                 type='body-14-regular'
                 className={classNames({
-                  'text-[#589DC0]': data.isLike,
-                  'text-[#808080]': !data.isLike,
+                  'text-[#589DC0]': data?.isLike,
+                  'text-[#808080]': !data?.isLike,
                 })}
               >
                 Like
@@ -285,7 +285,7 @@ const ItemComment = (props: IProps) => {
                 </Text>
               </div>
             </div>
-            <ModalReportComment isReported={data.isReport} postID={data?.id} refresh={refresh}>
+            <ModalReportComment isReported={data?.isReport} postID={data?.id} refresh={refresh}>
               {numberReport} Report
             </ModalReportComment>
             {/* <Fancybox>
