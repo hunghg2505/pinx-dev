@@ -7,7 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
-import ModalAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
 import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
@@ -145,7 +145,7 @@ const Home = () => {
   return (
     <>
       {popupStatus.popupAccessLinmit && (
-        <ModalAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
+        <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
       )}
       {popupStatus.popupLoginTerms && (
         <PopupLoginTerms
