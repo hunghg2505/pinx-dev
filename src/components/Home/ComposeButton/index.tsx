@@ -27,7 +27,7 @@ const ComposeButton = () => {
   };
 
   return (
-    <div className='mobile:-w-[375px] fixed bottom-[80px] z-10 h-[44px] mobile-max:w-full'>
+    <div className='mobile:-w-[375px] fixed bottom-[80px] right-0 z-10 h-[44px] mobile-max:w-full'>
       <button
         onClick={handleClick}
         className='ml-auto mr-[16px] flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'
