@@ -88,7 +88,7 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={classNames(
-              'max-[768px]:flex max-[768px]:h-[60vh] max-[768px]:w-[80vw] max-[768px]:flex-col max-[768px]:justify-center max-[768px]:overflow-x-auto',
+              'max-[768px]:flex max-[768px]:h-[70vh] max-[768px]:w-[80vw] max-[768px]:flex-col max-[768px]:justify-center max-[768px]:overflow-x-auto',
               styles.listCompany,
             )}
           >
