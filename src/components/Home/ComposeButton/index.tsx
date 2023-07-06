@@ -1,10 +1,14 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
+
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin, statusUser } = useUserType();
 
   const handleClick = () => {
@@ -15,7 +19,10 @@ const ComposeButton = () => {
         PopupComponent.openEKYC();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 

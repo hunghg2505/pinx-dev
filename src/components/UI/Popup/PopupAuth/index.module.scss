@@ -1,6 +1,6 @@
 .tabLogin {
   :global {
-    margin-bottom: 46px;
+    margin-top: 36px;
     .rc-tabs-nav-wrap {
       display: flex;
       justify-content: center;
@@ -17,26 +17,19 @@
       border-radius: 50px;
       gap: 2px;
       .rc-tabs-tab {
-        min-width: 112px;
+        min-width: 90px;
         cursor: pointer;
         padding: 10px;
         margin: 3px;
-
         @media (min-width: 1024px) {
-          min-width: 230px;
-          margin: 3.5px;
+          min-width: 112px;
         }
-
         .rc-tabs-tab-btn {
           font-weight: 600;
           font-size: 14px;
           text-align: center;
           color: #a6b0c3;
           line-height: 18px;
-
-          @media (min-width: 1024px) {
-            font-weight: 500;
-          }
         }
 
         &.rc-tabs-tab-active {

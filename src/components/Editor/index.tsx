@@ -285,7 +285,7 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-    if (message?.includes('script')) {
+    if (message?.toLowerCase()?.includes('script')) {
       toast(() => (
         <Notification
           type='error'

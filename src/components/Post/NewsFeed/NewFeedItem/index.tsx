@@ -5,6 +5,7 @@ import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -24,6 +25,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
@@ -63,6 +65,7 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -104,7 +107,10 @@ const NewFeedItem = (props: IProps) => {
         onNavigate && onNavigate();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   const idPost = id || postDetail?.id;
@@ -169,7 +175,10 @@ const NewFeedItem = (props: IProps) => {
         useLikePost.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 
@@ -232,14 +241,20 @@ const NewFeedItem = (props: IProps) => {
         onFollowUser.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   const handleHidePost = () => {
     if (isLogin) {
       onHidePost.run();
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 

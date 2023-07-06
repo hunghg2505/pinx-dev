@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -8,12 +9,18 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
 
-const Register = () => {
+interface IProps {
+  isModal?: boolean;
+}
+
+const Register = (props: IProps) => {
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userRegisterInfo } = useUserRegisterInfo();
   const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
   const router = useRouter();
@@ -27,6 +34,12 @@ const Register = () => {
           token: res?.data.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
+        });
+      }
+      if (props.isModal) {
+        setPopupStatus({
+          ...popupStatus,
+          popupRegisterOtp: false,
         });
       }
       router.push(ROUTE_PATH.REGISTER_COMPANY);
@@ -43,9 +56,6 @@ const Register = () => {
   };
 
   const requestResendRegisterOtp = useResendRegisterOtp({
-    onSuccess: (res: any) => {
-      console.log('xxx res', res);
-    },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
     },
@@ -66,6 +76,7 @@ const Register = () => {
       onSubmit={onSubmit}
       onResendOtp={onResendOtp}
       phoneNumber={userRegisterInfo.phoneNumber}
+      isModal={props.isModal}
     />
   );
 };
