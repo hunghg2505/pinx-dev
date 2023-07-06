@@ -8,9 +8,11 @@ import { useRouter } from 'next/router';
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { getAccessToken } from '@store/auth';
+import { ROUTE_PATH } from '@utils/common';
 
 // import ItemComment from '../NewsFeed/ItemComment';
 // import NewFeedItem from '../NewsFeed/NewFeedItem';
+
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -55,7 +57,7 @@ const PostDetail = () => {
 
   const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {
-      router.push('/page-not-found');
+      router.push(ROUTE_PATH.PAGE_NOT_FOUND);
     },
   });
 
@@ -102,10 +104,9 @@ const PostDetail = () => {
       );
     }
   };
-  if (!postDetail) {
-    return <></>;
-  }
-
+  // if (!postDetail) {
+  //   return <></>;
+  // }
   return (
     <>
       <div className='flex flex-row items-start' ref={refContainer}>
