@@ -102,10 +102,9 @@ const PostDetail = () => {
       );
     }
   };
-  if (!postDetail) {
-    return <></>;
-  }
-
+  // if (!postDetail) {
+  //   return <></>;
+  // }
   return (
     <>
       <div className='flex flex-row items-start' ref={refContainer}>
