@@ -11,7 +11,7 @@ const MainLayout = ({ children }: any) => {
     <>
       <MainHeader />
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
-        <div className='xl:container relative flex justify-center overflow-auto mobile:container laptop:container mobile-max:mx-auto'>
+        <div className='xl:container relative flex justify-center mobile:container laptop:container mobile-max:mx-auto tablet:overflow-auto'>
           <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
             <SideBar />
           </div>
