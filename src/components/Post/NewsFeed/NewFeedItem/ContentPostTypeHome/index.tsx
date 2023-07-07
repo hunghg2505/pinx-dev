@@ -436,7 +436,10 @@ const ContentPostTypeHome = (props: IProps) => {
                 <Text
                   type='body-12-medium'
                   color='neutral-1'
-                  className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
+                  className={classNames(
+                    'mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]',
+                    { 'mt-[24px]': postDetail?.post?.type === 'BUY' },
+                  )}
                 >
                   {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
                 </Text>
@@ -616,7 +619,7 @@ const ContentPostTypeHome = (props: IProps) => {
       if (!ele) {
         return;
       }
-      const isReadMore = ele?.offsetHeight > 72;
+      const isReadMore = ele?.offsetHeight > 76;
       if (isReadMore) {
         setIsReadMorePost(true);
       }
@@ -628,7 +631,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {postThemeId ? (
               <div
                 className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[660px]'
-                // onClick={onComment}
+                onClick={onComment}
               >
                 <img
                   src={BgThemePost?.bgImage}
@@ -652,9 +655,9 @@ const ContentPostTypeHome = (props: IProps) => {
                 {message && (
                   <div
                     ref={onRefHtml}
-                    // onClick={onComment}
+                    onClick={onComment}
                     className={classNames({
-                      'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
+                      'line-clamp-4 h-[75px] overflow-hidden': isReadMorePost && !readMore,
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
