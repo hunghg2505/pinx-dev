@@ -232,6 +232,7 @@ const Editor = (props: IProps, ref?: any) => {
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
+    console.log('123', editor?.getJSON());
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
@@ -253,7 +254,7 @@ const Editor = (props: IProps, ref?: any) => {
         }
         return p;
       });
-      return abcd.join('');
+      return abcd?.join('');
       // console.log('abcd', abcd);
     });
     const tagPeople = await Promise.all(

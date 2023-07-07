@@ -11,7 +11,7 @@ import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
-import SkeletonLoading from '@components/UI/Skeleton';
+// import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
@@ -66,6 +66,10 @@ const PostDetail = () => {
       router.push(ROUTE_PATH.PAGE_NOT_FOUND);
     },
   });
+  console.log(
+    '🚀 ~ file: index.tsx:69 ~ const{refresh,postDetail,loading}=usePostDetail ~ loading:',
+    loading,
+  );
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
@@ -130,13 +134,13 @@ const PostDetail = () => {
       });
     }
   }, [userType, isReadTerms]);
-  if (loading) {
-    return (
-      <>
-        <SkeletonLoading />
-      </>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <SkeletonLoading />
+  //     </>
+  //   );
+  // }
   return (
     <>
       {popupStatus.popupAccessLinmit && (
