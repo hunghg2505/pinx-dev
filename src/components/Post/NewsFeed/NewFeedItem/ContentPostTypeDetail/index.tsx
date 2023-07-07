@@ -17,6 +17,7 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
+  console.log('🚀 ~ file: index.tsx:20 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
 
   const router = useRouter();
   const message =
@@ -401,7 +402,10 @@ const ContentPostTypeDetail = (props: IProps) => {
               <Text
                 type='body-12-medium'
                 color='neutral-1'
-                className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
+                className={classNames(
+                  'mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]',
+                  { '!mt-[24px]': postDetail?.post?.type === 'BUY' },
+                )}
               >
                 {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
               </Text>
