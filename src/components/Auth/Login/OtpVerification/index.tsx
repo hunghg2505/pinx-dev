@@ -78,6 +78,7 @@ const Register = () => {
       onSubmit={onSubmit}
       onResendOtp={onResendOtp}
       phoneNumber={userLoginInfo.phone}
+      otpTime={60}
     />
   );
 };
