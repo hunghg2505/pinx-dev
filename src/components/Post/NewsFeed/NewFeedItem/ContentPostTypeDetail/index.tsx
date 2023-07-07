@@ -17,6 +17,7 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
+  console.log('🚀 ~ file: index.tsx:20 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
 
   const router = useRouter();
   const message =

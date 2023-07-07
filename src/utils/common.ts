@@ -19,8 +19,8 @@ export const ROUTE_PATH = {
 };
 
 export const formatMessage = (message: string, data: any) => {
-  message = message.replaceAll('\n', '<p></p>');
   const str = message.split(' ');
+  message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
   });
@@ -65,10 +65,6 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    if (item !== '') {
-      // console.log('item', item.split('\n'));
-      // message = message.replace('\n', '<p></p>');
-    }
     if (item.includes('#')) {
       message = message.replace(
         item,

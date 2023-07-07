@@ -616,7 +616,7 @@ const ContentPostTypeHome = (props: IProps) => {
       if (!ele) {
         return;
       }
-      const isReadMore = ele?.offsetHeight > 72;
+      const isReadMore = ele?.offsetHeight > 76;
       if (isReadMore) {
         setIsReadMorePost(true);
       }
@@ -654,7 +654,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     ref={onRefHtml}
                     // onClick={onComment}
                     className={classNames({
-                      'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
+                      'line-clamp-4 h-[75px] overflow-hidden': isReadMorePost && !readMore,
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
