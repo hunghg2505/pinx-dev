@@ -113,12 +113,6 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none abcd',
       },
     },
-    // onUpdate({ editor }) {
-    //   const text = editor.getText();
-    //   if (idReply && text === '') {
-    //     setIdReply('');
-    //   }
-    // },
   });
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -319,29 +313,32 @@ const Editor = (props: IProps, ref?: any) => {
           className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
         />
         <div
-          className='bottom-0 left-0 flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px] '
+          className='bottom-0 left-0 flex min-h-[40px] items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px]'
           ref={messagesEndRef}
         >
-          <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
-            <Upload
-              accept='.png, .jpeg, .jpg'
-              onStart={onStart}
-              beforeUpload={beforeUpload}
-              className='tablet:hidden'
-            >
-              <img
-                src='/static/icons/iconCamnera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='mr-[8px] w-[19px]'
-              />
-            </Upload>
-            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+          <div className='flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
+            <div className='flex flex-row items-center'>
+              <Upload
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+                className='tablet:hidden'
+              >
+                <img
+                  src='/static/icons/iconCamnera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='mr-[8px] w-[19px]'
+                />
+              </Upload>
+              <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+            </div>
+
             <EditorContent
               editor={editor}
-              className='w-full mobile:w-[calc(100%_-_50px)] mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
+              className='w-full items-center mobile:flex mobile:w-[calc(100%_-_50px)] mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
