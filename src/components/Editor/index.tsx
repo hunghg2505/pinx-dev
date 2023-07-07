@@ -113,6 +113,13 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none abcd',
       },
     },
+    // onUpdate({ editor }) {
+    //   const text = editor.getText();
+    //   if (idReply && text === '' && width && width < 738) {
+    //     console.log('123');
+    //     setIdReply('');
+    //   }
+    // },
   });
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -176,6 +183,7 @@ const Editor = (props: IProps, ref?: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
+        setIdReply('');
         if (imageComment) {
           onCloseImage();
         }
@@ -203,8 +211,8 @@ const Editor = (props: IProps, ref?: any) => {
       onSuccess: () => {
         refreshTotal();
         refresh();
+        setIdReply('');
         editor?.commands.clearContent();
-
         if (imageComment) {
           onCloseImage();
         }
@@ -226,7 +234,6 @@ const Editor = (props: IProps, ref?: any) => {
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
-    console.log('123', editor?.getJSON());
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
