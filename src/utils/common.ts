@@ -100,7 +100,6 @@ export const formatMessage = (message: string, data: any) => {
     }
     // }
   });
-  console.log('message', message);
   return message;
 };
 export const toBase64 = (file: any) =>
