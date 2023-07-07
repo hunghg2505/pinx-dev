@@ -201,7 +201,7 @@ const ItemComment = (props: IProps) => {
         />
         {/* bg-[#F6FAFD] */}
         <div
-          className={classNames('content', {
+          className={classNames('content relative', {
             'w-[calc(100%_-_40px)]': isChildren,
             'w-[calc(100%_-_48px)]': !isChildren,
           })}
@@ -292,7 +292,7 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action flex' ref={bottomRef}>
+          <div className='action flex'>
             <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
@@ -331,6 +331,10 @@ const ItemComment = (props: IProps) => {
                 </a>
               </Fancybox> */}
           </div>
+          <div
+            className='pointer-events-none visible absolute -bottom-[50px] h-[50px]'
+            ref={bottomRef}
+          ></div>
         </div>
       </div>
     </div>

@@ -382,7 +382,31 @@ const Editor = (props: IProps, ref?: any) => {
                 />
               )}
             </div>
-            {imageComment && (
+            {useUploadImage?.loading ? (
+              <Loading />
+            ) : (
+              imageComment && (
+                <div className='relative'>
+                  <img
+                    src={imageComment}
+                    alt=''
+                    width='0'
+                    height='0'
+                    sizes='100vw'
+                    className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
+                  />
+                  <img
+                    src='/static/icons/iconCloseWhite.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
+                    onClick={onCloseImage}
+                  />
+                </div>
+              )
+            )}
+            {/* {imageComment && (
               <div className='relative'>
                 <img
                   src={imageComment}
@@ -401,7 +425,7 @@ const Editor = (props: IProps, ref?: any) => {
                   onClick={onCloseImage}
                 />
               </div>
-            )}
+            )} */}
           </div>
 
           {useAddComment?.loading || useReplyComment?.loading ? (
