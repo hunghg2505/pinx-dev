@@ -85,18 +85,18 @@ export const formatMessage = (message: string, data: any) => {
         `,
       );
     }
-    if (
-      item.includes('http') &&
-      item.includes('\n') && // const newItem = item?.split('\n');
-      // for (const item of newItem) {
-      item.includes('http')
-    ) {
-      message = message.replace(
-        item,
-        `
+    if (item.includes('http') && item.includes('\n')) {
+      const newItem = item?.split('\n');
+      for (const item of newItem) {
+        if (item.includes('http')) {
+          message = message.replace(
+            item,
+            `
             <a href="javascript:void(0)" class="link">${item}</a>
             `,
-      );
+          );
+        }
+      }
     }
     // }
   });
