@@ -55,6 +55,7 @@ const ItemComment = (props: IProps) => {
     width,
     refreshCommentOfPOst,
   } = props;
+  console.log('data', data);
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -317,7 +318,12 @@ const ItemComment = (props: IProps) => {
                 </Text>
               </div>
             </div>
-            <ModalReportComment isReported={data?.isReport} postID={data?.id} refresh={refresh}>
+            <ModalReportComment
+              isReported={data?.isReport}
+              postID={data?.id}
+              refresh={refresh}
+              refreshCommentOfPOst={refreshCommentOfPOst}
+            >
               {numberReport} Report
             </ModalReportComment>
             {/* <Fancybox>
