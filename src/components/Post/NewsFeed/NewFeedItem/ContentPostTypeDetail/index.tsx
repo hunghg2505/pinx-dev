@@ -17,13 +17,11 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
-  console.log('🚀 ~ file: index.tsx:19 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
 
   const router = useRouter();
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const onComment = () => {
-    console.log('123');
     onNavigate && onNavigate();
   };
   const { bgTheme } = useGetBgTheme();
