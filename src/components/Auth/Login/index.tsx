@@ -13,6 +13,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 
 import { useLogin } from './service';
 
@@ -21,16 +22,16 @@ interface Iprops {
 }
 
 const checkUserType = (custStat: string, acntStat: string) => {
-  if (custStat === 'NEW') {
-    return 'NEW';
+  if (custStat === USERTYPE.NEW) {
+    return USERTYPE.NEW;
   }
   if (
-    (custStat === 'PRO' && acntStat === 'VSD_PENDING') ||
-    (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')
+    (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_PENDING) ||
+    (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
   ) {
-    return 'EKYC';
+    return USERTYPE.EKYC;
   }
-  return 'VSD';
+  return USERTYPE.VSD;
 };
 
 const Login = (props: Iprops) => {
