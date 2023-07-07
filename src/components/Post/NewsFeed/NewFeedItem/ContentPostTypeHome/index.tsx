@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
+import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -38,7 +39,7 @@ const ContentPostTypeHome = (props: IProps) => {
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
   const onComment = () => {
-    onNavigate && onNavigate();
+    !imageMetaData && onNavigate && onNavigate();
   };
   const onReadMore = () => {
     setReadMore(!readMore);
@@ -96,11 +97,19 @@ const ContentPostTypeHome = (props: IProps) => {
     if (imageMetaData) {
       return (
         <div className='theme'>
-          <img
-            src={imageMetaData}
-            alt=''
-            className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
-          />
+          <Fancybox
+            options={{
+              closeButton: true,
+            }}
+          >
+            <a data-fancybox='gallery' href={imageMetaData}>
+              <img
+                src={imageMetaData}
+                alt=''
+                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+              />
+            </a>
+          </Fancybox>
         </div>
       );
     }
