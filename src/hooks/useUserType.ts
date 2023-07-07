@@ -1,19 +1,8 @@
 import { getAccessToken } from '@store/auth';
+import { USERTYPE } from '@utils/constant';
 
 import { useUserLoginInfo } from './useUserLoginInfo';
 
-export const enum USERTYPE {
-  NEW = 'NEW',
-  PRO = 'PRO',
-  VSD_PENDING = 'VSD_PENDING',
-  VSD_REJECTED = 'VSD_REJECTED',
-  EKYC = 'EKYC',
-  VSD = 'VSD',
-  LOGIN = 'LOGIN',
-  NOTLOGIN = 'NOTLOGIN',
-  ACTIVE = 'ACTIVE',
-  PENDING_TO_CLOSE = 'PENDING_TO_CLOSE',
-}
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
   const { userLoginInfo } = useUserLoginInfo();

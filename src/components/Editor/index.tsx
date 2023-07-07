@@ -23,7 +23,8 @@ import { requestAddComment, requestReplyCommnet } from '@components/Post/service
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
