@@ -317,7 +317,12 @@ const ItemComment = (props: IProps) => {
                 </Text>
               </div>
             </div>
-            <ModalReportComment isReported={data?.isReport} postID={data?.id} refresh={refresh}>
+            <ModalReportComment
+              isReported={data?.isReport}
+              postID={data?.id}
+              refresh={refresh}
+              refreshCommentOfPOst={refreshCommentOfPOst}
+            >
               {numberReport} Report
             </ModalReportComment>
             {/* <Fancybox>

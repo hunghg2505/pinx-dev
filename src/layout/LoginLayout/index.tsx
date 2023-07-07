@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 import Text from '@components/UI/Text';
 
@@ -7,6 +8,9 @@ const LoginHeader = dynamic(() => import('../components/LoginHeader'));
 const LoginLayout = ({ children }: any) => {
   return (
     <>
+      <Head>
+        <meta name='theme-color' content='#ffffff'></meta>
+      </Head>
       <LoginHeader />
       <div className='flex w-full justify-center laptop:min-h-screen'>
         <div className='w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex laptop:min-h-[750px]'>

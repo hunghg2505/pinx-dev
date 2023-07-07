@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import 'rc-dialog/assets/index.css';
 
@@ -27,15 +27,14 @@ interface IProps {
   postID: string;
   isReported?: boolean;
   refresh: () => void;
+  refreshCommentOfPOst?: () => void;
 }
 const ModalReportComment = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { children, closeIcon, postID, isReported: isReportedProp = false, refresh } = props;
+  const { children, closeIcon, postID, isReported, refresh, refreshCommentOfPOst } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
-  const [isReported, setIsReported] = useState(isReportedProp);
-  // const isLogin = !!getAccessToken();,
   const onVisible = () => {
     if (isReported && isLogin) {
       return;
@@ -76,8 +75,8 @@ const ModalReportComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
-        setIsReported(true);
         refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
