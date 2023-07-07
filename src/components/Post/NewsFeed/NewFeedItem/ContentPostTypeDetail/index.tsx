@@ -183,7 +183,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='h-full w-full'
+              className='h-full w-full rounded-[8px]'
             />
           )}
           <div
@@ -244,7 +244,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-full w-full'
+            className='h-full w-full rounded-[8px]'
           />
           <div
             // href={postDetail?.post.url || ''}
