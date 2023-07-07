@@ -12,6 +12,7 @@ export const enum USERTYPE {
   LOGIN = 'LOGIN',
   NOTLOGIN = 'NOTLOGIN',
   ACTIVE = 'ACTIVE',
+  PENDING_TO_CLOSE = 'PENDING_TO_CLOSE',
 }
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
@@ -30,6 +31,8 @@ export const useUserType: any = () => {
       (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
     ) {
       statusUser = USERTYPE.EKYC;
+    } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.PENDING_TO_CLOSE) {
+      statusUser = USERTYPE.PENDING_TO_CLOSE;
     } else {
       statusUser = USERTYPE.VSD;
     }

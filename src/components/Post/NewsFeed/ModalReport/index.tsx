@@ -6,9 +6,11 @@ import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { USERTYPE, useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -35,6 +37,13 @@ const ModalReport = (props: IProps) => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
         onModalReportVisible(!visible);
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
       } else {
         PopupComponent.openEKYC();
       }

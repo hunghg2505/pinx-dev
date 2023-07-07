@@ -21,7 +21,7 @@ const ItemHoverProfile = (props: IProps) => {
   return (
     <div
       className={classNames(
-        'absolute left-[50px] top-[45px] z-20 w-[352px] rounded-[16px] bg-[#FFF] px-[25px] py-[20px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)] mobile:hidden',
+        'absolute left-[50px] top-[45px] z-20 w-[352px] rounded-[16px] bg-[#FFF] px-[25px] py-[20px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)] mobile:hidden tablet:block',
       )}
     >
       <div className='flex'>

@@ -167,7 +167,14 @@ const NewFeedItem = (props: IProps) => {
   );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();
