@@ -101,8 +101,24 @@ const NewFeedItem = (props: IProps) => {
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
   const handleComment = () => {
-    if (isLogin && statusUser !== USERTYPE.VSD && isPostDetailPath) {
-      PopupComponent.openEKYC();
+    if (isPostDetailPath) {
+      if (isLogin) {
+        if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else if (statusUser !== USERTYPE.VSD) {
+          PopupComponent.openEKYC();
+        }
+      } else {
+        setPopupStatus({
+          ...popupStatus,
+          popupAccessLinmit: true,
+        });
+      }
     } else {
       onNavigate && onNavigate();
     }
