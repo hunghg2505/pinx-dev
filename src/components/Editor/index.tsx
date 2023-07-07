@@ -298,6 +298,13 @@ const Editor = (props: IProps, ref?: any) => {
           message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
         />
       ));
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your account has been pending to close. You cannot perform this action'
+        />
+      ));
     } else if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);
