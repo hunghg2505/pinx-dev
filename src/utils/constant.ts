@@ -13,4 +13,5 @@ export const enum USERTYPE {
   LOGIN = 'LOGIN',
   NOTLOGIN = 'NOTLOGIN',
   ACTIVE = 'ACTIVE',
+  PENDING_TO_CLOSE = 'PENDING_TO_CLOSE',
 }
