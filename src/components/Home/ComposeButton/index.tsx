@@ -1,10 +1,13 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { toast } from 'react-hot-toast';
 
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
@@ -15,6 +18,13 @@ const ComposeButton = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
         console.log('User vsd');
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
       } else {
         PopupComponent.openEKYC();
       }
@@ -27,10 +37,10 @@ const ComposeButton = () => {
   };
 
   return (
-    <div className='mobile:-w-[375px] fixed bottom-[80px] right-0 z-10 h-[44px] mobile-max:w-full'>
+    <div className='fixed bottom-[80px] right-[16px] z-10 h-[44px]'>
       <button
         onClick={handleClick}
-        className='ml-auto mr-[16px] flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'
+        className='flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'
       >
         <img
           src='/static/icons/iconPen.svg'

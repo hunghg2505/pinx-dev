@@ -13,8 +13,9 @@ import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import Reason from './Reason';
@@ -43,6 +44,13 @@ const ModalReportComment = (props: IProps) => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
         setVisible(!visible);
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
       } else {
         PopupComponent.openEKYC();
       }

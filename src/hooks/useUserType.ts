@@ -1,18 +1,8 @@
 import { getAccessToken } from '@store/auth';
+import { USERTYPE } from '@utils/constant';
 
 import { useUserLoginInfo } from './useUserLoginInfo';
 
-export const enum USERTYPE {
-  NEW = 'NEW',
-  PRO = 'PRO',
-  VSD_PENDING = 'VSD_PENDING',
-  VSD_REJECTED = 'VSD_REJECTED',
-  EKYC = 'EKYC',
-  VSD = 'VSD',
-  LOGIN = 'LOGIN',
-  NOTLOGIN = 'NOTLOGIN',
-  ACTIVE = 'ACTIVE',
-}
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
   const { userLoginInfo } = useUserLoginInfo();
@@ -30,6 +20,8 @@ export const useUserType: any = () => {
       (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
     ) {
       statusUser = USERTYPE.EKYC;
+    } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.PENDING_TO_CLOSE) {
+      statusUser = USERTYPE.PENDING_TO_CLOSE;
     } else {
       statusUser = USERTYPE.VSD;
     }

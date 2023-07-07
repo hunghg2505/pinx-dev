@@ -19,9 +19,10 @@ import Fancybox from '@components/UI/Fancybox';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -54,7 +55,6 @@ const ItemComment = (props: IProps) => {
     width,
     refreshCommentOfPOst,
   } = props;
-  console.log('data', data);
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -64,7 +64,14 @@ const ItemComment = (props: IProps) => {
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE && isPostDetailPath) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
       } else if (onNavigate) {
         onNavigate();
@@ -135,7 +142,14 @@ const ItemComment = (props: IProps) => {
   );
   const onLike = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();

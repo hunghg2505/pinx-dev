@@ -110,6 +110,7 @@
     font-size: 16px;
     line-height: 18px;
     color: #1a1a1a;
+    word-break: break-all;
   }
   .hashtag {
     color: #1f6eac !important;
@@ -229,6 +230,10 @@
   float: left;
   height: 0;
   pointer-events: none;
+}
+.ProseMirror:focus {
+  -webkit-appearance: none;
+  outline: none;
 }
 .slick-track {
   margin-left: 0 !important;

@@ -23,7 +23,8 @@ import { requestAddComment, requestReplyCommnet } from '@components/Post/service
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
@@ -115,7 +116,8 @@ const Editor = (props: IProps, ref?: any) => {
     },
     // onUpdate({ editor }) {
     //   const text = editor.getText();
-    //   if (idReply && text === '') {
+    //   if (idReply && text === '' && width && width < 738) {
+    //     console.log('123');
     //     setIdReply('');
     //   }
     // },
@@ -182,6 +184,7 @@ const Editor = (props: IProps, ref?: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
+        setIdReply('');
         if (imageComment) {
           onCloseImage();
         }
@@ -209,8 +212,8 @@ const Editor = (props: IProps, ref?: any) => {
       onSuccess: () => {
         refreshTotal();
         refresh();
+        setIdReply('');
         editor?.commands.clearContent();
-
         if (imageComment) {
           onCloseImage();
         }
@@ -253,7 +256,7 @@ const Editor = (props: IProps, ref?: any) => {
         }
         return p;
       });
-      return abcd.join('');
+      return abcd?.join('');
       // console.log('abcd', abcd);
     });
     const tagPeople = await Promise.all(
@@ -295,6 +298,13 @@ const Editor = (props: IProps, ref?: any) => {
           message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
         />
       ));
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your account has been pending to close. You cannot perform this action'
+        />
+      ));
     } else if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);
@@ -318,29 +328,32 @@ const Editor = (props: IProps, ref?: any) => {
           className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
         />
         <div
-          className='bottom-0 left-0 flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px] '
+          className='bottom-0 left-0 flex min-h-[40px] items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px]'
           ref={messagesEndRef}
         >
-          <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
-            <Upload
-              accept='.png, .jpeg, .jpg'
-              onStart={onStart}
-              beforeUpload={beforeUpload}
-              className='tablet:hidden'
-            >
-              <img
-                src='/static/icons/iconCamnera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='mr-[8px] w-[19px]'
-              />
-            </Upload>
-            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+          <div className='flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
+            <div className='flex flex-row items-center'>
+              <Upload
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+                className='tablet:hidden'
+              >
+                <img
+                  src='/static/icons/iconCamnera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='mr-[8px] w-[19px]'
+                />
+              </Upload>
+              <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+            </div>
+
             <EditorContent
               editor={editor}
-              className='w-full mobile:w-[calc(100%_-_50px)] mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
+              className='w-full items-center mobile:flex mobile:w-[calc(100%_-_50px)] mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>

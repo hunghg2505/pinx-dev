@@ -24,9 +24,10 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
@@ -100,17 +101,26 @@ const NewFeedItem = (props: IProps) => {
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
   const handleComment = () => {
-    if (isLogin) {
-      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
-        PopupComponent.openEKYC();
+    if (isPostDetailPath) {
+      if (isLogin) {
+        if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else if (statusUser !== USERTYPE.VSD) {
+          PopupComponent.openEKYC();
+        }
       } else {
-        onNavigate && onNavigate();
+        setPopupStatus({
+          ...popupStatus,
+          popupAccessLinmit: true,
+        });
       }
     } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
+      onNavigate && onNavigate();
     }
   };
   const idPost = id || postDetail?.id;
@@ -167,7 +177,14 @@ const NewFeedItem = (props: IProps) => {
   );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();
