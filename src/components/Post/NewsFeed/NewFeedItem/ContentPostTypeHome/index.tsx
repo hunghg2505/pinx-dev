@@ -39,7 +39,7 @@ const ContentPostTypeHome = (props: IProps) => {
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
   const onComment = () => {
-    !imageMetaData && onNavigate && onNavigate();
+    onNavigate && onNavigate();
   };
   const onReadMore = () => {
     setReadMore(!readMore);
@@ -623,69 +623,72 @@ const ContentPostTypeHome = (props: IProps) => {
     };
     return (
       <>
-        <div className='cursor-pointer'>
-          {postThemeId ? (
-            <div
-              className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[660px]'
-              onClick={onComment}
-            >
-              <img
-                src={BgThemePost?.bgImage}
-                alt=''
-                className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[300px] tablet:rounded-[8px] desktop:h-[393px]'
-              />
-              {message && (
-                <div>
-                  <Text type='body-14-regular' color='neutral-1'>
-                    <div
-                      className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
-                      dangerouslySetInnerHTML={{ __html: message }}
-                      style={{ color }}
-                    ></div>
-                  </Text>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              {message && (
-                <div
-                  ref={onRefHtml}
-                  onClick={onComment}
-                  className={classNames({
-                    'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
-                    'h-auto': isReadMorePost && readMore,
-                  })}
-                >
-                  <Text type='body-14-regular' color='neutral-1'>
-                    <div
-                      className='desc messageFormat my-[0] mb-[15px]'
-                      style={{ display: '-webkit-box' }}
-                      dangerouslySetInnerHTML={{ __html: message }}
-                    ></div>
-                  </Text>
-                  {!message?.includes(urlLink) && urlLink !== '' && (
-                    <div className='messageFormat -mt-[15px] mb-[15px]'>
-                      <Link href='javascript:void(0)' className='link'>
-                        {urlLink}
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              )}
-            </>
-          )}
+        <div className='1 cursor-pointer'>
+          <div onClick={onComment}>
+            {postThemeId ? (
+              <div
+                className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[660px]'
+                // onClick={onComment}
+              >
+                <img
+                  src={BgThemePost?.bgImage}
+                  alt=''
+                  className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[300px] tablet:rounded-[8px] desktop:h-[393px]'
+                />
+                {message && (
+                  <div>
+                    <Text type='body-14-regular' color='neutral-1'>
+                      <div
+                        className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                        dangerouslySetInnerHTML={{ __html: message }}
+                        style={{ color }}
+                      ></div>
+                    </Text>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                {message && (
+                  <div
+                    ref={onRefHtml}
+                    // onClick={onComment}
+                    className={classNames({
+                      'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
+                      'h-auto': isReadMorePost && readMore,
+                    })}
+                  >
+                    <Text type='body-14-regular' color='neutral-1'>
+                      <div
+                        className='desc messageFormat my-[0] pb-[15px]'
+                        style={{ display: '-webkit-box' }}
+                        dangerouslySetInnerHTML={{ __html: message }}
+                      ></div>
+                    </Text>
+                    {!message?.includes(urlLink) && urlLink !== '' && (
+                      <div className='messageFormat -mt-[15px] pb-[15px]'>
+                        <Link href='javascript:void(0)' className='link'>
+                          {urlLink}
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
           {isReadMorePost && (
             <Text
               type='body-14-regular'
               color='neutral-3'
-              className='cursor-pointer'
+              className='w-[75px] cursor-pointer'
               onClick={onReadMore}
             >
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          <div onClick={onComment}>{renderMetaData()}</div>
+          <div>{renderMetaData()}</div>
 
           {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>
