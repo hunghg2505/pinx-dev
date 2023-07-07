@@ -100,17 +100,10 @@ const NewFeedItem = (props: IProps) => {
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
   const handleComment = () => {
-    if (isLogin) {
-      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
-        PopupComponent.openEKYC();
-      } else {
-        onNavigate && onNavigate();
-      }
+    if (isLogin && statusUser !== USERTYPE.VSD && isPostDetailPath) {
+      PopupComponent.openEKYC();
     } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
+      onNavigate && onNavigate();
     }
   };
   const idPost = id || postDetail?.id;
