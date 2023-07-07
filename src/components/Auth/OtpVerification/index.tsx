@@ -15,6 +15,7 @@ interface IProps {
   onSubmit: (otp: string) => void;
   phoneNumber?: string;
   isModal?: boolean;
+  otpTime?: number;
 }
 
 const convertSecond = (secs: number) => {
@@ -25,7 +26,7 @@ const convertSecond = (secs: number) => {
 const OtpVerification = (props: IProps) => {
   const [form] = Form.useForm();
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
-  const [otpCount, setOtpCount] = useState<number>(120);
+  const [otpCount, setOtpCount] = useState<number>(props.otpTime ?? 120);
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
@@ -80,7 +81,7 @@ const OtpVerification = (props: IProps) => {
   }, [otpCount]);
 
   const resetTimer = () => {
-    setOtpCount(120);
+    setOtpCount(props.otpTime ?? 120);
     setIsOtpExpired(false);
     setResendCount(15);
     setIsResendAvailable(false);
