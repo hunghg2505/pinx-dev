@@ -147,11 +147,7 @@ const PostDetail = () => {
         <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
       )}
       {popupStatus.popupLoginTerms && (
-        <PopupLoginTerms
-          visible={popupStatus.popupLoginTerms}
-          onClose={onCloseModal}
-          userType={userType}
-        />
+        <PopupLoginTerms visible={popupStatus.popupLoginTerms} onClose={onCloseModal} />
       )}
       {popupStatus.popupAuth && (
         <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />

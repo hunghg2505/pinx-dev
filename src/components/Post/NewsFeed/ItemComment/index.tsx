@@ -19,9 +19,10 @@ import Fancybox from '@components/UI/Fancybox';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
