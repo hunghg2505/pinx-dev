@@ -8,7 +8,9 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { IconSearchWhite } from '@layout/components/MainHeader';
 
+import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
+import WatchingStock from './WatchingStock';
 
 const settings = {
   dots: false,
@@ -38,7 +40,7 @@ const Explore = () => {
           </FormItem>
         </Form>
       </div>
-      <Text type='body-20-medium' color='neutral-1' className='mb-[16px] mt-[36px]'>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
         Themes
       </Text>
       <div className='mb-[16px] overflow-hidden'>
@@ -53,20 +55,55 @@ const Explore = () => {
           Explore themes
         </Text>
       </ExploreButton>
-      <div>
-        <Text type='body-20-medium' color='neutral-1' className='mb-[16px] mt-[36px]'>
-          Top keyword search
-        </Text>
-        <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          <KeywordSearch percen={80} />
-          <KeywordSearch percen={100} />
-        </div>
-        <ExploreButton>
-          <Text type='body-14-bold' color='primary-2'>
-            Explore top search
-          </Text>
-        </ExploreButton>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+        Top keyword search
+      </Text>
+      <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+        <KeywordSearch percen={80} />
+        <KeywordSearch percen={100} />
       </div>
+      <ExploreButton>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore top search
+        </Text>
+      </ExploreButton>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+        Top watching stock
+      </Text>
+      <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+        <WatchingStock percen={80} />
+        <WatchingStock percen={100} />
+      </div>
+      <ExploreButton>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore top watching stock
+        </Text>
+      </ExploreButton>
+
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+        People in spotlight
+      </Text>
+      <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+        <IPO />
+        <IPO />
+      </div>
+      <ExploreButton>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore influencer
+        </Text>
+      </ExploreButton>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+        New IPO
+      </Text>
+      <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+        <IPO />
+        <IPO />
+      </div>
+      <ExploreButton>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore newly listed
+        </Text>
+      </ExploreButton>
     </div>
   );
 };
