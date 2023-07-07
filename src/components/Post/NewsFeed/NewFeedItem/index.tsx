@@ -558,7 +558,9 @@ const NewFeedItem = (props: IProps) => {
             onClick={() => handleLikeOrUnLikePost()}
           >
             <img
-              src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
+              src={
+                isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
+              }
               color='#FFFFFF'
               alt=''
               width={16}
@@ -569,7 +571,7 @@ const NewFeedItem = (props: IProps) => {
             <Text
               type='body-12-medium'
               color='primary-5'
-              className={classNames({ '!text-[#589DC0]': isLike })}
+              className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
             >
               {postDetail?.totalLikes || ''} Like
             </Text>
