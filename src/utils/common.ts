@@ -14,6 +14,10 @@ export const ROUTE_PATH = {
   REDIRECT: '/redirecting',
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
+  PINEX_TOP_20: 'pinex-top-20',
+  EXPLORE: '/explore',
+  THEME: '/theme',
+  PEOPLEINSPOTLIGHT: '/people-in-spotlight',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
 };
 

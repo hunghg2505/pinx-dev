@@ -78,10 +78,6 @@ export const RoundButton = (props: ButtonProps) => {
   );
 };
 
-export const ExploreButton = ({ children, ...props }: { children: any }) => {
-  return (
-    <Button {...props} customClassName='w-full rounded-[8px] bg-[#EAF4FB] py-[14px]'>
-      {children}
-    </Button>
-  );
+export const ExploreButton = (props: ButtonProps) => {
+  return <Button {...props} customClassName='w-full rounded-[8px] bg-[#EAF4FB] py-[14px]' />;
 };

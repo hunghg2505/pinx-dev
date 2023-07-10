@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import PinexTop20 from '@components/PinexTop20';
 import SEO from '@components/SEO';
 
 const MainLayout = dynamic(() => import('@layout/MainLayout'));
@@ -10,7 +11,7 @@ const PostDetailPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <p>Pinex top 20</p>
+      <PinexTop20 />
     </>
   );
 };

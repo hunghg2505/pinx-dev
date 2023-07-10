@@ -302,7 +302,7 @@ const Home = () => {
                 </div>
                 {suggestionPeople && (
                   <div className='mobile:block desktop:hidden'>
-                    <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
+                    <div className='bg-[#ffffff] pl-[16px] pt-[15px]'>
                       <PeopleList data={suggestionPeople} refresh={refreshList} />
                     </div>
                     <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>

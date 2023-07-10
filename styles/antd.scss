@@ -60,6 +60,19 @@
       }
     }
   }
+  &.pinexTop{
+    .rc-tabs-nav-wrap{
+      .rc-tabs-nav-list{
+        flex-direction: row;
+        justify-content: flex-end;
+        min-width: 905px;
+        .rc-tabs-tab{
+          width: max-content;
+        }
+      }
+    }
+    
+  }
 }
 .rc-dialog {
   position: fixed;

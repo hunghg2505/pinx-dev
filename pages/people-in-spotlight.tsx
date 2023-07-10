@@ -5,20 +5,22 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+
+const PeopleSpotlight = dynamic(() => import('@components/PeopleSpotlight'));
+const PeopleSpotLightPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <p>people-in-spotlight</p>
+      <PeopleSpotlight />
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+PeopleSpotLightPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -31,4 +33,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default PeopleSpotLightPage;

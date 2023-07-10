@@ -15,7 +15,7 @@ const MainLayout = ({ children }: any) => {
           <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
             <SideBar />
           </div>
-          <main className='tablet:w-full tablet:px-[15px] desktop:w-[calc(100%_-_218px)] desktop:px-0 xdesktop:w-[1124px]'>
+          <main className='mobile-max:w-full tablet:w-full tablet:px-[15px] desktop:w-[calc(100%_-_218px)] desktop:px-0 xdesktop:w-[1124px]'>
             {children}
           </main>
         </div>

@@ -4,21 +4,23 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import Themes from '@components/Themes';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+// const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const ThemesPage = () => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
-      <p>Theme</p>
+      <SEO title={'Pinex Theme'} />
+      <Themes />
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+ThemesPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -31,4 +33,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default ThemesPage;
