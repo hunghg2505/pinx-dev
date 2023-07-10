@@ -76,7 +76,6 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { userLoginInfo } = useUserLoginInfo();
-
   React.useEffect(() => {
     window.addEventListener('scroll', loadMore);
     return () => {
@@ -137,6 +136,7 @@ const Home = () => {
     initUserProfile();
   }, [userType, isReadTerms]);
   // const metaData = useGetMetaData();
+
   if (loading && lastNewFeed === '') {
     return <SkeletonLoading />;
   }
@@ -367,18 +367,17 @@ const Home = () => {
                   );
                 })}
               </div>
-              {loading && lastNewFeed !== '' && (
-                <div className='mt-[10px]'>
-                  <SkeletonLoading />
-                  <SkeletonLoading />
-                </div>
-              )}
             </div>
           </div>
         </div>
         <ContentRight />
       </div>
-
+      {loading && lastNewFeed !== '' && (
+        <div className='mt-[10px]'>
+          <SkeletonLoading />
+          <SkeletonLoading />
+        </div>
+      )}
       <ComposeButton />
       {!isLogin && <FooterSignUp />}
     </>
