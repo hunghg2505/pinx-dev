@@ -20,6 +20,7 @@ export const ROUTE_PATH = {
   PEOPLEINSPOTLIGHT: '/people-in-spotlight',
   TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
+  PAGE_NOT_FOUND:'/page-not-found'
 };
 
 export const formatMessage = (message: string, data: any) => {

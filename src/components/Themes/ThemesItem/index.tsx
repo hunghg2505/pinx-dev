@@ -1,10 +1,11 @@
 import { useRequest } from 'ahooks';
+import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import PopupComponent from '@utils/PopupComponent';
+import { popupStatusAtom } from '@store/popup/popup';
 
 interface IProps {
   theme: ITheme;
@@ -64,6 +65,7 @@ const IconChecked = () => (
 );
 
 const ThemesItem = (props: IProps) => {
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { theme, isLogin, refresh } = props;
   const useSubcribe = useRequest(
     (code: string) => {
@@ -103,7 +105,10 @@ const ThemesItem = (props: IProps) => {
         useSubcribe.run(theme.code);
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   const renderSubcribe = () => {
@@ -146,7 +151,7 @@ const ThemesItem = (props: IProps) => {
               <Text type='body-12-bold' color='primary-5' className='text-center'>
                 {theme?.name}
               </Text>
-              {theme.totalSubscribe !== 0 && (
+              {theme.totalSubscribe !== 0 && isLogin && (
                 <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
                   {theme.totalSubscribe} Subcribers
                 </Text>

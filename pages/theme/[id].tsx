@@ -4,13 +4,16 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import Community from '@components/Themes/ThemesDetail/Community';
+import LandingPageDetailThemes from '@components/Themes/ThemesDetail/LandingPage';
 
 const MainLayout = dynamic(() => import('@layout/MainLayout'));
 const PostDetailPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <p>Theme detail</p>
+      <LandingPageDetailThemes />
+      <Community />
     </>
   );
 };
