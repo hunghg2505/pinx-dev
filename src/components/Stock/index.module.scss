@@ -1,0 +1,49 @@
+.tabs {
+  :global {
+    .rc-tabs-nav-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 28px;
+      margin-bottom: 20px;
+      padding: 0px 16px;
+    }
+    .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
+      display: none;
+    }
+    .rc-tabs-nav-list {
+      background: #f7f6f8;
+      display: flex;
+      border-radius: 50px;
+      gap: 2px;
+      padding: 0 4px;
+      .rc-tabs-tab {
+        min-width: 112px;
+        height: 34px;
+        cursor: pointer;
+        padding: 0 10px;
+        margin: 4px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .rc-tabs-tab-btn {
+          font-weight: 500;
+          font-size: 14px;
+          text-align: center;
+          color: #a6b0c3;
+          line-height: 18px;
+        }
+
+        &.rc-tabs-tab-active {
+          font-weight: 600;
+          background: white;
+          border-radius: 50px;
+          box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.12);
+          .rc-tabs-tab-btn {
+            color: var(--primary-5);
+          }
+        }
+      }
+    }
+  }
+}
