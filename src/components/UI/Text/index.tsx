@@ -11,6 +11,7 @@ interface TextProps {
     | 'h2-regular'
     | 'h3-bold'
     | 'h3-regular'
+    | 'body-10-regular'
     | 'body-12-regular'
     | 'body-12-medium'
     | 'body-12-bold'

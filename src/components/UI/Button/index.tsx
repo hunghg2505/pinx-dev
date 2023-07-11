@@ -12,7 +12,7 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
+export const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
   const { className, disabled = false, onClick, children, customClassName, ...rest } = props;
   const prefixCls = 'button';
 

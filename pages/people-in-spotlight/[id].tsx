@@ -5,19 +5,18 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const Explore = dynamic(() => import('@components/Explore'), {
-  ssr: false,
-});
 const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
-const ExplorePage = () => {
+
+const PeopleDetail = dynamic(() => import('@components/PeopleSpotlight/PeopleDetail'));
+const PeopleSpotLightDetailPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <Explore />
+      <PeopleDetail />
     </>
   );
 };
-ExplorePage.getLayout = function getLayout(page: ReactElement) {
+PeopleSpotLightDetailPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <ExploreLayout>
       <>{page}</>
@@ -34,4 +33,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default ExplorePage;
+export default PeopleSpotLightDetailPage;

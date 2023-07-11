@@ -12,11 +12,15 @@ export enum TabsEnum {
   Price = 'Price',
   ChangeInPrice1Y = 'ChangeInPrice1Y',
 }
+export enum TabstopMentionEnum {
+  TopWatching = 'TopWatching',
+  TopMention = 'TopMention',
+}
 
 interface Props {
   onChange: (tabs: any) => void;
   defaultTab: any;
-  currentTab?: TabsEnum;
+  currentTab?: any;
   contenTab: TabItem[];
 }
 interface TabItem {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFocusWithin } from 'ahooks';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -20,6 +21,7 @@ import { ROUTE_PATH } from '@utils/common';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
+import ModalPeopleYouKnow from './ModalPeopleYouKnow';
 import PinexTop from './PinexTop';
 import WatchingStock from './WatchingStock';
 
@@ -35,6 +37,7 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const Explore = () => {
+  const refInput = React.useRef(null);
   const [form] = Form.useForm();
   const [showPopup, setShowPopup] = React.useState(false);
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
@@ -54,6 +57,11 @@ const Explore = () => {
     }
     console.log('🚀 ~ file: index.tsx:44 ~ onChange ~ value:', value);
   };
+  const isFocusWithin = useFocusWithin(refInput, {
+    onFocus: () => {},
+    onBlur: () => {},
+  });
+  console.log('123', isFocusWithin);
   return (
     <div className='w-full text-left'>
       <Text type='body-24-semibold' color='cbblack'>
@@ -71,6 +79,7 @@ const Explore = () => {
               className='h-[40px] rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none mobile-max:w-full'
               placeholder='Are you looking for something?'
               icon={<IconSearchWhite />}
+              ref={refInput}
             />
           </FormItem>
         </Form>
@@ -165,7 +174,7 @@ const Explore = () => {
         <WatchingStock percen={80} />
         <WatchingStock percen={100} />
       </div>
-      <ExploreButton>
+      <ExploreButton onClick={() => router.push(ROUTE_PATH.TOPMENTION)}>
         <Text type='body-14-bold' color='primary-2'>
           Explore top watching stock
         </Text>
@@ -201,11 +210,13 @@ const Explore = () => {
           <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
             <PeopleList data={suggestionPeople} refresh={refreshList} />
           </div>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              Explore people
-            </Text>
-          </ExploreButton>
+          <ModalPeopleYouKnow>
+            <ExploreButton>
+              <Text type='body-14-bold' color='primary-2'>
+                Explore people
+              </Text>
+            </ExploreButton>
+          </ModalPeopleYouKnow>
         </div>
       )}
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>

@@ -42,7 +42,11 @@ const WatchingStock = (props: Iprops) => {
           <Text type='body-16-regular' color='neutral-1'>
             88
           </Text>
-          <img src='/static/icons/explore/iconcHeart.svg' alt='' className='ml-[6px] w-[16px]' />
+          <img
+            src='/static/icons/explore/iconcHeart.svg'
+            alt=''
+            className='ml-[6px] h-[24px] w-[24px]'
+          />
         </div>
       </div>
     </div>

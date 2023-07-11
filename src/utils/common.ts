@@ -18,6 +18,7 @@ export const ROUTE_PATH = {
   EXPLORE: '/explore',
   THEME: '/theme',
   PEOPLEINSPOTLIGHT: '/people-in-spotlight',
+  TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
 };
 

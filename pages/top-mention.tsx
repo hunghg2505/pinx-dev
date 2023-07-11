@@ -4,20 +4,18 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import TopMention from '@components/TopMention';
 
-const Explore = dynamic(() => import('@components/Explore'), {
-  ssr: false,
-});
 const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
-const ExplorePage = () => {
+const TopMentionPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <Explore />
+      <TopMention />
     </>
   );
 };
-ExplorePage.getLayout = function getLayout(page: ReactElement) {
+TopMentionPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <ExploreLayout>
       <>{page}</>
@@ -34,4 +32,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default ExplorePage;
+export default TopMentionPage;
