@@ -54,7 +54,7 @@ const MovementsTab = () => {
 
           <table
             className={classNames(
-              'w-[203px] border-separate border-spacing-0 rounded-[12px] border border-solid border-[#F5E4E7]',
+              'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#F5E4E7]',
               styles.tableRedBorder,
             )}
           >
@@ -70,6 +70,7 @@ const MovementsTab = () => {
                     88,000
                   </Text>
                 </td>
+                <div className='absolute bottom-0 left-0 h-[3px] w-[90%] border-none bg-[#f5e4e7]'></div>
               </tr>
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
@@ -82,6 +83,7 @@ const MovementsTab = () => {
                     261,500
                   </Text>
                 </td>
+                <div className='absolute bottom-0 left-0 h-[3px] w-[40%] border-none bg-[#f5e4e7]'></div>
               </tr>
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
@@ -94,6 +96,7 @@ const MovementsTab = () => {
                     54,000
                   </Text>
                 </td>
+                <div className='absolute bottom-0 left-0 h-[3px] w-[50%] border-none bg-[#f5e4e7]'></div>
               </tr>
             </tbody>
           </table>
@@ -102,7 +105,7 @@ const MovementsTab = () => {
         <div className='mt-[12px] flex'>
           <table
             className={classNames(
-              'w-[203px] border-separate border-spacing-0 rounded-[12px] border border-solid border-[#B6DFD1]',
+              'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#B6DFD1]',
               styles.tableGreenBorder,
             )}
           >
@@ -118,6 +121,7 @@ const MovementsTab = () => {
                     20.55
                   </Text>
                 </td>
+                <div className='absolute bottom-0 right-0 h-[3px] w-[50%] border-none bg-[#B6DFD1]'></div>
               </tr>
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
@@ -130,6 +134,7 @@ const MovementsTab = () => {
                     19.95
                   </Text>
                 </td>
+                <div className='absolute bottom-0 right-0 h-[3px] w-[20%] border-none bg-[#B6DFD1]'></div>
               </tr>
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
@@ -142,6 +147,7 @@ const MovementsTab = () => {
                     20.2
                   </Text>
                 </td>
+                <div className='absolute bottom-0 right-0 h-[3px] w-[70%] border-none bg-[#B6DFD1]'></div>
               </tr>
             </tbody>
           </table>

@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 
 import classNames from 'classnames';
+import Link from 'next/link';
 import Tabs, { TabPane } from 'rc-tabs';
 import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
 
+import CalendarItem from './CalendarItem';
 import { DESCRIPTION, LIST_BUSINESS, SLIDER } from './const';
+import FinancialAnnualTab from './FinancialAnnualTab';
+import FinancialQuartersTab from './FinancialQuartersTab';
 import IntradayTab from './IntradayTab';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
+import NewsItem from './NewsItem';
+import ReviewItem from './ReviewItem';
+import StockItem from './StockItem';
 import styles from '../index.module.scss';
 
 const MAX_LINE = 3;
@@ -66,7 +73,7 @@ const StockDetail = () => {
         </div>
 
         <div className='flex items-center'>
-          <Text type='body-12-regular' className='primary-5 -mr-[8px]'>
+          <Text type='body-12-regular' className='primary-5 mr-[4px]'>
             46,086+
           </Text>
 
@@ -74,17 +81,17 @@ const StockDetail = () => {
             <img
               src='https://picsum.photos/200/100'
               alt='Subscriber user'
-              className='block h-[28px] w-[28px] translate-x-[16px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
             />
             <img
               src='https://picsum.photos/200/100'
               alt='Subscriber user'
-              className='block h-[28px] w-[28px] translate-x-[8px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
             />
             <img
               src='https://picsum.photos/200/100'
               alt='Subscriber user'
-              className='z-10 block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              className='z-10 block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
             />
           </div>
         </div>
@@ -231,6 +238,321 @@ const StockDetail = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* revenue */}
+      <div className='mt-[28px] px-[16px]'>
+        <Text type='body-20-semibold' className='mb-[16px]'>
+          Revenue Sources
+        </Text>
+
+        {/* chart */}
+        <div></div>
+
+        <div className='mt-[8px]'>
+          <div className='flex items-center border-b border-solid border-[var(--neutral-7)] py-[16px]'>
+            <div className='h-[20px] w-[20px] rounded-full bg-[#08AADD]'></div>
+            <Text type='body-14-semibold' className='ml-[10px] text-[#0D0D0D]'>
+              Selling
+            </Text>
+
+            <Text type='body-14-semibold' className='ml-auto'>
+              92.7%
+            </Text>
+          </div>
+
+          <div className='flex items-center border-b border-solid border-[var(--neutral-7)] py-[16px]'>
+            <div className='h-[20px] w-[20px] rounded-full bg-[#F4BDBD]'></div>
+            <Text type='body-14-semibold' className='ml-[10px] text-[#0D0D0D]'>
+              Other
+            </Text>
+
+            <Text type='body-14-semibold' className='ml-auto'>
+              7.3%
+            </Text>
+          </div>
+        </div>
+      </div>
+
+      {/* highlights */}
+      <div className='mt-[28px] px-[16px]'>
+        <Text type='body-20-semibold' className='mb-[16px]'>
+          Highlights
+        </Text>
+
+        <div className='flex flex-wrap gap-[12px]'>
+          <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
+            <Text type='body-14-medium' color='primary-2'>
+              #Asia
+            </Text>
+          </div>
+
+          <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
+            <Text type='body-14-medium' color='primary-2'>
+              #Greenenvironment
+            </Text>
+          </div>
+
+          <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
+            <Text type='body-14-medium' color='primary-2'>
+              #Internationalquality
+            </Text>
+          </div>
+
+          <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
+            <Text type='body-14-medium' color='primary-2'>
+              #USA
+            </Text>
+          </div>
+
+          <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
+            <Text type='body-14-medium' color='primary-2'>
+              #Scholarship
+            </Text>
+          </div>
+
+          <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
+            <Text type='body-14-medium' color='primary-2'>
+              #Socialfund
+            </Text>
+          </div>
+        </div>
+      </div>
+
+      {/* also own */}
+      <div className='my-[28px] border-t border-solid border-[var(--neutral-7)] pt-[28px]'>
+        <div className='px-[16px]'>
+          <Text type='body-20-semibold' className='mb-[8px]'>
+            Also Own
+          </Text>
+
+          <StockItem />
+
+          <Link href='/'>
+            <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+              <Text type='body-14-bold' color='primary-2'>
+                See more
+              </Text>
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* rating */}
+      <div className='border-t-[8px] border-solid border-[#F7F6F8] pt-[28px]'>
+        <div className='px-[16px]'>
+          <Text type='body-20-semibold' className='mb-[16px]'>
+            Rating
+          </Text>
+          <Text type='body-14-regular' className='mb-[12px]'>
+            How do you like this stock? Let’s spread to the world of investors
+          </Text>
+
+          <div className='mb-[28px] mt-[12px] flex gap-x-[52px]'>
+            <div>
+              <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
+                Avg. score
+              </Text>
+              <Text type='body-20-medium' color='semantic-2-1'>
+                4.41
+              </Text>
+            </div>
+
+            <div>
+              <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
+                Votes
+              </Text>
+              <Text type='body-20-medium' className='text-[#0D0D0D]'>
+                39
+              </Text>
+            </div>
+
+            <div>
+              <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
+                Reviews
+              </Text>
+
+              <div className='flex items-center'>
+                <Text type='body-20-medium' color='primary-1'>
+                  14
+                </Text>
+
+                <img
+                  src='/static/icons/iconPrimaryRight.svg'
+                  alt='Icon primary right'
+                  className='ml-[10px] h-[8px] w-[4px] object-contain'
+                />
+              </div>
+            </div>
+          </div>
+
+          <ReviewItem />
+
+          <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+            <Text type='body-14-bold' color='primary-2'>
+              See more review
+            </Text>
+          </button>
+        </div>
+      </div>
+
+      {/* community */}
+      <div className='mt-[28px] px-[16px]'>
+        <Text type='body-20-semibold'>Community</Text>
+        <Text type='body-14-regular' className='mt-[16px]'>
+          Who is subcribed or investing in this company
+        </Text>
+
+        <div className='mt-[16px] flex items-center justify-between'>
+          <div className='flex gap-x-[10px]'>
+            <div className='relative'>
+              <img
+                src='https://picsum.photos/100/200'
+                alt='Avatar'
+                className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              />
+
+              <img
+                src='/static/icons/iconTree.svg'
+                alt='Icon tree'
+                className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+              />
+            </div>
+
+            <div className='relative'>
+              <img
+                src='https://picsum.photos/100/200'
+                alt='Avatar'
+                className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              />
+
+              <img
+                src='/static/icons/iconHeartActive.svg'
+                alt='Icon tree'
+                className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+              />
+            </div>
+
+            <div className='relative'>
+              <img
+                src='https://picsum.photos/100/200'
+                alt='Avatar'
+                className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              />
+
+              <img
+                src='/static/icons/iconTree.svg'
+                alt='Icon tree'
+                className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+              />
+            </div>
+
+            <div className='relative'>
+              <img
+                src='https://picsum.photos/100/200'
+                alt='Avatar'
+                className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              />
+
+              <img
+                src='/static/icons/iconHeartActive.svg'
+                alt='Icon tree'
+                className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+              />
+            </div>
+
+            <div className='relative'>
+              <img
+                src='https://picsum.photos/100/200'
+                alt='Avatar'
+                className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+              />
+
+              <img
+                src='/static/icons/iconTree.svg'
+                alt='Icon tree'
+                className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+              />
+            </div>
+          </div>
+
+          <div className='flex h-[34px] min-w-[90px] items-center justify-center rounded-full bg-[#F7F6F8] px-[16px]'>
+            <Text type='body-14-regular' className='text-[#0D0D0D]'>
+              46086
+            </Text>
+            <img
+              src='/static/icons/iconBlackRight.svg'
+              alt='Icon right'
+              className='ml-[10px] h-[8px] w-[4px]'
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* recent news */}
+      <div className='mt-[28px]'>
+        <div className='mb-[4px] px-[16px]'>
+          <Text type='body-20-semibold'>Recent news</Text>
+        </div>
+
+        <NewsItem />
+        <NewsItem />
+        <NewsItem />
+
+        <div className='px-[16px]'>
+          <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
+            <Text type='body-14-bold' color='primary-2'>
+              More HPG news
+            </Text>
+          </button>
+        </div>
+      </div>
+
+      {/* themes */}
+      <div className='mt-[28px] px-[16px]'>
+        <Text type='body-20-semibold' className='mb-[16px]'>
+          Featured in themes
+        </Text>
+      </div>
+
+      {/* calendar */}
+      <div className='mt-[28px] px-[16px]'>
+        <Text type='body-20-semibold' className='mb-[16px]'>
+          Financial calendar
+        </Text>
+
+        <Text type='body-14-regular' className='mb-[12px]'>
+          Most recent & upcoming events
+        </Text>
+
+        <div className='flex flex-col gap-y-[12px]'>
+          <CalendarItem />
+          <CalendarItem />
+          <CalendarItem />
+        </div>
+
+        <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
+          <Text type='body-14-bold' color='primary-2'>
+            More HPG events
+          </Text>
+        </button>
+      </div>
+
+      {/* financial */}
+      <div className='mt-[28px] px-[16px]'>
+        <Text type='body-20-semibold' className='mb-[16px]'>
+          Financial indicator
+        </Text>
+
+        <Tabs className={styles.financialTab} defaultActiveKey='1'>
+          <TabPane tab='Quarters' tabKey='1'>
+            <FinancialQuartersTab />
+          </TabPane>
+
+          <TabPane tab='Annual' key='2'>
+            <FinancialAnnualTab />
+          </TabPane>
+        </Tabs>
       </div>
     </div>
   );

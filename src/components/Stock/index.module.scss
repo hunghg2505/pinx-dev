@@ -47,3 +47,37 @@
     }
   }
 }
+
+.financialTab {
+  @extend .tabs;
+
+  :global {
+    .rc-tabs-nav-wrap {
+      padding: 0;
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+
+    .rc-tabs-nav-list {
+      border-radius: 12px;
+      padding: 6px;
+      gap: 12px;
+      width: 100%;
+
+      .rc-tabs-tab {
+        min-width: 160px !important;
+        margin: 0;
+
+        &.rc-tabs-tab-active {
+          border-radius: 8px;
+          border: 1px solid #66c660;
+
+          .rc-tabs-tab-btn {
+            font-weight: 600;
+            color: var(--semantic-2-1);
+          }
+        }
+      }
+    }
+  }
+}
