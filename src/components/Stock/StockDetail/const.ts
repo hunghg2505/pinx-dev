@@ -27,4 +27,39 @@ const SLIDER = [
 
 const LIST_BUSINESS = ['Steel production and processing', 'Steel production and processing'];
 
-export { DESCRIPTION, SLIDER, LIST_BUSINESS };
+const HOLDING_RATIO = [
+  {
+    label: 'INTERNAL STAFFS',
+    value: '35%',
+  },
+  {
+    label: 'OTHER SHAREHOLDERS IN THE COUNTRY',
+    value: '35%',
+  },
+  {
+    label: 'DOMESTIC INDIVIDUALS ARE RELATED TO INTERNAL PEOPLE',
+    value: '35%',
+  },
+  {
+    label: 'FOREIGN SHAREHOLDERS',
+    value: '35%',
+  },
+  {
+    label: 'MARKET CAP',
+    value: '147,114,078,210,000',
+  },
+  {
+    label: 'VOLUME',
+    value: '5,814,785,700',
+  },
+  {
+    label: 'P/E',
+    value: '0',
+  },
+  {
+    label: 'ROE',
+    value: '9.08',
+  },
+];
+
+export { DESCRIPTION, SLIDER, LIST_BUSINESS, HOLDING_RATIO };

@@ -1,10 +1,21 @@
 import React from 'react';
 
+import classNames from 'classnames';
+
 import Text from '@components/UI/Text';
 
-const NewsItem = () => {
+interface INewsItemProps {
+  className?: string;
+}
+
+const NewsItem = ({ className }: INewsItemProps) => {
   return (
-    <div className='border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px]'>
+    <div
+      className={classNames(
+        'border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px]',
+        className,
+      )}
+    >
       <div className='flex items-center'>
         <img
           src='https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png'
