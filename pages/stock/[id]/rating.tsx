@@ -6,19 +6,20 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 
 const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const StockNews = dynamic(() => import('@components/Stock/News'), {
+const StockRating = dynamic(() => import('@components/Stock/RatingPage'), {
   ssr: false,
 });
-const StockNewsPage = () => {
+
+const StockRatingPage = () => {
   return (
     <>
-      <SEO title='Stock News'></SEO>
-      <StockNews />
+      <SEO title='Stock Rating' />
+      <StockRating />
     </>
   );
 };
 
-StockNewsPage.getLayout = (page: ReactElement) => {
+StockRatingPage.getLayout = (page: ReactElement) => {
   return <MainLayout>{page}</MainLayout>;
 };
 
@@ -31,4 +32,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default StockNewsPage;
+export default StockRatingPage;

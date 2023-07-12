@@ -22,6 +22,7 @@ import StockItem from './StockItem';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupReview from '../Popup/PopupReview';
+import Rating from '../Rating';
 
 const MAX_LINE = 3;
 const LINE_HEIGHT = 16;
@@ -62,13 +63,6 @@ const StockDetail = () => {
         onClose={() => {
           setOpenPopupReview(false);
         }}
-        closeIcon={
-          <img
-            src='/static/icons/iconClose.svg'
-            alt='Close icon'
-            className='h-[21px] w-[21px] object-contain'
-          />
-        }
       />
 
       <div className='flex h-[44px] w-full items-center justify-between px-[16px]'>
@@ -240,7 +234,7 @@ const StockDetail = () => {
 
         {LIST_BUSINESS.map((item, index) => (
           <div
-            className='flex items-center border-b border-solid border-[var(--neutral-7)] py-[12px]'
+            className='flex cursor-pointer items-center border-b border-solid border-[var(--neutral-7)] py-[12px]'
             key={index}
             onClick={() => {
               console.log('business item');
@@ -383,6 +377,10 @@ const StockDetail = () => {
             How do you like this stock? Let’s spread to the world of investors
           </Text>
 
+          <div className='my-[12px]'>
+            <Rating />
+          </div>
+
           <div className='mb-[28px] mt-[12px] flex gap-x-[52px]'>
             <div>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
@@ -407,7 +405,7 @@ const StockDetail = () => {
                 Reviews
               </Text>
 
-              <div className='flex items-center'>
+              <div className='flex cursor-pointer items-center'>
                 <Text type='body-20-medium' color='primary-1'>
                   14
                 </Text>
@@ -423,11 +421,13 @@ const StockDetail = () => {
 
           <ReviewItem />
 
-          <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-            <Text type='body-14-bold' color='primary-2'>
-              See more review
-            </Text>
-          </button>
+          <Link href='/stock/123/rating'>
+            <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+              <Text type='body-14-bold' color='primary-2'>
+                See more review
+              </Text>
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -511,7 +511,7 @@ const StockDetail = () => {
             </div>
           </div>
 
-          <div className='flex h-[34px] min-w-[90px] items-center justify-center rounded-full bg-[#F7F6F8] px-[16px]'>
+          <div className='flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px]'>
             <Text type='body-14-regular' className='text-[#0D0D0D]'>
               46086
             </Text>
@@ -543,13 +543,6 @@ const StockDetail = () => {
             </button>
           </Link>
         </div>
-      </div>
-
-      {/* themes */}
-      <div className='mt-[28px] px-[16px]'>
-        <Text type='body-20-semibold' className='mb-[16px]'>
-          Featured in themes
-        </Text>
       </div>
 
       {/* calendar */}

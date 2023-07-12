@@ -1,10 +1,11 @@
 import React from 'react';
 
+import Rating from '@components/Stock/Rating';
 import Text from '@components/UI/Text';
 
 const ReviewItem = () => {
   return (
-    <>
+    <div>
       <div className='mb-[4px] flex items-center'>
         <img
           src='https://picsum.photos/100/200'
@@ -32,13 +33,14 @@ const ReviewItem = () => {
           </div>
 
           {/* star */}
+          <Rating star={45} disabled className='!h-[16px] !w-[16px]' />
         </div>
 
         <Text type='body-14-regular' className='mt-[12px] text-[#0D0D0D]'>
           Per conubia nostra, per inceptos no more himenaeos.
         </Text>
       </div>
-    </>
+    </div>
   );
 };
 

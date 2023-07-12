@@ -4,7 +4,7 @@ import Text from '@components/UI/Text';
 
 const CalendarItem = () => {
   return (
-    <div className='flex items-center rounded-[8px] bg-[#F7F6F8] p-[8px]'>
+    <div className='flex cursor-pointer items-center rounded-[8px] bg-[#F7F6F8] p-[8px]'>
       <div className='flex h-[73px] w-[68px] flex-col rounded-[8px] shadow-[0px_1px_2px_0px_#0000001F]'>
         <div className='flex h-[21px] items-center justify-center rounded-tl-[8px] rounded-tr-[8px] bg-[var(--primary-2)]'>
           <Text type='body-14-medium' color='cbwhite'>
