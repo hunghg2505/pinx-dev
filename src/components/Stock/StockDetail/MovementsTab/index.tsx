@@ -9,8 +9,8 @@ import styles from './index.module.scss';
 const MovementsTab = () => {
   return (
     <>
-      <div className='px-[16px]'>
-        <div className='flex'>
+      <div className='flex flex-col flex-wrap gap-y-[12px] px-[16px] tablet:flex-row tablet:gap-x-[15px] tablet:px-[22px]'>
+        <div className='flex flex-1'>
           <table className='flex-1'>
             <tbody>
               <tr className='h-[32px]'>
@@ -102,7 +102,7 @@ const MovementsTab = () => {
           </table>
         </div>
 
-        <div className='mt-[12px] flex'>
+        <div className='flex flex-1'>
           <table
             className={classNames(
               'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#B6DFD1]',
@@ -195,69 +195,52 @@ const MovementsTab = () => {
         </div>
       </div>
 
-      <table className='mt-[20px] w-full'>
-        <tbody>
-          <tr>
-            <td
-              colSpan={3}
-              className='border border-l-0 border-solid border-[#E6E6E6] py-[10px] text-center'
-            >
-              <Text type='body-12-regular' className='text-[#474D57]'>
-                Total Vol.
-              </Text>
-              <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-                10,578,300
-              </Text>
-            </td>
+      <div className='mt-[20px] flex flex-wrap tablet:px-[22px]'>
+        <div className='w-1/2 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            Total Vol.
+          </Text>
+          <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
+            10,578,300
+          </Text>
+        </div>
 
-            <td
-              colSpan={3}
-              className='border border-r-0 border-solid border-[#E6E6E6] py-[10px] text-center'
-            >
-              <Text type='body-12-regular' className='text-[#474D57]'>
-                Total Vol.
-              </Text>
-              <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-                10,578,300
-              </Text>
-            </td>
-          </tr>
-          <tr>
-            <td
-              colSpan={2}
-              className='border border-l-0 border-solid border-[#E6E6E6] py-[10px] text-center'
-            >
-              <Text type='body-12-regular' className='text-[#474D57]'>
-                Total Vol.
-              </Text>
-              <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-                10,578,300
-              </Text>
-            </td>
+        <div className='w-1/2 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            Total Vol.
+          </Text>
+          <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
+            10,578,300
+          </Text>
+        </div>
 
-            <td colSpan={2} className='border border-solid border-[#E6E6E6] py-[10px] text-center'>
-              <Text type='body-12-regular' className='text-[#474D57]'>
-                Total Vol.
-              </Text>
-              <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-                10,578,300
-              </Text>
-            </td>
+        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            Total Vol.
+          </Text>
+          <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
+            10,578,300
+          </Text>
+        </div>
 
-            <td
-              colSpan={2}
-              className='border border-r-0 border-solid border-[#E6E6E6] py-[10px] text-center'
-            >
-              <Text type='body-12-regular' className='text-[#474D57]'>
-                Total Vol.
-              </Text>
-              <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-                10,578,300
-              </Text>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            Total Vol.
+          </Text>
+          <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
+            10,578,300
+          </Text>
+        </div>
+
+        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            Total Vol.
+          </Text>
+          <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
+            10,578,300
+          </Text>
+        </div>
+      </div>
     </>
   );
 };

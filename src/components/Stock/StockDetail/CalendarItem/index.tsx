@@ -1,12 +1,26 @@
 import React from 'react';
 
+import classNames from 'classnames';
+
 import Text from '@components/UI/Text';
 
-const CalendarItem = () => {
+interface ICalendarItemProps {
+  active?: boolean;
+}
+
+const CalendarItem = ({ active = false }: ICalendarItemProps) => {
   return (
     <div className='flex cursor-pointer items-center rounded-[8px] bg-[#F7F6F8] p-[8px]'>
       <div className='flex h-[73px] w-[68px] flex-col rounded-[8px] shadow-[0px_1px_2px_0px_#0000001F]'>
-        <div className='flex h-[21px] items-center justify-center rounded-tl-[8px] rounded-tr-[8px] bg-[var(--primary-2)]'>
+        <div
+          className={classNames(
+            'flex h-[21px] items-center justify-center rounded-tl-[8px] rounded-tr-[8px]',
+            {
+              'bg-[#FF5757]': active,
+              'bg-[#0D0D0D]': !active,
+            },
+          )}
+        >
           <Text type='body-14-medium' color='cbwhite'>
             May
           </Text>

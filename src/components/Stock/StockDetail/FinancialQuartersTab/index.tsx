@@ -11,7 +11,7 @@ const FinancialQuartersTab = () => {
             <img
               src='/static/icons/back_icon.svg'
               alt='Previous icon'
-              className='ml-[12px] h-[24px] w-[24px] object-contain'
+              className='ml-[12px] h-[24px] w-[24px] cursor-pointer object-contain'
             />
           </th>
           <th className='align-middle'>
@@ -25,8 +25,8 @@ const FinancialQuartersTab = () => {
           <th className='text-right align-middle'>
             <img
               src='/static/icons/back_icon.svg'
-              alt='Previous icon'
-              className='ml-auto mr-[12px] h-[24px] w-[24px] rotate-180 object-contain'
+              alt='Next icon'
+              className='ml-auto mr-[12px] h-[24px] w-[24px] rotate-180 cursor-pointer object-contain'
             />
           </th>
         </tr>

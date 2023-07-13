@@ -188,16 +188,29 @@ const MatchingsTab = () => {
 
         <tfoot>
           <tr>
-            <td colSpan={4}>
+            <td colSpan={4} className='pt-[24px]'>
               <Text
                 onClick={() => {
                   setOpenPopup(true);
                 }}
                 type='body-14-medium'
-                className='mt-[24px] cursor-pointer text-center text-[#3449D7]'
+                className='cursor-pointer text-center text-[#3449D7] tablet:hidden'
               >
                 VIEW MORE
               </Text>
+
+              <div className='hidden px-[24px] tablet:block'>
+                <button
+                  onClick={() => {
+                    setOpenPopup(true);
+                  }}
+                  className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+                >
+                  <Text type='body-14-bold' color='primary-2'>
+                    VIEW MORE
+                  </Text>
+                </button>
+              </div>
             </td>
           </tr>
         </tfoot>

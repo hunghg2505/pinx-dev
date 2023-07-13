@@ -12,7 +12,7 @@ const NewsItem = ({ className }: INewsItemProps) => {
   return (
     <div
       className={classNames(
-        'border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px]',
+        'border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px] tablet:px-[24px]',
         className,
       )}
     >
@@ -53,7 +53,7 @@ const NewsItem = ({ className }: INewsItemProps) => {
         </div>
       </div>
 
-      <div className='flex justify-between'>
+      <div className='flex justify-between tablet:justify-start tablet:gap-x-[27px]'>
         <div className='flex items-center'>
           <img
             src='/static/icons/iconLike.svg'

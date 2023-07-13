@@ -1,3 +1,5 @@
+$screen-tablet-width: 769px;
+
 .tab {
   :global {
     .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
@@ -12,9 +14,29 @@
         font-size: 22px;
         font-weight: 700;
         color: #ccc;
+        cursor: pointer;
+
+        .rc-tabs-tab-btn {
+          @media (min-width: $screen-tablet-width) {
+            font-size: 16px;
+            font-weight: 400;
+            padding-bottom: 10px;
+            border-bottom-width: 3px;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+          }
+        }
 
         &.rc-tabs-tab-active {
           color: #0d0d0d;
+
+          .rc-tabs-tab-btn {
+            @media (min-width: $screen-tablet-width) {
+              font-weight: 700;
+              color: var(--primary-2);
+              border-bottom-color: var(--primary-2);
+            }
+          }
         }
       }
     }
