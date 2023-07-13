@@ -19,8 +19,8 @@ const ModalPeopleYouKnow = (props: Iprops) => {
   const [visible, setVisible] = React.useState<boolean>(false);
   const { children, closeIcon } = props;
   const { onLoadmorePeople } = useSuggestPeopleTheme();
-  const { data, reload } = useInfiniteScroll(
-    (d: any) => {
+  const { data, reload } = useInfiniteScroll<any>(
+    async (d: any) => {
       return onLoadmorePeople(d);
     },
     {

@@ -26,7 +26,7 @@ interface IProps {
   closeIcon?: boolean;
   postID: string;
   isReported?: boolean;
-  refresh: () => void;
+  refresh?: () => void;
   refreshCommentOfPOst?: () => void;
 }
 const ModalReportComment = (props: IProps) => {
@@ -75,7 +75,7 @@ const ModalReportComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
-        refresh();
+        refresh && refresh();
         refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
