@@ -16,6 +16,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 // import ItemComment from '../NewsFeed/ItemComment';
@@ -60,6 +61,7 @@ const PostDetail = () => {
   const [width, setWidth] = React.useState<number>(0);
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
+  const { run: initUserProfile } = useProfileInitial();
   // is login
   const { refresh, postDetail, loading } = usePostDetail(String(router.query.id), {
     onError: () => {
@@ -133,6 +135,7 @@ const PostDetail = () => {
         popupLoginTerms: true,
       });
     }
+    initUserProfile();
   }, [userType, isReadTerms]);
   // if (loading) {
   //   return (
