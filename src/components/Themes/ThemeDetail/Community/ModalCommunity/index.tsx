@@ -42,7 +42,7 @@ const ModalCommunity = (props: Iprops) => {
     );
   };
   const { onLoadmoreCommunity } = useGetCommunity(code);
-  const { data, reload } = useInfiniteScroll(
+  const { data, reload } = useInfiniteScroll<any>(
     (d: any) => {
       return onLoadmoreCommunity(d);
     },

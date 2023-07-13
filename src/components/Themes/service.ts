@@ -113,22 +113,18 @@ export const useGetCommunity = (code: string, option = {}) => {
 export const useSuggestPeopleTheme = () => {
   const requestGetPeople = useRequest(
     async (last?: string) => {
-      const isLogin = getAccessToken();
-      if (isLogin) {
-        return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE, {
-          params: {
-            last: last || '',
-            limit: 20,
-          },
-        });
-      }
-      return [];
+      return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE, {
+        params: {
+          last: last || '',
+          limit: 20,
+        },
+      });
     },
     {
       manual: true,
     },
   );
-  const onLoadmorePeople = async (d: any) => {
+  const onLoadmorePeople = async (d?: any) => {
     try {
       const r: any = await requestGetPeople.runAsync(d?.nextId ?? '');
       return {
