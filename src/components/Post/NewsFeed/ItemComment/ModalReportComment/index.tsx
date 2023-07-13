@@ -36,7 +36,7 @@ const ModalReportComment = (props: IProps) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const onVisible = () => {
-    if (isReported) {
+    if (isReported && isLogin) {
       return;
     }
 
@@ -119,8 +119,8 @@ const ModalReportComment = (props: IProps) => {
       <Text
         onClick={onVisible}
         className={classNames('cursor-pointer', {
-          'text-[#589DC0]': isReported,
-          'text-[#808080]': !isReported,
+          'text-[#589DC0]': isReported && isLogin,
+          'text-[#808080]': !isReported || !isLogin,
         })}
         type='body-14-regular'
       >

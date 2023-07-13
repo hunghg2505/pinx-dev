@@ -12,8 +12,8 @@ const LoginLayout = ({ children }: any) => {
         <meta name='theme-color' content='#ffffff'></meta>
       </Head>
       <LoginHeader />
-      <div className='flex w-full justify-center laptop:min-h-[98vh]'>
-        <div className='h-[100vh] w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex laptop:min-h-[750px]'>
+      <div className='flex w-full justify-center laptop:min-h-screen'>
+        <div className='w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex laptop:min-h-[750px]'>
           <img
             src='/static/images/pinex_logo.png'
             alt=''

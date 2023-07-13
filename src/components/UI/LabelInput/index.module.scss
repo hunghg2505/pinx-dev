@@ -27,6 +27,10 @@
     cursor: text;
     top: 15px;
   }
+
+  &:focus ~ .eyePassword {
+    background-color: #eaf4fb;
+  }
 }
 
 .inputLabel {
