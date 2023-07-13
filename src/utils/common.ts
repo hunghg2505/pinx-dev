@@ -32,16 +32,24 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      // const startId = item.indexOf('(') + 1;
-      // const endId = item.indexOf(')');
-      // const ID = item.slice(startId, endId);
-      if (message && message.includes(item)) {
-        message = message.replace(
-          item,
-          `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
-          `,
-        );
+      const startId = item.indexOf('(') + 1;
+      const endId = item.indexOf(')');
+      const ID = item.slice(startId, endId);
+      if (message && message.includes(ID)) {
+        const newMessage = message.split(' ');
+        for (const text of newMessage) {
+          if (text.includes(ID)) {
+            const startName = text.indexOf('@[') + 2;
+            const endName = text.indexOf(']');
+            const nameOld = text.slice(startName, endName);
+            message = message.replace(
+              `@[${nameOld}](${ID})`,
+              `
+              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              `,
+            );
+          }
+        }
       }
     }
   }
