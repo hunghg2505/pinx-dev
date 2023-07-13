@@ -65,6 +65,7 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
+
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
@@ -402,7 +403,11 @@ const NewFeedItem = (props: IProps) => {
     );
   };
   return (
-    <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
+    <div
+      className={classNames('newsfeed  border-t border-solid border-[#D8EBFC] py-[24px]', {
+        'border-b': totalComments > 0,
+      })}
+    >
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>
           <div

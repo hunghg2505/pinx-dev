@@ -17,11 +17,18 @@ const TabItem: React.FC<Props> = ({ icon, isActive, label, onChangeTab, value })
     onChangeTab(newTab);
   };
   return (
-    <div className='' onClick={() => onClickTab(value)}>
-      <div className='mr-[32px]'>
+    <div className='cursor-pointer' onClick={() => onClickTab(value)}>
+      <div className='mr-[40px]'>
         {icon && <div className=''>{icon}</div>}
-        <Text type='body-22-bold' color={isActive ? 'neutral-1' : 'neutral-6'} className='w-max'>
+        <Text
+          type={isActive ? 'body-16-bold' : 'body-16-regular'}
+          color={isActive ? 'primary-2' : 'primary-5'}
+          className='relative w-max'
+        >
           {label}
+          {isActive && (
+            <div className='absolute -bottom-[10px] left-0 h-[3px] w-full bg-[#1F6EAC]'></div>
+          )}
         </Text>
       </div>
       <div

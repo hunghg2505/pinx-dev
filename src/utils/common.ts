@@ -17,10 +17,11 @@ export const ROUTE_PATH = {
   PINEX_TOP_20: 'pinex-top-20',
   EXPLORE: '/explore',
   THEME: '/theme',
+  THEME_DETAIL: (id: string) => `/theme/${id}`,
   PEOPLEINSPOTLIGHT: '/people-in-spotlight',
   TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
-  PAGE_NOT_FOUND:'/page-not-found'
+  PAGE_NOT_FOUND: '/page-not-found',
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -155,3 +156,11 @@ export function toNonAccentVietnamese(str: any) {
   str = str.replaceAll(/[\u02C6\u0306\u031B]/g, ''); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
+
+export const imageStock = (stock_code: string) => {
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const url = `${imageCompanyUrl}${
+    stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
+  }.png`;
+  return url;
+};

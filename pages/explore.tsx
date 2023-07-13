@@ -12,7 +12,7 @@ const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const ExplorePage = () => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
+      <SEO title={'Pinex Explore'} />
       <Explore />
     </>
   );

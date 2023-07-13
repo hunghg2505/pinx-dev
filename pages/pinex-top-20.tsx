@@ -6,8 +6,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import PinexTop20 from '@components/PinexTop20';
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+const PinexTop20Page = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
@@ -15,11 +15,11 @@ const PostDetailPage = () => {
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+PinexTop20Page.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -32,4 +32,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default PinexTop20Page;

@@ -130,79 +130,16 @@ const PostDetail = () => {
               />
             </div>
           </div>
-          <NewFeedItem
-            postDetail={postDetail?.data}
-            totalComments={countComment}
-            onRefreshPostDetail={refresh}
-            postId={postDetail?.data?.id}
-          />
-          {isLogin && (
-            <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
-              <ForwardedRefComponent
-                id={postDetail?.data?.id}
-                refresh={refreshCommentOfPOst}
-                refreshTotal={refresh}
-                setImageCommentMobile={setImageCommentMobile}
-                width={width}
-              />
-            </div>
-          )}
-
-          <div
-            className={classNames(
-              'mt-[16px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
-              {
-                'mobile:mb-[79px]': !isImageCommentMobile,
-                'mobile:mb-[179px]': isImageCommentMobile,
-              },
-            )}
-          >
-            {isHaveComment ? (
-              commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-                const isReply = item.children?.find((i) => {
-                  return i?.id === showReply;
-                });
-                return (
-                  <>
-                    <ItemComment
-                      key={index}
-                      data={item}
-                      onReplies={onReplies}
-                      refresh={refreshCommentOfPOst}
-                      refreshTotal={refresh}
-                      width={width}
-                    />
-                    {getSubComment(item.children)}
-                    {(showReply === item?.id || isReply) && width > 737 && (
-                      <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                        <ForwardedRefComponent
-                          ref={refSubReplies}
-                          id={postDetail?.data?.id}
-                          refresh={refreshCommentOfPOst}
-                          refreshTotal={refresh}
-                          setImageCommentMobile={setImageCommentMobile}
-                          width={width}
-                        />
-                      </div>
-                    )}
-                  </>
-                );
-              })
-            ) : (
-              <Text
-                type='body-14-regular'
-                color='neutral-3'
-                className='mt-[16px] text-center tablet:hidden'
-              >
-                There is no comments
-              </Text>
-            )}
-          </div>
-          {width < 738 && isLogin && (
-            <div className='mobile:block tablet:hidden'>
-              <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+          <div className='mobile:px-[16px] desktop:px-[20px]'>
+            <NewFeedItem
+              postDetail={postDetail?.data}
+              totalComments={countComment}
+              onRefreshPostDetail={refresh}
+              postId={postDetail?.data?.id}
+            />
+            {isLogin && (
+              <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
                 <ForwardedRefComponent
-                  ref={refSubReplies}
                   id={postDetail?.data?.id}
                   refresh={refreshCommentOfPOst}
                   refreshTotal={refresh}
@@ -210,8 +147,73 @@ const PostDetail = () => {
                   width={width}
                 />
               </div>
+            )}
+
+            <div
+              className={classNames(
+                'mt-[16px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
+                {
+                  'mobile:mb-[79px]': !isImageCommentMobile,
+                  'mobile:mb-[179px]': isImageCommentMobile,
+                },
+              )}
+            >
+              {isHaveComment ? (
+                commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+                  const isReply = item.children?.find((i) => {
+                    return i?.id === showReply;
+                  });
+                  return (
+                    <>
+                      <ItemComment
+                        key={index}
+                        data={item}
+                        onReplies={onReplies}
+                        refresh={refreshCommentOfPOst}
+                        refreshTotal={refresh}
+                        width={width}
+                      />
+                      {getSubComment(item.children)}
+                      {(showReply === item?.id || isReply) && width > 737 && (
+                        <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                          <ForwardedRefComponent
+                            ref={refSubReplies}
+                            id={postDetail?.data?.id}
+                            refresh={refreshCommentOfPOst}
+                            refreshTotal={refresh}
+                            setImageCommentMobile={setImageCommentMobile}
+                            width={width}
+                          />
+                        </div>
+                      )}
+                    </>
+                  );
+                })
+              ) : (
+                <Text
+                  type='body-14-regular'
+                  color='neutral-3'
+                  className='mt-[16px] text-center tablet:hidden'
+                >
+                  There is no comments
+                </Text>
+              )}
             </div>
-          )}
+            {width < 738 && isLogin && (
+              <div className='mobile:block tablet:hidden'>
+                <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+                  <ForwardedRefComponent
+                    ref={refSubReplies}
+                    id={postDetail?.data?.id}
+                    refresh={refreshCommentOfPOst}
+                    refreshTotal={refresh}
+                    setImageCommentMobile={setImageCommentMobile}
+                    width={width}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <ContentRight />
       </div>

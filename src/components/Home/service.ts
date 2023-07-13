@@ -46,6 +46,10 @@ export interface ISuggestionPeople {
   name: string;
   numberFollowers: number;
 }
+export interface ILatestSubscribe {
+  avatar: string;
+  idCustomer: number;
+}
 export interface ITheme {
   code: string;
   name: string;
@@ -56,6 +60,7 @@ export interface ITheme {
   isSubsribed: boolean;
   totalSubscribe: number;
   stocks: string[];
+  latestSubscribe: ILatestSubscribe[];
 }
 export interface IStockIndex {
   accVol: any;
@@ -148,7 +153,8 @@ const requestGetList = (params: any) => {
 
 export const useGetListNewFeed = (options?: IOptionsRequest) => {
   const { data, run, refresh, loading } = useRequest(
-    (type: string, last?: string) => {
+    (type: any, last?: string) => {
+      console.log('🚀 ~ file: service.ts:157 ~ useGetListNewFeed ~ type:', type);
       const isLogin = !!getAccessToken();
       const params: any = {
         filterType: type,

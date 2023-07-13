@@ -33,7 +33,7 @@ interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
-  refresh: () => void;
+  refresh?: () => void;
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
@@ -85,7 +85,7 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -106,7 +106,7 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -145,7 +145,7 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
         refreshTotal && refreshTotal();
         setShowDelete(false);
       },

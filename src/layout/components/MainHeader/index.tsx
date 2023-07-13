@@ -137,7 +137,9 @@ const Header = () => {
                     className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
                   />
                 ) : (
-                  <AvatarDefault name={name} />
+                  <div className='h-[36px] w-[36px]'>
+                    <AvatarDefault name={name} />
+                  </div>
                 )}
               </>
             ) : (

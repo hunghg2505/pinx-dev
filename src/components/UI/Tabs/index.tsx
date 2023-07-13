@@ -80,7 +80,11 @@ const Tabs: React.FC<Props & Ref> = React.forwardRef((props: Props, ref: Ref['re
   );
   return (
     <div className={styles.tabs} ref={refScroll}>
-      <div className={classNames('flex flex-row items-center')}>
+      <div
+        className={classNames(
+          'flex flex-row items-center pb-[10px] [border-bottom:1px_solid_#EEF5F9]',
+        )}
+      >
         {contenTab?.map((tab: TabItem, index: number) => {
           const isActive: boolean = activeTab === tab.value;
           return (

@@ -1,13 +1,16 @@
 import classNames from 'classnames';
 
 import Text from '@components/UI/Text';
+import { imageStock } from '@utils/common';
 
 interface Iprops {
   number: number;
   changePrice?: boolean;
+  data: any;
 }
 const PinexTop = (props: Iprops) => {
-  const { number, changePrice = false } = props;
+  const { number, changePrice = false, data } = props;
+
   return (
     <div
       className={classNames(
@@ -45,18 +48,18 @@ const PinexTop = (props: Iprops) => {
           </Text>
         </div>
         <img
-          src='/static/logo/logoPintree.png'
-          className='mr-[10px] h-[36px] w-[36px] rounded-full'
+          src={imageStock(data?.stockCode)}
+          className='mr-[10px] h-[36px] w-[36px] rounded-full object-contain'
           alt=''
         />
         <div>
           <div className='flex'>
             <Text type='body-16-semibold' color='neutral-1' className='mr-[4px]'>
-              VNM
+              {data?.stockCode}
             </Text>
             <div className='flex h-[20px] w-[57px] flex-row items-center justify-center rounded-[4px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFF]'>
               <Text type='body-12-regular' color='neutral-4'>
-                HOSE
+                {data?.stockExchange}
               </Text>
             </div>
           </div>
@@ -65,14 +68,14 @@ const PinexTop = (props: Iprops) => {
             color='neutral-3'
             className='line-clamp-2 mobile-max:max-w-[120px]'
           >
-            CTCP Tập đoàn Đầu tư Địa chất
+            {data?.name}
           </Text>
         </div>
       </div>
       {changePrice ? (
         <div className='flex items-center'>
           <Text type='body-16-regular' color='semantic-2-1'>
-            473,251.55%
+            {new Intl.NumberFormat().format(data?.percentChange)}%
           </Text>
           <img
             src='/static/icons/explore/iconChange.svg'
@@ -82,7 +85,9 @@ const PinexTop = (props: Iprops) => {
         </div>
       ) : (
         <Text type='body-16-regular' color='neutral-1'>
-          15,074,055
+          {new Intl.NumberFormat().format(
+            data?.profit || data?.revenue || data?.marketCapital || data?.price,
+          )}
         </Text>
       )}
     </div>

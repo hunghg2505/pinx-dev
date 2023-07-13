@@ -190,6 +190,7 @@ const Editor = (props: IProps, ref?: any) => {
         }
       },
       onError: (error: any) => {
+        console.log('🚀 ~ file: index.tsx:193 ~ Editor ~ error:', error);
         if (error?.error === 'VSD account is required') {
           toast(() => (
             <Notification

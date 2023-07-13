@@ -1,8 +1,11 @@
 import Text from '@components/UI/Text';
 
 import PinexTop from '../PinexTop';
+import { IProfit, useGetTopChangePrice } from '../service';
 
 const ChangeInPrice = () => {
+  const { changePriceInY } = useGetTopChangePrice();
+  console.log('🚀 ~ file: index.tsx:8 ~ ChangeInPrice ~ changePriceInY:', changePriceInY);
   return (
     <div className='mobile-max:pr-[16px]'>
       <Text type='body-14-regular' color='cbblack'>
@@ -12,10 +15,16 @@ const ChangeInPrice = () => {
         Unit: %
       </Text>
       <div className='mt-[16px] flex flex-col gap-y-[16px]'>
-        <PinexTop number={1} changePrice />
-        <PinexTop number={2} changePrice />
-        <PinexTop number={3} changePrice />
-        <PinexTop number={4} changePrice />
+        {changePriceInY?.map((changePriceInY: IProfit, index: number) => {
+          return (
+            <PinexTop
+              number={index + 1}
+              key={`profit-${index}`}
+              data={changePriceInY}
+              changePrice
+            />
+          );
+        })}
       </div>
     </div>
   );

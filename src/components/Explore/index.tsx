@@ -1,21 +1,18 @@
 import React from 'react';
 
-import { useFocusWithin } from 'ahooks';
-import classNames from 'classnames';
 import { useRouter } from 'next/router';
-import Form from 'rc-field-form';
 import Slider from 'react-slick';
 
+import { FILTER_TYPE } from '@components/Home/ModalFilter';
 import Influencer from '@components/Home/People/Influencer';
 import PeopleList from '@components/Home/People/PeopleList';
-import { useSuggestPeople } from '@components/Home/service';
+import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
+import NewsFeed from '@components/Post/NewsFeed';
+import { IPost } from '@components/Post/service';
 import ThemeExploreItem from '@components/Themes/ThemeExploreItem';
 import { ExploreButton } from '@components/UI/Button';
-import FormItem from '@components/UI/FormItem';
-import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -23,13 +20,21 @@ import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
 import ModalPeopleYouKnow from './ModalPeopleYouKnow';
 import PinexTop from './PinexTop';
+import Search from './Search';
+import {
+  IStockIPO,
+  ITopWatchingStock,
+  useGetAllIPO,
+  useGetKeyWordsTop,
+  useGetTopWatchingStock,
+} from './service';
 import WatchingStock from './WatchingStock';
 
 const settings = {
   dots: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 2,
+  // slidesToShow: 2,
   // slidesToScroll: 1,
   swipeToSlide: true,
 
@@ -37,117 +42,60 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const Explore = () => {
-  const refInput = React.useRef(null);
-  const [form] = Form.useForm();
-  const [showPopup, setShowPopup] = React.useState(false);
+  const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   const router = useRouter();
+  const { theme } = useGetTheme();
+  const { keyWords } = useGetKeyWordsTop();
+  const { run, refresh, listNewFeed } = useGetListNewFeed();
+  const { listStock } = useGetTopWatchingStock();
+  const { stockIPO } = useGetAllIPO();
+  // const { listMention } = useGetTopMentionStock();
+  // console.log('🚀 ~ file: index.tsx:61 ~ Explore ~ listMention:', listMention);
+  const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
+  const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
+  const maxTopWatchingStock =
+    listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
+  // const maxTopMentionStock =
+  //   listMention && Math.max(...listMention?.map((item: any) => item.totalCount));
+  const onExplorePost = () => {
+    router.push({
+      pathname: ROUTE_PATH.HOME,
+      query: { filterType: FILTER_TYPE?.MOST_REACTED },
+    });
+  };
   React.useEffect(() => {
+    run(FILTER_TYPE.MOST_REACTED);
     if (isLogin) {
       getSuggestFriend();
     }
   }, []);
-  const onChange = () => {
-    const value = form.getFieldValue('search');
-    if (value === '') {
-      setShowPopup(false);
-    } else {
-      setShowPopup(true);
-    }
-    console.log('🚀 ~ file: index.tsx:44 ~ onChange ~ value:', value);
+
+  const onShowMoreKeyWords = () => {
+    setIsShowMoreKeyword(!isShowMoreKeyword);
   };
-  const isFocusWithin = useFocusWithin(refInput, {
-    onFocus: () => {},
-    onBlur: () => {},
-  });
-  console.log('123', isFocusWithin);
   return (
-    <div className='w-full text-left'>
+    <div className='w-full text-left desktop:px-[31px] desktop:py-[20px]'>
       <Text type='body-24-semibold' color='cbblack'>
         Discovery
       </Text>
-      <div
-        className={classNames('mr-[12px] mt-[16px] mobile-max:w-full', {
-          '[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]':
-            showPopup,
-        })}
-      >
-        <Form form={form} onValuesChange={onChange}>
-          <FormItem name='search'>
-            <Input
-              className='h-[40px] rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none mobile-max:w-full'
-              placeholder='Are you looking for something?'
-              icon={<IconSearchWhite />}
-              ref={refInput}
-            />
-          </FormItem>
-        </Form>
-      </div>
-      <div
-        className={classNames(
-          'pointer-events-none fixed bottom-0  left-0 z-10 h-[65vh] w-full -translate-y-full transform bg-[#ffffff] px-[16px] opacity-0 [transition:0.5s]',
-          { 'pointer-events-auto bottom-0 top-auto translate-y-[0] opacity-100': showPopup },
-        )}
-      >
-        <div className='mt-[24px]'>
-          <Text type='body-20-semibold' color='neutral-1'>
-            Company
-          </Text>
-          <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
-            No company result found for szxc
-          </Text>
-        </div>
-        <div className='mt-[32px]'>
-          <Text type='body-20-semibold' color='neutral-1'>
-            People
-          </Text>
-          <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
-            No people result found for szxc
-          </Text>
-        </div>
-        <div className='mt-[32px]'>
-          <Text type='body-20-semibold' color='neutral-1'>
-            Posts
-          </Text>
-          <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
-            No post result found for szxc
-          </Text>
-        </div>
-        <div className='mt-[32px]'>
-          <Text type='body-20-semibold' color='neutral-1'>
-            News
-          </Text>
-          <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
-            No news result found for szxc
-          </Text>
-        </div>
-      </div>
+      <Search />
+
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
         Themes
       </Text>
       <div className='mb-[16px] overflow-hidden'>
         <Slider {...settings} variableWidth>
-          <div>
-            <div className='mr-[16px] mobile-max:!w-[149px]'>
-              <ThemeExploreItem />
-            </div>
-          </div>
-          <div>
-            <div className='mr-[16px] mobile-max:!w-[149px]'>
-              <ThemeExploreItem />
-            </div>
-          </div>
-          <div>
-            <div className='mr-[16px] mobile-max:!w-[149px]'>
-              <ThemeExploreItem />
-            </div>
-          </div>
-          <div>
-            <div className='mr-[16px] mobile-max:!w-[149px]'>
-              <ThemeExploreItem />
-            </div>
-          </div>
+          {theme?.map((theme: ITheme, index: number) => {
+            return (
+              <div key={index}>
+                <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
+                  <ThemeExploreItem data={theme} />
+                </div>
+              </div>
+            );
+          })}
         </Slider>
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
@@ -155,32 +103,85 @@ const Explore = () => {
           Explore themes
         </Text>
       </ExploreButton>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         Top keyword search
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-        <KeywordSearch percen={80} />
-        <KeywordSearch percen={100} />
+        {listKeyWords?.map((item: any, index: number) => {
+          return (
+            <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} key={index} data={item} />
+          );
+        })}
       </div>
-      <ExploreButton>
-        <Text type='body-14-bold' color='primary-2'>
-          Explore top search
-        </Text>
+
+      <ExploreButton onClick={onShowMoreKeyWords}>
+        {isShowMoreKeyword ? (
+          <div className='flex items-center justify-center'>
+            <Text type='body-14-bold' color='primary-2'>
+              Hide
+            </Text>
+            <img src='/static/icons/explore/iconUp.svg' className='h-[24px] w-[24px]' alt='' />
+          </div>
+        ) : (
+          <div className='flex items-center justify-center'>
+            <Text type='body-14-bold' color='primary-2'>
+              Explore top search
+            </Text>
+            <img src='/static/icons/explore/iconDown.svg' className='h-[24px] w-[24px]' alt='' />
+          </div>
+        )}
       </ExploreButton>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         Top watching stock
       </Text>
+      <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
+        Top most watching stocks on PineX
+      </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-        <WatchingStock percen={80} />
-        <WatchingStock percen={100} />
+        {listStock?.map((item: ITopWatchingStock, index: number) => {
+          return (
+            <WatchingStock
+              percen={(item.totalCount / maxTopWatchingStock) * 100}
+              key={`stock-${index}`}
+              data={item}
+            />
+          );
+        })}
       </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.TOPMENTION)}>
+      <ExploreButton>
         <Text type='body-14-bold' color='primary-2'>
           Explore top watching stock
         </Text>
       </ExploreButton>
 
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        Top mention stock
+      </Text>
+      <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
+        Top most watching stocks on PineX
+      </Text>
+      <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+        {listStock?.map((item: ITopWatchingStock, index: number) => {
+          return (
+            <WatchingStock
+              percen={(item.totalCount / maxTopWatchingStock) * 100}
+              key={`stock-${index}`}
+              data={item}
+            />
+          );
+        })}
+      </div>
+      <ExploreButton>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore top watching stock
+        </Text>
+      </ExploreButton>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         People in spotlight
       </Text>
       <div className='mb-[16px]'>
@@ -219,7 +220,8 @@ const Explore = () => {
           </ModalPeopleYouKnow>
         </div>
       )}
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         PineX top 20
       </Text>
       <div className='mb-[16px] overflow-hidden'>
@@ -234,36 +236,45 @@ const Explore = () => {
           Explore more
         </Text>
       </ExploreButton>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         New IPO
       </Text>
-      <div>
-        <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          <IPO />
-          <IPO />
-        </div>
-        <ExploreButton>
-          <Text type='body-14-bold' color='primary-2'>
-            Explore newly listed
+      {stockIPO ? (
+        <>
+          <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+            {stockIPO?.map((ipo: IStockIPO, index: number) => {
+              return <IPO data={ipo} key={index} />;
+            })}
+          </div>
+          <ExploreButton>
+            <Text type='body-14-bold' color='primary-2'>
+              Explore newly listed
+            </Text>
+          </ExploreButton>
+        </>
+      ) : (
+        <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] px-[20px] py-[28px] text-center'>
+          <Text type='body-20-semibold' color='neutral-1'>
+            New IPO stocks
           </Text>
-        </ExploreButton>
-      </div>
-      {/* <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] px-[20px] py-[28px] text-center'>
-        <Text type='body-20-semibold' color='neutral-1'>
-          New IPO stocks
-        </Text>
-        <Text type='body-14-regular' color='neutral-4'>
-          There is no new IPO stocks
-        </Text>
-      </div> */}
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+          <Text type='body-14-regular' color='neutral-4'>
+            There is no new IPO stocks
+          </Text>
+        </div>
+      )}
+
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         Trending on PineX
       </Text>
-      <div className='mb-[16px] flex flex-col gap-y-[16px]'>
-        {/* <TrendingOnnPinex /> */}
-        {/* <TrendingOnnPinex /> */}
+      <div className='relative mb-[16px] flex flex-col gap-y-[16px]'>
+        <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
+        {listNewFeed?.slice(0, 3)?.map((item: IPost, index: number) => {
+          return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+        })}
       </div>
-      <ExploreButton>
+      <ExploreButton onClick={onExplorePost}>
         <Text type='body-14-bold' color='primary-2'>
           Explore hot topics
         </Text>

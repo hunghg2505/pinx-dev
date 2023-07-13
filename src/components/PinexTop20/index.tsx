@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import Tabs, { TabsEnum } from '@components/UI/Tabs';
+import Text from '@components/UI/Text';
 
 import ChangeInPrice from './ChangeInPrice';
 import MarketCap from './MarketCap';
@@ -39,7 +40,9 @@ const PinexTop20 = () => {
   const onChangeTab = (value: TabsEnum) => {
     setSelectTab(value);
   };
-
+  const onGoBack = () => {
+    router.back();
+  };
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsEnum.Profit: {
@@ -63,14 +66,28 @@ const PinexTop20 = () => {
     }
   };
   return (
-    <div className='mobile-max:ml-[16px]'>
-      <Tabs
-        onChange={onChangeTab}
-        contenTab={optionTab}
-        defaultTab={TabsEnum.Profit}
-        currentTab={selectTab}
-      />
-      <div className='mt-[28px]'>{renderContentTab()}</div>
+    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] '>
+      <div className='relative text-center'>
+        <img
+          src='/static/icons/back_icon.svg'
+          alt=''
+          className='absolute left-0 top-0 w-[28px] cursor-pointer'
+          onClick={onGoBack}
+        />
+        <Text type='body-20-semibold' color='neutral-1' className=''>
+          PineX top 20
+        </Text>
+      </div>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='mobile-max:ml-[16px]'>
+        <Tabs
+          onChange={onChangeTab}
+          contenTab={optionTab}
+          defaultTab={TabsEnum.Profit}
+          currentTab={selectTab}
+        />
+        <div className='mt-[28px]'>{renderContentTab()}</div>
+      </div>
     </div>
   );
 };

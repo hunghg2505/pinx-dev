@@ -17,7 +17,7 @@ const PinexTop = (props: Iprops) => {
     });
   };
   return (
-    <div className='mr-[16px] cursor-pointer mobile-max:w-[149px]' onClick={onHandleClick}>
+    <div className='mr-[16px] w-[149px] cursor-pointer' onClick={onHandleClick}>
       <div className='relative flex h-[214px] flex-col justify-end rounded-[12px] bg-[#ffffff] '>
         <img
           src='/static/images/top20.jpg'

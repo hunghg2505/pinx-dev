@@ -25,7 +25,7 @@ interface IProps {
   closeIcon?: boolean;
   postID: string;
   isReported?: boolean;
-  refresh: () => void;
+  refresh?: () => void;
 }
 const ModalReportComment = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -69,7 +69,7 @@ const ModalReportComment = (props: IProps) => {
       onSuccess: () => {
         onVisible();
         setIsReported(true);
-        refresh();
+        refresh && refresh();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
