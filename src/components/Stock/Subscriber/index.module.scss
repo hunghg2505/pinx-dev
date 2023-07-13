@@ -1,0 +1,22 @@
+.tab {
+  :global {
+    .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
+      display: none;
+    }
+    .rc-tabs-nav-list {
+      display: flex;
+      align-items: center;
+      column-gap: 32px;
+
+      .rc-tabs-tab {
+        font-size: 22px;
+        font-weight: 700;
+        color: #ccc;
+
+        &.rc-tabs-tab-active {
+          color: #0d0d0d;
+        }
+      }
+    }
+  }
+}

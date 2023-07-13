@@ -4,42 +4,36 @@ import Text from '@components/UI/Text';
 
 const StockItem = () => {
   return (
-    <div className='flex items-center p-[12px]'>
+    <div className='flex items-center rounded-[12px] bg-[#F7F6F8] px-[12px] py-[16px]'>
       <img
-        src='/static/images/mbs_logo.png'
-        alt='Mbs logo'
-        className='block h-[57px] w-[57px] object-contain'
+        src='https://picsum.photos/200/100'
+        alt='Company logo'
+        className='block h-[36px] w-[36px] rounded-full bg-white object-cover'
       />
 
       <div className='ml-[10px]'>
-        <div className='mb-[4px] flex items-center'>
+        <div className='flex items-center'>
           <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-            MBS
+            VNM
           </Text>
 
-          <div className='ml-[4px] flex h-[20px] min-w-[36px] items-center justify-center rounded-[4px] bg-[#F7F6F8] px-[6px]'>
-            <Text type='body-10-regular' className='text-[#999999]'>
-              HNX
+          <div className='ml-[8px] flex h-[22px] items-center justify-center rounded-[4px] border border-solid border-[#ccc] bg-white px-[12px]'>
+            <Text type='body-12-regular' className='text-[#808A9D]'>
+              HOSE
             </Text>
           </div>
         </div>
-        <Text type='body-12-regular' className='text-[#999999]'>
-          MB Securities JSC
+
+        <Text type='body-12-regular' className='mt-[8px] text-[#808A9D]'>
+          Cap: 196,036.28
         </Text>
       </div>
 
-      <div className='ml-auto flex items-center'>
-        <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-          43.95%
+      <div className='ml-auto text-right text-[#DA314F]'>
+        <Text type='body-16-medium'>43.95</Text>
+        <Text type='body-12-regular' className='mt-[8px]'>
+          -0.45 / -1.02%
         </Text>
-
-        <div className='px-[7px]'>
-          <img
-            src='/static/icons/iconBlackRight.svg'
-            alt='Chevron right icon'
-            className='h-[9px] w-[5px] object-contain'
-          />
-        </div>
       </div>
     </div>
   );
