@@ -19,19 +19,17 @@ import { useGetContract, useSendLoginOtp, useConfirmContract } from './service';
 import 'rc-dialog/assets/index.css';
 
 interface IProps {
-  userType: string;
   visible: boolean;
-  closeIcon?: React.ReactNode;
-  onToggle: () => void;
+  onClose: () => void;
 }
 
 const ModalLoginTerms = (props: IProps) => {
   const router = useRouter();
-  const { visible, closeIcon, onToggle, userType } = props;
+  const { visible, onClose } = props;
   const [contractList, setContractList] = useState<any[]>([]);
   const [session, setSession] = useState<string>('');
   const { onLogout } = useAuth();
-  const { userLoginInfo, forceAllowTerm } = useUserLoginInfo();
+  const { userLoginInfo, forceAllowTerm, userType } = useUserLoginInfo();
   const { isDesktop, isMobile } = useResponsive();
 
   const requestGetContract = useGetContract({
@@ -49,6 +47,7 @@ const ModalLoginTerms = (props: IProps) => {
   const requestSendLoginOtp = useSendLoginOtp({
     onSuccess: () => {
       router.push(ROUTE_PATH.LOGIN_OTP_VERIFICATION);
+      onClose();
     },
     onError(e) {
       // onLogout();
@@ -59,6 +58,7 @@ const ModalLoginTerms = (props: IProps) => {
   const requestConfirmContract = useConfirmContract({
     onSuccess: () => {
       router.push(ROUTE_PATH.HOME);
+      onClose();
     },
     onError(e) {
       // onLogout();
@@ -67,10 +67,7 @@ const ModalLoginTerms = (props: IProps) => {
   });
 
   const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return <>X</>;
+    return <img src='/static/icons/close_icon.svg' alt='' />;
   };
 
   const onSendLoginOtp = () => {
@@ -80,7 +77,6 @@ const ModalLoginTerms = (props: IProps) => {
       trdType: '1',
     };
     requestSendLoginOtp.run(payload);
-    onToggle();
   };
 
   const onConfirmContract = () => {
@@ -90,7 +86,7 @@ const ModalLoginTerms = (props: IProps) => {
       token: '',
     };
     requestConfirmContract.run(payload);
-    onToggle();
+    onClose();
   };
 
   const onSubmit = () => {
@@ -109,7 +105,7 @@ const ModalLoginTerms = (props: IProps) => {
     } else {
       onLogout();
     }
-    onToggle();
+    onClose();
   };
 
   useEffect(() => {

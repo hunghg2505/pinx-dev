@@ -7,6 +7,7 @@
     "indent": "off",
     "require-await": "off",
     "multiline-ternary" : "off",
-    "import/no-named-as-default-member": "off"
+    "import/no-named-as-default-member": "off",
+    "react-hooks/exhaustive-deps" : "off"
   }
 }

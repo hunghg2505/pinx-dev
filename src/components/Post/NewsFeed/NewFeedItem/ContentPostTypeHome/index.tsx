@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
+import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -55,6 +56,22 @@ const ContentPostTypeHome = (props: IProps) => {
     }
     setHeight(ele?.offsetHeight);
   };
+  React.useEffect(() => {
+    const handleClick = (event: any) => {
+      const textContent = event?.target?.textContent;
+      const classElement = event?.target?.className;
+      if (classElement === 'link') {
+        router.push({
+          pathname: '/redirecting',
+          query: { url: textContent },
+        });
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
@@ -73,18 +90,26 @@ const ContentPostTypeHome = (props: IProps) => {
           src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
           title='YouTube video player'
           allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+          className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
         ></iframe>
       );
     }
     if (imageMetaData) {
       return (
         <div className='theme'>
-          <img
-            src={imageMetaData}
-            alt=''
-            className='object-contain mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
-          />
+          <Fancybox
+            options={{
+              closeButton: true,
+            }}
+          >
+            <a data-fancybox='gallery' href={imageMetaData}>
+              <img
+                src={imageMetaData}
+                alt=''
+                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+              />
+            </a>
+          </Fancybox>
         </div>
       );
     }
@@ -119,7 +144,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
             <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
@@ -197,7 +222,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             <img
               src={
@@ -266,7 +291,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -372,7 +397,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
             <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
@@ -411,7 +436,10 @@ const ContentPostTypeHome = (props: IProps) => {
                 <Text
                   type='body-12-medium'
                   color='neutral-1'
-                  className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
+                  className={classNames(
+                    'mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]',
+                    { 'mt-[24px]': postDetail?.post?.type === 'BUY' },
+                  )}
                 >
                   {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
                 </Text>
@@ -586,69 +614,84 @@ const ContentPostTypeHome = (props: IProps) => {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
+    const urlLink = postDetail?.post?.urlLinks?.[0] || '';
     const onRefHtml = (ele: any) => {
       if (!ele) {
         return;
       }
-      const isReadMore = ele?.offsetHeight > 72;
+      const isReadMore = ele?.offsetHeight > 76;
       if (isReadMore) {
         setIsReadMorePost(true);
       }
     };
     return (
       <>
-        <div className='cursor-pointer'>
-          {postThemeId ? (
-            <div className='theme relative mobile:-mx-[16px] tablet:mx-0' onClick={onComment}>
-              <img
-                src={BgThemePost?.bgImage}
-                alt=''
-                className='pointer-events-none left-0 top-0 w-full object-cover mobile:h-[300px] desktop:h-[500px]'
-              />
-              {message && (
-                <div>
-                  <Text type='body-14-regular' color='neutral-1'>
-                    <div
-                      className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
-                      dangerouslySetInnerHTML={{ __html: message }}
-                      style={{ color }}
-                    ></div>
-                  </Text>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              {message && (
-                <div
-                  ref={onRefHtml}
-                  onClick={onComment}
-                  className={classNames({
-                    'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
-                    'h-auto': isReadMorePost && readMore,
-                  })}
-                >
-                  <Text type='body-14-regular' color='neutral-1'>
-                    <div
-                      className='desc messageFormat my-[0] mb-[15px]'
-                      dangerouslySetInnerHTML={{ __html: message }}
-                    ></div>
-                  </Text>
-                </div>
-              )}
-            </>
-          )}
+        <div className='1 cursor-pointer'>
+          <div onClick={onComment}>
+            {postThemeId ? (
+              <div
+                className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[660px]'
+                onClick={onComment}
+              >
+                <img
+                  src={BgThemePost?.bgImage}
+                  alt=''
+                  className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[300px] tablet:rounded-[8px] desktop:h-[393px]'
+                />
+                {message && (
+                  <div>
+                    <Text type='body-14-regular' color='neutral-1'>
+                      <div
+                        className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                        dangerouslySetInnerHTML={{ __html: message }}
+                        style={{ color }}
+                      ></div>
+                    </Text>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                {message && (
+                  <div
+                    ref={onRefHtml}
+                    onClick={onComment}
+                    className={classNames({
+                      'line-clamp-4 h-[75px] overflow-hidden': isReadMorePost && !readMore,
+                      'h-auto': isReadMorePost && readMore,
+                    })}
+                  >
+                    <Text type='body-14-regular' color='neutral-1'>
+                      <div
+                        className='desc messageFormat my-[0] pb-[15px]'
+                        style={{ display: '-webkit-box' }}
+                        dangerouslySetInnerHTML={{ __html: message }}
+                      ></div>
+                    </Text>
+                    {!message?.includes(urlLink) && urlLink !== '' && (
+                      <div className='messageFormat -mt-[15px] pb-[15px]'>
+                        <Link href='javascript:void(0)' className='link'>
+                          {urlLink}
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
           {isReadMorePost && (
             <Text
               type='body-14-regular'
               color='neutral-3'
-              className='cursor-pointer'
+              className='w-[75px] cursor-pointer'
               onClick={onReadMore}
             >
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          {renderMetaData()}
+          <div>{renderMetaData()}</div>
 
           {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>
@@ -658,7 +701,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   alt=''
                   width={326}
                   height={185}
-                  className='h-[185px] w-full rounded-[15px] object-cover object-top tablet:h-[309px]'
+                  className='h-[185px] w-[550px] rounded-[15px] object-cover object-top tablet:h-[309px]'
                 />
               </div>
             </Link>

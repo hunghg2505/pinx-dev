@@ -8,6 +8,9 @@
     .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
       display: none;
     }
+    .rc-tabs-tabpane:focus {
+      outline: none !important;
+    }
     .rc-tabs-nav-list {
       background: #f3f2f6;
       display: flex;
