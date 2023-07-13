@@ -6,7 +6,7 @@ import { Button } from '@components/UI/Button';
 import Text from '@components/UI/Text';
 
 import ItemInterest from './ItemInterest';
-import ItemStock from './ItemStock';
+// import ItemStock from './ItemStock';
 
 const WatchList = () => {
   // const [isEdit, setIsEdit] = React.useState<boolean>(false);
@@ -38,8 +38,8 @@ const WatchList = () => {
         </Button>
       </div>
       <div className='mt-[16px] flex flex-col gap-y-[16px]'>
-        <ItemStock />
-        <ItemStock />
+        {/* <ItemStock /> */}
+        {/* <ItemStock /> */}
       </div>
       <Text type='body-20-bold' className='mb-[16px] mt-[32px] text-[#0D0D0D]'>
         You may interest
