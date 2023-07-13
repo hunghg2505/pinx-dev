@@ -63,15 +63,11 @@ const PostDetail = () => {
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
   // is login
-  const { refresh, postDetail, loading } = usePostDetail(String(router.query.id), {
+  const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {
       router.push(ROUTE_PATH.PAGE_NOT_FOUND);
     },
   });
-  console.log(
-    '🚀 ~ file: index.tsx:69 ~ const{refresh,postDetail,loading}=usePostDetail ~ loading:',
-    loading,
-  );
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
@@ -184,12 +180,15 @@ const PostDetail = () => {
               />
             </div>
           </div>
-          <NewFeedItem
-            postDetail={postDetail?.data}
-            totalComments={countComment}
-            onRefreshPostDetail={refresh}
-            postId={postDetail?.data?.id}
-          />
+          <div className='mobile:px-[16px] desktop:px-[20px]'>
+            <NewFeedItem
+              postDetail={postDetail?.data}
+              totalComments={countComment}
+              onRefreshPostDetail={refresh}
+              postId={postDetail?.data?.id}
+            />
+          </div>
+
           {isLogin && (
             <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
               <ForwardedRefComponent
