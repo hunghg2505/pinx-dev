@@ -73,6 +73,10 @@ export const API_PATH = {
   PRIVATE_WATCH_LIST_CREATE: '/private/watchlist/create',
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',
+  PRIVATE_WATCH_LIST_STOCK: '/private/watchlist/stock/all',
+  PRIVATE_WATCH_LIST_REMOVE_STOCK: (stockCode: string) =>
+    `/private/watchlist/stock/${stockCode}/remove`,
+
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,

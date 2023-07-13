@@ -24,9 +24,10 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
@@ -101,17 +102,26 @@ const NewFeedItem = (props: IProps) => {
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
   const handleComment = () => {
-    if (isLogin) {
-      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
-        PopupComponent.openEKYC();
+    if (isPostDetailPath) {
+      if (isLogin) {
+        if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else if (statusUser !== USERTYPE.VSD) {
+          PopupComponent.openEKYC();
+        }
       } else {
-        onNavigate && onNavigate();
+        setPopupStatus({
+          ...popupStatus,
+          popupAccessLinmit: true,
+        });
       }
     } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
+      onNavigate && onNavigate();
     }
   };
   const idPost = id || postDetail?.id;
@@ -138,7 +148,7 @@ const NewFeedItem = (props: IProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -159,7 +169,7 @@ const NewFeedItem = (props: IProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -168,7 +178,14 @@ const NewFeedItem = (props: IProps) => {
   );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();
@@ -485,7 +502,7 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 z-10 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+              <div className='popup absolute right-0 z-10 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
                 {[
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
@@ -546,7 +563,9 @@ const NewFeedItem = (props: IProps) => {
             onClick={() => handleLikeOrUnLikePost()}
           >
             <img
-              src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
+              src={
+                isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
+              }
               color='#FFFFFF'
               alt=''
               width={16}
@@ -557,7 +576,7 @@ const NewFeedItem = (props: IProps) => {
             <Text
               type='body-12-medium'
               color='primary-5'
-              className={classNames({ '!text-[#589DC0]': isLike })}
+              className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
             >
               {postDetail?.totalLikes || ''} Like
             </Text>

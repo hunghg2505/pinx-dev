@@ -39,7 +39,7 @@ const MarketDesktop = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        setDataStockIndex(res.data);
+        setDataStockIndex(res?.data);
       },
     },
   );

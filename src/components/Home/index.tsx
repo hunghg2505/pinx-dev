@@ -8,7 +8,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
-import ModalAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
 import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
@@ -19,6 +19,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import ComposeButton from './ComposeButton';
@@ -43,6 +44,7 @@ const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
   const router = useRouter();
+  const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
@@ -78,7 +80,6 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { userLoginInfo } = useUserLoginInfo();
-
   React.useEffect(() => {
     window.addEventListener('scroll', loadMore);
     return () => {
@@ -119,7 +120,6 @@ const Home = () => {
     }
     setNewFeed(newData);
   };
-  // console.log('🚀 ~ file: index.tsx:95 ~ Home ~ bgTheme:', bgTheme);
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
     run(filterType || FILTER_TYPE.MOST_RECENT);
@@ -139,25 +139,23 @@ const Home = () => {
     if (!!userType && !isReadTerms) {
       setPopupStatus({
         ...popupStatus,
-        popupAccessLinmit: true,
+        popupLoginTerms: true,
       });
     }
+    initUserProfile();
   }, [userType, isReadTerms]);
   // const metaData = useGetMetaData();
+
   if (loading && lastNewFeed === '') {
     return <SkeletonLoading />;
   }
   return (
     <>
       {popupStatus.popupAccessLinmit && (
-        <ModalAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
+        <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
       )}
       {popupStatus.popupLoginTerms && (
-        <PopupLoginTerms
-          visible={popupStatus.popupLoginTerms}
-          onClose={onCloseModal}
-          userType={userType}
-        />
+        <PopupLoginTerms visible={popupStatus.popupLoginTerms} onClose={onCloseModal} />
       )}
       {popupStatus.popupAuth && (
         <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
@@ -174,11 +172,11 @@ const Home = () => {
 
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div
-          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
+          className='mobile:mr-0 mobile:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
           ref={refScroll}
         >
           <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
-            <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
+            <div className='mx-[auto] my-[0] mobile-max:w-full tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
                   <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
@@ -384,18 +382,17 @@ const Home = () => {
                   })}
                 </div>
               </div>
-              {loading && lastNewFeed !== '' && (
-                <div className='mt-[10px]'>
-                  <SkeletonLoading />
-                  <SkeletonLoading />
-                </div>
-              )}
             </div>
           </div>
         </div>
         <ContentRight />
       </div>
-
+      {loading && lastNewFeed !== '' && (
+        <div className='mt-[10px]'>
+          <SkeletonLoading />
+          <SkeletonLoading />
+        </div>
+      )}
       <ComposeButton />
       {!isLogin && <FooterSignUp />}
     </>

@@ -26,6 +26,7 @@ export const ROUTE_PATH = {
 
 export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
+  message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
   });
@@ -37,16 +38,24 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      // const startId = item.indexOf('(') + 1;
-      // const endId = item.indexOf(')');
-      // const ID = item.slice(startId, endId);
-      if (message && message.includes(item)) {
-        message = message.replace(
-          item,
-          `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
-          `,
-        );
+      const startId = item.indexOf('(') + 1;
+      const endId = item.indexOf(')');
+      const ID = item.slice(startId, endId);
+      if (message && message.includes(ID)) {
+        const newMessage = message.split(' ');
+        for (const text of newMessage) {
+          if (text.includes(ID)) {
+            const startName = text.indexOf('@[') + 2;
+            const endName = text.indexOf(']');
+            const nameOld = text.slice(startName, endName);
+            message = message.replace(
+              `@[${nameOld}](${ID})`,
+              `
+              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              `,
+            );
+          }
+        }
       }
     }
   }
@@ -70,7 +79,6 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    // console.log('🚀 ~ file: common.ts:68 ~ str?.map ~ item:', item);
     if (item.includes('#')) {
       message = message.replace(
         item,
@@ -100,8 +108,8 @@ export const formatMessage = (message: string, data: any) => {
         }
       }
     }
+    // }
   });
-
   return message;
 };
 export const toBase64 = (file: any) =>
