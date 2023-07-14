@@ -30,7 +30,6 @@ export enum FILTER_TYPE {
 }
 const ModalFilter = (props: IProps) => {
   const { closeIcon, run, type } = props;
-  console.log('🚀 ~ file: index.tsx:33 ~ ModalFilter ~ type:', type);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
   const { data } = useGetListFillter();

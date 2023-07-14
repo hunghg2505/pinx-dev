@@ -3,11 +3,14 @@
   "rules": {
     "unicorn/no-new-array": "off",
     "react/display-name": "off",
-    "@next/next/no-img-element" : "off",
+    "@next/next/no-img-element": "off",
     "indent": "off",
     "require-await": "off",
-    "multiline-ternary" : "off",
+    "multiline-ternary": "off",
     "import/no-named-as-default-member": "off",
-    "react-hooks/exhaustive-deps" : "off"
+    "react-hooks/exhaustive-deps": "off",
+    "no-console": "warn",
+    "semi": [2, "always"],
+    "linebreak-style": 0
   }
 }

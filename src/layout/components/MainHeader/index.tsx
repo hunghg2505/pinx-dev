@@ -56,6 +56,42 @@ const Header = () => {
     userLoginInfo?.displayName &&
     toNonAccentVietnamese(userLoginInfo?.displayName)?.charAt(0)?.toUpperCase();
 
+  const goToMyProfile = () => {
+    router.push(ROUTE_PATH.MY_PROFILE);
+  };
+
+  const renderAvatar = () => {
+    return isLogin ? (
+      <>
+        {userLoginInfo?.avatar ? (
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+            onClick={goToMyProfile}
+          />
+        ) : (
+          <div className='h-[36px] w-[36px]' onClick={goToMyProfile}>
+            <AvatarDefault name={name} />
+          </div>
+        )}
+      </>
+    ) : (
+      <img
+        src='/static/images/guest_avatar.png'
+        alt=''
+        width={0}
+        height={0}
+        sizes='100vw'
+        className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden ml-5'
+        onClick={goToMyProfile}
+      />
+    );
+  };
+
   return (
     <div ref={headerRef}>
       {!isHideHeaderOpenAppOnMobile && (
@@ -117,31 +153,15 @@ const Header = () => {
               </Form>
             </div>
             {isLogin ? (
-              <>
-                <button onClick={() => onLogout()}>
-                  <img
-                    src='/static/icons/iconLogout.svg'
-                    alt='Icon logout'
-                    width={24}
-                    height={24}
-                    className='mr-[21px] h-[24px] w-[24px] object-contain'
-                  />
-                </button>
-                {userLoginInfo?.avatar ? (
-                  <img
-                    src={userLoginInfo?.avatar}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-                  />
-                ) : (
-                  <div className='h-[36px] w-[36px]'>
-                    <AvatarDefault name={name} />
-                  </div>
-                )}
-              </>
+              <button onClick={() => onLogout()}>
+                <img
+                  src='/static/icons/iconLogout.svg'
+                  alt='Icon logout'
+                  width={24}
+                  height={24}
+                  className='mr-[21px] h-[24px] w-[24px] object-contain'
+                />
+              </button>
             ) : (
               <button
                 className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
@@ -152,6 +172,9 @@ const Header = () => {
                 </Text>
               </button>
             )}
+
+            {renderAvatar()}
+
             {isLogin ? (
               <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
                 <Text type='body-20-medium' color='neutral-1'>
