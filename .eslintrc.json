@@ -10,7 +10,6 @@
     "import/no-named-as-default-member": "off",
     "react-hooks/exhaustive-deps": "off",
     "no-console": "warn",
-    "semi": [2, "always"],
-    "linebreak-style": 0
+    "semi": [2, "always"]
   }
 }
