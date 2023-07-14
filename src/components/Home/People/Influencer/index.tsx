@@ -22,7 +22,11 @@ const Influencer = () => {
       <Slider {...settings} variableWidth>
         {KOL?.filter((item: IKOL) => item.isFeatureProfile === true).map(
           (item: IKOL, index: number) => {
-            return <ItemInfluence data={item} refresh={refresh} key={index} />;
+            return (
+              <div key={index} className='mr-[16px]'>
+                <ItemInfluence data={item} refresh={refresh} />
+              </div>
+            );
           },
         )}
       </Slider>

@@ -8,6 +8,14 @@ interface IOptionsRequest {
   onError?: (e: any) => void;
 }
 
+export interface ResultListStock {
+  data: {
+    stocks: {
+      stockCode: string;
+    }[];
+  }[];
+}
+
 const requestGetSuggestStockCode = async () => {
   return await privateRequest(requestPist.get, API_PATH.PUBLIC_SUGGEST_STOCK_CODE);
 };
@@ -67,4 +75,29 @@ export const useSelectStock = (options: IOptions) => {
   });
 
   return requestSelectStock;
+};
+
+const serviceGetMyStock = () => {
+  return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+};
+
+export const useGetMyStock = (options: IOptions) => {
+  const requestGetMyStocks = useRequest(serviceGetMyStock, {
+    manual: true,
+    ...options,
+  });
+
+  return requestGetMyStocks;
+};
+
+const serviceUnSelectStock = (stockCode: string) => {
+  return privateRequest(requestPist.put, API_PATH.PRIVATE_WATCH_LIST_REMOVE_STOCK(stockCode));
+};
+
+export const useUnSelectStock = () => {
+  const requestUnSelectStock = useRequest(serviceUnSelectStock, {
+    manual: true,
+  });
+
+  return requestUnSelectStock;
 };

@@ -39,7 +39,7 @@ const MarketDesktop = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        setDataStockIndex(res.data);
+        setDataStockIndex(res?.data);
       },
     },
   );
@@ -86,7 +86,7 @@ const MarketDesktop = () => {
                   <div>
                     <Text
                       type='body-14-semibold'
-                      className={classNames('', {
+                      className={classNames('px-[5px] py-[2px]', {
                         'text-[#128F63]': isIncrease,
                         'text-[#DB4444]': isDecrease,
                         'text-[#E6A70A]': isNoChange,
@@ -99,7 +99,7 @@ const MarketDesktop = () => {
                     </Text>
                     <Text
                       type='body-12-medium'
-                      className={classNames('mt-[2px] ', {
+                      className={classNames('mt-[2px] px-[5px] py-[2px]', {
                         'text-[#128F63]': isIncrease,
                         'text-[#DB4444]': isDecrease,
                         'text-[#E6A70A]': isNoChange,

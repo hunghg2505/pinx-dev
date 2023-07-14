@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
-import { Toaster } from 'react-hot-toast';
 
-import ModalLoginTerms from '@components/Auth/Login/ModalLoginTerms';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
+import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import PopupAuth from '@components/UI/Popup/PopupAuth';
+import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
+import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
+import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 // import useGetMetaData from '@hooks/useGetMetaData';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
+import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { ROUTE_PATH } from '@utils/common';
 
 import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
@@ -35,11 +43,14 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
+  const router = useRouter();
+  const { run: initUserProfile } = useProfileInitial();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
     requestJoinIndex();
   });
-
+  const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const refScroll = React.useRef(null);
   // const { t } = useTranslation('home');
@@ -69,10 +80,6 @@ const Home = () => {
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { userLoginInfo } = useUserLoginInfo();
-  const [showModalLoginTerms, setShowModalLoginTerms] = useState<boolean>(
-    !!userType && !isReadTerms,
-  );
-
   React.useEffect(() => {
     window.addEventListener('scroll', loadMore);
     return () => {
@@ -84,11 +91,16 @@ const Home = () => {
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
     const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
     if (Math.floor(heightTop) === heigtBottom) {
-      run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
+      run(filterType || FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };
   const onFilter = async (value: string) => {
     setNewFeed([]);
+    setLastNewFeed('');
+    router.push({
+      pathname: ROUTE_PATH.HOME,
+      query: { filterType: value },
+    });
     await new Promise((resolve) => setTimeout(resolve, 100));
     run(value);
   };
@@ -109,10 +121,9 @@ const Home = () => {
     }
     setNewFeed(newData);
   };
-  // console.log('🚀 ~ file: index.tsx:95 ~ Home ~ bgTheme:', bgTheme);
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
-    run(FILTER_TYPE.MOST_RECENT);
+    run(filterType || FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
       getSuggestFriend();
     }
@@ -123,30 +134,51 @@ const Home = () => {
       setSelectTab('1');
     }
   }, [isHaveStockWatchList]);
-  const onToggleModalLoginTerms = () => {
-    setShowModalLoginTerms(!showModalLoginTerms);
+  const onCloseModal = () => {
+    setPopupStatus(initialPopupStatus);
   };
+  useEffect(() => {
+    if (!!userType && !isReadTerms) {
+      setPopupStatus({
+        ...popupStatus,
+        popupLoginTerms: true,
+      });
+    }
+    initUserProfile();
+  }, [userType, isReadTerms]);
   // const metaData = useGetMetaData();
+
   if (loading && lastNewFeed === '') {
     return <SkeletonLoading />;
   }
-
   return (
     <>
-      <ModalLoginTerms
-        visible={showModalLoginTerms}
-        onToggle={onToggleModalLoginTerms}
-        userType={userType}
-      />
-      <Toaster />
+      {popupStatus.popupAccessLinmit && (
+        <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupLoginTerms && (
+        <PopupLoginTerms visible={popupStatus.popupLoginTerms} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupAuth && (
+        <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupRegisterOtp && (
+        <PopupRegisterOtp visible={popupStatus.popupRegisterOtp} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupRegisterUsername && (
+        <PopupRegisterCreateUsername
+          visible={popupStatus.popupRegisterUsername}
+          onClose={onCloseModal}
+        />
+      )}
 
       <div className='flex desktop:bg-[#F8FAFD]'>
         <div
-          className='mobile:mr-0 tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
+          className='mobile:mr-0 mobile:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] laptop:w-[calc(100%_-_365px)] desktop:mr-[24px] desktop:w-[calc(100%_-_350px)] xdesktop:w-[750px]'
           ref={refScroll}
         >
           <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
-            <div className='mx-[auto] my-[0] mobile:w-[375px] tablet:w-full'>
+            <div className='mx-[auto] my-[0] mobile-max:w-full tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
                   <button className='absolute right-[16px] top-[26px] flex flex-row items-center'>
@@ -250,21 +282,24 @@ const Home = () => {
                   News feed
                 </Text>
 
-                <ModalFilter run={onFilter} />
+                <ModalFilter run={onFilter} type={filterType} />
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
-                {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                    />
-                  );
-                })}
+                <div className='mobile:px-[16px] desktop:px-[20px]'>
+                  {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
+                    return (
+                      <NewsFeed
+                        key={index}
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                      />
+                    );
+                  })}
+                </div>
+
                 <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
                   <div className='pb-[13px] pt-[10px] '>
                     <Trending />
@@ -304,7 +339,7 @@ const Home = () => {
                 </div>
                 {suggestionPeople && (
                   <div className='mobile:block desktop:hidden'>
-                    <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
+                    <div className='bg-[#ffffff] pl-[16px] pt-[15px]'>
                       <PeopleList data={suggestionPeople} refresh={refreshList} />
                     </div>
                     <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
@@ -316,48 +351,50 @@ const Home = () => {
                     </div>
                   </div>
                 )}
-
-                {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                    />
-                  );
-                })}
+                <div className='mobile:px-[16px] desktop:px-[20px]'>
+                  {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
+                    return (
+                      <NewsFeed
+                        key={index}
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                      />
+                    );
+                  })}
+                </div>
                 <div className='bg-[#ffffff] pl-[16px]'>
                   <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
                     Economy in the themes
                   </Text>
                   <ListTheme />
                 </div>
-                {newFeed?.slice(5)?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                    />
-                  );
-                })}
-              </div>
-              {loading && lastNewFeed !== '' && (
-                <div className='mt-[10px]'>
-                  <SkeletonLoading />
-                  <SkeletonLoading />
+                <div className='mobile:px-[16px] desktop:px-[20px]'>
+                  {newFeed?.slice(5)?.map((item: IPost, index: number) => {
+                    return (
+                      <NewsFeed
+                        key={index}
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                      />
+                    );
+                  })}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
         <ContentRight />
       </div>
-
+      {loading && lastNewFeed !== '' && (
+        <div className='mt-[10px]'>
+          <SkeletonLoading />
+          <SkeletonLoading />
+        </div>
+      )}
       <ComposeButton />
       {!isLogin && <FooterSignUp />}
     </>

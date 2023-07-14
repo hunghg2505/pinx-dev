@@ -14,18 +14,19 @@ interface IProps {
   onResendOtp: () => void;
   onSubmit: (otp: string) => void;
   phoneNumber?: string;
+  isModal?: boolean;
+  otpTime?: number;
 }
 
 const convertSecond = (secs: number) => {
   const secondsText = secs < 10 ? '0' + Math.ceil(secs).toString() : Math.ceil(secs).toString();
-
   return secondsText;
 };
 
 const OtpVerification = (props: IProps) => {
   const [form] = Form.useForm();
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
-  const [otpCount, setOtpCount] = useState<number>(120);
+  const [otpCount, setOtpCount] = useState<number>(props.otpTime ?? 120);
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
@@ -56,11 +57,8 @@ const OtpVerification = (props: IProps) => {
     if (isResendAvailable) {
       props.onResendOtp();
       startOtpTimer();
-      setOtpCount(120);
-      setIsOtpExpired(false);
-      setResendCount(15);
-      setIsResendAvailable(false);
       startResendTimer();
+      resetTimer();
     }
   };
 
@@ -81,6 +79,13 @@ const OtpVerification = (props: IProps) => {
       setIsOtpExpired(true);
     }
   }, [otpCount]);
+
+  const resetTimer = () => {
+    setOtpCount(props.otpTime ?? 120);
+    setIsOtpExpired(false);
+    setResendCount(15);
+    setIsResendAvailable(false);
+  };
 
   // resend count down
   const startResendTimer = () => {
@@ -116,8 +121,12 @@ const OtpVerification = (props: IProps) => {
   }, []);
 
   return (
-    <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
-      <div className='mt-[46px]'>
+    <div
+      className={`laptop:m-0 ${
+        props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
+      }`}
+    >
+      <div className={`${props.isModal ? 'mt-[36px]' : 'mt-[46px]'}`}>
         <Text type='body-24-bold'>Confirm phone number</Text>
         <Text type='body-18-regular' color='neutral-4'>
           Enter OTP sent to{' '}

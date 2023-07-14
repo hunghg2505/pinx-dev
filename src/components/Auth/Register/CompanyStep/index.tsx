@@ -8,21 +8,31 @@ import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
 
 import styles from './index.module.scss';
-import { useGetDetailStockCode, useSelectStock, useSuggestStockCode } from './service';
+import {
+  ResultListStock,
+  useGetDetailStockCode,
+  useGetMyStock,
+  useSelectStock,
+  useSuggestStockCode,
+  useUnSelectStock,
+} from './service';
 
 const RegisterCompanyStep = () => {
   // const { t } = useTranslation('common');
   // const [form] = Form.useForm();
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
+  const [myListStock, setMyListStock] = useState<string[]>([]);
   const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
 
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
       // file deepcode ignore BadAwaitExpression: <please specify a reason of ignoring this>
-      paramsGetDetailStockCodesRef.current.params = res.data.toString();
+      paramsGetDetailStockCodesRef.current.params = res?.data.toString();
     },
   });
+
+  const requestUnSelectStock = useUnSelectStock();
 
   useEffect(() => {
     if (listSuggestStock.stockCodes) {
@@ -31,11 +41,26 @@ const RegisterCompanyStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listSuggestStock.stockCodes]);
 
+  useEffect(() => {
+    requestGetMyStocks.run();
+  }, []);
+
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       router.push(ROUTE_PATH.REGISTER_THEME);
+    },
+  });
+
+  const requestGetMyStocks = useGetMyStock({
+    onSuccess: (res: ResultListStock) => {
+      const listStock = res.data[0].stocks;
+      if (listStock.length > 0) {
+        const listStockCode = listStock.map((item) => item.stockCode);
+        setSelected(listStockCode);
+        setMyListStock(listStockCode);
+      }
     },
   });
 
@@ -55,13 +80,17 @@ const RegisterCompanyStep = () => {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    const unselectedStock = myListStock.filter((item) => !selected.includes(item));
+    for await (const item of unselectedStock) {
+      requestUnSelectStock.run(item);
+    }
     requestSelectStock.run(selected.toString());
   };
 
   return (
     <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
-      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8'>
+      <div className='md:h-screen lg:py-0 flex flex-1 flex-col items-center justify-center py-8 tablet:mx-auto'>
         <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
             <img
@@ -88,12 +117,12 @@ const RegisterCompanyStep = () => {
           </div>
           <div
             className={classNames(
-              'max-[768px]:flex max-[768px]:h-[60vh] max-[768px]:w-[80vw] max-[768px]:flex-col max-[768px]:justify-center max-[768px]:overflow-x-auto',
+              'tablet-max:flex tablet-max:h-[70vh] tablet-max:w-screen tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
               styles.listCompany,
             )}
           >
-            {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] max-[768px]:w-[1000px] max-[480px]:h-[300px] max-[480px]:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
-            <div className='mb-[81px] flex-wrap max-[768px]:h-[350px] max-[768px]:columns-5 max-[480px]:columns-3 mobile:mt-9 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
+            {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
+            <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
                 const urlImageCompany = `${
                   item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'

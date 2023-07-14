@@ -14,11 +14,19 @@ export const ROUTE_PATH = {
   REDIRECT: '/redirecting',
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
+  PINEX_TOP_20: 'pinex-top-20',
+  EXPLORE: '/explore',
+  THEME: '/theme',
+  THEME_DETAIL: (id: string) => `/theme/${id}`,
+  PEOPLEINSPOTLIGHT: '/people-in-spotlight',
+  TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
+  PAGE_NOT_FOUND: '/page-not-found',
 };
 
 export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
+  message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
   });
@@ -30,16 +38,24 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      // const startId = item.indexOf('(') + 1;
-      // const endId = item.indexOf(')');
-      // const ID = item.slice(startId, endId);
-      if (message && message.includes(item)) {
-        message = message.replace(
-          item,
-          `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
-          `,
-        );
+      const startId = item.indexOf('(') + 1;
+      const endId = item.indexOf(')');
+      const ID = item.slice(startId, endId);
+      if (message && message.includes(ID)) {
+        const newMessage = message.split(' ');
+        for (const text of newMessage) {
+          if (text.includes(ID)) {
+            const startName = text.indexOf('@[') + 2;
+            const endName = text.indexOf(']');
+            const nameOld = text.slice(startName, endName);
+            message = message.replace(
+              `@[${nameOld}](${ID})`,
+              `
+              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              `,
+            );
+          }
+        }
       }
     }
   }
@@ -63,7 +79,6 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    // console.log('🚀 ~ file: common.ts:68 ~ str?.map ~ item:', item);
     if (item.includes('#')) {
       message = message.replace(
         item,
@@ -93,8 +108,8 @@ export const formatMessage = (message: string, data: any) => {
         }
       }
     }
+    // }
   });
-
   return message;
 };
 export const toBase64 = (file: any) =>
@@ -149,3 +164,11 @@ export function toNonAccentVietnamese(str: any) {
   str = str.replaceAll(/[\u02C6\u0306\u031B]/g, ''); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
+
+export const imageStock = (stock_code: string) => {
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const url = `${imageCompanyUrl}${
+    stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
+  }.png`;
+  return url;
+};

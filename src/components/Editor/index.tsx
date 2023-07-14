@@ -23,7 +23,8 @@ import { requestAddComment, requestReplyCommnet } from '@components/Post/service
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
@@ -115,7 +116,8 @@ const Editor = (props: IProps, ref?: any) => {
     },
     // onUpdate({ editor }) {
     //   const text = editor.getText();
-    //   if (idReply && text === '') {
+    //   if (idReply && text === '' && width && width < 738) {
+    //     console.log('123');
     //     setIdReply('');
     //   }
     // },
@@ -140,9 +142,6 @@ const Editor = (props: IProps, ref?: any) => {
         setImageCommentMobile(true);
         setImageComment(url);
       },
-      // onError: (err: any) => {
-      //   console.log('err', err);
-      // },
     },
   );
   const onStart = async (file: File) => {
@@ -185,16 +184,18 @@ const Editor = (props: IProps, ref?: any) => {
         refreshTotal();
         refresh();
         editor?.commands.clearContent();
+        setIdReply('');
         if (imageComment) {
           onCloseImage();
         }
       },
       onError: (error: any) => {
+        console.log('🚀 ~ file: index.tsx:193 ~ Editor ~ error:', error);
         if (error?.error === 'VSD account is required') {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         } else {
@@ -212,8 +213,8 @@ const Editor = (props: IProps, ref?: any) => {
       onSuccess: () => {
         refreshTotal();
         refresh();
+        setIdReply('');
         editor?.commands.clearContent();
-
         if (imageComment) {
           onCloseImage();
         }
@@ -223,7 +224,7 @@ const Editor = (props: IProps, ref?: any) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         } else {
@@ -235,22 +236,29 @@ const Editor = (props: IProps, ref?: any) => {
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
-    const text = editor?.getJSON()?.content?.[0]?.content?.map((item: any) => {
-      let p = '';
-      if (item.type === 'text') {
-        p = item.text;
-      }
-      if (item.type === 'userMention') {
-        const query = item.attrs.label;
-        users.push(query);
-        p = `@[${item.attrs.label}](${item.attrs.id})`;
-      }
-      if (item.type === 'stockMention') {
-        const query = item.attrs.label;
-        stock.push(query);
-        p = `%[${item.attrs.label}](${item.attrs.label})`;
-      }
-      return p;
+    const test = editor?.getJSON()?.content?.map((item: any) => {
+      const abcd = item?.content?.map((text: any) => {
+        let p = '';
+        if (text.type === 'text') {
+          p = text.text;
+        }
+        if (text.type === 'userMention') {
+          const query = text.attrs.label;
+          users.push(query);
+          p = `@[${text.attrs.label}](${text.attrs.id})`;
+        }
+        if (text.type === 'stockMention') {
+          const query = text.attrs.label;
+          stock.push(query);
+          p = `%[${text.attrs.label}](${text.attrs.label})`;
+        }
+        if (text.type === 'hardBreak') {
+          p = '\n';
+        }
+        return p;
+      });
+      return abcd?.join('');
+      // console.log('abcd', abcd);
     });
     const tagPeople = await Promise.all(
       users?.map(async (item: string) => {
@@ -264,7 +272,6 @@ const Editor = (props: IProps, ref?: any) => {
         return data?.data?.users;
       }),
     );
-
     const formatTagPeople = tagPeople.flat()?.map((item: any) => {
       return {
         avatar: item?.avatar,
@@ -277,7 +284,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = text?.join('');
+    const message = test?.flat()?.join('\n');
     const data = {
       message,
       tagPeople: formatTagPeople,
@@ -285,11 +292,18 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-    if (message?.includes('script')) {
+    if (message?.toLowerCase()?.includes('script')) {
       toast(() => (
         <Notification
           type='error'
           message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+        />
+      ));
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your account has been pending to close. You cannot perform this action'
         />
       ));
     } else if (statusUser === USERTYPE.VSD) {
@@ -315,29 +329,32 @@ const Editor = (props: IProps, ref?: any) => {
           className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
         />
         <div
-          className='bottom-0 left-0 flex min-h-[40px] justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px] '
+          className='bottom-0 left-0 flex min-h-[40px] items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px]'
           ref={messagesEndRef}
         >
-          <div className='flex min-h-[40px] w-full mobile:items-center tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
-            <Upload
-              accept='.png, .jpeg, .jpg'
-              onStart={onStart}
-              beforeUpload={beforeUpload}
-              className='tablet:hidden'
-            >
-              <img
-                src='/static/icons/iconCamnera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='mr-[8px] w-[19px]'
-              />
-            </Upload>
-            <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+          <div className='flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
+            <div className='flex flex-row items-center'>
+              <Upload
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+                className='tablet:hidden'
+              >
+                <img
+                  src='/static/icons/iconCamnera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className='mr-[8px] w-[19px]'
+                />
+              </Upload>
+              <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
+            </div>
+
             <EditorContent
               editor={editor}
-              className='w-full mobile:max-w-[305px] mobile:px-[5px] desktop:max-w-[500px]'
+              className='w-full items-center mobile:flex mobile:w-[calc(100%_-_50px)] mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
@@ -366,7 +383,31 @@ const Editor = (props: IProps, ref?: any) => {
                 />
               )}
             </div>
-            {imageComment && (
+            {useUploadImage?.loading ? (
+              <Loading />
+            ) : (
+              imageComment && (
+                <div className='relative'>
+                  <img
+                    src={imageComment}
+                    alt=''
+                    width='0'
+                    height='0'
+                    sizes='100vw'
+                    className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
+                  />
+                  <img
+                    src='/static/icons/iconCloseWhite.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
+                    onClick={onCloseImage}
+                  />
+                </div>
+              )
+            )}
+            {/* {imageComment && (
               <div className='relative'>
                 <img
                   src={imageComment}
@@ -385,7 +426,7 @@ const Editor = (props: IProps, ref?: any) => {
                   onClick={onCloseImage}
                 />
               </div>
-            )}
+            )} */}
           </div>
 
           {useAddComment?.loading || useReplyComment?.loading ? (

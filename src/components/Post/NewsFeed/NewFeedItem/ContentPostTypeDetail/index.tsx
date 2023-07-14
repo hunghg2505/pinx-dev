@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useGetBgTheme } from '@components/Home/service';
@@ -16,6 +17,7 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
+  console.log('🚀 ~ file: index.tsx:20 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
 
   const router = useRouter();
   const message =
@@ -70,7 +72,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           src={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
           title='YouTube video player'
           allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+          className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
         ></iframe>
       );
     }
@@ -82,7 +84,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             alt=''
             width={326}
             height={185}
-            className='object-contain mobile:h-[185px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'
+            className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
           />
         </div>
       );
@@ -98,7 +100,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
             <img
               src={postDetail?.post.bgImage}
@@ -174,7 +176,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.headImageUrl && (
             <img
               src={postDetail?.post?.headImageUrl}
@@ -182,7 +184,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='h-full w-full'
+              className='h-full w-full rounded-[8px]'
             />
           )}
           <div
@@ -236,14 +238,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           <img
             src={postDetail?.post.headImageUrl || ''}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            className='h-full w-full'
+            className='h-full w-full rounded-[8px]'
           />
           <div
             // href={postDetail?.post.url || ''}
@@ -277,7 +279,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
             <img
               src={postDetail?.post?.bgImage}
@@ -362,7 +364,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
           <img
             src={postDetail?.post?.bgImage}
             alt=''
@@ -401,7 +403,10 @@ const ContentPostTypeDetail = (props: IProps) => {
               <Text
                 type='body-12-medium'
                 color='neutral-1'
-                className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
+                className={classNames(
+                  'mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]',
+                  { '!mt-[24px]': postDetail?.post?.type === 'BUY' },
+                )}
               >
                 {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
               </Text>
@@ -441,19 +446,20 @@ const ContentPostTypeDetail = (props: IProps) => {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
+    const urlLink = postDetail?.post?.urlLinks?.[0] || '';
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
           {postThemeId ? (
-            <div className='theme relative'>
+            <div className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[705px] '>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''
-                className='pointer-events-none left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
+                className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[300px] tablet:rounded-[8px] desktop:h-[393px]'
               />
               {message && (
                 <div
-                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
+                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                   dangerouslySetInnerHTML={{ __html: message }}
                   style={{ color }}
                 ></div>
@@ -468,6 +474,13 @@ const ContentPostTypeDetail = (props: IProps) => {
                 ></div>
               )}
             </>
+          )}
+          {!message?.includes(urlLink) && urlLink !== '' && (
+            <div className='messageFormat -mt-[15px] mb-[15px] block'>
+              <Link href='javascript:void(0)' className='link'>
+                {urlLink}
+              </Link>
+            </div>
           )}
           {renderMetaData()}
           {postDetail?.post?.urlImages?.length > 0 && (
@@ -484,7 +497,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                       alt=''
                       width={326}
                       height={185}
-                      className='h-[185px] w-full rounded-[15px] object-cover object-top tablet:h-[309px]'
+                      className='h-[185px] w-[550px] rounded-[15px] object-cover object-top tablet:h-[309px]'
                     />
                   )}
                 </a>

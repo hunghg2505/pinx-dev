@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
 // eslint-disable-next-line import/named
 import Picker, { PickerProps } from 'rc-picker';
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
@@ -17,7 +16,6 @@ const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) 
   <Picker
     generateConfig={dayjsGenerateConfig}
     locale={enUS}
-    defaultPickerValue={dayjs().add(28, 'day')}
     prevIcon={<PrevIcon />}
     nextIcon={<NextIcon />}
     superNextIcon={<SuperNextIcon />}
@@ -40,6 +38,7 @@ interface CustomPickerProps {
   labelContent?: string;
   format?: string;
   defaultValue?: Dayjs;
+  disabledDate?: PickerProps<Dayjs>['disabledDate'];
 }
 
 const LabelDatePicker = (props: CustomPickerProps) => {
@@ -52,6 +51,7 @@ const LabelDatePicker = (props: CustomPickerProps) => {
     onChange,
     format,
     defaultValue,
+    disabledDate,
   } = props;
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<boolean>(false);
@@ -107,6 +107,7 @@ const LabelDatePicker = (props: CustomPickerProps) => {
         onChange={onChangeDate}
         format={format}
         defaultValue={defaultValue}
+        disabledDate={disabledDate}
       />
     </div>
   );

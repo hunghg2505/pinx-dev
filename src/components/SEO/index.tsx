@@ -30,6 +30,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
     <Head>
       <title>{title || config.title}</title>
       <meta name='title' content={title || config.title} />
+      <meta name='theme-color' content='#ffffff'></meta>
       <meta name='description' content={description || config.description} />
       <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
       {openGraph?.locale && (

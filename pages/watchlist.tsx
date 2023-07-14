@@ -4,21 +4,22 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import WatchList from '@components/WatchList';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+const WatchlistPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <p>people-in-spotlight</p>
+      <WatchList />
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+WatchlistPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -31,4 +32,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default WatchlistPage;

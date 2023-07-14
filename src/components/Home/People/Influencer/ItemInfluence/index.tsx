@@ -1,17 +1,19 @@
 import { useRequest } from 'ahooks';
+import { useAtom } from 'jotai';
 import { toast } from 'react-hot-toast';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import PopupComponent from '@utils/PopupComponent';
+import { popupStatusAtom } from '@store/popup/popup';
 
 interface IProps {
   data: IKOL;
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
   const { data, refresh } = props;
   const isFollow = data?.isFollowed;
@@ -48,11 +50,14 @@ const ItemInfluence = (props: IProps) => {
         useFollowUser.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   return (
-    <div className='mr-[16px] mobile:w-[161px] tablet:w-[161px]'>
+    <div className='mobile:w-[161px] tablet:w-[161px]'>
       <div className="relative h-[252px] w-[100%] rounded-[15px] before:absolute before:bottom-[0] before:left-[0] before:z-10 before:h-full before:w-full before:rounded-[15px] before:bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)] before:content-['']">
         <div className='absolute bottom-[20px] left-[12px] right-[12px] z-10'>
           <div className='flex items-center'>

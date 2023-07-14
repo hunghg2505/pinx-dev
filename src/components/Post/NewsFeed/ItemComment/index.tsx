@@ -4,6 +4,7 @@ import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
@@ -18,8 +19,10 @@ import Fancybox from '@components/UI/Fancybox';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -31,16 +34,27 @@ interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
-  refresh: () => void;
+  refresh?: () => void;
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
+  refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const router = useRouter();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
-  const { onNavigate, data, onReplies, refresh, refreshTotal, isChildren = false, width } = props;
+  const {
+    onNavigate,
+    data,
+    onReplies,
+    refresh,
+    refreshTotal,
+    isChildren = false,
+    width,
+    refreshCommentOfPOst,
+  } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
@@ -50,7 +64,14 @@ const ItemComment = (props: IProps) => {
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE && isPostDetailPath) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         PopupComponent.openEKYC();
       } else if (onNavigate) {
         onNavigate();
@@ -61,7 +82,10 @@ const ItemComment = (props: IProps) => {
         }
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   useClickAway(() => {
@@ -79,14 +103,14 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -100,14 +124,14 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
@@ -116,7 +140,14 @@ const ItemComment = (props: IProps) => {
   );
   const onLike = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();
@@ -124,7 +155,10 @@ const ItemComment = (props: IProps) => {
         useLike.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 
@@ -136,7 +170,7 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
         refreshTotal && refreshTotal();
         setShowDelete(false);
       },
@@ -164,7 +198,7 @@ const ItemComment = (props: IProps) => {
         />
         {/* bg-[#F6FAFD] */}
         <div
-          className={classNames('content', {
+          className={classNames('content relative', {
             'w-[calc(100%_-_40px)]': isChildren,
             'w-[calc(100%_-_48px)]': !isChildren,
           })}
@@ -191,7 +225,7 @@ const ItemComment = (props: IProps) => {
 
                 {showDelete && (
                   <div
-                    className=' absolute -bottom-[55px] right-0 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
+                    className=' absolute -bottom-[55px] right-0 z-20 flex h-[52px] w-[121px] cursor-pointer flex-row items-center justify-center rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#ffffff] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'
                     onClick={onDelete}
                   >
                     <img
@@ -209,7 +243,7 @@ const ItemComment = (props: IProps) => {
               </button>
             </div>
             <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
-              <Text type='body-16-medium' color='primary-5'>
+              <Text type='body-16-regular' className='text-[#0D0D0D]'>
                 {message && (
                   <div
                     dangerouslySetInnerHTML={{ __html: message }}
@@ -220,7 +254,7 @@ const ItemComment = (props: IProps) => {
             </div>
 
             {data?.totalLikes > 0 && (
-              <div className='absolute bottom-0 right-[6px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+              <div className='absolute bottom-0 right-[1px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <img
                   src='/static/icons/iconLike.svg'
                   alt=''
@@ -235,7 +269,11 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
           {urlImage !== '' && (
-            <Fancybox>
+            <Fancybox
+              options={{
+                closeButton: true,
+              }}
+            >
               <a data-fancybox='gallery' href={urlImage}>
                 {urlImage && (
                   <img
@@ -251,13 +289,13 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action flex' ref={bottomRef}>
+          <div className='action flex'>
             <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
                 className={classNames({
-                  'text-[#589DC0]': data?.isLike,
-                  'text-[#808080]': !data?.isLike,
+                  'text-[#589DC0]': data?.isLike && isLogin,
+                  'text-[#808080]': !data?.isLike || !isLogin,
                 })}
               >
                 Like
@@ -276,7 +314,12 @@ const ItemComment = (props: IProps) => {
                 </Text>
               </div>
             </div>
-            <ModalReportComment isReported={data?.isReport} postID={data?.id} refresh={refresh}>
+            <ModalReportComment
+              isReported={data?.isReport}
+              postID={data?.id}
+              refresh={refresh}
+              refreshCommentOfPOst={refreshCommentOfPOst}
+            >
               {numberReport} Report
             </ModalReportComment>
             {/* <Fancybox>
@@ -285,6 +328,10 @@ const ItemComment = (props: IProps) => {
                 </a>
               </Fancybox> */}
           </div>
+          <div
+            className='pointer-events-none visible absolute -bottom-[50px] h-[50px]'
+            ref={bottomRef}
+          ></div>
         </div>
       </div>
     </div>
