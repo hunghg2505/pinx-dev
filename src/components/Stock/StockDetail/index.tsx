@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -28,6 +28,7 @@ import Rating from '../Rating';
 
 const MAX_LINE = 3;
 const LINE_HEIGHT = 16;
+const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 
 const settings = {
   dots: false,
@@ -41,13 +42,21 @@ const settings = {
 };
 
 const StockDetail = () => {
+  const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupHoldingRatio, setOpenPopupHoldingRatio] = useState(false);
   const [rating, setRating] = useState(0);
+  const introDescRef = useRef<HTMLDivElement | null>(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const introDescHeight = introDescRef.current?.clientHeight || 0;
+    console.log(introDescHeight, MAX_HEIGHT);
+    setShowSeeMore(introDescHeight > MAX_HEIGHT);
+  }, []);
 
   const handleBack = () => {
     router.back();
@@ -207,24 +216,28 @@ const StockDetail = () => {
 
             <div>
               <div
-                style={{ lineHeight: `${LINE_HEIGHT}px`, height: `${LINE_HEIGHT * MAX_LINE}px` }}
+                style={{ lineHeight: `${LINE_HEIGHT}px`, maxHeight: `${MAX_HEIGHT}px` }}
                 className={classNames('overflow-hidden', {
-                  '!h-auto': isSeeMore,
+                  '!max-h-max': isSeeMore,
                 })}
               >
-                <Text type='body-12-regular' className='!leading-[inherit]'>
-                  {DESCRIPTION}
-                </Text>
+                <div ref={introDescRef}>
+                  <Text type='body-12-regular' className='!leading-[inherit]'>
+                    {DESCRIPTION}
+                  </Text>
+                </div>
               </div>
 
-              <button
-                onClick={() => setIsSeeMore((prev) => !prev)}
-                className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
-              >
-                <Text type='body-12-semibold' color='primary-2'>
-                  {isSeeMore ? 'Less' : 'More'}
-                </Text>
-              </button>
+              {showSeeMore && (
+                <button
+                  onClick={() => setIsSeeMore((prev) => !prev)}
+                  className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
+                >
+                  <Text type='body-12-semibold' color='primary-2'>
+                    {isSeeMore ? 'Less' : 'More'}
+                  </Text>
+                </button>
+              )}
             </div>
           </div>
 
@@ -448,18 +461,18 @@ const StockDetail = () => {
               <ReviewItem />
 
               {/* <div className='rounded-[12px] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
-            <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-              No recent review
-            </Text>
+                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                  No recent review
+                </Text>
 
-            <Text type='body-12-regular' className='mb-[28px] mt-[16px] text-[#999999]'>
-              Recent review will show up here,so you can easily view them here later
-            </Text>
+                <Text type='body-12-regular' className='mb-[28px] mt-[16px] text-[#999999]'>
+                  Recent review will show up here,so you can easily view them here later
+                </Text>
 
-            <Text type='body-14-bold' color='primary-2' className='cursor-pointer'>
-              Review now
-            </Text>
-          </div> */}
+                <Text type='body-14-bold' color='primary-2' className='inline-block cursor-pointer'>
+                  Review now
+                </Text>
+              </div> */}
 
               <Link href='/stock/123/rating'>
                 <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>

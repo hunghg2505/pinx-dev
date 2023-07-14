@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import Text from '@components/UI/Text';
 
+import HeadingNewsItem from './Heading';
+
 interface INewsItemProps {
   className?: string;
 }
@@ -12,29 +14,19 @@ const NewsItem = ({ className }: INewsItemProps) => {
   return (
     <div
       className={classNames(
-        'border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px] tablet:px-[24px]',
+        'border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px] tablet:px-[24px] tablet:pt-[12px]',
         className,
       )}
     >
-      <div className='flex items-center'>
-        <img
-          src='https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png'
-          alt='VietStock logo'
-          className='h-[24px] w-[24px] object-contain'
-        />
-        <Text type='body-12-regular' className='ml-[8px]' color='primary-5'>
-          Vietstock
-        </Text>
+      <HeadingNewsItem className='tablet:hidden' />
 
-        <Text type='body-12-regular' className='ml-auto text-[#999999]'>
-          15 hours ago
-        </Text>
-      </div>
-
-      <div className='flex gap-x-[40px] py-[12px]'>
-        <Text type='body-14-semibold' className='flex-1'>
-          Sorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
-        </Text>
+      <div className='flex gap-x-[40px] py-[12px] tablet:items-center'>
+        <div className='flex-1'>
+          <HeadingNewsItem className='hidden tablet:mb-[4px] tablet:flex' />
+          <Text type='body-14-semibold' className='flex-1'>
+            Sorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
+          </Text>
+        </div>
 
         <div className='relative'>
           <img
