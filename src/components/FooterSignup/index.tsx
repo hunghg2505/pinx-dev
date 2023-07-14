@@ -75,7 +75,7 @@ const FooterSignUp = () => {
     >
       {/* mobile */}
       <div
-        // style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
+        style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
         className='mobile:-w-[375px] flex h-full items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[8px] transition mobile-max:w-full tablet:hidden desktop:hidden'
       >
         <button
