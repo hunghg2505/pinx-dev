@@ -78,6 +78,7 @@ const Home = () => {
     return () => {
       window.removeEventListener('scroll', loadMore);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastNewFeed]);
   const loadMore = () => {
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
@@ -115,6 +116,7 @@ const Home = () => {
     if (isLogin) {
       getSuggestFriend();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (isHaveStockWatchList) {

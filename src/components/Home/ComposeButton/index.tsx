@@ -10,7 +10,7 @@ const ComposeButton = () => {
   const handleClick = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
-        console.log('User vsd');
+        // console.log('User vsd');
       } else {
         PopupComponent.openEKYC();
       }

@@ -43,9 +43,6 @@ const Register = () => {
   };
 
   const requestResendRegisterOtp = useResendRegisterOtp({
-    onSuccess: (res: any) => {
-      console.log('xxx res', res);
-    },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
     },
@@ -59,6 +56,7 @@ const Register = () => {
     if (!userRegisterInfo.phoneNumber || !getRegisterToken()) {
       onLogout();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

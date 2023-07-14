@@ -116,6 +116,7 @@ const ModalLoginTerms = (props: IProps) => {
     if (visible) {
       requestGetContract.run();
     }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const getLinkContract = (linkUrl: string) => {

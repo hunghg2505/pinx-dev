@@ -45,6 +45,7 @@ const MarketDesktop = () => {
   );
   React.useEffect(() => {
     run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   socket.on('public', (message: any) => {
     const data = message.data;

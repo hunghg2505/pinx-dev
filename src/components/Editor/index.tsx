@@ -40,9 +40,9 @@ interface IProps {
 
 const beforeUpload = (file: RcFile) => {
   const isJpgOrPng = isImage(file);
-  if (!isJpgOrPng) {
-    console.log('Không phải ảnh');
-  }
+  // if (!isJpgOrPng) {
+  //   console.log('Không phải ảnh');
+  // }
   return isJpgOrPng;
 };
 
@@ -140,9 +140,9 @@ const Editor = (props: IProps, ref?: any) => {
         setImageCommentMobile(true);
         setImageComment(url);
       },
-      onError: (err: any) => {
-        console.log('err', err);
-      },
+      // onError: (err: any) => {
+      //   console.log('err', err);
+      // },
     },
   );
   const onStart = async (file: File) => {
