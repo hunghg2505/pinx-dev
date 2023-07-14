@@ -19,7 +19,6 @@ export const ROUTE_PATH = {
 };
 
 export const formatMessage = (message: string, data: any) => {
-  console.log('🚀 ~ file: common.ts:22 ~ formatMessage ~ message:', message);
   const str = message.split(' ');
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
