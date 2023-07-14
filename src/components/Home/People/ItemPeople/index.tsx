@@ -89,7 +89,7 @@ const ItemPeople = (props: IProps) => {
           >
             {data?.displayName}
           </Text>
-          {data?.isKol && (
+          {data?.isFeatureProfile && (
             <img
               src='/static/icons/iconKol.svg'
               alt=''
