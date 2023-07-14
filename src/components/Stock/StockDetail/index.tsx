@@ -54,7 +54,6 @@ const StockDetail = () => {
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
-    console.log(introDescHeight, MAX_HEIGHT);
     setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, []);
 
