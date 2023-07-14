@@ -1,15 +1,23 @@
 import React from 'react';
 
+import classNames from 'classnames';
+
 import Text from '@components/UI/Text';
 
 interface HoldingRatioItemProps {
   label: string;
   value: string;
+  className?: string;
 }
 
-const HoldingRatioItem = ({ label, value }: HoldingRatioItemProps) => {
+const HoldingRatioItem = ({ label, value, className }: HoldingRatioItemProps) => {
   return (
-    <div className='flex items-center justify-between gap-x-[52px] px-[20px] py-[16px] [&:not(:last-child)]:[border-bottom:1px_solid_#E6E6E6]'>
+    <div
+      className={classNames(
+        'flex items-center justify-between gap-x-[52px] px-[20px] py-[16px] [&:not(:last-child)]:[border-bottom:1px_solid_#E6E6E6]',
+        className,
+      )}
+    >
       <Text type='body-14-regular' className='text-[#999999]'>
         {label}
       </Text>
