@@ -26,6 +26,7 @@ import {
   ITopWatchingStock,
   useGetAllIPO,
   useGetKeyWordsTop,
+  useGetTopMentionStock,
   useGetTopWatchingStock,
 } from './service';
 import WatchingStock from './WatchingStock';
@@ -51,14 +52,12 @@ const Explore = () => {
   const { run, refresh, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
-  // const { listMention } = useGetTopMentionStock();
-  // console.log('🚀 ~ file: index.tsx:61 ~ Explore ~ listMention:', listMention);
+  const { listMention } = useGetTopMentionStock();
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
-  const maxTopWatchingStock =
-    listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
-  // const maxTopMentionStock =
-  //   listMention && Math.max(...listMention?.map((item: any) => item.totalCount));
+  const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
+  const maxTopMentionStock =
+    listMention && Math.max(...listMention?.map((item: any) => item.totalCount));
   const onExplorePost = () => {
     router.push({
       pathname: ROUTE_PATH.HOME,
@@ -144,7 +143,7 @@ const Explore = () => {
         {listStock?.map((item: ITopWatchingStock, index: number) => {
           return (
             <WatchingStock
-              percen={(item.totalCount / maxTopWatchingStock) * 100}
+              percen={(item.totalCount / maxTopWatchStock) * 100}
               key={`stock-${index}`}
               data={item}
             />
@@ -165,12 +164,13 @@ const Explore = () => {
         Top most watching stocks on PineX
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-        {listStock?.map((item: ITopWatchingStock, index: number) => {
+        {listMention?.map((item: ITopWatchingStock, index: number) => {
           return (
             <WatchingStock
-              percen={(item.totalCount / maxTopWatchingStock) * 100}
+              percen={(item.totalCount / maxTopMentionStock) * 100}
               key={`stock-${index}`}
               data={item}
+              mention
             />
           );
         })}

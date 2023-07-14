@@ -22,6 +22,7 @@ export const API_PATH = {
   PUBLIC_GET_TRENDING: '/public/search/keyword/trending',
   PRIVATE_SEARCH: '/private/search',
   PUBLIC_THEME: '/public/post-themes',
+  PUBLIC_SEARCH: '/public/search',
   // post
   PRIVATE_MAPPING_POST_DETAIL: (post_id: string) => `/private/mapping/${post_id}/details`,
   PRIVATE_MAPPING_POST_COMMENTS: (post_id: string) => `/private/mapping/${post_id}/comments`,
@@ -76,6 +77,8 @@ export const API_PATH = {
   PRIVATE_WATCH_LIST_STOCK: '/private/watchlist/stock/all',
   PRIVATE_WATCH_LIST_REMOVE_STOCK: (stockCode: string) =>
     `/private/watchlist/stock/${stockCode}/remove`,
+  PUBLIC_TOP_WATCHING: '/public/watchlist/top-watching',
+  PUBLIC_TOP_MENTION: '/public/stock/top-mention',
 
   // theme
   PRIVATE_THEMES: '/private/themes',

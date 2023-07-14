@@ -1,11 +1,13 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestMarket, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestMarket, requestPist } from '@api/request';
+import { ISearch } from '@components/Home/service';
 import { getAccessToken } from '@store/auth';
 
 export interface ITopWatchingStock {
   companyName: string;
+  name: string;
   image: string | null;
   stockCode: string;
   stockExchange: string;
@@ -37,10 +39,10 @@ export const useGetTopWatchingStock = () => {
     limit: 20,
   };
   const { data } = useRequest(() => {
-    return privateRequest(requestPist.get, API_PATH.PRIVATE_TOP_WATCHING_STOCK, { params });
+    return requestPist.get(API_PATH.PUBLIC_TOP_WATCHING, { params });
   });
   return {
-    listStock: data?.data,
+    listStock: data?.data?.list,
   };
 };
 export const useGetTopMentionStock = () => {
@@ -48,10 +50,10 @@ export const useGetTopMentionStock = () => {
     limit: 20,
   };
   const { data } = useRequest(() => {
-    return privateRequest(requestPist.get, API_PATH.PRIVATE_TOP_MENTION_STOCK, { params });
+    return requestCommunity.get(API_PATH.PUBLIC_TOP_MENTION, { params });
   });
   return {
-    listMention: data?.data,
+    listMention: data?.data?.list,
   };
 };
 
@@ -77,5 +79,22 @@ export const useGetPopular = () => {
   });
   return {
     popular: data?.data,
+  };
+};
+export const useSearchPublic = () => {
+  const { data, run, loading } = useRequest(
+    (payload: ISearch) => {
+      return requestPist.post(API_PATH.PUBLIC_SEARCH, {
+        data: payload,
+      });
+    },
+    {
+      manual: true,
+    },
+  );
+  return {
+    data,
+    search: run,
+    loading,
   };
 };
