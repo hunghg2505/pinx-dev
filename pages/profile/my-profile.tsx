@@ -1,11 +1,12 @@
 import { ReactElement } from 'react';
 
-import { parseJwt } from 'brainless-token-manager';
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const MenuProfile = dynamic(() => import('@components/MenuProfile'));
+const MenuProfile = dynamic(() => import('@components/MenuProfile'), {
+  ssr: false,
+});
 const BackLayout = dynamic(() => import('@layout/BackLayout'));
 const Profile = (props: any) => {
   return (
@@ -22,20 +23,10 @@ Profile.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
-  if (typeof req.cookies?.accessToken !== 'string') {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-  const decoded = parseJwt(req.cookies?.accessToken);
+export async function getServerSideProps({ locale }: GetServerSidePropsContext) {
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'en', ['common','profile'])),
-      ...decoded,
+      ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
       // Will be passed to the page component as props
     },
   };

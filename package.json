@@ -40,6 +40,7 @@
     "rc-menu": "^9.9.2",
     "rc-picker": "^3.5.1",
     "rc-select": "^14.5.2",
+    "rc-switch": "^4.1.0",
     "rc-tabs": "^11.10.4",
     "rc-upload": "^4.3.0",
     "react": "18.2.0",

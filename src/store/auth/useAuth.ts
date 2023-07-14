@@ -17,8 +17,10 @@ export const useAuth = () => {
   const router = useRouter();
   const onLogout = () => {
     try {
+      const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
+      localStorage.setItem('locale', locale || '');
       if (router.pathname !== ROUTE_PATH.LOGIN) {
         window.location.href = ROUTE_PATH.LOGIN;
       }
@@ -32,8 +34,9 @@ export const useAuth = () => {
         refreshToken: data.refreshToken || '',
         expiredTime: data.expiredTime,
       });
-      // run();
-    } catch {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onRegister = (data: IAuth) => {
