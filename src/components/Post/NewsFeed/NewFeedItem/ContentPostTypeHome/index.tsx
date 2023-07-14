@@ -129,7 +129,10 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {/* {message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         {isReadMore && (
@@ -209,7 +212,7 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {postDetail?.post.head}
-            {/* <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div> */}
+            {/* <div className='messageFormat messageBody' dangerouslySetInnerHTML={{ __html: message }}></div> */}
           </Text>
         </div>
         {isReadMore && (
@@ -276,7 +279,10 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {/* {message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         {isReadMore && (
@@ -382,7 +388,10 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {/* {postDetail?.post?.message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         {isReadMore && (
@@ -642,7 +651,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   <div>
                     <Text type='body-14-regular' color='neutral-1'>
                       <div
-                        className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                        className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                         dangerouslySetInnerHTML={{ __html: message }}
                         style={{ color }}
                       ></div>
@@ -663,13 +672,13 @@ const ContentPostTypeHome = (props: IProps) => {
                   >
                     <Text type='body-14-regular' color='neutral-1'>
                       <div
-                        className='desc messageFormat my-[0] pb-[15px]'
+                        className='desc messageFormat messageBody my-[0] pb-[15px]'
                         style={{ display: '-webkit-box' }}
                         dangerouslySetInnerHTML={{ __html: message }}
                       ></div>
                     </Text>
                     {!message?.includes(urlLink) && urlLink !== '' && (
-                      <div className='messageFormat -mt-[15px] pb-[15px]'>
+                      <div className='messageFormat messageBody messageBody -mt-[15px] pb-[15px]'>
                         <Link href='javascript:void(0)' className='link'>
                           {urlLink}
                         </Link>
