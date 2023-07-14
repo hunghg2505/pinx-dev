@@ -352,7 +352,7 @@ const NewFeedItem = (props: IProps) => {
       name = 'CafeF';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
-      name = 'TNCKNews';
+      name = 'Tin nhanh chứng khoán';
     }
     return name;
   };
