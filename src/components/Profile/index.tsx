@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { createContext } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 
 import Header from './Header';
 import MyStory from './MyStory';
 
-const Profile = () => {
+export const profileUserContext = createContext(undefined);
+
+const Profile = (props: any) => {
+  const router = useRouter();
+  const { profileOtherUser } = useGetProfileOtherUser(Number(router.query.id));
   return (
-    <>
-      <Header
-        cover='/static/images/theme.jpg'
-        avatar='/static/images/theme1.png'
-        name='Anthony Starr'
-        star
-      />
+    <profileUserContext.Provider value={profileOtherUser}>
+      <Header isMe={Number(props?.userId) === Number(router.query.id)} />
       <MyStory />
-    </>
+    </profileUserContext.Provider>
   );
 };
 export default Profile;

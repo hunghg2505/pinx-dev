@@ -1,18 +1,33 @@
-import React from 'react';
+import React, { useRef, useContext } from 'react';
+
+import Modal, { IBaseModal } from '@components/common/Modal';
 
 import PreViewStory from './PreviewStory';
 import Story from './Story';
+import { profileUserContext } from '..';
 
 const MyStory = () => {
+  const modalRef = useRef<HTMLDivElement & IBaseModal>(null);
+  const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='px-[16px] pb-[100px]'>
-      <PreViewStory content='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit culpa magnam possimus dicta distinctio eaque rem enim quisquam a cumque sint quo harum, tenetur, dolor provident mollitia. Odio, libero amet!' />
-      <Story
-        content='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit culpa magnam possimus dicta distinctio eaque rem enim quisquam a cumque sint quo harum, tenetur, dolor provident mollitia. Odio, libero amet!'
-        pic='/static/images/theme1.png'
-        star
-      />
-    </div>
+    <>
+      {profileUser?.caption && (
+        <div className='px-[16px] pb-[100px]'>
+          <PreViewStory
+            openStory={() => {
+              modalRef.current?.open();
+            }}
+          />
+          <Modal ref={modalRef}>
+            <Story
+              closeStory={() => {
+                modalRef.current?.close();
+              }}
+            />
+          </Modal>
+        </div>
+      )}
+    </>
   );
 };
 export default MyStory;
