@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-const PreViewStory = ({ content }: { content: string }) => {
+import { profileUserContext } from '@components/Profile';
+
+const PreViewStory = ({ openStory }: { openStory: () => void }) => {
   const { t } = useTranslation('profile');
+  const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='rounded-[8px] bg-primary_bgblue_2 px-[16px] py-[12px]'>
-      <p className='mb-[13px] w-full text-[12px] line-clamp-2'>{content}</p>
-      <button className='flex items-center text-[12px]'>
+    <div className='relative rounded-[8px] bg-primary_bgblue_2 px-[16px] py-[12px]'>
+      <span className='absolute bottom-[100%] left-[28px] h-0 w-[24px] border-b-[12px] border-l-[12px] border-r-[12px] border-t-0 border-solid border-primary_bgblue_2 border-l-[transparent] border-r-[transparent]'></span>
+      <p className='mb-[13px] w-full text-[12px] line-clamp-2'>{profileUser?.caption}</p>
+      <button className='flex items-center text-[12px]' onClick={openStory}>
         <span className='text-[12px] font-[600] text-primary_blue'>{t('my_story')}</span>
         <svg
           className='h-[18px] w-[18px]'

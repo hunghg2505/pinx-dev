@@ -10,5 +10,6 @@
   "don’t_have_any_result": "Don’t have any result",
   "explore": "Explore",
   "follow": "Follow",
-  "my_story": "My story"
+  "my_story": "My story",
+  "joined": "Joined since {{year}}"
 }
