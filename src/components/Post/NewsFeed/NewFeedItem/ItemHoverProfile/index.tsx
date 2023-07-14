@@ -3,8 +3,8 @@ import React from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 
+import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
-import { useGetProfileOtherUser } from '@components/Profile/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 

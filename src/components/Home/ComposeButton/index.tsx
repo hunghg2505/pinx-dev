@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
-import { toast } from 'react-hot-toast';
 
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -17,14 +15,7 @@ const ComposeButton = () => {
   const handleClick = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
-        console.log('User vsd');
-      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        // console.log('User vsd');
       } else {
         PopupComponent.openEKYC();
       }

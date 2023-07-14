@@ -174,7 +174,6 @@ export const StyledInput = ({ ...props }) => (
 export const LabelInsideInput = ({ labelContent, ...props }: { labelContent: string }) => {
   const inputRef = React.createRef<HTMLInputElement>();
 
-  console.log('xxx inputRef', inputRef);
   return (
     <div className={styles.formGroup}>
       <input

@@ -63,6 +63,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return () => {
       window.removeEventListener('click', handleClick);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const renderMetaData = () => {
     if (siteName === 'YouTube' && !urlImages?.[0]) {

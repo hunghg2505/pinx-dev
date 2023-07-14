@@ -22,9 +22,7 @@ export const useAuth = () => {
       if (router.pathname !== ROUTE_PATH.LOGIN) {
         window.location.href = ROUTE_PATH.LOGIN;
       }
-    } catch (error) {
-      console.log('Logout error', error);
-    }
+    } catch {}
   };
 
   const onLogin = (data: IAuth) => {
@@ -35,9 +33,7 @@ export const useAuth = () => {
         expiredTime: data.expiredTime,
       });
       // run();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   };
 
   const onRegister = (data: IAuth) => {
@@ -48,9 +44,7 @@ export const useAuth = () => {
         expiredTime: data.expiredTime,
       });
       // requestGetProfile();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   };
 
   return {
