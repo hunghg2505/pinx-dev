@@ -25,7 +25,9 @@ const BasicInfo = ({
             className='h-[52px] w-[52px] rounded-[50%]'
           />
         ) : (
-          <AvatarDefault name={userName[0]} />
+          <div className='h-[52px] w-[52px]'>
+            <AvatarDefault name={userName[0]} />
+          </div>
         )}
         <div className='ml-[12px] mr-auto flex-col justify-center'>
           <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
