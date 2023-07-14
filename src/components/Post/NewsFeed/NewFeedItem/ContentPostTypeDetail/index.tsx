@@ -17,7 +17,6 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
-  console.log('🚀 ~ file: index.tsx:20 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
 
   const router = useRouter();
   const message =
@@ -96,7 +95,10 @@ const ContentPostTypeDetail = (props: IProps) => {
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {/* {message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
@@ -275,7 +277,10 @@ const ContentPostTypeDetail = (props: IProps) => {
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {/* {message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
@@ -360,7 +365,10 @@ const ContentPostTypeDetail = (props: IProps) => {
         <div className='cursor-pointer' onClick={onComment}>
           <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
             {/* {postDetail?.post?.message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
@@ -458,7 +466,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               />
               {message && (
                 <div
-                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                  className='desc messageFormat messageBody messageBody absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                   dangerouslySetInnerHTML={{ __html: message }}
                   style={{ color }}
                 ></div>
@@ -468,14 +476,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             <>
               {message && (
                 <div
-                  className='desc messageFormat my-[0] mb-[15px]'
+                  className='desc messageFormat messageBody my-[0] mb-[15px]'
                   dangerouslySetInnerHTML={{ __html: message }}
                 ></div>
               )}
             </>
           )}
           {!message?.includes(urlLink) && urlLink !== '' && (
-            <div className='messageFormat -mt-[15px] mb-[15px] block'>
+            <div className='messageFormat messageBody -mt-[15px] mb-[15px] block'>
               <Link href='javascript:void(0)' className='link'>
                 {urlLink}
               </Link>
