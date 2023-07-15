@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import { parseJwt } from 'brainless-token-manager';
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
@@ -6,6 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 
 const Profile = dynamic(() => import('@components/Profile'));
+const MainLayout = dynamic(() => import('@layout/MainLayout'));
 
 const PostDetailPage = (props: any) => {
   return (
@@ -15,9 +18,9 @@ const PostDetailPage = (props: any) => {
     </>
   );
 };
-// PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-//   return <>{page}</>;
-// };
+PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+  return <MainLayout>{page}</MainLayout>;
+};
 
 export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
   if (typeof req.cookies?.accessToken !== 'string') {
