@@ -266,7 +266,9 @@ const PostDetail = () => {
             </div>
           )}
         </div>
-        <ContentRight />
+        <div className='mobile:hidden tablet:block tablet:w-[250px] tablet:pr-[2px] laptop:w-[350px]'>
+          <ContentRight />
+        </div>
       </div>
 
       {!isLogin && <FooterSignUp />}

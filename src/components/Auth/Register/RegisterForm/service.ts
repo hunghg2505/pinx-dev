@@ -1,9 +1,9 @@
 import { useRequest } from 'ahooks';
-import Base64 from 'crypto-js/enc-base64';
-import sha256 from 'crypto-js/sha256';
+import { i18n } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { requestPist } from '@api/request';
+import { encryptPassword } from '@utils/common';
 
 interface IOptionsRequest {
   onSuccess?: (r: any) => void;
@@ -17,12 +17,6 @@ interface IUserRegisInfo {
   recaptcha: string;
 }
 
-const encryptPassword = (value: string) => {
-  const hash = sha256(value);
-  const pass = Base64.stringify(hash);
-  return pass;
-};
-
 export const useRegister = (options?: IOptionsRequest) => {
   return useRequest(
     // eslint-disable-next-line require-await
@@ -33,6 +27,9 @@ export const useRegister = (options?: IOptionsRequest) => {
           phone: phoneNumber,
           reCAPTCHA: recaptcha,
           password: encryptPassword(password),
+        },
+        headers: {
+          'Accept-Language': i18n?.language as string,
         },
       });
     },

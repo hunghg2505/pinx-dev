@@ -6,7 +6,7 @@ import { IProfit, useGetTopMarketCap } from '../service';
 const MarketCap = () => {
   const { marketCap } = useGetTopMarketCap();
   return (
-    <div className='mobile-max:pr-[16px]'>
+    <div className=''>
       <Text type='body-14-regular' color='cbblack'>
         Top 20 companies having the largest capitalization
       </Text>

@@ -23,14 +23,12 @@ const ContentRight = () => {
   }, []);
   return (
     <>
-      <div className='mobile:hidden tablet:block tablet:w-[250px] tablet:pr-[2px] laptop:w-[350px]'>
-        <div>
-          <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-            <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-              Market
-            </Text>
-            <MarketDesktop />
-          </div>
+      <div className='w-full'>
+        <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
+          <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
+            Market
+          </Text>
+          <MarketDesktop />
         </div>
 
         {isLogin && (

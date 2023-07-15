@@ -5,9 +5,10 @@ import { ITopWatchingStock } from '../service';
 interface Iprops {
   percen: number;
   data: ITopWatchingStock;
+  mention?: boolean;
 }
 const WatchingStock = (props: Iprops) => {
-  const { percen, data } = props;
+  const { percen, data, mention = false } = props;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
@@ -43,7 +44,7 @@ const WatchingStock = (props: Iprops) => {
               </Text>
             </div>
             <Text type='body-12-regular' className='line-clamp-2 max-w-[90%]' color='neutral-3'>
-              {data?.companyName}
+              {data?.companyName || data?.name}
             </Text>
           </div>
         </div>
@@ -51,11 +52,19 @@ const WatchingStock = (props: Iprops) => {
           <Text type='body-16-regular' color='neutral-1'>
             {data?.totalCount}
           </Text>
-          <img
-            src='/static/icons/explore/iconcHeart.svg'
-            alt=''
-            className='ml-[6px] h-[24px] w-[24px]'
-          />
+          {mention ? (
+            <img
+              src='/static/icons/explore/iconMention.svg'
+              alt=''
+              className='ml-[6px] h-[24px] w-[24px]'
+            />
+          ) : (
+            <img
+              src='/static/icons/explore/iconcHeart.svg'
+              alt=''
+              className='ml-[6px] h-[24px] w-[24px]'
+            />
+          )}
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ interface IOptionsRequest {
 
 interface IBodySendLoginOtp {
   authType: string;
-  positionNo: string;
+  positionNo?: number;
   trdType: string;
 }
 

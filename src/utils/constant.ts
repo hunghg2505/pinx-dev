@@ -15,3 +15,4 @@ export const enum USERTYPE {
   ACTIVE = 'ACTIVE',
   PENDING_TO_CLOSE = 'PENDING_TO_CLOSE',
 }
+export const PHONE_CONTACT_SUPPORT = 'tel:02462823535';
