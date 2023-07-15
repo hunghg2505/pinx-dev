@@ -74,7 +74,9 @@ const ModalComment = (props: Iprops) => {
   };
   return (
     <>
-      <div onClick={onVisible}>{children}</div>
+      <div onClick={onVisible} className='cursor-pointer'>
+        {children}
+      </div>
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
         <div className=''>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>

@@ -36,16 +36,8 @@ interface Ref {
 const Tabs: React.FC<Props & Ref> = React.forwardRef((props: Props, ref: Ref['ref']) => {
   const refScroll: any = React.useRef(null);
   const { onChange, defaultTab, contenTab, currentTab } = props;
-  console.log(
-    '🚀 ~ file: index.tsx:39 ~ constTabs:React.FC<Props&Ref>=React.forwardRef ~ currentTab:',
-    currentTab,
-  );
 
   const [activeTab, setActiveTab] = React.useState<any>(currentTab || defaultTab);
-  console.log(
-    '🚀 ~ file: index.tsx:45 ~ constTabs:React.FC<Props&Ref>=React.forwardRef ~ activeTab:',
-    activeTab,
-  );
 
   const leftToScroll = () => {
     let left = 0;

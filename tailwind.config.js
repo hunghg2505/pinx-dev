@@ -30,7 +30,7 @@ module.exports = {
       //  @media (min-width: 640px) { ... }
       laptop: '1024px',
       // => @media (min-width: 1024px) { ... }
-      desktop: '1280px',
+      desktop: '1200px',
       xdesktop: '1366px',
 
       // => @media (min-width: 1280px) { ... }
@@ -41,11 +41,11 @@ module.exports = {
         mobile: '375px',
         tablet: '768px',
         laptop: '1024px',
-        xl: '1280px',
+        xl: '1200px',
         desktop: '1366px',
       },
     },
     extend: {},
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [],
 };
