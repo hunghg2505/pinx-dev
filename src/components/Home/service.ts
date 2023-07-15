@@ -154,7 +154,6 @@ const requestGetList = (params: any) => {
 export const useGetListNewFeed = (options?: IOptionsRequest) => {
   const { data, run, refresh, loading } = useRequest(
     (type: any, last?: string) => {
-      console.log('🚀 ~ file: service.ts:157 ~ useGetListNewFeed ~ type:', type);
       const isLogin = !!getAccessToken();
       const params: any = {
         filterType: type,

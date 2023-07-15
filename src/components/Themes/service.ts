@@ -48,7 +48,7 @@ export const useGetThemeDetail = (code: any) => {
     const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_THEME_DETAIL(code))
-      : requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP);
+      : requestPist.get(API_PATH.PUBLIC_GET_THEME_DETAIL(code));
   });
   return {
     themeDetail: data?.data,

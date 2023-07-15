@@ -33,6 +33,7 @@ export const optionTab = [
     value: TabsEnum.ChangeInPrice1Y,
   },
 ];
+
 const PinexTop20 = () => {
   const router = useRouter();
   const type: any = router?.query?.type;
@@ -66,7 +67,7 @@ const PinexTop20 = () => {
     }
   };
   return (
-    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] '>
+    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
       <div className='relative text-center'>
         <img
           src='/static/icons/back_icon.svg'
@@ -79,7 +80,7 @@ const PinexTop20 = () => {
         </Text>
       </div>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <div className='mobile-max:ml-[16px]'>
+      <div className=''>
         <Tabs
           onChange={onChangeTab}
           contenTab={optionTab}

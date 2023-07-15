@@ -22,6 +22,7 @@ export const API_PATH = {
   PUBLIC_GET_TRENDING: '/public/search/keyword/trending',
   PRIVATE_SEARCH: '/private/search',
   PUBLIC_THEME: '/public/post-themes',
+  PUBLIC_SEARCH: '/public/search',
   // post
   PRIVATE_MAPPING_POST_DETAIL: (post_id: string) => `/private/mapping/${post_id}/details`,
   PRIVATE_MAPPING_POST_COMMENTS: (post_id: string) => `/private/mapping/${post_id}/comments`,
@@ -60,6 +61,7 @@ export const API_PATH = {
   PRIVATE_ALL_THEME: '/private/themes',
   PUBLIC_ALL_THEME: '/public/theme/all',
   PRIVATE_GET_THEME_DETAIL: (code: string) => `/private/theme/${code}/details`,
+  PUBLIC_GET_THEME_DETAIL: (code: string) => `/public/theme/${code}/detail`,
   PRIVATE_GET_COMMUNITY_THEME_DETAIL: (code: string) =>
     `/private/theme/${code}/subscribed-customers`,
   PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME: (code: string) =>
@@ -76,6 +78,8 @@ export const API_PATH = {
   PRIVATE_WATCH_LIST_STOCK: '/private/watchlist/stock/all',
   PRIVATE_WATCH_LIST_REMOVE_STOCK: (stockCode: string) =>
     `/private/watchlist/stock/${stockCode}/remove`,
+  PUBLIC_TOP_WATCHING: '/public/watchlist/top-watching',
+  PUBLIC_TOP_MENTION: '/public/stock/top-mention',
 
   // theme
   PRIVATE_THEMES: '/private/themes',
@@ -88,6 +92,10 @@ export const API_PATH = {
   // search
   PRIVATE_SEARCH_KEYWORDS_TOP: '/private/search/keywords/top',
   PUBLIC_SEARCH_KEYWORDS_TOP: '/public/search/keyword/trending',
+  PUBLIC_SEARCH_COMPANY: '/public/company/search',
+  PUBLIC_SEARCH_PEOPLE: '/public/customer/search',
+  PUBLIC_SEARCH_POST: '/public/mapping/post/search',
+  PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
 
   // ipo
   PUBLIC_GET_ALL_STOCK_IPO: '/public/company/ipo-listed',

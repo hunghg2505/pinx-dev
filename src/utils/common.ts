@@ -25,6 +25,8 @@ export const ROUTE_PATH = {
   TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
   PAGE_NOT_FOUND: '/page-not-found',
+  SEARCH: '/search',
+  TOP_WATCHING: '/top-watching',
   SETTING: '/setting',
   SETTING_CHANGE_USERNAME: '/setting/change-username',
   SETTING_CHANGE_USERNAME_VERIFICATION: '/setting/change-username/verification',

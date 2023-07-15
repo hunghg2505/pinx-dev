@@ -3,22 +3,24 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import Search from '@components/Search';
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+const SearchPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      <p>top-keyword-search</p>
+      {/* <TopMention /> */}
+      <Search />
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+SearchPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -31,4 +33,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default SearchPage;
