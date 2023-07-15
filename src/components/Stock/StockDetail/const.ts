@@ -62,4 +62,17 @@ const HOLDING_RATIO = [
   },
 ];
 
-export { DESCRIPTION, SLIDER, LIST_BUSINESS, HOLDING_RATIO };
+const PIE_CHART_DATA = [
+  { value: 10 },
+  {
+    value: 20,
+  },
+  {
+    value: 30,
+  },
+  {
+    value: 70,
+  },
+];
+
+export { DESCRIPTION, SLIDER, LIST_BUSINESS, HOLDING_RATIO, PIE_CHART_DATA };

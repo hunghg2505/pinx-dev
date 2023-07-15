@@ -10,7 +10,8 @@ import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 
 import CalendarItem from './CalendarItem';
-import { HOLDING_RATIO, LIST_BUSINESS } from './const';
+import { PieChart } from './Chart';
+import { HOLDING_RATIO, LIST_BUSINESS, PIE_CHART_DATA } from './const';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HoldingRatioItem from './HoldingRatioItem';
@@ -42,6 +43,23 @@ const settings = {
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
+
+const CHART = (
+  <svg
+    width='319'
+    height='296'
+    viewBox='0 0 319 296'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <ellipse opacity='0.5' cx='159.5' cy='158' rx='159' ry='138' fill='#08AADD' />
+    <ellipse cx='159.5' cy='138' rx='159' ry='138' fill='#08AADD' />
+    <path
+      d='M159.5 0C183.749 2.50973e-07 207.676 4.81377 229.452 14.0731L159.5 138V0Z'
+      fill='#F4BDBD'
+    />
+  </svg>
+);
 
 const StockDetail = () => {
   const [showSeeMore, setShowSeeMore] = useState(false);
@@ -317,7 +335,15 @@ const StockDetail = () => {
             </Text>
 
             {/* chart */}
-            <div></div>
+            <div>
+              {/* <img
+                src='/static/icons/revenueChart.svg'
+                alt='Revenue chart'
+                className='h-[296px] w-[318px]'
+              /> */}
+
+              {CHART}
+            </div>
 
             <div className='mt-[8px]'>
               <div className='flex items-center border-b border-solid border-[var(--neutral-7)] py-[16px]'>
@@ -672,7 +698,59 @@ const StockDetail = () => {
             <Text type='body-20-bold'>Shareholders</Text>
 
             {/* chart */}
-            <div className='mt-[28px]'></div>
+            <div className='mt-[28px] flex justify-between'>
+              <div className='flex flex-col gap-y-[24px]'>
+                <div>
+                  <div className='mb-[6px] flex items-center'>
+                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
+                    <Text type='body-14-semibold' className='ml-[4px]'>
+                      26.08%
+                    </Text>
+                  </div>
+
+                  <Text type='body-12-regular' className='text-[#808A9D]'>
+                    Shareholder 1
+                  </Text>
+                  <Text type='body-12-regular' color='primary-5'>
+                    1,166,400,000
+                  </Text>
+                </div>
+
+                <div>
+                  <div className='mb-[6px] flex items-center'>
+                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
+                    <Text type='body-14-semibold' className='ml-[4px]'>
+                      26.08%
+                    </Text>
+                  </div>
+
+                  <Text type='body-12-regular' className='text-[#808A9D]'>
+                    Shareholder 1
+                  </Text>
+                  <Text type='body-12-regular' color='primary-5'>
+                    1,166,400,000
+                  </Text>
+                </div>
+
+                <div>
+                  <div className='mb-[6px] flex items-center'>
+                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
+                    <Text type='body-14-semibold' className='ml-[4px]'>
+                      26.08%
+                    </Text>
+                  </div>
+
+                  <Text type='body-12-regular' className='text-[#808A9D]'>
+                    Shareholder 1
+                  </Text>
+                  <Text type='body-12-regular' color='primary-5'>
+                    1,166,400,000
+                  </Text>
+                </div>
+              </div>
+
+              <PieChart strokeWidth={16} width={183} height={183} data={PIE_CHART_DATA} />
+            </div>
           </div>
 
           {/* holding ratio */}
