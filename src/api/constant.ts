@@ -65,6 +65,8 @@ export const API_PATH = {
   PUBLIC_COMPANY_GET_BY_STOCK_BRIEF: (stockCodes: string) =>
     `/public/company/get-by-stocks-brief?stockCodes=${stockCodes}`,
   PRIVATE_WATCH_LIST_CREATE: '/private/watchlist/create',
+  PUBLIC_COMPANY_DETAIL: (stockCode: string) => `/public/company/${stockCode}/detail`,
+  PUBLIC_COMPANY_FINANCIAL_INDEX: '/public/company/financial-index',
 
   // theme
   PRIVATE_THEMES: '/private/themes',

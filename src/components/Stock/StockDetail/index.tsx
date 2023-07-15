@@ -10,7 +10,7 @@ import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 
 import CalendarItem from './CalendarItem';
-import { DESCRIPTION, HOLDING_RATIO, LIST_BUSINESS, SLIDER } from './const';
+import { HOLDING_RATIO, LIST_BUSINESS } from './const';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HoldingRatioItem from './HoldingRatioItem';
@@ -19,14 +19,16 @@ import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
 import NewsItem from './NewsItem';
 import ReviewItem from './ReviewItem';
+import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupHoldingRatio from '../Popup/PopupHoldingRatio';
 import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
+import { useStockDetail } from '../service';
 
-const MAX_LINE = 3;
+const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
 const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 
@@ -51,6 +53,9 @@ const StockDetail = () => {
   const introDescRef = useRef<HTMLDivElement | null>(null);
 
   const router = useRouter();
+  const { stockCode }: any = router.query;
+
+  const { stockDetail } = useStockDetail(stockCode);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
@@ -137,18 +142,18 @@ const StockDetail = () => {
               <div>
                 <div className='flex items-center'>
                   <Text type='body-24-semibold' className='text-[#0D0D0D]'>
-                    HPG
+                    {stockDetail?.data?.stockCode}
                   </Text>
 
                   <button className='ml-[8px] h-[20px] min-w-[48px] cursor-text rounded-[4px] border border-solid border-[var(--neutral-7)] px-[10px]'>
                     <Text type='body-10-regular' className='text-[#808A9D]'>
-                      HOSE
+                      {stockDetail?.data?.stockExchange}
                     </Text>
                   </button>
                 </div>
 
                 <Text type='body-10-regular' className='primary-5'>
-                  CTCP Tập Đoàn Hòa Phát
+                  {stockDetail?.data?.name}
                 </Text>
               </div>
             </div>
@@ -222,7 +227,7 @@ const StockDetail = () => {
               >
                 <div ref={introDescRef}>
                   <Text type='body-12-regular' className='!leading-[inherit]'>
-                    {DESCRIPTION}
+                    {stockDetail?.data?.introduction}
                   </Text>
                 </div>
               </div>
@@ -247,16 +252,16 @@ const StockDetail = () => {
 
             <div className='overflow-hidden pl-[16px] tablet:pl-[24px]'>
               <Slider {...settings} variableWidth>
-                {SLIDER.map((item, index) => (
+                {stockDetail?.data?.products.map((item, index) => (
                   <div key={index} className='mr-[28px] !w-[112px]'>
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={item.imageUrl}
+                      alt={item.name}
                       className='h-[112px] w-full rounded-[4px] object-cover'
                     />
 
                     <Text className='mt-[12px]' type='body-12-regular'>
-                      {item.title}
+                      {item.name}
                     </Text>
                   </div>
                 ))}
@@ -597,6 +602,17 @@ const StockDetail = () => {
                   </Text>
                 </button>
               </Link>
+            </div>
+          </div>
+
+          {/* featured in themes */}
+          <div className='mt-[28px]'>
+            <div className='mb-[16px] px-[16px] tablet:px-[24px]'>
+              <Text type='body-20-semibold'>Featured in themes</Text>
+            </div>
+
+            <div className='px-[16px] tablet:px-[24px]'>
+              <ThemeItem />
             </div>
           </div>
 
