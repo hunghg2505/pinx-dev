@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 import { profileUserContext } from '@components/Profile';
 
+import User from './User';
+
 const Story = ({ closeStory }: { closeStory: () => void }) => {
   const profileUser = useContext<any>(profileUserContext);
   return (
@@ -12,7 +14,7 @@ const Story = ({ closeStory }: { closeStory: () => void }) => {
         <Image src={profileUser?.avatar} alt='story picture' fill className='relative h-auto' />
         <div className='absolute z-10 flex h-full w-full bg-gradient-to-t  from-neutral_black to-[transparent] px-[20px] pb-[12px] pt-[20px] '>
           <div className='mb-[16px] mt-auto w-full text-center '>
-            <span className='absolute right-[20px] top-[20px]' onClick={closeStory}>
+            <button className='absolute right-[20px] top-[20px]' onClick={closeStory}>
               <svg
                 width='21'
                 height='21'
@@ -33,20 +35,8 @@ const Story = ({ closeStory }: { closeStory: () => void }) => {
                   strokeLinecap='round'
                 />
               </svg>
-            </span>
-            <div className='flex justify-center '>
-              <h3 className='font-600 mb-[4px] text-[24px]'>{profileUser?.displayName}</h3>
-              {profileUser?.isKol && (
-                <Image
-                  src='/static/icons/iconStarFollow.svg'
-                  width={16}
-                  height={16}
-                  alt='star'
-                  className='h-[16px] w-[16px]'
-                />
-              )}
-            </div>
-            <p className='text-[14px]'>{profileUser?.position}</p>
+            </button>
+            <User />
           </div>
         </div>
       </header>

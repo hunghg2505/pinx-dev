@@ -11,5 +11,7 @@
   "explore": "Explore",
   "follow": "Follow",
   "my_story": "My story",
-  "joined": "Joined since {{year}}"
+  "post": "Post",
+  "joined": "Joined since",
+  "star": "Star"
 }
