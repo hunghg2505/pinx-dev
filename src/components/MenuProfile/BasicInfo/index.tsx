@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
-
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { useAuth } from '@store/auth/useAuth';
 
@@ -19,7 +17,7 @@ const BasicInfo = ({
     <div className=' mb-[16px] px-[16px]'>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] p-[12px]'>
         {avatar ? (
-          <Image
+          <img
             src={avatar}
             alt='avatar'
             width={52}
@@ -44,7 +42,6 @@ const BasicInfo = ({
             className='h-[28px] w-[28px]'
           />
         )}
-
       </div>
     </div>
   );

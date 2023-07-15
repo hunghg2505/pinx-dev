@@ -11,15 +11,18 @@ module.exports = {
   theme: {
     colors: {
       white: '#fff',
+      neutral_08: '#F7F6F8',
       neutral_07: '#EBEBEB',
       neutral_06: '#CCCCCC',
+      neutral_05: '#B3B3B3',
       primary_bgblue_2: '#D8EBFC',
       primary_blue: '#1F6EAC',
       primary_06: '#B1D5F1',
       light_orange: '#F1BA09',
       primary_gray: '#808A9D',
       neutral_black: '#0D0D0D',
-      blue_light:'#EEF5F9'
+      blue_light: '#EEF5F9',
+      dark_grey: '#474D57',
     },
     screens: {
       mobile: '320px',
@@ -48,5 +51,5 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [],
 };

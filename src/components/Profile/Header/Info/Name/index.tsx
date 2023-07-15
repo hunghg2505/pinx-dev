@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { profileUserContext } from '@components/Profile';
@@ -14,7 +13,7 @@ const Name = () => {
         <h3 className='text-[20px] font-[600]'>{profileUser?.displayName}</h3>
         {profileUser?.isKol && (
           <span className='flex items-center gap-[4px] rounded-[4px] border border-solid border-light_orange py-[2px] pl-[4px] pr-[7px] text-light_orange'>
-            <Image
+            <img
               src='/static/icons/iconStarFollow.svg'
               width={16}
               height={16}
