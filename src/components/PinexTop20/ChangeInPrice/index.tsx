@@ -5,9 +5,8 @@ import { IProfit, useGetTopChangePrice } from '../service';
 
 const ChangeInPrice = () => {
   const { changePriceInY } = useGetTopChangePrice();
-  console.log('🚀 ~ file: index.tsx:8 ~ ChangeInPrice ~ changePriceInY:', changePriceInY);
   return (
-    <div className='mobile-max:pr-[16px]'>
+    <div className=''>
       <Text type='body-14-regular' color='cbblack'>
         Top 20 companies having the largest change in price within 1 year
       </Text>

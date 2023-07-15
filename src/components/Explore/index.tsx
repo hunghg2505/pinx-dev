@@ -44,6 +44,7 @@ const settings = {
 };
 const Explore = () => {
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
+  const refClick: any = React.useRef(null);
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   const router = useRouter();
@@ -74,12 +75,22 @@ const Explore = () => {
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
   };
+  const onClickKeyword = (value: any) => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+    if (refClick?.current) {
+      refClick?.current?.onKeyDown(value);
+    }
+  };
   return (
     <div className='w-full text-left desktop:px-[31px] desktop:py-[20px]'>
       <Text type='body-24-semibold' color='cbblack'>
         Discovery
       </Text>
-      <Search />
+      <Search ref={refClick} />
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
         Themes
@@ -109,7 +120,13 @@ const Explore = () => {
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listKeyWords?.map((item: any, index: number) => {
           return (
-            <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} key={index} data={item} />
+            <div
+              onClick={() => onClickKeyword(item.keyword)}
+              key={index}
+              className='cursor-pointer'
+            >
+              <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} data={item} />
+            </div>
           );
         })}
       </div>
@@ -150,7 +167,7 @@ const Explore = () => {
           );
         })}
       </div>
-      <ExploreButton>
+      <ExploreButton onClick={() => router.push(ROUTE_PATH.TOP_WATCHING)}>
         <Text type='body-14-bold' color='primary-2'>
           Explore top watching stock
         </Text>
@@ -161,7 +178,7 @@ const Explore = () => {
         Top mention stock
       </Text>
       <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
-        Top most watching stocks on PineX
+        Top most mention stocks on PineX
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listMention?.map((item: ITopWatchingStock, index: number) => {
@@ -175,9 +192,9 @@ const Explore = () => {
           );
         })}
       </div>
-      <ExploreButton>
+      <ExploreButton onClick={() => router.push(ROUTE_PATH.TOPMENTION)}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore top watching stock
+          Explore top mention stock
         </Text>
       </ExploreButton>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>

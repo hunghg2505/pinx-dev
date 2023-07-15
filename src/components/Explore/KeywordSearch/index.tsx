@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Text from '@components/UI/Text';
 
 interface Iprops {
@@ -6,6 +8,7 @@ interface Iprops {
 }
 const KeywordSearch = (props: Iprops) => {
   const { percen, data } = props;
+
   return (
     <div className='relative  rounded-[15px] bg-[#F7F6F8] px-[28px] py-[15px]'>
       <div

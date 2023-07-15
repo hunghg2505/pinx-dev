@@ -6,7 +6,7 @@ import { IProfit, useGetTopPrice } from '../service';
 const Price = () => {
   const { price } = useGetTopPrice();
   return (
-    <div className='mobile-max:pr-[16px]'>
+    <div className=''>
       <Text type='body-14-regular' color='cbblack'>
         Top 20 companies having the highest market price based on last closing price
       </Text>

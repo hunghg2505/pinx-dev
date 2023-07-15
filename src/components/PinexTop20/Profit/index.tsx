@@ -6,7 +6,7 @@ import { IProfit, useGetTopProfit } from '../service';
 const Profit = () => {
   const { profit } = useGetTopProfit();
   return (
-    <div className='mobile-max:pr-[16px]'>
+    <div className=''>
       <Text type='body-14-regular' color='cbblack'>
         Top 20 companies having the largest profit in recent quarter
       </Text>

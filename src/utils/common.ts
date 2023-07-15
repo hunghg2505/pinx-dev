@@ -22,6 +22,8 @@ export const ROUTE_PATH = {
   TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
   PAGE_NOT_FOUND: '/page-not-found',
+  SEARCH: '/search',
+  TOP_WATCHING: '/top-watching',
 };
 
 export const formatMessage = (message: string, data: any) => {

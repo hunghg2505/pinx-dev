@@ -24,6 +24,7 @@ export const useGetKeyWordsTop = () => {
   const { data } = useRequest(() => {
     const params = {
       limit: 20,
+      days: 7,
     };
     const isLogin = !!getAccessToken();
     return isLogin
