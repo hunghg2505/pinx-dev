@@ -20,6 +20,7 @@ export const useResponsive = () => {
       // remove the event
       Cleanup();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // update the state on window resize

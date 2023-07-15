@@ -1,0 +1,41 @@
+import { parseJwt } from 'brainless-token-manager';
+import { GetServerSidePropsContext } from 'next';
+import dynamic from 'next/dynamic';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+import SEO from '@components/SEO';
+
+const Profile = dynamic(() => import('@components/Profile'));
+
+const PostDetailPage = (props: any) => {
+  return (
+    <>
+      <SEO title={'Pinex'} />
+      <Profile {...props} />
+    </>
+  );
+};
+// PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+//   return <>{page}</>;
+// };
+
+export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
+  if (typeof req.cookies?.accessToken !== 'string') {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
+        // Will be passed to the page component as props
+      },
+    };
+  }
+  const decoded = parseJwt(req.cookies?.accessToken);
+  return {
+    props: {
+      ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
+      ...decoded,
+      // Will be passed to the page component as props
+    },
+  };
+}
+
+export default PostDetailPage;

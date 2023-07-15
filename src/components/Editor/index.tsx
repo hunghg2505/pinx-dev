@@ -41,9 +41,9 @@ interface IProps {
 
 const beforeUpload = (file: RcFile) => {
   const isJpgOrPng = isImage(file);
-  if (!isJpgOrPng) {
-    console.log('Không phải ảnh');
-  }
+  // if (!isJpgOrPng) {
+  //   console.log('Không phải ảnh');
+  // }
   return isJpgOrPng;
 };
 

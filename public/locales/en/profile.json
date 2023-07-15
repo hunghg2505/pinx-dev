@@ -1,0 +1,15 @@
+{
+  "upgrade_to_trading_account": "Upgrade to trading account",
+  "watchlist_and_theme": "Watchlist and theme",
+  "profile_verification": "Profile verification",
+  "change_password": "Change password",
+  "settings": "Settings",
+  "follower": "Follower",
+  "following": "Following",
+  "search_placeholder": "Look for someone",
+  "don’t_have_any_result": "Don’t have any result",
+  "explore": "Explore",
+  "follow": "Follow",
+  "my_story": "My story",
+  "joined": "Joined since {{year}}"
+}

@@ -70,6 +70,7 @@ const Register = (props: IProps) => {
       deleteRegisterCookies();
       router.push(ROUTE_PATH.LOGIN);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

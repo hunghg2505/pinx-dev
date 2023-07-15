@@ -30,6 +30,7 @@ const RegisterCompanyStep = () => {
 
   useEffect(() => {
     listTopicSuggest.getTopics();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkIsSelected = (value: ITopicCard) => {

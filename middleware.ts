@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PATH: any = [];
+const AUTH_PATH: any = ['/auth'];
+
+const PATH: any = [''];
 
 // Check auth from server side here
 export function middleware(request: NextRequest) {
@@ -9,12 +11,19 @@ export function middleware(request: NextRequest) {
   const token = cookies.get('accessToken');
 
   const url = request.nextUrl.clone();
+
+  const isMatchAuthPath = AUTH_PATH.find((path: string) => request.nextUrl.pathname.includes(path));
   const isMatchPath = PATH.find((path: string) => request.nextUrl.pathname.includes(path));
 
-  if (token && request.nextUrl.pathname === '/auth/login') {
+  if (token && isMatchAuthPath) {
     url.pathname = '/';
     return NextResponse.redirect(url);
   }
+
+  // if (!token && isMatchPath) {
+  //   url.pathname = '/auth/login';
+  //   return NextResponse.redirect(url);
+  // }
 
   return NextResponse.next();
 }
