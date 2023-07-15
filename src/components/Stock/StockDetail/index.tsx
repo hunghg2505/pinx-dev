@@ -8,10 +8,11 @@ import Slider from 'react-slick';
 
 import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
+import { useResponsive } from '@hooks/useResponsive';
 
 import CalendarItem from './CalendarItem';
 import { PieChart } from './Chart';
-import { HOLDING_RATIO, LIST_BUSINESS, PIE_CHART_DATA } from './const';
+import { HOLDING_RATIO, LIST_BUSINESS } from './const';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HoldingRatioItem from './HoldingRatioItem';
@@ -27,7 +28,7 @@ import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupHoldingRatio from '../Popup/PopupHoldingRatio';
 import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
-import { useStockDetail } from '../service';
+import { useShareholder, useStockDetail } from '../service';
 
 const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
@@ -69,11 +70,13 @@ const StockDetail = () => {
   const [openPopupHoldingRatio, setOpenPopupHoldingRatio] = useState(false);
   const [rating, setRating] = useState(0);
   const introDescRef = useRef<HTMLDivElement | null>(null);
+  const { isMobile } = useResponsive();
 
   const router = useRouter();
   const { stockCode }: any = router.query;
 
   const { stockDetail } = useStockDetail(stockCode);
+  const { shareholder } = useShareholder(stockCode);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
@@ -698,58 +701,33 @@ const StockDetail = () => {
             <Text type='body-20-bold'>Shareholders</Text>
 
             {/* chart */}
-            <div className='mt-[28px] flex justify-between'>
-              <div className='flex flex-col gap-y-[24px]'>
-                <div>
-                  <div className='mb-[6px] flex items-center'>
-                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
-                    <Text type='body-14-semibold' className='ml-[4px]'>
-                      26.08%
+            <div className='mt-[28px] flex justify-between gap-x-[12px] tablet:items-center'>
+              <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
+                {shareholder?.data?.map((item, index) => (
+                  <div key={index} className='self-start'>
+                    <div className='mb-[6px] flex items-center'>
+                      <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
+                      <Text type='body-14-semibold' className='ml-[4px]'>
+                        {item.ratio}%
+                      </Text>
+                    </div>
+
+                    <Text type='body-12-regular' className='!leading-[16px] text-[#808A9D]'>
+                      {item.name}
+                    </Text>
+                    <Text type='body-12-regular' color='primary-5' className='!leading-[16px]'>
+                      {item.value}
                     </Text>
                   </div>
-
-                  <Text type='body-12-regular' className='text-[#808A9D]'>
-                    Shareholder 1
-                  </Text>
-                  <Text type='body-12-regular' color='primary-5'>
-                    1,166,400,000
-                  </Text>
-                </div>
-
-                <div>
-                  <div className='mb-[6px] flex items-center'>
-                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
-                    <Text type='body-14-semibold' className='ml-[4px]'>
-                      26.08%
-                    </Text>
-                  </div>
-
-                  <Text type='body-12-regular' className='text-[#808A9D]'>
-                    Shareholder 1
-                  </Text>
-                  <Text type='body-12-regular' color='primary-5'>
-                    1,166,400,000
-                  </Text>
-                </div>
-
-                <div>
-                  <div className='mb-[6px] flex items-center'>
-                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
-                    <Text type='body-14-semibold' className='ml-[4px]'>
-                      26.08%
-                    </Text>
-                  </div>
-
-                  <Text type='body-12-regular' className='text-[#808A9D]'>
-                    Shareholder 1
-                  </Text>
-                  <Text type='body-12-regular' color='primary-5'>
-                    1,166,400,000
-                  </Text>
-                </div>
+                ))}
               </div>
 
-              <PieChart strokeWidth={16} width={183} height={183} data={PIE_CHART_DATA} />
+              <PieChart
+                strokeWidth={isMobile ? 16 : 27}
+                width={isMobile ? 183 : 318}
+                height={isMobile ? 183 : 318}
+                data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
+              />
             </div>
           </div>
 

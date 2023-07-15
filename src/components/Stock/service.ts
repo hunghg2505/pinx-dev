@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import { API_PATH } from '@api/constant';
 import { requestMarket } from '@api/request';
 
-import { IResponseStockDetail } from './type';
+import { IResponseShareholder, IResponseStockDetail } from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
   const { data } = useRequest(() => requestMarket.get(API_PATH.PUBLIC_COMPANY_DETAIL(stockCode)), {
@@ -15,4 +15,22 @@ const useStockDetail = (stockCode: string): IResponseStockDetail => {
   };
 };
 
-export { useStockDetail };
+const useShareholder = (stockCode: string): IResponseShareholder => {
+  const { data } = useRequest(
+    () =>
+      requestMarket.get(API_PATH.PUBLIC_COMPANY_SHAREHOLDER, {
+        params: {
+          stockCode,
+        },
+      }),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    shareholder: data,
+  };
+};
+
+export { useStockDetail, useShareholder };

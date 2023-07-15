@@ -58,14 +58,12 @@ interface IProduct {
   imageUrl: string;
 }
 
-export interface IResponseFinancialIndex {
-  financialIndex?: {
+export interface IResponseShareholder {
+  shareholder?: {
     data?: {
-      dividendYield: number;
-      marketCap: number;
-      pe: number;
-      roe: number;
-      volume: number;
-    };
+      name: string;
+      ratio: number;
+      value: number;
+    }[];
   };
 }
