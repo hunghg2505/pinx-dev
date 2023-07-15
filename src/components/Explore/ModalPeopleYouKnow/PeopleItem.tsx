@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -12,6 +13,8 @@ import {
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
@@ -19,6 +22,8 @@ interface Iprops {
 }
 const PeopleItem = (props: Iprops) => {
   const { data } = props;
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(
     (id: number) => {
@@ -51,10 +56,17 @@ const PeopleItem = (props: Iprops) => {
     },
   );
   const onFollow = (id: number) => {
-    if (isFollow) {
-      useUnFollowUser.run(id);
+    if (isLogin) {
+      if (isFollow) {
+        useUnFollowUser.run(id);
+      } else {
+        useFollowUser.run(id);
+      }
     } else {
-      useFollowUser.run(id);
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   const name =

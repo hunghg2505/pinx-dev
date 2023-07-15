@@ -16,9 +16,9 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 // eslint-disable-next-line import/order
 import { TOAST_LIMIT } from '@utils/constant';
 import '../styles/tailwind.css';
-import '../styles/globals.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import '../styles/globals.scss';
 
 import { ENV } from '@utils/env';
 
@@ -80,7 +80,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <AppLayout InterFont={InterFont}>{getLayout(<Component {...pageProps} />)}</AppLayout>
         </ErrorBoundary>
       </GoogleReCaptchaProvider>
-
     </>
   );
 }

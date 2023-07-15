@@ -1,17 +1,22 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
-import Activities from './Activities';
 import Community from './Community';
-import LandingPageDetailThemes from './LandingPage';
 import StockSymbols from './StockSymbols';
 import { TabsThemeDetailEnum, useGetThemeDetail } from '../service';
 
+const LandingPageDetailThemes = dynamic(() => import('./LandingPage'), {
+  ssr: false,
+});
+const Activities = dynamic(() => import('./Activities'), {
+  ssr: false,
+});
 const ThemeDetail = () => {
   const router = useRouter();
   const isLogin = !!getAccessToken();
@@ -50,12 +55,13 @@ const ThemeDetail = () => {
     if (!isLogin) {
       return item.label === 'Stock symbols';
     }
+    return item;
   });
   const { themeDetail, refresh } = useGetThemeDetail(id);
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsThemeDetailEnum.Community: {
-        return isLogin && <Community payload={themeDetail} />;
+        return isLogin ? <Community payload={themeDetail} /> : <></>;
       }
       case TabsThemeDetailEnum.StockSymbols: {
         return <StockSymbols data={themeDetail} />;
