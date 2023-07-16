@@ -63,8 +63,8 @@ const StockDetail = () => {
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
-    setShowSeeMore(introDescHeight > MAX_HEIGHT);
-  }, []);
+    introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
+  }, [stockDetail]);
 
   const handleBack = () => {
     router.back();
@@ -229,7 +229,7 @@ const StockDetail = () => {
                   '!max-h-max': isSeeMore,
                 })}
               >
-                <div ref={introDescRef}>
+                <div ref={introDescRef} className='leading-[inherit]'>
                   <Text type='body-12-regular' className='!leading-[inherit]'>
                     {stockDetail?.data?.introduction}
                   </Text>
