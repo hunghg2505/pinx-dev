@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
@@ -8,12 +9,18 @@ import { useLoginOtp } from '@components/Auth/Login/OtpVerification/service';
 import OtpVerification from '@components/Auth/OtpVerification';
 import Notification from '@components/UI/Notification';
 import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
+import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import LoginHeader from '@layout/components/LoginHeader';
 import { useAuth } from '@store/auth/useAuth';
 import { settingAtom } from '@store/setting/setting';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useChangePassord } from './service';
+
+const MainHeader = dynamic(() => import('@layout/components/MainHeader'), {
+  ssr: false,
+});
 
 const ChangePasswordVertification = () => {
   const { userLoginInfo } = useUserLoginInfo();
@@ -21,6 +28,7 @@ const ChangePasswordVertification = () => {
   const [settingValues] = useAtom(settingAtom);
   const { onLogout } = useAuth();
   const [otp, setOtp] = useState<string>();
+  const { isMobile } = useResponsive();
 
   const onSubmit = (value: string) => {
     setOtp(value);
@@ -81,14 +89,21 @@ const ChangePasswordVertification = () => {
   }, []);
 
   return (
-    <div className='px-4'>
-      <OtpVerification
-        onSubmit={onSubmit}
-        onResendOtp={onResendOtp}
-        phoneNumber={userLoginInfo.phone}
-      />
-    </div>
+    <>
+      {isMobile ? <LoginHeader /> : <MainHeader />}
 
+      <div className='laptop:mt-[15vh] laptop:flex laptop:items-center laptop:justify-center'>
+        <div className='px-4'>
+          <OtpVerification
+            onSubmit={onSubmit}
+            onResendOtp={onResendOtp}
+            phoneNumber={userLoginInfo.phone}
+            settingLayout
+            otpTime={60}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 
