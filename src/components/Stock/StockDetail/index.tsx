@@ -11,8 +11,8 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 
 import CalendarItem from './CalendarItem';
-import { PieChart } from './Chart';
-import { HOLDING_RATIO, LIST_BUSINESS } from './const';
+import { DonutChart, PieChart } from './Chart';
+import { HOLDING_RATIO, LIST_BUSINESS, PIE_CHART_DATA } from './const';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HoldingRatioItem from './HoldingRatioItem';
@@ -44,23 +44,6 @@ const settings = {
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
-
-const CHART = (
-  <svg
-    width='319'
-    height='296'
-    viewBox='0 0 319 296'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
-    <ellipse opacity='0.5' cx='159.5' cy='158' rx='159' ry='138' fill='#08AADD' />
-    <ellipse cx='159.5' cy='138' rx='159' ry='138' fill='#08AADD' />
-    <path
-      d='M159.5 0C183.749 2.50973e-07 207.676 4.81377 229.452 14.0731L159.5 138V0Z'
-      fill='#F4BDBD'
-    />
-  </svg>
-);
 
 const StockDetail = () => {
   const [showSeeMore, setShowSeeMore] = useState(false);
@@ -339,13 +322,7 @@ const StockDetail = () => {
 
             {/* chart */}
             <div>
-              {/* <img
-                src='/static/icons/revenueChart.svg'
-                alt='Revenue chart'
-                className='h-[296px] w-[318px]'
-              /> */}
-
-              {CHART}
+              <DonutChart width={319} height={296} data={PIE_CHART_DATA} />
             </div>
 
             <div className='mt-[8px]'>

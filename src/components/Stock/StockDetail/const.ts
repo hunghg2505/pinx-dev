@@ -71,7 +71,7 @@ const PIE_CHART_DATA = [
     value: 30,
   },
   {
-    value: 70,
+    value: 40,
   },
 ];
 
