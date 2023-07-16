@@ -18,8 +18,8 @@ import { settingAtom } from '@store/setting/setting';
 import { ROUTE_PATH } from '@utils/common';
 import { REG_USERNAME } from '@utils/reg';
 
-
-const customInputClassName = 'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
+const customInputClassName =
+  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
 const disabledInputClassname = 'text-[--neutral-5]';
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
@@ -54,81 +54,105 @@ const Setting = () => {
 
   return (
     <>
-      <div className='mobile:mt-20'>
-        <Text type='body-20-bold' className='mt-6 ml-4 mb-1'>Change Username</Text>
-        <Form className='mt-10 space-y-7 px-4' form={form} onFinish={onSubmit}>
-          <div>
-            <Text type='body-12-semibold' className='text-[#808A9D]'>Current Username</Text>
-            <FormItem className='mt-2' name='username'>
+      <div className='relative'>
+        <img
+          src='/static/icons/arrow-left.svg'
+          alt=''
+          width='0'
+          height='0'
+          sizes='100vw'
+          className='absolute left-[10px] top-[-4px] h-[32px] w-[32px] cursor-pointer laptop-max:hidden'
+          onClick={() => router.back()}
+        />
+      </div>
+
+      <Text type='body-20-bold' className='mb-1 ml-4 mt-6 laptop:text-center'>
+        Change Username
+      </Text>
+      <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
+        <div>
+          <Text type='body-12-semibold' className='text-[#808A9D]'>
+            Current Username
+          </Text>
+          <FormItem className='mt-2' name='username'>
+            <Input
+              disabled
+              value={userLoginInfo?.username}
+              className={classNames(customInputClassName, disabledInputClassname)}
+            />
+          </FormItem>
+        </div>
+
+        <div>
+          <Text type='body-12-semibold'>New Username</Text>
+          <FormItem
+            className='mt-2'
+            name='newUsername'
+            rules={[
+              {
+                required: true,
+                message: 'New username empty',
+              },
+              {
+                pattern: REG_USERNAME,
+                message: 'Please check username format',
+              },
+            ]}
+          >
+            {(field: any) => (
               <Input
-                disabled
-                value={userLoginInfo?.username}
-                className={classNames(customInputClassName, disabledInputClassname)}
+                onChange={field.onChange}
+                value={field.value}
+                className={classNames(customInputClassName, {
+                  [errorInputClassname]: field.hasError,
+                })}
               />
-            </FormItem>
-          </div>
+            )}
+          </FormItem>
+        </div>
 
-          <div>
-            <Text type='body-12-semibold'>New Username</Text>
-            <FormItem
-              className='mt-2'
-              name='newUsername'
-              rules={[
-                {
-                  required: true,
-                  message: 'New username empty'
+        <div>
+          <Text type='body-12-semibold'>Re-type Username</Text>
+          <FormItem
+            className='mt-2'
+            name='confirmNewUsername'
+            rules={[
+              ({ getFieldValue }: { getFieldValue: any }) => ({
+                validator(_: any, value: any) {
+                  if (getFieldValue('newUsername') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error('Confirm new Username and new Username do not match'),
+                  );
                 },
-                {
-                  pattern: REG_USERNAME,
-                  message: 'Please check username format'
-                }
-              ]}>
-              {(field: any) => (
-                <Input
-                  onChange={field.onChange}
-                  value={field.value}
-                  className={classNames(customInputClassName, {
-                    [errorInputClassname]: field.hasError
-                  })}
-                />
-              )}
-            </FormItem>
-          </div>
+              }),
+            ]}
+          >
+            {(field: any) => (
+              <Input
+                onChange={field.onChange}
+                value={field.value}
+                className={classNames(customInputClassName, {
+                  [errorInputClassname]: field.hasError,
+                })}
+              />
+            )}
+          </FormItem>
+        </div>
 
-          <div>
-            <Text type='body-12-semibold'>Re-type Username</Text>
-            <FormItem
-              className='mt-2'
-              name='confirmNewUsername'
-              rules={[
-                ({ getFieldValue }: { getFieldValue: any }) => ({
-                  validator(_: any, value: any) {
-                    if (getFieldValue('newUsername') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Confirm new Username and new Username do not match'));
-                  },
-                }),
-              ]}>
-              {(field: any) => (
-                <Input
-                  onChange={field.onChange}
-                  value={field.value}
-                  className={classNames(customInputClassName, {
-                    [errorInputClassname]: field.hasError
-                  })}
-                />
-              )}
-            </FormItem>
-          </div>
+        <Text type='body-14-regular'>
+          *Username must be at least 6 characters and contain at least one alphabetic character do
+          not include special characters.
+        </Text>
 
-          <Text type='body-14-regular'>*Username must be at least 6 characters and contain at least one alphabetic character do not include special characters.</Text>
-          <div>
-            <MainButton type='submit' className='w-[calc(100%-32px)] fixed bottom-9'>Next</MainButton>
-          </div>
-        </Form>
-
-      </div >
+        <MainButton
+          type='submit'
+          className='fixed bottom-9 w-[calc(100%-32px)] laptop:absolute laptop:bottom-[-56px] laptop:m-auto laptop:w-1/2 laptop:translate-x-1/2'
+        >
+          Next
+        </MainButton>
+      </Form>
     </>
   );
 };

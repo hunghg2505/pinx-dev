@@ -1,6 +1,7 @@
 /* eslint-disable import/named */
 import React, { useMemo, useState } from 'react';
 
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import type { SwitchChangeEventHandler } from 'rc-switch';
@@ -10,6 +11,7 @@ import { toast } from 'react-hot-toast';
 import { NegativeMainButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { localeAtom } from '@store/locale/locale';
 import { ROUTE_PATH } from '@utils/common';
@@ -26,6 +28,8 @@ interface ISettingItem {
   action?: () => void;
   hideArrow?: boolean;
   hidden?: boolean;
+  linkStyle?: boolean;
+  hideDivider?: boolean;
 }
 
 const Setting = () => {
@@ -34,6 +38,7 @@ const Setting = () => {
   const [visible, setVisible] = useState(false);
   const { onLogout, isLogin } = useAuth();
   const { data: settingsData, loading } = useGetSettings();
+  const { isMobile } = useResponsive();
 
   const requestUpdateSetting = useUpdateSetting({
     onError: (e: any) => {
@@ -67,66 +72,82 @@ const Setting = () => {
       {
         title: 'Version 2.1.1',
         hideArrow: true,
+        hideDivider: !isMobile,
       },
       {
         title: 'Disclosure',
         action: () => window.open(TERM_AND_CONDITION_LINK),
+        linkStyle: !isMobile,
+        hideDivider: !isMobile,
+        hideArrow: !isMobile,
       },
       {
         title: 'Guidance',
         action: () => window.open(TERM_AND_CONDITION_LINK),
+        linkStyle: !isMobile,
+        hideDivider: !isMobile,
+        hideArrow: !isMobile,
       },
       {
         title: 'Hotline',
         action: () => window.open(PHONE_CONTACT_SUPPORT, '_self'),
+        linkStyle: !isMobile,
+        hideDivider: !isMobile,
+        hideArrow: !isMobile,
       },
     ];
-  }, []);
+  }, [isMobile]);
 
   const renderListItem = (item: ISettingItem, index: number) => {
-    return !item.hidden && (
-      <div
-        onClick={() => {
-          if (item.action) {
-            item.action();
-          } else {
-            router.push(item.path || '');
-          }
-        }}
-        key={index}
-        className='flex items-center px-4 pb-4 pt-3 justify-between border-solid border-b-[1px] border-[--neutral-7] cursor-pointer'
-      >
-        <div className='flex items-center'>
-          <Text type='body-12-regular'>
-            {item.title}
-          </Text>
-          {item.isNew && (
-            <img
-              src='/static/images/tag_new.png'
-              alt=''
-              width='0'
-              height='0'
-              sizes='50vw'
-              className='h-[20px] w-[38px] ml-2'
-            />
+    return (
+      !item.hidden && (
+        <div
+          onClick={() => {
+            if (item.action) {
+              item.action();
+            } else {
+              router.push(item.path || '');
+            }
+          }}
+          key={index}
+          className={classNames(
+            'flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 pb-4 pt-3',
+            {
+              'border-none': item.hideDivider,
+            },
           )}
+        >
+          <div className='flex items-center'>
+            <Text type='body-12-regular' color={item.linkStyle ? 'primary-2' : 'cbblack'}>
+              {item.title}
+            </Text>
+            {item.isNew && (
+              <img
+                src='/static/images/tag_new.png'
+                alt=''
+                width='0'
+                height='0'
+                sizes='50vw'
+                className='ml-2 h-[20px] w-[38px]'
+              />
+            )}
+          </div>
 
+          <div className='flex items-center'>
+            {item.value && <Text type='body-12-regular'>{item.value}</Text>}
+            {!item.hideArrow && (
+              <img
+                src='/static/icons/icon_arrow_right.svg'
+                alt=''
+                width='0'
+                height='0'
+                sizes='50vw'
+                className='h-[20px] w-[20px]'
+              />
+            )}
+          </div>
         </div>
-
-        <div className='flex items-center'>
-          {item.value && (<Text type='body-12-regular'>{item.value}</Text>)}
-          {!item.hideArrow && (
-            <img
-              src='/static/icons/icon_arrow_right.svg'
-              alt=''
-              width='0'
-              height='0'
-              sizes='50vw'
-              className='h-[20px] w-[20px]'
-            />
-          )}
-        </div>
-      </div>
+      )
     );
   };
 
@@ -145,43 +166,48 @@ const Setting = () => {
     <>
       <PopupLanguage visible={visible} onToggle={onTogglePopup} />
 
-      <div className='mobile:mt-20'>
-        <Text type='body-20-bold' className='mt-6 ml-4 mb-1'>Settings</Text>
-        {
-          SETTINGS.map((item: any, index: number) => (
-            renderListItem(item, index)
-          ))
-        }
+      <div>
+        <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
+          Settings
+        </Text>
+        <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
+        {SETTINGS.map((item: any, index: number) => renderListItem(item, index))}
 
         {isLogin && (
           <>
-            <Text type='body-20-bold' className='mt-6 ml-4 mb-1'>Social</Text>
-            <div
-              className='flex items-center px-4 pb-4 pt-3 justify-between border-solid border-b-[1px] border-[--neutral-7] cursor-pointer'
-            >
-              <Text type='body-12-regular'>
-                Share watchinglist
-              </Text>
+            <Text type='body-20-bold' className='mb-1 ml-4 mt-6'>
+              Social
+            </Text>
+            <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
 
-              <Switch defaultChecked={settingsData?.data?.share_watchlist === '1'} onChange={onChangeShareWatchlist} />
+            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 pb-4 pt-3 laptop:border-none'>
+              <Text type='body-12-regular'>Share watchinglist</Text>
+
+              <Switch
+                defaultChecked={settingsData?.data?.share_watchlist === '1'}
+                onChange={onChangeShareWatchlist}
+              />
             </div>
           </>
         )}
 
+        <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
+        <Text type='body-20-bold' className='mb-1 ml-4 mt-6'>
+          PineX
+        </Text>
 
-        <Text type='body-20-bold' className='mt-6 ml-4 mb-1'>PineX</Text>
-        {
-          PINEX_HELP.map((item: any, index: number) => (
-            renderListItem(item, index)
-          ))
-        }
+        {PINEX_HELP.map((item: any, index: number) => renderListItem(item, index))}
 
         {isLogin && (
-          <div className='px-4'>
-            <NegativeMainButton onClick={() => onLogout()} className='w-[calc(100%-32px)] fixed bottom-9'>Log out</NegativeMainButton>
+          <div className='px-4 laptop:hidden'>
+            <NegativeMainButton
+              onClick={() => onLogout()}
+              className='fixed bottom-9 w-[calc(100%-32px)]'
+            >
+              Log out
+            </NegativeMainButton>
           </div>
         )}
-
       </div>
     </>
   );

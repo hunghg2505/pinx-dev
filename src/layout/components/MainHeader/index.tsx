@@ -36,7 +36,7 @@ export const IconCloseMenu = () => (
     <path d='M3 20.5L20 3.5' stroke='#589DC0' strokeWidth='2.6' strokeLinecap='round' />
   </svg>
 );
-const Header = () => {
+const MainHeader = () => {
   const router = useRouter();
   const { onLogout } = useAuth();
   const [isShowNavigate, setIsShowNavigate] = React.useState(false);
@@ -104,7 +104,7 @@ const Header = () => {
     setIsShowNavigate(!isShowNavigate);
   };
   return (
-    <div ref={headerRef}>
+    <div ref={headerRef} className='border-b-[1px] border-solid border-[#EBEBEB]'>
       {!isHideHeaderOpenAppOnMobile && (
         <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
           <div className='flex flex-row'>
@@ -236,4 +236,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default MainHeader;
