@@ -39,7 +39,6 @@ const Setting = () => {
   const { onLogout, isLogin } = useAuth();
   const { data: settingsData, loading } = useGetSettings();
   const { isMobile } = useResponsive();
-  console.log('xxx isMobile', isMobile);
 
   const requestUpdateSetting = useUpdateSetting({
     onError: (e: any) => {
