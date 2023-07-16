@@ -322,7 +322,7 @@ const StockDetail = () => {
 
             {/* chart */}
             <div>
-              <DonutChart width={319} height={296} data={PIE_CHART_DATA} />
+              <PieChart width={319} height={296} data={PIE_CHART_DATA} />
             </div>
 
             <div className='mt-[8px]'>
@@ -699,7 +699,7 @@ const StockDetail = () => {
                 ))}
               </div>
 
-              <PieChart
+              <DonutChart
                 strokeWidth={isMobile ? 16 : 27}
                 width={isMobile ? 183 : 318}
                 height={isMobile ? 183 : 318}
