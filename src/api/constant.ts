@@ -32,9 +32,9 @@ export const API_PATH = {
   // PRIVATE_WATCHLIST_STOCK: (id: number) => `/private/watchlist/list/${id}`,
   PRIVATE_WATCHLIST_STOCK: '/private/watchlist/list',
   PRIVATE_HIDE_POST: '/private/mapping/hide',
-
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
+  PRIVATE_ADD_POST: '/private/post/add',
 
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
@@ -106,10 +106,14 @@ export const API_PATH = {
   PUBLIC_TOP_MARKET_CAPITALIZATION: '/public/company/market-capital',
   PUBLIC_TOP_PRICE: '/public/company/price',
   PUBLIC_TOP_CHANGE_PRICE: '/public/company/change-price',
-  
+
   // SETTING
   GET_CUSTOMER_SETTING: '/private/customer/setting',
   GET_CUSTOMER_ALL_SETTINGS: '/private/customer/settings',
   CHANGE_PASSWORD: '/private/customer/change-password',
   CHANGE_USERNAME: '/private/customer/change-username',
+
+  // PROFILE
+  GET_USER_POST: 'private/mapping/other-customer-mappings',
+  GET_USER_WATCHLIST: '/private/watchlist/list/',
 };

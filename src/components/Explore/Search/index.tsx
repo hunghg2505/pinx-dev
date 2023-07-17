@@ -33,7 +33,6 @@ const Search = (props: any, ref: any) => {
     onFocus: () => {},
     onBlur: () => {},
   });
-  console.log('🚀 ~ file: index.tsx:36 ~ Search ~ isFocusWithin:', isFocusWithin);
   const { search, data, loading } = useSearchPublic();
   const { run } = useDebounceFn(
     () => {

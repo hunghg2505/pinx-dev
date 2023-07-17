@@ -2,7 +2,7 @@ import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
 export const ROUTE_PATH = {
-  HOME: '/home',
+  HOME: '/',
   LOGIN: '/auth/login',
   REGISTER: '/auth/sign-up',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -33,7 +33,9 @@ export const ROUTE_PATH = {
   SETTING_CHANGE_PASSWORD: '/setting/change-password',
   SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
   MY_PROFILE: '/profile/my-profile',
-  GIFTCASH: 'gift-cash',
+  GIFTCASH: '/gift-cash',
+  WATCHLIST: '/watchlist',
+  PROFILE: '/profile',
 };
 
 export const formatMessage = (message: string, data: any) => {

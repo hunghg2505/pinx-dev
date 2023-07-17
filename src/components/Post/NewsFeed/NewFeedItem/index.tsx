@@ -66,7 +66,7 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
-
+  const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
@@ -424,6 +424,7 @@ const NewFeedItem = (props: IProps) => {
       className={classNames('newsfeed  border-t border-solid border-[#D8EBFC] py-[24px]', {
         'border-b': totalComments > 0,
       })}
+      onClick={() => router.push(`${ROUTE_PATH.PROFILE}/${customerId}`)}
     >
       <div className='flex flex-row justify-between'>
         <div className='flex cursor-pointer flex-row items-center'>

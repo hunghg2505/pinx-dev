@@ -18,17 +18,17 @@ import {
   requestPist,
   // requestUploadPhoto,
 } from '@api/request';
+import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
+import { isImage } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
-import suggestion from './Suggestion';
-import { isImage } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
@@ -61,7 +61,7 @@ const Editor = (props: IProps, ref?: any) => {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: 'What do you want to comment?',
+        placeholder: 'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
       }),
       Mention.extend({
         name: 'userMention',
@@ -70,7 +70,7 @@ const Editor = (props: IProps, ref?: any) => {
           class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
-          ...suggestion,
+          ...Suggestion,
           char: '@',
           pluginKey: new PluginKey('userMention'),
           items: async ({ query }: { query: string }) => {
@@ -92,7 +92,7 @@ const Editor = (props: IProps, ref?: any) => {
           class: 'stockMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
-          ...suggestion,
+          ...Suggestion,
           pluginKey: new PluginKey('stockMention'),
           char: '%',
           items: async ({ query }: { query: string }) => {
@@ -190,6 +190,7 @@ const Editor = (props: IProps, ref?: any) => {
         }
       },
       onError: (error: any) => {
+        console.log('🚀 ~ file: index.tsx:193 ~ Editor ~ error:', error);
         if (error?.error === 'VSD account is required') {
           toast(() => (
             <Notification
