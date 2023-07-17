@@ -31,6 +31,7 @@ const nextConfig = {
       'image.vietstock.vn',
       'cafefcdn.com',
       'photo-cms-tinnhanhchungkhoan.epicdn.me',
+      'i.pinimg.com',
     ],
   },
   headers: async function headers() {
