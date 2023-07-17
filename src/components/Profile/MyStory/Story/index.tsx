@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 
-import Image from 'next/image';
-
 import { profileUserContext } from '@components/Profile';
 
 import User from './User';
@@ -11,7 +9,7 @@ const Story = ({ closeStory }: { closeStory: () => void }) => {
   return (
     <article className='min-[375px] w-screen max-w-[min(calc(100vw-32px),375px)] overflow-hidden rounded-[12px] text-white'>
       <header className='relative h-[375px] '>
-        <Image src={profileUser?.avatar} alt='story picture' fill className='relative h-auto' />
+        <img src={profileUser?.avatar} alt='story picture' className='relative h-auto' />
         <div className='absolute z-10 flex h-full w-full bg-gradient-to-t  from-neutral_black to-[transparent] px-[20px] pb-[12px] pt-[20px] '>
           <div className='mb-[16px] mt-auto w-full text-center '>
             <button className='absolute right-[20px] top-[20px]' onClick={closeStory}>

@@ -8,7 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 
 const Profile = dynamic(() => import('@components/Profile'));
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const ProfileLayout = dynamic(() => import('@layout/ProfileLayout'));
 
 const PostDetailPage = (props: any) => {
   return (
@@ -19,7 +19,7 @@ const PostDetailPage = (props: any) => {
   );
 };
 PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
+  return <ProfileLayout Layout>{page}</ProfileLayout>;
 };
 
 export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
