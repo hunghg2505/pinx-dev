@@ -19,7 +19,7 @@ const Options = () => {
           <Option link='/lotus' name={t('watchlist_and_theme')} icon='/static/icons/Lotus.svg' />
           <hr className='border-neutral_07' />
           <Option
-            link='/profile'
+            link={ROUTE_PATH.PROFILE_VERIFICATION}
             name={t('profile_verification')}
             icon='/static/icons/Profile icon.svg'
           />

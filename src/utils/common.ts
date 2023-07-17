@@ -36,6 +36,7 @@ export const ROUTE_PATH = {
   GIFTCASH: '/gift-cash',
   WATCHLIST: '/watchlist',
   PROFILE: '/profile',
+  PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -191,4 +192,8 @@ export const encryptPassword = (value: string) => {
   const hash = sha256(value);
   const pass = Base64.stringify(hash);
   return pass;
+};
+
+export const isUserVerified = (acntStat: string | undefined) => {
+  return acntStat === 'ACTIVE';
 };
