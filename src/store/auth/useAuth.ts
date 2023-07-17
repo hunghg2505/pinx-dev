@@ -15,12 +15,16 @@ export interface IAuth {
 
 export const useAuth = () => {
   const router = useRouter();
-  const onLogout = () => {
+  const onLogout = (navigatePath?: string) => {
     try {
       const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
       localStorage.setItem('locale', locale || '');
+      if (navigatePath) {
+        window.location.href = navigatePath;
+        return;
+      }
       if (router.pathname !== ROUTE_PATH.LOGIN) {
         window.location.href = ROUTE_PATH.LOGIN;
       }

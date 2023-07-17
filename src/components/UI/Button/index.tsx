@@ -71,7 +71,17 @@ export const SemiMainButton = ({ ...props }) => (
 );
 
 export const NegativeMainButton = ({ ...props }) => (
-  <Button {...props} customClassName='text-[#1F6EAC] font-[700] text-[17px] bg-[--neutral-8] rounded-[10px] py-[14px] text-center' />
+  <Button
+    {...props}
+    customClassName='text-[#1F6EAC] font-[700] text-[17px] bg-[--neutral-8] rounded-[10px] py-[14px] text-center'
+  />
+);
+
+export const ErrorMainButton = ({ ...props }) => (
+  <Button
+    {...props}
+    customClassName='text-[#DA314F] font-[700] text-[17px] bg-[--neutral-8] rounded-[10px] py-[14px] text-center'
+  />
 );
 
 export const RoundButton = (props: ButtonProps) => {

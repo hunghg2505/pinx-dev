@@ -3,10 +3,16 @@ import React from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+
 import updateImg from './shopinext-update_account.png';
 
 const UpdateAccount = () => {
   const { t } = useTranslation('profile');
+  const { userType } = useUserLoginInfo();
+  if (userType !== 'NEW') {
+    return <></>;
+  }
   return (
     <div className='my-[20px] px-[16px]'>
       <div className='width-[100%]  rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>

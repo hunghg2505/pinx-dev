@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { MainButton, SemiMainButton } from '@components/UI/Button';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUserVerified } from '@utils/common';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import BasicInfo from './BasicInfo';
@@ -36,7 +36,7 @@ const MenuProfile = () => {
       <BasicInfo
         userName={userLoginInfo?.username || 'Anonymous User'}
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
-        status={isLogin ? (userLoginInfo.acntStat === 'ACTIVE' ? 'Verified' : 'Unverified') : ''}
+        status={isLogin ? (isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified') : ''}
       />
       {isLogin ? (
         <>
