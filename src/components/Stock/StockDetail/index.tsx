@@ -11,6 +11,8 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, formatNumber } from '@utils/common';
+import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
@@ -40,6 +42,7 @@ import {
   useMyListStock,
   useShareholder,
   useStockDetail,
+  useStockDetailsExtra,
   useThemesOfStock,
 } from '../service';
 import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
@@ -48,6 +51,8 @@ const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
 const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 const STOCK_EVENT_ITEM_LIMIT = 4;
+const WATCHING_INVESTING_ITEM_LIMIT = 5;
+const HIGHLIGH_ROW_LIMIT = 3;
 
 const settings = {
   dots: false,
@@ -87,13 +92,24 @@ const StockDetail = () => {
   const { holdingRatio } = useHoldingRatio(stockCode);
   const { stockEvents } = useFinancialCalendar(stockCode);
   const { stockThemes } = useThemesOfStock(stockCode);
+  const { stockDetails } = useStockDetailsExtra(stockCode);
+  const { taggingInfo } = useCompanyTaggingInfo(stockCode);
+  const { isDesktop } = useResponsive();
+
+  const urlImageCompany = `${
+    stockDetail?.data?.stockCode?.length === 3 || stockDetail?.data?.stockCode[0] !== 'C'
+      ? stockDetail?.data?.stockCode
+      : stockDetail?.data?.stockCode?.slice(1, 4)
+  }.png`;
+
+  const totalColumnHighligh = Math.ceil(
+    (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
+  );
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
-
-  const { taggingInfo } = useCompanyTaggingInfo(stockCode);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -231,7 +247,11 @@ const StockDetail = () => {
           <div className='mt-[12px] flex items-center justify-between px-[16px]'>
             <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
               <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-                <img src='/static/images/company_logo.png' alt='Logo company' className='block' />
+                <img
+                  src={IMAGE_COMPANY_URL + urlImageCompany}
+                  alt={`Logo ${stockDetail?.data?.name}`}
+                  className='block'
+                />
               </div>
 
               <div>
@@ -256,25 +276,21 @@ const StockDetail = () => {
             <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
               <div className='flex items-center'>
                 <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-                  46,086+
+                  {stockDetails?.data.watchingNo}+
                 </Text>
 
                 <div className='flex items-center'>
-                  <img
-                    src='https://picsum.photos/200/100'
-                    alt='Subscriber user'
-                    className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                  />
-                  <img
-                    src='https://picsum.photos/200/100'
-                    alt='Subscriber user'
-                    className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                  />
-                  <img
-                    src='https://picsum.photos/200/100'
-                    alt='Subscriber user'
-                    className='z-10 block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                  />
+                  {stockDetails?.data.watchingList
+                    .slice(0, 3)
+                    .reverse()
+                    .map((item, index) => (
+                      <img
+                        key={index}
+                        src={item.avatar}
+                        alt='Subscriber user'
+                        className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
+                      />
+                    ))}
                 </div>
               </div>
 
@@ -350,7 +366,7 @@ const StockDetail = () => {
                 {stockDetail?.data?.products.map((item, index) => (
                   <div key={index} className='mr-[28px] !w-[112px]'>
                     <img
-                      src={item.imageUrl}
+                      src={PRODUCT_COMPANY_IMAGE(item.imageUrl)}
                       alt={item.name}
                       className='h-[112px] w-full rounded-[4px] object-cover'
                     />
@@ -446,11 +462,33 @@ const StockDetail = () => {
               Highlights
             </Text>
 
-            <div className='flex flex-wrap gap-[12px]'>
-              {taggingInfo?.data?.highlights.map((item, index) => (
-                <HighlighItem value={item.tagName} key={index} />
-              ))}
-            </div>
+            {(taggingInfo?.data?.highlights && taggingInfo.data.highlights.length <= 6) ||
+            isDesktop ? (
+              <div className='flex flex-wrap gap-[12px]'>
+                {taggingInfo?.data?.highlights.map((item, index) => (
+                  <HighlighItem value={item.tagName} key={index} />
+                ))}
+              </div>
+            ) : (
+              <div
+                className={classNames(
+                  'flex max-w-screen-mobile gap-x-[12px] overflow-x-auto',
+                  styles.noScrollbar,
+                )}
+              >
+                {Array.from({ length: totalColumnHighligh }, (_, index) => index).map(
+                  (_, index) => (
+                    <div key={index} className='flex flex-col gap-y-[12px]'>
+                      {taggingInfo?.data?.highlights
+                        .slice(index, HIGHLIGH_ROW_LIMIT)
+                        .map((highlight, highlighIndex) => (
+                          <HighlighItem value={highlight.tagName} key={highlighIndex} />
+                        ))}
+                    </div>
+                  ),
+                )}
+              </div>
+            )}
           </div>
 
           {/* also own */}
@@ -491,7 +529,7 @@ const StockDetail = () => {
                       Avg. score
                     </Text>
                     <Text type='body-20-medium' color='semantic-2-1'>
-                      4.41
+                      {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
                     </Text>
                   </div>
 
@@ -500,7 +538,7 @@ const StockDetail = () => {
                       Votes
                     </Text>
                     <Text type='body-20-medium' className='text-[#0D0D0D]'>
-                      39
+                      {stockDetails?.data.details.rate.totalRates}
                     </Text>
                   </div>
 
@@ -509,10 +547,10 @@ const StockDetail = () => {
                       Reviews
                     </Text>
 
-                    <Link href='/stock/123/rating'>
+                    <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                       <div className='flex items-center'>
                         <Text type='body-20-medium' color='primary-1'>
-                          14
+                          {stockDetails?.data.details.totalReviews}
                         </Text>
 
                         <img
@@ -526,29 +564,36 @@ const StockDetail = () => {
                 </div>
               </div>
 
-              <ReviewItem />
-
-              {/* <div className='rounded-[12px] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
-                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  No recent review
-                </Text>
-
-                <Text type='body-12-regular' className='mb-[28px] mt-[16px] text-[#999999]'>
-                  Recent review will show up here,so you can easily view them here later
-                </Text>
-
-                <Text type='body-14-bold' color='primary-2' className='inline-block cursor-pointer'>
-                  Review now
-                </Text>
-              </div> */}
-
-              <Link href='/stock/123/rating'>
-                <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    See more review
+              {stockDetails?.data.details.children.length ? (
+                <>
+                  <ReviewItem data={stockDetails.data.details.children[0]} isLatestReview />
+                  <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+                    <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                      <Text type='body-14-bold' color='primary-2'>
+                        See more review
+                      </Text>
+                    </button>
+                  </Link>
+                </>
+              ) : (
+                <div className='rounded-[12px] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
+                  <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                    No recent review
                   </Text>
-                </button>
-              </Link>
+
+                  <Text type='body-12-regular' className='mb-[28px] mt-[16px] text-[#999999]'>
+                    Recent review will show up here,so you can easily view them here later
+                  </Text>
+
+                  <Text
+                    type='body-14-bold'
+                    color='primary-2'
+                    className='inline-block cursor-pointer'
+                  >
+                    Review now
+                  </Text>
+                </div>
+              )}
             </div>
           </div>
 
@@ -561,75 +606,29 @@ const StockDetail = () => {
 
             <div className='mt-[16px] flex items-center justify-between tablet:justify-start'>
               <div className='flex gap-x-[10px]'>
-                <div className='relative'>
-                  <img
-                    src='https://picsum.photos/100/200'
-                    alt='Avatar'
-                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
-                  />
+                {stockDetails?.data.watchingInvestingList
+                  .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
+                  .map((item, index) => (
+                    <div className='relative' key={index}>
+                      <img
+                        src={item.avatar}
+                        alt='Avatar'
+                        className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+                      />
 
-                  <img
-                    src='/static/icons/iconTree.svg'
-                    alt='Icon tree'
-                    className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                  />
-                </div>
+                      <img
+                        src='/static/icons/iconTree.svg'
+                        alt='Icon tree'
+                        className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+                      />
 
-                <div className='relative'>
-                  <img
-                    src='https://picsum.photos/100/200'
-                    alt='Avatar'
-                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
-                  />
-
-                  <img
-                    src='/static/icons/iconHeartActive.svg'
-                    alt='Icon tree'
-                    className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                  />
-                </div>
-
-                <div className='relative'>
-                  <img
-                    src='https://picsum.photos/100/200'
-                    alt='Avatar'
-                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
-                  />
-
-                  <img
-                    src='/static/icons/iconTree.svg'
-                    alt='Icon tree'
-                    className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                  />
-                </div>
-
-                <div className='relative'>
-                  <img
-                    src='https://picsum.photos/100/200'
-                    alt='Avatar'
-                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
-                  />
-
-                  <img
-                    src='/static/icons/iconHeartActive.svg'
-                    alt='Icon tree'
-                    className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                  />
-                </div>
-
-                <div className='relative'>
-                  <img
-                    src='https://picsum.photos/100/200'
-                    alt='Avatar'
-                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
-                  />
-
-                  <img
-                    src='/static/icons/iconTree.svg'
-                    alt='Icon tree'
-                    className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                  />
-                </div>
+                      {/* <img
+                        src='/static/icons/iconHeartActive.svg'
+                        alt='Icon tree'
+                        className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+                      /> */}
+                    </div>
+                  ))}
               </div>
 
               <div
@@ -637,7 +636,7 @@ const StockDetail = () => {
                 className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px]'
               >
                 <Text type='body-14-regular' className='text-[#0D0D0D]'>
-                  46086
+                  {stockDetails?.data.watchingInvestingNo}
                 </Text>
                 <img
                   src='/static/icons/iconBlackRight.svg'

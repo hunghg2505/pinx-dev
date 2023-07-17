@@ -191,3 +191,79 @@ export interface IResponseThemesOfStock {
     data: IStockTheme[];
   };
 }
+
+interface IWatchingInvesting {
+  aid: null;
+  customerId: number;
+  name: string;
+  displayName: string;
+  avatar: string;
+  numberFollowers: number;
+  isKol: boolean;
+  isFeatureProfile: boolean;
+  isWatching: true;
+  isInvesting: boolean;
+  totalFollowers: number;
+}
+
+export interface IResponseStockDetailsExtra {
+  stockDetails?: {
+    data: {
+      details: {
+        id: string;
+        stockCode: string;
+        rate: {
+          rate1: number;
+          rate2: number;
+          rate3: number;
+          rate4: number;
+          rate5: number;
+          totalRates: number;
+          rateAverage: number;
+        };
+        totalReviews: number;
+        totalMentions: number;
+        children: IReview[];
+      };
+      watchingNo: number;
+      watchingInvestingNo: number;
+      watchingList: IWatchingInvesting[];
+      watchingInvestingList: IWatchingInvesting[];
+    };
+  };
+}
+
+export interface IReview {
+  id: string;
+  stockCode: string;
+  customerId: number;
+  customerInfo: {
+    id: number;
+    customerId: number;
+    name: string;
+    displayName: string;
+    avatar: string;
+    numberFollowers: number;
+    isKol: boolean;
+    isFeatureProfile: boolean;
+  };
+  message: string;
+  status: string;
+  tagStocks: null;
+  metadata: null;
+  metadataList: [];
+  urlImages: null;
+  urlLinks: null;
+  tagPeople: null;
+  rateValue: number;
+}
+
+export interface IResponseStockReviews {
+  reviews?: {
+    data: {
+      list: IReview[];
+      last: string;
+      hasNext: boolean;
+    };
+  };
+}

@@ -5,11 +5,15 @@ import { useRouter } from 'next/router';
 import Text from '@components/UI/Text';
 
 import PopupReview from '../Popup/PopupReview';
+import { useStockReviews } from '../service';
 import ReviewItem from '../StockDetail/ReviewItem';
 
 const StockRating = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const router = useRouter();
+  const { stockCode }: any = router.query;
+
+  const { reviews } = useStockReviews(stockCode);
 
   const handleBack = () => {
     router.back();
@@ -52,10 +56,9 @@ const StockRating = () => {
           </Text>
 
           <div className='mb-[32px] flex flex-col gap-y-[16px]'>
-            <ReviewItem />
-            <ReviewItem />
-            <ReviewItem />
-            <ReviewItem />
+            {reviews?.data.list.map((item, index) => (
+              <ReviewItem data={item} key={index} isLatestReview={index === 0} />
+            ))}
           </div>
 
           <div

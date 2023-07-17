@@ -93,7 +93,7 @@ const RegisterCompanyStep = () => {
             )}
           >
             {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] max-[768px]:w-[1000px] max-[480px]:h-[300px] max-[480px]:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
-            <div className='mb-[81px] flex-wrap max-[768px]:h-[350px] max-[768px]:columns-5 max-[480px]:columns-3 mobile:mt-9 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
+            <div className='max-[768px]:h-[350px] max-[768px]:columns-5 max-[480px]:columns-3 mb-[81px] flex-wrap mobile:mt-9 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
                 const urlImageCompany = `${
                   item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'

@@ -1,24 +1,32 @@
 import React from 'react';
 
+import dayjs from 'dayjs';
+
 import Rating from '@components/Stock/Rating';
+import { IReview } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 
-const ReviewItem = () => {
+interface IReviewItemProps {
+  data: IReview;
+  isLatestReview?: boolean;
+}
+
+const ReviewItem = ({ data, isLatestReview }: IReviewItemProps) => {
   return (
     <div>
       <div className='mb-[4px] flex items-center'>
         <img
-          src='https://picsum.photos/100/200'
+          src={data.customerInfo.avatar}
           alt='Reviewer avatar'
           className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover'
         />
 
         <Text type='body-14-semibold' className='ml-[12px] text-[#0D0D0D]'>
-          Robbin Klevar
+          {data.customerInfo.displayName}
         </Text>
 
         <Text type='body-12-regular' className='ml-auto text-[#999999]'>
-          LATEST REVIEW
+          {isLatestReview ? 'LATEST REVIEW' : dayjs().format('DD/MM/YYYY')}
         </Text>
       </div>
 
@@ -33,11 +41,11 @@ const ReviewItem = () => {
           </div>
 
           {/* star */}
-          <Rating star={45} disabled className='!h-[16px] !w-[16px]' />
+          <Rating star={data.rateValue} disabled className='!h-[16px] !w-[16px]' />
         </div>
 
         <Text type='body-14-regular' className='mt-[12px] text-[#0D0D0D]'>
-          Per conubia nostra, per inceptos no more himenaeos.
+          {data.message}
         </Text>
       </div>
     </div>

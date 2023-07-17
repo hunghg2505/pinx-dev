@@ -16,6 +16,7 @@ export const ROUTE_PATH = {
   POST_DETAIL_PATH: '/post',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
   STOCK_EVENT: (stockCode: string) => `/stock/${stockCode}/financial-calendar`,
+  STOCK_REVIEW: (stockCode: string) => `/stock/${stockCode}/rating`,
 };
 
 export const formatMessage = (message: string, data: any) => {

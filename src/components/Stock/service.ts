@@ -10,7 +10,9 @@ import {
   IResponseHoldingRatio,
   IResponseShareholder,
   IResponseStockDetail,
+  IResponseStockDetailsExtra,
   IResponseStockEvents,
+  IResponseStockReviews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
 } from './type';
@@ -140,18 +142,9 @@ const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
 };
 
 const useFinancialCalendar = (stockCode: string): IResponseStockEvents => {
-  const { data } = useRequest(
-    () => {
-      const isLogin = !!getAccessToken();
-
-      return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_EVENTS(stockCode))
-        : Promise.resolve();
-    },
-    {
-      refreshDeps: [stockCode],
-    },
-  );
+  const { data } = useRequest(() => requestCommunity.get(API_PATH.PUBLIC_STOCK_EVENTS(stockCode)), {
+    refreshDeps: [stockCode],
+  });
 
   return {
     stockEvents: data,
@@ -177,6 +170,30 @@ const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
   };
 };
 
+const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => {
+  const { data } = useRequest(
+    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return { stockDetails: data };
+};
+
+const useStockReviews = (stockCode: string): IResponseStockReviews => {
+  const { data } = useRequest(
+    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_REVIEWS(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    reviews: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -187,4 +204,6 @@ export {
   useHoldingRatio,
   useFinancialCalendar,
   useThemesOfStock,
+  useStockDetailsExtra,
+  useStockReviews,
 };
