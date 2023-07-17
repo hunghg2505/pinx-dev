@@ -15,7 +15,7 @@ const Figure = () => {
           <img
             src={profileUser?.coverImage}
             alt='background cover'
-            className='absolute h-full w-full object-cover tablet:rounded-[8px]'
+            className='absolute left-0 top-0 h-full w-full object-cover tablet:rounded-[8px]'
           />
         )}
         {profileUser?.avatar && (
