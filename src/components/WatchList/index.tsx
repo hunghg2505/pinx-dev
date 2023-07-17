@@ -76,7 +76,7 @@ const dataItemInterest = [
 ];
 
 const WatchList = () => {
-  const [isEdit, setIsEdit] = React.useState<boolean>(true);
+  const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const onGoBack = () => {

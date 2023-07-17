@@ -35,6 +35,7 @@ const IconPlus = () => (
 );
 const PostItem = (props: IProps) => {
   const { postDetail } = props;
+  console.log('🚀 ~ file: index.tsx:38 ~ PostItem ~ postDetail:', postDetail);
   const { isLogin, userId } = useUserType();
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = React.useState(false);

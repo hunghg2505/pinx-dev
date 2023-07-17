@@ -35,6 +35,7 @@ export const ROUTE_PATH = {
   MY_PROFILE: '/profile/my-profile',
   GIFTCASH: '/gift-cash',
   WATCHLIST: '/watchlist',
+  PROFILE: '/profile',
 };
 
 export const formatMessage = (message: string, data: any) => {
