@@ -1,14 +1,16 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestMarket, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestMarket, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 import {
   IOptions,
   IResponseFinancialIndex,
+  IResponseHoldingRatio,
   IResponseShareholder,
   IResponseStockDetail,
+  IResponseStockEvents,
   IResponseTaggingInfo,
 } from './type';
 
@@ -118,6 +120,43 @@ const useFinancialIndex = (stockCode: string, options?: IOptions): IResponseFina
   };
 };
 
+const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
+  const { data } = useRequest(
+    () =>
+      requestMarket.get(API_PATH.PUBLIC_COMPANY_OWNERSHIP, {
+        params: {
+          stockCode,
+        },
+      }),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    holdingRatio: data,
+  };
+};
+
+const useFinancialCalendar = (stockCode: string): IResponseStockEvents => {
+  const { data } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_EVENTS(stockCode))
+        : Promise.resolve();
+    },
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    stockEvents: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -125,4 +164,6 @@ export {
   useFollowOrUnfollowStock,
   useCompanyTaggingInfo,
   useFinancialIndex,
+  useHoldingRatio,
+  useFinancialCalendar,
 };

@@ -10,11 +10,10 @@ import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
-import { formatNumber } from '@utils/common';
+import { ROUTE_PATH, formatNumber } from '@utils/common';
 
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
-import { HOLDING_RATIO } from './const';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HighlighItem from './HighlighItem';
@@ -34,8 +33,10 @@ import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
+  useFinancialCalendar,
   useFinancialIndex,
   useFollowOrUnfollowStock,
+  useHoldingRatio,
   useMyListStock,
   useShareholder,
   useStockDetail,
@@ -45,6 +46,7 @@ import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
 const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
 const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
+const STOCK_EVENT_ITEM_LIMIT = 4;
 
 const settings = {
   dots: false,
@@ -81,6 +83,8 @@ const StockDetail = () => {
     },
   });
   const { financialIndex } = useFinancialIndex(stockCode);
+  const { holdingRatio } = useHoldingRatio(stockCode);
+  const { stockEvents } = useFinancialCalendar(stockCode);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
@@ -685,20 +689,20 @@ const StockDetail = () => {
             </Text>
 
             <div className='grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:grid-cols-2'>
-              <CalendarItem active />
-
-              <CalendarItem />
-
-              <CalendarItem />
+              {stockEvents?.data.list.slice(0, STOCK_EVENT_ITEM_LIMIT).map((item, index) => (
+                <CalendarItem key={index} data={item.post} />
+              ))}
             </div>
 
-            <Link href='/stock/123/financial-calendar'>
-              <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  More HPG events
-                </Text>
-              </button>
-            </Link>
+            {stockEvents?.data && stockEvents.data.list.length > STOCK_EVENT_ITEM_LIMIT && (
+              <Link href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
+                <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
+                  <Text type='body-14-bold' color='primary-2'>
+                    More {stockDetail?.data?.stockCode} events
+                  </Text>
+                </button>
+              </Link>
+            )}
           </div>
 
           {/* financial */}
@@ -765,21 +769,9 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>Holding ratio</Text>
 
             <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
-              {HOLDING_RATIO.slice(0, 4).map((item, index) => (
-                <HoldingRatioItem key={index} label={item.label} value={item.value} />
+              {holdingRatio?.data.map((item, index) => (
+                <HoldingRatioItem key={index} label={item.name} value={`${item.rate}%`} />
               ))}
-              <div
-                onClick={() => setOpenPopupHoldingRatio(true)}
-                className='px-[20px] py-[16px] text-center [&:not(:last-child)]:[border-bottom:1px_solid_#E6E6E6]'
-              >
-                <Text
-                  type='body-14-semibold'
-                  color='primary-2'
-                  className='inline-block cursor-pointer'
-                >
-                  See more
-                </Text>
-              </div>
             </div>
           </div>
 

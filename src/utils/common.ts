@@ -15,6 +15,7 @@ export const ROUTE_PATH = {
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
+  STOCK_EVENT: (stockCode: string) => `/stock/${stockCode}/financial-calendar`,
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -152,4 +153,11 @@ export function toNonAccentVietnamese(str: any) {
 
 export const formatNumber = (value: number) => {
   return value.toLocaleString('en-US');
+};
+
+export const getMonthName = (monthNumber: number) => {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+
+  return date.toLocaleString('en-US', { month: 'long' });
 };

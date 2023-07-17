@@ -6,10 +6,14 @@ import { useRouter } from 'next/router';
 import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 
+import { useFinancialCalendar } from '../service';
 import CalendarItem from '../StockDetail/CalendarItem';
 
 const FinancialCalendar = () => {
   const router = useRouter();
+  const { stockCode }: any = router.query;
+
+  const { stockEvents } = useFinancialCalendar(stockCode);
 
   const handleBack = () => {
     router.back();
@@ -50,15 +54,9 @@ const FinancialCalendar = () => {
 
           <div className='px-[16px] tablet:px-[24px]'>
             <div className='mb-[32px] mt-[20px] grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:grid-cols-2'>
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
-              <CalendarItem />
+              {stockEvents?.data.list.map((item, index) => (
+                <CalendarItem key={index} data={item.post} />
+              ))}
             </div>
           </div>
         </div>

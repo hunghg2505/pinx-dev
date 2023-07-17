@@ -144,3 +144,35 @@ export interface IFinancialIndex {
   [FinancialIndexKey.roe]: number;
   [FinancialIndexKey.pe]: number;
 }
+
+export interface IResponseHoldingRatio {
+  holdingRatio?: {
+    data: {
+      date: string;
+      name: string;
+      note: string;
+      rate: number;
+      shares: number;
+    }[];
+  };
+}
+
+export interface IResponseStockEvents {
+  stockEvents?: {
+    data: {
+      list: {
+        post: StockEventPost;
+      }[];
+      last: string;
+      hasNext: boolean;
+    };
+  };
+}
+
+export interface StockEventPost {
+  note: string;
+  name: string;
+  publishTime: string;
+  tagStocks: string[];
+  fileUrl: string;
+}

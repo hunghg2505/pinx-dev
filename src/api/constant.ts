@@ -72,6 +72,8 @@ export const API_PATH = {
     `/private/watchlist/stock/${stockCode}/remove`,
   PUBLIC_COMPANY_TAGGING_INFO: (stockCode: string) => `/public/company/tagging-info/${stockCode}`,
   PUBLIC_FINANCIAL_INDEX: '/public/company/financial-index',
+  PUBLIC_COMPANY_OWNERSHIP: '/public/company/ownership',
+  PRIVATE_STOCK_EVENTS: (stockCode: string) => `/private/stock/${stockCode}/events`,
 
   // theme
   PRIVATE_THEMES: '/private/themes',

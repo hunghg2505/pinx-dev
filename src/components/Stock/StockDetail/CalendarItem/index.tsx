@@ -1,16 +1,29 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 
+import { StockEventPost } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+import { getMonthName } from '@utils/common';
 
 interface ICalendarItemProps {
-  active?: boolean;
+  data: StockEventPost;
 }
 
-const CalendarItem = ({ active = false }: ICalendarItemProps) => {
+const CalendarItem = ({ data }: ICalendarItemProps) => {
+  const currentMonth = new Date().getMonth() + 1;
+  const active = currentMonth === new Date(data.publishTime).getMonth() + 1;
+
+  const handleOpenPdfFile = () => {
+    window.open(data.fileUrl, '_blank');
+  };
+
   return (
-    <div className='flex cursor-pointer items-center rounded-[8px] bg-[#F7F6F8] p-[8px]'>
+    <div
+      onClick={handleOpenPdfFile}
+      className='flex cursor-pointer items-center rounded-[8px] bg-[#F7F6F8] p-[8px]'
+    >
       <div className='flex h-[73px] w-[68px] flex-col rounded-[8px] shadow-[0px_1px_2px_0px_#0000001F]'>
         <div
           className={classNames(
@@ -21,28 +34,30 @@ const CalendarItem = ({ active = false }: ICalendarItemProps) => {
             },
           )}
         >
-          <Text type='body-14-medium' color='cbwhite'>
-            May
+          <Text type='body-12-medium' color='cbwhite'>
+            {getMonthName(dayjs(data.publishTime).get('month') + 1)}
           </Text>
         </div>
 
         <div className='flex-1 rounded-bl-[8px] rounded-br-[8px] bg-white text-center'>
           <Text type='body-24-bold' color='primary-5'>
-            1
+            {dayjs(data.publishTime).get('D') < 10
+              ? `0${dayjs(data.publishTime).get('D')}`
+              : dayjs(data.publishTime).get('D')}
           </Text>
           <Text type='body-14-medium' className='text-[#999999]'>
-            2023
+            {dayjs(data.publishTime).get('y')}
           </Text>
         </div>
       </div>
 
       <div className='ml-[16px] flex-1'>
         <Text type='body-16-semibold' className='!leading-[21px] text-[#0D0D0D]'>
-          Earnings stock data company Q2 2021
+          {data.note}
         </Text>
 
         <Text type='body-12-regular' className='mt-[4px] text-[#474D57]'>
-          HPG
+          {data.tagStocks.join(', ')}
         </Text>
       </div>
     </div>
