@@ -66,7 +66,6 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
-  console.log('🚀 ~ file: index.tsx:68 ~ NewFeedItem ~ postDetail:', postDetail);
   const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);

@@ -35,7 +35,6 @@ const IconPlus = () => (
 );
 const PostItem = (props: IProps) => {
   const { postDetail } = props;
-  console.log('🚀 ~ file: index.tsx:38 ~ PostItem ~ postDetail:', postDetail);
   const { isLogin, userId } = useUserType();
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = React.useState(false);
@@ -238,7 +237,7 @@ const PostItem = (props: IProps) => {
   };
   return (
     <>
-      <div className='rounded-[12px] bg-[#FFF] p-[16px] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+      <div className='rounded-[12px] bg-[#FFF] p-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9]'>
         <div className={classNames('newsfeed')}>
           <div className='flex flex-row justify-between'>
             <div className='flex cursor-pointer flex-row items-center'>
