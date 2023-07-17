@@ -12,8 +12,7 @@ interface ICalendarItemProps {
 }
 
 const CalendarItem = ({ data }: ICalendarItemProps) => {
-  const currentMonth = new Date().getMonth();
-  const active = new Date(data.publishTime).getMonth() >= currentMonth;
+  const active = dayjs().isBefore(data.publishTime);
 
   const handleOpenPdfFile = () => {
     window.open(data.fileUrl, '_blank');
