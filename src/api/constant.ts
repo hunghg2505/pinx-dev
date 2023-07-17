@@ -112,4 +112,8 @@ export const API_PATH = {
   GET_CUSTOMER_ALL_SETTINGS: '/private/customer/settings',
   CHANGE_PASSWORD: '/private/customer/change-password',
   CHANGE_USERNAME: '/private/customer/change-username',
+
+  // PROFILE
+  GET_USER_POST: 'private/mapping/other-customer-mappings',
+  GET_USER_WATCHLIST: '/private/watchlist/list/',
 };

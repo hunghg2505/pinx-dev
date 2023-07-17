@@ -7,8 +7,10 @@ import TabBar from '@components/common/RCTabBar';
 
 import Assets from './Assets';
 import LockIcon from './lock-closed';
+import Posts from './Posts';
+import WatchList from './WatchList';
 
-const RightBar = () => {
+const TabsContent = () => {
   const { t } = useTranslation('profile');
   const [state, setState] = useState({ tab: 'assets' });
 
@@ -36,10 +38,10 @@ const RightBar = () => {
         }}
       >
         <TabPane tab={t('post')} key='post'>
-          <h1>hello post</h1>
+          <Posts />
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
-          <h1>hello watchlist</h1>
+          <WatchList />
         </TabPane>
         <TabPane
           tab={
@@ -56,4 +58,4 @@ const RightBar = () => {
     </div>
   );
 };
-export default RightBar;
+export default TabsContent;
