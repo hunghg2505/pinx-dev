@@ -176,3 +176,18 @@ export interface StockEventPost {
   tagStocks: string[];
   fileUrl: string;
 }
+
+export interface IStockTheme {
+  latestSubscribe: {
+    avatar: string;
+  }[];
+  name: string;
+  url: string;
+  totalSubscribe: number;
+}
+
+export interface IResponseThemesOfStock {
+  stockThemes: {
+    data: IStockTheme[];
+  };
+}

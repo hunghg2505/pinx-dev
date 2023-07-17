@@ -40,6 +40,7 @@ import {
   useMyListStock,
   useShareholder,
   useStockDetail,
+  useThemesOfStock,
 } from '../service';
 import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
 
@@ -85,6 +86,7 @@ const StockDetail = () => {
   const { financialIndex } = useFinancialIndex(stockCode);
   const { holdingRatio } = useHoldingRatio(stockCode);
   const { stockEvents } = useFinancialCalendar(stockCode);
+  const { stockThemes } = useThemesOfStock(stockCode);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
@@ -668,15 +670,19 @@ const StockDetail = () => {
           </div>
 
           {/* featured in themes */}
-          <div className='mt-[28px]'>
-            <div className='mb-[16px] px-[16px] tablet:px-[24px]'>
-              <Text type='body-20-semibold'>Featured in themes</Text>
-            </div>
+          {stockThemes && (
+            <div className='mt-[28px]'>
+              <div className='mb-[16px] px-[16px] tablet:px-[24px]'>
+                <Text type='body-20-semibold'>Featured in themes</Text>
+              </div>
 
-            <div className='px-[16px] tablet:px-[24px]'>
-              <ThemeItem />
+              <div className='px-[16px] tablet:px-[24px]'>
+                {stockThemes.data.map((item, index) => (
+                  <ThemeItem key={index} data={item} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* calendar */}
           <div className='mt-[28px] px-[16px] tablet:px-[24px]'>

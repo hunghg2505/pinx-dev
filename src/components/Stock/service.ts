@@ -12,6 +12,7 @@ import {
   IResponseStockDetail,
   IResponseStockEvents,
   IResponseTaggingInfo,
+  IResponseThemesOfStock,
 } from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
@@ -157,6 +158,25 @@ const useFinancialCalendar = (stockCode: string): IResponseStockEvents => {
   };
 };
 
+const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
+  const { data } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_THEME_OF_STOCK(stockCode))
+        : Promise.resolve();
+    },
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    stockThemes: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -166,4 +186,5 @@ export {
   useFinancialIndex,
   useHoldingRatio,
   useFinancialCalendar,
+  useThemesOfStock,
 };

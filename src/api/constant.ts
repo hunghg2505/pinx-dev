@@ -74,6 +74,7 @@ export const API_PATH = {
   PUBLIC_FINANCIAL_INDEX: '/public/company/financial-index',
   PUBLIC_COMPANY_OWNERSHIP: '/public/company/ownership',
   PRIVATE_STOCK_EVENTS: (stockCode: string) => `/private/stock/${stockCode}/events`,
+  PRIVATE_THEME_OF_STOCK: (stockCode: string) => `/private/theme/stock-code/${stockCode}`,
 
   // theme
   PRIVATE_THEMES: '/private/themes',
