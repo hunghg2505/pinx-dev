@@ -46,6 +46,7 @@ export interface IUserTheme {
 export const useGetThemeDetail = (code: any) => {
   const { data, refresh } = useRequest(() => {
     const isLogin = !!getAccessToken();
+    console.log('🚀 ~ file: service.ts:49 ~ const{data,refresh}=useRequest ~ isLogin:', isLogin);
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_THEME_DETAIL(code))
       : requestPist.get(API_PATH.PUBLIC_GET_THEME_DETAIL(code));

@@ -147,12 +147,16 @@
   font-weight: 600 !important;
 }
 // menu
-.rc-menu-item-selected {
-  background-color: #eaf4fb;
-  padding: 10px;
-  border-radius: 10px;
+.rc-menu{
+  .active {
+    background-color: #eaf4fb;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  a{
+    width: 100%;
+  }
 }
-
 .rc-picker-focused {
   border: none !important;
 }

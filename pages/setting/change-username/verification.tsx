@@ -1,9 +1,6 @@
-import { ReactElement } from 'react';
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import ChangeUsernameVertification from '@components/Setting/ChangeUsername/OtpVerification';
-import SettingLayout from '@layout/SettingLayout';
 
 const ChangeUsernameVerificationPage = () => {
   return (
@@ -11,10 +8,6 @@ const ChangeUsernameVerificationPage = () => {
       <ChangeUsernameVertification />
     </div>
   );
-};
-
-ChangeUsernameVerificationPage.getLayout = function getLayout(page: ReactElement) {
-  return <SettingLayout>{page}</SettingLayout>;
 };
 
 export async function getStaticProps({ locale }: any) {

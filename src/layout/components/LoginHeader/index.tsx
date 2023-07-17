@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
-const Header = () => {
+const LoginHeader = () => {
   const router = useRouter();
 
   return (
@@ -21,4 +21,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoginHeader;
