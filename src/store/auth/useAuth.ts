@@ -23,6 +23,7 @@ export const useAuth = () => {
         window.location.href = ROUTE_PATH.LOGIN;
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log('Logout error', error);
     }
   };
@@ -36,6 +37,7 @@ export const useAuth = () => {
       });
       // run();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   };
@@ -49,6 +51,7 @@ export const useAuth = () => {
       });
       // requestGetProfile();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   };
