@@ -70,6 +70,7 @@ export const API_PATH = {
   PUBLIC_COMPANY_SHAREHOLDER: '/public/company/shareholder',
   PRIVATE_WATCH_LIST_STOCK_REMOVE: (stockCode: string) =>
     `/private/watchlist/stock/${stockCode}/remove`,
+  PUBLIC_COMPANY_TAGGING_INFO: (stockCode: string) => `/public/company/tagging-info/${stockCode}`,
 
   // theme
   PRIVATE_THEMES: '/private/themes',

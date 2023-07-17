@@ -85,3 +85,40 @@ export interface IResponseMyStocks {
     }[];
   }[];
 }
+
+interface IHighlights {
+  id: string;
+  tagName: string;
+  description: string;
+}
+
+interface IRevenue {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  sourceVi: string;
+  sourceEn: null;
+  revenueValue: number;
+  percentage: number;
+  reference: null;
+}
+
+interface IIndustrie {
+  id: string;
+  tagName: string;
+  description: string;
+}
+
+export interface IResponseTaggingInfo {
+  taggingInfo?: {
+    data?: {
+      companyId: string;
+      stockCode: string;
+      name: string;
+      products: IProduct[];
+      highlights: IHighlights[];
+      revenues: IRevenue[];
+      industries: IIndustrie[];
+    };
+  };
+}

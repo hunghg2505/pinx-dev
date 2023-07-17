@@ -38,7 +38,7 @@ const PieChart = ({ width, height, data }: IPieChartProps) => {
   }, [data]);
 
   const Pie = (data: { value: number }[]) => {
-    let start = 0;
+    let start = -90;
     return data.map((item, index) => {
       const percent = item.value;
       const pie = {

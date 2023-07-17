@@ -13,14 +13,16 @@ import { useUserType } from '@hooks/useUserType';
 
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
-import { HOLDING_RATIO, LIST_BUSINESS, PIE_CHART_DATA } from './const';
+import { HOLDING_RATIO } from './const';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
+import HighlighItem from './HighlighItem';
 import HoldingRatioItem from './HoldingRatioItem';
 import IntradayTab from './IntradayTab';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
 import NewsItem from './NewsItem';
+import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
@@ -30,6 +32,7 @@ import PopupHoldingRatio from '../Popup/PopupHoldingRatio';
 import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
 import {
+  useCompanyTaggingInfo,
   useFollowOrUnfollowStock,
   useMyListStock,
   useShareholder,
@@ -80,6 +83,8 @@ const StockDetail = () => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
+
+  const { taggingInfo } = useCompanyTaggingInfo(stockCode);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -311,7 +316,7 @@ const StockDetail = () => {
               <Text type='body-20-semibold'>Main business</Text>
             </div>
 
-            {LIST_BUSINESS.map((item, index) => (
+            {taggingInfo?.data?.industries.map((item, index) => (
               <div
                 className='flex cursor-pointer items-center border-b border-solid border-[var(--neutral-7)] py-[12px]'
                 key={index}
@@ -332,7 +337,7 @@ const StockDetail = () => {
                 )}
 
                 <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
-                  {item}
+                  {item.tagName}
                 </Text>
 
                 <div className='ml-auto px-[6px]'>
@@ -352,32 +357,31 @@ const StockDetail = () => {
               Revenue Sources
             </Text>
 
-            {/* chart */}
-            <div>
-              <PieChart width={319} height={296} data={PIE_CHART_DATA} />
-            </div>
-
-            <div className='mt-[8px]'>
-              <div className='flex items-center border-b border-solid border-[var(--neutral-7)] py-[16px]'>
-                <div className='h-[20px] w-[20px] rounded-full bg-[#08AADD]'></div>
-                <Text type='body-14-semibold' className='ml-[10px] text-[#0D0D0D]'>
-                  Selling
-                </Text>
-
-                <Text type='body-14-semibold' className='ml-auto'>
-                  92.7%
-                </Text>
+            <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
+              <div className='flex justify-center'>
+                <PieChart
+                  width={319}
+                  height={296}
+                  data={
+                    taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || []
+                  }
+                />
               </div>
 
-              <div className='flex items-center border-b border-solid border-[var(--neutral-7)] py-[16px]'>
-                <div className='h-[20px] w-[20px] rounded-full bg-[#F4BDBD]'></div>
-                <Text type='body-14-semibold' className='ml-[10px] text-[#0D0D0D]'>
-                  Other
+              <div className='mt-[28px] tablet:flex-1'>
+                <Text
+                  type='body-10-regular'
+                  color='primary-5'
+                  className='text-center tablet:text-right'
+                >
+                  Last updated: The 4th quarter year 2022
                 </Text>
 
-                <Text type='body-14-semibold' className='ml-auto'>
-                  7.3%
-                </Text>
+                <div className='mt-[8px]'>
+                  {taggingInfo?.data?.revenues.map((item, index) => (
+                    <RevenueItem key={index} value={item.percentage} label={item.sourceVi} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -389,41 +393,9 @@ const StockDetail = () => {
             </Text>
 
             <div className='flex flex-wrap gap-[12px]'>
-              <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
-                <Text type='body-14-medium' color='primary-2'>
-                  #Asia
-                </Text>
-              </div>
-
-              <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
-                <Text type='body-14-medium' color='primary-2'>
-                  #Greenenvironment
-                </Text>
-              </div>
-
-              <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
-                <Text type='body-14-medium' color='primary-2'>
-                  #Internationalquality
-                </Text>
-              </div>
-
-              <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
-                <Text type='body-14-medium' color='primary-2'>
-                  #USA
-                </Text>
-              </div>
-
-              <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
-                <Text type='body-14-medium' color='primary-2'>
-                  #Scholarship
-                </Text>
-              </div>
-
-              <div className='flex h-[30px] items-center justify-center rounded-full border border-solid border-[#B1D5F1] px-[10px]'>
-                <Text type='body-14-medium' color='primary-2'>
-                  #Socialfund
-                </Text>
-              </div>
+              {taggingInfo?.data?.highlights.map((item, index) => (
+                <HighlighItem value={item.tagName} key={index} />
+              ))}
             </div>
           </div>
 
