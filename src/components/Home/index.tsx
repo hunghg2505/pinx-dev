@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
@@ -26,6 +26,7 @@ import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
 import ListTheme from './ListTheme';
 import Market from './Market';
+import ModalCompose from './ModalCompose';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import {
   requestJoinIndex,
@@ -44,15 +45,21 @@ const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
   const router = useRouter();
+  const refModal: any = useRef();
   const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
     requestJoinIndex();
   });
+
+  const onShowModal = () => {
+    refModal?.current?.onVisible && refModal?.current?.onVisible();
+  };
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const refScroll = React.useRef(null);
+  const [isPost, setIsPost] = React.useState(false);
   // const { t } = useTranslation('home');
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
@@ -65,17 +72,24 @@ const Home = () => {
         const index = newData.findIndex((fi) => fi.id === item.id);
 
         if (index < 0) {
-          newData.push(item);
+          if (isPost) {
+            newData.unshift(item);
+          } else {
+            newData.push(item);
+          }
         }
 
         if (index >= 0) {
           newData.splice(index, 1, item);
         }
       }
-
       setNewFeed(newData);
     },
   });
+  const addPostSuccess = () => {
+    setIsPost(true);
+    refresh();
+  };
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
@@ -88,6 +102,9 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastNewFeed]);
   const loadMore = () => {
+    if (isPost) {
+      setIsPost(false);
+    }
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
     const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
     if (Math.floor(heightTop) === heigtBottom) {
@@ -230,6 +247,7 @@ const Home = () => {
                   </div>
                   <div className='mt-[5px] pl-[61px]'>
                     <textarea
+                      onClick={onShowModal}
                       placeholder='What is in your mind?'
                       className='w-full rounded-[5px] bg-[#EFF2F5] pl-[10px] pt-[10px] focus:outline-none desktop:h-[70px]'
                     />
@@ -398,6 +416,7 @@ const Home = () => {
         </div>
       )}
       <ComposeButton />
+      <ModalCompose ref={refModal} refresh={addPostSuccess} />
       {!isLogin && <FooterSignUp />}
     </>
   );
