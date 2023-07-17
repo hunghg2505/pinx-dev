@@ -106,10 +106,14 @@ export const API_PATH = {
   PUBLIC_TOP_MARKET_CAPITALIZATION: '/public/company/market-capital',
   PUBLIC_TOP_PRICE: '/public/company/price',
   PUBLIC_TOP_CHANGE_PRICE: '/public/company/change-price',
-  
+
   // SETTING
   GET_CUSTOMER_SETTING: '/private/customer/setting',
   GET_CUSTOMER_ALL_SETTINGS: '/private/customer/settings',
   CHANGE_PASSWORD: '/private/customer/change-password',
   CHANGE_USERNAME: '/private/customer/change-username',
+
+  // PROFILE
+  GET_USER_POST: 'private/mapping/other-customer-mappings',
+  GET_USER_WATCHLIST: '/private/watchlist/list/',
 };

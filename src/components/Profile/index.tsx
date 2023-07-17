@@ -6,7 +6,7 @@ import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 
 import Header from './Header';
 import MyStory from './MyStory';
-import RightBar from './RightBar';
+import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);
 
@@ -25,7 +25,7 @@ const Profile = (props: any) => {
           <div className='rounded-[8px] bg-white shadow-[0_1px_2px_0px_rgba(88,102,126,0.12)] tablet:px-[24px] tablet:py-[20px]'>
             <Header />
             <MyStory />
-            <RightBar />
+            <TabsContent />
           </div>
         </div>
       </div>
