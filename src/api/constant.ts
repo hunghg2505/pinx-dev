@@ -68,6 +68,8 @@ export const API_PATH = {
   PUBLIC_COMPANY_DETAIL: (stockCode: string) => `/public/company/${stockCode}/detail`,
   PUBLIC_COMPANY_FINANCIAL_INDEX: '/public/company/financial-index',
   PUBLIC_COMPANY_SHAREHOLDER: '/public/company/shareholder',
+  PRIVATE_WATCH_LIST_STOCK_REMOVE: (stockCode: string) =>
+    `/private/watchlist/stock/${stockCode}/remove`,
 
   // theme
   PRIVATE_THEMES: '/private/themes',

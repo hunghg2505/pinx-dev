@@ -67,3 +67,21 @@ export interface IResponseShareholder {
     }[];
   };
 }
+
+export interface IOptions {
+  onSuccess?: (res: any) => void;
+  onError?: (error: any) => void;
+}
+
+export interface IResponseMyStocks {
+  data: {
+    customerId: number;
+    name: string;
+    stocks: {
+      stockCode: string;
+      stockExchange: string;
+      name: string;
+      shortName: string;
+    }[];
+  }[];
+}

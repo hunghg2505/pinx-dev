@@ -9,6 +9,7 @@ import Slider from 'react-slick';
 import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import { useUserType } from '@hooks/useUserType';
 
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
@@ -28,7 +29,13 @@ import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupHoldingRatio from '../Popup/PopupHoldingRatio';
 import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
-import { useShareholder, useStockDetail } from '../service';
+import {
+  useFollowOrUnfollowStock,
+  useMyListStock,
+  useShareholder,
+  useStockDetail,
+} from '../service';
+import { IResponseMyStocks } from '../type';
 
 const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
@@ -52,19 +59,33 @@ const StockDetail = () => {
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupHoldingRatio, setOpenPopupHoldingRatio] = useState(false);
   const [rating, setRating] = useState(0);
+  const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
+  const { isLogin } = useUserType();
 
   const router = useRouter();
   const { stockCode }: any = router.query;
 
   const { stockDetail } = useStockDetail(stockCode);
   const { shareholder } = useShareholder(stockCode);
+  const { refreshMyStocks } = useMyListStock({
+    onSuccess: (res: null | IResponseMyStocks) => {
+      const isFollowed = !!(res && res.data[0].stocks.some((item) => item.stockCode === stockCode));
+      setIsFollowedStock(isFollowed);
+    },
+  });
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
+
+  const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
+    onSuccess: () => {
+      refreshMyStocks();
+    },
+  });
 
   const handleBack = () => {
     router.back();
@@ -80,6 +101,11 @@ const StockDetail = () => {
     router.push({
       pathname: '/stock/123/subscriber',
     });
+  };
+
+  // follow or unfollow stock
+  const handleFollowOrUnfollowStock = () => {
+    isLogin && requestFollowOrUnfollowStock.run(isFollowedStock, stockCode);
   };
 
   return (
@@ -118,22 +144,28 @@ const StockDetail = () => {
               />
             </div>
 
-            <button className='flex h-[32px] items-center justify-center rounded-full bg-[#F7F6F8] px-[10px]'>
-              <img
-                src='/static/icons/iconHeart2.svg'
-                alt='Icon heart'
-                className='h-[16px] w-[16px] object-contain'
-              />
-
-              <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
-                Follow stock
-              </Text>
-
-              {/* <img
-            src='/static/icons/iconHeartActiveNoShadow.svg'
-            alt='Icon heart'
-            className='h-[16px] w-[16px] object-contain'
-          /> */}
+            <button
+              onClick={handleFollowOrUnfollowStock}
+              className='flex h-[32px] items-center justify-center rounded-full bg-[#F7F6F8] px-[10px]'
+            >
+              {isFollowedStock ? (
+                <img
+                  src='/static/icons/iconHeartActiveNoShadow.svg'
+                  alt='Icon heart'
+                  className='h-[16px] w-[16px] object-contain'
+                />
+              ) : (
+                <>
+                  <img
+                    src='/static/icons/iconHeart2.svg'
+                    alt='Icon heart'
+                    className='h-[16px] w-[16px] object-contain'
+                  />
+                  <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
+                    Follow stock
+                  </Text>
+                </>
+              )}
             </button>
           </div>
 
