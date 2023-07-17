@@ -12,8 +12,8 @@ interface ICalendarItemProps {
 }
 
 const CalendarItem = ({ data }: ICalendarItemProps) => {
-  const currentMonth = new Date().getMonth() + 1;
-  const active = currentMonth === new Date(data.publishTime).getMonth() + 1;
+  const currentMonth = new Date().getMonth();
+  const active = new Date(data.publishTime).getMonth() >= currentMonth;
 
   const handleOpenPdfFile = () => {
     window.open(data.fileUrl, '_blank');
