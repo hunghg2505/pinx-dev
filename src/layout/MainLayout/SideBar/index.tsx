@@ -56,7 +56,7 @@ const SideBar = () => {
     return MENUS.map((menu) => {
       console.log(router.pathname);
       console.log(menu.path);
-      const checkPathExist = router.pathname === menu.path || router.pathname.includes(menu.path);
+      const checkPathExist = router.pathname === menu.path;
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
