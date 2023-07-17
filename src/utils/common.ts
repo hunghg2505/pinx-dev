@@ -34,6 +34,7 @@ export const ROUTE_PATH = {
   SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
   MY_PROFILE: '/profile/my-profile',
   GIFTCASH: 'gift-cash',
+  WATCHLIST: '/watchlist',
 };
 
 export const formatMessage = (message: string, data: any) => {

@@ -10,7 +10,7 @@ const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const WatchlistPage = () => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
+      <SEO title={'Pinex WatchList'} />
       <WatchList />
     </>
   );
