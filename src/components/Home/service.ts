@@ -154,7 +154,6 @@ const requestGetList = (params: any) => {
 export const useGetListNewFeed = (options?: IOptionsRequest) => {
   const { data, run, refresh, loading } = useRequest(
     (type: any, last?: string) => {
-      console.log('🚀 ~ file: service.ts:157 ~ useGetListNewFeed ~ type:', type);
       const isLogin = !!getAccessToken();
       const params: any = {
         filterType: type,
@@ -227,12 +226,10 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
-  console.log('join');
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
 export const requestLeaveChannel = (stocks: string) => {
-  console.log('handle leave', stocks);
   const message = { action: 'leave', data: stocks };
   if (socket) {
     socket.emit('regs', JSON.stringify(message));

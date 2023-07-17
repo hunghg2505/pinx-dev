@@ -1,5 +1,8 @@
+import Base64 from 'crypto-js/enc-base64';
+import sha256 from 'crypto-js/sha256';
+
 export const ROUTE_PATH = {
-  HOME: '/',
+  HOME: '/home',
   LOGIN: '/auth/login',
   REGISTER: '/auth/sign-up',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -22,6 +25,15 @@ export const ROUTE_PATH = {
   TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
   PAGE_NOT_FOUND: '/page-not-found',
+  SEARCH: '/search',
+  TOP_WATCHING: '/top-watching',
+  SETTING: '/setting',
+  SETTING_CHANGE_USERNAME: '/setting/change-username',
+  SETTING_CHANGE_USERNAME_VERIFICATION: '/setting/change-username/verification',
+  SETTING_CHANGE_PASSWORD: '/setting/change-password',
+  SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
+  MY_PROFILE: '/profile/my-profile',
+  GIFTCASH: 'gift-cash',
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -171,4 +183,10 @@ export const imageStock = (stock_code: string) => {
     stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
   }.png`;
   return url;
+};
+
+export const encryptPassword = (value: string) => {
+  const hash = sha256(value);
+  const pass = Base64.stringify(hash);
+  return pass;
 };

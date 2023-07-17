@@ -1,10 +1,19 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
+import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IThemeDetail } from '@components/Themes/service';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
+import { USERTYPE } from '@utils/constant';
+import PopupComponent from '@utils/PopupComponent';
+
+import styles from './index.module.scss';
 
 const LandingPageDetailThemes = ({
   data,
@@ -14,6 +23,8 @@ const LandingPageDetailThemes = ({
   refresh: () => void;
 }) => {
   const code = data?.code;
+  const { statusUser, isLogin } = useUserType();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const useSubcribe = useRequest(
     () => {
       return privateRequest(
@@ -44,11 +55,34 @@ const LandingPageDetailThemes = ({
       onError: () => {},
     },
   );
+  // const onSubscribe = () => {
+  //   if (data?.isSubsribed) {
+  //     useUnSubcribe.run();
+  //   } else {
+  //     useSubcribe.run();
+  //   }
+  // };
   const onSubscribe = () => {
-    if (data?.isSubsribed) {
-      useUnSubcribe.run();
+    if (isLogin) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
+        PopupComponent.openEKYC();
+      } else if (data?.isSubsribed) {
+        useUnSubcribe.run();
+      } else {
+        useSubcribe.run();
+      }
     } else {
-      useSubcribe.run();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   return (
@@ -63,7 +97,7 @@ const LandingPageDetailThemes = ({
         />
       </div>
       <img
-        src={data?.bgImage}
+        src={data?.bgImage || data?.url}
         alt=''
         className='absolute left-0 top-0 h-full w-full rounded-[16px] object-cover'
       />
@@ -77,30 +111,18 @@ const LandingPageDetailThemes = ({
         <div className='flex items-center justify-between'>
           <div className='flex'>
             <div className='mr-[43px] mobile-max:mr-[20px]'>
-              <Text
-                className='bg-gradient-to-r from-[#8ADEF6] to-[#59C0E9] bg-clip-text text-transparent'
-                type='body-20-medium'
-              >
+              <Text className={styles.text} type='body-20-medium'>
                 {data?.stockList?.length}
               </Text>
-              <Text
-                className='bg-gradient-to-r from-[#8ADEF6] to-[#59C0E9] bg-clip-text text-transparent'
-                type='body-12-medium'
-              >
+              <Text className={styles.text} type='body-12-medium'>
                 Symbols
               </Text>
             </div>
             <div>
-              <Text
-                className='bg-gradient-to-r from-[#8ADEF6] to-[#59C0E9] bg-clip-text text-transparent'
-                type='body-20-medium'
-              >
+              <Text className={styles.text} type='body-20-medium'>
                 {data?.totalSubscribe}
               </Text>
-              <Text
-                className='bg-gradient-to-r from-[#8ADEF6] to-[#59C0E9] bg-clip-text text-transparent'
-                type='body-12-medium'
-              >
+              <Text className={styles.text} type='body-12-medium'>
                 Subscribed
               </Text>
             </div>

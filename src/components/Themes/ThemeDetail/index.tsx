@@ -1,32 +1,26 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 
-import Activities from './Activities';
 import Community from './Community';
-import LandingPageDetailThemes from './LandingPage';
 import StockSymbols from './StockSymbols';
 import { TabsThemeDetailEnum, useGetThemeDetail } from '../service';
 
-export const optionTab = [
-  {
-    label: 'Community',
-    value: TabsThemeDetailEnum.Community,
-  },
-  {
-    label: 'Stock symbols',
-    value: TabsThemeDetailEnum.StockSymbols,
-  },
-  {
-    label: 'Activities',
-    value: TabsThemeDetailEnum.Activities,
-  },
-];
+const LandingPageDetailThemes = dynamic(() => import('./LandingPage'), {
+  ssr: false,
+});
+const Activities = dynamic(() => import('./Activities'), {
+  ssr: false,
+});
 const ThemeDetail = () => {
   const router = useRouter();
+  const isLogin = !!getAccessToken();
+  const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
     TabsThemeDetailEnum.Community,
@@ -37,11 +31,37 @@ const ThemeDetail = () => {
   const onGoBack = () => {
     router.back();
   };
+  React.useEffect(() => {
+    if (!isLogin) {
+      refTheme?.current && refTheme?.current?.setActiveTab(TabsThemeDetailEnum.StockSymbols);
+      setSelectTab(TabsThemeDetailEnum.StockSymbols);
+    }
+  }, [isLogin]);
+  const optionTab = [
+    {
+      label: 'Community',
+      value: TabsThemeDetailEnum.Community,
+    },
+    {
+      label: 'Stock symbols',
+      value: TabsThemeDetailEnum.StockSymbols,
+    },
+    {
+      label: 'Activities',
+      value: TabsThemeDetailEnum.Activities,
+    },
+    // eslint-disable-next-line array-callback-return
+  ].filter((item) => {
+    if (!isLogin) {
+      return item.label === 'Stock symbols';
+    }
+    return item;
+  });
   const { themeDetail, refresh } = useGetThemeDetail(id);
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsThemeDetailEnum.Community: {
-        return <Community payload={themeDetail} />;
+        return isLogin ? <Community payload={themeDetail} /> : <></>;
       }
       case TabsThemeDetailEnum.StockSymbols: {
         return <StockSymbols data={themeDetail} />;
@@ -71,7 +91,7 @@ const ThemeDetail = () => {
         <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
-          <Community payload={themeDetail} />
+          {isLogin && <Community payload={themeDetail} />}
           <StockSymbols data={themeDetail} />
           <Activities data={themeDetail} />
         </div>
@@ -81,6 +101,7 @@ const ThemeDetail = () => {
             contenTab={optionTab}
             defaultTab={TabsThemeDetailEnum.Community}
             currentTab={selectTab}
+            ref={refTheme}
           />
           {renderContentTab()}
         </div>

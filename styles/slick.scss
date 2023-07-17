@@ -1,0 +1,26 @@
+.slick-dots{
+  position: initial;
+  bottom: 0;
+  margin-top: 42px;
+}
+.slick-dots{
+  li{
+    width: 41px;
+    height: 6px;
+    margin-right: 12px;
+    button{
+      width: 41px;
+      height: 6px;
+      background: #D8EBFC;
+      border-radius: 12px;
+      &:before{
+        display: none;
+      }
+    }
+  }
+  .slick-active{
+  button{
+    background:  linear-gradient(270deg, #1D6CAB 0%, #589DC0 100%);
+  }
+  }
+}

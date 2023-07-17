@@ -70,14 +70,9 @@ const Tabs: React.FC<Props & Ref> = React.forwardRef((props: Props, ref: Ref['re
     onChange(newTab);
   };
 
-  React.useImperativeHandle(
-    ref,
-    () => ({
-      activeTab,
-      setActiveTab,
-    }),
-    [],
-  );
+  React.useImperativeHandle(ref, () => {
+    return { setActiveTab: (data: any) => setActiveTab(data) };
+  });
   return (
     <div className={styles.tabs} ref={refScroll}>
       <div

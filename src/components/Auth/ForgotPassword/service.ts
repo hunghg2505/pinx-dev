@@ -1,5 +1,6 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
+import { i18n } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { requestPist } from '@api/request';
@@ -33,6 +34,9 @@ export const useForgotPassword = (options?: IOptionsRequest) => {
           loginId: username,
           mobile: phoneNumber,
           type: '1',
+        },
+        headers: {
+          'Accept-Language': i18n?.language as string,
         },
       });
     },

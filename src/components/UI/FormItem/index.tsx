@@ -19,7 +19,6 @@ const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...
       {({ onChange, value }, meta, context) => {
         const { errors } = meta;
         const hasError: string = errors && errors[0];
-
         return (
           <div className={classNames('flex flex-col', className)}>
             <div>
@@ -29,7 +28,7 @@ const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...
             </div>
 
             {!hideError && hasError && (
-              <Text type='body-14-regular' className='text-red-600'>
+              <Text type='body-14-regular' className='text-[#DA314F]'>
                 {hasError}
               </Text>
             )}

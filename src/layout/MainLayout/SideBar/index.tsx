@@ -7,6 +7,7 @@ import Menu from 'rc-menu';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 import { IconAssets, IconExplore, IconGiftCash, IconHomeActive, IconWatchList } from './icon';
 
@@ -16,53 +17,56 @@ const SideBar = () => {
     return [
       {
         id: 1,
-        path: '/',
+        path: ROUTE_PATH.HOME,
         icon: <IconHomeActive />,
         iconActive: <IconHomeActive />,
         label: 'Home',
       },
       {
         id: 2,
-        path: '/new/home',
+        path: ROUTE_PATH.EXPLORE,
         icon: <IconExplore />,
-        // iconActive: <div>456</div>,
+        iconActive: <IconExplore />,
         label: 'Explore',
       },
       {
         id: 3,
-        path: '/new/home',
+        path: ROUTE_PATH.GIFTCASH,
         icon: <IconGiftCash />,
-        // iconActive: <div>456</div>,
+        iconActive: <IconGiftCash />,
         label: 'GiftCash',
       },
       {
         id: 4,
         path: '/new/home',
         icon: <IconWatchList />,
-        // iconActive: <div>456</div>,
+        iconActive: <IconWatchList />,
         label: 'WatchList',
       },
       {
         id: 5,
         path: '/new/home',
         icon: <IconAssets />,
-        // iconActive: <div>456</div>,
+        iconActive: <IconAssets />,
         label: 'Assets',
       },
     ];
   }, []);
   const items = useMemo(() => {
     return MENUS.map((menu) => {
-      const checkPathExist = router.pathname === menu.path || router.pathname?.includes(menu?.path);
+      console.log(router.pathname);
+      console.log(menu.path);
+      const checkPathExist = router.pathname === menu.path || router.pathname.includes(menu.path);
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className:
-          'flex items-center flex-row-reverse justify-end py-[16px] px-[10px] pointer-events-none',
+        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
+          checkPathExist && 'active'
+        }`,
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
-          <CustomLink href='javascript:void(0)' className='ml-[10px]'>
+          <CustomLink href={menu?.path} className='ml-[10px]'>
             <Text
               type='body-16-semibold'
               color='neutral-3'
@@ -74,11 +78,12 @@ const SideBar = () => {
         ),
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [MENUS]);
   return (
     <>
       <div className='px-[10px]'>
-        <Menu defaultSelectedKeys={['1']} items={items} />
+        <Menu items={items} />
         <div className='pt-[25px] [border-top:1px_solid_#ECECEC]'>
           <Text type='body-12-regular' className='text-[#78909C]'>
             Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>

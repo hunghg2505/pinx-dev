@@ -13,6 +13,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { PHONE_CONTACT_SUPPORT } from '@utils/constant';
 
 import { useGetContract, useSendLoginOtp, useConfirmContract } from './service';
 
@@ -73,7 +74,6 @@ const ModalLoginTerms = (props: IProps) => {
   const onSendLoginOtp = () => {
     const payload = {
       authType: '1',
-      positionNo: '',
       trdType: '1',
     };
     requestSendLoginOtp.run(payload);
@@ -112,6 +112,7 @@ const ModalLoginTerms = (props: IProps) => {
     if (visible) {
       requestGetContract.run();
     }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const getLinkContract = (linkUrl: string) => {
@@ -176,7 +177,7 @@ const ModalLoginTerms = (props: IProps) => {
             : 'You need to agree to continue using the services'}
         </Text>
         <div className='mt-12'>
-          <a className='w-full' href='tel:02462823535'>
+          <a className='w-full' href={PHONE_CONTACT_SUPPORT}>
             <RoundButton className='flex w-full items-center justify-center border-none'>
               <img
                 src='/static/icons/contact_icon.svg'

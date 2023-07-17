@@ -85,6 +85,7 @@ const Home = () => {
     return () => {
       window.removeEventListener('scroll', loadMore);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastNewFeed]);
   const loadMore = () => {
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
@@ -126,7 +127,8 @@ const Home = () => {
     if (isLogin) {
       getSuggestFriend();
     }
-  }, [filterType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
@@ -385,7 +387,9 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <ContentRight />
+        <div className='mobile:hidden tablet:block tablet:w-[250px] tablet:pr-[2px] laptop:w-[350px]'>
+          <ContentRight />
+        </div>
       </div>
       {loading && lastNewFeed !== '' && (
         <div className='mt-[10px]'>

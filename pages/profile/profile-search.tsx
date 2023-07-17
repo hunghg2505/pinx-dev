@@ -5,27 +5,24 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const ProfileSearch = dynamic(() => import('@components/ProfileSearch'));
+
 const PostDetailPage = () => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
-      <p>themes-community</p>
+      <SEO title={'Profile Search'} />
+      <ProfileSearch />
     </>
   );
 };
 PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <MainLayout>
-      <>{page}</>
-    </MainLayout>
-  );
+  return <>{page}</>;
 };
-
+ 
 export async function getServerSideProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'profile'])),
       // Will be passed to the page component as props
     },
   };

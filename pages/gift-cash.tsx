@@ -3,22 +3,23 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import GiftCash from '@components/GiftCash';
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const PostDetailPage = () => {
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+const GiftCashPage = () => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
-      <p>revenue</p>
+      <SEO title={'Pinex Gift cash'} />
+      <GiftCash />
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+GiftCashPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <ExploreLayout>
       <>{page}</>
-    </MainLayout>
+    </ExploreLayout>
   );
 };
 
@@ -31,4 +32,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default PostDetailPage;
+export default GiftCashPage;

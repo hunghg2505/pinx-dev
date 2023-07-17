@@ -13,7 +13,7 @@ const Themes = () => {
   };
   const { theme } = useGetTheme();
   return (
-    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] '>
+    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
       <div className='relative text-center'>
         <img
           src='/static/icons/back_icon.svg'

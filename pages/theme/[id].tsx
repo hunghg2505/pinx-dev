@@ -4,10 +4,11 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-import ThemeDetail from '@components/Themes/ThemeDetail';
 
 const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
-
+const ThemeDetail = dynamic(() => import('@components/Themes/ThemeDetail'), {
+  ssr: false,
+});
 const PostDetailPage = () => {
   return (
     <>

@@ -63,6 +63,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return () => {
       window.removeEventListener('click', handleClick);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const renderMetaData = () => {
     if (siteName === 'YouTube' && !urlImages?.[0]) {
@@ -99,7 +100,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
             <img
               src={postDetail?.post.bgImage}
@@ -175,7 +176,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
           {postDetail?.post?.headImageUrl && (
             <img
               src={postDetail?.post?.headImageUrl}
@@ -237,7 +238,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
           <img
             src={postDetail?.post.headImageUrl || ''}
             alt=''
@@ -278,7 +279,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
           {postDetail?.post?.bgImage && (
             <img
               src={postDetail?.post?.bgImage}
@@ -363,7 +364,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
           <img
             src={postDetail?.post?.bgImage}
             alt=''

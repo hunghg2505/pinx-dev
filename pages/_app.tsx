@@ -5,22 +5,20 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
-import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation, i18n } from 'next-i18next';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
-
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 // eslint-disable-next-line import/order
 import { TOAST_LIMIT } from '@utils/constant';
-
 import '../styles/tailwind.css';
-import '../styles/globals.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import '../styles/globals.scss';
 
 import { ENV } from '@utils/env';
 
@@ -42,8 +40,10 @@ const InterFont = Inter({
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
+  const { isLogin } = useAuth();
+
   useMount(() => {
-    const isLogin = getAccessToken();
+    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || '');
     if (isLogin) {
       run();
     }
@@ -80,7 +80,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <AppLayout InterFont={InterFont}>{getLayout(<Component {...pageProps} />)}</AppLayout>
         </ErrorBoundary>
       </GoogleReCaptchaProvider>
-
     </>
   );
 }

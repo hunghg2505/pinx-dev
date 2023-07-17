@@ -9,7 +9,6 @@ import Text from '@components/UI/Text';
 export const dataMention: any = atom([]);
 
 export default forwardRef((props: any, ref) => {
-  console.log('🚀 ~ file: MentionList.tsx:12 ~ forwardRef ~ props:', props);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectItem = (index: any) => {
     const item = props.items[index];
