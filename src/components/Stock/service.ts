@@ -4,7 +4,13 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestMarket, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
-import { IOptions, IResponseShareholder, IResponseStockDetail, IResponseTaggingInfo } from './type';
+import {
+  IOptions,
+  IResponseFinancialIndex,
+  IResponseShareholder,
+  IResponseStockDetail,
+  IResponseTaggingInfo,
+} from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
   const { data } = useRequest(() => requestMarket.get(API_PATH.PUBLIC_COMPANY_DETAIL(stockCode)), {
@@ -92,10 +98,31 @@ const useCompanyTaggingInfo = (stockCode: string): IResponseTaggingInfo => {
   };
 };
 
+const useFinancialIndex = (stockCode: string, options?: IOptions): IResponseFinancialIndex => {
+  const { data } = useRequest(
+    () => {
+      return requestMarket.get(API_PATH.PUBLIC_FINANCIAL_INDEX, {
+        params: {
+          stockCode,
+        },
+      });
+    },
+    {
+      refreshDeps: [stockCode],
+      ...options,
+    },
+  );
+
+  return {
+    financialIndex: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
   useMyListStock,
   useFollowOrUnfollowStock,
   useCompanyTaggingInfo,
+  useFinancialIndex,
 };

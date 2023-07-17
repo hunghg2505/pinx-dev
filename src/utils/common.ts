@@ -149,3 +149,7 @@ export function toNonAccentVietnamese(str: any) {
   str = str.replaceAll(/[\u02C6\u0306\u031B]/g, ''); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
+
+export const formatNumber = (value: number) => {
+  return value.toLocaleString('en-US');
+};

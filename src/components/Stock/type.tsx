@@ -122,3 +122,25 @@ export interface IResponseTaggingInfo {
     };
   };
 }
+
+export interface IResponseFinancialIndex {
+  financialIndex?: {
+    data?: IFinancialIndex;
+  };
+}
+
+export enum FinancialIndexKey {
+  marketCap = 'marketCap',
+  volume = 'volume',
+  roe = 'roe',
+  pe = 'pe',
+  dividendYield = 'dividendYield',
+}
+
+export interface IFinancialIndex {
+  [FinancialIndexKey.marketCap]: number;
+  [FinancialIndexKey.volume]: number;
+  [FinancialIndexKey.dividendYield]: number;
+  [FinancialIndexKey.roe]: number;
+  [FinancialIndexKey.pe]: number;
+}

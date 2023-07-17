@@ -10,6 +10,7 @@ import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
+import { formatNumber } from '@utils/common';
 
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
@@ -33,12 +34,13 @@ import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
+  useFinancialIndex,
   useFollowOrUnfollowStock,
   useMyListStock,
   useShareholder,
   useStockDetail,
 } from '../service';
-import { IResponseMyStocks } from '../type';
+import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
 
 const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
@@ -78,6 +80,7 @@ const StockDetail = () => {
       setIsFollowedStock(isFollowed);
     },
   });
+  const { financialIndex } = useFinancialIndex(stockCode);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
@@ -111,6 +114,51 @@ const StockDetail = () => {
   // follow or unfollow stock
   const handleFollowOrUnfollowStock = () => {
     isLogin && requestFollowOrUnfollowStock.run(isFollowedStock, stockCode);
+  };
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const convertFinancialIndexData = (data?: IFinancialIndex) => {
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const fakeMultipleLanguage = (value: string) => {
+      switch (value) {
+        case FinancialIndexKey.marketCap: {
+          return 'MARKET CAP';
+        }
+        case FinancialIndexKey.volume: {
+          return 'VOLUME';
+        }
+        case FinancialIndexKey.pe: {
+          return 'P/E';
+        }
+        case FinancialIndexKey.roe: {
+          return 'ROE';
+        }
+        default: {
+          return '';
+        }
+      }
+    };
+
+    if (data) {
+      const onlyKeys = new Set([
+        FinancialIndexKey.marketCap,
+        FinancialIndexKey.volume,
+        FinancialIndexKey.pe,
+        FinancialIndexKey.roe,
+      ]);
+
+      const arr = Object.keys(data);
+      arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
+
+      return arr
+        .filter((item) => onlyKeys.has(item))
+        .map((item) => ({
+          label: fakeMultipleLanguage(item),
+          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
+        }));
+    }
+
+    return [];
   };
 
   return (
@@ -736,10 +784,10 @@ const StockDetail = () => {
           </div>
 
           <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
-            <Text type='body-20-semibold'>Holding index</Text>
+            <Text type='body-20-semibold'>Financial index</Text>
 
             <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
-              {HOLDING_RATIO.slice(4).map((item, index) => (
+              {convertFinancialIndexData(financialIndex?.data).map((item, index) => (
                 <HoldingRatioItem key={index} label={item.label} value={item.value} />
               ))}
             </div>
