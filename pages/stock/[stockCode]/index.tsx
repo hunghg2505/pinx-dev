@@ -9,6 +9,9 @@ const MainLayout = dynamic(() => import('@layout/MainLayout'));
 const StockDetail = dynamic(() => import('@components/Stock/StockDetail'), {
   ssr: false,
 });
+const ModalPage = dynamic(() => import('@components/ModalPage'), {
+  ssr: false,
+});
 const StockDetailPage = () => {
   return (
     <>
@@ -19,7 +22,12 @@ const StockDetailPage = () => {
 };
 
 StockDetailPage.getLayout = (page: ReactElement) => {
-  return <MainLayout>{page}</MainLayout>;
+  return (
+    <MainLayout>
+      <ModalPage />
+      {page}
+    </MainLayout>
+  );
 };
 
 export async function getServerSideProps({ locale }: any) {

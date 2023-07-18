@@ -1,17 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
+import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import ContentRight from '@components/Home/ContentRight';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, formatNumber } from '@utils/common';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { IMAGE_COMPANY_URL, USERTYPE } from '@utils/constant';
+import PopupComponent from '@utils/PopupComponent';
 import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
 import CalendarItem from './CalendarItem';
@@ -78,7 +83,8 @@ const StockDetail = () => {
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
-  const { isLogin } = useUserType();
+  const { isLogin, statusUser } = useUserType();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -138,7 +144,25 @@ const StockDetail = () => {
 
   // follow or unfollow stock
   const handleFollowOrUnfollowStock = () => {
-    isLogin && requestFollowOrUnfollowStock.run(isFollowedStock, stockCode);
+    if (isLogin) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser === USERTYPE.VSD) {
+        requestFollowOrUnfollowStock.run(isFollowedStock, stockCode);
+      } else {
+        PopupComponent.openEKYC();
+      }
+    } else {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+    }
   };
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
