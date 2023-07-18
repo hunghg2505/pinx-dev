@@ -64,14 +64,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name='robots' content='index, follow' />
         <meta name='googlebot' content={'index,follow'} />
         <meta charSet='utf-8' />
-        <meta name='theme-color' content='#476055' />
+        <meta name='theme-color' content='#FFFFFF' />
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
         <link rel='shortcut icon' href='/static/favicon.svg' />
 
         <meta
           name='viewport'
-          content='width=device-width,initial-scale=1,maximum-scale=2,shrink-to-fit=no'
+          content='width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no'
         />
       </Head>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>

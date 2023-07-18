@@ -52,7 +52,7 @@ const Setting = () => {
     return [
       {
         title: 'Language',
-        value: currentLang === 'vi' ? 'Tiếng Việt' : 'English',
+        value: currentLang,
         action: () => onTogglePopup(),
         hideDivider: !isMobile && !isLogin,
       },
@@ -126,11 +126,11 @@ const Setting = () => {
             </Text>
             {item.isNew && (
               <img
-                src='/static/images/tag_new.png'
+                src='/static/icons/tag_new.svg'
                 alt=''
                 width='0'
                 height='0'
-                sizes='50vw'
+                sizes='100vw'
                 className='ml-2 h-[20px] w-[38px]'
               />
             )}
@@ -144,7 +144,7 @@ const Setting = () => {
                 alt=''
                 width='0'
                 height='0'
-                sizes='50vw'
+                sizes='100vw'
                 className='h-[20px] w-[20px]'
               />
             )}
@@ -205,7 +205,7 @@ const Setting = () => {
           <div className='px-4 laptop:hidden'>
             <NegativeMainButton
               onClick={() => onLogout()}
-              className='fixed bottom-9 w-[calc(100%-32px)]'
+              className='mt-28 w-full'
             >
               Log out
             </NegativeMainButton>
