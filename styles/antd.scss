@@ -58,6 +58,10 @@
     }
   }
   &.tabHomePc {
+    .rc-tabs-nav-operations {
+      display: none;
+    }
+
     .rc-tabs-nav-list {
       justify-content: space-between;
       .rc-tabs-ink-bar {
@@ -139,9 +143,11 @@
     width: calc(100% - 32px) !important;
   }
 }
+.messageBody {
+  display: flex !important;
+  flex-direction: column;
+}
 .messageFormat {
-  // display: flex !important;
-  // flex-direction: column;
   a {
     font-weight: 600;
     font-size: 16px;

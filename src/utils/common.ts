@@ -64,7 +64,7 @@ export const formatMessage = (message: string, data: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
-      if (message && message.includes(ID)) {
+      if (message && !message.includes(name)) {
         const newMessage = message.split(' ');
         for (const text of newMessage) {
           if (text.includes(ID)) {
@@ -79,6 +79,14 @@ export const formatMessage = (message: string, data: any) => {
             );
           }
         }
+      }
+      if (message && message.includes(name)) {
+        message = message.replace(
+          item,
+          `
+          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          `,
+        );
       }
     }
   }

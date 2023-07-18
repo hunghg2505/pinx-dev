@@ -191,9 +191,9 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className={classNames('mr-[12px] rounded-full', {
-            'w-[36px]': !isChildren,
-            'w-[28px]': isChildren,
+          className={classNames('mr-[12px] rounded-full object-cover', {
+            'h-[36px] w-[36px]': !isChildren,
+            'h-[28px] w-[28px]': isChildren,
           })}
         />
         {/* bg-[#F6FAFD] */}
@@ -205,9 +205,22 @@ const ItemComment = (props: IProps) => {
         >
           <div className='relative mb-[8px] rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <Text type='body-14-semibold' color='neutral-1'>
-                {data?.customerInfo?.displayName}
-              </Text>
+              <div className='relative'>
+                <Text type='body-14-semibold' color='neutral-1'>
+                  {data?.customerInfo?.displayName}
+                </Text>
+
+                <img
+                  src='/static/icons/iconKol.svg'
+                  alt='Icon kol'
+                  className={classNames(
+                    'absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain',
+                    {
+                      hidden: !data?.customerInfo?.isFeatureProfile,
+                    },
+                  )}
+                />
+              </div>
               <button className='relative flex items-center' ref={ref}>
                 <Text type='body-14-regular' color='neutral-5'>
                   {dayjs(data?.timeString).fromNow(true)}
