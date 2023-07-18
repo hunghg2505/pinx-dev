@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
@@ -12,13 +14,13 @@ import WatchList from './WatchList';
 
 const TabsContent = () => {
   const { t } = useTranslation('profile');
-  const [state, setState] = useState({ tab: 'assets' });
-
+  const searchParams = useSearchParams();
+  const { push, query } = useRouter();
   return (
     <div className='px-[16px]'>
       <Tabs
         defaultActiveKey='1'
-        activeKey={state.tab}
+        activeKey={searchParams.get('tab') || 'post'}
         className='tabHome'
         renderTabBar={(props: any) => {
           return (
@@ -27,14 +29,14 @@ const TabsContent = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
-                  setState((prev) => ({ ...prev, tab: key }));
+                  push({ query: { ...query, tab: key } });
                 }}
               />
             </>
           );
         }}
         onChange={(key: string) => {
-          setState((prev) => ({ ...prev, tab: key }));
+          push({ query: { ...query, tab: key } });
         }}
       >
         <TabPane tab={t('post')} key='post'>
