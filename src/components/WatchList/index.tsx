@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import Slider from 'react-slick';
 
 import { Button } from '@components/UI/Button';
 import PopupAddNewStock from '@components/UI/Popup/PopupAddNewStock';
@@ -14,6 +15,7 @@ import Text from '@components/UI/Text';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 
 import styles from './index.module.scss';
+
 
 const dataItemStock = [
   {
@@ -75,8 +77,19 @@ const dataItemInterest = [
   },
 ];
 
+const settings = {
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+  // autoplay: true,
+  // autoplaySpeed: 1000,
+};
+
 const WatchList = () => {
-  const [isEdit, setIsEdit] = React.useState<boolean>(false);
+  const [isEdit, setIsEdit] = React.useState<boolean>(true);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const onGoBack = () => {
@@ -107,7 +120,7 @@ const WatchList = () => {
         {popupStatus.popupAddNewStock && (
           <PopupAddNewStock visible={popupStatus.popupAddNewStock} onClose={onCloseModal} />
         )}
-        <div className='flex flex-col gap-y-[20px] desktop:px-[24px] desktop:py-[20px]'>
+        <div className='pt-[20px] flex flex-col gap-y-[20px] desktop:px-[24px] desktop:py-[20px]'>
           {/* Top */}
           <div className='relative flex items-center'>
             <div className='flex'>
@@ -198,7 +211,7 @@ const WatchList = () => {
   }
 
   return (
-    <div className='flex flex-col gap-y-[32px] pb-[52px] desktop:gap-y-[20px] desktop:p-[24px] desktop:pb-[32px] desktop:pt-[20px]'>
+    <div className='pt-[20px] flex flex-col gap-y-[32px] pb-[52px] desktop:gap-y-[20px] desktop:p-[24px] desktop:pb-[32px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
         <img
           src='/static/icons/back_icon.svg'
@@ -328,14 +341,49 @@ const WatchList = () => {
         </div>
       </div>
 
-      <div className='relative overflow-hidden rounded-[16px]'>
-        <img
-          src='https://picsum.photos/701/467'
-          alt=''
-          className='aspect-[331/467] object-cover desktop:aspect-[701/467]'
-        />
-        <div className='absolute inset-x-0 inset-y-0 bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.00)_0%,_rgba(0,_0,_0,_0.00)_62.86%,_rgba(0,_0,_0,_0.80)_100%)]'></div>
-      </div>
+      <Slider {...settings}>
+        {dataItemInterest.map(() => (
+          // eslint-disable-next-line react/jsx-key
+          <div className='relative overflow-hidden rounded-[16px]'>
+            <img
+              src='https://picsum.photos/701/467'
+              alt=''
+              className='aspect-[331/467] object-cover desktop:aspect-[701/467]'
+            />
+            <div className='px-[12px] desktop:px-[24px] flex flex-col justify-end gap-y-[8px] py-[16px] absolute inset-x-0 inset-y-0 desktop:top-1/2 bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.00)_0%,_rgba(0,_0,_0,_0.00)_62.86%,_rgba(0,_0,_0,_0.80)_100%)]'>
+              <Text type='body-20-semibold' color='cbwhite'>Industrial park technology</Text>
+              <Text color='cbwhite' className='text-[12px] desktop:text-[14px]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.</Text>
+            </div>
+            <div className='absolute top-0 right-0 left-0 px-[20px] py-[20px] flex items-start justify-between'>
+              <img
+                src='/static/icons/Lotus-white.svg'
+                alt=''
+                className='h-[24px] desktop:h-[32px] w-[24px] desktop:w-[32px]'
+              />
+              <div className='flex flex-col gap-y-[4px] text-right'>
+                <div className='flex'>
+                  <img
+                    src='https://picsum.photos/20/20?random=1'
+                    alt=''
+                    className='h-[20px] w-[20px] rounded-full mr-[-5px] last:mr-0 border-[1px] border-solid border-[_rgba(248,_250,_253,_0.20)]'
+                  />
+                  <img
+                    src='https://picsum.photos/20/20?random=2'
+                    alt=''
+                    className='h-[20px] w-[20px] rounded-full mr-[-5px] last:mr-0'
+                  />
+                  <img
+                    src='https://picsum.photos/20/20?random=3'
+                    alt=''
+                    className='h-[20px] w-[20px] rounded-full mr-[-5px] last:mr-0'
+                  />
+                </div>
+                <Text color='cbwhite' className='text-[12px] desktop:text-[14px]'>3000+</Text>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };

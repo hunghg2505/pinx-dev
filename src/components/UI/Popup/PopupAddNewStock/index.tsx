@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'rc-dialog/assets/index.css';
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+// import { useAtom } from 'jotai';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 
@@ -11,7 +11,7 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import styles from '@components/WatchList/index.module.scss';
 import { IconSearchWhite } from '@layout/components/MainHeader';
-import { popupStatusAtom } from '@store/popup/popup';
+// import { popupStatusAtom } from '@store/popup/popup';
 
 
 
@@ -37,7 +37,7 @@ const dataItemStock = [
 
 const ModalAuth = (props: IProps) => {
   const { visible, onClose } = props;
-  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  // const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const renderCloseIcon = (): React.ReactNode => {
     return (
@@ -56,17 +56,13 @@ const ModalAuth = (props: IProps) => {
     onClose();
   };
 
-  const onSubmit = () => {
-    setPopupStatus({
-      ...popupStatus,
-      popupAccessLinmit: false,
-      popupAuth: true,
-    });
-  };
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const onSubmit = () => {};
 
+  // @ts-ignore
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Dialog className='popupAddNewStock' visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <div className='flex flex-col gap-y-[20px]'>
           <div></div>
           <div>
