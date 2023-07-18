@@ -12,12 +12,13 @@ export const profileUserContext = createContext(undefined);
 
 const Profile = (props: any) => {
   const router = useRouter();
-  const { profileOtherUser } = useGetProfileOtherUser(Number(router.query.id));
+  const { profileOtherUser, run } = useGetProfileOtherUser(Number(router.query.id));
   return (
     <profileUserContext.Provider
       value={{
         ...profileOtherUser,
         isMe: Number(props?.userId) === Number(router.query.id),
+        reload: run,
       }}
     >
       <div className=' flex '>

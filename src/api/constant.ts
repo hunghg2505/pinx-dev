@@ -116,4 +116,5 @@ export const API_PATH = {
   // PROFILE
   GET_USER_POST: 'private/mapping/other-customer-mappings',
   GET_USER_WATCHLIST: '/private/watchlist/list/',
+  UPDATE_USER_PROFILE: '/private/customer/update',
 };

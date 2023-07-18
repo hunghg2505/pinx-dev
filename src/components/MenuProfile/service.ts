@@ -5,7 +5,7 @@ import { privateRequest, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 export const useGetProfileOtherUser = (id: number) => {
-  const { data } = useRequest(() => {
+  const { data, run } = useRequest(() => {
     const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_OTHER_USER_PROFILE(id))
@@ -13,5 +13,6 @@ export const useGetProfileOtherUser = (id: number) => {
   });
   return {
     profileOtherUser: data?.data,
+    run,
   };
 };
