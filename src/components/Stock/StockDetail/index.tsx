@@ -94,7 +94,6 @@ const StockDetail = () => {
   const { stockThemes } = useThemesOfStock(stockCode);
   const { stockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode);
-  const { isDesktop } = useResponsive();
 
   const urlImageCompany = `${
     stockDetail?.data?.stockCode?.length === 3 || stockDetail?.data?.stockCode[0] !== 'C'
@@ -462,14 +461,7 @@ const StockDetail = () => {
               Highlights
             </Text>
 
-            {(taggingInfo?.data?.highlights && taggingInfo.data.highlights.length <= 6) ||
-            isDesktop ? (
-              <div className='flex flex-wrap gap-[12px]'>
-                {taggingInfo?.data?.highlights.map((item, index) => (
-                  <HighlighItem value={item.tagName} key={index} />
-                ))}
-              </div>
-            ) : (
+            {taggingInfo?.data?.highlights && taggingInfo.data.highlights.length > 6 && isMobile ? (
               <div
                 className={classNames(
                   'flex max-w-screen-mobile gap-x-[12px] overflow-x-auto',
@@ -480,13 +472,19 @@ const StockDetail = () => {
                   (_, index) => (
                     <div key={index} className='flex flex-col gap-y-[12px]'>
                       {taggingInfo?.data?.highlights
-                        .slice(index, HIGHLIGH_ROW_LIMIT)
+                        .slice(index * HIGHLIGH_ROW_LIMIT, HIGHLIGH_ROW_LIMIT * (index + 1))
                         .map((highlight, highlighIndex) => (
                           <HighlighItem value={highlight.tagName} key={highlighIndex} />
                         ))}
                     </div>
                   ),
                 )}
+              </div>
+            ) : (
+              <div className='flex flex-wrap gap-[12px]'>
+                {taggingInfo?.data?.highlights.map((item, index) => (
+                  <HighlighItem value={item.tagName} key={index} />
+                ))}
               </div>
             )}
           </div>
