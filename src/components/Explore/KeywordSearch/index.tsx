@@ -16,7 +16,7 @@ const KeywordSearch = (props: Iprops) => {
         style={{ width: `${percen}%` }}
       ></div>
       <div className='relative z-10 flex justify-between'>
-        <div className='flex h-[26px] min-w-[57px] items-center justify-center rounded-[4px] border-[1px] border-solid border-[#808A9D] bg-[#EAF4FB] pr-[5px]'>
+        {/* <div className='flex h-[26px] min-w-[57px] items-center justify-center rounded-[4px] border-[1px] border-solid border-[#808A9D] bg-[#EAF4FB] pr-[5px]'>
           <img
             src='/static/icons/explore/search.svg'
             alt=''
@@ -25,7 +25,10 @@ const KeywordSearch = (props: Iprops) => {
           <Text type='body-14-regular' color='neutral-1'>
             {data?.keyword}
           </Text>
-        </div>
+        </div> */}
+        <Text type='body-14-regular' color='neutral-1'>
+          {data?.keyword}
+        </Text>
         <div className='flex items-center'>
           <Text type='body-16-regular' color='neutral-1'>
             {data?.numberHit}

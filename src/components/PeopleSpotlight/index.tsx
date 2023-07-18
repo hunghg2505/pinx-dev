@@ -25,7 +25,7 @@ const PeopleSpotlight = () => {
           </Text>
         </div>
         <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-        <div className=' mt-[16px] flex flex-wrap gap-x-[14px] gap-y-[20px]'>
+        <div className=' mt-[16px] flex flex-wrap gap-x-[14px] gap-y-[20px] mobile-max:grid mobile-max:grid-cols-2'>
           {KOL?.filter((item: IKOL) => item.isFeatureProfile === true)
             ?.slice(0, 20)
             .map((item: IKOL, index: number) => {
