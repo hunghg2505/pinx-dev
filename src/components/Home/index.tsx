@@ -333,7 +333,10 @@ const Home = () => {
                   </Text>
                   <Influencer />
                   <div className='mt-[16px] w-full tablet:pr-[16px]'>
-                    <button className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
+                    <button
+                      className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
+                      onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         Explore influencer
                       </Text>

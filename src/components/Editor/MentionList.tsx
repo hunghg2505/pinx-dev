@@ -58,7 +58,7 @@ export default forwardRef((props: any, ref) => {
   }));
   return (
     <div className='fixed right-0 flex justify-center mobile:bottom-[60px] mobile:left-0 mobile:w-full tablet:w-[375px] desktop:w-[375px]'>
-      {props.items && (
+      {props.items?.length > 0 && (
         <div className='w-[375px] bg-[#ffffff] p-[15px]'>
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
