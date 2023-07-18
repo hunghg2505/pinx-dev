@@ -16,7 +16,7 @@ interface IProps {
   onClose: () => void;
 }
 
-const ModalAuth = (props: IProps) => {
+const PopupAuth = (props: IProps) => {
   const [curTab, setCurTab] = useState<string>('login');
   const { visible, onClose } = props;
 
@@ -65,4 +65,4 @@ const ModalAuth = (props: IProps) => {
     </>
   );
 };
-export default ModalAuth;
+export default PopupAuth;

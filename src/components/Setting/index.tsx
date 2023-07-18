@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import type { SwitchChangeEventHandler } from 'rc-switch';
 import Switch from 'rc-switch';
 import { toast } from 'react-hot-toast';
@@ -39,6 +40,7 @@ const Setting = () => {
   const { onLogout, isLogin } = useAuth();
   const { data: settingsData, loading } = useGetSettings();
   const { isMobile } = useResponsive();
+  const { t } = useTranslation('setting');
 
   const requestUpdateSetting = useUpdateSetting({
     onError: (e: any) => {
@@ -52,9 +54,10 @@ const Setting = () => {
         title: 'Language',
         value: currentLang === 'vi' ? 'Tiếng Việt' : 'English',
         action: () => onTogglePopup(),
+        hideDivider: !isMobile && !isLogin,
       },
       {
-        title: 'Change password',
+        title: t('change_password'),
         path: ROUTE_PATH.SETTING_CHANGE_PASSWORD,
         hidden: !isLogin,
       },
@@ -65,7 +68,7 @@ const Setting = () => {
         hidden: !isLogin,
       },
     ];
-  }, [currentLang]);
+  }, [currentLang, isMobile, isLogin, t]);
 
   const PINEX_HELP = useMemo(() => {
     return [
@@ -168,7 +171,7 @@ const Setting = () => {
 
       <div>
         <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
-          Settings
+          {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
         {SETTINGS.map((item: any, index: number) => renderListItem(item, index))}
