@@ -19,7 +19,9 @@ export const useUploadImage = (UpLoadCover: (cover: any) => void) => {
       onSuccess: (res: any) => {
         const url = res?.files?.[0]?.url;
         if (url) {
-          UpLoadCover({ coverImage: url });
+          UpLoadCover({
+            coverImage: url,
+          });
         } else {
           toast(() => <Notification type='error' message={res?.files?.[0]?.message} />);
         }

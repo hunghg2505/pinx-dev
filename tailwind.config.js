@@ -21,8 +21,11 @@ module.exports = {
       light_orange: '#F1BA09',
       primary_gray: '#808A9D',
       neutral_black: '#0D0D0D',
+      neutral_gray:'#999999',
       blue_light: '#EEF5F9',
       dark_grey: '#474D57',
+      green: '#128F63',
+      orange: '#EAA100',
     },
     screens: {
       mobile: '320px',
