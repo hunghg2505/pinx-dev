@@ -585,7 +585,7 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[18px] object-contain'
             />
             <Text
-              type='body-12-medium'
+              type='body-14-regular'
               color='primary-5'
               className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
             >
@@ -603,7 +603,7 @@ const NewFeedItem = (props: IProps) => {
               height={14}
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
-            <Text type='body-12-medium' color='primary-5'>
+            <Text type='body-14-regular' color='primary-5'>
               {totalComments || ''} Comment
             </Text>
           </div>
@@ -618,7 +618,7 @@ const NewFeedItem = (props: IProps) => {
               height={14}
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
-            <Text type='body-12-medium' color='primary-5'>
+            <Text type='body-14-regular' color='primary-5'>
               {requestGetTotalShare?.data?.shares?.all || ''} Share
             </Text>
           </div>

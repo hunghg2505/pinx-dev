@@ -353,7 +353,7 @@ const Editor = (props: IProps, ref?: any) => {
 
             <EditorContent
               editor={editor}
-              className='w-full items-center mobile:flex mobile:w-[calc(100%_-_50px)] mobile:max-w-[305px] mobile:px-[5px] tablet:max-w-[500px]'
+              className='max-h-[108px] w-full items-center overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
@@ -383,7 +383,9 @@ const Editor = (props: IProps, ref?: any) => {
               )}
             </div>
             {useUploadImage?.loading ? (
-              <Loading />
+              <div className='mobile:hidden tablet:block'>
+                <Loading />
+              </div>
             ) : (
               imageComment && (
                 <div className='relative'>
@@ -444,25 +446,31 @@ const Editor = (props: IProps, ref?: any) => {
             />
           )}
         </div>
-        {imageComment && (
-          <div className='relative'>
-            <img
-              src={imageComment}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='mt-[16px] h-[100px] w-[100px] object-cover mobile:block tablet:hidden'
-            />
-            <img
-              src='/static/icons/iconCloseWhite.svg'
-              alt=''
-              width={0}
-              height={0}
-              className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
-              onClick={onCloseImage}
-            />
+        {useUploadImage?.loading ? (
+          <div className='mobile:block tablet:hidden'>
+            <Loading />
           </div>
+        ) : (
+          imageComment && (
+            <div className='relative'>
+              <img
+                src={imageComment}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='mt-[16px] h-[100px] w-[100px] object-cover mobile:block tablet:hidden'
+              />
+              <img
+                src='/static/icons/iconCloseWhite.svg'
+                alt=''
+                width={0}
+                height={0}
+                className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
+                onClick={onCloseImage}
+              />
+            </div>
+          )
         )}
       </div>
     </>
