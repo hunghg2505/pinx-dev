@@ -53,6 +53,7 @@ const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 const STOCK_EVENT_ITEM_LIMIT = 4;
 const WATCHING_INVESTING_ITEM_LIMIT = 5;
 const HIGHLIGH_ROW_LIMIT = 3;
+const ALSO_ITEM_LIMIT = 2;
 
 const settings = {
   dots: false,
@@ -370,7 +371,7 @@ const StockDetail = () => {
                       className='h-[112px] w-full rounded-[4px] object-cover'
                     />
 
-                    <Text className='mt-[12px]' type='body-12-regular'>
+                    <Text className='mt-[12px] text-center' type='body-12-regular'>
                       {item.name}
                     </Text>
                   </div>
@@ -448,7 +449,11 @@ const StockDetail = () => {
 
                 <div className='mt-[8px]'>
                   {taggingInfo?.data?.revenues.map((item, index) => (
-                    <RevenueItem key={index} value={item.percentage} label={item.sourceVi} />
+                    <RevenueItem
+                      key={index}
+                      value={+item.percentage.toFixed(2)}
+                      label={item.sourceVi}
+                    />
                   ))}
                 </div>
               </div>
@@ -456,7 +461,7 @@ const StockDetail = () => {
           </div>
 
           {/* highlights */}
-          <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+          <div className='mt-[28px] px-[16px] pb-[28px] tablet:px-[24px]'>
             <Text type='body-20-semibold' className='mb-[16px]'>
               Highlights
             </Text>
@@ -464,7 +469,7 @@ const StockDetail = () => {
             {taggingInfo?.data?.highlights && taggingInfo.data.highlights.length > 6 && isMobile ? (
               <div
                 className={classNames(
-                  'flex max-w-screen-mobile gap-x-[12px] overflow-x-auto',
+                  'flex max-w-[375px] gap-x-[12px] overflow-x-auto',
                   styles.noScrollbar,
                 )}
               >
@@ -490,23 +495,31 @@ const StockDetail = () => {
           </div>
 
           {/* also own */}
-          <div className='my-[28px] border-t border-solid border-[var(--neutral-7)] pt-[28px]'>
-            <div className='px-[16px] tablet:px-[24px]'>
-              <Text type='body-20-semibold' className='mb-[8px]'>
-                Also Own
-              </Text>
+          {taggingInfo?.data?.subsidiaries && taggingInfo.data.subsidiaries.length > 0 && (
+            <div className='mb-[28px] border-t border-solid border-[var(--neutral-7)] pt-[28px]'>
+              <div className='px-[16px] tablet:px-[24px]'>
+                <Text type='body-20-semibold' className='mb-[8px]'>
+                  Also Own
+                </Text>
 
-              <AlsoOwnItem />
+                <div className='flex flex-col gap-y-[12px]'>
+                  {taggingInfo.data.subsidiaries.slice(0, ALSO_ITEM_LIMIT).map((item, index) => (
+                    <AlsoOwnItem data={item} key={index} />
+                  ))}
+                </div>
 
-              <Link href='/stock/123/also-own'>
-                <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    See more
-                  </Text>
-                </button>
-              </Link>
+                {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
+                  <Link href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
+                    <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                      <Text type='body-14-bold' color='primary-2'>
+                        See more
+                      </Text>
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* rating */}
           <div className='border-t-[8px] border-solid border-[#F7F6F8] pt-[28px] tablet:border-t-[1px]'>
@@ -667,7 +680,7 @@ const StockDetail = () => {
           </div>
 
           {/* featured in themes */}
-          {stockThemes && (
+          {stockThemes && stockThemes.data.length > 0 && (
             <div className='mt-[28px]'>
               <div className='mb-[16px] px-[16px] tablet:px-[24px]'>
                 <Text type='body-20-semibold'>Featured in themes</Text>

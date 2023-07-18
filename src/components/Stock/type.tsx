@@ -109,6 +109,24 @@ interface IIndustrie {
   description: string;
 }
 
+export interface ISubsidiaries {
+  companyId: string;
+  companyNameVi: string;
+  companyNameEn: string;
+  ownerRatio: number;
+  description: string;
+  reference: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  stockCode: string;
+  stockExchange: string;
+  name: string;
+  image: string;
+  mainBusiness: string;
+  listed: false;
+}
+
 export interface IResponseTaggingInfo {
   taggingInfo?: {
     data?: {
@@ -119,6 +137,7 @@ export interface IResponseTaggingInfo {
       highlights: IHighlights[];
       revenues: IRevenue[];
       industries: IIndustrie[];
+      subsidiaries: ISubsidiaries[];
     };
   };
 }

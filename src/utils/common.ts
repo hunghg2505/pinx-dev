@@ -15,8 +15,10 @@ export const ROUTE_PATH = {
   REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
-  STOCK_EVENT: (stockCode: string) => `/stock/${stockCode}/financial-calendar`,
-  STOCK_REVIEW: (stockCode: string) => `/stock/${stockCode}/rating`,
+  STOCK_DETAIL: (stockCode: string) => `/stock/${stockCode}`,
+  STOCK_EVENT: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/financial-calendar`,
+  STOCK_REVIEW: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/rating`,
+  STOCK_ALSO_OWN: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/also-own`,
 };
 
 export const formatMessage = (message: string, data: any) => {

@@ -3,6 +3,7 @@ import React from 'react';
 import Dialog from 'rc-dialog';
 
 import 'rc-dialog/assets/index.css';
+import { ISubsidiaries } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -10,9 +11,10 @@ import styles from './index.module.scss';
 interface IPopupAlsoOwnProps {
   visible: boolean;
   onClose: () => void;
+  data?: ISubsidiaries;
 }
 
-const PopupAlsoOwn = ({ visible, onClose }: IPopupAlsoOwnProps) => {
+const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
   return (
     <Dialog
       visible={visible}
@@ -34,16 +36,22 @@ const PopupAlsoOwn = ({ visible, onClose }: IPopupAlsoOwnProps) => {
 
       <div className='mt-[24px] px-[20px]'>
         <div className='mb-[12px] flex items-center'>
-          <Text type='body-16-semibold'>MBS</Text>
-          <div className='ml-[8px] flex h-[20px] items-center justify-center rounded-[4px] bg-[#F7F6F8] px-[8px]'>
+          <Text type='body-16-semibold'>{data?.stockCode}</Text>
+          {/* <div className='ml-[8px] flex h-[20px] items-center justify-center rounded-[4px] bg-[#F7F6F8] px-[8px]'>
             <Text type='body-10-regular' color='primary-5'>
               HOSE
+            </Text>
+          </div> */}
+
+          <div className='inline-flex h-[20px] items-center justify-center rounded-[4px] border border-solid border-[#EBEBEB] px-[8px]'>
+            <Text type='body-10-regular' color='primary-5'>
+              UNLISTED
             </Text>
           </div>
         </div>
 
         <div className='flex items-center'>
-          <div>
+          <div className='flex-1'>
             <img
               src='/static/images/defaultCompanyLogo.png'
               alt='Company logo'
@@ -51,7 +59,7 @@ const PopupAlsoOwn = ({ visible, onClose }: IPopupAlsoOwnProps) => {
             />
 
             <Text className='mt-[4px] !leading-[16px] text-[#999999]' type='body-12-regular'>
-              Phuc An Tourism Development and Investment Co., Ltd
+              {data?.name}
             </Text>
           </div>
 
@@ -60,13 +68,13 @@ const PopupAlsoOwn = ({ visible, onClose }: IPopupAlsoOwnProps) => {
               Own
             </Text>
             <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-              100%
+              {data?.ownerRatio}%
             </Text>
           </div>
         </div>
 
         <Text type='body-14-regular' color='primary-5' className='mt-[16px]'>
-          Quản lý nợ và khai thác tài sản
+          {data?.mainBusiness}
         </Text>
       </div>
     </Dialog>

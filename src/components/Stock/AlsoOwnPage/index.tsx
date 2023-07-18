@@ -7,9 +7,12 @@ import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 
 import AlsoOwnItem from '../AlsoOwnItem';
+import { useCompanyTaggingInfo } from '../service';
 
 const AlsoOwn = () => {
   const router = useRouter();
+  const { stockCode }: any = router.query;
+  const { taggingInfo } = useCompanyTaggingInfo(stockCode);
 
   const handleBack = () => {
     router.back();
@@ -44,22 +47,15 @@ const AlsoOwn = () => {
             </div>
 
             <Text type='body-14-semibold' className='text-[#0D0D0D]'>
-              Total: 9
+              Total: {taggingInfo?.data?.subsidiaries.length}
             </Text>
           </div>
 
           <div className='px-[16px] tablet:px-[24px]'>
             <div className='mb-[32px] mt-[20px] flex flex-col gap-y-[12px]'>
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
-              <AlsoOwnItem />
+              {taggingInfo?.data?.subsidiaries.map((item, index) => (
+                <AlsoOwnItem key={index} data={item} />
+              ))}
             </div>
           </div>
         </div>
