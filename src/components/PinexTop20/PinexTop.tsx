@@ -16,9 +16,9 @@ const PinexTop = (props: Iprops) => {
       className={classNames(
         'flex items-center justify-between rounded-[15px] px-[16px] py-[10px]',
         {
-          'bg-[#FCECC4]': number === 1,
-          'bg-[#ECD1F0]': number === 2,
-          'bg-[#D7EEFF]': number === 3,
+          'bg-[#B6E3F8]': number === 1,
+          'bg-[#C7EAFD]': number === 2,
+          'bg-[#E0F4FF]': number === 3,
           'bg-[#F7F6F8]': number > 3,
         },
       )}
@@ -26,30 +26,16 @@ const PinexTop = (props: Iprops) => {
       <div className='flex items-center'>
         <div
           className={classNames(
-            'mr-[16px] flex h-[24px] w-[24px] flex-row items-center justify-center rounded-full border-[1.5px] border-solid',
-            {
-              'border-[#E6A70A]': number === 1,
-              'border-[#B349C3]': number === 2,
-              'border-[#1F6EAC]': number === 3,
-              'border-[#0D0D0D]': number > 3,
-            },
+            'mr-[16px] flex h-[24px] w-[24px] flex-row items-center justify-center rounded-full',
           )}
         >
-          <Text
-            type='body-12-semibold'
-            className={classNames('h-[15x]', {
-              'text-[#E6A70A]': number === 1,
-              'text-[#B349C3]': number === 2,
-              'text-[#1F6EAC]': number === 3,
-              'text-[#0D0D0D]': number > 3,
-            })}
-          >
+          <Text type='body-14-medium' className={classNames('h-[15x] text-[#0D0D0D]')}>
             {number}
           </Text>
         </div>
         <img
           src={imageStock(data?.stockCode)}
-          className='mr-[10px] h-[36px] w-[36px] rounded-full object-contain'
+          className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain'
           alt=''
         />
         <div>

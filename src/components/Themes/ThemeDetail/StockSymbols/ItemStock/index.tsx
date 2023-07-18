@@ -30,7 +30,7 @@ const ItemStock = ({ data }: { data: IStockTheme }) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='mr-[10px] h-[36px] w-[36px] rounded-full object-contain'
+            className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain'
           />
           <div>
             <div className='flex items-center'>
@@ -60,7 +60,7 @@ const ItemStock = ({ data }: { data: IStockTheme }) => {
               'text-[#E6A70A]  ': Math.ceil(data?.change_price) === 0,
             })}
           >
-            {/* {data?.last_price?.toFixed(2)} */}43.95
+            {data?.last_price?.toFixed(2)}
           </Text>
 
           <Text

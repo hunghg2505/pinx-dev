@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useDebounceFn, useFocusWithin } from 'ahooks';
+import { useClickAway, useDebounceFn, useFocusWithin } from 'ahooks';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -25,15 +25,17 @@ const Search = (props: any, ref: any) => {
   const refInput = React.useRef(null);
   const [form] = Form.useForm();
   const [showPopup, setShowPopup] = React.useState(false);
+  const [showRecent, setShowRecent] = React.useState(false);
   const { listRecent } = useGetSearchRecent();
   const { popular } = useGetPopular();
   const isLogin = getAccessToken();
   const router = useRouter();
-  const isFocusWithin = useFocusWithin(refInput, {
-    onFocus: () => {},
-    onBlur: () => {},
+  useFocusWithin(refInput, {
+    onFocus: () => {
+      setShowRecent(true);
+    },
   });
-  const { search, data, loading } = useSearchPublic();
+  const { search, data, loading, refresh } = useSearchPublic();
   const { run } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search');
@@ -57,6 +59,10 @@ const Search = (props: any, ref: any) => {
       run();
     },
   }));
+  const onClickRecent = (data: any) => {
+    form.setFieldValue('search', data);
+    run();
+  };
   const valueInput = form.getFieldValue('search');
   const companies = data?.data?.companies;
   const news = data?.data?.news;
@@ -71,6 +77,9 @@ const Search = (props: any, ref: any) => {
       },
     });
   };
+  useClickAway(() => {
+    setShowRecent(false);
+  }, refInput);
   return (
     <>
       <div
@@ -79,52 +88,61 @@ const Search = (props: any, ref: any) => {
             showPopup,
         })}
       >
-        <Form form={form} onValuesChange={run}>
-          <FormItem name='search'>
-            <Input
-              className='h-[40px] w-full rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
-              placeholder='Are you looking for something?'
-              icon={<IconSearchWhite />}
-              ref={refInput}
-            />
-          </FormItem>
-        </Form>
-        {isFocusWithin && !valueInput && (
-          <div className='absolute left-0 top-[50px] z-10 w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
-            {isLogin && (
-              <>
-                <Text type='body-14-semibold' color='neutral-black'>
-                  Recent
-                </Text>
-                <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px]'>
-                  {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
-                    return (
-                      <div key={index} className='rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px]'>
-                        <Text type='body-14-regular' color='primary-2'>
-                          {item?.keyword}
-                        </Text>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-            <Text type='body-14-semibold' color='neutral-black'>
-              Popular
-            </Text>
-            <div className='mt-[12px] flex flex-row flex-wrap gap-[16px]'>
-              {popular?.slice(0, 6)?.map((item: any, index: number) => {
-                return (
-                  <div key={index} className='rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px]'>
-                    <Text type='body-14-regular' color='primary-2'>
-                      {item?.keyword}
-                    </Text>
+        <div ref={refInput}>
+          <Form form={form} onValuesChange={run}>
+            <FormItem name='search'>
+              <Input
+                className='h-[40px] w-full rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
+                placeholder='Are you looking for something?'
+                icon={<IconSearchWhite />}
+              />
+            </FormItem>
+          </Form>
+          {showRecent && !valueInput && (
+            <div className='absolute left-0 top-[50px] z-10 w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+              {isLogin && (
+                <>
+                  <Text type='body-14-semibold' color='neutral-black'>
+                    Recent
+                  </Text>
+                  <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px]'>
+                    {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
+                      return (
+                        <div
+                          key={index}
+                          className='cursor-pointer rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px]'
+                          onClick={() => onClickRecent(item?.keyword)}
+                        >
+                          <Text type='body-14-regular' color='primary-2'>
+                            {item?.keyword}
+                          </Text>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </>
+              )}
+              <Text type='body-14-semibold' color='neutral-black'>
+                Popular
+              </Text>
+              <div className='mt-[12px] flex flex-row flex-wrap gap-[16px]'>
+                {popular?.slice(0, 6)?.map((item: any, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className='cursor-pointer rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px]'
+                      onClick={() => onClickRecent(item?.keyword)}
+                    >
+                      <Text type='body-14-regular' color='primary-2'>
+                        {item?.keyword}
+                      </Text>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <div
           className={classNames(
             'pointer-events-none absolute left-0  top-[55px] z-20 w-full -translate-y-full transform rounded-[12px] bg-[#ffffff] px-[16px] opacity-0 [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] [transition:0.5s]',
@@ -188,7 +206,7 @@ const Search = (props: any, ref: any) => {
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
                   {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
-                    return <PostItem key={index} postDetail={post} />;
+                    return <PostItem key={index} postDetail={post} refresh={refresh} />;
                   })}
                 </div>
                 {posts?.length > 3 && (

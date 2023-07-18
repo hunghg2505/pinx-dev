@@ -1,3 +1,15 @@
+.popupAddNewStock{
+  .rc-dialog-content{
+    max-width: 100%;
+    width: 749px;
+  }
+  .rc-dialog-body{
+    @media (min-width: 768px) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+}
 .rc-tabs {
   &.tabHome {
     .rc-tabs-nav-wrap {
@@ -43,6 +55,10 @@
     }
   }
   &.tabHomePc {
+    .rc-tabs-nav-operations {
+      display: none;
+    }
+
     .rc-tabs-nav-list {
       justify-content: space-between;
       .rc-tabs-ink-bar {
@@ -76,7 +92,7 @@
         }
       }
     }
-    
+
   }
 }
 .rc-dialog {
@@ -86,6 +102,12 @@
   transform: translate(-50%, -50%);
   margin: auto !important;
   width: 100% !important;
+}
+.peopleYouKnow{
+  width: 431px !important;
+  @media (max-width : 480px){
+    width: 100% !important;
+  }
 }
 .slide-watchlist {
   .slick-list {
@@ -119,9 +141,11 @@
     width: calc(100% - 32px) !important;
   }
 }
+.messageBody {
+  display: flex !important;
+  flex-direction: column;
+}
 .messageFormat {
-  // display: flex !important;
-  // flex-direction: column;
   a {
     font-weight: 600;
     font-size: 16px;
@@ -139,11 +163,11 @@
     z-index: 10;
     font-weight: 400 !important;
   }
-  .tagStock{
+  .tagStock {
     font-weight: 600 !important;
   }
 }
-.tagStock{
+.tagStock {
   font-weight: 600 !important;
 }
 // menu
@@ -385,7 +409,7 @@
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px tint(#2db7f5, 80%);
+    box-shadow: 0 0 0 2px rgba(#2db7f5, 80%);
     outline: none;
   }
 

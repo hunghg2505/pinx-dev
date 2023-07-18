@@ -99,7 +99,6 @@ const NewFeedItem = (props: IProps) => {
   }, [modalReportVisible]);
 
   const id = router.query?.id;
-  const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
   const handleComment = () => {
     if (isPostDetailPath) {
@@ -354,7 +353,7 @@ const NewFeedItem = (props: IProps) => {
       name = 'CafeF';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
-      name = 'TNCKNews';
+      name = 'Tin nhanh chứng khoán';
     }
     return name;
   };
@@ -419,14 +418,25 @@ const NewFeedItem = (props: IProps) => {
       </>
     );
   };
+  const onClickProfileDetail = () => {
+    if (
+      [
+        TYPEPOST.POST,
+        TYPEPOST.ActivityTheme,
+        TYPEPOST.ActivityWatchlist,
+        TYPEPOST.ActivityMatchOrder,
+      ].includes(postDetail?.post.postType)
+    ) {
+      router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
+    }
+  };
   return (
     <div
       className={classNames('newsfeed  border-t border-solid border-[#D8EBFC] py-[24px]', {
         'border-b': totalComments > 0,
       })}
-      onClick={() => router.push(`${ROUTE_PATH.PROFILE}/${customerId}`)}
     >
-      <div className='flex flex-row justify-between'>
+      <div className='flex flex-row justify-between ' onClick={onClickProfileDetail}>
         <div className='flex cursor-pointer flex-row items-center'>
           <div
             ref={refHover}
@@ -462,19 +472,19 @@ const NewFeedItem = (props: IProps) => {
 
           <div>
             <div className='flex'>
-              <Text type='body-14-semibold' color='neutral-1' className='mr-[5px]'>
-                {renderDisplayName()}
-              </Text>
-              {isKol && (
-                <img
-                  src='/static/icons/iconKol.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[20px] w-[20px]'
-                />
-              )}
+              <div className='mr-[5px] flex items-center'>
+                <Text type='body-14-semibold' color='neutral-1'>
+                  {renderDisplayName()}
+                </Text>
+
+                {postDetail?.post?.customerInfo?.isFeatureProfile && (
+                  <img
+                    src='/static/icons/iconKol.svg'
+                    alt='Icon kol'
+                    className='ml-[4px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+              </div>
             </div>
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
               {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
@@ -503,7 +513,7 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 z-10 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+              <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
                 {[
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,

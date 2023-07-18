@@ -7,10 +7,12 @@ import { toast } from 'react-hot-toast';
 
 import { INewFeed } from '@components/Home/service';
 import { likePost, unlikePost, useCommentsOfPost } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { toNonAccentVietnamese } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
@@ -22,11 +24,16 @@ export enum ActionPostEnum {
   SUBSCRIBE = 'SUBSCRIBE',
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
+  console.log('🚀 ~ file: index.tsx:25 ~ ItemActivities ~ data:', data);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser, isLogin } = useUserType();
   const isSubsribed = data?.post?.action === ActionPostEnum.SUBSCRIBE;
   const idPost = data?.id;
   const isLike = data?.isLike;
+  const avatar = data?.post?.customerInfo?.avatar;
+  const nameAvatar =
+    data?.post?.customerInfo?.displayName &&
+    toNonAccentVietnamese(data?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(data?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
   const commentChild = commentsOfPost?.data?.list?.reduce(
@@ -96,11 +103,14 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
   };
   return (
     <div className='flex'>
-      <img
-        src='/static/logo/logoPintree.png'
-        alt=''
-        className='mr-[12px] h-[28px] w-[28px] rounded-full'
-      />
+      {avatar ? (
+        <img src={avatar} alt='' className='mr-[12px] h-[28px] w-[28px] rounded-full' />
+      ) : (
+        <div className='mr-[12px] h-[28px] w-[28px]'>
+          <AvatarDefault name={nameAvatar} />
+        </div>
+      )}
+
       <div className='w-[calc(100%_-_40px)]'>
         <div className='relative w-full rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px]'>
           <div className='flex items-center justify-between'>
