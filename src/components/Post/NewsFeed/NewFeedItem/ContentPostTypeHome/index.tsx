@@ -178,7 +178,7 @@ const ContentPostTypeHome = (props: IProps) => {
                 <Text
                   type='body-12-bold'
                   color='neutral-2'
-                  className='text-center mobile:mt-[25px] desktop:mt-[39px] desktop:!text-[20px]'
+                  className='text-center mobile:mt-[25px] desktop:mt-[39px] desktop:!text-[20px] desktop:!leading-[24px]'
                 >
                   {postDetail?.post.themeName}
                 </Text>
