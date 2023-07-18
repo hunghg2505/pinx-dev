@@ -183,7 +183,7 @@ export const useCommentsOfPost = (postId: string) => {
   return {
     commentsOfPost: data,
     loading,
-    refreshCommentOfPOst: refresh,
+    refreshCommentOfPost: refresh,
   };
 };
 

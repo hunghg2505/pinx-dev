@@ -299,3 +299,21 @@ export interface IResponseStockNews {
   };
   refreshStockNews: () => void;
 }
+
+export interface IResponseStockActivities {
+  stockActivities?: {
+    data: {
+      list: IPost[];
+      last: string;
+      hasNext: boolean;
+    };
+  };
+  refreshStockActivities: () => void;
+}
+
+export enum ActivityIconType {
+  SUBSCRIBE = 'ADD',
+  UNSUBSCRIBE = 'REMOVE',
+  INVESTED = 'BUY',
+  SOLD = 'SELL',
+}

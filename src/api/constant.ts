@@ -88,6 +88,9 @@ export const API_PATH = {
   PUBLIC_STOCK_REVIEWS: (stockCode: string) => `/public/stock/${stockCode}/reviews`,
   PUBLIC_STOCK_NEWS: (stockCode: string) => `/public/stock/${stockCode}/news`,
   PRIVATE_STOCK_NEWS: (stockCode: string) => `/private/stock/${stockCode}/news`,
+  PUBLIC_STOCK_ACTIVITIES: (stockCode: string) => `/public/stock/${stockCode}/activities`,
+  PRIVATE_STOCK_ACTIVITIES: (stockCode: string) => `/private/stock/${stockCode}/activities`,
+
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',
   PRIVATE_WATCH_LIST_STOCK: '/private/watchlist/stock/all',

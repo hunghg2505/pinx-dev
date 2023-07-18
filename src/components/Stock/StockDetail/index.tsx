@@ -19,6 +19,7 @@ import { IMAGE_COMPANY_URL, USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
+import ActivityItem from './ActivityItem';
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
 import FinancialAnnualTab from './FinancialAnnualTab';
@@ -46,6 +47,7 @@ import {
   useHoldingRatio,
   useMyListStock,
   useShareholder,
+  useStockActivities,
   useStockDetail,
   useStockDetailsExtra,
   useStockNews,
@@ -61,6 +63,7 @@ const WATCHING_INVESTING_ITEM_LIMIT = 5;
 const HIGHLIGH_ROW_LIMIT = 3;
 const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
+const ACTIVITIES_ITEM_LIMIT = 5;
 
 const settings = {
   dots: false,
@@ -71,6 +74,49 @@ const settings = {
   swipeToSlide: true,
   // autoplay: true,
   // autoplaySpeed: 1000,
+};
+
+const fakeMultipleLanguage = (value: string) => {
+  switch (value) {
+    case FinancialIndexKey.marketCap: {
+      return 'MARKET CAP';
+    }
+    case FinancialIndexKey.volume: {
+      return 'VOLUME';
+    }
+    case FinancialIndexKey.pe: {
+      return 'P/E';
+    }
+    case FinancialIndexKey.roe: {
+      return 'ROE';
+    }
+    default: {
+      return '';
+    }
+  }
+};
+
+const convertFinancialIndexData = (data?: IFinancialIndex) => {
+  if (data) {
+    const onlyKeys = new Set([
+      FinancialIndexKey.marketCap,
+      FinancialIndexKey.volume,
+      FinancialIndexKey.pe,
+      FinancialIndexKey.roe,
+    ]);
+
+    const arr = Object.keys(data);
+    arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
+
+    return arr
+      .filter((item) => onlyKeys.has(item))
+      .map((item) => ({
+        label: fakeMultipleLanguage(item),
+        value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
+      }));
+  }
+
+  return [];
 };
 
 const StockDetail = () => {
@@ -104,6 +150,9 @@ const StockDetail = () => {
   const { stockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode);
   const { stockNews, refreshStockNews } = useStockNews(stockCode);
+  const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
+    limit: ACTIVITIES_ITEM_LIMIT,
+  });
 
   const urlImageCompany = `${
     stockDetail?.data?.stockCode?.length === 3 || stockDetail?.data?.stockCode[0] !== 'C'
@@ -165,50 +214,18 @@ const StockDetail = () => {
     }
   };
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const convertFinancialIndexData = (data?: IFinancialIndex) => {
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    const fakeMultipleLanguage = (value: string) => {
-      switch (value) {
-        case FinancialIndexKey.marketCap: {
-          return 'MARKET CAP';
-        }
-        case FinancialIndexKey.volume: {
-          return 'VOLUME';
-        }
-        case FinancialIndexKey.pe: {
-          return 'P/E';
-        }
-        case FinancialIndexKey.roe: {
-          return 'ROE';
-        }
-        default: {
-          return '';
-        }
-      }
-    };
-
-    if (data) {
-      const onlyKeys = new Set([
-        FinancialIndexKey.marketCap,
-        FinancialIndexKey.volume,
-        FinancialIndexKey.pe,
-        FinancialIndexKey.roe,
-      ]);
-
-      const arr = Object.keys(data);
-      arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
-
-      return arr
-        .filter((item) => onlyKeys.has(item))
-        .map((item) => ({
-          label: fakeMultipleLanguage(item),
-          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
-        }));
-    }
-
-    return [];
-  };
+  // remove
+  // const { data } = useRequest(() => {
+  //   return request.get(
+  //     'https://api.pinex.vn/community/private/stock/' + stockCode + '/activities/?limit=100',
+  //     {
+  //       headers: {
+  //         Authorization:
+  //           'eyJhbGciOiJIUzI1NiJ9.eyJjaWYiOiIwMDI3NTkyNyIsImZpcnN0TG9naW4iOmZhbHNlLCJ2c2QiOiIwMTBDMTYzNTkwIiwic2Vzc2lvbiI6Imd1MjY1eHhxRG9BemY0bktCNEFMQWFDS1JQYXVNcGhmM2pYeWNNeEVSZWdMQkZQWW9acXk1UkJ5RjE0QzJjd04iLCJhY250U3RhdCI6IkFDVElWRSIsImF1dGhEZWYiOiJUT1AiLCJ1c2VySWQiOjIzMTUzNywiYXV0aG9yaXRpZXMiOiJST0xFX0NVU1RPTUVSIiwiZXhwaXJlZEF0IjoxNzIwNzg4NjU4NjQ0LCJzdWJBY2NvdW50Tm8iOiJOMDAxNjQzMjQiLCJjdXN0U3RhdCI6IlBSTyIsInBob25lIjoiMDMzNjY1NDU4OSIsImFjY291bnRObyI6IjAwMTY0MzI0IiwibmFtZSI6Ik5HVVnhu4ROIFRI4buKIFRIVSBI4bqwTkciLCJlbWFpbCI6InRodXVoYW5nOXhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJ0aHVoYW5nMTUifQ.j0QL03nV2vl7hJcTAC3DceV7MXPrWpxnxnT9MYxHMww',
+  //       },
+  //     },
+  //   );
+  // });
 
   return (
     <>
@@ -839,316 +856,13 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>Activities</Text>
 
             <div className='my-[20px] flex flex-col gap-y-[16px]'>
-              <div className='flex'>
-                <img
-                  src='https://picsum.photos/200/300'
-                  alt='Avatar user'
-                  className='h-[28px] w-[28px] rounded-full object-cover'
+              {stockActivities?.data.list.map((item, index) => (
+                <ActivityItem
+                  data={item}
+                  key={index}
+                  refreshStockActivities={refreshStockActivities}
                 />
-
-                <div className='ml-[12px] flex-1'>
-                  <div className='relative rounded-[12px] bg-[#F7F6F8] px-[16px] pb-[16px] pt-[12px]'>
-                    <div className='flex items-center justify-between'>
-                      <Text type='body-14-semibold'>Robbin Klevar</Text>
-
-                      <Text type='body-12-regular' className='text-[#999999]'>
-                        3 days ago
-                      </Text>
-                    </div>
-
-                    <div className='mt-[12px] flex items-center'>
-                      <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                        <img
-                          src='/static/icons/iconHeartActiveNoShadow.svg'
-                          alt='Icon heart'
-                          className='h-[16px] w-[16px] object-contain'
-                        />
-                      </div>
-
-                      <Text type='body-14-regular' className='ml-[8px]'>
-                        Interested in HPG
-                      </Text>
-                    </div>
-
-                    <div className='absolute bottom-0 right-[6px] flex h-[24px] translate-y-1/2 items-center justify-center rounded-full bg-[#F0F7FC] px-[10px] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-                      <img
-                        src='/static/icons/iconLike.svg'
-                        alt='Icon like active'
-                        className='h-[14px] w-[16px] object-contain'
-                      />
-                      <Text type='body-12-regular' className='ml-[4px]' color='primary-1'>
-                        31
-                      </Text>
-                    </div>
-                  </div>
-
-                  <div className='mt-[8px] flex gap-x-[38px]'>
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      Like
-                    </Text>
-
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      32 Comment
-                    </Text>
-                  </div>
-                </div>
-              </div>
-
-              <div className='flex'>
-                <img
-                  src='https://picsum.photos/200/300'
-                  alt='Avatar user'
-                  className='h-[28px] w-[28px] rounded-full object-cover'
-                />
-
-                <div className='ml-[12px] flex-1'>
-                  <div className='relative rounded-[12px] bg-[#E3F6E2] px-[16px] pb-[16px] pt-[12px]'>
-                    <div className='flex items-center justify-between'>
-                      <Text type='body-14-semibold'>Robbin Klevar</Text>
-
-                      <Text type='body-12-regular' className='text-[#999999]'>
-                        3 days ago
-                      </Text>
-                    </div>
-
-                    <div className='mt-[12px] flex items-center'>
-                      <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                        <img
-                          src='/static/icons/iconTrading.svg'
-                          alt='Icon trading'
-                          className='h-[20px] w-[14px] object-contain'
-                        />
-                      </div>
-
-                      <Text type='body-14-regular' className='ml-[8px]'>
-                        Sold HPG
-                      </Text>
-
-                      <div className='ml-auto flex h-[25px] items-center justify-center rounded-full bg-[#B9E18E] px-[8px]'>
-                        <img
-                          src='/static/icons/iconTradingUp.svg'
-                          alt='Icon up'
-                          className='h-[20px] w-[20px] object-contain'
-                        />
-
-                        <Text type='body-16-regular' className='ml-[4px]' color='semantic-2-1'>
-                          14.95%
-                        </Text>
-                      </div>
-                    </div>
-
-                    <div className='absolute bottom-0 right-[6px] flex h-[24px] translate-y-1/2 items-center justify-center rounded-full bg-[#F0F7FC] px-[10px] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-                      <img
-                        src='/static/icons/iconLike.svg'
-                        alt='Icon like active'
-                        className='h-[14px] w-[16px] object-contain'
-                      />
-                      <Text type='body-12-regular' className='ml-[4px]' color='primary-1'>
-                        31
-                      </Text>
-                    </div>
-                  </div>
-
-                  <div className='mt-[8px] flex gap-x-[38px]'>
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      Like
-                    </Text>
-
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      32 Comment
-                    </Text>
-                  </div>
-                </div>
-              </div>
-
-              <div className='flex'>
-                <img
-                  src='https://picsum.photos/200/300'
-                  alt='Avatar user'
-                  className='h-[28px] w-[28px] rounded-full object-cover'
-                />
-
-                <div className='ml-[12px] flex-1'>
-                  <div className='relative rounded-[12px] bg-[#FBF4F5] px-[16px] pb-[16px] pt-[12px]'>
-                    <div className='flex items-center justify-between'>
-                      <Text type='body-14-semibold'>Robbin Klevar</Text>
-
-                      <Text type='body-12-regular' className='text-[#999999]'>
-                        3 days ago
-                      </Text>
-                    </div>
-
-                    <div className='mt-[12px] flex items-center'>
-                      <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                        <img
-                          src='/static/icons/iconTrading.svg'
-                          alt='Icon trading'
-                          className='h-[20px] w-[14px] object-contain'
-                        />
-                      </div>
-
-                      <Text type='body-14-regular' className='ml-[8px]'>
-                        Sold HPG
-                      </Text>
-
-                      <div className='ml-auto flex h-[25px] items-center justify-center rounded-full bg-[#F5E4E7] px-[8px]'>
-                        <img
-                          src='/static/icons/iconTradingDown.svg'
-                          alt='Icon up'
-                          className='h-[20px] w-[20px] object-contain'
-                        />
-
-                        <Text type='body-16-regular' className='ml-[4px] text-[#DA314F]'>
-                          14.95%
-                        </Text>
-                      </div>
-                    </div>
-
-                    <div className='absolute bottom-0 right-[6px] flex h-[24px] translate-y-1/2 items-center justify-center rounded-full bg-[#F0F7FC] px-[10px] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-                      <img
-                        src='/static/icons/iconLike.svg'
-                        alt='Icon like active'
-                        className='h-[14px] w-[16px] object-contain'
-                      />
-                      <Text type='body-12-regular' className='ml-[4px]' color='primary-1'>
-                        31
-                      </Text>
-                    </div>
-                  </div>
-
-                  <div className='mt-[8px] flex gap-x-[38px]'>
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      Like
-                    </Text>
-
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      32 Comment
-                    </Text>
-                  </div>
-                </div>
-              </div>
-
-              <div className='flex'>
-                <img
-                  src='https://picsum.photos/200/300'
-                  alt='Avatar user'
-                  className='h-[28px] w-[28px] rounded-full object-cover'
-                />
-
-                <div className='ml-[12px] flex-1'>
-                  <div className='relative rounded-[12px] bg-[#F7F6F8] px-[16px] pb-[16px] pt-[12px]'>
-                    <div className='flex items-center justify-between'>
-                      <Text type='body-14-semibold'>Robbin Klevar</Text>
-
-                      <Text type='body-12-regular' className='text-[#999999]'>
-                        3 days ago
-                      </Text>
-                    </div>
-
-                    <div className='mt-[12px] flex items-center'>
-                      <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                        <img
-                          src='/static/icons/iconTreeNoShadow.svg'
-                          alt='Icon heart'
-                          className='h-[18px] w-[21px] object-contain'
-                        />
-                      </div>
-
-                      <Text type='body-14-regular' className='ml-[8px]'>
-                        Invested in HPG
-                      </Text>
-                    </div>
-
-                    <div className='absolute bottom-0 right-[6px] flex h-[24px] translate-y-1/2 items-center justify-center rounded-full bg-[#F0F7FC] px-[10px] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-                      <img
-                        src='/static/icons/iconLike.svg'
-                        alt='Icon like active'
-                        className='h-[14px] w-[16px] object-contain'
-                      />
-                      <Text type='body-12-regular' className='ml-[4px]' color='primary-1'>
-                        31
-                      </Text>
-                    </div>
-                  </div>
-
-                  <div className='mt-[8px] flex gap-x-[38px]'>
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      Like
-                    </Text>
-
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      32 Comment
-                    </Text>
-                  </div>
-                </div>
-              </div>
-
-              <div className='flex'>
-                <img
-                  src='https://picsum.photos/200/300'
-                  alt='Avatar user'
-                  className='h-[28px] w-[28px] rounded-full object-cover'
-                />
-
-                <div className='ml-[12px] flex-1'>
-                  <div className='relative rounded-[12px] bg-[#E3F6E2] px-[16px] pb-[16px] pt-[12px]'>
-                    <div className='flex items-center justify-between'>
-                      <Text type='body-14-semibold'>Robbin Klevar</Text>
-
-                      <Text type='body-12-regular' className='text-[#999999]'>
-                        3 days ago
-                      </Text>
-                    </div>
-
-                    <div className='mt-[12px] flex items-center'>
-                      <div className='flex h-[24px] w-[24px] items-center justify-center'>
-                        <img
-                          src='/static/icons/iconTrading.svg'
-                          alt='Icon trading'
-                          className='h-[20px] w-[14px] object-contain'
-                        />
-                      </div>
-
-                      <Text type='body-14-regular' className='ml-[8px]'>
-                        Sold HPG
-                      </Text>
-
-                      <div className='ml-auto flex h-[25px] items-center justify-center rounded-full bg-[#B9E18E] px-[8px]'>
-                        <img
-                          src='/static/icons/iconTradingUp.svg'
-                          alt='Icon up'
-                          className='h-[20px] w-[20px] object-contain'
-                        />
-
-                        <Text type='body-16-regular' className='ml-[4px]' color='semantic-2-1'>
-                          14.95%
-                        </Text>
-                      </div>
-                    </div>
-
-                    <div className='absolute bottom-0 right-[6px] flex h-[24px] translate-y-1/2 items-center justify-center rounded-full bg-[#F0F7FC] px-[10px] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-                      <img
-                        src='/static/icons/iconLike.svg'
-                        alt='Icon like active'
-                        className='h-[14px] w-[16px] object-contain'
-                      />
-                      <Text type='body-12-regular' className='ml-[4px]' color='primary-1'>
-                        31
-                      </Text>
-                    </div>
-                  </div>
-
-                  <div className='mt-[8px] flex gap-x-[38px]'>
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      Like
-                    </Text>
-
-                    <Text type='body-12-regular' className='text-[#999999]'>
-                      32 Comment
-                    </Text>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

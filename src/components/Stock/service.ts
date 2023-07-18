@@ -5,6 +5,7 @@ import { privateRequest, requestCommunity, requestMarket, requestPist } from '@a
 import { getAccessToken } from '@store/auth';
 
 import {
+  IResponseStockActivities,
   IOptions,
   IResponseFinancialIndex,
   IResponseHoldingRatio,
@@ -215,6 +216,33 @@ const useStockNews = (stockCode: string): IResponseStockNews => {
   };
 };
 
+const useStockActivities = (
+  stockCode: string,
+  params?: { limit?: number; last?: number },
+): IResponseStockActivities => {
+  const { data, refresh } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_ACTIVITIES(stockCode), {
+            params,
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_STOCK_ACTIVITIES(stockCode), {
+            params,
+          });
+    },
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    stockActivities: data,
+    refreshStockActivities: refresh,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -228,4 +256,5 @@ export {
   useStockDetailsExtra,
   useStockReviews,
   useStockNews,
+  useStockActivities,
 };
