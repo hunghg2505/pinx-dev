@@ -32,6 +32,12 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.redirect(url);
   // }
 
+  if (request.nextUrl.locale === 'vi') {
+    return NextResponse.redirect(
+      new URL(`/en${request.nextUrl.pathname}${request.nextUrl.search}`, request.url),
+    );
+  }
+
   return NextResponse.next();
 }
 
