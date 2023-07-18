@@ -12,7 +12,7 @@ const MyStory = () => {
   return (
     <>
       {profileUser?.caption && (
-        <div className='px-[16px] mb-[36px]'>
+        <div className='mb-[36px] px-[16px]'>
           <PreViewStory
             openStory={() => {
               modalRef.current?.open();
