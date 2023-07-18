@@ -80,7 +80,8 @@ export const API_PATH = {
     `/private/watchlist/stock/${stockCode}/remove`,
   PUBLIC_TOP_WATCHING: '/public/watchlist/top-watching',
   PUBLIC_TOP_MENTION: '/public/stock/top-mention',
-
+  PRIVATE_REMOVE_STOCK: (code: string) => `/private/watchlist/stock/${code}/remove`,
+  PRIVATE_SUGGESTED_STOCK: '/private/customer/watchlist/suggested/stockcodes',
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
