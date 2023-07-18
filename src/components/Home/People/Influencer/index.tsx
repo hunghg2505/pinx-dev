@@ -24,7 +24,9 @@ const Influencer = () => {
           (item: IKOL, index: number) => {
             return (
               <div key={index} className='mr-[16px]'>
-                <ItemInfluence data={item} refresh={refresh} />
+                <div className='w-[161px]'>
+                  <ItemInfluence data={item} refresh={refresh} />
+                </div>
               </div>
             );
           },

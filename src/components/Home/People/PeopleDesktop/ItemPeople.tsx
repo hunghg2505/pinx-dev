@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -12,12 +13,13 @@ import {
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
 }
 const ItemPeople = (props: IProps) => {
+  const router = useRouter();
   const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(
     (id: number) => {
@@ -62,7 +64,10 @@ const ItemPeople = (props: IProps) => {
 
   return (
     <div className='item mb-[26px] flex items-center justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
-      <div className='flex'>
+      <div
+        className='flex cursor-pointer'
+        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
+      >
         {data?.avatar ? (
           <img
             src={data?.avatar}

@@ -83,7 +83,7 @@ export const useGetPopular = () => {
   };
 };
 export const useSearchPublic = () => {
-  const { data, run, loading } = useRequest(
+  const { data, run, loading, refresh } = useRequest(
     (payload: ISearch) => {
       return requestPist.post(API_PATH.PUBLIC_SEARCH, {
         data: payload,
@@ -97,5 +97,6 @@ export const useSearchPublic = () => {
     data,
     search: run,
     loading,
+    refresh,
   };
 };

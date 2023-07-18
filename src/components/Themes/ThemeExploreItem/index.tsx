@@ -19,7 +19,7 @@ const ThemeExploreItem = (props: IProps) => {
   };
   return (
     <div
-      className='relative flex h-[214px] cursor-pointer flex-col justify-end rounded-[12px] bg-[#ffffff]'
+      className='relative flex h-[214px] cursor-pointer flex-col justify-end rounded-[12px] bg-[#ffffff] mobile-max:h-[237px]'
       onClick={onGotoDetail}
     >
       <img

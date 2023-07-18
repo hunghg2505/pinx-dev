@@ -76,7 +76,7 @@ const ThemeDetail = () => {
   };
   return (
     <>
-      <div className='desktop:px-[24px] desktop:py-[20px]'>
+      <div className='mt-[24px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
         <div className='relative text-center'>
           <img
             src='/static/icons/back_icon.svg'
@@ -85,7 +85,7 @@ const ThemeDetail = () => {
             onClick={onGoBack}
           />
           <Text type='body-24-semibold' color='neutral-1' className=''>
-            Themes details
+            Theme details
           </Text>
         </div>
         <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>

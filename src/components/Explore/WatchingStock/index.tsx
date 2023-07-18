@@ -29,7 +29,7 @@ const WatchingStock = (props: Iprops) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='mr-[10px] h-[36px] w-[36px] rounded-full object-contain'
+            className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain'
           />
           <div className='w-full'>
             <div className='flex items-center'>

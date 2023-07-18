@@ -28,7 +28,7 @@ export const ROUTE_PATH = {
   PAGE_NOT_FOUND: '/page-not-found',
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
-  GIFTCASH: 'gift-cash',
+  GIFTCASH: '/gift-cash',
 
   // SETTING
   SETTING: '/setting',
@@ -40,9 +40,11 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/watchlist',
+  PROFILE_DETAIL: (id: number) => `/profile/${id}`,
 };
 
 export const formatMessage = (message: string, data: any) => {

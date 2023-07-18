@@ -26,11 +26,11 @@ const Themes = () => {
         </Text>
       </div>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <div className='grid grid-cols-4 gap-x-[36px] gap-y-[28px] mobile-max:gap-x-[23px]'>
+      <div className='grid grid-cols-4 gap-x-[36px] gap-y-[28px] mobile-max:!grid-cols-2 mobile-max:gap-x-[23px]'>
         {theme?.map((theme: ITheme, index: number) => {
           return (
             <div key={index}>
-              <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
+              <div className=' mr-[23px] w-[149px] mobile-max:mr-[0px] mobile-max:w-full'>
                 <ThemeExploreItem data={theme} />
               </div>
             </div>
