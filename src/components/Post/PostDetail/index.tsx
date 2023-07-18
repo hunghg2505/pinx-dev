@@ -2,15 +2,26 @@
 import React, { useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import PopupAuth from '@components/UI/Popup/PopupAuth';
+import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
+import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
+import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
+// import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useContainerDimensions } from '@hooks/useDimensions';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
+import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { ROUTE_PATH } from '@utils/common';
 
 // import ItemComment from '../NewsFeed/ItemComment';
 // import NewFeedItem from '../NewsFeed/NewFeedItem';
+
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -43,17 +54,20 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
 
 const PostDetail = () => {
   const refSubReplies: any = useRef();
-
-  const refContainer: any = useRef();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { userType, isReadTerms } = useUserLoginInfo();
   const router = useRouter();
   const isLogin = !!getAccessToken();
-  const { width } = useContainerDimensions(refContainer);
-  // const [imageComment, setImageComment] = useState('');
+  const [width, setWidth] = React.useState<number>(0);
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
+  const { run: initUserProfile } = useProfileInitial();
   // is login
-
-  const { refresh, postDetail } = usePostDetail(String(router.query.id));
+  const { refresh, postDetail } = usePostDetail(String(router.query.id), {
+    onError: () => {
+      router.push(ROUTE_PATH.PAGE_NOT_FOUND);
+    },
+  });
 
   const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
 
@@ -67,6 +81,12 @@ const PostDetail = () => {
 
   const onGoToBack = () => {
     router.back();
+  };
+  const onRef = (ele: any) => {
+    if (!ele) {
+      return;
+    }
+    setWidth(ele?.offsetWidth);
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
@@ -98,10 +118,50 @@ const PostDetail = () => {
       );
     }
   };
+  // if (!postDetail) {
+  //   return <></>;
+  // }
+  const onCloseModal = () => {
+    setPopupStatus(initialPopupStatus);
+  };
+  React.useEffect(() => {
+    if (!!userType && !isReadTerms) {
+      setPopupStatus({
+        ...popupStatus,
+        popupLoginTerms: true,
+      });
+    }
+    initUserProfile();
+  }, [userType, isReadTerms]);
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <SkeletonLoading />
+  //     </>
+  //   );
+  // }
   return (
     <>
-      <div className='flex flex-row items-start' ref={refContainer}>
-        <div className='rounded-[8px] mobile:w-[375px] tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
+      {popupStatus.popupAccessLinmit && (
+        <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupLoginTerms && (
+        <PopupLoginTerms visible={popupStatus.popupLoginTerms} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupAuth && (
+        <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupRegisterOtp && (
+        <PopupRegisterOtp visible={popupStatus.popupRegisterOtp} onClose={onCloseModal} />
+      )}
+      {popupStatus.popupRegisterUsername && (
+        <PopupRegisterCreateUsername
+          visible={popupStatus.popupRegisterUsername}
+          onClose={onCloseModal}
+        />
+      )}
+      <div className='flex flex-row items-start' ref={onRef}>
+        <div className='rounded-[8px] mobile:w-[375px] mobile-max:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <div className='header relative mobile:h-auto desktop:h-[60px]'>
             <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
               Post detail
@@ -120,12 +180,15 @@ const PostDetail = () => {
               />
             </div>
           </div>
-          <NewFeedItem
-            postDetail={postDetail?.data}
-            totalComments={countComment}
-            onRefreshPostDetail={refresh}
-            postId={postDetail?.data?.id}
-          />
+          <div className='mobile:px-[16px] desktop:px-[20px]'>
+            <NewFeedItem
+              postDetail={postDetail?.data}
+              totalComments={countComment}
+              onRefreshPostDetail={refresh}
+              postId={postDetail?.data?.id}
+            />
+          </div>
+
           {isLogin && (
             <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
               <ForwardedRefComponent
@@ -182,7 +245,7 @@ const PostDetail = () => {
               <Text
                 type='body-14-regular'
                 color='neutral-3'
-                className='mt-[16px] text-center tablet:hidden'
+                className='mt-[16px] text-center tablet:mb-[32px]'
               >
                 There is no comments
               </Text>
@@ -203,7 +266,9 @@ const PostDetail = () => {
             </div>
           )}
         </div>
-        <ContentRight />
+        <div className='mobile:hidden tablet:block tablet:w-[250px] tablet:pr-[2px] laptop:w-[350px]'>
+          <ContentRight />
+        </div>
       </div>
 
       {!isLogin && <FooterSignUp />}

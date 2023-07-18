@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
@@ -9,8 +10,10 @@ import { toast } from 'react-hot-toast';
 import { getTotalSharePost, likePost, unlikePost } from '@components/Post/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 const ModalShare = dynamic(() => import('../ModalShare'));
@@ -31,6 +34,7 @@ const PostAction = (props: IPostActionProps) => {
 
   const [showModalShare, setShowModalShare] = useState(false);
   const { statusUser, isLogin } = useUserType();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
 
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
@@ -46,28 +50,6 @@ const PostAction = (props: IPostActionProps) => {
     manual: true,
   });
 
-  const useUnLike = useRequest(
-    () => {
-      return unlikePost(String(idPost));
-    },
-    {
-      manual: true,
-      onSuccess: () => {
-        onRefreshPostDetail();
-      },
-      onError: (err: any) => {
-        if (err?.error === 'VSD account is required') {
-          toast(() => (
-            <Notification
-              type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
-            />
-          ));
-        }
-      },
-    },
-  );
-
   const useLikePost = useRequest(
     () => {
       return likePost(String(idPost));
@@ -82,17 +64,44 @@ const PostAction = (props: IPostActionProps) => {
           toast(() => (
             <Notification
               type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
+              message='Your account has been pending to close. You cannot perform this action'
             />
           ));
         }
       },
     },
   );
-
+  const useUnLike = useRequest(
+    () => {
+      return unlikePost(String(idPost));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        onRefreshPostDetail();
+      },
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
+    },
+  );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();
@@ -100,19 +109,34 @@ const PostAction = (props: IPostActionProps) => {
         useLikePost.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 
   const handleComment = () => {
-    if (isLogin) {
-      if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
-        PopupComponent.openEKYC();
+    if (isPostDetailPath) {
+      if (isLogin) {
+        if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else if (statusUser !== USERTYPE.VSD) {
+          PopupComponent.openEKYC();
+        }
       } else {
-        onNavigate && onNavigate();
+        setPopupStatus({
+          ...popupStatus,
+          popupAccessLinmit: true,
+        });
       }
     } else {
-      PopupComponent.open();
+      onNavigate && onNavigate();
     }
   };
 
@@ -124,7 +148,7 @@ const PostAction = (props: IPostActionProps) => {
           onClick={() => handleLikeOrUnLikePost()}
         >
           <img
-            src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
+            src={isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
             color='#FFFFFF'
             alt=''
             width={16}
@@ -135,7 +159,7 @@ const PostAction = (props: IPostActionProps) => {
           <Text
             type='body-12-medium'
             color='primary-5'
-            className={classNames({ '!text-[#589DC0]': isLike })}
+            className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
           >
             {totalLikes || ''} Like
           </Text>

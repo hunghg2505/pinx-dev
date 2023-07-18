@@ -56,46 +56,52 @@ export default forwardRef((props: any, ref) => {
       return false;
     },
   }));
-
   return (
     <div className='fixed right-0 flex justify-center mobile:bottom-[60px] mobile:left-0 mobile:w-full tablet:w-[375px] desktop:w-[375px]'>
-      <div className='w-[375px] bg-[#ffffff] p-[15px]'>
-        <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
-          {props.items?.map((item: any, index: number) => {
-            const isStock = !!item.stockCode;
-            let url = '';
-            const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-            if (isStock) {
-              url = `${imageCompanyUrl}${
-                item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                  ? item?.stockCode
-                  : item?.stockCode?.slice(1, 4)
-              }.png`;
-            }
+      {props.items && (
+        <div className='w-[375px] bg-[#ffffff] p-[15px]'>
+          <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
+            {props.items?.map((item: any, index: number) => {
+              const isStock = !!item.stockCode;
+              let url = '';
+              const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+              if (isStock) {
+                url = `${imageCompanyUrl}${
+                  item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                    ? item?.stockCode
+                    : item?.stockCode?.slice(1, 4)
+                }.png`;
+              }
 
-            return (
-              <button
-                // className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
-                className={classNames('item h-30px mb-[12px] flex items-center')}
-                key={index}
-                onClick={() => selectItem(index)}
-              >
-                <img
-                  src={isStock ? url : item.avatar}
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='mr-[12px] h-[36px] w-[36px] rounded-full object-contain'
-                />
-                <Text type='body-14-medium' color='cbblack'>
-                  {isStock ? item.stockCode : item.displayName}
-                </Text>
-              </button>
-            );
-          })}
+              return (
+                <button
+                  // className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
+                  className={classNames(
+                    'item h-30px flex items-center p-[6px] hover:bg-[var(--primary-3)] tablet:p-[12px]',
+                  )}
+                  key={index}
+                  onClick={() => selectItem(index)}
+                >
+                  <img
+                    src={isStock ? url : item.avatar}
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
+                  />
+                  <Text
+                    type='body-14-medium'
+                    className='text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
+                  >
+                    {isStock ? item.stockCode : item.displayName}
+                  </Text>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 });

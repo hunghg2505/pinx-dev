@@ -56,10 +56,14 @@ interface TextProps {
     | 'neutral-7'
     | 'neutral-8'
     | 'neutral-9'
+    | 'neutral-black'
+    | 'neutral-gray'
+    | 'neutral-darkgray'
     | 'semantic-1'
     | 'semantic-2-1'
     | 'semantic-2-2'
     | 'semantic-3'
+    | 'gray'
     | undefined;
   disabled?: boolean;
   state?: null | 'disable';

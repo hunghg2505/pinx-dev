@@ -30,6 +30,12 @@ interface InitUserLoginInfo {
   forceAllow?: boolean;
   avatar?: string;
   displayName?: string;
+  totalFollower?: number;
+  totalFollowing?: number;
+  gender?: string;
+  dob?: string;
+  identityCardNo?: string;
+  address?: string;
 }
 
 const initialUserLoginInfo: InitUserLoginInfo = {

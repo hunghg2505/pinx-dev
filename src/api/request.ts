@@ -18,6 +18,12 @@ export const PREFIX_API_MARKET = ENV.URL_API_MARKET;
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 export const PREFIX_API_UPLOADPHOTO = ENV.URL_UPLOADPHOTO;
 
+let locale = '';
+if (typeof window !== 'undefined') {
+  // Perform localStorage action
+  locale = localStorage.getItem('locale')?.replaceAll('"', '') || '';
+}
+
 const redirectlogin = (error: any) => {
   if (getAccessToken() && (error?.response?.status === 401 || error?.response?.status === 403)) {
     localStorage.clear();
@@ -35,7 +41,7 @@ const requestPist = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': 'EN',
+    'Accept-Language': locale || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -47,7 +53,7 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': 'EN',
+    'Accept-Language': locale || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -58,7 +64,7 @@ const requestUploadPhoto = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': 'EN',
+    'Accept-Language': locale || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -69,7 +75,7 @@ const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
   headers: {
-    'Accept-Language': 'EN',
+    'Accept-Language': locale || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);

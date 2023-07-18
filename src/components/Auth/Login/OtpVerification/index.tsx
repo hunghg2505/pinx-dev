@@ -4,10 +4,11 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
 import Notification from '@components/UI/Notification';
+import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useLoginOtp, useResendLoginOtp, useConfirmContract } from './service';
+import { useLoginOtp, useConfirmContract } from './service';
 import OtpVerification from '../../OtpVerification';
 
 const Register = () => {
@@ -49,10 +50,7 @@ const Register = () => {
     requestLoginOtp.run(payload);
   };
 
-  const requestResendLoginOtp = useResendLoginOtp({
-    onSuccess: (res: any) => {
-      console.log('xxx res', res);
-    },
+  const requestResendLoginOtp = useSendLoginOtp({
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
     },
@@ -61,7 +59,6 @@ const Register = () => {
   const onResendOtp = () => {
     const payload = {
       authType: '1',
-      positionNo: '',
       trdType: '1',
     };
     requestResendLoginOtp.run(payload);
@@ -78,6 +75,7 @@ const Register = () => {
       onSubmit={onSubmit}
       onResendOtp={onResendOtp}
       phoneNumber={userLoginInfo.phone}
+      otpTime={60}
     />
   );
 };

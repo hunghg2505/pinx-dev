@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -9,13 +10,16 @@ import {
   requestFollowUser,
   requestUnFollowUser,
 } from '@components/Home/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
 }
 const ItemPeople = (props: IProps) => {
+  const router = useRouter();
   const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(
     (id: number) => {
@@ -55,21 +59,30 @@ const ItemPeople = (props: IProps) => {
     }
   };
   const { data } = props;
+  const name =
+    data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
+
   return (
     <div className='item mb-[26px] flex items-center justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
-      <div className='flex'>
-        <img
-          src={
-            data
-              ? data?.avatar
-              : 'https://static.pinetree.com.vn/upload/images/pist/profile/Tran_Doan_Tien.jpg'
-          }
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='mr-[10px] h-[48px] w-[48px] rounded-full'
-        />
+      <div
+        className='flex cursor-pointer'
+        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
+      >
+        {data?.avatar ? (
+          <img
+            src={data?.avatar}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='mr-[10px] h-[48px] w-[48px] rounded-full'
+          />
+        ) : (
+          <div className='h-[48px] w-[48px]'>
+            <AvatarDefault name={name} />
+          </div>
+        )}
+
         <div>
           <div className='flex items-center'>
             <Text type='body-14-semibold' color='cbblack'>
@@ -91,8 +104,9 @@ const ItemPeople = (props: IProps) => {
         </div>
       </div>
       <div
-        className={classNames('cursor-pointer rounded-[5px] bg-[#F0F7FC] p-[6px]', {
+        className={classNames('cursor-pointer rounded-[5px] p-[6px]', {
           'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7]': isFollow,
+          'bg-[#F0F7FC]': !isFollow,
         })}
         onClick={() => onFollow(data.id)}
       >

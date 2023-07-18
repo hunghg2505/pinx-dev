@@ -12,7 +12,7 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <title></title>
+        <meta name='theme-color' content='#ffffff'></meta>
       </Head>
       <Header />
       <Redirect />

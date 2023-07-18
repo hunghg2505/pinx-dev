@@ -2,21 +2,23 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
-const Header = () => {
+const LoginHeader = () => {
   const router = useRouter();
 
   return (
-    <>
+    <div
+      className='z-999 fixed left-[18px] top-[10px] flex h-[44px] cursor-pointer items-center'
+      onClick={() => router.back()}
+    >
       <img
         src='/static/icons/icon_back_header.svg'
         alt=''
         width='0'
         height='0'
-        className='z-999 fixed left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden'
-        onClick={() => router.back()}
+        className='left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden'
       />
-    </>
+    </div>
   );
 };
 
-export default Header;
+export default LoginHeader;

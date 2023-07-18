@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { useRouter } from 'next/router';
 
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies, setRegisterCookies } from '.';
@@ -16,17 +15,20 @@ export interface IAuth {
 
 export const useAuth = () => {
   const router = useRouter();
-  const { run } = useProfileInitial({ manual: true });
-  const onLogout = () => {
+  const onLogout = (navigatePath?: string) => {
     try {
+      const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
+      localStorage.setItem('locale', locale || '');
+      if (navigatePath) {
+        window.location.href = navigatePath;
+        return;
+      }
       if (router.pathname !== ROUTE_PATH.LOGIN) {
         window.location.href = ROUTE_PATH.LOGIN;
       }
-    } catch (error) {
-      console.log('Logout error', error);
-    }
+    } catch {}
   };
 
   const onLogin = (data: IAuth) => {
@@ -36,9 +38,8 @@ export const useAuth = () => {
         refreshToken: data.refreshToken || '',
         expiredTime: data.expiredTime,
       });
-      run();
-      // requestGetProfile();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   };
@@ -51,9 +52,7 @@ export const useAuth = () => {
         expiredTime: data.expiredTime,
       });
       // requestGetProfile();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   };
 
   return {

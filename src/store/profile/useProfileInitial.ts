@@ -14,25 +14,25 @@ export const serviceGetUserProfile = async () => {
 export const useProfileInitial = (option = {}) => {
   const { userLoginInfo, setUserLoginInfo } = useUserLoginInfo();
 
-  const { data, run } = useRequest(
+  const { run } = useRequest(
     async () => {
       return serviceGetUserProfile();
     },
     {
       onSuccess: (res) => {
-        setUserLoginInfo({ ...res?.data, ...userLoginInfo });
+        setUserLoginInfo({ ...userLoginInfo, ...res?.data });
       },
       onError: () => {
         setUserLoginInfo({
           ...userLoginInfo,
         });
       },
+      manual: true,
       ...option,
     },
   );
 
   return {
-    requestGetProfile: data?.data,
     run,
   };
 };

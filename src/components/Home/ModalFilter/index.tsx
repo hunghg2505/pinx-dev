@@ -3,20 +3,24 @@ import React from 'react';
 import 'rc-dialog/assets/index.css';
 
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 
 import { useGetListFillter } from '../service';
 
 interface IProps {
   closeIcon?: boolean;
   run: (value: string) => void;
+  type: any;
 }
 export interface IFilter {
   title: string;
   description: string;
-  filterType: string;
+  filterType: any;
 }
 export enum FILTER_TYPE {
   MOST_RECENT = 'MOST_RECENT',
@@ -25,9 +29,11 @@ export enum FILTER_TYPE {
   NEWS = 'NEWS',
 }
 const ModalFilter = (props: IProps) => {
-  const [filterType, setFilterType] = React.useState<string>(FILTER_TYPE.MOST_RECENT);
+  const { closeIcon, run, type } = props;
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
   const { data } = useGetListFillter();
-  const { closeIcon, run } = props;
+  const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
   const onVisible = () => {
     setVisible(!visible);
@@ -48,6 +54,13 @@ const ModalFilter = (props: IProps) => {
     );
   };
   const onFilter = (value: string) => {
+    if (!isLogin && [FILTER_TYPE.MOST_REACTED, FILTER_TYPE.POST].includes(value)) {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+      return;
+    }
     run(value);
     setFilterType(value);
     onVisible();
@@ -65,7 +78,7 @@ const ModalFilter = (props: IProps) => {
         onClick={onVisible}
         className='flex min-w-[89px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-solid border-[#B1D5F1] bg-[#F0F7FC] [box-shadow:0px_1px_2px_rgba(0,_0,_0,_0.06)] mobile:h-[34px] mobile:px-[5px] desktop:h-[38px] desktop:px-[14px]'
       >
-        <Text type='body-14-semibold' color='neutral-1' className='mr-[8px]'>
+        <Text type='body-14-semibold' color='primary-2' className='mr-[8px]'>
           {renderText()}
         </Text>
         <img
