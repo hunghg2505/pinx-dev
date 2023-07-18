@@ -32,8 +32,8 @@ const NewsItem = ({ data }: { data: any }) => {
   return (
     <>
       <div className='flex'>
-        <div className='mr-[16px] w-[calc(100%_-_73px)]'>
-          <div className='flex items-center' onClick={onGoToDetail}>
+        <div className='mr-[16px] w-[calc(100%_-_73px)] cursor-pointer' onClick={onGoToDetail}>
+          <div className='flex items-center'>
             <img
               src={data?.post?.vendorInfo?.logo}
               alt=''

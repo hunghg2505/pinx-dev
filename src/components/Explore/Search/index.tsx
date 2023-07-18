@@ -157,7 +157,7 @@ const Search = (props: any, ref: any) => {
             {companies?.length > 0 ? (
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...companies]?.slice(0, 3)?.map((company: any, index: number) => {
+                  {[...companies]?.slice(0, 5)?.map((company: any, index: number) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
                   })}
                 </div>
@@ -181,7 +181,7 @@ const Search = (props: any, ref: any) => {
             {users?.length > 0 ? (
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...users]?.splice(0, 3)?.map((item: any, index: number) => (
+                  {[...users]?.splice(0, 5)?.map((item: any, index: number) => (
                     <PeopleItem data={item} key={index} />
                   ))}
                 </div>
@@ -205,7 +205,7 @@ const Search = (props: any, ref: any) => {
             {posts?.length > 0 ? (
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
+                  {[...posts]?.splice(0, 5)?.map((post: any, index: number) => {
                     return <PostItem key={index} postDetail={post} refresh={refresh} />;
                   })}
                 </div>
@@ -231,7 +231,7 @@ const Search = (props: any, ref: any) => {
             {news?.length > 0 ? (
               <>
                 <div className='my-[16px] flex flex-col gap-y-[12px]'>
-                  {[...news]?.splice(0, 3)?.map((item: any, index: number) => {
+                  {[...news]?.splice(0, 5)?.map((item: any, index: number) => {
                     return <NewsItem key={`new-${index}`} data={item} />;
                   })}
                 </div>

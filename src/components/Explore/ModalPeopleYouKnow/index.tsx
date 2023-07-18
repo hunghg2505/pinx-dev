@@ -72,7 +72,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
             People on PineX that you may know!
           </Text>
           <div
-            className='mt-[16px] flex h-[500px] flex-col gap-y-[16px] overflow-auto'
+            className='mt-[16px] flex h-[500px] flex-col gap-y-[16px] overflow-auto mobile-max:h-[350px]'
             ref={refScroll}
           >
             {data?.list?.map((people: ISuggestionPeople, index: number) => {
