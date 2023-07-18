@@ -1,17 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
+import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 interface IHeadingNewsItemProps {
   className?: string;
+  data: IPost;
+  isReport: boolean;
+  onRefreshNews: () => void;
 }
 
-const HeadingNewsItem = ({ className }: IHeadingNewsItemProps) => {
+dayjs.extend(relativeTime);
+
+const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [openPopupReport, setOpenPopupReport] = useState(false);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
@@ -32,19 +40,25 @@ const HeadingNewsItem = ({ className }: IHeadingNewsItemProps) => {
     });
   }, [modalReportVisible]);
 
+  const handleReportPostSuccess = () => {
+    setModalReportVisible(false);
+    setOpenPopupReport(false);
+    onRefreshNews();
+  };
+
   return (
     <div className={classNames('flex items-center', className)}>
       <img
-        src='https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png'
-        alt='VietStock logo'
+        src={data.post.vendorInfo.logo}
+        alt={data.post.vendorInfo.name}
         className='h-[24px] w-[24px] object-contain'
       />
       <Text type='body-12-regular' className='ml-[8px]' color='primary-5'>
-        Vietstock
+        {data.post.vendorInfo.name}
       </Text>
 
       <Text type='body-12-regular' className='ml-auto text-[#999999] tablet:ml-[8px]'>
-        15 hours ago
+        {dayjs(data.timeString).fromNow()}
       </Text>
 
       <button className='relative ml-[16px] tablet:ml-auto' ref={ref}>
@@ -52,7 +66,7 @@ const HeadingNewsItem = ({ className }: IHeadingNewsItemProps) => {
           src='/static/icons/iconDot.svg'
           alt='Icon dot'
           className='h-[24px] w-[24px] cursor-pointer object-contain'
-          onClick={() => setOpenPopupReport((prev) => !prev)}
+          onClick={() => !isReport && setOpenPopupReport((prev) => !prev)}
         />
 
         {openPopupReport && (
@@ -69,10 +83,8 @@ const HeadingNewsItem = ({ className }: IHeadingNewsItemProps) => {
               <ModalReport
                 visible={modalReportVisible}
                 onModalReportVisible={setModalReportVisible}
-                postID={'123'}
-                onReportSuccess={() => {
-                  console.log(123);
-                }}
+                postID={data.id}
+                onReportSuccess={handleReportPostSuccess}
               >
                 <Text type='body-14-medium' color='neutral-2'>
                   Report

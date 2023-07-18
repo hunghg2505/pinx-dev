@@ -78,6 +78,8 @@ export const API_PATH = {
   PRIVATE_THEME_OF_STOCK: (stockCode: string) => `/private/theme/stock-code/${stockCode}`,
   PUBLIC_STOCK_DETAIL_EXTRA: (stockCode: string) => `/public/stock/${stockCode}/details-extra`,
   PUBLIC_STOCK_REVIEWS: (stockCode: string) => `/public/stock/${stockCode}/reviews`,
+  PUBLIC_STOCK_NEWS: (stockCode: string) => `/public/stock/${stockCode}/news`,
+  PRIVATE_STOCK_NEWS: (stockCode: string) => `/private/stock/${stockCode}/news`,
 
   // theme
   PRIVATE_THEMES: '/private/themes',

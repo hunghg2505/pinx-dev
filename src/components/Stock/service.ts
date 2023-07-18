@@ -12,6 +12,7 @@ import {
   IResponseStockDetail,
   IResponseStockDetailsExtra,
   IResponseStockEvents,
+  IResponseStockNews,
   IResponseStockReviews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
@@ -194,6 +195,26 @@ const useStockReviews = (stockCode: string): IResponseStockReviews => {
   };
 };
 
+const useStockNews = (stockCode: string): IResponseStockNews => {
+  const { data, refresh } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_NEWS(stockCode))
+        : requestCommunity.get(API_PATH.PUBLIC_STOCK_NEWS(stockCode));
+    },
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    stockNews: data,
+    refreshStockNews: refresh,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -206,4 +227,5 @@ export {
   useThemesOfStock,
   useStockDetailsExtra,
   useStockReviews,
+  useStockNews,
 };

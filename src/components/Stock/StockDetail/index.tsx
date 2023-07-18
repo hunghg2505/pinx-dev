@@ -43,6 +43,7 @@ import {
   useShareholder,
   useStockDetail,
   useStockDetailsExtra,
+  useStockNews,
   useThemesOfStock,
 } from '../service';
 import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
@@ -54,6 +55,7 @@ const STOCK_EVENT_ITEM_LIMIT = 4;
 const WATCHING_INVESTING_ITEM_LIMIT = 5;
 const HIGHLIGH_ROW_LIMIT = 3;
 const ALSO_ITEM_LIMIT = 2;
+const NEWS_ITEM_LIMIT = 3;
 
 const settings = {
   dots: false,
@@ -95,6 +97,7 @@ const StockDetail = () => {
   const { stockThemes } = useThemesOfStock(stockCode);
   const { stockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode);
+  const { stockNews, refreshStockNews } = useStockNews(stockCode);
 
   const urlImageCompany = `${
     stockDetail?.data?.stockCode?.length === 3 || stockDetail?.data?.stockCode[0] !== 'C'
@@ -664,19 +667,25 @@ const StockDetail = () => {
               <Text type='body-20-semibold'>Recent news</Text>
             </div>
 
-            <NewsItem />
-            <NewsItem />
-            <NewsItem />
+            {stockNews?.data.list && stockNews.data.list.length > 0 && (
+              <>
+                {stockNews.data.list.slice(0, NEWS_ITEM_LIMIT).map((item, index) => (
+                  <NewsItem key={index} data={item} onRefreshNews={refreshStockNews} />
+                ))}
 
-            <div className='px-[16px] tablet:px-[24px]'>
-              <Link href='/stock/123/news'>
-                <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    More HPG news
-                  </Text>
-                </button>
-              </Link>
-            </div>
+                {stockNews.data.list.length > NEWS_ITEM_LIMIT && (
+                  <div className='px-[16px] tablet:px-[24px]'>
+                    <Link href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
+                      <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
+                        <Text type='body-14-bold' color='primary-2'>
+                          More {stockDetail?.data?.stockCode} news
+                        </Text>
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
           </div>
 
           {/* featured in themes */}

@@ -19,6 +19,7 @@ export const ROUTE_PATH = {
   STOCK_EVENT: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/financial-calendar`,
   STOCK_REVIEW: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/rating`,
   STOCK_ALSO_OWN: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/also-own`,
+  STOCK_NEWS: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/news`,
 };
 
 export const formatMessage = (message: string, data: any) => {

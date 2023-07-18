@@ -1,3 +1,5 @@
+import { IPost } from '@components/Post/service';
+
 export interface IResponseStockDetail {
   stockDetail?: {
     data?: {
@@ -285,4 +287,15 @@ export interface IResponseStockReviews {
       hasNext: boolean;
     };
   };
+}
+
+export interface IResponseStockNews {
+  stockNews?: {
+    data: {
+      list: IPost[];
+      last: string;
+      hasNext: boolean;
+    };
+  };
+  refreshStockNews: () => void;
 }

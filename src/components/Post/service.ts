@@ -93,6 +93,16 @@ export interface IContentPost {
   pnlRate: number;
   title: string;
   type: string;
+  vendorInfo: IVendorInfo;
+}
+
+interface IVendorInfo {
+  id: string;
+  logo: string;
+  favicon: string;
+  code: string;
+  name: string;
+  homeUrl: string;
 }
 
 interface IResponseTotalShare {

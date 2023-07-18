@@ -6,10 +6,14 @@ import { useRouter } from 'next/router';
 import ContentRight from '@components/Home/ContentRight';
 import Text from '@components/UI/Text';
 
+import { useStockNews } from '../service';
 import NewsItem from '../StockDetail/NewsItem';
 
 const StockNews = () => {
   const router = useRouter();
+  const { stockCode }: any = router.query;
+
+  const { stockNews, refreshStockNews } = useStockNews(stockCode);
 
   const handleBack = () => {
     router.back();
@@ -44,15 +48,16 @@ const StockNews = () => {
         </div>
 
         <div className='mb-[16px]'>
-          <NewsItem />
-          <NewsItem />
-          <NewsItem />
-          <NewsItem />
-          <NewsItem
-            className={classNames({
-              'border-none': true,
-            })}
-          />
+          {stockNews?.data.list.map((item, index) => (
+            <NewsItem
+              key={index}
+              data={item}
+              className={classNames({
+                'border-none': index === stockNews.data.list?.length - 1,
+              })}
+              onRefreshNews={refreshStockNews}
+            />
+          ))}
         </div>
       </div>
 
