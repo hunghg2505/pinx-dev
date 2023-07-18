@@ -1,7 +1,14 @@
+import { ROUTE_PATH } from '@utils/common';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const AUTH_PATH: any = ['/auth'];
+const AUTH_PATH: any = [
+  ROUTE_PATH.LOGIN,
+  ROUTE_PATH.FORGOT_PASSWORD,
+  ROUTE_PATH.REGISTER_USER_NAME,
+  ROUTE_PATH.REGISTER_OTP_VERIFICATION,
+  ROUTE_PATH.UPDATE_USER_PROFILE,
+];
 
 const PATH: any = [''];
 

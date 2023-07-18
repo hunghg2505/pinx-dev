@@ -28,7 +28,7 @@ const ForgotPasswordStepOne = () => {
     onError(e: any) {
       if (ERROR_CODE.has(e?.errorWTSCode)) {
         router.push({
-          pathname: ROUTE_PATH.UPDATE_USSR_PROFILE,
+          pathname: ROUTE_PATH.UPDATE_USER_PROFILE,
           query: {
             username: form.getFieldValue('username'),
             phone_number: form.getFieldValue('phoneNumber'),
