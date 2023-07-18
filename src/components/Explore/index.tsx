@@ -86,7 +86,7 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full text-left desktop:px-[31px] desktop:py-[20px]'>
+    <div className='w-full text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
       <Text type='body-24-semibold' color='cbblack'>
         Discovery
       </Text>
@@ -264,11 +264,6 @@ const Explore = () => {
               return <IPO data={ipo} key={index} />;
             })}
           </div>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              Explore newly listed
-            </Text>
-          </ExploreButton>
         </>
       ) : (
         <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] px-[20px] py-[28px] text-center'>

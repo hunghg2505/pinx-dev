@@ -43,6 +43,7 @@ export const ROUTE_PATH = {
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/watchlist',
+  PROFILE_DETAIL: (id: number) => `/profile/${id}`,
 };
 
 export const formatMessage = (message: string, data: any) => {
