@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import Notification from '@components/UI/Notification';
+import { ROUTE_PATH } from '@utils/common';
 
 export const useUpdateUserProfile = () => {
   const { t } = useTranslation('editProfile');
@@ -20,7 +21,7 @@ export const useUpdateUserProfile = () => {
       manual: true,
       onSuccess: () => {
         toast(() => <Notification type='success' message={t('upload_profile_success')} />);
-        router.push('/');
+        router.push(ROUTE_PATH.MY_PROFILE);
       },
       onError: () => {
         toast(() => <Notification type='error' message={t('upload_profile_error')} />);

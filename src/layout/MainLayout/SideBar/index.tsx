@@ -7,7 +7,6 @@ import Menu from 'rc-menu';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 import {
@@ -25,7 +24,6 @@ import {
 
 const SideBar = () => {
   const router = useRouter();
-  const { userLoginInfo } = useUserLoginInfo();
   const MENUS = useMemo(() => {
     return [
       {
