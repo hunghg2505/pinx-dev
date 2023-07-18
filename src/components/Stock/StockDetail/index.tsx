@@ -695,7 +695,7 @@ const StockDetail = () => {
                 <Text type='body-20-semibold'>Featured in themes</Text>
               </div>
 
-              <div className='px-[16px] tablet:px-[24px]'>
+              <div className='flex gap-x-[12px] px-[16px] tablet:px-[24px]'>
                 {stockThemes.data.map((item, index) => (
                   <ThemeItem key={index} data={item} />
                 ))}

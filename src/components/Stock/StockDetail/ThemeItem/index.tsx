@@ -14,7 +14,7 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
         <img
           src='/static/icons/iconTheme.svg'
           alt='Icon theme'
-          className='h-[13px] w-[16px] object-contain'
+          className='z-10 h-[13px] w-[16px] object-contain'
         />
       </div>
 
