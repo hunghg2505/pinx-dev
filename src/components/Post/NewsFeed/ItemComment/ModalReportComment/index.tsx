@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import 'rc-dialog/assets/index.css';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import Reason from './Reason';
@@ -21,28 +26,38 @@ interface IProps {
   closeIcon?: boolean;
   postID: string;
   isReported?: boolean;
-  refresh: () => void;
+  refresh?: () => void;
+  refreshCommentOfPOst?: () => void;
 }
 const ModalReportComment = (props: IProps) => {
-  const { children, closeIcon, postID, isReported: isReportedProp = false, refresh } = props;
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { children, closeIcon, postID, isReported, refresh, refreshCommentOfPOst } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
-  const [isReported, setIsReported] = useState(isReportedProp);
-  // const isLogin = !!getAccessToken();,
   const onVisible = () => {
-    if (isReported) {
+    if (isReported && isLogin) {
       return;
     }
 
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
         setVisible(!visible);
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
       } else {
         PopupComponent.openEKYC();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 
@@ -60,11 +75,18 @@ const ModalReportComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
-        setIsReported(true);
-        refresh();
+        refresh && refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
       },
-      onError: () => {
-        console.log('that bai');
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
       },
     },
   );
@@ -97,8 +119,8 @@ const ModalReportComment = (props: IProps) => {
       <Text
         onClick={onVisible}
         className={classNames('cursor-pointer', {
-          'text-[#589DC0]': isReported,
-          'text-[#808080]': !isReported,
+          'text-[#589DC0]': isReported && isLogin,
+          'text-[#808080]': !isReported || !isLogin,
         })}
         type='body-14-regular'
       >

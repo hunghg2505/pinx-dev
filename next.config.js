@@ -6,6 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   // i18n
   i18n,
   output: 'standalone',
@@ -30,6 +31,7 @@ const nextConfig = {
       'image.vietstock.vn',
       'cafefcdn.com',
       'photo-cms-tinnhanhchungkhoan.epicdn.me',
+      'i.pinimg.com',
     ],
   },
   headers: async function headers() {

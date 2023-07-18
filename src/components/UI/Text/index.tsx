@@ -11,6 +11,7 @@ interface TextProps {
     | 'h2-regular'
     | 'h3-bold'
     | 'h3-regular'
+    | 'body-10-regular'
     | 'body-12-regular'
     | 'body-12-medium'
     | 'body-12-bold'
@@ -25,6 +26,7 @@ interface TextProps {
     | 'body-20-semibold'
     | 'body-20-medium'
     | 'body-24-regular'
+    | 'body-24-semibold'
     | 'body-16-regular'
     | 'body-16-bold'
     | 'body-16-semibold'
@@ -54,10 +56,14 @@ interface TextProps {
     | 'neutral-7'
     | 'neutral-8'
     | 'neutral-9'
+    | 'neutral-black'
+    | 'neutral-gray'
+    | 'neutral-darkgray'
     | 'semantic-1'
     | 'semantic-2-1'
     | 'semantic-2-2'
     | 'semantic-3'
+    | 'gray'
     | undefined;
   disabled?: boolean;
   state?: null | 'disable';

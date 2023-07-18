@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
-import Image from 'next/image';
 import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
@@ -15,19 +14,20 @@ interface IProps {
   onResendOtp: () => void;
   onSubmit: (otp: string) => void;
   phoneNumber?: string;
+  isModal?: boolean;
+  otpTime?: number;
+  settingLayout?: boolean;
 }
 
 const convertSecond = (secs: number) => {
   const secondsText = secs < 10 ? '0' + Math.ceil(secs).toString() : Math.ceil(secs).toString();
-
   return secondsText;
 };
 
 const OtpVerification = (props: IProps) => {
   const [form] = Form.useForm();
-  const [otp, setOtp] = useState<string>('');
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
-  const [otpCount, setOtpCount] = useState<number>(120);
+  const [otpCount, setOtpCount] = useState<number>(props.otpTime ?? 120);
   const [isOtpExpired, setIsOtpExpired] = useState<boolean>(false);
 
   const [resendRunning, setResendRunning] = useState<boolean>(false);
@@ -49,25 +49,17 @@ const OtpVerification = (props: IProps) => {
 
   const onChange = (values: any) => {
     if (values.otp.length === 6) {
-      setOtp(values.otp);
-      onSubmit()
+      props.onSubmit(values.otp);
+      onClearOtp();
     }
-  };
-
-  const onSubmit = () => {
-    props.onSubmit(otp);
-    onClearOtp();
   };
 
   const onResendOtp = () => {
     if (isResendAvailable) {
       props.onResendOtp();
       startOtpTimer();
-      setOtpCount(120);
-      setIsOtpExpired(false);
-      setResendCount(15);
-      setIsResendAvailable(false);
       startResendTimer();
+      resetTimer();
     }
   };
 
@@ -88,6 +80,13 @@ const OtpVerification = (props: IProps) => {
       setIsOtpExpired(true);
     }
   }, [otpCount]);
+
+  const resetTimer = () => {
+    setOtpCount(props.otpTime ?? 120);
+    setIsOtpExpired(false);
+    setResendCount(15);
+    setIsResendAvailable(false);
+  };
 
   // resend count down
   const startResendTimer = () => {
@@ -123,10 +122,37 @@ const OtpVerification = (props: IProps) => {
   }, []);
 
   return (
-    <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
-      <div className='mt-[46px]'>
-        <Text type='body-24-bold'>Confirm phone number</Text>
-        <Text type='body-18-regular' color='neutral-4'>
+    <div
+      className={classNames('mobile:mt-20 laptop:m-0 laptop:min-w-[450px]', {
+        'mobile:mt-0': props.isModal,
+      })}
+    >
+      {props.settingLayout && (
+        <>
+          <img
+            src='/static/images/pinex_logo.png'
+            alt=''
+            width='0'
+            height='0'
+            sizes='50vw'
+            className='mx-auto h-[72px] w-[72px] mobile:hidden laptop:block'
+          />
+        </>
+      )}
+      <div className={`${props.isModal ? 'mt-[36px]' : 'mt-[46px]'}`}>
+        <Text
+          className={classNames('text-[24px] font-[700]', {
+            'laptop:text-center laptop:text-[28px]': props.settingLayout,
+          })}
+        >
+          Confirm phone number
+        </Text>
+        <Text
+          className={classNames('text-[18px] font-[400]', {
+            'laptop:text-center laptop:text-[16px]': props.settingLayout,
+          })}
+          color='neutral-4'
+        >
           Enter OTP sent to{' '}
           <span className='font-[700] text-[--neutral-1]'>{replacedPhoneNumber()}</span>
         </Text>
@@ -174,7 +200,7 @@ const OtpVerification = (props: IProps) => {
           disabled={!isResendAvailable}
           onClick={onResendOtp}
         >
-          <Image
+          <img
             src={
               isResendAvailable ? '/static/icons/resend.svg' : '/static/icons/resend_disabled.svg'
             }

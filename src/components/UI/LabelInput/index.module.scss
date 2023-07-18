@@ -27,6 +27,10 @@
     cursor: text;
     top: 15px;
   }
+
+  &:focus ~ .eyePassword {
+    background-color: #eaf4fb;
+  }
 }
 
 .inputLabel {
@@ -35,7 +39,7 @@
   display: block;
   transition: 0.2s;
   font-size: 10px;
-  color: #808080;
+  color: #b3b3b3;
 }
 
 .inputField:focus {

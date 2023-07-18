@@ -19,17 +19,16 @@ const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...
       {({ onChange, value }, meta, context) => {
         const { errors } = meta;
         const hasError: string = errors && errors[0];
-
         return (
           <div className={classNames('flex flex-col', className)}>
             <div>
               {typeof children === 'function'
                 ? children({ onChange, value, meta, hasError }, context)
-                : React.cloneElement(children, { onChange, value, ...children.props })}
+                : React.cloneElement(children, { onChange, value, hasError, ...children.props })}
             </div>
 
             {!hideError && hasError && (
-              <Text type='body-14-regular' className='text-red-600'>
+              <Text type='body-14-regular' className='text-[#DA314F]'>
                 {hasError}
               </Text>
             )}

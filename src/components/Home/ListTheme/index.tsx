@@ -10,8 +10,9 @@ const settings = {
   dots: false,
   // infinite: true,
   speed: 500,
-  slidesToShow: 2.5,
-  slidesToScroll: 1,
+  slidesToShow: 1,
+  // slidesToScroll: 1,
+  swipeToSlide: true,
   // autoplay: true,
   // autoplaySpeed: 1000,
 };

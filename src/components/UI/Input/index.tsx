@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 
-import styles from './index.module.scss';
 import { Eye, EyeHide } from '../Icon';
 
 interface InputProps {
@@ -24,6 +23,7 @@ interface InputProps {
   name?: string;
   icon?: any;
   onKeyPress?: () => void;
+  hasError?: string | undefined;
 }
 
 interface Ref {
@@ -43,6 +43,8 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
     step,
     maxLength,
     onKeyPress,
+    onChange,
+    value,
     ...rest
   } = props;
   const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
@@ -135,6 +137,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
   return (
     <div className='relative'>
       <input
+        onChange={onChange}
         ref={inputRef}
         type={implicitType()}
         disabled={disabled}
@@ -145,6 +148,7 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
         step={step}
         maxLength={maxLength}
         onKeyUp={onKeyPress}
+        value={value}
         {...rest}
       />
 
@@ -163,30 +167,3 @@ const Input: React.FC<InputProps & Ref> = React.forwardRef((props: InputProps, r
 });
 
 export default Input;
-
-export const StyledInput = ({ ...props }) => (
-  <Input
-    {...props}
-    className='focus:border-primary-600 w-full rounded-xl border !bg-[--neutral-8] p-4 text-[14px] font-[500] text-[--neutral-2] placeholder:text-[--neutral-5]'
-  />
-);
-
-export const LabelInsideInput = ({ labelContent, ...props }: { labelContent: string }) => {
-  const inputRef = React.createRef<HTMLInputElement>();
-
-  console.log('xxx inputRef', inputRef);
-  return (
-    <div className={styles.formGroup}>
-      <input
-        {...props}
-        ref={inputRef}
-        className={classNames(styles.inputField)}
-        placeholder={labelContent}
-        name='test'
-      />
-      <label className={classNames(styles.inputLabel)} htmlFor='test'>
-        {labelContent}
-      </label>
-    </div>
-  );
-};

@@ -12,6 +12,7 @@ const PeopleDesktop = () => {
     if (isLogin) {
       getSuggestFriend();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

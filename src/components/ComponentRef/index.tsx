@@ -5,24 +5,24 @@ const ComponentRef = ({
   id,
   refresh,
   refreshTotal,
-  imageComment,
-  onCommentImage,
+  setImageCommentMobile,
+  width,
 }: {
-  forwardedRef: any;
+  forwardedRef?: any;
   id: string;
   refresh: () => void;
   refreshTotal: () => void;
-  imageComment: string;
-  onCommentImage: (v: string) => void;
+  setImageCommentMobile: (v: boolean) => void;
+  width?: number;
 }) => {
   return (
     <Editor
-      imageComment={imageComment}
-      onCommentImage={onCommentImage}
+      setImageCommentMobile={setImageCommentMobile}
       ref={forwardedRef}
       id={id}
       refresh={refresh}
       refreshTotal={refreshTotal}
+      width={width}
     />
   );
 };

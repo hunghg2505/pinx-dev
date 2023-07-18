@@ -76,7 +76,7 @@ const FooterSignUp = () => {
       {/* mobile */}
       <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className='flex h-full min-w-[375px] items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[16px] transition tablet:hidden desktop:hidden'
+        className='mobile:-w-[375px] flex h-full items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[8px] transition mobile-max:w-full tablet:hidden desktop:hidden'
       >
         <button
           onClick={redirectToSignUp}

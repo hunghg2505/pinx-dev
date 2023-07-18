@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { getAccessToken } from '@store/auth';
+// import { getAccessToken } from '@store/auth';
 
 export const serviceGetUserProfile = async () => {
   const requestProfile = await privateRequest(requestPist.get, API_PATH.USER_PROFILE);
@@ -11,31 +11,28 @@ export const serviceGetUserProfile = async () => {
   return requestProfile;
 };
 
-export const useProfileInitial = (options = {}) => {
+export const useProfileInitial = (option = {}) => {
   const { userLoginInfo, setUserLoginInfo } = useUserLoginInfo();
 
-  const { data } = useRequest(
+  const { run } = useRequest(
     async () => {
-      const isLogin = getAccessToken();
-      if (isLogin) {
-        return serviceGetUserProfile();
-      }
-      return [];
+      return serviceGetUserProfile();
     },
     {
       onSuccess: (res) => {
-        setUserLoginInfo({ ...res?.data, ...userLoginInfo });
+        setUserLoginInfo({ ...userLoginInfo, ...res?.data });
       },
       onError: () => {
         setUserLoginInfo({
           ...userLoginInfo,
         });
       },
-      ...options,
+      manual: true,
+      ...option,
     },
   );
 
   return {
-    requestGetProfile: data?.data,
+    run,
   };
 };

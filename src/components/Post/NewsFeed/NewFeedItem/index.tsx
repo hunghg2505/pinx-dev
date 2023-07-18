@@ -1,14 +1,15 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 
-import { useRequest } from 'ahooks';
+import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import {
@@ -19,12 +20,19 @@ import {
   requestHidePost,
   unlikePost,
 } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
-import { USERTYPE, useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH } from '@utils/common';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
+
+import styles from './index.module.scss';
+import ItemHoverProfile from './ItemHoverProfile';
 
 const ModalShare = dynamic(import('../ModalShare'), {
   ssr: false,
@@ -56,7 +64,10 @@ const IconPlus = () => (
   </svg>
 );
 const NewFeedItem = (props: IProps) => {
-  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess } = props;
+  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
+    props;
+  const customerId = postDetail?.customerId;
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [showModalShare, setShowModalShare] = useState(false);
@@ -64,9 +75,14 @@ const NewFeedItem = (props: IProps) => {
   const { statusUser, isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
-
+  const refHover = useRef(null);
+  const isHovering = useHover(refHover);
+  const name =
+    postDetail?.post?.customerInfo?.displayName &&
+    toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
@@ -83,17 +99,28 @@ const NewFeedItem = (props: IProps) => {
   }, [modalReportVisible]);
 
   const id = router.query?.id;
-  const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
   const handleComment = () => {
-    if (isLogin) {
-      if (statusUser === USERTYPE.VSD) {
-        onNavigate && onNavigate();
+    if (isPostDetailPath) {
+      if (isLogin) {
+        if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        } else if (statusUser !== USERTYPE.VSD) {
+          PopupComponent.openEKYC();
+        }
       } else {
-        PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupAccessLinmit: true,
+        });
       }
     } else {
-      PopupComponent.open();
+      onNavigate && onNavigate();
     }
   };
   const idPost = id || postDetail?.id;
@@ -115,7 +142,16 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         onRefreshPostDetail();
       },
-      onError: () => {},
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const useUnLike = useRequest(
@@ -127,12 +163,28 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         onRefreshPostDetail();
       },
-      onError: () => {},
+      onError: (err: any) => {
+        if (err?.error === 'VSD account is required') {
+          toast(() => (
+            <Notification
+              type='error'
+              message='Your account has been pending to close. You cannot perform this action'
+            />
+          ));
+        }
+      },
     },
   );
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
         useUnLike.run();
@@ -140,7 +192,10 @@ const NewFeedItem = (props: IProps) => {
         useLikePost.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 
@@ -203,20 +258,27 @@ const NewFeedItem = (props: IProps) => {
         onFollowUser.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   const handleHidePost = () => {
     if (isLogin) {
       onHidePost.run();
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
     onRefreshPostDetail();
+    setShowReport(false);
   };
 
   const renderLogo = () => {
@@ -230,7 +292,7 @@ const NewFeedItem = (props: IProps) => {
         TYPEPOST.PinetreeWeeklyNews,
       ].includes(postDetail?.post.postType)
     ) {
-      logo = '/static/logo/logoPintree.svg';
+      logo = '/static/logo/logoPintree.png';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
       logo = 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
@@ -251,6 +313,9 @@ const NewFeedItem = (props: IProps) => {
       )
     ) {
       logo = 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
+    }
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+      logo = '/static/logo/logoCafeF.png';
     }
     return logo;
   };
@@ -285,10 +350,10 @@ const NewFeedItem = (props: IProps) => {
       name = 'Vietstock';
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      name = 'CafeFNews';
+      name = 'CafeF';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
-      name = 'TNCKNews';
+      name = 'Tin nhanh chứng khoán';
     }
     return name;
   };
@@ -313,7 +378,7 @@ const NewFeedItem = (props: IProps) => {
             </Text>
           </div>
 
-          <Image
+          <img
             src='/static/icons/iconUserFollow.svg'
             alt=''
             width={0}
@@ -327,57 +392,99 @@ const NewFeedItem = (props: IProps) => {
     return (
       <>
         {!isMyPost && (
-          <div
-            className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
-            )}
-          >
-            <IconPlus />
-            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-              Follow
-            </Text>
-          </div>
+          <>
+            <div
+              className={classNames(
+                'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              )}
+            >
+              <IconPlus />
+              <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+                Follow
+              </Text>
+            </div>
+
+            <img
+              src='/static/icons/iconUserUnFollow.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='w-[24px] mobile:block tablet:hidden'
+              sizes='100vw'
+            />
+          </>
         )}
-        <Image
-          src='/static/icons/iconUserUnFollow.svg'
-          alt=''
-          width={0}
-          height={0}
-          className='w-[24px] mobile:block tablet:hidden'
-          sizes='100vw'
-        />
       </>
     );
   };
+  const onClickProfileDetail = () => {
+    if (
+      [
+        TYPEPOST.POST,
+        TYPEPOST.ActivityTheme,
+        TYPEPOST.ActivityWatchlist,
+        TYPEPOST.ActivityMatchOrder,
+      ].includes(postDetail?.post.postType)
+    ) {
+      router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
+    }
+  };
   return (
-    <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
-      <div className='flex flex-row justify-between'>
+    <div
+      className={classNames('newsfeed  border-t border-solid border-[#D8EBFC] py-[24px]', {
+        'border-b': totalComments > 0,
+      })}
+    >
+      <div className='flex flex-row justify-between ' onClick={onClickProfileDetail}>
         <div className='flex cursor-pointer flex-row items-center'>
-          <Image
-            src={renderLogo() || '/static/logo/logoPintree.svg'}
-            alt='avatar'
-            sizes='100vw'
-            className='mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
-            width={0}
-            height={0}
-          />
+          <div
+            ref={refHover}
+            className={classNames('relative', {
+              [styles.avatar]: [
+                TYPEPOST.POST,
+                TYPEPOST.ActivityTheme,
+                TYPEPOST.ActivityWatchlist,
+                TYPEPOST.ActivityMatchOrder,
+              ].includes(postDetail?.post.postType),
+            })}
+          >
+            {postDetail?.post?.customerInfo?.avatar === '' ? (
+              <AvatarDefault name={name} />
+            ) : (
+              <img
+                src={renderLogo()}
+                alt='avatar'
+                sizes='100vw'
+                className={classNames(
+                  'mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+                )}
+              />
+            )}
+            {[
+              TYPEPOST.POST,
+              TYPEPOST.ActivityTheme,
+              TYPEPOST.ActivityWatchlist,
+              TYPEPOST.ActivityMatchOrder,
+            ].includes(postDetail?.post.postType) &&
+              isHovering && <ItemHoverProfile postDetail={postDetail} name={name} />}
+          </div>
 
           <div>
             <div className='flex'>
-              <Text type='body-14-semibold' color='neutral-1' className='mr-[5px]'>
-                {renderDisplayName()}
-              </Text>
-              {isKol && (
-                <Image
-                  src='/static/icons/iconKol.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[20px] w-[20px]'
-                />
-              )}
+              <div className='mr-[5px] flex items-center'>
+                <Text type='body-14-semibold' color='neutral-1'>
+                  {renderDisplayName()}
+                </Text>
+
+                {postDetail?.post?.customerInfo?.isFeatureProfile && (
+                  <img
+                    src='/static/icons/iconKol.svg'
+                    alt='Icon kol'
+                    className='ml-[4px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+              </div>
             </div>
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
               {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
@@ -397,7 +504,7 @@ const NewFeedItem = (props: IProps) => {
           )}
 
           <button className='relative' ref={ref}>
-            <Image
+            <img
               src='/static/icons/iconDot.svg'
               alt=''
               width='0'
@@ -406,7 +513,7 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 z-10 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+              <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
                 {[
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
@@ -418,7 +525,7 @@ const NewFeedItem = (props: IProps) => {
                     className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                     onClick={handleHidePost}
                   >
-                    <Image
+                    <img
                       src='/static/icons/iconUnHide.svg'
                       alt=''
                       width='0'
@@ -434,7 +541,7 @@ const NewFeedItem = (props: IProps) => {
 
                 {!isReported && !isMyPost && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                    <Image
+                    <img
                       src='/static/icons/iconFlag.svg'
                       alt=''
                       width='0'
@@ -466,8 +573,10 @@ const NewFeedItem = (props: IProps) => {
             className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={() => handleLikeOrUnLikePost()}
           >
-            <Image
-              src={isLike ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
+            <img
+              src={
+                isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
+              }
               color='#FFFFFF'
               alt=''
               width={16}
@@ -478,7 +587,7 @@ const NewFeedItem = (props: IProps) => {
             <Text
               type='body-12-medium'
               color='primary-5'
-              className={classNames({ '!text-[#589DC0]': isLike })}
+              className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
             >
               {postDetail?.totalLikes || ''} Like
             </Text>
@@ -487,7 +596,7 @@ const NewFeedItem = (props: IProps) => {
             className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
             onClick={handleComment}
           >
-            <Image
+            <img
               src='/static/icons/iconComment.svg'
               alt=''
               width={14}
@@ -495,14 +604,14 @@ const NewFeedItem = (props: IProps) => {
               className='mr-[8px] h-[14px] w-[14px] object-contain'
             />
             <Text type='body-12-medium' color='primary-5'>
-              {postDetail?.totalChildren > 0 ? postDetail?.totalChildren : ''} Comment
+              {totalComments || ''} Comment
             </Text>
           </div>
           <div
             className='report flex cursor-pointer flex-row items-center justify-center'
             onClick={() => setShowModalShare(true)}
           >
-            <Image
+            <img
               src='/static/icons/iconShare.svg'
               alt=''
               width={14}

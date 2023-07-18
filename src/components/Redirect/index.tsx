@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useCountDown } from 'ahooks';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -33,7 +32,7 @@ const Redirect = () => {
         <Text type='body-16-bold' color='primary-5' className='py-[16px] text-center '>
           Redirect
         </Text>
-        <Image
+        <img
           src='/static/icons/iconBack.svg'
           alt=''
           width={32}
@@ -44,7 +43,7 @@ const Redirect = () => {
       </div>
 
       <div className='flex flex-col items-center mobile:px-[30px] tablet:mt-[32px]'>
-        <Image
+        <img
           src='/static/images/redirect.png'
           alt=''
           width={0}
@@ -55,36 +54,32 @@ const Redirect = () => {
         <Text
           type='body-16-semibold'
           color='neutral-2'
-          className='mt-[30px] tablet:mt-[36px] tablet:!text-[24px]'
+          className='mt-[30px] tablet:mt-[36px] tablet:!text-[24px] tablet:!font-bold'
         >
           Redirecting you in {Math.round(countdown / 1000)}s...
         </Text>
-        <div className='mt-[20px] flex'>
-          <Image
+        <div className='flex mobile:mt-[16px] tablet:mt-[25px]'>
+          <img
             src='/static/icons/iconWarning.svg'
             alt=''
-            width={0}
-            height={0}
-            className='mr-[10px] w-[24px]'
+            width={20}
+            height={20}
+            className='mr-[10px] h-[20px] w-[20px] object-contain'
           />
-          <Text
-            type='body-14-regular'
-            color='neutral-4'
-            className='text-center tablet:!text-[20px] tablet:!leading-[28px]'
-          >
+          <Text type='body-14-regular' color='neutral-4' className='text-center'>
             You are leaving PineX. Please do not share your log-in information to any 3rd party
           </Text>
         </div>
         <Text
           type='body-14-regular'
           color='neutral-4'
-          className='mt-[24px] text-center tablet:!text-[20px] tablet:!leading-[28px]'
+          className='text-center mobile:mt-[16px] tablet:mt-[25px]'
         >
           Not being directed? Use the ‘Continue’ button below
         </Text>
-        <div className='mt-[24px] flex'>
-          <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px] tablet:py-[17px]'>
-            <Image
+        <div className='flex mobile:mt-[16px] tablet:mt-[24px]'>
+          <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px] tablet:py-[16px]'>
+            <img
               src='/static/icons/iconLink-02.svg'
               alt=''
               width={0}
@@ -92,9 +87,9 @@ const Redirect = () => {
               className='mr-[4px] w-[20px]'
             />
             <Text
-              type='body-16-regular'
+              type='body-14-regular'
               color='primary-4'
-              className='inline-block overflow-hidden overflow-ellipsis whitespace-nowrap mobile:max-w-[189px] tablet:max-w-[393px]'
+              className='inline-block overflow-hidden overflow-ellipsis whitespace-nowrap mobile:max-w-[189px] tablet:max-w-[393px] tablet:!text-[16px]'
             >
               {url}
             </Text>

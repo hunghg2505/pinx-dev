@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -9,21 +8,31 @@ import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
 
 import styles from './index.module.scss';
-import { useGetDetailStockCode, useSelectStock, useSuggestStockCode } from './service';
+import {
+  ResultListStock,
+  useGetDetailStockCode,
+  useGetMyStock,
+  useSelectStock,
+  useSuggestStockCode,
+  useUnSelectStock,
+} from './service';
 
 const RegisterCompanyStep = () => {
   // const { t } = useTranslation('common');
   // const [form] = Form.useForm();
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
+  const [myListStock, setMyListStock] = useState<string[]>([]);
   const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
 
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
       // file deepcode ignore BadAwaitExpression: <please specify a reason of ignoring this>
-      paramsGetDetailStockCodesRef.current.params = res.data.toString();
+      paramsGetDetailStockCodesRef.current.params = res?.data.toString();
     },
   });
+
+  const requestUnSelectStock = useUnSelectStock();
 
   useEffect(() => {
     if (listSuggestStock.stockCodes) {
@@ -32,11 +41,26 @@ const RegisterCompanyStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listSuggestStock.stockCodes]);
 
+  useEffect(() => {
+    requestGetMyStocks.run();
+  }, []);
+
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       router.push(ROUTE_PATH.REGISTER_THEME);
+    },
+  });
+
+  const requestGetMyStocks = useGetMyStock({
+    onSuccess: (res: ResultListStock) => {
+      const listStock = res.data[0].stocks;
+      if (listStock.length > 0) {
+        const listStockCode = listStock.map((item) => item.stockCode);
+        setSelected(listStockCode);
+        setMyListStock(listStockCode);
+      }
     },
   });
 
@@ -56,16 +80,20 @@ const RegisterCompanyStep = () => {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    const unselectedStock = myListStock.filter((item) => !selected.includes(item));
+    for await (const item of unselectedStock) {
+      requestUnSelectStock.run(item);
+    }
     requestSelectStock.run(selected.toString());
   };
 
   return (
     <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
-      <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-6 py-8'>
+      <div className='md:h-screen lg:py-0 flex flex-1 flex-col items-center justify-center py-8 tablet:mx-auto'>
         <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
-            <Image
+            <img
               src='/static/icons/logo.svg'
               alt=''
               width='0'
@@ -88,55 +116,60 @@ const RegisterCompanyStep = () => {
             </div>
           </div>
           <div
-            className={
-              'mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px]'
-            }
+            className={classNames(
+              'tablet-max:flex tablet-max:h-[70vh] tablet-max:w-screen tablet-max:flex-col tablet-max:justify-center tablet-max:overflow-x-auto ',
+              styles.listCompany,
+            )}
           >
-            {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-              const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                  ? item.stockCode
-                  : item.stockCode?.slice(1, 4)
+            {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
+            <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
+              {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
+                const urlImageCompany = `${
+                  item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                    ? item.stockCode
+                    : item.stockCode?.slice(1, 4)
                 }.png`;
-              return (
-                <div
-                  className={classNames('relative flex justify-center', styles.companyCard)}
-                  key={item.stockCode}
-                  onClick={() => onSelect(item?.stockCode)}
-                >
+                return (
                   <div
-                    className={classNames(
-                      'flex cursor-pointer items-center justify-center rounded-full border border-solid bg-[rgba(255,255,255,0.33)] p-[8.5px] shadow-[0_4px_5px_0_rgba(195,216,227,0.46)] backdrop-blur-[2.7182817459106445px]',
-                      {
-                        'border-[var(--primary-1)]': checkIsSelected(item?.stockCode),
-                        'border-[rgba(255,255,255,0.25)]': !checkIsSelected(item?.stockCode),
-                      },
-                    )}
+                    className={classNames('relative h-[67px] w-[67px]', styles.companyCard)}
+                    key={item.stockCode}
+                    onClick={() => onSelect(item?.stockCode)}
                   >
-                    <div className='flex items-center justify-center rounded-full bg-[--neutral-9]'>
-                      <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
-                        {checkIsSelected(item?.stockCode) && (
-                          <Image
-                            src='/static/icons/iconSelected.svg'
-                            alt=''
-                            width='24'
-                            height='24'
-                          />
-                        )}
+                    <div
+                      className={classNames(
+                        'flex cursor-pointer items-center justify-center rounded-full border border-solid bg-[rgba(255,255,255,0.33)] p-[8.5px] shadow-[0_4px_5px_0_rgba(195,216,227,0.46)] backdrop-blur-[2.7182817459106445px]',
+                        {
+                          'border-[var(--primary-1)]': checkIsSelected(item?.stockCode),
+                          'border-[rgba(255,255,255,0.25)]': !checkIsSelected(item?.stockCode),
+                        },
+                      )}
+                    >
+                      <div className='flex items-center justify-center rounded-full bg-[--neutral-9]'>
+                        <div className='absolute bottom-[-8px] right-[4px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
+                          {checkIsSelected(item?.stockCode) && (
+                            <img
+                              src='/static/icons/iconSelected.svg'
+                              alt=''
+                              width='24'
+                              height='24'
+                            />
+                          )}
+                        </div>
+                        <img
+                          src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
+                          alt=''
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='h-[48px] w-[48px] rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'
+                        />
+                        {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                       </div>
-                      <img
-                        src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
-                        alt=''
-                        width='0'
-                        height='0'
-                        sizes='100vw'
-                        className='h-[48px] w-[48px] rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'
-                      />
-                      {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
           <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button

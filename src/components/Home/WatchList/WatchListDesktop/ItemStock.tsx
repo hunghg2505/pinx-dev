@@ -1,14 +1,18 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 
 import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
-  const unit = data?.cl === 'd' || data?.cl === 'f' ? '-' : '+';
-
+  const highest_price = data?.hp || data?.refPrice;
+  const lowest_price = data?.lp || data?.refPrice;
+  const isFloor = data?.lastPrice === data?.floorPrice;
+  const isHigh = data?.lastPrice === data?.ceilPrice;
+  const isDecrease = data?.lastPrice < highest_price;
+  const isIncrease = data?.lastPrice > lowest_price;
+  const unit = data?.cl === 'd' || data?.cl === 'f' || isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
@@ -19,7 +23,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
         <div className='flex'>
-          <Image
+          <img
             src={url}
             alt=''
             width='0'
@@ -48,20 +52,24 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           <Text
             type='body-14-semibold'
             className={classNames('mt-[5px]', {
-              'text-[#128F63]': unit === '+',
-              'text-[#DB4444]': unit === '-',
-              'text-[#E6A70A]  ': data?.change === 0,
+              'text-[#128F63]': isIncrease && !isHigh,
+              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#08AADD]': isFloor,
+              'text-[#B349C3]': isHigh,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
             })}
           >
-            {data?.lastPrice.toFixed(2)}
+            {data?.lastPrice?.toFixed(2)}
           </Text>
 
           <Text
             type='body-12-medium'
             className={classNames('mt-[5px]', {
-              'text-[#128F63]': unit === '+',
-              'text-[#DB4444]': unit === '-',
-              'text-[#E6A70A]  ': data?.change === 0,
+              'text-[#128F63]': isIncrease && !isHigh,
+              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#08AADD]': isFloor,
+              'text-[#B349C3]': isHigh,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
             })}
           >
             {unit}

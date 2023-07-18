@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useSubscribeThemes, useSuggestThemes } from './service';
+import {
+  ResultSubscribedTheme,
+  useGetSubscribedTheme,
+  useSubscribeThemes,
+  useSuggestThemes,
+  useUnSubscribeTheme,
+} from './service';
 import ThemeCard from './ThemeCard';
 
 const RegisterThemes = () => {
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
+  const [subscribedTheme, setSubscribedTheme] = useState<string[]>([]);
   const listThemesSuggest = useSuggestThemes();
 
   const { onSubscribeThemes } = useSubscribeThemes({
     onSuccess: () => {
       router.push(ROUTE_PATH.REGISTER_TOPIC);
+    },
+  });
+
+  useEffect(() => {
+    requestGetSubscribedTheme.run();
+  }, []);
+
+  const requestUnSubscribeTheme = useUnSubscribeTheme();
+
+  const requestGetSubscribedTheme = useGetSubscribedTheme({
+    onSuccess: (res: ResultSubscribedTheme) => {
+      const listTheme = res.data;
+      if (listTheme) {
+        const listThemeCode = listTheme.map((item) => item.code);
+        setSelected(listThemeCode);
+        setSubscribedTheme(listThemeCode);
+      }
     },
   });
 
@@ -40,6 +63,11 @@ const RegisterThemes = () => {
   const handleContinue = () => {
     const paramsThemesSelected = selected.toString();
     onSubscribeThemes(paramsThemesSelected);
+
+    const unSubscribeTheme = subscribedTheme.filter((item) => !selected.includes(item));
+    if (unSubscribeTheme.length > 0) {
+      requestUnSubscribeTheme.run(unSubscribeTheme.toString());
+    }
   };
 
   return (
@@ -47,7 +75,7 @@ const RegisterThemes = () => {
       <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-[10px] tablet:pt-8 desktop:pt-8'>
         <div className='themeCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
-            <Image
+            <img
               src='/static/icons/logo.svg'
               alt=''
               width='0'

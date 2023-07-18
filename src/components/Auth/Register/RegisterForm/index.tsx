@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { useCallback, useEffect, useState } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
 import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -14,6 +15,7 @@ import Notification from '@components/UI/Notification';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { TERM_AND_CONDITION_LINK } from '@utils/constant';
 import { normalizeNumber } from '@utils/normalize';
@@ -21,13 +23,19 @@ import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
 
-const Register = () => {
+interface IProps {
+  isModal?: boolean;
+}
+
+const Register = (props: IProps) => {
+  const { isModal } = props;
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
   const [recaptchaToken, setRecaptchaToken] = useState<string>('');
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const { onRegister } = useAuth();
-  const { setUserRegisterInfo } = useUserRegisterInfo();
+  const { userRegisterInfo, setUserRegisterInfo } = useUserRegisterInfo();
 
   const onSubmit = (values: any) => {
     const registerParams = {
@@ -44,6 +52,10 @@ const Register = () => {
   const requestRegister = useRegister({
     onSuccess: (res: any) => {
       if (res?.data) {
+        setUserRegisterInfo({
+          ...userRegisterInfo,
+          token: res?.data.token,
+        });
         onRegister({
           token: res?.data.token,
           refreshToken: res?.refresh_token,
@@ -51,18 +63,35 @@ const Register = () => {
         });
         switch (res?.data.nextStep) {
           case 'OTP': {
-            router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+            if (isModal) {
+              form.resetFields();
+              setPopupStatus({
+                ...popupStatus,
+                popupAuth: false,
+                popupRegisterOtp: true,
+              });
+            } else {
+              router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+            }
             break;
           }
           case 'LOGIN_ID': {
-            router.push(ROUTE_PATH.REGISTER_USER_NAME);
+            if (isModal) {
+              setPopupStatus({
+                ...popupStatus,
+                popupAuth: false,
+                popupRegisterUsername: true,
+              });
+            } else {
+              router.push(ROUTE_PATH.REGISTER_USER_NAME);
+            }
             break;
           }
         }
       }
     },
     onError(e) {
-      toast(() => <Notification type='error' message={e.error} />);
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
@@ -72,7 +101,7 @@ const Register = () => {
 
   const onRefreshReCaptcha = () => {
     /* do something like submit a form and then refresh recaptcha */
-    setRefreshReCaptcha((r) => !r);
+    setRefreshReCaptcha((r: any) => !r);
   };
 
   useEffect(() => {
@@ -82,7 +111,11 @@ const Register = () => {
   return (
     <>
       <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-      <Form className='mt-10 space-y-6 laptop:w-full max-w-[479px]' form={form} onFinish={onSubmit}>
+      <Form
+        className='mt-10 space-y-6 laptop:w-full laptop:max-w-[479px]'
+        form={form}
+        onFinish={onSubmit}
+      >
         <FormItem
           name='phoneNumber'
           normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
@@ -165,10 +198,15 @@ const Register = () => {
             name='confirmPassword'
           />
         </FormItem>
-        <div className='--neutral-1 text-[12px] font-[500]'>
+        <div className='--neutral-1 text-[12px] font-[500] tablet:text-center'>
           By signing up, I agree to the
           <span>
-            <a href={TERM_AND_CONDITION_LINK} target='_blank' rel="noreferrer" className='!text-[--primary-2]'>
+            <a
+              href={TERM_AND_CONDITION_LINK}
+              target='_blank'
+              rel='noreferrer'
+              className='!text-[--primary-2]'
+            >
               &nbsp;Terms & Conditions
             </a>
           </span>

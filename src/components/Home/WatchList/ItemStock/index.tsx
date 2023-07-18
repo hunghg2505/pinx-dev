@@ -7,7 +7,13 @@ import Text from '@components/UI/Text';
 import { IWatchListItem } from '../../service';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
-  const unit = data?.cl === 'd' || data?.cl === 'f' ? '-' : '+';
+  const highest_price = data?.hp || data?.refPrice;
+  const lowest_price = data?.lp || data?.refPrice;
+  const isFloor = data?.lastPrice === data?.floorPrice;
+  const isHigh = data?.lastPrice === data?.ceilPrice;
+  const isDecrease = data?.lastPrice < highest_price;
+  const isIncrease = data?.lastPrice > lowest_price;
+  const unit = data?.cl === 'd' || data?.cl === 'f' || isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
@@ -30,14 +36,15 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
 
         <Text
           type='barlow-16-medium'
-          color='semantic-2-1'
           className={classNames('mt-[16px]', {
-            'text-[#128F63]': unit === '+',
-            'text-[#DB4444]': unit === '-',
-            'text-[#E6A70A]  ': data?.change === 0,
+            'text-[#08AADD]': isFloor,
+            'text-[#B349C3]': isHigh,
+            'text-[#128F63]': isIncrease,
+            'text-[#DB4444]': isDecrease,
+            'text-[#E6A70A] ': Math.ceil(data?.change) === 0,
           })}
         >
-          {data?.lastPrice.toFixed(2)}
+          {data?.lastPrice?.toFixed(2)}
         </Text>
         <Text type='body-14-regular' color='primary-5' className={classNames('mt-[8px]')}>
           {data.stockCode}
@@ -45,12 +52,14 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
 
         <div
           className={classNames('mt-[12px]', {
-            'text-[#128F63]': unit === '+',
-            'text-[#DB4444]': unit === '-',
-            'text-[#E6A70A]  ': data?.change === 0,
+            'text-[#08AADD]': isFloor,
+            'text-[#B349C3]': isHigh,
+            'text-[#128F63]': isIncrease,
+            'text-[#DB4444]': isDecrease,
+            'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
           })}
         >
-          <Text type='barlow-12-medium' color='semantic-2-1'>
+          <Text type='barlow-12-medium'>
             {unit}
             {data?.change} / {unit}
             {data?.changePc || data?.changePercent}%

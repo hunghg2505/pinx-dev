@@ -2,15 +2,16 @@ import React, { useRef } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
+import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
+import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
 const ListStock = dynamic(import('./ListStock'), {
@@ -20,16 +21,23 @@ interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
 }
+
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
-  const ref = useRef(null);
+  const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
   const [height, setHeight] = React.useState<number>(0);
-  const { bgTheme } = useGetBgTheme();
-
+  const bgTheme = useAtomValue(postThemeAtom);
+  const metaData = postDetail?.post?.metadataList?.[0];
+  const imageMetaData = metaData?.images?.[0];
+  const siteName = metaData?.siteName;
+  const url = metaData?.url?.split('/')?.slice(-1);
+  const urlImages = postDetail?.post?.urlImages;
+  const ref = useRef(null);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+
   const onComment = () => {
     onNavigate && onNavigate();
   };
@@ -48,6 +56,22 @@ const ContentPostTypeHome = (props: IProps) => {
     }
     setHeight(ele?.offsetHeight);
   };
+  React.useEffect(() => {
+    const handleClick = (event: any) => {
+      const textContent = event?.target?.textContent;
+      const classElement = event?.target?.className;
+      if (classElement === 'link') {
+        router.push({
+          pathname: '/redirecting',
+          query: { url: textContent },
+        });
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
@@ -57,7 +81,40 @@ const ContentPostTypeHome = (props: IProps) => {
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
       : '/static/icons/iconUnSubcribe.svg';
+
   const postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail.id);
+  const renderMetaData = () => {
+    if (siteName === 'YouTube' && !urlImages?.[0]) {
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
+          title='YouTube video player'
+          allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+        ></iframe>
+      );
+    }
+    if (imageMetaData) {
+      return (
+        <div className='theme'>
+          <Fancybox
+            options={{
+              closeButton: true,
+            }}
+          >
+            <a data-fancybox='gallery' href={imageMetaData}>
+              <img
+                src={imageMetaData}
+                alt=''
+                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+              />
+            </a>
+          </Fancybox>
+        </div>
+      );
+    }
+    return <></>;
+  };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     const isReadMore = height > 84;
     return (
@@ -72,7 +129,10 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {/* {message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         {isReadMore && (
@@ -87,7 +147,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
             <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
@@ -113,7 +173,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   color='primary-5'
                   className='mobile:mt-[27px] desktop:mt-[45px] desktop:!text-[20px]'
                 >
-                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subcribe' : 'unSubcribe'}
+                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
                 </Text>
                 <Text
                   type='body-12-bold'
@@ -152,7 +212,7 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {postDetail?.post.head}
-            {/* <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div> */}
+            {/* <div className='messageFormat messageBody' dangerouslySetInnerHTML={{ __html: message }}></div> */}
           </Text>
         </div>
         {isReadMore && (
@@ -165,7 +225,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
           <Link href={postDetailUrl}>
             <img
               src={
@@ -191,7 +251,7 @@ const ContentPostTypeHome = (props: IProps) => {
             // href={url}
             className=' absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -204,83 +264,6 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
-  // if (
-  //   [
-  //     TYPEPOST.VietstockLatestNews,
-  //     TYPEPOST.VietstockNews,
-  //     TYPEPOST.VietstockStockNews,
-  //     TYPEPOST.TNCKNews,
-  //   ].includes(postDetail?.postType)
-  // ) {
-  //   return (
-  //     <>
-  //       <div ref={ref}>
-  //         <Text
-  //           type='body-14-regular'
-  //           color='neutral-1'
-  //           className={classNames('mb-[16px] ', {
-  //             'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
-  //             'h-auto': isReadMore && readMore,
-  //           })}
-  //         >
-  //           {postDetail?.post.head}
-  //         </Text>
-  //       </div>
-  //       {isReadMore && (
-  //         <Text
-  //           type='body-14-regular'
-  //           color='neutral-3'
-  //           className='cursor-pointer'
-  //           onClick={onReadMore}
-  //         >
-  //           {readMore ? 'See less' : 'See more'}
-  //         </Text>
-  //       )}
-  //       {/* <Link
-  //         className='mb-[13px] flex items-center justify-end text-right'
-  //         href={postDetail?.post.url || ''}
-  //       >
-  //         <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
-  //           Read more
-  //         </Text>
-  //         <Image
-  //           src='/static/icons/iconNext.svg'
-  //           alt=''
-  //           width={0}
-  //           height={0}
-  //           sizes='100vw'
-  //           className='w-[5px]'
-  //         />
-  //       </Link> */}
-  //       <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
-  //         <Link href={postDetailUrl}>
-  //           <Image
-  //             src={postDetail?.post.headImageUrl || ''}
-  //             alt=''
-  //             width='0'
-  //             height='0'
-  //             sizes='100vw'
-  //             className='h-full w-full'
-  //           />
-  //         </Link>
-  //         <div
-  //           onClick={() => onRedirect(postDetail?.post.url)}
-  //           // href={postDetail?.post.url || ''}
-  //           className='absolute left-2/4 top-2/4 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
-  //         >
-  //           <Image
-  //             src='/static/icons/iconLink.svg'
-  //             alt=''
-  //             width='0'
-  //             height='0'
-  //             sizes='100vw'
-  //             className='w-[18px]'
-  //           />
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // }
 
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
     const isReadMore = height > 84;
@@ -296,7 +279,10 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {/* {message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         {isReadMore && (
@@ -311,7 +297,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -341,7 +327,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   {postDetail?.post.stockCode}
                 </Text>
                 {postDetail?.post.action === 'ADD' ? (
-                  <Image
+                  <img
                     src='/static/icons/iconHeartActive.svg'
                     alt=''
                     width={0}
@@ -350,7 +336,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                   />
                 ) : (
-                  <Image
+                  <img
                     src='/static/icons/iconHeart.svg'
                     alt=''
                     width={0}
@@ -402,7 +388,10 @@ const ContentPostTypeHome = (props: IProps) => {
             })}
           >
             {/* {postDetail?.post?.message} */}
-            <div className='messageFormat' dangerouslySetInnerHTML={{ __html: message }}></div>
+            <div
+              className='messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
           </Text>
         </div>
         {isReadMore && (
@@ -417,7 +406,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
             <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
@@ -444,7 +433,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   {postDetail?.post?.stockCode}
                 </Text>
                 <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
-                  <Image
+                  <img
                     src='/static/icons/iconPostBuy.svg'
                     alt=''
                     width='0'
@@ -456,7 +445,10 @@ const ContentPostTypeHome = (props: IProps) => {
                 <Text
                   type='body-12-medium'
                   color='neutral-1'
-                  className='mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]'
+                  className={classNames(
+                    'mb-[4px] mt-[4px] desktop:!text-[20px] desktop:!leading-[28px]',
+                    { 'mt-[24px]': postDetail?.post?.type === 'BUY' },
+                  )}
                 >
                   {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
                 </Text>
@@ -468,7 +460,7 @@ const ContentPostTypeHome = (props: IProps) => {
                       'text-[#DB4444]': pnlRate < 0,
                     })}
                   >
-                    {pnlRate.toFixed(2)}%
+                    {pnlRate?.toFixed(2)}%
                   </Text>
                 )}
 
@@ -495,7 +487,6 @@ const ContentPostTypeHome = (props: IProps) => {
   }
   if (
     [
-      TYPEPOST.CafeFNews,
       TYPEPOST.VietstockLatestNews,
       TYPEPOST.VietstockNews,
       TYPEPOST.VietstockStockNews,
@@ -556,7 +547,66 @@ const ContentPostTypeHome = (props: IProps) => {
             onClick={() => onRedirect(url)}
             className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
-            <Image
+            <img
+              src='/static/icons/iconLink.svg'
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-[18px] w-[18px]'
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
+  if ([TYPEPOST.CafeFNews].includes(postDetail?.postType)) {
+    const url = postDetail?.post.url ?? '';
+    const isReadMore = height > 84;
+    return (
+      <>
+        {postDetail?.post.head && (
+          <div
+            ref={onRef}
+            className={classNames({
+              'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
+              'h-auto': isReadMore && readMore,
+            })}
+          >
+            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+              {postDetail?.post.head}
+            </Text>
+          </div>
+        )}
+
+        <div className='relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+          <Link href={postDetailUrl}>
+            {postDetail?.post?.headImageUrl && (
+              <img
+                src={postDetail?.post?.headImageUrl}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
+              />
+            )}
+          </Link>
+          <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
+            <ListStock listStock={postDetail?.post?.tagStocks} />
+          </div>
+          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
+            <Link href={postDetailUrl}>
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
+            </Link>
+          </div>
+          <div
+            onClick={() => onRedirect(url)}
+            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          >
+            <img
               src='/static/icons/iconLink.svg'
               alt=''
               width='0'
@@ -573,39 +623,97 @@ const ContentPostTypeHome = (props: IProps) => {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
+    const urlLink = postDetail?.post?.urlLinks?.[0] || '';
+    const onRefHtml = (ele: any) => {
+      if (!ele) {
+        return;
+      }
+      const isReadMore = ele?.offsetHeight > 72;
+      if (isReadMore) {
+        setIsReadMorePost(true);
+      }
+    };
     return (
       <>
-        <div className='cursor-pointer' onClick={onComment} ref={onRef}>
-          {postThemeId ? (
-            <div className='theme relative'>
-              <img
-                src={BgThemePost?.bgImage}
-                alt=''
-                className='pointer-events-none left-0 top-0 w-full mobile:h-[300px] desktop:h-[500px]'
-              />
-              {message && (
-                <div
-                  className='desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center'
-                  dangerouslySetInnerHTML={{ __html: message }}
-                  style={{ color }}
-                ></div>
-              )}
-            </div>
-          ) : (
-            <>
-              {message && (
-                <div
-                  className='desc messageFormat my-[0] mb-[15px]'
-                  dangerouslySetInnerHTML={{ __html: message }}
-                ></div>
-              )}
-            </>
-          )}
+        <div className='1 cursor-pointer'>
+          <div onClick={onComment}>
+            {postThemeId ? (
+              <div
+                className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[660px]'
+                onClick={onComment}
+              >
+                <img
+                  src={BgThemePost?.bgImage}
+                  alt=''
+                  className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[300px] tablet:rounded-[8px] desktop:h-[393px]'
+                />
+                {message && (
+                  <div>
+                    <Text type='body-14-regular' color='neutral-1'>
+                      <div
+                        className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                        dangerouslySetInnerHTML={{ __html: message }}
+                        style={{ color }}
+                      ></div>
+                    </Text>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                {message && (
+                  <div
+                    ref={onRefHtml}
+                    onClick={onComment}
+                    className={classNames({
+                      'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
+                      'h-auto': isReadMorePost && readMore,
+                    })}
+                  >
+                    <Text type='body-14-regular' color='neutral-1'>
+                      <div
+                        className='desc messageFormat messageBody my-[0] pb-[15px]'
+                        style={{ display: '-webkit-box' }}
+                        dangerouslySetInnerHTML={{ __html: message }}
+                      ></div>
+                    </Text>
+                    {!message?.includes(urlLink) && urlLink !== '' && (
+                      <div className='messageFormat messageBody messageBody -mt-[15px] pb-[15px]'>
+                        <Link href='javascript:void(0)' className='link'>
+                          {urlLink}
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
 
-          {postDetail?.post?.urlImages?.length > 0 && (
-            <div className='theme'>
-              <img src={postDetail?.post?.urlImages?.[0]} alt='' width={326} height={185} />
-            </div>
+          {isReadMorePost && (
+            <Text
+              type='body-14-regular'
+              color='neutral-3'
+              className='w-[75px] cursor-pointer'
+              onClick={onReadMore}
+            >
+              {readMore ? 'See less' : 'See more'}
+            </Text>
+          )}
+          <div>{renderMetaData()}</div>
+
+          {urlImages?.length > 0 && (
+            <Link href={postDetailUrl}>
+              <div className='theme'>
+                <img
+                  src={urlImages?.[0]}
+                  alt=''
+                  width={326}
+                  height={185}
+                  className='h-[185px] w-[550px] rounded-[15px] object-cover object-top tablet:h-[309px]'
+                />
+              </div>
+            </Link>
           )}
         </div>
       </>

@@ -1,0 +1,16 @@
+.tabs::-webkit-scrollbar {
+  width: 100px !important;
+    background: none !important;  
+}
+.tabs{
+  overflow-x: scroll;
+  // width: 1000px;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+  &::-webkit-scrollbar{
+    display: none !important;
+  }
+}
+.abcd{
+  transform: translateX(-100%);
+}

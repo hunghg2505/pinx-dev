@@ -1,7 +1,8 @@
 import { useAtom, atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils'
+import { atomWithStorage } from 'jotai/utils';
 
 interface InitUserLoginInfo {
+  id?: string | number;
   token?: string;
   authorities?: string[];
   expiredAt?: string;
@@ -27,10 +28,18 @@ interface InitUserLoginInfo {
   bankAccountInfoList?: any[];
   isReadTerms?: string;
   forceAllow?: boolean;
+  avatar?: string;
+  displayName?: string;
+  totalFollower?: number;
+  totalFollowing?: number;
+  gender?: string;
+  dob?: string;
+  identityCardNo?: string;
+  address?: string;
 }
 
 const initialUserLoginInfo: InitUserLoginInfo = {
-  isReadTerms: 'false'
+  isReadTerms: 'false',
 };
 
 const isReadTermsAtom = atomWithStorage('isReadTerms', false);
@@ -52,6 +61,6 @@ export const useUserLoginInfo = () => {
     setUserLoginInfo,
     setIsReadTerms,
     setUserType,
-    setForceAllowTerm
+    setForceAllowTerm,
   };
 };

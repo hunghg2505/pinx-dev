@@ -26,12 +26,12 @@ const ForgotPasswordStepOne = () => {
       toast(() => <Notification type='success' message='Password request is successful' />);
     },
     onError(e: any) {
-      if (ERROR_CODE.has(e.errorWTSCode)) {
+      if (ERROR_CODE.has(e?.errorWTSCode)) {
         router.push({
           pathname: ROUTE_PATH.UPDATE_USSR_PROFILE,
           query: {
             username: form.getFieldValue('username'),
-            phone_number: form.getFieldValue('phoneNumber')
+            phone_number: form.getFieldValue('phoneNumber'),
           },
         });
       }
@@ -48,7 +48,7 @@ const ForgotPasswordStepOne = () => {
 
   return (
     <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
-      <div className='mt-[36px]'>
+      <div>
         <Text type='body-28-bold'>Forgot password?</Text>
         <Text type='body-16-regular' color='neutral-4'>
           We will send a new password to your phone number
@@ -87,7 +87,7 @@ const ForgotPasswordStepOne = () => {
       </Form>
 
       <div className='mt-9 flex flex-col items-center'>
-        <Text type='body-14-regular'>Don’t want to log in yet?</Text>
+        <Text type='body-14-regular' color='neutral-4'>Don’t want to log in yet?</Text>
         <NextLink href={ROUTE_PATH.HOME}>
           <Text type='body-14-medium' color='primary-1'>
             Skip and view as anonymous

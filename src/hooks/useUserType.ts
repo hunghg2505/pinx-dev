@@ -1,23 +1,14 @@
 import { getAccessToken } from '@store/auth';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { USERTYPE } from '@utils/constant';
 
-export const enum USERTYPE {
-  NEW = 'NEW',
-  PRO = 'PRO',
-  VSD_PENDING = 'VSD_PENDING',
-  VSD_REJECTED = 'VSD_REJECTED',
-  EKYC = 'EKYC',
-  VSD = 'VSD',
-  LOGIN = 'LOGIN',
-  NOTLOGIN = 'NOTLOGIN',
-  ACTIVE = 'ACTIVE',
-}
+import { useUserLoginInfo } from './useUserLoginInfo';
+
 export const useUserType: any = () => {
   const isLogin = !!getAccessToken();
-  const { requestGetProfile } = useProfileInitial();
-  const custStat = requestGetProfile?.custStat;
-  const acntStat = requestGetProfile?.acntStat;
-  const userId = requestGetProfile?.id;
+  const { userLoginInfo } = useUserLoginInfo();
+  const custStat = userLoginInfo?.custStat;
+  const acntStat = userLoginInfo?.acntStat;
+  const userId = userLoginInfo?.id;
 
   let statusUser;
 
@@ -29,6 +20,8 @@ export const useUserType: any = () => {
       (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
     ) {
       statusUser = USERTYPE.EKYC;
+    } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.PENDING_TO_CLOSE) {
+      statusUser = USERTYPE.PENDING_TO_CLOSE;
     } else {
       statusUser = USERTYPE.VSD;
     }

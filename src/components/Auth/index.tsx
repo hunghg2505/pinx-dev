@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
@@ -13,7 +12,7 @@ import styles from './index.module.scss';
 import Login from './Login';
 import Register from './Register/RegisterForm';
 
-function Home() {
+function Auth() {
   const router = useRouter();
   const defaultActiveTab = (router.query?.type || AUTH_TAB_TYPE.LOGIN) as string;
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
@@ -49,7 +48,7 @@ function Home() {
             target='_blank'
             rel='noreferrer'
           >
-            <Image
+            <img
               src='/static/icons/register_help_icon.svg'
               alt=''
               width='0'
@@ -77,4 +76,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Auth;

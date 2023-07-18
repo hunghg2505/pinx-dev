@@ -134,7 +134,7 @@ const getPostDetail = async (postId: string) => {
 //   };
 // };
 
-export const usePostDetail = (postId: string) => {
+export const usePostDetail = (postId: string, option = {}) => {
   const { data, loading, refresh } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
@@ -144,9 +144,9 @@ export const usePostDetail = (postId: string) => {
     },
     {
       refreshDeps: [postId],
+      ...option,
     },
   );
-
   return {
     postDetail: data,
     loading,
@@ -170,7 +170,6 @@ export const useCommentsOfPost = (postId: string) => {
       refreshDeps: [postId],
     },
   );
-
   return {
     commentsOfPost: data,
     loading,

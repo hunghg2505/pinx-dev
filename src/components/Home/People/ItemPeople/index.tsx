@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -41,7 +40,7 @@ const ItemPeople = (props: IProps) => {
         setIsFollow(true);
       },
       onError: (e: any) => {
-        toast(() => <Notification type='error' message={e.error} />);
+        toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );
@@ -56,7 +55,7 @@ const ItemPeople = (props: IProps) => {
         // refreshList();
       },
       onError: (e: any) => {
-        toast(() => <Notification type='error' message={e.error} />);
+        toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );
@@ -69,7 +68,7 @@ const ItemPeople = (props: IProps) => {
   };
   return (
     <>
-      <div className='m-[6px] flex flex-col items-center rounded-[15px] border-[1px] border-solid border-[#F4F4F4] bg-[rgba(255,_255,_255,_0.704436)] px-[9px] pb-[10px] pt-[14px] backdrop-blur-[8.15485px] backdrop-filter [box-shadow:0px_5px_8px_rgba(88,_157,_192,_0.0948973)]'>
+      <div className='mr-[16px] flex flex-col items-center rounded-[15px] border-[1px] border-solid border-[#F4F4F4] bg-[rgba(255,_255,_255,_0.704436)] px-[9px] pb-[10px] pt-[14px] backdrop-blur-[8.15485px] backdrop-filter [box-shadow:0px_5px_8px_rgba(88,_157,_192,_0.0948973)]'>
         <img
           src={
             image
@@ -90,8 +89,8 @@ const ItemPeople = (props: IProps) => {
           >
             {data?.displayName}
           </Text>
-          {data?.isKol && (
-            <Image
+          {data?.isFeatureProfile && (
+            <img
               src='/static/icons/iconKol.svg'
               alt=''
               width={0}
@@ -113,7 +112,7 @@ const ItemPeople = (props: IProps) => {
           {isFollow ? (
             <IconFollowBlue />
           ) : (
-            <Image
+            <img
               src='/static/icons/iconPlus.svg'
               alt=''
               width='0'

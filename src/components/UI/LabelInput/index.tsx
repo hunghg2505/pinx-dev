@@ -23,6 +23,7 @@ interface InputProps {
   removeCommon?: boolean;
   name?: string;
   labelContent?: string;
+  hasError?: string | undefined;
 }
 
 interface Ref {
@@ -43,6 +44,7 @@ const LabelInput: React.FC<InputProps & Ref> = React.forwardRef(
       maxLength,
       name,
       labelContent,
+      hasError,
       ...rest
     } = props;
     const inputRef = (ref as any) || React.createRef<HTMLInputElement>();
@@ -138,9 +140,12 @@ const LabelInput: React.FC<InputProps & Ref> = React.forwardRef(
         className={classNames(
           'relative rounded-t-lg border border-b-[1px] border-[--neutral-8] bg-[--neutral-8] px-3 pb-1 pt-2',
           styles.inputGroup,
+          {
+            'border-b-[1px] border-l-0 border-r-0 border-t-0 border-solid border-[--semantic-1]':
+              !!hasError,
+          },
         )}
       >
-
         <input
           ref={inputRef}
           type={implicitType()}
@@ -160,7 +165,12 @@ const LabelInput: React.FC<InputProps & Ref> = React.forwardRef(
         </label>
 
         {isTypePassword && !disabled && (
-          <div className='absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-sm leading-5'>
+          <div
+            className={classNames(
+              'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-sm leading-5',
+              styles.eyePassword,
+            )}
+          >
             <EyePassword />
           </div>
         )}

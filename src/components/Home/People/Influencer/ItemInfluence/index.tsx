@@ -1,20 +1,26 @@
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
+import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import PopupComponent from '@utils/PopupComponent';
+import { popupStatusAtom } from '@store/popup/popup';
+import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
   data: IKOL;
   refresh: () => void;
 }
 const ItemInfluence = (props: IProps) => {
+  const router = useRouter();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
   const { data, refresh } = props;
+
+  console.log('🚀 ~ file: index.tsx:19 ~ ItemInfluence ~ data:', data);
   const isFollow = data?.isFollowed;
   const useFollowUser = useRequest(
     () => {
@@ -26,7 +32,7 @@ const ItemInfluence = (props: IProps) => {
         refresh();
       },
       onError: (e: any) => {
-        toast(() => <Notification type='error' message={e.error} />);
+        toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );
@@ -49,11 +55,17 @@ const ItemInfluence = (props: IProps) => {
         useFollowUser.run();
       }
     } else {
-      PopupComponent.open();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
   return (
-    <div className='mr-[16px] mobile:w-[161px] tablet:w-[161px]'>
+    <div
+      className='w-[161px] cursor-pointer mobile-max:w-full tablet:w-[161px]'
+      onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
+    >
       <div className="relative h-[252px] w-[100%] rounded-[15px] before:absolute before:bottom-[0] before:left-[0] before:z-10 before:h-full before:w-full before:rounded-[15px] before:bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)] before:content-['']">
         <div className='absolute bottom-[20px] left-[12px] right-[12px] z-10'>
           <div className='flex items-center'>
@@ -65,7 +77,7 @@ const ItemInfluence = (props: IProps) => {
               {data?.displayName}
             </Text>
 
-            <Image
+            <img
               src='/static/icons/iconKol.svg'
               alt=''
               width={16}

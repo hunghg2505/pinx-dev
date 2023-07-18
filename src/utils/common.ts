@@ -1,5 +1,8 @@
+import Base64 from 'crypto-js/enc-base64';
+import sha256 from 'crypto-js/sha256';
+
 export const ROUTE_PATH = {
-  HOME: '/',
+  // AUTH
   LOGIN: '/auth/login',
   REGISTER: '/auth/sign-up',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -11,14 +14,42 @@ export const ROUTE_PATH = {
   REGISTER_THEME: '/auth/register-theme',
   REGISTER_TOPIC: '/auth/register-topic',
   UPDATE_USSR_PROFILE: '/auth/update-user-profile',
+
+  HOME: '/',
   REDIRECT: '/redirecting',
-  REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
+  PINEX_TOP_20: 'pinex-top-20',
+  EXPLORE: '/explore',
+  THEME: '/theme',
+  THEME_DETAIL: (id: string) => `/theme/${id}`,
+  PEOPLEINSPOTLIGHT: '/people-in-spotlight',
+  TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
+  PAGE_NOT_FOUND: '/page-not-found',
+  SEARCH: '/search',
+  TOP_WATCHING: '/top-watching',
+  GIFTCASH: '/gift-cash',
+
+  // SETTING
+  SETTING: '/setting',
+  SETTING_CHANGE_USERNAME: '/setting/change-username',
+  SETTING_CHANGE_USERNAME_VERIFICATION: '/setting/change-username/verification',
+  SETTING_CHANGE_PASSWORD: '/setting/change-password',
+  SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
+
+  // MY PROFILE
+  PROFILE: '/profile',
+  MY_PROFILE: '/profile/my-profile',
+  ASSET: '/profile/my-profile?tab=assets',
+  PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
+  DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
+  WATCHLIST: '/watchlist',
+  PROFILE_DETAIL: (id: number) => `/profile/${id}`,
 };
 
 export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
+  message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
   });
@@ -30,10 +61,26 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      // const startId = item.indexOf('(') + 1;
-      // const endId = item.indexOf(')');
-      // const ID = item.slice(startId, endId);
-      if (message && message.includes(item)) {
+      const startId = item.indexOf('(') + 1;
+      const endId = item.indexOf(')');
+      const ID = item.slice(startId, endId);
+      if (message && !message.includes(name)) {
+        const newMessage = message.split(' ');
+        for (const text of newMessage) {
+          if (text.includes(ID)) {
+            const startName = text.indexOf('@[') + 2;
+            const endName = text.indexOf(']');
+            const nameOld = text.slice(startName, endName);
+            message = message.replace(
+              `@[${nameOld}](${ID})`,
+              `
+              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              `,
+            );
+          }
+        }
+      }
+      if (message && message.includes(name)) {
         message = message.replace(
           item,
           `
@@ -75,7 +122,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="${item}" class="link">${item}</a>
+        <a href="javascript:void(0)" class="link">${item}</a>
         `,
       );
     }
@@ -86,12 +133,13 @@ export const formatMessage = (message: string, data: any) => {
           message = message.replace(
             item,
             `
-            <a href="${item}" class="link">${item}</a>
+            <a href="javascript:void(0)" class="link">${item}</a>
             `,
           );
         }
       }
     }
+    // }
   });
   return message;
 };
@@ -125,4 +173,43 @@ export const isImage = (file: any) => {
   const name = file?.name?.split('.');
 
   return file.type?.includes('image') && EXT_IMAGE.includes(name[name?.length - 1]?.toLowerCase());
+};
+export function toNonAccentVietnamese(str: any) {
+  str = str.replaceAll(/[AÀÁÂÃĂẠẤẦẪẬẮẰẴẶ]/g, 'A');
+  str = str.replaceAll(/[àáâãăạảấầẩẫậắằẳẵặ]/g, 'a');
+  str = str.replace(/[EÈÉÊẸẼẾỀỄỆ]/, 'E');
+  str = str.replaceAll(/[èéêẹẻẽếềểễệ]/g, 'e');
+  str = str.replaceAll(/[IÌÍĨỊ]/g, 'I');
+  str = str.replaceAll(/[ìíĩỉị]/g, 'i');
+  str = str.replaceAll(/[OÒÓÔÕƠỌỐỒỖỘỚỜỠỢ]/g, 'O');
+  str = str.replaceAll(/[òóôõơọỏốồổỗộớờởỡợ]/g, 'o');
+  str = str.replaceAll(/[UÙÚŨƯỤỨỪỮỰ]/g, 'U');
+  str = str.replaceAll(/[ùúũưụủứừửữự]/g, 'u');
+  str = str.replaceAll(/[YÝỲỴỸ]/g, 'Y');
+  str = str.replaceAll(/[ýỳỵỷỹ]/g, 'y');
+  str = str.replaceAll('Đ', 'D');
+  str = str.replaceAll('đ', 'd');
+  // Some system encode vietnamese combining accent as individual utf-8 characters
+  str = str.replaceAll(/[\u0300\u0301\u0303\u0309\u0323]/g, ''); // Huyền sắc hỏi ngã nặng
+  // eslint-disable-next-line no-misleading-character-class
+  str = str.replaceAll(/[\u02C6\u0306\u031B]/g, ''); // Â, Ê, Ă, Ơ, Ư
+  return str;
+}
+
+export const imageStock = (stock_code: string) => {
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const url = `${imageCompanyUrl}${
+    stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
+  }.png`;
+  return url;
+};
+
+export const encryptPassword = (value: string) => {
+  const hash = sha256(value);
+  const pass = Base64.stringify(hash);
+  return pass;
+};
+
+export const isUserVerified = (acntStat: string | undefined) => {
+  return acntStat === 'ACTIVE';
 };

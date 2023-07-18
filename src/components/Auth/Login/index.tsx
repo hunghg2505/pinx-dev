@@ -1,3 +1,4 @@
+import { useAtom } from 'jotai';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -10,24 +11,32 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 
 import { useLogin } from './service';
 
+interface Iprops {
+  isModal?: boolean;
+}
+
 const checkUserType = (custStat: string, acntStat: string) => {
-  if (custStat === 'NEW') {
-    return 'NEW';
+  if (custStat === USERTYPE.NEW) {
+    return USERTYPE.NEW;
   }
   if (
-    (custStat === 'PRO' && acntStat === 'VSD_PENDING') ||
-    (custStat === 'PRO' && acntStat === 'VSD_REJECTED ')
+    (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_PENDING) ||
+    (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
   ) {
-    return 'EKYC';
+    return USERTYPE.EKYC;
   }
-  return 'VSD';
+  return USERTYPE.VSD;
 };
 
-const Login = () => {
+const Login = (props: Iprops) => {
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isModal } = props;
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
@@ -69,18 +78,25 @@ const Login = () => {
         if (res?.data.isReadTerms === 'true') {
           setIsReadTerms(true);
         }
-        router.push(ROUTE_PATH.HOME);
+        if (isModal) {
+          setPopupStatus({
+            ...popupStatus,
+            popupAuth: false,
+          });
+        } else {
+          router.push(ROUTE_PATH.HOME);
+        }
       }
     },
     onError(e) {
-      toast(() => <Notification type='error' message={e.error} />);
+      toast(() => <Notification type='error' message={e?.error} />);
     },
   });
 
   return (
     <>
       <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
-        <FormItem name='username' rules={[{ required: true, message: 'Please enter username!' }]}>
+        <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
         <FormItem
@@ -88,7 +104,7 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: 'Please enter password!',
+              message: 'Please enter password',
             },
           ]}
         >
@@ -108,7 +124,7 @@ const Login = () => {
           </NextLink>
         </div>
 
-        <MainButton type='submit' className='!mt-10 w-full'>
+        <MainButton type='submit' className='!mt-2 w-full'>
           Login
         </MainButton>
       </Form>

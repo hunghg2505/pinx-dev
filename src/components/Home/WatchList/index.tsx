@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Slider from 'react-slick';
 
@@ -44,6 +43,7 @@ const WatchList = () => {
         }
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [dataSocket, setDataSocket] = React.useState<any>({});
@@ -92,7 +92,7 @@ const WatchList = () => {
             className='mx-[auto] flex h-[160px] w-[104px] flex-col items-center rounded-[12px] border-[1px] border-dashed border-[#589DC0] bg-[#FFF] [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'
             onClick={onAddStock}
           >
-            <Image
+            <img
               src='/static/icons/iconAddStock.svg'
               alt=''
               width={0}
@@ -114,7 +114,7 @@ const WatchList = () => {
             className='mx-[auto] flex h-[68px] w-full cursor-pointer items-center justify-center rounded-[12px] border-[1px] border-dashed border-[#589DC0] bg-[#FFF] [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'
             onClick={onAddStock}
           >
-            <Image
+            <img
               src='/static/icons/iconAddStock.svg'
               alt=''
               width={0}

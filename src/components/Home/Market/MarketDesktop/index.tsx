@@ -7,9 +7,8 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { PREFIX_API_MARKET } from '@api/request';
 import { socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { convertStockDataPriceChange } from '@utils/stock';
 
-import styles from '../index.module.scss';
+import styles from './index.module.scss';
 
 export const getMarketCodeChart = (marketCode: string) => {
   if (marketCode === '10') {
@@ -40,12 +39,13 @@ const MarketDesktop = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        setDataStockIndex(res.data);
+        setDataStockIndex(res?.data);
       },
     },
   );
   React.useEffect(() => {
     run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   socket.on('public', (message: any) => {
     const data = message.data;
@@ -70,7 +70,6 @@ const MarketDesktop = () => {
     const data = dataStockIndex[findIndex];
     dataStockIndex[findIndex] = { ...dataStock, ...data };
   }
-  console.log('dataStockIndex', dataStockIndex);
   return (
     <>
       <Tabs defaultActiveKey='1' className='tabHomePc'>
@@ -80,8 +79,6 @@ const MarketDesktop = () => {
           const isDecrease = item?.cIndex < item?.oIndex;
           const isNoChange = item?.cIndex === item?.oIndex;
           const isChange = findIndex === index;
-          const { total_vol } = convertStockDataPriceChange(item);
-          console.log('🚀 ~ file: index.tsx:83 ~ {dataStockIndex?.map ~ total_vol:', total_vol);
           return (
             <TabPane tab={item.displayName} key={index + 1}>
               <div className='mt-[20px]'>
@@ -89,7 +86,7 @@ const MarketDesktop = () => {
                   <div>
                     <Text
                       type='body-14-semibold'
-                      className={classNames('', {
+                      className={classNames('px-[5px] py-[2px]', {
                         'text-[#128F63]': isIncrease,
                         'text-[#DB4444]': isDecrease,
                         'text-[#E6A70A]': isNoChange,
@@ -102,7 +99,7 @@ const MarketDesktop = () => {
                     </Text>
                     <Text
                       type='body-12-medium'
-                      className={classNames('mt-[2px]', {
+                      className={classNames('mt-[2px] px-[5px] py-[2px]', {
                         'text-[#128F63]': isIncrease,
                         'text-[#DB4444]': isDecrease,
                         'text-[#E6A70A]': isNoChange,
