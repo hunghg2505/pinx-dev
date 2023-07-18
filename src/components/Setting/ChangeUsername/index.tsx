@@ -30,7 +30,6 @@ const Setting = () => {
   const [settingValues, setSettingValues] = useAtom(settingAtom);
 
   const onSubmit = (values: any) => {
-    console.log('xxx values', values);
     setSettingValues({ ...settingValues, newUsername: values.newUsername });
     onSendOtp();
   };

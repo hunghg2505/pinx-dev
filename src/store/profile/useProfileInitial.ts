@@ -20,7 +20,7 @@ export const useProfileInitial = (option = {}) => {
     },
     {
       onSuccess: (res) => {
-        setUserLoginInfo({ ...res?.data, ...userLoginInfo });
+        setUserLoginInfo({ ...userLoginInfo, ...res?.data });
       },
       onError: () => {
         setUserLoginInfo({
