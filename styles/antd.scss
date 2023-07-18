@@ -1,3 +1,15 @@
+.popupAddNewStock{
+  .rc-dialog-content{
+    max-width: 100%;
+    width: 749px;
+  }
+  .rc-dialog-body{
+    @media (min-width: 768px) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+}
 .rc-tabs {
   &.tabHome {
     .rc-tabs-nav-wrap {
@@ -76,7 +88,7 @@
         }
       }
     }
-    
+
   }
 }
 .rc-dialog {
@@ -385,7 +397,7 @@
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px tint(#2db7f5, 80%);
+    box-shadow: 0 0 0 2px rgba(#2db7f5, 80%);
     outline: none;
   }
 
