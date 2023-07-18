@@ -58,7 +58,12 @@ const ModalPeopleYouKnow = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+      <Dialog
+        visible={visible}
+        onClose={onVisible}
+        closeIcon={renderCloseIcon()}
+        className='peopleYouKnow'
+      >
         <div className='pt-[21px] text-center'>
           <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
             People you may know

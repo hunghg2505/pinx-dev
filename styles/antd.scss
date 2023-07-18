@@ -87,6 +87,12 @@
   margin: auto !important;
   width: 100% !important;
 }
+.peopleYouKnow{
+  width: 431px !important;
+  @media (max-width : 480px){
+    width: 100% !important;
+  }
+}
 .slide-watchlist {
   .slick-list {
     overflow: visible !important;
