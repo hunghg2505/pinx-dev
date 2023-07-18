@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { requestCommunity, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestPist } from '@api/request';
 
 export const useGetUserPost = (customerId: string) => {
   const { data } = useRequest(() => {
@@ -17,5 +17,25 @@ export const useGetUserWatchlist = (customerId: string) => {
   });
   return {
     profit: data?.data,
+  };
+};
+
+export const useUpdateUserProfile = (reload = () => {}) => {
+  const { run, loading } = useRequest(
+    async (update) => {
+      return privateRequest(requestPist.put, API_PATH.UPDATE_USER_PROFILE, {
+        data: update,
+      });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        reload();
+      },
+    },
+  );
+  return {
+    run,
+    loading,
   };
 };

@@ -33,7 +33,7 @@ const Search = (props: any, ref: any) => {
     onFocus: () => {},
     onBlur: () => {},
   });
-  const { search, data, loading } = useSearchPublic();
+  const { search, data, loading, refresh } = useSearchPublic();
   const { run } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search');
@@ -188,7 +188,7 @@ const Search = (props: any, ref: any) => {
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
                   {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
-                    return <PostItem key={index} postDetail={post} />;
+                    return <PostItem key={index} postDetail={post} refresh={refresh} />;
                   })}
                 </div>
                 {posts?.length > 3 && (

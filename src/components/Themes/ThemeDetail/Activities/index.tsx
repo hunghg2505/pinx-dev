@@ -15,10 +15,14 @@ const Activities = ({ data }: { data: IThemeDetail }) => {
   }, [data?.code]);
   return (
     <>
-      <Text type='body-16-semibold' color='neutral-black' className='mb-[20px] mt-[21px]'>
+      <Text
+        type='body-16-semibold'
+        color='neutral-black'
+        className='mb-[20px] mt-[21px] block desktop:hidden'
+      >
         Activities
       </Text>
-      <div className='flex flex-col gap-y-[16px]'>
+      <div className='flex flex-col gap-y-[16px] desktop:mt-[21px]'>
         {activities?.map((item: INewFeed, index: number) => {
           return <ItemActivities key={index} data={item} refresh={refresh} />;
         })}

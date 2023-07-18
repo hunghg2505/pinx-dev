@@ -24,6 +24,7 @@ import PostTypeHome from './PostTypeHome';
 dayjs.extend(relativeTime);
 interface IProps {
   postDetail: IPost;
+  refresh?: () => void;
 }
 const IconPlus = () => (
   <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -74,6 +75,7 @@ const PostItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         // onRefreshPostDetail();
+        // refresh && refresh();
       },
     },
   );
@@ -85,6 +87,7 @@ const PostItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        // refresh && refresh();
         // onRefreshPostDetail();
       },
     },
@@ -237,7 +240,7 @@ const PostItem = (props: IProps) => {
   };
   return (
     <>
-      <div className='rounded-[12px] bg-[#FFF] p-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9]'>
+      <div className='rounded-[12px] bg-[#FFF] p-[16px] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
         <div className={classNames('newsfeed')}>
           <div className='flex flex-row justify-between'>
             <div className='flex cursor-pointer flex-row items-center'>
