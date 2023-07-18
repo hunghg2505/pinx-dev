@@ -4,7 +4,6 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-
 interface ButtonProps {
   className?: string;
   customClassName?: string;
@@ -13,15 +12,8 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
-  const {
-    className,
-    disabled = false,
-    onClick,
-    children,
-    customClassName,
-    ...rest
-  } = props;
+export const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
+  const { className, disabled = false, onClick, children, customClassName, ...rest } = props;
   const prefixCls = 'button';
 
   const classes: string = classNames(
@@ -41,15 +33,9 @@ const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
     onClick && onClick();
   };
 
-
   return (
     <div className='relative'>
-      <button
-        disabled={disabled}
-        className={classes}
-        onClick={handleClick}
-        {...rest}
-      >
+      <button disabled={disabled} className={classes} onClick={handleClick} {...rest}>
         {children}
       </button>
     </div>
@@ -57,33 +43,62 @@ const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
 });
 
 export const PositiveButton = ({ ...props }) => (
-  <Button {...props} customClassName='text-white font-[700] text-[17px] bg-[--primary-2] rounded-[10px] py-[14px] text-center' />
+  <Button
+    {...props}
+    customClassName='text-white font-[700] text-[17px] bg-[--primary-2] rounded-[10px] py-[14px] text-center'
+  />
 );
 
 export const NegativeButton = ({ ...props }) => (
-  <Button {...props} customClassName='border border-[--primary-6] text-[--primary-2] font-[700] text-[17px] bg-[--primary-3] rounded-[10px] py-[14px] text-center' />
+  <Button
+    {...props}
+    customClassName='border border-[--primary-6] text-[--primary-2] font-[700] text-[17px] bg-[--primary-3] rounded-[10px] py-[14px] text-center'
+  />
 );
 
 export const MainButton = ({ ...props }) => (
-  <Button {...props} customClassName='text-white font-[700] text-[17px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] rounded-[10px] py-[14px] text-center' />
+  <Button
+    {...props}
+    customClassName='text-white font-[700] text-[17px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] rounded-[10px] py-[14px] text-center'
+  />
 );
 
+export const SemiMainButton = ({ ...props }) => (
+  <Button
+    {...props}
+    customClassName='text-[#1F6EAC] font-[700] text-[17px] bg-[#EEF5F9] rounded-[10px] py-[14px] text-center'
+  />
+);
+
+export const NegativeMainButton = ({ ...props }) => (
+  <Button
+    {...props}
+    customClassName='text-[#1F6EAC] font-[700] text-[17px] bg-[--neutral-8] rounded-[10px] py-[14px] text-center'
+  />
+);
+
+export const ErrorMainButton = ({ ...props }) => (
+  <Button
+    {...props}
+    customClassName='text-[#DA314F] font-[700] text-[17px] bg-[--neutral-8] rounded-[10px] py-[14px] text-center'
+  />
+);
 
 export const RoundButton = (props: ButtonProps) => {
-  const {
-    disabled = false,
-    ...rest
-  } = props;
+  const { disabled = false, ...rest } = props;
   return (
     <Button
       {...rest}
-      customClassName={
-        classNames(
-          'border border-[--primary-6] text-[--primary-2] font-[700] text-[17px] bg-[--primary-3] rounded-full py-[14px] text-center',
-          {
-            'border-none text-[--neutral-5] !bg-[--neutral-8]': disabled,
-          }
-        )}
+      customClassName={classNames(
+        'border border-[--primary-6] text-[--primary-2] font-[700] text-[17px] bg-[--primary-3] rounded-full py-[14px] text-center',
+        {
+          'border-none text-[--neutral-5] !bg-[--neutral-8]': disabled,
+        },
+      )}
     />
   );
-}
+};
+
+export const ExploreButton = (props: ButtonProps) => {
+  return <Button {...props} customClassName='w-full rounded-[8px] bg-[#EAF4FB] py-[14px]' />;
+};

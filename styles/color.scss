@@ -20,6 +20,9 @@
   --neutral-7: #E6E6E6;
   --neutral-8: #F3F2F6;
   --neutral-9: #FFFFFF;
+  --neutral-black : #0D0D0D;
+  --neutral-gray : #999;
+  --neutral-darkgray : #474D57;
 
   --semantic-1 : #DB4444;
   --semantic-2-1 : #128F63;
@@ -81,6 +84,15 @@
 }
 .neutral-9 {
   color: var(--neutral-9);
+}
+.neutral-black{
+  color: var(--neutral-black);
+}
+.neutral-gray{
+  color: var(--neutral-gray);
+}
+.neutral-darkgray{
+  color: var(--neutral-darkgray);
 }
 .semantic-1 {
   color: var(--semantic-1);

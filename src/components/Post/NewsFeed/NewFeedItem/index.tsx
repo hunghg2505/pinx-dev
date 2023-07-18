@@ -66,6 +66,7 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
+  const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
@@ -417,9 +418,25 @@ const NewFeedItem = (props: IProps) => {
       </>
     );
   };
+  const onClickProfileDetail = () => {
+    if (
+      [
+        TYPEPOST.POST,
+        TYPEPOST.ActivityTheme,
+        TYPEPOST.ActivityWatchlist,
+        TYPEPOST.ActivityMatchOrder,
+      ].includes(postDetail?.post.postType)
+    ) {
+      router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
+    }
+  };
   return (
-    <div className='newsfeed border-b border-t border-solid border-[#D8EBFC] py-[24px] mobile:px-[16px] desktop:px-[20px]'>
-      <div className='flex flex-row justify-between'>
+    <div
+      className={classNames('newsfeed  border-t border-solid border-[#D8EBFC] py-[24px]', {
+        'border-b': totalComments > 0,
+      })}
+    >
+      <div className='flex flex-row justify-between ' onClick={onClickProfileDetail}>
         <div className='flex cursor-pointer flex-row items-center'>
           <div
             ref={refHover}
@@ -496,7 +513,7 @@ const NewFeedItem = (props: IProps) => {
               onClick={() => setShowReport(!showReport)}
             />
             {showReport && (
-              <div className='popup absolute right-0 z-10 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+              <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
                 {[
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,

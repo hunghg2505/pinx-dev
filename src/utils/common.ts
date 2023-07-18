@@ -1,5 +1,8 @@
+import Base64 from 'crypto-js/enc-base64';
+import sha256 from 'crypto-js/sha256';
+
 export const ROUTE_PATH = {
-  HOME: '/',
+  // AUTH
   LOGIN: '/auth/login',
   REGISTER: '/auth/sign-up',
   FORGOT_PASSWORD: '/auth/forgot-password',
@@ -11,11 +14,37 @@ export const ROUTE_PATH = {
   REGISTER_THEME: '/auth/register-theme',
   REGISTER_TOPIC: '/auth/register-topic',
   UPDATE_USSR_PROFILE: '/auth/update-user-profile',
+
+  HOME: '/',
   REDIRECT: '/redirecting',
-  REGISTER_INSTRUCTIONS: '/auth/register-instruction',
   POST_DETAIL_PATH: '/post',
+  PINEX_TOP_20: 'pinex-top-20',
+  EXPLORE: '/explore',
+  THEME: '/theme',
+  THEME_DETAIL: (id: string) => `/theme/${id}`,
+  PEOPLEINSPOTLIGHT: '/people-in-spotlight',
+  TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
   PAGE_NOT_FOUND: '/page-not-found',
+  SEARCH: '/search',
+  TOP_WATCHING: '/top-watching',
+  GIFTCASH: '/gift-cash',
+
+  // SETTING
+  SETTING: '/setting',
+  SETTING_CHANGE_USERNAME: '/setting/change-username',
+  SETTING_CHANGE_USERNAME_VERIFICATION: '/setting/change-username/verification',
+  SETTING_CHANGE_PASSWORD: '/setting/change-password',
+  SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
+
+  // MY PROFILE
+  PROFILE: '/profile',
+  MY_PROFILE: '/profile/my-profile',
+  ASSET: '/profile/my-profile?tab=assets',
+  PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
+  DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
+  WATCHLIST: '/watchlist',
+  PROFILE_DETAIL: (id: number) => `/profile/${id}`,
 };
 
 export const formatMessage = (message: string, data: any) => {
@@ -166,3 +195,21 @@ export function toNonAccentVietnamese(str: any) {
   str = str.replaceAll(/[\u02C6\u0306\u031B]/g, ''); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
+
+export const imageStock = (stock_code: string) => {
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const url = `${imageCompanyUrl}${
+    stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
+  }.png`;
+  return url;
+};
+
+export const encryptPassword = (value: string) => {
+  const hash = sha256(value);
+  const pass = Base64.stringify(hash);
+  return pass;
+};
+
+export const isUserVerified = (acntStat: string | undefined) => {
+  return acntStat === 'ACTIVE';
+};

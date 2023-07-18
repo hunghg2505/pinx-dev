@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import FooterSignUp from '@components/FooterSignup';
@@ -19,11 +20,13 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { ROUTE_PATH } from '@utils/common';
 
 import ComposeButton from './ComposeButton';
 import ContentRight from './ContentRight';
 import ListTheme from './ListTheme';
 import Market from './Market';
+import ModalCompose from './ModalCompose';
 import ModalFilter, { FILTER_TYPE } from './ModalFilter';
 import {
   requestJoinIndex,
@@ -41,14 +44,22 @@ const WatchList = dynamic(() => import('./WatchList'));
 const NewsFeed = dynamic(() => import('../Post/NewsFeed'));
 
 const Home = () => {
+  const router = useRouter();
+  const refModal: any = useRef();
   const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   socket.on('connect', function () {
     requestJoinIndex();
   });
+
+  const onShowModal = () => {
+    refModal?.current?.onVisible && refModal?.current?.onVisible();
+  };
+  const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const refScroll = React.useRef(null);
+  const [isPost, setIsPost] = React.useState(false);
   // const { t } = useTranslation('home');
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
@@ -61,17 +72,24 @@ const Home = () => {
         const index = newData.findIndex((fi) => fi.id === item.id);
 
         if (index < 0) {
-          newData.push(item);
+          if (isPost) {
+            newData.unshift(item);
+          } else {
+            newData.push(item);
+          }
         }
 
         if (index >= 0) {
           newData.splice(index, 1, item);
         }
       }
-
       setNewFeed(newData);
     },
   });
+  const addPostSuccess = () => {
+    setIsPost(true);
+    refresh();
+  };
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
@@ -81,16 +99,25 @@ const Home = () => {
     return () => {
       window.removeEventListener('scroll', loadMore);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastNewFeed]);
   const loadMore = () => {
+    if (isPost) {
+      setIsPost(false);
+    }
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
     const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
     if (Math.floor(heightTop) === heigtBottom) {
-      run(FILTER_TYPE.MOST_RECENT, lastNewFeed);
+      run(filterType || FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };
   const onFilter = async (value: string) => {
     setNewFeed([]);
+    setLastNewFeed('');
+    router.push({
+      pathname: ROUTE_PATH.HOME,
+      query: { filterType: value },
+    });
     await new Promise((resolve) => setTimeout(resolve, 100));
     run(value);
   };
@@ -113,10 +140,11 @@ const Home = () => {
   };
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   useEffect(() => {
-    run(FILTER_TYPE.MOST_RECENT);
+    run(filterType || FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
       getSuggestFriend();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (isHaveStockWatchList) {
@@ -219,6 +247,7 @@ const Home = () => {
                   </div>
                   <div className='mt-[5px] pl-[61px]'>
                     <textarea
+                      onClick={onShowModal}
                       placeholder='What is in your mind?'
                       className='w-full rounded-[5px] bg-[#EFF2F5] pl-[10px] pt-[10px] focus:outline-none desktop:h-[70px]'
                     />
@@ -271,21 +300,24 @@ const Home = () => {
                   News feed
                 </Text>
 
-                <ModalFilter run={onFilter} />
+                <ModalFilter run={onFilter} type={filterType} />
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
-                {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                    />
-                  );
-                })}
+                <div className='mobile:px-[16px] desktop:px-[20px]'>
+                  {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
+                    return (
+                      <NewsFeed
+                        key={index}
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                      />
+                    );
+                  })}
+                </div>
+
                 <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
                   <div className='pb-[13px] pt-[10px] '>
                     <Trending />
@@ -325,7 +357,7 @@ const Home = () => {
                 </div>
                 {suggestionPeople && (
                   <div className='mobile:block desktop:hidden'>
-                    <div className='bg-[#ffffff] pl-[6px] pt-[15px]'>
+                    <div className='bg-[#ffffff] pl-[16px] pt-[15px]'>
                       <PeopleList data={suggestionPeople} refresh={refreshList} />
                     </div>
                     <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
@@ -337,40 +369,45 @@ const Home = () => {
                     </div>
                   </div>
                 )}
-
-                {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                    />
-                  );
-                })}
+                <div className='mobile:px-[16px] desktop:px-[20px]'>
+                  {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
+                    return (
+                      <NewsFeed
+                        key={index}
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                      />
+                    );
+                  })}
+                </div>
                 <div className='bg-[#ffffff] pl-[16px]'>
                   <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
                     Economy in the themes
                   </Text>
                   <ListTheme />
                 </div>
-                {newFeed?.slice(5)?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                    />
-                  );
-                })}
+                <div className='mobile:px-[16px] desktop:px-[20px]'>
+                  {newFeed?.slice(5)?.map((item: IPost, index: number) => {
+                    return (
+                      <NewsFeed
+                        key={index}
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <ContentRight />
+        <div className='mobile:hidden tablet:block tablet:w-[250px] tablet:pr-[2px] laptop:w-[350px]'>
+          <ContentRight />
+        </div>
       </div>
       {loading && lastNewFeed !== '' && (
         <div className='mt-[10px]'>
@@ -379,6 +416,7 @@ const Home = () => {
         </div>
       )}
       <ComposeButton />
+      <ModalCompose ref={refModal} refresh={addPostSuccess} />
       {!isLogin && <FooterSignUp />}
     </>
   );

@@ -1,4 +1,5 @@
 import { useRequest } from 'ahooks';
+import { i18n } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { requestPist } from '@api/request';
@@ -25,6 +26,7 @@ export const useCreateUsername = (options: IOptionsRequest) => {
       return requestPist.post(API_PATH.CREATE_USER_NAME, {
         headers: {
           Authorization: token || (userRegisterInfo.token as string),
+          'Accept-Language': i18n?.language as string,
         },
         params: value,
       });

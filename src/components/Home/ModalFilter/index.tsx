@@ -15,11 +15,12 @@ import { useGetListFillter } from '../service';
 interface IProps {
   closeIcon?: boolean;
   run: (value: string) => void;
+  type: any;
 }
 export interface IFilter {
   title: string;
   description: string;
-  filterType: string;
+  filterType: any;
 }
 export enum FILTER_TYPE {
   MOST_RECENT = 'MOST_RECENT',
@@ -28,11 +29,11 @@ export enum FILTER_TYPE {
   NEWS = 'NEWS',
 }
 const ModalFilter = (props: IProps) => {
+  const { closeIcon, run, type } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const [filterType, setFilterType] = React.useState<string>(FILTER_TYPE.MOST_RECENT);
+  const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
   const { data } = useGetListFillter();
   const { isLogin } = useUserType();
-  const { closeIcon, run } = props;
   const [visible, setVisible] = React.useState(false);
   const onVisible = () => {
     setVisible(!visible);
@@ -60,7 +61,6 @@ const ModalFilter = (props: IProps) => {
       });
       return;
     }
-
     run(value);
     setFilterType(value);
     onVisible();

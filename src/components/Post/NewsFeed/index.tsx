@@ -11,7 +11,7 @@ interface IProps {
   data: IPost;
   id: string;
   refresh: () => void;
-  onHidePost: (id: string) => void;
+  onHidePost?: (id: string) => void;
 }
 const NewsFeed = (props: IProps) => {
   const { data, refresh, id, onHidePost } = props;

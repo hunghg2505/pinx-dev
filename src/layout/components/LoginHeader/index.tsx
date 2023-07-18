@@ -2,12 +2,12 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
-const Header = () => {
+const LoginHeader = () => {
   const router = useRouter();
 
   return (
     <div
-      className='z-999 fixed left-[18px] top-[10px] flex h-[44px] cursor-pointer items-center px-[16px]'
+      className='z-999 fixed left-[18px] top-[10px] flex h-[44px] cursor-pointer items-center'
       onClick={() => router.back()}
     >
       <img
@@ -21,4 +21,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoginHeader;

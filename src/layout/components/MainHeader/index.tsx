@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-useless-spread */
 import React, { useRef } from 'react';
 
+import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
@@ -11,12 +12,13 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 
-const IconSearchWhite = () => (
+export const IconSearchWhite = () => (
   <svg width='16' height='16' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       d='M8.94349 8.94354L11.3333 11.3333M10.3636 5.51513C10.3636 8.19287 8.19289 10.3636 5.51516 10.3636C2.83737 10.3636 0.666626 8.19287 0.666626 5.51513C0.666626 2.8374 2.83737 0.666668 5.51516 0.666668C8.19289 0.666668 10.3636 2.8374 10.3636 5.51513Z'
@@ -28,9 +30,16 @@ const IconSearchWhite = () => (
     />
   </svg>
 );
-const Header = () => {
+export const IconCloseMenu = () => (
+  <svg xmlns='http://www.w3.org/2000/svg' width='23' height='24' viewBox='0 0 23 24' fill='none'>
+    <path d='M20 20.5L3 3.5' stroke='#589DC0' strokeWidth='2.6' strokeLinecap='round' />
+    <path d='M3 20.5L20 3.5' stroke='#589DC0' strokeWidth='2.6' strokeLinecap='round' />
+  </svg>
+);
+const MainHeader = () => {
   const router = useRouter();
   const { onLogout } = useAuth();
+  const [isShowNavigate, setIsShowNavigate] = React.useState(false);
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
   };
@@ -56,8 +65,46 @@ const Header = () => {
     userLoginInfo?.displayName &&
     toNonAccentVietnamese(userLoginInfo?.displayName)?.charAt(0)?.toUpperCase();
 
+  const goToMyProfile = () => {
+    router.push(ROUTE_PATH.MY_PROFILE);
+  };
+
+  const renderAvatar = () => {
+    return isLogin ? (
+      <>
+        {userLoginInfo?.avatar ? (
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+            onClick={goToMyProfile}
+          />
+        ) : (
+          <div className='h-[36px] w-[36px]' onClick={goToMyProfile}>
+            <AvatarDefault name={name} />
+          </div>
+        )}
+      </>
+    ) : (
+      <img
+        src='/static/images/guest_avatar.png'
+        alt=''
+        width={0}
+        height={0}
+        sizes='100vw'
+        className='ml-5 h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+        onClick={goToMyProfile}
+      />
+    );
+  };
+  const onShowNavigate = () => {
+    setIsShowNavigate(!isShowNavigate);
+  };
   return (
-    <div ref={headerRef}>
+    <div ref={headerRef} className='border-b-[1px] border-solid border-[#EBEBEB]'>
       {!isHideHeaderOpenAppOnMobile && (
         <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
           <div className='flex flex-row'>
@@ -83,7 +130,7 @@ const Header = () => {
         </div>
       )}
       {!isHideHeaderLoginOnMobile && (
-        <div className='flex flex-row items-center justify-between p-[16px] desktop:container desktop:px-[0px] desktop:py-[16px]'>
+        <div className='mx-auto flex max-w-[1366px] flex-row items-center justify-between p-[16px] desktop:px-[16px] desktop:py-[16px]'>
           <div className='flex flex-row items-center'>
             <Link href={ROUTE_PATH.HOME}>
               <img
@@ -95,10 +142,14 @@ const Header = () => {
               />
             </Link>
 
-            <div className='mobile:block desktop:hidden'>
-              {[...new Array(3)].map((_, index) => (
-                <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
-              ))}
+            <div className='mobile:block desktop:hidden' onClick={onShowNavigate}>
+              {isShowNavigate ? (
+                <IconCloseMenu />
+              ) : (
+                [...new Array(3)].map((_, index) => (
+                  <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
+                ))
+              )}
             </div>
           </div>
           <div className='flex flex-row  items-center'>
@@ -117,29 +168,15 @@ const Header = () => {
               </Form>
             </div>
             {isLogin ? (
-              <>
-                <button onClick={() => onLogout()}>
-                  <img
-                    src='/static/icons/iconLogout.svg'
-                    alt='Icon logout'
-                    width={24}
-                    height={24}
-                    className='mr-[21px] h-[24px] w-[24px] object-contain'
-                  />
-                </button>
-                {userLoginInfo?.avatar ? (
-                  <img
-                    src={userLoginInfo?.avatar}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-                  />
-                ) : (
-                  <AvatarDefault name={name} />
-                )}
-              </>
+              <button onClick={() => onLogout()}>
+                <img
+                  src='/static/icons/iconLogout.svg'
+                  alt='Icon logout'
+                  width={24}
+                  height={24}
+                  className='mr-[21px] h-[24px] w-[24px] object-contain'
+                />
+              </button>
             ) : (
               <button
                 className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
@@ -150,6 +187,9 @@ const Header = () => {
                 </Text>
               </button>
             )}
+
+            {renderAvatar()}
+
             {isLogin ? (
               <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
                 <Text type='body-20-medium' color='neutral-1'>
@@ -179,8 +219,21 @@ const Header = () => {
           </div>
         </div>
       )}
+
+      <div
+        className={classNames(
+          'fixed left-0 top-[65px] z-20 h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
+          {
+            'translate-x-[0px]': isShowNavigate,
+          },
+        )}
+      >
+        <div className='mt-[12px]'>
+          <SideBar />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Header;
+export default MainHeader;

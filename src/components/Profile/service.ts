@@ -1,17 +1,41 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestPist } from '@api/request';
-import { getAccessToken } from '@store/auth';
+import { privateRequest, requestCommunity, requestPist } from '@api/request';
 
-export const useGetProfileOtherUser = (id: number) => {
+export const useGetUserPost = (customerId: string) => {
   const { data } = useRequest(() => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_OTHER_USER_PROFILE(id))
-      : requestPist.get(API_PATH.PUBLIC_GET_OTHER_USER_PROFILE(id));
+    return requestCommunity.get(API_PATH.GET_USER_POST + `?customerId=${customerId}`, {});
   });
   return {
-    profileOtherUser: data?.data,
+    profit: data?.data,
+  };
+};
+export const useGetUserWatchlist = (customerId: string) => {
+  const { data } = useRequest(() => {
+    return requestPist.get(API_PATH.GET_USER_WATCHLIST + `/${customerId}`, {});
+  });
+  return {
+    profit: data?.data,
+  };
+};
+
+export const useUpdateUserProfile = (reload = () => {}) => {
+  const { run, loading } = useRequest(
+    async (update) => {
+      return privateRequest(requestPist.put, API_PATH.UPDATE_USER_PROFILE, {
+        data: update,
+      });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        reload();
+      },
+    },
+  );
+  return {
+    run,
+    loading,
   };
 };

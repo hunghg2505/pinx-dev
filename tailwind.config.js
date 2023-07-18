@@ -9,6 +9,21 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    colors: {
+      white: '#fff',
+      neutral_08: '#F7F6F8',
+      neutral_07: '#EBEBEB',
+      neutral_06: '#CCCCCC',
+      neutral_05: '#B3B3B3',
+      primary_bgblue_2: '#D8EBFC',
+      primary_blue: '#1F6EAC',
+      primary_06: '#B1D5F1',
+      light_orange: '#F1BA09',
+      primary_gray: '#808A9D',
+      neutral_black: '#0D0D0D',
+      blue_light: '#EEF5F9',
+      dark_grey: '#474D57',
+    },
     screens: {
       mobile: '320px',
       'mobile-max': { max: '480px' },
@@ -19,7 +34,7 @@ module.exports = {
       //  @media (min-width: 640px) { ... }
       laptop: '1024px',
       // => @media (min-width: 1024px) { ... }
-      desktop: '1280px',
+      desktop: '1200px',
       xdesktop: '1366px',
 
       // => @media (min-width: 1280px) { ... }
@@ -30,7 +45,7 @@ module.exports = {
         mobile: '375px',
         tablet: '768px',
         laptop: '1024px',
-        xl: '1280px',
+        xl: '1200px',
         desktop: '1366px',
       },
     },

@@ -119,7 +119,7 @@ const AvatarDefault = (props: IProps) => {
   const { name } = props;
   return (
     <div
-      className='mr-2 flex items-center justify-center rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'
+      className='mr-2 flex h-full w-full items-center justify-center rounded-full object-contain'
       style={{ backgroundColor: renderColor(name) }}
     >
       <Text type='body-24-regular' color='cbwhite'>

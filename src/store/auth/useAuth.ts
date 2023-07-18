@@ -15,16 +15,20 @@ export interface IAuth {
 
 export const useAuth = () => {
   const router = useRouter();
-  const onLogout = () => {
+  const onLogout = (navigatePath?: string) => {
     try {
+      const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
+      localStorage.setItem('locale', locale || '');
+      if (navigatePath) {
+        window.location.href = navigatePath;
+        return;
+      }
       if (router.pathname !== ROUTE_PATH.LOGIN) {
         window.location.href = ROUTE_PATH.LOGIN;
       }
-    } catch (error) {
-      console.log('Logout error', error);
-    }
+    } catch {}
   };
 
   const onLogin = (data: IAuth) => {
@@ -34,8 +38,8 @@ export const useAuth = () => {
         refreshToken: data.refreshToken || '',
         expiredTime: data.expiredTime,
       });
-      // run();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
   };
@@ -48,9 +52,7 @@ export const useAuth = () => {
         expiredTime: data.expiredTime,
       });
       // requestGetProfile();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   };
 
   return {

@@ -46,6 +46,10 @@ export interface ISuggestionPeople {
   name: string;
   numberFollowers: number;
 }
+export interface ILatestSubscribe {
+  avatar: string;
+  idCustomer: number;
+}
 export interface ITheme {
   code: string;
   name: string;
@@ -56,6 +60,7 @@ export interface ITheme {
   isSubsribed: boolean;
   totalSubscribe: number;
   stocks: string[];
+  latestSubscribe: ILatestSubscribe[];
 }
 export interface IStockIndex {
   accVol: any;
@@ -148,7 +153,7 @@ const requestGetList = (params: any) => {
 
 export const useGetListNewFeed = (options?: IOptionsRequest) => {
   const { data, run, refresh, loading } = useRequest(
-    (type: string, last?: string) => {
+    (type: any, last?: string) => {
       const isLogin = !!getAccessToken();
       const params: any = {
         filterType: type,
@@ -221,12 +226,10 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
-  console.log('join');
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
 export const requestLeaveChannel = (stocks: string) => {
-  console.log('handle leave', stocks);
   const message = { action: 'leave', data: stocks };
   if (socket) {
     socket.emit('regs', JSON.stringify(message));
