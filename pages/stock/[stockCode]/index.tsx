@@ -5,13 +5,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const StockDetail = dynamic(() => import('@components/Stock/StockDetail'), {
   ssr: false,
 });
-const ModalPage = dynamic(() => import('@components/ModalPage'), {
-  ssr: false,
-});
+
 const StockDetailPage = () => {
   return (
     <>
@@ -22,12 +20,7 @@ const StockDetailPage = () => {
 };
 
 StockDetailPage.getLayout = (page: ReactElement) => {
-  return (
-    <MainLayout>
-      <ModalPage />
-      {page}
-    </MainLayout>
-  );
+  return <ExploreLayout>{page}</ExploreLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

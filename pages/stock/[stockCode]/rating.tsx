@@ -5,7 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const StockRating = dynamic(() => import('@components/Stock/RatingPage'), {
   ssr: false,
 });
@@ -20,7 +20,7 @@ const StockRatingPage = () => {
 };
 
 StockRatingPage.getLayout = (page: ReactElement) => {
-  return <MainLayout>{page}</MainLayout>;
+  return <ExploreLayout>{page}</ExploreLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

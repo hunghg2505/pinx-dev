@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const AlsoOwn = dynamic(() => import('@components/Stock/AlsoOwnPage'), {
   ssr: false,
 });
@@ -12,7 +12,7 @@ const AlsoOwnPage = () => {
 };
 
 AlsoOwnPage.getLayout = (page: ReactElement) => {
-  return <MainLayout>{page}</MainLayout>;
+  return <ExploreLayout>{page}</ExploreLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {
