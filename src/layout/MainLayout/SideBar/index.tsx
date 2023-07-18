@@ -7,12 +7,14 @@ import Menu from 'rc-menu';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 import { IconAssets, IconExplore, IconGiftCash, IconHomeActive, IconWatchList } from './icon';
 
 const SideBar = () => {
   const router = useRouter();
+  const { userLoginInfo } = useUserLoginInfo();
   const MENUS = useMemo(() => {
     return [
       {
@@ -45,7 +47,7 @@ const SideBar = () => {
       },
       {
         id: 5,
-        path: '/new/home',
+        path: `/profile/${userLoginInfo?.id}?tab=assets`,
         icon: <IconAssets />,
         iconActive: <IconAssets />,
         label: 'Assets',
@@ -54,8 +56,6 @@ const SideBar = () => {
   }, []);
   const items = useMemo(() => {
     return MENUS.map((menu) => {
-      console.log(router.pathname);
-      console.log(menu.path);
       const checkPathExist = router.pathname === menu.path;
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
