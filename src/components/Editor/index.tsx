@@ -353,7 +353,7 @@ const Editor = (props: IProps, ref?: any) => {
 
             <EditorContent
               editor={editor}
-              className='max-h-[108px] w-full items-center overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]'
+              className='mt-[3px] max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]'
             />
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
