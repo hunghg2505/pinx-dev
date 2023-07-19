@@ -119,4 +119,6 @@ export const API_PATH = {
   GET_USER_WATCHLIST: '/private/watchlist/list/',
   UPDATE_USER_PROFILE: '/private/customer/update',
   DEACTIVATE_ACCOUNT: '/private/customer/deactivate',
+  GET_CUSTOMER_FOLLOWER: '/private/customer/follower/other',
+  GET_CUSTOMER_FOLLOWING: '/private/customer/following/other',
 };
