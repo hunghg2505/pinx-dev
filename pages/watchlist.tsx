@@ -6,7 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 import WatchList from '@components/WatchList';
 
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+const SettingLayout = dynamic(() => import('@layout/SettingLayout'), { ssr: false });
 const WatchlistPage = () => {
   return (
     <>
@@ -17,9 +17,9 @@ const WatchlistPage = () => {
 };
 WatchlistPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ExploreLayout>
+    <SettingLayout>
       <>{page}</>
-    </ExploreLayout>
+    </SettingLayout>
   );
 };
 
