@@ -3,12 +3,12 @@ import { useRequest } from 'ahooks';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestCommunity, requestPist } from '@api/request';
 
-export const useGetUserPost = (customerId: string) => {
+export const useGetMYPost = () => {
   const { data } = useRequest(() => {
-    return requestCommunity.get(API_PATH.GET_USER_POST + `?customerId=${customerId}`, {});
+    return privateRequest(requestCommunity.get, API_PATH.GET_MY_POST + '?last=null&limit=null');
   });
   return {
-    profit: data?.data,
+    data: data?.data.list,
   };
 };
 export const useGetUserWatchlist = (customerId: string) => {

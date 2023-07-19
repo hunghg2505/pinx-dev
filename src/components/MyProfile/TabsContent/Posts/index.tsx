@@ -1,16 +1,12 @@
 import React from 'react';
 
+import { useGetMYPost } from '@components/MyProfile/service';
+
 import NotFound from './NotFound';
 
-// import { useGetUserPost } from '@components/Profile/service';
-
 const Posts = () => {
-  // const { data } = useGetUserPost('128');
+  const { data } = useGetMYPost();
 
-  return (
-    <>
-      <NotFound />
-    </>
-  );
+  return <>{!data?.length && <NotFound />}</>;
 };
 export default Posts;
