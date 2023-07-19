@@ -73,7 +73,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
               `,
             );
           }
@@ -83,7 +83,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
           `,
         );
       }
