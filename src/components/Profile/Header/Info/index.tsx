@@ -14,7 +14,7 @@ const Info = () => {
       <Subcrible />
       <Name />
       <Position />
-      <div className='mb-[5px] flex gap-[8px] tablet:gap-[20px]'>
+      <div className='mb-[5px] flex gap-[8px] tablet:gap-[40px]'>
         <Post />
         <Follower />
         <span className='tablet:hidden'>&bull;</span>

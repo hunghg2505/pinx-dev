@@ -8,6 +8,7 @@ import Dropdown from 'rc-dropdown';
 import Form from 'rc-field-form';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
+import MenuProfile from '@components/MenuProfile';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
@@ -64,8 +65,9 @@ const MainHeader = () => {
       [ROUTE_PATH.REDIRECT].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
+  const menuMobileRef = useRef<any>(null);
   const goToMyProfile = () => {
-    router.push(ROUTE_PATH.MY_PROFILE);
+    menuMobileRef.current.open();
   };
 
   const renderAvatarMobile = () => {
@@ -184,7 +186,10 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='my-6 mr-6 h-[72px] w-[72px] rounded-full'
+              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full'
+              onClick={() => {
+                router.push(ROUTE_PATH.MY_PROFILE);
+              }}
             />
           ) : (
             <img
@@ -193,7 +198,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='my-6 mr-6 h-[72px] w-[72px] rounded-full'
+              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full'
             />
           )}
           {isLogin ? (
@@ -301,102 +306,105 @@ const MainHeader = () => {
   };
 
   return (
-    <div ref={headerRef} className='border-b-[1px] border-solid border-[#EBEBEB]'>
-      {!isHideHeaderOpenAppOnMobile && (
-        <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
-          <div className='flex flex-row'>
-            <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
-            <div className='ml-[8px]'>
-              <Text type='body-14-regular' color='primary-5'>
-                Try full experience on
-              </Text>
-              <Link href='https://onelink.to/cgarrk'>
-                <Text type='body-14-medium' color='primary-5'>
-                  Mobile App
+    <>
+      <div ref={headerRef} className='border-b-[1px] border-solid border-[#EBEBEB]'>
+        {!isHideHeaderOpenAppOnMobile && (
+          <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
+            <div className='flex flex-row'>
+              <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
+              <div className='ml-[8px]'>
+                <Text type='body-14-regular' color='primary-5'>
+                  Try full experience on
                 </Text>
-              </Link>
+                <Link href='https://onelink.to/cgarrk'>
+                  <Text type='body-14-medium' color='primary-5'>
+                    Mobile App
+                  </Text>
+                </Link>
+              </div>
             </div>
-          </div>
-          <Link href='https://onelink.to/cgarrk'>
-            <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
-              <Text type='body-14-bold' color='neutral-9'>
-                Open App
-              </Text>
-            </div>
-          </Link>
-        </div>
-      )}
-      {!isHideHeaderLoginOnMobile && (
-        <div className='mx-auto flex max-w-[1366px] flex-row items-center justify-between p-[16px] desktop:px-[16px] desktop:py-[16px]'>
-          <div className='flex flex-row items-center'>
-            <Link href={ROUTE_PATH.HOME}>
-              <img
-                src='/static/icons/logo.svg'
-                alt=''
-                width='0'
-                height='0'
-                className='mr-[16px] w-[35px] tablet:ml-[24px]'
-              />
+            <Link href='https://onelink.to/cgarrk'>
+              <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
+                <Text type='body-14-bold' color='neutral-9'>
+                  Open App
+                </Text>
+              </div>
             </Link>
-
-            <div className='mobile:block desktop:hidden' onClick={onShowNavigate}>
-              {isShowNavigate ? (
-                <IconCloseMenu />
-              ) : (
-                [...new Array(3)].map((_, index) => (
-                  <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
-                ))
-              )}
-            </div>
           </div>
-          <div className='flex flex-row  items-center'>
-            <img
-              src='/static/icons/icon_search.svg'
-              className='mr-[16px] h-[36px] w-[36px] mobile:block desktop:hidden'
-              width={36}
-              height={36}
-              alt='Search'
-            />
-            <div className='mr-[12px] mobile:hidden desktop:block'>
-              <Form>
-                <FormItem name='search'>
-                  <Input
-                    className='h-[40px] w-[220px] rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
-                    placeholder='Search'
-                    icon={<IconSearchWhite />}
-                  />
-                </FormItem>
-              </Form>
-            </div>
-            {!isLogin && (
-              <button
-                className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
-                onClick={redirectToLogin}
-              >
-                <Text type='body-14-bold' color='primary-2'>
-                  Log in
-                </Text>
-              </button>
-            )}
-            {renderAvatarMobile()}
-            {renderAvatarDesktop()}
-          </div>
-        </div>
-      )}
-
-      <div
-        className={classNames(
-          'fixed left-0 top-[65px] z-20 h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
-          {
-            'translate-x-[0px]': isShowNavigate,
-          },
         )}
-      >
-        <div className='mt-[12px]'>
-          <SideBar />
+        {!isHideHeaderLoginOnMobile && (
+          <div className='mx-auto flex max-w-[1366px] flex-row items-center justify-between p-[16px] desktop:px-[16px] desktop:py-[16px]'>
+            <div className='flex flex-row items-center'>
+              <Link href={ROUTE_PATH.HOME}>
+                <img
+                  src='/static/icons/logo.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='mr-[16px] w-[35px] tablet:ml-[24px]'
+                />
+              </Link>
+
+              <div className='mobile:block desktop:hidden' onClick={onShowNavigate}>
+                {isShowNavigate ? (
+                  <IconCloseMenu />
+                ) : (
+                  [...new Array(3)].map((_, index) => (
+                    <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
+                  ))
+                )}
+              </div>
+            </div>
+            <div className='flex flex-row  items-center'>
+              <img
+                src='/static/icons/icon_search.svg'
+                className='mr-[16px] h-[36px] w-[36px] mobile:block desktop:hidden'
+                width={36}
+                height={36}
+                alt='Search'
+              />
+              <div className='mr-[12px] mobile:hidden desktop:block'>
+                <Form>
+                  <FormItem name='search'>
+                    <Input
+                      className='h-[40px] w-[220px] rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
+                      placeholder='Search'
+                      icon={<IconSearchWhite />}
+                    />
+                  </FormItem>
+                </Form>
+              </div>
+              {!isLogin && (
+                <button
+                  className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
+                  onClick={redirectToLogin}
+                >
+                  <Text type='body-14-bold' color='primary-2'>
+                    Log in
+                  </Text>
+                </button>
+              )}
+              {renderAvatarMobile()}
+              {renderAvatarDesktop()}
+            </div>
+          </div>
+        )}
+
+        <div
+          className={classNames(
+            'fixed left-0 top-[65px] z-20 h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
+            {
+              'translate-x-[0px]': isShowNavigate,
+            },
+          )}
+        >
+          <div className='mt-[12px]'>
+            <SideBar />
+          </div>
         </div>
       </div>
-    </div>
+      <MenuProfile ref={menuMobileRef} />
+    </>
   );
 };
 
