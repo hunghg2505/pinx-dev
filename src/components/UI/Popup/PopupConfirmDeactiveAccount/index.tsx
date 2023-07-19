@@ -8,7 +8,6 @@ import { NegativeButton, PositiveButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH } from '@utils/common';
 
 import { useDeactivateAccout } from './service';
 
@@ -27,7 +26,7 @@ const PopupConfirmDeactivateAccount = (props: IProps) => {
 
   const requestDeactivateAccout = useDeactivateAccout({
     onSuccess: () => {
-      onLogout(ROUTE_PATH.HOME);
+      onLogout();
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);

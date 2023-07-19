@@ -122,7 +122,7 @@ const Setting = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>Re-type Username</Text>
+          <Text type='body-12-semibold'>Confirm new password</Text>
           <FormItem
             className='mt-2'
             name='confirmNewPassword'

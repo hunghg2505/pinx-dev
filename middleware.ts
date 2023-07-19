@@ -1,7 +1,14 @@
+import { ROUTE_PATH } from '@utils/common';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const AUTH_PATH: any = ['/auth'];
+const AUTH_PATH: any = [
+  ROUTE_PATH.LOGIN,
+  ROUTE_PATH.FORGOT_PASSWORD,
+  ROUTE_PATH.REGISTER_USER_NAME,
+  ROUTE_PATH.REGISTER_OTP_VERIFICATION,
+  ROUTE_PATH.UPDATE_USER_PROFILE,
+];
 
 const PATH: any = [''];
 
@@ -24,6 +31,12 @@ export function middleware(request: NextRequest) {
   //   url.pathname = '/auth/login';
   //   return NextResponse.redirect(url);
   // }
+
+  if (request.nextUrl.locale === 'vi') {
+    return NextResponse.redirect(
+      new URL(`/en${request.nextUrl.pathname}${request.nextUrl.search}`, request.url),
+    );
+  }
 
   return NextResponse.next();
 }

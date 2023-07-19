@@ -1,12 +1,13 @@
 /* eslint-disable unicorn/no-useless-spread */
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Dropdown from 'rc-dropdown';
 import Form from 'rc-field-form';
+import Menu, { Item as MenuItem } from 'rc-menu';
 
-import AvatarDefault from '@components/UI/AvatarDefault';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
@@ -14,9 +15,9 @@ import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
-import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUserVerified } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
+import 'rc-dropdown/assets/index.css';
 
 export const IconSearchWhite = () => (
   <svg width='16' height='16' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -38,8 +39,9 @@ export const IconCloseMenu = () => (
 );
 const MainHeader = () => {
   const router = useRouter();
-  const { onLogout } = useAuth();
   const [isShowNavigate, setIsShowNavigate] = React.useState(false);
+  const [avaDropdownVisible, setAvaDropdownVisible] = useState<boolean>(false);
+
   const redirectToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
   };
@@ -61,32 +63,23 @@ const MainHeader = () => {
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
       [ROUTE_PATH.REDIRECT].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
-  const name =
-    userLoginInfo?.displayName &&
-    toNonAccentVietnamese(userLoginInfo?.displayName)?.charAt(0)?.toUpperCase();
 
   const goToMyProfile = () => {
     router.push(ROUTE_PATH.MY_PROFILE);
   };
 
-  const renderAvatar = () => {
+  const renderAvatarMobile = () => {
     return isLogin ? (
       <>
-        {userLoginInfo?.avatar ? (
-          <img
-            src={userLoginInfo?.avatar}
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-            onClick={goToMyProfile}
-          />
-        ) : (
-          <div className='h-[36px] w-[36px]' onClick={goToMyProfile}>
-            <AvatarDefault name={name} />
-          </div>
-        )}
+        <img
+          src={userLoginInfo?.avatar}
+          alt=''
+          width={0}
+          height={0}
+          sizes='100vw'
+          className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+          onClick={goToMyProfile}
+        />
       </>
     ) : (
       <img
@@ -100,6 +93,208 @@ const MainHeader = () => {
       />
     );
   };
+
+  const renderAvatarDesktop = () => {
+    return isLogin ? (
+      <div className='ml-[20px] items-center mobile:hidden laptop-max:hidden desktop:flex'>
+        <Text type='body-20-medium' color='neutral-1'>
+          {userLoginInfo?.displayName}
+        </Text>
+        {userLoginInfo?.avatar && (
+          <div className='relative'>
+            <img
+              src={userLoginInfo?.avatar}
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='ml-[10px] h-[52px] w-[52px] rounded-full'
+            />
+            <Dropdown
+              trigger={['click']}
+              overlay={avatarDropdown}
+              animation='slide-up'
+              visible={avaDropdownVisible}
+              onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
+            >
+              <img
+                src='/static/icons/arrow_down.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] cursor-pointer rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
+              />
+            </Dropdown>
+          </div>
+        )}
+      </div>
+    ) : (
+      <>
+        <button
+          className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
+          onClick={redirectToSignUp}
+        >
+          <Text type='body-14-bold' color='cbwhite'>
+            Sign up
+          </Text>
+        </button>
+        <div className='relative laptop-max:hidden'>
+          <img
+            src='/static/images/guest_avatar.png'
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='ml-5 h-[52px] w-[52px] rounded-full'
+          />
+          <Dropdown
+            trigger={['click']}
+            overlay={avatarDropdown}
+            animation='slide-up'
+            visible={avaDropdownVisible}
+            onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
+          >
+            <img
+              src='/static/icons/arrow_down.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] cursor-pointer rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
+            />
+          </Dropdown>
+        </div>
+      </>
+    );
+  };
+
+  const onCloseDropdown = () => {
+    setAvaDropdownVisible(false);
+  };
+
+  const avatarDropdown = (
+    <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
+      <MenuItem disabled>
+        <div className=' flex items-center px-5'>
+          {isLogin ? (
+            <img
+              src={userLoginInfo?.avatar}
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='my-6 mr-6 h-[72px] w-[72px] rounded-full'
+            />
+          ) : (
+            <img
+              src='/static/images/guest_avatar.png'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='my-6 mr-6 h-[72px] w-[72px] rounded-full'
+            />
+          )}
+          {isLogin ? (
+            <div className='flex flex-col gap-[6px]'>
+              <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+              <div className='text-[12px] text-[#474D57]'>
+                Joined since
+                <span className='text-black text-[12px] font-[600]'> 2022</span>
+              </div>
+              <div className='flex gap-[50px]'>
+                <div className='ga- flex flex-col'>
+                  <Text type='body-12-regular' className='text-[#474D57]'>
+                    Post
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                </div>
+                <div className='flex flex-col'>
+                  <Text type='body-12-regular' className='text-[#474D57]'>
+                    Follower
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                </div>
+                <div className='flex flex-col'>
+                  <Text type='body-12-regular' className='text-[#474D57]'>
+                    Following
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Text type='body-16-semibold'>Anonymous User</Text>
+          )}
+        </div>
+      </MenuItem>
+      <MenuItem disabled>
+        {isLogin && (
+          <>
+            <hr className='border-neutral_07' />
+            <Link
+              href={ROUTE_PATH.PROFILE_VERIFICATION}
+              className='flex items-center justify-between px-[20px] py-4'
+              onClick={onCloseDropdown}
+            >
+              <div className='flex items-center'>
+                <img
+                  src='/static/icons/icon_profile.svg'
+                  className='mr-[16px] h-[24px] w-[24px]'
+                  width={24}
+                  height={24}
+                  alt='Profile Verification'
+                />
+                <span>Profile Verification</span>
+              </div>
+              <Text
+                type='body-12-regular'
+                className={classNames('text-[#EAA100]', {
+                  'text-[#4BB543]': isUserVerified(userLoginInfo.acntStat),
+                })}
+              >
+                {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
+              </Text>
+            </Link>
+          </>
+        )}
+
+        <hr className='border-neutral_07' />
+        {isLogin && (
+          <Link
+            href='/watchlist'
+            className='flex items-center px-[20px] py-4'
+            onClick={onCloseDropdown}
+          >
+            <img
+              src='/static/icons/Lotus.svg'
+              className='mr-[16px] h-[24px] w-[24px]'
+              width={24}
+              height={24}
+              alt='Watchlist and theme'
+            />
+            <span>Watchlist and theme</span>
+          </Link>
+        )}
+        <Link
+          href={ROUTE_PATH.SETTING}
+          className='flex items-center px-[20px] py-4'
+          onClick={onCloseDropdown}
+        >
+          <img
+            src='/static/icons/gear setting icon.svg'
+            className='mr-[16px] h-[24px] w-[24px]'
+            width={24}
+            height={24}
+            alt='Setting'
+          />
+          <span>Setting</span>
+        </Link>
+      </MenuItem>
+    </Menu>
+  );
+
   const onShowNavigate = () => {
     setIsShowNavigate(!isShowNavigate);
   };
@@ -167,17 +362,7 @@ const MainHeader = () => {
                 </FormItem>
               </Form>
             </div>
-            {isLogin ? (
-              <button onClick={() => onLogout()}>
-                <img
-                  src='/static/icons/iconLogout.svg'
-                  alt='Icon logout'
-                  width={24}
-                  height={24}
-                  className='mr-[21px] h-[24px] w-[24px] object-contain'
-                />
-              </button>
-            ) : (
+            {!isLogin && (
               <button
                 className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
                 onClick={redirectToLogin}
@@ -187,35 +372,8 @@ const MainHeader = () => {
                 </Text>
               </button>
             )}
-
-            {renderAvatar()}
-
-            {isLogin ? (
-              <div className='ml-[20px] items-center mobile:hidden desktop:flex'>
-                <Text type='body-20-medium' color='neutral-1'>
-                  {userLoginInfo?.displayName}
-                </Text>
-                {userLoginInfo?.avatar && (
-                  <img
-                    src={userLoginInfo?.avatar}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='ml-[10px] h-[52px] w-[52px] rounded-full'
-                  />
-                )}
-              </div>
-            ) : (
-              <button
-                className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
-                onClick={redirectToSignUp}
-              >
-                <Text type='body-14-bold' color='cbwhite'>
-                  Sign up
-                </Text>
-              </button>
-            )}
+            {renderAvatarMobile()}
+            {renderAvatarDesktop()}
           </div>
         </div>
       )}

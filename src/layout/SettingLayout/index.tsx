@@ -18,7 +18,7 @@ const SettingLayout = ({ children }: any) => {
   return (
     <>
       {isDesktop && <MainHeader />}
-      <div className='min-h-[100vh] desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
+      <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
         <div className='xl:container relative flex justify-center mobile-max:mx-auto tablet:overflow-auto'>
           <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
             <SideBar />

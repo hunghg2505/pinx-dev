@@ -54,6 +54,7 @@ const Explore = () => {
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
   const { listMention } = useGetTopMentionStock();
+  console.log('🚀 ~ file: index.tsx:57 ~ Explore ~ listMention:', listMention);
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
@@ -157,15 +158,16 @@ const Explore = () => {
         Top most watching stocks on PineX
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-        {listStock?.map((item: ITopWatchingStock, index: number) => {
-          return (
-            <WatchingStock
-              percen={(item.totalCount / maxTopWatchStock) * 100}
-              key={`stock-${index}`}
-              data={item}
-            />
-          );
-        })}
+        {listStock &&
+          [...listStock]?.slice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
+            return (
+              <WatchingStock
+                percen={(item.totalCount / maxTopWatchStock) * 100}
+                key={`stock-${index}`}
+                data={item}
+              />
+            );
+          })}
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.TOP_WATCHING)}>
         <Text type='body-14-bold' color='primary-2'>
@@ -181,16 +183,17 @@ const Explore = () => {
         Top most mention stocks on PineX
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-        {listMention?.map((item: ITopWatchingStock, index: number) => {
-          return (
-            <WatchingStock
-              percen={(item.totalCount / maxTopMentionStock) * 100}
-              key={`stock-${index}`}
-              data={item}
-              mention
-            />
-          );
-        })}
+        {listMention &&
+          [...listMention]?.splice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
+            return (
+              <WatchingStock
+                percen={(item.totalCount / maxTopMentionStock) * 100}
+                key={`stock-${index}`}
+                data={item}
+                mention
+              />
+            );
+          })}
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.TOPMENTION)}>
         <Text type='body-14-bold' color='primary-2'>
