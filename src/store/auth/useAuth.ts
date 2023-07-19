@@ -1,6 +1,4 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { useRouter } from 'next/router';
-
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies, setRegisterCookies } from '.';
@@ -14,20 +12,13 @@ export interface IAuth {
 }
 
 export const useAuth = () => {
-  const router = useRouter();
   const onLogout = (navigatePath?: string) => {
     try {
       const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
       localStorage.setItem('locale', locale || '');
-      if (navigatePath) {
-        window.location.href = navigatePath;
-        return;
-      }
-      if (router.pathname !== ROUTE_PATH.HOME) {
-        window.location.href = ROUTE_PATH.HOME;
-      }
+      window.location.href = navigatePath || ROUTE_PATH.HOME;
     } catch {}
   };
 
