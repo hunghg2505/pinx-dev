@@ -1,35 +1,44 @@
 import { ReactElement } from 'react';
 
+import { parseJwt } from 'brainless-token-manager';
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const MenuProfile = dynamic(() => import('@components/MenuProfile'), {
-  ssr: false,
-});
-const BackLayout = dynamic(() => import('@layout/BackLayout'));
-const Profile = (props: any) => {
+import SEO from '@components/SEO';
+
+const Profile = dynamic(() => import('@components/Profile'));
+const ProfileLayout = dynamic(() => import('@layout/ProfileLayout'));
+
+const PostDetailPage = (props: any) => {
   return (
     <>
-      <MenuProfile {...props} />
+      <SEO title={'Pinex'} />
+      <Profile {...props} />
     </>
   );
 };
-Profile.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <BackLayout title='my_profile'>
-      <>{page}</>
-    </BackLayout>
-  );
+PostDetailPage.getLayout = function getLayout(page: ReactElement) {
+  return <ProfileLayout Layout>{page}</ProfileLayout>;
 };
 
-export async function getServerSideProps({ locale }: GetServerSidePropsContext) {
+export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
+  if (typeof req.cookies?.accessToken !== 'string') {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
+        // Will be passed to the page component as props
+      },
+    };
+  }
+  const decoded = parseJwt(req.cookies?.accessToken);
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
+      ...decoded,
       // Will be passed to the page component as props
     },
   };
 }
 
-export default Profile;
+export default PostDetailPage;
