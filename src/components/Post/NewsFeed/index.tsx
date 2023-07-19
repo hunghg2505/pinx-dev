@@ -19,7 +19,7 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
   };
-  const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(data?.id));
+  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(data?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
   const commentChild = commentsOfPost?.data?.list?.reduce(
     (acc: any, current: any) => acc + current?.totalChildren,
@@ -62,7 +62,7 @@ const NewsFeed = (props: IProps) => {
                 onNavigate={onNavigate}
                 data={commentsOfPost?.data?.list?.[0]}
                 refresh={refresh}
-                refreshCommentOfPOst={refreshCommentOfPOst}
+                refreshCommentOfPOst={refreshCommentOfPost}
               />
             </div>
           )}
