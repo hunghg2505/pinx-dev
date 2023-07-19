@@ -173,18 +173,23 @@ const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
 };
 
 const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => {
-  const { data } = useRequest(
-    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA(stockCode)),
+  const { data, refresh } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_DETAIL_EXTRA(stockCode))
+        : requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA(stockCode));
+    },
     {
       refreshDeps: [stockCode],
     },
   );
 
-  return { stockDetails: data };
+  return { stockDetails: data, refreshStockDetails: refresh };
 };
 
 const useStockReviews = (stockCode: string): IResponseStockReviews => {
-  const { data } = useRequest(
+  const { data, refresh } = useRequest(
     () => requestCommunity.get(API_PATH.PUBLIC_STOCK_REVIEWS(stockCode)),
     {
       refreshDeps: [stockCode],
@@ -193,6 +198,7 @@ const useStockReviews = (stockCode: string): IResponseStockReviews => {
 
   return {
     reviews: data,
+    refreshStockReviews: refresh,
   };
 };
 
@@ -243,6 +249,19 @@ const useStockActivities = (
   };
 };
 
+const useReviewStock = (stockCode: string, options?: IOptions) => {
+  return useRequest(
+    (data: { rateValue: number; message?: string }) =>
+      privateRequest(requestCommunity.post, API_PATH.PRIVATE_STOCK_REVIEW(stockCode), {
+        data,
+      }),
+    {
+      manual: true,
+      ...options,
+    },
+  );
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -257,4 +276,5 @@ export {
   useStockReviews,
   useStockNews,
   useStockActivities,
+  useReviewStock,
 };

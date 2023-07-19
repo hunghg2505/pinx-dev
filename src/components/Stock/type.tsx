@@ -1,4 +1,4 @@
-import { IPost } from '@components/Post/service';
+import { ICustomerInfo, IPost } from '@components/Post/service';
 
 export interface IResponseStockDetail {
   stockDetail?: {
@@ -246,12 +246,18 @@ export interface IResponseStockDetailsExtra {
         totalMentions: number;
         children: IReview[];
       };
+      customerReview?: {
+        rateValue: number;
+        message: string;
+        customerInfo: ICustomerInfo;
+      };
       watchingNo: number;
       watchingInvestingNo: number;
       watchingList: IWatchingInvesting[];
       watchingInvestingList: IWatchingInvesting[];
     };
   };
+  refreshStockDetails: () => void;
 }
 
 export interface IReview {
@@ -287,6 +293,7 @@ export interface IResponseStockReviews {
       hasNext: boolean;
     };
   };
+  refreshStockReviews: () => void;
 }
 
 export interface IResponseStockNews {

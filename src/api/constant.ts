@@ -85,11 +85,13 @@ export const API_PATH = {
   PUBLIC_STOCK_EVENTS: (stockCode: string) => `/public/stock/${stockCode}/events`,
   PRIVATE_THEME_OF_STOCK: (stockCode: string) => `/private/theme/stock-code/${stockCode}`,
   PUBLIC_STOCK_DETAIL_EXTRA: (stockCode: string) => `/public/stock/${stockCode}/details-extra`,
+  PRIVATE_STOCK_DETAIL_EXTRA: (stockCode: string) => `/private/stock/${stockCode}/details-extra`,
   PUBLIC_STOCK_REVIEWS: (stockCode: string) => `/public/stock/${stockCode}/reviews`,
   PUBLIC_STOCK_NEWS: (stockCode: string) => `/public/stock/${stockCode}/news`,
   PRIVATE_STOCK_NEWS: (stockCode: string) => `/private/stock/${stockCode}/news`,
   PUBLIC_STOCK_ACTIVITIES: (stockCode: string) => `/public/stock/${stockCode}/activities`,
   PRIVATE_STOCK_ACTIVITIES: (stockCode: string) => `/private/stock/${stockCode}/activities`,
+  PRIVATE_STOCK_REVIEW: (stockCode: string) => `/private/stock/${stockCode}/review`,
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

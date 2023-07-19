@@ -5,14 +5,17 @@ import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
+import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, formatNumber } from '@utils/common';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { IMAGE_COMPANY_URL, USERTYPE } from '@utils/constant';
+import PopupComponent from '@utils/PopupComponent';
 import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
 import ActivityItem from './ActivityItem';
@@ -41,6 +44,7 @@ import {
   useFollowOrUnfollowStock,
   useHoldingRatio,
   useMyListStock,
+  useReviewStock,
   useShareholder,
   useStockActivities,
   useStockDetail,
@@ -59,6 +63,7 @@ const HIGHLIGH_ROW_LIMIT = 3;
 const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
+const STOCK_REVIEW_LIMIT = 1;
 
 const settings = {
   dots: false,
@@ -119,11 +124,10 @@ const StockDetail = () => {
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
-  const [rating, setRating] = useState(0);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
-  const { isLogin } = useUserType();
+  const { isLogin, statusUser } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const router = useRouter();
@@ -141,7 +145,7 @@ const StockDetail = () => {
   const { holdingRatio } = useHoldingRatio(stockCode);
   const { stockEvents } = useFinancialCalendar(stockCode);
   const { stockThemes } = useThemesOfStock(stockCode);
-  const { stockDetails } = useStockDetailsExtra(stockCode);
+  const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode);
   const { stockNews, refreshStockNews } = useStockNews(stockCode);
   const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
@@ -166,6 +170,13 @@ const StockDetail = () => {
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
       refreshMyStocks();
+    },
+  });
+
+  const requestReviewStock = useReviewStock(stockCode, {
+    onSuccess: () => {
+      refreshStockDetails();
+      setOpenPopupConfirmReview(true);
     },
   });
 
@@ -197,6 +208,38 @@ const StockDetail = () => {
     }
   };
 
+  // review stock
+  const handleRating = (star: number) => {
+    if (isLogin) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your account has been pending to close. You cannot perform this action'
+          />
+        ));
+      } else if (statusUser === USERTYPE.VSD) {
+        requestReviewStock.run({
+          rateValue: star,
+          message: stockDetails?.data.customerReview?.message,
+        });
+      } else {
+        PopupComponent.openEKYC();
+      }
+    } else {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+    }
+  };
+
+  // after send review in popup
+  const handleReviewSuccess = () => {
+    refreshStockDetails();
+    setOpenPopupReview(false);
+  };
+
   return (
     <div>
       <PopupConfirmReview
@@ -204,13 +247,21 @@ const StockDetail = () => {
         onClose={() => {
           setOpenPopupConfirmReview(false);
         }}
+        onOpenPopupReview={() => {
+          setOpenPopupReview(true);
+          setOpenPopupConfirmReview(false);
+        }}
       />
 
       <PopupReview
         visible={openPopupReview}
+        star={stockDetails?.data.customerReview?.rateValue || 0}
+        message={stockDetails?.data.customerReview?.message}
         onClose={() => {
           setOpenPopupReview(false);
         }}
+        stockCode={stockCode}
+        onReviewSuccess={handleReviewSuccess}
       />
 
       <div className='flex h-[44px] w-full items-center justify-between px-[16px] tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9] tablet:px-[24px]'>
@@ -535,7 +586,10 @@ const StockDetail = () => {
           </Text>
 
           <div className='mb-[28px] flex flex-col gap-y-[12px] tablet:flex-row tablet:justify-between'>
-            <Rating star={rating} onChange={(star) => setRating(star)} />
+            <Rating
+              star={stockDetails?.data.customerReview?.rateValue || 0}
+              onChange={(star) => handleRating(star)}
+            />
 
             <div className='flex gap-x-[52px]'>
               <div>
@@ -581,13 +635,16 @@ const StockDetail = () => {
           {stockDetails?.data.details.children.length ? (
             <>
               <ReviewItem data={stockDetails.data.details.children[0]} isLatestReview />
-              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    See more review
-                  </Text>
-                </button>
-              </Link>
+
+              {stockDetails.data.details.children.length > STOCK_REVIEW_LIMIT && (
+                <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+                  <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                    <Text type='body-14-bold' color='primary-2'>
+                      See more review
+                    </Text>
+                  </button>
+                </Link>
+              )}
             </>
           ) : (
             <div className='rounded-[12px] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
