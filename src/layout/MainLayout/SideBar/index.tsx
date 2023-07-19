@@ -1,12 +1,15 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useAuth } from '@store/auth/useAuth';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 import {
@@ -24,6 +27,8 @@ import {
 
 const SideBar = () => {
   const router = useRouter();
+  const { isLogin } = useAuth();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const MENUS = useMemo(() => {
     return [
       {
@@ -49,33 +54,38 @@ const SideBar = () => {
       },
       {
         id: 4,
-        path: ROUTE_PATH.WATCHLIST,
+        path: isLogin ? ROUTE_PATH.WATCHLIST : '',
         icon: <IconWatchList />,
         iconActive: <IconWatchListACtive />,
         label: 'WatchList',
+        action: () => {
+          !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
+        }
       },
       {
         id: 5,
-        path: ROUTE_PATH.ASSET,
+        path: isLogin ? ROUTE_PATH.ASSET : '',
         icon: <IconAssets />,
         iconActive: <IconAssetsActive />,
         label: 'Assets',
+        action: () => {
+          !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
+        }
       },
     ];
-  }, []);
+  }, [isLogin]);
   const items = useMemo(() => {
     return MENUS.map((menu) => {
       const checkPathExist = router.pathname === menu.path;
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
-          checkPathExist && 'active'
-        }`,
+        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${checkPathExist && 'active'
+          }`,
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
-          <CustomLink href={menu?.path} className='ml-[10px]'>
+          <CustomLink href={menu?.path} className='ml-[10px]' action={menu?.action}>
             <Text
               type='body-16-semibold'
               color='neutral-3'

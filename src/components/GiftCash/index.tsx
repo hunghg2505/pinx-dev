@@ -88,9 +88,12 @@ const GiftCash = () => {
           </div>
           <div className='mt-[40px] hidden w-[158px] mobile-max:block'>
             <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
-              <Text type='body-14-bold' color='cbwhite'>
-                Download PineX
-              </Text>
+              <a href='https://onelink.to/cgarrk' target="_blank" rel="noreferrer">
+                <Text type='body-14-bold' color='cbwhite'>
+                  Download PineX
+                </Text>
+              </a>
+
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 
 import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
 import PopupAuth from '@components/UI/Popup/PopupAuth';
+import PopUpEkycInternal from '@components/UI/Popup/PopupEkycInternal';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
@@ -45,6 +46,11 @@ const ModalPage = () => {
         <PopupRegisterCreateUsername
           visible={popupStatus.popupRegisterUsername}
           onClose={onCloseModal}
+        />
+      )}
+      {popupStatus.popupEkyc && (
+        <PopUpEkycInternal
+          visible={popupStatus.popupEkyc}
         />
       )}
     </>

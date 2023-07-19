@@ -21,7 +21,7 @@ const LANGUAGES = [
     value: 'vi',
   },
   {
-    title: 'Emglish',
+    title: 'English',
     value: 'en'
   }
 ];

@@ -1,12 +1,11 @@
 import { ReactElement } from 'react';
 
-import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import WatchList from '@components/WatchList';
+import SettingLayout from '@layout/SettingLayout';
 
-const SettingLayout = dynamic(() => import('@layout/SettingLayout'), { ssr: false });
 const WatchlistPage = () => {
   return (
     <>
@@ -15,6 +14,7 @@ const WatchlistPage = () => {
     </>
   );
 };
+
 WatchlistPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <SettingLayout>
