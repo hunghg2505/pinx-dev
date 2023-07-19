@@ -1,4 +1,4 @@
-const Icon = () => {
+const LockIcon = () => {
   return (
     <svg
       width='21'
@@ -17,4 +17,4 @@ const Icon = () => {
     </svg>
   );
 };
-export default Icon;
+export default LockIcon;
