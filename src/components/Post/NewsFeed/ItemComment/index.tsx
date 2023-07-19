@@ -191,10 +191,11 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className={classNames('mr-[12px] rounded-full object-cover', {
+          className={classNames('mr-[12px] cursor-pointer rounded-full object-cover', {
             'h-[36px] w-[36px]': !isChildren,
             'h-[28px] w-[28px]': isChildren,
           })}
+          onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
         />
         {/* bg-[#F6FAFD] */}
         <div

@@ -83,7 +83,7 @@ const ModalComment = (props: Iprops) => {
             Comment
           </Text>
           <div
-            className={classNames('mt-[16px] h-[500px] overflow-y-scroll', {
+            className={classNames('mt-[16px] h-[350px] overflow-y-scroll ', {
               'mobile:mb-[79px]': !isImageCommentMobile,
               'mobile:mb-[179px]': isImageCommentMobile,
             })}

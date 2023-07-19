@@ -28,6 +28,7 @@ import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import styles from './index.module.scss';
+import ModalLink from './ModalLink';
 import { requestAddPost } from './service';
 
 const IconSend = () => (
@@ -59,6 +60,9 @@ interface IData {
   tagStocks: any;
   urlImages?: string[];
 }
+const getDataOG = (value: any) => {
+  console.log('value', value);
+};
 const Compose = (props: IProps) => {
   const { hidePopup, refresh } = props;
   const [isShowMore, setIsShowMore] = React.useState(false);
@@ -124,26 +128,6 @@ const Compose = (props: IProps) => {
       attributes: {
         class: 'focus:outline-none h-full',
       },
-    },
-    onUpdate({ editor }) {
-      // const text = editor.getJSON();
-      const test = editor?.getJSON()?.content?.map((item: any) => {
-        console.log('🚀 ~ file: index.tsx:131 ~ test ~ item:', item);
-        const abcd = item?.content?.map((text: any) => {
-          let p = '';
-          if (text.type === 'text') {
-            p = text.text;
-          }
-          return p;
-        });
-        console.log('abcd', abcd);
-        return abcd?.join(' ');
-      });
-      console.log('test', test);
-      console.log('123');
-      // const data = new Promise(getImageFromLink);
-
-      // const data = getImageFromLink();
     },
   });
 
@@ -304,32 +288,6 @@ const Compose = (props: IProps) => {
     } else {
       editor?.commands?.insertContent('@');
     }
-    // const fetchPromise = fetch(
-    //   'https://cafef.vn/thi-truong-soi-dong-tro-lai-cac-ctck-dong-loat-mo-han-muc-tin-dung-hang-chuc-nghin-ty-dong-188230630090235983.chn',
-    // );
-    // fetchPromise
-    //   .then((response) => {
-    //     return response.text();
-    //   })
-    //   .then((people) => {
-    //     console.log('🚀 ~ file: index.tsx:140 ~ .then ~ people:', people);
-    //   });
-    // const data = await request(
-    //   'https://cafef.vn/thi-truong-soi-dong-tro-lai-cac-ctck-dong-loat-mo-han-muc-tin-dung-hang-chuc-nghin-ty-dong-188230630090235983.chn',
-    // );
-    // const doc = new DOMParser().parseFromString(data, 'text/html');
-    // const metas: any = doc.querySelectorAll('meta');
-    // const summary = [];
-    // for (const meta of metas) {
-    //   const tempsum: any = {};
-    //   const attributes = meta.getAttributeNames();
-    //   for (const attribute of attributes) {
-    //     tempsum[attribute] = meta.getAttribute(attribute);
-    //   }
-    //   summary.push(tempsum);
-    // }
-    // console.log('summary', summary);
-    // console.log('data', data);
   };
   const onAddStock = () => {
     editor?.commands?.focus('end');
@@ -446,9 +404,11 @@ const Compose = (props: IProps) => {
           </div>
 
           {!themeActive && (
-            <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-              <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
-            </div>
+            <ModalLink getDataOG={getDataOG}>
+              <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+                <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
+              </div>
+            </ModalLink>
           )}
         </div>
         <div
