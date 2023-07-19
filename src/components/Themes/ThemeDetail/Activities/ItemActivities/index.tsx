@@ -1,22 +1,13 @@
-import { useRequest } from 'ahooks';
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useAtom } from 'jotai';
-import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 import { INewFeed } from '@components/Home/service';
-import { likePost, unlikePost, useCommentsOfPost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { useUserType } from '@hooks/useUserType';
-import { popupStatusAtom } from '@store/popup/popup';
-import { toNonAccentVietnamese } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
-import ModalComment from '../ModalComment';
+import ActivitiesAction from '../ActivitiesAction';
 
 dayjs.extend(relativeTime);
 export enum ActionPostEnum {
@@ -24,9 +15,7 @@ export enum ActionPostEnum {
   SUBSCRIBE = 'SUBSCRIBE',
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
-  console.log('🚀 ~ file: index.tsx:25 ~ ItemActivities ~ data:', data);
-  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { statusUser, isLogin } = useUserType();
+  const router = useRouter();
   const isSubsribed = data?.post?.action === ActionPostEnum.SUBSCRIBE;
   const idPost = data?.id;
   const isLike = data?.isLike;
@@ -34,82 +23,21 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
   const nameAvatar =
     data?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(data?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
-  const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(data?.id));
-  const totalComments = commentsOfPost?.data?.list?.length;
-  const commentChild = commentsOfPost?.data?.list?.reduce(
-    (acc: any, current: any) => acc + current?.totalChildren,
-    0,
-  );
-  const countComment = totalComments + commentChild;
-  const useLikePost = useRequest(
-    () => {
-      return likePost(String(idPost));
-    },
-    {
-      manual: true,
-      onSuccess: () => {
-        // onRefreshPostDetail();
-        refresh && refresh();
-      },
-      onError: (err: any) => {
-        if (err?.error === 'VSD account is required') {
-          toast(() => (
-            <Notification
-              type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
-            />
-          ));
-        }
-      },
-    },
-  );
-  const useUnLike = useRequest(
-    () => {
-      return unlikePost(String(idPost));
-    },
-    {
-      manual: true,
-      onSuccess: () => {
-        // onRefreshPostDetail();
-        refresh && refresh();
-      },
-      onError: (err: any) => {
-        if (err?.error === 'VSD account is required') {
-          toast(() => (
-            <Notification
-              type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
-            />
-          ));
-        }
-      },
-    },
-  );
-  const handleLikeOrUnLikePost = () => {
-    if (isLogin) {
-      if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
-      } else if (isLike) {
-        useUnLike.run();
-      } else {
-        useLikePost.run();
-      }
-    } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
-    }
-  };
+
   return (
     <div className='flex'>
-      {avatar ? (
-        <img src={avatar} alt='' className='mr-[12px] h-[28px] w-[28px] rounded-full' />
-      ) : (
-        <div className='mr-[12px] h-[28px] w-[28px]'>
-          <AvatarDefault name={nameAvatar} />
-        </div>
-      )}
+      <div
+        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
+        className='cursor-pointer'
+      >
+        {avatar ? (
+          <img src={avatar} alt='' className='mr-[12px] h-[28px] w-[28px] rounded-full' />
+        ) : (
+          <div className='mr-[12px] h-[28px] w-[28px]'>
+            <AvatarDefault name={nameAvatar} />
+          </div>
+        )}
+      </div>
 
       <div className='w-[calc(100%_-_40px)]'>
         <div className='relative w-full rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px]'>
@@ -142,27 +70,8 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
             </div>
           )}
         </div>
-        <div className='mt-[8px] flex'>
-          <div onClick={() => handleLikeOrUnLikePost()} className='cursor-pointer'>
-            <Text
-              type='body-12-regular'
-              color='neutral-gray'
-              className={classNames('mr-[38px]', { '!text-[#589DC0]': isLike })}
-            >
-              Like
-            </Text>
-          </div>
-
-          <ModalComment
-            commentsOfPost={commentsOfPost}
-            refreshCommentOfPOst={refreshCommentOfPOst}
-            id={idPost}
-            refresh={refresh}
-          >
-            <Text type='body-12-regular' color='neutral-gray'>
-              {countComment > 0 && countComment} Comment
-            </Text>
-          </ModalComment>
+        <div className='mt-[8px]'>
+          <ActivitiesAction isLike={isLike} idPost={idPost} refresh={refresh} />
         </div>
       </div>
     </div>

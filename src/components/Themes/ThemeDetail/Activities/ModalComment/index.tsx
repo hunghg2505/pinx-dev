@@ -13,13 +13,13 @@ interface Iprops {
   children: any;
   closeIcon?: boolean;
   commentsOfPost: any;
-  refreshCommentOfPOst: () => void;
+  refreshCommentOfPost: () => void;
   id: string;
   refresh: () => void;
 }
 
 const ModalComment = (props: Iprops) => {
-  const { children, closeIcon, commentsOfPost, refreshCommentOfPOst, id, refresh } = props;
+  const { children, closeIcon, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
   const isLogin = !!getAccessToken();
 
   const refSubReplies: any = React.useRef();
@@ -63,7 +63,7 @@ const ModalComment = (props: Iprops) => {
               data={comment}
               key={index}
               onReplies={onReplies}
-              refresh={refreshCommentOfPOst}
+              refresh={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
             />
@@ -83,7 +83,7 @@ const ModalComment = (props: Iprops) => {
             Comment
           </Text>
           <div
-            className={classNames('mt-[16px] h-[500px] overflow-y-scroll', {
+            className={classNames('mt-[16px] h-[350px] overflow-y-scroll ', {
               'mobile:mb-[79px]': !isImageCommentMobile,
               'mobile:mb-[179px]': isImageCommentMobile,
             })}
@@ -97,7 +97,7 @@ const ModalComment = (props: Iprops) => {
                       data={item}
                       onReplies={onReplies}
                       refreshTotal={refresh}
-                      refresh={refreshCommentOfPOst}
+                      refresh={refreshCommentOfPost}
                     />
                     {getSubComment(item.children)}
                   </>
@@ -115,11 +115,11 @@ const ModalComment = (props: Iprops) => {
           </div>
           {isLogin && (
             <div className='mobile:block'>
-              <div className='fixed bottom-0 z-10 w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+              <div className='fixed bottom-0 z-10 w-[375px] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:w-[calc(100%_-_32px)] mobile-max:px-[3px]'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={id}
-                  refresh={refreshCommentOfPOst}
+                  refresh={refreshCommentOfPost}
                   refreshTotal={refresh}
                   setImageCommentMobile={setImageCommentMobile}
                   // width={width}

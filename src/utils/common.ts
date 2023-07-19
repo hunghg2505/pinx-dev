@@ -23,6 +23,12 @@ export const ROUTE_PATH = {
   PEOPLEINSPOTLIGHT: '/people-in-spotlight',
   TOPMENTION: '/top-mention',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
+  STOCK_DETAIL: (stockCode: string) => `/stock/${stockCode}`,
+  STOCK_EVENT: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/financial-calendar`,
+  STOCK_REVIEW: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/rating`,
+  STOCK_ALSO_OWN: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/also-own`,
+  STOCK_NEWS: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/news`,
+  STOCK_SUBSCRIBER: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/subscriber`,
   PAGE_NOT_FOUND: '/page-not-found',
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
@@ -73,7 +79,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
               `,
             );
           }
@@ -83,7 +89,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
           `,
         );
       }
@@ -195,12 +201,15 @@ export function toNonAccentVietnamese(str: any) {
   return str;
 }
 
-export const imageStock = (stock_code: string) => {
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
-  }.png`;
-  return url;
+export const formatNumber = (value: number) => {
+  return value.toLocaleString('en-US');
+};
+
+export const getMonthName = (monthNumber: number) => {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+
+  return date.toLocaleString('en-US', { month: 'long' });
 };
 
 export const encryptPassword = (value: string) => {

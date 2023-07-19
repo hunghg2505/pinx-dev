@@ -28,6 +28,7 @@ import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import styles from './index.module.scss';
+import ModalLink from './ModalLink';
 import { requestAddPost } from './service';
 
 const IconSend = () => (
@@ -59,6 +60,9 @@ interface IData {
   tagStocks: any;
   urlImages?: string[];
 }
+const getDataOG = (value: any) => {
+  console.log('value', value);
+};
 const Compose = (props: IProps) => {
   const { hidePopup, refresh } = props;
   const [isShowMore, setIsShowMore] = React.useState(false);
@@ -126,6 +130,7 @@ const Compose = (props: IProps) => {
       },
     },
   });
+
   const showMore = () => {
     setIsShowMore(!isShowMore);
   };
@@ -275,7 +280,7 @@ const Compose = (props: IProps) => {
       PopupComponent.openEKYC();
     }
   };
-  const onAddPeople = () => {
+  const onAddPeople = async () => {
     const text = editor?.getText();
     editor?.commands?.focus('end');
     if (text) {
@@ -385,23 +390,25 @@ const Compose = (props: IProps) => {
             </Upload>
           )}
           <div
-            className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddPeople}
           >
             <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
           </div>
 
           <div
-            className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddStock}
           >
             <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
           </div>
 
           {!themeActive && (
-            <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-              <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
-            </div>
+            <ModalLink getDataOG={getDataOG}>
+              <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+                <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
+              </div>
+            </ModalLink>
           )}
         </div>
         <div

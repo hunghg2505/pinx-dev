@@ -1,7 +1,6 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 import Slider from 'react-slick';
 
 import { ITheme, IWatchListItem, useGetTheme } from '@components/Home/service';
@@ -22,36 +21,21 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
 };
 
 const WatchList = () => {
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
-  const router = useRouter();
+
   const { theme } = useGetTheme();
 
-  const onGoBack = () => {
-    router.back();
-  };
   const { interestStock, refresh } = useGetInterest();
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSort = () => {
-    // console.log('sort');
-    // @ts-ignore
-    // dataItemStock.slice(0.4).sort((a, b) => a.codeStock - b.codeStock);
-  };
+  const handleSort = () => { };
 
   return (
-    <div className='flex flex-col gap-y-[32px] pb-[52px] pt-[20px] desktop:gap-y-[20px] desktop:p-[24px] desktop:pb-[32px]'>
+    <div className='flex flex-col gap-y-[32px] pl-[16px] px-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
-        <img
-          src='/static/icons/back_icon.svg'
-          alt=''
-          className='w-[28px] cursor-pointer desktop:hidden'
-          onClick={onGoBack}
-        />
         {isEdit ? (
           <>
             <div className='relative flex items-center'>

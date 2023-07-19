@@ -61,7 +61,7 @@ const ChangePasswordVertification = () => {
   const requestChangePassword = useChangePassord({
     onSuccess: () => {
       toast(() => <Notification type='success' message='Change password success' />);
-      onLogout();
+      onLogout(ROUTE_PATH.LOGIN);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
