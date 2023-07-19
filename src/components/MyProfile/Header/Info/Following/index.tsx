@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 const Following = () => {
   const { t } = useTranslation('profile');
@@ -15,7 +15,7 @@ const Following = () => {
   }, []);
   return (
     <p
-      className=' text-[12px] tablet:flex tablet:flex-col-reverse cursor-pointer'
+      className=' cursor-pointer text-[12px] tablet:flex tablet:flex-col-reverse'
       onClick={() => {
         if (state.mobile) {
           router.push(

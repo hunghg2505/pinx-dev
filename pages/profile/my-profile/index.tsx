@@ -7,14 +7,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const Profile = dynamic(() => import('@components/Profile'));
+const MyProfile = dynamic(() => import('@components/MyProfile'));
 const ProfileLayout = dynamic(() => import('@layout/ProfileLayout'));
 
 const PostDetailPage = (props: any) => {
   return (
     <>
       <SEO title={'Pinex'} />
-      <Profile {...props} />
+      <MyProfile {...props} />
     </>
   );
 };
@@ -25,9 +25,9 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
 export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
   if (typeof req.cookies?.accessToken !== 'string') {
     return {
-      props: {
-        ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
-        // Will be passed to the page component as props
+      redirect: {
+        destination: '/',
+        permanent: false,
       },
     };
   }

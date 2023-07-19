@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 import IconAvartaEdit from './IconAvartaEdit';
 
@@ -18,7 +18,7 @@ const Avatar = () => {
           className='h-[113px] w-[113px] rounded-full bg-white p-[5px] tablet:h-[100px] tablet:w-[100px]'
         />
       )}
-      {profileUser?.isMe && <IconAvartaEdit />}
+      <IconAvartaEdit />
     </div>
   );
 };
