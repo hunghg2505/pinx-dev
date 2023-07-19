@@ -117,7 +117,6 @@ export const formatMessage = (message: string, data: any) => {
       );
     }
     if (item.includes('http') && !item.includes('\n')) {
-      console.log('item-123', item);
       message = message.replaceAll(
         item,
         `
@@ -126,7 +125,6 @@ export const formatMessage = (message: string, data: any) => {
       );
     }
     if (item.includes('http') && item.includes('\n')) {
-      console.log('item', item);
       const newItem = item?.split('\n');
       for (const item of newItem) {
         if (item.includes('http')) {

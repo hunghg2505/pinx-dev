@@ -107,7 +107,7 @@ const Home = () => {
     }
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
     const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
-    if (Math.floor(heightTop) === heigtBottom) {
+    if (Math.floor(heightTop) === heigtBottom || Math.ceil(heightTop) === heigtBottom) {
       run(filterType || FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };
