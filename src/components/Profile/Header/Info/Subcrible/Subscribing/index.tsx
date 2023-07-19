@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
+import { useRequest } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 
-const Subscribing = () => {
-  const { t } = useTranslation('profile');
+import { requestFollowUser } from '@components/Home/service';
+import { profileUserContext } from '@components/Profile';
 
+const Subscribing = () => {
+  const profileUser = useContext<any>(profileUserContext);
+  const { t } = useTranslation('profile');
+  const onFollowUser = useRequest(
+    () => {
+      return requestFollowUser(profileUser?.id);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        profileUser?.reload();
+      },
+    },
+  );
   return (
     <>
-      <div className='mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px]  bg-blue_light tablet:flex'>
+      <div
+        className='mr-[10px] flex h-[36px] w-[89px] cursor-pointer flex-row items-center justify-center  rounded-[5px] bg-blue_light tablet:flex'
+        onClick={() => {
+          onFollowUser.run();
+        }}
+      >
         <svg
           className='h-[8px] w-[8px]'
           width='10'

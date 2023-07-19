@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 const Post = () => {
   const { t } = useTranslation('profile');

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 const PreViewStory = ({ openStory }: { openStory: () => void }) => {
   const { t } = useTranslation('profile');

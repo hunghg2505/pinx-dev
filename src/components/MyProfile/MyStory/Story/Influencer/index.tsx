@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 import User from './User';
 import CloseIcon from '../CloseIcon';

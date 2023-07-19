@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import Image from 'next/image';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 const User = () => {
   const profileUser = useContext<any>(profileUserContext);

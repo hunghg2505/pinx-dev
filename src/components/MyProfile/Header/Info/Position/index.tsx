@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { profileUserContext } from '@components/Profile';
+import { profileUserContext } from '@components/MyProfile';
 
 const Position = () => {
   const profileUser = useContext<any>(profileUserContext);
