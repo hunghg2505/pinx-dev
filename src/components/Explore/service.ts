@@ -37,7 +37,7 @@ export const useGetKeyWordsTop = () => {
 };
 export const useGetTopWatchingStock = () => {
   const params = {
-    limit: 20,
+    size: 20,
   };
   const { data } = useRequest(() => {
     return requestPist.get(API_PATH.PUBLIC_TOP_WATCHING, { params });
@@ -48,7 +48,7 @@ export const useGetTopWatchingStock = () => {
 };
 export const useGetTopMentionStock = () => {
   const params = {
-    limit: 20,
+    size: 20,
   };
   const { data } = useRequest(() => {
     return requestCommunity.get(API_PATH.PUBLIC_TOP_MENTION, { params });
@@ -76,7 +76,10 @@ export const useGetSearchRecent = () => {
 };
 export const useGetPopular = () => {
   const { data } = useRequest(() => {
-    return requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP);
+    const params = {
+      limit: 6,
+    };
+    return requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP, { params });
   });
   return {
     popular: data?.data,

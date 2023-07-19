@@ -5,6 +5,7 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { appWithTranslation, i18n } from 'next-i18next';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
   const { isLogin } = useAuth();
+  const router = useRouter();
 
   useMount(() => {
     i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || '');
@@ -58,20 +60,24 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     } // Dismiss – Use toast.remove(t.id) for no exit animation
   }, [toasts]);
 
+  useEffect(() => {
+    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || '');
+  }, [router.pathname]);
+
   return (
     <>
       <Head>
         <meta name='robots' content='index, follow' />
         <meta name='googlebot' content={'index,follow'} />
         <meta charSet='utf-8' />
-        <meta name='theme-color' content='#476055' />
+        <meta name='theme-color' content='#FFFFFF' />
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
         <link rel='shortcut icon' href='/static/favicon.svg' />
 
         <meta
           name='viewport'
-          content='width=device-width,initial-scale=1,maximum-scale=2,shrink-to-fit=no'
+          content='width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no'
         />
       </Head>
       <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
@@ -83,5 +89,5 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     </>
   );
 }
-
+// @ts-ignore
 export default appWithTranslation(MyApp, nextI18nConfig);

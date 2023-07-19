@@ -20,11 +20,11 @@ const GiftCash = () => {
   return (
     <div className='overflow-x-hidden rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
       <div className='relative'>
-        <Text type='body-28-bold' color='neutral-1' className=''>
+        <Text type='body-28-bold' color='neutral-1' className='hidden desktop:block'>
           GiftCash
         </Text>
       </div>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] hidden h-[2px] w-full bg-[#EEF5F9] desktop:block'></div>
       <div className=' flex flex-col items-center rounded-[24px] bg-[#D8EBFC] px-[58px] py-[32px] mobile-max:px-[16px]'>
         <img src='/static/icons/giftcash/gift.svg' alt='' className=' h-[130px] w-[130px]' />
         <Text

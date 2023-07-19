@@ -484,3 +484,11 @@
 .compose {
   width: 431px !important;
 }
+
+.rc-dropdown .rc-menu {
+  border: none !important;
+}
+
+li.rc-menu-item-divider {
+  border: 1px solid #ebebeb;
+}

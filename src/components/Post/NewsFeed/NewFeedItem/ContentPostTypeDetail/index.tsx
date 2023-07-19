@@ -467,7 +467,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               />
               {message && (
                 <div
-                  className='desc messageFormat messageBody messageBody absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                  className='desc messageFormat messageBody messageBody absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center font-bold mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                   dangerouslySetInnerHTML={{ __html: message }}
                   style={{ color }}
                 ></div>

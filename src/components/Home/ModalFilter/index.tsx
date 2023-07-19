@@ -54,7 +54,7 @@ const ModalFilter = (props: IProps) => {
     );
   };
   const onFilter = (value: string) => {
-    if (!isLogin && [FILTER_TYPE.MOST_REACTED, FILTER_TYPE.POST].includes(value)) {
+    if (!isLogin && [FILTER_TYPE.POST].includes(value)) {
       setPopupStatus({
         ...popupStatus,
         popupAccessLinmit: true,
