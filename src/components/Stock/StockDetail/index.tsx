@@ -829,7 +829,7 @@ const StockDetail = () => {
                   {item.name}
                 </Text>
                 <Text type='body-12-regular' color='primary-5' className='!leading-[16px]'>
-                  {item.value}
+                  {formatNumber(item.value)}
                 </Text>
               </div>
             ))}

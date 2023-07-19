@@ -3,12 +3,14 @@ import React from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Link from 'next/link';
 
 import { IPost } from '@components/Post/service';
 import { ACTIVITIES_TYPE } from '@components/Stock/const';
 import { ActivityIconType } from '@components/Stock/type';
 import ActivitiesAction from '@components/Themes/ThemeDetail/Activities/ActivitiesAction';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 interface IActivityItemProps {
   data: IPost;
@@ -36,11 +38,13 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
 
   return (
     <div className='flex'>
-      <img
-        src={data.post.customerInfo.avatar}
-        alt={data.post.customerInfo.displayName}
-        className='h-[28px] w-[28px] rounded-full object-cover'
-      />
+      <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <img
+          src={data.post.customerInfo.avatar}
+          alt={data.post.customerInfo.displayName}
+          className='h-[28px] w-[28px] rounded-full object-cover'
+        />
+      </Link>
 
       <div className='ml-[12px] flex-1'>
         <div
@@ -53,7 +57,9 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
           )}
         >
           <div className='flex items-center justify-between'>
-            <Text type='body-14-semibold'>{data.post.customerInfo.displayName}</Text>
+            <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+              <Text type='body-14-semibold'>{data.post.customerInfo.displayName}</Text>
+            </Link>
 
             <Text type='body-12-regular' className='text-[#999999]'>
               {dayjs(data.timeString).fromNow()}

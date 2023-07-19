@@ -1,7 +1,10 @@
 import React from 'react';
 
+import Link from 'next/link';
+
 import { ICustomerInfo } from '@components/Post/service';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 interface ISubscriberItemProps {
   data: ICustomerInfo;
@@ -10,16 +13,20 @@ interface ISubscriberItemProps {
 const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
-      <img
-        src={data.avatar}
-        alt='User avatar'
-        className='h-[36px] w-[36px] rounded-full object-cover'
-      />
+      <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <img
+          src={data.avatar}
+          alt='User avatar'
+          className='h-[36px] w-[36px] rounded-full object-cover'
+        />
+      </Link>
 
       <div className='ml-[8px]'>
-        <Text type='body-14-semibold' className='text-[#474D57]'>
-          {data.displayName}
-        </Text>
+        <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+          <Text type='body-14-semibold' className='text-[#474D57]'>
+            {data.displayName}
+          </Text>
+        </Link>
         <Text type='body-12-regular' color='neutral-5' className='mt-[2px]'>
           {data.totalFollowers} followers
         </Text>
