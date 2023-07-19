@@ -10,14 +10,13 @@ import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);
 
-const Profile = (props: any) => {
+const Profile = () => {
   const router = useRouter();
   const { profileOtherUser, run } = useGetProfileOtherUser(Number(router.query.id));
   return (
     <profileUserContext.Provider
       value={{
         ...profileOtherUser,
-        isMe: Number(props?.userId) === Number(router.query.id),
         reload: run,
       }}
     >

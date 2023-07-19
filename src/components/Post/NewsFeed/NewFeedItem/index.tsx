@@ -9,34 +9,21 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { toast } from 'react-hot-toast';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
-import {
-  IPost,
-  TYPEPOST,
-  getTotalSharePost,
-  likePost,
-  requestHidePost,
-  unlikePost,
-} from '@components/Post/service';
+import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
+import PostAction from '../PostAction';
 
-const ModalShare = dynamic(import('../ModalShare'), {
-  ssr: false,
-});
 const ModalReport = dynamic(import('../ModalReport'), {
   ssr: false,
 });
@@ -70,9 +57,9 @@ const NewFeedItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
-  const [showModalShare, setShowModalShare] = useState(false);
+
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
-  const { statusUser, isLogin, userId } = useUserType();
+  const { isLogin, userId } = useUserType();
   const router = useRouter();
   const ref = useRef<HTMLButtonElement>(null);
   const refHover = useRef(null);
@@ -82,7 +69,6 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
-  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   const handleHidePopup = () => {
     showReport && setShowReport(false);
@@ -100,104 +86,9 @@ const NewFeedItem = (props: IProps) => {
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
-  const handleComment = () => {
-    if (isPostDetailPath) {
-      if (isLogin) {
-        if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-          toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
-          ));
-        } else if (statusUser !== USERTYPE.VSD) {
-          PopupComponent.openEKYC();
-        }
-      } else {
-        setPopupStatus({
-          ...popupStatus,
-          popupAccessLinmit: true,
-        });
-      }
-    } else {
-      onNavigate && onNavigate();
-    }
-  };
+
   const idPost = id || postDetail?.id;
   const urlPost = window.location.origin + '/post/' + idPost;
-
-  useEffect(() => {
-    if (!showModalShare) {
-      requestGetTotalShare.run(urlPost);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModalShare]);
-
-  const useLikePost = useRequest(
-    () => {
-      return likePost(String(idPost));
-    },
-    {
-      manual: true,
-      onSuccess: () => {
-        onRefreshPostDetail();
-      },
-      onError: (err: any) => {
-        if (err?.error === 'VSD account is required') {
-          toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
-          ));
-        }
-      },
-    },
-  );
-  const useUnLike = useRequest(
-    () => {
-      return unlikePost(String(idPost));
-    },
-    {
-      manual: true,
-      onSuccess: () => {
-        onRefreshPostDetail();
-      },
-      onError: (err: any) => {
-        if (err?.error === 'VSD account is required') {
-          toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
-          ));
-        }
-      },
-    },
-  );
-  const handleLikeOrUnLikePost = () => {
-    if (isLogin) {
-      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
-      } else if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
-      } else if (isLike) {
-        useUnLike.run();
-      } else {
-        useLikePost.run();
-      }
-    } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
-    }
-  };
 
   // hide post
   const onHidePost = useRequest(
@@ -243,13 +134,7 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
-  const requestGetTotalShare = useRequest(getTotalSharePost, {
-    manual: true,
-    onSuccess: () => {},
-    onError: (error: any) => {
-      console.log(error);
-    },
-  });
+
   const onFollow = () => {
     if (isLogin) {
       if (postDetail?.isFollowing) {
@@ -568,69 +453,18 @@ const NewFeedItem = (props: IProps) => {
       </div>
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
         {renderContentPost()}
-        <div className='action flex flex-row items-center justify-between mobile:mt-[15px] desktop:mt-[24px] desktop:justify-start'>
-          <div
-            className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
-            onClick={() => handleLikeOrUnLikePost()}
-          >
-            <img
-              src={
-                isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
-              }
-              color='#FFFFFF'
-              alt=''
-              width={16}
-              height={14}
-              sizes='100vw'
-              className='mr-[8px] h-[14px] w-[18px] object-contain'
-            />
-            <Text
-              type='body-14-regular'
-              color='primary-5'
-              className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
-            >
-              {postDetail?.totalLikes || ''} Like
-            </Text>
-          </div>
-          <div
-            className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
-            onClick={handleComment}
-          >
-            <img
-              src='/static/icons/iconComment.svg'
-              alt=''
-              width={14}
-              height={14}
-              className='mr-[8px] h-[14px] w-[14px] object-contain'
-            />
-            <Text type='body-14-regular' color='primary-5'>
-              {totalComments || ''} Comment
-            </Text>
-          </div>
-          <div
-            className='report flex cursor-pointer flex-row items-center justify-center'
-            onClick={() => setShowModalShare(true)}
-          >
-            <img
-              src='/static/icons/iconShare.svg'
-              alt=''
-              width={14}
-              height={14}
-              className='mr-[8px] h-[14px] w-[14px] object-contain'
-            />
-            <Text type='body-14-regular' color='primary-5'>
-              {requestGetTotalShare?.data?.shares?.all || ''} Share
-            </Text>
-          </div>
+        <div className='mobile:mt-[15px] desktop:mt-[24px]'>
+          <PostAction
+            urlPost={urlPost}
+            isLike={isLike}
+            idPost={String(idPost)}
+            onRefreshPostDetail={onRefreshPostDetail}
+            totalLikes={postDetail?.totalLikes}
+            totalComments={totalComments}
+            onNavigate={onNavigate}
+          />
         </div>
       </div>
-      <ModalShare
-        url={urlPost}
-        visible={showModalShare}
-        handleClose={() => {
-          setShowModalShare(false);
-        }}
-      />
     </div>
   );
 };

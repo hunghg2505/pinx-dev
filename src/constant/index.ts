@@ -9,6 +9,8 @@ const AUTH_TAB_TYPE = {
   LOGIN: 'login',
   REGISTER: 'register',
 };
+const PRODUCT_COMPANY_IMAGE = (fileName: string) =>
+  `https://static.pinetree.com.vn/internal/public/customer/image?fileName=${fileName}&type=PRODUCT_COMPANY`;
 
 export {
   ZALO_OAID,
@@ -19,4 +21,5 @@ export {
   APP_STORE_DOWNLOAD,
   MOBILE_SCREEN_MAX_WIDTH,
   AUTH_TAB_TYPE,
+  PRODUCT_COMPANY_IMAGE,
 };
