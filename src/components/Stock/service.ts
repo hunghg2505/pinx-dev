@@ -17,7 +17,6 @@ import {
   IResponseStockReviews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
-  IResponseWatchingInvesting,
 } from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
@@ -263,45 +262,58 @@ const useReviewStock = (stockCode: string, options?: IOptions) => {
   );
 };
 
-const useStockWatchingInvesting = (
-  stockCode: string,
-): { watchingInvesting?: IResponseWatchingInvesting } => {
-  const { data } = useRequest(
-    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING_INVESTING(stockCode)),
+const useStockWatchingInvesting = (stockCode: string, options?: IOptions) => {
+  const requestGetWatchingInvesting = useRequest(
+    (last?: string) =>
+      requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING_INVESTING(stockCode), {
+        params: {
+          last,
+        },
+      }),
     {
       refreshDeps: [stockCode],
+      manual: true,
+      ...options,
     },
   );
 
-  return {
-    watchingInvesting: data,
-  };
+  return requestGetWatchingInvesting;
 };
 
-const useStockWatching = (stockCode: string): { stockWatching?: IResponseWatchingInvesting } => {
-  const { data } = useRequest(
-    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING(stockCode)),
+const useStockWatching = (stockCode: string, options?: IOptions) => {
+  const requestGetStockWatching = useRequest(
+    (last?: string) =>
+      requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING(stockCode), {
+        params: {
+          last,
+        },
+      }),
     {
       refreshDeps: [stockCode],
+      manual: true,
+      ...options,
     },
   );
 
-  return {
-    stockWatching: data,
-  };
+  return requestGetStockWatching;
 };
 
-const useStockInvesting = (stockCode: string): { stockInvesting?: IResponseWatchingInvesting } => {
-  const { data } = useRequest(
-    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_INVESTING(stockCode)),
+const useStockInvesting = (stockCode: string, options?: IOptions) => {
+  const requestGetStockInvesting = useRequest(
+    (last?: string) =>
+      requestCommunity.get(API_PATH.PUBLIC_STOCK_INVESTING(stockCode), {
+        params: {
+          last,
+        },
+      }),
     {
       refreshDeps: [stockCode],
+      manual: true,
+      ...options,
     },
   );
 
-  return {
-    stockInvesting: data,
-  };
+  return requestGetStockInvesting;
 };
 
 export {
