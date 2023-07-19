@@ -13,7 +13,7 @@ const Following = () => {
   const { data } = useCustomerFollowing(String(router?.query?.search), String(router?.query?.id));
 
   return (
-    <>
+    <div className='flex flex-col gap-[8px]'>
       <Search />
       {!!data?.data?.length && (
         <>
@@ -27,7 +27,7 @@ const Following = () => {
         </>
       )}
       {!data?.data?.length && <NotFound />}
-    </>
+    </div>
   );
 };
 export default Following;

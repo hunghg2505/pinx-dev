@@ -43,10 +43,14 @@ const Desktop = () => {
         }}
       >
         <TabPane tab={t('post')} key='post'>
-          <Posts />
+          <div className='px-[16px]'>
+            <Posts />
+          </div>
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
-          <WatchList />
+          <div className='px-[16px]'>
+            <WatchList />
+          </div>
         </TabPane>
         <TabPane
           tab={
@@ -61,10 +65,14 @@ const Desktop = () => {
         </TabPane>
 
         <TabPane tab={t('following')} key='following'>
-          <Following />
+          <div className='px-[16px]'>
+            <Following />
+          </div>
         </TabPane>
         <TabPane tab={t('followers')} key='follower'>
-          <Follower />
+          <div className='px-[16px]'>
+            <Follower />
+          </div>
         </TabPane>
       </Tabs>
     </div>

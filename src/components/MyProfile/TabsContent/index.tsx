@@ -10,6 +10,6 @@ const TabsContent = () => {
   useEffect(() => {
     return window.innerWidth >= 768 ? setState({ mobile: false }) : setState({ mobile: true });
   }, []);
-  return <div className='px-[16px]'>{state.mobile ? <Mobile /> : <Desktop />}</div>;
+  return <div>{state.mobile ? <Mobile /> : <Desktop />}</div>;
 };
 export default TabsContent;

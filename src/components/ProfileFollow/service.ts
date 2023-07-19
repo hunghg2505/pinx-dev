@@ -6,10 +6,10 @@ import { privateRequest, requestPist } from '@api/request';
 export const useCustomerFollower = (fullName?: string, idCustomer?: string) => {
   return useRequest(
     async () => {
-      return privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWER, {
+      return privateRequest(requestPist.get, API_PATH.GET_MY_CUSTOMER_FOLLOWER, {
         data: {
-          fullName: 'test',
-          idCustomer: 'test',
+          fullName,
+          idCustomer,
         },
       });
     },
@@ -22,7 +22,7 @@ export const useCustomerFollower = (fullName?: string, idCustomer?: string) => {
 export const useCustomerFollowing = (fullName?: string, idCustomer?: string) => {
   return useRequest(
     async () => {
-      return privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWING, {
+      return privateRequest(requestPist.get, API_PATH.GET_MY_CUSTOMER_FOLLOWING, {
         data: {
           fullName,
           idCustomer,
