@@ -2,20 +2,14 @@ import React from 'react';
 
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
-import { isAndroid, isIOS } from 'react-device-detect';
 
 import { MainButton } from '@components/UI/Button';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import updateImg from './shopinext-update_account.png';
 
 const handleRedirect = () => {
-  if (isAndroid) {
-    window.open(GOOGLE_PLAY_DOWNLOAD, '_blank');
-  } else if (isIOS) {
-    window.open(APP_STORE_DOWNLOAD, '_blank');
-  }
+  window.open('https://onelink.to/cgarrk', '_blank');
 };
 
 const UpdateAccount = () => {

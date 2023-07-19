@@ -4,6 +4,7 @@ const POPUP_COMPONENT_ID = 'md-popup-container';
 const RC_DIALOG_CLASS_NAME = 'rc-dialog-container';
 const GOOGLE_PLAY_DOWNLOAD = 'https://play.google.com/store/apps/details?id=com.pinetree.pist';
 const APP_STORE_DOWNLOAD = 'https://apps.apple.com/vn/app/pinex/id1570570518';
+const ONE_LINK_DOWNLOAD = 'https://onelink.to/cgarrk';
 const MOBILE_SCREEN_MAX_WIDTH = 768;
 const AUTH_TAB_TYPE = {
   LOGIN: 'login',
@@ -22,4 +23,5 @@ export {
   MOBILE_SCREEN_MAX_WIDTH,
   AUTH_TAB_TYPE,
   PRODUCT_COMPANY_IMAGE,
+  ONE_LINK_DOWNLOAD,
 };
