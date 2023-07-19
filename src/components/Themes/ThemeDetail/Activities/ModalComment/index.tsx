@@ -13,13 +13,13 @@ interface Iprops {
   children: any;
   closeIcon?: boolean;
   commentsOfPost: any;
-  refreshCommentOfPOst: () => void;
+  refreshCommentOfPost: () => void;
   id: string;
   refresh: () => void;
 }
 
 const ModalComment = (props: Iprops) => {
-  const { children, closeIcon, commentsOfPost, refreshCommentOfPOst, id, refresh } = props;
+  const { children, closeIcon, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
   const isLogin = !!getAccessToken();
 
   const refSubReplies: any = React.useRef();
@@ -63,7 +63,7 @@ const ModalComment = (props: Iprops) => {
               data={comment}
               key={index}
               onReplies={onReplies}
-              refresh={refreshCommentOfPOst}
+              refresh={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
             />
@@ -97,7 +97,7 @@ const ModalComment = (props: Iprops) => {
                       data={item}
                       onReplies={onReplies}
                       refreshTotal={refresh}
-                      refresh={refreshCommentOfPOst}
+                      refresh={refreshCommentOfPost}
                     />
                     {getSubComment(item.children)}
                   </>
@@ -119,7 +119,7 @@ const ModalComment = (props: Iprops) => {
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={id}
-                  refresh={refreshCommentOfPOst}
+                  refresh={refreshCommentOfPost}
                   refreshTotal={refresh}
                   setImageCommentMobile={setImageCommentMobile}
                   // width={width}

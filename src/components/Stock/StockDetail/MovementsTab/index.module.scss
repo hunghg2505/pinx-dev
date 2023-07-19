@@ -1,0 +1,23 @@
+.tableRedBorder {
+  tr {
+    position: relative;
+
+    &:not(:last-child) {
+      td {
+        border-bottom: 1px solid #f5e4e7;
+      }
+    }
+  }
+}
+
+.tableGreenBorder {
+  tr {
+    position: relative;
+
+    &:not(:last-child) {
+      td {
+        border-bottom: 1px solid #b6dfd1;
+      }
+    }
+  }
+}

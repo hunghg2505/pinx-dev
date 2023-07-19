@@ -14,6 +14,9 @@ export interface ICustomerInfo {
   numberFollowers: number;
   isKol: boolean;
   isFeatureProfile: boolean;
+  totalFollowers: number;
+  isWatching: boolean;
+  isInvesting: boolean;
 }
 
 export interface IComment {
@@ -93,6 +96,16 @@ export interface IContentPost {
   pnlRate: number;
   title: string;
   type: string;
+  vendorInfo: IVendorInfo;
+}
+
+interface IVendorInfo {
+  id: string;
+  logo: string;
+  favicon: string;
+  code: string;
+  name: string;
+  homeUrl: string;
 }
 
 interface IResponseTotalShare {
@@ -173,7 +186,7 @@ export const useCommentsOfPost = (postId: string) => {
   return {
     commentsOfPost: data,
     loading,
-    refreshCommentOfPOst: refresh,
+    refreshCommentOfPost: refresh,
   };
 };
 
