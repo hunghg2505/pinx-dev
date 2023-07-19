@@ -73,7 +73,7 @@ const PostDetail = () => {
     postDetail,
   );
 
-  const { commentsOfPost, refreshCommentOfPOst } = useCommentsOfPost(String(router.query.id));
+  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(router.query.id));
 
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const totalComments = commentsOfPost?.data?.list?.length;
@@ -112,7 +112,7 @@ const PostDetail = () => {
               data={comment}
               key={index}
               onReplies={onReplies}
-              refresh={refreshCommentOfPOst}
+              refresh={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
               width={width}
@@ -197,7 +197,7 @@ const PostDetail = () => {
             <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
               <ForwardedRefComponent
                 id={postDetail?.data?.id}
-                refresh={refreshCommentOfPOst}
+                refresh={refreshCommentOfPost}
                 refreshTotal={refresh}
                 setImageCommentMobile={setImageCommentMobile}
                 width={width}
@@ -224,7 +224,7 @@ const PostDetail = () => {
                     <ItemComment
                       data={item}
                       onReplies={onReplies}
-                      refresh={refreshCommentOfPOst}
+                      refresh={refreshCommentOfPost}
                       refreshTotal={refresh}
                       width={width}
                     />
@@ -234,7 +234,7 @@ const PostDetail = () => {
                         <ForwardedRefComponent
                           ref={refSubReplies}
                           id={postDetail?.data?.id}
-                          refresh={refreshCommentOfPOst}
+                          refresh={refreshCommentOfPost}
                           refreshTotal={refresh}
                           setImageCommentMobile={setImageCommentMobile}
                           width={width}
@@ -263,7 +263,7 @@ const PostDetail = () => {
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={postDetail?.data?.id}
-                  refresh={refreshCommentOfPOst}
+                  refresh={refreshCommentOfPost}
                   refreshTotal={refresh}
                   setImageCommentMobile={setImageCommentMobile}
                   width={width}
