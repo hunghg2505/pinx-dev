@@ -436,8 +436,8 @@ const NewFeedItem = (props: IProps) => {
         'border-b': totalComments > 0,
       })}
     >
-      <div className='flex flex-row justify-between ' onClick={onClickProfileDetail}>
-        <div className='flex cursor-pointer flex-row items-center'>
+      <div className='flex flex-row justify-between '>
+        <div className='flex cursor-pointer flex-row items-center' onClick={onClickProfileDetail}>
           <div
             ref={refHover}
             className={classNames('relative', {

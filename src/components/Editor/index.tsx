@@ -283,7 +283,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = test?.flat()?.join('\n');
+    const message = test?.flat()?.join(' \n ');
     const data = {
       message,
       tagPeople: formatTagPeople,
