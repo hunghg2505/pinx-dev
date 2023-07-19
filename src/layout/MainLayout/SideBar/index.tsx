@@ -60,7 +60,7 @@ const SideBar = () => {
         label: 'WatchList',
         action: () => {
           !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
-        }
+        },
       },
       {
         id: 5,
@@ -70,7 +70,7 @@ const SideBar = () => {
         label: 'Assets',
         action: () => {
           !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
-        }
+        },
       },
     ];
   }, [isLogin]);
@@ -80,8 +80,9 @@ const SideBar = () => {
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${checkPathExist && 'active'
-          }`,
+        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
+          checkPathExist && 'active'
+        }`,
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
@@ -113,7 +114,7 @@ const SideBar = () => {
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
             <Link href='javascript:void(0)'>
-              <imgLinkComponent
+              <img
                 src='/static/social/facebook.svg'
                 alt=''
                 width={0}

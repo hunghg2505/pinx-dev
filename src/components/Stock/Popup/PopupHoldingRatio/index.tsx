@@ -3,8 +3,6 @@ import React from 'react';
 import Dialog from 'rc-dialog';
 
 import 'rc-dialog/assets/index.css';
-import { HOLDING_RATIO } from '@components/Stock/StockDetail/const';
-import HoldingRatioItem from '@components/Stock/StockDetail/HoldingRatioItem';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -32,16 +30,7 @@ const PopupHoldingRatio = ({ visible, onClose }: IPopupHoldingRatioProps) => {
         <Text type='body-20-semibold'>Holding ratio</Text>
       </div>
 
-      <div className='max-h-[60vh] overflow-y-auto px-[12px]'>
-        {HOLDING_RATIO.map((item, index) => (
-          <HoldingRatioItem
-            key={index}
-            className='px-[8px]'
-            label={item.label}
-            value={item.value}
-          />
-        ))}
-      </div>
+      <div className='max-h-[60vh] overflow-y-auto px-[12px]'></div>
     </Dialog>
   );
 };
