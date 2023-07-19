@@ -68,13 +68,16 @@ const ItemWatchList = ({
               {data?.stockExchange}
             </Text>
           </div>
-          <Text type='body-12-regular' className='max-w-[155px] text-[#999]'>
+          <Text type='body-12-regular' className={classNames({
+            'max-w-[155px] text-[#474D57]': isEdit,
+            'max-w-[155px] text-[#999] ': !isEdit,
+          })}>
             {data?.shortName}
           </Text>
         </div>
       </div>
       {isEdit ? (
-        <div className='relative flex pr-[12px]'>
+        <div className='flex pr-[12px]'>
           <img src='/static/icons/iconSwitch.svg' alt='' className='h-[21px] w-[20px]' />
           <img
             src='/static/icons/iconCloseBlue.svg'

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -69,7 +70,10 @@ const ComponentWatchList = (props: IProps) => {
         {dataStock.map((item: IWatchListItem, index: number) => (
           <div
             key={index}
-            className='flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]'
+            className={classNames({
+              'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]': isEdit,
+              'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ': !isEdit,
+            })}
           >
             <ItemWatchList data={item} isEdit={isEdit} refresh={useWatchList.refresh} />
           </div>
