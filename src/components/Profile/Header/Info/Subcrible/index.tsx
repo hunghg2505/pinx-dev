@@ -9,12 +9,10 @@ const Subcrible = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
     <>
-      {!profileUser?.isMe && (
-        <div className=' absolute bottom-[calc(100%+19px)] right-[16px]  text-right tablet:bottom-0 tablet:right-0'>
-          {profileUser?.isFollowed && <Unsubscribe />}
-          {!profileUser?.isFollowed && <Subscribing />}
-        </div>
-      )}
+      <div className=' absolute bottom-[calc(100%+19px)] right-[16px]  text-right tablet:bottom-0 tablet:right-0'>
+        {profileUser?.isFollowed && <Unsubscribe />}
+        {!profileUser?.isFollowed && <Subscribing />}
+      </div>
     </>
   );
 };

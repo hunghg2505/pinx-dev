@@ -1,21 +1,21 @@
 import React, { createContext } from 'react';
 
-import { useRouter } from 'next/router';
-
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 import Header from './Header';
 import MyStory from './MyStory';
 import TabsContent from './TabsContent';
 
-export const profileUserContext = createContext(undefined);
+export const profileUserContext = createContext<any>(undefined);
 
-const Profile = () => {
-  const router = useRouter();
-  const { profileOtherUser, run } = useGetProfileOtherUser(Number(router.query.id));
+const MyProfile = () => {
+  const { userLoginInfo } = useUserLoginInfo();
+  const { profileOtherUser, run } = useGetProfileOtherUser(Number(userLoginInfo?.id));
   return (
     <profileUserContext.Provider
       value={{
+        ...userLoginInfo,
         ...profileOtherUser,
         reload: run,
       }}
@@ -32,4 +32,4 @@ const Profile = () => {
     </profileUserContext.Provider>
   );
 };
-export default Profile;
+export default MyProfile;

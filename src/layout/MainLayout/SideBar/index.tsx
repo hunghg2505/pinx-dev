@@ -99,11 +99,11 @@ const SideBar = () => {
           </Text>
           <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
             GPKD: <span className='text-[#474D57]'>0101294902</span>
-            <p>16:14 04/07/2023</p>
+            <span className='block'>16:14 04/07/2023</span>
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
             <Link href='javascript:void(0)'>
-              <img
+              <imgLinkComponent
                 src='/static/social/facebook.svg'
                 alt=''
                 width={0}
