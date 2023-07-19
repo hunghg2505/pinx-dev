@@ -14,6 +14,9 @@ export interface ICustomerInfo {
   numberFollowers: number;
   isKol: boolean;
   isFeatureProfile: boolean;
+  totalFollowers: number;
+  isWatching: boolean;
+  isInvesting: boolean;
 }
 
 export interface IComment {

@@ -190,12 +190,6 @@ const StockDetail = () => {
     });
   };
 
-  const goToSubscriberPage = () => {
-    router.push({
-      pathname: '/stock/123/subscriber',
-    });
-  };
-
   // follow or unfollow stock
   const handleFollowOrUnfollowStock = () => {
     if (isLogin) {
@@ -369,7 +363,13 @@ const StockDetail = () => {
       </div>
 
       {/* chart */}
-      <div className='mt-[8px] px-[16px]'></div>
+      <div className='mt-[8px] border-b border-solid border-[#EBEBEB] px-[16px] pb-[8px] tablet:px-[24px]'>
+        <iframe
+          src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=en&ref=1000`}
+          frameBorder='0'
+          className='h-[350px] w-full'
+        ></iframe>
+      </div>
 
       {/* tab */}
       <Tabs className={styles.tabs} defaultActiveKey='1'>
@@ -683,23 +683,25 @@ const StockDetail = () => {
                     className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
                   />
 
-                  <img
-                    src='/static/icons/iconTree.svg'
-                    alt='Icon tree'
-                    className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                  />
-
-                  {/* <img
-                        src='/static/icons/iconHeartActive.svg'
-                        alt='Icon tree'
-                        className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
-                      /> */}
+                  {item.isInvesting ? (
+                    <img
+                      src='/static/icons/iconTree.svg'
+                      alt='Icon tree'
+                      className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+                    />
+                  ) : (
+                    <img
+                      src='/static/icons/iconHeartActive.svg'
+                      alt='Icon tree'
+                      className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+                    />
+                  )}
                 </div>
               ))}
           </div>
 
           <div
-            onClick={goToSubscriberPage}
+            onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
             className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px]'
           >
             <Text type='body-14-regular' className='text-[#0D0D0D]'>

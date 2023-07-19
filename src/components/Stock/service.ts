@@ -17,6 +17,7 @@ import {
   IResponseStockReviews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
+  IResponseWatchingInvesting,
 } from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
@@ -262,6 +263,47 @@ const useReviewStock = (stockCode: string, options?: IOptions) => {
   );
 };
 
+const useStockWatchingInvesting = (
+  stockCode: string,
+): { watchingInvesting?: IResponseWatchingInvesting } => {
+  const { data } = useRequest(
+    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING_INVESTING(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    watchingInvesting: data,
+  };
+};
+
+const useStockWatching = (stockCode: string): { stockWatching?: IResponseWatchingInvesting } => {
+  const { data } = useRequest(
+    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    stockWatching: data,
+  };
+};
+
+const useStockInvesting = (stockCode: string): { stockInvesting?: IResponseWatchingInvesting } => {
+  const { data } = useRequest(
+    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_INVESTING(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
+
+  return {
+    stockInvesting: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -277,4 +319,7 @@ export {
   useStockNews,
   useStockActivities,
   useReviewStock,
+  useStockWatchingInvesting,
+  useStockWatching,
+  useStockInvesting,
 };

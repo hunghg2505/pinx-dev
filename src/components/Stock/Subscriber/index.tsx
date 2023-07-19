@@ -14,6 +14,7 @@ import WatchingTab from './WatchingTab';
 
 const StockSubscriber = () => {
   const router = useRouter();
+  const { stockCode }: any = router.query;
 
   const handleBack = () => {
     router.back();
@@ -54,15 +55,15 @@ const StockSubscriber = () => {
         <div className='px-[16px] tablet:px-[24px]'>
           <Tabs className={classNames(styles.tab, 'tablet:mt-[20px]')} defaultActiveKey='1'>
             <TabPane tab='All' tabKey='1'>
-              <AllTab />
+              <AllTab stockCode={stockCode} />
             </TabPane>
 
             <TabPane tab='Investing' key='2'>
-              <InvestingTab />
+              <InvestingTab stockCode={stockCode} />
             </TabPane>
 
             <TabPane tab='Watching' key='3'>
-              <WatchingTab />
+              <WatchingTab stockCode={stockCode} />
             </TabPane>
           </Tabs>
         </div>

@@ -92,6 +92,10 @@ export const API_PATH = {
   PUBLIC_STOCK_ACTIVITIES: (stockCode: string) => `/public/stock/${stockCode}/activities`,
   PRIVATE_STOCK_ACTIVITIES: (stockCode: string) => `/private/stock/${stockCode}/activities`,
   PRIVATE_STOCK_REVIEW: (stockCode: string) => `/private/stock/${stockCode}/review`,
+  PUBLIC_STOCK_WATCHING_INVESTING: (stockCode: string) =>
+    `/public/stock/${stockCode}/watching-investing-customers`,
+  PUBLIC_STOCK_WATCHING: (stockCode: string) => `/public/stock/${stockCode}/watching-customers`,
+  PUBLIC_STOCK_INVESTING: (stockCode: string) => `/public/stock/${stockCode}/investing-customers`,
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

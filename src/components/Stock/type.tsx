@@ -324,3 +324,11 @@ export enum ActivityIconType {
   INVESTED = 'BUY',
   SOLD = 'SELL',
 }
+
+export interface IResponseWatchingInvesting {
+  data: {
+    list: ICustomerInfo[];
+    last: string;
+    hasNext: boolean;
+  };
+}
