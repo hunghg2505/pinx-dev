@@ -520,7 +520,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] tablet:w-full desktop:h-[309px]'>
+        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -649,7 +649,7 @@ const ContentPostTypeHome = (props: IProps) => {
                 />
                 {message && (
                   <div>
-                    <Text type='body-14-regular' color='neutral-1'>
+                    <Text type='body-14-bold' color='neutral-1'>
                       <div
                         className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                         dangerouslySetInnerHTML={{ __html: message }}

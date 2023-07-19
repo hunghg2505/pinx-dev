@@ -180,6 +180,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     loading,
   };
 };
+
 // get list new feed
 export const useGetListNewFeedAuth = () => {
   const { data, run, refresh } = useRequest(

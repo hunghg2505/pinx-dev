@@ -52,7 +52,7 @@ const Setting = () => {
     return [
       {
         title: 'Language',
-        value: currentLang,
+        value: currentLang === 'vi' ? ' Tiếng Việt' : 'English',
         action: () => onTogglePopup(),
         hideDivider: !isMobile && !isLogin,
       },
@@ -98,8 +98,16 @@ const Setting = () => {
         hideDivider: !isMobile,
         hideArrow: !isMobile,
       },
+      {
+        title: 'Log out',
+        action: () => onLogout(),
+        linkStyle: !isMobile,
+        hideDivider: !isMobile,
+        hideArrow: !isMobile,
+        hidden: isMobile || !isLogin,
+      },
     ];
-  }, [isMobile]);
+  }, [isMobile, isLogin]);
 
   const renderListItem = (item: ISettingItem, index: number) => {
     return (
