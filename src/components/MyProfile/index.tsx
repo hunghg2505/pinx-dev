@@ -17,7 +17,7 @@ const MyProfile = () => {
       value={{
         ...userLoginInfo,
         ...profileOtherUser,
-        reloaad: run,
+        reload: run,
       }}
     >
       <div className=' flex '>
