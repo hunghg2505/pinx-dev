@@ -7,7 +7,6 @@ import Normal from './Normal';
 
 const Story = ({ closeStory }: { closeStory: () => void }) => {
   const profileUser = useContext<any>(profileUserContext);
-  console.log(profileUser);
   return (
     <>
       {profileUser?.isKol && (

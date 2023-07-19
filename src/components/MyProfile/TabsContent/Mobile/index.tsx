@@ -17,7 +17,7 @@ const Mobile = () => {
   const searchParams = useSearchParams();
   const { push, query } = useRouter();
   return (
-    <div className='px-[16px]' id={'tabbar'}>
+    <div id={'tabbar'}>
       <Tabs
         defaultActiveKey='1'
         activeKey={searchParams.get('tab') || 'post'}
@@ -40,12 +40,17 @@ const Mobile = () => {
         }}
       >
         <TabPane tab={t('post')} key='post'>
-          <Posts />
+          <div className='px-[16px]'>
+            <Posts />
+          </div>
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
-          <WatchList />
+          <div className='px-[16px]'>
+            <WatchList />
+          </div>
         </TabPane>
         <TabPane
+          className='px-[16px]'
           tab={
             <div className='flex justify-center'>
               <LockIcon />
@@ -54,7 +59,9 @@ const Mobile = () => {
           }
           key='assets'
         >
-          <Assets />
+          <div className='px-[16px]'>
+            <Assets />
+          </div>
         </TabPane>
       </Tabs>
     </div>

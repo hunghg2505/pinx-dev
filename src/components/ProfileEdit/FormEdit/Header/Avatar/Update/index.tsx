@@ -9,6 +9,7 @@ const Update = () => {
         return (
           <input
             type='file'
+            accept="image/*"
             className='hidden'
             onChange={(e: any) => {
               form.setFieldValue('file', e.target.files[0]);
