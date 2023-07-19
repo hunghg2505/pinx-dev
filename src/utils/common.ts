@@ -40,6 +40,7 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  EDIT_MY_PROFILE: '/profile/edit',
   ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
