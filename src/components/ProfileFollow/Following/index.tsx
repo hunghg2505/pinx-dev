@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import UserFolow from '@components/common/UserFolow';
 
-import NotFound from '../NotFound';
+import NotFound from './NotFound';
 import { useCustomerFollowing } from '../service';
 
 const Following = () => {
