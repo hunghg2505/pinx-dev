@@ -20,7 +20,6 @@ const ItemInfluence = (props: IProps) => {
   const { isLogin } = useUserType();
   const { data, refresh } = props;
 
-  console.log('🚀 ~ file: index.tsx:19 ~ ItemInfluence ~ data:', data);
   const isFollow = data?.isFollowed;
   const useFollowUser = useRequest(
     () => {
