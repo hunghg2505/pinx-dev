@@ -5,13 +5,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 
-const ProfileSearch = dynamic(() => import('@components/ProfileSearch'));
+const ProfileFollow = dynamic(() => import('@components/ProfileFollow'));
 
 const PostDetailPage = () => {
   return (
     <>
       <SEO title={'Profile Search'} />
-      <ProfileSearch />
+      <ProfileFollow />
     </>
   );
 };
