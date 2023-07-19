@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
 
   const url = request.nextUrl.clone();
 
-  const isMatchAuthPath = AUTH_PATH.find((path: string) => request.nextUrl.pathname.includes(path));
+  const isMatchAuthPath = AUTH_PATH.find((path: string) => request.nextUrl.pathname === path);
   const isMatchPath = PATH.find((path: string) => request.nextUrl.pathname.includes(path));
 
   if (token && isMatchAuthPath) {

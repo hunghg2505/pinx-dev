@@ -297,7 +297,9 @@ const MainHeader = () => {
 
   const onShowNavigate = () => {
     setIsShowNavigate(!isShowNavigate);
+    document.body.style.overflow = isShowNavigate ? 'scroll' : 'hidden';
   };
+
   return (
     <div ref={headerRef} className='border-b-[1px] border-solid border-[#EBEBEB]'>
       {!isHideHeaderOpenAppOnMobile && (
@@ -348,9 +350,13 @@ const MainHeader = () => {
             </div>
           </div>
           <div className='flex flex-row  items-center'>
-            <div className='mr-[21px] w-[18px] cursor-pointer mobile:block desktop:hidden'>
-              <img src='/static/icons/iconSearch.svg' alt='' width={18} height={18} />
-            </div>
+            <img
+              src='/static/icons/icon_search.svg'
+              className='mr-[16px] h-[36px] w-[36px] mobile:block desktop:hidden'
+              width={36}
+              height={36}
+              alt='Search'
+            />
             <div className='mr-[12px] mobile:hidden desktop:block'>
               <Form>
                 <FormItem name='search'>
@@ -364,7 +370,7 @@ const MainHeader = () => {
             </div>
             {!isLogin && (
               <button
-                className='h-[36px] rounded-[4px] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
+                className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
                 onClick={redirectToLogin}
               >
                 <Text type='body-14-bold' color='primary-2'>
