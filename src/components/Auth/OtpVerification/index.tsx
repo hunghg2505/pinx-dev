@@ -124,7 +124,7 @@ const OtpVerification = (props: IProps) => {
   return (
     <div
       className={classNames('mobile:mt-20 laptop:m-0 laptop:min-w-[450px]', {
-        'mobile:mt-0': props.isModal,
+        'mobile:!mt-5 laptop:min-w-max': props.isModal,
       })}
     >
       {props.settingLayout && (
@@ -139,7 +139,7 @@ const OtpVerification = (props: IProps) => {
           />
         </>
       )}
-      <div className={`${props.isModal ? 'mt-[36px]' : 'mt-[46px]'}`}>
+      <div className={`${props.isModal ? 'laptop:mt-[36px]' : 'mt-[46px]'}`}>
         <Text
           className={classNames('text-[24px] font-[700]', {
             'laptop:text-center laptop:text-[28px]': props.settingLayout,

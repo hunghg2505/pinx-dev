@@ -88,7 +88,7 @@ const ItemPeople = (props: IProps) => {
             <Text type='body-14-semibold' color='cbblack'>
               {data.displayName}
             </Text>
-            {data.isKol && (
+            {data.isFeatureProfile && (
               <img
                 src='/static/icons/iconStarFollow.svg'
                 alt=''

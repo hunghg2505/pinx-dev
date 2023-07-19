@@ -22,7 +22,7 @@ interface Iprops {
 }
 const PeopleItem = (props: Iprops) => {
   const { data } = props;
-  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom); 
   const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(

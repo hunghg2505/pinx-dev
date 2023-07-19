@@ -9,7 +9,18 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-import { IconAssets, IconExplore, IconGiftCash, IconHomeActive, IconWatchList } from './icon';
+import {
+  IconAssets,
+  IconAssetsActive,
+  IconExplore,
+  IconExploreActive,
+  IconGiftCash,
+  IconGiftCashActive,
+  IconHome,
+  IconHomeActive,
+  IconWatchList,
+  IconWatchListACtive,
+} from './icon';
 
 const SideBar = () => {
   const router = useRouter();
@@ -18,7 +29,7 @@ const SideBar = () => {
       {
         id: 1,
         path: ROUTE_PATH.HOME,
-        icon: <IconHomeActive />,
+        icon: <IconHome />,
         iconActive: <IconHomeActive />,
         label: 'Home',
       },
@@ -26,36 +37,34 @@ const SideBar = () => {
         id: 2,
         path: ROUTE_PATH.EXPLORE,
         icon: <IconExplore />,
-        iconActive: <IconExplore />,
+        iconActive: <IconExploreActive />,
         label: 'Explore',
       },
       {
         id: 3,
         path: ROUTE_PATH.GIFTCASH,
         icon: <IconGiftCash />,
-        iconActive: <IconGiftCash />,
+        iconActive: <IconGiftCashActive />,
         label: 'GiftCash',
       },
       {
         id: 4,
-        path: '/new/home',
+        path: ROUTE_PATH.WATCHLIST,
         icon: <IconWatchList />,
-        iconActive: <IconWatchList />,
+        iconActive: <IconWatchListACtive />,
         label: 'WatchList',
       },
       {
         id: 5,
-        path: '/new/home',
+        path: ROUTE_PATH.ASSET,
         icon: <IconAssets />,
-        iconActive: <IconAssets />,
+        iconActive: <IconAssetsActive />,
         label: 'Assets',
       },
     ];
   }, []);
   const items = useMemo(() => {
     return MENUS.map((menu) => {
-      console.log(router.pathname);
-      console.log(menu.path);
       const checkPathExist = router.pathname === menu.path;
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 

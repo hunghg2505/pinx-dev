@@ -1,6 +1,13 @@
+import Link from 'next/link';
+
+import { ROUTE_PATH } from '@utils/common';
+
 const IconAvartaEdit = () => {
   return (
-    <div className='absolute right-[9px] top-[4px] z-10 flex h-[28px] w-[28px] items-center justify-center rounded-full border-[1px] border-solid border-primary_blue bg-white p-[7.85px]'>
+    <Link
+      href={ROUTE_PATH.EDIT_MY_PROFILE}
+      className='absolute right-[9px] top-[4px] z-10 flex h-[28px] w-[28px] items-center justify-center rounded-full border-[1px] border-solid border-primary_blue bg-white p-[7.85px]'
+    >
       <svg
         width='17'
         height='17'
@@ -15,7 +22,7 @@ const IconAvartaEdit = () => {
           fill='#1F6EAC'
         />
       </svg>
-    </div>
+    </Link>
   );
 };
 export default IconAvartaEdit;

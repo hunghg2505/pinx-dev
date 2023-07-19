@@ -68,7 +68,7 @@ const PopupLanguage = (props: IProps) => {
           </Text>
         </div>
 
-        <div className='list mt-9'>
+        <div className='list mt-4'>
           {LANGUAGES.map((item: any, index: number) => {
             const isChecked: boolean = item.value === currentLang;
             return (

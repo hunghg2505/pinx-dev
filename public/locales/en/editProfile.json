@@ -1,0 +1,11 @@
+{
+  "save": "Save",  
+  "verified": "Verified",
+  "unverified": "Unverified",
+  "information": "Information",
+  "display_name": "Display name",
+  "job_title": "Job title",
+  "Bio": "Bio",
+  "upload_profile_success": "Updated successfully",
+  "upload_profile_error": "Somthing Wrong"
+}

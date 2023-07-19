@@ -1,6 +1,7 @@
 import { IStockTheme, IThemeDetail } from '@components/Themes/service';
 import Text from '@components/UI/Text';
-import ItemStock from '@components/WatchList/ItemStock';
+
+import ItemStock from './ItemStock';
 
 const StockSymbols = ({ data }: { data: IThemeDetail }) => {
   return (

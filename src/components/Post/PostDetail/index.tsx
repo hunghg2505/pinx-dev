@@ -161,7 +161,7 @@ const PostDetail = () => {
         />
       )}
       <div className='flex flex-row items-start' ref={onRef}>
-        <div className='rounded-[8px] mobile:w-[375px] mobile-max:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
+        <div className='rounded-[8px] mobile:w-[375px] mobile-max:w-full tablet-max:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <div className='header relative mobile:h-auto desktop:h-[60px]'>
             <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
               Post detail
@@ -203,7 +203,7 @@ const PostDetail = () => {
 
           <div
             className={classNames(
-              'mt-[16px] tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
+              'tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
               {
                 'mobile:mb-[79px]': !isImageCommentMobile,
                 'mobile:mb-[179px]': isImageCommentMobile,
@@ -216,9 +216,8 @@ const PostDetail = () => {
                   return i?.id === showReply;
                 });
                 return (
-                  <>
+                  <div className='mt-[16px]' key={index}>
                     <ItemComment
-                      key={index}
                       data={item}
                       onReplies={onReplies}
                       refresh={refreshCommentOfPOst}
@@ -238,22 +237,25 @@ const PostDetail = () => {
                         />
                       </div>
                     )}
-                  </>
+                  </div>
                 );
               })
             ) : (
-              <Text
-                type='body-14-regular'
-                color='neutral-3'
-                className='mt-[16px] text-center tablet:mb-[32px]'
-              >
-                There is no comments
-              </Text>
+              <>
+                <div className='block h-[2px] w-full bg-[#EEF5F9]'></div>
+                <Text
+                  type='body-14-regular'
+                  color='neutral-3'
+                  className='mt-[16px] text-center tablet:mb-[32px]'
+                >
+                  There is no comments
+                </Text>
+              </>
             )}
           </div>
           {width < 738 && isLogin && (
             <div className='mobile:block tablet:hidden'>
-              <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+              <div className='fixed bottom-0 z-10 -mb-[4px] w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={postDetail?.data?.id}

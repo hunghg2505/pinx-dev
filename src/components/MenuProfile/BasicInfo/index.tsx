@@ -1,5 +1,7 @@
 import React from 'react';
 
+import classNames from 'classnames';
+
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { useAuth } from '@store/auth/useAuth';
 
@@ -31,7 +33,13 @@ const BasicInfo = ({
         )}
         <div className='ml-[12px] mr-auto flex-col justify-center'>
           <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
-          <span className='text-[#E6A70A]'>{status}</span>
+          <span
+            className={classNames('text-[#EAA100]', {
+              'text-[#4BB543]': status === 'Verified',
+            })}
+          >
+            {status}
+          </span>
         </div>
         {isLogin && (
           <img

@@ -34,7 +34,7 @@ const MenuProfile = () => {
   return (
     <>
       <BasicInfo
-        userName={userLoginInfo?.username || 'Anonymous User'}
+        userName={userLoginInfo?.displayName || 'Anonymous User'}
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
         status={isLogin ? (isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified') : ''}
       />

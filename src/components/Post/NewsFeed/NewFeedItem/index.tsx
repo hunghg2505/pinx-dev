@@ -85,7 +85,6 @@ const NewFeedItem = (props: IProps) => {
   }, [modalReportVisible]);
 
   const id = router.query?.id;
-  const isKol = postDetail?.post?.customerInfo?.isKol;
   const isLike = postDetail?.isLike;
 
   const idPost = id || postDetail?.id;
@@ -239,7 +238,7 @@ const NewFeedItem = (props: IProps) => {
       name = 'CafeF';
     }
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
-      name = 'TNCKNews';
+      name = 'Tin nhanh chứng khoán';
     }
     return name;
   };
@@ -322,8 +321,8 @@ const NewFeedItem = (props: IProps) => {
         'border-b': totalComments > 0,
       })}
     >
-      <div className='flex flex-row justify-between ' onClick={onClickProfileDetail}>
-        <div className='flex cursor-pointer flex-row items-center'>
+      <div className='flex flex-row justify-between '>
+        <div className='flex cursor-pointer flex-row items-center' onClick={onClickProfileDetail}>
           <div
             ref={refHover}
             className={classNames('relative', {
@@ -358,19 +357,19 @@ const NewFeedItem = (props: IProps) => {
 
           <div>
             <div className='flex'>
-              <Text type='body-14-semibold' color='neutral-1' className='mr-[5px]'>
-                {renderDisplayName()}
-              </Text>
-              {isKol && (
-                <img
-                  src='/static/icons/iconKol.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[20px] w-[20px]'
-                />
-              )}
+              <div className='mr-[5px] flex items-center'>
+                <Text type='body-14-semibold' color='neutral-1'>
+                  {renderDisplayName()}
+                </Text>
+
+                {postDetail?.post?.customerInfo?.isFeatureProfile && (
+                  <img
+                    src='/static/icons/iconKol.svg'
+                    alt='Icon kol'
+                    className='ml-[4px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+              </div>
             </div>
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
               {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}

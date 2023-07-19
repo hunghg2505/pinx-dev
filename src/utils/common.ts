@@ -4,16 +4,14 @@ import sha256 from 'crypto-js/sha256';
 export const ROUTE_PATH = {
   // AUTH
   LOGIN: '/auth/login',
-  REGISTER: '/auth/sign-up',
   FORGOT_PASSWORD: '/auth/forgot-password',
   REGISTER_OTP_VERIFICATION: '/auth/register-verification',
   REGISTER_USER_NAME: '/auth/register-user-name',
   LOGIN_OTP_VERIFICATION: '/auth/login-verification',
-  TERMS_OF_SERVICE: '/auth/terms-of-service',
   REGISTER_COMPANY: '/auth/register-company',
   REGISTER_THEME: '/auth/register-theme',
   REGISTER_TOPIC: '/auth/register-topic',
-  UPDATE_USSR_PROFILE: '/auth/update-user-profile',
+  UPDATE_USER_PROFILE: '/auth/update-user-profile',
 
   HOME: '/',
   REDIRECT: '/redirecting',
@@ -34,7 +32,7 @@ export const ROUTE_PATH = {
   PAGE_NOT_FOUND: '/page-not-found',
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
-  GIFTCASH: 'gift-cash',
+  GIFTCASH: '/gift-cash',
 
   // SETTING
   SETTING: '/setting',
@@ -46,6 +44,8 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  EDIT_MY_PROFILE: '/profile/edit',
+  ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/watchlist',
@@ -69,7 +69,7 @@ export const formatMessage = (message: string, data: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
-      if (message && message.includes(ID)) {
+      if (message && !message.includes(name)) {
         const newMessage = message.split(' ');
         for (const text of newMessage) {
           if (text.includes(ID)) {
@@ -84,6 +84,14 @@ export const formatMessage = (message: string, data: any) => {
             );
           }
         }
+      }
+      if (message && message.includes(name)) {
+        message = message.replace(
+          item,
+          `
+          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          `,
+        );
       }
     }
   }
@@ -116,7 +124,7 @@ export const formatMessage = (message: string, data: any) => {
       );
     }
     if (item.includes('http') && !item.includes('\n')) {
-      message = message.replace(
+      message = message.replaceAll(
         item,
         `
         <a href="javascript:void(0)" class="link">${item}</a>
@@ -127,7 +135,7 @@ export const formatMessage = (message: string, data: any) => {
       const newItem = item?.split('\n');
       for (const item of newItem) {
         if (item.includes('http')) {
-          message = message.replace(
+          message = message.replaceAll(
             item,
             `
             <a href="javascript:void(0)" class="link">${item}</a>

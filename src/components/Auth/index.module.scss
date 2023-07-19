@@ -1,9 +1,13 @@
 .tabLogin {
   :global {
     margin-bottom: 46px;
+
     .rc-tabs-nav-wrap {
       display: flex;
       justify-content: center;
+    }
+    .rc-tabs-nav-operations {
+      display: none;
     }
     .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
       display: none;

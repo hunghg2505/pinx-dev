@@ -58,7 +58,12 @@ const ModalPeopleYouKnow = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+      <Dialog
+        visible={visible}
+        onClose={onVisible}
+        closeIcon={renderCloseIcon()}
+        className='peopleYouKnow'
+      >
         <div className='pt-[21px] text-center'>
           <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
             People you may know
@@ -67,7 +72,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
             People on PineX that you may know!
           </Text>
           <div
-            className='mt-[16px] flex h-[500px] flex-col gap-y-[16px] overflow-auto'
+            className='mt-[16px] flex h-[500px] flex-col gap-y-[16px] overflow-auto mobile-max:h-[350px]'
             ref={refScroll}
           >
             {data?.list?.map((people: ISuggestionPeople, index: number) => {

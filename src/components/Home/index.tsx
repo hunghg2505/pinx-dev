@@ -107,7 +107,7 @@ const Home = () => {
     }
     const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
     const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
-    if (Math.floor(heightTop) === heigtBottom) {
+    if (Math.floor(heightTop) === heigtBottom || Math.ceil(heightTop) === heigtBottom) {
       run(filterType || FILTER_TYPE.MOST_RECENT, lastNewFeed);
     }
   };
@@ -291,7 +291,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
+              <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
                 <Text
                   type='body-16-bold'
                   color='neutral-2'
@@ -333,7 +333,10 @@ const Home = () => {
                   </Text>
                   <Influencer />
                   <div className='mt-[16px] w-full tablet:pr-[16px]'>
-                    <button className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
+                    <button
+                      className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
+                      onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         Explore influencer
                       </Text>
@@ -382,6 +385,7 @@ const Home = () => {
                     );
                   })}
                 </div>
+                <div className='mb-[8px] block h-[2px] w-full bg-[#EEF5F9]'></div>
                 <div className='bg-[#ffffff] pl-[16px]'>
                   <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
                     Economy in the themes

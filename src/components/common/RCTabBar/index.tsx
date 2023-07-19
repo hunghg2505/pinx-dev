@@ -29,7 +29,7 @@ const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
                   { 'stroke-dark_grey text-dark_grey': activeKey !== item.key },
                 )}
               >
-                {item.props.tab}
+                {item?.props?.tab}
               </div>
             );
           })}

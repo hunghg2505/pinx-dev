@@ -1,9 +1,15 @@
 import React from 'react';
 
+import NotFound from './NotFound';
+
 // import { useGetUserWatchlist } from '@components/Profile/service';
 
 const WatchList = () => {
-  // const { data } = useGetUserWatchlist('128');  
-  return <h1>Watch content</h1>;
+  // const { data } = useGetUserWatchlist('128');
+  return (
+    <>
+      <NotFound />
+    </>
+  );
 };
 export default WatchList;
