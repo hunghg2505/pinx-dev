@@ -25,8 +25,8 @@ export const useAuth = () => {
         window.location.href = navigatePath;
         return;
       }
-      if (router.pathname !== ROUTE_PATH.LOGIN) {
-        window.location.href = ROUTE_PATH.LOGIN;
+      if (router.pathname !== ROUTE_PATH.HOME) {
+        window.location.href = ROUTE_PATH.HOME;
       }
     } catch {}
   };
