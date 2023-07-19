@@ -1,7 +1,6 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 import Slider from 'react-slick';
 
 import { ITheme, IWatchListItem, useGetTheme } from '@components/Home/service';
@@ -26,26 +25,17 @@ const settings = {
 
 const WatchList = () => {
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
-  const router = useRouter();
+
   const { theme } = useGetTheme();
 
-  const onGoBack = () => {
-    router.back();
-  };
   const { interestStock, refresh } = useGetInterest();
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const handleSort = () => {};
 
   return (
-    <div className='flex flex-col gap-y-[32px] pb-[52px] pt-[20px] desktop:gap-y-[20px] desktop:p-[24px] desktop:pb-[32px]'>
+    <div className='flex flex-col gap-y-[32px] pl-[16px] px-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
-        <img
-          src='/static/icons/back_icon.svg'
-          alt=''
-          className='w-[28px] cursor-pointer desktop:hidden'
-          onClick={onGoBack}
-        />
         {isEdit ? (
           <>
             <div className='relative flex items-center'>
@@ -80,7 +70,6 @@ const WatchList = () => {
                 </div>
               </div>
             </div>
-            <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
           </>
         ) : (
           <div className='flex items-center justify-between'>
@@ -88,7 +77,7 @@ const WatchList = () => {
               Watchlist
             </Text>
             <Button
-              onClick={() => setIsEdit(!isEdit)}
+              onClick={() => setIsEdit(true)}
               className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
             >
               <img
