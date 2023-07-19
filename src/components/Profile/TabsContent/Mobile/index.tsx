@@ -17,7 +17,7 @@ const Mobile = () => {
   const searchParams = useSearchParams();
   const { push, query } = useRouter();
   return (
-    <div className='px-[16px]'>
+    <div className='px-[16px]' id={'tabbar'}>
       <Tabs
         defaultActiveKey='1'
         activeKey={searchParams.get('tab') || 'post'}
@@ -29,7 +29,7 @@ const Mobile = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
-                  push({ query: { ...query, tab: key } });
+                  push({ hash: '#tabbar', query: { ...query, tab: key } });
                 }}
               />
             </>

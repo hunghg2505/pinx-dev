@@ -24,5 +24,9 @@
   "story": "Story",
   "follower_notfound": "Currently this profile have no followers, please come back later",
   "following_notfound": "Currently this profile have no following, please come back later",
-  "install": "Install PineX"
+  "install": "Install PineX",
+  "post_notfound": "Currently this profile have no conversation, please come back later",
+  "watchlist_notfound1": "Opps, your friend has not added any stocks to watchlist. Please come back later.",
+  "watchlist_notfound2": "Your friend has not turned on sharing feature. Please come back later.",
+  "watchlist_notfound3": "Turn on your sharing feature to view friend's watchlist."
 }
