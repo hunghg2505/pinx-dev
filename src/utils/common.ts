@@ -38,6 +38,7 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  EDIT_MY_PROFILE: '/profile/edit',
   ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
@@ -117,7 +118,7 @@ export const formatMessage = (message: string, data: any) => {
       );
     }
     if (item.includes('http') && !item.includes('\n')) {
-      message = message.replace(
+      message = message.replaceAll(
         item,
         `
         <a href="javascript:void(0)" class="link">${item}</a>
@@ -128,7 +129,7 @@ export const formatMessage = (message: string, data: any) => {
       const newItem = item?.split('\n');
       for (const item of newItem) {
         if (item.includes('http')) {
-          message = message.replace(
+          message = message.replaceAll(
             item,
             `
             <a href="javascript:void(0)" class="link">${item}</a>

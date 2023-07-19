@@ -178,7 +178,7 @@ const ContentPostTypeHome = (props: IProps) => {
                 <Text
                   type='body-12-bold'
                   color='neutral-2'
-                  className='text-center mobile:mt-[25px] desktop:mt-[39px] desktop:!text-[20px]'
+                  className='text-center mobile:mt-[25px] desktop:mt-[39px] desktop:!text-[20px] desktop:!leading-[24px]'
                 >
                   {postDetail?.post.themeName}
                 </Text>
@@ -520,7 +520,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -579,7 +579,7 @@ const ContentPostTypeHome = (props: IProps) => {
           </div>
         )}
 
-        <div className='relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px] desktop:w-[550px]'>
+        <div className='min-w-[1280px]:w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -636,10 +636,10 @@ const ContentPostTypeHome = (props: IProps) => {
     return (
       <>
         <div className='1 cursor-pointer'>
-          <div onClick={onComment}>
+          <div>
             {postThemeId ? (
               <div
-                className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[660px]'
+                className='theme min-w-[1260px]:w-[660px] relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px]'
                 onClick={onComment}
               >
                 <img
@@ -649,7 +649,7 @@ const ContentPostTypeHome = (props: IProps) => {
                 />
                 {message && (
                   <div>
-                    <Text type='body-14-regular' color='neutral-1'>
+                    <Text type='body-14-bold' color='neutral-1'>
                       <div
                         className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                         dangerouslySetInnerHTML={{ __html: message }}
@@ -664,13 +664,12 @@ const ContentPostTypeHome = (props: IProps) => {
                 {message && (
                   <div
                     ref={onRefHtml}
-                    onClick={onComment}
                     className={classNames({
                       'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
-                    <Text type='body-14-regular' color='neutral-1'>
+                    <Text type='body-14-regular' color='neutral-1' onClick={onComment}>
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
                         style={{ display: '-webkit-box' }}

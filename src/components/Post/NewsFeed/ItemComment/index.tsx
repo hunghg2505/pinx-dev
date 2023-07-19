@@ -104,6 +104,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh && refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -125,6 +126,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh && refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -171,6 +173,7 @@ const ItemComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh && refresh();
+        refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);
       },
