@@ -31,10 +31,10 @@ const WatchList = () => {
   const { interestStock, refresh } = useGetInterest();
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSort = () => { };
+  const handleSort = () => {};
 
   return (
-    <div className='flex flex-col gap-y-[32px] pl-[16px] px-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
+    <div className='flex flex-col gap-y-[32px] px-[16px] pl-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
         {isEdit ? (
           <>
