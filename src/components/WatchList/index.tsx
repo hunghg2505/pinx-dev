@@ -22,8 +22,6 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
 };
 
 const WatchList = () => {
@@ -37,11 +35,7 @@ const WatchList = () => {
   const { interestStock, refresh } = useGetInterest();
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSort = () => {
-    // console.log('sort');
-    // @ts-ignore
-    // dataItemStock.slice(0.4).sort((a, b) => a.codeStock - b.codeStock);
-  };
+  const handleSort = () => {};
 
   return (
     <div className='flex flex-col gap-y-[32px] pb-[52px] pt-[20px] desktop:gap-y-[20px] desktop:p-[24px] desktop:pb-[32px]'>
@@ -86,6 +80,7 @@ const WatchList = () => {
                 </div>
               </div>
             </div>
+            <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
           </>
         ) : (
           <div className='flex items-center justify-between'>
@@ -93,7 +88,7 @@ const WatchList = () => {
               Watchlist
             </Text>
             <Button
-              onClick={() => setIsEdit(true)}
+              onClick={() => setIsEdit(!isEdit)}
               className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
             >
               <img
