@@ -52,7 +52,7 @@ import {
   useStockNews,
   useThemesOfStock,
 } from '../service';
-import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
+import { CompanyRelatedType, FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
 
 const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
@@ -184,9 +184,12 @@ const StockDetail = () => {
     router.back();
   };
 
-  const goToListCompanyPage = () => {
+  const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
     router.push({
-      pathname: '/stock/business/123',
+      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
+      query: {
+        type,
+      },
     });
   };
 
@@ -457,7 +460,7 @@ const StockDetail = () => {
           <div
             className='flex cursor-pointer items-center border-b border-solid border-[var(--neutral-7)] py-[12px]'
             key={index}
-            onClick={goToListCompanyPage}
+            onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item.id)}
           >
             {index === 0 ? (
               <img
@@ -538,7 +541,11 @@ const StockDetail = () => {
                 {taggingInfo?.data?.highlights
                   .slice(index * HIGHLIGH_ROW_LIMIT, HIGHLIGH_ROW_LIMIT * (index + 1))
                   .map((highlight, highlighIndex) => (
-                    <HighlighItem value={highlight.tagName} key={highlighIndex} />
+                    <HighlighItem
+                      onGoToCompaniesRelatedPage={goToListCompanyPage}
+                      data={highlight}
+                      key={highlighIndex}
+                    />
                   ))}
               </div>
             ))}
@@ -546,7 +553,11 @@ const StockDetail = () => {
         ) : (
           <div className='flex flex-wrap gap-[12px]'>
             {taggingInfo?.data?.highlights.map((item, index) => (
-              <HighlighItem value={item.tagName} key={index} />
+              <HighlighItem
+                onGoToCompaniesRelatedPage={goToListCompanyPage}
+                data={item}
+                key={index}
+              />
             ))}
           </div>
         )}

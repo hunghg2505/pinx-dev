@@ -1,57 +1,68 @@
 import { ICustomerInfo, IPost } from '@components/Post/service';
 
+export interface IStock {
+  stockType: string;
+  changePc: string;
+  lastPrice: number;
+  marketCapital: number;
+  changePrice: string;
+  r: number;
+  f: number;
+  c: number;
+  volume: number;
+  stockCode: string;
+  stockExchange: string;
+  isVn30: boolean;
+  isHnx30: boolean;
+  name: string;
+  shortName: string;
+  nameEn: string;
+  nameVi: string;
+  companyName: string;
+  firstTradingSessionPrice: number;
+  email: string;
+  address: string;
+  permanentAddress: string;
+  contactPersonPosition: string;
+  lastUpdate: string;
+  isMargin: boolean;
+  image: null;
+  companyTypeName: string;
+  url: string;
+  businessPermit: string;
+  contactPerson: string;
+  taxCode: string;
+  ctyKiemToan: string;
+  subIndustryName: string;
+  phone: string;
+  branch: string;
+  foundDate: string;
+  industryName: string;
+  notes: string;
+  isVNMETF: true;
+  status: number;
+  infoSupplier: string;
+  issueDate: string;
+  companyType: number;
+  capital: number;
+  isFTSE: true;
+  phoneSupplier: string;
+  infoSupplierPosition: string;
+  introduction: string;
+  postUpDate: string;
+  sectorName: string;
+  stockFaceValue: number;
+  fax: string;
+  foundPermit: string;
+  identityNumber: string;
+  volIpo: number;
+  volActive: number;
+  products: IProduct[];
+}
+
 export interface IResponseStockDetail {
   stockDetail?: {
-    data?: {
-      stockCode: string;
-      stockExchange: string;
-      isVn30: boolean;
-      isHnx30: boolean;
-      name: string;
-      shortName: string;
-      nameEn: string;
-      nameVi: string;
-      companyName: string;
-      firstTradingSessionPrice: number;
-      email: string;
-      address: string;
-      permanentAddress: string;
-      contactPersonPosition: string;
-      lastUpdate: string;
-      isMargin: boolean;
-      image: null;
-      companyTypeName: string;
-      url: string;
-      businessPermit: string;
-      contactPerson: string;
-      taxCode: string;
-      ctyKiemToan: string;
-      subIndustryName: string;
-      phone: string;
-      branch: string;
-      foundDate: string;
-      industryName: string;
-      notes: string;
-      isVNMETF: true;
-      status: number;
-      infoSupplier: string;
-      issueDate: string;
-      companyType: number;
-      capital: number;
-      isFTSE: true;
-      phoneSupplier: string;
-      infoSupplierPosition: string;
-      introduction: string;
-      postUpDate: string;
-      sectorName: string;
-      stockFaceValue: number;
-      fax: string;
-      foundPermit: string;
-      identityNumber: string;
-      volIpo: number;
-      volActive: number;
-      products: IProduct[];
-    };
+    data?: IStock;
   };
 }
 
@@ -88,7 +99,7 @@ export interface IResponseMyStocks {
   }[];
 }
 
-interface IHighlights {
+export interface IHashtag {
   id: string;
   tagName: string;
   description: string;
@@ -103,12 +114,6 @@ interface IRevenue {
   revenueValue: number;
   percentage: number;
   reference: null;
-}
-
-interface IIndustrie {
-  id: string;
-  tagName: string;
-  description: string;
 }
 
 export interface ISubsidiaries {
@@ -136,9 +141,9 @@ export interface IResponseTaggingInfo {
       stockCode: string;
       name: string;
       products: IProduct[];
-      highlights: IHighlights[];
+      highlights: IHashtag[];
       revenues: IRevenue[];
-      industries: IIndustrie[];
+      industries: IHashtag[];
       subsidiaries: ISubsidiaries[];
     };
   };
@@ -330,5 +335,23 @@ export interface IResponseWatchingInvesting {
     list: ICustomerInfo[];
     last: string;
     hasNext: boolean;
+  };
+}
+
+export enum CompanyRelatedType {
+  INDUSTRY = 'industry',
+  HIGHLIGHTS = 'highlights',
+}
+
+export interface IResponseCompaniesRelated {
+  companiesRelated?: {
+    data: {
+      list: IStock[];
+      totalElements: number;
+      totalPages: number;
+      page: number;
+      size: number;
+      hasNext: boolean;
+    };
   };
 }
