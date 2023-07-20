@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 const Back = ({ close }: { close: () => void }) => {
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation('common');
   return (
     <>
       <header className='relative flex px-[16px] py-[16px] align-middle text-[16px]'>

@@ -33,6 +33,7 @@ export const ROUTE_PATH = {
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
   GIFTCASH: '/gift-cash',
+  NOT_FOUND: '/404',
 
   // SETTING
   SETTING: '/setting',
@@ -227,4 +228,12 @@ export const imageStock = (stock_code: string) => {
     stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
   }.png`;
   return url;
+};
+
+export const enableScroll = () => {
+  document.body.style.overflow = 'scroll';
+};
+
+export const disableSroll = () => {
+  document.body.style.overflow = 'hidden';
 };

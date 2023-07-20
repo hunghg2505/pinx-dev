@@ -48,3 +48,5 @@ export const initialProfile: IProfile = {
 export const profileAtom = atom({
   ...initialProfile,
 });
+
+export const openProfileAtom = atom(false);
