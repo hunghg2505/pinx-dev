@@ -54,7 +54,6 @@ const Explore = () => {
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
   const { listMention } = useGetTopMentionStock();
-  console.log('🚀 ~ file: index.tsx:57 ~ Explore ~ listMention:', listMention);
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
