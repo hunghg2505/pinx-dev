@@ -16,5 +16,13 @@
   "topic.entertainment": "Entertainment",
   "topic.sports": "Sports",
   "topic.oil_and_gas": "Oil and Gas",
-  "my_profile": "My profile"
+  "my_profile": "My profile",
+  "upgrade_to_trading_account": "Upgrade to trading account",
+  "watchlist_and_theme": "Watchlist and theme",
+  "profile_verification": "Profile verification",
+  "change_password": "Change password",
+  "settings": "Settings",
+  "follower": "Follower",
+  "followers": "Followers",
+  "following": "Following"
 }

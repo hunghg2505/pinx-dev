@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { ROUTE_PATH } from '@utils/common';
 
 // import Community from './Community';
 import StockSymbols from './StockSymbols';
@@ -23,7 +24,7 @@ const ThemeDetail = () => {
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
-    TabsThemeDetailEnum.Community,
+    TabsThemeDetailEnum.StockSymbols,
   );
   const onChangeTab = (value: TabsThemeDetailEnum) => {
     setSelectTab(value);
@@ -74,6 +75,9 @@ const ThemeDetail = () => {
       }
     }
   };
+  if (!themeDetail) {
+    router.push(ROUTE_PATH.NOT_FOUND);
+  }
   return (
     <>
       <div className='mt-[24px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
@@ -99,7 +103,7 @@ const ThemeDetail = () => {
           <Tabs
             onChange={onChangeTab}
             contenTab={optionTab}
-            defaultTab={TabsThemeDetailEnum.Community}
+            defaultTab={TabsThemeDetailEnum.StockSymbols}
             currentTab={selectTab}
             ref={refTheme}
           />

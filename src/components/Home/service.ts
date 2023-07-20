@@ -45,6 +45,7 @@ export interface ISuggestionPeople {
   isKol: boolean;
   name: string;
   numberFollowers: number;
+  isFollowed: boolean;
 }
 export interface ILatestSubscribe {
   avatar: string;

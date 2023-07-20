@@ -16,7 +16,6 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 import Reason from './Reason';
 import { TYPEREPORT, requestReportPost } from './service';
@@ -51,7 +50,7 @@ const ModalReportComment = (props: IProps) => {
           />
         ));
       } else {
-        PopupComponent.openEKYC();
+        setPopupStatus({ ...popupStatus, popupEkyc: true });
       }
     } else {
       setPopupStatus({

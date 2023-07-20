@@ -54,7 +54,7 @@ const NewsItem = ({ data }: { data: any }) => {
           <img
             src={data?.post?.thumbImageUrl}
             alt=''
-            className='h-[73px] w-[73px] rounded-[12px]'
+            className='h-[73px] w-[73px] rounded-[12px] object-cover'
           />
           <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
             <IconLink />

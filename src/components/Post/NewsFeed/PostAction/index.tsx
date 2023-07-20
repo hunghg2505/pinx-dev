@@ -36,7 +36,12 @@ const PostAction = (props: IPostActionProps) => {
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
-
+  const [like, setLike] = React.useState(isLike);
+  const [totalLike, setTotalLike] = React.useState(totalLikes);
+  React.useEffect(() => {
+    setLike(isLike);
+    setTotalLike(totalLikes);
+  }, [isLike, totalLikes]);
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
 
   useEffect(() => {
@@ -57,7 +62,9 @@ const PostAction = (props: IPostActionProps) => {
     {
       manual: true,
       onSuccess: () => {
-        onRefreshPostDetail();
+        onRefreshPostDetail && onRefreshPostDetail();
+        setLike(true);
+        setTotalLike(totalLikes + 1);
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -78,7 +85,9 @@ const PostAction = (props: IPostActionProps) => {
     {
       manual: true,
       onSuccess: () => {
-        onRefreshPostDetail();
+        onRefreshPostDetail && onRefreshPostDetail();
+        setLike(false);
+        setTotalLike(totalLikes - 1);
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -103,7 +112,7 @@ const PostAction = (props: IPostActionProps) => {
         ));
       } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
-      } else if (isLike) {
+      } else if (like) {
         useUnLike.run();
       } else {
         useLikePost.run();
@@ -148,7 +157,7 @@ const PostAction = (props: IPostActionProps) => {
           onClick={() => handleLikeOrUnLikePost()}
         >
           <img
-            src={isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
+            src={like && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
             color='#FFFFFF'
             alt=''
             width={16}
@@ -159,9 +168,9 @@ const PostAction = (props: IPostActionProps) => {
           <Text
             type='body-12-medium'
             color='primary-5'
-            className={classNames({ '!text-[#589DC0]': isLike && isLogin })}
+            className={classNames({ '!text-[#589DC0]': like && isLogin })}
           >
-            {totalLikes || ''} Like
+            {totalLike || ''} Like
           </Text>
         </div>
         <div

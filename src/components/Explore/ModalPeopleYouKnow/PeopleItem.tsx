@@ -23,11 +23,13 @@ interface Iprops {
 }
 const PeopleItem = (props: Iprops) => {
   const { data } = props;
-  console.log('🚀 ~ file: PeopleItem.tsx:26 ~ PeopleItem ~ data:', data);
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  const [isFollow, setIsFollow] = React.useState(false);
+  const [isFollow, setIsFollow] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    setIsFollow(data.isFollowed);
+  }, [data?.isFollowed]);
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);
