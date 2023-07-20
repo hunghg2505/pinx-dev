@@ -2,6 +2,7 @@
 import React, { useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Dropdown from 'rc-dropdown';
@@ -16,6 +17,7 @@ import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
+import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH, isUserVerified } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 import 'rc-dropdown/assets/index.css';
@@ -58,7 +60,7 @@ const MainHeader = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const headerRef = useRef(null);
   const { width } = useContainerDimensions(headerRef);
-
+  const [profileOpen] = useAtom(openProfileAtom);
   const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
@@ -263,7 +265,7 @@ const MainHeader = () => {
 
   const onShowNavigate = () => {
     setIsShowNavigate(!isShowNavigate);
-    document.body.style.overflow = isShowNavigate ? 'scroll' : 'hidden';
+    document.body.style.overflow = isShowNavigate || profileOpen ? 'scroll' : 'hidden';
   };
 
   return (
@@ -306,7 +308,7 @@ const MainHeader = () => {
                 />
               </Link>
 
-              <div className='mobile:block desktop:hidden' onClick={onShowNavigate}>
+              <div className='mobile:block desktop:hidden' onClick={() => onShowNavigate()}>
                 {isShowNavigate ? (
                   <IconCloseMenu />
                 ) : (
