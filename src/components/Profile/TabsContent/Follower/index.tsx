@@ -13,17 +13,19 @@ const Follower = () => {
   const { data } = useCustomerFollower(String(router?.query?.search), String(router?.query?.id));
 
   return (
-    <div className='flex flex-col '>
+    <>
       <Search />
-      {!!data?.data?.length && (
-        <>
-          {data?.data?.map((item: any) => (
-            <UserFolow {...item} key={item.id} />
-          ))}
-        </>
-      )}
+      <div className='flex flex-col gap-[8px]'>
+        {!!data?.data?.length && (
+          <>
+            {data?.data?.map((item: any) => (
+              <UserFolow {...item} key={item.id} />
+            ))}
+          </>
+        )}
+      </div>
       {!data?.data?.length && <NotFound />}
-    </div>
+    </>
   );
 };
 export default Follower;
