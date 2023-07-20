@@ -22,16 +22,17 @@ const FormEdit = () => {
       {profileUser && (
         <Form
           form={form}
+          preserve
           initialValues={{
             avatar: profileUser?.avatar || '',
             bio: profileUser?.caption || '',
             displayName: profileUser?.displayName || '',
             position: profileUser?.position || '',
           }}
-          onFinish={async (value) => {
+          onFinish={(value) => {
             const formData = new FormData();
             formData.append('files', value.file);
-            uploadImage(formData,value);
+            uploadImage(formData, value);
           }}
         >
           <Header />
