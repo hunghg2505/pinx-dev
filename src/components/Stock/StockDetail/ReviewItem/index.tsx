@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -7,6 +7,10 @@ import PopupReview from '@components/Stock/Popup/PopupReview';
 import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+
+const MSG_LINE_HEIGHT = 21;
+const MSG_MAX_LINE = 2;
+const MSG_MAX_HEIGHT = MSG_MAX_LINE * MSG_LINE_HEIGHT;
 
 interface IReviewItemProps {
   data: IReview;
@@ -21,7 +25,16 @@ const ReviewItem = ({
   isMyReview = false,
   onEditReviewSuccess,
 }: IReviewItemProps) => {
+  const [showSeeMore, setShowSeeMore] = useState(false);
+  const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
+
+  const messageRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const messageReviewHeight = messageRef.current?.clientHeight || 0;
+    messageReviewHeight && setShowSeeMore(messageReviewHeight > MSG_MAX_HEIGHT);
+  }, [data]);
 
   return (
     <div>
@@ -74,9 +87,32 @@ const ReviewItem = ({
           <Rating star={data.rateValue} disabled className='!h-[16px] !w-[16px]' />
         </div>
 
-        <Text type='body-14-regular' className='mt-[12px] text-[#0D0D0D]'>
-          {data.message}
-        </Text>
+        <div
+          style={{ lineHeight: `${MSG_LINE_HEIGHT}px`, maxHeight: `${MSG_MAX_HEIGHT}px` }}
+          className={classNames('mt-[12px] overflow-hidden', {
+            '!max-h-max': isSeeMore,
+          })}
+        >
+          <div ref={messageRef} className='leading-[inherit]'>
+            <Text
+              type='body-14-regular'
+              className='whitespace-pre-line leading-[inherit] text-[#0D0D0D]'
+            >
+              {data.message}
+            </Text>
+          </div>
+        </div>
+
+        {showSeeMore && (
+          <Text
+            onClick={() => setIsSeeMore((prev) => !prev)}
+            type='body-14-semibold'
+            color='primary-2'
+            className='mt-[12px] inline-block cursor-pointer'
+          >
+            {isSeeMore ? 'Less' : 'More...'}
+          </Text>
+        )}
 
         {isMyReview && (
           <button
