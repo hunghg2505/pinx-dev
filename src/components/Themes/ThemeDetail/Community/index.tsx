@@ -20,14 +20,12 @@ const IconArrow = () => (
 const Community = ({ payload }: { payload: IThemeDetail }) => {
   const [page, setPage] = React.useState(1);
   const [listCommunity, setListCommunity] = React.useState<any>([]);
-  console.log('🚀 ~ file: index.tsx:23 ~ Community ~ listCommunity:', listCommunity);
   const { community, run } = useGetCommunity(payload?.code, {
     onSuccess: (res: any) => {
       setPage(res?.data?.number);
       setListCommunity([...listCommunity, ...res?.data?.content]);
     },
   });
-  console.log('🚀 ~ file: index.tsx:30 ~ Community ~ community:', community);
   const totalPages = community?.totalPages || 2;
   React.useEffect(() => {
     run();
