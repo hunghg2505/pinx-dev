@@ -5,20 +5,13 @@ import Link from 'next/link';
 
 import { IStock } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatNumber } from '@utils/common';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
 
 interface IStockItemProps {
   data: IStock;
 }
 
 const StockItem = ({ data }: IStockItemProps) => {
-  const urlImageCompany = `${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
-
   const renderPricePc = () => {
     if (data.volume) {
       const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
@@ -32,7 +25,7 @@ const StockItem = ({ data }: IStockItemProps) => {
     <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] px-[12px] py-[16px]'>
         <img
-          src={IMAGE_COMPANY_URL + urlImageCompany}
+          src={imageStock(data.stockCode)}
           alt='Company logo'
           className='block h-[36px] w-[36px] rounded-full bg-white object-cover'
         />

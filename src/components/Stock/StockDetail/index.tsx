@@ -13,8 +13,8 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, formatNumber } from '@utils/common';
-import { IMAGE_COMPANY_URL, USERTYPE } from '@utils/constant';
+import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
@@ -152,12 +152,6 @@ const StockDetail = () => {
   const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
     limit: ACTIVITIES_ITEM_LIMIT,
   });
-
-  const urlImageCompany = `${
-    stockDetail?.data?.stockCode?.length === 3 || stockDetail?.data?.stockCode[0] !== 'C'
-      ? stockDetail?.data?.stockCode
-      : stockDetail?.data?.stockCode?.slice(1, 4)
-  }.png`;
 
   const totalColumnHighligh = Math.ceil(
     (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
@@ -313,7 +307,7 @@ const StockDetail = () => {
         <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
           <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
             <img
-              src={IMAGE_COMPANY_URL + urlImageCompany}
+              src={imageStock(stockCode)}
               alt={`Logo ${stockDetail?.data?.name}`}
               className='block'
             />
@@ -408,7 +402,7 @@ const StockDetail = () => {
             })}
           >
             <div ref={introDescRef} className='leading-[inherit]'>
-              <Text type='body-12-regular' className='!leading-[inherit]'>
+              <Text type='body-12-regular' className='whitespace-pre-line !leading-[inherit]'>
                 {stockDetail?.data?.introduction}
               </Text>
             </div>
