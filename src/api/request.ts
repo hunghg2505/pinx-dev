@@ -45,6 +45,7 @@ const requestPist = extend({
   },
   errorHandler: (error) => {
     redirectlogin(error);
+    console.log('xxx error', error);
   },
 });
 
@@ -79,6 +80,7 @@ const requestCommunity = extend({
   },
   errorHandler: (error) => {
     redirectlogin(error);
+    console.log('xxx error', error);
   },
 });
 

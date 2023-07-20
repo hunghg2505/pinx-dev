@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -17,6 +18,7 @@ const WatchList = dynamic(() => import('@components/Home/WatchList'));
 const ContentRight = () => {
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
+  const { userLoginInfo } = useUserLoginInfo();
 
   const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
   const isLogin = !!getAccessToken();
@@ -44,7 +46,7 @@ const ContentRight = () => {
         {isLogin && !isPageWatchList && (
           <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
             <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-              Watchlist
+              {userLoginInfo?.displayName}&apos;s Watchlist
             </Text>
             <WatchList />
           </div>

@@ -39,7 +39,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
       </div>
 
       <div className='w-[calc(100%_-_40px)]'>
-        <div className='relative w-full rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px]'>
+        <div className='relative w-full rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px] cursor-pointer' onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}>
           <div className='flex items-center justify-between'>
             <Text type='body-14-semibold' color='neutral-black'>
               {data?.post?.customerInfo?.displayName}

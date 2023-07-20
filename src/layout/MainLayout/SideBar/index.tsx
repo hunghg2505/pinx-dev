@@ -21,6 +21,8 @@ import {
   IconGiftCashActive,
   IconHome,
   IconHomeActive,
+  IconSetting,
+  IconSettingActive,
   IconWatchList,
   IconWatchListACtive,
 } from './icon';
@@ -64,13 +66,20 @@ const SideBar = () => {
       },
       {
         id: 5,
-        path: isLogin ? ROUTE_PATH.ASSET : '',
+        path: isLogin ? ROUTE_PATH.MY_PROFILE : '',
         icon: <IconAssets />,
         iconActive: <IconAssetsActive />,
         label: 'Assets',
         action: () => {
           !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
         },
+      },
+      {
+        id: 6,
+        path: ROUTE_PATH.SETTING,
+        icon: <IconSetting />,
+        iconActive: <IconSettingActive />,
+        label: 'Settings',
       },
     ];
   }, [isLogin]);
@@ -80,9 +89,8 @@ const SideBar = () => {
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
-          checkPathExist && 'active'
-        }`,
+        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${checkPathExist && 'active'
+          }`,
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
