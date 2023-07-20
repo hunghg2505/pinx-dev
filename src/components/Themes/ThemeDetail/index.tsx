@@ -58,7 +58,13 @@ const ThemeDetail = () => {
     }
     return item;
   });
-  const { themeDetail, refresh } = useGetThemeDetail(id);
+  const { themeDetail, refresh } = useGetThemeDetail(id, {
+    onError: (err: any) => {
+      if (err === 'error.theme.notfound') {
+        router.push(ROUTE_PATH.NOT_FOUND);
+      }
+    },
+  });
   const renderContentTab = () => {
     switch (selectTab) {
       // case TabsThemeDetailEnum.Community: {
@@ -75,9 +81,9 @@ const ThemeDetail = () => {
       }
     }
   };
-  if (!themeDetail) {
-    router.push(ROUTE_PATH.NOT_FOUND);
-  }
+  // if (!themeDetail) {
+  //
+  // }
   return (
     <>
       <div className='mt-[24px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>

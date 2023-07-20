@@ -53,7 +53,6 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
-  console.log('🚀 ~ file: index.tsx:55 ~ NewFeedItem ~ postDetail:', postDetail);
 
   const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -63,7 +62,6 @@ const NewFeedItem = (props: IProps) => {
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
-  console.log('router.pathname', router.pathname);
 
   const ref = useRef<HTMLButtonElement>(null);
   const refHover = useRef(null);
@@ -72,7 +70,6 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
-  console.log('🚀 ~ file: index.tsx:75 ~ NewFeedItem ~ isReported:', isReported);
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
