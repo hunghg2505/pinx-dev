@@ -99,7 +99,7 @@ const Search = (props: any, ref: any) => {
             </FormItem>
           </Form>
           {showRecent && !valueInput && (
-            <div className='absolute left-0 top-[50px] z-10 w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+            <div className='absolute left-0 top-[50px] z-[999] w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
               {isLogin && (
                 <>
                   <Text type='body-14-semibold' color='neutral-black'>
