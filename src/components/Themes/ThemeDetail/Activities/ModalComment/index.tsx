@@ -83,7 +83,7 @@ const ModalComment = (props: Iprops) => {
             Comment
           </Text>
           <div
-            className={classNames('mt-[16px] h-[500px] overflow-y-scroll', {
+            className={classNames('mt-[16px] h-[350px] overflow-y-scroll ', {
               'mobile:mb-[79px]': !isImageCommentMobile,
               'mobile:mb-[179px]': isImageCommentMobile,
             })}
@@ -115,7 +115,7 @@ const ModalComment = (props: Iprops) => {
           </div>
           {isLogin && (
             <div className='mobile:block'>
-              <div className='fixed bottom-0 z-10 w-[375px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px]'>
+              <div className='fixed bottom-0 z-10 w-[375px] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:w-[calc(100%_-_32px)] mobile-max:px-[3px]'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={id}

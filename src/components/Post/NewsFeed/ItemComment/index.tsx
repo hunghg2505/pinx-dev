@@ -23,7 +23,6 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
   ssr: false,
@@ -41,8 +40,8 @@ interface IProps {
   refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
-  const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const router = useRouter();
   const { statusUser, isLogin } = useUserType();
   const [showDelete, setShowDelete] = React.useState(false);
   const {
@@ -72,7 +71,7 @@ const ItemComment = (props: IProps) => {
           />
         ));
       } else if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
-        PopupComponent.openEKYC();
+        setPopupStatus({ ...popupStatus, popupEkyc: true });
       } else if (onNavigate) {
         onNavigate();
       } else {
@@ -150,7 +149,7 @@ const ItemComment = (props: IProps) => {
           />
         ));
       } else if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
+        setPopupStatus({ ...popupStatus, popupEkyc: true });
       } else if (isLike) {
         useUnLike.run();
       } else {
@@ -194,10 +193,11 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className={classNames('mr-[12px] rounded-full object-cover', {
+          className={classNames('mr-[12px] cursor-pointer rounded-full object-cover', {
             'h-[36px] w-[36px]': !isChildren,
             'h-[28px] w-[28px]': isChildren,
           })}
+          onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
         />
         {/* bg-[#F6FAFD] */}
         <div

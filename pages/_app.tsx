@@ -50,6 +50,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       run();
     }
   });
+
   const getLayout = Component.getLayout ?? ((page: any) => page);
 
   useEffect(() => {
@@ -62,6 +63,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || '');
+    document.body.style.overflow = 'scroll';
   }, [router.pathname]);
 
   return (

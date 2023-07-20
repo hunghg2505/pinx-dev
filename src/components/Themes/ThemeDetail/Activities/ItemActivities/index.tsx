@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useRouter } from 'next/router';
 
 import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 import ActivitiesAction from '../ActivitiesAction';
 
@@ -14,6 +15,7 @@ export enum ActionPostEnum {
   SUBSCRIBE = 'SUBSCRIBE',
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
+  const router = useRouter();
   const isSubsribed = data?.post?.action === ActionPostEnum.SUBSCRIBE;
   const idPost = data?.id;
   const isLike = data?.isLike;
@@ -24,13 +26,18 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
 
   return (
     <div className='flex'>
-      {avatar ? (
-        <img src={avatar} alt='' className='mr-[12px] h-[28px] w-[28px] rounded-full' />
-      ) : (
-        <div className='mr-[12px] h-[28px] w-[28px]'>
-          <AvatarDefault name={nameAvatar} />
-        </div>
-      )}
+      <div
+        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
+        className='cursor-pointer'
+      >
+        {avatar ? (
+          <img src={avatar} alt='' className='mr-[12px] h-[28px] w-[28px] rounded-full' />
+        ) : (
+          <div className='mr-[12px] h-[28px] w-[28px]'>
+            <AvatarDefault name={nameAvatar} />
+          </div>
+        )}
+      </div>
 
       <div className='w-[calc(100%_-_40px)]'>
         <div className='relative w-full rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px]'>

@@ -10,6 +10,7 @@ interface ICustomLink {
   prefetch?: boolean;
   ariaLabel?: string;
   target?: string;
+  action?: () => void;
 }
 
 const CustomLink = ({
@@ -18,9 +19,10 @@ const CustomLink = ({
   className = '',
   ariaLabel = '',
   prefetch = false,
+  action
 }: ICustomLink) => {
   return (
-    <Link href={href} passHref prefetch={!!prefetch}>
+    <Link href={href} passHref prefetch={!!prefetch} onClick={action}>
       <div
         className={className}
         aria-label={ariaLabel || 'label'}

@@ -21,7 +21,7 @@ const customInputClassName =
   'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
-const Setting = () => {
+const ChangePassword = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [settingValues, setSettingValues] = useAtom(settingAtom);
@@ -104,7 +104,7 @@ const Setting = () => {
               },
               {
                 pattern: REG_PASSWORD,
-                message: 'Please enter valid password',
+                message: 'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
               },
             ]}
           >
@@ -163,4 +163,4 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+export default ChangePassword;

@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import { ROUTE_PATH } from '@utils/common';
 
 const Profile = dynamic(() => import('@components/Profile'));
 const ProfileLayout = dynamic(() => import('@layout/ProfileLayout'));
@@ -22,7 +23,7 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   return <ProfileLayout Layout>{page}</ProfileLayout>;
 };
 
-export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
+export async function getServerSideProps({ locale, req, query }: GetServerSidePropsContext) {
   if (typeof req.cookies?.accessToken !== 'string') {
     return {
       props: {
@@ -32,6 +33,14 @@ export async function getServerSideProps({ locale, req }: GetServerSidePropsCont
     };
   }
   const decoded = parseJwt(req.cookies?.accessToken);
+  if (Number(decoded?.userId) === Number(query?.id)) {
+    return {
+      redirect: {
+        destination: ROUTE_PATH.MY_PROFILE,
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),

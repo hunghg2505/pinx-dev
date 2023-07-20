@@ -81,7 +81,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="javascript:void(0)" className="tagStock">${name}</a>
+              <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
               `,
             );
           }
@@ -91,7 +91,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
           `,
         );
       }
@@ -222,4 +222,11 @@ export const encryptPassword = (value: string) => {
 
 export const isUserVerified = (acntStat: string | undefined) => {
   return acntStat === 'ACTIVE';
+};
+export const imageStock = (stock_code: string) => {
+  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
+  const url = `${imageCompanyUrl}${
+    stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
+  }.png`;
+  return url;
 };

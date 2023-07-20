@@ -9,7 +9,7 @@ export interface ITabBar {
 }
 const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
   return (
-    <div role='tablist' className='rc-tabs-nav mb-[20px]'>
+    <div role='tablist' className='rc-tabs-nav mb-[20px] '>
       <div className='rc-tabs-nav-wrap '>
         <div className='rc-tabs-nav-list  duration-300 ease-in-out'>
           {list.map((item) => {
@@ -21,7 +21,7 @@ const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
                 }}
                 role='tab'
                 className={classNames(
-                  'rc-tabs-tab flex-auto text-center duration-300   ease-in-out tablet:flex-grow-0 ',
+                  'rc-tabs-tab  flex-1   text-center duration-300  ease-in-out tablet:flex-grow-0',
                   {
                     'rc-tabs-tab-active stroke-primary_blue font-[700] text-primary_blue':
                       activeKey === item.key,

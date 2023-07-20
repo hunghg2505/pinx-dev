@@ -142,9 +142,12 @@ export const API_PATH = {
 
   // PROFILE
   GET_USER_POST: 'private/mapping/other-customer-mappings',
+  GET_MY_POST: '/private/mapping/customer-mappings',
   GET_USER_WATCHLIST: '/private/watchlist/list/',
   UPDATE_USER_PROFILE: '/private/customer/update',
   DEACTIVATE_ACCOUNT: '/private/customer/deactivate',
   GET_CUSTOMER_FOLLOWER: '/private/customer/follower/other',
   GET_CUSTOMER_FOLLOWING: '/private/customer/following/other',
+  GET_MY_CUSTOMER_FOLLOWER: '/private/customer/follower/friends',
+  GET_MY_CUSTOMER_FOLLOWING: '/private/customer/following/friends',
 };
