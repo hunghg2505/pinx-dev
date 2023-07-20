@@ -68,10 +68,6 @@ const PostDetail = () => {
       router.push(ROUTE_PATH.PAGE_NOT_FOUND);
     },
   });
-  console.log(
-    '🚀 ~ file: index.tsx:71 ~ const{refresh,postDetail}=usePostDetail ~ postDetail:',
-    postDetail,
-  );
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(router.query.id));
 

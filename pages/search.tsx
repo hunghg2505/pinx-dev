@@ -11,7 +11,6 @@ const SearchPage = () => {
   return (
     <>
       <SEO title={'Pinex Detail'} />
-      {/* <TopMention /> */}
       <Search />
     </>
   );

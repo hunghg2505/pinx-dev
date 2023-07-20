@@ -161,11 +161,13 @@ const Search = (props: any, ref: any) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
                   })}
                 </div>
-                <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
-                  <Text type='body-14-bold' color='primary-2'>
-                    Show more
-                  </Text>
-                </ExploreButton>
+                {companies?.length > 5 && (
+                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
+                    <Text type='body-14-bold' color='primary-2'>
+                      Show more
+                    </Text>
+                  </ExploreButton>
+                )}
               </>
             ) : (
               <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
@@ -185,11 +187,13 @@ const Search = (props: any, ref: any) => {
                     <PeopleItem data={item} key={index} />
                   ))}
                 </div>
-                <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
-                  <Text type='body-14-bold' color='primary-2'>
-                    Show more
-                  </Text>
-                </ExploreButton>
+                {users?.length > 5 && (
+                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
+                    <Text type='body-14-bold' color='primary-2'>
+                      Show more
+                    </Text>
+                  </ExploreButton>
+                )}
               </>
             ) : (
               <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
@@ -205,7 +209,7 @@ const Search = (props: any, ref: any) => {
             {posts?.length > 0 ? (
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...posts]?.splice(0, 5)?.map((post: any, index: number) => {
+                  {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
                     return <PostItem key={index} postDetail={post} refresh={refresh} />;
                   })}
                 </div>
@@ -231,7 +235,7 @@ const Search = (props: any, ref: any) => {
             {news?.length > 0 ? (
               <>
                 <div className='my-[16px] flex flex-col gap-y-[12px]'>
-                  {[...news]?.splice(0, 5)?.map((item: any, index: number) => {
+                  {[...news]?.splice(0, 3)?.map((item: any, index: number) => {
                     return <NewsItem key={`new-${index}`} data={item} />;
                   })}
                 </div>

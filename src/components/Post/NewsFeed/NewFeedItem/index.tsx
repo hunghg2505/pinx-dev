@@ -342,7 +342,15 @@ const NewFeedItem = (props: IProps) => {
                 alt='avatar'
                 sizes='100vw'
                 className={classNames(
-                  'mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+                  'mr-2 rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+                  {
+                    'object-cover': [
+                      TYPEPOST.POST,
+                      TYPEPOST.ActivityTheme,
+                      TYPEPOST.ActivityWatchlist,
+                      TYPEPOST.ActivityMatchOrder,
+                    ].includes(postDetail?.post.postType),
+                  },
                 )}
               />
             )}

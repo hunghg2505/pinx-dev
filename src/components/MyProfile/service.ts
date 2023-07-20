@@ -4,19 +4,28 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestCommunity, requestPist } from '@api/request';
 
 export const useGetMYPost = () => {
-  const { data } = useRequest(() => {
-    return privateRequest(requestCommunity.get, API_PATH.GET_MY_POST + '?last=null&limit=null');
+  const { data, refresh, run, loading } = useRequest(async (data = [], lastid?: string) => {
+    const last = {
+      last: lastid || undefined,
+    };
+    const limit = data ? data.length + 20 : 20;
+    const res = await privateRequest(requestCommunity.get, API_PATH.GET_MY_POST, {
+      params: {
+        ...last,
+        limit,
+      },
+    });
+    return {
+      list: [...data, ...res?.data?.list],
+      hasNext: res?.data?.hasNext,
+      last: res?.data?.last,
+    };
   });
   return {
-    data: data?.data.list,
-  };
-};
-export const useGetUserWatchlist = (customerId: string) => {
-  const { data } = useRequest(() => {
-    return requestPist.get(API_PATH.GET_USER_WATCHLIST + `/${customerId}`, {});
-  });
-  return {
-    profit: data?.data,
+    data,
+    refresh,
+    run,
+    loading,
   };
 };
 

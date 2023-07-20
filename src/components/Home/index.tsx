@@ -70,7 +70,6 @@ const Home = () => {
       const check = res?.data?.list;
       for (const item of check) {
         const index = newData.findIndex((fi) => fi.id === item.id);
-
         if (index < 0) {
           if (isPost) {
             newData.unshift(item);

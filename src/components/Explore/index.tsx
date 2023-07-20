@@ -29,6 +29,7 @@ import {
   useGetTopMentionStock,
   useGetTopWatchingStock,
 } from './service';
+import TrendingOnnPinex from './TrendingOnPinex/inndex';
 import WatchingStock from './WatchingStock';
 
 const settings = {
@@ -54,7 +55,6 @@ const Explore = () => {
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
   const { listMention } = useGetTopMentionStock();
-  console.log('🚀 ~ file: index.tsx:57 ~ Explore ~ listMention:', listMention);
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
@@ -92,30 +92,8 @@ const Explore = () => {
         Discovery
       </Text>
       <Search ref={refClick} />
-
+      {/* key word search */}
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
-        Themes
-      </Text>
-      <div className='mb-[16px] overflow-hidden'>
-        <Slider {...settings} variableWidth>
-          {theme?.map((theme: ITheme, index: number) => {
-            return (
-              <div key={index}>
-                <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
-                  <ThemeExploreItem data={theme} />
-                </div>
-              </div>
-            );
-          })}
-        </Slider>
-      </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
-        <Text type='body-14-bold' color='primary-2'>
-          Explore themes
-        </Text>
-      </ExploreButton>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         Top keyword search
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
@@ -149,6 +127,77 @@ const Explore = () => {
           </div>
         )}
       </ExploreButton>
+      {/* key word search */}
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      {/* Explore influencer */}
+
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        People in spotlight
+      </Text>
+      <div className='mb-[16px]'>
+        <Influencer />
+      </div>
+      <ExploreButton onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore influencer
+        </Text>
+      </ExploreButton>
+      {/* Explore influencer */}
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      {/* People you may know */}
+      {suggestionPeople && (
+        <div className='mr-[16px] mt-[32px] flex-row items-center mobile:flex desktop:hidden'>
+          <img
+            src='/static/icons/iconPeople.svg'
+            alt=''
+            width={20}
+            height={20}
+            className='mr-[8px] h-[20px] w-[20px] object-contain'
+          />
+          <Text type='body-16-bold' color='neutral-2'>
+            People you may know
+          </Text>
+        </div>
+      )}
+      {suggestionPeople && (
+        <div className='mobile:block desktop:hidden'>
+          <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
+            <PeopleList data={suggestionPeople} refresh={refreshList} />
+          </div>
+          <ModalPeopleYouKnow>
+            <ExploreButton>
+              <Text type='body-14-bold' color='primary-2'>
+                Explore people
+              </Text>
+            </ExploreButton>
+          </ModalPeopleYouKnow>
+        </div>
+      )}
+      {/* People you may know */}
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      {/* theme */}
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
+        Themes
+      </Text>
+      <div className='mb-[16px] overflow-hidden'>
+        <Slider {...settings} variableWidth>
+          {theme?.map((theme: ITheme, index: number) => {
+            return (
+              <div key={index}>
+                <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
+                  <ThemeExploreItem data={theme} />
+                </div>
+              </div>
+            );
+          })}
+        </Slider>
+      </div>
+      <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
+        <Text type='body-14-bold' color='primary-2'>
+          Explore themes
+        </Text>
+      </ExploreButton>
+      {/* theme */}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -200,46 +249,7 @@ const Explore = () => {
           Explore top mention stock
         </Text>
       </ExploreButton>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
-        People in spotlight
-      </Text>
-      <div className='mb-[16px]'>
-        <Influencer />
-      </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}>
-        <Text type='body-14-bold' color='primary-2'>
-          Explore influencer
-        </Text>
-      </ExploreButton>
-      {suggestionPeople && (
-        <div className='mr-[16px] mt-[53px] flex-row items-center mobile:flex desktop:hidden'>
-          <img
-            src='/static/icons/iconPeople.svg'
-            alt=''
-            width={20}
-            height={20}
-            className='mr-[8px] h-[20px] w-[20px] object-contain'
-          />
-          <Text type='body-16-bold' color='neutral-2'>
-            People you may know
-          </Text>
-        </div>
-      )}
-      {suggestionPeople && (
-        <div className='mobile:block desktop:hidden'>
-          <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-            <PeopleList data={suggestionPeople} refresh={refreshList} />
-          </div>
-          <ModalPeopleYouKnow>
-            <ExploreButton>
-              <Text type='body-14-bold' color='primary-2'>
-                Explore people
-              </Text>
-            </ExploreButton>
-          </ModalPeopleYouKnow>
-        </div>
-      )}
+
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         PineX top 20
@@ -285,9 +295,16 @@ const Explore = () => {
       </Text>
       <div className='relative mb-[16px] flex flex-col gap-y-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
-        {listNewFeed?.slice(0, 3)?.map((item: IPost, index: number) => {
-          return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
-        })}
+        <div className='hidden mobile-max:block'>
+          {listNewFeed?.slice(0, 3)?.map((item: IPost, index: number) => {
+            return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
+          })}
+        </div>
+        <div className='block mobile-max:hidden'>
+          {listNewFeed?.slice(0, 3)?.map((item: IPost, index: number) => {
+            return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+          })}
+        </div>
       </div>
       <ExploreButton onClick={onExplorePost}>
         <Text type='body-14-bold' color='primary-2'>
