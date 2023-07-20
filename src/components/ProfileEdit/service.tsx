@@ -34,6 +34,7 @@ export const useUpdateUserProfile = () => {
     loading,
   };
 };
+
 export const useUploadImage = (UpLoadCover: (cover: any) => void) => {
   const { run, loading } = useRequest(
     async (formData: any, values?: any) => {
