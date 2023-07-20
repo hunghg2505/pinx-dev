@@ -110,7 +110,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='ml-[10px] h-[52px] w-[52px] rounded-full'
+              className='ml-[10px] h-[52px] w-[52px] rounded-full object-cover'
             />
             <Dropdown
               trigger={['click']}
@@ -186,7 +186,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full'
+              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
               onClick={() => {
                 router.push(ROUTE_PATH.MY_PROFILE);
               }}
@@ -198,7 +198,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full'
+              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
             />
           )}
           {isLogin ? (

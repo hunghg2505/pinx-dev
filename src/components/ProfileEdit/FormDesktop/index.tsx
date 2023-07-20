@@ -7,7 +7,7 @@ import Info from './Infomation';
 import { profileUserContext } from '..';
 import { useUpdateUserProfile, useUploadImage } from '../service';
 
-const FormEdit = () => {
+const FormDesktop = () => {
   const [form] = useForm();
 
   const profileUser = useContext<any>(profileUserContext);
@@ -46,4 +46,4 @@ const FormEdit = () => {
     </>
   );
 };
-export default FormEdit;
+export default FormDesktop;
