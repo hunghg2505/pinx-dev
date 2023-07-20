@@ -17,6 +17,7 @@ const Profile = () => {
     <profileUserContext.Provider
       value={{
         ...profileOtherUser,
+        isKol: profileOtherUser?.isFeatureProfile,
         reload: run,
       }}
     >

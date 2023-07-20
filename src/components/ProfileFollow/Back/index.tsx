@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 
 const Back = () => {
   const router = useRouter();
-
+  console.log(router);
   return (
     <>
       <img
         onClick={() => {
-          router.back();
+          router.push('/');
         }}
         src='/static/icons/chevron-left.svg'
         alt='avatar'
