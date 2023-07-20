@@ -145,11 +145,10 @@ const ThemesItem = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
+              className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
               onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
             />
           )}
-
           <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
             <div className='flex h-[65px] flex-col items-center justify-center px-[8px]'>
               <Text type='body-12-bold' color='primary-5' className='text-center'>

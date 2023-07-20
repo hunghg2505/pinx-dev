@@ -23,7 +23,7 @@ const ThemeDetail = () => {
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
-    TabsThemeDetailEnum.Community,
+    TabsThemeDetailEnum.StockSymbols,
   );
   const onChangeTab = (value: TabsThemeDetailEnum) => {
     setSelectTab(value);
@@ -99,7 +99,7 @@ const ThemeDetail = () => {
           <Tabs
             onChange={onChangeTab}
             contenTab={optionTab}
-            defaultTab={TabsThemeDetailEnum.Community}
+            defaultTab={TabsThemeDetailEnum.StockSymbols}
             currentTab={selectTab}
             ref={refTheme}
           />

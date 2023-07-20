@@ -36,6 +36,11 @@ const IconPlus = () => (
 );
 const PostItem = (props: IProps) => {
   const { postDetail } = props;
+  console.log('🚀 ~ file: index.tsx:39 ~ PostItem ~ postDetail:', postDetail);
+  const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    setIsFollowed(postDetail?.isFollowing);
+  }, [postDetail?.isFollowing]);
   const { isLogin, userId } = useUserType();
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = React.useState(false);
@@ -47,6 +52,7 @@ const PostItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
+  // const isFollow = postDetail?.isFollowing;
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const [excludeElements, setExcludeElements] = React.useState<(Element | null)[]>([]);
@@ -74,6 +80,7 @@ const PostItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        setIsFollowed(true);
         // onRefreshPostDetail();
         // refresh && refresh();
       },
@@ -87,6 +94,7 @@ const PostItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        setIsFollowed(false);
         // refresh && refresh();
         // onRefreshPostDetail();
       },
@@ -94,7 +102,7 @@ const PostItem = (props: IProps) => {
   );
   const onFollow = () => {
     if (isLogin) {
-      if (postDetail?.isFollowing) {
+      if (isFollowed) {
         onUnFollowUser.run();
       } else {
         onFollowUser.run();
@@ -184,13 +192,13 @@ const PostItem = (props: IProps) => {
   };
 
   const renderTextFollow = () => {
-    if (postDetail?.isFollowing) {
+    if (isFollowed) {
       return (
         <>
           <div
             className={classNames(
               'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              { 'bg-[#F3F2F6]': isFollowed },
             )}
           >
             <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
@@ -216,7 +224,7 @@ const PostItem = (props: IProps) => {
             <div
               className={classNames(
                 'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+                { 'bg-[#F3F2F6]': isFollowed },
               )}
             >
               <IconPlus />

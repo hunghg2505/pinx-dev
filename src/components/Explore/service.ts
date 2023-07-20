@@ -88,9 +88,12 @@ export const useGetPopular = () => {
 export const useSearchPublic = () => {
   const { data, run, loading, refresh } = useRequest(
     (payload: ISearch) => {
-      return requestPist.post(API_PATH.PUBLIC_SEARCH, {
-        data: payload,
-      });
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, { data: payload })
+        : requestPist.post(API_PATH.PUBLIC_SEARCH, {
+            data: payload,
+          });
     },
     {
       manual: true,
