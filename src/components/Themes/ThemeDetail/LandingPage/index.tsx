@@ -11,7 +11,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
+// import PopupComponent from '@utils/PopupComponent';
 
 import styles from './index.module.scss';
 
@@ -71,8 +71,6 @@ const LandingPageDetailThemes = ({
             message='Your account has been pending to close. You cannot perform this action'
           />
         ));
-      } else if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
       } else if (data?.isSubsribed) {
         useUnSubcribe.run();
       } else {
