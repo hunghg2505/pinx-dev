@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import Notification from '@components/UI/Notification';
+import NotificationShareActivity from '@components/UI/Notification/ShareActivity';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
@@ -121,6 +122,7 @@ const convertFinancialIndexData = (data?: IFinancialIndex) => {
 };
 
 const StockDetail = () => {
+  const [showPopupShareAct, setShowPopupShareAct] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
@@ -162,9 +164,36 @@ const StockDetail = () => {
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
 
+  const toastRef = useRef<string>();
+
+  useEffect(() => {
+    const title = isFollowedStock
+      ? `Tell people the reason you watched for ${stockCode}?`
+      : `Tell people the reason you unwatched ${stockCode}?`;
+
+    if (showPopupShareAct) {
+      toastRef.current = toast.loading(
+        () => (
+          <NotificationShareActivity
+            onClickShare={() => {
+              toast.dismiss(toastRef.current);
+              console.log('Open popup create post');
+            }}
+            title={title}
+          />
+        ),
+        {
+          // eslint-disable-next-line unicorn/no-null
+          icon: null,
+        },
+      );
+    }
+  }, [isFollowedStock]);
+
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
       refreshMyStocks();
+      setShowPopupShareAct(true);
     },
   });
 
