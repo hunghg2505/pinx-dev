@@ -231,9 +231,11 @@ export const imageStock = (stock_code: string) => {
 };
 
 export const enableScroll = () => {
+  console.log('enableScroll');
   document.body.style.overflow = 'scroll';
 };
 
 export const disableSroll = () => {
+  console.log('disableSroll');
   document.body.style.overflow = 'hidden';
 };

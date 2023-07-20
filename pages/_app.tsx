@@ -16,7 +16,6 @@ import AppLayout from '@layout/AppLayout';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { disableSroll } from '@utils/common';
 // eslint-disable-next-line import/order
 import { TOAST_LIMIT } from '@utils/constant';
 import '../styles/tailwind.css';
@@ -67,7 +66,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || 'en');
-    disableSroll();
+    // disableSroll();
   }, [router.pathname]);
 
   return (

@@ -10,6 +10,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 
 import {
@@ -31,6 +32,7 @@ const SideBar = () => {
   const router = useRouter();
   const { isLogin } = useAuth();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [, setProfileOpen] = useAtom(openProfileAtom);
   const MENUS = useMemo(() => {
     return [
       {
@@ -39,6 +41,10 @@ const SideBar = () => {
         icon: <IconHome />,
         iconActive: <IconHomeActive />,
         label: 'Home',
+        action: () => {
+          // document.body.style.overflow = 'scroll';
+          // setProfileOpen(false);
+        },
       },
       {
         id: 2,
@@ -46,6 +52,10 @@ const SideBar = () => {
         icon: <IconExplore />,
         iconActive: <IconExploreActive />,
         label: 'Explore',
+        action: () => {
+          // document.body.style.overflow = 'scroll';
+          // setProfileOpen(false);
+        },
       },
       {
         id: 3,
@@ -53,6 +63,10 @@ const SideBar = () => {
         icon: <IconGiftCash />,
         iconActive: <IconGiftCashActive />,
         label: 'GiftCash',
+        action: () => {
+          // document.body.style.overflow = 'scroll';
+          // setProfileOpen(false);
+        },
       },
       {
         id: 4,
@@ -62,6 +76,8 @@ const SideBar = () => {
         label: 'WatchList',
         action: () => {
           !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
+          // document.body.style.overflow = 'scroll';
+          // setProfileOpen(false);
         },
       },
       {
@@ -72,6 +88,8 @@ const SideBar = () => {
         label: 'Assets',
         action: () => {
           !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
+          // document.body.style.overflow = 'scroll';
+          // setProfileOpen(false);
         },
       },
       {
@@ -80,6 +98,10 @@ const SideBar = () => {
         icon: <IconSetting />,
         iconActive: <IconSettingActive />,
         label: 'Settings',
+        action: () => {
+          document.body.style.overflow = 'scroll';
+          setProfileOpen(false);
+        },
       },
     ];
   }, [isLogin]);
@@ -89,8 +111,9 @@ const SideBar = () => {
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       return {
-        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${checkPathExist && 'active'
-          }`,
+        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
+          checkPathExist && 'active'
+        }`,
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
