@@ -29,6 +29,9 @@ const ModalComment = (props: Iprops) => {
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const onVisible = () => {
     setVisible(!visible);
+    if (refSubReplies?.current?.clearData) {
+      refSubReplies?.current?.clearData();
+    }
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
     // setShowReply(id);

@@ -160,6 +160,7 @@ const Editor = (props: IProps, ref?: any) => {
       onReply: () => {
         editor?.commands?.focus(true, { scrollIntoView: false });
       },
+      clearData: () => editor?.commands.clearContent(),
     };
   });
   const onComment = (value: any, customerId: number, id: string) => {
