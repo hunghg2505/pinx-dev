@@ -40,12 +40,12 @@ const Mobile = () => {
         }}
       >
         <TabPane tab={t('post')} key='post' className='px-16px]'>
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <Posts />
           </div>
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist' className='px-16px]'>
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <WatchList />
           </div>
         </TabPane>
@@ -59,7 +59,7 @@ const Mobile = () => {
           }
           key='assets'
         >
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <Assets />
           </div>
         </TabPane>

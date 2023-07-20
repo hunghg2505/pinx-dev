@@ -17,7 +17,7 @@ const ProfileLayout = ({ children }: any) => {
     <>
       <ModalPage />
       <MainHeader />
-      <div className=' mt-[-68px] tablet:mt-0 desktop:mx-0 desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
+      <div className=' mt-[-68px] tablet:mt-0 desktop:mx-0 desktop:bg-[#F8FAFD] tablet:pt-[25px]'>
         <div className='xl:container table:container relative  flex justify-center overflow-auto '>
           <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
             <SideBar />

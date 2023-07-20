@@ -237,7 +237,7 @@ const Home = () => {
                         width={0}
                         height={0}
                         sizes='100vw'
-                        className='mr-[10px] h-[56px] w-[56px] rounded-full '
+                        className='mr-[10px] h-[56px] w-[56px] rounded-full cursor-pointer object-cover'
                       />
                     )}
 

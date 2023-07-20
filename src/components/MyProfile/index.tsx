@@ -17,6 +17,7 @@ const MyProfile = () => {
       value={{
         ...userLoginInfo,
         ...profileOtherUser,
+        isKol: profileOtherUser?.isFeatureProfile,
         reload: run,
       }}
     >

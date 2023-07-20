@@ -62,7 +62,16 @@ const MainHeader = () => {
   const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
-      [ROUTE_PATH.REDIRECT, '/theme/[id]', ROUTE_PATH.PEOPLEINSPOTLIGHT, ROUTE_PATH.THEME, ROUTE_PATH.TOP_WATCHING, ROUTE_PATH.TOPMENTION, ROUTE_PATH.PINEX_TOP_20, ROUTE_PATH.SEARCH].includes(router?.pathname)) &&
+      [
+        ROUTE_PATH.REDIRECT,
+        '/theme/[id]',
+        ROUTE_PATH.PEOPLEINSPOTLIGHT,
+        ROUTE_PATH.THEME,
+        ROUTE_PATH.TOP_WATCHING,
+        ROUTE_PATH.TOPMENTION,
+        ROUTE_PATH.PINEX_TOP_20,
+        ROUTE_PATH.SEARCH,
+      ].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
   const menuMobileRef = useRef<any>(null);
@@ -71,18 +80,20 @@ const MainHeader = () => {
   };
 
   const renderAvatarMobile = () => {
-    return isLogin && (
-      <>
-        <img
-          src={userLoginInfo?.avatar}
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-          onClick={goToMyProfile}
-        />
-      </>
+    return (
+      isLogin && (
+        <>
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+            onClick={goToMyProfile}
+          />
+        </>
+      )
     );
   };
 
@@ -100,7 +111,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='ml-[10px] h-[52px] w-[52px] rounded-full'
+              className='ml-[10px] h-[52px] w-[52px] rounded-full object-cover'
             />
             <Dropdown
               trigger={['click']}
@@ -150,7 +161,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full'
+              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
               onClick={() => {
                 router.push(ROUTE_PATH.MY_PROFILE);
               }}
@@ -162,7 +173,7 @@ const MainHeader = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full'
+              className='my-6 mr-6 h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
             />
           )}
           {isLogin ? (
@@ -246,20 +257,6 @@ const MainHeader = () => {
             <span>Watchlist and theme</span>
           </Link>
         )}
-        <Link
-          href={ROUTE_PATH.SETTING}
-          className='flex items-center px-[20px] py-4'
-          onClick={onCloseDropdown}
-        >
-          <img
-            src='/static/icons/gear setting icon.svg'
-            className='mr-[16px] h-[24px] w-[24px]'
-            width={24}
-            height={24}
-            alt='Setting'
-          />
-          <span>Setting</span>
-        </Link>
       </MenuItem>
     </Menu>
   );

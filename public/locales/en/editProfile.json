@@ -1,5 +1,5 @@
 {
-  "save": "Save",  
+  "save": "Save",
   "verified": "Verified",
   "unverified": "Unverified",
   "information": "Information",
@@ -7,5 +7,9 @@
   "job_title": "Job title",
   "Bio": "Bio",
   "upload_profile_success": "Updated successfully",
-  "upload_profile_error": "Somthing Wrong"
+  "upload_profile_error": "Somthing Wrong",
+  "upload_image": "Upload image",
+  "enter_jobs_title": "Enter job title",
+  "enter_display_name": "Enter display name",
+  "enter_bio": "Enter bio"
 }

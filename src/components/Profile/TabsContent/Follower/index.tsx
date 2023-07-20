@@ -4,13 +4,16 @@ import { useRouter } from 'next/router';
 
 import Search from '@components/common/Search';
 import UserFolow from '@components/common/UserFolow';
-import { useCustomerFollower } from '@components/ProfileFollow/service';
+import { useOtherCustomerFollower } from '@components/ProfileFollow/service';
 
 import NotFound from './NotFound';
 
 const Follower = () => {
   const router = useRouter();
-  const { data } = useCustomerFollower(String(router?.query?.search), String(router?.query?.id));
+  const { data } = useOtherCustomerFollower(
+    String(router?.query?.search),
+    String(router?.query?.id),
+  );
 
   return (
     <>
