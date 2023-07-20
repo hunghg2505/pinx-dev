@@ -15,17 +15,19 @@ const Following = () => {
   return (
     <>
       <Search />
-      {!!data?.data?.length && (
-        <>
-          {!!data?.data?.length && (
-            <>
-              {data?.data?.map((item: any) => (
-                <UserFolow {...item} key={item.id} />
-              ))}
-            </>
-          )}
-        </>
-      )}
+      <div className='flex flex-col gap-[8px]'>
+        {!!data?.data?.length && (
+          <>
+            {!!data?.data?.length && (
+              <>
+                {data?.data?.map((item: any) => (
+                  <UserFolow {...item} key={item.id} />
+                ))}
+              </>
+            )}
+          </>
+        )}
+      </div>
       {!data?.data?.length && <NotFound />}
     </>
   );
