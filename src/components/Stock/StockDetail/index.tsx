@@ -202,8 +202,15 @@ const StockDetail = () => {
     }
   };
 
-  // review stock
   const handleRating = (star: number) => {
+    requestReviewStock.run({
+      rateValue: star,
+      message: stockDetails?.data.customerReview?.message,
+    });
+  };
+
+  // review stock
+  const checkUserTypeReview = (callback: () => void) => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         toast(() => (
@@ -213,10 +220,7 @@ const StockDetail = () => {
           />
         ));
       } else if (statusUser === USERTYPE.VSD) {
-        requestReviewStock.run({
-          rateValue: star,
-          message: stockDetails?.data.customerReview?.message,
-        });
+        callback();
       } else {
         PopupComponent.openEKYC();
       }
@@ -588,7 +592,7 @@ const StockDetail = () => {
           <div className='mb-[28px] flex flex-col gap-y-[12px] tablet:flex-row tablet:justify-between'>
             <Rating
               star={stockDetails?.data.customerReview?.rateValue || 0}
-              onChange={(star) => handleRating(star)}
+              onChange={(star) => checkUserTypeReview(() => handleRating(star))}
             />
 
             <div className='flex gap-x-[52px]'>
@@ -656,7 +660,12 @@ const StockDetail = () => {
                 Recent review will show up here,so you can easily view them here later
               </Text>
 
-              <Text type='body-14-bold' color='primary-2' className='inline-block cursor-pointer'>
+              <Text
+                type='body-14-bold'
+                onClick={() => checkUserTypeReview(() => setOpenPopupReview(true))}
+                color='primary-2'
+                className='inline-block cursor-pointer'
+              >
                 Review now
               </Text>
             </div>
