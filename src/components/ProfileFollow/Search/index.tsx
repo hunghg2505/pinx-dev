@@ -11,7 +11,7 @@ const Search = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <label className='mb-[20px] flex border-b-2 border-solid border-neutral_07 px-[8px] py-[10px] focus-within:shadow-lg'>
+    <label className=' mb-[20px] flex border-b-2 border-solid border-neutral_07 px-[8px] py-[10px] focus-within:shadow-lg'>
       <input
         ref={inputRef}
         className='flex-1 outline-none'

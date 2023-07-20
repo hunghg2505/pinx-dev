@@ -30,9 +30,13 @@ const FormEdit = () => {
             position: profileUser?.position || '',
           }}
           onFinish={(value) => {
-            const formData = new FormData();
-            formData.append('files', value.file);
-            uploadImage(formData, value);
+            if (value.file) {
+              const formData = new FormData();
+              formData.append('files', value.file);
+              uploadImage(formData, value);
+            } else {
+              run(value);
+            }
           }}
         >
           <Header />
