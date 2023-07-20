@@ -127,7 +127,7 @@ const StockDetail = () => {
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
-  const { isLogin, statusUser } = useUserType();
+  const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const router = useRouter();
@@ -649,9 +649,14 @@ const StockDetail = () => {
 
           {stockDetails?.data.details.children.length ? (
             <>
-              <ReviewItem data={stockDetails.data.details.children[0]} isLatestReview />
+              <ReviewItem
+                isMyReview={userId === stockDetails.data.details.children[0].customerId}
+                data={stockDetails.data.details.children[0]}
+                isLatestReview
+                onEditReviewSuccess={handleReviewSuccess}
+              />
 
-              {stockDetails.data.details.children.length > STOCK_REVIEW_LIMIT && (
+              {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
                 <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                   <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                     <Text type='body-14-bold' color='primary-2'>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 
+import PopupReview from '@components/Stock/Popup/PopupReview';
 import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
 import Text from '@components/UI/Text';
@@ -9,11 +11,34 @@ import Text from '@components/UI/Text';
 interface IReviewItemProps {
   data: IReview;
   isLatestReview?: boolean;
+  isMyReview?: boolean;
+  onEditReviewSuccess?: () => void;
 }
 
-const ReviewItem = ({ data, isLatestReview }: IReviewItemProps) => {
+const ReviewItem = ({
+  data,
+  isLatestReview,
+  isMyReview = false,
+  onEditReviewSuccess,
+}: IReviewItemProps) => {
+  const [openPopupReview, setOpenPopupReview] = useState(false);
+
   return (
     <div>
+      <PopupReview
+        visible={openPopupReview}
+        star={data.rateValue}
+        message={data.message}
+        onClose={() => {
+          setOpenPopupReview(false);
+        }}
+        stockCode={data.stockCode}
+        onReviewSuccess={() => {
+          setOpenPopupReview(false);
+          onEditReviewSuccess && onEditReviewSuccess();
+        }}
+      />
+
       <div className='mb-[4px] flex items-center'>
         <img
           src={data.customerInfo.avatar}
@@ -30,7 +55,12 @@ const ReviewItem = ({ data, isLatestReview }: IReviewItemProps) => {
         </Text>
       </div>
 
-      <div className='rounded-[12px] bg-[#F7F6F8] px-[16px] py-[12px]'>
+      <div
+        className={classNames('relative rounded-[12px] px-[16px] py-[12px]', {
+          'bg-[#F7F6F8]': !isMyReview,
+          'bg-[#F0F7FC]': isMyReview,
+        })}
+      >
         <div className='flex items-center justify-between'>
           <div className='px-[4px] py-[5px]'>
             <img
@@ -47,6 +77,19 @@ const ReviewItem = ({ data, isLatestReview }: IReviewItemProps) => {
         <Text type='body-14-regular' className='mt-[12px] text-[#0D0D0D]'>
           {data.message}
         </Text>
+
+        {isMyReview && (
+          <button
+            onClick={() => setOpenPopupReview(true)}
+            className='absolute bottom-0 right-[8px] h-[28px] w-[52px] translate-y-1/3 cursor-pointer rounded-full bg-[rgba(255,255,255,0.50)] text-center shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'
+          >
+            <img
+              src='/static/icons/primaryPen.svg'
+              alt='Icon pen'
+              className='mx-auto h-[14px] w-[14px] object-contain'
+            />
+          </button>
+        )}
       </div>
     </div>
   );
