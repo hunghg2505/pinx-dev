@@ -47,6 +47,7 @@ const Explore = () => {
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  console.log('🚀 ~ file: index.tsx:50 ~ Explore ~ suggestionPeople:', suggestionPeople);
   const isLogin = !!getAccessToken();
   const router = useRouter();
   const { theme } = useGetTheme();
@@ -143,21 +144,24 @@ const Explore = () => {
         </Text>
       </ExploreButton>
       {/* Explore influencer */}
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+
       {/* People you may know */}
       {suggestionPeople && (
-        <div className='mr-[16px] mt-[32px] flex-row items-center mobile:flex desktop:hidden'>
-          <img
-            src='/static/icons/iconPeople.svg'
-            alt=''
-            width={20}
-            height={20}
-            className='mr-[8px] h-[20px] w-[20px] object-contain'
-          />
-          <Text type='body-16-bold' color='neutral-2'>
-            People you may know
-          </Text>
-        </div>
+        <>
+          <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+          <div className='mr-[16px] mt-[32px] flex-row items-center mobile:flex desktop:hidden'>
+            <img
+              src='/static/icons/iconPeople.svg'
+              alt=''
+              width={20}
+              height={20}
+              className='mr-[8px] h-[20px] w-[20px] object-contain'
+            />
+            <Text type='body-16-bold' color='neutral-2'>
+              People you may know
+            </Text>
+          </div>
+        </>
       )}
       {suggestionPeople && (
         <div className='mobile:block desktop:hidden'>
@@ -171,10 +175,10 @@ const Explore = () => {
               </Text>
             </ExploreButton>
           </ModalPeopleYouKnow>
+          <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
         </div>
       )}
       {/* People you may know */}
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       {/* theme */}
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
         Themes

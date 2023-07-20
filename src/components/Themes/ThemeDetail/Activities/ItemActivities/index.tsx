@@ -23,7 +23,6 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
   const nameAvatar =
     data?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(data?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
-
   return (
     <div className='flex'>
       <div

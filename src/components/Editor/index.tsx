@@ -6,6 +6,7 @@ import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
+import { useAtom } from 'jotai';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -24,8 +25,8 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 import suggestion from './Suggestion';
 import { isImage } from '../../utils/common';
@@ -50,6 +51,7 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
   const [imageComment, setImageComment] = useState('');
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -313,7 +315,7 @@ const Editor = (props: IProps, ref?: any) => {
         useReplyComment.run(data);
       }
     } else {
-      PopupComponent.openEKYC();
+      setPopupStatus({ ...popupStatus, popupEkyc: true });
     }
   };
 

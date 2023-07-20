@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -15,7 +16,7 @@ import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
@@ -36,6 +37,12 @@ const IconPlus = () => (
 );
 const PostItem = (props: IProps) => {
   const { postDetail } = props;
+  const router = useRouter();
+  console.log('🚀 ~ file: index.tsx:39 ~ PostItem ~ postDetail:', postDetail);
+  const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    setIsFollowed(postDetail?.isFollowing);
+  }, [postDetail?.isFollowing]);
   const { isLogin, userId } = useUserType();
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = React.useState(false);
@@ -47,6 +54,7 @@ const PostItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
+  // const isFollow = postDetail?.isFollowing;
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const [excludeElements, setExcludeElements] = React.useState<(Element | null)[]>([]);
@@ -74,6 +82,7 @@ const PostItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        setIsFollowed(true);
         // onRefreshPostDetail();
         // refresh && refresh();
       },
@@ -87,6 +96,7 @@ const PostItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        setIsFollowed(false);
         // refresh && refresh();
         // onRefreshPostDetail();
       },
@@ -94,7 +104,7 @@ const PostItem = (props: IProps) => {
   );
   const onFollow = () => {
     if (isLogin) {
-      if (postDetail?.isFollowing) {
+      if (isFollowed) {
         onUnFollowUser.run();
       } else {
         onFollowUser.run();
@@ -184,13 +194,13 @@ const PostItem = (props: IProps) => {
   };
 
   const renderTextFollow = () => {
-    if (postDetail?.isFollowing) {
+    if (isFollowed) {
       return (
         <>
           <div
             className={classNames(
               'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              { 'bg-[#F3F2F6]': isFollowed },
             )}
           >
             <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
@@ -216,7 +226,7 @@ const PostItem = (props: IProps) => {
             <div
               className={classNames(
                 'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+                { 'bg-[#F3F2F6]': isFollowed },
               )}
             >
               <IconPlus />
@@ -254,6 +264,7 @@ const PostItem = (props: IProps) => {
                     TYPEPOST.ActivityMatchOrder,
                   ].includes(postDetail?.post.postType),
                 })}
+                onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(postDetail?.customerId))}
               >
                 {postDetail?.post?.customerInfo?.avatar === '' ? (
                   <div className='mr-2 h-[44px] w-[44px] rounded-full'>
@@ -265,7 +276,7 @@ const PostItem = (props: IProps) => {
                     alt='avatar'
                     sizes='100vw'
                     className={classNames(
-                      'mr-2 rounded-full object-contain mobile:w-[44px] desktop:h-[44px] desktop:w-[44px]',
+                      'mr-2 rounded-full object-cover mobile:h-[44px] mobile:w-[44px] desktop:h-[44px] desktop:w-[44px]',
                     )}
                   />
                 )}
@@ -310,46 +321,47 @@ const PostItem = (props: IProps) => {
                   {renderTextFollow()}
                 </div>
               )}
-
-              <button className='relative' ref={ref}>
-                <img
-                  src='/static/icons/iconDot.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  className='w-[33px] cursor-pointer'
-                  onClick={() => setShowReport(!showReport)}
-                />
-                {showReport && (
-                  <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
-                    {!isReported && !isMyPost && (
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconFlag.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <ModalReport
-                          visible={modalReportVisible}
-                          onModalReportVisible={setModalReportVisible}
-                          postID={postDetail?.id}
-                          onReportSuccess={handleReportPostSuccess}
-                        >
-                          <Text type='body-14-medium' color='neutral-2'>
-                            Report
-                          </Text>
-                        </ModalReport>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </button>
+              {!isReported && (
+                <button className='relative' ref={ref}>
+                  <img
+                    src='/static/icons/iconDot.svg'
+                    alt=''
+                    width='0'
+                    height='0'
+                    className='w-[33px] cursor-pointer'
+                    onClick={() => setShowReport(!showReport)}
+                  />
+                  {showReport && (
+                    <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+                      {!isReported && !isMyPost && (
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconFlag.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <ModalReport
+                            visible={modalReportVisible}
+                            onModalReportVisible={setModalReportVisible}
+                            postID={postDetail?.id}
+                            onReportSuccess={handleReportPostSuccess}
+                          >
+                            <Text type='body-14-medium' color='neutral-2'>
+                              Report
+                            </Text>
+                          </ModalReport>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </button>
+              )}
             </div>
           </div>
-          <div className='desktop:ml-[64px mt-[16px]'>
+          <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
             <PostTypeHome postDetail={postDetail} />
           </div>
         </div>

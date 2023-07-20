@@ -99,7 +99,7 @@ const ThemeDetail = () => {
           <Tabs
             onChange={onChangeTab}
             contenTab={optionTab}
-            defaultTab={TabsThemeDetailEnum.Community}
+            defaultTab={TabsThemeDetailEnum.StockSymbols}
             currentTab={selectTab}
             ref={refTheme}
           />

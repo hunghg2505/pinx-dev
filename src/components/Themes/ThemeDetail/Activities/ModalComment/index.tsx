@@ -85,6 +85,7 @@ const ModalComment = (props: Iprops) => {
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
             Comment
           </Text>
+          <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
             className={classNames('mt-[16px] h-[350px] overflow-y-scroll ', {
               'mobile:mb-[79px]': !isImageCommentMobile,

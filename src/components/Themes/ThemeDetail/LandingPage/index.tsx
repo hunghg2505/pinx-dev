@@ -1,16 +1,13 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IThemeDetail } from '@components/Themes/service';
-import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { USERTYPE } from '@utils/constant';
 // import PopupComponent from '@utils/PopupComponent';
 
 const LandingPageDetailThemes = ({
@@ -21,7 +18,7 @@ const LandingPageDetailThemes = ({
   refresh: () => void;
 }) => {
   const code = data?.code;
-  const { statusUser, isLogin } = useUserType();
+  const { isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const useSubcribe = useRequest(
     () => {
@@ -62,14 +59,7 @@ const LandingPageDetailThemes = ({
   // };
   const onSubscribe = () => {
     if (isLogin) {
-      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
-      } else if (data?.isSubsribed) {
+      if (data?.isSubsribed) {
         useUnSubcribe.run();
       } else {
         useSubcribe.run();
