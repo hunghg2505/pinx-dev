@@ -33,6 +33,7 @@ import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
+import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupReview from '../Popup/PopupReview';
@@ -667,24 +668,12 @@ const StockDetail = () => {
               )}
             </>
           ) : (
-            <div className='rounded-[12px] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                No recent review
-              </Text>
-
-              <Text type='body-12-regular' className='mb-[28px] mt-[16px] text-[#999999]'>
-                Recent review will show up here,so you can easily view them here later
-              </Text>
-
-              <Text
-                type='body-14-bold'
-                onClick={() => checkUserTypeReview(() => setOpenPopupReview(true))}
-                color='primary-2'
-                className='inline-block cursor-pointer'
-              >
-                Review now
-              </Text>
-            </div>
+            <EmptyData
+              title='No recent review'
+              description='Recent review will show up here,so you can easily view them here later'
+              textHasAction='Review now'
+              onClickTextHasAct={() => checkUserTypeReview(() => setOpenPopupReview(true))}
+            />
           )}
         </div>
       </div>

@@ -210,6 +210,7 @@ export interface IStockTheme {
   name: string;
   url: string;
   totalSubscribe: number;
+  code: string;
 }
 
 export interface IResponseThemesOfStock {
