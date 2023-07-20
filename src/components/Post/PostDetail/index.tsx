@@ -70,7 +70,6 @@ const PostDetail = () => {
   });
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(router.query.id));
-  console.log('🚀 ~ file: index.tsx:77 ~ PostDetail ~ commentsOfPost:', commentsOfPost);
 
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const totalComments = commentsOfPost?.data?.list?.length;
