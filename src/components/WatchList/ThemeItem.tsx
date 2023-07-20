@@ -1,10 +1,17 @@
+import { useRouter } from 'next/router';
+
 import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 const ThemeItem = ({ data }: { data: ITheme }) => {
   const latestSubscribe = data?.latestSubscribe;
+  const router = useRouter();
   return (
-    <div className='relative overflow-hidden rounded-[16px]'>
+    <div
+      className='relative cursor-pointer overflow-hidden rounded-[16px]'
+      onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(data?.code))}
+    >
       <img
         src={data?.bgImage || data?.url}
         alt=''

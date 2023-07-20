@@ -62,7 +62,7 @@ const MainHeader = () => {
   const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
-      [ROUTE_PATH.REDIRECT].includes(router?.pathname)) &&
+      [ROUTE_PATH.REDIRECT, '/theme/[id]'].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
   const menuMobileRef = useRef<any>(null);
@@ -392,7 +392,7 @@ const MainHeader = () => {
 
         <div
           className={classNames(
-            'fixed left-0 top-[65px] z-20 h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
+            'fixed left-0 top-[65px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
             {
               'translate-x-[0px]': isShowNavigate,
             },

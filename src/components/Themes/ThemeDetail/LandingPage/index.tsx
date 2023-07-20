@@ -11,9 +11,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
-
-import styles from './index.module.scss';
+// import PopupComponent from '@utils/PopupComponent';
 
 const LandingPageDetailThemes = ({
   data,
@@ -71,8 +69,6 @@ const LandingPageDetailThemes = ({
             message='Your account has been pending to close. You cannot perform this action'
           />
         ));
-      } else if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
       } else if (data?.isSubsribed) {
         useUnSubcribe.run();
       } else {
@@ -111,23 +107,22 @@ const LandingPageDetailThemes = ({
         <div className='flex items-center justify-between'>
           <div className='flex'>
             <div className='mr-[43px] mobile-max:mr-[20px]'>
-              <Text className={styles.text} type='body-20-medium'>
+              <Text type='body-20-medium' color='cbwhite'>
                 {data?.stockList?.length}
               </Text>
-              <Text className={styles.text} type='body-12-medium'>
+              <Text type='body-12-medium' color='cbwhite'>
                 Symbols
               </Text>
             </div>
             <div>
-              <Text className={styles.text} type='body-20-medium'>
+              <Text type='body-20-medium' color='cbwhite'>
                 {data?.totalSubscribe}
               </Text>
-              <Text className={styles.text} type='body-12-medium'>
+              <Text type='body-12-medium' color='cbwhite'>
                 Subscribed
               </Text>
             </div>
           </div>
-
           <div
             className={classNames(
               'flex cursor-pointer items-center rounded-[1000px]  px-[16px] py-[8px]',
