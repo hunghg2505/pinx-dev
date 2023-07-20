@@ -12,23 +12,22 @@ import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { IconSearchWhite } from '@layout/components/MainHeader';
-import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
 import PostItem from './PostItem';
 import PeopleItem from '../ModalPeopleYouKnow/PeopleItem';
-import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
+import { useGetPopular, useSearchPublic } from '../service';
 
 const Search = (props: any, ref: any) => {
   const refInput = React.useRef(null);
   const [form] = Form.useForm();
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
-  const { listRecent } = useGetSearchRecent();
+  // const { listRecent } = useGetSearchRecent();
   const { popular } = useGetPopular();
-  const isLogin = getAccessToken();
+  // const isLogin = getAccessToken();
   const router = useRouter();
   useFocusWithin(refInput, {
     onFocus: () => {
@@ -99,7 +98,9 @@ const Search = (props: any, ref: any) => {
             </FormItem>
           </Form>
           {showRecent && !valueInput && (
-            <div className='absolute left-0 top-[50px] z-10 w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+            <div className='absolute left-0 top-[50px] z-20 w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+              {/* {isLogin && (
+            <div className='absolute left-0 top-[50px] z-[999] w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
               {isLogin && (
                 <>
                   <Text type='body-14-semibold' color='neutral-black'>
@@ -121,7 +122,7 @@ const Search = (props: any, ref: any) => {
                     })}
                   </div>
                 </>
-              )}
+              )} */}
               <Text type='body-14-semibold' color='neutral-black'>
                 Popular
               </Text>
@@ -161,11 +162,13 @@ const Search = (props: any, ref: any) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
                   })}
                 </div>
-                <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
-                  <Text type='body-14-bold' color='primary-2'>
-                    Show more
-                  </Text>
-                </ExploreButton>
+                {companies?.length > 5 && (
+                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
+                    <Text type='body-14-bold' color='primary-2'>
+                      Show more
+                    </Text>
+                  </ExploreButton>
+                )}
               </>
             ) : (
               <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
@@ -185,11 +188,13 @@ const Search = (props: any, ref: any) => {
                     <PeopleItem data={item} key={index} />
                   ))}
                 </div>
-                <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
-                  <Text type='body-14-bold' color='primary-2'>
-                    Show more
-                  </Text>
-                </ExploreButton>
+                {users?.length > 5 && (
+                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
+                    <Text type='body-14-bold' color='primary-2'>
+                      Show more
+                    </Text>
+                  </ExploreButton>
+                )}
               </>
             ) : (
               <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
@@ -205,14 +210,14 @@ const Search = (props: any, ref: any) => {
             {posts?.length > 0 ? (
               <>
                 <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...posts]?.splice(0, 5)?.map((post: any, index: number) => {
+                  {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
                     return <PostItem key={index} postDetail={post} refresh={refresh} />;
                   })}
                 </div>
                 {posts?.length > 3 && (
                   <ExploreButton onClick={() => onShowMore(TYPESEARCH.POST)}>
                     <Text type='body-14-bold' color='primary-2'>
-                      Show more
+                      Exploring more posts
                     </Text>
                   </ExploreButton>
                 )}
@@ -231,14 +236,14 @@ const Search = (props: any, ref: any) => {
             {news?.length > 0 ? (
               <>
                 <div className='my-[16px] flex flex-col gap-y-[12px]'>
-                  {[...news]?.splice(0, 5)?.map((item: any, index: number) => {
+                  {[...news]?.splice(0, 3)?.map((item: any, index: number) => {
                     return <NewsItem key={`new-${index}`} data={item} />;
                   })}
                 </div>
                 {news?.length > 3 && (
                   <ExploreButton onClick={() => onShowMore(TYPESEARCH.NEWS)}>
                     <Text type='body-14-bold' color='primary-2'>
-                      Show more
+                      Exploring more news
                     </Text>
                   </ExploreButton>
                 )}

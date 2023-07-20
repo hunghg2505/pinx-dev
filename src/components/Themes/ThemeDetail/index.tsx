@@ -7,7 +7,7 @@ import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
-import Community from './Community';
+// import Community from './Community';
 import StockSymbols from './StockSymbols';
 import { TabsThemeDetailEnum, useGetThemeDetail } from '../service';
 
@@ -23,7 +23,7 @@ const ThemeDetail = () => {
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
-    TabsThemeDetailEnum.Community,
+    TabsThemeDetailEnum.StockSymbols,
   );
   const onChangeTab = (value: TabsThemeDetailEnum) => {
     setSelectTab(value);
@@ -38,10 +38,10 @@ const ThemeDetail = () => {
     }
   }, [isLogin]);
   const optionTab = [
-    {
-      label: 'Community',
-      value: TabsThemeDetailEnum.Community,
-    },
+    // {
+    //   label: 'Community',
+    //   value: TabsThemeDetailEnum.Community,
+    // },
     {
       label: 'Stock symbols',
       value: TabsThemeDetailEnum.StockSymbols,
@@ -60,9 +60,9 @@ const ThemeDetail = () => {
   const { themeDetail, refresh } = useGetThemeDetail(id);
   const renderContentTab = () => {
     switch (selectTab) {
-      case TabsThemeDetailEnum.Community: {
-        return isLogin ? <Community payload={themeDetail} /> : <></>;
-      }
+      // case TabsThemeDetailEnum.Community: {
+      //   return isLogin ? <Community payload={themeDetail} /> : <></>;
+      // }
       case TabsThemeDetailEnum.StockSymbols: {
         return <StockSymbols data={themeDetail} />;
       }
@@ -91,7 +91,7 @@ const ThemeDetail = () => {
         <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
-          {isLogin && <Community payload={themeDetail} />}
+          {/* {isLogin && <Community payload={themeDetail} />} */}
           <StockSymbols data={themeDetail} />
           <Activities data={themeDetail} />
         </div>
@@ -99,7 +99,7 @@ const ThemeDetail = () => {
           <Tabs
             onChange={onChangeTab}
             contenTab={optionTab}
-            defaultTab={TabsThemeDetailEnum.Community}
+            defaultTab={TabsThemeDetailEnum.StockSymbols}
             currentTab={selectTab}
             ref={refTheme}
           />

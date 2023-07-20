@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import Loading from '@components/UI/Loading';
-import Notification from '@components/UI/Notification';
+// import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { imageStock } from '@utils/common';
 
@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 const ItemAddStock = ({ data }: { data: any }) => {
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Add stock success' />);
+      // toast(() => <Notification type='success' message='Add stock success' />);
     },
   });
   const onAddStock = () => {

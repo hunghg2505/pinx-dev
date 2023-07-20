@@ -1,11 +1,13 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
+import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
   theme: ITheme;
@@ -67,6 +69,7 @@ const IconChecked = () => (
 const ThemesItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { theme, isLogin, refresh } = props;
+  const router = useRouter();
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -142,10 +145,10 @@ const ThemesItem = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
+              className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
+              onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
             />
           )}
-
           <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
             <div className='flex h-[65px] flex-col items-center justify-center px-[8px]'>
               <Text type='body-12-bold' color='primary-5' className='text-center'>
