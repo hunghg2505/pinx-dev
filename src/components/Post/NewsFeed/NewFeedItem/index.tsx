@@ -69,7 +69,12 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
-
+  const [following, setFollowing] = React.useState(postDetail?.isFollowing);
+  const [report, setReport] = React.useState(isReported);
+  React.useEffect(() => {
+    setFollowing(postDetail?.isFollowing);
+    setReport(isReported);
+  }, [postDetail?.isFollowing, isReported]);
   const handleHidePopup = () => {
     showReport && setShowReport(false);
   };
@@ -119,6 +124,7 @@ const NewFeedItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onRefreshPostDetail();
+        setFollowing(true);
       },
     },
   );
@@ -131,13 +137,14 @@ const NewFeedItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onRefreshPostDetail();
+        setFollowing(false);
       },
     },
   );
 
   const onFollow = () => {
     if (isLogin) {
-      if (postDetail?.isFollowing) {
+      if (following) {
         onUnFollowUser.run();
       } else {
         onFollowUser.run();
@@ -164,6 +171,7 @@ const NewFeedItem = (props: IProps) => {
     setModalReportVisible(false);
     onRefreshPostDetail();
     setShowReport(false);
+    setReport(false);
   };
 
   const renderLogo = () => {
@@ -249,13 +257,13 @@ const NewFeedItem = (props: IProps) => {
     return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
   };
   const renderTextFollow = () => {
-    if (postDetail?.isFollowing) {
+    if (following) {
       return (
         <>
           <div
             className={classNames(
               'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+              { 'bg-[#F3F2F6]': following },
             )}
           >
             <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
@@ -281,7 +289,7 @@ const NewFeedItem = (props: IProps) => {
             <div
               className={classNames(
                 'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-                { 'bg-[#F3F2F6]': postDetail?.isFollowing },
+                { 'bg-[#F3F2F6]': following },
               )}
             >
               <IconPlus />
@@ -432,7 +440,7 @@ const NewFeedItem = (props: IProps) => {
                   </div>
                 )}
 
-                {!isReported && !isMyPost && (
+                {!report && !isMyPost && (
                   <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                     <img
                       src='/static/icons/iconFlag.svg'
