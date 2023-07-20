@@ -47,7 +47,7 @@ const ModalAddStock = (props: IProps) => {
       });
     },
     {
-      wait: 500,
+      wait: 300,
     },
   );
   const listStock = data?.data?.companies || [];
@@ -55,7 +55,7 @@ const ModalAddStock = (props: IProps) => {
   return (
     <>
       <span onClick={onVisible}>{children}</span>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
+      <Dialog className='popupAddNewStock' visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
         <div className='flex flex-col gap-y-[20px]'>
           <div></div>
           <div>

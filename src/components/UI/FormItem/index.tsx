@@ -21,7 +21,7 @@ const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...
         const hasError: string = errors && errors[0];
         return (
           <div className={classNames('flex flex-col', className)}>
-            <div>
+            <div className='h-full w-full'>
               {typeof children === 'function'
                 ? children({ onChange, value, meta, hasError }, context)
                 : React.cloneElement(children, { onChange, value, hasError, ...children.props })}

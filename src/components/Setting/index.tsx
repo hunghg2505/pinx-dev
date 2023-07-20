@@ -31,6 +31,7 @@ interface ISettingItem {
   hidden?: boolean;
   linkStyle?: boolean;
   hideDivider?: boolean;
+  disableClick?: boolean;
 }
 
 const Setting = () => {
@@ -76,6 +77,7 @@ const Setting = () => {
         title: 'Version 2.1.1',
         hideArrow: true,
         hideDivider: !isMobile,
+        disableClick: true,
       },
       {
         title: 'Disclosure',
@@ -114,10 +116,12 @@ const Setting = () => {
       !item.hidden && (
         <div
           onClick={() => {
-            if (item.action) {
-              item.action();
-            } else {
-              router.push(item.path || '');
+            if (!item.disableClick) {
+              if (item.action) {
+                item.action();
+              } else {
+                router.push(item.path || '');
+              }
             }
           }}
           key={index}
@@ -125,6 +129,7 @@ const Setting = () => {
             'flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 pb-4 pt-3',
             {
               'border-none': item.hideDivider,
+              'cursor-auto': item.disableClick,
             },
           )}
         >

@@ -20,12 +20,14 @@ const IconArrow = () => (
 const Community = ({ payload }: { payload: IThemeDetail }) => {
   const [page, setPage] = React.useState(1);
   const [listCommunity, setListCommunity] = React.useState<any>([]);
+  console.log('🚀 ~ file: index.tsx:23 ~ Community ~ listCommunity:', listCommunity);
   const { community, run } = useGetCommunity(payload?.code, {
     onSuccess: (res: any) => {
       setPage(res?.data?.number);
       setListCommunity([...listCommunity, ...res?.data?.content]);
     },
   });
+  console.log('🚀 ~ file: index.tsx:30 ~ Community ~ community:', community);
   const totalPages = community?.totalPages || 2;
   React.useEffect(() => {
     run();
@@ -60,28 +62,29 @@ const Community = ({ payload }: { payload: IThemeDetail }) => {
         </div>
       </div>
       <div className='flex items-center gap-x-[11px] desktop:hidden'>
-        {listCommunity?.slice(0, 3)?.map((item: any, index: number) => {
-          return (
-            <div className='flex flex-col content-center items-center justify-center' key={index}>
-              <img
-                src={item.avatar}
-                alt=''
-                width='0'
-                height='0'
-                className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
-              />
-              <div className='mt-[-10px] flex h-[24px] w-[24px] content-center items-center justify-center rounded-full bg-[#FFFFFF] shadow'>
+        {listCommunity &&
+          [...listCommunity]?.slice(0, 3)?.map((item: any, index: number) => {
+            return (
+              <div className='flex flex-col content-center items-center justify-center' key={index}>
                 <img
-                  src='/static/icons/heart-red.svg'
+                  src={item.avatar}
                   alt=''
                   width='0'
                   height='0'
-                  className='h-[16px] w-[16px]'
+                  className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
                 />
+                <div className='mt-[-10px] flex h-[24px] w-[24px] content-center items-center justify-center rounded-full bg-[#FFFFFF] shadow'>
+                  <img
+                    src='/static/icons/heart-red.svg'
+                    alt=''
+                    width='0'
+                    height='0'
+                    className='h-[16px] w-[16px]'
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         <ModalCommunity code={payload?.code}>
           <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
             <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>

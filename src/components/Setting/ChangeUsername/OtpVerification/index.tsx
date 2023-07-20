@@ -58,7 +58,7 @@ const ChangeUsernameVertification = () => {
   const requestChangePassword = useChangeUsername({
     onSuccess: () => {
       toast(() => <Notification type='success' message='Change username success' />);
-      onLogout();
+      onLogout(ROUTE_PATH.LOGIN);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);

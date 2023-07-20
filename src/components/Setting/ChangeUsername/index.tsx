@@ -23,7 +23,7 @@ const customInputClassName =
 const disabledInputClassname = 'text-[--neutral-5]';
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
-const Setting = () => {
+const ChangeUsername = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
@@ -156,4 +156,4 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+export default ChangeUsername;

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
@@ -6,6 +7,7 @@ import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 import styles from '../index.module.scss';
 
@@ -23,6 +25,7 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
       ? data?.stockCode
       : data?.stockCode?.slice(1, 4)
   }.png`;
+
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       refresh && refresh();
@@ -32,8 +35,9 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
   const onAddStock = () => {
     requestSelectStock.run(data?.stockCode);
   };
+
   return (
-    <>
+    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex flex-col gap-y-[16px]'>
         <img src={url} alt='' className='m-auto h-[40px] w-[40px] rounded-full object-contain' />
         <div className='flex flex-col gap-y-[8px] text-center'>
@@ -94,7 +98,7 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
           </div>
         </div>
       </div>
-    </>
+    </Link>
   );
 };
 export default InterestItem;
