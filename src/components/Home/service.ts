@@ -175,7 +175,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     },
   );
   return {
-    listNewFeed: data?.data?.list,
+    listNewFeed: data?.data,
     run,
     refresh,
     loading,
