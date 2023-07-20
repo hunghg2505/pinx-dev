@@ -47,7 +47,6 @@ const Explore = () => {
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  console.log('🚀 ~ file: index.tsx:50 ~ Explore ~ suggestionPeople:', suggestionPeople);
   const isLogin = !!getAccessToken();
   const router = useRouter();
   const { theme } = useGetTheme();

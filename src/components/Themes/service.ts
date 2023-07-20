@@ -43,13 +43,18 @@ export interface IUserTheme {
   name: string;
   phoneNumber: string;
 }
-export const useGetThemeDetail = (code: any) => {
-  const { data, refresh } = useRequest(() => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_THEME_DETAIL(code))
-      : requestPist.get(API_PATH.PUBLIC_GET_THEME_DETAIL(code));
-  });
+export const useGetThemeDetail = (code: any, option = {}) => {
+  const { data, refresh } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_THEME_DETAIL(code))
+        : requestPist.get(API_PATH.PUBLIC_GET_THEME_DETAIL(code));
+    },
+    {
+      ...option,
+    },
+  );
   return {
     themeDetail: data?.data,
     refresh,
