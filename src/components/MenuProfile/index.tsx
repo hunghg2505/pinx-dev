@@ -1,12 +1,15 @@
-import { forwardRef, memo, useImperativeHandle, useState } from 'react';
+import { forwardRef, memo, useEffect, useImperativeHandle } from 'react';
 
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
 import { MainButton, SemiMainButton } from '@components/UI/Button';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH, isUserVerified } from '@utils/common';
+import { openProfileAtom } from '@store/profile/profile';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { ROUTE_PATH, disableSroll, enableScroll, isUserVerified } from '@utils/common';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import Back from './Back';
@@ -17,8 +20,10 @@ import UpdateAccount from './UpdateAccount';
 
 const MenuProfile = forwardRef((_, ref) => {
   const { userLoginInfo } = useUserLoginInfo();
+  const { run: requestUserProfile } = useProfileInitial();
   const router = useRouter();
   const { isLogin } = useAuth();
+  const [profileOpen, setProfileOpen] = useAtom(openProfileAtom);
 
   const goToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
@@ -32,23 +37,35 @@ const MenuProfile = forwardRef((_, ref) => {
       },
     });
   };
-  const [state, setState] = useState({
-    open: false,
-  });
+
   const close = () => {
-    setState((prev) => ({ ...prev, open: false }));
+    setProfileOpen(false);
   };
+
   const open = () => {
-    setState((prev) => ({ ...prev, open: true }));
+    setProfileOpen(true);
   };
+
   useImperativeHandle(ref, () => ({ close, open }));
+
+  useEffect(() => {
+    if (profileOpen) {
+      disableSroll();
+    } else {
+      enableScroll();
+    }
+  }, [profileOpen]);
+
+  useEffect(() => {
+    requestUserProfile();
+  }, [profileOpen]);
 
   return (
     <div
       className={classNames(
-        'fixed left-0 top-0 z-50 h-screen w-full  bg-white duration-300 ease-out',
+        'fixed left-0 top-0 h-screen w-full  bg-white duration-300 ease-out z-[9999]',
         {
-          'translate-x-[-100%]': !state.open,
+          'translate-x-[100%]': !profileOpen,
         },
       )}
     >

@@ -62,7 +62,7 @@ const MainHeader = () => {
   const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
-      [ROUTE_PATH.REDIRECT, '/theme/[id]'].includes(router?.pathname)) &&
+      [ROUTE_PATH.REDIRECT, '/theme/[id]', ROUTE_PATH.PEOPLEINSPOTLIGHT, ROUTE_PATH.THEME, ROUTE_PATH.TOP_WATCHING, ROUTE_PATH.TOPMENTION, ROUTE_PATH.PINEX_TOP_20, ROUTE_PATH.SEARCH].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
   const menuMobileRef = useRef<any>(null);
@@ -71,7 +71,7 @@ const MainHeader = () => {
   };
 
   const renderAvatarMobile = () => {
-    return isLogin ? (
+    return isLogin && (
       <>
         <img
           src={userLoginInfo?.avatar}
@@ -83,16 +83,6 @@ const MainHeader = () => {
           onClick={goToMyProfile}
         />
       </>
-    ) : (
-      <img
-        src='/static/images/guest_avatar.png'
-        alt=''
-        width={0}
-        height={0}
-        sizes='100vw'
-        className='ml-5 h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
-        onClick={goToMyProfile}
-      />
     );
   };
 
@@ -141,32 +131,6 @@ const MainHeader = () => {
             Sign up
           </Text>
         </button>
-        <div className='relative laptop-max:hidden'>
-          <img
-            src='/static/images/guest_avatar.png'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='ml-5 h-[52px] w-[52px] rounded-full'
-          />
-          <Dropdown
-            trigger={['click']}
-            overlay={avatarDropdown}
-            animation='slide-up'
-            visible={avaDropdownVisible}
-            onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
-          >
-            <img
-              src='/static/icons/arrow_down.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] cursor-pointer rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
-            />
-          </Dropdown>
-        </div>
       </>
     );
   };
