@@ -1,11 +1,13 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
+import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
   theme: ITheme;
@@ -67,6 +69,7 @@ const IconChecked = () => (
 const ThemesItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { theme, isLogin, refresh } = props;
+  const router = useRouter();
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -143,6 +146,7 @@ const ThemesItem = (props: IProps) => {
               height='0'
               sizes='100vw'
               className='absolute right-[0] top-[0] h-full w-full rounded-[10px]'
+              onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
             />
           )}
 

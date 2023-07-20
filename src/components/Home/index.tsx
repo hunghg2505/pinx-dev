@@ -52,7 +52,6 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
-
   const onShowModal = () => {
     refModal?.current?.onVisible && refModal?.current?.onVisible();
   };
