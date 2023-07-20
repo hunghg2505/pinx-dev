@@ -170,7 +170,7 @@ const PostAction = (props: IPostActionProps) => {
             color='primary-5'
             className={classNames({ '!text-[#589DC0]': like && isLogin })}
           >
-            {totalLike || ''} Like
+            {totalLike > 0 ? totalLike : ''} Like
           </Text>
         </div>
         <div

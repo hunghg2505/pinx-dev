@@ -11,7 +11,6 @@ export const dataMention: any = atom([]);
 
 export default forwardRef((props: any, ref) => {
   const router = useRouter();
-  console.log('🚀 ~ file: MentionList.tsx:14 ~ forwardRef ~ router:', router);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectItem = (index: any) => {
     const item = props.items[index];

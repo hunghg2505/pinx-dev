@@ -38,7 +38,6 @@ const IconPlus = () => (
 const PostItem = (props: IProps) => {
   const { postDetail } = props;
   const router = useRouter();
-  console.log('🚀 ~ file: index.tsx:39 ~ PostItem ~ postDetail:', postDetail);
   const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
   React.useEffect(() => {
     setIsFollowed(postDetail?.isFollowing);
