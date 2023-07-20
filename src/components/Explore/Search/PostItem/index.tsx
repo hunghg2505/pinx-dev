@@ -357,7 +357,7 @@ const PostItem = (props: IProps) => {
               </button>
             </div>
           </div>
-          <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
+          <div className='desktop:ml-[64px mt-[16px]'>
             <PostTypeHome postDetail={postDetail} />
           </div>
         </div>
