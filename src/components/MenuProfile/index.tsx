@@ -74,6 +74,7 @@ const MenuProfile = forwardRef((_, ref) => {
         userName={userLoginInfo?.displayName || 'Anonymous User'}
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
         status={isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
+        close={close}
       />
       {isLogin ? (
         <>
