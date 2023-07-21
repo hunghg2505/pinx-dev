@@ -29,7 +29,6 @@ const IconFollowBlue = () => (
 );
 const ItemPeople = (props: IProps) => {
   const { data } = props;
-  console.log('🚀 ~ file: index.tsx:32 ~ ItemPeople ~ data:', data);
   const router = useRouter();
   const [isFollow, setIsFollow] = React.useState(false);
   const image = data.avatar.includes('http');

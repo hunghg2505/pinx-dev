@@ -47,7 +47,6 @@ const Explore = () => {
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  console.log('🚀 ~ file: index.tsx:50 ~ Explore ~ suggestionPeople:', suggestionPeople);
   const isLogin = !!getAccessToken();
   const router = useRouter();
   const { theme } = useGetTheme();
@@ -300,12 +299,12 @@ const Explore = () => {
       <div className='relative mb-[16px] flex flex-col gap-y-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
         <div className='hidden mobile-max:block'>
-          {listNewFeed?.slice(0, 3)?.map((item: IPost, index: number) => {
+          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
             return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
         <div className='block mobile-max:hidden'>
-          {listNewFeed?.slice(0, 3)?.map((item: IPost, index: number) => {
+          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
             return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>

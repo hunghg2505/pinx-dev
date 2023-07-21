@@ -53,7 +53,6 @@ const IconPlus = () => (
 const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
     props;
-  console.log('🚀 ~ file: index.tsx:55 ~ NewFeedItem ~ postDetail:', postDetail);
 
   const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -63,7 +62,6 @@ const NewFeedItem = (props: IProps) => {
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
-  console.log('router.pathname', router.pathname);
 
   const ref = useRef<HTMLButtonElement>(null);
   const refHover = useRef(null);
@@ -72,7 +70,6 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
-  console.log('🚀 ~ file: index.tsx:75 ~ NewFeedItem ~ isReported:', isReported);
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
@@ -99,6 +96,7 @@ const NewFeedItem = (props: IProps) => {
 
   const idPost = id || postDetail?.id;
   const urlPost = window.location.origin + '/post/' + idPost;
+  const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
 
   // hide post
   const onHidePost = useRequest(
@@ -429,7 +427,8 @@ const NewFeedItem = (props: IProps) => {
                     TYPEPOST.ActivityWatchlist,
                     TYPEPOST.PinetreePost,
                   ].includes(postDetail?.post.postType) &&
-                    router.pathname !== '/explore' && (
+                    router.pathname !== '/explore' &&
+                    !isMyProfilePath && (
                       <div
                         className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                         onClick={handleHidePost}
@@ -469,6 +468,38 @@ const NewFeedItem = (props: IProps) => {
                         </Text>
                       </ModalReport>
                     </div>
+                  )}
+
+                  {isMyProfilePath && (
+                    <>
+                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                        <img
+                          src='/static/icons/iconEdit.svg'
+                          alt=''
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='mr-[8px] h-[20px] w-[20px] object-contain'
+                        />
+                        <Text type='body-14-medium' color='neutral-2'>
+                          Edit
+                        </Text>
+                      </div>
+
+                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                        <img
+                          src='/static/icons/iconDelete.svg'
+                          alt=''
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='mr-[8px] h-[20px] w-[20px] object-contain'
+                        />
+                        <Text type='body-14-medium' color='neutral-2'>
+                          Delete
+                        </Text>
+                      </div>
+                    </>
                   )}
                 </div>
               )}
