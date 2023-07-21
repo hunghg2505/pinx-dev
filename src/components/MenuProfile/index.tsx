@@ -9,7 +9,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, disableSroll, enableScroll, isUserVerified } from '@utils/common';
+import { ROUTE_PATH, disableScroll, enableScroll, isUserVerified } from '@utils/common';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import Back from './Back';
@@ -50,7 +50,7 @@ const MenuProfile = forwardRef((_, ref) => {
 
   useEffect(() => {
     if (profileOpen) {
-      disableSroll();
+      disableScroll();
     } else {
       enableScroll();
     }
