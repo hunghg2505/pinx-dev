@@ -51,6 +51,7 @@ const ComponentWatchList = (props: IProps) => {
   const [dataSocket, setDataSocket] = React.useState<any>({});
 
   socket.on('public', (message: any) => {
+    console.log('message',message);
     const data = message.data;
     if (data?.id === 3220) {
       setDataSocket(data);

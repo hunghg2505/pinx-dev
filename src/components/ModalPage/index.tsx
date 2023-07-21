@@ -7,6 +7,7 @@ import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopUpEkycInternal from '@components/UI/Popup/PopupEkycInternal';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
+import PopupSubsribeTheme from '@components/UI/Popup/PopupSubscribeTheme';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
@@ -15,6 +16,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 const ModalPage = () => {
   const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+
   const { userType, isReadTerms } = useUserLoginInfo();
   const onCloseModal = () => {
     setPopupStatus(initialPopupStatus);
@@ -51,6 +53,11 @@ const ModalPage = () => {
       {popupStatus.popupEkyc && (
         <PopUpEkycInternal
           visible={popupStatus.popupEkyc}
+        />
+      )}
+      {popupStatus.popupSubsribeTheme && (
+        <PopupSubsribeTheme
+          visible={popupStatus.popupSubsribeTheme}
         />
       )}
     </>

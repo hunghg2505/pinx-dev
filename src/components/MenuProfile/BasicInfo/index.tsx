@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import {  useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { useAuth } from '@store/auth/useAuth';
@@ -11,10 +11,12 @@ const BasicInfo = ({
   avatar,
   userName,
   status,
+  close,
 }: {
   avatar: string;
   userName: string;
   status: string;
+  close: () => void;
 }) => {
   const { isLogin } = useAuth();
   const router = useRouter();
@@ -23,6 +25,7 @@ const BasicInfo = ({
       className=' mb-[16px] px-[16px]'
       onClick={() => {
         router.push(ROUTE_PATH.MY_PROFILE);
+        close();
       }}
     >
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] p-[12px]'>

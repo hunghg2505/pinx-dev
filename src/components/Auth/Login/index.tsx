@@ -80,9 +80,8 @@ const Login = (props: Iprops) => {
             ...popupStatus,
             popupAuth: false,
           });
-        } else {
-          router.push(ROUTE_PATH.HOME);
         }
+        router.push(ROUTE_PATH.HOME);
       }
     },
     onError(e) {

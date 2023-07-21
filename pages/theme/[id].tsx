@@ -33,7 +33,7 @@ export async function getServerSideProps({ locale }: any) {
   // // console.log('🚀 ~ file: [id].tsx:31 ~ getServerSideProps ~ token:', data);
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'theme'])),
       // Will be passed to the page component as props
     },
   };

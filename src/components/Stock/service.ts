@@ -17,6 +17,8 @@ import {
   IResponseStockReviews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
+  CompanyRelatedType,
+  IResponseCompaniesRelated,
 } from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
@@ -316,6 +318,42 @@ const useStockInvesting = (stockCode: string, options?: IOptions) => {
   return requestGetStockInvesting;
 };
 
+const useCompaniesRelated = (
+  hashtagId: string,
+  type: CompanyRelatedType,
+  params?: object,
+): IResponseCompaniesRelated => {
+  const { data } = useRequest(
+    () => {
+      let apiPath;
+      switch (type) {
+        case CompanyRelatedType.INDUSTRY: {
+          apiPath = API_PATH.PUBLIC_HASHTAG_INDUSTRY;
+          break;
+        }
+        case CompanyRelatedType.HIGHLIGHTS: {
+          apiPath = API_PATH.PUBLIC_HASHTAG_HIGHLIGHT;
+          break;
+        }
+      }
+
+      return requestMarket.get(apiPath, {
+        params: {
+          hashtagId,
+          ...params,
+        },
+      });
+    },
+    {
+      refreshDeps: [hashtagId, type],
+    },
+  );
+
+  return {
+    companiesRelated: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -334,4 +372,5 @@ export {
   useStockWatchingInvesting,
   useStockWatching,
   useStockInvesting,
+  useCompaniesRelated,
 };

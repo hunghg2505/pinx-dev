@@ -3,22 +3,14 @@ import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import SEO from '@components/SEO';
-
+const StockRelated = dynamic(() => import('@components/Stock/CompanyRelated'));
 const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
-const Company = dynamic(() => import('@components/Stock/Company'), {
-  ssr: false,
-});
-const BusinessPage = () => {
-  return (
-    <>
-      <SEO title='Company' />
-      <Company />
-    </>
-  );
+
+const StockRelatedPage = () => {
+  return <StockRelated />;
 };
 
-BusinessPage.getLayout = (page: ReactElement) => {
+StockRelatedPage.getLayout = (page: ReactElement) => {
   return <ExploreLayout>{page}</ExploreLayout>;
 };
 
@@ -31,4 +23,4 @@ export async function getServerSideProps({ locale }: any) {
   };
 }
 
-export default BusinessPage;
+export default StockRelatedPage;

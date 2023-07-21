@@ -9,12 +9,13 @@ import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import Notification from '@components/UI/Notification';
+import NotificationShareActivity from '@components/UI/Notification/ShareActivity';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, formatNumber } from '@utils/common';
-import { IMAGE_COMPANY_URL, USERTYPE } from '@utils/constant';
+import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
@@ -33,6 +34,7 @@ import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
+import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupReview from '../Popup/PopupReview';
@@ -52,7 +54,7 @@ import {
   useStockNews,
   useThemesOfStock,
 } from '../service';
-import { FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
+import { CompanyRelatedType, FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
 
 const MAX_LINE = 4;
 const LINE_HEIGHT = 16;
@@ -120,6 +122,7 @@ const convertFinancialIndexData = (data?: IFinancialIndex) => {
 };
 
 const StockDetail = () => {
+  const [showPopupShareAct, setShowPopupShareAct] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
@@ -127,7 +130,7 @@ const StockDetail = () => {
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
-  const { isLogin, statusUser } = useUserType();
+  const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const router = useRouter();
@@ -152,12 +155,6 @@ const StockDetail = () => {
     limit: ACTIVITIES_ITEM_LIMIT,
   });
 
-  const urlImageCompany = `${
-    stockDetail?.data?.stockCode?.length === 3 || stockDetail?.data?.stockCode[0] !== 'C'
-      ? stockDetail?.data?.stockCode
-      : stockDetail?.data?.stockCode?.slice(1, 4)
-  }.png`;
-
   const totalColumnHighligh = Math.ceil(
     (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
   );
@@ -167,9 +164,36 @@ const StockDetail = () => {
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
 
+  const toastRef = useRef<string>();
+
+  useEffect(() => {
+    const title = isFollowedStock
+      ? `Tell people the reason you watched for ${stockCode}?`
+      : `Tell people the reason you unwatched ${stockCode}?`;
+
+    if (showPopupShareAct) {
+      toastRef.current = toast.loading(
+        () => (
+          <NotificationShareActivity
+            onClickShare={() => {
+              toast.dismiss(toastRef.current);
+              console.log('Open popup create post');
+            }}
+            title={title}
+          />
+        ),
+        {
+          // eslint-disable-next-line unicorn/no-null
+          icon: null,
+        },
+      );
+    }
+  }, [isFollowedStock]);
+
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
       refreshMyStocks();
+      setShowPopupShareAct(true);
     },
   });
 
@@ -184,9 +208,12 @@ const StockDetail = () => {
     router.back();
   };
 
-  const goToListCompanyPage = () => {
+  const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
     router.push({
-      pathname: '/stock/business/123',
+      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
+      query: {
+        type,
+      },
     });
   };
 
@@ -202,8 +229,15 @@ const StockDetail = () => {
     }
   };
 
-  // review stock
   const handleRating = (star: number) => {
+    requestReviewStock.run({
+      rateValue: star,
+      message: stockDetails?.data.customerReview?.message,
+    });
+  };
+
+  // review stock
+  const checkUserTypeReview = (callback: () => void) => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         toast(() => (
@@ -213,10 +247,7 @@ const StockDetail = () => {
           />
         ));
       } else if (statusUser === USERTYPE.VSD) {
-        requestReviewStock.run({
-          rateValue: star,
-          message: stockDetails?.data.customerReview?.message,
-        });
+        callback();
       } else {
         PopupComponent.openEKYC();
       }
@@ -305,7 +336,7 @@ const StockDetail = () => {
         <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
           <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
             <img
-              src={IMAGE_COMPANY_URL + urlImageCompany}
+              src={imageStock(stockCode)}
               alt={`Logo ${stockDetail?.data?.name}`}
               className='block'
             />
@@ -400,7 +431,7 @@ const StockDetail = () => {
             })}
           >
             <div ref={introDescRef} className='leading-[inherit]'>
-              <Text type='body-12-regular' className='!leading-[inherit]'>
+              <Text type='body-12-regular' className='whitespace-pre-line !leading-[inherit]'>
                 {stockDetail?.data?.introduction}
               </Text>
             </div>
@@ -453,7 +484,7 @@ const StockDetail = () => {
           <div
             className='flex cursor-pointer items-center border-b border-solid border-[var(--neutral-7)] py-[12px]'
             key={index}
-            onClick={goToListCompanyPage}
+            onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item.id)}
           >
             {index === 0 ? (
               <img
@@ -534,7 +565,11 @@ const StockDetail = () => {
                 {taggingInfo?.data?.highlights
                   .slice(index * HIGHLIGH_ROW_LIMIT, HIGHLIGH_ROW_LIMIT * (index + 1))
                   .map((highlight, highlighIndex) => (
-                    <HighlighItem value={highlight.tagName} key={highlighIndex} />
+                    <HighlighItem
+                      onGoToCompaniesRelatedPage={goToListCompanyPage}
+                      data={highlight}
+                      key={highlighIndex}
+                    />
                   ))}
               </div>
             ))}
@@ -542,7 +577,11 @@ const StockDetail = () => {
         ) : (
           <div className='flex flex-wrap gap-[12px]'>
             {taggingInfo?.data?.highlights.map((item, index) => (
-              <HighlighItem value={item.tagName} key={index} />
+              <HighlighItem
+                onGoToCompaniesRelatedPage={goToListCompanyPage}
+                data={item}
+                key={index}
+              />
             ))}
           </div>
         )}
@@ -588,7 +627,7 @@ const StockDetail = () => {
           <div className='mb-[28px] flex flex-col gap-y-[12px] tablet:flex-row tablet:justify-between'>
             <Rating
               star={stockDetails?.data.customerReview?.rateValue || 0}
-              onChange={(star) => handleRating(star)}
+              onChange={(star) => checkUserTypeReview(() => handleRating(star))}
             />
 
             <div className='flex gap-x-[52px]'>
@@ -634,9 +673,14 @@ const StockDetail = () => {
 
           {stockDetails?.data.details.children.length ? (
             <>
-              <ReviewItem data={stockDetails.data.details.children[0]} isLatestReview />
+              <ReviewItem
+                isMyReview={userId === stockDetails.data.details.children[0].customerId}
+                data={stockDetails.data.details.children[0]}
+                isLatestReview
+                onEditReviewSuccess={handleReviewSuccess}
+              />
 
-              {stockDetails.data.details.children.length > STOCK_REVIEW_LIMIT && (
+              {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
                 <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                   <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                     <Text type='body-14-bold' color='primary-2'>
@@ -647,19 +691,12 @@ const StockDetail = () => {
               )}
             </>
           ) : (
-            <div className='rounded-[12px] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                No recent review
-              </Text>
-
-              <Text type='body-12-regular' className='mb-[28px] mt-[16px] text-[#999999]'>
-                Recent review will show up here,so you can easily view them here later
-              </Text>
-
-              <Text type='body-14-bold' color='primary-2' className='inline-block cursor-pointer'>
-                Review now
-              </Text>
-            </div>
+            <EmptyData
+              title='No recent review'
+              description='Recent review will show up here,so you can easily view them here later'
+              textHasAction='Review now'
+              onClickTextHasAct={() => checkUserTypeReview(() => setOpenPopupReview(true))}
+            />
           )}
         </div>
       </div>

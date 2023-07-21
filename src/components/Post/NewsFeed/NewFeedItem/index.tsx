@@ -96,6 +96,7 @@ const NewFeedItem = (props: IProps) => {
 
   const idPost = id || postDetail?.id;
   const urlPost = window.location.origin + '/post/' + idPost;
+  const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
 
   // hide post
   const onHidePost = useRequest(
@@ -426,7 +427,8 @@ const NewFeedItem = (props: IProps) => {
                     TYPEPOST.ActivityWatchlist,
                     TYPEPOST.PinetreePost,
                   ].includes(postDetail?.post.postType) &&
-                    router.pathname !== '/explore' && (
+                    router.pathname !== '/explore' &&
+                    !isMyProfilePath && (
                       <div
                         className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
                         onClick={handleHidePost}
@@ -466,6 +468,38 @@ const NewFeedItem = (props: IProps) => {
                         </Text>
                       </ModalReport>
                     </div>
+                  )}
+
+                  {isMyProfilePath && (
+                    <>
+                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                        <img
+                          src='/static/icons/iconEdit.svg'
+                          alt=''
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='mr-[8px] h-[20px] w-[20px] object-contain'
+                        />
+                        <Text type='body-14-medium' color='neutral-2'>
+                          Edit
+                        </Text>
+                      </div>
+
+                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                        <img
+                          src='/static/icons/iconDelete.svg'
+                          alt=''
+                          width='0'
+                          height='0'
+                          sizes='100vw'
+                          className='mr-[8px] h-[20px] w-[20px] object-contain'
+                        />
+                        <Text type='body-14-medium' color='neutral-2'>
+                          Delete
+                        </Text>
+                      </div>
+                    </>
                   )}
                 </div>
               )}

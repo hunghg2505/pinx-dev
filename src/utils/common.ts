@@ -29,6 +29,8 @@ export const ROUTE_PATH = {
   STOCK_ALSO_OWN: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/also-own`,
   STOCK_NEWS: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/news`,
   STOCK_SUBSCRIBER: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/subscriber`,
+  STOCK_RELATED: (stockCode: string, hashtagId: string) =>
+    `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/related/${hashtagId}`,
   PAGE_NOT_FOUND: '/page-not-found',
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
@@ -234,6 +236,6 @@ export const enableScroll = () => {
   document.body.style.overflow = 'scroll';
 };
 
-export const disableSroll = () => {
+export const disableScroll = () => {
   document.body.style.overflow = 'hidden';
 };

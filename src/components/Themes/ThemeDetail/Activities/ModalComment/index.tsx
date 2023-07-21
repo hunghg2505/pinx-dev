@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import Dialog from 'rc-dialog';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
@@ -20,6 +21,7 @@ interface Iprops {
 
 const ModalComment = (props: Iprops) => {
   const { children, closeIcon, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
+  const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
 
   const refSubReplies: any = React.useRef();
@@ -83,7 +85,7 @@ const ModalComment = (props: Iprops) => {
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
         <div className=''>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
-            Comment
+            {t('comment')}
           </Text>
           <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
@@ -108,8 +110,12 @@ const ModalComment = (props: Iprops) => {
                 );
               })
             ) : (
-              <Text type='body-14-regular' color='neutral-3' className='mt-[16px] text-center'>
-                There is no comments
+              <Text
+                type='body-14-regular'
+                color='neutral-3'
+                className='mt-[16px] text-center tablet:hidden'
+              >
+                {t('empty_comment')}
               </Text>
             )}
           </div>
