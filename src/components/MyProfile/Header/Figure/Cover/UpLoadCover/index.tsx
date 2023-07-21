@@ -11,7 +11,7 @@ const UpLoadCover = () => {
   const { run, loading } = useUpdateUserProfile(profileUser?.reload);
   const { run: uploadImage, loading: loadingUpload } = useUploadImage(run);
   return (
-    <label className='cursor-pointer'>
+    <label className='cursor-pointer tablet:hidden'>
       <input
         disabled={loading || loadingUpload}
         type='file'

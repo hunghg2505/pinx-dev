@@ -45,6 +45,7 @@ export interface ISuggestionPeople {
   isKol: boolean;
   name: string;
   numberFollowers: number;
+  isFollowed: boolean;
 }
 export interface ILatestSubscribe {
   avatar: string;
@@ -174,7 +175,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     },
   );
   return {
-    listNewFeed: data?.data?.list,
+    listNewFeed: data?.data,
     run,
     refresh,
     loading,

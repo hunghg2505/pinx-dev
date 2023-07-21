@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -15,16 +16,20 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
   data: ISuggestionPeople;
 }
 const PeopleItem = (props: Iprops) => {
   const { data } = props;
-  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom); 
+  const router = useRouter();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  const [isFollow, setIsFollow] = React.useState(false);
+  const [isFollow, setIsFollow] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    setIsFollow(data.isFollowed);
+  }, [data?.isFollowed]);
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);
@@ -73,7 +78,10 @@ const PeopleItem = (props: Iprops) => {
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
   return (
     <div className='flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]'>
-      <div className='flex items-center'>
+      <div
+        className='flex cursor-pointer items-center'
+        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
+      >
         {data?.avatar ? (
           <img src={data?.avatar} alt='' className='mr-[8px] h-[44px] w-[44px] rounded-full' />
         ) : (

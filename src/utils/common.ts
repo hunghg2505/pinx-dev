@@ -35,6 +35,7 @@ export const ROUTE_PATH = {
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
   GIFTCASH: '/gift-cash',
+  NOT_FOUND: '/404',
 
   // SETTING
   SETTING: '/setting',
@@ -102,14 +103,14 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      // const startId = item.indexOf('(') + 1;
-      // const endId = item.indexOf(')');
-      // const ID = item.slice(startId, endId);
+      const startId = item.indexOf('(') + 1;
+      const endId = item.indexOf(')');
+      const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
         message = message.replace(
           item,
           `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/stock/${ID}" className="tagStock">${name}</a>
           `,
         );
       }
@@ -229,4 +230,14 @@ export const imageStock = (stock_code: string) => {
     stock_code?.length === 3 || stock_code?.[0] !== 'C' ? stock_code : stock_code?.slice(1, 4)
   }.png`;
   return url;
+};
+
+export const enableScroll = () => {
+  console.log('enableScroll');
+  document.body.style.overflow = 'scroll';
+};
+
+export const disableSroll = () => {
+  console.log('disableSroll');
+  document.body.style.overflow = 'hidden';
 };

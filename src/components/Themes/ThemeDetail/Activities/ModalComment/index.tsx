@@ -29,6 +29,9 @@ const ModalComment = (props: Iprops) => {
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
   const onVisible = () => {
     setVisible(!visible);
+    if (refSubReplies?.current?.clearData) {
+      refSubReplies?.current?.clearData();
+    }
   };
   const onReplies = async (value: string, customerId: number, id: string) => {
     // setShowReply(id);
@@ -82,6 +85,7 @@ const ModalComment = (props: Iprops) => {
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
             Comment
           </Text>
+          <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
             className={classNames('mt-[16px] h-[350px] overflow-y-scroll ', {
               'mobile:mb-[79px]': !isImageCommentMobile,
@@ -115,7 +119,7 @@ const ModalComment = (props: Iprops) => {
           </div>
           {isLogin && (
             <div className='mobile:block'>
-              <div className='fixed bottom-0 z-10 w-[375px] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:w-[calc(100%_-_32px)] mobile-max:px-[3px]'>
+              <div className='fixed bottom-0 z-10 w-[375px] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:left-2/4 mobile-max:min-h-[34px] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:transform mobile-max:px-[3px]'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={id}

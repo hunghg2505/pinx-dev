@@ -36,6 +36,7 @@ import {
   useGetWatchList,
   useSuggestPeople,
 } from './service';
+import useLoadMore from './useLoadMore';
 
 const Influencer = dynamic(() => import('./People/Influencer'));
 const PeopleList = dynamic(() => import('./People/PeopleList'));
@@ -52,7 +53,6 @@ const Home = () => {
   socket.on('connect', function () {
     requestJoinIndex();
   });
-
   const onShowModal = () => {
     refModal?.current?.onVisible && refModal?.current?.onVisible();
   };
@@ -63,14 +63,13 @@ const Home = () => {
   // const { t } = useTranslation('home');
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
-  const { run, refresh, loading } = useGetListNewFeed({
+  const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
       setLastNewFeed(res?.data?.last);
       const newData = [...newFeed];
       const check = res?.data?.list;
       for (const item of check) {
         const index = newData.findIndex((fi) => fi.id === item.id);
-
         if (index < 0) {
           if (isPost) {
             newData.unshift(item);
@@ -90,27 +89,28 @@ const Home = () => {
     setIsPost(true);
     refresh();
   };
+  const { lastElementRef } = useLoadMore(filterType, listNewFeed, loading, run);
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { userLoginInfo } = useUserLoginInfo();
-  React.useEffect(() => {
-    window.addEventListener('scroll', loadMore);
-    return () => {
-      window.removeEventListener('scroll', loadMore);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastNewFeed]);
-  const loadMore = () => {
-    if (isPost) {
-      setIsPost(false);
-    }
-    const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
-    const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
-    if (Math.floor(heightTop) === heigtBottom || Math.ceil(heightTop) === heigtBottom) {
-      run(filterType || FILTER_TYPE.MOST_RECENT, lastNewFeed);
-    }
-  };
+  // React.useEffect(() => {
+  //   window.addEventListener('scroll', loadMore);
+  //   return () => {
+  //     window.removeEventListener('scroll', loadMore);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [lastNewFeed]);
+  // const loadMore = () => {
+  //   if (isPost) {
+  //     setIsPost(false);
+  //   }
+  //   const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
+  //   const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
+  //   if (Math.floor(heightTop) === heigtBottom || Math.ceil(heightTop) === heigtBottom) {
+  //     run(filterType || FILTER_TYPE.MOST_RECENT, lastNewFeed);
+  //   }
+  // };
   const onFilter = async (value: string) => {
     setNewFeed([]);
     setLastNewFeed('');
@@ -239,7 +239,7 @@ const Home = () => {
                         width={0}
                         height={0}
                         sizes='100vw'
-                        className='mr-[10px] h-[56px] w-[56px] rounded-full '
+                        className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
                       />
                     )}
 
@@ -405,6 +405,7 @@ const Home = () => {
                     );
                   })}
                 </div>
+                <div ref={lastElementRef}></div>
               </div>
             </div>
           </div>

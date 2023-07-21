@@ -20,7 +20,7 @@ const Desktop = () => {
   const { push, query } = useRouter();
 
   return (
-    <div className='px-[16px]'>
+    <div className='px-[16px] tablet:px-0'>
       <Tabs
         defaultActiveKey='1'
         activeKey={searchParams.get('tab') || 'post'}
@@ -42,13 +42,13 @@ const Desktop = () => {
           push({ query: { ...query, tab: key } });
         }}
       >
-        <TabPane tab={t('post')} key='post'>
-          <div className='px-[16px]'>
+        <TabPane tab={t('posts')} key='post'>
+          <div className='px-[16px] tablet:px-0'>
             <Posts />
           </div>
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <WatchList />
           </div>
         </TabPane>
@@ -61,18 +61,18 @@ const Desktop = () => {
           }
           key='assets'
         >
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <Assets />
           </div>
         </TabPane>
 
         <TabPane tab={t('following')} key='following'>
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <Following />
           </div>
         </TabPane>
         <TabPane tab={t('followers')} key='follower'>
-          <div className='px-[16px]'>
+          <div className='px-[16px] tablet:px-0'>
             <Follower />
           </div>
         </TabPane>

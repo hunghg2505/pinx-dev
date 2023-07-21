@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode, useEffect } from 'react';
 
 import { useMount } from 'ahooks';
+import { useAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
@@ -13,6 +14,7 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
 import { useAuth } from '@store/auth/useAuth';
+import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 // eslint-disable-next-line import/order
 import { TOAST_LIMIT } from '@utils/constant';
@@ -20,7 +22,6 @@ import '../styles/tailwind.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../styles/globals.scss';
-
 import { ENV } from '@utils/env';
 
 import nextI18nConfig from '../next-i18next.config';
@@ -43,12 +44,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { run } = useProfileInitial();
   const { isLogin } = useAuth();
   const router = useRouter();
+  const [, setProfileOpen] = useAtom(openProfileAtom);
 
   useMount(() => {
-    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || '');
+    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || 'en');
     if (isLogin) {
       run();
     }
+    setProfileOpen(false);
   });
 
   const getLayout = Component.getLayout ?? ((page: any) => page);
@@ -62,8 +65,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [toasts]);
 
   useEffect(() => {
-    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || '');
-    document.body.style.overflow = 'scroll';
+    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || 'en');
+    // disableSroll();
   }, [router.pathname]);
 
   return (

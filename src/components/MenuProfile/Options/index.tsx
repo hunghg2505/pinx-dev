@@ -8,7 +8,7 @@ import { ROUTE_PATH } from '@utils/common';
 import Option from './Option';
 
 const Options = () => {
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation('common');
   const { isLogin } = useAuth();
 
   return (
@@ -16,7 +16,7 @@ const Options = () => {
       {isLogin && (
         <>
           <hr className='border-neutral_07' />
-          <Option link='/lotus' name={t('watchlist_and_theme')} icon='/static/icons/Lotus.svg' />
+          <Option link={ROUTE_PATH.WATCHLIST} name={t('watchlist_and_theme')} icon='/static/icons/Lotus.svg' />
           <hr className='border-neutral_07' />
           <Option
             link={ROUTE_PATH.PROFILE_VERIFICATION}
@@ -32,8 +32,6 @@ const Options = () => {
         </>
       )}
 
-      <hr className='border-neutral_07' />
-      <Option link={ROUTE_PATH.SETTING} name={t('settings')} icon='/static/icons/gear setting icon.svg' />
       <hr className='border-neutral_07' />
     </>
   );

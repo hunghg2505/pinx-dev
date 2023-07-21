@@ -42,7 +42,7 @@ const GiftCash = () => {
                 alt=''
                 className='mr-[2px] h-[30px] w-[30px]'
               />
-              <Text type='body-14-regular' color='cbblack'>
+              <Text type='body-14-regular' color='cbblack' className='mt-[3px]'>
                 Welcome Gift for new customer only. Refer friend gift is for everyone
               </Text>
             </div>
@@ -52,7 +52,7 @@ const GiftCash = () => {
                 alt=''
                 className='mr-[2px] h-[30px] w-[30px]'
               />
-              <Text type='body-14-regular' color='cbblack'>
+              <Text type='body-14-regular' color='cbblack' className='mt-[3px]'>
                 Refer friend and when they completed VSD account registration both will get reward
               </Text>
             </div>
@@ -62,7 +62,7 @@ const GiftCash = () => {
                 alt=''
                 className='mr-[2px] h-[30px] w-[30px]'
               />
-              <Text type='body-14-regular' color='cbblack'>
+              <Text type='body-14-regular' color='cbblack' className='mt-[3px]'>
                 Only completed VSD count to be rewarded
               </Text>
             </div>
@@ -93,7 +93,6 @@ const GiftCash = () => {
                   Download PineX
                 </Text>
               </a>
-
             </div>
           </div>
         </div>
@@ -226,9 +225,11 @@ const GiftCash = () => {
         </Slider>
         <div className='mx-auto mt-[36px] w-[158px]'>
           <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
-            <Text type='body-14-bold' color='cbwhite'>
-              Download PineX
-            </Text>
+            <a href='https://onelink.to/cgarrk' target="_blank" rel="noreferrer">
+              <Text type='body-14-bold' color='cbwhite'>
+                Download PineX
+              </Text>
+            </a>
           </div>
         </div>
       </div>

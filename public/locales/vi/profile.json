@@ -11,5 +11,6 @@
   "explore": "Explore",
   "follow": "Follow",
   "my_story": "My story",
-  "joined": "Joined since {{year}}"
+  "joined": "Joined since {{year}}",
+  "my_profile": "Thông tin của tôi"
 }

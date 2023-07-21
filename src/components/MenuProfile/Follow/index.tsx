@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 const Follow = ({ follower, following }: { follower: number; following: number }) => {
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation('common');
   return (
     <>
       <div className='flex items-center px-[16px] pb-[12px]'>
