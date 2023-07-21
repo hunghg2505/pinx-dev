@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useDebounceFn } from 'ahooks';
+import { useTranslation } from 'next-i18next';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 
@@ -19,6 +20,7 @@ interface IProps {
 }
 
 const ModalAddStock = (props: IProps) => {
+  const { t } = useTranslation('watchlist');
   const { children } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState<boolean>(false);
@@ -63,7 +65,7 @@ const ModalAddStock = (props: IProps) => {
               <FormItem name='search'>
                 <Input
                   className='h-[44px] w-full rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
-                  placeholder='Search for symbol or company'
+                  placeholder={ t('search.input') }
                   icon={<IconSearchWhite />}
                 />
               </FormItem>
@@ -72,10 +74,10 @@ const ModalAddStock = (props: IProps) => {
           {listStock?.length < 1 ? (
             <div className='flex flex-col items-center gap-y-[8px] rounded-[12px] bg-[#F7F6F8] px-[28px] py-[20px]'>
               <Text type='body-20-semibold' className='text-[#0D0D0D]'>
-                Empty
+                { t('search.emptyTitle') }
               </Text>
               <Text type='body-14-regular' className='text-[#999]'>
-                No transactions
+                { t('search.emptyDesc') }
               </Text>
             </div>
           ) : (
