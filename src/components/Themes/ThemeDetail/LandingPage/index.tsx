@@ -1,6 +1,7 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -17,6 +18,7 @@ const LandingPageDetailThemes = ({
   data: IThemeDetail;
   refresh: () => void;
 }) => {
+  const { t } = useTranslation('theme');
   const code = data?.code;
   const { isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -101,7 +103,7 @@ const LandingPageDetailThemes = ({
                 {data?.stockList?.length}
               </Text>
               <Text type='body-12-medium' color='cbwhite'>
-                Symbols
+                {t('symbols')}
               </Text>
             </div>
             <div>
@@ -109,7 +111,7 @@ const LandingPageDetailThemes = ({
                 {data?.totalSubscribe}
               </Text>
               <Text type='body-12-medium' color='cbwhite'>
-                Subscribed
+                {t('subscribed')}
               </Text>
             </div>
           </div>
@@ -133,7 +135,7 @@ const LandingPageDetailThemes = ({
               />
             </div>
             <Text type='body-14-medium' color='neutral-9'>
-              {data?.isSubsribed ? 'Subscribed' : 'Subscribe'}
+              {data?.isSubsribed ? t('subscribed') : t('subscribe')}
             </Text>
           </div>
         </div>

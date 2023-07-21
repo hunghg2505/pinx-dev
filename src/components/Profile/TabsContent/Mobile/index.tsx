@@ -39,7 +39,7 @@ const Mobile = () => {
           push({ query: { ...query, tab: key } });
         }}
       >
-        <TabPane tab={t('post')} key='post' className='px-16px]'>
+        <TabPane tab={t('posts')} key='post' className='px-16px]'>
           <div className='px-[16px] tablet:px-0'>
             <Posts />
           </div>

@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { ROUTE_PATH, imageStock } from '@utils/common';
 
 import PopupAlsoOwn from '../Popup/PopupAlsoOwn';
 import { ISubsidiaries } from '../type';
@@ -23,12 +22,6 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
   });
   const router = useRouter();
 
-  const urlImageCompany = `${
-    data.stockCode && (data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C')
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
-
   const handleClickStock = () => {
     if (data.listed) {
       router.push(ROUTE_PATH.STOCK_DETAIL(data.stockCode));
@@ -43,7 +36,7 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
         <div className='flex h-[81px] w-[81px] items-center justify-center'>
           {data.listed ? (
             <img
-              src={IMAGE_COMPANY_URL + urlImageCompany}
+              src={imageStock(data.stockCode)}
               alt={`Logo ${data.name}`}
               className='block h-full w-full object-contain'
             />

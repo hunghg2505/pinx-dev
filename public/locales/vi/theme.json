@@ -1,0 +1,14 @@
+{
+  "title": "Theme details",
+  "symbols": "Symbols",
+  "tab": {
+    "community": "Community",
+    "stock_symbols": "Stock symbols",
+    "activities": "Activities"
+  },
+  "subscribe": "Subscribe",
+  "subscribed": "Subscribed",
+  "community_description": "Who is watching this theme",
+  "follower": "Follower",
+  "empty_comment": "There is no comments"
+}
