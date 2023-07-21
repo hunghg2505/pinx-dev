@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { ITheme, useGetTheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
@@ -7,6 +8,7 @@ import Text from '@components/UI/Text';
 const ThemeExploreItem = dynamic(() => import('./ThemeExploreItem'));
 
 const Themes = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const onGoBack = () => {
     router.back();
@@ -22,7 +24,7 @@ const Themes = () => {
           onClick={onGoBack}
         />
         <Text type='body-24-semibold' color='neutral-1' className=''>
-          Themes
+          {t('themes')}
         </Text>
       </div>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>

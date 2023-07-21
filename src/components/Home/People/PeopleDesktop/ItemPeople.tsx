@@ -17,10 +17,13 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
+  refreshList?: () => void;
 }
 const ItemPeople = (props: IProps) => {
+  const { data, refreshList } = props;
+  const isFollow = data?.isFollowed;
   const router = useRouter();
-  const [isFollow, setIsFollow] = React.useState(false);
+  // const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);
@@ -28,8 +31,8 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        setIsFollow(true);
-        // refreshList();
+        // setIsFollow(true);
+        refreshList && refreshList();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -43,8 +46,8 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        setIsFollow(false);
-        // refreshList();
+        // setIsFollow(false);
+        refreshList && refreshList();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -58,7 +61,6 @@ const ItemPeople = (props: IProps) => {
       useFollowUser.run(id);
     }
   };
-  const { data } = props;
   const name =
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
 

@@ -11,11 +11,13 @@ import { appWithTranslation, i18n } from 'next-i18next';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
+
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { enableScroll } from '@utils/common';
 // eslint-disable-next-line import/order
 import { TOAST_LIMIT } from '@utils/constant';
 import '../styles/tailwind.css';
@@ -66,7 +68,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || 'en');
-    // disableSroll();
+    enableScroll();
   }, [router.pathname]);
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useInfiniteScroll } from 'ahooks';
+import { useTranslation } from 'next-i18next';
 import Dialog from 'rc-dialog';
 
 import { useGetCommunity } from '@components/Themes/service';
@@ -15,6 +16,7 @@ interface Iprops {
 }
 
 const ModalCommunity = (props: Iprops) => {
+  const { t } = useTranslation('theme');
   const refScroll = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState<boolean>(false);
   const { children, closeIcon, code } = props;
@@ -58,7 +60,7 @@ const ModalCommunity = (props: Iprops) => {
       <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
         <div className='w-full'>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
-            Community
+            {t('tab.community')}
           </Text>
           <div
             className='mt-[12px] h-[500px] w-full  overflow-y-auto overflow-x-hidden'

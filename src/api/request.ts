@@ -45,7 +45,6 @@ const requestPist = extend({
   },
   errorHandler: (error) => {
     redirectlogin(error);
-    console.log('xxx error', error);
   },
 });
 
@@ -80,7 +79,6 @@ const requestCommunity = extend({
   },
   errorHandler: (error) => {
     redirectlogin(error);
-    console.log('xxx error', error);
   },
 });
 
@@ -144,14 +142,12 @@ export const checkTokenExpiredOnServer = async () => {
   } catch {}
 };
 
-export const requestFromServer = async () => {
-  // await checkTokenExpiredOnServer(ctx);
-  // const token = getAccessToken(ctx?.res, ctx?.req);
-  // const salonId = getSalonIdFromCookie(ctx?.req, ctx?.res);
-  // return privateRequest(fetch, `${PREFIX_API}${suffixUrl}`, {
-  //   token,
-  //   headers: { salonId },
-  // }).then((r) => r.json());
+export const requestFromServer = async (ctx: any, suffixUrl: string) => {
+  const token = getAccessToken(ctx?.res, ctx?.req);
+  console.log('🚀 ~ file: request.ts:147 ~ requestFromServer ~ token:', token);
+  return privateRequest(fetch, `${PREFIX_API_COMMUNITY}${suffixUrl}`, {
+    token,
+  }).then((r) => r.json());
 };
 
 export { privateRequest, requestPist, requestCommunity, requestMarket, requestUploadPhoto };

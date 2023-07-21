@@ -1,9 +1,13 @@
+import { useTranslation } from 'next-i18next';
+
 import { IStockTheme, IThemeDetail } from '@components/Themes/service';
 import Text from '@components/UI/Text';
 
 import ItemStock from './ItemStock';
 
 const StockSymbols = ({ data }: { data: IThemeDetail }) => {
+  const { t } = useTranslation('theme');
+
   return (
     <>
       <Text
@@ -11,7 +15,7 @@ const StockSymbols = ({ data }: { data: IThemeDetail }) => {
         color='neutral-black'
         className='mb-[16px] mt-[26px] block desktop:hidden'
       >
-        Stock symbols
+        {t('tab.stock_symbols')}
       </Text>
       <div className='flex flex-col gap-y-[16px] desktop:mt-[26px]'>
         {data?.stockList?.map((item: IStockTheme, index: number) => (

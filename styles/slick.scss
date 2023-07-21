@@ -24,3 +24,29 @@
   }
   }
 }
+.slick-next{
+  width: 32px;
+  height: 32px;
+  right: 0;
+  display: none !important;
+}
+.slick-prev{
+  width: 32px;
+  height: 32px;
+  left: -16px;
+  z-index: 20;
+  display: none !important;
+}
+.slideTheme{
+  .slick-slide{
+    width: 161px;
+  }
+  .slick-track{
+    display: flex;
+  }
+}
+.pinexTop20{
+  .slick-track{
+    display: flex;
+  }
+}

@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { requestMarket } from '@api/request';
+import { requestMarket, requestPist } from '@api/request';
 
 export interface IProfit {
   name: string;
@@ -55,5 +55,13 @@ export const useGetTopChangePrice = () => {
   });
   return {
     changePriceInY: data?.data,
+  };
+};
+export const useGetConfig = () => {
+  const { data } = useRequest(() => {
+    return requestPist.get(API_PATH.PUBLIC_TOP_CONFIG);
+  });
+  return {
+    topConfig: data?.data,
   };
 };

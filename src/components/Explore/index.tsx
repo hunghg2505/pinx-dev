@@ -10,7 +10,7 @@ import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@compo
 import { optionTab } from '@components/PinexTop20';
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
-import ThemeExploreItem from '@components/Themes/ThemeExploreItem';
+import ThemesItem from '@components/Themes/ThemesItem';
 import { ExploreButton } from '@components/UI/Button';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
@@ -36,16 +36,40 @@ const settings = {
   dots: false,
   infinite: false,
   speed: 500,
-  // slidesToShow: 2,
-  // slidesToScroll: 1,
+  slidesToShow: 4,
+  slidesToScroll: 1,
   swipeToSlide: true,
-
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+  ],
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
 const Explore = () => {
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
+  const refSlideTheme: any = React.useRef();
+  const refSlidePinex: any = React.useRef();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   const router = useRouter();
@@ -55,6 +79,7 @@ const Explore = () => {
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
   const { listMention } = useGetTopMentionStock();
+
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
@@ -143,8 +168,10 @@ const Explore = () => {
         </Text>
       </ExploreButton>
       {/* Explore influencer */}
+      {/* <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div> */}
 
       {/* People you may know */}
+
       {suggestionPeople && (
         <>
           <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
@@ -178,22 +205,38 @@ const Explore = () => {
         </div>
       )}
       {/* People you may know */}
+      {!suggestionPeople && <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>}
       {/* theme */}
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
         Themes
       </Text>
-      <div className='mb-[16px] overflow-hidden'>
-        <Slider {...settings} variableWidth>
-          {theme?.map((theme: ITheme, index: number) => {
-            return (
-              <div key={index}>
-                <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
-                  <ThemeExploreItem data={theme} />
+
+      <div className='relative mb-[16px]'>
+        <div
+          onClick={() => refSlideTheme?.current?.slickPrev()}
+          className='absolute -left-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform cursor-pointer tablet-max:hidden'
+        >
+          <img src='/static/images/btn-prev.png' alt='' />
+        </div>
+        <div className='slideTheme overflow-hidden'>
+          <Slider {...settings} variableWidth ref={refSlideTheme}>
+            {theme?.map((theme: ITheme, index: number) => {
+              return (
+                <div key={index}>
+                  <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
+                    <ThemesItem theme={theme} />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </Slider>
+              );
+            })}
+          </Slider>
+        </div>
+        <div
+          onClick={() => refSlideTheme?.current?.slickNext()}
+          className='absolute -right-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform tablet-max:hidden'
+        >
+          <img src='/static/images/btn-next.png' alt='' className=' cursor-pointer' />
+        </div>
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
         <Text type='body-14-bold' color='primary-2'>
@@ -257,12 +300,26 @@ const Explore = () => {
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         PineX top 20
       </Text>
-      <div className='mb-[16px] overflow-hidden'>
-        <Slider {...settings} variableWidth>
-          {optionTab?.map((item: any, index: number) => (
-            <PinexTop label={item.label} value={item.value} key={index} />
-          ))}
-        </Slider>
+      <div className='relative mb-[16px]'>
+        <div
+          onClick={() => refSlidePinex.current.slickPrev()}
+          className='absolute -left-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform cursor-pointer tablet-max:hidden'
+        >
+          <img src='/static/images/btn-prev.png' alt='' />
+        </div>
+        <div className='pinexTop20 overflow-hidden'>
+          <Slider {...settings} variableWidth ref={refSlidePinex}>
+            {optionTab?.map((item: any, index: number) => (
+              <PinexTop label={item.label} value={item.value} key={index} />
+            ))}
+          </Slider>
+        </div>
+        <div
+          onClick={() => refSlidePinex.current.slickNext()}
+          className='absolute -right-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform tablet-max:hidden'
+        >
+          <img src='/static/images/btn-next.png' alt='' className=' cursor-pointer' />
+        </div>
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.PINEX_TOP_20)}>
         <Text type='body-14-bold' color='primary-2'>
@@ -273,7 +330,7 @@ const Explore = () => {
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         New IPO
       </Text>
-      {stockIPO ? (
+      {stockIPO?.length > 0 ? (
         <>
           <div className='mb-[16px] flex flex-col gap-y-[12px]'>
             {stockIPO?.map((ipo: IStockIPO, index: number) => {

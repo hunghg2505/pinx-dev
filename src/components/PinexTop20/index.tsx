@@ -44,6 +44,7 @@ const PinexTop20 = () => {
   const onGoBack = () => {
     router.back();
   };
+
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsEnum.Profit: {

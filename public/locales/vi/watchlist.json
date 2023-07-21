@@ -1,0 +1,13 @@
+{
+  "title": "Watchlist",
+  "titleInterest": "You may interest",
+  "cancelTxt": "Cancel",
+  "saveTxt": "Save",
+  "addTxt": "Add new",
+  "search": {
+    "input": "Search for symbol or company",
+    "emptyTitle": "Empty",
+    "emptyDesc": "No transactions"
+  },
+  "editText": "Edit list"
+}

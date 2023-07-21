@@ -24,5 +24,14 @@
   "settings": "Settings",
   "follower": "Follower",
   "followers": "Followers",
-  "following": "Following"
+  "following": "Following",
+  "top.watching.title": "Top watching stock",
+  "top.watching.desc": "Top most watching stocks on PineX",
+  "top.mention.title": "Top mention stock",
+  "top.mention.desc": "Top most mentioned stocks on PineX",
+  "comment": "Comment",
+  "message_account_pending_to_close": "Your account has been pending to close. You cannot perform this action",
+  "like": "Like",
+  "subcribers": "Subcribers",
+  "themes": "Themes"
 }

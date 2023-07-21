@@ -216,7 +216,7 @@ const Setting = () => {
 
         {isLogin && (
           <div className='px-4 laptop:hidden'>
-            <NegativeMainButton onClick={() => onLogout()} className='mt-14 w-full'>
+            <NegativeMainButton onClick={() => onLogout()} className='my-14 w-full'>
               Log out
             </NegativeMainButton>
           </div>

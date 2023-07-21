@@ -1,18 +1,20 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
   theme: ITheme;
-  isLogin: boolean;
-  refresh: () => void;
+  isLogin?: boolean;
+  refresh?: () => void;
 }
 const IconPlus = () => (
   <svg width='7' height='7' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -67,8 +69,10 @@ const IconChecked = () => (
 );
 
 const ThemesItem = (props: IProps) => {
+  const { t } = useTranslation(['theme', 'common']);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { theme, isLogin, refresh } = props;
+  const isLogin = !!getAccessToken();
+  const { theme, refresh } = props;
   const router = useRouter();
   const useSubcribe = useRequest(
     (code: string) => {
@@ -80,7 +84,7 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
       },
       onError: () => {},
     },
@@ -95,7 +99,7 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        refresh && refresh();
       },
       onError: () => {},
     },
@@ -120,7 +124,7 @@ const ThemesItem = (props: IProps) => {
         <>
           <IconChecked />
           <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
-            Subscribed
+            {t('theme:subscribed')}
           </Text>
         </>
       );
@@ -129,14 +133,14 @@ const ThemesItem = (props: IProps) => {
       <>
         <IconPlus />
         <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
-          Subcribe
+          {t('theme:subscribe')}
         </Text>
       </>
     );
   };
   return (
     <>
-      <div className='w-[162px] pr-[10px]'>
+      <div className='w-[161px] pr-[10px]'>
         <div className='relative min-h-[191px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           {theme?.url && (
             <img
@@ -154,9 +158,9 @@ const ThemesItem = (props: IProps) => {
               <Text type='body-12-bold' color='primary-5' className='text-center'>
                 {theme?.name}
               </Text>
-              {theme.totalSubscribe !== 0 && isLogin && (
+              {theme.totalSubscribe !== 0 && (
                 <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
-                  {theme.totalSubscribe} Subcribers
+                  {theme.totalSubscribe} {t('common:subcribers')}
                 </Text>
               )}
             </div>

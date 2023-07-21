@@ -59,8 +59,11 @@ export const useGetTopMentionStock = () => {
 };
 
 export const useGetAllIPO = () => {
+  const params = {
+    day: 1,
+  };
   const { data } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_GET_ALL_STOCK_IPO);
+    return requestMarket.get(API_PATH.PUBLIC_GET_ALL_STOCK_IPO, { params });
   });
   return {
     stockIPO: data?.data,
