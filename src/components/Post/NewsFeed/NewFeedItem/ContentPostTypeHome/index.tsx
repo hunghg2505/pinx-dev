@@ -6,6 +6,8 @@ import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { InView } from 'react-intersection-observer';
+import ReactPlayer from 'react-player';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
@@ -27,6 +29,7 @@ const ContentPostTypeHome = (props: IProps) => {
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
   const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
+  const [inView, setInView] = React.useState(false);
   const [height, setHeight] = React.useState<number>(0);
   const bgTheme = useAtomValue(postThemeAtom);
   const metaData = postDetail?.post?.metadataList?.[0];
@@ -86,12 +89,22 @@ const ContentPostTypeHome = (props: IProps) => {
   const renderMetaData = () => {
     if (siteName === 'YouTube' && !urlImages?.[0]) {
       return (
-        <iframe
-          src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
-          title='YouTube video player'
-          allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
-        ></iframe>
+        <InView onChange={setInView}>
+          {({ ref }) => (
+            <div ref={ref}>
+              <ReactPlayer
+                url={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
+                playing={inView}
+              />
+            </div>
+          )}
+        </InView>
+        // <iframe
+        //   src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
+        //   title='YouTube video player'
+        //   allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+        //   className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+        // ></iframe>
       );
     }
     if (imageMetaData) {
