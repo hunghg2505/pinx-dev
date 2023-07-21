@@ -18,11 +18,11 @@ const Following = () => {
       className=' cursor-pointer text-[12px] tablet:flex tablet:flex-col-reverse'
       onClick={() => {
         if (state.mobile) {
-          router.push(
+          router.replace(
             `${router.route.replace('[id]', String(router?.query?.id))}/follow?tab=following`,
           );
         } else {
-          router.push({ query: { ...router.query, tab: 'following' } });
+          router.replace({ query: { ...router.query, tab: 'following' } });
         }
       }}
     >

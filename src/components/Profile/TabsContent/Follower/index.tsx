@@ -14,6 +14,7 @@ const Follower = () => {
     String(router?.query?.search),
     String(router?.query?.id),
   );
+  console.log('data', data);
 
   return (
     <>

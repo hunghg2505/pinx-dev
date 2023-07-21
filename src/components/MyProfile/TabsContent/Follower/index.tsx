@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import Search from '@components/common/Search';
 import UserFolow from '@components/common/UserFolow';
-import { useCustomerFollower } from '@components/ProfileFollow/service';
+import { useCustomerFollower } from '@components/MyProfileFollow/service';
 
 import NotFound from './NotFound';
 
