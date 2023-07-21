@@ -102,47 +102,49 @@ const ContentPostTypeDetail = (props: IProps) => {
             ></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
-          {postDetail?.post?.bgImage && (
-            <img
-              src={postDetail?.post.bgImage}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='absolute right-0 top-0 h-full'
-            />
-          )}
+        <Link href={ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode)}>
+          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+            {postDetail?.post?.bgImage && (
+              <img
+                src={postDetail?.post.bgImage}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='absolute right-0 top-0 h-full'
+              />
+            )}
 
-          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] tablet:bottom-[11px] tablet:left-[32px] tablet:h-[269px] tablet:w-[192px]'>
-            <div className='flex flex-col items-center justify-center'>
-              {iconPost && (
-                <img
-                  src={iconPost}
-                  alt=''
-                  width='0'
-                  height='0'
-                  className='mobile:mt-[19px] mobile:h-[22px] mobile:w-[22px] tablet:mt-[30px] tablet:h-[32px] tablet:w-[32px]'
-                />
-              )}
+            <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] tablet:bottom-[11px] tablet:left-[32px] tablet:h-[269px] tablet:w-[192px]'>
+              <div className='flex flex-col items-center justify-center'>
+                {iconPost && (
+                  <img
+                    src={iconPost}
+                    alt=''
+                    width='0'
+                    height='0'
+                    className='mobile:mt-[19px] mobile:h-[22px] mobile:w-[22px] tablet:mt-[30px] tablet:h-[32px] tablet:w-[32px]'
+                  />
+                )}
 
-              <Text
-                type='body-12-medium'
-                color='primary-5'
-                className='mobile:mt-[27px] tablet:mt-[45px] tablet:!text-[20px]'
-              >
-                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
-              </Text>
-              <Text
-                type='body-12-bold'
-                color='neutral-2'
-                className='text-center mobile:mt-[25px] tablet:mt-[39px] tablet:!text-[20px]'
-              >
-                {postDetail?.post.themeName}
-              </Text>
+                <Text
+                  type='body-12-medium'
+                  color='primary-5'
+                  className='mobile:mt-[27px] tablet:mt-[45px] tablet:!text-[20px]'
+                >
+                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
+                </Text>
+                <Text
+                  type='body-12-bold'
+                  color='neutral-2'
+                  className='text-center mobile:mt-[25px] tablet:mt-[39px] tablet:!text-[20px]'
+                >
+                  {postDetail?.post.themeName}
+                </Text>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
       </>
     );
   }
