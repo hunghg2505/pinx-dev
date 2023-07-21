@@ -2,10 +2,9 @@ import React, { createContext } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useGetProfileOtherUser } from '@components/MenuProfile/service';
-
 import Header from './Header';
 import MyStory from './MyStory';
+import { useGetProfileOtherUser } from './service';
 import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);

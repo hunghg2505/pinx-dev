@@ -10,23 +10,15 @@ import NotFound from './NotFound';
 
 const Follower = () => {
   const router = useRouter();
-  const { data } = useOtherCustomerFollower(
-    String(router?.query?.search),
-    String(router?.query?.id),
-  );
-  console.log('data', data);
+  const { data } = useOtherCustomerFollower(String(router?.query?.id));
 
   return (
     <>
       <Search />
       <div className='flex flex-col gap-[8px]'>
-        {!!data?.data?.length && (
-          <>
-            {data?.data?.map((item: any) => (
-              <UserFolow {...item} key={item.id} />
-            ))}
-          </>
-        )}
+        {data?.data?.map((item: any) => (
+          <UserFolow {...item} key={item.id} />
+        ))}
       </div>
       {!data?.data?.length && <NotFound />}
     </>
