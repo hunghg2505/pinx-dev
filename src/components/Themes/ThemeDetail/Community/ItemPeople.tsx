@@ -1,3 +1,5 @@
+import { useTranslation } from 'next-i18next';
+
 import { IUserTheme } from '@components/Themes/service';
 import Text from '@components/UI/Text';
 
@@ -14,6 +16,8 @@ const IconArrow = () => (
 );
 
 const ItemPeople = ({ data }: { data: IUserTheme }) => {
+  const { t } = useTranslation('common');
+
   return (
     <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
       <div className='flex items-center'>
@@ -23,7 +27,7 @@ const ItemPeople = ({ data }: { data: IUserTheme }) => {
             {data?.displayName}
           </Text>
           <Text type='body-12-regular' color='neutral-5'>
-            Follower
+            {t('follower')}
           </Text>
         </div>
       </div>

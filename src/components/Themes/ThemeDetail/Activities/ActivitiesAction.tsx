@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { likePost, unlikePost, useCommentsOfPost } from '@components/Post/service';
@@ -23,6 +24,7 @@ interface IActivitiesActionProps {
 
 const ActivitiesAction = (props: IActivitiesActionProps) => {
   const { isLike, idPost, refresh } = props;
+  const { t } = useTranslation('common');
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(idPost);
 
@@ -48,10 +50,7 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         }
       },
@@ -69,10 +68,7 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='User VSD Pending to close khi like, comment, reply, report hiển thị snackbar báo lỗi “Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         }
       },
@@ -82,12 +78,7 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser !== USERTYPE.VSD) {
         PopupComponent.openEKYC();
       } else if (isLike) {
@@ -111,7 +102,7 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
           color='neutral-gray'
           className={classNames('mr-[38px] cursor-pointer', { '!text-[#589DC0]': isLike })}
         >
-          Like
+          {t('like')}
         </Text>
       </div>
 
@@ -122,7 +113,7 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
         refresh={refresh}
       >
         <Text type='body-12-regular' color='neutral-gray'>
-          {countComment > 0 && countComment} Comment
+          {countComment > 0 && countComment} {t('comment')}
         </Text>
       </ModalComment>
     </div>

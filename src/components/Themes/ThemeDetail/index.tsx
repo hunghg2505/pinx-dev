@@ -2,6 +2,7 @@ import React from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
@@ -19,6 +20,7 @@ const Activities = dynamic(() => import('./Activities'), {
   ssr: false,
 });
 const ThemeDetail = () => {
+  const { t } = useTranslation('theme');
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const refTheme: any = React.useRef();
@@ -40,21 +42,21 @@ const ThemeDetail = () => {
   }, [isLogin]);
   const optionTab = [
     // {
-    //   label: 'Community',
+    //   label: t('tab.community'),
     //   value: TabsThemeDetailEnum.Community,
     // },
     {
-      label: 'Stock symbols',
+      label: t('tab.stock_symbols'),
       value: TabsThemeDetailEnum.StockSymbols,
     },
     {
-      label: 'Activities',
+      label: t('tab.activities'),
       value: TabsThemeDetailEnum.Activities,
     },
     // eslint-disable-next-line array-callback-return
   ].filter((item) => {
     if (!isLogin) {
-      return item.label === 'Stock symbols';
+      return item.label === t('tab.stock_symbols');
     }
     return item;
   });
@@ -95,7 +97,7 @@ const ThemeDetail = () => {
             onClick={onGoBack}
           />
           <Text type='body-24-semibold' color='neutral-1' className=''>
-            Theme details
+            {t('title')}
           </Text>
         </div>
         <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
