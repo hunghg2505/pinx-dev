@@ -154,6 +154,9 @@
     line-height: 18px;
     color: #1a1a1a;
     word-break: break-all;
+    span{
+      color: #1f6eac;
+    }
   }
   .hashtag {
     color: #1f6eac !important;
@@ -171,6 +174,9 @@
 }
 .tagStock {
   font-weight: 600 !important;
+}
+.tagpeople{
+  color: #1f6eac !important;
 }
 // menu
 .rc-menu {

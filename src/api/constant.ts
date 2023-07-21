@@ -67,7 +67,9 @@ export const API_PATH = {
   PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME: (code: string) =>
     `/private/theme/${code}/subscribed-customers-full`,
   PRIVATE_GET_LIST_ACTIVITIES_THEME: '/private/activity/list-theme-activities',
+  PUBLIC_GET_LIST_ACTIVITIES: (code: string) => `/public/theme/${code}/activities`,
   PRIVATE_SEARCH_CUSTOMER_RECENT: '/private/search/customer/recent',
+
   // stock
   PUBLIC_SUGGEST_STOCK_CODE: '/public/suggested/stockcodes',
   PUBLIC_COMPANY_GET_BY_STOCK_BRIEF: (stockCodes: string) =>
@@ -96,7 +98,6 @@ export const API_PATH = {
     `/public/stock/${stockCode}/watching-investing-customers`,
   PUBLIC_STOCK_WATCHING: (stockCode: string) => `/public/stock/${stockCode}/watching-customers`,
   PUBLIC_STOCK_INVESTING: (stockCode: string) => `/public/stock/${stockCode}/investing-customers`,
-
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',
   PRIVATE_WATCH_LIST_STOCK: '/private/watchlist/stock/all',
@@ -106,6 +107,7 @@ export const API_PATH = {
   PUBLIC_TOP_MENTION: '/public/stock/top-mention',
   PRIVATE_REMOVE_STOCK: (code: string) => `/private/watchlist/stock/${code}/remove`,
   PRIVATE_SUGGESTED_STOCK: '/private/customer/watchlist/suggested/stockcodes',
+  PUBLIC_TOP_CONFIG: '/public/stock/top-config',
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,

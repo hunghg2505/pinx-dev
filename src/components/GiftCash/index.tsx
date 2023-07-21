@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
@@ -17,11 +18,12 @@ const handleRedirect = (url: string) => {
   window.open(url, '_blank');
 };
 const GiftCash = () => {
+  const { t } = useTranslation('giftCash');
   return (
     <div className='overflow-x-hidden rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
       <div className='relative'>
         <Text type='body-28-bold' color='neutral-1' className='hidden desktop:block'>
-          GiftCash
+          {t('giftcash.title')}
         </Text>
       </div>
       <div className='my-[20px] hidden h-[2px] w-full bg-[#EEF5F9] desktop:block'></div>
@@ -32,7 +34,7 @@ const GiftCash = () => {
           color='cbblack'
           className='w-[448px] text-center mobile-max:w-full'
         >
-          Giftcash, a motivation kick-starter for your investment
+          {t('giftcash.desc')}
         </Text>
         <div className='mt-[24px] flex w-full items-center justify-between mobile-max:flex-col'>
           <div className='list w-[324px] mobile-max:w-full'>
@@ -43,7 +45,7 @@ const GiftCash = () => {
                 className='mr-[2px] h-[30px] w-[30px]'
               />
               <Text type='body-14-regular' color='cbblack' className='mt-[3px]'>
-                Welcome Gift for new customer only. Refer friend gift is for everyone
+                {t('giftcash.text.welcome')}
               </Text>
             </div>
             <div className='item mb-[24px] flex'>
@@ -53,7 +55,7 @@ const GiftCash = () => {
                 className='mr-[2px] h-[30px] w-[30px]'
               />
               <Text type='body-14-regular' color='cbblack' className='mt-[3px]'>
-                Refer friend and when they completed VSD account registration both will get reward
+                {t('giftcash.text.refer.friend')}
               </Text>
             </div>
             <div className='item flex'>
@@ -63,7 +65,7 @@ const GiftCash = () => {
                 className='mr-[2px] h-[30px] w-[30px]'
               />
               <Text type='body-14-regular' color='cbblack' className='mt-[3px]'>
-                Only completed VSD count to be rewarded
+                {t('giftcash.text.only.complete')}
               </Text>
             </div>
           </div>
@@ -88,9 +90,9 @@ const GiftCash = () => {
           </div>
           <div className='mt-[40px] hidden w-[158px] mobile-max:block'>
             <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
-              <a href='https://onelink.to/cgarrk' target="_blank" rel="noreferrer">
+              <a href='https://onelink.to/cgarrk' target='_blank' rel='noreferrer'>
                 <Text type='body-14-bold' color='cbwhite'>
-                  Download PineX
+                  {t('giftcash.text.download')}
                 </Text>
               </a>
             </div>
@@ -100,7 +102,7 @@ const GiftCash = () => {
       <div className='mt-[20px] flex flex-wrap gap-y-[73px] mobile-max:hidden'>
         <div className='w-2/4 px-[24px] text-center'>
           <Text type='body-22-bold' color='neutral-black'>
-            Only VSD account count
+            {t('giftcash.text.only.vsd')}
           </Text>
           <img
             src='/static/icons/giftcash/img1.png'
@@ -108,16 +110,15 @@ const GiftCash = () => {
             className='mx-auto mt-[24px] w-[100px]'
           />
           <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-            To get a GiftCash, you need to upgrade to VSD account (verified by Stock Exchange) level
-            first
+            {t('giftcash.text.to.get.giftcash')}
           </Text>
           <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-            *Welcome gift only for new customers who haven’t had trading account at Pinetree
+            {t('giftcash.text.welcome.gift')}
           </Text>
         </div>
         <div className='w-2/4 px-[24px] text-center'>
           <Text type='body-22-bold' color='neutral-black' className=''>
-            GiftCash is not for cash
+            {t('giftcash.text.not.cash')}
           </Text>
           <img
             src='/static/icons/giftcash/img2.png'
@@ -125,13 +126,12 @@ const GiftCash = () => {
             className='mx-auto mt-[24px] w-[100px]'
           />
           <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-            Giftcash is Pinetree’s motivation gift for you to invest to stock only. Let’s make some
-            order and enjoy
+            {t('giftcash.text.giftcash.pinetree')}
           </Text>
         </div>
         <div className='w-2/4 px-[24px] text-center'>
           <Text type='body-22-bold' color='neutral-black'>
-            GiftCash balance arrive after 1 business day
+            {t('giftcash.text.balance')}
           </Text>
           <img
             src='/static/icons/giftcash/img3.png'
@@ -139,14 +139,13 @@ const GiftCash = () => {
             className='mx-auto mt-[24px] w-[100px]'
           />
           <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-            Once you fulfill all condition, your reward will arrive your balance the next buniness
-            day. Stay tune and you can earn more by inviting friends
+            {t('giftcash.text.once.fulfill')}
           </Text>
         </div>
 
         <div className='w-2/4 px-[24px] text-center'>
           <Text type='body-22-bold' color='neutral-black'>
-            Invest with GiftCash is special experience
+            {t('giftcash.text.invest')}
           </Text>
           <img
             src='/static/icons/giftcash/img4.png'
@@ -154,9 +153,7 @@ const GiftCash = () => {
             className='mx-auto mt-[24px] w-[100px]'
           />
           <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-            There are a list a eligible stock codes for you to invest. They are hand-picked,
-            limited. GiftCash allows you to buy stock in ATO, MP, ATC order types only to ensure the
-            liquidity
+            {t('giftcash.text.list.eligible')}
           </Text>
         </div>
       </div>
@@ -164,7 +161,7 @@ const GiftCash = () => {
         <Slider {...settings}>
           <div className='text-center'>
             <Text type='body-20-bold' color='neutral-black'>
-              Only VSD account count
+              {t('giftcash.text.only.vsd')}
             </Text>
             <img
               src='/static/icons/giftcash/img1.png'
@@ -172,16 +169,15 @@ const GiftCash = () => {
               className='mx-auto mt-[24px] w-[100px]'
             />
             <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-              To get a GiftCash, you need to upgrade to VSD account (verified by Stock Exchange)
-              level first
+              {t('giftcash.text.to.get.giftcash')}
             </Text>
             <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-              *Welcome gift only for new customers who haven’t had trading account at Pinetree
+              {t('giftcash.text.welcome.gift')}
             </Text>
           </div>
           <div className='text-center'>
             <Text type='body-20-bold' color='neutral-black' className=''>
-              GiftCash is not for cash
+              {t('giftcash.text.not.cash')}
             </Text>
             <img
               src='/static/icons/giftcash/img2.png'
@@ -189,13 +185,12 @@ const GiftCash = () => {
               className='mx-auto mt-[24px] w-[100px]'
             />
             <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-              Giftcash is Pinetree’s motivation gift for you to invest to stock only. Let’s make
-              some order and enjoy
+              {t('giftcash.text.giftcash.pinetree')}
             </Text>
           </div>
           <div className='text-center'>
             <Text type='body-20-bold' color='neutral-black'>
-              GiftCash balance arrive after 1 business day
+              {t('giftcash.text.balance')}
             </Text>
             <img
               src='/static/icons/giftcash/img3.png'
@@ -203,13 +198,12 @@ const GiftCash = () => {
               className='mx-auto mt-[24px] w-[100px]'
             />
             <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-              Once you fulfill all condition, your reward will arrive your balance the next buniness
-              day. Stay tune and you can earn more by inviting friends
+              {t('giftcash.text.once.fulfill')}
             </Text>
           </div>
           <div className='text-center'>
             <Text type='body-20-bold' color='neutral-black'>
-              Invest with GiftCash is special experience
+              {t('giftcash.text.invest')}
             </Text>
             <img
               src='/static/icons/giftcash/img4.png'
@@ -217,17 +211,15 @@ const GiftCash = () => {
               className='mx-auto mt-[24px] w-[100px]'
             />
             <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
-              There are a list a eligible stock codes for you to invest. They are hand-picked,
-              limited. GiftCash allows you to buy stock in ATO, MP, ATC order types only to ensure
-              the liquidity
+              {t('giftcash.text.list.eligible')}
             </Text>
           </div>
         </Slider>
         <div className='mx-auto mt-[36px] w-[158px]'>
           <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
-            <a href='https://onelink.to/cgarrk' target="_blank" rel="noreferrer">
+            <a href='https://onelink.to/cgarrk' target='_blank' rel='noreferrer'>
               <Text type='body-14-bold' color='cbwhite'>
-                Download PineX
+                {t('giftcash.text.download')}
               </Text>
             </a>
           </div>

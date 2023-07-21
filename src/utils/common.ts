@@ -80,7 +80,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
+              <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople"><span>${name}</span></a>
               `,
             );
           }
@@ -90,7 +90,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="${window.location.origin}/profile/${ID}" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople"><span>${name}</span></a>
           `,
         );
       }
@@ -231,11 +231,9 @@ export const imageStock = (stock_code: string) => {
 };
 
 export const enableScroll = () => {
-  console.log('enableScroll');
   document.body.style.overflow = 'scroll';
 };
 
 export const disableSroll = () => {
-  console.log('disableSroll');
   document.body.style.overflow = 'hidden';
 };

@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { ITopWatchingStock, useGetTopWatchingStock } from '@components/Explore/service';
 import WatchingStock from '@components/Explore/WatchingStock';
 import Text from '@components/UI/Text';
 
 const TopWatching = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const onGoBack = () => {
     router.back();
@@ -21,12 +23,12 @@ const TopWatching = () => {
           onClick={onGoBack}
         />
         <Text type='body-20-semibold' color='neutral-1' className=''>
-          Top watching stock
+          {t('top.watching.title')}
         </Text>
       </div>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-14-regular' color='neutral-black'>
-        Top most watching stocks on PineX
+        {t('top.watching.desc')}
       </Text>
       <div className=' mt-[16px] flex flex-col flex-wrap gap-x-[14px] gap-y-[20px]'>
         {listStock?.map((item: ITopWatchingStock, index: number) => {

@@ -8,6 +8,7 @@ import Influencer from '@components/Home/People/Influencer';
 import PeopleList from '@components/Home/People/PeopleList';
 import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
+import { useGetConfig } from '@components/PinexTop20/service';
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
 import ThemeExploreItem from '@components/Themes/ThemeExploreItem';
@@ -54,7 +55,11 @@ const Explore = () => {
   const { run, refresh, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
+  console.log('🚀 ~ file: index.tsx:58 ~ Explore ~ stockIPO:', stockIPO);
   const { listMention } = useGetTopMentionStock();
+  const { topConfig } = useGetConfig();
+  console.log('🚀 ~ file: index.tsx:60 ~ Explore ~ topConfig:', topConfig);
+
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));

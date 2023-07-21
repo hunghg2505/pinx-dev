@@ -54,7 +54,7 @@ const ThemeDetail = () => {
     // eslint-disable-next-line array-callback-return
   ].filter((item) => {
     if (!isLogin) {
-      return item.label === 'Stock symbols';
+      return item.label !== 'Community';
     }
     return item;
   });

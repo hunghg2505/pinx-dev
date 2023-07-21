@@ -26,6 +26,11 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export async function getServerSideProps({ locale }: any) {
+  // const id = params?.id;
+  // // const token = getCookie('accessToken', { req, res });
+  // const dataOrderDetail = await serviceGetThemeDetailFromServer(`${id}`, ctx);
+  // // const data = await requestCommunity.get(API_PATH.PUBLIC_GET_LIST_ACTIVITIES('T001'));
+  // // console.log('🚀 ~ file: [id].tsx:31 ~ getServerSideProps ~ token:', data);
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
