@@ -115,7 +115,7 @@ export const API_PATH = {
   PRIVATE_TOPIC_ALL: (limit?: number) =>
     limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',
   PRIVATE_TOPIC_SELECTED: '/private/topic/selected',
-
+  // PRIVATE_
   // search
   PRIVATE_SEARCH_KEYWORDS_TOP: '/private/search/keywords/top',
   PUBLIC_SEARCH_KEYWORDS_TOP: '/public/search/keyword/trending',
