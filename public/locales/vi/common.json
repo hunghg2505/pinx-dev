@@ -22,8 +22,12 @@
   "profile_verification": "Profile verification",
   "change_password": "Change password",
   "settings": "Settings",
-  "follower": "Người theo dõi",
-  "followers": "Người theo dõi",
+  "follower": "Follower",
+  "followers": "Followers",
   "following": "Following",
-  "upgrade_to_trading_account": "Upgrade to trading account"
+  "comment": "Comment",
+  "message_account_pending_to_close": "Your account has been pending to close. You cannot perform this action",
+  "like": "Like",
+  "subcribers": "Subcribers",
+  "themes": "Themes"
 }

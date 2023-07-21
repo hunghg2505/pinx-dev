@@ -30,7 +30,7 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'home', 'profile'])),
+      ...(await serverSideTranslations(locale, ['common', 'home', 'profile', 'theme'])),
       // Will be passed to the page component as props
     },
   };

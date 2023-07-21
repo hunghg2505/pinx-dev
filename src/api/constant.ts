@@ -96,6 +96,8 @@ export const API_PATH = {
     `/public/stock/${stockCode}/watching-investing-customers`,
   PUBLIC_STOCK_WATCHING: (stockCode: string) => `/public/stock/${stockCode}/watching-customers`,
   PUBLIC_STOCK_INVESTING: (stockCode: string) => `/public/stock/${stockCode}/investing-customers`,
+  PUBLIC_HASHTAG_INDUSTRY: '/public/hashtag/industry',
+  PUBLIC_HASHTAG_HIGHLIGHT: '/public/hashtag/highlights',
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

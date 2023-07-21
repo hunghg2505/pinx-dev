@@ -11,7 +11,7 @@ const Post = () => {
   const { push, query } = useRouter();
   return (
     <p
-      className='hidden   text-[12px] tablet:flex tablet:flex-col-reverse cursor-pointer'
+      className='hidden   cursor-pointer text-[12px] tablet:flex tablet:flex-col-reverse'
       onClick={() => {
         push({ query: { ...query, tab: 'post' } });
       }}

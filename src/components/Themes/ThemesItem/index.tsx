@@ -1,6 +1,7 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -67,6 +68,7 @@ const IconChecked = () => (
 );
 
 const ThemesItem = (props: IProps) => {
+  const { t } = useTranslation(['theme', 'common']);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { theme, isLogin, refresh } = props;
   const router = useRouter();
@@ -120,7 +122,7 @@ const ThemesItem = (props: IProps) => {
         <>
           <IconChecked />
           <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
-            Subscribed
+            {t('theme:subscribed')}
           </Text>
         </>
       );
@@ -129,7 +131,7 @@ const ThemesItem = (props: IProps) => {
       <>
         <IconPlus />
         <Text type='body-12-bold' color='primary-2' className='ml-[5px]'>
-          Subcribe
+          {t('theme:subscribe')}
         </Text>
       </>
     );
@@ -156,7 +158,7 @@ const ThemesItem = (props: IProps) => {
               </Text>
               {theme.totalSubscribe !== 0 && isLogin && (
                 <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
-                  {theme.totalSubscribe} Subcribers
+                  {theme.totalSubscribe} {t('common:subcribers')}
                 </Text>
               )}
             </div>

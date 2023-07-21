@@ -88,7 +88,13 @@ const StockRating = () => {
 
         <div className='mb-[32px] flex flex-col gap-y-[16px]'>
           {reviews?.data.list.map((item, index) => (
-            <ReviewItem data={item} key={index} isLatestReview={index === 0} />
+            <ReviewItem
+              isMyReview={item.customerId === userId}
+              data={item}
+              key={index}
+              isLatestReview={index === 0}
+              onEditReviewSuccess={refreshStockReviews}
+            />
           ))}
         </div>
 
