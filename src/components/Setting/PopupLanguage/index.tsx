@@ -1,13 +1,12 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
 import { i18n } from 'next-i18next';
 import Dialog from 'rc-dialog';
 
 import 'rc-dialog/assets/index.css';
 import Text from '@components/UI/Text';
-import { localeAtom } from '@store/locale/locale';
+import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
 
 interface IProps {
   visible: boolean;
@@ -27,12 +26,13 @@ const LANGUAGES = [
 ];
 
 const PopupLanguage = (props: IProps) => {
-  const [currentLang, setCurrentLang] = useAtom(localeAtom);
+  const currentLang = getLocaleCookie() || 'en';
+
   const { visible, onToggle } = props;
 
   const onChangeLang = (lang: string) => {
     if (lang !== currentLang) {
-      lang && setCurrentLang(lang);
+      lang && setLocaleCookie(lang);
       i18n?.changeLanguage(lang);
       onToggle();
     }

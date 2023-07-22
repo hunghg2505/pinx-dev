@@ -1,0 +1,11 @@
+.customDialog {
+  :global {
+    .rc-dialog-body {
+      padding: 0;
+    }
+    .rc-dialog-content {
+      width: auto;
+      border-radius: 12px;
+    }
+  }
+}

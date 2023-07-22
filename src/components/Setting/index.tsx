@@ -14,10 +14,12 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
-import { localeAtom } from '@store/locale/locale';
+import { getLocaleCookie } from '@store/locale/locale';
+import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
 
+import PopupHotline from './PopupHotline';
 import PopupLanguage from './PopupLanguage';
 import { useGetSettings, useUpdateSetting } from './service';
 
@@ -36,12 +38,16 @@ interface ISettingItem {
 
 const Setting = () => {
   const router = useRouter();
-  const [currentLang] = useAtom(localeAtom);
-  const [visible, setVisible] = useState(false);
+  const currentLang = getLocaleCookie() || 'en';
+  const [popupLanguageVisible, setPopupLanguageVisible] = useState(false);
+  const [popupHotlineVisible, setPopupHotlineVisible] = useState(false);
   const { onLogout, isLogin } = useAuth();
   const { data: settingsData, loading } = useGetSettings();
   const { isMobile } = useResponsive();
   const { t } = useTranslation('setting');
+  const { isDesktop } = useResponsive();
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+  const fromProfileMenu = router.query.from_profile_menu;
 
   const requestUpdateSetting = useUpdateSetting({
     onError: (e: any) => {
@@ -54,7 +60,7 @@ const Setting = () => {
       {
         title: 'Language',
         value: currentLang === 'vi' ? ' Tiếng Việt' : 'English',
-        action: () => onTogglePopup(),
+        action: () => onTogglePopupLanguage(),
         hideDivider: !isMobile && !isLogin,
       },
       {
@@ -87,16 +93,22 @@ const Setting = () => {
         hideDivider: !isMobile,
         hideArrow: !isMobile,
       },
-      {
-        title: 'Guidance',
-        action: () => window.open(TERM_AND_CONDITION_LINK),
-        linkStyle: !isMobile,
-        hideDivider: !isMobile,
-        hideArrow: !isMobile,
-      },
+      // {
+      //   title: 'Guidance',
+      //   action: () => window.open(TERM_AND_CONDITION_LINK),
+      //   linkStyle: !isMobile,
+      //   hideDivider: !isMobile,
+      //   hideArrow: !isMobile,
+      // },
       {
         title: 'Hotline',
-        action: () => window.open(PHONE_CONTACT_SUPPORT, '_self'),
+        action: () => {
+          if (isDesktop) {
+            onTogglePopupHotline();
+          } else {
+            window.open(PHONE_CONTACT_SUPPORT, '_self');
+          }
+        },
         linkStyle: !isMobile,
         hideDivider: !isMobile,
         hideArrow: !isMobile,
@@ -172,8 +184,19 @@ const Setting = () => {
     requestUpdateSetting.run('share_watchlist', value ? '1' : '0');
   };
 
-  const onTogglePopup = () => {
-    setVisible(!visible);
+  const onTogglePopupLanguage = () => {
+    setPopupLanguageVisible(!popupLanguageVisible);
+  };
+
+  const onTogglePopupHotline = () => {
+    setPopupHotlineVisible(!popupHotlineVisible);
+  };
+
+  const onBack = () => {
+    if (fromProfileMenu) {
+      setOpenProfileMenu(true);
+    }
+    router.back();
   };
 
   if (loading) {
@@ -181,10 +204,19 @@ const Setting = () => {
   }
   return (
     <>
-      <PopupLanguage visible={visible} onToggle={onTogglePopup} />
+      <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
+      <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div>
-        <Text type='body-20-semibold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
+      <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+        <img
+          src='/static/icons/icon_back_header.svg'
+          alt=''
+          width='0'
+          height='0'
+          className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+          onClick={onBack}
+        />
+        <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
