@@ -29,7 +29,7 @@ const ContentPostTypeHome = (props: IProps) => {
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
   const [isReadMorePost, setIsReadMorePost] = React.useState<boolean>(false);
-  const [inView, setInView] = React.useState(false);
+  const [, setInView] = React.useState(false);
   const [height, setHeight] = React.useState<number>(0);
   const bgTheme = useAtomValue(postThemeAtom);
   const metaData = postDetail?.post?.metadataList?.[0];
@@ -94,17 +94,21 @@ const ContentPostTypeHome = (props: IProps) => {
             <div ref={ref}>
               <ReactPlayer
                 url={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
-                playing={inView}
+                playing={true}
+                muted={true}
+                controls={true}
+                height={300}
+                width={'100%'}
+                playsinline={true}
+                config={{
+                  youtube: {
+                    playerVars: { playsinline: 1 },
+                  },
+                }}
               />
             </div>
           )}
         </InView>
-        // <iframe
-        //   src={`https://www.youtube.com/embed/${url?.[0]}?rel=0`}
-        //   title='YouTube video player'
-        //   allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-        //   className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
-        // ></iframe>
       );
     }
     if (imageMetaData) {
@@ -533,7 +537,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px]'>
+        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px] xdesktop:w-[550px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -591,8 +595,17 @@ const ContentPostTypeHome = (props: IProps) => {
             </Text>
           </div>
         )}
-
-        <div className='min-w-[1280px]:w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-[343px] desktop:h-[309px]'>
+        {isReadMore && (
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='w-[75px] cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? 'See less' : 'See more'}
+          </Text>
+        )}
+        <div className='min-w-[1280px]:!w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]'>
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
