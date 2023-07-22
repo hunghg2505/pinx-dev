@@ -51,14 +51,13 @@ const ComponentWatchList = (props: IProps) => {
   const [dataSocket, setDataSocket] = React.useState<any>({});
 
   socket.on('public', (message: any) => {
-    console.log('message',message);
     const data = message.data;
     if (data?.id === 3220) {
       setDataSocket(data);
     }
   });
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex !== -1) {
+  if (findIndex && findIndex !== -1) {
     const data = dataStock[findIndex];
     dataStock[findIndex] = {
       ...data,
@@ -68,12 +67,14 @@ const ComponentWatchList = (props: IProps) => {
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
-        {dataStock.map((item: IWatchListItem, index: number) => (
+        {dataStock?.map((item: IWatchListItem, index: number) => (
           <div
             key={index}
             className={classNames({
-              'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]': isEdit,
-              'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ': !isEdit,
+              'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
+                isEdit,
+              'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
+                !isEdit,
             })}
           >
             <ItemWatchList data={item} isEdit={isEdit} refresh={useWatchList.refresh} />

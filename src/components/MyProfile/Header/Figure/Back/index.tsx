@@ -1,17 +1,24 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
-import { ROUTE_PATH } from '@utils/common';
+import { openProfileAtom } from '@store/profile/profile';
 
 const Back = () => {
   const router = useRouter();
+  const fromProfileMenu = router.query.from_profile_menu;
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+
   return (
     <>
       <span
         className='absolute left-[16px] top-[16px] z-10 tablet:hidden'
         onClick={() => {
-          router.push(ROUTE_PATH.HOME);
+          if (fromProfileMenu) {
+            setOpenProfileMenu(true);
+          }
+          router.back();
         }}
       >
         <svg
@@ -39,7 +46,7 @@ const Back = () => {
           width={18.67}
           height={18.67}
           onClick={() => {
-            router.push(ROUTE_PATH.HOME);
+            router.back();
           }}
         />
         <hr className='mx-[-24px] my-[20px] border-blue_light' />

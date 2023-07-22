@@ -13,18 +13,22 @@ import Input from '@components/UI/Input';
 import Notification from '@components/UI/Notification';
 import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import Text from '@components/UI/Text';
+import { openProfileAtom } from '@store/profile/profile';
 import { settingAtom } from '@store/setting/setting';
 import { ROUTE_PATH, encryptPassword } from '@utils/common';
 import { REG_PASSWORD } from '@utils/reg';
 
 const customInputClassName =
-  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
+  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] !text-neutral_black outline-none bg-white';
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
 const ChangePassword = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [settingValues, setSettingValues] = useAtom(settingAtom);
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+  const fromProfileMenu = router.query.from_profile_menu;
+
   const onSubmit = (values: any) => {
     const curPassword = encryptPassword(values.curPassword);
     const newPassword = encryptPassword(values.newPassword);
@@ -49,8 +53,15 @@ const ChangePassword = () => {
     requestSendOtp.run(payload);
   };
 
+  const onBack = () => {
+    if (fromProfileMenu) {
+      setOpenProfileMenu(true);
+    }
+    router.back();
+  };
+
   return (
-    <>
+    <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <div className='relative'>
         <img
           src='/static/icons/arrow-left.svg'
@@ -62,13 +73,23 @@ const ChangePassword = () => {
           onClick={() => router.back()}
         />
       </div>
+      <img
+        src='/static/icons/icon_back_header.svg'
+        alt=''
+        width='0'
+        height='0'
+        className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+        onClick={onBack}
+      />
 
       <Text type='body-20-bold' className='mb-1 ml-4 mt-6 laptop:mt-0 laptop:text-center'>
         Change password
       </Text>
       <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
         <div>
-          <Text type='body-12-semibold'>Current password</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            Current password
+          </Text>
           <FormItem
             className='mt-2'
             name='curPassword'
@@ -93,7 +114,9 @@ const ChangePassword = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>New password</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            New password
+          </Text>
           <FormItem
             className='mt-2'
             name='newPassword'
@@ -104,8 +127,19 @@ const ChangePassword = () => {
               },
               {
                 pattern: REG_PASSWORD,
-                message: 'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
+                message:
+                  'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
               },
+              ({ getFieldValue }: { getFieldValue: any }) => ({
+                validator(_: any, value: any) {
+                  if (getFieldValue('curPassword') === value) {
+                    return Promise.reject(
+                      new Error('Please enter new password other current password'),
+                    );
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
           >
             {(field: any) => (
@@ -122,7 +156,9 @@ const ChangePassword = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>Confirm new password</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            Confirm new password
+          </Text>
           <FormItem
             className='mt-2'
             name='confirmNewPassword'
@@ -159,7 +195,7 @@ const ChangePassword = () => {
           Next
         </MainButton>
       </Form>
-    </>
+    </div>
   );
 };
 

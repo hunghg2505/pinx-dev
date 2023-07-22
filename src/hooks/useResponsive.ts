@@ -5,8 +5,12 @@ import { useDebounceFn } from 'ahooks';
 export const useResponsive = () => {
   // screen resolutions
   const [state, setState] = useState({
-    isMobile: false,
-    isDesktop: false,
+    isMobile: !!(
+      typeof window !== 'undefined' &&
+      window.innerWidth >= 320 &&
+      window.innerWidth <= 1024
+    ),
+    isDesktop: !!(typeof window !== 'undefined' && window.innerWidth > 1024),
   });
 
   useEffect(() => {

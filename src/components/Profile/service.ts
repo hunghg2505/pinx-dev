@@ -39,3 +39,18 @@ export const useUpdateUserProfile = (reload = () => {}) => {
     loading,
   };
 };
+
+export const useGetProfileOtherUser = (id: number) => {
+  const { data, run } = useRequest(
+    () => {
+      return requestPist.get(API_PATH.PUBLIC_GET_OTHER_USER_PROFILE(id));
+    },
+    {
+      refreshDeps: [id],
+    },
+  );
+  return {
+    profileOtherUser: data?.data,
+    run,
+  };
+};

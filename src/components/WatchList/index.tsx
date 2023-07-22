@@ -21,7 +21,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: false,
+  // arrows: false,
 };
 
 const WatchList = () => {
@@ -45,7 +45,7 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Text
                     type='body-12-semibold'
-                    className='text-[#1F6EAC]'
+                    className='text-[#1F6EAC] cursor-pointer'
                     onClick={() => setIsEdit(false)}
                   >
                     { t('cancelTxt') }
@@ -72,6 +72,9 @@ const WatchList = () => {
                 </div>
               </div>
             </div>
+            {/* Divider */}
+            <div className='desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9] min-h-[1px]'></div>
+            {/* /Divider */}
           </>
         ) : (
           <div className='flex items-center justify-between'>
@@ -129,7 +132,7 @@ const WatchList = () => {
         </div>
       )}
       {!isEdit && (
-        <Slider {...settings}>
+        <Slider className={classNames('', styles.sliderTheme)} {...settings}>
           {theme?.map((item: ITheme, index: number) => {
             return (
               <div key={`them-${index}`}>

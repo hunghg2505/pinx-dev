@@ -24,7 +24,12 @@ const BasicInfo = ({
     <div
       className=' mb-[16px] px-[16px]'
       onClick={() => {
-        router.push(ROUTE_PATH.MY_PROFILE);
+        router.push({
+          pathname: ROUTE_PATH.MY_PROFILE,
+          query: {
+            from_profile_menu: 1,
+          }
+        });
         close();
       }}
     >
@@ -47,7 +52,7 @@ const BasicInfo = ({
           {status && (
             <span
               className={classNames('text-[#EAA100]', {
-                'text-[#4BB543]': status === 'Verified',
+                '!text-green': status === 'Verified',
               })}
             >
               {status}

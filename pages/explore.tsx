@@ -28,7 +28,7 @@ ExplorePage.getLayout = function getLayout(page: ReactElement) {
 export async function getServerSideProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'theme'])),
       // Will be passed to the page component as props
     },
   };

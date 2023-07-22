@@ -86,6 +86,7 @@ export interface IContentPost {
   action: string;
   bgImage: string;
   themeName: string;
+  themeCode: string;
   head: string;
   headImageUrl: string;
   url: string;

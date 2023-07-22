@@ -17,7 +17,7 @@ const Info = () => {
       <div className='mb-[5px] flex gap-[8px] tablet:gap-[40px]'>
         <Post />
         <Follower />
-        <span className='tablet:hidden'>&bull;</span>
+        <span className='text-[#808A9D] tablet:hidden'>&bull;</span>
         <Following />
       </div>
       <Joined />

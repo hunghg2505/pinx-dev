@@ -74,7 +74,7 @@ const DeactivateAccount = (props: IProps) => {
         <MainButton
           onClick={deactivateAccout}
           className={classNames('mt-6 w-full', {
-            'w-[calc(100%-32px) fixed bottom-9 mt-0': !props.isPopup,
+            'fixed bottom-9 mt-0 !w-[calc(100%-32px)]': !props.isPopup,
           })}
         >
           Got it

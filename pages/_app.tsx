@@ -6,8 +6,7 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { appWithTranslation, i18n } from 'next-i18next';
+import { appWithTranslation } from 'next-i18next';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
@@ -17,7 +16,7 @@ import AppLayout from '@layout/AppLayout';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { enableScroll } from '@utils/common';
+import { disableScroll, enableScroll } from '@utils/common';
 // eslint-disable-next-line import/order
 import { TOAST_LIMIT } from '@utils/constant';
 import '../styles/tailwind.css';
@@ -45,15 +44,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
   const { isLogin } = useAuth();
-  const router = useRouter();
-  const [, setProfileOpen] = useAtom(openProfileAtom);
+  const [openProfileMenu] = useAtom(openProfileAtom);
 
   useMount(() => {
-    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || 'en');
     if (isLogin) {
       run();
     }
-    setProfileOpen(false);
   });
 
   const getLayout = Component.getLayout ?? ((page: any) => page);
@@ -67,9 +63,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [toasts]);
 
   useEffect(() => {
-    i18n?.changeLanguage(localStorage.getItem('locale')?.replaceAll('"', '') || 'en');
-    enableScroll();
-  }, [router.pathname]);
+    if (openProfileMenu) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [openProfileMenu]);
 
   return (
     <>

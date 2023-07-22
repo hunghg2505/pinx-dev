@@ -27,7 +27,7 @@ const Folow = () => {
   return (
     <>
       <div
-        className={'fcursor-pointer rounded-[5px]  bg-[#F0F7FC]  p-[6px] '}
+        className={'cursor-pointer rounded-[5px]  bg-primary_bgblue_2  p-[6px] '}
         onClick={() => onFollow()}
       >
         <img src='/static/icons/iconAdd.svg' alt='' width={0} height={0} className='w-[24px]' />

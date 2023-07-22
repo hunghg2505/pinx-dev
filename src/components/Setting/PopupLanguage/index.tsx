@@ -1,13 +1,12 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
 import { i18n } from 'next-i18next';
 import Dialog from 'rc-dialog';
 
 import 'rc-dialog/assets/index.css';
 import Text from '@components/UI/Text';
-import { localeAtom } from '@store/locale/locale';
+import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
 
 interface IProps {
   visible: boolean;
@@ -22,17 +21,18 @@ const LANGUAGES = [
   },
   {
     title: 'English',
-    value: 'en'
-  }
+    value: 'en',
+  },
 ];
 
 const PopupLanguage = (props: IProps) => {
-  const [currentLang, setCurrentLang] = useAtom(localeAtom);
+  const currentLang = getLocaleCookie() || 'en';
+
   const { visible, onToggle } = props;
 
   const onChangeLang = (lang: string) => {
     if (lang !== currentLang) {
-      lang && setCurrentLang(lang);
+      lang && setLocaleCookie(lang);
       i18n?.changeLanguage(lang);
       onToggle();
     }
@@ -46,7 +46,7 @@ const PopupLanguage = (props: IProps) => {
         width='0'
         height='0'
         sizes='100vw'
-        className='w-[21px] h-[21px]'
+        className='h-[21px] w-[21px]'
       />
     );
   };
@@ -55,15 +55,12 @@ const PopupLanguage = (props: IProps) => {
     onToggle();
   };
 
-
   return (
     <>
       <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
-        <div className='pb-4 border-solid border-b-[1px] border-[--neutral-8]'>
-          <Text type='body-24-bold'>
-            Language
-          </Text>
-          <Text type='body-14-regular'>
+        <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
+          <Text type='body-24-bold'>Language</Text>
+          <Text type='body-14-regular' color='primary-5'>
             Select languague
           </Text>
         </div>

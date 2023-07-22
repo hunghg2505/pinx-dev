@@ -24,7 +24,7 @@ const ItemAddStock = ({ data }: { data: any }) => {
         <img
           src={imageStock(data?.stockCode)}
           alt=''
-          className='h-[36px] w-[36px] rounded-full object-contain tablet:h-[48px] tablet:w-[48px]'
+          className='h-[36px] w-[36px] rounded-full object-contain tablet:h-[48px] tablet:w-[48px] bg-white'
         />
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>

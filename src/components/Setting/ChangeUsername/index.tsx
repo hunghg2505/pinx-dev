@@ -14,6 +14,7 @@ import Notification from '@components/UI/Notification';
 import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { openProfileAtom } from '@store/profile/profile';
 import { settingAtom } from '@store/setting/setting';
 import { ROUTE_PATH } from '@utils/common';
 import { REG_USERNAME } from '@utils/reg';
@@ -28,6 +29,8 @@ const ChangeUsername = () => {
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
   const [settingValues, setSettingValues] = useAtom(settingAtom);
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+  const fromProfileMenu = router.query.from_profile_menu;
 
   const onSubmit = (values: any) => {
     setSettingValues({ ...settingValues, newUsername: values.newUsername });
@@ -51,8 +54,16 @@ const ChangeUsername = () => {
     requestSendOtp.run(payload);
   };
 
+  const onBack = () => {
+    if (fromProfileMenu) {
+      setOpenProfileMenu(true);
+    }
+    router.back();
+  };
+
+
   return (
-    <>
+    <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <div className='relative'>
         <img
           src='/static/icons/arrow-left.svg'
@@ -65,12 +76,20 @@ const ChangeUsername = () => {
         />
       </div>
 
-      <Text type='body-20-bold' className='mb-1 ml-4 mt-6 laptop:text-center'>
+      <img
+        src='/static/icons/icon_back_header.svg'
+        alt=''
+        width='0'
+        height='0'
+        className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+        onClick={onBack}
+      />
+      <Text type='body-20-bold' className='mb-1 ml-4 laptop-max:mt-6 laptop:text-center'>
         Change Username
       </Text>
       <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
         <div>
-          <Text type='body-12-semibold' className='text-[#808A9D]'>
+          <Text type='body-14-semibold' className='text-[#808A9D]'>
             Current Username
           </Text>
           <FormItem className='mt-2' name='username'>
@@ -83,7 +102,9 @@ const ChangeUsername = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>New Username</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            New Username
+          </Text>
           <FormItem
             className='mt-2'
             name='newUsername'
@@ -111,7 +132,9 @@ const ChangeUsername = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>Re-type Username</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            Re-type Username
+          </Text>
           <FormItem
             className='mt-2'
             name='confirmNewUsername'
@@ -152,7 +175,7 @@ const ChangeUsername = () => {
           Next
         </MainButton>
       </Form>
-    </>
+    </div>
   );
 };
 

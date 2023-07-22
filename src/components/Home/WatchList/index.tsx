@@ -56,7 +56,7 @@ const WatchList = () => {
   });
 
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex !== -1) {
+  if (findIndex && findIndex !== -1) {
     const data = dataStock[findIndex];
     dataStock[findIndex] = {
       ...data,
@@ -78,7 +78,7 @@ const WatchList = () => {
   };
   return (
     <>
-      <div className='mt-[22px] h-[179px] min-w-[375px] justify-center overflow-hidden mobile:block tablet:hidden'>
+      <div className='mt-[22px] h-[179px] justify-center overflow-hidden mobile:block tablet:hidden'>
         {dataStock?.length > 0 ? (
           <div>
             <Slider

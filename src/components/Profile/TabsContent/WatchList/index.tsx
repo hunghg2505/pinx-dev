@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import NotFound from './NotFound';
+import { useRouter } from 'next/router';
 
-// import { useGetUserWatchlist } from '@components/Profile/service';
+import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+import { useAuth } from '@store/auth/useAuth';
+
+import ComponentWatchList from './ComponentWatchList';
 
 const WatchList = () => {
-  // const { data } = useGetUserWatchlist('128');
+  const { isLogin } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLogin && router?.query?.tab === 'watchlist') {
+      setVisible(true);
+    }
+  }, [router.query]);
   return (
     <>
-      <NotFound />
+      {isLogin && <ComponentWatchList isEdit={false} />}
+      {!isLogin && (
+        <PopupAccessLimit
+          visible={visible}
+          onClose={() => {
+            setVisible(false);
+          }}
+        />
+      )}
     </>
   );
 };

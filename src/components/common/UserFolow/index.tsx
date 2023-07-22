@@ -35,10 +35,26 @@ const UserFolow = (props: any) => {
               <AvatarDefault name={props?.displayName} />
             </div>
           )}
-
           <Text type='body-14-semibold' className='text-[#474D57]'>
             {props?.displayName}
           </Text>
+          {props?.isFeatureProfile && (
+            <img
+              src='/static/icons/iconStarFollow.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='ml-[6px] w-[16px]'
+            />
+          )}
+
+          {props?.isKol && (
+            <img
+              src='/static/icons/iconTickKol.svg'
+              alt=''
+              className='ml-[6px] h-[14px] w-[14px] object-contain'
+            />
+          )}
         </div>
         {props?.isFollow ? <UnFollow /> : <Folow />}
       </div>

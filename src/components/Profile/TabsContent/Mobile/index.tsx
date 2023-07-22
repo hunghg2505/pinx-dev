@@ -15,7 +15,7 @@ import WatchList from '../WatchList';
 const Mobile = () => {
   const { t } = useTranslation('profile');
   const searchParams = useSearchParams();
-  const { push, query } = useRouter();
+  const { replace, query } = useRouter();
   return (
     <div id={'tabbar'}>
       <Tabs
@@ -29,14 +29,14 @@ const Mobile = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
-                  push({ hash: '#tabbar', query: { ...query, tab: key } });
+                  replace({ hash: '#tabbar', query: { ...query, tab: key } });
                 }}
               />
             </>
           );
         }}
         onChange={(key: string) => {
-          push({ query: { ...query, tab: key } });
+          replace({ query: { ...query, tab: key } });
         }}
       >
         <TabPane tab={t('posts')} key='post' className='px-16px]'>
@@ -59,7 +59,7 @@ const Mobile = () => {
           }
           key='assets'
         >
-          <div className='px-[16px] tablet:px-0'>
+          <div className='tablet:px-0 pb-[50px]'>
             <Assets />
           </div>
         </TabPane>
