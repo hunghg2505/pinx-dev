@@ -23,7 +23,7 @@ const Themes = () => {
           className='absolute left-0 top-0 w-[28px] cursor-pointer'
           onClick={onGoBack}
         />
-        <Text type='body-24-semibold' color='neutral-1' className=''>
+        <Text type='body-20-bold' color='neutral-1'>
           {t('themes')}
         </Text>
       </div>

@@ -135,7 +135,7 @@ const SideBar = () => {
     <>
       <div className='px-[10px]'>
         <Menu items={items} />
-        <div className='pt-[25px] [border-top:1px_solid_#ECECEC]'>
+        <div className='pl-[10px] pt-[25px] [border-top:1px_solid_#ECECEC]'>
           <Text type='body-12-regular' className='text-[#78909C]'>
             Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
           </Text>

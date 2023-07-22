@@ -76,12 +76,12 @@ const PinexTop20 = () => {
           className='absolute left-0 top-0 w-[28px] cursor-pointer'
           onClick={onGoBack}
         />
-        <Text type='body-20-semibold' color='neutral-1' className=''>
+        <Text type='body-20-semibold' color='neutral-1' className='mobile:hidden tablet:block'>
           PineX top 20
         </Text>
       </div>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <div className=''>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
+      <div className='mobile:mt-[45px] tablet:mt-0'>
         <Tabs
           onChange={onChangeTab}
           contenTab={optionTab}

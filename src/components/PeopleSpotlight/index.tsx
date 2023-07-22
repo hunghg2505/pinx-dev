@@ -20,11 +20,20 @@ const PeopleSpotlight = () => {
             className='absolute left-0 top-0 w-[28px] cursor-pointer'
             onClick={onGoBack}
           />
-          <Text type='body-20-semibold' color='neutral-1' className=''>
+          <Text type='body-20-semibold' color='neutral-1' className='mobile:hidden tablet:block'>
             People in spotlight
           </Text>
         </div>
-        <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+        <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
+
+        <div className='mt-[44px] mobile:block tablet:hidden'>
+          <Text color='neutral-black' type='body-20-semibold' className='mb-[16px]'>
+            People in spotlight
+          </Text>
+
+          <Text type='body-14-regular'>Be inspired by our stock expert’s investment stories.</Text>
+        </div>
+
         <div className=' mt-[16px] flex flex-wrap gap-x-[14px] gap-y-[20px] mobile-max:grid mobile-max:grid-cols-2'>
           {KOL?.filter((item: IKOL) => item.isFeatureProfile === true)
             ?.slice(0, 20)

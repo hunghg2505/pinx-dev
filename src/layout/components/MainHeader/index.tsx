@@ -317,20 +317,23 @@ const MainHeader = () => {
                 {isShowNavigate ? (
                   <IconCloseMenu />
                 ) : (
-                  [...new Array(3)].map((_, index) => (
-                    <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
-                  ))
+                  <img
+                    src='/static/icons/icon-bar-mobile.svg'
+                    alt='Icon bar'
+                    className='h-[32px] w-[32px] cursor-pointer object-contain'
+                  />
                 )}
               </div>
             </div>
-            <div className='flex flex-row  items-center'>
-              <img
-                src='/static/icons/icon_search.svg'
-                className='mr-[16px] h-[36px] w-[36px] mobile:block desktop:hidden'
-                width={36}
-                height={36}
-                alt='Search'
-              />
+            <div className='flex flex-row items-center'>
+              <button className='mr-[16px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block desktop:hidden'>
+                <img
+                  src='/static/icons/search-gray.svg'
+                  alt='Search icon'
+                  className='m-auto h-[22px] w-[22px]'
+                />
+              </button>
+
               <div className='mr-[12px] mobile:hidden desktop:block'>
                 <Form>
                   <FormItem name='search'>

@@ -7,6 +7,7 @@ import { ISuggestionPeople } from '@components/Home/service';
 import { useSuggestPeopleTheme } from '@components/Themes/service';
 import Text from '@components/UI/Text';
 
+import styles from './index.module.scss';
 import PeopleItem from './PeopleItem';
 
 interface Iprops {
@@ -42,14 +43,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
       return closeIcon;
     }
     return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='w-[13px]'
-      />
+      <img src='/static/icons/iconClose.svg' alt='' className='h-[20px] w-[20px] object-contain' />
     );
   };
 
@@ -63,8 +57,9 @@ const ModalPeopleYouKnow = (props: Iprops) => {
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
         className='peopleYouKnow'
+        wrapClassName={styles.dialog}
       >
-        <div className='pt-[21px] text-center'>
+        <div className='pt-[21px] text-left'>
           <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
             People you may know
           </Text>
