@@ -15,7 +15,7 @@ const Following = () => {
   return (
     <>
       <Search />
-      <div className='flex flex-col gap-[8px]'>
+      <div className='mb-[20px] flex flex-col gap-[8px]'>
         {!!data?.data?.length && (
           <>
             {!!data?.data?.length && (

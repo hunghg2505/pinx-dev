@@ -14,7 +14,7 @@ const Following = () => {
   return (
     <>
       {!!data?.data?.length && (
-        <div className='flex flex-col gap-[8px]'>
+        <div className='mb-[20px] flex flex-col gap-[8px]'>
           {data?.data?.map((item: any) => (
             <UserFolow {...item} key={item.id} />
           ))}

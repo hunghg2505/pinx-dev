@@ -71,7 +71,7 @@ const Desktop = () => {
             <Following />
           </div>
         </TabPane>
-        <TabPane tab={t('followers')} key='follower'>
+        <TabPane tab={t('followers')} key='followers'>
           <div className='px-[16px] tablet:px-0'>
             <Follower />
           </div>

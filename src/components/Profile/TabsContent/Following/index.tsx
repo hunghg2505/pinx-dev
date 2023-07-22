@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import Search from '@components/common/Search';
 import UserFolow from '@components/common/UserFolow';
-import {  useOtherCustomerFollowing } from '@components/ProfileFollow/service';
+import { useOtherCustomerFollowing } from '@components/ProfileFollow/service';
 
 import NotFound from './NotFound';
 
@@ -18,7 +18,7 @@ const Following = () => {
   return (
     <>
       <Search />
-      <div className='flex flex-col gap-[8px]'>
+      <div className='mb-[20px] flex flex-col gap-[8px]'>
         {!!data?.data?.length && (
           <>
             {!!data?.data?.length && (
