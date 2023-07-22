@@ -203,7 +203,7 @@ const Home = () => {
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
                   <button
-                    className='absolute right-[16px] top-[26px] flex flex-row items-center'
+                    className='absolute right-[16px] top-[26px] z-50 flex flex-row items-center'
                     onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
                   >
                     <Text type='body-14-medium' color='primary-1'>

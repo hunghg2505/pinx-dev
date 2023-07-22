@@ -82,7 +82,7 @@ const SideBar = () => {
       },
       {
         id: 5,
-        path: isLogin ? ROUTE_PATH.MY_PROFILE : '',
+        path: isLogin ? ROUTE_PATH.ASSET : '',
         icon: <IconAssets />,
         iconActive: <IconAssetsActive />,
         label: 'Assets',

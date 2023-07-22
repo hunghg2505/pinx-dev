@@ -5,11 +5,15 @@ import { useRouter } from 'next/router';
 import UserFolow from '@components/common/UserFolow';
 
 import NotFound from './NotFound';
-import { useCustomerFollowing } from '../service';
+import { useOtherCustomerFollowing } from '../service';
 
 const Following = () => {
   const router = useRouter();
-  const { data } = useCustomerFollowing(String(router?.query?.search), String(router?.query?.id));
+  const { data } = useOtherCustomerFollowing(
+    String(router?.query?.search),
+    String(router?.query?.id),
+  );
+  console.log(data);
 
   return (
     <>

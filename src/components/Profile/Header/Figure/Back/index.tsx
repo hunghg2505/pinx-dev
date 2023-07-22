@@ -2,8 +2,6 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
-import { ROUTE_PATH } from '@utils/common';
-
 const Back = () => {
   const router = useRouter();
   return (
@@ -11,7 +9,7 @@ const Back = () => {
       <span
         className='absolute left-[16px] top-[16px] z-10 tablet:hidden'
         onClick={() => {
-          router.push(ROUTE_PATH.HOME);
+          router.back();
         }}
       >
         <svg
@@ -39,7 +37,7 @@ const Back = () => {
           width={18.67}
           height={18.67}
           onClick={() => {
-            router.push(ROUTE_PATH.HOME);
+            router.back();
           }}
         />
         <hr className='mx-[-24px] my-[20px] border-blue_light' />
