@@ -18,7 +18,7 @@ const Page = ({
       setState((prev: any) => ({
         ...prev,
         totalPages: res.totalPages,
-        notFound: res.data.length === 0,
+        notFound: res.page===1 && res.data.length === 0,
       }));
     },
   });
