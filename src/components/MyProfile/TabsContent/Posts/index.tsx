@@ -26,7 +26,6 @@ const Posts = () => {
                   refresh();
                 }}
               />
-              ;
             </div>
           );
         }
