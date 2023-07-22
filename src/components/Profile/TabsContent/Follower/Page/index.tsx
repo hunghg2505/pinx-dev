@@ -13,12 +13,12 @@ const Page = ({
   setState?: (totalPages: any) => void;
 }) => {
   const router = useRouter();
-  const { data, refresh } = useOtherCustomerFollower(page, String(router?.query?.id), {
+  const { data, refresh } = useOtherCustomerFollower(String(router?.query?.id), page, {
     onSuccess: (res: any) => {
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
-        notFound: res?.page === 1 && !!res?.data?.length,
+        notFound: res?.data?.length < 1,
       }));
     },
   });

@@ -152,6 +152,8 @@ export const API_PATH = {
   DEACTIVATE_ACCOUNT: '/private/customer/deactivate',
   GET_CUSTOMER_FOLLOWER: '/private/customer/follower/other',
   GET_CUSTOMER_FOLLOWING: '/private/customer/following/other',
+  PUBLIC_GET_CUSTOMER_FOLLOWER: '/public/customer/follower/other',
+  PUBLIC_GET_CUSTOMER_FOLLOWING: '/public/customer/following/other',
   GET_MY_CUSTOMER_FOLLOWER: '/private/customer/follower/friends',
   GET_MY_CUSTOMER_FOLLOWING: '/private/customer/following/friends',
 };
