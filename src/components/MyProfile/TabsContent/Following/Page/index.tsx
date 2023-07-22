@@ -3,18 +3,22 @@ import React from 'react';
 import UserFolowDesktop from '@components/common/UserFolowDesktop';
 import { useCustomerFollowing } from '@components/MyProfileFollow/service';
 
-import NotFound from './NotFound';
+
 
 const Page = ({
   page = 1,
-  setTotalPages = () => {},
+  setState = () => {},
 }: {
   page?: number;
-  setTotalPages?: (totalPages: number) => void;
+  setState?: (totalPages: any) => void;
 }) => {
   const { data, refresh } = useCustomerFollowing(page, {
     onSuccess: (res: any) => {
-      setTotalPages(res.totalPages);
+      setState((prev: any) => ({
+        ...prev,
+        totalPages: res.totalPages,
+        notFound: res.data.length === 0,
+      }));
     },
   });
   return (
@@ -26,7 +30,6 @@ const Page = ({
           </div>
         );
       })}
-      {data?.data?.page === 1 && !data?.data?.length && <NotFound />}
     </>
   );
 };
