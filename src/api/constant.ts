@@ -35,6 +35,7 @@ export const API_PATH = {
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
   PRIVATE_ADD_POST: '/private/post/add',
+  PRIVATE_PINNED_POST: '/private/mapping/pinned-posts',
 
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
@@ -126,7 +127,7 @@ export const API_PATH = {
   PUBLIC_SEARCH_PEOPLE: '/public/customer/search',
   PUBLIC_SEARCH_POST: '/public/mapping/post/search',
   PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
-
+  PRIVATE_HASHTAG_SUGGEST: '/private/post/hashtag/suggest',
   // ipo
   PUBLIC_GET_ALL_STOCK_IPO: '/public/company/ipo-listed',
 
