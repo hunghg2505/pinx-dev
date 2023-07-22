@@ -3,34 +3,32 @@ import { useRequest } from 'ahooks';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 
-export const useCustomerFollower = (fullName?: string, idCustomer?: string) => {
+export const useCustomerFollower = (page = 1, config?: any) => {
   return useRequest(
     async () => {
       return privateRequest(requestPist.get, API_PATH.GET_MY_CUSTOMER_FOLLOWER, {
-        data: {
-          fullName,
-          idCustomer,
+        params: {
+          page,
+          pageSize: 16,
         },
       });
     },
-    {
-      refreshDeps: [fullName, idCustomer],
-    },
+    { ...config },
   );
 };
 
-export const useCustomerFollowing = (fullName?: string, idCustomer?: string) => {
+export const useCustomerFollowing = (page = 1, config?: any) => {
   return useRequest(
     async () => {
       return privateRequest(requestPist.get, API_PATH.GET_MY_CUSTOMER_FOLLOWING, {
-        data: {
-          fullName,
-          idCustomer,
+        params: {
+          page,
+          pageSize: 16,
         },
       });
     },
     {
-      refreshDeps: [fullName, idCustomer],
+      ...config,
     },
   );
 };
