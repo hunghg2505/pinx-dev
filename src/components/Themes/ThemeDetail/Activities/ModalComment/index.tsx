@@ -90,14 +90,14 @@ const ModalComment = (props: Iprops) => {
         closeIcon={renderCloseIcon()}
         className={styles.modalComment}
       >
-        <div className=''>
+        <div className='h-[80vh]'>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
             {t('comment')}
           </Text>
           <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
             className={classNames(
-              'mt-[16px] h-[350px] overflow-y-auto',
+              'mt-[16px] h-[66vh] overflow-y-auto',
               {
                 'mobile:mb-[79px]': !isImageCommentMobile && isLogin,
                 'mobile:mb-[179px]': isImageCommentMobile && isLogin,

@@ -27,7 +27,7 @@ const Themes = () => {
           {t('themes')}
         </Text>
       </div>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
       <div className='grid grid-cols-4 gap-x-[36px] gap-y-[28px] mobile-max:!grid-cols-2 mobile-max:gap-x-[23px]'>
         {theme?.map((theme: ITheme, index: number) => {
           return (

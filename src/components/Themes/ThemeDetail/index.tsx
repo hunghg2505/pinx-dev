@@ -100,7 +100,7 @@ const ThemeDetail = () => {
             {t('title')}
           </Text>
         </div>
-        <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+        <div className='my-[20px] block h-[2px] bg-[#EEF5F9] tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
           {/* {isLogin && <Community payload={themeDetail} />} */}

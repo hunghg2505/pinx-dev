@@ -201,16 +201,38 @@ const ProfileVerification = () => {
             ) : (
               <FormItem className='' name='gender'>
                 <div className='flex'>
-                  <div className='mr-8 flex'>
-                    <div className='relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white'>
+                  <div
+                    className={classNames('mr-8 flex text-neutral_black opacity-60', {
+                      '!opacity-100': userLoginInfo?.gender === 'F',
+                    })}
+                  >
+                    <div
+                      className={classNames(
+                        'relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white',
+                        {
+                          '!bg-[var(--primary-2)]': userLoginInfo?.gender === 'F',
+                        },
+                      )}
+                    >
                       {userLoginInfo?.gender === 'F' && (
                         <div className='absolute right-[2.5px] top-[2.5px] h-3 w-3 rounded-full bg-[#1F6EAC]' />
                       )}
                     </div>
                     Female
                   </div>
-                  <div className='mr-16 flex'>
-                    <div className='relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white'>
+                  <div
+                    className={classNames('mr-16 flex text-neutral_black opacity-60', {
+                      '!opacity-100': userLoginInfo?.gender === 'M',
+                    })}
+                  >
+                    <div
+                      className={classNames(
+                        'relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white',
+                        {
+                          '!bg-[var(--primary-2)]': userLoginInfo?.gender === 'M',
+                        },
+                      )}
+                    >
                       {userLoginInfo?.gender === 'M' && (
                         <div className='absolute right-[2.5px] top-[2.5px] h-3 w-3 rounded-full bg-[#1F6EAC]' />
                       )}

@@ -80,7 +80,7 @@ const PinexTop20 = () => {
           PineX top 20
         </Text>
       </div>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
       <div className='mobile:mt-[45px] tablet:mt-0'>
         <Tabs
           onChange={onChangeTab}

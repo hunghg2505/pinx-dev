@@ -113,7 +113,11 @@ const Explore = () => {
   };
   return (
     <div className='w-full text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
-      <Text type='body-24-semibold' color='cbblack'>
+      <Text
+        type='body-24-semibold'
+        color='cbblack'
+        className='tablet:!text-[28px] tablet:!font-bold'
+      >
         Discovery
       </Text>
       <Search ref={refClick} />
@@ -350,7 +354,7 @@ const Explore = () => {
       )}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] tablet:mb-[0px]'>
         Trending on PineX
       </Text>
       <div className='relative mb-[16px] flex flex-col gap-y-[16px]'>
@@ -360,7 +364,7 @@ const Explore = () => {
             return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
-        <div className='block mobile-max:hidden'>
+        <div className='block mobile-max:-mt-[4px] mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
             return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
           })}
