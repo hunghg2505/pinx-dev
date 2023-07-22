@@ -90,15 +90,16 @@ const ItemPeople = (props: IProps) => {
             <Text type='body-14-semibold' color='cbblack'>
               {data.displayName}
             </Text>
-            {data.isFeatureProfile && (
-              <img
-                src='/static/icons/iconStarFollow.svg'
-                alt=''
-                width={0}
-                height={0}
-                className='ml-[6px] w-[16px]'
-              />
-            )}
+            {data.isFeatureProfile ||
+              (data?.isKol && (
+                <img
+                  src='/static/icons/iconStarFollow.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  className='ml-[6px] w-[16px]'
+                />
+              ))}
           </div>
           <Text type='body-12-regular' className='mt-[4px] text-[#666666]'>
             {data.numberFollowers} Followers
