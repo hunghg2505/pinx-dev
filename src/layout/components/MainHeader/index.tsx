@@ -181,7 +181,7 @@ const MainHeader = () => {
               <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
               <div className='text-[12px] text-[#474D57]'>
                 Joined since
-                <span className='text-black text-[12px] font-[600]'> 2022</span>
+                <span className='text-[12px] font-[600] text-neutral_black'> 2022</span>
               </div>
               <div className='flex gap-[50px]'>
                 <div className='ga- flex flex-col'>
@@ -221,9 +221,7 @@ const MainHeader = () => {
               <div className='flex items-center'>
                 <img
                   src='/static/icons/icon_profile.svg'
-                  className='mr-[16px] h-[24px] w-[24px]'
-                  width={24}
-                  height={24}
+                  className='mr-[10px] h-[16px] w-[15px]'
                   alt='Profile Verification'
                 />
                 <span>Profile Verification</span>
@@ -231,7 +229,7 @@ const MainHeader = () => {
               <Text
                 type='body-12-regular'
                 className={classNames('text-[#EAA100]', {
-                  'text-[#4BB543]': isUserVerified(userLoginInfo.acntStat),
+                  'text-green': isUserVerified(userLoginInfo.acntStat),
                 })}
               >
                 {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
@@ -248,10 +246,8 @@ const MainHeader = () => {
             onClick={onCloseDropdown}
           >
             <img
-              src='/static/icons/Lotus.svg'
-              className='mr-[16px] h-[24px] w-[24px]'
-              width={24}
-              height={24}
+              src='/static/icons/iconTV.svg'
+              className='mr-[10px] h-[14px] w-[15px] object-contain'
               alt='Watchlist and theme'
             />
             <span>Watchlist and theme</span>
@@ -317,20 +313,22 @@ const MainHeader = () => {
                 {isShowNavigate ? (
                   <IconCloseMenu />
                 ) : (
-                  [...new Array(3)].map((_, index) => (
-                    <span className='mb-1 block h-[3px] w-[24px] bg-[#438BB9]' key={index}></span>
-                  ))
+                  <img
+                    src='/static/icons/icon-bar-mobile.svg'
+                    alt='Icon bar'
+                    className='h-[32px] w-[32px] cursor-pointer object-contain'
+                  />
                 )}
               </div>
             </div>
-            <div className='flex flex-row  items-center'>
-              <img
-                src='/static/icons/icon_search.svg'
-                className='mr-[16px] h-[36px] w-[36px] mobile:block desktop:hidden'
-                width={36}
-                height={36}
-                alt='Search'
-              />
+            <div className='flex flex-row items-center'>
+              <button className='mr-[16px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block desktop:hidden'>
+                <img
+                  src='/static/icons/search-gray.svg'
+                  alt='Search icon'
+                  className='m-auto h-[22px] w-[22px]'
+                />
+              </button>
               <div className='mr-[12px] mobile:hidden desktop:block'>
                 <Form>
                   <FormItem name='search'>

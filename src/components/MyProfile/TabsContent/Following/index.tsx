@@ -24,7 +24,7 @@ const Following = () => {
   return (
     <>
       <Search />
-      <div className='grid grid-cols-4 gap-[14px]'>
+      <div className='mb-[20px] grid grid-cols-4 gap-[14px]'>
         {state.pages.map((page) => {
           if (page === state.pages.length) {
             return <Page page={page} key={page} setState={setState} />;

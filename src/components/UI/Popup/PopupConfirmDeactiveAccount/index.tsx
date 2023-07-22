@@ -47,12 +47,12 @@ const PopupConfirmDeactivateAccount = (props: IProps) => {
         <div className='border-b-[1px] border-solid border-[#E6E6E6]' />
 
         <div className='mt-4 flex justify-between'>
-          <div className='w-[35%] laptop:w-[49%]'>
+          <div className='w-[49%]'>
             <NegativeButton onClick={handleClose} className='w-full'>
               Cancel
             </NegativeButton>
           </div>
-          <div className='w-[58%] laptop:w-[49%]'>
+          <div className='w-[49%]'>
             <PositiveButton className='w-full' onClick={() => requestDeactivateAccout.run()}>
               Confirm
             </PositiveButton>

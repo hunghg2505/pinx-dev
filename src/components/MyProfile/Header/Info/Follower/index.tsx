@@ -19,10 +19,10 @@ const Follower = () => {
       onClick={() => {
         if (state.mobile) {
           router.replace(
-            `${router.route.replace('[id]', String(router?.query?.id))}/follow?tab=follower`,
+            `${router.route.replace('[id]', String(router?.query?.id))}/follow?tab=followers`,
           );
         } else {
-          router.replace({ query: { ...router.query, tab: 'follower' } });
+          router.replace({ query: { ...router.query, tab: 'followers' } });
         }
       }}
     >

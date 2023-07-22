@@ -33,5 +33,6 @@
   "message_account_pending_to_close": "Your account has been pending to close. You cannot perform this action",
   "like": "Like",
   "subcribers": "Subcribers",
-  "themes": "Themes"
+  "themes": "Themes",
+  "empty_comment": "There is no comments"
 }

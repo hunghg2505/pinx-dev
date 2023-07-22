@@ -72,7 +72,7 @@ const Explore = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   const router = useRouter();
-  const { theme } = useGetTheme();
+  const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
   const { run, refresh, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
@@ -112,7 +112,11 @@ const Explore = () => {
   };
   return (
     <div className='w-full text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
-      <Text type='body-24-semibold' color='cbblack'>
+      <Text
+        type='body-24-semibold'
+        color='cbblack'
+        className='tablet:!text-[28px] tablet:!font-bold'
+      >
         Discovery
       </Text>
       <Search ref={refClick} />
@@ -223,7 +227,7 @@ const Explore = () => {
               return (
                 <div key={index}>
                   <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
-                    <ThemesItem theme={theme} />
+                    <ThemesItem refresh={refreshTheme} theme={theme} />
                   </div>
                 </div>
               );
@@ -338,7 +342,7 @@ const Explore = () => {
           </div>
         </>
       ) : (
-        <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] px-[20px] py-[28px] text-center'>
+        <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
           <Text type='body-20-semibold' color='neutral-1'>
             New IPO stocks
           </Text>
@@ -349,7 +353,7 @@ const Explore = () => {
       )}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <Text type='body-20-semibold' color='neutral-1' className=''>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] tablet:mb-[0px]'>
         Trending on PineX
       </Text>
       <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
@@ -359,7 +363,7 @@ const Explore = () => {
             return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
-        <div className='block mobile-max:hidden'>
+        <div className='block mobile-max:-mt-[4px] mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
             return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}

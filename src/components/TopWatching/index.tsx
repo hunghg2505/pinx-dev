@@ -26,7 +26,7 @@ const TopWatching = () => {
           {t('top.watching.title')}
         </Text>
       </div>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
       <Text type='body-14-regular' color='neutral-black'>
         {t('top.watching.desc')}
       </Text>

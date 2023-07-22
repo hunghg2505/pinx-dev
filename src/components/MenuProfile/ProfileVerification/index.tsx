@@ -28,7 +28,7 @@ import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 import { useUpdateUserProfile } from './service';
 
 const customInputClassName =
-  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
+  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] text-[#999999] outline-none bg-white';
 const hideBorder = '!border-none';
 
 const beforeUpload = (file: RcFile) => {
@@ -149,7 +149,12 @@ const ProfileVerification = () => {
               className='mr-[6px] h-[15px] w-[15px]'
             />
             {userLoginInfo.phone}
-            <span className='ml-2 text-[#EAA100]'>
+            <span
+              className={classNames('ml-2', {
+                'text-[#EAA100]': !isUserVerified(userLoginInfo.acntStat),
+                'text-green': isUserVerified(userLoginInfo.acntStat),
+              })}
+            >
               {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
             </span>
           </div>
@@ -196,16 +201,38 @@ const ProfileVerification = () => {
             ) : (
               <FormItem className='' name='gender'>
                 <div className='flex'>
-                  <div className='mr-8 flex'>
-                    <div className='relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white'>
+                  <div
+                    className={classNames('mr-8 flex text-neutral_black opacity-60', {
+                      '!opacity-100': userLoginInfo?.gender === 'F',
+                    })}
+                  >
+                    <div
+                      className={classNames(
+                        'relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white',
+                        {
+                          '!bg-[var(--primary-2)]': userLoginInfo?.gender === 'F',
+                        },
+                      )}
+                    >
                       {userLoginInfo?.gender === 'F' && (
                         <div className='absolute right-[2.5px] top-[2.5px] h-3 w-3 rounded-full bg-[#1F6EAC]' />
                       )}
                     </div>
                     Female
                   </div>
-                  <div className='mr-16 flex'>
-                    <div className='relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white'>
+                  <div
+                    className={classNames('mr-16 flex text-neutral_black opacity-60', {
+                      '!opacity-100': userLoginInfo?.gender === 'M',
+                    })}
+                  >
+                    <div
+                      className={classNames(
+                        'relative mr-3 h-5 w-5 rounded-full border-[1px] border-solid border-[#EBEBEB] bg-white',
+                        {
+                          '!bg-[var(--primary-2)]': userLoginInfo?.gender === 'M',
+                        },
+                      )}
+                    >
                       {userLoginInfo?.gender === 'M' && (
                         <div className='absolute right-[2.5px] top-[2.5px] h-3 w-3 rounded-full bg-[#1F6EAC]' />
                       )}
@@ -266,7 +293,7 @@ const ProfileVerification = () => {
           </div>
 
           <ErrorMainButton
-            className='flex w-full items-center justify-center'
+            className='mb-[20px] flex h-[40px] w-full items-center justify-center'
             onClick={deactiveAccount}
           >
             <img
@@ -277,7 +304,7 @@ const ProfileVerification = () => {
               sizes='100vw'
               className='mr-[7px] h-[20px] w-[18px]'
             />
-            Deactivate account
+            <Text type='body-14-medium'>Deactivate account</Text>
           </ErrorMainButton>
         </Form>
 

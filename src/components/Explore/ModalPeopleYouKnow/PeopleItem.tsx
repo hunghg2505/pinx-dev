@@ -97,7 +97,7 @@ const PeopleItem = (props: Iprops) => {
       <div
         className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
           'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7]': isFollow,
-          'bg-[#F0F7FC]': !isFollow,
+          'bg-[#D8EBFC]': !isFollow,
         })}
         onClick={() => onFollow(data.id)}
       >

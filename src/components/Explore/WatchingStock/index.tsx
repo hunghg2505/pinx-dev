@@ -60,7 +60,7 @@ const WatchingStock = (props: Iprops) => {
               <img
                 src='/static/icons/explore/iconMention.svg'
                 alt=''
-                className='ml-[6px] h-[24px] w-[24px]'
+                className='ml-[6px] h-[18px] w-[18px]'
               />
             ) : (
               <img

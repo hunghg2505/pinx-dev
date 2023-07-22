@@ -96,11 +96,11 @@ const ThemeDetail = () => {
             className='absolute left-0 top-0 mb-[16px] w-[28px] cursor-pointer'
             onClick={onGoBack}
           />
-          <Text type='body-24-semibold' color='neutral-1' className=''>
+          <Text type='body-20-bold' color='neutral-1' className=''>
             {t('title')}
           </Text>
         </div>
-        <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+        <div className='my-[20px] block h-[2px] bg-[#EEF5F9] tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
           {/* {isLogin && <Community payload={themeDetail} />} */}

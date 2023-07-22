@@ -42,7 +42,7 @@ const ThemeExploreItem = (props: IProps) => {
                     src={item.avatar}
                     alt=''
                     className={classNames(' h-[20px] w-[20px] rounded-full', {
-                      '-ml-[10px]': index > 0,
+                      '-ml-[5px]': index > 0,
                     })}
                     key={index}
                   />

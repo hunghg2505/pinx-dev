@@ -171,7 +171,7 @@ const Search = (props: any, ref: any) => {
                 )}
               </>
             ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
+              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
                 No company result found for {valueInput}
               </Text>
             )}
@@ -197,7 +197,7 @@ const Search = (props: any, ref: any) => {
                 )}
               </>
             ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
+              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
                 No people result found for {valueInput}
               </Text>
             )}
@@ -223,7 +223,7 @@ const Search = (props: any, ref: any) => {
                 )}
               </>
             ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
+              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
                 No post result found for {valueInput}
               </Text>
             )}
@@ -249,7 +249,7 @@ const Search = (props: any, ref: any) => {
                 )}
               </>
             ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px]'>
+              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
                 No news result found for {valueInput}
               </Text>
             )}
