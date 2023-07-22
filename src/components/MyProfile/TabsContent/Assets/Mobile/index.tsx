@@ -6,22 +6,23 @@ import { useTranslation } from 'next-i18next';
 const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='flex  w-full flex-wrap justify-center rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center '>
-      <img
-        src={'/static/images/rocket.png'}
-        height={433}
-        width={412}
-        alt="Don't have any result"
-        className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[221px] tablet:w-[264px]'
-      />
-      <div className='w-full flex-col rounded-[12px]  bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
-        <div className='mx-auto w-fit'>
-          <p className=' line-[28px] mb-[20px] max-w-[260px]  text-[20px] font-[600] '>
-            {t('start_investment')}
-          </p>
-          <Link
-            href='https://apps.apple.com/vn/app/pinex/id1570570518'
-            className='
+    <div className='pb-50px'>
+      <div className='flex  w-full flex-wrap justify-center rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center '>
+        <img
+          src={'/static/images/rocket.png'}
+          height={433}
+          width={412}
+          alt="Don't have any result"
+          className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[221px] tablet:w-[264px]'
+        />
+        <div className='w-full flex-col rounded-[12px]  bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
+          <div className='mx-auto w-fit'>
+            <p className=' line-[28px] mb-[20px] max-w-[260px]  text-[20px] font-[600] '>
+              {t('start_investment')}
+            </p>
+            <Link
+              href='https://apps.apple.com/vn/app/pinex/id1570570518'
+              className='
           line-[18px]
           block
           max-w-[260px]
@@ -34,9 +35,10 @@ const Mobile = () => {
         font-[600]
         text-white
         '
-          >
-            {t('invest_now')}
-          </Link>
+            >
+              {t('invest_now')}
+            </Link>
+          </div>
         </div>
       </div>
     </div>
