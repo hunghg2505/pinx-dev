@@ -73,7 +73,9 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
               {data?.changePc || data?.changePercent}%
             </Text>
             {requestSelectStock?.loading ? (
-              <Loading />
+              <div className='absolute inset-x-0 inset-y-0 backdrop-blur-sm flex items-center justify-center'>
+                <Loading />
+              </div>
             ) : (
               <div
                 className={classNames(
