@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 
+import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -27,10 +28,10 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'home', 'profile', 'theme'])),
+      ...(await serverSideTranslations(req.cookies.locale || 'en', ['common', 'home', 'profile', 'theme'])),
       // Will be passed to the page component as props
     },
   };

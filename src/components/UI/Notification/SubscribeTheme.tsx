@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { toast } from 'react-hot-toast';
 
 import { ITheme } from '@components/Home/service';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -11,14 +12,16 @@ import Text from '../Text';
 interface IProps {
   theme: ITheme;
   isUnsubscribe?: boolean;
+  toastId?: string
 }
 
 const NotificationSubsribeTheme = (props: IProps) => {
-  const { isUnsubscribe, theme } = props;
+  const { isUnsubscribe, theme, toastId } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const onShare = () => {
     setPopupStatus({ ...popupStatus, popupSubsribeTheme: true });
+    toast.dismiss(toastId);
   };
 
   return (

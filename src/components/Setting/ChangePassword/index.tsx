@@ -13,6 +13,7 @@ import Input from '@components/UI/Input';
 import Notification from '@components/UI/Notification';
 import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import Text from '@components/UI/Text';
+import { openProfileAtom } from '@store/profile/profile';
 import { settingAtom } from '@store/setting/setting';
 import { ROUTE_PATH, encryptPassword } from '@utils/common';
 import { REG_PASSWORD } from '@utils/reg';
@@ -25,6 +26,9 @@ const ChangePassword = () => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [settingValues, setSettingValues] = useAtom(settingAtom);
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+  const fromProfileMenu = router.query.from_profile_menu;
+
   const onSubmit = (values: any) => {
     const curPassword = encryptPassword(values.curPassword);
     const newPassword = encryptPassword(values.newPassword);
@@ -49,8 +53,15 @@ const ChangePassword = () => {
     requestSendOtp.run(payload);
   };
 
+  const onBack = () => {
+    if (fromProfileMenu) {
+      setOpenProfileMenu(true);
+    }
+    router.back();
+  };
+
   return (
-    <>
+    <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <div className='relative'>
         <img
           src='/static/icons/arrow-left.svg'
@@ -62,6 +73,14 @@ const ChangePassword = () => {
           onClick={() => router.back()}
         />
       </div>
+      <img
+        src='/static/icons/icon_back_header.svg'
+        alt=''
+        width='0'
+        height='0'
+        className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+        onClick={onBack}
+      />
 
       <Text type='body-20-bold' className='mb-1 ml-4 mt-6 laptop:mt-0 laptop:text-center'>
         Change password
@@ -111,6 +130,16 @@ const ChangePassword = () => {
                 message:
                   'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
               },
+              ({ getFieldValue }: { getFieldValue: any }) => ({
+                validator(_: any, value: any) {
+                  if (getFieldValue('curPassword') === value) {
+                    return Promise.reject(
+                      new Error('Please enter new password other current password'),
+                    );
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
           >
             {(field: any) => (
@@ -166,7 +195,7 @@ const ChangePassword = () => {
           Next
         </MainButton>
       </Form>
-    </>
+    </div>
   );
 };
 

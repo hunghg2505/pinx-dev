@@ -1,14 +1,23 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+
+import { openProfileAtom } from '@store/profile/profile';
 
 const Back = () => {
   const router = useRouter();
+  const fromProfileMenu = router.query.from_profile_menu;
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+
   return (
     <>
       <span
         className='absolute left-[16px] top-[16px] z-10 tablet:hidden'
         onClick={() => {
+          if (fromProfileMenu) {
+            setOpenProfileMenu(true);
+          }
           router.back();
         }}
       >
