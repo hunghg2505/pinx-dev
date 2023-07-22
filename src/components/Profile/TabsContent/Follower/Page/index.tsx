@@ -17,8 +17,8 @@ const Page = ({
     onSuccess: (res: any) => {
       setState((prev: any) => ({
         ...prev,
-        totalPages: res.totalPages,
-        notFound: res.data.length === 0,
+        totalPages: res?.totalPages,
+        notFound: res?.page === 1 && !!res?.data?.length,
       }));
     },
   });

@@ -1,14 +1,11 @@
 import React from 'react';
 
-// import { useGetMyWatchList } from '@components/MyProfile/service';
-
-import NotFound from './NotFound';
+import ComponentWatchList from './ComponentWatchList';
 
 const WatchList = () => {
-  // const { data } = useGetMyWatchList();
   return (
     <>
-      <NotFound />
+      <ComponentWatchList isEdit={false} />
     </>
   );
 };

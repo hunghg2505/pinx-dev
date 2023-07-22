@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='width-[100%]  px-16px flex flex-wrap justify-center  rounded-[12px] py-[32px] text-center '>
+    <div className='width-[100%]  px-16px flex flex-wrap justify-center  rounded-[12px] py-[32px] text-center mb-[50px]'>
       <p className='line-[21px] mb-[12px] max-w-full text-[16px] font-[700] text-dark_grey'>
         {t('asset_desktop')}
       </p>

@@ -59,7 +59,7 @@ const Mobile = () => {
           }
           key='assets'
         >
-          <div className='px-[16px] tablet:px-0'>
+          <div className='tablet:px-0 pb-[50px]'>
             <Assets />
           </div>
         </TabPane>

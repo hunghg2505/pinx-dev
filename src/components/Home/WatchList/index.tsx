@@ -56,7 +56,7 @@ const WatchList = () => {
   });
 
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex !== -1) {
+  if (findIndex && findIndex !== -1) {
     const data = dataStock[findIndex];
     dataStock[findIndex] = {
       ...data,

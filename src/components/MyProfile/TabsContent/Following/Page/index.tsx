@@ -3,8 +3,6 @@ import React from 'react';
 import UserFolowDesktop from '@components/common/UserFolowDesktop';
 import { useCustomerFollowing } from '@components/MyProfileFollow/service';
 
-
-
 const Page = ({
   page = 1,
   setState = () => {},
@@ -16,8 +14,8 @@ const Page = ({
     onSuccess: (res: any) => {
       setState((prev: any) => ({
         ...prev,
-        totalPages: res.totalPages,
-        notFound: res.data.length === 0,
+        totalPages: res?.totalPages,
+        notFound: res?.page === 1 && !!res?.data?.length,
       }));
     },
   });
