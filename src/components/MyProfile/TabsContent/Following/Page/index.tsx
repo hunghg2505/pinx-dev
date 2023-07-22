@@ -14,6 +14,7 @@ const Page = ({
   const profileUser = useContext<any>(profileUserContext);
   const { data, refresh } = useCustomerFollowing(page, {
     onSuccess: (res: any) => {
+      console.log('profileUser', profileUser);
       profileUser.refresh();
       setState((prev: any) => ({
         ...prev,
