@@ -1,26 +1,38 @@
-import React from 'react';
-
-import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 import Search from '@components/common/Search';
-import UserFolowDesktop from '@components/common/UserFolowDesktop';
-import { useCustomerFollower } from '@components/MyProfileFollow/service';
+import useElementOnscreen from '@utils/useElementOnscreen';
 
-import NotFound from './NotFound';
+import Page from './Page';
 
 const Follower = () => {
-  const router = useRouter();
-  const { data } = useCustomerFollower(String(router?.query?.search), String(router?.query?.id));
-
+  const [state, setState] = useState<{
+    pages: number[];
+    totalPages: number;
+  }>({
+    pages: [1],
+    totalPages: 1,
+  });
+  const { lastElementRef } = useElementOnscreen(() => {
+    if (state.totalPages > state.pages.length) {
+      setState((prev) => ({ ...prev, pages: [...prev.pages, prev.pages.length + 1] }));
+    }
+  });
+  const setTotalPages = (totalPages: number) => {
+    setState((prev) => ({ ...prev, totalPages }));
+  };
   return (
     <>
       <Search />
       <div className='grid grid-cols-4 gap-[14px]'>
-        {data?.data?.map((item: any) => (
-          <UserFolowDesktop {...item} key={item.id} />
-        ))}
+        {state.pages.map((page) => {
+          if (page === state.pages.length) {
+            return <Page page={page} key={page} setTotalPages={setTotalPages} />;
+          }
+          return <Page page={page} key={page} />;
+        })}
+        <div ref={lastElementRef}></div>
       </div>
-      {!data?.data?.length && <NotFound />}
     </>
   );
 };

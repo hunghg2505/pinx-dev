@@ -16,11 +16,7 @@ const useFollowUser = () => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        context?.dispatch({
-          type: 'follow',
-        });
-      },
+      onSuccess: context?.refresh,
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
       },
