@@ -70,7 +70,7 @@ const ChangeUsername = () => {
       </Text>
       <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
         <div>
-          <Text type='body-12-semibold' className='text-[#808A9D]'>
+          <Text type='body-14-semibold' className='text-[#808A9D]'>
             Current Username
           </Text>
           <FormItem className='mt-2' name='username'>
@@ -83,7 +83,9 @@ const ChangeUsername = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>New Username</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            New Username
+          </Text>
           <FormItem
             className='mt-2'
             name='newUsername'
@@ -111,7 +113,9 @@ const ChangeUsername = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>Re-type Username</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            Re-type Username
+          </Text>
           <FormItem
             className='mt-2'
             name='confirmNewUsername'

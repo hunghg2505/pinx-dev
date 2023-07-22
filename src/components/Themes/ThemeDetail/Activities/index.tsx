@@ -19,13 +19,13 @@ const Activities = ({ data }: { data: IThemeDetail }) => {
   return (
     <>
       <Text
-        type='body-16-semibold'
+        type='body-20-semibold'
         color='neutral-black'
         className='mb-[20px] mt-[21px] block desktop:hidden'
       >
         {t('tab.activities')}
       </Text>
-      <div className='flex flex-col gap-y-[16px] desktop:mt-[21px]'>
+      <div className='flex flex-col gap-y-[16px] mobile:mb-[20px] desktop:mb-0 desktop:mt-[21px]'>
         {activities?.map((item: INewFeed, index: number) => {
           return <ItemActivities key={index} data={item} refresh={refresh} />;
         })}

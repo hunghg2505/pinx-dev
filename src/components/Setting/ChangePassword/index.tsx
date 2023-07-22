@@ -18,7 +18,7 @@ import { ROUTE_PATH, encryptPassword } from '@utils/common';
 import { REG_PASSWORD } from '@utils/reg';
 
 const customInputClassName =
-  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
+  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] !text-neutral_black outline-none bg-white';
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
 const ChangePassword = () => {
@@ -68,7 +68,9 @@ const ChangePassword = () => {
       </Text>
       <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
         <div>
-          <Text type='body-12-semibold'>Current password</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            Current password
+          </Text>
           <FormItem
             className='mt-2'
             name='curPassword'
@@ -93,7 +95,9 @@ const ChangePassword = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>New password</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            New password
+          </Text>
           <FormItem
             className='mt-2'
             name='newPassword'
@@ -104,7 +108,8 @@ const ChangePassword = () => {
               },
               {
                 pattern: REG_PASSWORD,
-                message: 'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
+                message:
+                  'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
               },
             ]}
           >
@@ -122,7 +127,9 @@ const ChangePassword = () => {
         </div>
 
         <div>
-          <Text type='body-12-semibold'>Confirm new password</Text>
+          <Text type='body-14-semibold' color='primary-5'>
+            Confirm new password
+          </Text>
           <FormItem
             className='mt-2'
             name='confirmNewPassword'

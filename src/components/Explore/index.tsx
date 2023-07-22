@@ -73,7 +73,7 @@ const Explore = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   const router = useRouter();
-  const { theme } = useGetTheme();
+  const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
   const { run, refresh, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
@@ -224,7 +224,7 @@ const Explore = () => {
               return (
                 <div key={index}>
                   <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
-                    <ThemesItem theme={theme} />
+                    <ThemesItem refresh={refreshTheme} theme={theme} />
                   </div>
                 </div>
               );
@@ -339,7 +339,7 @@ const Explore = () => {
           </div>
         </>
       ) : (
-        <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] px-[20px] py-[28px] text-center'>
+        <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
           <Text type='body-20-semibold' color='neutral-1'>
             New IPO stocks
           </Text>

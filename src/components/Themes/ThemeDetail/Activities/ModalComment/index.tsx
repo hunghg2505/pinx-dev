@@ -10,6 +10,8 @@ import { IComment } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
+import styles from './index.module.scss';
+
 interface Iprops {
   children: any;
   closeIcon?: boolean;
@@ -82,17 +84,26 @@ const ModalComment = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+      <Dialog
+        visible={visible}
+        onClose={onVisible}
+        closeIcon={renderCloseIcon()}
+        className={styles.modalComment}
+      >
         <div className=''>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
             {t('comment')}
           </Text>
           <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
-            className={classNames('mt-[16px] h-[350px] overflow-y-scroll ', {
-              'mobile:mb-[79px]': !isImageCommentMobile && isLogin,
-              'mobile:mb-[179px]': isImageCommentMobile && isLogin,
-            })}
+            className={classNames(
+              'mt-[16px] h-[350px] overflow-y-auto',
+              {
+                'mobile:mb-[79px]': !isImageCommentMobile && isLogin,
+                'mobile:mb-[179px]': isImageCommentMobile && isLogin,
+              },
+              styles.content,
+            )}
           >
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {

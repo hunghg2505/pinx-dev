@@ -67,6 +67,7 @@ const Setting = () => {
         path: ROUTE_PATH.SETTING_CHANGE_USERNAME,
         isNew: true,
         hidden: !isLogin,
+        hideDivider: !isMobile,
       },
     ];
   }, [currentLang, isMobile, isLogin, t]);
@@ -126,7 +127,7 @@ const Setting = () => {
           }}
           key={index}
           className={classNames(
-            'flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 pb-4 pt-3',
+            'flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 py-[14px]',
             {
               'border-none': item.hideDivider,
               'cursor-auto': item.disableClick,
@@ -134,7 +135,7 @@ const Setting = () => {
           )}
         >
           <div className='flex items-center'>
-            <Text type='body-12-regular' color={item.linkStyle ? 'primary-2' : 'cbblack'}>
+            <Text type='body-14-regular' color={item.linkStyle ? 'primary-2' : 'cbblack'}>
               {item.title}
             </Text>
             {item.isNew && (
@@ -183,21 +184,23 @@ const Setting = () => {
       <PopupLanguage visible={visible} onToggle={onTogglePopup} />
 
       <div>
-        <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
+        <Text type='body-20-semibold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
         {SETTINGS.map((item: any, index: number) => renderListItem(item, index))}
 
         {isLogin && (
+          <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
+        )}
+        {isLogin && (
           <>
-            <Text type='body-20-bold' className='mb-1 ml-4 mt-6'>
+            <Text type='body-20-semibold' className='ml-4 mt-[20px] tablet:!text-[16px]'>
               Social
             </Text>
-            <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
 
-            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 pb-4 pt-3 laptop:border-none'>
-              <Text type='body-12-regular'>Share watchinglist</Text>
+            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 py-[14px] laptop:border-none'>
+              <Text type='body-14-regular'>Share watchinglist</Text>
 
               <Switch
                 defaultChecked={settingsData?.data?.share_watchlist === '1'}
@@ -207,8 +210,9 @@ const Setting = () => {
           </>
         )}
 
-        <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
-        <Text type='body-20-bold' className='mb-1 ml-4 mt-6'>
+        <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
+
+        <Text type='body-20-semibold' className='ml-4 mt-[20px] tablet:!text-[16px]'>
           PineX
         </Text>
 
@@ -216,8 +220,11 @@ const Setting = () => {
 
         {isLogin && (
           <div className='px-4 laptop:hidden'>
-            <NegativeMainButton onClick={() => onLogout()} className='my-14 w-full'>
-              Log out
+            <NegativeMainButton
+              onClick={() => onLogout()}
+              className='my-14 flex h-[40px] w-full items-center justify-center'
+            >
+              <Text type='body-14-semibold'>Log out</Text>
             </NegativeMainButton>
           </div>
         )}

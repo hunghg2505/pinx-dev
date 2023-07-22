@@ -1,0 +1,7 @@
+.modalComment {
+  @media (max-width: 768px) {
+    .content::-webkit-scrollbar {
+      width: 5px;
+    }
+  }
+}

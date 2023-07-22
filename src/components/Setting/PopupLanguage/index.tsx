@@ -22,8 +22,8 @@ const LANGUAGES = [
   },
   {
     title: 'English',
-    value: 'en'
-  }
+    value: 'en',
+  },
 ];
 
 const PopupLanguage = (props: IProps) => {
@@ -46,7 +46,7 @@ const PopupLanguage = (props: IProps) => {
         width='0'
         height='0'
         sizes='100vw'
-        className='w-[21px] h-[21px]'
+        className='h-[21px] w-[21px]'
       />
     );
   };
@@ -55,15 +55,12 @@ const PopupLanguage = (props: IProps) => {
     onToggle();
   };
 
-
   return (
     <>
       <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
-        <div className='pb-4 border-solid border-b-[1px] border-[--neutral-8]'>
-          <Text type='body-24-bold'>
-            Language
-          </Text>
-          <Text type='body-14-regular'>
+        <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
+          <Text type='body-24-bold'>Language</Text>
+          <Text type='body-14-regular' color='primary-5'>
             Select languague
           </Text>
         </div>

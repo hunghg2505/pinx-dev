@@ -28,7 +28,7 @@ import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 import { useUpdateUserProfile } from './service';
 
 const customInputClassName =
-  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
+  'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] text-[#999999] outline-none bg-white';
 const hideBorder = '!border-none';
 
 const beforeUpload = (file: RcFile) => {
@@ -149,7 +149,12 @@ const ProfileVerification = () => {
               className='mr-[6px] h-[15px] w-[15px]'
             />
             {userLoginInfo.phone}
-            <span className='ml-2 text-[#EAA100]'>
+            <span
+              className={classNames('ml-2', {
+                'text-[#EAA100]': !isUserVerified(userLoginInfo.acntStat),
+                'text-green': isUserVerified(userLoginInfo.acntStat),
+              })}
+            >
               {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
             </span>
           </div>
@@ -266,7 +271,7 @@ const ProfileVerification = () => {
           </div>
 
           <ErrorMainButton
-            className='flex w-full items-center justify-center'
+            className='mb-[20px] flex h-[40px] w-full items-center justify-center'
             onClick={deactiveAccount}
           >
             <img
@@ -277,7 +282,7 @@ const ProfileVerification = () => {
               sizes='100vw'
               className='mr-[7px] h-[20px] w-[18px]'
             />
-            Deactivate account
+            <Text type='body-14-medium'>Deactivate account</Text>
           </ErrorMainButton>
         </Form>
 

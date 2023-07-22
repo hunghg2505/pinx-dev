@@ -47,7 +47,7 @@ const BasicInfo = ({
           {status && (
             <span
               className={classNames('text-[#EAA100]', {
-                'text-[#4BB543]': status === 'Verified',
+                '!text-green': status === 'Verified',
               })}
             >
               {status}
