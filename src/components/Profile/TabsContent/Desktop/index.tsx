@@ -17,7 +17,7 @@ import WatchList from '../WatchList';
 const Desktop = () => {
   const { t } = useTranslation('profile');
   const searchParams = useSearchParams();
-  const { push, query } = useRouter();
+  const { replace, query } = useRouter();
 
   return (
     <div className='px-[16px] tablet:px-0'>
@@ -32,14 +32,14 @@ const Desktop = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
-                  push({ query: { ...query, tab: key } });
+                  replace({ query: { ...query, tab: key } });
                 }}
               />
             </>
           );
         }}
         onChange={(key: string) => {
-          push({ query: { ...query, tab: key } });
+          replace({ query: { ...query, tab: key } });
         }}
       >
         <TabPane tab={t('posts')} key='post'>

@@ -3,8 +3,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import Search from '@components/common/Search';
-import UserFolow from '@components/common/UserFolow';
-import { useCustomerFollowing } from '@components/ProfileFollow/service';
+import UserFolowDesktop from '@components/common/UserFolowDesktop';
+import { useCustomerFollowing } from '@components/MyProfileFollow/service';
 
 import NotFound from './NotFound';
 
@@ -15,18 +15,10 @@ const Following = () => {
   return (
     <>
       <Search />
-      <div className='flex flex-col gap-[8px]'>
-        {!!data?.data?.length && (
-          <>
-            {!!data?.data?.length && (
-              <>
-                {data?.data?.map((item: any) => (
-                  <UserFolow {...item} key={item.id} />
-                ))}
-              </>
-            )}
-          </>
-        )}
+      <div className='grid grid-cols-4 gap-[14px]'>
+        {data?.data?.map((item: any) => (
+          <UserFolowDesktop {...item} key={item.id} />
+        ))}
       </div>
       {!data?.data?.length && <NotFound />}
     </>
