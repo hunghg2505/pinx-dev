@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 
+import { TabsEnum } from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -9,6 +10,28 @@ interface Iprops {
 }
 const PinexTop = (props: Iprops) => {
   const { label, value } = props;
+  const renderImage = () => {
+    switch (value) {
+      case TabsEnum.Profit: {
+        return 'https://static.pinetree.com.vn/upload/images/pist/theme/top20_profit.png';
+      }
+      case TabsEnum.Revenue: {
+        return 'https://static.pinetree.com.vn/upload/images/pist/theme/top20_revenue.png';
+      }
+      case TabsEnum.MarketCapitalization: {
+        return 'https://static.pinetree.com.vn/upload/images/pist/theme/top20_market_capitalization.png';
+      }
+      case TabsEnum.Price: {
+        return 'https://static.pinetree.com.vn/upload/images/pist/theme/top20_price.png';
+      }
+      case TabsEnum.ChangeInPrice1Y: {
+        return 'https://static.pinetree.com.vn/upload/images/pist/theme/top20_change_in_price_1Y.png';
+      }
+      default: {
+        break;
+      }
+    }
+  };
   const router = useRouter();
   const onHandleClick = () => {
     router.push({
@@ -20,7 +43,7 @@ const PinexTop = (props: Iprops) => {
     <div className='mr-[16px] w-[149px] cursor-pointer' onClick={onHandleClick}>
       <div className='relative flex h-[214px] flex-col justify-end rounded-[12px] bg-[#ffffff] '>
         <img
-          src='/static/images/top20.jpg'
+          src={renderImage()}
           alt=''
           className='absolute left-0 top-0 h-full w-full rounded-[12px]'
         />

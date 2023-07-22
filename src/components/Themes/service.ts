@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestFromServer, requestPist } from '@api/request';
 import { ILatestSubscribe } from '@components/Home/service';
 import { getAccessToken } from '@store/auth';
 
@@ -153,9 +153,13 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
   };
   const { data, run, refresh } = useRequest(
     () => {
-      return privateRequest(requestCommunity.get, API_PATH.PRIVATE_GET_LIST_ACTIVITIES_THEME, {
-        params,
-      });
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_GET_LIST_ACTIVITIES_THEME, {
+            params,
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_GET_LIST_ACTIVITIES(code));
     },
     {
       manual: true,
@@ -166,4 +170,18 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
     run,
     refresh,
   };
+};
+
+export const serviceGetThemeDetailFromServer = async (code: any, ctx: any): Promise<any> => {
+  try {
+    const res = await requestFromServer(ctx, API_PATH.PRIVATE_GET_THEME_DETAIL(code));
+    return {
+      orderDetail: {
+        ...res,
+      },
+    };
+  } catch (error) {
+    console.log('error', error);
+    return {};
+  }
 };

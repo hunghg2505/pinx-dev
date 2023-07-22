@@ -6,9 +6,13 @@ const MainHeader = dynamic(() => import('../components/MainHeader'), {
 const SideBar = dynamic(() => import('./SideBar'), {
   ssr: false,
 });
+const ModalPage = dynamic(() => import('@components/ModalPage'), {
+  ssr: false,
+});
 const MainLayout = ({ children }: any) => {
   return (
     <>
+      <ModalPage />
       <MainHeader />
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
         <div className='xl:container relative flex justify-center mobile-max:mx-auto tablet:overflow-auto'>

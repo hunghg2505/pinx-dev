@@ -67,7 +67,9 @@ export const API_PATH = {
   PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME: (code: string) =>
     `/private/theme/${code}/subscribed-customers-full`,
   PRIVATE_GET_LIST_ACTIVITIES_THEME: '/private/activity/list-theme-activities',
+  PUBLIC_GET_LIST_ACTIVITIES: (code: string) => `/public/theme/${code}/activities`,
   PRIVATE_SEARCH_CUSTOMER_RECENT: '/private/search/customer/recent',
+
   // stock
   PUBLIC_SUGGEST_STOCK_CODE: '/public/suggested/stockcodes',
   PUBLIC_COMPANY_GET_BY_STOCK_BRIEF: (stockCodes: string) =>
@@ -108,6 +110,7 @@ export const API_PATH = {
   PUBLIC_TOP_MENTION: '/public/stock/top-mention',
   PRIVATE_REMOVE_STOCK: (code: string) => `/private/watchlist/stock/${code}/remove`,
   PRIVATE_SUGGESTED_STOCK: '/private/customer/watchlist/suggested/stockcodes',
+  PUBLIC_TOP_CONFIG: '/public/stock/top-config',
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
@@ -115,7 +118,7 @@ export const API_PATH = {
   PRIVATE_TOPIC_ALL: (limit?: number) =>
     limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',
   PRIVATE_TOPIC_SELECTED: '/private/topic/selected',
-
+  // PRIVATE_
   // search
   PRIVATE_SEARCH_KEYWORDS_TOP: '/private/search/keywords/top',
   PUBLIC_SEARCH_KEYWORDS_TOP: '/public/search/keyword/trending',

@@ -58,7 +58,6 @@ const NewFeedItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
-
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();

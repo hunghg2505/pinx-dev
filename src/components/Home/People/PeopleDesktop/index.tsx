@@ -6,7 +6,7 @@ import { getAccessToken } from '@store/auth';
 import ItemPeople from './ItemPeople';
 
 const PeopleDesktop = () => {
-  const { suggestionPeople, getSuggestFriend } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
   React.useEffect(() => {
     if (isLogin) {
@@ -18,7 +18,7 @@ const PeopleDesktop = () => {
   return (
     <>
       {suggestionPeople?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
-        return <ItemPeople data={item} key={index} />;
+        return <ItemPeople data={item} key={index} refreshList={refreshList} />;
       })}
     </>
   );

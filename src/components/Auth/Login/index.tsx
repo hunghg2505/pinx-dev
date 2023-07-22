@@ -25,10 +25,7 @@ const checkUserType = (custStat: string, acntStat: string) => {
   if (custStat === USERTYPE.NEW) {
     return USERTYPE.NEW;
   }
-  if (
-    (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_PENDING) ||
-    (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
-  ) {
+  if (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED) {
     return USERTYPE.EKYC;
   }
   return USERTYPE.VSD;
@@ -83,9 +80,8 @@ const Login = (props: Iprops) => {
             ...popupStatus,
             popupAuth: false,
           });
-        } else {
-          router.push(ROUTE_PATH.HOME);
         }
+        router.push(ROUTE_PATH.HOME);
       }
     },
     onError(e) {
