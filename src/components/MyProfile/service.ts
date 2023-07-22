@@ -48,3 +48,8 @@ export const useUpdateUserProfile = (reload = () => {}) => {
     loading,
   };
 };
+
+export const useGetMyWatchList = async () => {
+  const res = await privateRequest(requestPist.get, API_PATH.GET_USER_WATCHLIST);
+  return res;
+};
