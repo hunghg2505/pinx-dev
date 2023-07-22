@@ -58,7 +58,7 @@ const ComponentWatchList = (props: IProps) => {
     }
   });
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex !== -1) {
+  if (findIndex && findIndex !== -1) {
     const data = dataStock[findIndex];
     dataStock[findIndex] = {
       ...data,
@@ -69,7 +69,7 @@ const ComponentWatchList = (props: IProps) => {
   return (
     <>
       <div className='mb-[50px] flex flex-col gap-y-[16px]'>
-        {dataStock.map((item: IWatchListItem, index: number) => (
+        {dataStock?.map((item: IWatchListItem, index: number) => (
           <div
             key={index}
             className={classNames({
@@ -82,7 +82,7 @@ const ComponentWatchList = (props: IProps) => {
             <ItemWatchList data={item} isEdit={isEdit} refresh={useWatchList.refresh} />
           </div>
         ))}
-        {dataStock.length === 0 && <NotFound />}
+        {dataStock?.length === 0 && <NotFound />}
       </div>
     </>
   );
