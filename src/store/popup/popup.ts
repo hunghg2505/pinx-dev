@@ -10,6 +10,8 @@ export interface IModalStatus {
   popupDeactivateAccount: boolean;
   popupConfirmDeactivateAccount: boolean;
   popupEkyc: boolean;
+  popupSubsribeTheme: boolean;
+  popupSubsribeStock: boolean;
 }
 
 export const initialPopupStatus: IModalStatus = {
@@ -22,6 +24,8 @@ export const initialPopupStatus: IModalStatus = {
   popupDeactivateAccount: false,
   popupConfirmDeactivateAccount: false,
   popupEkyc: false,
+  popupSubsribeTheme: false,
+  popupSubsribeStock: false,
 };
 
 export const popupStatusAtom = atom({

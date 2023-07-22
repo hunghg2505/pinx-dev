@@ -12,12 +12,16 @@ const SideBar = dynamic(() => import('../MainLayout/SideBar'), {
 const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
   ssr: false,
 });
+const ModalPage = dynamic(() => import('@components/ModalPage'), {
+  ssr: false,
+});
 
 const SettingLayout = ({ children }: any) => {
   const { isDesktop } = useResponsive();
   const router = useRouter();
   return (
     <>
+      <ModalPage />
       {isDesktop && <MainHeader />}
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
         <div className='xl:container relative flex justify-center mobile-max:mx-auto tablet:overflow-auto'>

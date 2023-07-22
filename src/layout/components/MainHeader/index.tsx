@@ -1,8 +1,7 @@
 /* eslint-disable unicorn/no-useless-spread */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Dropdown from 'rc-dropdown';
@@ -17,8 +16,7 @@ import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
-import { openProfileAtom } from '@store/profile/profile';
-import { ROUTE_PATH, isUserVerified } from '@utils/common';
+import { ROUTE_PATH, disableScroll, enableScroll, isUserVerified } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 import 'rc-dropdown/assets/index.css';
 
@@ -60,7 +58,6 @@ const MainHeader = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const headerRef = useRef(null);
   const { width } = useContainerDimensions(headerRef);
-  const [profileOpen] = useAtom(openProfileAtom);
   const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
@@ -106,32 +103,33 @@ const MainHeader = () => {
           {userLoginInfo?.displayName}
         </Text>
         {userLoginInfo?.avatar && (
-          <div className='relative'>
-            <img
-              src={userLoginInfo?.avatar}
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='ml-[10px] h-[52px] w-[52px] rounded-full object-cover'
-            />
-            <Dropdown
-              trigger={['click']}
-              overlay={avatarDropdown}
-              animation='slide-up'
-              visible={avaDropdownVisible}
-              onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
-            >
+          <Dropdown
+            trigger={['click']}
+            overlay={avatarDropdown}
+            animation='slide-up'
+            visible={avaDropdownVisible}
+            onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
+          >
+            <div className='relative cursor-pointer'>
+              <img
+                src={userLoginInfo?.avatar}
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[10px] h-[52px] w-[52px] rounded-full object-cover'
+              />
+
               <img
                 src='/static/icons/arrow_down.svg'
                 alt=''
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] cursor-pointer rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
+                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
               />
-            </Dropdown>
-          </div>
+            </div>
+          </Dropdown>
         )}
       </div>
     ) : (
@@ -265,8 +263,15 @@ const MainHeader = () => {
 
   const onShowNavigate = () => {
     setIsShowNavigate(!isShowNavigate);
-    document.body.style.overflow = isShowNavigate || profileOpen ? 'scroll' : 'hidden';
   };
+
+  useEffect(() => {
+    if (isShowNavigate) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [isShowNavigate]);
 
   return (
     <>

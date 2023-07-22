@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import { IThemeDetail, IUserTheme, useGetCommunity } from '@components/Themes/service';
 import Text from '@components/UI/Text';
 
@@ -18,6 +20,7 @@ const IconArrow = () => (
   </svg>
 );
 const Community = ({ payload }: { payload: IThemeDetail }) => {
+  const { t } = useTranslation('theme');
   const [page, setPage] = React.useState(1);
   const [listCommunity, setListCommunity] = React.useState<any>([]);
   const { community, run } = useGetCommunity(payload?.code, {
@@ -47,11 +50,11 @@ const Community = ({ payload }: { payload: IThemeDetail }) => {
   return (
     <div className='mt-[20px] mobile-max:mt-[40px]'>
       <Text type='body-20-semibold' color='cbblack' className='mb-[16px] desktop:hidden'>
-        Community
+        {t('tab.community')}
       </Text>
       <div className='mb-[16px] flex items-center'>
         <Text type='body-14-regular' color='cbblack'>
-          Who is watching this theme
+          {t('community_description')}
         </Text>
         <div className='ml-[12px] flex h-[34px] w-[76px] flex-row items-center justify-center rounded-[100px]  bg-[#F7F6F8] mobile:hidden desktop:flex'>
           <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>

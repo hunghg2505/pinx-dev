@@ -13,7 +13,7 @@ const handleRedirect = () => {
 };
 
 const UpdateAccount = () => {
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation('common');
   const { userType } = useUserLoginInfo();
 
   if (userType !== 'NEW') {

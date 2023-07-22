@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import { ITheme, IWatchListItem, useGetTheme } from '@components/Home/service';
@@ -24,6 +25,7 @@ const settings = {
 };
 
 const WatchList = () => {
+  const { t } = useTranslation('watchlist');
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
 
   const { theme } = useGetTheme();
@@ -43,10 +45,10 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Text
                     type='body-12-semibold'
-                    className='text-[#1F6EAC]'
+                    className='text-[#1F6EAC] cursor-pointer'
                     onClick={() => setIsEdit(false)}
                   >
-                    Cancel
+                    { t('cancelTxt') }
                   </Text>
                 </div>
               </div>
@@ -64,17 +66,20 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Button className='flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full bg-[#589DC0]'>
                     <Text type='body-12-medium' color='cbwhite'>
-                      Save
+                      { t('saveTxt') }
                     </Text>
                   </Button>
                 </div>
               </div>
             </div>
+            {/* Divider */}
+            <div className='desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9] min-h-[1px]'></div>
+            {/* /Divider */}
           </>
         ) : (
           <div className='flex items-center justify-between'>
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
-              Watchlist
+              { t('title') }
             </Text>
             <Button
               onClick={() => setIsEdit(true)}
@@ -86,7 +91,7 @@ const WatchList = () => {
                 className='mr-[4px] h-[13px] w-[13px]'
               />
               <Text type='body-14-semibold' color='primary-2'>
-                Edit list
+                { t('editText') }
               </Text>
             </Button>
           </div>
@@ -98,7 +103,7 @@ const WatchList = () => {
             <div className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'>
               <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
               <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                Add new
+                { t('addTxt') }
               </Text>
             </div>
           </ModalAddStock>
@@ -107,7 +112,7 @@ const WatchList = () => {
       {!isEdit && (
         <div className='flex flex-col gap-y-[16px]'>
           <Text type='body-20-bold' className='text-[#0D0D0D]'>
-            You may interest
+            { t('titleInterest') }
           </Text>
           <div
             className={classNames(

@@ -12,11 +12,10 @@ const ThemeItem = ({ data }: { data: ITheme }) => {
       className='relative cursor-pointer overflow-hidden rounded-[16px]'
       onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(data?.code))}
     >
-      <img
-        src={data?.bgImage || data?.url}
-        alt=''
-        className='aspect-[331/467] object-cover desktop:aspect-[701/467]'
-      />
+      <div
+        className='pt-[141%] desktop:pt-[66.6%] bg-cover bg-no-repeat bg-center'
+        style={{ backgroundImage: `url(${data?.bgImage || data?.url})` }}>
+      </div>
       <div className='absolute inset-x-0 inset-y-0 flex flex-col justify-end gap-y-[8px] bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.00)_0%,_rgba(0,_0,_0,_0.00)_62.86%,_rgba(0,_0,_0,_0.80)_100%)] px-[12px] py-[16px] desktop:top-1/2 desktop:px-[24px]'>
         <Text type='body-20-semibold' color='cbwhite'>
           {data?.name}

@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { ITopWatchingStock, useGetTopMentionStock } from '@components/Explore/service';
 import WatchingStock from '@components/Explore/WatchingStock';
 import Text from '@components/UI/Text';
 
 const TopMention = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const onGoBack = () => {
     router.back();
@@ -24,12 +26,12 @@ const TopMention = () => {
           onClick={onGoBack}
         />
         <Text type='body-20-semibold' color='neutral-1' className=''>
-          Top mention stock
+          {t('top.mention.title')}
         </Text>
       </div>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-14-regular' color='neutral-black'>
-        Top most mentioned stocks on PineX
+        {t('top.mention.desc')}
       </Text>
       <div className=' mt-[16px] flex flex-col flex-wrap gap-x-[14px] gap-y-[20px]'>
         {listMention?.map((item: ITopWatchingStock, index: number) => {

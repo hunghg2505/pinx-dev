@@ -60,7 +60,7 @@ export interface ITheme {
   description: string;
   isSubsribed: boolean;
   totalSubscribe: number;
-  stocks: string[];
+  stocks?: string[];
   latestSubscribe: ILatestSubscribe[];
 }
 export interface IStockIndex {
