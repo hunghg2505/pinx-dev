@@ -45,7 +45,7 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Text
                     type='body-12-semibold'
-                    className='text-[#1F6EAC]'
+                    className='text-[#1F6EAC] cursor-pointer'
                     onClick={() => setIsEdit(false)}
                   >
                     { t('cancelTxt') }
