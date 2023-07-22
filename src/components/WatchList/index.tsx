@@ -72,6 +72,9 @@ const WatchList = () => {
                 </div>
               </div>
             </div>
+            {/* Divider */}
+            <div className='desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9] min-h-[1px]'></div>
+            {/* /Divider */}
           </>
         ) : (
           <div className='flex items-center justify-between'>
