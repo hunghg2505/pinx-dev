@@ -62,7 +62,7 @@ const ThemeDetail = () => {
   });
   const { themeDetail, refresh } = useGetThemeDetail(id, {
     onError: (err: any) => {
-      if (err === 'error.theme.notfound') {
+      if (err.errorCode === 'error.theme.notfound') {
         router.push(ROUTE_PATH.NOT_FOUND);
       }
     },

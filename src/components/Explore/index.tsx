@@ -8,7 +8,6 @@ import Influencer from '@components/Home/People/Influencer';
 import PeopleList from '@components/Home/People/PeopleList';
 import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
-import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
 import ThemesItem from '@components/Themes/ThemesItem';
 import { ExploreButton } from '@components/UI/Button';
@@ -357,7 +356,7 @@ const Explore = () => {
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] tablet:mb-[0px]'>
         Trending on PineX
       </Text>
-      <div className='relative mb-[16px] flex flex-col gap-y-[16px]'>
+      <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
         <div className='hidden mobile-max:block'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
@@ -366,7 +365,7 @@ const Explore = () => {
         </div>
         <div className='block mobile-max:-mt-[4px] mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
-            return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+            return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
       </div>

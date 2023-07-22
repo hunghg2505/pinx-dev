@@ -11,8 +11,9 @@ import {
   requestLeaveChannel,
   socket,
 } from '@components/Home/service';
+import ItemWatchList from '@components/WatchList/ItemWatchList';
 
-import ItemWatchList from '../ItemWatchList';
+import NotFound from '../NotFound';
 
 interface IProps {
   isEdit?: boolean;
@@ -64,9 +65,10 @@ const ComponentWatchList = (props: IProps) => {
       ...dataSocket,
     };
   }
+
   return (
     <>
-      <div className='flex flex-col gap-y-[16px]'>
+      <div className='flex flex-col gap-y-[16px] pb-[50px]'>
         {dataStock?.map((item: IWatchListItem, index: number) => (
           <div
             key={index}
@@ -80,6 +82,7 @@ const ComponentWatchList = (props: IProps) => {
             <ItemWatchList data={item} isEdit={isEdit} refresh={useWatchList.refresh} />
           </div>
         ))}
+        {dataStock?.length === 0 && <NotFound />}
       </div>
     </>
   );

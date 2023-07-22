@@ -15,8 +15,12 @@ interface IProps {
 const ModalLink = (props: IProps) => {
   const { children, closeIcon, getDataOG } = props;
   const [visible, setVisible] = React.useState<boolean>(false);
-  const onVisible = () => {
+  const onVisible = async () => {
     setVisible(!visible);
+    const text = await navigator.clipboard.readText();
+    if (text && text.includes('http')) {
+      form.setFieldValue('search', text);
+    }
   };
   const [form] = Form.useForm();
   const renderCloseIcon = (): React.ReactNode => {
@@ -101,4 +105,4 @@ const ModalLink = (props: IProps) => {
     </>
   );
 };
-export default ModalLink;
+export default React.forwardRef(ModalLink);

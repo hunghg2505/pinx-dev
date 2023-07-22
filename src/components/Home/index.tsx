@@ -33,6 +33,7 @@ import {
   requestLeaveIndex,
   socket,
   useGetListNewFeed,
+  useGetPinedPost,
   useGetWatchList,
   useSuggestPeople,
 } from './service';
@@ -63,6 +64,8 @@ const Home = () => {
   // const { t } = useTranslation('home');
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
+  const { pinedPost } = useGetPinedPost();
+  console.log('🚀 ~ file: index.tsx:68 ~ Home ~ pinedPost:', pinedPost);
   const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
       setLastNewFeed(res?.data?.last);
@@ -89,6 +92,7 @@ const Home = () => {
     setIsPost(true);
     refresh();
   };
+  console.log('🚀 ~ file: index.tsx:90 ~ Home ~ listNewFeed:', listNewFeed);
   const { lastElementRef } = useLoadMore(filterType, listNewFeed, loading, run);
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
@@ -198,7 +202,10 @@ const Home = () => {
             <div className='mx-[auto] my-[0] mobile-max:w-full tablet:w-full'>
               <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
                 {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
-                  <button className='absolute right-[16px] top-[26px] flex flex-row items-center z-50' onClick={() => router.push(ROUTE_PATH.WATCHLIST)}>
+                  <button
+                    className='absolute right-[16px] top-[26px] z-50 flex flex-row items-center'
+                    onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
+                  >
                     <Text type='body-14-medium' color='primary-1'>
                       See all
                     </Text>
@@ -252,7 +259,7 @@ const Home = () => {
                       className='w-full rounded-[5px] bg-[#EFF2F5] pl-[10px] pt-[10px] focus:outline-none desktop:h-[70px]'
                     />
                   </div>
-                  <div className='mt-[15px] flex items-center justify-between pl-[61px]'>
+                  {/* <div className='mt-[15px] flex items-center justify-between pl-[61px]'>
                     <div className='flex items-center'>
                       <img
                         src='/static/icons/iconImage.svg'
@@ -288,7 +295,7 @@ const Home = () => {
                         Post
                       </Text>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
               <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
@@ -299,11 +306,26 @@ const Home = () => {
                 >
                   News feed
                 </Text>
-
                 <ModalFilter run={onFilter} type={filterType} />
               </div>
               <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
                 <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
+                {pinedPost && (
+                  <div className='pinedPost mobile:px-[16px] desktop:px-[20px]'>
+                    {pinedPost?.map((item: IPost, index: number) => {
+                      return (
+                        <NewsFeed
+                          key={index}
+                          data={item}
+                          id={item.id}
+                          refresh={refresh}
+                          onHidePost={onHidePost}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+
                 <div className='mobile:px-[16px] desktop:px-[20px]'>
                   {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                     return (
@@ -405,7 +427,6 @@ const Home = () => {
                     );
                   })}
                 </div>
-                <div ref={lastElementRef}></div>
               </div>
             </div>
           </div>
@@ -420,6 +441,7 @@ const Home = () => {
           <SkeletonLoading />
         </div>
       )}
+      <div ref={lastElementRef}></div>
       <ComposeButton />
       <ModalCompose ref={refModal} refresh={addPostSuccess} />
       {!isLogin && <FooterSignUp />}

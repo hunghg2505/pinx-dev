@@ -15,7 +15,7 @@ import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestPist } from '@api/request';
 import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
@@ -59,15 +59,15 @@ interface IData {
   tagPeople: any;
   tagStocks: any;
   urlImages?: string[];
+  urlLinks?: any;
 }
-const getDataOG = (value: any) => {
-  console.log('value', value);
-};
+
 const Compose = (props: IProps) => {
   const { hidePopup, refresh } = props;
   const [isShowMore, setIsShowMore] = React.useState(false);
   const [activeTheme, setActiveTheme] = React.useState('default');
   const [image, setImage] = React.useState<string>('');
+  const [metaData, setMetaData] = React.useState<any>();
   const bgTheme = useAtomValue(postThemeAtom);
   const themeActive = bgTheme?.find((item) => item.code === activeTheme);
   const { statusUser } = useUserType();
@@ -123,6 +123,30 @@ const Compose = (props: IProps) => {
           },
         },
       }),
+      Mention.extend({
+        name: 'hashTag',
+      }).configure({
+        HTMLAttributes: {
+          class: 'hashTag text-[14px] font-semibold leading-[18px]',
+        },
+        suggestion: {
+          ...Suggestion,
+          pluginKey: new PluginKey('hashTag'),
+          char: '#',
+          items: async ({ query }: { query: string }) => {
+            const data = await privateRequest(
+              requestCommunity.post,
+              API_PATH.PRIVATE_HASHTAG_SUGGEST,
+              {
+                data: {
+                  keyword: query,
+                },
+              },
+            );
+            return data?.data?.list;
+          },
+        },
+      }),
     ],
     editorProps: {
       attributes: {
@@ -130,7 +154,9 @@ const Compose = (props: IProps) => {
       },
     },
   });
-
+  const getDataOG = (value: any) => {
+    setMetaData(value);
+  };
   const showMore = () => {
     setIsShowMore(!isShowMore);
   };
@@ -168,6 +194,7 @@ const Compose = (props: IProps) => {
         editor?.commands.clearContent();
         hidePopup && hidePopup();
         refresh && refresh();
+        setMetaData({});
         toast(() => <Notification type='success' message='Post is created successfully' />);
       },
       onError: (error: any) => {
@@ -187,19 +214,22 @@ const Compose = (props: IProps) => {
   const onStart = async (file: File) => {
     const formData = new FormData();
     formData.append('files', file);
-    // const imgToBase64 = await toBase64(file);
-    // const urlImage = await base64ToBlob(imgToBase64, file.type);
-    // setImage(urlImage);
-    // setFile(formData);
     useUploadImage.run(formData);
   };
   const addPost = async () => {
     const users: any = [];
     const stock: any = [];
+    const urlLink: any = [];
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
         if (text.type === 'text') {
+          const txt = text.text.split(' ');
+          for (const item of txt) {
+            if (item.includes('http')) {
+              urlLink.push(item);
+            }
+          }
           p = text.text;
         }
         if (text.type === 'userMention') {
@@ -246,18 +276,22 @@ const Compose = (props: IProps) => {
     });
     const message = test?.flat()?.join('\n');
     const data: IData = {
-      message,
+      message: metaData ? message?.concat(` ${metaData['og:url']}`) : message,
       tagPeople: formatTagPeople,
       tagStocks: stock,
       postThemeId: themeActive?.id,
       // parentId: idReply === '' ? id : idReply,
       urlImages: [image],
+      urlLinks: metaData ? [...urlLink, metaData['og:url']] : urlLink,
     };
     if (activeTheme === 'default') {
       delete data?.postThemeId;
     }
     if (!image) {
       delete data?.urlImages;
+    }
+    if (!urlLink) {
+      delete data?.urlLinks;
     }
     if (message?.toLowerCase()?.includes('script')) {
       toast(() => (
@@ -333,46 +367,68 @@ const Compose = (props: IProps) => {
           </div>
         )
       )}
+      {Object.keys(metaData).length > 0 && (
+        <div className='flex items-center justify-between'>
+          <div className='flex'>
+            <img
+              src={metaData['og:image']}
+              alt=''
+              className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
+            />
+            <Text className='w-[calc(100%_-_120px)] break-all text-[10px]' color='cbblack'>
+              {metaData['og:url']}
+            </Text>
+          </div>
+          <img
+            src='/static/icons/explore/iconClose.svg'
+            alt=''
+            className='h-[20px] w-[20px] cursor-pointer'
+            onClick={() => setMetaData({})}
+          />
+        </div>
+      )}
 
-      <div className='mt-[20px] flex gap-x-[10px] overflow-x-auto'>
+      <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
         <div
           className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
           onClick={showMore}
         >
           <img src='/static/icons/explore/iconCompose.svg' alt='' className='h-[22px] w-[22px]' />
         </div>
-        <div
-          className={classNames(
-            'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
-            styles.listItem,
-          )}
-        >
+        {isShowMore && (
           <div
             className={classNames(
-              'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-              { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
+              'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
+              styles.listItem,
             )}
-            onClick={() => onSelectTheme('default')}
-          ></div>
-          {bgTheme?.map((item: any, index: number) => {
-            return (
-              <div
-                className={classNames(
-                  'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                  { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
-                )}
-                key={index}
-                onClick={() => onSelectTheme(item.code)}
-              >
-                <img
-                  src={item.bgImage}
-                  alt=''
-                  className='absolute left-0 top-0 h-full w-full rounded-[10px]'
-                />
-              </div>
-            );
-          })}
-        </div>
+          >
+            <div
+              className={classNames(
+                'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
+              )}
+              onClick={() => onSelectTheme('default')}
+            ></div>
+            {bgTheme?.map((item: any, index: number) => {
+              return (
+                <div
+                  className={classNames(
+                    'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                    { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
+                  )}
+                  key={index}
+                  onClick={() => onSelectTheme(item.code)}
+                >
+                  <img
+                    src={item.bgImage}
+                    alt=''
+                    className='absolute left-0 top-0 h-full w-full rounded-[10px]'
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <div className='flex justify-between'>

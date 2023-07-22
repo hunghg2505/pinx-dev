@@ -339,3 +339,14 @@ export const useGetBgTheme = () => {
     bgTheme: data?.data,
   };
 };
+
+// get pin post
+export const useGetPinedPost = () => {
+  const { data } = useRequest(async () => {
+    const isLogin = !!getAccessToken();
+    return isLogin ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_PINNED_POST) : [];
+  });
+  return {
+    pinedPost: data?.data,
+  };
+};

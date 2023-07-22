@@ -61,7 +61,7 @@ const Desktop = () => {
           }
           key='assets'
         >
-          <div className='px-[16px] tablet:px-0'>
+          <div className='tablet:px-0 '>
             <Assets />
           </div>
         </TabPane>

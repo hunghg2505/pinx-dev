@@ -36,6 +36,7 @@ const ContentPostTypeDetail = dynamic(import('./ContentPostTypeDetail'), {
 dayjs.extend(relativeTime);
 interface IProps {
   postDetail: IPost;
+  isExplore?: boolean;
   totalComments: number;
   onNavigate?: () => void;
   onRefreshPostDetail: () => void;
@@ -51,8 +52,15 @@ const IconPlus = () => (
   </svg>
 );
 const NewFeedItem = (props: IProps) => {
-  const { onNavigate, onRefreshPostDetail, postId, postDetail, onHidePostSuccess, totalComments } =
-    props;
+  const {
+    onNavigate,
+    onRefreshPostDetail,
+    postId,
+    postDetail,
+    onHidePostSuccess,
+    totalComments,
+    isExplore = false,
+  } = props;
 
   const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -327,8 +335,9 @@ const NewFeedItem = (props: IProps) => {
   };
   return (
     <div
-      className={classNames('newsfeed  border-t border-solid border-[#D8EBFC] py-[24px]', {
+      className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
         'border-b': totalComments > 0,
+        'border-t': !isExplore,
       })}
     >
       <div className='flex flex-row justify-between '>

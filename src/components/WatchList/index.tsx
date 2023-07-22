@@ -21,7 +21,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: false,
+  // arrows: false,
 };
 
 const WatchList = () => {
@@ -132,7 +132,7 @@ const WatchList = () => {
         </div>
       )}
       {!isEdit && (
-        <Slider {...settings}>
+        <Slider className={classNames('', styles.sliderTheme)} {...settings}>
           {theme?.map((item: ITheme, index: number) => {
             return (
               <div key={`them-${index}`}>

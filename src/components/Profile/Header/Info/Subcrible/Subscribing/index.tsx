@@ -5,9 +5,11 @@ import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser } from '@components/Home/service';
 import { profileUserContext } from '@components/Profile';
+import { useAuth } from '@store/auth/useAuth';
 
-const Subscribing = () => {
+const Subscribing = ({ access }: { access: () => void }) => {
   const profileUser = useContext<any>(profileUserContext);
+  const { isLogin } = useAuth();
   const { t } = useTranslation('profile');
   const onFollowUser = useRequest(
     () => {
@@ -25,7 +27,11 @@ const Subscribing = () => {
       <div
         className='mr-[10px] flex h-[36px] w-[89px] cursor-pointer flex-row items-center justify-center  rounded-[5px] bg-blue_light tablet:flex'
         onClick={() => {
-          onFollowUser.run();
+          if (isLogin) {
+            onFollowUser.run();
+          } else {
+            access();
+          }
         }}
       >
         <svg
