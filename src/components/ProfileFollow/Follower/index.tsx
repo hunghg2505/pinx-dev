@@ -5,11 +5,14 @@ import { useRouter } from 'next/router';
 import UserFolow from '@components/common/UserFolow';
 
 import NotFound from './NotFound';
-import { useCustomerFollower } from '../service';
+import { useOtherCustomerFollower } from '../service';
 
 const Follower = () => {
   const router = useRouter();
-  const { data } = useCustomerFollower(String(router?.query?.search), String(router?.query?.id));
+  const { data } = useOtherCustomerFollower(
+    String(router?.query?.search),
+    String(router?.query?.id),
+  );
 
   return (
     <div className='mb-[20px] flex flex-col gap-[8px]'>

@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import Link from 'next/link';
-// import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
-// import Notification from '@components/UI/Notification';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -29,7 +29,7 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       refresh && refresh();
-      // toast(() => <Notification type='success' message='Add stock success' />);
+      toast(() => <Notification type='success' message='Add stock success' />);
     },
   });
   const onAddStock = () => {
@@ -40,7 +40,7 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
     <>
       <Link className='absolute inset-x-0 inset-y-0' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)} />
       <div className='flex flex-col gap-y-[16px]'>
-        <img src={url} alt='' className='m-auto h-[40px] w-[40px] rounded-full object-contain' />
+        <img src={url} alt='' className='m-auto h-[40px] w-[40px] rounded-full object-contain bg-white' />
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text
             type='body-14-semibold'
@@ -73,7 +73,9 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
               {data?.changePc || data?.changePercent}%
             </Text>
             {requestSelectStock?.loading ? (
-              <Loading />
+              <div className='absolute inset-x-0 inset-y-0 backdrop-blur-sm flex items-center justify-center'>
+                <Loading />
+              </div>
             ) : (
               <div
                 className={classNames(

@@ -47,6 +47,8 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  MY_PROFILE_FOLLOWING: 'profile/my-profile/follow?tab=following',
+  MY_PROFILE_FOLLOWER: 'profile/my-profile/follow?tab=follower',
   EDIT_MY_PROFILE: '/profile/edit',
   ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',

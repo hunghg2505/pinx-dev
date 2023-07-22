@@ -59,7 +59,7 @@ const ItemWatchList = ({
           <img
             src={url}
             alt=''
-            className='h-[36px] w-[36px] rounded-full object-contain tablet:h-[48px] tablet:w-[48px]'
+            className='h-[36px] w-[36px] rounded-full object-contain tablet:h-[48px] tablet:w-[48px] bg-white'
           />
         </Link>
         <div className='flex flex-col gap-y-[4px]'>

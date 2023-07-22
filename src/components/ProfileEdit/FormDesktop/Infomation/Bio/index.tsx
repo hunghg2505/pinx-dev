@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -14,13 +13,6 @@ const Bio = () => {
       StarterKit,
       Placeholder.configure({
         placeholder: t('enter_bio'),
-      }),
-      Mention.extend({
-        name: 'userMention',
-      }).configure({
-        HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px] ',
-        },
       }),
     ],
     editorProps: {
