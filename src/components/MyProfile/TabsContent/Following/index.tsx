@@ -14,7 +14,7 @@ const Following = () => {
   }>({
     pages: [1],
     totalPages: 1,
-    notFound: true,
+    notFound: false,
   });
   const { lastElementRef } = useElementOnscreen(() => {
     if (state.totalPages > state.pages.length) {
