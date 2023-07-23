@@ -19,7 +19,7 @@ const Page = ({
         totalPages: res?.totalPages,
         notFound: page === 1 && !res?.data?.length,
       }));
-      profileUser.refresh();
+      profileUser.reload();
     },
   });
   return (
