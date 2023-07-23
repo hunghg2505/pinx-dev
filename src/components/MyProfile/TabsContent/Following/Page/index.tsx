@@ -14,13 +14,12 @@ const Page = ({
   const profileUser = useContext<any>(profileUserContext);
   const { data, refresh } = useCustomerFollowing(page, {
     onSuccess: (res: any) => {
-      console.log('profileUser', profileUser);
-      profileUser.refresh();
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
-        notFound: res?.page === 1 && !!res?.data?.length,
+        notFound: page === 1 && !res?.data?.length,
       }));
+      profileUser.reload();
     },
   });
   return (

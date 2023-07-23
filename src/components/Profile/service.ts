@@ -55,3 +55,18 @@ export const useGetProfileOtherUser = (id: number) => {
     refresh,
   };
 };
+export const useGePrivatetProfileOtherUser = (id: number) => {
+  const { data, run, refresh } = useRequest(
+    () => {
+      return privateRequest(requestPist.get, API_PATH.PRIVATE_GET_OTHER_USER_PROFILE(id));
+    },
+    {
+      refreshDeps: [id],
+    },
+  );
+  return {
+    privateProfileOtherUser: data?.data,
+    run,
+    refresh,
+  };
+};
