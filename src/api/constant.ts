@@ -29,7 +29,7 @@ export const API_PATH = {
   PRIVATE_MAPPING_LIKE_POST: (post_id: string) => `/private/mapping/${post_id}/like`,
   PRIVATE_MAPPING_UNLIKE_POST: (post_id: string) => `/private/mapping/${post_id}/unlike`,
   PRIVATE_MAPPING_REPORT_POST: (post_id: string) => `/private/mapping/${post_id}/report`,
-  // PRIVATE_WATCHLIST_STOCK: (id: number) => `/private/watchlist/list/${id}`,
+  PRIVATE_WATCHLIST: (id: number) => `/private/watchlist/list/${id}`,
   PRIVATE_WATCHLIST_STOCK: '/private/watchlist/list',
   PRIVATE_HIDE_POST: '/private/mapping/hide',
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
@@ -152,6 +152,8 @@ export const API_PATH = {
   DEACTIVATE_ACCOUNT: '/private/customer/deactivate',
   GET_CUSTOMER_FOLLOWER: '/private/customer/follower/other',
   GET_CUSTOMER_FOLLOWING: '/private/customer/following/other',
+  PUBLIC_GET_CUSTOMER_FOLLOWER: '/public/customer/follower/other',
+  PUBLIC_GET_CUSTOMER_FOLLOWING: '/public/customer/following/other',
   GET_MY_CUSTOMER_FOLLOWER: '/private/customer/follower/friends',
   GET_MY_CUSTOMER_FOLLOWING: '/private/customer/following/friends',
 };

@@ -11,13 +11,14 @@ export const profileUserContext = createContext(undefined);
 
 const Profile = () => {
   const router = useRouter();
-  const { profileOtherUser, run } = useGetProfileOtherUser(Number(router.query.id));
+  const { profileOtherUser, run, refresh } = useGetProfileOtherUser(Number(router.query.id));
   return (
     <profileUserContext.Provider
       value={{
         ...profileOtherUser,
         isKol: profileOtherUser?.isFeatureProfile,
         reload: run,
+        refresh,
       }}
     >
       <div className=' flex '>

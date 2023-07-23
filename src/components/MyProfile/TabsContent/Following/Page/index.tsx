@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import UserFolowDesktop from '@components/common/UserFolowDesktop';
+import { profileUserContext } from '@components/MyProfile';
 import { useCustomerFollowing } from '@components/MyProfileFollow/service';
 
 const Page = ({
@@ -10,8 +11,11 @@ const Page = ({
   page?: number;
   setState?: (totalPages: any) => void;
 }) => {
+  const profileUser = useContext<any>(profileUserContext);
   const { data, refresh } = useCustomerFollowing(page, {
     onSuccess: (res: any) => {
+      console.log('profileUser', profileUser);
+      profileUser.refresh();
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
