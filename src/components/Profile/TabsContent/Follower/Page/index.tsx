@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useRouter } from 'next/router';
 
 import UserFolowDesktop from '@components/common/UserFolowDesktop';
+import { profileUserContext } from '@components/Profile';
 import { useOtherCustomerFollower } from '@components/ProfileFollow/service';
 
 const Page = ({
@@ -13,13 +14,15 @@ const Page = ({
   setState?: (totalPages: any) => void;
 }) => {
   const router = useRouter();
-  const { data, refresh } = useOtherCustomerFollower(page, String(router?.query?.id), {
+  const profileUser = useContext<any>(profileUserContext);
+  const { data, refresh } = useOtherCustomerFollower(String(router?.query?.id), page, {
     onSuccess: (res: any) => {
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
-        notFound: res?.page === 1 && !!res?.data?.length,
+        notFound: page === 1 && !res?.data?.length,
       }));
+      profileUser.reload();
     },
   });
 

@@ -75,6 +75,7 @@ const MenuProfile = forwardRef((_, ref) => {
           <Follow
             follower={userLoginInfo?.totalFollower || 0}
             following={userLoginInfo?.totalFollowing || 0}
+            close={close}
           />
           <UpdateAccount />
         </>

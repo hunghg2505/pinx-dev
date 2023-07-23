@@ -13,23 +13,22 @@ const Following = dynamic(() => import('./Following'));
 const ProfileFollow = () => {
   const searchParams = useSearchParams();
   return (
-    <>
+    <div className=' bg-white'>
       <header className='mb-[24px] flex px-[16px] py-[16px] align-middle text-[16px]'>
         <Back />
       </header>
       <main className='px-[16px]'>
         <div className='mb-[20px] flex gap-[32px] '>
-          <TabBar tabKey='follower' />
+          <TabBar tabKey='followers' />
           <TabBar tabKey='following' />
         </div>
         <Search />
         <div>
-          {searchParams.get('tab') === 'follower' && <Follower />}
+          {searchParams.get('tab') === 'followers' && <Follower />}
           {searchParams.get('tab') === 'following' && <Following />}
         </div>
-        {/* <NotFound /> */}
       </main>
-    </>
+    </div>
   );
 };
 export default ProfileFollow;

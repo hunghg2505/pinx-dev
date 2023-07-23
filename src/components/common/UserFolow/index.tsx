@@ -4,14 +4,16 @@ import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import Folow from './Follow';
+import Follow from './Follow';
 import UnFollow from './UnFollow';
 
 export const followContext = createContext<any>(undefined);
 const UserFolow = (props: any) => {
   const route = useRouter();
+  const { isLogin } = useAuth();
   return (
     <followContext.Provider value={{ ...props }}>
       <div className='flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]'>
@@ -20,7 +22,7 @@ const UserFolow = (props: any) => {
             <img
               src={props?.avatar}
               alt=''
-              className='mr-[8px] h-[44px] w-[44px] rounded-full'
+              className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
               onClick={() => {
                 route.push(ROUTE_PATH.PROFILE_DETAIL(props?.id));
               }}
@@ -56,7 +58,8 @@ const UserFolow = (props: any) => {
             />
           )}
         </div>
-        {props?.isFollow ? <UnFollow /> : <Folow />}
+        {!isLogin && <UnFollow />}
+        {isLogin && props?.isFollowed ? <UnFollow /> : <Follow />}
       </div>
     </followContext.Provider>
   );

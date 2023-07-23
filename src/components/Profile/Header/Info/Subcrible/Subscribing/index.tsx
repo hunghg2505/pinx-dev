@@ -47,7 +47,7 @@ const Subscribing = ({ access }: { access: () => void }) => {
             fill='#1F6EAC'
           />
         </svg>
-        <span className='ml-1 text-[12px] font-[700] text-primary_blue'>{t('following')}</span>
+        <span className='ml-1 text-[12px] font-[700] text-primary_blue'>{t('follow')}</span>
       </div>
     </>
   );

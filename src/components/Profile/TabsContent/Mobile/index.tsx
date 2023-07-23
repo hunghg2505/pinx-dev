@@ -40,7 +40,7 @@ const Mobile = () => {
         }}
       >
         <TabPane tab={t('posts')} key='post' className='px-16px]'>
-          <div className='px-[16px] tablet:px-0'>
+          <div className='mt-[-21px]  px-[16px] tablet:px-0'>
             <Posts />
           </div>
         </TabPane>
@@ -59,7 +59,7 @@ const Mobile = () => {
           }
           key='assets'
         >
-          <div className='tablet:px-0 pb-[50px]'>
+          <div className='pb-[50px] tablet:px-0'>
             <Assets />
           </div>
         </TabPane>

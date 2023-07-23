@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
+import { profileUserContext } from '@components/Profile';
 
 import Assets from '../Assets';
 import Follower from '../Follower';
@@ -18,6 +19,7 @@ const Desktop = () => {
   const { t } = useTranslation('profile');
   const searchParams = useSearchParams();
   const { replace, query } = useRouter();
+  const profileUser = useContext<any>(profileUserContext);
 
   return (
     <div className='px-[16px] tablet:px-0'>
@@ -43,7 +45,7 @@ const Desktop = () => {
         }}
       >
         <TabPane tab={t('posts')} key='post'>
-          <div className='px-[16px] tablet:px-0'>
+          <div className='mt-[-21px]  px-[16px] tablet:px-0'>
             <Posts />
           </div>
         </TabPane>
@@ -66,12 +68,12 @@ const Desktop = () => {
 
         <TabPane tab={t('following')} key='following'>
           <div className='px-[16px] tablet:px-0'>
-            <Following />
+            <Following key={profileUser?.totalFollowing} />
           </div>
         </TabPane>
         <TabPane tab={t('followers')} key='followers'>
           <div className='px-[16px] tablet:px-0'>
-            <Follower />
+            <Follower key={profileUser?.totalFollower} />
           </div>
         </TabPane>
       </Tabs>

@@ -3,6 +3,8 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 
+import ModalPage from '@components/ModalPage';
+
 import Back from './Back';
 // import NotFound from './NotFound';
 import Search from './Search';
@@ -13,7 +15,8 @@ const Following = dynamic(() => import('./Following'));
 const ProfileFollow = () => {
   const searchParams = useSearchParams();
   return (
-    <>
+    <div className='bg-white'>
+      <ModalPage />
       <header className='mb-[24px] flex px-[16px] py-[16px] align-middle text-[16px]'>
         <Back />
       </header>
@@ -27,9 +30,8 @@ const ProfileFollow = () => {
           {searchParams.get('tab') === 'followers' && <Follower />}
           {searchParams.get('tab') === 'following' && <Following />}
         </div>
-        {/* <NotFound /> */}
       </main>
-    </>
+    </div>
   );
 };
 export default ProfileFollow;

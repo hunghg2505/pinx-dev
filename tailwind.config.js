@@ -18,6 +18,7 @@ module.exports = {
       primary_bgblue_2: '#D8EBFC',
       primary_blue: '#1F6EAC',
       primary_light_blue: '#589DC0',
+      primary_blue_light: '#EFF2F5',
       primary_06: '#B1D5F1',
       light_orange: '#F1BA09',
       primary_gray: '#808A9D',

@@ -41,7 +41,7 @@ export const useUpdateUserProfile = (reload = () => {}) => {
 };
 
 export const useGetProfileOtherUser = (id: number) => {
-  const { data, run } = useRequest(
+  const { data, run, refresh } = useRequest(
     () => {
       return requestPist.get(API_PATH.PUBLIC_GET_OTHER_USER_PROFILE(id));
     },
@@ -52,5 +52,21 @@ export const useGetProfileOtherUser = (id: number) => {
   return {
     profileOtherUser: data?.data,
     run,
+    refresh,
+  };
+};
+export const useGePrivatetProfileOtherUser = (id: number) => {
+  const { data, run, refresh } = useRequest(
+    () => {
+      return privateRequest(requestPist.get, API_PATH.PRIVATE_GET_OTHER_USER_PROFILE(id));
+    },
+    {
+      refreshDeps: [id],
+    },
+  );
+  return {
+    privateProfileOtherUser: data?.data,
+    run,
+    refresh,
   };
 };
