@@ -6,7 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 
 const MyProfileFollow = dynamic(() => import('@components/MyProfileFollow'));
-
+const ProfileLayout = dynamic(() => import('@layout/ProfileLayout'));
 const PostDetailPage = () => {
   return (
     <>
@@ -16,7 +16,7 @@ const PostDetailPage = () => {
   );
 };
 PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <>{page}</>;
+  return <ProfileLayout Layout>{page}</ProfileLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

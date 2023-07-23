@@ -8,15 +8,15 @@ import { ROUTE_PATH } from '@utils/common';
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='flex  w-full flex-wrap justify-center gap-[56px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:gap-[72px]'>
+    <div className='flex  w-full flex-wrap justify-center gap-[5px]  rounded-[12px] bg-primary_bgblue_2 py-[24px] text-center tablet:gap-[36px] tablet:p-[24px]'>
       <img
-        src={'/static/images/watchListNoutFound.png'}
+        src={'/static/images/watchListNoutFoundFull.png'}
         height={433}
         width={412}
         alt="Don't have any result"
-        className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[221px] tablet:w-[264px]'
+        className='  mb-[12px] h-[330px] w-[full] object-contain tablet:mx-0 tablet:h-[221px] tablet:w-[264px]'
       />
-      <div className='align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
+      <div className='align-center mx-[24px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
         <div className='mx-auto my-auto w-fit'>
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('watch_list_not_found')}

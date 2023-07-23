@@ -1,19 +1,15 @@
 import React from 'react';
 
-import { useTranslation } from 'next-i18next';
-
 const NotFound = () => {
-  const { t } = useTranslation('profile');
   return (
-    <div className='width-[100%]  border-pr justify-center rounded-[12px] border border-dashed border-primary_light_blue bg-primary_bgblue_2 p-[12px] py-[24px]'>
+    <div className='width-[100%]  rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
       <img
-        src='/static/icons/Lotus-blue.svg'
-        alt=''
-        className='mx-auto mb-[10px] h-[24px] w-[24px]'
+        src={'/static/images/hand chat connect.png'}
+        height={433}
+        width={412}
+        alt="Don't have any result"
+        className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[240px] tablet:w-[312px]'
       />
-      <p className='line-[16px] mx-auto w-[190px] text-center text-[10px] text-dark_grey'>
-        {t('follower_notfound')}
-      </p>
     </div>
   );
 };

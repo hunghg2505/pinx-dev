@@ -20,7 +20,7 @@ const Page = ({
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
-        notFound: page !== 1 && !!res?.data?.length,
+        notFound: page === 1 && !res?.data?.length,
       }));
       profileUser.reload();
     },

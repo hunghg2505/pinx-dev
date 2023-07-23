@@ -5,11 +5,39 @@ import { useTranslation } from 'next-i18next';
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='width-[100%] border-pr justify-center rounded-[12px] border border-dashed border-primary_light_blue bg-[#F0F7FC] p-[12px] py-[24px]'>
-      <img src='/static/icons/chat.svg' alt='' className='mx-auto mb-[10px] h-[24px] w-[24px]' />
-      <p className='line-[16px] mx-auto w-[203px] text-center text-[10px] text-dark_grey tablet:w-[270px] tablet:text-[12px]'>
-        {t('post_notfound')}
-      </p>
+    <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:px-0'>
+      <img
+        src={'/static/images/write_now.png'}
+        height={433}
+        width={412}
+        alt="Don't have any result"
+        className=' mb-[50px] w-[full]  object-contain tablet:mb-[12px] tablet:h-[240px] tablet:w-[367px]'
+      />
+      <div className='align-center mr-[12px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
+        <div className='mx-auto my-auto w-fit'>
+          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
+            {t('post_empty')}
+          </p>
+          <button
+            className='
+              line-[18px]
+          block
+          w-full
+          max-w-[260px]
+          rounded-[8px] bg-gradient-to-l
+          from-[#1D6CAB]
+        to-[#589DC0]
+        px-[24px]
+        py-[12px]
+        text-[14px]
+        font-[600]
+        text-white
+        '
+          >
+            {t('write_now')}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

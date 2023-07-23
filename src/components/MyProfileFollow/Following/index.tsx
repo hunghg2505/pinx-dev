@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import useElementOnscreen from '@utils/useElementOnscreen';
 
 import NotFound from './NotFound';
+import NotFound2 from './NotFound2';
 import Page from './Page';
 
 const Following = () => {
@@ -20,6 +23,7 @@ const Following = () => {
       setState((prev) => ({ ...prev, pages: [...prev.pages, prev.pages.length + 1] }));
     }
   });
+  const router = useRouter();
   return (
     <>
       <div className='flex flex-col gap-[8px]'>
@@ -32,7 +36,8 @@ const Following = () => {
         <div ref={lastElementRef}></div>
       </div>
 
-      {state.notFound && <NotFound />}
+      {state.notFound && !!router.query.search && <NotFound />}
+      {state.notFound && !router.query.search && <NotFound2 />}
     </>
   );
 };

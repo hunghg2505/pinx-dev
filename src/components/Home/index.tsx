@@ -65,7 +65,6 @@ const Home = () => {
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
   const { pinedPost } = useGetPinedPost();
-  console.log('🚀 ~ file: index.tsx:68 ~ Home ~ pinedPost:', pinedPost);
   const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
       setLastNewFeed(res?.data?.last);
@@ -237,7 +236,12 @@ const Home = () => {
               </div>
 
               {isLogin && (
-                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
+                <div
+                  className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'
+                  onClick={() => {
+                    router.push(ROUTE_PATH.MY_PROFILE);
+                  }}
+                >
                   <div className='flex items-center'>
                     {userLoginInfo?.avatar && (
                       <img

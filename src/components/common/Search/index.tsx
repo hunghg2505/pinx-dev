@@ -11,7 +11,7 @@ const Search = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <label className='mb-[20px] flex gap-[8px]  rounded-[8px] border-[1px] border-solid border-neutral_07 px-[8px] py-[10px] focus-within:shadow-lg'>
+    <label className='mb-[20px] flex gap-[8px]  rounded-[8px] border-[1px] border-solid border-neutral_07 px-[8px] py-[10px] '>
       <button
         onClick={() => {
           if (inputRef?.current?.value) {
