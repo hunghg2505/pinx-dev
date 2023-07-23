@@ -20,7 +20,7 @@ const UserFolow = (props: any) => {
             <img
               src={props?.avatar}
               alt=''
-              className='mr-[8px] h-[44px] w-[44px] rounded-full'
+              className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
               onClick={() => {
                 route.push(ROUTE_PATH.PROFILE_DETAIL(props?.id));
               }}

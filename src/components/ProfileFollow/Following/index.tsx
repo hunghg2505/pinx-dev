@@ -1,32 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useRouter } from 'next/router';
-
-import UserFolow from '@components/common/UserFolow';
+import useElementOnscreen from '@utils/useElementOnscreen';
 
 import NotFound from './NotFound';
-import { useOtherCustomerFollowing } from '../service';
+import Page from './Page';
 
 const Following = () => {
-  const router = useRouter();
-  const { data } = useOtherCustomerFollowing(
-    String(router?.query?.search),
-    String(router?.query?.id),
-  );
-  console.log(data);
-
+  const [state, setState] = useState<{
+    pages: number[];
+    totalPages: number;
+    notFound: boolean;
+  }>({
+    pages: [1],
+    totalPages: 1,
+    notFound: false,
+  });
+  const { lastElementRef } = useElementOnscreen(() => {
+    if (state.totalPages > state.pages.length) {
+      setState((prev) => ({ ...prev, pages: [...prev.pages, prev.pages.length + 1] }));
+    }
+  });
   return (
-    <>
-      {!!data?.data?.length && (
-        <div className='mb-[20px] flex flex-col gap-[8px]'>
-          {data?.data?.map((item: any) => (
-            <UserFolow {...item} key={item.id} />
-          ))}
-        </div>
-      )}
-
-      {!data?.data?.length && <NotFound />}
-    </>
+    <div className='mb-[20px] flex flex-col gap-[8px]'>
+      {state.pages.map((page) => {
+        if (page === state.pages.length) {
+          return <Page page={page} key={page} setState={setState} />;
+        }
+        return <Page page={page} key={page} />;
+      })}
+      <div ref={lastElementRef}></div>
+      {state.notFound && <NotFound />}
+    </div>
   );
 };
 export default Following;
