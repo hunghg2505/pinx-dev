@@ -16,8 +16,10 @@ const Post = () => {
         push({ query: { ...query, tab: 'post' } });
       }}
     >
-      <b className='mr-[8px] font-[600] leading-[18px]'>{profileUser?.totalPost || 0}</b>
-      <span className='leading-[16px] text-dark_grey tablet:leading-[18px]'>
+      <b className='mr-[8px] text-[16px] font-[600] leading-[18px]'>
+        {profileUser?.totalPost || 0}
+      </b>
+      <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
         {t('post')}
         <span className='hidden tablet:inline'>:</span>
       </span>

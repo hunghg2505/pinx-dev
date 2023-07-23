@@ -5,15 +5,15 @@ import { useTranslation } from 'next-i18next';
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='flex  w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] tablet:px-0 text-center'>
+    <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:px-0'>
       <img
         src={'/static/images/write_now.png'}
         height={433}
         width={412}
         alt="Don't have any result"
-        className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[240px] tablet:w-[367px]'
+        className=' mb-[50px] w-[full]  object-contain tablet:mb-[12px] tablet:h-[240px] tablet:w-[367px]'
       />
-      <div className='align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px] mr-[12px]'>
+      <div className='align-center mr-[12px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
         <div className='mx-auto my-auto w-fit'>
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('post_empty')}

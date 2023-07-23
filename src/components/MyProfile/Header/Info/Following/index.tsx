@@ -26,10 +26,10 @@ const Following = () => {
         }
       }}
     >
-      <b className='mr-[8px] font-[600] leading-[18px] text-neutral_black '>
+      <b className='mr-[8px] text-[14px] font-[600] leading-[18px] text-neutral_black '>
         {profileUser?.totalFollowing || 0}
       </b>
-      <span className='leading-[16px] text-dark_grey tablet:leading-[18px]'>
+      <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
         {t('following')}
         <span className='hidden tablet:inline'>:</span>
       </span>
