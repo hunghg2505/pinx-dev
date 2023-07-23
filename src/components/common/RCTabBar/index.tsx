@@ -9,8 +9,8 @@ export interface ITabBar {
 }
 const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
   return (
-    <div role='tablist' className='rc-tabs-nav mb-[20px] '>
-      <div className='rc-tabs-nav-wrap '>
+    <div role='tablist' className='rc-tabs-nav mb-[20px] z-10'>
+      <div className=' border-b-[1px] border-solid border-primary_blue_light'>
         <div className='rc-tabs-nav-list  duration-300 ease-in-out'>
           {list.map((item) => {
             return (
@@ -21,12 +21,12 @@ const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
                 }}
                 role='tab'
                 className={classNames(
-                  'rc-tabs-tab flex-1 text-center text-[16px] duration-300 ease-in-out tablet:flex-grow-0',
+                  'rc-tabs-tab flex-1 border-b-[3px] border-solid border-[transparent] text-center text-[16px] duration-300 ease-in-out tablet:flex-grow-0',
                   {
                     'rc-tabs-tab-active stroke-[#000] font-[600] text-[#000]':
                       activeKey === item.key,
                   },
-                  { 'stroke-dark_grey text-dark_grey': activeKey !== item.key },
+                  { 'stroke-dark_grey  text-dark_grey': activeKey !== item.key },
                 )}
               >
                 {item?.props?.tab}
@@ -34,7 +34,6 @@ const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
             );
           })}
         </div>
-        <div className='rc-tabs-nav-operations rc-tabs-nav-operations-hidden '></div>
       </div>
     </div>
   );
