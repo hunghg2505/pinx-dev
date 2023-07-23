@@ -4,21 +4,27 @@ import { useRouter } from 'next/router';
 
 import Header from './Header';
 import MyStory from './MyStory';
-import { useGetProfileOtherUser } from './service';
+import { useGePrivatetProfileOtherUser, useGetProfileOtherUser } from './service';
 import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);
 
 const Profile = () => {
   const router = useRouter();
-  const { profileOtherUser, run, refresh } = useGetProfileOtherUser(Number(router.query.id));
+  const { profileOtherUser } = useGetProfileOtherUser(Number(router.query.id));
+  const {
+    privateProfileOtherUser,
+    run: runPrivate,
+    refresh: RefreshPrivate,
+  } = useGePrivatetProfileOtherUser(Number(router.query.id));
   return (
     <profileUserContext.Provider
       value={{
         ...profileOtherUser,
+        ...privateProfileOtherUser,
         isKol: profileOtherUser?.isFeatureProfile,
-        reload: run,
-        refresh,
+        reload: runPrivate,
+        refresh: RefreshPrivate,
       }}
     >
       <div className=' flex '>
