@@ -19,7 +19,7 @@ const ProfileFollow = () => {
       </header>
       <main className='px-[16px]'>
         <div className='mb-[20px] flex gap-[32px] '>
-          <TabBar tabKey='follower' />
+          <TabBar tabKey='followers' />
           <TabBar tabKey='following' />
         </div>
         <Search />

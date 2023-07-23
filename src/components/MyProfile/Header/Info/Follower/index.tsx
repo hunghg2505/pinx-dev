@@ -18,7 +18,7 @@ const Follower = () => {
       className=' cursor-pointer text-[12px] tablet:flex tablet:flex-col-reverse'
       onClick={() => {
         if (state.mobile) {
-          router.replace(
+          router.push(
             `${router.route.replace('[id]', String(router?.query?.id))}/follow?tab=followers`,
           );
         } else {
