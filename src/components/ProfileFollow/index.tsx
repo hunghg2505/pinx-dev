@@ -15,7 +15,7 @@ const Following = dynamic(() => import('./Following'));
 const ProfileFollow = () => {
   const searchParams = useSearchParams();
   return (
-    <div className='z-50 mt-[-65px]'>
+    <div className='bg-white'>
       <ModalPage />
       <header className='mb-[24px] flex px-[16px] py-[16px] align-middle text-[16px]'>
         <Back />

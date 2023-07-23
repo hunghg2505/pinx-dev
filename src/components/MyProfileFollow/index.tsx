@@ -13,7 +13,7 @@ const Following = dynamic(() => import('./Following'));
 const ProfileFollow = () => {
   const searchParams = useSearchParams();
   return (
-    <>
+    <div className=' bg-white'>
       <header className='mb-[24px] flex px-[16px] py-[16px] align-middle text-[16px]'>
         <Back />
       </header>
@@ -29,7 +29,7 @@ const ProfileFollow = () => {
         </div>
         {/* <NotFound /> */}
       </main>
-    </>
+    </div>
   );
 };
 export default ProfileFollow;
