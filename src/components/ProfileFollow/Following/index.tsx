@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
+import NotFound2 from '@components/MyProfileFollow/Following/NotFound2';
 import useElementOnscreen from '@utils/useElementOnscreen';
 
 import NotFound from './NotFound';
@@ -15,6 +18,7 @@ const Following = () => {
     totalPages: 1,
     notFound: false,
   });
+  const router = useRouter();
   const { lastElementRef } = useElementOnscreen(() => {
     if (state.totalPages > state.pages.length) {
       setState((prev) => ({ ...prev, pages: [...prev.pages, prev.pages.length + 1] }));
@@ -29,7 +33,8 @@ const Following = () => {
         return <Page page={page} key={page} />;
       })}
       <div ref={lastElementRef}></div>
-      {state.notFound && <NotFound />}
+      {state.notFound && !!router.query.search && <NotFound />}
+      {state.notFound && !router.query.search && <NotFound2 />}
     </div>
   );
 };
