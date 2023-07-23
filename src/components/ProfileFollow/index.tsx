@@ -30,7 +30,6 @@ const ProfileFollow = () => {
           {searchParams.get('tab') === 'followers' && <Follower />}
           {searchParams.get('tab') === 'following' && <Following />}
         </div>
-        {/* <NotFound /> */}
       </main>
     </div>
   );

@@ -24,10 +24,9 @@ const ProfileFollow = () => {
         </div>
         <Search />
         <div>
-          {searchParams.get('tab') === 'follower' && <Follower />}
+          {searchParams.get('tab') === 'followers' && <Follower />}
           {searchParams.get('tab') === 'following' && <Following />}
         </div>
-        {/* <NotFound /> */}
       </main>
     </div>
   );
