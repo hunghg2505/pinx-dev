@@ -28,7 +28,7 @@ const BasicInfo = ({
           pathname: ROUTE_PATH.MY_PROFILE,
           query: {
             from_profile_menu: 1,
-          }
+          },
         });
         close();
       }}
@@ -51,9 +51,14 @@ const BasicInfo = ({
           <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
           {status && (
             <span
-              className={classNames('text-[#EAA100]', {
-                '!text-green': status === 'Verified',
-              })}
+              className={classNames(
+                {
+                  '!text-green': status === 'Verified',
+                },
+                {
+                  'text-light_orange': status !== 'Verified',
+                },
+              )}
             >
               {status}
             </span>

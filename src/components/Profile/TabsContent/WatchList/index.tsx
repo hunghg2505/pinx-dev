@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useAuth } from '@store/auth/useAuth';
+
 import { useGetIsShareWatchList } from './checkMyShareWatchList';
 import { useGetUerIsShareWatchList } from './checkUserShareWatchList';
 import { useCheckWatchList } from './checkWatchList';
@@ -14,6 +16,7 @@ const WatchList = () => {
   const { isShareWatchList } = useGetIsShareWatchList();
   const { isUserShareWatchList } = useGetUerIsShareWatchList(Number(router?.query?.id));
   const { watchList } = useCheckWatchList(Number(router?.query?.id));
+  const { isLogin } = useAuth();
   return (
     <>
       {(!isShareWatchList || !isUserShareWatchList || !watchList) && (
@@ -27,6 +30,9 @@ const WatchList = () => {
             }
             if (isShareWatchList && !isUserShareWatchList) {
               return 3;
+            }
+            if (!isLogin) {
+              return 4;
             }
             return 3;
           })()}

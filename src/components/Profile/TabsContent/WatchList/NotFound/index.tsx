@@ -15,6 +15,7 @@ const NotFound = ({ type }: { type: number }) => {
         {type === 1 && t('watchlist_notfound1')}
         {type === 2 && t('watchlist_notfound2')}
         {type === 3 && t('watchlist_notfound3')}
+        {type === 4 && t('watchlist_notfound4')}
       </p>
     </div>
   );
