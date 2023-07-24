@@ -115,6 +115,7 @@ export const API_PATH = {
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
+  PRIVATE_SHARE_THEME_ACTIVITY: '/private/activity/theme/add',
   // topic
   PRIVATE_TOPIC_ALL: (limit?: number) =>
     limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',

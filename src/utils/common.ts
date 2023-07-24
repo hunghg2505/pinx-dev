@@ -1,6 +1,8 @@
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
+import { ACNT_STAT_ACTIVE, ACNT_STAT_VSD_PENDING, USERTYPE } from './constant';
+
 export const ROUTE_PATH = {
   // AUTH
   LOGIN: '/auth/login',
@@ -241,6 +243,7 @@ export const enableScroll = () => {
 export const disableScroll = () => {
   document.body.style.overflow = 'hidden';
 };
+
 export const isValidUrl = (urlString: string) => {
   const urlPattern = new RegExp(
     '^(https?:\\/\\/)?' + // validate protocol
@@ -252,4 +255,28 @@ export const isValidUrl = (urlString: string) => {
     'i',
   ); // validate fragment locator
   return !!urlPattern.test(urlString);
+};
+
+export const calcUserStatusText = (acntStat: string) => {
+  switch (acntStat) {
+    case ACNT_STAT_ACTIVE: {
+      return 'Verified';
+    }
+    case ACNT_STAT_VSD_PENDING: {
+      return 'Pending';
+    }
+    default: {
+      return 'Unverified';
+    }
+  }
+};
+
+export const checkUserType = (custStat: string, acntStat?: string) => {
+  if (custStat === USERTYPE.NEW) {
+    return USERTYPE.NEW;
+  }
+  if (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED) {
+    return USERTYPE.EKYC;
+  }
+  return USERTYPE.VSD;
 };

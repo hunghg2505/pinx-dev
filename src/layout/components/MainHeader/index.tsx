@@ -16,7 +16,13 @@ import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
-import { ROUTE_PATH, disableScroll, enableScroll, isUserVerified } from '@utils/common';
+import {
+  ROUTE_PATH,
+  calcUserStatusText,
+  disableScroll,
+  enableScroll,
+  isUserVerified,
+} from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 import 'rc-dropdown/assets/index.css';
 
@@ -58,7 +64,15 @@ const MainHeader = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const headerRef = useRef(null);
   const { width } = useContainerDimensions(headerRef);
-  const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
+  const isHideHeaderOpenAppOnMobile = [
+    ROUTE_PATH.REDIRECT,
+    ROUTE_PATH.SETTING,
+    ROUTE_PATH.SETTING_CHANGE_PASSWORD,
+    ROUTE_PATH.SETTING_CHANGE_USERNAME,
+    ROUTE_PATH.SETTING_CHANGE_PASSWORD_VERIFICATION,
+    ROUTE_PATH.SETTING_CHANGE_USERNAME_VERIFICATION,
+    ROUTE_PATH.PROFILE_VERIFICATION,
+  ].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
       [
@@ -70,6 +84,12 @@ const MainHeader = () => {
         ROUTE_PATH.TOPMENTION,
         ROUTE_PATH.PINEX_TOP_20,
         ROUTE_PATH.SEARCH,
+        ROUTE_PATH.SETTING,
+        ROUTE_PATH.SETTING_CHANGE_PASSWORD,
+        ROUTE_PATH.SETTING_CHANGE_USERNAME,
+        ROUTE_PATH.SETTING_CHANGE_PASSWORD_VERIFICATION,
+        ROUTE_PATH.SETTING_CHANGE_USERNAME_VERIFICATION,
+        ROUTE_PATH.PROFILE_VERIFICATION,
       ].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
@@ -193,7 +213,7 @@ const MainHeader = () => {
                   <Text type='body-12-regular' className='text-[#474D57]'>
                     Post
                   </Text>
-                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                  <Text type='body-12-semibold'>0</Text>
                 </div>
                 <div className='flex flex-col'>
                   <Text type='body-12-regular' className='text-[#474D57]'>
@@ -237,7 +257,7 @@ const MainHeader = () => {
                   'text-green': isUserVerified(userLoginInfo.acntStat),
                 })}
               >
-                {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
+                {calcUserStatusText(userLoginInfo.acntStat || '')}
               </Text>
             </Link>
           </>
@@ -379,7 +399,7 @@ const MainHeader = () => {
 
         <div
           className={classNames(
-            'fixed left-0 top-[84px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] mobile:px-[10px] tablet-max:top-[130px] desktop:px-0',
+            'fixed left-0 top-[84px] z-[9999] h-[150vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] mobile:px-[10px] tablet-max:top-[130px] desktop:px-0',
             {
               'translate-x-[0px]': isShowNavigate,
             },

@@ -1,6 +1,5 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
-import { i18n } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { requestPist } from '@api/request';
@@ -19,9 +18,6 @@ export const useLogin = (options?: IOptionsRequest) => {
         data: {
           connId: username,
           connSecrNo: encryptPassword(password),
-        },
-        headers: {
-          'Accept-Language': i18n?.language as string,
         },
       });
     },

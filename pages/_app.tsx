@@ -12,11 +12,9 @@ import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
-import { ENV } from '@utils/env';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -63,14 +61,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         }
       `}</style>
 
-      <GoogleReCaptchaProvider reCaptchaKey={ENV.RECAPTHCHA_SITE_KEY}>
-        <ErrorBoundary>
-          <>
-            <AppInitialData />
-            <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
-          </>
-        </ErrorBoundary>
-      </GoogleReCaptchaProvider>
+      <ErrorBoundary>
+        <AppInitialData />
+        <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
+      </ErrorBoundary>
     </>
   );
 }
