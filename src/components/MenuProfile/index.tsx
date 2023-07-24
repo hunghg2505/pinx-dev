@@ -9,7 +9,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, disableScroll, enableScroll, isUserVerified } from '@utils/common';
+import { ROUTE_PATH, isUserVerified } from '@utils/common';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import Back from './Back';
@@ -23,7 +23,7 @@ const MenuProfile = forwardRef((_, ref) => {
   const { run: requestUserProfile } = useProfileInitial();
   const router = useRouter();
   const { isLogin } = useAuth();
-  const [profileOpen, setProfileOpen] = useAtom(openProfileAtom);
+  const [openProfileMenu, setOpenProfileMenu] = useAtom(openProfileAtom);
 
   const goToLogin = () => {
     router.push(ROUTE_PATH.LOGIN);
@@ -39,33 +39,27 @@ const MenuProfile = forwardRef((_, ref) => {
   };
 
   const close = () => {
-    setProfileOpen(false);
+    setOpenProfileMenu(false);
   };
 
   const open = () => {
-    setProfileOpen(true);
+    setOpenProfileMenu(true);
   };
 
   useImperativeHandle(ref, () => ({ close, open }));
 
   useEffect(() => {
-    if (profileOpen) {
-      disableScroll();
-    } else {
-      enableScroll();
+    if (openProfileMenu) {
+      requestUserProfile();
     }
-  }, [profileOpen]);
-
-  useEffect(() => {
-    requestUserProfile();
-  }, [profileOpen]);
+  }, [openProfileMenu]);
 
   return (
     <div
       className={classNames(
-        'fixed left-0 top-0 h-screen w-full  bg-white duration-300 ease-out z-[9999]',
+        'fixed left-0 top-0 h-screen w-full  bg-white duration-300 ease-out z-[9999] laptop:hidden overflow-scroll',
         {
-          'translate-x-[100%]': !profileOpen,
+          'translate-x-[100%]': !openProfileMenu,
         },
       )}
     >
