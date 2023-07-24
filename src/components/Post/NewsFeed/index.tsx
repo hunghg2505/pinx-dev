@@ -31,7 +31,7 @@ const NewsFeed = (props: IProps) => {
     if (countComment > 1) {
       return (
         <div
-          className='mx-[auto] mb-[5px] mt-[15px] flex h-[36px] w-[calc((100%_-_32px))] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'
+          className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
@@ -57,7 +57,7 @@ const NewsFeed = (props: IProps) => {
           onHidePostSuccess={onHidePost}
           pinned={pinned}
         />
-        <div className='desktop:ml-[64px] desktop:mr-[88px]'>
+        <div className='desktop:ml-[64px] desktop:mr-[56px]'>
           {countComment > 0 && (
             <div className='mt-[22px]'>
               <ItemComment

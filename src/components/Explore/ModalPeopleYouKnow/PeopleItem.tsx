@@ -104,6 +104,27 @@ const PeopleItem = (props: Iprops) => {
         <Text type='body-14-semibold' className='text-[#474D57]'>
           {data?.displayName}
         </Text>
+
+        {data?.isFeatureProfile && (
+          <img
+            src='/static/icons/iconKol.svg'
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='h-[20px] w-[20px]'
+          />
+        )}
+        {data?.isKol && (
+          <img
+            src='/static/icons/iconTick.svg'
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='ml-[8px] h-[20px] w-[20px]'
+          />
+        )}
       </div>
       <div
         className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
