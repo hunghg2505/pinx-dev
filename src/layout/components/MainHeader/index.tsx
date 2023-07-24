@@ -313,7 +313,7 @@ const MainHeader = () => {
                   alt=''
                   width='0'
                   height='0'
-                  className='mr-[16px] h-[40px] w-[40px] object-contain tablet:ml-[8px]'
+                  className='mr-[16px] h-[40px] w-[40px] object-contain tablet:ml-[8px] desktop:h-[52px] desktop:w-[52px]'
                 />
               </Link>
 
