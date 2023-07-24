@@ -5,12 +5,12 @@ import PopupHomeNoti from '@components/Home/PopupHomeNoti/PopupHomeNoti';
 
 import ComposeButton from './ComposeButton';
 
-const Home = () => {
+const Home = ({ pinPostData }: any) => {
   return (
     <>
       <PopupHomeNoti />
 
-      <HomeNewFeed />
+      <HomeNewFeed pinPostDataInitial={pinPostData} />
 
       <ModalComposeMobile>
         <ComposeButton />

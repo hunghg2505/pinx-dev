@@ -6,10 +6,12 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
+import ModalReport from '@components/Post/NewsFeed/ModalReport';
+import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
+import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
@@ -25,16 +27,6 @@ import PostAction from '../PostAction';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
-
-const ModalReport = dynamic(import('../ModalReport'), {
-  ssr: false,
-});
-const ContentPostTypeHome = dynamic(import('./ContentPostTypeHome'), {
-  ssr: false,
-});
-const ContentPostTypeDetail = dynamic(import('./ContentPostTypeDetail'), {
-  ssr: false,
-});
 
 interface IProps {
   postDetail: IPost;
@@ -107,7 +99,7 @@ const NewFeedItem = (props: IProps) => {
   const isLike = postDetail?.isLike;
 
   const idPost = id || postDetail?.id;
-  const urlPost = window.location.origin + '/post/' + idPost;
+
   const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
 
   // hide post
@@ -553,7 +545,7 @@ const NewFeedItem = (props: IProps) => {
         {renderContentPost()}
         <div className='mobile:mt-[15px] desktop:mt-[24px]'>
           <PostAction
-            urlPost={urlPost}
+            urlPost={'/post/' + idPost}
             isLike={isLike}
             idPost={String(idPost)}
             onRefreshPostDetail={onRefreshPostDetail}

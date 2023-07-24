@@ -41,6 +41,7 @@ const NewsFeed = (props: IProps) => {
       );
     }
   };
+
   return (
     <>
       <div
