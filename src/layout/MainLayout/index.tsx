@@ -26,13 +26,13 @@ const MainLayout = ({ children }: any) => {
 
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
         <div className=' mx-auto flex w-[100%] max-w-[1355px] justify-between gap-[24px] px-[10px] desktop:px-0'>
-          <div className='flex-[218px_0_0]  mobile:hidden desktop:block'>
+          <div className='max-w-[218px] flex-1 mobile:hidden desktop:block'>
             <SideBar />
           </div>
 
-          <div className='w-[100%] flex-1'>{children}</div>
+          <div className='w-[100%] flex-1 overflow-hidden'>{children}</div>
 
-          <div className='flex-[350px_0_0] mobile:hidden tablet:block '>
+          <div className='max-w-[350px] flex-1 mobile:hidden tablet:block '>
             <ContentRight />
           </div>
         </div>
