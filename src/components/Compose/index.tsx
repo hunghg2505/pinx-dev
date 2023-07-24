@@ -9,6 +9,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -41,16 +42,11 @@ const IconSend = () => (
     />
   </svg>
 );
-const beforeUpload = (file: RcFile) => {
-  const isJpgOrPng = isImage(file);
-  // if (!isJpgOrPng) {
-  //   console.log('Không phải ảnh');
-  // }
-  return isJpgOrPng;
-};
+
 interface IProps {
   hidePopup?: () => void;
   refresh?: () => void;
+  onGetData?: (value: any) => void;
 }
 interface IData {
   message: string | undefined;
@@ -63,8 +59,9 @@ interface IData {
 }
 
 const Compose = (props: IProps) => {
-  const { hidePopup, refresh } = props;
-  const [isShowMore, setIsShowMore] = React.useState(false);
+  const { t } = useTranslation('common');
+  const { hidePopup, refresh, onGetData } = props;
+  const [isShowMore, setIsShowMore] = React.useState(true);
   const [activeTheme, setActiveTheme] = React.useState('default');
   const [image, setImage] = React.useState<string>('');
   const [metaData, setMetaData] = React.useState<any>();
@@ -153,12 +150,22 @@ const Compose = (props: IProps) => {
         class: 'focus:outline-none h-full',
       },
     },
+    onUpdate({ editor }) {
+      onGetData && onGetData(editor?.getText());
+    },
   });
   const getDataOG = (value: any) => {
     setMetaData(value);
   };
   const showMore = () => {
     setIsShowMore(!isShowMore);
+  };
+  const beforeUpload = (file: RcFile) => {
+    const isJpgOrPng = isImage(file);
+    if (!isJpgOrPng) {
+      toast(() => <Notification type='error' message={t('not_image')} />);
+    }
+    return isJpgOrPng;
   };
   const onSelectTheme = (code: string) => {
     setActiveTheme(code);
@@ -308,7 +315,11 @@ const Compose = (props: IProps) => {
         />
       ));
     } else if (statusUser === USERTYPE.VSD) {
-      useAddPost.run(data);
+      if (editor?.getText()) {
+        useAddPost.run(data);
+      } else {
+        toast(() => <Notification type='error' message={t('err_add_post')} />);
+      }
     } else {
       hidePopup && hidePopup();
       PopupComponent.openEKYC();
@@ -332,13 +343,17 @@ const Compose = (props: IProps) => {
       editor?.commands?.insertContent('%');
     }
   };
-
+  React.useEffect(() => {
+    return () => {
+      editor?.commands?.clearContent();
+    };
+  }, []);
   return (
     <div className='h-full mobile-max:flex mobile-max:flex-col mobile-max:justify-between'>
       <div className='relative h-[208px]'>
         <EditorContent
           editor={editor}
-          className={classNames('relative z-10 h-full', {
+          className={classNames('relative z-10 h-full max-h-[220px] overflow-y-auto', {
             [`text-center text-[${themeActive?.color?.code}] pt-[20px] text-[${themeActive?.fontSize}] leading-[${themeActive?.lineHeight}] ${themeActive?.code}`]:
               themeActive && activeTheme !== 'default',
             'text-left': activeTheme === 'default',
@@ -356,9 +371,10 @@ const Compose = (props: IProps) => {
         {useUploadImage?.loading ? (
           <Loading />
         ) : (
-          image && (
+          image &&
+          activeTheme === 'default' && (
             <div className='flex items-center justify-between'>
-              <img src={image} alt='' className='h-[90px] w-[58px]' />
+              <img src={image} alt='' className='h-[58px] w-[90px] rounded-[8px] object-contain' />
               <img
                 src='/static/icons/explore/iconClose.svg'
                 alt=''
@@ -368,25 +384,31 @@ const Compose = (props: IProps) => {
             </div>
           )
         )}
-        {metaData && Object.keys(metaData).length > 0 && (
-          <div className='flex items-center justify-between'>
-            <div className='flex'>
+        {metaData && Object.keys(metaData).length > 0 && activeTheme === 'default' && (
+          <>
+            <div className='my-[12px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+            <div className=' flex items-center justify-between'>
+              <div className='flex w-full'>
+                <img
+                  src={metaData['og:image']}
+                  alt=''
+                  className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
+                />
+                <Text
+                  className='w-[calc(100%_-_120px)] break-all text-left text-[10px]'
+                  color='cbblack'
+                >
+                  {metaData['og:url']}
+                </Text>
+              </div>
               <img
-                src={metaData['og:image']}
+                src='/static/icons/explore/iconClose.svg'
                 alt=''
-                className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
+                className='h-[20px] w-[20px] cursor-pointer'
+                onClick={() => setMetaData({})}
               />
-              <Text className='w-[calc(100%_-_120px)] break-all text-[10px]' color='cbblack'>
-                {metaData['og:url']}
-              </Text>
             </div>
-            <img
-              src='/static/icons/explore/iconClose.svg'
-              alt=''
-              className='h-[20px] w-[20px] cursor-pointer'
-              onClick={() => setMetaData({})}
-            />
-          </div>
+          </>
         )}
 
         <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
@@ -462,7 +484,7 @@ const Compose = (props: IProps) => {
 
             {!themeActive && (
               <ModalLink getDataOG={getDataOG}>
-                <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+                <div className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
                   <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
                 </div>
               </ModalLink>

@@ -92,7 +92,6 @@ const Home = () => {
     setIsPost(true);
     refresh();
   };
-  console.log('🚀 ~ file: index.tsx:90 ~ Home ~ listNewFeed:', listNewFeed);
   const { lastElementRef } = useLoadMore(filterType, listNewFeed, loading, run);
   const { watchList } = useGetWatchList();
   const isLogin = !!getAccessToken();
