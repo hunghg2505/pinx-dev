@@ -202,11 +202,12 @@ export const useGetListNewFeedAuth = () => {
   };
 };
 export const useGetTrending = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestPist.get(API_PATH.PUBLIC_GET_TRENDING);
   });
   return {
     dataTrending: data?.data,
+    loading,
   };
 };
 
@@ -247,7 +248,7 @@ export const requestLeaveIndex = () => {
 };
 
 export const useSuggestPeople = () => {
-  const { data, refresh, run } = useRequest(
+  const { data, refresh, run, loading } = useRequest(
     () => {
       return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
     },
@@ -259,6 +260,7 @@ export const useSuggestPeople = () => {
     suggestionPeople: data?.list,
     refreshList: refresh,
     getSuggestFriend: run,
+    loading,
   };
 };
 

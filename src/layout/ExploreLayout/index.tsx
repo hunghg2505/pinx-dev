@@ -1,22 +1,16 @@
 import dynamic from 'next/dynamic';
 
-const MainHeader = dynamic(() => import('../components/MainHeader'), {
-  ssr: false,
-});
-const SideBar = dynamic(() => import('@layout/MainLayout/SideBar'), {
-  ssr: false,
-});
+import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
+import SideBar from '@layout/MainLayout/SideBar';
+
 const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
   ssr: false,
+  loading: () => <ContentRightFake />,
 });
-const ModalPage = dynamic(() => import('@components/ModalPage'), {
-  ssr: false,
-});
+
 const ExploreLayout = ({ children }: any) => {
   return (
     <>
-      <ModalPage />
-      <MainHeader />
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
         <div className='xl:container relative flex justify-center overflow-auto'>
           <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>

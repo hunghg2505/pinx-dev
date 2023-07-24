@@ -12,7 +12,6 @@ import ReactPlayer from 'react-player';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
-// import { useContainerDimensions } from '@hooks/useDimensions';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
@@ -704,9 +703,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     </Text>
                     {!message?.includes(urlLink) && urlLink !== '' && (
                       <div className='messageFormat messageBody messageBody -mt-[15px] pb-[15px]'>
-                        <Link href='javascript:void(0)' className='link'>
-                          {urlLink}
-                        </Link>
+                        <span className='link'>{urlLink}</span>
                       </div>
                     )}
                   </div>

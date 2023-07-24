@@ -1,13 +1,8 @@
 import dynamic from 'next/dynamic';
 
 import { useResponsive } from '@hooks/useResponsive';
+import SideBar from '@layout/MainLayout/SideBar';
 
-const MainHeader = dynamic(() => import('../components/MainHeader'), {
-  ssr: false,
-});
-const SideBar = dynamic(() => import('../MainLayout/SideBar'), {
-  ssr: false,
-});
 const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
   ssr: false,
 });
@@ -15,11 +10,17 @@ const ModalPage = dynamic(() => import('@components/ModalPage'), {
   ssr: false,
 });
 
+const MainHeader = dynamic(() => import('../components/MainHeader'), {
+  ssr: false,
+  loading: () => (
+    <div className='border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'></div>
+  ),
+});
+
 const SettingLayout = ({ children }: any) => {
   const { isDesktop } = useResponsive();
   return (
     <>
-      <ModalPage />
       {isDesktop && <MainHeader />}
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
         <div className='xl:container relative flex justify-center overflow-auto'>
@@ -36,6 +37,8 @@ const SettingLayout = ({ children }: any) => {
           </div>
         </div>
       </div>
+
+      <ModalPage />
     </>
   );
 };

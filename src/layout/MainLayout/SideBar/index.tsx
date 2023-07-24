@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Menu from 'rc-menu';
 
@@ -29,72 +28,99 @@ import {
 
 const SideBar = () => {
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const auth = useAuth();
+  const [isLogin, setIsLogin] = useState(false);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const MENUS = useMemo(() => {
-    return [
-      {
-        id: 1,
-        path: ROUTE_PATH.HOME,
-        icon: <IconHome />,
-        iconActive: <IconHomeActive />,
-        label: 'Home',
+
+  useEffect(() => {
+    setIsLogin(auth.isLogin);
+  }, [auth.isLogin]);
+
+  const MENUS = [
+    {
+      id: 1,
+      path: ROUTE_PATH.HOME,
+      icon: <IconHome />,
+      iconActive: <IconHomeActive />,
+      label: 'Home',
+    },
+    {
+      id: 2,
+      path: ROUTE_PATH.EXPLORE,
+      icon: <IconExplore />,
+      iconActive: <IconExploreActive />,
+      label: 'Explore',
+    },
+    {
+      id: 3,
+      path: ROUTE_PATH.GIFTCASH,
+      icon: <IconGiftCash />,
+      iconActive: <IconGiftCashActive />,
+      label: 'GiftCash',
+    },
+    {
+      id: 4,
+      path: ROUTE_PATH.WATCHLIST,
+      icon: <IconWatchList />,
+      iconActive: <IconWatchListACtive />,
+      label: 'WatchList',
+      action: () => {
+        setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
       },
-      {
-        id: 2,
-        path: ROUTE_PATH.EXPLORE,
-        icon: <IconExplore />,
-        iconActive: <IconExploreActive />,
-        label: 'Explore',
+    },
+    {
+      id: 5,
+      path: ROUTE_PATH.ASSET,
+      icon: <IconAssets />,
+      iconActive: <IconAssetsActive />,
+      label: 'Assets',
+      action: () => {
+        setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
       },
-      {
-        id: 3,
-        path: ROUTE_PATH.GIFTCASH,
-        icon: <IconGiftCash />,
-        iconActive: <IconGiftCashActive />,
-        label: 'GiftCash',
-      },
-      {
-        id: 4,
-        path: isLogin ? ROUTE_PATH.WATCHLIST : '',
-        icon: <IconWatchList />,
-        iconActive: <IconWatchListACtive />,
-        label: 'WatchList',
-        action: () => {
-          !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
-        },
-      },
-      {
-        id: 5,
-        path: isLogin ? ROUTE_PATH.ASSET : '',
-        icon: <IconAssets />,
-        iconActive: <IconAssetsActive />,
-        label: 'Assets',
-        action: () => {
-          !isLogin && setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
-        },
-      },
-      {
-        id: 6,
-        path: ROUTE_PATH.SETTING,
-        icon: <IconSetting />,
-        iconActive: <IconSettingActive />,
-        label: 'Settings',
-      },
-    ];
-  }, [isLogin]);
+    },
+    {
+      id: 6,
+      path: ROUTE_PATH.SETTING,
+      icon: <IconSetting />,
+      iconActive: <IconSettingActive />,
+      label: 'Settings',
+    },
+  ];
+
   const items = useMemo(() => {
     return MENUS.map((menu) => {
-      const checkPathExist = router.pathname === menu.path;
+      const checkPathExist = router.pathname === menu.path?.split('?')[0];
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
-      return {
-        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${checkPathExist && 'active'
+      if (menu?.action && !isLogin) {
+        return {
+          className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] cuso ${
+            checkPathExist && 'active'
           }`,
+          key: `${menu.id}`,
+          itemIcon: icon,
+          label: (
+            <div className='ml-[10px] cursor-pointer' onClick={menu?.action}>
+              <Text
+                type='body-16-semibold'
+                color='neutral-3'
+                className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}
+              >
+                {menu.label}
+              </Text>
+            </div>
+          ),
+        };
+      }
+
+      return {
+        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
+          checkPathExist && 'active'
+        }`,
         key: `${menu.id}`,
         itemIcon: icon,
         label: (
-          <CustomLink href={menu?.path} className='ml-[10px]' action={menu?.action}>
+          <CustomLink href={menu?.path} className='ml-[10px]'>
             <Text
               type='body-16-semibold'
               color='neutral-3'
@@ -106,8 +132,8 @@ const SideBar = () => {
         ),
       };
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [MENUS]);
+  }, [MENUS, isLogin]);
+
   return (
     <>
       <div className='px-[10px]'>
@@ -121,7 +147,7 @@ const SideBar = () => {
             <span className='block'>16:14 04/07/2023</span>
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
-            <Link href='https://www.facebook.com/chungkhoanpinetree'>
+            <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
               <img
                 src='/static/social/facebook.svg'
                 alt=''
@@ -130,8 +156,8 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </Link>
-            <Link href='https://zalo.me/895810815009263150'>
+            </CustomLink>
+            <CustomLink href='https://zalo.me/895810815009263150'>
               <img
                 src='/static/social/zalo.png'
                 alt=''
@@ -140,8 +166,8 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </Link>
-            <Link href='https://www.youtube.com/@ChungKhoanPinetree'>
+            </CustomLink>
+            <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
               <img
                 src='/static/social/youtube.svg'
                 alt=''
@@ -150,8 +176,8 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </Link>
-            <Link href='https://www.tiktok.com/@pinetree_official'>
+            </CustomLink>
+            <CustomLink href='https://www.tiktok.com/@pinetree_official'>
               <img
                 src='/static/social/tik_tok.svg'
                 alt=''
@@ -160,7 +186,7 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </Link>
+            </CustomLink>
           </div>
         </div>
       </div>

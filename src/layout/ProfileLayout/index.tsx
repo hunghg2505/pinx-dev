@@ -1,21 +1,27 @@
 import dynamic from 'next/dynamic';
 
+import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
+import SideBar from '@layout/MainLayout/SideBar';
+
 const MainHeader = dynamic(() => import('../components/MainHeader'), {
   ssr: false,
+  loading: () => (
+    <div className='border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'></div>
+  ),
 });
-const SideBar = dynamic(() => import('@layout/MainLayout/SideBar'), {
-  ssr: false,
-});
-const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
-  ssr: false,
-});
+
 const ModalPage = dynamic(() => import('@components/ModalPage'), {
   ssr: false,
 });
+
+const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
+  ssr: false,
+  loading: () => <ContentRightFake />,
+});
+
 const ProfileLayout = ({ children }: any) => {
   return (
     <>
-      <ModalPage />
       <MainHeader />
       <div className=' mt-[-68px] tablet:mt-0 tablet:pt-[25px] desktop:mx-0 desktop:bg-[#F8FAFD]'>
         <div className='xl:container table:container relative  flex justify-center overflow-auto '>
@@ -32,6 +38,8 @@ const ProfileLayout = ({ children }: any) => {
           </div>
         </div>
       </div>
+
+      <ModalPage />
     </>
   );
 };

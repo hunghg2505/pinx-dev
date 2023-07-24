@@ -23,10 +23,10 @@ WatchlistPage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getServerSideProps({ locale }: any) {
+export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common','watchlist'])),
+      ...(await serverSideTranslations(locale, ['common', 'watchlist'])),
       // Will be passed to the page component as props
     },
   };

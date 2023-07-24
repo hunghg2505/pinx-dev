@@ -30,10 +30,11 @@ const WatchList = () => {
 
   const { theme } = useGetTheme();
 
-  const { interestStock, refresh } = useGetInterest();
+  const { interestStock, refresh, loading } = useGetInterest();
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSort = () => {};
+  if (loading) {
+    return <></>;
+  }
 
   return (
     <div className='flex flex-col gap-y-[32px] px-[16px] pl-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
@@ -45,17 +46,14 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Text
                     type='body-12-semibold'
-                    className='text-[#1F6EAC] cursor-pointer'
+                    className='cursor-pointer text-[#1F6EAC]'
                     onClick={() => setIsEdit(false)}
                   >
-                    { t('cancelTxt') }
+                    {t('cancelTxt')}
                   </Text>
                 </div>
               </div>
-              <div
-                onClick={handleSort}
-                className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'
-              >
+              <div className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
                 <img
                   src='/static/icons/iconFilterSortaz.svg'
                   alt=''
@@ -66,20 +64,18 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Button className='flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full bg-[#589DC0]'>
                     <Text type='body-12-medium' color='cbwhite'>
-                      { t('saveTxt') }
+                      {t('saveTxt')}
                     </Text>
                   </Button>
                 </div>
               </div>
             </div>
-            {/* Divider */}
-            <div className='desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9] min-h-[1px]'></div>
-            {/* /Divider */}
+            <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
           </>
         ) : (
           <div className='flex items-center justify-between'>
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
-              { t('title') }
+              {t('title')}
             </Text>
             <Button
               onClick={() => setIsEdit(true)}
@@ -91,7 +87,7 @@ const WatchList = () => {
                 className='mr-[4px] h-[13px] w-[13px]'
               />
               <Text type='body-14-semibold' color='primary-2'>
-                { t('editText') }
+                {t('editText')}
               </Text>
             </Button>
           </div>
@@ -103,7 +99,7 @@ const WatchList = () => {
             <div className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'>
               <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
               <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                { t('addTxt') }
+                {t('addTxt')}
               </Text>
             </div>
           </ModalAddStock>
@@ -112,7 +108,7 @@ const WatchList = () => {
       {!isEdit && (
         <div className='flex flex-col gap-y-[16px]'>
           <Text type='body-20-bold' className='text-[#0D0D0D]'>
-            { t('titleInterest') }
+            {t('titleInterest')}
           </Text>
           <div
             className={classNames(

@@ -489,9 +489,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           )}
           {!message?.includes(urlLink) && urlLink !== '' && (
             <div className='messageFormat messageBody -mt-[15px] mb-[15px] block'>
-              <Link href='javascript:void(0)' className='link'>
-                {urlLink}
-              </Link>
+              <span className='link'>{urlLink}</span>
             </div>
           )}
           {renderMetaData()}

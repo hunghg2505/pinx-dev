@@ -1,12 +1,10 @@
-import classNames from 'classnames';
-
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 
-const AppLayout = ({ children, InterFont }: any) => {
+const AppLayout = ({ children }: any) => {
   usePostThemeInitial();
   return (
     <>
-      <main className={classNames(InterFont.variable)}>{children}</main>
+      <main>{children}</main>
       <div id='md-popup-container'></div>
     </>
   );

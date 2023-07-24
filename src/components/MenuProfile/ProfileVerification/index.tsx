@@ -99,7 +99,13 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <>
+    <div className='pt-5'>
+      <img
+        src='/static/icons/chevron-left.svg'
+        className='!w-[28px]'
+        alt=''
+        onClick={router.back}
+      />
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
       <div className='relative'>
         <img
@@ -113,7 +119,7 @@ const ProfileVerification = () => {
         />
       </div>
 
-      <div className='flex items-center border-b-[1px] border-solid border-white px-4 pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:hidden'>
+      <div className='mx-[-16px] flex items-center bg-[#FFF] p-[16px] [box-shadow:0px_1px_2px_0px_rgba(0,_0,_0,_0.12)] laptop:hidden'>
         <div className='relative mr-3'>
           <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
             <img
@@ -165,7 +171,7 @@ const ProfileVerification = () => {
         Securities profile
       </Text>
       <div className='mt-11 flex'>
-        <Form className='w-full space-y-7 px-4' form={form}>
+        <Form className='w-full space-y-7' form={form}>
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
               Full name
@@ -342,7 +348,7 @@ const ProfileVerification = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
