@@ -34,5 +34,10 @@
   "like": "Like",
   "subcribers": "Subcribers",
   "themes": "Themes",
-  "empty_comment": "There is no comments"
+  "empty_comment": "There is no comments",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "not_image": "Not image",
+  "not_link": "Not link",
+  "err_add_post": "You have not entered the post content"
 }

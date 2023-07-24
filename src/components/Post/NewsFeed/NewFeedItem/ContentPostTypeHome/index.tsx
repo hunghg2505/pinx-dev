@@ -531,7 +531,15 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px]  mobile:w-full tablet:w-full  xdesktop:w-[550px]',
+            {
+              'mobile:h-[204px] desktop:h-[309px]': postDetail?.post?.headImageUrl,
+              'desktop:h-auto': !postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -719,8 +727,7 @@ const ContentPostTypeHome = (props: IProps) => {
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          <div>{renderMetaData()}</div>
-
+          {!postThemeId && <div>{renderMetaData()}</div>}
           {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>
               <div className='theme'>
