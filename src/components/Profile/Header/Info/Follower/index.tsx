@@ -30,7 +30,8 @@ const Follower = () => {
         {profileUser?.totalFollower || 0}
       </b>
       <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
-        {t('followers')} <span className='hidden tablet:inline'>:</span>
+        {t('followers')}
+        <span className='hidden tablet:inline'>:</span>
       </span>
     </p>
   );
