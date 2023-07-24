@@ -88,7 +88,7 @@ const MainHeader = () => {
             width={0}
             height={0}
             sizes='100vw'
-            className='h-[36px] w-[36px] rounded-full mobile:block tablet:hidden'
+            className='h-[40px] w-[40px] cursor-pointer rounded-full mobile:block tablet:hidden'
             onClick={goToMyProfile}
           />
         </>
@@ -117,7 +117,7 @@ const MainHeader = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='h-[52px] w-[52px] rounded-full object-cover'
+                className='h-[40px] w-[40px] rounded-full object-cover'
               />
 
               <img
@@ -273,7 +273,7 @@ const MainHeader = () => {
     <>
       <div
         ref={headerRef}
-        className='sticky left-0 top-0 z-[99] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'
+        className='sticky left-0 top-0 z-[99] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[56px]'
       >
         {!isHideHeaderOpenAppOnMobile && (
           <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
@@ -300,7 +300,7 @@ const MainHeader = () => {
           </div>
         )}
         {!isHideHeaderLoginOnMobile && (
-          <div className='mx-auto flex h-[100%] max-w-[1355px] flex-row items-center justify-between p-[16px] desktop:px-[0] desktop:py-[16px]'>
+          <div className='mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[16px] desktop:px-[0]'>
             <div className='flex flex-row items-center'>
               <Link href={ROUTE_PATH.HOME}>
                 <img
@@ -308,24 +308,27 @@ const MainHeader = () => {
                   alt=''
                   width='0'
                   height='0'
-                  className='mr-[16px] h-[35px] w-[35px] object-contain tablet:ml-[8px] tablet:h-[52px] tablet:w-[52px]'
+                  className='mr-[16px] h-[40px] w-[40px] object-contain tablet:ml-[8px]'
                 />
               </Link>
 
-              <div className='mobile:block desktop:hidden' onClick={() => onShowNavigate()}>
+              <div
+                className='cursor-pointer mobile:block desktop:hidden'
+                onClick={() => onShowNavigate()}
+              >
                 {isShowNavigate ? (
                   <IconCloseMenu />
                 ) : (
                   <img
                     src='/static/icons/icon-bar-mobile.svg'
                     alt='Icon bar'
-                    className='h-[32px] w-[32px] cursor-pointer object-contain'
+                    className='h-[32px] w-[32px] object-contain'
                   />
                 )}
               </div>
             </div>
             <div className='flex flex-row items-center'>
-              <button className='mr-[12px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden'>
+              <button className='mr-[12px] flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden'>
                 <img
                   src='/static/icons/search-gray.svg'
                   alt='Search icon'
@@ -345,7 +348,7 @@ const MainHeader = () => {
                 </Form>
               </div>
 
-              <div className='mr-[12px] flex hidden cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:h-[36px] mobile:w-[36px] tablet:h-[52px] tablet:w-[52px]'>
+              <div className='mr-[12px] hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
                 <img
                   src='/static/icons/iconBell.svg'
                   alt='Icon notification'

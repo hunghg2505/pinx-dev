@@ -44,7 +44,7 @@ const NewsFeed = (props: IProps) => {
   return (
     <>
       <div
-        className={classNames('bg-[#ffffff]', {
+        className={classNames('bg-[#ffffff] mobile:px-[16px] desktop:px-0', {
           'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
         })}
       >

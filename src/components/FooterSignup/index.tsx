@@ -81,13 +81,13 @@ const FooterSignUp = () => {
   return (
     <footer
       ref={footerRef}
-      className='fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center'
+      className='fixed bottom-0 left-0 right-0 z-10'
       style={{ height: `${footerHeight}px` }}
     >
       {/* mobile */}
       <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className='mobile:-w-[375px] flex h-full items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[8px] transition mobile-max:w-full tablet:hidden desktop:hidden'
+        className='flex h-full items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[8px] transition tablet:hidden desktop:hidden'
       >
         <button
           onClick={redirectToSignUp}

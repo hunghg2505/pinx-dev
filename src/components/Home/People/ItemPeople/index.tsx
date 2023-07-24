@@ -90,11 +90,11 @@ const ItemPeople = (props: IProps) => {
             sizes='100vw'
             className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
           />
-          <div className='relative flex items-center'>
+          <div className='relative mb-[3px] flex items-center'>
             <Text
               type='body-12-semibold'
               color='neutral-3'
-              className='relative mb-[3px] line-clamp-1 inline-block overflow-ellipsis whitespace-nowrap text-center !leading-4 mobile:max-w-[70px]'
+              className='relative line-clamp-1 inline-block overflow-ellipsis whitespace-nowrap text-center !leading-4 mobile:max-w-[70px]'
             >
               {data?.displayName}
             </Text>
@@ -105,7 +105,7 @@ const ItemPeople = (props: IProps) => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='h-[20px] w-[20px]'
+                className='ml-[4px] h-[20px] w-[20px]'
               />
             )}
             {data?.isKol && (
@@ -115,7 +115,7 @@ const ItemPeople = (props: IProps) => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='h-[16px] w-[16px]'
+                className='ml-[4px] h-[16px] w-[16px]'
               />
             )}
           </div>
