@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
-import Dialog from 'rc-dialog';
 import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { PREFIX_API_PIST } from '@api/request';
 import { RoundButton } from '@components/UI/Button';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
@@ -65,10 +65,6 @@ const ModalLoginTerms = (props: IProps) => {
     },
   });
 
-  const renderCloseIcon = (): React.ReactNode => {
-    return <img src='/static/icons/close_icon.svg' alt='' />;
-  };
-
   const onSendLoginOtp = () => {
     const payload = {
       authType: '1',
@@ -126,7 +122,7 @@ const ModalLoginTerms = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={handleClose}>
         <div>
           <Text type='body-22-bold' className='mt-16 text-center'>
             Dear Customer
@@ -197,7 +193,7 @@ const ModalLoginTerms = (props: IProps) => {
             </RoundButton>
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

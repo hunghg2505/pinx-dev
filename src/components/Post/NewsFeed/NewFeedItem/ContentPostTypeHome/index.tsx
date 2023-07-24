@@ -18,6 +18,23 @@ import { ROUTE_PATH, formatMessage } from '@utils/common';
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
 });
+const ImageHeadPost = dynamic(
+  import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
+  {
+    ssr: false,
+    loading: () => (
+      <img
+        src='/static/images/img-blur.png'
+        alt=''
+        width='0'
+        height='0'
+        sizes='100vw'
+        className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] object-cover'
+      />
+    ),
+  },
+);
+
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
@@ -616,23 +633,14 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
         <div
           className={classNames(
-            ' relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]',
+            ' relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] ',
             {
               '!h-[100px]': !postDetail?.post?.headImageUrl,
             },
           )}
         >
           <Link href={postDetailUrl}>
-            {postDetail?.post?.headImageUrl && (
-              <img
-                src={postDetail?.post?.headImageUrl}
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
-              />
-            )}
+            <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
           </Link>
           <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />

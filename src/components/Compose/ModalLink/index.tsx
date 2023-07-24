@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import request from 'umi-request';
 
 import FormItem from '@components/UI/FormItem';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { isValidUrl } from '@utils/common';
 
@@ -68,7 +68,7 @@ const ModalLink = (props: IProps) => {
   return (
     <>
       <span onClick={onVisible}>{children}</span>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
@@ -120,7 +120,7 @@ const ModalLink = (props: IProps) => {
             </Text>
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 
 import DeactivateAccount from '@components/MenuProfile/ProfileVerification/DeactivateAccont';
+import Modal from '@components/UI/Modal/Modal';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 
 interface IProps {
@@ -20,9 +20,9 @@ const PopupDeactivateAccount = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={<></>}>
+      <Modal visible={visible} onClose={handleClose} closeIcon={<></>}>
         <DeactivateAccount isPopup />
-      </Dialog>
+      </Modal>
     </>
   );
 };

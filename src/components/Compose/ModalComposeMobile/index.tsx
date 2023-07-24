@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -47,7 +47,7 @@ const ModalComposeMobile = (props: IProps) => {
   return (
     <>
       <span onClick={onVisible}>{children}</span>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
@@ -63,7 +63,7 @@ const ModalComposeMobile = (props: IProps) => {
             <Compose hidePopup={onVisible} refresh={refresh} />
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

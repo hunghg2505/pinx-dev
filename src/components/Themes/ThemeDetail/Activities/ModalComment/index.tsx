@@ -2,11 +2,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
 import { ForwardedRefComponent } from '@components/Post/PostDetail';
 import { IComment } from '@components/Post/service';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
@@ -84,7 +84,7 @@ const ModalComment = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
@@ -141,7 +141,7 @@ const ModalComment = (props: Iprops) => {
             </div>
           )}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Dialog from 'rc-dialog';
+import Modal from '@components/UI/Modal/Modal';
 
 import styles from './index.module.scss';
 
@@ -32,7 +32,7 @@ const PopupHotline = (props: IProps) => {
 
   return (
     <>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={handleClose}
         closeIcon={renderCloseIcon()}
@@ -52,7 +52,7 @@ const PopupHotline = (props: IProps) => {
             </div>
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import Rating from '@components/Stock/Rating';
 import { useReviewStock } from '@components/Stock/service';
 import FormItem from '@components/UI/FormItem';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 
@@ -55,7 +55,7 @@ const PopupReview = ({
   };
 
   return (
-    <Dialog
+    <Modal
       visible={visible}
       bodyStyle={{ backgroundColor: '#F0F7FC', borderRadius: '12px' }}
       onClose={() => {
@@ -99,7 +99,7 @@ const PopupReview = ({
           </button>
         </Form>
       </div>
-    </Dialog>
+    </Modal>
   );
 };
 

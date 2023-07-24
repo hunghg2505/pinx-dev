@@ -5,24 +5,12 @@ import { profileUserContext } from '@components/MyProfile';
 import Influencer from './Influencer';
 import Normal from './Normal';
 
-const Story = ({ closeStory }: { closeStory: () => void }) => {
+const Story = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
     <>
-      {profileUser?.isFeatureProfile && (
-        <Influencer
-          closeStory={() => {
-            closeStory();
-          }}
-        />
-      )}
-      {!profileUser?.isFeatureProfile && (
-        <Normal
-          closeStory={() => {
-            closeStory();
-          }}
-        />
-      )}
+      {profileUser?.isFeatureProfile && <Influencer />}
+      {!profileUser?.isFeatureProfile && <Normal />}
     </>
   );
 };

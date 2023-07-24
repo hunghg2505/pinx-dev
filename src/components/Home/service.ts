@@ -2,7 +2,13 @@ import { useRequest } from 'ahooks';
 import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
-import { PREFIX_API_MARKET, privateRequest, requestCommunity, requestPist } from '@api/request';
+import {
+  PREFIX_API_COMMUNITY,
+  PREFIX_API_MARKET,
+  privateRequest,
+  requestCommunity,
+  requestPist,
+} from '@api/request';
 import { getAccessToken } from '@store/auth';
 import { ENV } from '@utils/env';
 
@@ -140,9 +146,15 @@ interface IOptionsRequest {
   onError?: (e: any) => void;
 }
 export const useGetListFillter = () => {
-  const { data } = useRequest(() => {
-    return requestCommunity.get(API_PATH.FILTER_LIST);
-  });
+  const { data } = useRequest(
+    () => {
+      return requestCommunity.get(API_PATH.FILTER_LIST);
+    },
+    {
+      cacheKey: 'data-filter',
+      staleTime: -1,
+    },
+  );
 
   return {
     data,
@@ -343,14 +355,35 @@ export const useGetBgTheme = () => {
 };
 
 // get pin post
-export const useGetPinedPost = () => {
-  const { data } = useRequest(async () => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_PINNED_POST)
-      : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
-  });
+export const useGetPinedPost = (options = {}) => {
+  const { data, loading } = useRequest(
+    async () => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_PINNED_POST)
+        : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
+    },
+    {
+      ...options,
+      staleTime: -1,
+      cacheKey: 'data-pin-post',
+    },
+  );
   return {
     pinedPost: data?.data,
+    loading,
   };
+};
+
+export const fetchPinedPostFromServer = async () => {
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}/${API_PATH.PUBLIC_PINNED_POST}`).then((data: any) =>
+      data.json(),
+    );
+  } catch {
+    return {
+      data: [],
+    };
+  }
 };

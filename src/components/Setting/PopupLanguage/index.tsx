@@ -2,8 +2,8 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
 
@@ -54,7 +54,7 @@ const PopupLanguage = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
           <Text type='body-24-bold'>Language</Text>
           <Text type='body-14-regular' color='primary-5'>
@@ -98,7 +98,7 @@ const PopupLanguage = (props: IProps) => {
             );
           })}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };
