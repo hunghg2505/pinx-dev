@@ -1,0 +1,10 @@
+.sliderTheme{
+  :global {
+    .slick-arrow{
+      display: block !important;
+      &.slick-prev{
+        left: 0;
+      }
+    }
+  }
+}
