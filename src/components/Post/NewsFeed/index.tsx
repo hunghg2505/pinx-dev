@@ -12,9 +12,10 @@ interface IProps {
   id: string;
   refresh: () => void;
   onHidePost?: (id: string) => void;
+  pinned?: boolean;
 }
 const NewsFeed = (props: IProps) => {
-  const { data, refresh, id, onHidePost } = props;
+  const { data, refresh, id, onHidePost, pinned = false } = props;
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
@@ -54,6 +55,7 @@ const NewsFeed = (props: IProps) => {
           onRefreshPostDetail={refresh}
           postId={id}
           onHidePostSuccess={onHidePost}
+          pinned={pinned}
         />
         <div className='desktop:ml-[64px] desktop:mr-[88px]'>
           {countComment > 0 && (

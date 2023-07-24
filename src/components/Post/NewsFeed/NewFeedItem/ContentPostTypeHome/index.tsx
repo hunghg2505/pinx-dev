@@ -99,12 +99,6 @@ const ContentPostTypeHome = (props: IProps) => {
                 controls={true}
                 height={300}
                 width={'100%'}
-                playsinline={true}
-                config={{
-                  youtube: {
-                    playerVars: { playsinline: 1 },
-                  },
-                }}
               />
             </div>
           )}

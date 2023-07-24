@@ -60,6 +60,8 @@ const ItemInfluence = (props: IProps) => {
       });
     }
   };
+  const isFeatureProfile = data?.isFeatureProfile;
+  const isKol = data?.isKol;
   return (
     <div className='w-[161px] cursor-pointer mobile-max:w-full tablet:w-[161px]'>
       <div className='relative h-[252px] w-[100%] rounded-[15px]'>
@@ -76,15 +78,26 @@ const ItemInfluence = (props: IProps) => {
               >
                 {data?.displayName}
               </Text>
-
-              <img
-                src='/static/icons/iconKol.svg'
-                alt=''
-                width={16}
-                height={16}
-                sizes='100vw'
-                className='ml-[2px] w-[16px]'
-              />
+              {isFeatureProfile && (
+                <img
+                  src='/static/icons/iconKol.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[20px] w-[20px]'
+                />
+              )}
+              {isKol && (
+                <img
+                  src='/static/icons/iconTick.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[20px] w-[20px]'
+                />
+              )}
             </div>
 
             <Text type='body-14-regular' color='cbwhite' className='mt-[6px]'>

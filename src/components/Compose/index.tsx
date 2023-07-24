@@ -49,7 +49,7 @@ const beforeUpload = (file: RcFile) => {
   return isJpgOrPng;
 };
 interface IProps {
-  hidePopup: () => void;
+  hidePopup?: () => void;
   refresh?: () => void;
 }
 interface IData {
@@ -334,7 +334,7 @@ const Compose = (props: IProps) => {
   };
 
   return (
-    <>
+    <div className='h-full mobile-max:flex mobile-max:flex-col mobile-max:justify-between'>
       <div className='relative h-[208px]'>
         <EditorContent
           editor={editor}
@@ -352,132 +352,134 @@ const Compose = (props: IProps) => {
           />
         )}
       </div>
-      {useUploadImage?.loading ? (
-        <Loading />
-      ) : (
-        image && (
+      <div>
+        {useUploadImage?.loading ? (
+          <Loading />
+        ) : (
+          image && (
+            <div className='flex items-center justify-between'>
+              <img src={image} alt='' className='h-[90px] w-[58px]' />
+              <img
+                src='/static/icons/explore/iconClose.svg'
+                alt=''
+                className='h-[20px] w-[20px] cursor-pointer'
+                onClick={() => setImage('')}
+              />
+            </div>
+          )
+        )}
+        {metaData && Object.keys(metaData).length > 0 && (
           <div className='flex items-center justify-between'>
-            <img src={image} alt='' className='h-[90px] w-[58px]' />
+            <div className='flex'>
+              <img
+                src={metaData['og:image']}
+                alt=''
+                className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
+              />
+              <Text className='w-[calc(100%_-_120px)] break-all text-[10px]' color='cbblack'>
+                {metaData['og:url']}
+              </Text>
+            </div>
             <img
               src='/static/icons/explore/iconClose.svg'
               alt=''
               className='h-[20px] w-[20px] cursor-pointer'
-              onClick={() => setImage('')}
+              onClick={() => setMetaData({})}
             />
-          </div>
-        )
-      )}
-      {Object.keys(metaData).length > 0 && (
-        <div className='flex items-center justify-between'>
-          <div className='flex'>
-            <img
-              src={metaData['og:image']}
-              alt=''
-              className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
-            />
-            <Text className='w-[calc(100%_-_120px)] break-all text-[10px]' color='cbblack'>
-              {metaData['og:url']}
-            </Text>
-          </div>
-          <img
-            src='/static/icons/explore/iconClose.svg'
-            alt=''
-            className='h-[20px] w-[20px] cursor-pointer'
-            onClick={() => setMetaData({})}
-          />
-        </div>
-      )}
-
-      <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
-        <div
-          className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
-          onClick={showMore}
-        >
-          <img src='/static/icons/explore/iconCompose.svg' alt='' className='h-[22px] w-[22px]' />
-        </div>
-        {isShowMore && (
-          <div
-            className={classNames(
-              'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
-              styles.listItem,
-            )}
-          >
-            <div
-              className={classNames(
-                'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
-              )}
-              onClick={() => onSelectTheme('default')}
-            ></div>
-            {bgTheme?.map((item: any, index: number) => {
-              return (
-                <div
-                  className={classNames(
-                    'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                    { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
-                  )}
-                  key={index}
-                  onClick={() => onSelectTheme(item.code)}
-                >
-                  <img
-                    src={item.bgImage}
-                    alt=''
-                    className='absolute left-0 top-0 h-full w-full rounded-[10px]'
-                  />
-                </div>
-              );
-            })}
           </div>
         )}
-      </div>
-      <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <div className='flex justify-between'>
-        <div className='flex gap-x-[16px]'>
-          {!themeActive && (
-            <Upload
-              accept='.png, .jpeg, .jpg'
-              onStart={onStart}
-              beforeUpload={beforeUpload}
-              className=''
+
+        <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
+          <div
+            className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
+            onClick={showMore}
+          >
+            <img src='/static/icons/explore/iconCompose.svg' alt='' className='h-[22px] w-[22px]' />
+          </div>
+          {isShowMore && (
+            <div
+              className={classNames(
+                'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
+                styles.listItem,
+              )}
             >
-              <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-                <img src='/static/icons/explore/iconImage.svg' alt='' className='w-[20px]' />
-              </div>
-            </Upload>
-          )}
-          <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
-            onClick={onAddPeople}
-          >
-            <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
-          </div>
-
-          <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
-            onClick={onAddStock}
-          >
-            <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
-          </div>
-
-          {!themeActive && (
-            <ModalLink getDataOG={getDataOG}>
-              <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-                <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
-              </div>
-            </ModalLink>
+              <div
+                className={classNames(
+                  'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                  { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
+                )}
+                onClick={() => onSelectTheme('default')}
+              ></div>
+              {bgTheme?.map((item: any, index: number) => {
+                return (
+                  <div
+                    className={classNames(
+                      'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                      { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
+                    )}
+                    key={index}
+                    onClick={() => onSelectTheme(item.code)}
+                  >
+                    <img
+                      src={item.bgImage}
+                      alt=''
+                      className='absolute left-0 top-0 h-full w-full rounded-[10px]'
+                    />
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
-        <div
-          className='flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
-          onClick={addPost}
-        >
-          {useAddPost?.loading ? <Loading /> : <IconSend />}
-          <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
-            Post
-          </Text>
+        <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+        <div className='flex justify-between'>
+          <div className='flex gap-x-[16px]'>
+            {!themeActive && (
+              <Upload
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+                className=''
+              >
+                <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+                  <img src='/static/icons/explore/iconImage.svg' alt='' className='w-[20px]' />
+                </div>
+              </Upload>
+            )}
+            <div
+              className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+              onClick={onAddPeople}
+            >
+              <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
+            </div>
+
+            <div
+              className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+              onClick={onAddStock}
+            >
+              <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
+            </div>
+
+            {!themeActive && (
+              <ModalLink getDataOG={getDataOG}>
+                <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+                  <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
+                </div>
+              </ModalLink>
+            )}
+          </div>
+          <div
+            className='flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
+            onClick={addPost}
+          >
+            {useAddPost?.loading ? <Loading /> : <IconSend />}
+            <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
+              Post
+            </Text>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Compose;
