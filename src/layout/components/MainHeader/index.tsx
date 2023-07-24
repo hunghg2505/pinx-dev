@@ -74,6 +74,11 @@ const MainHeader = () => {
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
   const menuMobileRef = useRef<any>(null);
+
+  useEffect(() => {
+    setIsShowNavigate(false);
+  }, [router?.pathname]);
+
   const goToMyProfile = () => {
     menuMobileRef.current.open();
   };
@@ -374,7 +379,7 @@ const MainHeader = () => {
 
         <div
           className={classNames(
-            'fixed left-0 top-[65px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] mobile:px-[10px] tablet-max:top-[130px] desktop:px-0',
+            'fixed left-0 top-[84px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] mobile:px-[10px] tablet-max:top-[130px] desktop:px-0',
             {
               'translate-x-[0px]': isShowNavigate,
             },

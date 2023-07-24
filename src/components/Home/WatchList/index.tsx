@@ -78,7 +78,7 @@ const WatchList = () => {
   };
   return (
     <>
-      <div className='mt-[22px] h-[179px] max-w-[680px] justify-center overflow-hidden mobile:block  tablet:hidden '>
+      <div className='mt-[22px] h-[179px] max-w-[700px] justify-center overflow-hidden mobile:block  tablet:hidden '>
         {dataStock?.length > 0 ? (
           <div>
             <Slider

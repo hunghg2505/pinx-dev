@@ -22,7 +22,7 @@ interface IProps {
 const PeopleList = (props: IProps) => {
   const { data, refresh } = props;
   return (
-    <div className='max-w-[680px]  overflow-hidden '>
+    <div className='max-w-[700px]  overflow-hidden '>
       <Slider {...settings} className=''>
         {data?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
           return (
