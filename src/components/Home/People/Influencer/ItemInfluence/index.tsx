@@ -1,4 +1,5 @@
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
@@ -9,6 +10,8 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+
+import styles from './index.module.scss';
 
 interface IProps {
   data: IKOL;
@@ -95,12 +98,16 @@ const ItemInfluence = (props: IProps) => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='h-[20px] w-[20px]'
+                  className='ml-[8px] h-[16px] w-[16px]'
                 />
               )}
             </div>
 
-            <Text type='body-14-regular' color='cbwhite' className='mt-[6px]'>
+            <Text
+              type='body-14-regular'
+              color='cbwhite'
+              className={classNames('mt-[6px]', styles.limitLine2)}
+            >
               {data.position}
             </Text>
           </div>

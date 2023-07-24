@@ -308,7 +308,7 @@ const MainHeader = () => {
                   alt=''
                   width='0'
                   height='0'
-                  className='mr-[16px] w-[35px] '
+                  className='mr-[16px] h-[35px] w-[35px] object-contain tablet:ml-[8px] tablet:h-[52px] tablet:w-[52px]'
                 />
               </Link>
 
@@ -345,7 +345,7 @@ const MainHeader = () => {
                 </Form>
               </div>
 
-              <div className='mr-[12px] flex cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:h-[36px] mobile:w-[36px] tablet:h-[52px] tablet:w-[52px]'>
+              <div className='mr-[12px] flex hidden cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:h-[36px] mobile:w-[36px] tablet:h-[52px] tablet:w-[52px]'>
                 <img
                   src='/static/icons/iconBell.svg'
                   alt='Icon notification'

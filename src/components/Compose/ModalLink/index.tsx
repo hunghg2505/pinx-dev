@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import request from 'umi-request';
 
 import FormItem from '@components/UI/FormItem';
 import Text from '@components/UI/Text';
+import { isValidUrl } from '@utils/common';
 
 interface IProps {
   children: any;
@@ -14,6 +16,7 @@ interface IProps {
 }
 const ModalLink = (props: IProps) => {
   const { children, closeIcon, getDataOG } = props;
+  const { t } = useTranslation('common');
   const [visible, setVisible] = React.useState<boolean>(false);
   const onVisible = async () => {
     setVisible(!visible);
@@ -76,8 +79,24 @@ const ModalLink = (props: IProps) => {
             Add link to post
           </Text>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-          <Form form={form} className='h-[121px]'>
-            <FormItem name='search' className='flex  h-full flex-col items-start justify-start'>
+          <Form form={form} className='h-[121px]' onFinish={onSubmit}>
+            <FormItem
+              name='search'
+              className='flex  h-full flex-col items-start justify-start'
+              rules={[
+                () => ({
+                  validator(_: any, value: any) {
+                    if (value && isValidUrl(value)) {
+                      return Promise.resolve();
+                    }
+                    // if (!value || getFieldValue('password') === value) {
+                    //   return Promise.resolve();
+                    // }
+                    return Promise.reject(new Error(t('not_link')));
+                  },
+                }),
+              ]}
+            >
               <textarea placeholder='Input link...' className=' h-full w-full outline-none' />
             </FormItem>
           </Form>
@@ -95,7 +114,7 @@ const ModalLink = (props: IProps) => {
               type='body-16-semibold'
               color='primary-2'
               className='w-2/4 cursor-pointer'
-              onClick={onSubmit}
+              onClick={() => form.submit()}
             >
               Save
             </Text>

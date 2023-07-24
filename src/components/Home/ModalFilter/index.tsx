@@ -33,6 +33,11 @@ const ModalFilter = (props: IProps) => {
   const { data } = useGetListFillter();
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    if (type) {
+      setFilterType(type);
+    }
+  }, [type]);
   const onVisible = () => {
     setVisible(!visible);
   };
