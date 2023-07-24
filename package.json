@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cp env.development .env && next dev",
+    "dev": "copy env.development .env && next dev",
     "standalone": "PORT=80 node server.js",
     "build": "next build",
     "start": "env-cmd -f env.development next start",
@@ -34,7 +34,6 @@
     "rc-upload": "^4.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-google-recaptcha-v3": "^1.10.1",
     "react-hot-toast": "^2.4.1",
     "react-intersection-observer": "^9.5.2",
     "react-player": "^2.12.0",

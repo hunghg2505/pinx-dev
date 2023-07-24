@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useAuth } from '@store/auth/useAuth';
-import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
+import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';

@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { extend } from 'umi-request';
 
 import { deleteAuthCookies, getAccessToken } from '@store/auth';
+import { getLocaleCookie } from '@store/locale';
 import { ENV } from 'src/utils/env';
 
 const REQ_TIMEOUT = 25 * 1000;
@@ -17,12 +18,6 @@ export const PREFIX_API_PIST = ENV.URL_API_PIST;
 export const PREFIX_API_MARKET = ENV.URL_API_MARKET;
 export const PREFIX_API_COMMUNITY = ENV.URL_API_COMMUNITY;
 export const PREFIX_API_UPLOADPHOTO = ENV.URL_UPLOADPHOTO;
-
-let locale = '';
-if (typeof window !== 'undefined') {
-  // Perform localStorage action
-  locale = localStorage.getItem('locale')?.replaceAll('"', '') || '';
-}
 
 const redirectlogin = (error: any) => {
   if (getAccessToken() && (error?.response?.status === 401 || error?.response?.status === 403)) {
@@ -41,7 +36,7 @@ const requestPist = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': locale || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -53,7 +48,7 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': locale || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -64,7 +59,7 @@ const requestUploadPhoto = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': locale || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -75,7 +70,7 @@ const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
   headers: {
-    'Accept-Language': locale || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'en',
   },
   errorHandler: (error) => {
     redirectlogin(error);

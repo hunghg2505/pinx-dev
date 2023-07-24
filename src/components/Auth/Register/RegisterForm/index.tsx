@@ -1,10 +1,10 @@
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable indent */
-import { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import Form from 'rc-field-form';
-import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
@@ -18,35 +18,62 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
 
+declare const grecaptcha: any;
+
+export interface IPropsWithReCapcha {
+  onGetReCapcha: (recapchaToken?: string) => void;
+}
+
 interface IProps {
   isModal?: boolean;
 }
+
+const onGetReCapcha = async () => {
+  return new Promise((resolve, reject) => {
+    if (!grecaptcha?.ready) {
+      reject(undefined);
+    }
+
+    grecaptcha.ready(async function () {
+      const token = await grecaptcha.execute(ENV.RECAPTHCHA_SITE_KEY, {
+        action: 'submit',
+      });
+      if (token) {
+        resolve(token);
+      }
+      reject(undefined);
+    });
+  });
+};
 
 const Register = (props: IProps) => {
   const { isModal } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
-  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const { onRegister } = useAuth();
   const { userRegisterInfo, setUserRegisterInfo } = useUserRegisterInfo();
 
+
+
+
   const onSubmit = (values: any) => {
-    const registerParams = {
-      phoneNumber: values?.phoneNumber,
-      password: values?.password,
-      email: values?.email,
-      recaptcha: recaptchaToken,
-    };
-    requestRegister.run(registerParams);
-    setUserRegisterInfo(registerParams);
-    onRefreshReCaptcha();
+    onGetReCapcha().then((recaptchaToken: any) => {
+      const registerParams = {
+        phoneNumber: values?.phoneNumber,
+        password: values?.password,
+        email: values?.email,
+        recaptcha: recaptchaToken,
+      };
+      requestRegister.run(registerParams);
+      setUserRegisterInfo(registerParams);
+    });
   };
 
   const requestRegister = useRegister({
@@ -95,14 +122,6 @@ const Register = (props: IProps) => {
     },
   });
 
-  const onVerify = useCallback((token: any) => {
-    setRecaptchaToken(token);
-  }, []);
-
-  const onRefreshReCaptcha = () => {
-    /* do something like submit a form and then refresh recaptcha */
-    setRefreshReCaptcha((r: any) => !r);
-  };
 
   useEffect(() => {
     deleteRegisterCookies();
@@ -110,7 +129,6 @@ const Register = (props: IProps) => {
 
   return (
     <>
-      <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
       <Form
         className='mt-10 space-y-6 laptop:w-full laptop:max-w-[479px]'
         form={form}

@@ -5,7 +5,7 @@ interface InitUserRegisterInfo {
   password?: string;
   email?: string;
   recaptcha?: string;
-  token?: string;
+  token?: any;
 }
 
 const initialUserRegisterInfo: InitUserRegisterInfo = {

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
-import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
+import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 
 interface IProps {
   visible: boolean;

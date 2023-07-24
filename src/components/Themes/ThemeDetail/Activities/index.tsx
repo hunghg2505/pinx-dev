@@ -8,7 +8,12 @@ import Text from '@components/UI/Text';
 
 import ItemActivities from './ItemActivities';
 
-const Activities = ({ data }: { data: IThemeDetail }) => {
+interface IProps {
+  data: IThemeDetail;
+}
+
+const Activities = (props: IProps, ref: any) => {
+  const { data } = props;
   const { t } = useTranslation('theme');
   const { activities, run, refresh } = useGetListActivitiesTheme(data?.code);
   React.useEffect(() => {
@@ -16,6 +21,15 @@ const Activities = ({ data }: { data: IThemeDetail }) => {
       run();
     }
   }, [data?.code]);
+
+  React.useImperativeHandle(ref, () => {
+    return {
+      onRefreshActivities: () => {
+        refresh();
+      },
+    };
+  });
+
   return (
     <>
       <Text
@@ -33,4 +47,4 @@ const Activities = ({ data }: { data: IThemeDetail }) => {
     </>
   );
 };
-export default Activities;
+export default React.forwardRef(Activities);
