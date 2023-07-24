@@ -69,7 +69,7 @@ const MenuProfile = forwardRef((_, ref) => {
         status={
           userLoginInfo.acntStat === 'ACTIVE'
             ? 'Verified'
-            : String(userLoginInfo.acntStat === 'VSD_PENDING' ? 'Pendding' : 'Unverified')
+            : String(userLoginInfo.acntStat === 'VSD_PENDING' ? 'Pending' : 'Unverified')
         }
         close={close}
       />

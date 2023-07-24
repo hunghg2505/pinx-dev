@@ -9,11 +9,17 @@ const Verify = () => {
   const { t } = useTranslation('editProfile');
   return (
     <div className='line-[18px] absolute  bottom-[-92px]  left-[96px] translate-x-[-50%] text-[14px] text-neutral_black'>
-      {profileUser?.acntStat === 'ACTIVE' ? (
+      {profileUser?.acntStat === 'ACTIVE' && (
         <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-green'>
           {t('verified')}
         </span>
-      ) : (
+      )}
+      {profileUser?.acntStat === 'VSD_PENDING' && (
+        <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-orange'>
+          {t('pending')}
+        </span>
+      )}
+      {profileUser?.acntStat === 'Unverified' && (
         <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-orange'>
           {t('unverified')}
         </span>
