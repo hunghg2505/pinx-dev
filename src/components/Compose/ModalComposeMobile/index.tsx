@@ -1,8 +1,11 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
 import Dialog from 'rc-dialog';
 
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 
 import Compose from '..';
 
@@ -14,8 +17,17 @@ interface IProps {
 const ModalComposeMobile = (props: IProps) => {
   const { children, closeIcon, refresh } = props;
   const [visible, setVisible] = React.useState<boolean>(false);
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isLogin } = useUserType();
   const onVisible = async () => {
-    setVisible(!visible);
+    if (isLogin) {
+      setVisible(!visible);
+    } else {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+    }
   };
   const renderCloseIcon = (): React.ReactNode => {
     if (closeIcon) {
