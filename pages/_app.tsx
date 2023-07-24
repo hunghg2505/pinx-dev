@@ -33,7 +33,7 @@ type AppPropsWithLayout = AppProps & {
 
 const InterFont = Inter({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['300', '400', '500', '600', '700', '900'],
   display: 'swap',
 });
 
