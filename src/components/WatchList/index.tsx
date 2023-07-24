@@ -43,12 +43,14 @@ const WatchList = () => {
   return (
     <div className='flex flex-col gap-y-[32px] desktop:gap-y-[20px] desktop:px-[24px] py-[20px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
-        <img
-          src='/static/icons/back_icon.svg'
-          alt=''
-          className='desktop:hidden w-[28px] cursor-pointer'
-          onClick={onGoBack}
-        />
+        {!isEdit && (
+          <img
+            src='/static/icons/back_icon.svg'
+            alt=''
+            className='desktop:hidden w-[28px] cursor-pointer'
+            onClick={onGoBack}
+          />
+        )}
         {isEdit ? (
           <>
             <div className='relative flex items-center'>
