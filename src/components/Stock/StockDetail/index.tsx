@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import Notification from '@components/UI/Notification';
-import NotificationShareActivity from '@components/UI/Notification/ShareActivity';
+import NotificationFollowStock from '@components/UI/Notification/FollowStock';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
@@ -37,6 +37,7 @@ import AlsoOwnItem from '../AlsoOwnItem';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
+import PopupFollowStock from '../Popup/PopupFollowStock';
 import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
 import {
@@ -122,11 +123,11 @@ const convertFinancialIndexData = (data?: IFinancialIndex) => {
 };
 
 const StockDetail = () => {
-  const [showPopupShareAct, setShowPopupShareAct] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
+  const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
@@ -164,36 +165,23 @@ const StockDetail = () => {
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
 
-  const toastRef = useRef<string>();
-
-  useEffect(() => {
-    const title = isFollowedStock
-      ? `Tell people the reason you watched for ${stockCode}?`
-      : `Tell people the reason you unwatched ${stockCode}?`;
-
-    if (showPopupShareAct) {
-      toastRef.current = toast.loading(
-        () => (
-          <NotificationShareActivity
-            onClickShare={() => {
-              toast.dismiss(toastRef.current);
-              console.log('Open popup create post');
-            }}
-            title={title}
-          />
-        ),
-        {
-          // eslint-disable-next-line unicorn/no-null
-          icon: null,
-        },
-      );
-    }
-  }, [isFollowedStock]);
-
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
       refreshMyStocks();
-      setShowPopupShareAct(true);
+
+      const title = isFollowedStock
+        ? `Tell people the reason you unwatched ${stockCode}?`
+        : `Tell people the reason you watched for ${stockCode}?`;
+
+      toast((t) => (
+        <NotificationFollowStock
+          title={title}
+          onClickShare={() => {
+            toast.dismiss(t.id);
+            setOpenPopupFollowStock(true);
+          }}
+        />
+      ));
     },
   });
 
@@ -287,6 +275,15 @@ const StockDetail = () => {
         }}
         stockCode={stockCode}
         onReviewSuccess={handleReviewSuccess}
+      />
+
+      <PopupFollowStock
+        visible={openPopupFollowStock}
+        onClose={() => {
+          setOpenPopupFollowStock(false);
+        }}
+        isFollowedStock={isFollowedStock}
+        stockCode={stockCode}
       />
 
       <div className='flex h-[44px] w-full items-center justify-between px-[16px] tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9] tablet:px-[24px]'>

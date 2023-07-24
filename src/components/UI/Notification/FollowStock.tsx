@@ -2,12 +2,12 @@ import React from 'react';
 
 import Text from '../Text';
 
-interface INotificationShareActivityProps {
+interface INotificationFollowStockProps {
   title: string;
   onClickShare: () => void;
 }
 
-const NotificationShareActivity = ({ title, onClickShare }: INotificationShareActivityProps) => {
+const NotificationFollowStock = ({ title, onClickShare }: INotificationFollowStockProps) => {
   return (
     <div className='flex w-full max-w-sm items-center'>
       <img
@@ -31,4 +31,4 @@ const NotificationShareActivity = ({ title, onClickShare }: INotificationShareAc
     </div>
   );
 };
-export default NotificationShareActivity;
+export default NotificationFollowStock;
