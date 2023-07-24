@@ -88,7 +88,7 @@ const ItemPeople = (props: IProps) => {
             sizes='100vw'
             className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
           />
-          <div className='relative'>
+          <div className='relative flex items-center'>
             <Text
               type='body-12-semibold'
               color='neutral-3'
@@ -113,7 +113,7 @@ const ItemPeople = (props: IProps) => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='h-[20px] w-[20px]'
+                className='h-[16px] w-[16px]'
               />
             )}
           </div>
