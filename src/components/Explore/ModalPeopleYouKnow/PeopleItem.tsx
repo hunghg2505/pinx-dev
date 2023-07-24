@@ -14,6 +14,7 @@ import {
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
@@ -27,6 +28,8 @@ const PeopleItem = (props: Iprops) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
+  const { isMobile } = useResponsive();
+  const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   React.useEffect(() => {
     setIsFollow(data.isFollowed);
   }, [data?.isFollowed]);
@@ -77,7 +80,15 @@ const PeopleItem = (props: Iprops) => {
   const name =
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
   return (
-    <div className='flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]'>
+    <div
+      className={classNames(
+        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
+        {
+          '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
+            !isMobile && isSearchPage,
+        },
+      )}
+    >
       <div
         className='flex cursor-pointer items-center'
         onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}

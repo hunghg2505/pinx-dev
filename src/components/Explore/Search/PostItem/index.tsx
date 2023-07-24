@@ -14,6 +14,7 @@ import { IPost, TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
+import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
@@ -49,6 +50,7 @@ const PostItem = (props: IProps) => {
   const refHover = React.useRef(null);
   const isHovering = useHover(refHover);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isMobile } = useResponsive();
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
@@ -56,6 +58,7 @@ const PostItem = (props: IProps) => {
   // const isFollow = postDetail?.isFollowing;
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const isKol = postDetail?.post?.customerInfo?.isKol;
+  const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   const [excludeElements, setExcludeElements] = React.useState<(Element | null)[]>([]);
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
@@ -249,7 +252,15 @@ const PostItem = (props: IProps) => {
   };
   return (
     <>
-      <div className='rounded-[12px] bg-[#FFF] p-[16px] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+      <div
+        className={classNames(
+          'relative rounded-[12px] bg-[#FFF] px-[16px] py-[16px] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]',
+          {
+            'py-[20px] !shadow-none after:absolute after:-left-[24px] after:bottom-0 after:h-[1px] after:w-[calc(100%+48px)] after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
+              !isMobile && isSearchPage,
+          },
+        )}
+      >
         <div className={classNames('newsfeed')}>
           <div className='flex flex-row justify-between'>
             <div className='flex cursor-pointer flex-row items-center'>
