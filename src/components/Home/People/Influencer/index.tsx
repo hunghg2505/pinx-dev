@@ -51,7 +51,7 @@ const Influencer = () => {
       </div>
       <div className='overflow-hidden'>
         <Slider {...settings} variableWidth ref={refSlide}>
-          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true).map(
+          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
             (item: IKOL, index: number) => {
               return (
                 <div key={index} className='mr-[16px]'>

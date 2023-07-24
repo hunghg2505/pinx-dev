@@ -36,7 +36,7 @@ export const API_PATH = {
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
   PRIVATE_ADD_POST: '/private/post/add',
   PRIVATE_PINNED_POST: '/private/mapping/pinned-posts',
-
+  PUBLIC_PINNED_POST: '/public/mapping/pinned-posts',
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
   PRIVATE_DETAIL_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/details`,
