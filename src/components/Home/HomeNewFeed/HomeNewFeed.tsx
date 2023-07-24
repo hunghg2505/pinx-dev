@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo } from 'react';
 
 import { useAtom } from 'jotai';
@@ -5,6 +6,8 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
+import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import UserPosting from '@components/Home/UserPosting/UserPosting';
 import { IPost } from '@components/Post/service';
 import SkeletonLoading from '@components/UI/Skeleton';
@@ -17,25 +20,48 @@ import { ROUTE_PATH } from '@utils/common';
 
 import ListTheme from '../ListTheme';
 import Market from '../Market';
-import ModalFilter, { FILTER_TYPE } from '../ModalFilter';
+import { FILTER_TYPE } from '../ModalFilter';
 import {
   requestJoinIndex,
   requestLeaveIndex,
   socket,
   useGetListNewFeed,
-  useGetPinedPost,
   useGetWatchList,
   useSuggestPeople,
 } from '../service';
 import useLoadMore from '../useLoadMore';
 
-const Influencer = dynamic(() => import('../People/Influencer'));
-const PeopleList = dynamic(() => import('../People/PeopleList'));
-const Trending = dynamic(() => import('../Trending'));
 const WatchList = dynamic(() => import('../WatchList'));
-const NewsFeed = dynamic(() => import('../../Post/NewsFeed'));
 
-const HomeNewFeed = () => {
+const Filter = dynamic(() => import('@components/Home/HomeNewFeed/ModalFilter'), {
+  ssr: false,
+  loading: () => <FilterFake />,
+});
+// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
+//   ssr: false,
+//   loading: () => (
+//     <>
+//       <>
+//         <SkeletonLoading />
+//         <SkeletonLoading />
+//       </>
+//     </>
+//   ),
+// });
+const Trending = dynamic(() => import('../Trending'), {
+  ssr: false,
+});
+const Influencer = dynamic(() => import('../People/Influencer'), {
+  ssr: false,
+});
+const PeopleList = dynamic(() => import('../People/PeopleList'), {
+  ssr: false,
+});
+const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
+  ssr: false,
+});
+
+const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const router = useRouter();
   const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -51,7 +77,6 @@ const HomeNewFeed = () => {
 
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
-  const { pinedPost } = useGetPinedPost();
   const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
       setLastNewFeed(res?.data?.last);
@@ -95,6 +120,7 @@ const HomeNewFeed = () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
     run(value);
   };
+
   const onChangeTab = (key: string) => {
     setSelectTab(key);
     if (key === '1') {
@@ -104,6 +130,7 @@ const HomeNewFeed = () => {
       requestJoinIndex();
     }
   };
+
   const onHidePost = (id: string) => {
     const newData = [...newFeed];
     const index = newData?.findIndex((item) => item.id === id);
@@ -112,13 +139,16 @@ const HomeNewFeed = () => {
     }
     setNewFeed(newData);
   };
+
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
+
   useEffect(() => {
     run(filterType || FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
       getSuggestFriend();
     }
   }, []);
+
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
@@ -177,50 +207,14 @@ const HomeNewFeed = () => {
 
           <UserPosting addPostSuccess={addPostSuccess} />
 
-          <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
-            <Text
-              type='body-16-bold'
-              color='neutral-2'
-              className='mr-[12px] mobile:text-[16px] desktop:!text-[24px]'
-            >
-              News feed
-            </Text>
-            <ModalFilter run={onFilter} type={filterType} />
-          </div>
+          <Filter filterType={filterType as string} onFilter={onFilter as any} />
 
           <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
-            <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
-
-            {pinedPost && (
-              <>
-                {pinedPost?.map((item: IPost, index: number) => {
-                  return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                      pinned={true}
-                    />
-                  );
-                })}
-              </>
-            )}
-
-            <div className='mobile:px-[16px] desktop:px-[0]'>
-              {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
-                return (
-                  <NewsFeed
-                    key={index}
-                    data={item}
-                    id={item.id}
-                    refresh={refresh}
-                    onHidePost={onHidePost}
-                  />
-                );
-              })}
-            </div>
+            <PinPost
+              refresh={refresh}
+              onHidePost={onHidePost}
+              pinPostDataInitial={pinPostDataInitial}
+            />
 
             <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
               <div className='pb-[13px] pt-[10px] '>
@@ -282,10 +276,10 @@ const HomeNewFeed = () => {
             )}
 
             <div className='mobile:px-[16px] desktop:px-[0]'>
-              {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
+              {newFeed?.slice(1, 4)?.map((item: IPost) => {
                 return (
                   <NewsFeed
-                    key={index}
+                    key={`newFeed-${item.id}`}
                     data={item}
                     id={item.id}
                     refresh={refresh}
@@ -294,9 +288,7 @@ const HomeNewFeed = () => {
                 );
               })}
             </div>
-
             <div className='mb-[8px] block h-[2px] bg-[#EEF5F9]'></div>
-
             <div className='bg-[#ffffff] pl-[16px]'>
               <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
                 Economy in the themes
@@ -305,10 +297,10 @@ const HomeNewFeed = () => {
             </div>
 
             <div className='mobile:px-[16px] desktop:px-[0]'>
-              {newFeed?.slice(5)?.map((item: IPost, index: number) => {
+              {newFeed?.slice(5)?.map((item: IPost) => {
                 return (
                   <NewsFeed
-                    key={index}
+                    key={`newFeed-${item.id}`}
                     data={item}
                     id={item.id}
                     refresh={refresh}

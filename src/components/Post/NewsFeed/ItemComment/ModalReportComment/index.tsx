@@ -3,12 +3,12 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -123,7 +123,7 @@ const ModalReportComment = (props: IProps) => {
       >
         {children}
       </Text>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
+      <Modal visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
           Report
         </Text>
@@ -191,7 +191,7 @@ const ModalReportComment = (props: IProps) => {
             </button>
           </div>
         </Form>
-      </Dialog>
+      </Modal>
     </>
   );
 };

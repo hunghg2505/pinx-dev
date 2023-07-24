@@ -4,12 +4,4 @@
       width: 5px;
     }
   }
-
-  :global {
-    .rc-dialog-content {
-      @media (min-width: 768px) {
-        width: 100%;
-      }
-    }
-  }
 }

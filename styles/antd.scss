@@ -97,16 +97,7 @@
     }
   }
 }
-.rc-dialog {
-  position: fixed !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: auto !important;
-  @media (max-width: 480px) {
-    width: 100% !important;
-  }
-}
+
 .peopleYouKnow {
   width: 431px !important;
   @media (max-width: 480px) {
@@ -207,10 +198,12 @@
 
   > li:nth-child(1) {
     &:hover {
-      svg rect {
+      svg rect:nth-child(1) {
         stroke: var(--primary-2) !important;
       }
-      svg rect:nth-child(3) {
+      svg rect:nth-child(2),
+      svg rect:nth-child(3),
+      svg rect:nth-child(4) {
         fill: var(--primary-2) !important;
       }
     }

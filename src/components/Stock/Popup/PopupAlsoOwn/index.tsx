@@ -1,8 +1,7 @@
 import React from 'react';
 
-import Dialog from 'rc-dialog';
-
 import { ISubsidiaries } from '@components/Stock/type';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -15,18 +14,7 @@ interface IPopupAlsoOwnProps {
 
 const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
   return (
-    <Dialog
-      visible={visible}
-      onClose={onClose}
-      closeIcon={
-        <img
-          src='/static/icons/iconClose.svg'
-          alt='Close icon'
-          className='h-[21px] w-[21px] object-contain'
-        />
-      }
-      className={styles.popup}
-    >
+    <Modal visible={visible} onClose={onClose} className={styles.popup}>
       <div className='border-b border-solid border-[#EBEBEB] pb-[12px] pl-[20px]'>
         <Text type='body-20-semibold' className='text-[#0D0D0D]'>
           Also Own
@@ -76,7 +64,7 @@ const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
           {data?.mainBusiness}
         </Text>
       </div>
-    </Dialog>
+    </Modal>
   );
 };
 

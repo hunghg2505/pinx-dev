@@ -81,13 +81,13 @@ const FooterSignUp = () => {
   return (
     <footer
       ref={footerRef}
-      className='fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center'
+      className='fixed bottom-0 left-0 right-0 z-10'
       style={{ height: `${footerHeight}px` }}
     >
       {/* mobile */}
       <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className='mobile:-w-[375px] flex h-full items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[8px] transition mobile-max:w-full tablet:hidden desktop:hidden'
+        className='flex h-full items-center border-t border-solid border-t-[var(--neutral-6)] bg-white px-[8px] transition tablet:hidden desktop:hidden'
       >
         <button
           onClick={redirectToSignUp}
@@ -119,7 +119,7 @@ const FooterSignUp = () => {
       {/* > tablet */}
       <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className='flex h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white px-[16px] transition mobile:hidden tablet:flex desktop:flex'
+        className=' h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white transition mobile:hidden tablet:flex '
       >
         <Text
           type='body-20-medium'

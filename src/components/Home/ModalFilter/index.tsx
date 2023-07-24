@@ -2,8 +2,8 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -27,7 +27,7 @@ export enum FILTER_TYPE {
   NEWS = 'NEWS',
 }
 const ModalFilter = (props: IProps) => {
-  const { closeIcon, run, type } = props;
+  const { run, type } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
   const { data } = useGetListFillter();
@@ -41,21 +41,7 @@ const ModalFilter = (props: IProps) => {
   const onVisible = () => {
     setVisible(!visible);
   };
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='w-[13px]'
-      />
-    );
-  };
+
   const onFilter = (value: string) => {
     if (!isLogin && [FILTER_TYPE.POST].includes(value)) {
       setPopupStatus({
@@ -73,7 +59,7 @@ const ModalFilter = (props: IProps) => {
     if (text) {
       return text.title;
     }
-    // return text.title;
+    return 'Most recent';
   };
   return (
     <>
@@ -92,7 +78,8 @@ const ModalFilter = (props: IProps) => {
           className='w-[10px]'
         />
       </span>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+
+      <Modal visible={visible} onClose={onVisible}>
         <div className='absolute left-[20px] top-[20px] flex flex-row items-center'>
           <img
             src='/static/icons/iconFilter.svg'
@@ -150,7 +137,7 @@ const ModalFilter = (props: IProps) => {
               );
             })}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

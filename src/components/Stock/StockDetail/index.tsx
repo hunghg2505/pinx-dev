@@ -266,7 +266,7 @@ const StockDetail = () => {
   };
 
   return (
-    <div>
+    <div className='rounded-[8px] bg-[#fff] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {

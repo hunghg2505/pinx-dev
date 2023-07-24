@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -43,9 +43,6 @@ const PopupSubsribeTheme = (props: IProps) => {
       isUnubsribeTheme ? 'unsubscribed' : 'subscribed'
     } to ${popupThemeData.name}`,
   };
-  const renderCloseIcon = (): React.ReactNode => {
-    return <img src='/static/icons/close_icon.svg' alt='' />;
-  };
 
   const handleClose = () => {
     setPopupStatus(initialPopupStatus);
@@ -64,7 +61,7 @@ const PopupSubsribeTheme = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={handleClose}>
         <img
           src='/static/icons/speaker.svg'
           alt='Icon speaker'
@@ -118,7 +115,7 @@ const PopupSubsribeTheme = (props: IProps) => {
             Create post
           </MainButton>
         </Form>
-      </Dialog>
+      </Modal>
     </>
   );
 };

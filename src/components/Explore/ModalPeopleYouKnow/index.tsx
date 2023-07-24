@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { useInfiniteScroll } from 'ahooks';
-import Dialog from 'rc-dialog';
 
 import { ISuggestionPeople } from '@components/Home/service';
 import { useSuggestPeopleTheme } from '@components/Themes/service';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -52,7 +52,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
@@ -75,7 +75,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
             })}
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };
