@@ -113,9 +113,7 @@ const PostDetail = () => {
       );
     }
   };
-  // if (!postDetail) {
-  //   return <></>;
-  // }
+
   const onCloseModal = () => {
     setPopupStatus(initialPopupStatus);
   };
@@ -128,13 +126,7 @@ const PostDetail = () => {
     }
     initUserProfile();
   }, [userType, isReadTerms]);
-  // if (loading) {
-  //   return (
-  //     <>
-  //       <SkeletonLoading />
-  //     </>
-  //   );
-  // }
+
   return (
     <>
       {popupStatus.popupAccessLinmit && (
