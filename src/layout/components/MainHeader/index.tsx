@@ -300,7 +300,7 @@ const MainHeader = () => {
           </div>
         )}
         {!isHideHeaderLoginOnMobile && (
-          <div className='mx-auto flex h-[100%] max-w-[1366px] flex-row items-center justify-between p-[16px] desktop:px-[16px] desktop:py-[16px]'>
+          <div className='mx-auto flex h-[100%] max-w-[1355px] flex-row items-center justify-between p-[16px] desktop:px-[0] desktop:py-[16px]'>
             <div className='flex flex-row items-center'>
               <Link href={ROUTE_PATH.HOME}>
                 <img
@@ -308,7 +308,7 @@ const MainHeader = () => {
                   alt=''
                   width='0'
                   height='0'
-                  className='mr-[16px] w-[35px] tablet:ml-[24px]'
+                  className='mr-[16px] w-[35px] '
                 />
               </Link>
 
@@ -361,7 +361,7 @@ const MainHeader = () => {
 
         <div
           className={classNames(
-            'fixed left-0 top-[65px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
+            'fixed left-0 top-[65px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] mobile:px-[10px] tablet-max:top-[130px] desktop:px-0',
             {
               'translate-x-[0px]': isShowNavigate,
             },

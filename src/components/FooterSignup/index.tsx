@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 const SCREEN_MOBILE_WIDTH = 768;
@@ -11,6 +12,8 @@ const FooterSignUp = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
+  const auth = useAuth();
+  const [isLogin, setIsLogin] = useState(true);
 
   const footerRef = useRef(null);
 
@@ -52,6 +55,10 @@ const FooterSignUp = () => {
     };
   }, [footerHeight]);
 
+  useEffect(() => {
+    setIsLogin(auth.isLogin);
+  }, [auth.isLogin]);
+
   const redirectToSignUp = () => {
     router.push({
       pathname: ROUTE_PATH.LOGIN,
@@ -66,6 +73,10 @@ const FooterSignUp = () => {
       pathname: ROUTE_PATH.LOGIN,
     });
   };
+
+  if (isLogin) {
+    return <></>;
+  }
 
   return (
     <footer

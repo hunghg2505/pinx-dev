@@ -136,58 +136,56 @@ const SideBar = () => {
 
   return (
     <>
-      <div className='px-[10px]'>
-        <Menu items={items} />
-        <div className='pt-[25px] [border-top:1px_solid_#ECECEC] mobile:pl-[10px] tablet:pl-0'>
-          <Text type='body-12-regular' className='text-[#78909C]'>
-            Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
-          </Text>
-          <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
-            GPKD: <span className='text-[#474D57]'>0101294902</span>
-            <span className='block'>16:14 04/07/2023</span>
-          </Text>
-          <div className='mt-[20px] flex gap-x-[10px]'>
-            <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
-              <img
-                src='/static/social/facebook.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[32px] w-[32px]'
-              />
-            </CustomLink>
-            <CustomLink href='https://zalo.me/895810815009263150'>
-              <img
-                src='/static/social/zalo.png'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[32px] w-[32px]'
-              />
-            </CustomLink>
-            <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
-              <img
-                src='/static/social/youtube.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[32px] w-[32px]'
-              />
-            </CustomLink>
-            <CustomLink href='https://www.tiktok.com/@pinetree_official'>
-              <img
-                src='/static/social/tik_tok.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[32px] w-[32px]'
-              />
-            </CustomLink>
-          </div>
+      <Menu items={items} />
+      <div className='pt-[25px] [border-top:1px_solid_#ECECEC] mobile:pl-[10px] tablet:pl-0'>
+        <Text type='body-12-regular' className='text-[#78909C]'>
+          Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
+        </Text>
+        <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
+          GPKD: <span className='text-[#474D57]'>0101294902</span>
+          <span className='block'>16:14 04/07/2023</span>
+        </Text>
+        <div className='mt-[20px] flex gap-x-[10px]'>
+          <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
+            <img
+              src='/static/social/facebook.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[32px] w-[32px]'
+            />
+          </CustomLink>
+          <CustomLink href='https://zalo.me/895810815009263150'>
+            <img
+              src='/static/social/zalo.png'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[32px] w-[32px]'
+            />
+          </CustomLink>
+          <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
+            <img
+              src='/static/social/youtube.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[32px] w-[32px]'
+            />
+          </CustomLink>
+          <CustomLink href='https://www.tiktok.com/@pinetree_official'>
+            <img
+              src='/static/social/tik_tok.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[32px] w-[32px]'
+            />
+          </CustomLink>
         </div>
       </div>
     </>
