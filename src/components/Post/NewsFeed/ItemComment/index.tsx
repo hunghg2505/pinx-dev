@@ -212,17 +212,26 @@ const ItemComment = (props: IProps) => {
                 <Text type='body-14-semibold' color='neutral-1'>
                   {data?.customerInfo?.displayName}
                 </Text>
-
-                <img
-                  src='/static/icons/iconKol.svg'
-                  alt='Icon kol'
-                  className={classNames(
-                    'absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain',
-                    {
-                      hidden: !data?.customerInfo?.isFeatureProfile,
-                    },
-                  )}
-                />
+                {data?.customerInfo?.isFeatureProfile && (
+                  <img
+                    src='/static/icons/iconKol.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain'
+                  />
+                )}
+                {data?.customerInfo?.isKol && (
+                  <img
+                    src='/static/icons/iconTick.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain'
+                  />
+                )}
               </div>
               <button className='relative flex items-center' ref={ref}>
                 <Text type='body-14-regular' color='neutral-5'>

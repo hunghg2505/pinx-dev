@@ -56,7 +56,7 @@ const ThemeDetail = () => {
     // eslint-disable-next-line array-callback-return
   ].filter((item) => {
     if (!isLogin) {
-      return item.label === t('tab.stock_symbols');
+      return item.label !== t('tab.community');
     }
     return item;
   });

@@ -59,6 +59,7 @@ const PostItem = (props: IProps) => {
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const isKol = postDetail?.post?.customerInfo?.isKol;
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
+  const isFeatureProfile = postDetail?.post?.customerInfo.isFeatureProfile;
   const [excludeElements, setExcludeElements] = React.useState<(Element | null)[]>([]);
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
@@ -304,9 +305,19 @@ const PostItem = (props: IProps) => {
                   <Text type='body-14-semibold' color='neutral-1' className='mr-[5px]'>
                     {renderDisplayName()}
                   </Text>
-                  {isKol && (
+                  {isFeatureProfile && (
                     <img
                       src='/static/icons/iconKol.svg'
+                      alt=''
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                      className='h-[20px] w-[20px]'
+                    />
+                  )}
+                  {isKol && (
+                    <img
+                      src='/static/icons/iconTick.svg'
                       alt=''
                       width={0}
                       height={0}
