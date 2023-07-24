@@ -42,6 +42,7 @@ interface IProps {
   onRefreshPostDetail: () => void;
   postId: string;
   onHidePostSuccess?: (id: string) => void;
+  pinned?: boolean;
 }
 const IconPlus = () => (
   <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -60,6 +61,7 @@ const NewFeedItem = (props: IProps) => {
     onHidePostSuccess,
     totalComments,
     isExplore = false,
+    pinned = false,
   } = props;
 
   const customerId = postDetail?.customerId;
@@ -392,7 +394,20 @@ const NewFeedItem = (props: IProps) => {
                 {postDetail?.post?.customerInfo?.isFeatureProfile && (
                   <img
                     src='/static/icons/iconKol.svg'
-                    alt='Icon kol'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[4px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+                {postDetail?.post?.customerInfo?.isKol && (
+                  <img
+                    src='/static/icons/iconTick.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
                     className='ml-[4px] h-[16px] w-[16px] object-contain'
                   />
                 )}
@@ -417,101 +432,111 @@ const NewFeedItem = (props: IProps) => {
           {isReported && router.pathname === '/explore' ? (
             ''
           ) : (
-            <button className={classNames('relative')} ref={ref}>
-              <img
-                src='/static/icons/iconDot.svg'
-                alt=''
-                width='0'
-                height='0'
-                className='w-[33px] cursor-pointer'
-                onClick={() => setShowReport(!showReport)}
-              />
-              {showReport && (
-                <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
-                  {[
-                    TYPEPOST.POST,
-                    TYPEPOST.ActivityTheme,
-                    TYPEPOST.ActivityMatchOrder,
-                    TYPEPOST.ActivityWatchlist,
-                    TYPEPOST.PinetreePost,
-                  ].includes(postDetail?.post.postType) &&
-                    router.pathname !== '/explore' &&
-                    !isMyProfilePath && (
-                      <div
-                        className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                        onClick={handleHidePost}
-                      >
+            <div className='flex'>
+              {pinned && (
+                <img
+                  src='/static/icons/iconPinned.svg'
+                  alt=''
+                  className='mr-[16px] h-[28px] w-[28px]'
+                />
+              )}
+
+              <button className={classNames('relative')} ref={ref}>
+                <img
+                  src='/static/icons/iconDot.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='w-[33px] cursor-pointer'
+                  onClick={() => setShowReport(!showReport)}
+                />
+                {showReport && (
+                  <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+                    {[
+                      TYPEPOST.POST,
+                      TYPEPOST.ActivityTheme,
+                      TYPEPOST.ActivityMatchOrder,
+                      TYPEPOST.ActivityWatchlist,
+                      TYPEPOST.PinetreePost,
+                    ].includes(postDetail?.post.postType) &&
+                      router.pathname !== '/explore' &&
+                      !isMyProfilePath && (
+                        <div
+                          className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+                          onClick={handleHidePost}
+                        >
+                          <img
+                            src='/static/icons/iconUnHide.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Hide
+                          </Text>
+                        </div>
+                      )}
+
+                    {!report && !isMyPost && (
+                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                         <img
-                          src='/static/icons/iconUnHide.svg'
+                          src='/static/icons/iconFlag.svg'
                           alt=''
                           width='0'
                           height='0'
                           sizes='100vw'
                           className='mr-[8px] h-[20px] w-[20px] object-contain'
                         />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Hide
-                        </Text>
+                        <ModalReport
+                          visible={modalReportVisible}
+                          onModalReportVisible={setModalReportVisible}
+                          postID={postDetail?.id}
+                          onReportSuccess={handleReportPostSuccess}
+                        >
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Report
+                          </Text>
+                        </ModalReport>
                       </div>
                     )}
 
-                  {!report && !isMyPost && (
-                    <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                      <img
-                        src='/static/icons/iconFlag.svg'
-                        alt=''
-                        width='0'
-                        height='0'
-                        sizes='100vw'
-                        className='mr-[8px] h-[20px] w-[20px] object-contain'
-                      />
-                      <ModalReport
-                        visible={modalReportVisible}
-                        onModalReportVisible={setModalReportVisible}
-                        postID={postDetail?.id}
-                        onReportSuccess={handleReportPostSuccess}
-                      >
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Report
-                        </Text>
-                      </ModalReport>
-                    </div>
-                  )}
+                    {isMyProfilePath && (
+                      <>
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconEdit.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Edit
+                          </Text>
+                        </div>
 
-                  {isMyProfilePath && (
-                    <>
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconEdit.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Edit
-                        </Text>
-                      </div>
-
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconDelete.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Delete
-                        </Text>
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-            </button>
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconDelete.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Delete
+                          </Text>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </button>
+            </div>
           )}
         </div>
       </div>

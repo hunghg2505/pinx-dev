@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
@@ -27,6 +28,10 @@ const settings = {
 const WatchList = () => {
   const { t } = useTranslation('watchlist');
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
+  const router = useRouter();
+  const onGoBack = () => {
+    router.back();
+  };
 
   const { theme } = useGetTheme();
 
@@ -37,8 +42,16 @@ const WatchList = () => {
   }
 
   return (
-    <div className='flex flex-col gap-y-[32px] px-[16px] pl-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
+    <div className='flex flex-col gap-y-[32px] desktop:gap-y-[20px] desktop:px-[24px] py-[20px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
+        {!isEdit && (
+          <img
+            src='/static/icons/back_icon.svg'
+            alt=''
+            className='desktop:hidden w-[28px] cursor-pointer'
+            onClick={onGoBack}
+          />
+        )}
         {isEdit ? (
           <>
             <div className='relative flex items-center'>
