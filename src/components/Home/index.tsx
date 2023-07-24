@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import ModalComposeMobile from '@components/Compose/ModalComposeMobile';
 import FooterSignUp from '@components/FooterSignup';
 import { IPost } from '@components/Post/service';
 import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
@@ -234,15 +235,14 @@ const Home = () => {
                   </TabPane>
                 </Tabs>
               </div>
-
               {isLogin && (
-                <div
-                  className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'
-                  onClick={() => {
-                    router.push(ROUTE_PATH.MY_PROFILE);
-                  }}
-                >
-                  <div className='flex items-center'>
+                <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
+                  <div
+                    className='flex items-center'
+                    onClick={() => {
+                      router.push(ROUTE_PATH.MY_PROFILE);
+                    }}
+                  >
                     {userLoginInfo?.avatar && (
                       <img
                         src={userLoginInfo?.avatar}
@@ -263,43 +263,6 @@ const Home = () => {
                       className='w-full rounded-[5px] bg-[#EFF2F5] pl-[10px] pt-[10px] focus:outline-none desktop:h-[70px]'
                     />
                   </div>
-                  {/* <div className='mt-[15px] flex items-center justify-between pl-[61px]'>
-                    <div className='flex items-center'>
-                      <img
-                        src='/static/icons/iconImage.svg'
-                        alt=''
-                        width={0}
-                        height={0}
-                        className='mr-[8px] w-[28px]'
-                      />
-                      <img
-                        src='/static/icons/iconLinkHome.svg'
-                        alt=''
-                        width={0}
-                        height={0}
-                        className='mr-[8px] w-[20px]'
-                      />
-                      <img
-                        src='/static/icons/iconEmotion.svg'
-                        alt=''
-                        width={0}
-                        height={0}
-                        className='mr-[8px] w-[25px]'
-                      />
-                      <img
-                        src='/static/icons/iconPool.svg'
-                        alt=''
-                        width={0}
-                        height={0}
-                        className='w-[22px]'
-                      />
-                    </div>
-                    <div className='flex h-[32px] w-[72px] flex-row items-center justify-center rounded-[5px] bg-[linear-gradient(225deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] [box-shadow:0px_2px_4px_0px_rgba(53,_157,_217,_0.30)]'>
-                      <Text type='body-14-medium' color='cbwhite'>
-                        Post
-                      </Text>
-                    </div>
-                  </div> */}
                 </div>
               )}
               <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
@@ -324,6 +287,7 @@ const Home = () => {
                           id={item.id}
                           refresh={refresh}
                           onHidePost={onHidePost}
+                          pinned={true}
                         />
                       );
                     })}
@@ -446,7 +410,9 @@ const Home = () => {
         </div>
       )}
       <div ref={lastElementRef}></div>
-      <ComposeButton />
+      <ModalComposeMobile>
+        <ComposeButton />
+      </ModalComposeMobile>
       <ModalCompose ref={refModal} refresh={addPostSuccess} />
       {!isLogin && <FooterSignUp />}
     </>
