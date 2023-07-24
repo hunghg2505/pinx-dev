@@ -53,7 +53,7 @@ const Interest = (props: IProps) => {
             </div>
           )}
           {isDesktop && (
-            <div className='max-w-[680px] '>
+            <div className='max-w-[700px] '>
               <Slider
                 {...settings}
                 className={classNames('flex gap-x-[16px]', styles.slickSlider)}

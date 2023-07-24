@@ -157,7 +157,7 @@ const GiftCash = () => {
           </Text>
         </div>
       </div>
-      <div className='mt-[20px] hidden rounded-[12px] bg-[#F7F6F8] px-[25px] py-[32px] mobile-max:block'>
+      <div className='mt-[20px] hidden max-w-[700px] rounded-[12px] bg-[#F7F6F8] px-[25px] py-[32px]  mobile-max:block '>
         <Slider {...settings}>
           <div className='text-center'>
             <Text type='body-20-bold' color='neutral-black'>

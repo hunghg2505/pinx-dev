@@ -221,7 +221,7 @@ const Explore = () => {
         >
           <img src='/static/images/btn-prev.png' alt='' />
         </div>
-        <div className='slideTheme max-w-[680px] overflow-hidden'>
+        <div className='slideTheme max-w-[700px] overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlideTheme}>
             {theme?.map((theme: ITheme, index: number) => {
               return (
@@ -310,7 +310,7 @@ const Explore = () => {
         >
           <img src='/static/images/btn-prev.png' alt='' />
         </div>
-        <div className='pinexTop20 max-w-[680px]  overflow-hidden'>
+        <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlidePinex}>
             {optionTab?.map((item: any, index: number) => (
               <PinexTop label={item.label} value={item.value} key={index} />

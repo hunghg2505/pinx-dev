@@ -60,7 +60,7 @@ const ListTheme = () => {
         >
           <img src='/static/images/btn-prev.png' alt='' />
         </div>
-        <div className='slideTheme max-w-[680px] overflow-hidden'>
+        <div className='slideTheme max-w-[700px] overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlide} draggable>
             {theme?.map((item: ITheme, index: number) => {
               return <ThemesItem theme={item} key={index} isLogin={isLogin} refresh={refresh} />;
