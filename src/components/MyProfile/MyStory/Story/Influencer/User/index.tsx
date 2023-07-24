@@ -10,7 +10,7 @@ const User = () => {
     <>
       <div className='flex justify-center '>
         <h3 className='font-600 mb-[4px] text-[24px]'>{profileUser?.displayName}</h3>
-        {profileUser?.profileUser && (
+        {profileUser?.isFeatureProfile && (
           <Image
             src='/static/icons/iconStarFollow.svg'
             width={16}

@@ -9,14 +9,14 @@ const Story = ({ closeStory }: { closeStory: () => void }) => {
   const profileUser = useContext<any>(profileUserContext);
   return (
     <>
-      {profileUser?.profileUser && (
+      {profileUser?.isFeatureProfile && (
         <Influencer
           closeStory={() => {
             closeStory();
           }}
         />
       )}
-      {!profileUser?.profileUser && (
+      {!profileUser?.isFeatureProfile && (
         <Normal
           closeStory={() => {
             closeStory();
