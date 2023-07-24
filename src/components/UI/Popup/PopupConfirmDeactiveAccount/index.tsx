@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Dialog from 'rc-dialog';
 import { toast } from 'react-hot-toast';
 
 import { NegativeButton, PositiveButton } from '@components/UI/Button';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
@@ -34,7 +34,7 @@ const PopupConfirmDeactivateAccount = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={<></>}>
+      <Modal visible={visible} onClose={handleClose} closeIcon={<></>}>
         <Text type='body-20-semibold' className='mb-2'>
           Request close account
         </Text>
@@ -57,7 +57,7 @@ const PopupConfirmDeactivateAccount = (props: IProps) => {
             </PositiveButton>
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

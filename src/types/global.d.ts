@@ -4,3 +4,9 @@ declare global {
   }
 }
 export {};
+
+declare module 'dayjs' {
+  interface Dayjs {
+    fromNow();
+  }
+}

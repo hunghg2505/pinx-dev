@@ -3,8 +3,8 @@ import React from 'react';
 import { useDebounceFn } from 'ahooks';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 const Compose = dynamic(() => import('@components/Compose'));
@@ -71,7 +71,7 @@ const ModalCompose = (props: Iprops, ref: any) => {
 
   return (
     <>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onCloseModal}
         closeIcon={renderCloseIcon()}
@@ -87,8 +87,14 @@ const ModalCompose = (props: Iprops, ref: any) => {
             <Compose hidePopup={hidePopup} refresh={refresh} onGetData={onGetData} />
           </div>
         </div>
-      </Dialog>
-      <Dialog visible={visibleConfirm} onClose={onGetData} closable={false} className='compose'>
+      </Modal>
+
+      <Modal
+        visible={visibleConfirm}
+        onClose={onGetData as any}
+        closable={false}
+        className='compose'
+      >
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>
             {t('quit')}
@@ -115,7 +121,7 @@ const ModalCompose = (props: Iprops, ref: any) => {
             </div>
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

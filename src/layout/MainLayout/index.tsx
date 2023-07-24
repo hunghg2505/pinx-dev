@@ -1,13 +1,12 @@
 import dynamic from 'next/dynamic';
 
 import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
+import MainHeaderFake from '@layout/components/MainHeader/MainHeaderFake';
 import SideBar from '@layout/MainLayout/SideBar';
 
 const MainHeader = dynamic(() => import('../components/MainHeader'), {
   ssr: false,
-  loading: () => (
-    <div className='border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'></div>
-  ),
+  loading: () => <MainHeaderFake />,
 });
 
 const ModalPage = dynamic(() => import('@components/ModalPage'), {

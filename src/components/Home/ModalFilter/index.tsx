@@ -2,8 +2,8 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -92,7 +92,8 @@ const ModalFilter = (props: IProps) => {
           className='w-[10px]'
         />
       </span>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+
+      <Modal visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
         <div className='absolute left-[20px] top-[20px] flex flex-row items-center'>
           <img
             src='/static/icons/iconFilter.svg'
@@ -150,7 +151,7 @@ const ModalFilter = (props: IProps) => {
               );
             })}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

@@ -85,7 +85,7 @@ const WatchList = () => {
             </Text>
             <Button
               onClick={() => setIsEdit(true)}
-              className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
+              className='flex items-center justify-end desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
             >
               <img
                 src='/static/icons/explore/iconEdit.svg'

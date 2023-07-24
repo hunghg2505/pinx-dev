@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
@@ -8,7 +7,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
-// import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
@@ -56,8 +54,6 @@ const IconPlus = () => (
     />
   </svg>
 );
-
-dayjs.extend(relativeTime);
 
 const NewFeedItem = (props: IProps) => {
   const {

@@ -19,9 +19,6 @@ import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
-// import ItemComment from '../NewsFeed/ItemComment';
-// import NewFeedItem from '../NewsFeed/NewFeedItem';
-
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -36,9 +33,7 @@ const NewFeedItem = dynamic(import('../NewsFeed/NewFeedItem'), {
 const ComponentRef = dynamic(import('@components/ComponentRef'), {
   ssr: false,
 });
-const ContentRight = dynamic(import('@components/Home/ContentRight'), {
-  ssr: false,
-});
+
 export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
   return (
     <ComponentRef
@@ -160,8 +155,8 @@ const PostDetail = () => {
           onClose={onCloseModal}
         />
       )}
-      <div className='flex flex-row items-start' ref={onRef}>
-        <div className='rounded-[8px] mobile:w-[375px] mobile-max:w-full tablet-max:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
+      <div ref={onRef}>
+        <div className='rounded-[8px]  desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
             <Text
               type='body-20-bold'
@@ -272,9 +267,6 @@ const PostDetail = () => {
               </div>
             </div>
           )}
-        </div>
-        <div className='mobile:hidden tablet:block tablet:w-[250px] tablet:pr-[2px] laptop:w-[350px]'>
-          <ContentRight />
         </div>
       </div>
 
