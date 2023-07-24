@@ -75,6 +75,7 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
+  const isPostDetailPath = router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
   React.useEffect(() => {
@@ -338,7 +339,7 @@ const NewFeedItem = (props: IProps) => {
   return (
     <div
       className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
-        'border-b': totalComments > 0,
+        'border-b': totalComments > 0 || isPostDetailPath,
         'border-t': !isExplore,
       })}
     >

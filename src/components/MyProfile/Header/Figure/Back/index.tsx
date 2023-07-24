@@ -13,7 +13,7 @@ const Back = () => {
   return (
     <>
       <span
-        className='absolute left-[16px] top-[16px] z-10 tablet:hidden'
+        className='absolute left-[16px] top-[16px] z-10 cursor-pointer tablet:hidden'
         onClick={() => {
           if (fromProfileMenu) {
             setOpenProfileMenu(true);
