@@ -1,4 +1,5 @@
 import { ITrending, useGetTrending } from '@components/Home/service';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 const TrendingDesktop = () => {
@@ -7,7 +8,9 @@ const TrendingDesktop = () => {
   if (loading) {
     return (
       <>
-        <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#f3f3f3]  px-[30x] py-[20px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'></div>
+        <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
+          <SkeletonLoading hiddenImg={false} />
+        </div>
       </>
     );
   }

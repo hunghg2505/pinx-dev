@@ -119,7 +119,7 @@ const FooterSignUp = () => {
       {/* > tablet */}
       <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className='flex h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white px-[16px] transition mobile:hidden tablet:flex desktop:flex'
+        className=' h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white transition mobile:hidden tablet:flex '
       >
         <Text
           type='body-20-medium'
