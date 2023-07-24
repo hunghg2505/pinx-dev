@@ -22,7 +22,6 @@ const Profile = () => {
       value={{
         ...profileOtherUser,
         ...privateProfileOtherUser,
-        isKol: profileOtherUser?.isFeatureProfile,
         reload: runPrivate,
         refresh: RefreshPrivate,
       }}
