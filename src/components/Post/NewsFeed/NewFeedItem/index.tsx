@@ -278,7 +278,7 @@ const NewFeedItem = (props: IProps) => {
               { 'bg-[#F3F2F6]': following },
             )}
           >
-            <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
+            <Text type='body-14-bold' color='neutral-5'>
               Following
             </Text>
           </div>

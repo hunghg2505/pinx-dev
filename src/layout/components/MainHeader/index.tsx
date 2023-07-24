@@ -88,7 +88,7 @@ const MainHeader = () => {
             width={0}
             height={0}
             sizes='100vw'
-            className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+            className='h-[36px] w-[36px] rounded-full mobile:block tablet:hidden'
             onClick={goToMyProfile}
           />
         </>
@@ -98,10 +98,10 @@ const MainHeader = () => {
 
   const renderAvatarDesktop = () => {
     return isLogin ? (
-      <div className='ml-[20px] items-center mobile:hidden laptop-max:hidden desktop:flex'>
-        <Text type='body-20-medium' color='neutral-1'>
+      <div className='items-center mobile:hidden tablet:flex'>
+        {/* <Text type='body-20-medium' color='neutral-1'>
           {userLoginInfo?.displayName}
-        </Text>
+        </Text> */}
         {userLoginInfo?.avatar && (
           <Dropdown
             trigger={['click']}
@@ -117,7 +117,7 @@ const MainHeader = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='ml-[10px] h-[52px] w-[52px] rounded-full object-cover'
+                className='h-[52px] w-[52px] rounded-full object-cover'
               />
 
               <img
@@ -126,7 +126,7 @@ const MainHeader = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
+                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EFF2F5] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.25),0px_3px_6px_-4px_rgba(0,0,0,0.5)]'
               />
             </div>
           </Dropdown>
@@ -325,14 +325,15 @@ const MainHeader = () => {
               </div>
             </div>
             <div className='flex flex-row items-center'>
-              <button className='mr-[16px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block desktop:hidden'>
+              <button className='mr-[12px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden'>
                 <img
                   src='/static/icons/search-gray.svg'
                   alt='Search icon'
                   className='m-auto h-[22px] w-[22px]'
                 />
               </button>
-              <div className='mr-[12px] mobile:hidden desktop:block'>
+
+              <div className='mr-[32px] mobile:hidden tablet:block'>
                 <Form>
                   <FormItem name='search'>
                     <Input
@@ -343,6 +344,15 @@ const MainHeader = () => {
                   </FormItem>
                 </Form>
               </div>
+
+              <div className='mr-[12px] flex cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:h-[36px] mobile:w-[36px] tablet:h-[52px] tablet:w-[52px]'>
+                <img
+                  src='/static/icons/iconBell.svg'
+                  alt='Icon notification'
+                  className='object-contain mobile:h-[22px] mobile:w-[22px] tablet:h-[28px] tablet:w-[28px]'
+                />
+              </div>
+
               {!isLogin && (
                 <button
                   className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'

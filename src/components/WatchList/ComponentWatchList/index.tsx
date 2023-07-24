@@ -27,6 +27,7 @@ const ComponentWatchList = (props: IProps) => {
     {
       manual: true,
       onSuccess: (res: any) => {
+        console.log('watchlistId',res?.data?.[0]?.watchlistId);
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {

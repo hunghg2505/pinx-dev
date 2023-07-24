@@ -1,54 +1,47 @@
 import React from 'react';
 
-import classNames from 'classnames';
+import { useAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
-import { ITheme, IWatchListItem, useGetTheme } from '@components/Home/service';
 import { Button } from '@components/UI/Button';
 import Text from '@components/UI/Text';
+import Themes from '@components/WatchList/Themes';
 
 import ComponentWatchList from './ComponentWatchList';
-import styles from './index.module.scss';
-import InterestItem from './InterestItem';
 import ModalAddStock from './ModalAddStock';
 import { useGetInterest } from './service';
-import ThemeItem from './ThemeItem';
 
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  // arrows: false,
-};
+const Interest = dynamic(() => import('@components/WatchList/Interest'), {
+  ssr: false,
+});
+
+const isEditAtom = atomWithStorage('isEditWatchList', false);
 
 const WatchList = () => {
   const { t } = useTranslation('watchlist');
-  const [isEdit, setIsEdit] = React.useState<boolean>(false);
+  const [isEdit, setIsEdit] = useAtom(isEditAtom);
   const router = useRouter();
   const onGoBack = () => {
     router.back();
   };
 
-  const { theme } = useGetTheme();
-
-  const { interestStock, refresh, loading } = useGetInterest();
+  const { interestStock, refreshInterest, loading } = useGetInterest();
 
   if (loading) {
     return <></>;
   }
 
   return (
-    <div className='flex flex-col gap-y-[32px] desktop:gap-y-[20px] desktop:px-[24px] py-[20px]'>
+    <div className='flex flex-col gap-y-[32px] py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
         {!isEdit && (
           <img
             src='/static/icons/back_icon.svg'
             alt=''
-            className='desktop:hidden w-[28px] cursor-pointer'
+            className='w-[28px] cursor-pointer desktop:hidden'
             onClick={onGoBack}
           />
         )}
@@ -109,48 +102,16 @@ const WatchList = () => {
         <ComponentWatchList isEdit={isEdit} />
         {isEdit && (
           <ModalAddStock>
-            <div className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'>
-              <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
-              <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                {t('addTxt')}
-              </Text>
-            </div>
+            <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+            <Text type='body-14-semibold' className='text-[#1F6EAC]'>
+              {t('addTxt')}
+            </Text>
           </ModalAddStock>
         )}
       </div>
-      {!isEdit && (
-        <div className='flex flex-col gap-y-[16px]'>
-          <Text type='body-20-bold' className='text-[#0D0D0D]'>
-            {t('titleInterest')}
-          </Text>
-          <div
-            className={classNames(
-              'ml-[-16px] mr-[-16px] flex gap-x-[16px] overflow-x-auto pb-[16px] pr-[16px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:pr-[24px]',
-              styles.listInterest,
-            )}
-          >
-            {interestStock?.map((item: IWatchListItem, index: number) => (
-              <div
-                key={index}
-                className='relative min-h-[172px] w-[112px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px] first:ml-[16px] desktop:first:ml-[24px]'
-              >
-                <InterestItem data={item} refresh={refresh} />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {!isEdit && (
-        <Slider className={classNames('', styles.sliderTheme)} {...settings}>
-          {theme?.map((item: ITheme, index: number) => {
-            return (
-              <div key={`them-${index}`}>
-                <ThemeItem data={item} />
-              </div>
-            );
-          })}
-        </Slider>
-      )}
+
+      <Interest isEdit={isEdit} interestStock={interestStock} refreshInterest={refreshInterest} />
+      <Themes isEdit={isEdit} />
     </div>
   );
 };

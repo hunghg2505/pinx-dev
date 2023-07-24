@@ -9,7 +9,7 @@ export const useGetInterest = () => {
   });
   return {
     interestStock: data?.data,
-    refresh,
+    refreshInterest: refresh,
     loading,
   };
 };

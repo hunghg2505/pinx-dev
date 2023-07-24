@@ -73,7 +73,7 @@ const People = ({ keyword }: { keyword: any }) => {
           </FormItem>
         </Form>
         {people?.length > 0 ? (
-          <div className='mt-[20px] flex flex-col gap-y-[20px]'>
+          <div className='flex flex-col mobile:mt-[20px] mobile:gap-y-[12px] tablet:mt-[10px] desktop:gap-y-0'>
             {people?.map((item: any, index: number) => (
               <PeopleItem data={item} key={index} />
             ))}

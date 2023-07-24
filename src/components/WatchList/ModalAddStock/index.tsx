@@ -56,7 +56,9 @@ const ModalAddStock = (props: IProps) => {
 
   return (
     <>
-      <span onClick={onVisible}>{children}</span>
+      <div
+        className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'
+        onClick={onVisible}>{children}</div>
       <Dialog className='popupAddNewStock' visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
         <div className='flex flex-col gap-y-[20px]'>
           <div></div>
