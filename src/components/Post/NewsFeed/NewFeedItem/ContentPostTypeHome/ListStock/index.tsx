@@ -15,7 +15,7 @@ const settings = {
 };
 const ListStock = ({ listStock }: { listStock: string[] }) => {
   return (
-    <div className=' max-w-[680px] '>
+    <div className=' max-w-[700px] '>
       <Slider {...settings} className='slidePostAdmin' variableWidth>
         {listStock?.map((item: string, index: number) => {
           return <ItemStock key={index} data={item} />;

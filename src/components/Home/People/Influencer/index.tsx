@@ -50,7 +50,7 @@ const Influencer = () => {
         <img src='/static/images/btn-prev.png' alt='' />
       </div>
 
-      <div className='max-w-[680px]'>
+      <div className='max-w-[700px]'>
         <Slider {...settings} variableWidth ref={refSlide} draggable={true}>
           {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
             (item: IKOL, index: number) => {

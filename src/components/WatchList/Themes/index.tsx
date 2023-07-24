@@ -25,7 +25,7 @@ const Themes = (props: IProps) => {
   return (
     <>
       {!isEdit && (
-        <div className='max-w-[680px]'>
+        <div className='max-w-[700px]'>
           <Slider className={classNames('', styles.sliderTheme)} {...settings}>
             {theme?.map((item: ITheme, index: number) => {
               return (

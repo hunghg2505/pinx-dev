@@ -94,13 +94,14 @@ const SideBar = () => {
 
       if (menu?.action && !isLogin) {
         return {
-          className: `flex items-center flex-row-reverse justify-end py-[5px] px-[8px] mb-[12px] ${
-            checkPathExist && 'active'
-          }`,
+          className: ` mb-[12px] ${checkPathExist && 'active'}`,
           key: `${menu.id}`,
-          itemIcon: icon,
           label: (
-            <div className='ml-[10px] cursor-pointer' onClick={menu?.action}>
+            <div
+              className='flex cursor-pointer items-center gap-[10px] px-[8px] py-[5px]'
+              onClick={menu?.action}
+            >
+              {icon}
               <Text
                 type='body-16-semibold'
                 color='neutral-3'
@@ -114,13 +115,11 @@ const SideBar = () => {
       }
 
       return {
-        className: `flex items-center flex-row-reverse justify-end py-[5px] px-[8px] mb-[12px] ${
-          checkPathExist && 'active'
-        }`,
+        className: ` mb-[12px] ${checkPathExist && 'active'}`,
         key: `${menu.id}`,
-        itemIcon: icon,
         label: (
-          <CustomLink href={menu?.path} className='ml-[10px]'>
+          <CustomLink href={menu?.path} className='flex items-center gap-[10px] px-[8px] py-[5px] '>
+            {icon}
             <Text
               type='body-16-semibold'
               color='neutral-3'
