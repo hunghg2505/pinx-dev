@@ -98,7 +98,7 @@ const ItemInfluence = (props: IProps) => {
                   width={0}
                   height={0}
                   sizes='100vw'
-                  className='ml-[8px] h-[20px] w-[20px]'
+                  className='ml-[8px] h-[16px] w-[16px]'
                 />
               )}
             </div>

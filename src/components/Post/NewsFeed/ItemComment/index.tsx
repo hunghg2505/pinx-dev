@@ -208,7 +208,7 @@ const ItemComment = (props: IProps) => {
         >
           <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative'>
+              <div className='relative flex items-center'>
                 <Text type='body-14-semibold' color='neutral-1'>
                   {data?.customerInfo?.displayName}
                 </Text>
@@ -219,7 +219,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain'
+                    className='ml-[6px] h-[14px] w-[14px] object-contain'
                   />
                 )}
                 {data?.customerInfo?.isKol && (
@@ -229,7 +229,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain'
+                    className='ml-[6px] h-[14px] w-[14px] object-contain'
                   />
                 )}
               </div>
@@ -344,7 +344,7 @@ const ItemComment = (props: IProps) => {
               {numberReport} Report
             </ModalReportComment>
 
-            <Text type='body-14-regular' color='neutral-4' className='!font-light'>
+            <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
               {dayjs(data?.timeString).fromNow(true)}
             </Text>
             {/* <Fancybox>
