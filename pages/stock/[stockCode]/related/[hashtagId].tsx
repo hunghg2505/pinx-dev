@@ -3,15 +3,16 @@ import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import MainLayout from '@layout/MainLayout';
+
 const StockRelated = dynamic(() => import('@components/Stock/CompanyRelated'));
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 
 const StockRelatedPage = () => {
   return <StockRelated />;
 };
 
 StockRelatedPage.getLayout = (page: ReactElement) => {
-  return <ExploreLayout>{page}</ExploreLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

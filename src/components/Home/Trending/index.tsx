@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import Text from '@components/UI/Text';
 
 import { ITrending, useGetTrending } from '../service';
@@ -25,11 +23,9 @@ const Trending = () => {
                 className='inline-block rounded-[100px] border-[1px] border-solid border-[#C8E2F4] px-[10px] py-[6px]'
                 key={index}
               >
-                <Link href='javascript:void(0)'>
-                  <Text type='body-14-medium' color='primary-2'>
-                    #{item.keyword}
-                  </Text>
-                </Link>
+                <Text type='body-14-medium' color='primary-2'>
+                  #{item.keyword}
+                </Text>
               </div>
             );
           })}

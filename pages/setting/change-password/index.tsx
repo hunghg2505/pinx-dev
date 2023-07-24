@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import ChangePassword from '@components/Setting/ChangePassword';
-import SettingLayout from '@layout/SettingLayout';
+import MainLayout from '@layout/MainLayout';
 
 const SettingChangePasswordPage = () => {
   return (
@@ -14,11 +14,7 @@ const SettingChangePasswordPage = () => {
 };
 
 SettingChangePasswordPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <SettingLayout>
-      {page}
-    </SettingLayout>
-  );
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getStaticProps({ locale }: any) {

@@ -56,7 +56,7 @@ const MenuProfile = forwardRef((_, ref) => {
   return (
     <div
       className={classNames(
-        'fixed left-0 top-0 z-[9999] h-screen  w-full overflow-scroll bg-white duration-300 ease-out laptop:hidden',
+        'overflow-overlay fixed left-0 top-0 z-[9999]  h-screen w-full bg-white duration-300 ease-out laptop:hidden',
         {
           'translate-x-[100%]': !openProfileMenu,
         },
@@ -69,7 +69,7 @@ const MenuProfile = forwardRef((_, ref) => {
         status={
           userLoginInfo.acntStat === 'ACTIVE'
             ? 'Verified'
-            : String(userLoginInfo.acntStat === 'VSD_PENDING' ? 'Pendding' : 'Unverified')
+            : String(userLoginInfo.acntStat === 'VSD_PENDING' ? 'Pending' : 'Unverified')
         }
         close={close}
       />

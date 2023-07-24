@@ -10,7 +10,6 @@ interface ICustomLink {
   prefetch?: boolean;
   ariaLabel?: string;
   target?: string;
-  action?: () => void;
 }
 
 const CustomLink = ({
@@ -19,18 +18,19 @@ const CustomLink = ({
   className = '',
   ariaLabel = '',
   prefetch = false,
-  action
+  target = '_self',
 }: ICustomLink) => {
   return (
-    <Link href={href} passHref prefetch={!!prefetch} onClick={action}>
-      <div
-        className={className}
-        aria-label={ariaLabel || 'label'}
+    <Link
+      href={href}
+      passHref
+      prefetch={!!prefetch}
+      className={className}
+      aria-label={ariaLabel || 'label'}
       // rel={`noreferrer ${isNoFollow ? 'nofollow' : ''}`}
-      // target={target}
-      >
-        {children}
-      </div>
+      target={target}
+    >
+      <>{children}</>
     </Link>
   );
 };

@@ -28,20 +28,20 @@ const WatchList = () => {
     router.back();
   };
 
-  const { interestStock, refreshInterest } = useGetInterest();
+  const { interestStock, refreshInterest, loading } = useGetInterest();
 
-
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSort = () => {};
+  if (loading) {
+    return <></>;
+  }
 
   return (
-    <div className='flex flex-col gap-y-[32px] desktop:gap-y-[20px] desktop:px-[24px] py-[20px]'>
+    <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
         {!isEdit && (
           <img
             src='/static/icons/back_icon.svg'
             alt=''
-            className='desktop:hidden w-[28px] cursor-pointer'
+            className='w-[28px] cursor-pointer desktop:hidden'
             onClick={onGoBack}
           />
         )}
@@ -52,17 +52,14 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Text
                     type='body-12-semibold'
-                    className='text-[#1F6EAC] cursor-pointer'
+                    className='cursor-pointer text-[#1F6EAC]'
                     onClick={() => setIsEdit(false)}
                   >
-                    { t('cancelTxt') }
+                    {t('cancelTxt')}
                   </Text>
                 </div>
               </div>
-              <div
-                onClick={handleSort}
-                className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'
-              >
+              <div className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
                 <img
                   src='/static/icons/iconFilterSortaz.svg'
                   alt=''
@@ -73,20 +70,18 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Button className='flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full bg-[#589DC0]'>
                     <Text type='body-12-medium' color='cbwhite'>
-                      { t('saveTxt') }
+                      {t('saveTxt')}
                     </Text>
                   </Button>
                 </div>
               </div>
             </div>
-            {/* Divider */}
-            <div className='desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9] min-h-[1px]'></div>
-            {/* /Divider */}
+            <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
           </>
         ) : (
           <div className='flex items-center justify-between'>
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
-              { t('title') }
+              {t('title')}
             </Text>
             <Button
               onClick={() => setIsEdit(true)}
@@ -98,7 +93,7 @@ const WatchList = () => {
                 className='mr-[4px] h-[13px] w-[13px]'
               />
               <Text type='body-14-semibold' color='primary-2'>
-                { t('editText') }
+                {t('editText')}
               </Text>
             </Button>
           </div>
@@ -109,17 +104,13 @@ const WatchList = () => {
           <ModalAddStock>
             <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
             <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-              { t('addTxt') }
+              {t('addTxt')}
             </Text>
           </ModalAddStock>
         )}
       </div>
 
-      <Interest
-        isEdit={isEdit}
-        interestStock={interestStock}
-        refreshInterest={refreshInterest}
-      />
+      <Interest isEdit={isEdit} interestStock={interestStock} refreshInterest={refreshInterest} />
       <Themes isEdit={isEdit} />
     </div>
   );

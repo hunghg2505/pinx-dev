@@ -99,7 +99,13 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <>
+    <div className='pt-5'>
+      <img
+        src='/static/icons/chevron-left.svg'
+        className='!w-[28px]'
+        alt=''
+        onClick={router.back}
+      />
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
       <div className='relative h-[60px] mobile:mt-[32px] laptop:mt-0'>
         <img
@@ -345,7 +351,7 @@ const ProfileVerification = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

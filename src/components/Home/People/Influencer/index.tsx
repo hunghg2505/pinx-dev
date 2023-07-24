@@ -42,20 +42,21 @@ const Influencer = () => {
   // const ListInfluencer = KOL?.filter((item: IKOL) => item.isFeatureProfile === true);
   const refSlide: any = React.useRef();
   return (
-    <div className='peopleInfluence relative'>
+    <div className='peopleInfluence relative w-[100%]'>
       <div
         onClick={() => refSlide.current.slickPrev()}
         className='absolute -left-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform cursor-pointer tablet-max:hidden'
       >
         <img src='/static/images/btn-prev.png' alt='' />
       </div>
-      <div className='overflow-hidden'>
-        <Slider {...settings} variableWidth ref={refSlide}>
+
+      <div className='max-w-[680px]'>
+        <Slider {...settings} variableWidth ref={refSlide} draggable={true}>
           {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
             (item: IKOL, index: number) => {
               return (
                 <div key={index} className='mr-[16px]'>
-                  <div className='w-[161px]'>
+                  <div className='mx-auto w-[161px]'>
                     <ItemInfluence data={item} refresh={refresh} />
                   </div>
                 </div>

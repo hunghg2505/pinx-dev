@@ -1,29 +1,44 @@
 import dynamic from 'next/dynamic';
 
+import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
+import SideBar from '@layout/MainLayout/SideBar';
+
 const MainHeader = dynamic(() => import('../components/MainHeader'), {
   ssr: false,
+  loading: () => (
+    <div className='border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'></div>
+  ),
 });
-const SideBar = dynamic(() => import('./SideBar'), {
-  ssr: false,
-});
+
 const ModalPage = dynamic(() => import('@components/ModalPage'), {
   ssr: false,
 });
+
+const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
+  ssr: false,
+  loading: () => <ContentRightFake />,
+});
+
 const MainLayout = ({ children }: any) => {
   return (
     <>
-      <ModalPage />
       <MainHeader />
+
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
-        <div className='xl:container relative flex justify-center mobile-max:mx-auto tablet:overflow-auto'>
-          <div className='sidebar mobile:hidden desktop:mr-[25px] desktop:block desktop:w-[218px]'>
+        <div className=' mx-auto flex w-[100%] max-w-[1355px] justify-between gap-[24px] px-[10px] desktop:px-0'>
+          <div className='flex-[218px_0_0]  mobile:hidden desktop:block'>
             <SideBar />
           </div>
-          <main className='mobile:w-full mobile-max:w-full tablet:w-full tablet:px-[15px] desktop:w-[calc(100%_-_218px)] desktop:px-0 xdesktop:w-[1124px]'>
-            {children}
-          </main>
+
+          <div className='w-[100%] flex-1'>{children}</div>
+
+          <div className='flex-[350px_0_0] mobile:hidden tablet:block '>
+            <ContentRight />
+          </div>
         </div>
       </div>
+
+      <ModalPage />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import Link from 'next/link';
@@ -24,6 +25,9 @@ import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
 import PostAction from '../PostAction';
 
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
+
 const ModalReport = dynamic(import('../ModalReport'), {
   ssr: false,
 });
@@ -33,7 +37,7 @@ const ContentPostTypeHome = dynamic(import('./ContentPostTypeHome'), {
 const ContentPostTypeDetail = dynamic(import('./ContentPostTypeDetail'), {
   ssr: false,
 });
-dayjs.extend(relativeTime);
+
 interface IProps {
   postDetail: IPost;
   isExplore?: boolean;
@@ -52,6 +56,9 @@ const IconPlus = () => (
     />
   </svg>
 );
+
+dayjs.extend(relativeTime);
+
 const NewFeedItem = (props: IProps) => {
   const {
     onNavigate,
@@ -335,6 +342,11 @@ const NewFeedItem = (props: IProps) => {
       router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
     }
   };
+
+  if (!postDetail) {
+    return <></>;
+  }
+
   return (
     <div
       className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
@@ -414,7 +426,8 @@ const NewFeedItem = (props: IProps) => {
               </div>
             </div>
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
-              {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
+              {postDetail?.timeString &&
+                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>
           </div>
         </div>

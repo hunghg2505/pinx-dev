@@ -1,10 +1,13 @@
-import Link from 'next/link';
-
 import { ITrending, useGetTrending } from '@components/Home/service';
 import Text from '@components/UI/Text';
 
 const TrendingDesktop = () => {
-  const { dataTrending } = useGetTrending();
+  const { dataTrending, loading } = useGetTrending();
+
+  if (loading) {
+    return <></>;
+  }
+
   return (
     <>
       <div>
@@ -19,11 +22,9 @@ const TrendingDesktop = () => {
                   {index < 8 ? `0${index + 1}` : `${index + 1}`}
                 </Text>
               </div>
-              <Link href='javascript:void(0)'>
-                <Text type='body-14-regular' color='primary-2'>
-                  #{item.keyword}
-                </Text>
-              </Link>
+              <Text type='body-14-regular' color='primary-2'>
+                #{item.keyword}
+              </Text>
             </div>
           );
         })}

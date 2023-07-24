@@ -33,7 +33,7 @@ const Interest = (props: IProps) => {
       {!isEdit && (
         <div className='flex flex-col gap-y-[16px]'>
           <Text type='body-20-bold' className='text-[#0D0D0D]'>
-            { t('titleInterest') }
+            {t('titleInterest')}
           </Text>
           {isMobile && (
             <div
@@ -53,22 +53,22 @@ const Interest = (props: IProps) => {
             </div>
           )}
           {isDesktop && (
-            <Slider
-              {...settings}
-              className={classNames(
-                'flex gap-x-[16px]',
-                styles.slickSlider,
-              )}
-            >
-              {interestStock?.map((item: IWatchListItem, index: number) => (
-                <div
-                  key={index}
-                  className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
-                >
-                  <InterestItem data={item} refresh={refreshInterest} />
-                </div>
-              ))}
-            </Slider>
+            <div className='max-w-[680px] '>
+              <Slider
+                {...settings}
+                className={classNames('flex gap-x-[16px]', styles.slickSlider)}
+                draggable
+              >
+                {interestStock?.map((item: IWatchListItem, index: number) => (
+                  <div
+                    key={index}
+                    className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
+                  >
+                    <InterestItem data={item} refresh={refreshInterest} />
+                  </div>
+                ))}
+              </Slider>
+            </div>
           )}
         </div>
       )}

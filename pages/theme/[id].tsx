@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const ThemeDetail = dynamic(() => import('@components/Themes/ThemeDetail'), {
   ssr: false,
 });
@@ -19,9 +19,9 @@ const PostDetailPage = () => {
 };
 PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ExploreLayout>
+    <MainLayout>
       <>{page}</>
-    </ExploreLayout>
+    </MainLayout>
   );
 };
 

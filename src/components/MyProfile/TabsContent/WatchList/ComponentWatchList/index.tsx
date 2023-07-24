@@ -83,7 +83,6 @@ const ComponentWatchList = (props: IProps) => {
           </div>
         ))}
         {dataStock?.length === 0 && <NotFound />}
-        <NotFound />
       </div>
     </>
   );

@@ -25,15 +25,17 @@ const Themes = (props: IProps) => {
   return (
     <>
       {!isEdit && (
-        <Slider className={classNames('', styles.sliderTheme)} {...settings}>
-          {theme?.map((item: ITheme, index: number) => {
-            return (
-              <div key={`them-${index}`}>
-                <ThemeItem data={item} />
-              </div>
-            );
-          })}
-        </Slider>
+        <div className='max-w-[680px]'>
+          <Slider className={classNames('', styles.sliderTheme)} {...settings}>
+            {theme?.map((item: ITheme, index: number) => {
+              return (
+                <div key={`them-${index}`}>
+                  <ThemeItem data={item} />
+                </div>
+              );
+            })}
+          </Slider>
+        </div>
       )}
     </>
   );

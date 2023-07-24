@@ -111,7 +111,7 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
+    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
       <Text
         type='body-24-semibold'
         color='cbblack'
@@ -221,7 +221,7 @@ const Explore = () => {
         >
           <img src='/static/images/btn-prev.png' alt='' />
         </div>
-        <div className='slideTheme overflow-hidden'>
+        <div className='slideTheme max-w-[680px] overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlideTheme}>
             {theme?.map((theme: ITheme, index: number) => {
               return (
@@ -310,7 +310,7 @@ const Explore = () => {
         >
           <img src='/static/images/btn-prev.png' alt='' />
         </div>
-        <div className='pinexTop20 overflow-hidden'>
+        <div className='pinexTop20 max-w-[680px]  overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlidePinex}>
             {optionTab?.map((item: any, index: number) => (
               <PinexTop label={item.label} value={item.value} key={index} />

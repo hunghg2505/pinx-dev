@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const StockNews = dynamic(() => import('@components/Stock/News'), {
   ssr: false,
 });
@@ -19,7 +19,7 @@ const StockNewsPage = () => {
 };
 
 StockNewsPage.getLayout = (page: ReactElement) => {
-  return <ExploreLayout>{page}</ExploreLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

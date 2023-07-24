@@ -278,7 +278,7 @@ const PostDetail = () => {
         </div>
       </div>
 
-      {!isLogin && <FooterSignUp />}
+      <FooterSignUp />
     </>
   );
 };
