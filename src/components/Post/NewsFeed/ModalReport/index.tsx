@@ -1,7 +1,5 @@
 import React from 'react';
 
-import 'rc-dialog/assets/index.css';
-
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 import Dialog from 'rc-dialog';

@@ -2,7 +2,6 @@ import React from 'react';
 
 import Dialog from 'rc-dialog';
 
-import 'rc-dialog/assets/index.css';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';

@@ -144,7 +144,7 @@ export const checkTokenExpiredOnServer = async () => {
 
 export const requestFromServer = async (ctx: any, suffixUrl: string) => {
   const token = getAccessToken(ctx?.res, ctx?.req);
-  console.log('🚀 ~ file: request.ts:147 ~ requestFromServer ~ token:', token);
+
   return privateRequest(fetch, `${PREFIX_API_COMMUNITY}${suffixUrl}`, {
     token,
   }).then((r) => r.json());

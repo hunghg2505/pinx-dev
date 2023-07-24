@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import 'rc-dialog/assets/index.css';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';

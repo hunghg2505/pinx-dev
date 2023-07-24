@@ -156,7 +156,7 @@
     line-height: 18px;
     color: #1a1a1a;
     word-break: break-all;
-    span{
+    span {
       color: #1f6eac;
     }
   }
@@ -177,18 +177,69 @@
 .tagStock {
   font-weight: 600 !important;
 }
-.tagpeople{
+.tagpeople {
   color: #1f6eac !important;
 }
 // menu
 .rc-menu {
   .active {
     background-color: #eaf4fb;
-    padding: 10px;
-    border-radius: 10px;
   }
   a {
     width: 100%;
+  }
+}
+.sidebar-list {
+  .rc-menu-item {
+    transition: all 300ms;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eaf4fb;
+
+      a,
+      p {
+        color: var(--primary-2) !important;
+      }
+    }
+  }
+
+  > li:nth-child(1) {
+    &:hover {
+      svg rect {
+        stroke: var(--primary-2) !important;
+      }
+      svg rect:nth-child(3) {
+        fill: var(--primary-2) !important;
+      }
+    }
+  }
+  > li:nth-child(2),
+  > li:nth-child(3),
+  > li:nth-child(6) {
+    &:hover {
+      svg path {
+        fill: var(--primary-2) !important;
+      }
+    }
+  }
+
+  > li:nth-child(4) {
+    &:hover {
+      svg path {
+        stroke: var(--primary-2) !important;
+      }
+    }
+  }
+
+  > li:nth-child(5) {
+    &:hover {
+      svg path,
+      svg circle {
+        stroke: var(--primary-2) !important;
+      }
+    }
   }
 }
 .rc-picker-focused {

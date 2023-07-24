@@ -4,10 +4,10 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+import MainLayout from '@layout/MainLayout';
 
 const PeopleDetail = dynamic(() => import('@components/PeopleSpotlight/PeopleDetail'));
+
 const PeopleSpotLightDetailPage = () => {
   return (
     <>
@@ -18,9 +18,9 @@ const PeopleSpotLightDetailPage = () => {
 };
 PeopleSpotLightDetailPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ExploreLayout>
+    <MainLayout>
       <>{page}</>
-    </ExploreLayout>
+    </MainLayout>
   );
 };
 

@@ -162,8 +162,12 @@ const PostDetail = () => {
       )}
       <div className='flex flex-row items-start' ref={onRef}>
         <div className='rounded-[8px] mobile:w-[375px] mobile-max:w-full tablet-max:w-full tablet:mr-[15px] tablet:w-[calc(100%_-_265px)] desktop:mr-[24px] desktop:w-[749px] desktop:bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
-          <div className='header relative mobile:h-auto desktop:h-[60px]'>
-            <Text type='body-16-bold' color='primary-5' className='py-[17px] text-center '>
+          <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
+            <Text
+              type='body-20-bold'
+              color='primary-5'
+              className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center '
+            >
               Post detail
             </Text>
 
@@ -176,10 +180,11 @@ const PostDetail = () => {
                 alt=''
                 width='0'
                 height='0'
-                className='w-[18px] cursor-pointer'
+                className='h-[20px] w-[20px] cursor-pointer'
               />
             </div>
           </div>
+
           <div className='mobile:px-[16px] desktop:px-[20px]'>
             <NewFeedItem
               postDetail={postDetail?.data}
@@ -203,7 +208,7 @@ const PostDetail = () => {
 
           <div
             className={classNames(
-              'tablet:mb-0 desktop:ml-[48px] desktop:mr-[72px] desktop:px-[20px]',
+              'tablet:mb-0 desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]',
               {
                 'mobile:mb-[79px]': !isImageCommentMobile,
                 'mobile:mb-[179px]': isImageCommentMobile,
@@ -273,7 +278,7 @@ const PostDetail = () => {
         </div>
       </div>
 
-      {!isLogin && <FooterSignUp />}
+      <FooterSignUp />
     </>
   );
 };

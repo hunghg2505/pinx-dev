@@ -2,7 +2,6 @@ import React from 'react';
 
 import Dialog from 'rc-dialog';
 
-import 'rc-dialog/assets/index.css';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -22,7 +21,7 @@ const PopupHotline = (props: IProps) => {
         width='0'
         height='0'
         sizes='100vw'
-        className='w-[21px] h-[21px]'
+        className='h-[21px] w-[21px]'
       />
     );
   };
@@ -31,26 +30,24 @@ const PopupHotline = (props: IProps) => {
     onToggle();
   };
 
-
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()} className={styles.customDialog}>
+      <Dialog
+        visible={visible}
+        onClose={handleClose}
+        closeIcon={renderCloseIcon()}
+        className={styles.customDialog}
+      >
         <div className='flex'>
           <img
             src='/static/images/hotline.png'
             alt=''
             className='h-[200px] w-[200px] rounded-l-[12px]'
           />
-          <div className='flex flex-col justify-center ml-11 font-[600] mr-16 '>
-            <div className='text-[32px]'>
-              Contact support
-            </div>
-            <div className='flex items-center text-[20px] mt-5'>
-              <img
-                src='/static/icons/hotline.svg'
-                alt=''
-                className='h-[30px] w-[30px] mr-3'
-              />
+          <div className='ml-11 mr-16 flex flex-col justify-center font-[600] '>
+            <div className='text-[32px]'>Contact support</div>
+            <div className='mt-5 flex items-center text-[20px]'>
+              <img src='/static/icons/hotline.svg' alt='' className='mr-3 h-[30px] w-[30px]' />
               024 62823535
             </div>
           </div>

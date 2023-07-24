@@ -185,8 +185,8 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment mb-[22px] px-[16px]'>
-      <div className='flex flex-row items-start'>
+    <div className='comment mb-[22px]'>
+      <div className='flex flex-row items-start mobile:px-[12px] tablet:px-0'>
         <img
           src={data?.customerInfo?.avatar}
           alt=''
@@ -194,8 +194,8 @@ const ItemComment = (props: IProps) => {
           height='0'
           sizes='100vw'
           className={classNames('mr-[12px] cursor-pointer rounded-full object-cover', {
-            'h-[36px] w-[36px]': !isChildren,
-            'h-[28px] w-[28px]': isChildren,
+            'h-[40px] w-[40px]': !isChildren,
+            'h-[36px] w-[36px]': isChildren,
           })}
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
         />
@@ -206,9 +206,9 @@ const ItemComment = (props: IProps) => {
             'w-[calc(100%_-_48px)]': !isChildren,
           })}
         >
-          <div className='relative mb-[8px] rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
+          <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative'>
+              <div className='relative flex items-center'>
                 <Text type='body-14-semibold' color='neutral-1'>
                   {data?.customerInfo?.displayName}
                 </Text>
@@ -219,7 +219,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain'
+                    className='ml-[6px] h-[14px] w-[14px] object-contain'
                   />
                 )}
                 {data?.customerInfo?.isKol && (
@@ -229,21 +229,16 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
-                    className='absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain'
+                    className='ml-[6px] h-[14px] w-[14px] object-contain'
                   />
                 )}
               </div>
               <button className='relative flex items-center' ref={ref}>
-                <Text type='body-14-regular' color='neutral-5'>
-                  {dayjs(data?.timeString).fromNow(true)}
-                </Text>
                 {isComment && (
                   <img
-                    src='/static/icons/iconDot.svg'
+                    src='/static/icons/iconDotHorizontal.svg'
                     alt=''
-                    width={0}
-                    height={0}
-                    className='h-[18px] w-[18px] rotate-90 transform cursor-pointer'
+                    className='ml-[8px] h-[14px] w-[14px] rotate-90 transform cursor-pointer'
                     onClick={onShowDelete}
                   />
                 )}
@@ -293,6 +288,7 @@ const ItemComment = (props: IProps) => {
               </div>
             )}
           </div>
+
           {urlImage !== '' && (
             <Fancybox
               options={{
@@ -314,8 +310,8 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action flex'>
-            <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
+          <div className='action flex gap-x-[18px]'>
+            <div className='like flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
                 className={classNames({
@@ -327,7 +323,7 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
             <div
-              className='comment mr-[38px] flex cursor-pointer'
+              className='comment flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
               <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
@@ -347,6 +343,10 @@ const ItemComment = (props: IProps) => {
             >
               {numberReport} Report
             </ModalReportComment>
+
+            <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
+              {dayjs(data?.timeString).fromNow(true)}
+            </Text>
             {/* <Fancybox>
                 <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
                   <img alt='' src='/static/images/image_post.jpg' width='200' height='150' />

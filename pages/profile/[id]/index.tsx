@@ -6,10 +6,10 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 import { ROUTE_PATH } from '@utils/common';
 
 const Profile = dynamic(() => import('@components/Profile'));
-const ProfileLayout = dynamic(() => import('@layout/ProfileLayout'));
 
 const PostDetailPage = (props: any) => {
   return (
@@ -20,7 +20,7 @@ const PostDetailPage = (props: any) => {
   );
 };
 PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <ProfileLayout Layout>{page}</ProfileLayout>;
+  return <MainLayout Layout>{page}</MainLayout>;
 };
 
 export async function getServerSideProps({ locale, req, query }: GetServerSidePropsContext) {

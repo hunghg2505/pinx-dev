@@ -21,6 +21,11 @@
     }
   }
 }
+.addLink{
+  textarea {
+    resize: none;
+  }
+}
 // .addLinkMobile{
 //   @media (max-width: 480px){
 //     .rc-dialog-content{

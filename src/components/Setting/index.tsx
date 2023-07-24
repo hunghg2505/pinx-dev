@@ -207,13 +207,13 @@ const Setting = () => {
       <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+      <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
         <img
           src='/static/icons/icon_back_header.svg'
           alt=''
           width='0'
           height='0'
-          className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+          className='left-[10px] top-[23px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:hidden'
           onClick={onBack}
         />
         <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>

@@ -2,7 +2,6 @@ import React from 'react';
 
 import Dialog from 'rc-dialog';
 
-import 'rc-dialog/assets/index.css';
 import { ISubsidiaries } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 

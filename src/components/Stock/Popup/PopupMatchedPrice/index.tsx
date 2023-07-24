@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import 'rc-dialog/assets/index.css';
 import classNames from 'classnames';
 import Dialog from 'rc-dialog';
 

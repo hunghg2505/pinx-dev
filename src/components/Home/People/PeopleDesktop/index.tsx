@@ -7,13 +7,19 @@ import ItemPeople from './ItemPeople';
 
 const PeopleDesktop = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  const isLogin = !!getAccessToken();
+
   React.useEffect(() => {
+    const isLogin = !!getAccessToken();
+
     if (isLogin) {
       getSuggestFriend();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!suggestionPeople?.length) {
+    return <></>;
+  }
 
   return (
     <>

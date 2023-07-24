@@ -174,7 +174,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   const blob = new Blob([arr], { type });
   return URL.createObjectURL(blob);
 };
-export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'gif', 'heic', 'webp'];
+export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
 export const isImage = (file: any) => {
   if (!file) {
     return false;
@@ -240,4 +240,16 @@ export const enableScroll = () => {
 
 export const disableScroll = () => {
   document.body.style.overflow = 'hidden';
+};
+export const isValidUrl = (urlString: string) => {
+  const urlPattern = new RegExp(
+    '^(https?:\\/\\/)?' + // validate protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i',
+  ); // validate fragment locator
+  return !!urlPattern.test(urlString);
 };

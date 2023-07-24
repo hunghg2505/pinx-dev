@@ -17,8 +17,6 @@ import { PHONE_CONTACT_SUPPORT } from '@utils/constant';
 
 import { useGetContract, useSendLoginOtp, useConfirmContract } from './service';
 
-import 'rc-dialog/assets/index.css';
-
 interface IProps {
   visible: boolean;
   onClose: () => void;
@@ -112,7 +110,7 @@ const ModalLoginTerms = (props: IProps) => {
     if (visible) {
       requestGetContract.run();
     }
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const getLinkContract = (linkUrl: string) => {

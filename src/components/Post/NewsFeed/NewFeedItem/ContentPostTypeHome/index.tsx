@@ -12,7 +12,6 @@ import ReactPlayer from 'react-player';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
-// import { useContainerDimensions } from '@hooks/useDimensions';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
@@ -531,7 +530,15 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px]  mobile:w-full tablet:w-full  xdesktop:w-[550px]',
+            {
+              'mobile:h-[204px] desktop:h-[309px]': postDetail?.post?.headImageUrl,
+              'desktop:h-auto': !postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -547,7 +554,15 @@ const ContentPostTypeHome = (props: IProps) => {
           <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />
           </div>
-          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
+          <div
+            className={classNames(
+              'z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]',
+              {
+                '!rounded-[8px] border border-solid border-[#EBEBEB]':
+                  !postDetail?.post?.headImageUrl,
+              },
+            )}
+          >
             <Link href={postDetailUrl}>
               <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
@@ -599,7 +614,14 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:!w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]'>
+        <div
+          className={classNames(
+            'min-w-[1280px]:!w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]',
+            {
+              '!h-[100px]': !postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
           <Link href={postDetailUrl}>
             {postDetail?.post?.headImageUrl && (
               <img
@@ -615,7 +637,15 @@ const ContentPostTypeHome = (props: IProps) => {
           <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />
           </div>
-          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
+          <div
+            className={classNames(
+              'z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]',
+              {
+                '!rounded-[8px] border border-solid border-[#EBEBEB]':
+                  !postDetail?.post?.headImageUrl,
+              },
+            )}
+          >
             <Link href={postDetailUrl}>
               <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
@@ -659,7 +689,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <div>
             {postThemeId ? (
               <div
-                className='theme min-w-[1260px]:w-[660px] relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px]'
+                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:w-full tablet:w-full xdesktop:w-[550px]'
                 onClick={onComment}
               >
                 <img
@@ -698,9 +728,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     </Text>
                     {!message?.includes(urlLink) && urlLink !== '' && (
                       <div className='messageFormat messageBody messageBody -mt-[15px] pb-[15px]'>
-                        <Link href='javascript:void(0)' className='link'>
-                          {urlLink}
-                        </Link>
+                        <span className='link'>{urlLink}</span>
                       </div>
                     )}
                   </div>
@@ -719,8 +747,7 @@ const ContentPostTypeHome = (props: IProps) => {
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          <div>{renderMetaData()}</div>
-
+          {!postThemeId && <div>{renderMetaData()}</div>}
           {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>
               <div className='theme'>
