@@ -532,7 +532,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
         <div
           className={classNames(
-            'min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px]  mobile:w-full tablet:w-full  xdesktop:w-[550px]',
+            ' relative flex flex-col justify-end rounded-[15px]  mobile:w-full tablet:w-full  xdesktop:w-[550px]',
             {
               'mobile:h-[204px] desktop:h-[309px]': postDetail?.post?.headImageUrl,
               'desktop:h-auto': !postDetail?.post?.headImageUrl,
@@ -616,7 +616,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
         <div
           className={classNames(
-            'min-w-[1280px]:!w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]',
+            ' relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]',
             {
               '!h-[100px]': !postDetail?.post?.headImageUrl,
             },

@@ -455,7 +455,7 @@ const StockDetail = () => {
           <Text type='body-20-semibold'>Brand awareness</Text>
         </div>
 
-        <div className='overflow-hidden pl-[16px] tablet:pl-[24px]'>
+        <div className='max-w-[680px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
           <Slider {...settings} variableWidth>
             {stockDetail?.data?.products.map((item, index) => (
               <div key={index} className='mr-[28px] !w-[112px]'>
