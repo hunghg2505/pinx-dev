@@ -1,7 +1,4 @@
-import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
-
 const AppLayout = ({ children }: any) => {
-  usePostThemeInitial();
   return (
     <>
       <main>{children}</main>

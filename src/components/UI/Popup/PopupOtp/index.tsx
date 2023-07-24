@@ -1,6 +1,5 @@
 import React from 'react';
 
-import 'rc-dialog/assets/index.css';
 import Dialog from 'rc-dialog';
 
 import OtpVerification from '@components/Auth/Register/OtpVerification';

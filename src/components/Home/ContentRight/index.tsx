@@ -1,16 +1,32 @@
-import React from 'react';
-
 import { useRouter } from 'next/router';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import MarketDesktop from '@components/Home/Market/MarketDesktop';
 import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
+import { Button } from '@components/UI/Button';
 import Text from '@components/UI/Text';
-import WatchList from '@components/WatchList';
+import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
+
+const WatchList = () => {
+  const router = useRouter();
+
+  return (
+    <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white '>
+      <ComponentWatchList isEdit={false} />
+
+      <Button
+        className='h-[40px] w-full rounded-[5px] bg-[#F0F7FC]'
+        onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
+      >
+        <Text color='primary-2'>View more</Text>
+      </Button>
+    </div>
+  );
+};
 
 const ContentRight = () => {
   const router = useRouter();

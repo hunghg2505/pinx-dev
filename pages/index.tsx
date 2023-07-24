@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 
-import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Home from '@components/Home';
@@ -24,7 +23,7 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: GetServerSidePropsContext) {
+export async function getServerSideProps({ locale }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'home', 'profile', 'theme'])),

@@ -3,7 +3,8 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const SettingLayout = dynamic(() => import('@layout/SettingLayout'));
+import MainLayout from '@layout/MainLayout';
+
 const Setting = dynamic(() => import('@components/Setting'), {
   ssr: false,
 });
@@ -17,7 +18,7 @@ const SettingPage = () => {
 };
 
 SettingPage.getLayout = function getLayout(page: ReactElement) {
-  return <SettingLayout>{page}</SettingLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getStaticProps({ locale }: any) {

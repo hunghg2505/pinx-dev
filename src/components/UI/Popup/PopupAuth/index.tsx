@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import 'rc-dialog/assets/index.css';
 import Dialog from 'rc-dialog';
 import Tabs, { TabPane } from 'rc-tabs';
 

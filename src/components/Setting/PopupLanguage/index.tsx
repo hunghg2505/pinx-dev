@@ -1,10 +1,9 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { i18n } from 'next-i18next';
+import { useRouter } from 'next/router';
 import Dialog from 'rc-dialog';
 
-import 'rc-dialog/assets/index.css';
 import Text from '@components/UI/Text';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
 
@@ -27,15 +26,13 @@ const LANGUAGES = [
 
 const PopupLanguage = (props: IProps) => {
   const currentLang = getLocaleCookie() || 'en';
-
+  const router = useRouter();
   const { visible, onToggle } = props;
 
   const onChangeLang = (lang: string) => {
-    if (lang !== currentLang) {
-      lang && setLocaleCookie(lang);
-      i18n?.changeLanguage(lang);
-      onToggle();
-    }
+    setLocaleCookie(lang);
+    onToggle();
+    router.push(router.asPath, router.asPath, { locale: lang });
   };
 
   const renderCloseIcon = (): React.ReactNode => {

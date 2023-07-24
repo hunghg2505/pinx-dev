@@ -94,7 +94,7 @@ const SideBar = () => {
 
       if (menu?.action && !isLogin) {
         return {
-          className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] cuso ${
+          className: `flex items-center flex-row-reverse justify-end py-[5px] px-[8px] mb-[12px] ${
             checkPathExist && 'active'
           }`,
           key: `${menu.id}`,
@@ -114,7 +114,7 @@ const SideBar = () => {
       }
 
       return {
-        className: `flex items-center flex-row-reverse justify-end py-[16px] px-[10px] ${
+        className: `flex items-center flex-row-reverse justify-end py-[5px] px-[8px] mb-[12px] ${
           checkPathExist && 'active'
         }`,
         key: `${menu.id}`,
@@ -136,7 +136,7 @@ const SideBar = () => {
 
   return (
     <>
-      <Menu items={items} />
+      <Menu items={items} className='sidebar-list' />
       <div className='pt-[25px] [border-top:1px_solid_#ECECEC] mobile:pl-[10px] tablet:pl-0'>
         <Text type='body-12-regular' className='text-[#78909C]'>
           Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>

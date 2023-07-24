@@ -4,7 +4,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import WatchList from '@components/WatchList';
-import SettingLayout from '@layout/SettingLayout';
+import MainLayout from '@layout/MainLayout';
 
 const WatchlistPage = () => {
   return (
@@ -17,9 +17,9 @@ const WatchlistPage = () => {
 
 WatchlistPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <SettingLayout>
+    <MainLayout>
       <>{page}</>
-    </SettingLayout>
+    </MainLayout>
   );
 };
 

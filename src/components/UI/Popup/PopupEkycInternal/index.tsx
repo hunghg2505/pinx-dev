@@ -5,7 +5,6 @@ import Dialog from 'rc-dialog';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
-import 'rc-dialog/assets/index.css';
 
 const handleRedirect = (url: string) => {
   window.open(url, '_blank');

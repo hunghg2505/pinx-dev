@@ -1,12 +1,11 @@
 import { ReactElement } from 'react';
 
-import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import GiftCash from '@components/GiftCash';
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const GiftCashPage = () => {
   return (
     <>
@@ -17,9 +16,9 @@ const GiftCashPage = () => {
 };
 GiftCashPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ExploreLayout>
+    <MainLayout>
       <>{page}</>
-    </ExploreLayout>
+    </MainLayout>
   );
 };
 
