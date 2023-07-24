@@ -10,7 +10,7 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, checkUserType } from '@utils/common';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
@@ -22,14 +22,14 @@ interface IProps {
 const Register = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userRegisterInfo } = useUserRegisterInfo();
-  const { setUserLoginInfo, setIsReadTerms } = useUserLoginInfo();
+  const { setUserLoginInfo, setIsReadTerms, setUserType } = useUserLoginInfo();
   const router = useRouter();
   const { onLogin } = useAuth();
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
       setUserLoginInfo(res?.data);
-      if (res?.data.token) {
+      if (res?.data?.token) {
         onLogin({
           token: res?.data.token,
           refreshToken: res?.refresh_token,
@@ -43,6 +43,7 @@ const Register = (props: IProps) => {
         });
       }
       router.push(ROUTE_PATH.REGISTER_COMPANY);
+      setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));
       setIsReadTerms(true);
       deleteRegisterCookies();
     },

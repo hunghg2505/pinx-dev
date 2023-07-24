@@ -1,15 +1,12 @@
 import dynamic from 'next/dynamic';
-import Script from 'next/script';
 
 import Text from '@components/UI/Text';
-import { ENV } from '@utils/env';
 
 const LoginHeader = dynamic(() => import('../components/LoginHeader'));
 
 const LoginLayout = ({ children }: any) => {
   return (
     <>
-      <Script src={`https://www.google.com/recaptcha/api.js?render=${ENV.RECAPTHCHA_SITE_KEY}`} />
       <LoginHeader />
 
       <div className='flex w-full justify-center laptop:min-h-screen'>

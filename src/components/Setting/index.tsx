@@ -139,7 +139,7 @@ const Setting = () => {
           }}
           key={index}
           className={classNames(
-            'flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 py-[14px]',
+            ' flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4',
             {
               'border-none': item.hideDivider,
               'cursor-auto': item.disableClick,
@@ -216,7 +216,7 @@ const Setting = () => {
           className='left-[10px] top-[23px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:hidden'
           onClick={onBack}
         />
-        <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
+        <Text type='body-20-bold' className='mb-1 mobile:mt-6 laptop-max:ml-4 laptop:mt-0'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
@@ -227,11 +227,11 @@ const Setting = () => {
         )}
         {isLogin && (
           <>
-            <Text type='body-20-semibold' className='ml-4 mt-[20px] tablet:!text-[16px]'>
+            <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
               Social
             </Text>
 
-            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 py-[14px] laptop:border-none'>
+            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4 laptop:border-none'>
               <Text type='body-14-regular'>Share watchinglist</Text>
 
               <Switch
@@ -244,7 +244,7 @@ const Setting = () => {
 
         <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
 
-        <Text type='body-20-semibold' className='ml-4 mt-[20px] tablet:!text-[16px]'>
+        <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
           PineX
         </Text>
 

@@ -137,7 +137,7 @@ const HomeNewFeed = () => {
 
   return (
     <>
-      <div className='desktop:bg-[#F8FAFD]' ref={refScroll}>
+      <div className='px-[10px] desktop:bg-[#F8FAFD]' ref={refScroll}>
         <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
           <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
             {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (

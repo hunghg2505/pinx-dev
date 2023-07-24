@@ -61,7 +61,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <div className='relative'>
         <img
           src='/static/icons/arrow-left.svg'
@@ -69,7 +69,7 @@ const ChangePassword = () => {
           width='0'
           height='0'
           sizes='100vw'
-          className='absolute left-[10px] top-[-4px] h-[32px] w-[32px] cursor-pointer laptop-max:hidden'
+          className='absolute left-[-5px] top-[-4px] h-[32px] w-[32px] cursor-pointer laptop-max:hidden'
           onClick={() => router.back()}
         />
       </div>
@@ -78,14 +78,21 @@ const ChangePassword = () => {
         alt=''
         width='0'
         height='0'
-        className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+        className='left-[10px] top-[23px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:hidden'
         onClick={onBack}
       />
 
-      <Text type='body-20-bold' className='mb-1 ml-4 mt-6 laptop:mt-0 laptop:text-center'>
+      <Text
+        type='body-20-bold'
+        className='mb-1 mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-center'
+      >
         Change password
       </Text>
-      <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
+      <Form
+        className='mt-10 space-y-7 laptop-max:px-4 laptop:mb-24'
+        form={form}
+        onFinish={onSubmit}
+      >
         <div>
           <Text type='body-14-semibold' color='primary-5'>
             Current password

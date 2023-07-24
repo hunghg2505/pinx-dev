@@ -111,7 +111,7 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
+    <div className='w-full rounded-[8px] bg-white px-[10px] text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
       <Text
         type='body-24-semibold'
         color='cbblack'

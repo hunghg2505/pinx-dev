@@ -14,10 +14,8 @@ export interface IAuth {
 export const useAuth = () => {
   const onLogout = (navigatePath?: string) => {
     try {
-      const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
-      localStorage.setItem('locale', locale || '');
       window.location.href = navigatePath || ROUTE_PATH.HOME;
     } catch {}
   };

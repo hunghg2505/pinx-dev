@@ -9,7 +9,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, calcUserStatusText } from '@utils/common';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import Back from './Back';
@@ -66,11 +66,7 @@ const MenuProfile = forwardRef((_, ref) => {
       <BasicInfo
         userName={userLoginInfo?.displayName || 'Anonymous User'}
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
-        status={
-          userLoginInfo.acntStat === 'ACTIVE'
-            ? 'Verified'
-            : String(userLoginInfo.acntStat === 'VSD_PENDING' ? 'Pending' : 'Unverified')
-        }
+        status={calcUserStatusText(userLoginInfo.acntStat || '')}
         close={close}
       />
       {isLogin ? (

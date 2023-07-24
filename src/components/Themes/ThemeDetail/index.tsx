@@ -94,7 +94,6 @@ const ThemeDetail = () => {
   // }
 
   const onRefreshActivities = () => {
-    console.log('xxx onRefreshActivities');
     refActivities.current && refActivities.current.onRefreshActivities();
   };
 
@@ -106,7 +105,7 @@ const ThemeDetail = () => {
           onRefreshActivities={onRefreshActivities}
         />
       )}
-      <div className='mt-[24px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
+      <div className='mt-[24px] px-[10px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
         <div className='relative text-center'>
           <img
             src='/static/icons/back_icon.svg'
