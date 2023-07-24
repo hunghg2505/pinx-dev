@@ -44,9 +44,12 @@ const NewsFeed = (props: IProps) => {
   return (
     <>
       <div
-        className={classNames('bg-[#ffffff] mobile:px-[16px] desktop:px-0', {
-          'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
-        })}
+        className={classNames(
+          'relative bg-[#ffffff] after:absolute after:-left-[20px] after:right-0 after:top-0 after:h-[1px] after:w-[calc(100%+40px)] after:bg-[#D8EBFC] after:content-[""]',
+          {
+            'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
+          },
+        )}
       >
         <NewFeedItem
           onNavigate={onNavigate}
@@ -57,7 +60,7 @@ const NewsFeed = (props: IProps) => {
           onHidePostSuccess={onHidePost}
           pinned={pinned}
         />
-        <div className='desktop:ml-[64px] desktop:mr-[56px]'>
+        <div className='desktop:ml-[64px] desktop:mr-[85px]'>
           {countComment > 0 && (
             <div className='mt-[22px]'>
               <ItemComment

@@ -140,7 +140,7 @@ const MainHeader = () => {
     ) : (
       <>
         <button
-          className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
+          className='h-[40px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
           onClick={redirectToSignUp}
         >
           <Text type='body-14-bold' color='cbwhite'>
@@ -363,7 +363,7 @@ const MainHeader = () => {
 
               {!isLogin && (
                 <button
-                  className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
+                  className='h-[40px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
                   onClick={redirectToLogin}
                 >
                   <Text type='body-14-bold' color='primary-2'>
