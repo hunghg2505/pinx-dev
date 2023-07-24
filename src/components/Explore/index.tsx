@@ -353,7 +353,7 @@ const Explore = () => {
       )}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] tablet:mb-[0px]'>
+      <Text type='body-20-semibold' color='neutral-1'>
         Trending on PineX
       </Text>
       <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
@@ -363,7 +363,7 @@ const Explore = () => {
             return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}
         </div>
-        <div className='block mobile-max:-mt-[4px] mobile-max:hidden'>
+        <div className='-mt-[4px] block mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
             return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
           })}
