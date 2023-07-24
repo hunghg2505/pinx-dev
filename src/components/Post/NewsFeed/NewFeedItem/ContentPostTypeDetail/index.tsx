@@ -106,7 +106,14 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <Link href={ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode)}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div
+            className={classNames(
+              'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+              {
+                '!h-0': !postDetail?.post.bgImage,
+              },
+            )}
+          >
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post.bgImage}
@@ -183,7 +190,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+            {
+              '!h-0': !postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
           {postDetail?.post?.headImageUrl && (
             <img
               src={postDetail?.post?.headImageUrl}
@@ -245,7 +259,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+            {
+              '!h-0': !postDetail?.post.headImageUrl,
+            },
+          )}
+        >
           <img
             src={postDetail?.post.headImageUrl || ''}
             alt=''
@@ -290,7 +311,14 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <Link href={ROUTE_PATH.STOCK_DETAIL(postDetail?.post.stockCode)}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div
+            className={classNames(
+              'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+              {
+                '!h-0': !postDetail?.post?.bgImage,
+              },
+            )}
+          >
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -379,7 +407,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             ></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+            {
+              '!h-0': !postDetail?.post?.bgImage,
+            },
+          )}
+        >
           <img
             src={postDetail?.post?.bgImage}
             alt=''

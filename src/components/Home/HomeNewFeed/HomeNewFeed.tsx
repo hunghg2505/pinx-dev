@@ -189,26 +189,27 @@ const HomeNewFeed = () => {
           </div>
 
           <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
-            <div className='absolute left-0 top-[17px] h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
+            <div className='absolute left-0 top-[17px] z-10 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
 
             {pinedPost && (
               <>
                 {pinedPost?.map((item: IPost, index: number) => {
                   return (
-                    <NewsFeed
-                      key={index}
-                      data={item}
-                      id={item.id}
-                      refresh={refresh}
-                      onHidePost={onHidePost}
-                      pinned={true}
-                    />
+                    <div className='mobile:px-[6px] desktop:px-0' key={index}>
+                      <NewsFeed
+                        data={item}
+                        id={item.id}
+                        refresh={refresh}
+                        onHidePost={onHidePost}
+                        pinned={true}
+                      />
+                    </div>
                   );
                 })}
               </>
             )}
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
+            <div className='mobile:px-[6px] desktop:px-0'>
               {newFeed?.slice(0, 1)?.map((item: IPost, index: number) => {
                 return (
                   <NewsFeed
@@ -281,7 +282,7 @@ const HomeNewFeed = () => {
               </div>
             )}
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
+            <div className='relative after:absolute after:left-0 after:right-0 after:h-[1px] after:w-full after:bg-[#D8EBFC] after:content-[""] mobile:px-[6px] desktop:px-0'>
               {newFeed?.slice(1, 4)?.map((item: IPost, index: number) => {
                 return (
                   <NewsFeed
@@ -304,7 +305,7 @@ const HomeNewFeed = () => {
               <ListTheme />
             </div>
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
+            <div className='mobile:px-[6px] desktop:px-[0]'>
               {newFeed?.slice(5)?.map((item: IPost, index: number) => {
                 return (
                   <NewsFeed

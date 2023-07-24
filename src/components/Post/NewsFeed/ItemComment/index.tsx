@@ -186,7 +186,7 @@ const ItemComment = (props: IProps) => {
   };
   return (
     <div className='comment mb-[22px]'>
-      <div className='flex flex-row items-start mobile:px-[12px] tablet:px-0'>
+      <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
           alt=''

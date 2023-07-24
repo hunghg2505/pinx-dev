@@ -6,7 +6,7 @@ import SideBar from '@layout/MainLayout/SideBar';
 const MainHeader = dynamic(() => import('../components/MainHeader'), {
   ssr: false,
   loading: () => (
-    <div className='border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'></div>
+    <div className='border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[56px]'></div>
   ),
 });
 
