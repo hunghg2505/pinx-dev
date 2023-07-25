@@ -298,7 +298,7 @@ const MainHeader = () => {
     <>
       <div
         ref={headerRef}
-        className='sticky left-0 top-0 z-[99] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'
+        className='sticky left-0 top-0 z-[99] border-b-[1px] border-solid border-[#EBEBEB] bg-white'
       >
         {!isHideHeaderOpenAppOnMobile && (
           <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
@@ -325,7 +325,7 @@ const MainHeader = () => {
           </div>
         )}
         {!isHideHeaderLoginOnMobile && (
-          <div className='mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[16px] desktop:h-[84px] desktop:px-[0]'>
+          <div className='mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[16px] desktop:px-[0]'>
             <div className='flex flex-row items-center'>
               <Link href={ROUTE_PATH.HOME}>
                 <img
@@ -333,7 +333,7 @@ const MainHeader = () => {
                   alt=''
                   width='0'
                   height='0'
-                  className='mr-[16px] h-[40px] w-[40px] object-contain tablet:ml-[8px] desktop:h-[52px] desktop:w-[52px]'
+                  className='mr-[16px] h-[40px] w-[40px] object-contain tablet:ml-[8px]'
                 />
               </Link>
 

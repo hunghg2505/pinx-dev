@@ -174,7 +174,7 @@ const PostDetail = () => {
           </div>
         </div>
 
-        <div className='mobile:px-0 desktop:px-[20px]'>
+        <div className='mobile:px-[16px] desktop:px-[20px]'>
           <NewFeedItem
             postDetail={postDetail?.data}
             totalComments={countComment}
@@ -184,7 +184,7 @@ const PostDetail = () => {
         </div>
 
         {isLogin && (
-          <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
+          <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:w-[calc(500px+40px)] desktop:px-0 desktop:px-[20px] xdesktop:w-[calc(550px+40px)]'>
             <ForwardedRefComponent
               id={postDetail?.data?.id}
               refresh={refreshCommentOfPost}
@@ -197,7 +197,7 @@ const PostDetail = () => {
 
         <div
           className={classNames(
-            'pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]',
+            'px-[16px] pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:w-[calc(500px+40px)] desktop:px-0 desktop:px-[20px] xdesktop:w-[calc(550px+40px)]',
             {
               'mobile:mb-[50px]': !isImageCommentMobile && isLogin,
               'mobile:mb-[179px]': isImageCommentMobile && isLogin,

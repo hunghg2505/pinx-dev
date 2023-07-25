@@ -133,7 +133,7 @@ const ContentPostTypeHome = (props: IProps) => {
               <img
                 src={imageMetaData}
                 alt=''
-                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'
               />
             </a>
           </Fancybox>
@@ -633,7 +633,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
         <div
           className={classNames(
-            ' relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] ',
+            ' relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
             {
               '!h-[100px]': !postDetail?.post?.headImageUrl,
             },
@@ -697,7 +697,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <div>
             {postThemeId ? (
               <div
-                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:w-full tablet:w-full xdesktop:w-[550px]'
+                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:w-full tablet:w-full desktop:w-[500px] xdesktop:w-[550px]'
                 onClick={onComment}
               >
                 <img

@@ -27,14 +27,15 @@ const PinPost = ({ refresh, onHidePost, pinPostDataInitial }: any) => {
     <>
       {data?.map((item: IPost) => {
         return (
-          <NewsFeed
-            key={`pined-post-${item.id}`}
-            data={item}
-            id={item.id}
-            refresh={onRefresh}
-            onHidePost={onHidePost}
-            pinned={true}
-          />
+          <div key={`pined-post-${item.id}`} className='mobile:px-[16px] desktop:px-0'>
+            <NewsFeed
+              data={item}
+              id={item.id}
+              refresh={onRefresh}
+              onHidePost={onHidePost}
+              pinned={true}
+            />
+          </div>
         );
       })}
     </>
