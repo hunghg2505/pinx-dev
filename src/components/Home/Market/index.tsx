@@ -97,7 +97,7 @@ const Market = () => {
     dataStockIndex[findIndex] = { ...data, ...dataStock };
   }
   return (
-    <div className='mt-[24px] px-[16px]'>
+    <div className='mt-[24px] desktop:px-[16px]'>
       <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
         {dataStockIndex?.map((item: any, index: number) => {
           const [change, changePercent] = item.ot.split('|');
