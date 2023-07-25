@@ -21,8 +21,8 @@ export const useUpdateUserProfile = () => {
     {
       manual: true,
       onSuccess: () => {
-        toast(() => <Notification type='success' message={t('upload_profile_success')} />);
         router.push(ROUTE_PATH.MY_PROFILE);
+        toast(() => <Notification type='success' message={t('upload_profile_success')} />);
       },
       onError: () => {
         toast(() => <Notification type='error' message={t('upload_profile_error')} />);
