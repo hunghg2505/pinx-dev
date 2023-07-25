@@ -695,7 +695,7 @@ const ContentPostTypeHome = (props: IProps) => {
       <>
         <div className='1 cursor-pointer'>
           <div>
-            {postThemeId ? (
+            {postThemeId && postDetail?.post?.message?.length < 254 ? (
               <div
                 className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:w-full tablet:w-full xdesktop:w-[550px]'
                 onClick={onComment}
@@ -730,7 +730,6 @@ const ContentPostTypeHome = (props: IProps) => {
                     <Text type='body-14-regular' color='neutral-1' onClick={onComment}>
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
-                        style={{ display: '-webkit-box' }}
                         dangerouslySetInnerHTML={{ __html: message }}
                       ></div>
                     </Text>
