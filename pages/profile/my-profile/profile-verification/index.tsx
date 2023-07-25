@@ -20,7 +20,7 @@ ProfileVerificationPage.getLayout = function getLayout(page: ReactElement) {
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'profile'])),
+      ...(await serverSideTranslations(locale, ['common', 'profile', 'setting'])),
       // Will be passed to the page component as props
     },
   };
