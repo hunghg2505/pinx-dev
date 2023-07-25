@@ -229,7 +229,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
             </div>
 
-            <div className='bg-[#ffffff] [border-top:1px_solid_#EAF4FB]'>
+            <div className='relative bg-[#ffffff] before:absolute before:h-[5px] before:w-full before:bg-[#F3F2F6] before:content-[""] mobile:before:-left-[16px] mobile:before:w-[calc(100%+32px)] desktop:before:-left-[20px] desktop:before:w-[calc(100%+40px)]'>
               <Text
                 type='body-16-bold'
                 color='neutral-2'
@@ -295,7 +295,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                 />
               );
             })}
-            <div className='mb-[8px] block h-[2px] bg-[#EEF5F9]'></div>
+            <div className='absolute mb-[8px] block h-[5px] w-full bg-[#F3F2F6] content-[""] mobile:-left-[16px] mobile:w-[calc(100%+32px)] desktop:-left-[20px] desktop:w-[calc(100%+40px)]'></div>
             <div className='bg-[#ffffff] pl-[16px]'>
               <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
                 Economy in the themes

@@ -29,7 +29,7 @@ const ImageHeadPost = dynamic(
         width='0'
         height='0'
         sizes='100vw'
-        className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] object-cover'
+        className='absolute left-0 top-0 h-full w-full rounded-[12px] object-cover'
       />
     ),
   },
@@ -568,22 +568,14 @@ const ContentPostTypeHome = (props: IProps) => {
                 width='0'
                 height='0'
                 sizes='100vw'
-                className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
+                className='absolute left-0 top-0 h-full w-full rounded-[12px]'
               />
             )}
           </Link>
           <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />
           </div>
-          <div
-            className={classNames(
-              'z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]',
-              {
-                '!rounded-[8px] border border-solid border-[#EBEBEB]':
-                  !postDetail?.post?.headImageUrl,
-              },
-            )}
-          >
+          <div className='z-10 -mb-[1px] min-h-[44px] w-full rounded-[12px] border border-solid border-neutral_07 bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
             <Link href={postDetailUrl}>
               <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
@@ -653,15 +645,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
             <ListStock listStock={postDetail?.post?.tagStocks} />
           </div>
-          <div
-            className={classNames(
-              'z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]',
-              {
-                '!rounded-[8px] border border-solid border-[#EBEBEB]':
-                  !postDetail?.post?.headImageUrl,
-              },
-            )}
-          >
+          <div className='z-10 -mb-[1px] min-h-[44px] w-full rounded-[12px] border border-solid border-neutral_07 bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
             <Link href={postDetailUrl}>
               <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
@@ -705,7 +689,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <div>
             {postThemeId ? (
               <div
-                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[15px] xdesktop:w-[550px]'
+                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'
                 onClick={onComment}
               >
                 <img

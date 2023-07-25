@@ -205,7 +205,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='h-full w-full rounded-[8px]'
+              className='h-full w-full rounded-[12px]'
             />
           )}
           <div
@@ -273,7 +273,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-full w-full rounded-[8px]'
+            className='h-full w-full rounded-[12px]'
           />
           <div
             // href={postDetail?.post.url || ''}
@@ -501,7 +501,7 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           {postThemeId ? (
-            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[15px] xdesktop:w-[550px]'>
+            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''
