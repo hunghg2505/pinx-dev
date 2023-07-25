@@ -6,7 +6,8 @@ import { profileUserContext } from '@components/ProfileEdit';
 
 const Verify = () => {
   const profileUser = useContext<any>(profileUserContext);
-  const { t } = useTranslation('editProfile');  
+  const { t } = useTranslation('editProfile');
+
   return (
     <div className='mb-[20px]'>
       {profileUser?.acntStat === 'ACTIVE' && (
@@ -34,7 +35,7 @@ const Verify = () => {
           {t('pending')}
         </span>
       )}
-      {profileUser?.acntStat === 'Unverified' && (
+      {!profileUser?.acntStat && (
         <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-orange'>
           {t('unverified')}
         </span>

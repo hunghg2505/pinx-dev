@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
@@ -23,6 +24,7 @@ interface IProps {
 }
 
 const ModalLoginTerms = (props: IProps) => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const { visible, onClose } = props;
   const [contractList, setContractList] = useState<any[]>([]);
@@ -125,13 +127,12 @@ const ModalLoginTerms = (props: IProps) => {
       <Modal visible={visible} onClose={handleClose}>
         <div>
           <Text type='body-22-bold' className='mt-16 text-center'>
-            Dear Customer
+            {t('dear_customer')}
           </Text>
           <Text type='body-14-regular' color='neutral-4' className='mt-5 text-center'>
-            In compliance with
-            <span className='text-[#EAA100]'>&nbsp;DECREE 13/2023/NĐ-CP&nbsp;</span>
-            on Protection of Personal Data, please read carefully and confirm your agreement to the
-            Adjustment of Conditions and Privacy by selecting Agree:
+            {t('in_compliance_with')}
+            <span className='text-[#EAA100]'>&nbsp;{t('degree_13')}&nbsp;</span>
+            {t('degree_13_content')}
           </Text>
         </div>
         <div className='mt-8'>
@@ -189,7 +190,7 @@ const ModalLoginTerms = (props: IProps) => {
               className='mt-3 w-full bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-[--white]'
               onClick={onSubmit}
             >
-              Agree
+              {t('agree')}
             </RoundButton>
           </div>
         </div>

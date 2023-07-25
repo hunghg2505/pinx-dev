@@ -54,7 +54,7 @@ const onGetReCapcha = async () => {
 };
 
 const Register = (props: IProps) => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const { isModal } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();

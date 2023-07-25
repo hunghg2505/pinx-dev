@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const ModalAuth = (props: IProps) => {
+  const { t } = useTranslation('common');
   const { visible, onClose } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
@@ -32,10 +34,10 @@ const ModalAuth = (props: IProps) => {
       <Modal visible={visible} onClose={handleClose}>
         <div className='abcd fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-[#EAF4FB] p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
           <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
-            Access Limited
+            {t('access_limited')}
           </Text>
           <Text type='body-16-regular' color='primary-5' className='mb-[24px] text-center'>
-            You need to log in to use this feature
+            {t('access_limited_content')}
           </Text>
           <div className='flex gap-x-[13px]'>
             <div
@@ -43,7 +45,7 @@ const ModalAuth = (props: IProps) => {
               onClick={handleClose}
             >
               <Text type='body-16-bold' color='primary-2'>
-                Cancel
+                {t('cancel')}
               </Text>
             </div>
             <div
@@ -51,7 +53,7 @@ const ModalAuth = (props: IProps) => {
               onClick={onSubmit}
             >
               <Text type='body-16-bold' color='cbwhite'>
-                OK
+                {t('ok')}
               </Text>
             </div>
           </div>

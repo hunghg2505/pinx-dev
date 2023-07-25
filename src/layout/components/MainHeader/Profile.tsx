@@ -2,12 +2,15 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
+import Back from '@components/MenuProfile/Back';
 import BasicInfo from '@components/MenuProfile/BasicInfo';
 import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
@@ -36,12 +39,17 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   return (
     <div
       className={
-        'absolute left-[-100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
+        'absolute left-[-100%] top-[0] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
       }
       style={{
         left: openProfileMenu ? 0 : '-100%',
       }}
     >
+      <Back
+        close={() => {
+          setOpenProfileMenu(!openProfileMenu);
+        }}
+      />
       <BasicInfo
         userName={userLoginInfo?.displayName || 'Anonymous User'}
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
@@ -61,6 +69,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 });
 
 const Profile = () => {
+  const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
   const { userLoginInfo } = useUserLoginInfo();
 
@@ -86,28 +95,28 @@ const Profile = () => {
             <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
 
             <div className='my-[6px] text-[12px] text-[#474D57]'>
-              Joined since
-              <span className='text-[12px] font-[600] text-neutral_black'> 2022</span>
+              {t('joined_since')}
+              <span className='text-[12px] font-[600] text-neutral_black'> {dayjs(userLoginInfo?.openDate).format('YYYY')}</span>
             </div>
 
             <div className='flex justify-between gap-[10px]'>
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  Post
+                  {t('post')}
                 </Text>
                 <Text type='body-12-semibold'>0</Text>
               </div>
 
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  Follower
+                  {t('follower')}
                 </Text>
                 <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
               </div>
 
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  Following
+                  {t('following')}
                 </Text>
                 <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
               </div>
@@ -130,7 +139,7 @@ const Profile = () => {
               className='mr-[10px] h-[16px] w-[15px]'
               alt='Profile Verification'
             />
-            <span>Profile Verification</span>
+            <span>{t('profile_verification')}</span>
           </div>
           <Text
             type='body-12-regular'
@@ -152,7 +161,7 @@ const Profile = () => {
             className='mr-[10px] h-[14px] w-[15px] object-contain'
             alt='Watchlist and theme'
           />
-          <span>Watchlist and theme</span>
+          <span>{t('watchlist_and_theme')}</span>
         </Link>
       </MenuItem>
     </Menu>
@@ -205,7 +214,7 @@ const Profile = () => {
           className='flex h-[40px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
         >
           <Text type='body-14-bold' color='primary-2'>
-            Log in
+            {t('log_in')}
           </Text>
         </CustomLink>
 
@@ -214,7 +223,7 @@ const Profile = () => {
           href={`${ROUTE_PATH.LOGIN}?type=register`}
         >
           <Text type='body-14-bold' color='cbwhite'>
-            Sign up
+            {t('sign_up')}
           </Text>
         </CustomLink>
       </div>

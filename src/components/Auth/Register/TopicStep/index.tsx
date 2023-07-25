@@ -16,7 +16,7 @@ interface ITopicCard {
 }
 
 const RegisterCompanyStep = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<ITopicCard[]>([]);
 

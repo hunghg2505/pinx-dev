@@ -16,7 +16,7 @@ import {
 import ThemeCard from './ThemeCard';
 
 const RegisterThemes = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
   const [subscribedTheme, setSubscribedTheme] = useState<string[]>([]);
