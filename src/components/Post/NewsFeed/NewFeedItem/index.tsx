@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
@@ -6,25 +6,34 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
-import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
-import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-import useClickOutSide from '@hooks/useClickOutside';
+// import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
+
+// import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
+import ModalDelete from './ModalDelete';
+import ModalEdit from './ModalEdit';
 import PostAction from '../PostAction';
 
+const ContentPostTypeDetail = dynamic(
+  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail'),
+);
+const ContentPostTypeHome = dynamic(
+  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome'),
+);
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
@@ -58,12 +67,11 @@ const NewFeedItem = (props: IProps) => {
     isExplore = false,
     pinned = false,
   } = props;
-
   const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
-  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
+  // const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
@@ -82,19 +90,20 @@ const NewFeedItem = (props: IProps) => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
   }, [postDetail?.isFollowing, isReported]);
-  const handleHidePopup = () => {
-    showReport && setShowReport(false);
-  };
-  useClickOutSide(ref, handleHidePopup, excludeElements);
+  // const handleHidePopup = () => {
+  //   showReport && setShowReport(false);
+  // };
+  // useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  useEffect(() => {
-    setExcludeElements(() => {
-      return [
-        document.querySelector(`#${POPUP_COMPONENT_ID}`),
-        document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-      ];
-    });
-  }, [modalReportVisible]);
+  // useEffect(() => {
+  //   setExcludeElements(() => {
+  //     return [
+  //       document.querySelector(`#${POPUP_COMPONENT_ID}`),
+  //       document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
+  //       document.querySelector('.deleteCompose'),
+  //     ];
+  //   });
+  // }, [modalReportVisible]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
@@ -102,7 +111,10 @@ const NewFeedItem = (props: IProps) => {
   const idPost = id || postDetail?.id;
 
   const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
-
+  const onRefreshListPost = () => {
+    onRefreshPostDetail();
+    onHidePostSuccess && onHidePostSuccess(postId);
+  };
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -452,60 +464,63 @@ const NewFeedItem = (props: IProps) => {
                   className='w-[33px] cursor-pointer'
                   onClick={() => setShowReport(!showReport)}
                 />
-                {showReport && (
-                  <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
-                    {[
-                      TYPEPOST.POST,
-                      TYPEPOST.ActivityTheme,
-                      TYPEPOST.ActivityMatchOrder,
-                      TYPEPOST.ActivityWatchlist,
-                      TYPEPOST.PinetreePost,
-                    ].includes(postDetail?.post.postType) &&
-                      router.pathname !== '/explore' &&
-                      !isMyProfilePath && (
-                        <div
-                          className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                          onClick={handleHidePost}
-                        >
-                          <img
-                            src='/static/icons/iconUnHide.svg'
-                            alt=''
-                            width='0'
-                            height='0'
-                            sizes='100vw'
-                            className='mr-[8px] h-[20px] w-[20px] object-contain'
-                          />
-                          <Text type='body-14-medium' color='neutral-2'>
-                            Hide
-                          </Text>
-                        </div>
-                      )}
-
-                    {!report && !isMyPost && (
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                <Fade
+                  visible={showReport}
+                  className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+                >
+                  {[
+                    TYPEPOST.POST,
+                    TYPEPOST.ActivityTheme,
+                    TYPEPOST.ActivityMatchOrder,
+                    TYPEPOST.ActivityWatchlist,
+                    TYPEPOST.PinetreePost,
+                  ].includes(postDetail?.post.postType) &&
+                    router.pathname !== '/explore' &&
+                    !isMyProfilePath && (
+                      <div
+                        className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+                        onClick={handleHidePost}
+                      >
                         <img
-                          src='/static/icons/iconFlag.svg'
+                          src='/static/icons/iconUnHide.svg'
                           alt=''
                           width='0'
                           height='0'
                           sizes='100vw'
                           className='mr-[8px] h-[20px] w-[20px] object-contain'
                         />
-                        <ModalReport
-                          visible={modalReportVisible}
-                          onModalReportVisible={setModalReportVisible}
-                          postID={postDetail?.id}
-                          onReportSuccess={handleReportPostSuccess}
-                        >
-                          <Text type='body-14-medium' color='neutral-2'>
-                            Report
-                          </Text>
-                        </ModalReport>
+                        <Text type='body-14-medium' color='neutral-2'>
+                          Hide
+                        </Text>
                       </div>
                     )}
 
-                    {isMyProfilePath && (
-                      <>
+                  {!report && !isMyPost && (
+                    <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                      <img
+                        src='/static/icons/iconFlag.svg'
+                        alt=''
+                        width='0'
+                        height='0'
+                        sizes='100vw'
+                        className='mr-[8px] h-[20px] w-[20px] object-contain'
+                      />
+                      <ModalReport
+                        visible={modalReportVisible}
+                        onModalReportVisible={setModalReportVisible}
+                        postID={postDetail?.id}
+                        onReportSuccess={handleReportPostSuccess}
+                      >
+                        <Text type='body-14-medium' color='neutral-2'>
+                          Report
+                        </Text>
+                      </ModalReport>
+                    </div>
+                  )}
+
+                  {(isMyProfilePath || isMyPost) && (
+                    <>
+                      <ModalEdit postDetail={postDetail}>
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconEdit.svg'
@@ -519,7 +534,8 @@ const NewFeedItem = (props: IProps) => {
                             Edit
                           </Text>
                         </div>
-
+                      </ModalEdit>
+                      <ModalDelete id={postDetail?.id} onRefreshPostDetail={onRefreshListPost}>
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconDelete.svg'
@@ -533,10 +549,10 @@ const NewFeedItem = (props: IProps) => {
                             Delete
                           </Text>
                         </div>
-                      </>
-                    )}
-                  </div>
-                )}
+                      </ModalDelete>
+                    </>
+                  )}
+                </Fade>
               </button>
             </div>
           )}

@@ -149,7 +149,7 @@ const PostDetail = () => {
       )}
       <div
         ref={onRef}
-        className='rounded-[8px] bg-[#FFF] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'
+        className='rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'
       >
         <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
           <Text

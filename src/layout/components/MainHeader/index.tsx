@@ -24,7 +24,6 @@ import {
   isUserVerified,
 } from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
-import 'rc-dropdown/assets/index.css';
 
 export const IconSearchWhite = () => (
   <svg width='16' height='16' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -124,38 +123,30 @@ const MainHeader = () => {
   const renderAvatarDesktop = () => {
     return isLogin ? (
       <div className='items-center mobile:hidden tablet:flex'>
-        {/* <Text type='body-20-medium' color='neutral-1'>
-          {userLoginInfo?.displayName}
-        </Text> */}
-        {userLoginInfo?.avatar && (
-          <Dropdown
-            trigger={['click']}
-            overlay={avatarDropdown}
-            animation='slide-up'
-            visible={avaDropdownVisible}
-            onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
-          >
-            <div className='relative cursor-pointer'>
-              <img
-                src={userLoginInfo?.avatar}
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[40px] w-[40px] rounded-full object-cover'
-              />
+        <Dropdown
+          trigger={['click']}
+          animation='slide-up'
+          overlay={avatarDropdown}
+          visible={avaDropdownVisible}
+          onVisibleChange={(visible) => setAvaDropdownVisible(visible)}
+        >
+          <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover desktop:h-[52px] desktop:w-[52px]'>
+            <img
+              src={userLoginInfo?.avatar ?? '/static/images/img-blur.png'}
+              alt=''
+              className='h-[40px] w-[40px] overflow-hidden rounded-full object-cover desktop:h-[52px] desktop:w-[52px]'
+            />
 
-              <img
-                src='/static/icons/arrow_down.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EFF2F5] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.25),0px_3px_6px_-4px_rgba(0,0,0,0.5)]'
-              />
-            </div>
-          </Dropdown>
-        )}
+            <img
+              src='/static/icons/arrow_down.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EFF2F5] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.25),0px_3px_6px_-4px_rgba(0,0,0,0.5)]'
+            />
+          </div>
+        </Dropdown>
       </div>
     ) : (
       <>
@@ -178,7 +169,7 @@ const MainHeader = () => {
   const avatarDropdown = (
     <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
       <MenuItem disabled>
-        <div className=' flex items-center px-5'>
+        <div className=' flex items-center'>
           {isLogin ? (
             <img
               src={userLoginInfo?.avatar}

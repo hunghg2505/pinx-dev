@@ -347,11 +347,6 @@ const ItemComment = (props: IProps) => {
             <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
               {dayjs(data?.timeString).fromNow(true)}
             </Text>
-            {/* <Fancybox>
-                <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
-                  <img alt='' src='/static/images/image_post.jpg' width='200' height='150' />
-                </a>
-              </Fancybox> */}
           </div>
           <div
             className='pointer-events-none visible absolute -bottom-[50px] h-[50px]'

@@ -4,11 +4,10 @@ import React, { useEffect, useMemo } from 'react';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Tabs, { TabPane } from 'rc-tabs';
 
 import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
-import UserPosting from '@components/Home/UserPosting/UserPosting';
+import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import { IPost } from '@components/Post/service';
 import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
@@ -18,8 +17,6 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
-import ListTheme from '../ListTheme';
-import Market from '../Market';
 import { FILTER_TYPE } from '../ModalFilter';
 import {
   requestJoinIndex,
@@ -31,9 +28,17 @@ import {
 } from '../service';
 import useLoadMore from '../useLoadMore';
 
-const WatchList = dynamic(() => import('../WatchList'));
+const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
+  loading: () => <UserPostingFake />,
+});
+const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
+  ssr: false,
+});
+const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
+  ssr: false,
+});
 
-const Filter = dynamic(() => import('@components/Home/HomeNewFeed/ModalFilter'), {
+const HomeFeedFilter = dynamic(() => import('@components/Home/HomeNewFeed/ModalFilter'), {
   ssr: false,
   loading: () => <FilterFake />,
 });
@@ -76,9 +81,11 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [isPost, setIsPost] = React.useState(false);
 
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
+  console.log('🚀 ~ file: HomeNewFeed.tsx:79 ~ HomeNewFeed ~ newFeed:', newFeed);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
   const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
+      console.log('🚀 ~ file: HomeNewFeed.tsx:82 ~ HomeNewFeed ~ res:', res);
       setLastNewFeed(res?.data?.last);
       const newData = [...newFeed];
       const check = res?.data?.list;
@@ -188,36 +195,34 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </button>
             )}
 
-            <Tabs
-              defaultActiveKey='2'
-              activeKey={selectTab}
-              className='tabHome'
-              onChange={onChangeTab}
-            >
-              {isLogin && (
-                <TabPane tab='Watchlist' key='1'>
-                  <WatchList />
-                </TabPane>
-              )}
-              <TabPane tab='Market' key='2'>
-                <Market />
-              </TabPane>
-            </Tabs>
+            <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
           </div>
 
           <UserPosting addPostSuccess={addPostSuccess} />
 
-          <Filter filterType={filterType as string} onFilter={onFilter as any} />
+          <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
-          <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
-            <div className='absolute left-0 top-[17px] z-10 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
+          <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-[16px] desktop:p-[20px]'>
+            <div className='absolute left-0 top-[12px] z-10 h-[5px] w-full bg-[#ffffff]'></div>
 
             <PinPost
               refresh={refresh}
               onHidePost={onHidePost}
               pinPostDataInitial={pinPostDataInitial}
             />
-
+            <div>
+              {newFeed?.slice(0, 1)?.map((item: IPost) => {
+                return (
+                  <NewsFeed
+                    key={`newFeed-${item.id}`}
+                    data={item}
+                    id={item.id}
+                    refresh={refresh}
+                    onHidePost={onHidePost}
+                  />
+                );
+              })}
+            </div>
             <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
               <div className='pb-[13px] pt-[10px] '>
                 <Trending />
@@ -279,19 +284,17 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
             )}
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
-              {newFeed?.slice(1, 4)?.map((item: IPost) => {
-                return (
-                  <NewsFeed
-                    key={`newFeed-${item.id}`}
-                    data={item}
-                    id={item.id}
-                    refresh={refresh}
-                    onHidePost={onHidePost}
-                  />
-                );
-              })}
-            </div>
+            {newFeed?.slice(1, 4)?.map((item: IPost) => {
+              return (
+                <NewsFeed
+                  key={`newFeed-${item.id}`}
+                  data={item}
+                  id={item.id}
+                  refresh={refresh}
+                  onHidePost={onHidePost}
+                />
+              );
+            })}
             <div className='mb-[8px] block h-[2px] bg-[#EEF5F9]'></div>
             <div className='bg-[#ffffff] pl-[16px]'>
               <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
@@ -300,19 +303,17 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               <ListTheme />
             </div>
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
-              {newFeed?.slice(5)?.map((item: IPost) => {
-                return (
-                  <NewsFeed
-                    key={`newFeed-${item.id}`}
-                    data={item}
-                    id={item.id}
-                    refresh={refresh}
-                    onHidePost={onHidePost}
-                  />
-                );
-              })}
-            </div>
+            {newFeed?.slice(5)?.map((item: IPost) => {
+              return (
+                <NewsFeed
+                  key={`newFeed-${item.id}`}
+                  data={item}
+                  id={item.id}
+                  refresh={refresh}
+                  onHidePost={onHidePost}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

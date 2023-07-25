@@ -28,11 +28,7 @@ const WatchList = () => {
     router.back();
   };
 
-  const { interestStock, refreshInterest, loading } = useGetInterest();
-
-  if (loading) {
-    return <></>;
-  }
+  const { interestStock, refreshInterest, loadingInterest } = useGetInterest();
 
   return (
     <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white px-[10px] py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
@@ -85,7 +81,7 @@ const WatchList = () => {
             </Text>
             <Button
               onClick={() => setIsEdit(true)}
-              className='flex items-center justify-end desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
+              className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
             >
               <img
                 src='/static/icons/explore/iconEdit.svg'
@@ -110,7 +106,7 @@ const WatchList = () => {
         )}
       </div>
 
-      <Interest isEdit={isEdit} interestStock={interestStock} refreshInterest={refreshInterest} />
+      <Interest isEdit={isEdit} loadingInterest={loadingInterest} interestStock={interestStock} refreshInterest={refreshInterest} />
       <Themes isEdit={isEdit} />
     </div>
   );
