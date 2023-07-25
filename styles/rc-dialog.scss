@@ -163,3 +163,32 @@
     opacity: 0;
   }
 }
+
+#md-popup-container {
+  z-index: 9999;
+  .md-modal-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    height: 100%;
+    background-color: #00000073;
+  }
+
+  .md-icon-close {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 30px;
+    img {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+.addLink {
+  textarea {
+    resize: none;
+  }
+}
