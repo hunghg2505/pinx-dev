@@ -81,11 +81,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [isPost, setIsPost] = React.useState(false);
 
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
-  console.log('🚀 ~ file: HomeNewFeed.tsx:79 ~ HomeNewFeed ~ newFeed:', newFeed);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
   const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
-      console.log('🚀 ~ file: HomeNewFeed.tsx:82 ~ HomeNewFeed ~ res:', res);
       setLastNewFeed(res?.data?.last);
       const newData = [...newFeed];
       const check = res?.data?.list;
@@ -197,9 +195,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
             <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
           </div>
-
-          <UserPosting addPostSuccess={addPostSuccess} />
-
+          {isLogin && <UserPosting addPostSuccess={addPostSuccess} />}
           <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
           <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-[16px] desktop:p-[20px]'>

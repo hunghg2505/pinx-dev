@@ -63,6 +63,8 @@ interface IData {
 const Compose = (props: IProps) => {
   const { t } = useTranslation('common');
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
+  console.log('🚀 ~ file: index.tsx:66 ~ Compose ~ postDetail:', postDetail);
+  const postThemeId = postDetail?.post?.postThemeId;
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const [isShowMore, setIsShowMore] = React.useState(true);
@@ -70,6 +72,7 @@ const Compose = (props: IProps) => {
   const [image, setImage] = React.useState<string>('');
   const [metaData, setMetaData] = React.useState<any>();
   const bgTheme = useAtomValue(postThemeAtom);
+  const themeInit = bgTheme?.find((item) => item.id === postThemeId);
   const themeActive = bgTheme?.find((item) => item.code === activeTheme);
   const { statusUser } = useUserType();
   const editor = useEditor(
@@ -158,6 +161,12 @@ const Compose = (props: IProps) => {
       },
       content: `${message || ''}`,
       onUpdate({ editor }) {
+        const textCompose = editor?.getText();
+        const length = textCompose?.length;
+        if (length > 254) {
+          setActiveTheme('default');
+          setIsShowMore(false);
+        }
         onGetData && onGetData(editor?.getText());
       },
     },
@@ -292,18 +301,21 @@ const Compose = (props: IProps) => {
     });
     const message = test?.flat()?.join('\n');
     const data: IData = {
-      message,
+      message: metaData ? message?.concat(` ${metaData['og:url']}`) : message,
       tagPeople: formatTagPeople,
       tagStocks: stock,
-      postThemeId: themeActive?.id,
+      postThemeId: isUpdate && activeTheme === 'default' ? '' : themeActive?.id,
       // parentId: idReply === '' ? id : idReply,
       urlImages: [image],
-      urlLinks: metaData ? [...urlLink, metaData['og:url']] : urlLink,
+      urlLinks: metaData && activeTheme === 'default' ? [...urlLink, metaData['og:url']] : urlLink,
     };
-    if (activeTheme === 'default') {
+    if (activeTheme === 'default' && !isUpdate) {
       delete data?.postThemeId;
     }
     if (!image) {
+      delete data?.urlImages;
+    }
+    if (activeTheme !== 'default') {
       delete data?.urlImages;
     }
     if (!urlLink) {
@@ -325,6 +337,7 @@ const Compose = (props: IProps) => {
       ));
     } else if (statusUser === USERTYPE.VSD) {
       if (editor?.getText()) {
+        console.log('data', data);
         useAddPost.run(data);
       } else {
         toast(() => <Notification type='error' message={t('err_add_post')} />);
@@ -357,13 +370,17 @@ const Compose = (props: IProps) => {
       editor?.commands?.clearContent();
     };
   }, []);
-
+  React.useEffect(() => {
+    if (themeInit) {
+      setActiveTheme(themeInit.code);
+    }
+  }, [postThemeId]);
   return (
     <div className='h-full mobile-max:flex mobile-max:flex-col mobile-max:justify-between'>
       <div className='relative h-[208px]'>
         <EditorContent
           editor={editor}
-          className={classNames('relative z-10 h-full max-h-[220px] overflow-y-auto', {
+          className={classNames('relative z-10 h-full max-h-[220px] overflow-y-auto px-[5px]', {
             [`text-center text-[${themeActive?.color?.code}] pt-[20px] text-[${themeActive?.fontSize}] leading-[${themeActive?.lineHeight}] ${themeActive?.code}`]:
               themeActive && activeTheme !== 'default',
             'text-left': activeTheme === 'default',
