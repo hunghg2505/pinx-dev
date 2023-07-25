@@ -36,6 +36,7 @@ interface InitUserLoginInfo {
   dob?: string;
   identityCardNo?: string;
   address?: string;
+  openDate?: string;
 }
 
 const initialUserLoginInfo: InitUserLoginInfo = {

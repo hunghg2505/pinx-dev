@@ -23,7 +23,7 @@ interface IProps {
 }
 
 const CreateUsername = (props: IProps) => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
@@ -69,9 +69,8 @@ const CreateUsername = (props: IProps) => {
 
   return (
     <div
-      className={`laptop:m-0 ${
-        props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
-      }`}
+      className={`laptop:m-0 ${props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
+        }`}
     >
       <div className='mt-[36px]'>
         <Text type='body-28-bold'>{t('create_username')}</Text>
