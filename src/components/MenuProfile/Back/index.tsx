@@ -15,7 +15,7 @@ const Back = ({ close }: { close: () => void }) => {
           height={18.67}
           onClick={close}
         />
-        <b className='bold mx-auto '>{t('my_profile')}</b>
+        <b className='bold mr-auto ml-[30px]'>{t('my_profile')}</b>
       </header>
     </>
   );
