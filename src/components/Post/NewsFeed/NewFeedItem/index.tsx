@@ -94,13 +94,13 @@ const NewFeedItem = (props: IProps) => {
   const handleHidePopup = () => {
     showReport && setShowReport(false);
   };
-  useClickOutSide(ref, handleHidePopup, excludeElements);
+  // useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  useEffect(() => {
-    setExcludeElements(() => {
-      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
-    });
-  }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
+  // useEffect(() => {
+  //   setExcludeElements(() => {
+  //     return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+  //   });
+  // }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
