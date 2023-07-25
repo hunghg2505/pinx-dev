@@ -2,6 +2,7 @@ import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -27,7 +28,6 @@ const MenuMobile = () => {
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
-      console.log('close menu');
       // @ts-ignore
       setIsShowNavigate(false);
     });
@@ -70,6 +70,7 @@ const MenuMobile = () => {
 };
 
 const MainHeader = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
 
   const isHideHeaderOpenAppOnMobile = [
@@ -91,11 +92,11 @@ const MainHeader = () => {
               <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
               <div className='ml-[8px]'>
                 <Text type='body-14-regular' color='primary-5'>
-                  Try full experience on
+                  {t('try_full_experience_on')}
                 </Text>
                 <CustomLink href='https://onelink.to/cgarrk'>
                   <Text type='body-14-medium' color='primary-5'>
-                    Mobile App
+                    {t('mobile_app')}
                   </Text>
                 </CustomLink>
               </div>
@@ -103,7 +104,7 @@ const MainHeader = () => {
             <CustomLink href='https://onelink.to/cgarrk'>
               <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
                 <Text type='body-14-bold' color='neutral-9'>
-                  Open App
+                  {t('open_app')}
                 </Text>
               </div>
             </CustomLink>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -9,6 +10,7 @@ import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
+  const { t } = useTranslation('home');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin, statusUser } = useUserType();
 
@@ -42,7 +44,7 @@ const ComposeButton = () => {
         />
 
         <Text type='body-14-bold' color='neutral-9'>
-          Compose
+          {t('compose')}
         </Text>
       </button>
     </div>

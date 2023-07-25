@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
@@ -9,6 +10,7 @@ import { ROUTE_PATH } from '@utils/common';
 
 const SCREEN_MOBILE_WIDTH = 768;
 const FooterSignUp = () => {
+  const { t } = useTranslation('common');
   const [scrollTop, setScrollTop] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
@@ -89,12 +91,12 @@ const FooterSignUp = () => {
           className='h-[26px] min-w-[83px] rounded-[4px] bg-[var(--primary-2)] px-[16px]'
         >
           <Text type='body-14-semibold' color='cbwhite'>
-            Sign up
+            {t('sign_up')}
           </Text>
         </button>
 
         <Text type='body-14-regular' color='primary-5' className='mx-[8px]'>
-          or
+          {t('or')}
         </Text>
 
         <button
@@ -102,12 +104,12 @@ const FooterSignUp = () => {
           className='h-[26px] min-w-[73px] rounded-[4px] border border-solid border-[var(--primary-6)] bg-[var(--primary-3)] px-[16px]'
         >
           <Text type='body-14-semibold' color='primary-2'>
-            Log in
+            {t('log_in')}
           </Text>
         </button>
 
         <Text type='body-14-regular' color='primary-5' className='ml-[8px] flex-1'>
-          to join the discussion
+          {t('log_in')}
         </Text>
       </div>
 
@@ -121,7 +123,7 @@ const FooterSignUp = () => {
           color='primary-5'
           className='tablet:mr-[100px] desktop:mr-[352px]'
         >
-          Sign up or Log in to join the discussion
+          {t('footer_content')}
         </Text>
 
         <div className='flex h-[37px] items-center'>
@@ -130,7 +132,7 @@ const FooterSignUp = () => {
             className='mr-[16px] h-full min-w-[107px] rounded-[4px] bg-[var(--primary-2)] px-[24px]'
           >
             <Text type='body-16-semibold' color='cbwhite'>
-              Sign up
+              {t('sign_up')}
             </Text>
           </button>
 
@@ -139,7 +141,7 @@ const FooterSignUp = () => {
             className='h-full min-w-[73px] rounded-[4px] border border-solid border-[var(--primary-6)] bg-[var(--primary-3)] px-[30px]'
           >
             <Text type='body-16-semibold' color='primary-2'>
-              Log in
+              {t('log_in')}
             </Text>
           </button>
         </div>

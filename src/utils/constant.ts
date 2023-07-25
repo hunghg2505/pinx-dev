@@ -18,3 +18,6 @@ export const enum USERTYPE {
 export const PHONE_CONTACT_SUPPORT = 'tel:02462823535';
 export const ACNT_STAT_ACTIVE = 'ACTIVE';
 export const ACNT_STAT_VSD_PENDING = 'VSD_PENDING';
+export const USER_STATUS_VERIFIED = 'Verified';
+export const USER_STATUS_UNVERIFIED = 'Unverified';
+export const USER_STATUS_PENDING = 'Pending';
