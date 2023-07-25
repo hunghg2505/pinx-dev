@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
@@ -15,12 +15,10 @@ import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-// import useClickOutSide from '@hooks/useClickOutside';
+import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-
-// import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
@@ -71,7 +69,9 @@ const NewFeedItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
-  // const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
+  const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
@@ -90,20 +90,16 @@ const NewFeedItem = (props: IProps) => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
   }, [postDetail?.isFollowing, isReported]);
-  // const handleHidePopup = () => {
-  //   showReport && setShowReport(false);
-  // };
-  // useClickOutSide(ref, handleHidePopup, excludeElements);
+  const handleHidePopup = () => {
+    showReport && setShowReport(false);
+  };
+  useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  // useEffect(() => {
-  //   setExcludeElements(() => {
-  //     return [
-  //       document.querySelector(`#${POPUP_COMPONENT_ID}`),
-  //       document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-  //       document.querySelector('.deleteCompose'),
-  //     ];
-  //   });
-  // }, [modalReportVisible]);
+  useEffect(() => {
+    setExcludeElements(() => {
+      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+    });
+  }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
@@ -520,7 +516,11 @@ const NewFeedItem = (props: IProps) => {
 
                   {(isMyProfilePath || isMyPost) && (
                     <>
-                      <ModalEdit postDetail={postDetail}>
+                      <ModalEdit
+                        visible={modalEditVisible}
+                        onVisible={setModalEditVisible}
+                        postDetail={postDetail}
+                      >
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconEdit.svg'
@@ -535,7 +535,12 @@ const NewFeedItem = (props: IProps) => {
                           </Text>
                         </div>
                       </ModalEdit>
-                      <ModalDelete id={postDetail?.id} onRefreshPostDetail={onRefreshListPost}>
+                      <ModalDelete
+                        visible={modalDeleteVisible}
+                        onVisible={() => setModalDeleteVisible((prev) => !prev)}
+                        id={postDetail?.id}
+                        onRefreshPostDetail={onRefreshListPost}
+                      >
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconDelete.svg'

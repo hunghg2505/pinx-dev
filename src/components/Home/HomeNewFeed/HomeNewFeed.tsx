@@ -203,7 +203,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
           <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
           <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-[16px] desktop:p-[20px]'>
-            <div className='absolute left-0 top-[12px] z-10 h-[5px] w-full bg-[#ffffff]'></div>
+            <div className='absolute left-0 top-[12px] z-10 h-[20px] w-full bg-[#ffffff]'></div>
 
             <PinPost
               refresh={refresh}

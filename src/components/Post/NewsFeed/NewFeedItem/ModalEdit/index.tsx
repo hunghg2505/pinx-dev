@@ -13,11 +13,12 @@ interface Iprops {
   closeIcon?: boolean;
   refresh?: () => void;
   postDetail: any;
+  visible: boolean;
+  onVisible: (visible: boolean) => void;
 }
 const ModalEdit = (props: Iprops, ref: any) => {
   const { t } = useTranslation('common');
-  const { closeIcon, refresh, children, postDetail } = props;
-  const [visible, setVisible] = React.useState(false);
+  const { closeIcon, refresh, children, postDetail, visible, onVisible: setVisible } = props;
   const [value, setValue] = React.useState<any>();
   const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const renderCloseIcon = (): React.ReactNode => {

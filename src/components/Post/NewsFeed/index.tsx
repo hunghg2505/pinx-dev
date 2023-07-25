@@ -16,7 +16,7 @@ interface IProps {
 }
 const NewsFeed = (props: IProps) => {
   const { data, refresh, id, onHidePost, pinned = false } = props;
-  console.log('🚀 ~ file: index.tsx:19 ~ NewsFeed ~ data:', data);
+  // console.log('🚀 ~ file: index.tsx:19 ~ NewsFeed ~ data:', data);
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
@@ -47,7 +47,7 @@ const NewsFeed = (props: IProps) => {
     <>
       <div
         className={classNames(
-          'relative bg-[#ffffff] after:absolute after:right-0 after:top-0 after:h-[1px] after:bg-[#D8EBFC] after:content-[""] mobile:after:-left-[16px] mobile:after:w-[calc(100%+32px)] desktop:after:-left-[20px] desktop:after:w-[calc(100%+40px)]',
+          'relative bg-[#ffffff] after:absolute after:right-0 after:top-0 after:h-[5px] after:bg-[#F3F2F6] after:content-[""] mobile:after:-left-[16px] mobile:after:w-[calc(100%+32px)] desktop:after:-left-[20px] desktop:after:w-[calc(100%+40px)]',
           {
             'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
           },
