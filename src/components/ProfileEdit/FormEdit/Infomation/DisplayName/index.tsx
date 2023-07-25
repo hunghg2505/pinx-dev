@@ -18,7 +18,7 @@ const DisplayName = () => {
             </label>
             <input
               type='text'
-              value={value}
+              value={value}              
               onChange={onChange}
               className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none'
             />

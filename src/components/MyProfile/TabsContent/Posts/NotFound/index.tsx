@@ -11,7 +11,7 @@ const NotFound = () => {
         height={433}
         width={412}
         alt="Don't have any result"
-        className=' mb-[50px] w-[full]  object-contain tablet:mb-[12px] tablet:h-[240px] tablet:w-[367px]'
+        className=' mb-[50px] w-[full]  object-contain tablet:mb-[12px]  tablet:w-[200px]'
       />
       <div className='align-center mr-[12px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
         <div className='mx-auto my-auto w-fit'>

@@ -53,7 +53,7 @@ const Desktop = () => {
             <WatchList />
           </div>
         </TabPane>
-        <TabPane tab={<div className='flex justify-center'>{t('Assets')}</div>} key='assets'>
+        <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
           <Assets />
         </TabPane>
 
