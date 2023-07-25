@@ -31,5 +31,11 @@
   "watchlist_notfound1": "Opps, your friend has not added any stocks to watchlist. Please come back later.",
   "watchlist_notfound2": "Your friend has not turned on sharing feature. Please come back later.",
   "watchlist_notfound3": "Turn on your sharing feature to view friend's watchlist.",
-  "edit_profile": "Edit Profile"
+  "watchlist_notfound4": "You need to log in to view friend's watchlist.",
+  "edit_profile": "Edit Profile",
+  "watch_list_not_found": "Following your favourite stocks in here",
+  "following_empty": "Discover more interested things from your connection",
+  "post_empty": "Write something or create new thread to discuss",
+  "write_now": "Write now",
+  "following_ewmtpy2": "Discover more interested things from your connection"
 }
