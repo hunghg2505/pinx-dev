@@ -5,7 +5,7 @@ import Info from './Info';
 
 const Header = () => {
   return (
-    <header className='mb-[32px]'>
+    <header className='mb-[22px]'>
       <Figure />
       <Info />
     </header>

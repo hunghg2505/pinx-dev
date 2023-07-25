@@ -11,7 +11,7 @@ const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
   return (
     <div role='tablist' className='rc-tabs-nav z-10 mb-[20px]'>
       <div className=' border-b-[1px] border-solid border-primary_blue_light'>
-        <div className='rc-tabs-nav-list  ml-[-16px] duration-300 ease-in-out tablet:mx-0'>
+        <div className='rc-tabs-nav-list  ml-[-16px] duration-300 ease-in-out tablet:mx-0 whitespace-nowrap'>
           {list.map((item) => {
             return (
               <div

@@ -10,7 +10,7 @@ import Subcrible from './Subcrible';
 
 const Info = () => {
   return (
-    <div className='relative px-[16px] tablet:pl-[172px] '>
+    <div className='relative px-[16px] tablet:pl-[172px] pt-[20px]'>
       <Subcrible />
       <Name />
       <Position />

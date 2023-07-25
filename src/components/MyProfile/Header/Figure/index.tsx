@@ -6,8 +6,8 @@ import Cover from './Cover';
 
 const Figure = () => {
   return (
-    <div className='tablet:pt-[72px]'>
-      <div className='relative mb-[72px] w-full pt-[41%] tablet:pt-[20%] '>
+    <div className='tablet:pt-[42px]'>
+      <div className='relative mb-[72px] w-full pt-[41%] tablet:pt-[200px] '>
         <Back />
         <Cover />
         <Avatar />
