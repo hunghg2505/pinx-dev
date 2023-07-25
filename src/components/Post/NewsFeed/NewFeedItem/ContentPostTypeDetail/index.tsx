@@ -10,7 +10,7 @@ import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessage, formatMessagePost } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -92,6 +92,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return <></>;
   };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -99,7 +100,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             {/* {message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -145,7 +146,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 <Text
                   type='body-12-bold'
                   color='neutral-2'
-                  className='text-center mobile:mt-[25px] tablet:mt-[39px] tablet:!text-[20px]'
+                  className='text-center mobile:mt-[25px] tablet:mt-[39px] tablet:!text-[20px] tablet:!leading-[25px]'
                 >
                   {postDetail?.post.themeName}
                 </Text>
@@ -297,6 +298,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     const url = `${imageCompanyUrl}${
       stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
     }.png`;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -304,7 +306,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             {/* {message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -394,6 +396,7 @@ const ContentPostTypeDetail = (props: IProps) => {
   }
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
     const pnlRate = postDetail?.post?.pnlRate;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -401,7 +404,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             {/* {postDetail?.post?.message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -495,6 +498,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
     const urlLink = postDetail?.post?.urlLinks?.[0] || '';
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -508,7 +512,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               {message && (
                 <div
                   className='desc messageFormat messageBody messageBody absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center font-bold mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
-                  dangerouslySetInnerHTML={{ __html: message }}
+                  dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                   style={{ color }}
                 ></div>
               )}
@@ -518,7 +522,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               {message && (
                 <div
                   className='desc messageFormat messageBody my-[0] mb-[15px]'
-                  dangerouslySetInnerHTML={{ __html: message }}
+                  dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                 ></div>
               )}
             </>
