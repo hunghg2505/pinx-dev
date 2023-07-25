@@ -19,7 +19,7 @@ const Profile = (props: any) => {
   return (
     <profileUserContext.Provider
       value={{
-        ...props.data.data,
+        ...props?.data?.data,
         ...privateProfileOtherUser,
         reload: runPrivate,
         refresh: RefreshPrivate,
