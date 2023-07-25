@@ -36,7 +36,7 @@ const requestPist = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -48,7 +48,7 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -59,7 +59,7 @@ const requestUploadPhoto = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -70,7 +70,7 @@ const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
   headers: {
-    'Accept-Language': (getLocaleCookie() as string) || 'en',
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);

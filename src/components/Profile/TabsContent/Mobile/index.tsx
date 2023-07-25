@@ -50,7 +50,7 @@ const Mobile = () => {
         </TabPane>
         <TabPane
           className='px-16px]'
-          tab={<div className='flex justify-center'>{t('Assets')}</div>}
+          tab={<div className='flex justify-center'>{t('assets')}</div>}
           key='assets'
         >
           <div className='tablet:px-0 tablet:pb-0'>

@@ -8,15 +8,15 @@ import { ROUTE_PATH } from '@utils/common';
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='flex  w-full flex-wrap justify-center gap-[5px]  rounded-[12px] bg-primary_bgblue_2 py-[24px] text-center tablet:gap-[36px] tablet:p-[24px]'>
-      <img
-        src={'/static/images/watchListNoutFoundFull.png'}
-        height={433}
-        width={412}
-        alt="Don't have any result"
-        className='  mb-[12px] h-[330px] w-[full] object-contain tablet:mx-0 tablet:h-[221px] tablet:w-[264px]'
-      />
-      <div className='align-center mx-[24px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
+    <div className='  flex w-full flex-wrap justify-center gap-[5px] rounded-[12px] bg-primary_bgblue_2  py-[24px] text-center tablet:flex-nowrap tablet:justify-between tablet:gap-[36px] tablet:p-[24px]'>
+      <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
+        <img
+          src={'/static/images/watchListNoutFoundFull.png'}
+          alt="Don't have any result"
+          className='  mb-[12px]  w-[full] object-contain tablet:mx-0 '
+        />
+      </div>
+      <div className='align-center flex-0 mx-[24px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] px-4 py-[44px] tablet:mr-0'>
         <div className='mx-auto my-auto w-fit'>
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('watch_list_not_found')}

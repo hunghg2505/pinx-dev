@@ -27,7 +27,7 @@ const disabledDate: PickerProps<Dayjs>['disabledDate'] = (current) => {
 };
 
 const ForgotPasswordStepOne = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const [form] = Form.useForm();
   const router = useRouter();
   const initialValues = {

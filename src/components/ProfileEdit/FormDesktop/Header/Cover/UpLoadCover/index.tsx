@@ -16,6 +16,7 @@ const UpLoadCover = () => {
             <label className='absolute bottom-[14px] right-[14px] cursor-pointer'>
               <input
                 type='file'
+                accept='image/*'
                 className='hidden'
                 onChange={(e: any) => {
                   const formData = new FormData();

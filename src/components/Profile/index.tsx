@@ -16,6 +16,7 @@ const Profile = (props: any) => {
     run: runPrivate,
     refresh: RefreshPrivate,
   } = useGePrivatetProfileOtherUser(Number(router.query.id));
+
   return (
     <profileUserContext.Provider
       value={{
