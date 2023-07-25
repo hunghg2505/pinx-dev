@@ -150,7 +150,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -233,7 +233,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -300,7 +300,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -409,7 +409,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -532,7 +532,11 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
               {postDetail?.post.head || postDetail?.post?.contentText}
             </Text>
           </div>
@@ -616,7 +620,11 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
               {postDetail?.post.head}
             </Text>
           </div>
@@ -697,7 +705,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <div>
             {postThemeId ? (
               <div
-                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:w-full tablet:w-full desktop:w-[500px] xdesktop:w-[550px]'
+                className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[15px] xdesktop:w-[550px]'
                 onClick={onComment}
               >
                 <img
@@ -709,7 +717,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   <div>
                     <Text type='body-14-bold' color='neutral-1'>
                       <div
-                        className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                        className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px] tablet:!text-[16px]'
                         dangerouslySetInnerHTML={{ __html: message }}
                         style={{ color }}
                       ></div>
@@ -727,7 +735,12 @@ const ContentPostTypeHome = (props: IProps) => {
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
-                    <Text type='body-14-regular' color='neutral-1' onClick={onComment}>
+                    <Text
+                      type='body-14-regular'
+                      color='neutral-1'
+                      className='tablet:!text-[16px]'
+                      onClick={onComment}
+                    >
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
                         style={{ display: '-webkit-box' }}

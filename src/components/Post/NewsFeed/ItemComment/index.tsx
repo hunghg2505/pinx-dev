@@ -274,7 +274,7 @@ const ItemComment = (props: IProps) => {
             </div>
 
             {data?.totalLikes > 0 && (
-              <div className='absolute bottom-0 right-[1px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+              <div className='absolute bottom-0 right-[6px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <img
                   src='/static/icons/iconLike.svg'
                   alt=''

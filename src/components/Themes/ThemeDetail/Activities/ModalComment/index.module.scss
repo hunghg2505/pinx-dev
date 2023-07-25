@@ -4,4 +4,16 @@
       width: 5px;
     }
   }
+
+  :global {
+    .rc-dialog-content {
+      @media (min-width: 768px) {
+        width: 100%;
+      }
+
+      .rc-dialog-body {
+        padding: 40px 16px;
+      }
+    }
+  }
 }

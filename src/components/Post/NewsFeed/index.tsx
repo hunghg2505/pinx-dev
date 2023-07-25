@@ -46,7 +46,7 @@ const NewsFeed = (props: IProps) => {
     <>
       <div
         className={classNames(
-          'relative bg-[#ffffff] after:absolute after:-left-[20px] after:right-0 after:top-0 after:h-[1px] after:w-[calc(100%+40px)] after:bg-[#D8EBFC] after:content-[""] mobile:after:-left-[16px] mobile:after:w-[calc(100%+32px)]',
+          'relative bg-[#ffffff] after:absolute after:right-0 after:top-0 after:h-[1px] after:bg-[#D8EBFC] after:content-[""] mobile:after:-left-[16px] mobile:after:w-[calc(100%+32px)] desktop:after:-left-[20px] desktop:after:w-[calc(100%+40px)]',
           {
             'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
           },

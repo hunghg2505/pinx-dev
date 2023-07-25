@@ -224,18 +224,20 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
             </div>
 
-            <div className='bg-[#ffffff] [border-top:1px_solid_#EAF4FB] '>
+            <div className='bg-[#ffffff] [border-top:1px_solid_#EAF4FB]'>
               <Text
                 type='body-16-bold'
                 color='neutral-2'
-                className='mb-[14px] mobile:pt-[20px] desktop:pt-[16px]'
+                className='mb-[14px] px-[16px] mobile:pt-[20px] desktop:px-0 desktop:pt-[16px]'
               >
                 People in spotlight
               </Text>
 
-              <Influencer />
+              <div className='ml-[8px] desktop:ml-0'>
+                <Influencer />
+              </div>
 
-              <div className='mt-[16px]'>
+              <div className='mt-[16px] px-[16px] desktop:px-0'>
                 <button
                   className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
                   onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}
@@ -247,7 +249,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
 
               {suggestionPeople && (
-                <div className='mr-[16px] flex-row items-center mobile:flex desktop:hidden'>
+                <div className='mr-[16px] flex-row items-center px-[16px] mobile:flex desktop:hidden'>
                   <img
                     src='/static/icons/iconPeople.svg'
                     alt=''

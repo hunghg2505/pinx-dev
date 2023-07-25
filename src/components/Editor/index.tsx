@@ -398,14 +398,14 @@ const Editor = (props: IProps, ref?: any) => {
                     width='0'
                     height='0'
                     sizes='100vw'
-                    className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
+                    className='mt-[8px] h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
                   />
                   <img
                     src='/static/icons/iconCloseWhite.svg'
                     alt=''
                     width={0}
                     height={0}
-                    className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
+                    className='absolute -right-[12px] -top-[6px] w-[24px] cursor-pointer'
                     onClick={onCloseImage}
                   />
                 </div>
