@@ -10,6 +10,6 @@ export const useGetInterest = () => {
   return {
     interestStock: data?.data,
     refreshInterest: refresh,
-    loading,
+    loadingInterest: loading,
   };
 };

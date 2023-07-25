@@ -1,6 +1,4 @@
 /* eslint-disable react/no-unknown-property */
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
@@ -9,7 +7,7 @@ import { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
-import { Inter } from 'next/font/google';
+import { Barlow, Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
@@ -30,6 +28,11 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const InterFont = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '900'],
+  display: 'swap',
+});
+const BarlowFont = Barlow({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '900'],
   display: 'swap',
@@ -58,6 +61,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <style jsx global>{`
         :root {
           --fontInter: ${InterFont.style.fontFamily};
+          --fontBarlow: ${BarlowFont.style.fontFamily};
         }
       `}</style>
 

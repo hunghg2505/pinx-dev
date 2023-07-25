@@ -8,7 +8,6 @@ import Tabs, { TabPane } from 'rc-tabs';
 import TabBar from '@components/common/RCTabBar';
 
 import Assets from '../Assets';
-import LockIcon from '../lock-closed';
 import Posts from '../Posts';
 import WatchList from '../WatchList';
 
@@ -51,15 +50,10 @@ const Mobile = () => {
         </TabPane>
         <TabPane
           className='px-16px]'
-          tab={
-            <div className='flex justify-center'>
-              <LockIcon />
-              {t('Assets')}
-            </div>
-          }
+          tab={<div className='flex justify-center'>{t('Assets')}</div>}
           key='assets'
         >
-          <div className='pb-[50px] tablet:px-0'>
+          <div className='tablet:px-0 tablet:pb-0'>
             <Assets />
           </div>
         </TabPane>

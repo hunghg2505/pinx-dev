@@ -4,11 +4,10 @@ import React, { useEffect, useMemo } from 'react';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Tabs, { TabPane } from 'rc-tabs';
 
 import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
-import UserPosting from '@components/Home/UserPosting/UserPosting';
+import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import { IPost } from '@components/Post/service';
 import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
@@ -18,8 +17,6 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
-import ListTheme from '../ListTheme';
-import Market from '../Market';
 import { FILTER_TYPE } from '../ModalFilter';
 import {
   requestJoinIndex,
@@ -31,9 +28,17 @@ import {
 } from '../service';
 import useLoadMore from '../useLoadMore';
 
-const WatchList = dynamic(() => import('../WatchList'));
+const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
+  loading: () => <UserPostingFake />,
+});
+const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
+  ssr: false,
+});
+const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
+  ssr: false,
+});
 
-const Filter = dynamic(() => import('@components/Home/HomeNewFeed/ModalFilter'), {
+const HomeFeedFilter = dynamic(() => import('@components/Home/HomeNewFeed/ModalFilter'), {
   ssr: false,
   loading: () => <FilterFake />,
 });
@@ -190,28 +195,14 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </button>
             )}
 
-            <Tabs
-              defaultActiveKey='2'
-              activeKey={selectTab}
-              className='tabHome'
-              onChange={onChangeTab}
-            >
-              {isLogin && (
-                <TabPane tab='Watchlist' key='1'>
-                  <WatchList />
-                </TabPane>
-              )}
-              <TabPane tab='Market' key='2'>
-                <Market />
-              </TabPane>
-            </Tabs>
+            <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
           </div>
 
           <UserPosting addPostSuccess={addPostSuccess} />
 
-          <Filter filterType={filterType as string} onFilter={onFilter as any} />
+          <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
-          <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-0 desktop:p-[20px]'>
+          <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-[16px] desktop:p-[20px]'>
             <PinPost
               refresh={refresh}
               onHidePost={onHidePost}

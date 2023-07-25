@@ -16,7 +16,7 @@ const WatchList = () => {
 
   return (
     <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white '>
-      <ComponentWatchList isEdit={false} />
+      <ComponentWatchList isEdit={false} page_size={5} />
 
       <Button
         className='h-[40px] w-full rounded-[5px] bg-[#F0F7FC]'
