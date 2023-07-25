@@ -10,6 +10,7 @@ import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
+import Back from '@components/MenuProfile/Back';
 import BasicInfo from '@components/MenuProfile/BasicInfo';
 import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
@@ -38,12 +39,17 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   return (
     <div
       className={
-        'absolute left-[-100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
+        'absolute left-[-100%] top-[0] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
       }
       style={{
         left: openProfileMenu ? 0 : '-100%',
       }}
     >
+      <Back
+        close={() => {
+          setOpenProfileMenu(!openProfileMenu);
+        }}
+      />
       <BasicInfo
         userName={userLoginInfo?.displayName || 'Anonymous User'}
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}

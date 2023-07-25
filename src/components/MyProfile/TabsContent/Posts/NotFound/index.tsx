@@ -5,17 +5,17 @@ import { useTranslation } from 'next-i18next';
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:px-0'>
-      <img
-        src={'/static/images/write_now.png'}
-        height={433}
-        width={412}
-        alt="Don't have any result"
-        className=' mb-[50px] w-[full]  object-contain tablet:mb-[12px]  tablet:w-[200px]'
-      />
-      <div className='align-center mr-[12px] flex  w-full items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px]'>
+    <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap tablet:px-0'>
+      <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
+        <img
+          src={'/static/images/write_now.png'}
+          alt="Don't have any result"
+          className='mb-[50px]  object-contain tablet:my-auto'
+        />
+      </div>
+      <div className='align-center flex-0 mr-[12px]  flex w-full items-center justify-center rounded-[12px] bg-[#edf6fe]  py-[44px]'>
         <div className='mx-auto my-auto w-fit'>
-          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
+          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600] '>
             {t('post_empty')}
           </p>
           <button
