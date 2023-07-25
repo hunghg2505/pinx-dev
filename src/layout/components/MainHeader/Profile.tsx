@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-useless-spread */
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 
+import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
@@ -16,12 +17,21 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
+import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, isUserVerified } from '@utils/common';
 
 const MenuProfileMobile = forwardRef((_, ref) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [openProfileMenu, setOpenProfileMenu] = useAtom(openProfileAtom);
   const router = useRouter();
+  const [, setIsShowNavigate] = useSidebarMobile();
+
+  useMount(() => {
+    router.events.on('routeChangeStart', () => {
+      console.log('close menu');
+      setOpenProfileMenu(false);
+    });
+  });
 
   useEffect(() => {
     setOpenProfileMenu(false);
@@ -29,6 +39,8 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
   const onVisible = useCallback(() => {
     setOpenProfileMenu(!openProfileMenu);
+    // @ts-ignore
+    setIsShowNavigate(false);
   }, [openProfileMenu]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
@@ -36,10 +48,10 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   return (
     <div
       className={
-        'absolute left-[-100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
+        'overflow-overlay  absolute left-[100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] desktop:hidden'
       }
       style={{
-        left: openProfileMenu ? 0 : '-100%',
+        left: openProfileMenu ? 0 : '100%',
       }}
     >
       <BasicInfo
