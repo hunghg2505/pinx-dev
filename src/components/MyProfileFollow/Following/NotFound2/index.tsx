@@ -18,7 +18,7 @@ const NotFound2 = () => {
       <div className='align-center mt-[-100px] flex  w-full items-center justify-center rounded-[12px]  bg-[#edf6fe]/50 py-[44px] tablet:w-[287px]'>
         <div className='mx-auto my-auto w-fit'>
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
-            {t('following_ewmtpy2')}
+            {t('following_empty')}
           </p>
           <ModalPeopleYouKnow>
             <button
