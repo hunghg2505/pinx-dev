@@ -270,3 +270,18 @@ export const getTotalSharePost = (url: string): Promise<IResponseTotalShare> => 
 export const requestHideComment = (id: string) => {
   return privateRequest(requestCommunity.delete, API_PATH.PRIVATE_DELETE_COMMENT(id));
 };
+
+export const useDeletePost = (option = {}) => {
+  const { run } = useRequest(
+    (id: string) => {
+      return privateRequest(requestCommunity.delete, API_PATH.PRIVATE_DELETE_POST(id));
+    },
+    {
+      manual: true,
+      ...option,
+    },
+  );
+  return {
+    run,
+  };
+};

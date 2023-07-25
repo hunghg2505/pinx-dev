@@ -12,7 +12,7 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProps) => {
+export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   const { className, disabled = false, onClick, children, customClassName, ...rest } = props;
   const prefixCls = 'button';
 
@@ -40,7 +40,7 @@ export const Button: React.FC<ButtonProps> = React.forwardRef((props: ButtonProp
       </button>
     </div>
   );
-});
+};
 
 export const PositiveButton = ({ ...props }) => (
   <Button

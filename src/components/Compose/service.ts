@@ -6,3 +6,9 @@ export const requestAddPost = (payload: any) => {
     data: payload,
   });
 };
+
+export const requestUpdatePost = (id: string, payload: any) => {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_UPDATE_POST(id), {
+    data: payload,
+  });
+};

@@ -15,10 +15,7 @@ export const useUserType: any = () => {
   if (isLogin) {
     if (custStat === USERTYPE.NEW) {
       statusUser = USERTYPE.NEW;
-    } else if (
-      (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_PENDING) ||
-      (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED)
-    ) {
+    } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED) {
       statusUser = USERTYPE.EKYC;
     } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.PENDING_TO_CLOSE) {
       statusUser = USERTYPE.PENDING_TO_CLOSE;

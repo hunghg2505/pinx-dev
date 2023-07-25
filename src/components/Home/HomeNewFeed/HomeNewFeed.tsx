@@ -76,9 +76,11 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [isPost, setIsPost] = React.useState(false);
 
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
+  console.log('🚀 ~ file: HomeNewFeed.tsx:79 ~ HomeNewFeed ~ newFeed:', newFeed);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
   const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
+      console.log('🚀 ~ file: HomeNewFeed.tsx:82 ~ HomeNewFeed ~ res:', res);
       setLastNewFeed(res?.data?.last);
       const newData = [...newFeed];
       const check = res?.data?.list;
@@ -215,7 +217,19 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               onHidePost={onHidePost}
               pinPostDataInitial={pinPostDataInitial}
             />
-
+            <div className='mobile:px-[16px] desktop:px-[0]'>
+              {newFeed?.slice(0, 1)?.map((item: IPost) => {
+                return (
+                  <NewsFeed
+                    key={`newFeed-${item.id}`}
+                    data={item}
+                    id={item.id}
+                    refresh={refresh}
+                    onHidePost={onHidePost}
+                  />
+                );
+              })}
+            </div>
             <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
               <div className='pb-[13px] pt-[10px] '>
                 <Trending />
