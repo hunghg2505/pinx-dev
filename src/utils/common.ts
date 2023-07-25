@@ -122,8 +122,6 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    console.log({ item });
-
     if (item.includes('#')) {
       message = message.replace(
         item,

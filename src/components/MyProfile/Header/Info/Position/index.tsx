@@ -7,8 +7,8 @@ const Position = () => {
 
   return (
     <p
-      className='mb-[21px] w-[calc(100%-188px)] truncate text-[14px] font-[400] text-dark_grey tablet:absolute tablet:top-[calc(-35px)] tablet:mb-0 tablet:text-[14px]'
-      title="World Health Organization"
+      className='mb-[21px] w-[calc(100%-188px)] truncate text-[14px] font-[400] text-dark_grey tablet:absolute tablet:bottom-[calc(100%+8px)] tablet:mb-0 tablet:text-[14px]'
+      title='World Health Organization'
     >
       {profileUser?.position}
     </p>
