@@ -7,10 +7,10 @@ import Form from 'rc-field-form';
 import { useSearchPublic } from '@components/Explore/service';
 import { TYPESEARCH } from '@components/Home/service';
 import FormItem from '@components/UI/FormItem';
+import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 
 import ItemAddStock from './ItemAddStock';
 
