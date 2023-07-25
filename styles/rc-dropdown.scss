@@ -164,32 +164,6 @@
 .rc-menu-submenu-hidden {
   display: none;
 }
-// .rc-dropdown.rc-dropdown-slide-down-enter.rc-dropdown-slide-down-enter-active.rc-dropdown-placement-bottomLeft,
-// .rc-dropdown.rc-dropdown-slide-down-appear.rc-dropdown-slide-down-active.rc-dropdown-placement-bottomLeft,
-// .rc-dropdown.rc-dropdown-slide-down-enter.rc-dropdown-slide-down-enter-active.rc-dropdown-placement-bottom,
-// .rc-dropdown.rc-dropdown-slide-down-appear.rc-dropdown-slide-down-active.rc-dropdown-placement-bottom,
-// .rc-dropdown.rc-dropdown-slide-down-enter.rc-dropdown-slide-down-enter-active.rc-dropdown-placement-bottomRight,
-// .rc-dropdown.rc-dropdown-slide-down-appear.rc-dropdown-slide-down-active.rc-dropdown-placement-bottomRight {
-//   animation-name: antSlideUpIn;
-// }
-// .rc-dropdown.rc-dropdown-slide-up-enter.rc-dropdown-slide-up-enter-active.rc-dropdown-placement-topLeft,
-// .rc-dropdown.rc-dropdown-slide-up-appear.rc-dropdown-slide-up-appear-active.rc-dropdown-placement-topLeft,
-// .rc-dropdown.rc-dropdown-slide-up-enter.rc-dropdown-slide-up-enter-active.rc-dropdown-placement-top,
-// .rc-dropdown.rc-dropdown-slide-up-appear.rc-dropdown-slide-up-appear-active.rc-dropdown-placement-top,
-// .rc-dropdown.rc-dropdown-slide-up-enter.rc-dropdown-slide-up-enter-active.rc-dropdown-placement-topRight,
-// .rc-dropdown.rc-dropdown-slide-up-appear.rc-dropdown-slide-up-appear-active.rc-dropdown-placement-topRight {
-//   animation-name: antSlideDownIn;
-// }
-// .rc-dropdown.rc-dropdown-slide-down-leave.rc-dropdown-slide-down-leave-active.rc-dropdown-placement-bottomLeft,
-// .rc-dropdown.rc-dropdown-slide-down-leave.rc-dropdown-slide-down-leave-active.rc-dropdown-placement-bottom,
-// .rc-dropdown.rc-dropdown-slide-down-leave.rc-dropdown-slide-down-leave-active.rc-dropdown-placement-bottomRight {
-//   animation-name: antSlideUpOut;
-// }
-// .rc-dropdown.rc-dropdown-slide-up-leave.rc-dropdown-slide-up-leave-active.rc-dropdown-placement-topLeft,
-// .rc-dropdown.rc-dropdown-slide-up-leave.rc-dropdown-slide-up-leave-active.rc-dropdown-placement-top,
-// .rc-dropdown.rc-dropdown-slide-up-leave.rc-dropdown-slide-up-leave-active.rc-dropdown-placement-topRight {
-//   animation-name: antSlideDownOut;
-// }
 
 .rc-dropdown-slide-up-enter,
 .rc-dropdown-slide-up-appear {
@@ -345,7 +319,7 @@
 }
 .rc-dropdown .rc-menu .rc-menu-item-group-title,
 .rc-menu-submenu .rc-menu .rc-menu-item-group-title {
-  padding: 5px 12px;
+  // padding: 5px 12px;
   color: rgba(0, 0, 0, 0.45);
   transition: all 0.2s;
 }
@@ -386,7 +360,7 @@
 .rc-menu-submenu .rc-menu .rc-menu-submenu-title {
   clear: both;
   margin: 0;
-  padding: 5px 12px;
+  // padding: 5px 12px;
   color: rgba(0, 0, 0, 0.88);
   font-weight: normal;
   font-size: 14px;

@@ -8,10 +8,10 @@ import Form from 'rc-field-form';
 import { TYPESEARCH } from '@components/Home/service';
 import { ExploreButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
