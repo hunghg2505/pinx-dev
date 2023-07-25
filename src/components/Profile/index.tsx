@@ -4,14 +4,13 @@ import { useRouter } from 'next/router';
 
 import Header from './Header';
 import MyStory from './MyStory';
-import { useGePrivatetProfileOtherUser, useGetProfileOtherUser } from './service';
+import { useGePrivatetProfileOtherUser } from './service';
 import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);
 
-const Profile = () => {
+const Profile = (props: any) => {
   const router = useRouter();
-  const { profileOtherUser } = useGetProfileOtherUser(Number(router.query.id));
   const {
     privateProfileOtherUser,
     run: runPrivate,
@@ -20,7 +19,7 @@ const Profile = () => {
   return (
     <profileUserContext.Provider
       value={{
-        ...profileOtherUser,
+        ...props?.data?.data,
         ...privateProfileOtherUser,
         reload: runPrivate,
         refresh: RefreshPrivate,

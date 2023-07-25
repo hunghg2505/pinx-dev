@@ -455,7 +455,6 @@ const PostTypeHome = (props: IProps) => {
                     <Text type='body-14-regular' color='neutral-1'>
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
-                        style={{ display: '-webkit-box' }}
                         dangerouslySetInnerHTML={{ __html: message }}
                       ></div>
                     </Text>

@@ -7,7 +7,7 @@ import request from 'umi-request';
 import FormItem from '@components/UI/FormItem';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { isValidUrl } from '@utils/common';
+import { isValidURL } from '@utils/common';
 
 interface IProps {
   children: any;
@@ -20,7 +20,7 @@ const ModalLink = (props: IProps) => {
   const [visible, setVisible] = React.useState<boolean>(false);
   const onVisible = async () => {
     setVisible(!visible);
-    const text = await navigator.clipboard.readText();
+    const text = await navigator?.clipboard?.readText();
     if (text && text.includes('http')) {
       form.setFieldValue('search', text);
     }
@@ -82,16 +82,15 @@ const ModalLink = (props: IProps) => {
           <Form form={form} className='h-[121px]' onFinish={onSubmit}>
             <FormItem
               name='search'
-              className='flex  h-full flex-col items-start justify-start'
+              className='flex h-full flex-col items-start justify-start'
               rules={[
                 () => ({
                   validator(_: any, value: any) {
-                    if (value && isValidUrl(value)) {
+                    console.log('123', isValidURL(value));
+                    if (value && isValidURL(value)) {
+                      console.log('123');
                       return Promise.resolve();
                     }
-                    // if (!value || getFieldValue('password') === value) {
-                    //   return Promise.resolve();
-                    // }
                     return Promise.reject(new Error(t('not_link')));
                   },
                 }),

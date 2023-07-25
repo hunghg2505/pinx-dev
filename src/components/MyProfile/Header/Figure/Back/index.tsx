@@ -38,18 +38,17 @@ const Back = () => {
           />
         </svg>
       </span>
-      <div className='absolute bottom-[calc(100%)]  hidden w-full  tablet:block '>
+      <div className='absolute bottom-[calc(100%)]  mb-[20px] hidden  w-full tablet:block'>
         <img
           src='/static/icons/arrow-left.svg'
           alt='back'
-          className='mb-[20px] h-[32px] w-[32px] cursor-pointer'
+          className=' h-[28px] w-[28px] cursor-pointer '
           width={18.67}
           height={18.67}
           onClick={() => {
             router.back();
           }}
         />
-        <hr className='mx-[-24px] my-[20px] border-blue_light' />
       </div>
     </>
   );

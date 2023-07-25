@@ -30,7 +30,7 @@ const ContentPostTypeDetail = (props: IProps) => {
   const metaData = postDetail?.post?.metadataList?.[0];
   const imageMetaData = metaData?.images?.[0];
   const siteName = metaData?.siteName;
-  const urlYoutube = metaData?.url?.split('/')?.slice(-1);
+  const urlYoutube = metaData?.url?.slice(-11);
   const urlImages = postDetail?.post?.urlImages;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
@@ -69,7 +69,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     if (siteName === 'YouTube' && !urlImages?.[0]) {
       return (
         <ReactPlayer
-          url={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
+          url={`https://www.youtube.com/embed/${urlYoutube}?rel=0`}
           playing={true}
           muted={true}
           controls={true}
