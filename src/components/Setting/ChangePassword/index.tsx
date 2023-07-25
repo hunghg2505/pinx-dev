@@ -65,11 +65,11 @@ const ChangePassword = () => {
   return (
     <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <img
-        src='/static/icons/icon_back_header.svg'
+        src='/static/icons/back_icon.svg'
         alt=''
         width='0'
         height='0'
-        className='laptop:left-[10px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:absolute laptop:top-[3px]'
+        className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px]'
         onClick={onBack}
       />
 
@@ -126,15 +126,12 @@ const ChangePassword = () => {
               },
               {
                 pattern: REG_PASSWORD,
-                message:
-                  t('new_password_rule'),
+                message: t('new_password_rule'),
               },
               ({ getFieldValue }: { getFieldValue: any }) => ({
                 validator(_: any, value: any) {
                   if (getFieldValue('curPassword') === value) {
-                    return Promise.reject(
-                      new Error(t('new_password_error_1')),
-                    );
+                    return Promise.reject(new Error(t('new_password_error_1')));
                   }
                   return Promise.resolve();
                 },
@@ -167,9 +164,7 @@ const ChangePassword = () => {
                   if (getFieldValue('newPassword') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error(t('confirm_new_password_error_1')),
-                  );
+                  return Promise.reject(new Error(t('confirm_new_password_error_1')));
                 },
               }),
             ]}

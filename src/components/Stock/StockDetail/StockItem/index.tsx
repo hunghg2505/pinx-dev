@@ -44,7 +44,7 @@ const StockItem = ({ data }: IStockItemProps) => {
           </div>
 
           <Text type='body-12-regular' className='mt-[8px] text-[#808A9D]'>
-            Cap: {formatNumber(data.marketCapital)}
+            Cap: {formatNumber(data.marketCapital || 0)}
           </Text>
         </div>
 

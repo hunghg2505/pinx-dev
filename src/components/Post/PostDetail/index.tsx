@@ -165,11 +165,9 @@ const PostDetail = () => {
             className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[16px]'
           >
             <img
-              src='/static/icons/iconBack.svg'
-              alt=''
-              width='0'
-              height='0'
-              className='h-[20px] w-[20px] cursor-pointer'
+              src='/static/icons/back_icon.svg'
+              alt='Back icon'
+              className='h-[28px] w-[28px] cursor-pointer'
             />
           </div>
         </div>

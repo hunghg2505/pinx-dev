@@ -96,7 +96,10 @@ const Profile = () => {
 
             <div className='my-[6px] text-[12px] text-[#474D57]'>
               {t('joined_since')}
-              <span className='text-[12px] font-[600] text-neutral_black'> {dayjs(userLoginInfo?.openDate).format('YYYY')}</span>
+              <span className='text-[12px] font-[600] text-neutral_black'>
+                {' '}
+                {dayjs(userLoginInfo?.openDate).format('YYYY')}
+              </span>
             </div>
 
             <div className='flex justify-between gap-[10px]'>
@@ -199,7 +202,7 @@ const Profile = () => {
         <img
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          className='h-[36px] w-[36px] cursor-pointer rounded-full mobile:block tablet:hidden tablet:h-[44px] tablet:w-[44px]'
+          className='h-[40px] w-[40px] cursor-pointer rounded-full mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />
       </>

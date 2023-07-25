@@ -9,7 +9,7 @@ import Input from '@components/UI/Input';
 const SearchInput = () => {
   return (
     <>
-      <button className='mr-[0] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden tablet:h-[44px] tablet:w-[44px] desktop:mr-[12px]'>
+      <button className='mr-[0] flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden desktop:mr-[12px]'>
         <img
           src='/static/icons/search-gray.svg'
           alt='Search icon'

@@ -32,15 +32,9 @@ const FinancialCalendar = () => {
               onClick={handleBack}
             >
               <img
-                src='/static/icons/icon_back_header.svg'
+                src='/static/icons/back_icon.svg'
                 alt=''
-                className='h-[14px] w-[7px] object-contain tablet:hidden'
-              />
-
-              <img
-                src='/static/icons/iconBack.svg'
-                alt=''
-                className='hidden h-[19px] w-[19px] object-contain tablet:block'
+                className='h-[28px] w-[28px] object-contain'
               />
             </div>
           </div>

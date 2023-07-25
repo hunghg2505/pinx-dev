@@ -295,15 +295,9 @@ const StockDetail = () => {
           onClick={handleBack}
         >
           <img
-            src='/static/icons/icon_back_header.svg'
+            src='/static/icons/back_icon.svg'
             alt=''
-            className='h-[12px] w-[6px] object-contain mobile:block tablet:hidden'
-          />
-
-          <img
-            src='/static/icons/iconBack.svg'
-            alt=''
-            className='hidden h-[19px] w-[19px] object-contain tablet:block'
+            className='h-[28px] w-[28px] object-contain'
           />
         </div>
 

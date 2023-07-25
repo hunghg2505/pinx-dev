@@ -66,11 +66,11 @@ const ChangeUsername = () => {
   return (
     <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <img
-        src='/static/icons/icon_back_header.svg'
+        src='/static/icons/back_icon.svg'
         alt=''
         width='0'
         height='0'
-        className='laptop:left-[10px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:absolute laptop:top-[3px]'
+        className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px]'
         onClick={onBack}
       />
       <Text type='body-20-bold' className='mb-1 laptop-max:ml-4 laptop-max:mt-6 laptop:text-center'>
@@ -138,9 +138,7 @@ const ChangeUsername = () => {
                   if (getFieldValue('newUsername') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error(t('retype_username_error_1')),
-                  );
+                  return Promise.reject(new Error(t('retype_username_error_1')));
                 },
               }),
             ]}
@@ -157,9 +155,7 @@ const ChangeUsername = () => {
           </FormItem>
         </div>
 
-        <Text type='body-14-regular'>
-          {t('change_username_rule')}
-        </Text>
+        <Text type='body-14-regular'>{t('change_username_rule')}</Text>
 
         <MainButton
           type='submit'

@@ -32,6 +32,7 @@ const PostAction = (props: IPostActionProps) => {
   const { isLike, idPost, onRefreshPostDetail, onNavigate, totalLikes, totalComments, urlPost } =
     props;
 
+  const [fullUrlPost, setFullUrlPost] = useState('');
   const [showModalShare, setShowModalShare] = useState(false);
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -50,6 +51,10 @@ const PostAction = (props: IPostActionProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModalShare]);
+
+  useEffect(() => {
+    setFullUrlPost(window.location.origin + urlPost);
+  }, []);
 
   const requestGetTotalShare = useRequest(getTotalSharePost, {
     manual: true,
@@ -200,7 +205,7 @@ const PostAction = (props: IPostActionProps) => {
       </div>
 
       <ModalShare
-        url={urlPost}
+        url={fullUrlPost}
         visible={showModalShare}
         handleClose={() => {
           setShowModalShare(false);

@@ -207,16 +207,16 @@ const Setting = () => {
       <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div className='relative first-letter:w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+      <div className='relative rounded-[8px] bg-white text-left first-letter:w-full mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
         <img
-          src='/static/icons/icon_back_header.svg'
+          src='/static/icons/back_icon.svg'
           alt=''
           width='0'
           height='0'
-          className='laptop:left-[10px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:absolute laptop:top-[3px]'
+          className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px]'
           onClick={onBack}
         />
-        <Text className='font-[700] text-[20px] laptop:text-[28px] laptop:text-center mb-1 mobile:mt-6 laptop-max:ml-4 laptop:mt-0'>
+        <Text className='mb-1 text-[20px] font-[700] mobile:mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-center laptop:text-[28px]'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />

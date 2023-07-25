@@ -33,11 +33,11 @@ const Redirect = () => {
           Redirect
         </Text>
         <img
-          src='/static/icons/iconBack.svg'
+          src='/static/icons/back_icon.svg'
           alt=''
           width={32}
           height={32}
-          className='absolute left-[16px] top-2/4 h-[32px] w-[32px] -translate-y-1/2 transform cursor-pointer'
+          className='absolute left-[16px] top-2/4 h-[28px] w-[28px] -translate-y-1/2 transform cursor-pointer'
           onClick={handleGoBack}
         />
       </div>
