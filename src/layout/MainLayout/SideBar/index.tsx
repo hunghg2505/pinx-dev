@@ -89,7 +89,10 @@ const SideBar = () => {
 
   const items = useMemo(() => {
     return MENUS.map((menu) => {
-      const checkPathExist = router.pathname === menu.path?.split('?')[0];
+      const checkPathExist =
+        menu.path === '/'
+          ? router.pathname === menu.path
+          : router.pathname.includes(menu.path?.split('?')[0]);
       const icon = checkPathExist ? menu.iconActive : menu.icon;
 
       if (menu?.action && !isLogin) {

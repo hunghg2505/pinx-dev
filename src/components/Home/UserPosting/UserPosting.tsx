@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { useRouter } from 'next/router';
 
 import ModalCompose from '@components/Home/ModalCompose';
+import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
@@ -17,7 +18,11 @@ const UserPosting = ({ addPostSuccess }: any) => {
   };
 
   if (!userLoginInfo?.displayName) {
-    return <></>;
+    return (
+      <>
+        <UserPostingFake />
+      </>
+    );
   }
 
   return (

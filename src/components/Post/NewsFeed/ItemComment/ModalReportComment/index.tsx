@@ -28,7 +28,7 @@ interface IProps {
 }
 const ModalReportComment = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { children, closeIcon, postID, isReported, refresh, refreshCommentOfPOst } = props;
+  const { children, postID, isReported, refresh, refreshCommentOfPOst } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
@@ -58,12 +58,6 @@ const ModalReportComment = (props: IProps) => {
     }
   };
 
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return <>x</>;
-  };
   const onReport = useRequest(
     (payload: any) => {
       return requestReportPost(postID, payload);
@@ -123,7 +117,7 @@ const ModalReportComment = (props: IProps) => {
       >
         {children}
       </Text>
-      <Modal visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()} closable={false}>
+      <Modal visible={visible} onClose={onVisible} closable={false}>
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
           Report
         </Text>
