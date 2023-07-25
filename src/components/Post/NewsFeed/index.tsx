@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -20,14 +19,17 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
   };
+
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(data?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
   const commentChild = commentsOfPost?.data?.list?.reduce(
     (acc: any, current: any) => acc + current?.totalChildren,
     0,
   );
+
   const countComment = totalComments + commentChild;
-  const renderViewMore = () => {
+
+  const ViewMore = () => {
     if (countComment > 1) {
       return (
         <div
@@ -40,18 +42,13 @@ const NewsFeed = (props: IProps) => {
         </div>
       );
     }
+
+    return <></>;
   };
 
   return (
     <>
-      <div
-        className={classNames(
-          'relative bg-[#ffffff] after:absolute after:right-0 after:top-0 after:h-[5px] after:bg-[#F3F2F6] after:content-[""] mobile:after:-left-[16px] mobile:after:w-[calc(100%+32px)] desktop:after:-left-[20px] desktop:after:w-[calc(100%+40px)]',
-          {
-            'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
-          },
-        )}
-      >
+      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={data}
@@ -61,19 +58,23 @@ const NewsFeed = (props: IProps) => {
           onHidePostSuccess={onHidePost}
           pinned={pinned}
         />
-        <div className='desktop:ml-[64px] desktop:w-[500px] xdesktop:w-[550px]'>
-          {countComment > 0 && (
-            <div className='mt-[22px]'>
-              <ItemComment
-                onNavigate={onNavigate}
-                data={commentsOfPost?.data?.list?.[0]}
-                refresh={refresh}
-                refreshCommentOfPOst={refreshCommentOfPost}
-              />
-            </div>
-          )}
-          {renderViewMore()}
-        </div>
+
+        {!!countComment && (
+          <div className=' [border-top:1px_solid_#EBEBEB] desktop:ml-[64px]'>
+            {countComment > 0 && (
+              <div className='mt-[22px]'>
+                <ItemComment
+                  onNavigate={onNavigate}
+                  data={commentsOfPost?.data?.list?.[0]}
+                  refresh={refresh}
+                  refreshCommentOfPOst={refreshCommentOfPost}
+                />
+              </div>
+            )}
+
+            <ViewMore />
+          </div>
+        )}
       </div>
     </>
   );

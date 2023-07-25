@@ -194,13 +194,10 @@ const PostDetail = () => {
         )}
 
         <div
-          className={classNames(
-            'px-[16px] pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:w-[calc(500px+40px)] desktop:px-0 desktop:px-[20px] xdesktop:w-[calc(550px+40px)]',
-            {
-              'mobile:mb-[50px]': !isImageCommentMobile && isLogin,
-              'mobile:mb-[179px]': isImageCommentMobile && isLogin,
-            },
-          )}
+          className={classNames('pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]', {
+            'mobile:mb-[50px]': !isImageCommentMobile && isLogin,
+            'mobile:mb-[179px]': isImageCommentMobile && isLogin,
+          })}
         >
           {isHaveComment ? (
             commentsOfPost?.data?.list?.map((item: IComment, index: number) => {

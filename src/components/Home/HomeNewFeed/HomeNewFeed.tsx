@@ -173,12 +173,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   return (
     <>
-      <div className='px-[10px] desktop:bg-[#F8FAFD]' ref={refScroll}>
-        <div className='bg-[#F8FAFD] mobile:pt-[10px] desktop:pt-0'>
-          <div className='relative bg-[#ffffff] pb-[12px] pt-[26px] mobile:block tablet:hidden'>
+      <div className='px-[10px] ' ref={refScroll}>
+        <div className='mobile:pt-[10px] desktop:pt-0'>
+          <div className='relative mobile:block tablet:hidden'>
             {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
               <button
-                className='absolute right-[16px] top-[26px] z-50 flex flex-row items-center'
+                className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
                 onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
               >
                 <Text type='body-14-medium' color='primary-1'>
@@ -201,14 +201,13 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
           <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
-          <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-[16px] desktop:p-[20px]'>
-            <div className='absolute left-0 top-[12px] z-10 h-[20px] w-full bg-[#ffffff]'></div>
-
+          <div className='relative'>
             <PinPost
               refresh={refresh}
               onHidePost={onHidePost}
               pinPostDataInitial={pinPostDataInitial}
             />
+
             <div>
               {newFeed?.slice(0, 1)?.map((item: IPost) => {
                 return (
@@ -228,22 +227,15 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
             </div>
 
-            <div className='relative bg-[#ffffff] before:absolute before:h-[5px] before:w-full before:bg-[#F3F2F6] before:content-[""] mobile:before:-left-[16px] mobile:before:w-[calc(100%+32px)] desktop:before:-left-[20px] desktop:before:w-[calc(100%+40px)]'>
-              <Text
-                type='body-16-bold'
-                color='neutral-2'
-                className='mb-[14px] px-[16px] mobile:pt-[20px] desktop:px-0 desktop:pt-[16px]'
-              >
+            <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+              <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
                 People in spotlight
               </Text>
 
-              <div className='ml-[8px] desktop:ml-0'>
-                <Influencer />
-              </div>
-
-              <div className='mt-[16px] px-[16px] desktop:px-0'>
+              <Influencer />
+              <div className='mt-[16px]'>
                 <button
-                  className='mb-[15px] h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
+                  className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
                   onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}
                 >
                   <Text type='body-14-bold' color='primary-2'>
@@ -251,22 +243,22 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                   </Text>
                 </button>
               </div>
-
-              {suggestionPeople && (
-                <div className='mr-[16px] flex-row items-center px-[16px] mobile:flex desktop:hidden'>
-                  <img
-                    src='/static/icons/iconPeople.svg'
-                    alt=''
-                    width={20}
-                    height={20}
-                    className='mr-[8px] h-[20px] w-[20px] object-contain'
-                  />
-                  <Text type='body-16-bold' color='neutral-2'>
-                    People you may know
-                  </Text>
-                </div>
-              )}
             </div>
+
+            {suggestionPeople && (
+              <div className='mr-[16px] flex-row items-center mobile:flex desktop:hidden'>
+                <img
+                  src='/static/icons/iconPeople.svg'
+                  alt=''
+                  width={20}
+                  height={20}
+                  className='mr-[8px] h-[20px] w-[20px] object-contain'
+                />
+                <Text type='body-16-bold' color='neutral-2'>
+                  People you may know
+                </Text>
+              </div>
+            )}
 
             {suggestionPeople && (
               <div className='mobile:block desktop:hidden'>
@@ -283,20 +275,22 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
             )}
 
-            {newFeed?.slice(1, 4)?.map((item: IPost) => {
-              return (
-                <NewsFeed
-                  key={`newFeed-${item.id}`}
-                  data={item}
-                  id={item.id}
-                  refresh={refresh}
-                  onHidePost={onHidePost}
-                />
-              );
-            })}
-            <div className='absolute mb-[8px] block h-[5px] w-full bg-[#F3F2F6] content-[""] mobile:-left-[16px] mobile:w-[calc(100%+32px)] desktop:-left-[20px] desktop:w-[calc(100%+40px)]'></div>
-            <div className='bg-[#ffffff] pl-[16px]'>
-              <Text type='body-16-bold' color='neutral-2' className='py-[16px]'>
+            <div>
+              {newFeed?.slice(1, 4)?.map((item: IPost) => {
+                return (
+                  <NewsFeed
+                    key={`newFeed-${item.id}`}
+                    data={item}
+                    id={item.id}
+                    refresh={refresh}
+                    onHidePost={onHidePost}
+                  />
+                );
+              })}
+            </div>
+
+            <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+              <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
                 Economy in the themes
               </Text>
               <ListTheme />

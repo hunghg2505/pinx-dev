@@ -12,8 +12,7 @@ const FooterSignUp = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
-  const auth = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
+  const { isLogin } = useAuth();
 
   const footerRef = useRef(null);
 
@@ -54,10 +53,6 @@ const FooterSignUp = () => {
       document.removeEventListener('scroll', handleScroll);
     };
   }, [footerHeight]);
-
-  useEffect(() => {
-    setIsLogin(auth.isLogin);
-  }, [auth.isLogin]);
 
   const redirectToSignUp = () => {
     router.push({

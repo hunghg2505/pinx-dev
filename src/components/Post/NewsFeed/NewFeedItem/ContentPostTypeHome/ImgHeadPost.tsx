@@ -17,7 +17,7 @@ const ImageHeadPost = ({ headImageUrl }: IPropsImageHeadPost) => {
         width='0'
         height='0'
         sizes='100vw'
-        className='absolute left-0 top-0 h-full w-full rounded-[12px]'
+        className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[9px] rounded-tr-[9px]'
       />
     </>
   );

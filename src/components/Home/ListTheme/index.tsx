@@ -83,7 +83,7 @@ const ListTheme = () => {
         </div>
       </div>
 
-      <div className='mb-[20px] mt-[16px] w-full pr-[16px]'>
+      <div className=' mt-[16px] w-full'>
         <div
           className='flex h-[46px] w-full cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#EAF4FB]'
           onClick={() => router.push(ROUTE_PATH.THEME)}

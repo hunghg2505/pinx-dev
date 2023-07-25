@@ -156,7 +156,7 @@ const PostAction = (props: IPostActionProps) => {
 
   return (
     <>
-      <div className='action flex flex-row items-center justify-between desktop:justify-start'>
+      <div className='action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]'>
         <div
           className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
           onClick={() => handleLikeOrUnLikePost()}

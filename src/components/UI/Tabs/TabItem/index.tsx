@@ -17,7 +17,7 @@ const TabItem: React.FC<Props> = ({ icon, isActive, label, onChangeTab, value })
     onChangeTab(newTab);
   };
   return (
-    <div className='cursor-pointer' onClick={() => onClickTab(value)}>
+    <div className={`cursor-pointer tab-20-${value}`} onClick={() => onClickTab(value)}>
       <div className='mr-[40px]'>
         {icon && <div className=''>{icon}</div>}
         <Text
