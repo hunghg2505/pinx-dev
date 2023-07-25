@@ -1,10 +1,7 @@
-import { ReactElement } from 'react';
-
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-import MainLayout from '@layout/MainLayout';
 
 const ProfileFollow = dynamic(() => import('@components/ProfileFollow'));
 
@@ -15,9 +12,6 @@ const PostDetailPage = () => {
       <ProfileFollow />
     </>
   );
-};
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout Layout>{page}</MainLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

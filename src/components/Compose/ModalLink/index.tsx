@@ -124,4 +124,4 @@ const ModalLink = (props: IProps) => {
     </>
   );
 };
-export default React.forwardRef(ModalLink);
+export default ModalLink;

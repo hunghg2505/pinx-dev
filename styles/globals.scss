@@ -26,10 +26,11 @@ body {
   font-family: var(--fontInter), sans-serif !important;
 }
 body {
-  overflow: overlay !important;
+  overflow-y: overlay !important;
+  overflow-x: hidden !important;
 }
 .overflow-overlay {
-  overflow: overlay;
+  overflow-y: overlay;
 }
 .grecaptcha-badge {
   visibility: hidden;

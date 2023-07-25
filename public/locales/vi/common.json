@@ -39,6 +39,8 @@
   "ok": "OK",
   "quit": "Quit",
   "quit.desc": "Are you sure you want to quit?",
+  "delete": "Delete",
+  "delete.desc": "Are you sure you want to delete?",
   "not_image": "Not image",
   "not_link": "Not link",
   "err_add_post": "You have not entered the post content"
