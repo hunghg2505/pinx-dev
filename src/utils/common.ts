@@ -86,7 +86,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople"><span>${name}</span></a>
+              <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople" data-type="userMention"><span>${name}</span></a>
               `,
             );
           }
@@ -120,6 +120,56 @@ export const formatMessage = (message: string, data: any) => {
       }
     }
   }
+  // eslint-disable-next-line array-callback-return
+  str?.map((item) => {
+    if (item.includes('#')) {
+      message = message.replace(
+        item,
+        `
+        <a href="javascript:void(0)" class="hashtag">${item}</a>
+        `,
+      );
+    }
+    if (item.includes('http') && !item.includes('\n')) {
+      message = message.replaceAll(
+        item,
+        `
+        <a href="javascript:void(0)" class="link">${item}</a>
+        `,
+      );
+    }
+    if (item.includes('http') && item.includes('\n')) {
+      const newItem = item?.split('\n');
+      for (const item of newItem) {
+        if (item.includes('http')) {
+          message = message.replaceAll(
+            item,
+            `
+            <a href="javascript:void(0)" class="link">${item}</a>
+            `,
+          );
+        }
+      }
+    }
+    // }
+  });
+  return message;
+};
+export const formatMessagePost = (message: string) => {
+  const doc = document.createRange().createContextualFragment(message);
+  const divUser = doc.querySelector('.userName')?.innerHTML;
+  if (divUser) {
+    const textReplace = divUser?.replace('@', '');
+    message = message.replaceAll(divUser, textReplace);
+  }
+  const divStock = doc.querySelector('.stockMention')?.innerHTML;
+  if (divStock) {
+    const textReplace = divStock?.replace('%', '');
+    message = message.replaceAll(divStock, textReplace);
+  }
+  // const metas: any = doc.body.querySelectorAll('.userName');
+  const str = message.split(' ');
+  message = message.replaceAll('\n', '<p></p>');
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
     if (item.includes('#')) {

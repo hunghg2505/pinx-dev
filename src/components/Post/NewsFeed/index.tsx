@@ -16,7 +16,6 @@ interface IProps {
 }
 const NewsFeed = (props: IProps) => {
   const { data, refresh, id, onHidePost, pinned = false } = props;
-  console.log('🚀 ~ file: index.tsx:19 ~ NewsFeed ~ data:', data);
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);

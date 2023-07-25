@@ -13,7 +13,7 @@ import { IPost, TYPEPOST } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessage, formatMessagePost } from '@utils/common';
 
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
@@ -144,6 +144,7 @@ const ContentPostTypeHome = (props: IProps) => {
   };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     const isReadMore = height > 84;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
@@ -158,7 +159,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {/* {message} */}
             <div
               className='messageFormat messageBody messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -294,6 +295,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
     const isReadMore = height > 84;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={onRef}>
@@ -308,7 +310,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {/* {message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -403,6 +405,7 @@ const ContentPostTypeHome = (props: IProps) => {
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
     const pnlRate = postDetail?.post?.pnlRate;
     const isReadMore = height > 84;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -417,7 +420,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {/* {postDetail?.post?.message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -682,6 +685,7 @@ const ContentPostTypeHome = (props: IProps) => {
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
     const urlLink = postDetail?.post?.urlLinks?.[0] || '';
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     const onRefHtml = (ele: any) => {
       if (!ele) {
         return;
@@ -710,7 +714,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     <Text type='body-14-bold' color='neutral-1'>
                       <div
                         className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
-                        dangerouslySetInnerHTML={{ __html: message }}
+                        dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                         style={{ color }}
                       ></div>
                     </Text>
@@ -730,7 +734,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     <Text type='body-14-regular' color='neutral-1' onClick={onComment}>
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
-                        dangerouslySetInnerHTML={{ __html: message }}
+                        dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                       ></div>
                     </Text>
                     {!message?.includes(urlLink) && urlLink !== '' && (
