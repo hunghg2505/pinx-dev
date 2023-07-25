@@ -7,9 +7,9 @@ import Form from 'rc-field-form';
 import NewsItem from '@components/Explore/Search/NewsItem';
 import { TYPESEARCH } from '@components/Home/service';
 import FormItem from '@components/UI/FormItem';
+import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetNews } from '../service';
