@@ -6,7 +6,7 @@ const Avatar = () => {
   const profileUser = useContext<any>(profileUserContext);
 
   return (
-    <div className='absolute bottom-[0%] left-[16px] z-10  translate-y-[50%]   tablet:left-[50px]  tablet:p-[8px]'>
+    <div className='absolute bottom-[0%] left-[16px] z-10  translate-y-[50%]   tablet:left-[10px]  tablet:p-[8px]'>
       {profileUser?.avatar && (
         <img
           src={profileUser?.avatar}

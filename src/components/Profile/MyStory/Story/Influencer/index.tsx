@@ -25,7 +25,7 @@ const Influencer = ({ closeStory }: { closeStory: () => void }) => {
         </div>
       </header>
       <main className=' bg-neutral_black px-[16px] pb-[20px] pt-[40px]'>
-        <p className='mb-[16px] h-[268px] w-full overflow-auto text-[12px]'>
+        <p className='mb-[16px] min-h-[100px] w-full overflow-auto text-[12px]'>
           {profileUser?.caption}
         </p>
       </main>
