@@ -22,7 +22,7 @@ interface Iprops {
 }
 
 const Login = (props: Iprops) => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isModal } = props;
   const router = useRouter();

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
@@ -41,6 +42,7 @@ const handleRedirect = (url: string) => {
 };
 
 const ProfileVerification = () => {
+  const { t } = useTranslation('setting');
   const router = useRouter();
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
@@ -99,7 +101,7 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+    <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <img
         src='/static/icons/chevron-left.svg'
         className='!w-[28px] laptop:hidden'
@@ -107,24 +109,23 @@ const ProfileVerification = () => {
         onClick={router.back}
       />
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
-      <div className='relative h-[60px] laptop-max:hidden laptop:mt-0'>
+      <div className='laptop-max:hidden laptop:mt-0'>
         <img
-          src='/static/icons/arrow-left.svg'
+          src='/static/icons/icon_back_header.svg'
           alt=''
           width='0'
           height='0'
-          sizes='100vw'
-          className='absolute left-[10px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 cursor-pointer laptop-max:hidden'
+          className='laptop:left-[24px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:absolute laptop:top-0'
           onClick={() => router.back()}
         />
-
         <Text
           type='body-20-bold'
-          className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center laptop-max:hidden'
+          className='mb-1 mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-center'
         >
-          Securities profile
+          {t('securities_profile')}
         </Text>
       </div>
+      <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] laptop-max:hidden' />
 
       <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
         <div className='relative mr-3'>
@@ -178,7 +179,7 @@ const ProfileVerification = () => {
         <Form className='w-full space-y-7 px-4' form={form}>
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Full name
+              {t('full_name')}
             </Text>
             <FormItem className='mt-4' name='fullName'>
               <Input disabled value={userLoginInfo?.name} className={customInputClassName} />
@@ -187,7 +188,7 @@ const ProfileVerification = () => {
 
           <div className='laptop:flex laptop:items-center laptop:justify-between'>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Gender
+              {t('gender')}
             </Text>
             {isMobile ? (
               <FormItem className='mt-4' name='gender'>
@@ -197,14 +198,14 @@ const ProfileVerification = () => {
                       'bg-white font-[600] text-[#394251]': userLoginInfo?.gender === 'F',
                     })}
                   >
-                    Female
+                    {t('female')}
                   </div>
                   <div
                     className={classNames(' m-1 w-1/2 py-2 text-center text-[#808A9D]', {
                       'bg-white font-[600] text-[#394251]': userLoginInfo?.gender === 'M',
                     })}
                   >
-                    Male
+                    {t('male')}
                   </div>
                 </div>
               </FormItem>
@@ -228,7 +229,7 @@ const ProfileVerification = () => {
                         <div className='absolute right-[2.5px] top-[2.5px] h-3 w-3 rounded-full bg-[#1F6EAC]' />
                       )}
                     </div>
-                    Female
+                    {t('female')}
                   </div>
                   <div
                     className={classNames('mr-16 flex text-neutral_black opacity-60', {
@@ -247,7 +248,7 @@ const ProfileVerification = () => {
                         <div className='absolute right-[2.5px] top-[2.5px] h-3 w-3 rounded-full bg-[#1F6EAC]' />
                       )}
                     </div>
-                    Male
+                    {t('male')}
                   </div>
                 </div>
               </FormItem>
@@ -256,7 +257,7 @@ const ProfileVerification = () => {
 
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Date of birth
+              {t('date_of_birth')}
             </Text>
             <FormItem className='mt-4' name='fullName'>
               <Input
@@ -269,7 +270,7 @@ const ProfileVerification = () => {
 
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Identify card
+              {t('identify_card')}
             </Text>
             <FormItem className='mt-4' name='fullName'>
               <Input
@@ -286,7 +287,7 @@ const ProfileVerification = () => {
 
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Address
+              {t('address')}
             </Text>
             <FormItem className='mt-4' name='fullName'>
               <Input disabled value={userLoginInfo?.address} className={customInputClassName} />
@@ -295,7 +296,7 @@ const ProfileVerification = () => {
 
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Email
+              {t('email')}
             </Text>
             <FormItem className='mt-4' name='fullName'>
               <Input disabled value={userLoginInfo?.email} className={customInputClassName} />
@@ -314,7 +315,7 @@ const ProfileVerification = () => {
               sizes='100vw'
               className='mr-[7px] h-[20px] w-[18px]'
             />
-            <Text type='body-14-medium'>Deactivate account</Text>
+            <Text type='body-14-medium'>{t('deactivate_account')}</Text>
           </ErrorMainButton>
         </Form>
 
@@ -327,7 +328,7 @@ const ProfileVerification = () => {
             sizes='100vw'
             className='mr-[7px] h-[103px] w-[164px]'
           />
-          <Text type='body-16-semibold'>eKYC chỉ 2 phút trên</Text>
+          <Text type='body-16-semibold'>{t('ekyc_title')}</Text>
           <Text type='body-16-semibold' className='mb-4'>
             app PineX
           </Text>

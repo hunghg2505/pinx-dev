@@ -26,7 +26,7 @@ const convertSecond = (secs: number) => {
 };
 
 const OtpVerification = (props: IProps) => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const [form] = Form.useForm();
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
   const [otpCount, setOtpCount] = useState<number>(props.otpTime ?? 120);

@@ -14,7 +14,7 @@ import Login from './Login';
 import Register from './Register/RegisterForm';
 
 function Auth() {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const router = useRouter();
   const defaultActiveTab = (router.query?.type || AUTH_TAB_TYPE.LOGIN) as string;
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);

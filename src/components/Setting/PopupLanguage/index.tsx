@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -25,6 +26,7 @@ const LANGUAGES = [
 ];
 
 const PopupLanguage = (props: IProps) => {
+  const { t } = useTranslation('setting');
   const currentLang = getLocaleCookie() || 'en';
   const router = useRouter();
   const { visible, onToggle } = props;
@@ -56,9 +58,9 @@ const PopupLanguage = (props: IProps) => {
     <>
       <Modal visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
-          <Text type='body-24-bold'>Language</Text>
+          <Text type='body-24-bold'>{t('language')}</Text>
           <Text type='body-14-regular' color='primary-5'>
-            Select languague
+            {t('select_language')}
           </Text>
         </div>
 
