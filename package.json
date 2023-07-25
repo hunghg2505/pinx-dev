@@ -42,8 +42,7 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",
     "tippy.js": "^6.3.7",
-    "umi-request": "^1.2.3",
-    "yarn": "^1.22.19"
+    "umi-request": "^1.2.3"
   },
   "devDependencies": {
     "@fancyapps/fancybox": "^3.5.7",
