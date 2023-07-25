@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-
 import Tabs, { TabPane } from 'rc-tabs';
 
 import { useAuth } from '@store/auth/useAuth';
@@ -13,12 +11,7 @@ interface IPropsTabMobile {
 }
 
 const TabMobile = ({ selectTab, onChangeTab }: IPropsTabMobile) => {
-  const [isLogin, setisLogin] = useState(false);
-  const auth = useAuth();
-
-  useEffect(() => {
-    setisLogin(auth.isLogin);
-  }, [auth.isLogin]);
+  const { isLogin } = useAuth();
 
   return (
     <>

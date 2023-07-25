@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+import { useEffect, useState } from 'react';
+
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies, setRegisterCookies } from '.';
@@ -12,6 +14,12 @@ export interface IAuth {
 }
 
 export const useAuth = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(!!getAccessToken());
+  }, []);
+
   const onLogout = (navigatePath?: string) => {
     try {
       deleteAuthCookies();
@@ -45,7 +53,7 @@ export const useAuth = () => {
   };
 
   return {
-    isLogin: !!getAccessToken(),
+    isLogin,
     onLogin,
     onLogout,
     onRegister,

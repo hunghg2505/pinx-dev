@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
@@ -28,13 +28,8 @@ import {
 
 const SideBar = () => {
   const router = useRouter();
-  const auth = useAuth();
-  const [isLogin, setIsLogin] = useState(false);
+  const { isLogin } = useAuth();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-
-  useEffect(() => {
-    setIsLogin(auth.isLogin);
-  }, [auth.isLogin]);
 
   const MENUS = [
     {
