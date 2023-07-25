@@ -39,5 +39,6 @@
   "ok": "OK",
   "not_image": "Not image",
   "not_link": "Not link",
-  "err_add_post": "You have not entered the post content"
+  "err_add_post": "You have not entered the post content",
+  "delete_post_success": "Delete Success"
 }
