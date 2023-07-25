@@ -111,11 +111,11 @@ const ProfileVerification = () => {
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
       <div className='laptop-max:hidden laptop:mt-0'>
         <img
-          src='/static/icons/icon_back_header.svg'
+          src='/static/icons/back_icon.svg'
           alt=''
           width='0'
           height='0'
-          className='laptop:left-[24px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:absolute laptop:top-0'
+          className='ml-4 mt-8 h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[24px] laptop:top-0'
           onClick={() => router.back()}
         />
         <Text

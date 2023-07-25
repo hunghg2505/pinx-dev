@@ -28,8 +28,8 @@ const PinPost = ({ refresh, onHidePost, pinPostDataInitial }: any) => {
       {data?.map((item: IPost) => {
         return (
           <NewsFeed
-            key={`pined-post-${item.id}`}
             data={item}
+            key={`pined-post-${item.id}`}
             id={item.id}
             refresh={onRefresh}
             onHidePost={onHidePost}

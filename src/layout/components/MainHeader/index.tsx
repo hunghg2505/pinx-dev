@@ -84,7 +84,7 @@ const MainHeader = () => {
 
   return (
     <>
-      <div className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'>
+      <div className=' sticky left-0 top-0 z-[99] h-[56px] border-b-[1px] border-solid border-[#EBEBEB] bg-white'>
         {!isHideHeaderOpenAppOnMobile && (
           <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
             <div className='flex flex-row'>
@@ -110,13 +110,13 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px]'>
           <div className='flex items-center gap-[16px]'>
             <CustomLink href={ROUTE_PATH.HOME}>
               <img
                 src='/static/icons/logo.svg'
                 alt=''
-                className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
+                className='h-[40px] w-[40px] object-contain'
               />
             </CustomLink>
 

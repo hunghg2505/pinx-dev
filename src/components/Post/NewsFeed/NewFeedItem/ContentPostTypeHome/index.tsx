@@ -151,7 +151,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -233,7 +233,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -305,7 +305,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -416,7 +416,7 @@ const ContentPostTypeHome = (props: IProps) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -540,7 +540,11 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
               {postDetail?.post.head || postDetail?.post?.contentText}
             </Text>
           </div>
@@ -617,7 +621,11 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
               {postDetail?.post.head}
             </Text>
           </div>
@@ -733,7 +741,12 @@ const ContentPostTypeHome = (props: IProps) => {
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
-                    <Text type='body-14-regular' color='neutral-1' onClick={onComment}>
+                    <Text
+                      type='body-14-regular'
+                      color='neutral-1'
+                      className='tablet:!text-[16px]'
+                      onClick={onComment}
+                    >
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
                         dangerouslySetInnerHTML={{ __html: messagePostFormat }}

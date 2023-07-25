@@ -80,7 +80,7 @@ const ItemPeople = (props: IProps) => {
             className='mr-[10px] h-[48px] w-[48px] rounded-full'
           />
         ) : (
-          <div className='h-[48px] w-[48px]'>
+          <div className='mr-[10px] h-[48px] w-[48px]'>
             <AvatarDefault name={name} />
           </div>
         )}

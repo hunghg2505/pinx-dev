@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
@@ -16,6 +16,7 @@ import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
+import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
@@ -69,6 +70,9 @@ const NewFeedItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
+  const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
@@ -87,6 +91,16 @@ const NewFeedItem = (props: IProps) => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
   }, [postDetail?.isFollowing, isReported]);
+  const handleHidePopup = () => {
+    showReport && setShowReport(false);
+  };
+  useClickOutSide(ref, handleHidePopup, excludeElements);
+
+  useEffect(() => {
+    setExcludeElements(() => {
+      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+    });
+  }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
@@ -281,7 +295,7 @@ const NewFeedItem = (props: IProps) => {
             alt=''
             width={0}
             height={0}
-            className='w-[24px] mobile:block tablet:hidden'
+            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </>
@@ -308,7 +322,7 @@ const NewFeedItem = (props: IProps) => {
               alt=''
               width={0}
               height={0}
-              className='w-[24px] mobile:block tablet:hidden'
+              className='mr-[10px] w-[24px] mobile:block tablet:hidden'
               sizes='100vw'
             />
           </>
@@ -382,7 +396,7 @@ const NewFeedItem = (props: IProps) => {
           <div>
             <div className='flex'>
               <div className='mr-[5px] flex items-center'>
-                <Text type='body-14-semibold' color='neutral-1'>
+                <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
                   {renderDisplayName()}
                 </Text>
 
@@ -409,7 +423,7 @@ const NewFeedItem = (props: IProps) => {
                 )}
               </div>
             </div>
-            <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
+            <Text type='body-12-regular' color='neutral-4' className='mt-[2px] tablet:text-[16px]'>
               {postDetail?.timeString &&
                 dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>
@@ -504,7 +518,11 @@ const NewFeedItem = (props: IProps) => {
 
                   {(isMyProfilePath || isMyPost) && (
                     <>
-                      <ModalEdit postDetail={postDetail}>
+                      <ModalEdit
+                        visible={modalEditVisible}
+                        onVisible={setModalEditVisible}
+                        postDetail={postDetail}
+                      >
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconEdit.svg'
@@ -519,7 +537,12 @@ const NewFeedItem = (props: IProps) => {
                           </Text>
                         </div>
                       </ModalEdit>
-                      <ModalDelete id={postDetail?.id} onRefreshPostDetail={onRefreshListPost}>
+                      <ModalDelete
+                        visible={modalDeleteVisible}
+                        onVisible={() => setModalDeleteVisible((prev) => !prev)}
+                        id={postDetail?.id}
+                        onRefreshPostDetail={onRefreshListPost}
+                      >
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconDelete.svg'

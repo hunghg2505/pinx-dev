@@ -96,7 +96,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text type='body-14-regular' color='neutral-1' className='my-[16px] tablet:!text-[16px]'>
             {/* {message} */}
             <div
               className='messageFormat messageBody'
@@ -169,7 +169,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text type='body-14-regular' color='neutral-1' className='my-[16px] tablet:!text-[16px]'>
             {postDetail?.post.head}
           </Text>
         </div>
@@ -204,7 +204,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='h-full w-full rounded-[8px]'
+              className='h-full w-full rounded-[12px]'
             />
           )}
           <div
@@ -237,7 +237,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text type='body-14-regular' color='neutral-1' className='my-[16px] tablet:!text-[16px]'>
             {postDetail?.post.head}
           </Text>
         </div>
@@ -272,7 +272,7 @@ const ContentPostTypeDetail = (props: IProps) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='h-full w-full rounded-[8px]'
+            className='h-full w-full rounded-[12px]'
           />
           <div
             // href={postDetail?.post.url || ''}
@@ -302,7 +302,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text type='body-14-regular' color='neutral-1' className='my-[16px] tablet:!text-[16px]'>
             {/* {message} */}
             <div
               className='messageFormat messageBody'
@@ -400,7 +400,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
-          <Text type='body-14-regular' color='neutral-1' className='my-[16px]'>
+          <Text type='body-14-regular' color='neutral-1' className='my-[16px] tablet:!text-[16px]'>
             {/* {postDetail?.post?.message} */}
             <div
               className='messageFormat messageBody'
@@ -503,7 +503,7 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           {postThemeId ? (
-            <div className='theme relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px] desktop:w-[705px] '>
+            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''

@@ -165,16 +165,14 @@ const PostDetail = () => {
             className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[16px]'
           >
             <img
-              src='/static/icons/iconBack.svg'
-              alt=''
-              width='0'
-              height='0'
-              className='h-[20px] w-[20px] cursor-pointer'
+              src='/static/icons/back_icon.svg'
+              alt='Back icon'
+              className='h-[28px] w-[28px] cursor-pointer'
             />
           </div>
         </div>
 
-        <div className='mobile:px-0 desktop:px-[20px]'>
+        <div className='mobile:px-[16px] desktop:px-[20px]'>
           <NewFeedItem
             postDetail={postDetail?.data}
             totalComments={countComment}
@@ -184,7 +182,7 @@ const PostDetail = () => {
         </div>
 
         {isLogin && (
-          <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:mr-[88px] desktop:px-[20px]'>
+          <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:w-[calc(500px+40px)] desktop:px-0 desktop:px-[20px] xdesktop:w-[calc(550px+40px)]'>
             <ForwardedRefComponent
               id={postDetail?.data?.id}
               refresh={refreshCommentOfPost}
