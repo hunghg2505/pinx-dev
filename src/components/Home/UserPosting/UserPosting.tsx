@@ -1,28 +1,30 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import ModalCompose from '@components/Home/ModalCompose';
-import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 const UserPosting = ({ addPostSuccess }: any) => {
   const router = useRouter();
   const { userLoginInfo } = useUserLoginInfo();
   const refModal: any = useRef();
+  const [loading, setLoading] = useState(false);
+  const auth = useAuth();
+
+  useEffect(() => {
+    setLoading(auth.isLogin);
+  }, []);
 
   const onShowModal = () => {
     refModal?.current?.onVisible && refModal?.current?.onVisible();
   };
 
-  if (!userLoginInfo?.displayName) {
-    return (
-      <>
-        <UserPostingFake />
-      </>
-    );
+  if (!loading) {
+    return <></>;
   }
 
   return (
