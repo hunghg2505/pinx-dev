@@ -35,26 +35,10 @@ export async function getServerSideProps({ locale, req, query }: GetServerSidePr
     };
   }
   if (typeof req.cookies?.accessToken !== 'string') {
-    return {
-      props: {
-        ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
-        // Will be passed to the page component as props
-      },
-    };
-  }
-  const decoded = parseJwt(req.cookies?.accessToken);
-  if (Number(decoded?.userId) === Number(query?.id)) {
-    return {
-      redirect: {
-        destination: ROUTE_PATH.MY_PROFILE,
-        permanent: false,
-      },
-    };
-  }
-  try {
     const res = await fetch(
       PREFIX_API_PIST + API_PATH.PUBLIC_GET_OTHER_USER_PROFILE(Number(query.id)),
     );
+
     if (res.status === 200) {
       const data = await res.json();
       return {
@@ -71,14 +55,17 @@ export async function getServerSideProps({ locale, req, query }: GetServerSidePr
         permanent: false,
       },
     };
-  } catch {
+  }
+
+  const decoded = parseJwt(req.cookies?.accessToken);
+  if (Number(decoded?.userId) === Number(query?.id)) {
     return {
       redirect: {
-        destination: ROUTE_PATH.NOT_FOUND,
+        destination: ROUTE_PATH.MY_PROFILE,
         permanent: false,
       },
     };
-  }
+  } 
 }
 
 export default PostDetailPage;
