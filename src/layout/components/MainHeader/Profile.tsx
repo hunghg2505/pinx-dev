@@ -36,10 +36,10 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   return (
     <div
       className={
-        'absolute right-[-100%] top-[100%] z-[9999] h-[100dvh] w-full bg-[white]  [transition:0.3s] tablet:hidden'
+        'absolute left-[-100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
       }
       style={{
-        right: openProfileMenu ? 0 : '-100%',
+        left: openProfileMenu ? 0 : '-100%',
       }}
     >
       <BasicInfo

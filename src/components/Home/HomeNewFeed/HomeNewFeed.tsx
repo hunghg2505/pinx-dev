@@ -112,7 +112,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const { lastElementRef } = useLoadMore(filterType, listNewFeed, loading, run);
   const { watchList } = useGetWatchList();
-  const isLogin = !!getAccessToken();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
 
   const onFilter = async (value: string) => {
@@ -148,6 +147,8 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
 
   useEffect(() => {
+    const isLogin = !!getAccessToken();
+
     run(filterType || FILTER_TYPE.MOST_RECENT);
     if (isLogin) {
       getSuggestFriend();
@@ -195,7 +196,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
             <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
           </div>
-          {isLogin && <UserPosting addPostSuccess={addPostSuccess} />}
+
+          <UserPosting addPostSuccess={addPostSuccess} />
+
           <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
           <div className='relative rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:p-[16px] desktop:p-[20px]'>
@@ -204,7 +207,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               onHidePost={onHidePost}
               pinPostDataInitial={pinPostDataInitial}
             />
-            <div className='mobile:px-[16px] desktop:px-[0]'>
+            <div>
               {newFeed?.slice(0, 1)?.map((item: IPost) => {
                 return (
                   <NewsFeed
@@ -276,7 +279,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               </div>
             )}
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
+            <div>
               {newFeed?.slice(1, 4)?.map((item: IPost) => {
                 return (
                   <NewsFeed
@@ -297,7 +300,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               <ListTheme />
             </div>
 
-            <div className='mobile:px-[16px] desktop:px-[0]'>
+            <div>
               {newFeed?.slice(5)?.map((item: IPost) => {
                 return (
                   <NewsFeed

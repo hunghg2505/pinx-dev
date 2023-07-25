@@ -46,12 +46,9 @@ const NewsFeed = (props: IProps) => {
   return (
     <>
       <div
-        className={classNames(
-          'relative bg-[#ffffff] after:absolute after:-left-[20px] after:right-0 after:top-0 after:h-[1px] after:w-[calc(100%+40px)] after:bg-[#D8EBFC] after:content-[""]',
-          {
-            'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
-          },
-        )}
+        className={classNames(' relative bg-[#ffffff]  ', {
+          'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
+        })}
       >
         <NewFeedItem
           onNavigate={onNavigate}
