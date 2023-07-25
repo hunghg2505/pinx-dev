@@ -168,7 +168,7 @@ const Profile = () => {
             overlay={<ProfileOverlay />}
             placement='bottomRight'
           >
-            <div className='relative h-[36px] w-[36px] cursor-pointer overflow-hidden rounded-full object-cover tablet:h-[44px] tablet:w-[44px] '>
+            <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
               <img
                 src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
                 alt=''
@@ -202,7 +202,7 @@ const Profile = () => {
       <div className='flex items-center gap-[12px]'>
         <CustomLink
           href={ROUTE_PATH.LOGIN}
-          className='flex h-[44px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
+          className='flex h-[40px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
         >
           <Text type='body-14-bold' color='primary-2'>
             Log in
@@ -210,7 +210,7 @@ const Profile = () => {
         </CustomLink>
 
         <CustomLink
-          className='  hidden h-[44px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
+          className='  hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
           href={`${ROUTE_PATH.LOGIN}?type=register`}
         >
           <Text type='body-14-bold' color='cbwhite'>
