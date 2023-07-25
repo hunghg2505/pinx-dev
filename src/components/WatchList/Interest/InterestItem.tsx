@@ -14,9 +14,10 @@ import styles from './index.module.scss';
 interface IProps {
   data: IWatchListItem;
   refresh?: () => void;
+  refreshYourWatchList?: () => void;
 }
 const InterestItem = (props: IProps) => {
-  const { data, refresh } = props;
+  const { data, refresh, refreshYourWatchList } = props;
   const highest_price = data?.hp || data?.refPrice;
   const lowest_price = data?.lp || data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -34,6 +35,7 @@ const InterestItem = (props: IProps) => {
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       refresh && refresh();
+      refreshYourWatchList && refreshYourWatchList();
       toast(() => <Notification type='success' message='Add stock success' />);
     },
   });
