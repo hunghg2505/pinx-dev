@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cp env.development .env && next dev",
+    "dev": "env-cmd -f env.development next dev",
     "standalone": "PORT=80 node server.js",
     "build": "next build",
     "start": "env-cmd -f env.development next start",
@@ -42,6 +42,7 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",
     "tippy.js": "^6.3.7",
+    "uikit": "^3.16.22",
     "umi-request": "^1.2.3"
   },
   "devDependencies": {

@@ -14,10 +14,12 @@ interface IProps {
 }
 const settings = {
   dots: false,
-  infinite: false,
+  infinite: true,
   speed: 500,
+  autoplaySpeed: 7000,
   slidesToShow: 1,
   slidesToScroll: 1,
+  autoplay: true,
 };
 const Themes = (props: IProps) => {
   const { isEdit = false } = props;
