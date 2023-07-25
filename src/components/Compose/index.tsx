@@ -24,13 +24,13 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { isImage } from '@utils/common';
+import { formatMessage, isImage } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import styles from './index.module.scss';
 import ModalLink from './ModalLink';
-import { requestAddPost } from './service';
+import { requestAddPost, requestUpdatePost } from './service';
 
 const IconSend = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'>
@@ -47,6 +47,8 @@ interface IProps {
   hidePopup?: () => void;
   refresh?: () => void;
   onGetData?: (value: any) => void;
+  postDetail?: any;
+  isUpdate?: boolean;
 }
 interface IData {
   message: string | undefined;
@@ -60,7 +62,9 @@ interface IData {
 
 const Compose = (props: IProps) => {
   const { t } = useTranslation('common');
-  const { hidePopup, refresh, onGetData } = props;
+  const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
+  const message =
+    postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
   const [isShowMore, setIsShowMore] = React.useState(true);
   const [activeTheme, setActiveTheme] = React.useState('default');
   const [image, setImage] = React.useState<string>('');
@@ -68,92 +72,97 @@ const Compose = (props: IProps) => {
   const bgTheme = useAtomValue(postThemeAtom);
   const themeActive = bgTheme?.find((item) => item.code === activeTheme);
   const { statusUser } = useUserType();
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder: 'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
-        emptyEditorClass: 'is-editor-empty',
-      }),
-      Mention.extend({
-        name: 'userMention',
-      }).configure({
-        HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
-        },
-        suggestion: {
-          ...Suggestion,
-          char: '@',
-          pluginKey: new PluginKey('userMention'),
-          items: async ({ query }: { query: string }) => {
-            const payload: ISearch = {
-              keyword: query,
-              searchType: TYPESEARCH.FRIEND,
-            };
-            const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
-              data: payload,
-            });
-            return data?.data?.users;
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit,
+        Placeholder.configure({
+          placeholder:
+            'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
+          emptyEditorClass: 'is-editor-empty',
+        }),
+        Mention.extend({
+          name: 'userMention',
+        }).configure({
+          HTMLAttributes: {
+            class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
           },
-        },
-      }),
-      Mention.extend({
-        name: 'stockMention',
-      }).configure({
-        HTMLAttributes: {
-          class: 'stockMention text-[14px] font-semibold leading-[18px]',
-        },
-        suggestion: {
-          ...Suggestion,
-          pluginKey: new PluginKey('stockMention'),
-          char: '%',
-          items: async ({ query }: { query: string }) => {
-            const payload: ISearch = {
-              keyword: query,
-              searchType: TYPESEARCH.STOCK,
-            };
-            const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
-              data: payload,
-            });
+          suggestion: {
+            ...Suggestion,
+            char: '@',
+            pluginKey: new PluginKey('userMention'),
+            items: async ({ query }: { query: string }) => {
+              const payload: ISearch = {
+                keyword: query,
+                searchType: TYPESEARCH.FRIEND,
+              };
+              const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+                data: payload,
+              });
+              return data?.data?.users;
+            },
+          },
+        }),
+        Mention.extend({
+          name: 'stockMention',
+        }).configure({
+          HTMLAttributes: {
+            class: 'stockMention text-[14px] font-semibold leading-[18px]',
+          },
+          suggestion: {
+            ...Suggestion,
+            pluginKey: new PluginKey('stockMention'),
+            char: '%',
+            items: async ({ query }: { query: string }) => {
+              const payload: ISearch = {
+                keyword: query,
+                searchType: TYPESEARCH.STOCK,
+              };
+              const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+                data: payload,
+              });
 
-            return data?.data?.companies;
+              return data?.data?.companies;
+            },
           },
-        },
-      }),
-      Mention.extend({
-        name: 'hashTag',
-      }).configure({
-        HTMLAttributes: {
-          class: 'hashTag text-[14px] font-semibold leading-[18px]',
-        },
-        suggestion: {
-          ...Suggestion,
-          pluginKey: new PluginKey('hashTag'),
-          char: '#',
-          items: async ({ query }: { query: string }) => {
-            const data = await privateRequest(
-              requestCommunity.post,
-              API_PATH.PRIVATE_HASHTAG_SUGGEST,
-              {
-                data: {
-                  keyword: query,
+        }),
+        Mention.extend({
+          name: 'hashTag',
+        }).configure({
+          HTMLAttributes: {
+            class: 'hashTag text-[14px] font-semibold leading-[18px]',
+          },
+          suggestion: {
+            ...Suggestion,
+            pluginKey: new PluginKey('hashTag'),
+            char: '#',
+            items: async ({ query }: { query: string }) => {
+              const data = await privateRequest(
+                requestCommunity.post,
+                API_PATH.PRIVATE_HASHTAG_SUGGEST,
+                {
+                  data: {
+                    keyword: query,
+                  },
                 },
-              },
-            );
-            return data?.data?.list;
+              );
+              return data?.data?.list;
+            },
           },
+        }),
+      ],
+      editorProps: {
+        attributes: {
+          class: 'focus:outline-none h-full',
         },
-      }),
-    ],
-    editorProps: {
-      attributes: {
-        class: 'focus:outline-none h-full',
+      },
+      content: `${message || ''}`,
+      onUpdate({ editor }) {
+        onGetData && onGetData(editor?.getText());
       },
     },
-    onUpdate({ editor }) {
-      onGetData && onGetData(editor?.getText());
-    },
-  });
+    [message],
+  );
   const getDataOG = (value: any) => {
     setMetaData(value);
   };
@@ -193,7 +202,7 @@ const Compose = (props: IProps) => {
   );
   const useAddPost = useRequest(
     (data: any) => {
-      return requestAddPost(data);
+      return isUpdate ? requestUpdatePost(postDetail?.id, data) : requestAddPost(data);
     },
     {
       manual: true,
@@ -283,7 +292,7 @@ const Compose = (props: IProps) => {
     });
     const message = test?.flat()?.join('\n');
     const data: IData = {
-      message: metaData ? message?.concat(` ${metaData['og:url']}`) : message,
+      message,
       tagPeople: formatTagPeople,
       tagStocks: stock,
       postThemeId: themeActive?.id,
@@ -348,6 +357,7 @@ const Compose = (props: IProps) => {
       editor?.commands?.clearContent();
     };
   }, []);
+
   return (
     <div className='h-full mobile-max:flex mobile-max:flex-col mobile-max:justify-between'>
       <div className='relative h-[208px]'>
