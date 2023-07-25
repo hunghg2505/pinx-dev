@@ -3,6 +3,8 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { Field } from 'rc-field-form';
 
+import Editor from './Editor';
+
 const JobsTitle = () => {
   const { t } = useTranslation('editProfile');
   return (
@@ -16,12 +18,7 @@ const JobsTitle = () => {
             >
               {t('job_title')}
             </label>
-            <input
-              type='text'
-              value={value}
-              onChange={onChange}
-              className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none'
-            />
+            <Editor value={value} onChange={onChange} />
             <hr className='mb-[24px] border-neutral_07' />
           </>
         );

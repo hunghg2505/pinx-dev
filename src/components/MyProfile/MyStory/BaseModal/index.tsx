@@ -30,7 +30,7 @@ const BaseModal = forwardRef(({ children }: { children: ReactNode }, ref) => {
       {render && (
         <div
           className={classNames(
-            'fixed left-0 top-0 z-[9999] flex h-screen w-screen items-center justify-center py-6 duration-300 ease-in-out',
+            'fixed left-0 top-0 z-[9999] flex bottom-0 right-0 items-center justify-center py-6 duration-300 ease-in-out',
             { 'bg-[black]/[0.35]': visible },
           )}
         >

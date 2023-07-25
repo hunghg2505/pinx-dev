@@ -111,7 +111,7 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full rounded-[8px] bg-white px-[10px] text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
+    <div className='w-full rounded-[8px] bg-white p-[10px] text-left mobile-max:mt-[24px] desktop:p-[16px] '>
       <Text
         type='body-24-semibold'
         color='cbblack'
@@ -120,10 +120,11 @@ const Explore = () => {
         Discovery
       </Text>
       <Search ref={refClick} />
-      {/* key word search */}
+
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
         Top keyword search
       </Text>
+
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listKeyWords?.map((item: any, index: number) => {
           return (
@@ -155,6 +156,7 @@ const Explore = () => {
           </div>
         )}
       </ExploreButton>
+
       {/* key word search */}
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       {/* Explore influencer */}
@@ -162,9 +164,11 @@ const Explore = () => {
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         People in spotlight
       </Text>
+
       <div className='mb-[16px]'>
         <Influencer />
       </div>
+
       <ExploreButton onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}>
         <Text type='body-14-bold' color='primary-2'>
           Explore influencer

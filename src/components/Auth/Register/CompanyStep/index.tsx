@@ -19,7 +19,7 @@ import {
 } from './service';
 
 const RegisterCompanyStep = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
   const [myListStock, setMyListStock] = useState<string[]>([]);
@@ -124,11 +124,10 @@ const RegisterCompanyStep = () => {
             {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
             <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-                const urlImageCompany = `${
-                  item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
                     ? item.stockCode
                     : item.stockCode?.slice(1, 4)
-                }.png`;
+                  }.png`;
                 return (
                   <div
                     className={classNames('relative h-[67px] w-[67px]', styles.companyCard)}

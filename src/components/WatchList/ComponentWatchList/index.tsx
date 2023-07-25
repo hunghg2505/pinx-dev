@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-destructuring */
 import React, { useMemo } from 'react';
 
 import { useRequest } from 'ahooks';
@@ -17,6 +18,7 @@ import ItemWatchList from '../ItemWatchList';
 interface IProps {
   isEdit?: boolean;
   page_size?: number;
+  footer?: (list: any) => void;
 }
 const ComponentWatchList = (props: IProps) => {
   const { isEdit = false, page_size } = props;
@@ -93,6 +95,8 @@ const ComponentWatchList = (props: IProps) => {
           </div>
         ))}
       </div>
+
+      {props?.footer && props?.footer?.(dataFormat)}
     </>
   );
 };

@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 
+import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
@@ -10,6 +11,8 @@ const FormEdit = dynamic(() => import('./FormEdit'));
 const FormDesktop = dynamic(() => import('./FormDesktop'));
 const Profile = () => {
   const { userLoginInfo } = useUserLoginInfo();
+  // warning, do not delete this line, if not data will not refresh after user update profile
+  const { profileOtherUser } = useGetProfileOtherUser(Number(userLoginInfo?.id));
   const { run } = useProfileInitial();
   const [state, setState] = useState({ mobile: false });
   useEffect(() => {
@@ -19,6 +22,7 @@ const Profile = () => {
     <profileUserContext.Provider
       value={{
         ...userLoginInfo,
+        ...profileOtherUser,
         reload: run,
       }}
     >

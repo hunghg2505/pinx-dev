@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 
-import { parseJwt } from 'brainless-token-manager';
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -10,11 +9,11 @@ import MainLayout from '@layout/MainLayout';
 
 const ProfileEdit = dynamic(() => import('@components/ProfileEdit'));
 
-const PostDetailPage = (props: any) => {
+const PostDetailPage = () => {
   return (
     <>
       <SEO title={'Pinex'} />
-      <ProfileEdit {...props} />
+      <ProfileEdit />
     </>
   );
 };
@@ -34,12 +33,10 @@ export async function getServerSideProps({ locale, req }: GetServerSidePropsCont
         permanent: false,
       },
     };
-  }
-  const decoded = parseJwt(req.cookies?.accessToken);
+  }  
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'en', ['common', 'editProfile'])),
-      ...decoded,
+      ...(await serverSideTranslations(locale || 'en', ['common', 'editProfile'])),      
       // Will be passed to the page component as props
     },
   };

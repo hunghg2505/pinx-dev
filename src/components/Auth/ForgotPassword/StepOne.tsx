@@ -18,7 +18,7 @@ import { useForgotPassword } from './service';
 const ERROR_CODE = new Set(['10009', '10011', '10148', '10149', '10020']);
 
 const ForgotPasswordStepOne = () => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const [form] = Form.useForm();
   const router = useRouter();
 

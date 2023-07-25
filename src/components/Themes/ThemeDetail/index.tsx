@@ -105,7 +105,7 @@ const ThemeDetail = () => {
           onRefreshActivities={onRefreshActivities}
         />
       )}
-      <div className='mt-[24px] px-[10px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
+      <div className='mb-10 mt-[24px] rounded-[10px] bg-white px-[10px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
         <div className='relative text-center'>
           <img
             src='/static/icons/back_icon.svg'

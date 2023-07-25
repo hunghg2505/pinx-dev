@@ -30,7 +30,7 @@ body {
   overflow-x: hidden !important;
 }
 .overflow-overlay {
-  overflow-y: overlay;
+  overflow-y: overlay !important;
 }
 .grecaptcha-badge {
   visibility: hidden;

@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -25,6 +26,7 @@ const disabledInputClassname = 'text-[--neutral-5]';
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
 const ChangeUsername = () => {
+  const { t } = useTranslation('setting');
   const router = useRouter();
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
@@ -62,38 +64,27 @@ const ChangeUsername = () => {
   };
 
   return (
-    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
-      <div className='relative'>
-        <img
-          src='/static/icons/arrow-left.svg'
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='absolute left-[-5px] top-[-4px] h-[32px] w-[32px] cursor-pointer laptop-max:hidden'
-          onClick={() => router.back()}
-        />
-      </div>
-
+    <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <img
         src='/static/icons/icon_back_header.svg'
         alt=''
         width='0'
         height='0'
-        className='left-[10px] top-[23px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:hidden'
+        className='laptop:left-[10px] ml-4 mt-8 h-[16px] w-[10px] cursor-pointer laptop:absolute laptop:top-[3px]'
         onClick={onBack}
       />
       <Text type='body-20-bold' className='mb-1 laptop-max:ml-4 laptop-max:mt-6 laptop:text-center'>
-        Change Username
+        {t('change_username')}
       </Text>
+      <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] laptop-max:hidden' />
       <Form
-        className='mt-10 space-y-7 laptop-max:px-4 laptop:mb-24'
+        className='mt-10 space-y-7 laptop-max:px-4 laptop:mb-24 laptop:mt-[20px]'
         form={form}
         onFinish={onSubmit}
       >
         <div>
           <Text type='body-14-semibold' className='text-[#808A9D]'>
-            Current Username
+            {t('current_username')}
           </Text>
           <FormItem className='mt-2' name='username'>
             <Input
@@ -106,7 +97,7 @@ const ChangeUsername = () => {
 
         <div>
           <Text type='body-14-semibold' color='primary-5'>
-            New Username
+            {t('new_username')}
           </Text>
           <FormItem
             className='mt-2'
@@ -114,11 +105,11 @@ const ChangeUsername = () => {
             rules={[
               {
                 required: true,
-                message: 'New username empty',
+                message: t('new_username_empty'),
               },
               {
                 pattern: REG_USERNAME,
-                message: 'Please check username format',
+                message: t('please_check_username_format'),
               },
             ]}
           >
@@ -136,7 +127,7 @@ const ChangeUsername = () => {
 
         <div>
           <Text type='body-14-semibold' color='primary-5'>
-            Re-type Username
+            {t('retype_username')}
           </Text>
           <FormItem
             className='mt-2'
@@ -148,7 +139,7 @@ const ChangeUsername = () => {
                     return Promise.resolve();
                   }
                   return Promise.reject(
-                    new Error('Confirm new Username and new Username do not match'),
+                    new Error(t('retype_username_error_1')),
                   );
                 },
               }),
@@ -167,8 +158,7 @@ const ChangeUsername = () => {
         </div>
 
         <Text type='body-14-regular'>
-          *Username must be at least 6 characters and contain at least one alphabetic character do
-          not include special characters.
+          {t('change_username_rule')}
         </Text>
 
         <MainButton

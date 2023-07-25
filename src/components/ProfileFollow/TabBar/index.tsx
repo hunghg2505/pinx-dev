@@ -14,7 +14,7 @@ const TabBar = ({ tabKey }: { tabKey: string }) => {
     <>
       <span
         className={classNames(
-          'cursor-pointer text-[22px] font-[700] transition duration-300 ease-in-out',
+          'cursor-pointer text-[18px] font-[700] transition duration-300 ease-in-out',
           {
             'text-neutral_06': searchParams.get('tab') !== tabKey,
           },

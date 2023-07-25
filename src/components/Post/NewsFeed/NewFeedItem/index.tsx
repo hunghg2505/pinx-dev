@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
@@ -15,12 +16,9 @@ import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-// import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-
-// import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
@@ -71,7 +69,6 @@ const NewFeedItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
-  // const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
@@ -83,27 +80,13 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
-  const isPostDetailPath = router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
+
   React.useEffect(() => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
   }, [postDetail?.isFollowing, isReported]);
-  // const handleHidePopup = () => {
-  //   showReport && setShowReport(false);
-  // };
-  // useClickOutSide(ref, handleHidePopup, excludeElements);
-
-  // useEffect(() => {
-  //   setExcludeElements(() => {
-  //     return [
-  //       document.querySelector(`#${POPUP_COMPONENT_ID}`),
-  //       document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-  //       document.querySelector('.deleteCompose'),
-  //     ];
-  //   });
-  // }, [modalReportVisible]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
@@ -270,12 +253,14 @@ const NewFeedItem = (props: IProps) => {
     }
     return name;
   };
+
   const renderContentPost = () => {
     if (id) {
       return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
     }
     return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
   };
+
   const renderTextFollow = () => {
     if (following) {
       return (
@@ -331,6 +316,7 @@ const NewFeedItem = (props: IProps) => {
       </>
     );
   };
+
   const onClickProfileDetail = () => {
     if (
       [
@@ -349,12 +335,7 @@ const NewFeedItem = (props: IProps) => {
   }
 
   return (
-    <div
-      className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
-        'border-b': totalComments > 0 || isPostDetailPath,
-        'border-t': !isExplore,
-      })}
-    >
+    <>
       <div className='flex flex-row justify-between '>
         <div className='flex cursor-pointer flex-row items-center' onClick={onClickProfileDetail}>
           <div
@@ -388,6 +369,7 @@ const NewFeedItem = (props: IProps) => {
                 )}
               />
             )}
+
             {[
               TYPEPOST.POST,
               TYPEPOST.ActivityTheme,
@@ -414,6 +396,7 @@ const NewFeedItem = (props: IProps) => {
                     className='ml-[4px] h-[16px] w-[16px] object-contain'
                   />
                 )}
+
                 {postDetail?.post?.customerInfo?.isKol && (
                   <img
                     src='/static/icons/iconTick.svg'
@@ -432,6 +415,7 @@ const NewFeedItem = (props: IProps) => {
             </Text>
           </div>
         </div>
+
         <div className='flex items-center'>
           {[
             TYPEPOST.POST,
@@ -558,9 +542,10 @@ const NewFeedItem = (props: IProps) => {
           )}
         </div>
       </div>
+
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
         {renderContentPost()}
-        <div className='mobile:mt-[15px] desktop:mt-[24px]'>
+        <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostAction
             urlPost={'/post/' + idPost}
             isLike={isLike}
@@ -572,7 +557,8 @@ const NewFeedItem = (props: IProps) => {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
+
 export default NewFeedItem;
