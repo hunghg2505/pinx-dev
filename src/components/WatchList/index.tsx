@@ -15,6 +15,7 @@ import { Button } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import Themes from '@components/WatchList/Themes';
+// @ts-ignore
 import YourWatchList from '@components/WatchList/YourWatchList';
 
 import ModalAddStock from './ModalAddStock';
@@ -157,7 +158,10 @@ const WatchList = () => {
           setItemDelete={setItemDelete}
         />
         {isEdit && (
-          <ModalAddStock>
+          <ModalAddStock
+            refreshYourWatchList={refreshYourWatchList}
+            dataStock={dataStock}
+          >
             <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
             <Text type='body-14-semibold' className='text-[#1F6EAC]'>
               {t('addTxt')}
