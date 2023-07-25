@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useInfiniteScroll } from 'ahooks';
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 
 import { useGetCommunity } from '@components/Themes/service';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 import ItemPeople from '../ItemPeople';
@@ -57,7 +57,7 @@ const ModalCommunity = (props: Iprops) => {
   return (
     <>
       <div onClick={onVisible}>{children}</div>
-      <Dialog visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={onVisible} closeIcon={renderCloseIcon()}>
         <div className='w-full'>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
             {t('tab.community')}
@@ -75,7 +75,7 @@ const ModalCommunity = (props: Iprops) => {
             })}
           </div>
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

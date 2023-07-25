@@ -266,7 +266,7 @@ const StockDetail = () => {
   };
 
   return (
-    <div>
+    <div className='rounded-[8px] bg-[#fff] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {
@@ -455,7 +455,7 @@ const StockDetail = () => {
           <Text type='body-20-semibold'>Brand awareness</Text>
         </div>
 
-        <div className='overflow-hidden pl-[16px] tablet:pl-[24px]'>
+        <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
           <Slider {...settings} variableWidth>
             {stockDetail?.data?.products.map((item, index) => (
               <div key={index} className='mr-[28px] !w-[112px]'>

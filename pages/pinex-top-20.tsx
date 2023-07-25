@@ -1,12 +1,11 @@
 import { ReactElement } from 'react';
 
-import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import PinexTop20 from '@components/PinexTop20';
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
 const PinexTop20Page = () => {
   return (
     <>
@@ -17,13 +16,13 @@ const PinexTop20Page = () => {
 };
 PinexTop20Page.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ExploreLayout>
+    <MainLayout>
       <>{page}</>
-    </ExploreLayout>
+    </MainLayout>
   );
 };
 
-export async function getServerSideProps({ locale }: any) {
+export async function getStaticProps({ locale }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),

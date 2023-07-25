@@ -36,7 +36,7 @@ export const API_PATH = {
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
   PRIVATE_ADD_POST: '/private/post/add',
   PRIVATE_PINNED_POST: '/private/mapping/pinned-posts',
-
+  PUBLIC_PINNED_POST: '/public/mapping/pinned-posts',
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
   PRIVATE_DETAIL_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/details`,
@@ -115,6 +115,7 @@ export const API_PATH = {
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
+  PRIVATE_SHARE_THEME_ACTIVITY: '/private/activity/theme/add',
   // topic
   PRIVATE_TOPIC_ALL: (limit?: number) =>
     limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',

@@ -1,12 +1,10 @@
 import { ReactElement } from 'react';
 
-import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-// import Setting from '@components/Setting';
+import MainLayout from '@layout/MainLayout';
 
-const SettingLayout = dynamic(() => import('@layout/SettingLayout'));
 const Setting = dynamic(() => import('@components/Setting'), {
   ssr: false,
 });
@@ -20,17 +18,13 @@ const SettingPage = () => {
 };
 
 SettingPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <SettingLayout>
-      {page}
-    </SettingLayout>
-  );
+  return <MainLayout>{page}</MainLayout>;
 };
 
-export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(req.cookies.locale || 'en', ['common', 'setting'])),
+      ...(await serverSideTranslations(locale || 'en', ['common', 'setting'])),
       // Will be passed to the page component as props
     },
   };

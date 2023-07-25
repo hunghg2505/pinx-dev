@@ -1,5 +1,4 @@
 import { useRequest } from 'ahooks';
-import { i18n } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { requestPist } from '@api/request';
@@ -14,7 +13,7 @@ interface IUserRegisInfo {
   phoneNumber: string;
   email: string;
   password: string;
-  recaptcha: string;
+  recaptcha: any;
 }
 
 export const useRegister = (options?: IOptionsRequest) => {
@@ -27,9 +26,6 @@ export const useRegister = (options?: IOptionsRequest) => {
           phone: phoneNumber,
           reCAPTCHA: recaptcha,
           password: encryptPassword(password),
-        },
-        headers: {
-          'Accept-Language': i18n?.language as string,
         },
       });
     },

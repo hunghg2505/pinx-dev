@@ -1,12 +1,11 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { i18n } from 'next-i18next';
-import Dialog from 'rc-dialog';
+import { useRouter } from 'next/router';
 
-import 'rc-dialog/assets/index.css';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { getLocaleCookie, setLocaleCookie } from '@store/locale/locale';
+import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 
 interface IProps {
   visible: boolean;
@@ -27,15 +26,13 @@ const LANGUAGES = [
 
 const PopupLanguage = (props: IProps) => {
   const currentLang = getLocaleCookie() || 'en';
-
+  const router = useRouter();
   const { visible, onToggle } = props;
 
   const onChangeLang = (lang: string) => {
-    if (lang !== currentLang) {
-      lang && setLocaleCookie(lang);
-      i18n?.changeLanguage(lang);
-      onToggle();
-    }
+    setLocaleCookie(lang);
+    onToggle();
+    router.push(router.asPath, router.asPath, { locale: lang });
   };
 
   const renderCloseIcon = (): React.ReactNode => {
@@ -57,7 +54,7 @@ const PopupLanguage = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
         <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
           <Text type='body-24-bold'>Language</Text>
           <Text type='body-14-regular' color='primary-5'>
@@ -101,7 +98,7 @@ const PopupLanguage = (props: IProps) => {
             );
           })}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

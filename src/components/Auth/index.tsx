@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
@@ -13,6 +14,7 @@ import Login from './Login';
 import Register from './Register/RegisterForm';
 
 function Auth() {
+  const { t } = useTranslation('auth');
   const router = useRouter();
   const defaultActiveTab = (router.query?.type || AUTH_TAB_TYPE.LOGIN) as string;
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
@@ -56,7 +58,7 @@ function Auth() {
               className='h-[28px] w-[28px]'
             />
             <Text type='body-14-regular' className='mobile:hidden laptop:block'>
-              Sign up instructions
+              {t('sign_up_instruction')}
             </Text>
           </a>
         </div>
@@ -64,10 +66,10 @@ function Auth() {
 
       <div className='pt-[10px]'>
         <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
-          <TabPane tab='Login' key={AUTH_TAB_TYPE.LOGIN}>
+          <TabPane tab={t('login')} key={AUTH_TAB_TYPE.LOGIN}>
             <Login />
           </TabPane>
-          <TabPane tab='Sign up' key={AUTH_TAB_TYPE.REGISTER}>
+          <TabPane tab={t('sign_up')} key={AUTH_TAB_TYPE.REGISTER}>
             <Register />
           </TabPane>
         </Tabs>

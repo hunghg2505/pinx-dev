@@ -34,13 +34,13 @@ module.exports = {
       'mobile-max': { max: '480px' },
       'tablet-max': { max: '768px' },
       'laptop-max': { max: '1024px' },
-      'desktop-max': { max: '1366px' },
+      'desktop-max': { max: '1355px' },
       tablet: '769px',
       //  @media (min-width: 640px) { ... }
       laptop: '1024px',
       // => @media (min-width: 1024px) { ... }
       desktop: '1200px',
-      xdesktop: '1366px',
+      xdesktop: '1355px',
 
       // => @media (min-width: 1280px) { ... }
     },
@@ -51,7 +51,7 @@ module.exports = {
         tablet: '768px',
         laptop: '1024px',
         xl: '1200px',
-        desktop: '1366px',
+        desktop: '1355px',
       },
     },
     extend: {},

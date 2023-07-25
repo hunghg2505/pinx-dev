@@ -22,7 +22,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { isUserVerified, isImage, ROUTE_PATH } from '@utils/common';
+import { isUserVerified, isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
@@ -99,21 +99,34 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <>
+    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+      <img
+        src='/static/icons/chevron-left.svg'
+        className='!w-[28px] laptop:hidden'
+        alt=''
+        onClick={router.back}
+      />
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
-      <div className='relative'>
+      <div className='relative h-[60px] laptop-max:hidden laptop:mt-0'>
         <img
           src='/static/icons/arrow-left.svg'
           alt=''
           width='0'
           height='0'
           sizes='100vw'
-          className='absolute left-[10px] top-[-4px] h-[32px] w-[32px] cursor-pointer laptop-max:hidden'
+          className='absolute left-[10px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 cursor-pointer laptop-max:hidden'
           onClick={() => router.back()}
         />
+
+        <Text
+          type='body-20-bold'
+          className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center laptop-max:hidden'
+        >
+          Securities profile
+        </Text>
       </div>
 
-      <div className='flex items-center border-b-[1px] border-solid border-white px-4 pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:hidden'>
+      <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
         <div className='relative mr-3'>
           <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
             <img
@@ -155,16 +168,13 @@ const ProfileVerification = () => {
                 'text-green': isUserVerified(userLoginInfo.acntStat),
               })}
             >
-              {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
+              {calcUserStatusText(userLoginInfo.acntStat || '')}
             </span>
           </div>
         </div>
       </div>
 
-      <Text type='body-20-bold' className='text-center laptop-max:hidden'>
-        Securities profile
-      </Text>
-      <div className='mt-11 flex'>
+      <div className='flex mobile:mt-11 tablet:mt-[12px]'>
         <Form className='w-full space-y-7 px-4' form={form}>
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
@@ -276,7 +286,7 @@ const ProfileVerification = () => {
 
           <div>
             <Text type='body-12-semibold' className='text-[#999999]'>
-              Adress
+              Address
             </Text>
             <FormItem className='mt-4' name='fullName'>
               <Input disabled value={userLoginInfo?.address} className={customInputClassName} />
@@ -308,7 +318,7 @@ const ProfileVerification = () => {
           </ErrorMainButton>
         </Form>
 
-        <div className='mb-[72.5px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
+        <div className='mb-[82px] mt-[-77px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
           <img
             src='/static/images/book_list.png'
             alt=''
@@ -342,7 +352,7 @@ const ProfileVerification = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

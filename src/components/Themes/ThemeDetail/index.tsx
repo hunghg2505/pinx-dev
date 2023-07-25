@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import PopupSubsribeTheme from '@components/UI/Popup/PopupSubscribeTheme';
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 // import Community from './Community';
@@ -25,6 +28,9 @@ const ThemeDetail = () => {
   const isLogin = !!getAccessToken();
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
+  const [popupStatus] = useAtom(popupStatusAtom);
+  const refActivities: any = useRef(null);
+
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
     TabsThemeDetailEnum.StockSymbols,
   );
@@ -56,7 +62,7 @@ const ThemeDetail = () => {
     // eslint-disable-next-line array-callback-return
   ].filter((item) => {
     if (!isLogin) {
-      return item.label === t('tab.stock_symbols');
+      return item.label !== t('tab.community');
     }
     return item;
   });
@@ -76,7 +82,7 @@ const ThemeDetail = () => {
         return <StockSymbols data={themeDetail} />;
       }
       case TabsThemeDetailEnum.Activities: {
-        return <Activities data={themeDetail} />;
+        return <Activities data={themeDetail} ref={refActivities} />;
       }
       default: {
         break;
@@ -86,9 +92,20 @@ const ThemeDetail = () => {
   // if (!themeDetail) {
   //
   // }
+
+  const onRefreshActivities = () => {
+    refActivities.current && refActivities.current.onRefreshActivities();
+  };
+
   return (
     <>
-      <div className='mt-[24px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
+      {popupStatus.popupSubsribeTheme && (
+        <PopupSubsribeTheme
+          visible={popupStatus.popupSubsribeTheme}
+          onRefreshActivities={onRefreshActivities}
+        />
+      )}
+      <div className='mt-[24px] px-[10px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
         <div className='relative text-center'>
           <img
             src='/static/icons/back_icon.svg'
@@ -105,7 +122,7 @@ const ThemeDetail = () => {
         <div className='desktop:hidden'>
           {/* {isLogin && <Community payload={themeDetail} />} */}
           <StockSymbols data={themeDetail} />
-          <Activities data={themeDetail} />
+          <Activities data={themeDetail} ref={refActivities} />
         </div>
         <div className='mt-[20px] mobile:hidden desktop:block'>
           <Tabs

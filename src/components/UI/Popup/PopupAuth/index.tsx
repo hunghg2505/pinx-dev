@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import 'rc-dialog/assets/index.css';
-import Dialog from 'rc-dialog';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Login from '@components/Auth/Login';
 import Register from '@components/Auth/Register/RegisterForm';
+import Modal from '@components/UI/Modal/Modal';
 import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
@@ -20,10 +19,6 @@ const PopupAuth = (props: IProps) => {
   const [curTab, setCurTab] = useState<string>('login');
   const { visible, onClose } = props;
 
-  const renderCloseIcon = (): React.ReactNode => {
-    return <img src='/static/icons/close_icon.svg' alt='' />;
-  };
-
   const handleClose = () => {
     onClose();
   };
@@ -34,7 +29,7 @@ const PopupAuth = (props: IProps) => {
 
   return (
     <>
-      <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={handleClose}>
         {curTab === AUTH_TAB_TYPE.REGISTER && (
           <div>
             <a
@@ -61,7 +56,7 @@ const PopupAuth = (props: IProps) => {
             <Register isModal />
           </TabPane>
         </Tabs>
-      </Dialog>
+      </Modal>
     </>
   );
 };

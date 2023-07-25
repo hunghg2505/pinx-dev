@@ -35,11 +35,9 @@ const PeopleSpotlight = () => {
         </div>
 
         <div className=' mt-[16px] flex flex-wrap gap-x-[14px] gap-y-[20px] mobile-max:grid mobile-max:grid-cols-2'>
-          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true)
-            ?.slice(0, 20)
-            .map((item: IKOL, index: number) => {
-              return <ItemInfluence data={item} refresh={refresh} key={index} />;
-            })}
+          {KOL?.slice(0, 20).map((item: IKOL, index: number) => {
+            return <ItemInfluence data={item} refresh={refresh} key={index} />;
+          })}
         </div>
       </div>
     </>

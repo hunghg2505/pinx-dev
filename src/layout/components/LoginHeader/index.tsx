@@ -7,8 +7,8 @@ const LoginHeader = () => {
 
   return (
     <div
-      className='z-999 fixed left-[18px] top-[10px] flex h-[44px] cursor-pointer items-center'
-      onClick={() => router.back()}
+      className='z-999 fixed left-[18px] top-[10px] flex h-[44px] cursor-pointer items-center desktop:h-[56px]'
+      onClick={router.back}
     >
       <img
         src='/static/icons/icon_back_header.svg'

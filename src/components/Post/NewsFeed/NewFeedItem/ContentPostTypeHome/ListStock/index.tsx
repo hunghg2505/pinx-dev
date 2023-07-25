@@ -15,11 +15,13 @@ const settings = {
 };
 const ListStock = ({ listStock }: { listStock: string[] }) => {
   return (
-    <Slider {...settings} className='slidePostAdmin' variableWidth>
-      {listStock?.map((item: string, index: number) => {
-        return <ItemStock key={index} data={item} />;
-      })}
-    </Slider>
+    <div className=' max-w-[700px] '>
+      <Slider {...settings} className='slidePostAdmin' variableWidth>
+        {listStock?.map((item: string, index: number) => {
+          return <ItemStock key={index} data={item} />;
+        })}
+      </Slider>
+    </div>
   );
 };
 export default ListStock;

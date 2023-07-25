@@ -1,15 +1,13 @@
 import React from 'react';
 
-import 'rc-dialog/assets/index.css';
-
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -101,7 +99,7 @@ const ModalReport = (props: IProps) => {
       <span onClick={onVisible} className='cursor-pointer'>
         {children}
       </span>
-      <Dialog
+      <Modal
         rootClassName={RC_DIALOG_CLASS_NAME}
         visible={visible}
         onClose={onVisible}
@@ -175,7 +173,7 @@ const ModalReport = (props: IProps) => {
             </button>
           </div>
         </Form>
-      </Dialog>
+      </Modal>
     </>
   );
 };

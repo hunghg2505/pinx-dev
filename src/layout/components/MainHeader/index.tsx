@@ -16,7 +16,13 @@ import { useContainerDimensions } from '@hooks/useDimensions';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
-import { ROUTE_PATH, disableScroll, enableScroll, isUserVerified } from '@utils/common';
+import {
+  ROUTE_PATH,
+  calcUserStatusText,
+  disableScroll,
+  enableScroll,
+  isUserVerified,
+} from '@utils/common';
 import { MOBILE_SCREEN_MAX_WIDTH } from 'src/constant';
 import 'rc-dropdown/assets/index.css';
 
@@ -58,7 +64,15 @@ const MainHeader = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const headerRef = useRef(null);
   const { width } = useContainerDimensions(headerRef);
-  const isHideHeaderOpenAppOnMobile = [ROUTE_PATH.REDIRECT].includes(router?.pathname);
+  const isHideHeaderOpenAppOnMobile = [
+    ROUTE_PATH.REDIRECT,
+    ROUTE_PATH.SETTING,
+    ROUTE_PATH.SETTING_CHANGE_PASSWORD,
+    ROUTE_PATH.SETTING_CHANGE_USERNAME,
+    ROUTE_PATH.SETTING_CHANGE_PASSWORD_VERIFICATION,
+    ROUTE_PATH.SETTING_CHANGE_USERNAME_VERIFICATION,
+    ROUTE_PATH.PROFILE_VERIFICATION,
+  ].includes(router?.pathname);
   const isHideHeaderLoginOnMobile =
     (router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH) ||
       [
@@ -70,10 +84,21 @@ const MainHeader = () => {
         ROUTE_PATH.TOPMENTION,
         ROUTE_PATH.PINEX_TOP_20,
         ROUTE_PATH.SEARCH,
+        ROUTE_PATH.SETTING,
+        ROUTE_PATH.SETTING_CHANGE_PASSWORD,
+        ROUTE_PATH.SETTING_CHANGE_USERNAME,
+        ROUTE_PATH.SETTING_CHANGE_PASSWORD_VERIFICATION,
+        ROUTE_PATH.SETTING_CHANGE_USERNAME_VERIFICATION,
+        ROUTE_PATH.PROFILE_VERIFICATION,
       ].includes(router?.pathname)) &&
     width <= MOBILE_SCREEN_MAX_WIDTH;
 
   const menuMobileRef = useRef<any>(null);
+
+  useEffect(() => {
+    setIsShowNavigate(false);
+  }, [router?.pathname]);
+
   const goToMyProfile = () => {
     menuMobileRef.current.open();
   };
@@ -88,7 +113,7 @@ const MainHeader = () => {
             width={0}
             height={0}
             sizes='100vw'
-            className='h-[36px] w-[36px] rounded-full mobile:block desktop:hidden'
+            className='h-[40px] w-[40px] cursor-pointer rounded-full mobile:block tablet:hidden'
             onClick={goToMyProfile}
           />
         </>
@@ -98,10 +123,10 @@ const MainHeader = () => {
 
   const renderAvatarDesktop = () => {
     return isLogin ? (
-      <div className='ml-[20px] items-center mobile:hidden laptop-max:hidden desktop:flex'>
-        <Text type='body-20-medium' color='neutral-1'>
+      <div className='items-center mobile:hidden tablet:flex'>
+        {/* <Text type='body-20-medium' color='neutral-1'>
           {userLoginInfo?.displayName}
-        </Text>
+        </Text> */}
         {userLoginInfo?.avatar && (
           <Dropdown
             trigger={['click']}
@@ -117,7 +142,7 @@ const MainHeader = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='ml-[10px] h-[52px] w-[52px] rounded-full object-cover'
+                className='h-[40px] w-[40px] rounded-full object-cover'
               />
 
               <img
@@ -126,7 +151,7 @@ const MainHeader = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EEF5F9] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08),_0px_3px_6px_-4px_rgba(0,0,0,0.12)]'
+                className='absolute bottom-[-1px] right-0 h-[20px] w-[20px] rounded-full bg-[#EFF2F5] shadow-[0px_6px_16px_0px_rgba(0,0,0,0.25),0px_3px_6px_-4px_rgba(0,0,0,0.5)]'
               />
             </div>
           </Dropdown>
@@ -135,7 +160,7 @@ const MainHeader = () => {
     ) : (
       <>
         <button
-          className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
+          className='h-[40px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'
           onClick={redirectToSignUp}
         >
           <Text type='body-14-bold' color='cbwhite'>
@@ -188,7 +213,7 @@ const MainHeader = () => {
                   <Text type='body-12-regular' className='text-[#474D57]'>
                     Post
                   </Text>
-                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                  <Text type='body-12-semibold'>0</Text>
                 </div>
                 <div className='flex flex-col'>
                   <Text type='body-12-regular' className='text-[#474D57]'>
@@ -232,7 +257,7 @@ const MainHeader = () => {
                   'text-green': isUserVerified(userLoginInfo.acntStat),
                 })}
               >
-                {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
+                {calcUserStatusText(userLoginInfo.acntStat || '')}
               </Text>
             </Link>
           </>
@@ -271,7 +296,10 @@ const MainHeader = () => {
 
   return (
     <>
-      <div ref={headerRef} className='border-b-[1px] border-solid border-[#EBEBEB]'>
+      <div
+        ref={headerRef}
+        className='sticky left-0 top-0 z-[99] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'
+      >
         {!isHideHeaderOpenAppOnMobile && (
           <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
             <div className='flex flex-row'>
@@ -297,7 +325,7 @@ const MainHeader = () => {
           </div>
         )}
         {!isHideHeaderLoginOnMobile && (
-          <div className='mx-auto flex max-w-[1366px] flex-row items-center justify-between p-[16px] desktop:px-[16px] desktop:py-[16px]'>
+          <div className='mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[16px] desktop:h-[84px] desktop:px-[0]'>
             <div className='flex flex-row items-center'>
               <Link href={ROUTE_PATH.HOME}>
                 <img
@@ -305,31 +333,35 @@ const MainHeader = () => {
                   alt=''
                   width='0'
                   height='0'
-                  className='mr-[16px] w-[35px] tablet:ml-[24px]'
+                  className='mr-[16px] h-[40px] w-[40px] object-contain tablet:ml-[8px] desktop:h-[52px] desktop:w-[52px]'
                 />
               </Link>
 
-              <div className='mobile:block desktop:hidden' onClick={() => onShowNavigate()}>
+              <div
+                className='cursor-pointer mobile:block desktop:hidden'
+                onClick={() => onShowNavigate()}
+              >
                 {isShowNavigate ? (
                   <IconCloseMenu />
                 ) : (
                   <img
                     src='/static/icons/icon-bar-mobile.svg'
                     alt='Icon bar'
-                    className='h-[32px] w-[32px] cursor-pointer object-contain'
+                    className='h-[32px] w-[32px] object-contain'
                   />
                 )}
               </div>
             </div>
             <div className='flex flex-row items-center'>
-              <button className='mr-[16px] flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block desktop:hidden'>
+              <button className='mr-[12px] flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden'>
                 <img
                   src='/static/icons/search-gray.svg'
                   alt='Search icon'
                   className='m-auto h-[22px] w-[22px]'
                 />
               </button>
-              <div className='mr-[12px] mobile:hidden desktop:block'>
+
+              <div className='mr-[32px] mobile:hidden tablet:block'>
                 <Form>
                   <FormItem name='search'>
                     <Input
@@ -340,9 +372,18 @@ const MainHeader = () => {
                   </FormItem>
                 </Form>
               </div>
+
+              <div className='mr-[12px] hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
+                <img
+                  src='/static/icons/iconBell.svg'
+                  alt='Icon notification'
+                  className='object-contain mobile:h-[22px] mobile:w-[22px] tablet:h-[28px] tablet:w-[28px]'
+                />
+              </div>
+
               {!isLogin && (
                 <button
-                  className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
+                  className='h-[40px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:mr-[13px] desktop:w-[122px]'
                   onClick={redirectToLogin}
                 >
                   <Text type='body-14-bold' color='primary-2'>
@@ -358,7 +399,7 @@ const MainHeader = () => {
 
         <div
           className={classNames(
-            'fixed left-0 top-[65px] z-[1000] h-[100vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] tablet-max:top-[130px]',
+            'fixed left-0 top-[84px] z-[9999] h-[150vh] w-full -translate-x-full transform bg-[#ffffff] [transition:0.5s] mobile:px-[10px] tablet-max:top-[130px] desktop:px-0',
             {
               'translate-x-[0px]': isShowNavigate,
             },

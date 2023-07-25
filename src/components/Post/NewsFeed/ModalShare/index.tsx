@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import Dialog from 'rc-dialog';
-
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { SHARE_THIS_PROPERTY_ID, ZALO_OAID } from 'src/constant';
 
@@ -91,22 +90,13 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
   };
 
   return (
-    <Dialog
+    <Modal
       visible={visible}
       onClose={() => {
         handleClose();
         setIsCopied(false);
       }}
       wrapClassName='px-[16px]'
-      closeIcon={
-        <img
-          src='/static/icons/iconClose.svg'
-          alt='Icon close'
-          width={21}
-          height={21}
-          className='h-[21px] w-[21px] object-contain'
-        />
-      }
     >
       <div className='mt-[24px]'>
         <div>
@@ -151,7 +141,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
           </div>
         </div>
       </div>
-    </Dialog>
+    </Modal>
   );
 };
 

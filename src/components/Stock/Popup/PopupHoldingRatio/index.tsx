@@ -1,8 +1,6 @@
 import React from 'react';
 
-import Dialog from 'rc-dialog';
-
-import 'rc-dialog/assets/index.css';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -14,7 +12,7 @@ interface IPopupHoldingRatioProps {
 
 const PopupHoldingRatio = ({ visible, onClose }: IPopupHoldingRatioProps) => {
   return (
-    <Dialog
+    <Modal
       visible={visible}
       onClose={onClose}
       closeIcon={
@@ -31,7 +29,7 @@ const PopupHoldingRatio = ({ visible, onClose }: IPopupHoldingRatioProps) => {
       </div>
 
       <div className='max-h-[60vh] overflow-y-auto px-[12px]'></div>
-    </Dialog>
+    </Modal>
   );
 };
 

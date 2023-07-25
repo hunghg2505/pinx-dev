@@ -20,7 +20,7 @@ const handleRedirect = (url: string) => {
 const GiftCash = () => {
   const { t } = useTranslation('giftCash');
   return (
-    <div className='overflow-x-hidden rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
+    <div className='overflow-x-hidden rounded-[8px] bg-[#FFF] px-[24px] py-[20px] laptop-max:px-[10px]'>
       <div className='relative'>
         <Text type='body-28-bold' color='neutral-1' className='hidden desktop:block'>
           {t('giftcash.title')}
@@ -157,7 +157,7 @@ const GiftCash = () => {
           </Text>
         </div>
       </div>
-      <div className='mt-[20px] hidden rounded-[12px] bg-[#F7F6F8] px-[25px] py-[32px] mobile-max:block'>
+      <div className='mt-[20px] hidden max-w-[700px] rounded-[12px] bg-[#F7F6F8] px-[25px] py-[32px]  mobile-max:block '>
         <Slider {...settings}>
           <div className='text-center'>
             <Text type='body-20-bold' color='neutral-black'>

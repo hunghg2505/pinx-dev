@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useClickAway, useDebounceFn, useFocusWithin } from 'ahooks';
 import classNames from 'classnames';
@@ -25,6 +25,7 @@ const Search = (props: any, ref: any) => {
   const [form] = Form.useForm();
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
+  const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
   // const { listRecent } = useGetSearchRecent();
   const { popular } = useGetPopular();
   // const isLogin = getAccessToken();
@@ -79,14 +80,14 @@ const Search = (props: any, ref: any) => {
   useClickAway(() => {
     setShowRecent(false);
   }, refInput);
+
+  useClickAway(() => {
+    showPopup && setShowPopup(!showPopup);
+  }, searchResultPopupRef);
+
   return (
     <>
-      <div
-        className={classNames('relative mr-[12px] mt-[16px] w-full', {
-          '[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]':
-            showPopup,
-        })}
-      >
+      <div className={classNames('relative mr-[12px] mt-[16px] w-full')}>
         <div ref={refInput}>
           <Form form={form} onValuesChange={run}>
             <FormItem name='search'>
@@ -144,7 +145,9 @@ const Search = (props: any, ref: any) => {
             </div>
           )}
         </div>
+
         <div
+          ref={searchResultPopupRef}
           className={classNames(
             'pointer-events-none absolute left-0  top-[55px] z-20 w-full -translate-y-full transform rounded-[12px] bg-[#ffffff] px-[16px] opacity-0 [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] [transition:0.5s]',
             { 'pointer-events-auto top-[50px] translate-y-[0] opacity-100': showPopup },

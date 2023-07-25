@@ -9,9 +9,14 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-import styles from '../index.module.scss';
+import styles from './index.module.scss';
 
-const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => void }) => {
+interface IProps {
+  data: IWatchListItem;
+  refresh?: () => void;
+}
+const InterestItem = (props: IProps) => {
+  const { data, refresh } = props;
   const highest_price = data?.hp || data?.refPrice;
   const lowest_price = data?.lp || data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -35,7 +40,6 @@ const InterestItem = ({ data, refresh }: { data: IWatchListItem; refresh: () => 
   const onAddStock = () => {
     requestSelectStock.run(data?.stockCode);
   };
-
   return (
     <>
       <Link className='absolute inset-x-0 inset-y-0' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)} />

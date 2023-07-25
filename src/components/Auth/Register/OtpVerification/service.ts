@@ -1,6 +1,5 @@
 import { useRequest } from 'ahooks';
 import { getCookie } from 'cookies-next';
-import { i18n } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { requestPist } from '@api/request';
@@ -26,7 +25,6 @@ export const useRegisterOtp = (options: IOptionsRequest) => {
       return requestPist.post(API_PATH.REGISTER_OTP, {
         headers: {
           Authorization: token || (userRegisterInfo.token as string),
-          'Accept-Language': i18n?.language as string,
         },
         params: value,
       });

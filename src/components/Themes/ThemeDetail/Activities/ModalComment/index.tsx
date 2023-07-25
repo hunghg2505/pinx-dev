@@ -2,11 +2,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
 import { ForwardedRefComponent } from '@components/Post/PostDetail';
 import { IComment } from '@components/Post/service';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
@@ -84,7 +84,7 @@ const ModalComment = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
@@ -121,18 +121,14 @@ const ModalComment = (props: Iprops) => {
                 );
               })
             ) : (
-              <Text
-                type='body-14-regular'
-                color='neutral-3'
-                className='mt-[16px] text-center tablet:hidden'
-              >
+              <Text type='body-14-regular' color='neutral-3' className='mt-[16px] text-center'>
                 {t('empty_comment')}
               </Text>
             )}
           </div>
           {isLogin && (
             <div className='mobile:block'>
-              <div className='fixed bottom-0 z-10 w-[375px] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:left-2/4 mobile-max:min-h-[34px] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:transform mobile-max:px-[3px]'>
+              <div className='fixed bottom-0 z-10 w-[calc(100%-32px)] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:left-2/4 mobile-max:min-h-[34px] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:transform mobile-max:px-[3px]'>
                 <ForwardedRefComponent
                   ref={refSubReplies}
                   id={id}
@@ -145,7 +141,7 @@ const ModalComment = (props: Iprops) => {
             </div>
           )}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

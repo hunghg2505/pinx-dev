@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import ReactPlayer from 'react-player';
 
 import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
@@ -67,12 +68,14 @@ const ContentPostTypeDetail = (props: IProps) => {
   const renderMetaData = () => {
     if (siteName === 'YouTube' && !urlImages?.[0]) {
       return (
-        <iframe
-          src={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
-          title='YouTube video player'
-          allow='autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          className='mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
-        ></iframe>
+        <ReactPlayer
+          url={`https://www.youtube.com/embed/${urlYoutube?.[0]}?rel=0`}
+          playing={true}
+          muted={true}
+          controls={true}
+          height={300}
+          width={'100%'}
+        />
       );
     }
     if (imageMetaData) {
@@ -103,7 +106,14 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <Link href={ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode)}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div
+            className={classNames(
+              'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+              {
+                '!h-0': !postDetail?.post.bgImage,
+              },
+            )}
+          >
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post.bgImage}
@@ -180,7 +190,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+            {
+              '!h-0': !postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
           {postDetail?.post?.headImageUrl && (
             <img
               src={postDetail?.post?.headImageUrl}
@@ -242,7 +259,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             className='w-[5px]'
           />
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+            {
+              '!h-0': !postDetail?.post.headImageUrl,
+            },
+          )}
+        >
           <img
             src={postDetail?.post.headImageUrl || ''}
             alt=''
@@ -287,7 +311,14 @@ const ContentPostTypeDetail = (props: IProps) => {
           </Text>
         </div>
         <Link href={ROUTE_PATH.STOCK_DETAIL(postDetail?.post.stockCode)}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div
+            className={classNames(
+              'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+              {
+                '!h-0': !postDetail?.post?.bgImage,
+              },
+            )}
+          >
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -376,7 +407,14 @@ const ContentPostTypeDetail = (props: IProps) => {
             ></div>
           </Text>
         </div>
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+        <div
+          className={classNames(
+            'relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]',
+            {
+              '!h-0': !postDetail?.post?.bgImage,
+            },
+          )}
+        >
           <img
             src={postDetail?.post?.bgImage}
             alt=''
@@ -489,9 +527,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           )}
           {!message?.includes(urlLink) && urlLink !== '' && (
             <div className='messageFormat messageBody -mt-[15px] mb-[15px] block'>
-              <Link href='javascript:void(0)' className='link'>
-                {urlLink}
-              </Link>
+              <span className='link'>{urlLink}</span>
             </div>
           )}
           {renderMetaData()}

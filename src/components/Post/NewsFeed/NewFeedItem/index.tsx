@@ -1,16 +1,17 @@
-/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
-import dynamic from 'next/dynamic';
-// import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
+import ModalReport from '@components/Post/NewsFeed/ModalReport';
+import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
+import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
@@ -24,16 +25,9 @@ import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
 import PostAction from '../PostAction';
 
-const ModalReport = dynamic(import('../ModalReport'), {
-  ssr: false,
-});
-const ContentPostTypeHome = dynamic(import('./ContentPostTypeHome'), {
-  ssr: false,
-});
-const ContentPostTypeDetail = dynamic(import('./ContentPostTypeDetail'), {
-  ssr: false,
-});
+dayjs.extend(utc);
 dayjs.extend(relativeTime);
+
 interface IProps {
   postDetail: IPost;
   isExplore?: boolean;
@@ -42,6 +36,7 @@ interface IProps {
   onRefreshPostDetail: () => void;
   postId: string;
   onHidePostSuccess?: (id: string) => void;
+  pinned?: boolean;
 }
 const IconPlus = () => (
   <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -51,6 +46,7 @@ const IconPlus = () => (
     />
   </svg>
 );
+
 const NewFeedItem = (props: IProps) => {
   const {
     onNavigate,
@@ -60,6 +56,7 @@ const NewFeedItem = (props: IProps) => {
     onHidePostSuccess,
     totalComments,
     isExplore = false,
+    pinned = false,
   } = props;
 
   const customerId = postDetail?.customerId;
@@ -78,6 +75,7 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
+  const isPostDetailPath = router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
   React.useEffect(() => {
@@ -102,7 +100,7 @@ const NewFeedItem = (props: IProps) => {
   const isLike = postDetail?.isLike;
 
   const idPost = id || postDetail?.id;
-  const urlPost = window.location.origin + '/post/' + idPost;
+
   const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
 
   // hide post
@@ -276,7 +274,7 @@ const NewFeedItem = (props: IProps) => {
               { 'bg-[#F3F2F6]': following },
             )}
           >
-            <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
+            <Text type='body-14-bold' color='neutral-5'>
               Following
             </Text>
           </div>
@@ -333,10 +331,15 @@ const NewFeedItem = (props: IProps) => {
       router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
     }
   };
+
+  if (!postDetail) {
+    return <></>;
+  }
+
   return (
     <div
       className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
-        'border-b': totalComments > 0,
+        'border-b': totalComments > 0 || isPostDetailPath,
         'border-t': !isExplore,
       })}
     >
@@ -392,14 +395,28 @@ const NewFeedItem = (props: IProps) => {
                 {postDetail?.post?.customerInfo?.isFeatureProfile && (
                   <img
                     src='/static/icons/iconKol.svg'
-                    alt='Icon kol'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[4px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+                {postDetail?.post?.customerInfo?.isKol && (
+                  <img
+                    src='/static/icons/iconTick.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
                     className='ml-[4px] h-[16px] w-[16px] object-contain'
                   />
                 )}
               </div>
             </div>
             <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
-              {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
+              {postDetail?.timeString &&
+                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>
           </div>
         </div>
@@ -417,101 +434,111 @@ const NewFeedItem = (props: IProps) => {
           {isReported && router.pathname === '/explore' ? (
             ''
           ) : (
-            <button className={classNames('relative')} ref={ref}>
-              <img
-                src='/static/icons/iconDot.svg'
-                alt=''
-                width='0'
-                height='0'
-                className='w-[33px] cursor-pointer'
-                onClick={() => setShowReport(!showReport)}
-              />
-              {showReport && (
-                <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
-                  {[
-                    TYPEPOST.POST,
-                    TYPEPOST.ActivityTheme,
-                    TYPEPOST.ActivityMatchOrder,
-                    TYPEPOST.ActivityWatchlist,
-                    TYPEPOST.PinetreePost,
-                  ].includes(postDetail?.post.postType) &&
-                    router.pathname !== '/explore' &&
-                    !isMyProfilePath && (
-                      <div
-                        className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                        onClick={handleHidePost}
-                      >
+            <div className='flex'>
+              {pinned && (
+                <img
+                  src='/static/icons/iconPinned.svg'
+                  alt=''
+                  className='mr-[16px] h-[28px] w-[28px]'
+                />
+              )}
+
+              <button className={classNames('relative')} ref={ref}>
+                <img
+                  src='/static/icons/iconDot.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='w-[33px] cursor-pointer'
+                  onClick={() => setShowReport(!showReport)}
+                />
+                {showReport && (
+                  <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+                    {[
+                      TYPEPOST.POST,
+                      TYPEPOST.ActivityTheme,
+                      TYPEPOST.ActivityMatchOrder,
+                      TYPEPOST.ActivityWatchlist,
+                      TYPEPOST.PinetreePost,
+                    ].includes(postDetail?.post.postType) &&
+                      router.pathname !== '/explore' &&
+                      !isMyProfilePath && (
+                        <div
+                          className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+                          onClick={handleHidePost}
+                        >
+                          <img
+                            src='/static/icons/iconUnHide.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Hide
+                          </Text>
+                        </div>
+                      )}
+
+                    {!report && !isMyPost && (
+                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                         <img
-                          src='/static/icons/iconUnHide.svg'
+                          src='/static/icons/iconFlag.svg'
                           alt=''
                           width='0'
                           height='0'
                           sizes='100vw'
                           className='mr-[8px] h-[20px] w-[20px] object-contain'
                         />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Hide
-                        </Text>
+                        <ModalReport
+                          visible={modalReportVisible}
+                          onModalReportVisible={setModalReportVisible}
+                          postID={postDetail?.id}
+                          onReportSuccess={handleReportPostSuccess}
+                        >
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Report
+                          </Text>
+                        </ModalReport>
                       </div>
                     )}
 
-                  {!report && !isMyPost && (
-                    <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                      <img
-                        src='/static/icons/iconFlag.svg'
-                        alt=''
-                        width='0'
-                        height='0'
-                        sizes='100vw'
-                        className='mr-[8px] h-[20px] w-[20px] object-contain'
-                      />
-                      <ModalReport
-                        visible={modalReportVisible}
-                        onModalReportVisible={setModalReportVisible}
-                        postID={postDetail?.id}
-                        onReportSuccess={handleReportPostSuccess}
-                      >
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Report
-                        </Text>
-                      </ModalReport>
-                    </div>
-                  )}
+                    {isMyProfilePath && (
+                      <>
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconEdit.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Edit
+                          </Text>
+                        </div>
 
-                  {isMyProfilePath && (
-                    <>
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconEdit.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Edit
-                        </Text>
-                      </div>
-
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconDelete.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Delete
-                        </Text>
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-            </button>
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconDelete.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Delete
+                          </Text>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -519,7 +546,7 @@ const NewFeedItem = (props: IProps) => {
         {renderContentPost()}
         <div className='mobile:mt-[15px] desktop:mt-[24px]'>
           <PostAction
-            urlPost={urlPost}
+            urlPost={'/post/' + idPost}
             isLike={isLike}
             idPost={String(idPost)}
             onRefreshPostDetail={onRefreshPostDetail}
