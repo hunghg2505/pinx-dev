@@ -4,6 +4,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
@@ -67,6 +68,7 @@ const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
 });
 
 const HomeNewFeed = ({ pinPostDataInitial }: any) => {
+  const { t } = useTranslation('home');
   const router = useRouter();
   const { run: initUserProfile } = useProfileInitial();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -182,7 +184,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                 onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
               >
                 <Text type='body-14-medium' color='primary-1'>
-                  See all
+                  {t('see_all')}
                 </Text>
                 <img
                   src='/static/icons/iconNext.svg'
@@ -229,7 +231,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
             <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
               <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
-                People in spotlight
+                {t('people_in_spotlight')}
               </Text>
 
               <Influencer />
@@ -239,7 +241,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                   onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}
                 >
                   <Text type='body-14-bold' color='primary-2'>
-                    Explore influencer
+                    {t('explore_influencer')}
                   </Text>
                 </button>
               </div>
@@ -255,7 +257,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                   className='mr-[8px] h-[20px] w-[20px] object-contain'
                 />
                 <Text type='body-16-bold' color='neutral-2'>
-                  People you may know
+                  {t('People_you_may_know')}
                 </Text>
               </div>
             )}
@@ -268,7 +270,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                 <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
                   <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
                     <Text type='body-14-bold' color='primary-2'>
-                      Explore people
+                      {t('explore_people')}
                     </Text>
                   </button>
                 </div>
@@ -291,7 +293,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
             <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
               <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
-                Economy in the themes
+                {t('economy_in_the_themes')}
               </Text>
               <ListTheme />
             </div>

@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { useClickAway, useDebounceFn, useFocusWithin } from 'ahooks';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
 import { TYPESEARCH } from '@components/Home/service';
@@ -22,6 +23,7 @@ import PeopleItem from '../ModalPeopleYouKnow/PeopleItem';
 import { useGetPopular, useSearchPublic } from '../service';
 
 const Search = (props: any, ref: any) => {
+  const { t } = useTranslation('theme');
   const refInput = React.useRef(null);
   const [form] = Form.useForm();
   const [showPopup, setShowPopup] = React.useState(false);
@@ -137,7 +139,7 @@ const Search = (props: any, ref: any) => {
                 </>
               )} */}
               <Text type='body-14-semibold' color='neutral-black'>
-                Popular
+                {t('popular')}
               </Text>
               <div className='mt-[12px] flex flex-row flex-wrap gap-[16px]'>
                 {popular?.slice(0, 6)?.map((item: any, index: number) => {
@@ -165,7 +167,7 @@ const Search = (props: any, ref: any) => {
           >
             <div className='mt-[24px]'>
               <Text type='body-20-semibold' color='neutral-1'>
-                Company
+                {t('company')}
               </Text>
               {loading && <Loading />}
               {companies?.length > 0 ? (
@@ -178,7 +180,7 @@ const Search = (props: any, ref: any) => {
                   {companies?.length > 5 && (
                     <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
                       <Text type='body-14-bold' color='primary-2'>
-                        Show more
+                        {t('show_more')}
                       </Text>
                     </ExploreButton>
                   )}
@@ -189,13 +191,13 @@ const Search = (props: any, ref: any) => {
                   color='neutral-4'
                   className='mt-[16px] tablet:mt-[2px]'
                 >
-                  No company result found for {valueInput}
+                  {t('no_company_result_found_for')} {valueInput}
                 </Text>
               )}
             </div>
             <div className='mt-[32px]'>
               <Text type='body-20-semibold' color='neutral-1'>
-                People
+                {t('people')}
               </Text>
               {loading && <Loading />}
               {users?.length > 0 ? (
@@ -208,7 +210,7 @@ const Search = (props: any, ref: any) => {
                   {users?.length > 5 && (
                     <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
                       <Text type='body-14-bold' color='primary-2'>
-                        Show more
+                        {t('show_more')}
                       </Text>
                     </ExploreButton>
                   )}
@@ -219,13 +221,13 @@ const Search = (props: any, ref: any) => {
                   color='neutral-4'
                   className='mt-[16px] tablet:mt-[2px]'
                 >
-                  No people result found for {valueInput}
+                  {t('no_people_result_found_for')} {valueInput}
                 </Text>
               )}
             </div>
             <div className='mt-[32px]'>
               <Text type='body-20-semibold' color='neutral-1'>
-                Posts
+                {t('posts')}
               </Text>
               {loading && <Loading />}
               {posts?.length > 0 ? (
@@ -238,7 +240,7 @@ const Search = (props: any, ref: any) => {
                   {posts?.length > 3 && (
                     <ExploreButton onClick={() => onShowMore(TYPESEARCH.POST)}>
                       <Text type='body-14-bold' color='primary-2'>
-                        Exploring more posts
+                        {t('exploring_more_posts')}
                       </Text>
                     </ExploreButton>
                   )}
@@ -249,13 +251,13 @@ const Search = (props: any, ref: any) => {
                   color='neutral-4'
                   className='mt-[16px] tablet:mt-[2px]'
                 >
-                  No post result found for {valueInput}
+                  {t('no_post_result_found_for')} {valueInput}
                 </Text>
               )}
             </div>
             <div className='mb-[24px] mt-[32px]'>
               <Text type='body-20-semibold' color='neutral-1'>
-                News
+                {t('news')}
               </Text>
               {loading && <Loading />}
               {news?.length > 0 ? (
@@ -268,7 +270,7 @@ const Search = (props: any, ref: any) => {
                   {news?.length > 3 && (
                     <ExploreButton onClick={() => onShowMore(TYPESEARCH.NEWS)}>
                       <Text type='body-14-bold' color='primary-2'>
-                        Exploring more news
+                        {t('exploring_more_news')}
                       </Text>
                     </ExploreButton>
                   )}
@@ -279,7 +281,7 @@ const Search = (props: any, ref: any) => {
                   color='neutral-4'
                   className='mt-[16px] tablet:mt-[2px]'
                 >
-                  No news result found for {valueInput}
+                  {t('no_news_result_found_for')} {valueInput}
                 </Text>
               )}
             </div>

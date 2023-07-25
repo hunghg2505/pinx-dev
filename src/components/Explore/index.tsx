@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter';
@@ -65,6 +66,7 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const Explore = () => {
+  const { t } = useTranslation('theme');
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
   const refSlideTheme: any = React.useRef();
@@ -117,12 +119,12 @@ const Explore = () => {
         color='cbblack'
         className='tablet:!text-[28px] tablet:!font-bold'
       >
-        Discovery
+        {t('discovery')}
       </Text>
       <Search ref={refClick} />
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
-        Top keyword search
+        {t('top_keyword_search')}
       </Text>
 
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
@@ -143,14 +145,14 @@ const Explore = () => {
         {isShowMoreKeyword ? (
           <div className='flex items-center justify-center'>
             <Text type='body-14-bold' color='primary-2'>
-              Hide
+              {t('hide')}
             </Text>
             <img src='/static/icons/explore/iconUp.svg' className='h-[24px] w-[24px]' alt='' />
           </div>
         ) : (
           <div className='flex items-center justify-center'>
             <Text type='body-14-bold' color='primary-2'>
-              Explore top search
+              {t('explore_top_search')}
             </Text>
             <img src='/static/icons/explore/iconDown.svg' className='h-[24px] w-[24px]' alt='' />
           </div>
@@ -162,7 +164,7 @@ const Explore = () => {
       {/* Explore influencer */}
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
-        People in spotlight
+        {t('people_in_spotlight')}
       </Text>
 
       <div className='mb-[16px]'>
@@ -171,7 +173,7 @@ const Explore = () => {
 
       <ExploreButton onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore influencer
+          {t('explore_influencer')}
         </Text>
       </ExploreButton>
       {/* Explore influencer */}
@@ -191,7 +193,7 @@ const Explore = () => {
               className='mr-[8px] h-[20px] w-[20px] object-contain'
             />
             <Text type='body-16-bold' color='neutral-2'>
-              People you may know
+              {t('people_you_may_know')}
             </Text>
           </div>
         </>
@@ -204,6 +206,7 @@ const Explore = () => {
           <ModalPeopleYouKnow>
             <ExploreButton>
               <Text type='body-14-bold' color='primary-2'>
+                {t('explore_people')}
                 Explore people
               </Text>
             </ExploreButton>
@@ -215,7 +218,7 @@ const Explore = () => {
       {!suggestionPeople && <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>}
       {/* theme */}
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
-        Themes
+        {t('themes')}
       </Text>
 
       <div className='relative mb-[16px]'>
@@ -255,17 +258,17 @@ const Explore = () => {
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore themes
+          {t('explore_themes')}
         </Text>
       </ExploreButton>
       {/* theme */}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
-        Top watching stock
+        {t('top_watching_stock')}
       </Text>
       <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
-        Top most watching stocks on PineX
+        {t('top_watching_stock_pinex')}
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listStock &&
@@ -281,16 +284,16 @@ const Explore = () => {
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.TOP_WATCHING)}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore top watching stock
+          {t('explore_top_watching_stock')}
         </Text>
       </ExploreButton>
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
-        Top mention stock
+        {t('top_mention_stock')}
       </Text>
       <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
-        Top most mention stocks on PineX
+        {t('top_most_mention_stock_pinex')}
       </Text>
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listMention &&
@@ -307,13 +310,13 @@ const Explore = () => {
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.TOPMENTION)}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore top mention stock
+          {t('explore_top_mention_stock')}
         </Text>
       </ExploreButton>
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
-        PineX top 20
+        {t('pinex_top_20')}
       </Text>
       <div className='relative mb-[16px]'>
         <div
@@ -346,12 +349,12 @@ const Explore = () => {
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.PINEX_TOP_20)}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore more
+          {t('explore_more')}
         </Text>
       </ExploreButton>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
-        New IPO
+        {t('new_ipo')}
       </Text>
       {stockIPO?.length > 0 ? (
         <>
@@ -364,17 +367,17 @@ const Explore = () => {
       ) : (
         <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
           <Text type='body-20-semibold' color='neutral-1'>
-            New IPO stocks
+            {t('new_ipo_stocks')}
           </Text>
           <Text type='body-14-regular' color='neutral-4'>
-            There is no new IPO stocks
+            {t('there_is_no_new_ipo_stocks')}
           </Text>
         </div>
       )}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1'>
-        Trending on PineX
+        {t('trending_on_pinex')}
       </Text>
       <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
@@ -391,7 +394,7 @@ const Explore = () => {
       </div>
       <ExploreButton onClick={onExplorePost}>
         <Text type='body-14-bold' color='primary-2'>
-          Explore hot topics
+          {t('explore_hot_topics')}
         </Text>
       </ExploreButton>
     </div>

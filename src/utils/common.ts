@@ -275,9 +275,6 @@ export const encryptPassword = (value: string) => {
   return pass;
 };
 
-export const isUserVerified = (acntStat: string | undefined) => {
-  return acntStat === 'ACTIVE';
-};
 export const imageStock = (stock_code: string) => {
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
