@@ -12,6 +12,7 @@ import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import ItemHoverProfile from '@components/Post/NewsFeed/NewFeedItem/ItemHoverProfile';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { useResponsive } from '@hooks/useResponsive';
@@ -352,8 +353,13 @@ const PostItem = (props: IProps) => {
                     className='w-[33px] cursor-pointer'
                     onClick={() => setShowReport(!showReport)}
                   />
-                  {showReport && (
-                    <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+
+                  <Fade
+                    visible={showReport}
+                    className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+                  >
+                    <>
+                      {' '}
                       {!isReported && !isMyPost && (
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
@@ -376,8 +382,8 @@ const PostItem = (props: IProps) => {
                           </ModalReport>
                         </div>
                       )}
-                    </div>
-                  )}
+                    </>
+                  </Fade>
                 </button>
               )}
             </div>

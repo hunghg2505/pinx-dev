@@ -27,7 +27,7 @@ export const FilterFake = () => {
   );
 };
 
-const Filter = (props: IPropsModalFilter) => {
+const HomeFeedFilter = (props: IPropsModalFilter) => {
   return (
     <>
       <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
@@ -44,4 +44,4 @@ const Filter = (props: IPropsModalFilter) => {
   );
 };
 
-export default Filter;
+export default HomeFeedFilter;
