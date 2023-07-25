@@ -24,7 +24,7 @@ const MainLayout = ({ children }: any) => {
       <MainHeader />
 
       <div className='desktop:bg-[#F8FAFD] desktop:pt-[25px]'>
-        <div className=' mx-auto flex w-[100%] max-w-[1355px] justify-between gap-[24px] px-[10px] desktop:px-0'>
+        <div className=' mx-auto flex w-[100%] max-w-[1355px] justify-between gap-[24px] desktop:px-0'>
           <div className='max-w-[218px] flex-1 mobile:hidden desktop:block'>
             <SideBar />
           </div>

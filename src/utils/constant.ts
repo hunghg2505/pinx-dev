@@ -16,3 +16,5 @@ export const enum USERTYPE {
   PENDING_TO_CLOSE = 'PENDING_TO_CLOSE',
 }
 export const PHONE_CONTACT_SUPPORT = 'tel:02462823535';
+export const ACNT_STAT_ACTIVE = 'ACTIVE';
+export const ACNT_STAT_VSD_PENDING = 'VSD_PENDING';

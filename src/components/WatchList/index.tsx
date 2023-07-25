@@ -35,7 +35,7 @@ const WatchList = () => {
   }
 
   return (
-    <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
+    <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white px-[10px] py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
         {!isEdit && (
           <img

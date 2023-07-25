@@ -1,4 +1,3 @@
-import { PINX_LOCALE } from '@store/locale/locale';
 import { ROUTE_PATH } from '@utils/common';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';

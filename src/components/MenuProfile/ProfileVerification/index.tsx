@@ -22,7 +22,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { isUserVerified, isImage, ROUTE_PATH } from '@utils/common';
+import { isUserVerified, isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
@@ -99,15 +99,15 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <div className='pt-5'>
+    <div className='w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <img
         src='/static/icons/chevron-left.svg'
-        className='!w-[28px]'
+        className='!w-[28px] laptop:hidden'
         alt=''
         onClick={router.back}
       />
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
-      <div className='relative h-[60px] mobile:mt-[32px] laptop:mt-0'>
+      <div className='relative h-[60px] laptop-max:hidden laptop:mt-0'>
         <img
           src='/static/icons/arrow-left.svg'
           alt=''
@@ -117,53 +117,6 @@ const ProfileVerification = () => {
           className='absolute left-[10px] top-1/2 h-[32px] w-[32px] -translate-y-1/2 cursor-pointer laptop-max:hidden'
           onClick={() => router.back()}
         />
-        <div className='flex items-center border-b-[1px] border-solid border-white px-4 pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:hidden'>
-          <div className='relative mr-3'>
-            <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
-              <img
-                src={userLoginInfo?.avatar}
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='h-[52px] w-[52px] rounded-full mobile:block'
-              />
-              <img
-                src='/static/icons/icon_plus.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='absolute bottom-0 right-0 h-[16px] w-[16px]'
-              />
-            </Upload>
-          </div>
-
-          <div className='flex flex-col'>
-            <Text type='body-20-semibold' className='mb-[2px]'>
-              {userLoginInfo?.displayName}
-            </Text>
-            <div className='flex items-center text-[#999999]'>
-              <img
-                src='/static/icons/icon_phone.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='mr-[6px] h-[15px] w-[15px]'
-              />
-              {userLoginInfo.phone}
-              <span
-                className={classNames('ml-2', {
-                  'text-[#EAA100]': !isUserVerified(userLoginInfo.acntStat),
-                  'text-green': isUserVerified(userLoginInfo.acntStat),
-                })}
-              >
-                {isUserVerified(userLoginInfo.acntStat) ? 'Verified' : 'Unverified'}
-              </span>
-            </div>
-          </div>
-        </div>
 
         <Text
           type='body-20-bold'
@@ -171,6 +124,54 @@ const ProfileVerification = () => {
         >
           Securities profile
         </Text>
+      </div>
+
+      <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
+        <div className='relative mr-3'>
+          <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
+            <img
+              src={userLoginInfo?.avatar}
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[52px] w-[52px] rounded-full mobile:block'
+            />
+            <img
+              src='/static/icons/icon_plus.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='absolute bottom-0 right-0 h-[16px] w-[16px]'
+            />
+          </Upload>
+        </div>
+
+        <div className='flex flex-col'>
+          <Text type='body-20-semibold' className='mb-[2px]'>
+            {userLoginInfo?.displayName}
+          </Text>
+          <div className='flex items-center text-[#999999]'>
+            <img
+              src='/static/icons/icon_phone.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='mr-[6px] h-[15px] w-[15px]'
+            />
+            {userLoginInfo.phone}
+            <span
+              className={classNames('ml-2', {
+                'text-[#EAA100]': !isUserVerified(userLoginInfo.acntStat),
+                'text-green': isUserVerified(userLoginInfo.acntStat),
+              })}
+            >
+              {calcUserStatusText(userLoginInfo.acntStat || '')}
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className='flex mobile:mt-11 tablet:mt-[12px]'>
@@ -317,7 +318,7 @@ const ProfileVerification = () => {
           </ErrorMainButton>
         </Form>
 
-        <div className='mb-[72.5px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
+        <div className='mb-[82px] mt-[-77px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
           <img
             src='/static/images/book_list.png'
             alt=''
