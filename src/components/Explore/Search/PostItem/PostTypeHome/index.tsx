@@ -96,7 +96,7 @@ const PostTypeHome = (props: IProps) => {
               <img
                 src={imageMetaData}
                 alt=''
-                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+                className='w-full rounded-[8px] object-cover mobile:h-[260px]'
               />
             </a>
           </Fancybox>
@@ -137,13 +137,10 @@ const PostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div className='relative w-full  rounded-[15px]  mobile:h-[204px] desktop:h-[309px]'>
             <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
               className='absolute right-0 top-0 h-full w-full'
             />
             <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
@@ -212,7 +209,7 @@ const PostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div className='relative w-full rounded-[15px] mobile:h-[204px] desktop:h-[309px]'>
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -321,7 +318,7 @@ const PostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div className='relative w-full rounded-[15px] mobile:h-[204px]  desktop:h-[309px]'>
             <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''

@@ -12,7 +12,7 @@ const PeopleSpotlight = () => {
   const { KOL, refresh } = useGetInfluencer();
   return (
     <>
-      <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
+      <div className='rounded-[8px] bg-[#FFF] px-[10px] py-[20px] tablet:px-[0]'>
         <div className='relative text-center'>
           <img
             src='/static/icons/back_icon.svg'
@@ -26,7 +26,7 @@ const PeopleSpotlight = () => {
         </div>
         <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
 
-        <div className='mt-[44px] mobile:block tablet:hidden'>
+        <div className='mb-4 mt-[44px] mobile:block tablet:hidden'>
           <Text color='neutral-black' type='body-20-semibold' className='mb-[16px]'>
             People in spotlight
           </Text>
@@ -34,7 +34,7 @@ const PeopleSpotlight = () => {
           <Text type='body-14-regular'>Be inspired by our stock expert’s investment stories.</Text>
         </div>
 
-        <div className=' mt-[16px] flex flex-wrap gap-x-[14px] gap-y-[20px] mobile-max:grid mobile-max:grid-cols-2'>
+        <div className='grid grid-cols-2 gap-[16px] px-[0] tablet:grid-cols-3 tablet:px-[16px] desktop:grid-cols-4 '>
           {KOL?.slice(0, 20).map((item: IKOL, index: number) => {
             return <ItemInfluence data={item} refresh={refresh} key={index} />;
           })}

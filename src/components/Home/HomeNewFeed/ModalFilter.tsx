@@ -11,7 +11,7 @@ interface IPropsModalFilter {
 export const FilterFake = () => {
   return (
     <>
-      <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
+      <div className='flex items-center  filter mobile:py-[12px] desktop:mb-[20px]'>
         <Text
           type='body-16-bold'
           color='neutral-2'
@@ -30,7 +30,7 @@ export const FilterFake = () => {
 const HomeFeedFilter = (props: IPropsModalFilter) => {
   return (
     <>
-      <div className='flex items-center pl-[16px] filter mobile:py-[12px] mobile-max:[border-top:1px_solid_#EAF4FB] desktop:mb-[20px]'>
+      <div className='flex items-center  filter mobile:py-[12px] desktop:mb-[20px]'>
         <Text
           type='body-16-bold'
           color='neutral-2'

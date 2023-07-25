@@ -20,10 +20,6 @@ const TabMobile = ({ selectTab, onChangeTab }: IPropsTabMobile) => {
     setisLogin(auth.isLogin);
   }, [auth.isLogin]);
 
-  if (!isLogin) {
-    return <></>;
-  }
-
   return (
     <>
       <Tabs defaultActiveKey='2' activeKey={selectTab} className='tabHome' onChange={onChangeTab}>

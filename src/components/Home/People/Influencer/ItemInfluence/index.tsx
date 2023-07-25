@@ -66,7 +66,7 @@ const ItemInfluence = (props: IProps) => {
   const isFeatureProfile = data?.isFeatureProfile;
   const isKol = data?.isKol;
   return (
-    <div className='w-[161px] cursor-pointer mobile-max:w-full tablet:w-[161px]'>
+    <div className='cursor-pointer '>
       <div className='relative h-[252px] w-[100%] rounded-[15px]'>
         <div
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
