@@ -1,10 +1,10 @@
-import ModalComposeMobile from '@components/Compose/ModalComposeMobile';
-import FooterSignUp from '@components/FooterSignup';
-import HomeNewFeed from '@components/Home/HomeNewFeed/HomeNewFeed';
-import PopupHomeNoti from '@components/Home/PopupHomeNoti/PopupHomeNoti';
+import dynamic from 'next/dynamic';
 
-import ComposeButton from './ComposeButton';
-
+const ComposeButton = dynamic(() => import('./ComposeButton'));
+const PopupHomeNoti = dynamic(() => import('@components/Home/PopupHomeNoti/PopupHomeNoti'));
+const FooterSignUp = dynamic(() => import('@components/FooterSignup'));
+const ModalComposeMobile = dynamic(() => import('@components/Compose/ModalComposeMobile'));
+const HomeNewFeed = dynamic(() => import('@components/Home/HomeNewFeed/HomeNewFeed'));
 const Home = ({ pinPostData }: any) => {
   return (
     <>

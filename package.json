@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f env.development next dev",
+    "dev": "cp env.development .env && next dev",
     "standalone": "PORT=80 node server.js",
     "build": "next build",
     "start": "env-cmd -f env.development next start",

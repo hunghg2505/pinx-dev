@@ -37,6 +37,8 @@ export const API_PATH = {
   PRIVATE_ADD_POST: '/private/post/add',
   PRIVATE_PINNED_POST: '/private/mapping/pinned-posts',
   PUBLIC_PINNED_POST: '/public/mapping/pinned-posts',
+  PRIVATE_DELETE_POST: (id: string) => `/private/mapping/${id}`,
+  PRIVATE_UPDATE_POST: (id: string) => `/private/mapping/${id}/update`,
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
   PRIVATE_DETAIL_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/details`,
