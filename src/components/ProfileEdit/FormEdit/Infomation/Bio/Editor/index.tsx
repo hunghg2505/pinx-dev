@@ -22,8 +22,11 @@ const Editor = ({ value, onChange }: { value: any; onChange: (value: any) => voi
     content: value,
     onUpdate: ({ editor }: { editor: any }) => {
       if (editor) {
-        const value =
-          editor.contentComponent.editorContentRef.current.childNodes[0].childNodes[0].textContent;
+        let value = '';
+        for (const node of editor.contentComponent.editorContentRef.current.childNodes[0]
+          .childNodes) {
+          value = value + node.textContent + '\n';
+        }
         onChange(value);
       }
     },
