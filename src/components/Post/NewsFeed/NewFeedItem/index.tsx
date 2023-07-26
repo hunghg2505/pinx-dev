@@ -423,7 +423,7 @@ const NewFeedItem = (props: IProps) => {
                 )}
               </div>
             </div>
-            <Text type='body-12-regular' color='neutral-4' className='mt-[2px] tablet:text-[16px]'>
+            <Text type='body-14-regular' color='neutral-4' className='mt-[2px] font-[300]'>
               {postDetail?.timeString &&
                 dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>

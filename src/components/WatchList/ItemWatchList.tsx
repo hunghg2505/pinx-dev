@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
@@ -8,7 +8,7 @@ import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+// import { ROUTE_PATH } from '@utils/common';
 
 const ItemWatchList = ({
   data,
@@ -55,20 +55,20 @@ const ItemWatchList = ({
   return (
     <>
       <div className={classNames('flex items-center gap-x-[10px]')}>
-        <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
-          <img
-            src={url}
-            alt=''
-            className='h-[36px] w-[36px] rounded-full object-contain tablet:h-[48px] tablet:w-[48px] bg-white'
-          />
-        </Link>
+        {/* <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}> */}
+        <img
+          src={url}
+          alt=''
+          className='h-[36px] w-[36px] rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'
+        />
+        {/* </Link> */}
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
-            <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                {data?.stockCode}
-              </Text>
-            </Link>
+            {/* <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}> */}
+            <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+              {data?.stockCode}
+            </Text>
+            {/* </Link> */}
             <Text
               type='body-10-regular'
               className='text-#394251 rounded-[4px] border-[1px] border-solid border-[#EBEBEB] bg-[#fff] px-[7px] py-[2px] leading-[16px]'

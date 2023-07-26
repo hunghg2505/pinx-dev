@@ -1,6 +1,11 @@
+import React from 'react';
+
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { toast } from 'react-hot-toast';
 
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
@@ -16,10 +21,29 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
       refreshYourWatchList && refreshYourWatchList();
     },
   });
+  const useRemoveStock = useRequest(
+    () => {
+      return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(data?.stockCode));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        refreshYourWatchList && refreshYourWatchList();
+        toast(() => <Notification type='success' message='Remove stock success' />);
+      },
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e.error} />);
+      },
+    },
+  );
   const onAddStock = () => {
     requestSelectStock.run(data?.stockCode);
   };
-  console.log(like);
+  const onRemoveStock = () => {
+    console.log('remove',data?.stockCode);
+    useRemoveStock.run();
+  };
+  console.log(`${data?.stockCode}`,like);
   return (
     <>
       <div className='flex items-center gap-x-[10px]'>
@@ -48,7 +72,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
       {requestSelectStock?.loading ? (
         <Loading />
       ) : (
-        <div className='flex pr-[12px]' onClick={onAddStock}>
+        <div className='flex pr-[12px]' onClick={like?onRemoveStock:onAddStock}>
           <div
             className={classNames(
               'absolute -right-3 top-1/2 flex h-[24px] w-[24px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#fff]',
@@ -64,7 +88,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
             >
               <path
                 d='M0 8C0 3.58065 3.58065 0 8 0C12.4194 0 16 3.58065 16 8C16 12.4194 12.4194 16 8 16C3.58065 16 0 12.4194 0 8ZM8.41613 12.4677L11.9839 8.78387C13.0226 7.7129 12.9613 5.93871 11.8065 4.95161C10.7968 4.09032 9.29355 4.24516 8.36774 5.2L8.00323 5.57419L7.63871 5.2C6.7129 4.24516 5.20968 4.09032 4.2 4.95161C3.04194 5.93871 2.98065 7.7129 4.01613 8.78387L7.58065 12.4677C7.8129 12.7065 8.1871 12.7065 8.41613 12.4677Z'
-                fill='black'
+                fill={`${like ? 'red' : 'black'}`}
               />
             </svg>
           </div>

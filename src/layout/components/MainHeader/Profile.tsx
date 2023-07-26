@@ -22,7 +22,13 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
-import { ROUTE_PATH, calcUserStatusText, isUserVerified } from '@utils/common';
+import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
+import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
+import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+
+const handleRedirect = (url: string) => {
+  window.open(url, '_blank');
+};
 
 const MenuProfileMobile = forwardRef((_, ref) => {
   const { userLoginInfo } = useUserLoginInfo();
@@ -151,8 +157,45 @@ const Profile = () => {
 
       <hr className='border-neutral_07' />
 
+      {checkUserType(userLoginInfo?.custStat || USERTYPE.NEW, userLoginInfo?.acntStat) ===
+        USERTYPE.NEW && (
+        <MenuItem>
+          <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
+            <img
+              src='/static/images/book_list.png'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='mr-[7px] h-[103px] w-[164px]'
+            />
+            <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
+              <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
+              <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
+                <img
+                  src='/static/images/googleplay.png'
+                  alt='Download google play'
+                  width={180}
+                  height={52}
+                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                />
+
+                <img
+                  src='/static/images/appstore.png'
+                  alt='Download app store'
+                  width={180}
+                  height={52}
+                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                />
+              </div>
+            </div>
+          </div>
+        </MenuItem>
+      )}
+
       <MenuItem>
-        <hr className='border-neutral_07' />
         <CustomLink
           href={ROUTE_PATH.PROFILE_VERIFICATION}
           className='flex items-center justify-between px-[20px] py-4'
@@ -168,10 +211,13 @@ const Profile = () => {
           <Text
             type='body-12-regular'
             className={classNames('text-[#EAA100]', {
-              'text-green': isUserVerified(userLoginInfo.acntStat),
+              'text-[#128F63]':
+                calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_VERIFIED,
+              'text-[#F1BA09]':
+                calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_PENDING,
             })}
           >
-            {calcUserStatusText(userLoginInfo.acntStat || '')}
+            {t(`${calcUserStatusText(userLoginInfo.acntStat || '')}`)}
           </Text>
         </CustomLink>
       </MenuItem>

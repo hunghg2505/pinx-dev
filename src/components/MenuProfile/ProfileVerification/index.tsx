@@ -23,7 +23,8 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { isUserVerified, isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
+import { isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
+import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
@@ -39,6 +40,16 @@ const beforeUpload = (file: RcFile) => {
 
 const handleRedirect = (url: string) => {
   window.open(url, '_blank');
+};
+
+const renderIdentifyCardNumber = (lastNumToShow: number, value?: string) => {
+  if (value && value?.length > lastNumToShow) {
+    const first = value?.slice(0, -lastNumToShow).replaceAll(/./g, '*');
+    const last = value?.slice(-lastNumToShow) || '';
+    return first + last;
+  } else {
+    return '';
+  }
 };
 
 const ProfileVerification = () => {
@@ -164,9 +175,11 @@ const ProfileVerification = () => {
             />
             {userLoginInfo.phone}
             <span
-              className={classNames('ml-2', {
-                'text-[#EAA100]': !isUserVerified(userLoginInfo.acntStat),
-                'text-green': isUserVerified(userLoginInfo.acntStat),
+              className={classNames('ml-2 text-[#EAA100]', {
+                'text-[#128F63]':
+                  calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_VERIFIED,
+                'text-[#F1BA09]':
+                  calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_PENDING,
               })}
             >
               {calcUserStatusText(userLoginInfo.acntStat || '')}
@@ -275,7 +288,7 @@ const ProfileVerification = () => {
             <FormItem className='mt-4' name='fullName'>
               <Input
                 disabled
-                value={userLoginInfo?.identityCardNo}
+                value={renderIdentifyCardNumber(3, userLoginInfo?.identityCardNo)}
                 className={classNames(customInputClassName, {
                   [hideBorder]: isMobile,
                 })}

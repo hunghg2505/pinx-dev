@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import MarketDesktop from '@components/Home/Market/MarketDesktop';
@@ -48,6 +49,7 @@ const WatchList = () => {
 };
 
 const ContentRight = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
   const { userLoginInfo } = useUserLoginInfo();
@@ -63,7 +65,8 @@ const ContentRight = () => {
       {isLogin && !isPageWatchList && (
         <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           <Text type='body-16-bold' color='cbblack' className='mb-4'>
-            {userLoginInfo?.displayName}&apos;s Watchlist
+            {userLoginInfo?.displayName}
+            {t('user_watchlist')}
           </Text>
           <WatchList />
         </div>
@@ -72,7 +75,7 @@ const ContentRight = () => {
       {!isProfilePath && (
         <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           <Text type='body-16-bold' color='cbblack' className='mb-[15px]'>
-            Trending
+            {t('trending')}
           </Text>
           <TrendingDesktop />
         </div>
@@ -81,13 +84,13 @@ const ContentRight = () => {
       {isLogin && !isProfilePath && (
         <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-            People you may know
+            {t('people_you_may_know')}
           </Text>
           <PeopleDesktop />
           <ModalPeopleYouKnow>
             <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
               <Text type='body-14-bold' color='primary-2'>
-                View more
+                {t('view_more')}
               </Text>
             </div>
           </ModalPeopleYouKnow>

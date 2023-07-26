@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import Notification from '@components/UI/Notification';
-import NotificationShareActivity from '@components/UI/Notification/ShareActivity';
+import NotificationFollowStock from '@components/UI/Notification/FollowStock';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
@@ -37,6 +37,7 @@ import AlsoOwnItem from '../AlsoOwnItem';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
+import PopupFollowStock from '../Popup/PopupFollowStock';
 import PopupReview from '../Popup/PopupReview';
 import Rating from '../Rating';
 import {
@@ -66,6 +67,8 @@ const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
+const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
+const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
 
 const settings = {
   dots: false,
@@ -122,16 +125,17 @@ const convertFinancialIndexData = (data?: IFinancialIndex) => {
 };
 
 const StockDetail = () => {
-  const [showPopupShareAct, setShowPopupShareAct] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
+  const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const refSlide = useRef<any>(null);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -164,36 +168,23 @@ const StockDetail = () => {
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
 
-  const toastRef = useRef<string>();
-
-  useEffect(() => {
-    const title = isFollowedStock
-      ? `Tell people the reason you watched for ${stockCode}?`
-      : `Tell people the reason you unwatched ${stockCode}?`;
-
-    if (showPopupShareAct) {
-      toastRef.current = toast.loading(
-        () => (
-          <NotificationShareActivity
-            onClickShare={() => {
-              toast.dismiss(toastRef.current);
-              console.log('Open popup create post');
-            }}
-            title={title}
-          />
-        ),
-        {
-          // eslint-disable-next-line unicorn/no-null
-          icon: null,
-        },
-      );
-    }
-  }, [isFollowedStock]);
-
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
       refreshMyStocks();
-      setShowPopupShareAct(true);
+
+      const title = isFollowedStock
+        ? `Tell people the reason you unwatched ${stockCode}?`
+        : `Tell people the reason you watched for ${stockCode}?`;
+
+      toast((t) => (
+        <NotificationFollowStock
+          title={title}
+          onClickShare={() => {
+            toast.dismiss(t.id);
+            setOpenPopupFollowStock(true);
+          }}
+        />
+      ));
     },
   });
 
@@ -287,6 +278,17 @@ const StockDetail = () => {
         }}
         stockCode={stockCode}
         onReviewSuccess={handleReviewSuccess}
+      />
+
+      <PopupFollowStock
+        visible={openPopupFollowStock}
+        onClose={() => {
+          setOpenPopupFollowStock(false);
+        }}
+        isFollowedStock={isFollowedStock}
+        stockCode={stockCode}
+        background={isFollowedStock ? STOCK_FOLLOW_BG : STOCK_UN_FOLLOW_BG}
+        onRefreshStockActivities={refreshStockActivities}
       />
 
       <div className='flex h-[44px] w-full items-center justify-between px-[16px] tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9] tablet:px-[24px]'>
@@ -449,22 +451,46 @@ const StockDetail = () => {
           <Text type='body-20-semibold'>Brand awareness</Text>
         </div>
 
-        <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
-          <Slider {...settings} variableWidth>
-            {stockDetail?.data?.products.map((item, index) => (
-              <div key={index} className='mr-[28px] !w-[112px]'>
-                <img
-                  src={PRODUCT_COMPANY_IMAGE(item.imageUrl)}
-                  alt={item.name}
-                  className='h-[112px] w-full rounded-[4px] object-cover'
-                />
+        <div className='relative'>
+          <div
+            onClick={() => refSlide.current.slickPrev()}
+            className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          >
+            <img
+              src='/static/icons/iconGrayPrev.svg'
+              alt='Icon prev'
+              className='h-[16px] w-[7px] object-contain'
+            />
+          </div>
 
-                <Text className='mt-[12px] text-center' type='body-12-regular'>
-                  {item.name}
-                </Text>
-              </div>
-            ))}
-          </Slider>
+          <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
+            <Slider {...settings} variableWidth ref={refSlide}>
+              {stockDetail?.data?.products.map((item, index) => (
+                <div key={index} className='mr-[28px] !w-[112px]'>
+                  <img
+                    src={PRODUCT_COMPANY_IMAGE(item.imageUrl)}
+                    alt={item.name}
+                    className='h-[112px] w-full rounded-[4px] object-cover'
+                  />
+
+                  <Text className='mt-[12px] text-center' type='body-12-regular'>
+                    {item.name}
+                  </Text>
+                </div>
+              ))}
+            </Slider>
+          </div>
+
+          <div
+            onClick={() => refSlide.current.slickNext()}
+            className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          >
+            <img
+              src='/static/icons/iconGrayNext.svg'
+              alt='Icon next'
+              className='h-[16px] w-[7px] object-contain'
+            />
+          </div>
         </div>
       </div>
 
@@ -494,7 +520,7 @@ const StockDetail = () => {
               </div>
             )}
 
-            <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
+            <Text type='body-14-regular' className='ml-[8px] text-[#0D0D0D]'>
               {item.tagName}
             </Text>
 
@@ -502,7 +528,7 @@ const StockDetail = () => {
               <img
                 src='/static/icons/iconBlackRight.svg'
                 alt='Icon right'
-                className='h-[6px] w-[4px] object-contain'
+                className='h-[12px] w-[8px] object-contain'
               />
             </div>
           </div>
@@ -583,7 +609,7 @@ const StockDetail = () => {
 
       {/* also own */}
       {taggingInfo?.data?.subsidiaries && taggingInfo.data.subsidiaries.length > 0 && (
-        <div className='mb-[28px] border-t border-solid border-[var(--neutral-7)] pt-[28px]'>
+        <div className='mb-[28px] pt-[28px]'>
           <div className='px-[16px] tablet:px-[24px]'>
             <Text type='body-20-semibold' className='mb-[8px]'>
               Also Own
@@ -609,7 +635,7 @@ const StockDetail = () => {
       )}
 
       {/* rating */}
-      <div className='border-t-[8px] border-solid border-[#F7F6F8] pt-[28px] tablet:border-t-[1px]'>
+      <div className='pt-[28px]'>
         <div className='px-[16px] tablet:px-[24px]'>
           <Text type='body-20-semibold' className='mb-[16px]'>
             Rating
@@ -900,7 +926,7 @@ const StockDetail = () => {
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <Text type='body-20-semibold'>Activities</Text>
 
-        <div className='my-[20px] flex flex-col gap-y-[16px]'>
+        <div className='flex flex-col gap-y-[16px] py-[20px]'>
           {stockActivities?.data.list.map((item, index) => (
             <ActivityItem data={item} key={index} refreshStockActivities={refreshStockActivities} />
           ))}

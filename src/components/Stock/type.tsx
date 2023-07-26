@@ -356,3 +356,14 @@ export interface IResponseCompaniesRelated {
     };
   };
 }
+
+export enum ShareStockAction {
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+}
+
+export interface IPayloadShareStock {
+  action: ShareStockAction;
+  message?: string;
+  stockCode: string;
+}

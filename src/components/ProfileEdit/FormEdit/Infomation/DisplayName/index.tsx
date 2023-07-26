@@ -20,6 +20,7 @@ const DisplayName = () => {
               type='text'
               value={value}              
               onChange={onChange}
+              maxLength={256}
               className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none'
             />
             <hr className='mb-[24px] border-neutral_07' />
