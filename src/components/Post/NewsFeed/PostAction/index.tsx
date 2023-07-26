@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { getTotalSharePost, likePost, unlikePost } from '@components/Post/service';
@@ -29,6 +30,7 @@ interface IPostActionProps {
 }
 
 const PostAction = (props: IPostActionProps) => {
+  const { t } = useTranslation('common');
   const { isLike, idPost, onRefreshPostDetail, onNavigate, totalLikes, totalComments, urlPost } =
     props;
 
@@ -173,7 +175,7 @@ const PostAction = (props: IPostActionProps) => {
             color='primary-5'
             className={classNames({ '!text-[#589DC0]': like && isLogin })}
           >
-            {totalLike > 0 ? totalLike : ''} Like
+            {totalLike > 0 ? totalLike : ''} {t('like')}
           </Text>
         </div>
         <div
@@ -186,7 +188,7 @@ const PostAction = (props: IPostActionProps) => {
             className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
           <Text type='body-14-medium' color='primary-5'>
-            {totalComments || ''} Comment
+            {totalComments || ''} {t('comment')}
           </Text>
         </div>
         <div
@@ -199,7 +201,7 @@ const PostAction = (props: IPostActionProps) => {
             className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
           <Text type='body-14-medium' color='primary-5'>
-            {requestGetTotalShare?.data?.shares?.all || ''} Share
+            {requestGetTotalShare?.data?.shares?.all || ''} {t('share')}
           </Text>
         </div>
       </div>

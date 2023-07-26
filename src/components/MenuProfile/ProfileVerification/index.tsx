@@ -97,6 +97,7 @@ const ProfileVerification = () => {
       setPopupStatus({ ...popupStatus, popupDeactivateAccount: true });
     }
   };
+  console.log('xxx 123', calcUserStatusText(userLoginInfo.acntStat || ''));
 
   if (!userLoginInfo.id) {
     return <></>;
@@ -166,9 +167,9 @@ const ProfileVerification = () => {
             {userLoginInfo.phone}
             <span
               className={classNames('ml-2 text-[#EAA100]', {
-                'text-[#128F63]':
+                '!text-[#128F63]':
                   calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_VERIFIED,
-                'text-[#F1BA09]':
+                '!text-[#F1BA09]':
                   calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_PENDING,
               })}
             >

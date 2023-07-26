@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -20,6 +21,7 @@ interface IProps {
   refreshList?: () => void;
 }
 const ItemPeople = (props: IProps) => {
+  const { t } = useTranslation('common');
   const { data, refreshList } = props;
   const isFollow = data?.isFollowed;
   const router = useRouter();
@@ -102,7 +104,7 @@ const ItemPeople = (props: IProps) => {
               ))}
           </div>
           <Text type='body-12-regular' className='mt-[4px] text-[#666666]'>
-            {data.numberFollowers} Followers
+            {data.numberFollowers} {t('followers')}
           </Text>
         </div>
       </div>
