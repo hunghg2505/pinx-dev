@@ -108,50 +108,49 @@ const Profile = () => {
   const ProfileOverlay = () => (
     <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
       <MenuItem>
-        <div className='flex w-full items-center gap-[24px] p-4'>
-          <CustomLink href={ROUTE_PATH.MY_PROFILE} className='max-w-[72px] '>
+        <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
+          <div className='flex w-full items-center gap-[24px] p-4'>
             <img
               src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
               alt=''
               className='h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
             />
-          </CustomLink>
+            <div className=' flex-1'>
+              <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
 
-          <div className=' flex-1'>
-            <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
-
-            <div className='my-[6px] text-[12px] text-[#474D57]'>
-              {t('joined_since')}
-              <span className='text-[12px] font-[600] text-neutral_black'>
-                {' '}
-                {dayjs(userLoginInfo?.openDate).format('YYYY')}
-              </span>
-            </div>
-
-            <div className='flex justify-left gap-[10px]'>
-              {/* <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  {t('post')}
-                </Text>
-                <Text type='body-12-semibold'>0</Text>
-              </div> */}
-
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  {t('follower')}
-                </Text>
-                <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+              <div className='my-[6px] text-[12px] text-[#474D57]'>
+                {t('joined_since')}
+                <span className='text-[12px] font-[600] text-neutral_black'>
+                  {' '}
+                  {dayjs(userLoginInfo?.openDate).format('YYYY')}
+                </span>
               </div>
 
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  {t('following')}
-                </Text>
-                <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
+              <div className='flex justify-between gap-[10px]'>
+                {/* <div>
+                  <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
+                    {t('post')}
+                  </Text>
+                  <Text type='body-12-semibold'>0</Text>
+                </div> */}
+
+                <div>
+                  <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
+                    {t('follower')}
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                </div>
+
+                <div>
+                  <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
+                    {t('following')}
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </CustomLink>
       </MenuItem>
 
       <hr className='border-neutral_07' />

@@ -10,7 +10,7 @@ import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage, getYoutubeVideoId } from '@utils/common';
+import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
 export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, height }: any) => {
   const [isReadMorePost, setIsReadMorePost] = useState<boolean>(false);
@@ -19,21 +19,20 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
 
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
-  const { imageMetaData, siteName, videoYoutubeId, urlImages, message, postDetailUrl } =
-    useMemo(() => {
-      const metaData = postDetail?.post?.metadataList?.[0];
+  const { imageMetaData, siteName, videoId, urlImages, message, postDetailUrl } = useMemo(() => {
+    const metaData = postDetail?.post?.metadataList?.[0];
 
-      return {
-        imageMetaData: metaData?.images?.[0],
-        siteName: metaData?.siteName,
-        videoYoutubeId: getYoutubeVideoId(metaData?.url),
-        urlImages: postDetail?.post?.urlImages,
-        message:
-          postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
-        postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
-        post_url: postDetail?.post.url ?? '',
-      };
-    }, [postDetail]);
+    return {
+      imageMetaData: metaData?.images?.[0],
+      siteName: metaData?.siteName,
+      videoId: getVideoId(metaData?.url, metaData?.siteName),
+      urlImages: postDetail?.post?.urlImages,
+      message:
+        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
+      post_url: postDetail?.post.url ?? '',
+    };
+  }, [postDetail]);
 
   const { color, urlLink, postThemeId, BgThemePost } = useMemo(() => {
     const postThemeId = postDetail?.post?.postThemeId;
@@ -61,24 +60,54 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
   };
 
   const MetaData = () => {
-    if (siteName === 'YouTube' && !urlImages?.[0] && videoYoutubeId) {
+    if (`${siteName}`.toLowerCase() === 'youTube' && !urlImages?.[0] && videoId) {
       return (
-        <>
-          <InView onChange={setInView}>
-            {({ ref }) => (
-              <div ref={ref}>
-                <ReactPlayer
-                  url={`https://www.youtube.com/embed/${videoYoutubeId}?rel=0`}
-                  playing={true}
-                  muted={true}
-                  controls={true}
-                  height={300}
-                  width={'100%'}
-                />
-              </div>
-            )}
-          </InView>
-        </>
+        <InView onChange={setInView}>
+          {({ ref }) => (
+            <div ref={ref}>
+              <ReactPlayer
+                url={`https://www.youtube.com/embed/${videoId}?rel=0`}
+                playing={true}
+                muted={true}
+                controls={true}
+                height={300}
+                width={'100%'}
+              />
+            </div>
+          )}
+        </InView>
+      );
+    }
+
+    if (`${siteName}`.toLowerCase() === 'vimeo') {
+      return (
+        <InView onChange={setInView}>
+          {({ ref }) => (
+            <div ref={ref}>
+              <iframe
+                src={`https://player.vimeo.com/video/${videoId}`}
+                allow='encrypted-media;'
+                className='h-[345px] w-full'
+              ></iframe>
+            </div>
+          )}
+        </InView>
+      );
+    }
+
+    if (`${siteName}`.toLowerCase() === 'tiktok') {
+      return (
+        <InView onChange={setInView}>
+          {({ ref }) => (
+            <div ref={ref}>
+              <iframe
+                src={`https://www.tiktok.com/embed/${videoId}`}
+                allow='encrypted-media;'
+                className='h-[740px] w-full'
+              ></iframe>
+            </div>
+          )}
+        </InView>
       );
     }
 
@@ -101,6 +130,7 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
         </div>
       );
     }
+
     return <></>;
   };
 
