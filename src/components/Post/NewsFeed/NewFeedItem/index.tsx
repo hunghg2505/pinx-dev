@@ -93,7 +93,7 @@ const NewFeedItem = (props: IProps) => {
 
       isLike: postDetail?.isLike,
 
-      idPost: router.query?.id || postDetail?.id,
+      idPost: postDetail?.id || router.query?.id,
 
       isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
     };
