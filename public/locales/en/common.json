@@ -177,5 +177,8 @@
   "im_unsubscribing": "I'm unsubscribing",
   "has_just_subscribe_theme": "{{name}} has just {{action}} to {{themeName}}",
   "subscribe_theme": "subscribed",
-  "unsubscribe_theme": "unsubscribed"
+  "unsubscribe_theme": "unsubscribed",
+  "copy_link": "Copy link",
+  "copied": "Copied",
+  "post_action": "Post"
 }

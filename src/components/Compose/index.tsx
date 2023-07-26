@@ -252,7 +252,7 @@ const Metatags = ({
 };
 
 const Compose = (props: IProps) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'home']);
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
 
   const postThemeId = postDetail?.post?.postThemeId;
@@ -328,8 +328,7 @@ const Compose = (props: IProps) => {
       extensions: [
         StarterKit,
         Placeholder.configure({
-          placeholder:
-            'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
+          placeholder: t('home:create_post_placeholder'),
           emptyEditorClass: 'is-editor-empty',
         }),
         Mention.extend({
@@ -716,7 +715,7 @@ const Compose = (props: IProps) => {
           >
             {useAddPost?.loading ? <Loading /> : <IconSend />}
             <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
-              Post
+              {t('post_action')}
             </Text>
           </div>
         </div>

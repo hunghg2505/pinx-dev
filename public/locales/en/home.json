@@ -11,5 +11,7 @@
   "most_recent": "Most recent",
   "filter_posts_by": "Filter posts by",
   "view_more": "View more",
-  "comments": "comments"
+  "comments": "comments",
+  "what_is_in_your_mind": "What is in your mind?",
+  "create_post_placeholder": "Use % to mention a stock, # to hashtag an article, @ to mention someone else"
 }

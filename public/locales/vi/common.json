@@ -180,5 +180,8 @@
   "im_unsubscribing": "Tôi đã bỏ theo dõi",
   "has_just_subscribe_theme": "{{name}} {{action}} chủ đề {{themeName}}",
   "subscribe_theme": "vừa mới đăng ký theo dõi",
-  "unsubscribe_theme": "không còn theo dõi"
+  "unsubscribe_theme": "không còn theo dõi",
+  "copy_link": "Sao chép liên kết",
+  "copied": "Đã sao chép liên kết",
+  "post_action": "Đăng"
 }

@@ -1,10 +1,13 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Text from '@components/UI/Text';
 
 const PageNotFound = () => {
+  const { t } = useTranslation('notFound');
   const router = useRouter();
 
   const onGoHome = () => {
@@ -19,10 +22,10 @@ const PageNotFound = () => {
             404
           </Text>
           <Text type='body-22-bold' color='neutral-1' className='mb-[8px]'>
-            Opps! Page not found
+            {t('page_not_found')}
           </Text>
           <Text type='body-14-regular' color='neutral-2' className='text-center'>
-            We are sorry, but the page you are looking for does not exist.
+            {t('description')}
           </Text>
           <div className='mt-[24px] flex h-[45px] w-[158px] flex-row items-center justify-center rounded-[22.5px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] backdrop-blur-[13.591408729553223px] backdrop-filter [box-shadow:0px_4px_13px_0px_rgba(88,_157,_192,_0.30)]'>
             <Text
@@ -31,7 +34,7 @@ const PageNotFound = () => {
               type='body-16-medium'
               onClick={onGoHome}
             >
-              Go home
+              {t('go_home')}
             </Text>
           </div>
         </div>
@@ -39,4 +42,14 @@ const PageNotFound = () => {
     </>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'notFound'])),
+      // Will be passed to the page component as props
+    },
+  };
+}
+
 export default PageNotFound;

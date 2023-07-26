@@ -129,7 +129,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
               type='text'
               readOnly
               value={url}
-              className='h-full w-full rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
+              className='h-full w-full flex-1 rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
               ref={inputRef}
             />
 
@@ -138,7 +138,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
               onClick={handleCopy}
             >
               <Text type='body-14-medium' color='cbwhite'>
-                {isCopied ? 'Copied' : 'Copy link'}
+                {isCopied ? t('copied') : t('copy_link')}
               </Text>
             </button>
           </div>
