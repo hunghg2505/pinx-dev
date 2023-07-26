@@ -125,6 +125,7 @@
   "user_watchlist": "Watchlist",
   "trending": "Trending",
   "people_you_may_know": "People you may know",
+  "read_more": "Read more",
   "view_more": "View more",
   "people_you_may_know_note": "People on PineX that you may know!",
   "home": "Home",
@@ -170,6 +171,7 @@
   "people_in_spotlight": "People in spotlight",
   "people_in_spotlight_desc": "Be inspired by our stock expert’s investment stories.",
   "search_lowercase": "search",
+  "search_uppercase": "Search",
   "share_to": "Share to",
   "or_share_to": "Or share to",
   "create_post": "Create post",
@@ -188,5 +190,12 @@
     "other": "Other"
   },
   "reply": "Reply",
-  "delete": "Delete"
+  "delete": "Delete",
+  "what_do_you_want_to_comment": "What do you want to comment?",
+  "close_account": {
+    "title": "Request close account",
+    "description": "Would you like to close this account? Our Customer Service Dept will contact you after we received your request."
+  },
+  "confirm": "Confirm",
+  "continue2": "Continue"
 }

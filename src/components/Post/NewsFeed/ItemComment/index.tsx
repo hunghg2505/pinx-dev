@@ -195,7 +195,7 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className={classNames('mr-[12px] cursor-pointer rounded-full object-cover', {
+          className={classNames('mr-[8px] cursor-pointer rounded-full object-cover', {
             'h-[40px] w-[40px]': !isChildren,
             'h-[36px] w-[36px]': isChildren,
           })}

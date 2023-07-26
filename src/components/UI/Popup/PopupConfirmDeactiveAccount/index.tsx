@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { NegativeButton, PositiveButton } from '@components/UI/Button';
@@ -16,6 +17,7 @@ interface IProps {
 }
 
 const PopupConfirmDeactivateAccount = (props: IProps) => {
+  const { t } = useTranslation();
   const { visible, onClose } = props;
   const { onLogout } = useAuth();
 
@@ -36,11 +38,10 @@ const PopupConfirmDeactivateAccount = (props: IProps) => {
     <>
       <Modal visible={visible} onClose={handleClose} closeIcon={<></>}>
         <Text type='body-20-semibold' className='mb-2'>
-          Request close account
+          {t('close_account.title')}
         </Text>
         <Text type='body-14-regular' className='mb-4'>
-          Would you like to close this account? Our Customer Service Dept will contact you after we
-          received your request.
+          {t('close_account.description')}
         </Text>
 
         <div className='border-b-[1px] border-solid border-[#E6E6E6]' />
@@ -48,12 +49,12 @@ const PopupConfirmDeactivateAccount = (props: IProps) => {
         <div className='mt-4 flex justify-between'>
           <div className='w-[49%]'>
             <NegativeButton onClick={handleClose} className='w-full'>
-              Cancel
+              {t('cancel')}
             </NegativeButton>
           </div>
           <div className='w-[49%]'>
             <PositiveButton className='w-full' onClick={() => requestDeactivateAccout.run()}>
-              Confirm
+              {t('confirm')}
             </PositiveButton>
           </div>
         </div>
