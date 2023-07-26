@@ -7,6 +7,8 @@ import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
+import { useShareStockActivity } from '@components/Stock/service';
+import { ShareStockAction } from '@components/Stock/type';
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import Notification from '@components/UI/Notification';
@@ -21,6 +23,8 @@ interface IPopupFollowStockProps {
   onClose: () => void;
   isFollowedStock: boolean;
   stockCode: string;
+  background: string;
+  onRefreshStockActivities: () => void;
 }
 
 const PopupFollowStock = ({
@@ -28,9 +32,19 @@ const PopupFollowStock = ({
   onClose,
   isFollowedStock,
   stockCode,
+  background,
+  onRefreshStockActivities,
 }: IPopupFollowStockProps) => {
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
+
+  const requestShareStockAct = useShareStockActivity({
+    onSuccess: () => {
+      toast(() => <Notification type='success' message='You have successfully shared' />);
+      onClose();
+      onRefreshStockActivities();
+    },
+  });
 
   useEffect(() => {
     form.setFieldsValue({
@@ -41,9 +55,11 @@ const PopupFollowStock = ({
   }, [isFollowedStock]);
 
   const onSubmit = ({ shareContent }: { shareContent: string }) => {
-    toast(() => <Notification type='success' message='You have succesfully shared' />);
-    onClose();
-    console.log('🚀 ~ file: index.tsx:42 ~ onSubmit ~ shareContent:', shareContent);
+    requestShareStockAct.run({
+      stockCode,
+      message: shareContent,
+      action: isFollowedStock ? ShareStockAction.ADD : ShareStockAction.REMOVE,
+    });
   };
 
   const renderCloseIcon = () => {
@@ -84,7 +100,7 @@ const PopupFollowStock = ({
 
         <div className='relative flex h-[204px] w-full rounded-[8px]'>
           <img
-            src='https://picsum.photos/1000/1000'
+            src={background}
             alt='Thumbnail'
             className='absolute left-0 top-0 h-full w-full rounded-lg object-cover'
           />

@@ -67,6 +67,8 @@ const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
+const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
+const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
 
 const settings = {
   dots: false,
@@ -284,6 +286,8 @@ const StockDetail = () => {
         }}
         isFollowedStock={isFollowedStock}
         stockCode={stockCode}
+        background={isFollowedStock ? STOCK_FOLLOW_BG : STOCK_UN_FOLLOW_BG}
+        onRefreshStockActivities={refreshStockActivities}
       />
 
       <div className='flex h-[44px] w-full items-center justify-between px-[16px] tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9] tablet:px-[24px]'>
