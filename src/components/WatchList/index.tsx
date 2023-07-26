@@ -43,7 +43,7 @@ const WatchList = () => {
   const { interestStock, refreshInterest } = useGetInterest();
   const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
     onSuccess: (res) => {
-      setDataStock(res?.data?.[0]?.stocks);
+      // setDataStock(res?.data?.[0]?.stocks);
       setWatchlistId(res?.data?.[0]?.watchlistId);
     }
   });
@@ -60,7 +60,7 @@ const WatchList = () => {
     {
       manual: true,
       onSuccess: () => {
-        toast(() => <Notification type='success' message='Remove stock success' />);
+        // toast(() => <Notification type='success' message='Remove stock success' />);
         refreshYourWatchList && refreshYourWatchList();
       },
       onError: (e: any) => {
@@ -75,7 +75,7 @@ const WatchList = () => {
     await itemDelete.map((id:any) => {
       useRemoveStock.run(id);
     });
-    setIsEdit(!isEdit);
+    await setIsEdit(!isEdit);
   };
 
   return (
@@ -161,6 +161,7 @@ const WatchList = () => {
           <ModalAddStock
             refreshYourWatchList={refreshYourWatchList}
             dataStock={dataStock}
+            yourWatchListStock={yourWatchListStock}
           >
             <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
             <Text type='body-14-semibold' className='text-[#1F6EAC]'>

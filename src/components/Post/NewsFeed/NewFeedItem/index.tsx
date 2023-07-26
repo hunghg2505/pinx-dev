@@ -9,6 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -241,6 +242,7 @@ const PostContent = ({ id, onNavigate, postDetail }: any) => {
 };
 
 const NewFeedItem = (props: IProps) => {
+  const { t } = useTranslation('common');
   const {
     onNavigate,
     onRefreshPostDetail,
@@ -531,7 +533,7 @@ const NewFeedItem = (props: IProps) => {
                           className='mr-[8px] h-[20px] w-[20px] object-contain'
                         />
                         <Text type='body-14-medium' color='neutral-2'>
-                          Hide
+                          {t('hide')}
                         </Text>
                       </div>
                     )}
@@ -553,7 +555,7 @@ const NewFeedItem = (props: IProps) => {
                         onReportSuccess={handleReportPostSuccess}
                       >
                         <Text type='body-14-medium' color='neutral-2'>
-                          Report
+                          {t('report')}
                         </Text>
                       </ModalReport>
                     </div>
@@ -576,7 +578,7 @@ const NewFeedItem = (props: IProps) => {
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
                           <Text type='body-14-medium' color='neutral-2'>
-                            Edit
+                            {t('edit')}
                           </Text>
                         </div>
                       </ModalEdit>
@@ -596,7 +598,7 @@ const NewFeedItem = (props: IProps) => {
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
                           <Text type='body-14-medium' color='neutral-2'>
-                            Delete
+                            {t('delete')}
                           </Text>
                         </div>
                       </ModalDelete>
