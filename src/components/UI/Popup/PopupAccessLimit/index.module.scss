@@ -1,0 +1,13 @@
+.modal {
+  :global {
+    .rc-dialog-content {
+      background: transparent;
+    }
+    .rc-dialog-body {
+      background: transparent;
+    }
+    .rc-dialog-close {
+      display: none;
+    }
+  }
+}
