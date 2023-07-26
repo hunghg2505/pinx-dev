@@ -16,7 +16,6 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
 import ActivityItem from './ActivityItem';
@@ -240,7 +239,11 @@ const StockDetail = () => {
       } else if (statusUser === USERTYPE.VSD) {
         callback();
       } else {
-        PopupComponent.openEKYC();
+        // PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
       }
     } else {
       setPopupStatus({

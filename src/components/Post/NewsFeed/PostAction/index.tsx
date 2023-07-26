@@ -15,7 +15,6 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 const ModalShare = dynamic(() => import('../ModalShare'));
 
@@ -118,7 +117,10 @@ const PostAction = (props: IPostActionProps) => {
           />
         ));
       } else if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
       } else if (like) {
         useUnLike.run();
       } else {
@@ -143,7 +145,11 @@ const PostAction = (props: IPostActionProps) => {
             />
           ));
         } else if (statusUser !== USERTYPE.VSD) {
-          PopupComponent.openEKYC();
+          // PopupComponent.openEKYC();
+          setPopupStatus({
+            ...popupStatus,
+            popupEkyc: true,
+          });
         }
       } else {
         setPopupStatus({

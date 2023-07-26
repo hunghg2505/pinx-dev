@@ -344,7 +344,10 @@ const Compose = (props: IProps) => {
     try {
       if (statusUser === USERTYPE.NEW) {
         hidePopup && hidePopup();
-        PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
         return;
       }
 
