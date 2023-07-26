@@ -128,13 +128,13 @@ const Profile = () => {
               </span>
             </div>
 
-            <div className='flex justify-between gap-[10px]'>
-              <div>
+            <div className='flex justify-left gap-[10px]'>
+              {/* <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
                   {t('post')}
                 </Text>
                 <Text type='body-12-semibold'>0</Text>
-              </div>
+              </div> */}
 
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
@@ -158,41 +158,41 @@ const Profile = () => {
 
       {checkUserType(userLoginInfo?.custStat || USERTYPE.NEW, userLoginInfo?.acntStat) ===
         USERTYPE.NEW && (
-          <MenuItem>
-            <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
-              <img
-                src='/static/images/book_list.png'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='mr-[7px] h-[103px] w-[164px]'
-              />
-              <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
-                <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
-                <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
-                  <img
-                    src='/static/images/googleplay.png'
-                    alt='Download google play'
-                    width={180}
-                    height={52}
-                    className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                    onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
-                  />
+        <MenuItem>
+          <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
+            <img
+              src='/static/images/book_list.png'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='mr-[7px] h-[103px] w-[164px]'
+            />
+            <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
+              <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
+              <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
+                <img
+                  src='/static/images/googleplay.png'
+                  alt='Download google play'
+                  width={180}
+                  height={52}
+                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                />
 
-                  <img
-                    src='/static/images/appstore.png'
-                    alt='Download app store'
-                    width={180}
-                    height={52}
-                    className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                    onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
-                  />
-                </div>
+                <img
+                  src='/static/images/appstore.png'
+                  alt='Download app store'
+                  width={180}
+                  height={52}
+                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                />
               </div>
             </div>
-          </MenuItem>
-        )}
+          </div>
+        </MenuItem>
+      )}
 
       <MenuItem>
         <CustomLink
