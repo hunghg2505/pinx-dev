@@ -29,6 +29,9 @@
   border: none;
   background-clip: padding-box;
   border-radius: 8px;
+  margin: auto;
+  overflow: auto;
+  max-height: calc(100vh - 50px);
 }
 .rc-dialog-close {
   cursor: pointer;
@@ -107,7 +110,6 @@
 }
 .rc-dialog {
   width: 100%;
-  max-width: 620px;
 }
 .rc-dialog-mask {
   position: fixed;

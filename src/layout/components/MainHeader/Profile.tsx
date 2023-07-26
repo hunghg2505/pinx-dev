@@ -108,91 +108,90 @@ const Profile = () => {
   const ProfileOverlay = () => (
     <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
       <MenuItem>
-        <div className='flex w-full items-center gap-[24px] p-4'>
-          <CustomLink href={ROUTE_PATH.MY_PROFILE} className='max-w-[72px] '>
+        <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
+          <div className='flex w-full items-center gap-[24px] p-4'>
             <img
               src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
               alt=''
               className='h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
             />
-          </CustomLink>
+            <div className=' flex-1'>
+              <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
 
-          <div className=' flex-1'>
-            <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
-
-            <div className='my-[6px] text-[12px] text-[#474D57]'>
-              {t('joined_since')}
-              <span className='text-[12px] font-[600] text-neutral_black'>
-                {' '}
-                {dayjs(userLoginInfo?.openDate).format('YYYY')}
-              </span>
-            </div>
-
-            <div className='flex justify-between gap-[10px]'>
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  {t('post')}
-                </Text>
-                <Text type='body-12-semibold'>0</Text>
+              <div className='my-[6px] text-[12px] text-[#474D57]'>
+                {t('joined_since')}
+                <span className='text-[12px] font-[600] text-neutral_black'>
+                  {' '}
+                  {dayjs(userLoginInfo?.openDate).format('YYYY')}
+                </span>
               </div>
 
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  {t('follower')}
-                </Text>
-                <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
-              </div>
+              <div className='flex justify-between gap-[10px]'>
+                <div>
+                  <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
+                    {t('post')}
+                  </Text>
+                  <Text type='body-12-semibold'>0</Text>
+                </div>
 
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
-                  {t('following')}
-                </Text>
-                <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
+                <div>
+                  <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
+                    {t('follower')}
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                </div>
+
+                <div>
+                  <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
+                    {t('following')}
+                  </Text>
+                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </CustomLink>
       </MenuItem>
 
       <hr className='border-neutral_07' />
 
       {checkUserType(userLoginInfo?.custStat || USERTYPE.NEW, userLoginInfo?.acntStat) ===
         USERTYPE.NEW && (
-          <MenuItem>
-            <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
-              <img
-                src='/static/images/book_list.png'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='mr-[7px] h-[103px] w-[164px]'
-              />
-              <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
-                <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
-                <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
-                  <img
-                    src='/static/images/googleplay.png'
-                    alt='Download google play'
-                    width={180}
-                    height={52}
-                    className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                    onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
-                  />
+        <MenuItem>
+          <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
+            <img
+              src='/static/images/book_list.png'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='mr-[7px] h-[103px] w-[164px]'
+            />
+            <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
+              <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
+              <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
+                <img
+                  src='/static/images/googleplay.png'
+                  alt='Download google play'
+                  width={180}
+                  height={52}
+                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                />
 
-                  <img
-                    src='/static/images/appstore.png'
-                    alt='Download app store'
-                    width={180}
-                    height={52}
-                    className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                    onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
-                  />
-                </div>
+                <img
+                  src='/static/images/appstore.png'
+                  alt='Download app store'
+                  width={180}
+                  height={52}
+                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                />
               </div>
             </div>
-          </MenuItem>
-        )}
+          </div>
+        </MenuItem>
+      )}
 
       <MenuItem>
         <CustomLink

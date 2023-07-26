@@ -12,5 +12,7 @@
   "enter_jobs_title": "Nhập nghề nghiệp",
   "enter_display_name": "Nhập tên hiển thị",
   "enter_bio": "Nhập mô tả",
-  "pending": "Đang xác thực"
+  "pending": "Đang xác thực",
+  "displayname_required": "Tên hiển thị không được bỏ trống",
+  "position_required": "Chức vụ không được bỏ trống"
 }
