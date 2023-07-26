@@ -31,7 +31,7 @@ export const getMarketCodeChart = (marketCode: string) => {
   return '';
 };
 const MarketDesktop = () => {
-  const { t } = useTranslation('commoon');
+  const { t } = useTranslation('common');
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run, loading } = useRequest(
