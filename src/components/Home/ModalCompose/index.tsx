@@ -7,7 +7,10 @@ import { useTranslation } from 'next-i18next';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
+import styles from './index.module.scss';
+
 const Compose = dynamic(() => import('@components/Compose'));
+
 interface Iprops {
   closeIcon?: boolean;
   refresh?: () => void;
@@ -75,7 +78,7 @@ const ModalCompose = (props: Iprops, ref: any) => {
         visible={visible}
         onClose={onCloseModal}
         closeIcon={renderCloseIcon()}
-        className='compose'
+        className={styles.modalCompose}
         destroyOnClose={true}
       >
         <div className='text-center'>
