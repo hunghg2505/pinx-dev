@@ -1,15 +1,15 @@
 import { ReactElement } from 'react';
 
-import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import LayoutLoadedProfile from '@layout/LayoutLoadedProfile/LayoutLoadedProfile';
 import MainLayout from '@layout/MainLayout';
 
-const MyProfile = dynamic(() => import('@components/MyProfile'));
+const MyProfile = dynamic(() => import('@components/MyProfile'), { ssr: false });
 
-const PostDetailPage = () => {
+const MyProfilePage = () => {
   return (
     <>
       <SEO title={'Pinex'} />
@@ -17,19 +17,16 @@ const PostDetailPage = () => {
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout Layout>{page}</MainLayout>;
+
+MyProfilePage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <LayoutLoadedProfile>{page} </LayoutLoadedProfile>
+    </MainLayout>
+  );
 };
 
-export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
-  if (typeof req.cookies?.accessToken !== 'string') {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+export async function getStaticProps({ locale }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
@@ -38,4 +35,4 @@ export async function getServerSideProps({ locale, req }: GetServerSidePropsCont
   };
 }
 
-export default PostDetailPage;
+export default MyProfilePage;

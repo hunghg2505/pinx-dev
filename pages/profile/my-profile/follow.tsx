@@ -1,10 +1,7 @@
-// import { ReactElement } from 'react';
-
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-// import MainLayout from '@layout/MainLayout';
 
 const MyProfileFollow = dynamic(() => import('@components/MyProfileFollow'));
 

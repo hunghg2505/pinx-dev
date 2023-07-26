@@ -188,6 +188,9 @@
   }
 }
 .addLink {
+  .rc-dialog-content {
+    max-width: 500px;
+  }
   textarea {
     resize: none;
   }
