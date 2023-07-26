@@ -12,7 +12,12 @@ import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
-import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
+import {
+  IPost,
+  TYPEPOST,
+  TypePostOnlyReportAction,
+  requestHidePost,
+} from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -441,7 +446,8 @@ const NewFeedItem = (props: IProps) => {
               {renderTextFollow()}
             </div>
           )}
-          {isReported && router.pathname === '/explore' ? (
+          {(isReported && router.pathname === '/explore') ||
+          (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
             ''
           ) : (
             <div className='flex'>
