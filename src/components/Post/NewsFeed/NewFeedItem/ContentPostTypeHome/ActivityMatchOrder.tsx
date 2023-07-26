@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
@@ -15,6 +16,7 @@ export const ActivityMatchOrder = ({
   messagePostFormat,
   pnlRate,
 }: any) => {
+  const { t } = useTranslation();
   return (
     <div className='ActivityMatchOrder'>
       <div className='cursor-pointer' onClick={onComment}>
@@ -40,7 +42,7 @@ export const ActivityMatchOrder = ({
           className='cursor-pointer'
           onClick={onReadMore}
         >
-          {readMore ? 'See less' : 'See more'}
+          {readMore ? t('see_less') : t('see_more')}
         </Text>
       )}
 

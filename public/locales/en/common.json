@@ -106,6 +106,7 @@
   "sign_up": "Sign up",
   "access_limited": "Access Limited",
   "access_limited_content": "You need to log in to use this feature",
+  "upgrade_your_account": "You need to upgrade your account to gain access to this feature by using PineX app",
   "cancel": "Cancel",
   "dear_customer": "Dear Customer",
   "in_compliance_with": "In compliance with",
@@ -145,7 +146,8 @@
   "report_modal_content": "Let us know your reason to report this post.",
   "welcome_text": "You are always welcome!",
   "send": "Send",
-  "edit_post": "Edit post",
+  "edit_post": "Edit",
+  "edit_post_title": "Edit post",
   "please_enter_reason": "Please enter reason",
   "tell_us_your_reason": "Tell us your reason",
   "comments": "comments",
@@ -197,5 +199,9 @@
     "description": "Would you like to close this account? Our Customer Service Dept will contact you after we received your request."
   },
   "confirm": "Confirm",
-  "continue2": "Continue"
+  "continue2": "Continue",
+  "save": "Save",
+  "add_link_to_post": " Add link to post",
+  "input_link": "Input link",
+  "post_update_success_msg": "Post is update successfully"
 }

@@ -410,7 +410,7 @@ const NewFeedItem = (props: IProps) => {
                             color='neutral-2'
                             className='mr-[8px] whitespace-nowrap'
                           >
-                            {t('edit')}
+                            {t('edit_post')}
                           </Text>
                         </div>
                       </ModalEdit>

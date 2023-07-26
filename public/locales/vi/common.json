@@ -103,12 +103,14 @@
   "not_image": "Không phải hình ảnh",
   "not_link": "Không phải đường link",
   "err_add_post": "Bạn chưa nhập nội dung bài viết",
+  "delete_post_success": "Xoá bài thành công",
   "joined_since": "Tham gia từ",
   "post": "Bài viết",
   "log_in": "Đăng nhập",
   "sign_up": "Đăng ký",
   "access_limited": "Giới hạn truy cập",
   "access_limited_content": "Bạn cần đăng nhập để thực hiện tính năng này",
+  "upgrade_your_account": "Bạn cần nâng cấp tài khoản của mình để có quyền truy cập vào tính năng này bằng cách sử dụng ứng dụng PineX",
   "cancel": "Huỷ bỏ",
   "dear_customer": "Kính gửi quý khách",
   "in_compliance_with": "Tuân thủ",
@@ -148,7 +150,8 @@
   "report_modal_content": "Lý do mà bạn muốn báo cáo vi phạm phản hồi này.",
   "welcome_text": "Cho chúng tôi biết chuyện gì đang diễn ra!",
   "send": "Gửi",
-  "edit_post": "Chỉnh sửa",
+  "edit_post": "Sửa",
+  "edit_post_title": "Sửa bài viết",
   "please_enter_reason": "Vui lòng nhập lý do",
   "tell_us_your_reason": "Vui lòng nhập lý do",
   "comments": "bình luận",
@@ -199,5 +202,9 @@
     "description": "Bạn có chắc chắn muốn yêu cầu đóng tài khoản giao dịch này? Sau khi nhận được yêu cầu, phòng CSKH sẽ liên hệ với bạn để xét duyệt và hoàn tất toàn bộ thủ tục liên quan."
   },
   "confirm": "Xác nhận",
-  "continue2": "Tiếp tục"
+  "continue2": "Tiếp tục",
+  "save": "Lưu",
+  "add_link_to_post": "Thêm link bài viết",
+  "input_link": "Nhập đường dẫn",
+  "post_update_success_msg": "Chỉnh sửa thành công"
 }

@@ -66,7 +66,7 @@ const ModalCompose = (props: Iprops, ref: any) => {
       >
         <div className='text-center'>
           <Text type='body-20-semibold' color='neutral-black'>
-            Create post
+            {t('create_post')}
           </Text>
           <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div>

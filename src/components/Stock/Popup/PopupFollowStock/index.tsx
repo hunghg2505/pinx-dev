@@ -148,7 +148,7 @@ const PopupFollowStock = ({
         </div>
 
         <MainButton type='submit' className='mt-[20px] w-full'>
-          Create post
+          {t('create_post')}
         </MainButton>
       </Form>
     </Dialog>
