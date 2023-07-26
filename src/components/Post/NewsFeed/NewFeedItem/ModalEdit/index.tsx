@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { useDebounceFn } from 'ahooks';
-import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
+import Compose from '@components/Compose';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
-const Compose = dynamic(() => import('@components/Compose'));
+import styles from './index.module.scss';
+
 interface Iprops {
   children: any;
   closeIcon?: boolean;
@@ -16,26 +17,13 @@ interface Iprops {
   visible: boolean;
   onVisible: (visible: boolean) => void;
 }
+
 const ModalEdit = (props: Iprops, ref: any) => {
   const { t } = useTranslation('common');
-  const { closeIcon, refresh, children, postDetail, visible, onVisible: setVisible } = props;
+  const { refresh, children, postDetail, visible, onVisible: setVisible } = props;
   const [value, setValue] = React.useState<any>();
   const [visibleConfirm, setVisibleConfirm] = React.useState(false);
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='w-[13px]'
-      />
-    );
-  };
+
   const { run } = useDebounceFn(
     (value) => {
       setValue(value);
@@ -44,6 +32,7 @@ const ModalEdit = (props: Iprops, ref: any) => {
       wait: 500,
     },
   );
+
   const onVisible = () => {
     setValue(undefined);
     setVisible(!visible);
@@ -78,8 +67,7 @@ const ModalEdit = (props: Iprops, ref: any) => {
       <Modal
         visible={visible}
         onClose={onCloseModal}
-        closeIcon={renderCloseIcon()}
-        className='compose'
+        className={styles.modalCompose}
         destroyOnClose={true}
       >
         <div className='text-center'>
@@ -101,9 +89,8 @@ const ModalEdit = (props: Iprops, ref: any) => {
 
       <Modal
         visible={visibleConfirm}
-        onClose={onGetData as any}
-        closable={false}
-        className='compose'
+        className={styles.modalCompose}
+        onClose={() => setVisibleConfirm(false)}
       >
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>
