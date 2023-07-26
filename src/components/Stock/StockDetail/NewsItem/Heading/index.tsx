@@ -8,7 +8,6 @@ import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
-import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 interface IHeadingNewsItemProps {
   className?: string;
@@ -33,10 +32,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
 
   useEffect(() => {
     setExcludeElements(() => {
-      return [
-        document.querySelector(`#${POPUP_COMPONENT_ID}`),
-        document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-      ];
+      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
     });
   }, [modalReportVisible]);
 
