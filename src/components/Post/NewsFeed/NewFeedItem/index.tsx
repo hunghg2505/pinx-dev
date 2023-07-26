@@ -229,7 +229,7 @@ const NewFeedItem = (props: IProps) => {
       <div className='mb-4 flex flex-row justify-between'>
         <CustomLink
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
-          className='flex w-full justify-between'
+          className='flex w-full flex-1 justify-between'
         >
           <div className='flex cursor-pointer flex-row items-center'>
             <div
