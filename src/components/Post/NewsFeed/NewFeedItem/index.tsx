@@ -403,6 +403,7 @@ const NewFeedItem = (props: IProps) => {
                         visible={modalEditVisible}
                         onVisible={setModalEditVisible}
                         postDetail={postDetail}
+                        refresh={onRefreshPostDetail}
                       >
                         <div className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'>
                           <img

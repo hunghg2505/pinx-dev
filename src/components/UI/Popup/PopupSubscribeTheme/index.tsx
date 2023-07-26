@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -114,9 +115,17 @@ const PopupSubsribeTheme = (props: IProps) => {
               </Text>
             </div>
           </div>
-
-          <MainButton className='mt-5 w-full' type='submit'>
-            {t('create_post')}
+          <MainButton
+            className='mt-5 flex w-full justify-center'
+            type='submit'
+            disabled={requestShareThemeActivity?.loading}
+          >
+            {requestShareThemeActivity?.loading && (
+              <div className='mr-[8px]'>
+                <Loading />
+              </div>
+            )}
+            Create post
           </MainButton>
         </Form>
       </Modal>

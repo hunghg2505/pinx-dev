@@ -87,7 +87,7 @@ const Search = (props: any, ref: any) => {
 
   return (
     <>
-      <div className={classNames('relative mr-[12px] mt-[16px] w-full')}>
+      <div className={classNames('relative z-[49] mr-[12px] mt-[16px] w-full')}>
         <div ref={refInput}>
           <Form form={form} onValuesChange={run}>
             <FormItem name='search'>

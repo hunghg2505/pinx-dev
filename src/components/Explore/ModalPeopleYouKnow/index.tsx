@@ -73,7 +73,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
             ref={refScroll}
           >
             {data?.list?.map((people: ISuggestionPeople, index: number) => {
-              return <PeopleItem key={index} data={people} />;
+              return <PeopleItem key={index} data={people} reload={reload} />;
             })}
           </div>
         </div>

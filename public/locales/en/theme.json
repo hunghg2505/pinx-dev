@@ -45,5 +45,7 @@
   "no_post_result_found_for": "No post result found for",
   "news": "News",
   "exploring_more_news": "Exploring more news",
-  "no_news_result_found_for": "No news result found for"
+  "no_news_result_found_for": "No news result found for",
+  "desc.subscribe": "Subscribed this theme",
+  "desc.unsubscribe": "Unsubscribe this theme"
 }

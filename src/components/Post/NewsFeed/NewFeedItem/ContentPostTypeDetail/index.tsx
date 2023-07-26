@@ -21,6 +21,7 @@ interface IProps {
 const ContentPostTypeDetail = (props: IProps) => {
   const { t } = useTranslation();
   const { postDetail, onNavigate } = props;
+  console.log('🚀 ~ file: index.tsx:22 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const router = useRouter();
@@ -501,7 +502,6 @@ const ContentPostTypeDetail = (props: IProps) => {
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
     const urlLink = postDetail?.post?.urlLinks?.[0] || '';
-
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -535,7 +535,7 @@ const ContentPostTypeDetail = (props: IProps) => {
               <span className='link'>{urlLink}</span>
             </div>
           )}
-          {renderMetaData()}
+          {!postThemeId && <div>{renderMetaData()}</div>}
           {postDetail?.post?.urlImages?.length > 0 && (
             <div className='theme'>
               <Fancybox

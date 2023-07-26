@@ -45,5 +45,7 @@
   "no_post_result_found_for": "Không có thông tin",
   "news": "Tin tức",
   "exploring_more_news": "Khám phá thêm",
-  "no_news_result_found_for": "Không có thông tin"
+  "no_news_result_found_for": "Không có thông tin",
+  "desc.subscribe": "Quan tâm chủ đề này",
+  "desc.unsubscribe": "Bỏ quam tâm chủ đề"
 }
