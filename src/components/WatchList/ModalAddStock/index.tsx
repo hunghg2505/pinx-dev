@@ -17,12 +17,13 @@ import ItemAddStock from './ItemAddStock';
 interface IProps {
   children: any;
   refreshYourWatchList?: () => void;
-  dataStock: any;
+  dataStock?: any;
+  yourWatchListStock?: any;
 }
 
 const ModalAddStock = (props: IProps) => {
   const { t } = useTranslation('watchlist');
-  const { children, refreshYourWatchList, dataStock } = props;
+  const { children, refreshYourWatchList, dataStock, yourWatchListStock } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState<boolean>(false);
   const onVisible = () => {
@@ -47,7 +48,7 @@ const ModalAddStock = (props: IProps) => {
   console.log('ModalAddStock listStock',listStock);
 
   const checkHeart = (code: any) => {
-    const found = dataStock.find((element: any) => element?.stockCode === code?.stockCode);
+    const found = yourWatchListStock.find((element: any) => element?.stockCode === code?.stockCode);
     if (found){
       return true;
     }
