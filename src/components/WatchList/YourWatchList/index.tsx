@@ -26,6 +26,9 @@ const YourWatchList = (props: IProps) => {
     itemDelete,
     setItemDelete,
   } = props;
+  React.useEffect(() => {
+    setDataStock(yourWatchListStock);
+  }, [isEdit]);
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>

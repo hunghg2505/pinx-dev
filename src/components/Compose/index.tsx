@@ -57,9 +57,7 @@ interface IData {
 
 type TMeta = Array<{
   property?: string;
-  itemprop?: string;
   content?: string;
-  name?: string;
 }>;
 
 const ImageTheme = ({ url }: { url: string }) => {

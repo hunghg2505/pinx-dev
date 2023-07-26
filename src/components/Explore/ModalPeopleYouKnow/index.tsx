@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useInfiniteScroll } from 'ahooks';
+import { useTranslation } from 'next-i18next';
 
 import { ISuggestionPeople } from '@components/Home/service';
 import { useSuggestPeopleTheme } from '@components/Themes/service';
@@ -16,6 +17,7 @@ interface Iprops {
 }
 
 const ModalPeopleYouKnow = (props: Iprops) => {
+  const { t } = useTranslation('common');
   const refScroll = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState<boolean>(false);
   const { children, closeIcon } = props;
@@ -61,10 +63,10 @@ const ModalPeopleYouKnow = (props: Iprops) => {
       >
         <div className='pt-[21px] text-left'>
           <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
-            People you may know
+            {t('people_you_may_know')}
           </Text>
           <Text type='body-14-regular' color='primary-5'>
-            People on PineX that you may know!
+            {t('people_you_may_know_note')}
           </Text>
           <div
             className='mt-[16px] flex h-[500px] flex-col gap-y-[16px] overflow-auto mobile-max:h-[350px]'

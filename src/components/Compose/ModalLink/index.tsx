@@ -3,9 +3,7 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
-import { requestXMLHttpRequest } from '@api/XMLHttpRequest';
 import FormItem from '@components/UI/FormItem';
-import Input from '@components/UI/Input';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { isValidURL } from '@utils/common';
@@ -17,27 +15,10 @@ interface IProps {
 
 const getMetaData = async (url: string) => {
   try {
-    const response = await requestXMLHttpRequest(`${url}`.trim());
+    const response: any = await fetch(`/api/seo-url?url=${url}`.trim()).then((r) => r.json());
 
-    const doc = new DOMParser().parseFromString(response as string, 'text/html');
-
-    const metas: any = doc.querySelectorAll('meta');
-
-    const summary = [];
-
-    for (const meta of metas) {
-      const tempsum: any = {};
-      const attributes = meta.getAttributeNames();
-      for (const attribute of attributes) {
-        tempsum[attribute] = meta.getAttribute(attribute);
-      }
-      summary.push(tempsum);
-    }
-
-    return summary;
-  } catch (error) {
-    console.log('Error:', error);
-  }
+    return response?.meta;
+  } catch {}
 };
 
 const ModalLink = (props: IProps) => {
@@ -57,8 +38,9 @@ const ModalLink = (props: IProps) => {
   const onSubmit = async (values: any) => {
     const data = await getMetaData(values?.search);
 
-    getDataOG(data);
     setVisible(!visible);
+
+    getDataOG(data);
   };
 
   return (
@@ -85,7 +67,7 @@ const ModalLink = (props: IProps) => {
                 }),
               ]}
             >
-              <Input placeholder='Input link...' className='h-[40px] w-full outline-none' />
+              <textarea placeholder='Input link...' className='h-[100px] w-full outline-none' />
             </FormItem>
           </Form>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>

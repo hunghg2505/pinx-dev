@@ -151,14 +151,10 @@ const Setting = () => {
               {item.title}
             </Text>
             {item.isNew && (
-              <img
-                src='/static/icons/tag_new.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='ml-2 h-[20px] w-[38px]'
-              />
+              <div className='bg-[#D87737] rounded-[4px] px-[6px] py-[3px] text-white ml-[10px]'>
+                {t('new')}
+              </div>
+
             )}
           </div>
 

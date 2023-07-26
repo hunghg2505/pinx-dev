@@ -223,7 +223,7 @@ const Explore = () => {
       <div className='relative mb-[16px]'>
         <div
           onClick={() => refSlideTheme?.current?.slickPrev()}
-          className='absolute -left-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
             src='/static/icons/iconGrayPrev.svg'
@@ -236,7 +236,7 @@ const Explore = () => {
             {theme?.map((theme: ITheme, index: number) => {
               return (
                 <div key={index}>
-                  <div className=' mr-[23px] w-[149px] mobile-max:mr-[16px]'>
+                  <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
                     <ThemesItem refresh={refreshTheme} theme={theme} />
                   </div>
                 </div>
@@ -246,7 +246,7 @@ const Explore = () => {
         </div>
         <div
           onClick={() => refSlideTheme?.current?.slickNext()}
-          className='absolute -right-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
             src='/static/icons/iconGrayNext.svg'
@@ -320,7 +320,7 @@ const Explore = () => {
       <div className='relative mb-[16px]'>
         <div
           onClick={() => refSlidePinex.current.slickPrev()}
-          className='absolute -left-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
             src='/static/icons/iconGrayPrev.svg'
@@ -337,7 +337,7 @@ const Explore = () => {
         </div>
         <div
           onClick={() => refSlidePinex.current.slickNext()}
-          className='absolute -right-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
             src='/static/icons/iconGrayNext.svg'

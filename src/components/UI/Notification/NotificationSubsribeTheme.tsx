@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { ITheme } from '@components/Home/service';
@@ -16,6 +17,7 @@ interface IProps {
 }
 
 const NotificationSubsribeTheme = (props: IProps) => {
+  const { t } = useTranslation('common');
   const { isUnsubscribe, theme, toastId } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
@@ -33,14 +35,14 @@ const NotificationSubsribeTheme = (props: IProps) => {
       />
 
       <Text type='body-14-regular' color='primary-5' className='ml-[12px]'>
-        Tell people the reason you {isUnsubscribe ? 'unsubscribed' : 'subscribed'} for {theme.name}
+        {t('tell_people_the_reason_you')} {isUnsubscribe ? t('unsubscribe_lowercase') : t('subscribe_lowercase')}  {t('for')} {theme.name}
       </Text>
 
       <MainButton
         onClick={onShare}
         className='px-[20px] ml-3'
       >
-        Share
+        {t('share')}
       </MainButton>
     </div>
   );

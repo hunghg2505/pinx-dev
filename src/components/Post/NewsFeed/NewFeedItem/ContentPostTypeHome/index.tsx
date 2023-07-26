@@ -6,6 +6,7 @@ import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
 import ReactPlayer from 'react-player';
 
@@ -43,6 +44,7 @@ interface IProps {
 }
 
 const ContentPostTypeHome = (props: IProps) => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const { postDetail, onNavigate } = props;
   const [readMore, setReadMore] = React.useState(false);
@@ -91,9 +93,8 @@ const ContentPostTypeHome = (props: IProps) => {
 
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const urlStock = `${imageCompanyUrl}${
-    stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-  }.png`;
+  const urlStock = `${imageCompanyUrl}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+    }.png`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
@@ -170,7 +171,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='cursor-pointer'
             onClick={onReadMore}
           >
-            {readMore ? 'See less' : 'See more'}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
         )}
 
@@ -198,7 +199,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   color='primary-5'
                   className='mobile:mt-[27px] desktop:mt-[45px] desktop:!text-[20px]'
                 >
-                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
+                  {postDetail?.post.action === 'SUBSCRIBE' ? t('subscribe') : t('unsubscribe')}
                 </Text>
                 <Text
                   type='body-12-bold'
@@ -248,7 +249,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='cursor-pointer'
             onClick={onReadMore}
           >
-            {readMore ? 'See less' : 'See more'}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
         )}
 
@@ -324,7 +325,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='cursor-pointer'
             onClick={onReadMore}
           >
-            {readMore ? 'See less' : 'See more'}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
         )}
 
@@ -389,7 +390,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   color='neutral-3'
                   className='mb-[2px] mt-[12px] desktop:mt-[19px] desktop:!text-[20px] desktop:!leading-[28px]'
                 >
-                  Made on PineX
+                  {t('made_on_pinex')}
                 </Text>
                 <Text
                   type='body-12-medium'
@@ -435,7 +436,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='cursor-pointer'
             onClick={onReadMore}
           >
-            {readMore ? 'See less' : 'See more'}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
         )}
 
@@ -503,7 +504,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   color='neutral-3'
                   className='mb-[2px] mt-[10px] desktop:mt-[24px] desktop:!text-[20px] desktop:!leading-[28px]'
                 >
-                  Made on PineX
+                  {t('made_on_pinex')}
                 </Text>
                 <Text
                   type='body-12-medium'
@@ -556,7 +557,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='cursor-pointer'
             onClick={onReadMore}
           >
-            {readMore ? 'See less' : 'See more'}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
         )}
 
@@ -638,7 +639,7 @@ const ContentPostTypeHome = (props: IProps) => {
             className='w-[75px] cursor-pointer'
             onClick={onReadMore}
           >
-            {readMore ? 'See less' : 'See more'}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
         )}
 
@@ -771,7 +772,7 @@ const ContentPostTypeHome = (props: IProps) => {
               className='w-[75px] cursor-pointer'
               onClick={onReadMore}
             >
-              {readMore ? 'See less' : 'See more'}
+              {readMore ? t('see_less') : t('see_more')}
             </Text>
           )}
           {!postThemeId && <div>{renderMetaData()}</div>}

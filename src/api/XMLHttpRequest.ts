@@ -3,11 +3,7 @@ export const requestXMLHttpRequest = (url: string) => {
     const ajax = new XMLHttpRequest();
 
     ajax.addEventListener('load', function () {
-      if ((this.status >= 200 && this.status < 300) || this.status === 304) {
-        resolve(this.response);
-      } else {
-        reject(this.statusText);
-      }
+      resolve(this.response);
     });
 
     // eslint-disable-next-line unicorn/prefer-add-event-listener

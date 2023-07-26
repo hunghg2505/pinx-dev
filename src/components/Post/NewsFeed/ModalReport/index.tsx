@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -28,6 +29,7 @@ interface IProps {
   onReportSuccess: () => void;
 }
 const ModalReport = (props: IProps) => {
+  const { t } = useTranslation('common');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { children, postID, visible, onModalReportVisible, onReportSuccess } = props;
   const { statusUser, isLogin } = useUserType();
@@ -61,7 +63,6 @@ const ModalReport = (props: IProps) => {
     {
       manual: true,
       onSuccess: onReportSuccess,
-      onError: () => {},
     },
   );
   const onFinish = () => {
@@ -100,15 +101,15 @@ const ModalReport = (props: IProps) => {
         closable={false}
       >
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
-          Report
+          {t('report')}
         </Text>
         <Text
           type='body-12-medium'
           color='neutral-3'
           className='mb-[16px] text-center !leading-[16px]'
         >
-          Let us know your reason to report this post. <br />
-          You are always welcome!
+          {t('report_modal_content')} <br />
+          {t('welcome_text')}
         </Text>
         <Form
           form={form}
@@ -122,7 +123,7 @@ const ModalReport = (props: IProps) => {
             rules={[
               {
                 required: true,
-                message: 'Vui lòng nhập lý do',
+                message: t('please_enter_reason'),
               },
             ]}
           >
@@ -142,7 +143,7 @@ const ModalReport = (props: IProps) => {
                     className='mt-[10px] border-b border-solid border-[#1F6EAC]'
                   >
                     <Input
-                      placeholder='Tell us your reason...'
+                      placeholder={`${t('tell_us_your_reason')}...`}
                       className='h-[38px] w-full pl-[5px] outline-none'
                     />
                   </FormItem>
@@ -156,12 +157,12 @@ const ModalReport = (props: IProps) => {
               className='flex h-[49px] w-full cursor-pointer items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB]'
             >
               <Text type='body-16-bold' color='primary-2'>
-                Cancel
+                {t('cancel')}
               </Text>
             </div>
             <button className='h-[49px] w-full rounded-[8px] bg-[#1F6EAC]' type='submit'>
               <Text type='body-16-bold' color='cbwhite'>
-                Send
+                {t('send')}
               </Text>
             </button>
           </div>
