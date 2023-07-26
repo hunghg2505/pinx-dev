@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
@@ -6,9 +6,15 @@ import { useAtomValue } from 'jotai';
 import Fade from '@components/UI/Fade';
 import { postThemeAtom } from '@store/postTheme/theme';
 
-export const ListTheme = ({ onSelectThemeId, themeActiveId }: any) => {
+export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, ref: any) => {
   const bgTheme = useAtomValue(postThemeAtom);
   const [isShowMore, setIsShowMore] = useState(true);
+
+  useImperativeHandle(ref, () => {
+    return {
+      onHide: () => setIsShowMore(false),
+    };
+  });
 
   return (
     <div className='scrollbarStyle mt-[20px] w-[100%] '>
@@ -53,4 +59,4 @@ export const ListTheme = ({ onSelectThemeId, themeActiveId }: any) => {
       </div>
     </div>
   );
-};
+});

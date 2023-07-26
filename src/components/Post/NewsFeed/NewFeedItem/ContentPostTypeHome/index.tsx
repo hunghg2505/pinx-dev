@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
@@ -228,4 +228,4 @@ const ContentPostTypeHome = (props: IProps) => {
   return <></>;
 };
 
-export default ContentPostTypeHome;
+export default memo(ContentPostTypeHome);
