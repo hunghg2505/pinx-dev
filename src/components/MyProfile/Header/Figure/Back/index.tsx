@@ -38,7 +38,7 @@ const Back = () => {
           />
         </svg>
       </span>
-      <div className='absolute bottom-[calc(100%)]  mb-[20px] hidden  w-full tablet:block'>
+      <div className='absolute bottom-[calc(100%)]   mb-[calc(42px-28px)]  hidden  w-full tablet:block'>
         <img
           src='/static/icons/arrow-left.svg'
           alt='back'
