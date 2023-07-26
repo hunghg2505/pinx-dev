@@ -17,7 +17,7 @@ import styles from './index.module.scss';
 const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refreshYourWatchList?: () => void, like?: boolean }) => {
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Add stock success' />);
+      // toast(() => <Notification type='success' message='Add stock success' />);
       refreshYourWatchList && refreshYourWatchList();
     },
   });
@@ -29,7 +29,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
       manual: true,
       onSuccess: () => {
         refreshYourWatchList && refreshYourWatchList();
-        toast(() => <Notification type='success' message='Remove stock success' />);
+        // toast(() => <Notification type='success' message='Remove stock success' />);
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e.error} />);
@@ -45,7 +45,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
   };
   console.log(`${data?.stockCode}`,like);
   return (
-    <>
+    <div onClick={like?onRemoveStock:onAddStock} className='relative flex cursor-pointer items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'>
       <div className='flex items-center gap-x-[10px]'>
         <img
           src={imageStock(data?.stockCode)}
@@ -69,16 +69,16 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
           </Text>
         </div>
       </div>
-      {requestSelectStock?.loading ? (
-        <Loading />
-      ) : (
-        <div className='flex pr-[12px]' onClick={like?onRemoveStock:onAddStock}>
-          <div
-            className={classNames(
-              'absolute -right-3 top-1/2 flex h-[24px] w-[24px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#fff]',
-              styles.heart,
-            )}
-          >
+      <div className='flex pr-[12px]'>
+        <div
+          className={classNames(
+            'absolute -right-3 top-1/2 flex h-[24px] w-[24px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#fff]',
+            styles.heart,
+          )}
+        >
+          {requestSelectStock?.loading || useRemoveStock?.loading ? (
+            <Loading />
+          ) : (
             <svg
               width='16'
               height='16'
@@ -91,10 +91,10 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
                 fill={`${like ? 'red' : 'black'}`}
               />
             </svg>
-          </div>
+          )}
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 export default ItemAddStock;

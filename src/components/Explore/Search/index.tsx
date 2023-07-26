@@ -107,7 +107,7 @@ const Search = (props: any, ref: any) => {
             <FormItem name='search'>
               <Input
                 className='h-[40px] w-full rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
-                placeholder='Are you looking for something?'
+                placeholder={t('are_you_looking_for_something')}
                 icon={<IconSearchWhite />}
               />
             </FormItem>

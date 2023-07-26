@@ -50,7 +50,7 @@ const ThemeExploreItem = (props: IProps) => {
               })}
             </div>
             <Text type='body-12-medium' color='neutral-9'>
-              {data?.totalSubscribe > 3 ? `${data?.totalSubscribe - 3}+` : ''}
+              {data?.totalSubscribe > 0 ? `${data?.totalSubscribe}+` : ''}
             </Text>
           </div>
         )}

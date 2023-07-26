@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -20,6 +21,7 @@ interface IProps {
   refreshList?: () => void;
 }
 const ItemPeople = (props: IProps) => {
+  const { t } = useTranslation('common');
   const { data, refreshList } = props;
   const isFollow = data?.isFollowed;
   const router = useRouter();
@@ -84,25 +86,32 @@ const ItemPeople = (props: IProps) => {
             <AvatarDefault name={name} />
           </div>
         )}
-
         <div>
           <div className='flex items-center'>
             <Text type='body-14-semibold' color='cbblack'>
               {data.displayName}
             </Text>
-            {data.isFeatureProfile ||
-              (data?.isKol && (
-                <img
-                  src='/static/icons/iconStarFollow.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  className='ml-[6px] w-[16px]'
-                />
-              ))}
+            {data.isFeatureProfile && (
+              <img
+                src='/static/icons/iconStarFollow.svg'
+                alt=''
+                width={0}
+                height={0}
+                className='ml-[6px] w-[16px]'
+              />
+            )}
+
+            {data?.isKol && (
+              <img
+                src='/static/icons/iconTickKol.svg'
+                alt=''
+                className='ml-[6px] h-[14px] w-[14px] object-contain'
+              />
+            )}
           </div>
+
           <Text type='body-12-regular' className='mt-[4px] text-[#666666]'>
-            {data.numberFollowers} Followers
+            {data.numberFollowers} {t('followers')}
           </Text>
         </div>
       </div>

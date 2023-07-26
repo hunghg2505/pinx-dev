@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -27,6 +28,7 @@ import {
 } from './icon';
 
 const SideBar = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const { isLogin } = useAuth();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -37,28 +39,28 @@ const SideBar = () => {
       path: ROUTE_PATH.HOME,
       icon: <IconHome />,
       iconActive: <IconHomeActive />,
-      label: 'Home',
+      label: t('home'),
     },
     {
       id: 2,
       path: ROUTE_PATH.EXPLORE,
       icon: <IconExplore />,
       iconActive: <IconExploreActive />,
-      label: 'Explore',
+      label: t('explore'),
     },
     {
       id: 3,
       path: ROUTE_PATH.GIFTCASH,
       icon: <IconGiftCash />,
       iconActive: <IconGiftCashActive />,
-      label: 'GiftCash',
+      label: t('gift_cash'),
     },
     {
       id: 4,
       path: ROUTE_PATH.WATCHLIST,
       icon: <IconWatchList />,
       iconActive: <IconWatchListACtive />,
-      label: 'WatchList',
+      label: t('wtach_list'),
       action: () => {
         setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
       },
@@ -68,7 +70,7 @@ const SideBar = () => {
       path: ROUTE_PATH.ASSET,
       icon: <IconAssets />,
       iconActive: <IconAssetsActive />,
-      label: 'Assets',
+      label: t('assets'),
       action: () => {
         setPopupStatus({ ...popupStatus, popupAccessLinmit: true });
       },
@@ -78,7 +80,7 @@ const SideBar = () => {
       path: ROUTE_PATH.SETTING,
       icon: <IconSetting />,
       iconActive: <IconSettingActive />,
-      label: 'Settings',
+      label: t('settings'),
     },
   ];
 

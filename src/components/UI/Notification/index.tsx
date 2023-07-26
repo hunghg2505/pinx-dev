@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 interface NotificationProps {
   type: 'success' | 'warning' | 'error';
   message: string;
@@ -7,6 +9,7 @@ interface NotificationProps {
 }
 
 const Notification: React.FC<NotificationProps> = ({ type, message }) => {
+  const { t } = useTranslation('common');
   const renderImage = () => {
     switch (type) {
       case 'success': {
@@ -39,7 +42,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message }) => {
       case 'success': {
         return (
           <div className='ml-3'>
-            <div className='text-[16px] font-[400]'>Success</div>
+            <div className='text-[16px] font-[400]'>{t('success')}</div>
             <div className='text-[14px] font-[400]'>{message}</div>
           </div>
         );
@@ -47,7 +50,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message }) => {
       case 'error': {
         return (
           <div className='ml-3'>
-            <div className='text-[16px] font-[400]'>Error</div>
+            <div className='text-[16px] font-[400]'>{t('error')}</div>
             <div className='text-[14px] font-[400] text-[--neutral-4]'>{message}</div>
           </div>
         );
