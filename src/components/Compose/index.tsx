@@ -563,7 +563,7 @@ const Compose = (props: IProps) => {
     const message = test?.flat()?.join('\n');
 
     const data: IData = {
-      message: url ? messageHtml?.concat(` ${url}`) : messageHtml,
+      message: messageHtml,
       tagPeople: formatTagPeople,
       tagStocks: stock,
       postThemeId: isUpdate && activeTheme === 'default' ? '' : themeActive?.id,
@@ -571,18 +571,23 @@ const Compose = (props: IProps) => {
       urlImages: [image],
       urlLinks: metaData && activeTheme === 'default' ? [...urlLink, url] : urlLink,
     };
+
     if (activeTheme === 'default' && !isUpdate) {
       delete data?.postThemeId;
     }
+
     if (!image) {
       delete data?.urlImages;
     }
+
     if (activeTheme !== 'default') {
       delete data?.urlImages;
     }
+
     if (!urlLink) {
       delete data?.urlLinks;
     }
+
     if (message?.toLowerCase()?.includes('script')) {
       toast(() => (
         <Notification

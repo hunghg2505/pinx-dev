@@ -6,7 +6,7 @@ import MarketDesktop from '@components/Home/Market/MarketDesktop';
 import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
 import { Button } from '@components/UI/Button';
-import IconPlus from '@components/UI/Icon/IconPlust';
+import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { getAccessToken } from '@store/auth';
