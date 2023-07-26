@@ -46,6 +46,14 @@ const ModalAddStock = (props: IProps) => {
   console.log('ModalAddStock dataStock',dataStock);
   console.log('ModalAddStock listStock',listStock);
 
+  const checkHeart = (code: any) => {
+    const found = dataStock.find((element: any) => element?.stockCode === code?.stockCode);
+    if (found){
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <div
@@ -80,16 +88,21 @@ const ModalAddStock = (props: IProps) => {
           ) : (
             <div className='flex h-[300px] flex-col gap-y-[16px] overflow-y-auto overflow-x-hidden pr-[10px]'>
               {listStock?.map((item: any, index: number) => (
-                <div
-                  key={index}
-                  className='relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
-                >
-                  <ItemAddStock
-                    refreshYourWatchList={refreshYourWatchList}
-                    data={item}
-                    like={true}
-                  />
-                </div>
+                <>
+                  {
+
+                  }
+                  <div
+                    key={index}
+                    className='relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
+                  >
+                    <ItemAddStock
+                      refreshYourWatchList={refreshYourWatchList}
+                      data={item}
+                      like={checkHeart(item)}
+                    />
+                  </div>
+                </>
               ))}
             </div>
           )}
