@@ -17,6 +17,7 @@ import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
@@ -28,6 +29,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   const [openProfileMenu, setOpenProfileMenu] = useAtom(openProfileAtom);
   const router = useRouter();
   const [, setIsShowNavigate] = useSidebarMobile();
+  const { isRouteSetting } = useRouteSetting();
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
@@ -47,12 +49,19 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   }, [openProfileMenu]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
+  console.log({ isRouteSetting });
 
   return (
     <div
-      className={
-        'overflow-overlay  absolute left-[100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden'
-      }
+      className={classNames(
+        'fixed  left-[100%] z-[9999] w-full overflow-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden',
+        {
+          'top-[55px]': isRouteSetting,
+          'h-[calc(100vh-56px)]': isRouteSetting,
+          'top-[115px]': !isRouteSetting,
+          'h-[calc(100vh-115px)]': !isRouteSetting,
+        },
+      )}
       style={{
         left: openProfileMenu ? 0 : '100%',
       }}
