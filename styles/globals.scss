@@ -26,8 +26,9 @@ body {
   font-family: var(--fontInter), sans-serif !important;
 }
 body {
-  overflow-y: overlay !important;
+  position: relative;
   overflow-x: hidden !important;
+  overflow-y: overlay !important;
 }
 .overflow-overlay {
   overflow-y: overlay !important;
