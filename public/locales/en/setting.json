@@ -26,7 +26,7 @@
   "retype_username_error_1": "Confirm new Username and new Username do not match",
   "change_username_rule": "*Username must be at least 6 characters and contain at least one alphabetic character do not include special characters.",
   "select_languague": "Select languague",
-  "securities_profile": "Securities profile",
+  "securities_profile": "Profile verification",
   "full_name": "Full name",
   "gender": "Gender",
   "female": "Female",
