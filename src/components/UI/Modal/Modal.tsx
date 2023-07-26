@@ -12,7 +12,14 @@ interface IModal extends DialogProps {
   className?: string;
 }
 
-const Modal = ({ children, visible, onClose, closeIcon: closeX, className }: IModal) => {
+const Modal = ({
+  children,
+  visible,
+  onClose,
+  closeIcon: closeX,
+  className,
+  destroyOnClose,
+}: IModal) => {
   const closeIcon = closeX || (
     <img src='/static/icons/iconClose.svg' alt='' className='h-[21px] w-[21px] object-contain' />
   );
@@ -25,6 +32,7 @@ const Modal = ({ children, visible, onClose, closeIcon: closeX, className }: IMo
       maskAnimation='fade'
       onClose={onClose}
       closeIcon={<>{closeIcon}</>}
+      destroyOnClose={destroyOnClose}
     >
       <>{children}</>
     </Dialog>

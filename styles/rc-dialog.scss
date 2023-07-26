@@ -33,6 +33,10 @@
   margin: auto;
   overflow: auto;
   max-height: calc(100vh - 50px);
+
+  @media (max-width: 576px) {
+    max-height: calc(100vh - 160px);
+  }
 }
 .rc-dialog-close {
   cursor: pointer;

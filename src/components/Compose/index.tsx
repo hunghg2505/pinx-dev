@@ -305,15 +305,6 @@ const Compose = (props: IProps) => {
     return bgTheme?.find((it) => it?.id === themeActiveId);
   }, [themeActiveId]);
 
-  // useEffect(() => {
-  //   if (postType && postType === 'ActivityTheme') {
-  //     setHideListTheme(true);
-  //   }
-  //   return () => {
-  //     editor?.commands?.clearContent();
-  //   };
-  // }, []);
-
   const getDataOG = (value: any) => {
     setMetaData(value);
   };
@@ -354,12 +345,11 @@ const Compose = (props: IProps) => {
 
       const users: any = [];
       const stock: any = [];
-      const urlLink: any = [];
 
       const messageHtml = editor?.getHTML();
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
-      if (imageUploaded?.file) {
+      if (imageUploaded?.file && themeActiveId === 'default') {
         const formData = new FormData();
         formData.append('files', imageUploaded?.file);
 
@@ -410,7 +400,6 @@ const Compose = (props: IProps) => {
           return p;
         });
         return abcd?.join('');
-        // console.log('abcd', abcd);
       });
 
       const tagPeople = await Promise.all(
@@ -461,9 +450,6 @@ const Compose = (props: IProps) => {
 
       if (themeActiveId !== 'default') {
         delete data?.urlImages;
-      }
-
-      if (!urlLink) {
         delete data?.urlLinks;
       }
 
@@ -647,7 +633,9 @@ const Compose = (props: IProps) => {
       <div className='relative'>
         <EditorContent
           editor={editor}
-          className={classNames('relative z-10 min-h-[360px] overflow-y-auto p-4 px-[5px]')}
+          className={classNames(
+            'relative z-10 min-h-[250px] overflow-y-auto p-4 px-[5px] desktop:min-h-[360px]',
+          )}
           style={getStyles() as any}
         />
 
@@ -671,7 +659,7 @@ const Compose = (props: IProps) => {
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
 
       <div className='flex justify-between'>
-        <div className='flex gap-x-[16px]'>
+        <div className='flex gap-x-[10px] desktop:gap-x-[16px]'>
           <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddPeople}

@@ -48,7 +48,7 @@ export const useGetProfileOtherUser = (id: number) => {
   };
 };
 export const useGePrivatetProfileOtherUser = (id: number) => {
-  const { data, run, refresh } = useRequest(
+  const { data, run, refresh, loading } = useRequest(
     () => {
       return privateRequest(requestPist.get, API_PATH.PRIVATE_GET_OTHER_USER_PROFILE(id));
     },
@@ -60,5 +60,6 @@ export const useGePrivatetProfileOtherUser = (id: number) => {
     privateProfileOtherUser: data?.data,
     run,
     refresh,
+    loading,
   };
 };

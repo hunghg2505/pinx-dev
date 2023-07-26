@@ -15,7 +15,7 @@ import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { Avatar } from '@components/Post/NewsFeed/NewFeedItem/components/Avatar';
 import { Follower } from '@components/Post/NewsFeed/NewFeedItem/components/Follower';
 import { UserName } from '@components/Post/NewsFeed/NewFeedItem/components/UserName';
-import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
+// import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
 import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import {
   IPost,
@@ -26,7 +26,6 @@ import {
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
@@ -50,14 +49,6 @@ interface IProps {
   onHidePostSuccess?: (id: string) => void;
   pinned?: boolean;
 }
-
-const PostContent = ({ id, onNavigate, postDetail }: any) => {
-  // if (id) {
-  //   return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
-  // }
-
-  return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
-};
 
 const NewFeedItem = (props: IProps) => {
   const { t } = useTranslation('common');
@@ -457,7 +448,7 @@ const NewFeedItem = (props: IProps) => {
       </div>
 
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
-        <PostContent id={id} onNavigate={onNavigate} postDetail={postDetail} />
+        <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />
 
         <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostAction
