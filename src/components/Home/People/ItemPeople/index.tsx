@@ -29,7 +29,7 @@ const IconFollowBlue = () => (
   </svg>
 );
 const ItemPeople = (props: IProps) => {
-  const { data } = props;
+  const { data, refresh } = props;
   const router = useRouter();
   const [isFollow, setIsFollow] = React.useState(false);
   const image = data.avatar.includes('http');
@@ -40,7 +40,7 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        // refresh && refresh();
+        refresh && refresh();
         setIsFollow(true);
       },
       onError: (e: any) => {

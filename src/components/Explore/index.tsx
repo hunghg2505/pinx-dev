@@ -207,7 +207,6 @@ const Explore = () => {
             <ExploreButton>
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_people')}
-                Explore people
               </Text>
             </ExploreButton>
           </ModalPeopleYouKnow>
