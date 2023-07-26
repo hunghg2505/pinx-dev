@@ -6,7 +6,7 @@ import Following from './Following';
 import Joined from './Joined';
 import Name from './Name';
 import Position from './Position';
-import Post from './Post';
+// import Post from './Post';
 
 const Info = () => {
   return (
@@ -15,7 +15,7 @@ const Info = () => {
       <Name />
       <Position />
       <div className='mb-[5px] flex gap-[8px] xdesktop:gap-[40px]'>
-        <Post />
+        {/* <Post /> */}
         <Follower />
         <span className='text-[#808A9D] tablet:hidden'>&bull;</span>
         <Following />

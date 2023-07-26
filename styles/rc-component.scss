@@ -1,13 +1,7 @@
 .popupAddNewStock {
   .rc-dialog-content {
-    max-width: 100%;
-    width: 749px;
-  }
-  .rc-dialog-body {
-    @media (min-width: 768px) {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
+    width: 100%;
+    max-width: 749px;
   }
 }
 .rc-tabs {
@@ -125,13 +119,7 @@
   opacity: 1 !important;
   top: 20px !important;
 }
-.rc-dialog-content {
-  width: 431px;
-  margin: 0 auto;
-  @media screen and (max-width: 480px) {
-    width: calc(100% - 32px) !important;
-  }
-}
+
 .messageBody {
   // display: flex !important;
   // flex-direction: column;
@@ -533,9 +521,6 @@
   100% {
     transform: scale(1);
   }
-}
-.compose {
-  width: 431px !important;
 }
 
 li.rc-menu-item-divider {

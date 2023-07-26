@@ -10,7 +10,7 @@ const Img = () => {
           <img
             src={value}
             alt='background cover'
-            className='h-[100px] w-[100px] rounded-full bg-white tablet:p-[8px]'
+            className='h-[140px] w-[140px] rounded-full bg-white tablet:p-[5px] object-cover'
           />
         );
       }}

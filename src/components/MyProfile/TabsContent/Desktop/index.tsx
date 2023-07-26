@@ -19,6 +19,7 @@ const Desktop = () => {
   const searchParams = useSearchParams();
   const { replace, query } = useRouter();
   const profileUser = useContext<any>(profileUserContext);
+
   return (
     <div className='px-[16px] tablet:px-0'>
       <Tabs

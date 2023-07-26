@@ -28,7 +28,7 @@ const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...
             </div>
 
             {!hideError && hasError && (
-              <Text type='body-14-regular' className='text-[#DA314F]'>
+              <Text type='body-14-regular' className='mt-[4px] text-left text-[#DA314F]'>
                 {hasError}
               </Text>
             )}

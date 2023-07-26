@@ -292,9 +292,9 @@ export const disableScroll = () => {
 };
 
 export const isValidURL = (urlString: any) => {
-  const res = urlString.match(
-    /(http(s)?:\/\/.)?(www\.)?[\w#%+.:=@~-]{2,256}\.[a-z]{2,6}\b([\w#%&+./:=?@~-]*)/g,
-  );
+  const res = `${urlString}`
+    .trim()
+    .match(/(http(s)?:\/\/.)?(www\.)?[\w#%+.:=@~-]{2,256}\.[a-z]{2,6}\b([\w#%&+./:=?@~-]*)/g);
   return res !== null;
 };
 
@@ -320,4 +320,34 @@ export const checkUserType = (custStat: string, acntStat?: string) => {
     return USERTYPE.EKYC;
   }
   return USERTYPE.VSD;
+};
+
+export const getMeta = (doc: any) => {
+  const metas: any = doc.querySelectorAll('meta');
+
+  const summary = [];
+
+  for (const meta of metas) {
+    const property = meta.getAttribute('property');
+    const content = meta.getAttribute('content');
+
+    if (property && content) {
+      summary.push({
+        property,
+        content,
+      });
+    }
+  }
+
+  return summary;
+};
+
+export const getYoutubeVideoId = (url: string) => {
+  if (!url) {
+    return false;
+  }
+
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[7].length === 11 ? match[7] : false;
 };

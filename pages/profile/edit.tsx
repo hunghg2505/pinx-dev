@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import LayoutLoadedProfile from '@layout/LayoutLoadedProfile/LayoutLoadedProfile';
 import MainLayout from '@layout/MainLayout';
 
 const ProfileEdit = dynamic(() => import('@components/ProfileEdit'));
@@ -20,7 +21,10 @@ const PostDetailPage = () => {
 PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <>
-      <MainLayout Layout>{page}</MainLayout>;
+      <MainLayout>
+        <LayoutLoadedProfile>{page} </LayoutLoadedProfile>
+      </MainLayout>
+      ;
     </>
   );
 };
@@ -33,10 +37,10 @@ export async function getServerSideProps({ locale, req }: GetServerSidePropsCont
         permanent: false,
       },
     };
-  }  
+  }
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'en', ['common', 'editProfile'])),      
+      ...(await serverSideTranslations(locale || 'en', ['common', 'editProfile'])),
       // Will be passed to the page component as props
     },
   };

@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 // import Link from 'next/link';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
-import Notification from '@components/UI/Notification';
+// import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 // import { ROUTE_PATH } from '@utils/common';
 
@@ -36,7 +36,7 @@ const InterestItem = (props: IProps) => {
     onSuccess: () => {
       refresh && refresh();
       refreshYourWatchList && refreshYourWatchList();
-      toast(() => <Notification type='success' message='Add stock success' />);
+      // toast(() => <Notification type='success' message='Add stock success1' />);
     },
   });
   const onAddStock = () => {

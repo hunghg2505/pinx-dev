@@ -10,7 +10,8 @@ import { useGetBgTheme } from '@components/Home/service';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatMessage, formatMessagePost } from '@utils/common';
+import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
+import { ROUTE_PATH, formatMessage } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -18,6 +19,7 @@ interface IProps {
 }
 const ContentPostTypeDetail = (props: IProps) => {
   const { postDetail, onNavigate } = props;
+  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const router = useRouter();
   const message =
@@ -92,7 +94,6 @@ const ContentPostTypeDetail = (props: IProps) => {
     return <></>;
   };
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
-    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -298,7 +299,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     const url = `${imageCompanyUrl}${
       stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
     }.png`;
-    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
+
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -396,7 +397,7 @@ const ContentPostTypeDetail = (props: IProps) => {
   }
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
     const pnlRate = postDetail?.post?.pnlRate;
-    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
+
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
@@ -498,7 +499,7 @@ const ContentPostTypeDetail = (props: IProps) => {
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
     const urlLink = postDetail?.post?.urlLinks?.[0] || '';
-    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
+
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>

@@ -97,7 +97,7 @@ const PostDetail = () => {
   const getSubComment = (payload: IComment[]) => {
     if (payload.length > 0) {
       return (
-        <div className='sub-comment ml-[48px]'>
+        <div className='sub-comment ml-[52px]'>
           {payload?.map((comment: IComment, index: number) => (
             <ItemComment
               data={comment}
@@ -182,7 +182,7 @@ const PostDetail = () => {
         </div>
 
         {isLogin && (
-          <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:w-[calc(500px+40px)] desktop:px-0 desktop:px-[20px] xdesktop:w-[calc(550px+40px)]'>
+          <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
             <ForwardedRefComponent
               id={postDetail?.data?.id}
               refresh={refreshCommentOfPost}
@@ -194,10 +194,13 @@ const PostDetail = () => {
         )}
 
         <div
-          className={classNames('pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]', {
-            'mobile:mb-[50px]': !isImageCommentMobile && isLogin,
-            'mobile:mb-[179px]': isImageCommentMobile && isLogin,
-          })}
+          className={classNames(
+            'px-[16px] pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]',
+            {
+              'mobile:mb-[50px]': !isImageCommentMobile && isLogin,
+              'mobile:mb-[179px]': isImageCommentMobile && isLogin,
+            },
+          )}
         >
           {isHaveComment ? (
             commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
