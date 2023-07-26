@@ -11,9 +11,11 @@ const Posts = () => {
   const { data, refresh, run, loading } = useGetMYPost();
 
   const { lastElementRef } = useLoadMore(data, loading, run);
+
   return (
     <div>
       {!data?.list?.length && <NotFound />}
+
       {data?.list?.map((item: IPost, index: number) => {
         if (index === data?.list.length - 1) {
           return (

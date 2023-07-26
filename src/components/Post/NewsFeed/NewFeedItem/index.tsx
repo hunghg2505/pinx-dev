@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
@@ -12,6 +12,8 @@ import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
+import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
+import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import {
   IPost,
   TYPEPOST,
@@ -19,7 +21,9 @@ import {
   requestHidePost,
 } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
+import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
@@ -32,12 +36,6 @@ import ModalDelete from './ModalDelete';
 import ModalEdit from './ModalEdit';
 import PostAction from '../PostAction';
 
-const ContentPostTypeDetail = dynamic(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail'),
-);
-const ContentPostTypeHome = dynamic(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome'),
-);
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
@@ -51,14 +49,196 @@ interface IProps {
   onHidePostSuccess?: (id: string) => void;
   pinned?: boolean;
 }
-const IconPlus = () => (
-  <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <path
-      d='M5.00501 10C5.49649 10 5.81745 9.6432 5.81745 9.17068V5.78592H9.13741C9.62889 5.78592 10 5.47734 10 5.00482C10 4.5323 9.62889 4.22372 9.13741 4.22372H5.81745V0.829315C5.81745 0.356798 5.49649 0 5.00501 0C4.51354 0 4.19258 0.356798 4.19258 0.829315V4.22372H0.862588C0.371113 4.22372 0 4.5323 0 5.00482C0 5.47734 0.371113 5.78592 0.862588 5.78592H4.19258V9.17068C4.19258 9.6432 4.51354 10 5.00501 10Z'
-      fill='#1F6EAC'
-    />
-  </svg>
-);
+
+const Avatar = ({ postDetail }: any) => {
+  const name =
+    postDetail?.post?.customerInfo?.displayName &&
+    toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
+
+  const url = useMemo(() => {
+    if (
+      [
+        TYPEPOST.PinetreeDailyNews,
+        TYPEPOST.PinetreeMarketBrief,
+        TYPEPOST.PinetreeMorningBrief,
+        TYPEPOST.PinetreePost,
+        TYPEPOST.PinetreeWeeklyNews,
+      ].includes(postDetail?.post.postType)
+    ) {
+      return '/static/logo/logoPintree.png';
+    }
+
+    if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
+      return 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
+    }
+
+    if (
+      [
+        TYPEPOST.POST,
+        TYPEPOST.ActivityTheme,
+        TYPEPOST.ActivityWatchlist,
+        TYPEPOST.ActivityMatchOrder,
+      ].includes(postDetail?.post.postType)
+    ) {
+      return postDetail?.post?.customerInfo?.avatar;
+    }
+    if (
+      [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
+        postDetail?.post.postType,
+      )
+    ) {
+      return 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
+    }
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+      return '/static/logo/logoCafeF.png';
+    }
+  }, [postDetail?.post.postType]);
+
+  if (postDetail?.post?.customerInfo?.avatar === '') {
+    return <AvatarDefault name={name} />;
+  }
+
+  return (
+    <>
+      <img
+        src={url}
+        alt='avatar'
+        sizes='100vw'
+        className={classNames(
+          'mr-2 rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+          {
+            'object-cover': [
+              TYPEPOST.POST,
+              TYPEPOST.ActivityTheme,
+              TYPEPOST.ActivityWatchlist,
+              TYPEPOST.ActivityMatchOrder,
+            ].includes(postDetail?.post.postType),
+          },
+        )}
+      />
+    </>
+  );
+};
+
+const UserName = ({ postDetail }: any) => {
+  const name = useMemo(() => {
+    if (
+      [
+        TYPEPOST.PinetreeDailyNews,
+        TYPEPOST.PinetreeMarketBrief,
+        TYPEPOST.PinetreeMorningBrief,
+        TYPEPOST.PinetreePost,
+        TYPEPOST.PinetreeWeeklyNews,
+      ].includes(postDetail?.post.postType)
+    ) {
+      return 'Pinetree';
+    }
+    if (
+      [
+        TYPEPOST.POST,
+        TYPEPOST.ActivityTheme,
+        TYPEPOST.ActivityWatchlist,
+        TYPEPOST.ActivityMatchOrder,
+      ].includes(postDetail?.post.postType)
+    ) {
+      return postDetail?.post?.customerInfo?.displayName;
+    }
+    if (
+      [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
+        postDetail?.post.postType,
+      )
+    ) {
+      return 'Vietstock';
+    }
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+      return 'CafeF';
+    }
+    if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
+      return 'Tin nhanh chứng khoán';
+    }
+  }, []);
+
+  return (
+    <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
+      {name}
+    </Text>
+  );
+};
+
+const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => {
+  if (
+    ![
+      TYPEPOST.POST,
+      TYPEPOST.ActivityTheme,
+      TYPEPOST.ActivityMatchOrder,
+      TYPEPOST.ActivityWatchlist,
+    ].includes(postDetail?.post.postType)
+  ) {
+    return <></>;
+  }
+
+  if (following) {
+    return (
+      <div className='cursor-pointer' onClick={onFollow}>
+        <div
+          className={classNames(
+            'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+            { 'bg-[#F3F2F6]': following },
+          )}
+        >
+          <Text type='body-14-bold' color='neutral-5'>
+            Following
+          </Text>
+        </div>
+
+        <img
+          src='/static/icons/iconUserFollow.svg'
+          alt=''
+          width={0}
+          height={0}
+          className='mr-[10px] w-[24px] mobile:block tablet:hidden'
+          sizes='100vw'
+        />
+      </div>
+    );
+  }
+  return (
+    <>
+      <Fade visible={!isMyPost}>
+        <div className='cursor-pointer' onClick={onFollow}>
+          <div
+            className={classNames(
+              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+              { 'bg-[#F3F2F6]': following },
+            )}
+          >
+            <IconPlus />
+            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
+              Follow
+            </Text>
+          </div>
+
+          <img
+            src='/static/icons/iconUserUnFollow.svg'
+            alt=''
+            width={0}
+            height={0}
+            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
+            sizes='100vw'
+          />
+        </div>
+      </Fade>
+    </>
+  );
+};
+
+const PostContent = ({ id, onNavigate, postDetail }: any) => {
+  if (id) {
+    return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
+  }
+
+  return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
+};
 
 const NewFeedItem = (props: IProps) => {
   const {
@@ -71,9 +251,9 @@ const NewFeedItem = (props: IProps) => {
     isExplore = false,
     pinned = false,
   } = props;
-  const customerId = postDetail?.customerId;
+
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const [showReport, setShowReport] = React.useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
@@ -81,24 +261,50 @@ const NewFeedItem = (props: IProps) => {
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
-  const ref = useRef<HTMLButtonElement>(null);
-  const refHover = useRef(null);
-  const isHovering = useHover(refHover);
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
+
+  const { customerId, id, isLike, idPost, isMyProfilePath } = useMemo(() => {
+    return {
+      customerId: postDetail?.customerId,
+
+      id: router.query?.id,
+
+      isLike: postDetail?.isLike,
+
+      idPost: router.query?.id || postDetail?.id,
+
+      isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
+    };
+  }, [
+    postDetail?.customerId,
+    postDetail?.isLike,
+    router.query?.id,
+    postDetail?.id,
+    router.pathname,
+  ]);
+
+  const ref = useRef<HTMLButtonElement>(null);
+  const refHover = useRef(null);
+
+  const isHovering = useHover(refHover);
+
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
-  const [following, setFollowing] = React.useState(postDetail?.isFollowing);
-  const [report, setReport] = React.useState(isReported);
 
-  React.useEffect(() => {
+  const [following, setFollowing] = useState(postDetail?.isFollowing);
+  const [report, setReport] = useState(isReported);
+
+  useEffect(() => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
   }, [postDetail?.isFollowing, isReported]);
+
   const handleHidePopup = () => {
     showReport && setShowReport(false);
   };
+
   useClickOutSide(ref, handleHidePopup, excludeElements);
 
   useEffect(() => {
@@ -107,16 +313,11 @@ const NewFeedItem = (props: IProps) => {
     });
   }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
 
-  const id = router.query?.id;
-  const isLike = postDetail?.isLike;
-
-  const idPost = id || postDetail?.id;
-
-  const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
   const onRefreshListPost = () => {
     onRefreshPostDetail();
     onHidePostSuccess && onHidePostSuccess(postId);
   };
+
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -137,6 +338,7 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
+
   // follow user
   const onFollowUser = useRequest(
     () => {
@@ -150,6 +352,7 @@ const NewFeedItem = (props: IProps) => {
       },
     },
   );
+
   // un follow user
   const onUnFollowUser = useRequest(
     () => {
@@ -178,6 +381,7 @@ const NewFeedItem = (props: IProps) => {
       });
     }
   };
+
   const handleHidePost = () => {
     if (isLogin) {
       onHidePost.run();
@@ -196,256 +400,89 @@ const NewFeedItem = (props: IProps) => {
     setReport(false);
   };
 
-  const renderLogo = () => {
-    let logo = '';
-    if (
-      [
-        TYPEPOST.PinetreeDailyNews,
-        TYPEPOST.PinetreeMarketBrief,
-        TYPEPOST.PinetreeMorningBrief,
-        TYPEPOST.PinetreePost,
-        TYPEPOST.PinetreeWeeklyNews,
-      ].includes(postDetail?.post.postType)
-    ) {
-      logo = '/static/logo/logoPintree.png';
-    }
-    if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
-      logo = 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
-    }
-    if (
-      [
-        TYPEPOST.POST,
-        TYPEPOST.ActivityTheme,
-        TYPEPOST.ActivityWatchlist,
-        TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
-    ) {
-      logo = postDetail?.post?.customerInfo?.avatar;
-    }
-    if (
-      [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
-        postDetail?.post.postType,
-      )
-    ) {
-      logo = 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
-    }
-    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      logo = '/static/logo/logoCafeF.png';
-    }
-    return logo;
-  };
-  const renderDisplayName = () => {
-    let name = '';
-    if (
-      [
-        TYPEPOST.PinetreeDailyNews,
-        TYPEPOST.PinetreeMarketBrief,
-        TYPEPOST.PinetreeMorningBrief,
-        TYPEPOST.PinetreePost,
-        TYPEPOST.PinetreeWeeklyNews,
-      ].includes(postDetail?.post.postType)
-    ) {
-      name = 'Pinetree';
-    }
-    if (
-      [
-        TYPEPOST.POST,
-        TYPEPOST.ActivityTheme,
-        TYPEPOST.ActivityWatchlist,
-        TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
-    ) {
-      name = postDetail?.post?.customerInfo?.displayName;
-    }
-    if (
-      [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
-        postDetail?.post.postType,
-      )
-    ) {
-      name = 'Vietstock';
-    }
-    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      name = 'CafeF';
-    }
-    if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
-      name = 'Tin nhanh chứng khoán';
-    }
-    return name;
-  };
-
-  const renderContentPost = () => {
-    if (id) {
-      return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
-    }
-    return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
-  };
-
-  const renderTextFollow = () => {
-    if (following) {
-      return (
-        <>
-          <div
-            className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': following },
-            )}
-          >
-            <Text type='body-14-bold' color='neutral-5'>
-              Following
-            </Text>
-          </div>
-
-          <img
-            src='/static/icons/iconUserFollow.svg'
-            alt=''
-            width={0}
-            height={0}
-            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
-            sizes='100vw'
-          />
-        </>
-      );
-    }
-    return (
-      <>
-        {!isMyPost && (
-          <>
-            <div
-              className={classNames(
-                'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-                { 'bg-[#F3F2F6]': following },
-              )}
-            >
-              <IconPlus />
-              <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-                Follow
-              </Text>
-            </div>
-
-            <img
-              src='/static/icons/iconUserUnFollow.svg'
-              alt=''
-              width={0}
-              height={0}
-              className='mr-[10px] w-[24px] mobile:block tablet:hidden'
-              sizes='100vw'
-            />
-          </>
-        )}
-      </>
-    );
-  };
-
-  const onClickProfileDetail = () => {
-    if (
-      [
-        TYPEPOST.POST,
-        TYPEPOST.ActivityTheme,
-        TYPEPOST.ActivityWatchlist,
-        TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
-    ) {
-      router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
-    }
-  };
-
   if (!postDetail) {
     return <></>;
   }
 
   return (
     <>
-      <div className='flex flex-row justify-between '>
-        <div className='flex cursor-pointer flex-row items-center' onClick={onClickProfileDetail}>
-          <div
-            ref={refHover}
-            className={classNames('relative', {
-              [styles.avatar]: [
-                TYPEPOST.POST,
-                TYPEPOST.ActivityTheme,
-                TYPEPOST.ActivityWatchlist,
-                TYPEPOST.ActivityMatchOrder,
-              ].includes(postDetail?.post.postType),
-            })}
-          >
-            {postDetail?.post?.customerInfo?.avatar === '' ? (
-              <AvatarDefault name={name} />
-            ) : (
-              <img
-                src={renderLogo()}
-                alt='avatar'
-                sizes='100vw'
-                className={classNames(
-                  'mr-2 rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
-                  {
-                    'object-cover': [
-                      TYPEPOST.POST,
-                      TYPEPOST.ActivityTheme,
-                      TYPEPOST.ActivityWatchlist,
-                      TYPEPOST.ActivityMatchOrder,
-                    ].includes(postDetail?.post.postType),
-                  },
-                )}
-              />
-            )}
+      <div className='mb-4 flex flex-row justify-between'>
+        <CustomLink
+          href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
+          className='flex w-full justify-between'
+        >
+          <div className='flex cursor-pointer flex-row items-center'>
+            <div
+              ref={refHover}
+              className={classNames('relative', {
+                [styles.avatar]: [
+                  TYPEPOST.POST,
+                  TYPEPOST.ActivityTheme,
+                  TYPEPOST.ActivityWatchlist,
+                  TYPEPOST.ActivityMatchOrder,
+                ].includes(postDetail?.post.postType),
+              })}
+            >
+              <Avatar postDetail={postDetail} />
 
-            {[
-              TYPEPOST.POST,
-              TYPEPOST.ActivityTheme,
-              TYPEPOST.ActivityWatchlist,
-              TYPEPOST.ActivityMatchOrder,
-            ].includes(postDetail?.post.postType) &&
-              isHovering && <ItemHoverProfile postDetail={postDetail} name={name} />}
-          </div>
-
-          <div>
-            <div className='flex'>
-              <div className='mr-[5px] flex items-center'>
-                <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
-                  {renderDisplayName()}
-                </Text>
-
-                {postDetail?.post?.customerInfo?.isFeatureProfile && (
-                  <img
-                    src='/static/icons/iconKol.svg'
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='ml-[4px] h-[16px] w-[16px] object-contain'
-                  />
-                )}
-
-                {postDetail?.post?.customerInfo?.isKol && (
-                  <img
-                    src='/static/icons/iconTick.svg'
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='ml-[4px] h-[16px] w-[16px] object-contain'
-                  />
-                )}
-              </div>
+              <Fade
+                visible={
+                  [
+                    TYPEPOST.POST,
+                    TYPEPOST.ActivityTheme,
+                    TYPEPOST.ActivityWatchlist,
+                    TYPEPOST.ActivityMatchOrder,
+                  ].includes(postDetail?.post.postType) && isHovering
+                }
+              >
+                <ItemHoverProfile postDetail={postDetail} name={name} />
+              </Fade>
             </div>
-            <Text type='body-14-regular' color='neutral-4' className='mt-[2px] font-[300]'>
-              {postDetail?.timeString &&
-                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
-            </Text>
+
+            <div>
+              <div className='flex'>
+                <div className='mr-[5px] flex items-center'>
+                  <UserName postDetail={postDetail} />
+
+                  {postDetail?.post?.customerInfo?.isFeatureProfile && (
+                    <img
+                      src='/static/icons/iconKol.svg'
+                      alt=''
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                      className='ml-[4px] h-[16px] w-[16px] object-contain'
+                    />
+                  )}
+
+                  {postDetail?.post?.customerInfo?.isKol && (
+                    <img
+                      src='/static/icons/iconTick.svg'
+                      alt=''
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                      className='ml-[4px] h-[16px] w-[16px] object-contain'
+                    />
+                  )}
+                </div>
+              </div>
+              <Text type='body-14-regular' color='neutral-4' className='mt-[2px] font-[300]'>
+                {postDetail?.timeString &&
+                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
+              </Text>
+            </div>
           </div>
-        </div>
+        </CustomLink>
 
         <div className='flex items-center'>
-          {[
-            TYPEPOST.POST,
-            TYPEPOST.ActivityTheme,
-            TYPEPOST.ActivityMatchOrder,
-            TYPEPOST.ActivityWatchlist,
-          ].includes(postDetail?.post.postType) && (
-            <div className='cursor-pointer' onClick={onFollow}>
-              {renderTextFollow()}
-            </div>
-          )}
+          <Follower
+            postDetail={postDetail}
+            onFollow={onFollow}
+            following={following}
+            isMyPost={isMyPost}
+          />
+
           {(isReported && router.pathname === '/explore') ||
           (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
             ''
@@ -573,7 +610,8 @@ const NewFeedItem = (props: IProps) => {
       </div>
 
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
-        {renderContentPost()}
+        <PostContent id={id} onNavigate={onNavigate} postDetail={postDetail} />
+
         <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostAction
             urlPost={'/post/' + idPost}
