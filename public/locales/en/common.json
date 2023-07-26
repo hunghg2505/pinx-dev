@@ -180,5 +180,13 @@
   "unsubscribe_theme": "unsubscribed",
   "copy_link": "Copy link",
   "copied": "Copied",
-  "post_action": "Post"
+  "post_action": "Post",
+  "report_reason": {
+    "bad_content": "Bad content",
+    "spam": "Spam",
+    "violent_content": "Violent content",
+    "other": "Other"
+  },
+  "reply": "Reply",
+  "delete": "Delete"
 }

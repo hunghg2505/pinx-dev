@@ -73,19 +73,19 @@ const ModalReport = (props: IProps) => {
   };
   const options = [
     {
-      label: 'Bad content',
+      label: t('report_reason.bad_content'),
       value: TYPEREPORT.INAPPROPRIATE,
     },
     {
-      label: 'Spam',
+      label: t('report_reason.spam'),
       value: TYPEREPORT.SPAM,
     },
     {
-      label: 'Violent content',
+      label: t('report_reason.violent_content'),
       value: TYPEREPORT.PROVOKE,
     },
     {
-      label: 'Other',
+      label: t('report_reason.other'),
       value: TYPEREPORT.OTHER,
     },
   ];

@@ -125,7 +125,7 @@
   "try_full_experience_on": "Trải nghiệm đầy đủ tại",
   "mobile_app": "App điện thoại",
   "open_app": "Mở App",
-  "user_watchlist": "Danh mục theo dõi của bạn",
+  "user_watchlist": "Danh mục theo dõi",
   "trending": "Xu hướng",
   "people_you_may_know": "Bạn có thể biết",
   "view_more": "Xem thêm",
@@ -183,5 +183,12 @@
   "unsubscribe_theme": "không còn theo dõi",
   "copy_link": "Sao chép liên kết",
   "copied": "Đã sao chép liên kết",
-  "post_action": "Đăng"
+  "post_action": "Đăng",
+  "report_reason": {
+    "bad_content": "Ngôn từ không phù hợp",
+    "spam": "Spam",
+    "violent_content": "Ngôn từ gây kích động, bạo lực",
+    "other": "Khác"
+  },
+  "reply": "Trả lời"
 }
