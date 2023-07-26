@@ -52,9 +52,9 @@ interface IProps {
 }
 
 const PostContent = ({ id, onNavigate, postDetail }: any) => {
-  if (id) {
-    return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
-  }
+  // if (id) {
+  //   return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
+  // }
 
   return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
 };
@@ -311,7 +311,15 @@ const NewFeedItem = (props: IProps) => {
 
           {(isReported && router.pathname === '/explore') ||
           (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
-            ''
+            <div>
+              {pinned && (
+                <img
+                  src='/static/icons/iconPinned.svg'
+                  alt=''
+                  className='mr-[16px] h-[28px] w-[28px]'
+                />
+              )}
+            </div>
           ) : (
             <div className='flex'>
               {pinned && (

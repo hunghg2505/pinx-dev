@@ -366,31 +366,43 @@ const Compose = (props: IProps) => {
 
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
 
+      const urlLinks = [];
+
+      if (url) {
+        urlLinks.push(url);
+      }
+
       const test = editor?.getJSON()?.content?.map((item: any) => {
         const abcd = item?.content?.map((text: any) => {
           let p = '';
+
           if (text.type === 'text') {
             const txt = text.text.split(' ');
             for (const item of txt) {
-              if (item.includes('http')) {
-                urlLink.push(item);
+              if (item.includes('http') && urlLinks.length < 2) {
+                urlLinks.push(item);
               }
             }
+
             p = text.text;
           }
+
           if (text.type === 'userMention') {
             const query = text.attrs.label;
             users.push(query);
             p = `@[${text.attrs.label}](${text.attrs.id})`;
           }
+
           if (text.type === 'stockMention') {
             const query = text.attrs.label;
             stock.push(query);
             p = `%[${text.attrs.label}](${text.attrs.label})`;
           }
+
           if (text.type === 'hardBreak') {
             p = '\n';
           }
+
           return p;
         });
         return abcd?.join('');
@@ -432,7 +444,7 @@ const Compose = (props: IProps) => {
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
         // parentId: idReply === '' ? id : idReply,
         urlImages: [imageUploadedUrl],
-        urlLinks: metaData && themeActiveId === 'default' ? [...urlLink, url] : urlLink,
+        urlLinks,
       };
 
       if (themeActiveId === 'default' && !isUpdate) {
@@ -480,7 +492,9 @@ const Compose = (props: IProps) => {
 
         requestAddPost.run(data);
       }
-    } catch {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onAddPeople = async () => {
@@ -658,9 +672,7 @@ const Compose = (props: IProps) => {
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddPeople}
           >
-            <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
-              {t('post_action')}
-            </Text>
+            <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
           </div>
 
           <div
