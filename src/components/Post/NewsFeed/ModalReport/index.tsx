@@ -1,15 +1,13 @@
 import React from 'react';
 
-import 'rc-dialog/assets/index.css';
-
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -31,7 +29,7 @@ interface IProps {
 }
 const ModalReport = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { children, closeIcon, postID, visible, onModalReportVisible, onReportSuccess } = props;
+  const { children, postID, visible, onModalReportVisible, onReportSuccess } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const onVisible = () => {
@@ -56,12 +54,6 @@ const ModalReport = (props: IProps) => {
     }
   };
 
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return <>x</>;
-  };
   const onReport = useRequest(
     (payload: any) => {
       return requestReportPost(postID, payload);
@@ -101,11 +93,10 @@ const ModalReport = (props: IProps) => {
       <span onClick={onVisible} className='cursor-pointer'>
         {children}
       </span>
-      <Dialog
+      <Modal
         rootClassName={RC_DIALOG_CLASS_NAME}
         visible={visible}
         onClose={onVisible}
-        closeIcon={renderCloseIcon()}
         closable={false}
       >
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
@@ -175,7 +166,7 @@ const ModalReport = (props: IProps) => {
             </button>
           </div>
         </Form>
-      </Dialog>
+      </Modal>
     </>
   );
 };

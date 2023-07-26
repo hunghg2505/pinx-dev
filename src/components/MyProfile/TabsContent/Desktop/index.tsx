@@ -11,7 +11,6 @@ import { profileUserContext } from '@components/MyProfile';
 import Assets from '../Assets';
 import Follower from '../Follower';
 import Following from '../Following';
-import LockIcon from '../lock-closed';
 import Posts from '../Posts';
 import WatchList from '../WatchList';
 
@@ -53,15 +52,7 @@ const Desktop = () => {
             <WatchList />
           </div>
         </TabPane>
-        <TabPane
-          tab={
-            <div className='flex justify-center'>
-              <LockIcon />
-              {t('Assets')}
-            </div>
-          }
-          key='assets'
-        >
+        <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
           <div className='tablet:px-0 '>
             <Assets />
           </div>

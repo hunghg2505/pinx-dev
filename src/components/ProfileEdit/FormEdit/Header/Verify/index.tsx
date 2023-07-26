@@ -7,9 +7,10 @@ import { profileUserContext } from '@components/ProfileEdit';
 const Verify = () => {
   const profileUser = useContext<any>(profileUserContext);
   const { t } = useTranslation('editProfile');
+
   return (
     <div className='mb-[20px]'>
-      {profileUser?.acntStat === 'ACTIVE' ? (
+      {profileUser?.acntStat === 'ACTIVE' && (
         <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-green'>
           <svg
             width='16'
@@ -28,7 +29,13 @@ const Verify = () => {
           </svg>
           {t('verified')}
         </span>
-      ) : (
+      )}
+      {profileUser?.acntStat === 'VSD_PENDING' && (
+        <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-orange'>
+          {t('pending')}
+        </span>
+      )}
+      {!profileUser?.acntStat && (
         <span className='text[12px] line-[16px] font[500] mx-auto flex items-center justify-center gap-[4px] text-orange'>
           {t('unverified')}
         </span>

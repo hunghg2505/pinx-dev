@@ -20,14 +20,14 @@ interface IProps {
   refresh: () => void;
 }
 const PeopleList = (props: IProps) => {
-  const { data } = props;
+  const { data, refresh } = props;
   return (
-    <div className='overflow-hidden'>
+    <div className='max-w-[700px]  overflow-hidden '>
       <Slider {...settings} className=''>
-        {data?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
+        {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
           return (
-            <div key={index}>
-              <ItemPeople data={item} />
+            <div key={`people-list-${item.id}`}>
+              <ItemPeople data={item} refresh={refresh} />
             </div>
           );
         })}

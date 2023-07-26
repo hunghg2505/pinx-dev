@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import 'rc-dialog/assets/index.css';
 import classNames from 'classnames';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
@@ -35,16 +34,9 @@ const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
   }, [popupWidth]);
 
   return (
-    <Dialog
+    <Modal
       visible={visible}
       onClose={onClose}
-      closeIcon={
-        <img
-          src='/static/icons/iconClose.svg'
-          alt='Close icon'
-          className='h-[21px] w-[21px] object-contain'
-        />
-      }
       className={classNames(styles.popupMatchedPrice, POPUP_CLASS_NAME)}
     >
       <Text type='body-16-bold' color='primary-5' className='text-center'>
@@ -479,7 +471,7 @@ const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
           </tr>
         </tbody>
       </table>
-    </Dialog>
+    </Modal>
   );
 };
 

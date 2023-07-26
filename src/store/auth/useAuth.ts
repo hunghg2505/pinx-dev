@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+import { useEffect, useState } from 'react';
+
 import { ROUTE_PATH } from '@utils/common';
 
 import { deleteAuthCookies, getAccessToken, setAuthCookies, setRegisterCookies } from '.';
@@ -12,12 +14,16 @@ export interface IAuth {
 }
 
 export const useAuth = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(!!getAccessToken());
+  }, []);
+
   const onLogout = (navigatePath?: string) => {
     try {
-      const locale = localStorage.getItem('locale');
       deleteAuthCookies();
       localStorage.clear();
-      localStorage.setItem('locale', locale || '');
       window.location.href = navigatePath || ROUTE_PATH.HOME;
     } catch {}
   };
@@ -47,7 +53,7 @@ export const useAuth = () => {
   };
 
   return {
-    isLogin: !!getAccessToken(),
+    isLogin,
     onLogin,
     onLogout,
     onRegister,

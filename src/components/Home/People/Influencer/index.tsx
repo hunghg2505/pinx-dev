@@ -42,20 +42,25 @@ const Influencer = () => {
   // const ListInfluencer = KOL?.filter((item: IKOL) => item.isFeatureProfile === true);
   const refSlide: any = React.useRef();
   return (
-    <div className='peopleInfluence relative'>
+    <div className='peopleInfluence relative w-[100%]'>
       <div
         onClick={() => refSlide.current.slickPrev()}
-        className='absolute -left-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform cursor-pointer tablet-max:hidden'
+        className='absolute -left-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
-        <img src='/static/images/btn-prev.png' alt='' />
+        <img
+          src='/static/icons/iconGrayPrev.svg'
+          alt='Icon prev'
+          className='h-[16px] w-[7px] object-contain'
+        />
       </div>
-      <div className='overflow-hidden'>
-        <Slider {...settings} variableWidth ref={refSlide}>
-          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true).map(
+
+      <div className='max-w-[700px]'>
+        <Slider {...settings} variableWidth ref={refSlide} draggable={true}>
+          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
             (item: IKOL, index: number) => {
               return (
                 <div key={index} className='mr-[16px]'>
-                  <div className='w-[161px]'>
+                  <div className='mx-auto w-[161px]'>
                     <ItemInfluence data={item} refresh={refresh} />
                   </div>
                 </div>
@@ -67,9 +72,13 @@ const Influencer = () => {
 
       <div
         onClick={() => refSlide.current.slickNext()}
-        className='absolute -right-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform tablet-max:hidden'
+        className='absolute -right-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
-        <img src='/static/images/btn-next.png' alt='' className=' cursor-pointer' />
+        <img
+          src='/static/icons/iconGrayNext.svg'
+          alt='Icon next'
+          className='h-[16px] w-[7px] object-contain'
+        />
       </div>
     </div>
   );

@@ -3,7 +3,8 @@ import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+import MainLayout from '@layout/MainLayout';
+
 const FinancialCalendar = dynamic(() => import('@components/Stock/FinancialCalendar'), {
   ssr: false,
 });
@@ -12,7 +13,7 @@ const FinancialCalendarPage = () => {
 };
 
 FinancialCalendarPage.getLayout = (page: ReactElement) => {
-  return <ExploreLayout>{page}</ExploreLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getServerSideProps({ locale }: any) {

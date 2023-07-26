@@ -58,8 +58,7 @@ const UserFolow = (props: any) => {
             />
           )}
         </div>
-        {!isLogin && <UnFollow />}
-        {isLogin && props?.isFollowed ? <UnFollow /> : <Follow />}
+        {isLogin ? <>{props?.isFollowed ? <UnFollow /> : <Follow />}</> : <Follow />}
       </div>
     </followContext.Provider>
   );

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
@@ -12,25 +11,29 @@ interface IProps {
   id: string;
   refresh: () => void;
   onHidePost?: (id: string) => void;
+  pinned?: boolean;
 }
 const NewsFeed = (props: IProps) => {
-  const { data, refresh, id, onHidePost } = props;
+  const { data, refresh, id, onHidePost, pinned = false } = props;
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${data?.id}`);
   };
+
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(data?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
   const commentChild = commentsOfPost?.data?.list?.reduce(
     (acc: any, current: any) => acc + current?.totalChildren,
     0,
   );
+
   const countComment = totalComments + commentChild;
-  const renderViewMore = () => {
+
+  const ViewMore = () => {
     if (countComment > 1) {
       return (
         <div
-          className='mx-[auto] mb-[5px] mt-[15px] flex h-[36px] w-[calc((100%_-_32px))] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'
+          className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
@@ -39,14 +42,13 @@ const NewsFeed = (props: IProps) => {
         </div>
       );
     }
+
+    return <></>;
   };
+
   return (
     <>
-      <div
-        className={classNames('bg-[#ffffff]', {
-          'mobile:pb-[30px] desktop:pb-[20px]': countComment > 1,
-        })}
-      >
+      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={data}
@@ -54,20 +56,25 @@ const NewsFeed = (props: IProps) => {
           onRefreshPostDetail={refresh}
           postId={id}
           onHidePostSuccess={onHidePost}
+          pinned={pinned}
         />
-        <div className='desktop:ml-[64px] desktop:mr-[88px]'>
-          {countComment > 0 && (
-            <div className='mt-[22px]'>
-              <ItemComment
-                onNavigate={onNavigate}
-                data={commentsOfPost?.data?.list?.[0]}
-                refresh={refresh}
-                refreshCommentOfPOst={refreshCommentOfPost}
-              />
-            </div>
-          )}
-          {renderViewMore()}
-        </div>
+
+        {!!countComment && (
+          <div className=' [border-top:1px_solid_#EBEBEB] desktop:ml-[64px]'>
+            {countComment > 0 && (
+              <div className='mt-[22px]'>
+                <ItemComment
+                  onNavigate={onNavigate}
+                  data={commentsOfPost?.data?.list?.[0]}
+                  refresh={refresh}
+                  refreshCommentOfPOst={refreshCommentOfPost}
+                />
+              </div>
+            )}
+
+            <ViewMore />
+          </div>
+        )}
       </div>
     </>
   );

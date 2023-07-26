@@ -1,27 +1,24 @@
 /* eslint-disable import/named */
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { MainButton } from '@components/UI/Button';
 import PopupConfirmDeactivateAccount from '@components/UI/Popup/PopupConfirmDeactiveAccount';
 import Text from '@components/UI/Text';
-import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
   isPopup?: boolean;
 }
 
 const DeactivateAccount = (props: IProps) => {
-  const router = useRouter();
+  const { t } = useTranslation('setting');
   const { userLoginInfo } = useUserLoginInfo();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isDesktop } = useResponsive();
 
   const deactivateAccout = () => {
     setPopupStatus({
@@ -34,12 +31,6 @@ const DeactivateAccount = (props: IProps) => {
   const onClosePopup = () => {
     setPopupStatus(initialPopupStatus);
   };
-
-  useEffect(() => {
-    if (isDesktop) {
-      router.push(ROUTE_PATH.HOME);
-    }
-  }, []);
 
   if (!userLoginInfo.id) {
     return <></>;
@@ -60,24 +51,19 @@ const DeactivateAccount = (props: IProps) => {
             'mt-0 text-center': props.isPopup,
           })}
         >
-          Deactivate account
+          {t('deactivate_account')}
         </Text>
         <Text type='body-16-regular' className='mobile:mt-6 laptop:mt-0'>
-          When closing the trading account, the login and trading on the VSD account will be
-          disabled. To fulfill the request to close the trading account, all payments/settlements,
-          debts, custody... must be paid accoring to the obligations of related parties. When
-          requesting to close the trading account, Pinetree’s customer service department will
-          receive the request and contact you directly to assist you in confirming the documents
-          with your rights and obligations in the order prescribed by law.
+          {t('deactivate_account_content')}
         </Text>
 
         <MainButton
           onClick={deactivateAccout}
           className={classNames('mt-6 w-full', {
-            'fixed bottom-9 mt-0 !w-[calc(100%-32px)]': !props.isPopup,
+            'fixed bottom-9 left-[16px] mt-0 !w-[calc(100%-32px)]': !props.isPopup,
           })}
         >
-          Got it
+          {t('got_it')}
         </MainButton>
       </div>
     </>

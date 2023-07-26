@@ -14,7 +14,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
-import { getLocaleCookie } from '@store/locale/locale';
+import { getLocaleCookie } from '@store/locale';
 import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
@@ -37,6 +37,7 @@ interface ISettingItem {
 }
 
 const Setting = () => {
+  const { t } = useTranslation('setting');
   const router = useRouter();
   const currentLang = getLocaleCookie() || 'en';
   const [popupLanguageVisible, setPopupLanguageVisible] = useState(false);
@@ -44,7 +45,6 @@ const Setting = () => {
   const { onLogout, isLogin } = useAuth();
   const { data: settingsData, loading } = useGetSettings();
   const { isMobile } = useResponsive();
-  const { t } = useTranslation('setting');
   const { isDesktop } = useResponsive();
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
   const fromProfileMenu = router.query.from_profile_menu;
@@ -58,7 +58,7 @@ const Setting = () => {
   const SETTINGS = useMemo(() => {
     return [
       {
-        title: 'Language',
+        title: t('language'),
         value: currentLang === 'vi' ? ' Tiếng Việt' : 'English',
         action: () => onTogglePopupLanguage(),
         hideDivider: !isMobile && !isLogin,
@@ -69,7 +69,7 @@ const Setting = () => {
         hidden: !isLogin,
       },
       {
-        title: 'Change Username',
+        title: t('change_username'),
         path: ROUTE_PATH.SETTING_CHANGE_USERNAME,
         isNew: true,
         hidden: !isLogin,
@@ -81,13 +81,13 @@ const Setting = () => {
   const PINEX_HELP = useMemo(() => {
     return [
       {
-        title: 'Version 2.1.1',
+        title: `${t('version')} 2.1.1`,
         hideArrow: true,
         hideDivider: !isMobile,
         disableClick: true,
       },
       {
-        title: 'Disclosure',
+        title: t('disclosure'),
         action: () => window.open(TERM_AND_CONDITION_LINK),
         linkStyle: !isMobile,
         hideDivider: !isMobile,
@@ -101,7 +101,7 @@ const Setting = () => {
       //   hideArrow: !isMobile,
       // },
       {
-        title: 'Hotline',
+        title: t('hotline'),
         action: () => {
           if (isDesktop) {
             onTogglePopupHotline();
@@ -114,7 +114,7 @@ const Setting = () => {
         hideArrow: !isMobile,
       },
       {
-        title: 'Log out',
+        title: t('log_out'),
         action: () => onLogout(),
         linkStyle: !isMobile,
         hideDivider: !isMobile,
@@ -139,7 +139,7 @@ const Setting = () => {
           }}
           key={index}
           className={classNames(
-            'flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 py-[14px]',
+            ' flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4',
             {
               'border-none': item.hideDivider,
               'cursor-auto': item.disableClick,
@@ -207,16 +207,16 @@ const Setting = () => {
       <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+      <div className='relative rounded-[8px] bg-white text-left first-letter:w-full mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
         <img
-          src='/static/icons/icon_back_header.svg'
+          src='/static/icons/back_icon.svg'
           alt=''
           width='0'
           height='0'
-          className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+          className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px]'
           onClick={onBack}
         />
-        <Text type='body-20-bold' className='mb-1 ml-4 mobile:mt-6 laptop:mt-0'>
+        <Text className='mb-1 text-[20px] font-[700] mobile:mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-center laptop:text-[28px]'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
@@ -227,12 +227,12 @@ const Setting = () => {
         )}
         {isLogin && (
           <>
-            <Text type='body-20-semibold' className='ml-4 mt-[20px] tablet:!text-[16px]'>
-              Social
+            <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
+              {t('social')}
             </Text>
 
-            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] px-4 py-[14px] laptop:border-none'>
-              <Text type='body-14-regular'>Share watchinglist</Text>
+            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4 laptop:border-none'>
+              <Text type='body-14-regular'>{t('share_watchinglist')}</Text>
 
               <Switch
                 defaultChecked={settingsData?.data?.share_watchlist === '1'}
@@ -244,7 +244,7 @@ const Setting = () => {
 
         <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
 
-        <Text type='body-20-semibold' className='ml-4 mt-[20px] tablet:!text-[16px]'>
+        <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
           PineX
         </Text>
 
@@ -256,7 +256,7 @@ const Setting = () => {
               onClick={() => onLogout()}
               className='my-14 flex h-[40px] w-full items-center justify-center'
             >
-              <Text type='body-14-semibold'>Log out</Text>
+              <Text type='body-14-semibold'>{t('log_out')}</Text>
             </NegativeMainButton>
           </div>
         )}

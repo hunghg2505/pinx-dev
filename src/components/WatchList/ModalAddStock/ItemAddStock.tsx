@@ -1,23 +1,25 @@
 import classNames from 'classnames';
-// import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import Loading from '@components/UI/Loading';
-// import Notification from '@components/UI/Notification';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { imageStock } from '@utils/common';
 
 import styles from './index.module.scss';
 
-const ItemAddStock = ({ data }: { data: any }) => {
+const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refreshYourWatchList?: () => void, like?: boolean }) => {
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
-      // toast(() => <Notification type='success' message='Add stock success' />);
+      toast(() => <Notification type='success' message='Add stock success' />);
+      refreshYourWatchList && refreshYourWatchList();
     },
   });
   const onAddStock = () => {
     requestSelectStock.run(data?.stockCode);
   };
+  console.log(like);
   return (
     <>
       <div className='flex items-center gap-x-[10px]'>

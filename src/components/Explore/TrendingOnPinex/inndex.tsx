@@ -23,7 +23,7 @@ const TrendingOnnPinex = (props: IProps) => {
   );
   const countComment = totalComments + commentChild;
   return (
-    <div className='relative mb-[16px] w-full rounded-[12px] mobile-max:px-[16px] mobile-max:[box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+    <div className='relative mb-[16px] w-full rounded-[12px] p-[16px] mobile-max:[box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
       <NewFeedItem
         onNavigate={onNavigate}
         postDetail={data}

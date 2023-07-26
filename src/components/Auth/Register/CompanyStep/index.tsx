@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
@@ -18,8 +19,7 @@ import {
 } from './service';
 
 const RegisterCompanyStep = () => {
-  // const { t } = useTranslation('common');
-  // const [form] = Form.useForm();
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<any[]>([]);
   const [myListStock, setMyListStock] = useState<string[]>([]);
@@ -104,14 +104,14 @@ const RegisterCompanyStep = () => {
           </div>
           <div className='max-sm:mt-6 flex flex-col items-center'>
             <Text type='body-28-bold' className='mt-6'>
-              What are you up to?
+              {t('register_company_titile')}
             </Text>
             <div className='neutral-4 mt-[8px] flex flex-col items-center'>
               <Text
                 type='body-16-regular'
                 className='text-center mobile:w-[269px] tablet:w-full desktop:w-full'
               >
-                Choose companies you would like to get updates from
+                {t('register_company_sub_titile')}
               </Text>
             </div>
           </div>
@@ -171,13 +171,13 @@ const RegisterCompanyStep = () => {
               })}
             </div>
           </div>
-          <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}
               className='my-auto flex h-[49px] w-[343px] items-center justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-center text-[17px] font-[700] text-white'
             >
-              Select <Text className='ml-[3px]'>({selected.length})</Text>
+              {t('select')} <Text className='ml-[3px]'>({selected.length})</Text>
             </button>
           </div>
         </div>

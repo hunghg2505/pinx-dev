@@ -1,13 +1,13 @@
 import React, { useRef, useContext } from 'react';
 
-import Modal, { IBaseModal } from '@components/common/Modal';
+import BaseModal from '@components/MyProfile/MyStory/BaseModal';
 
 import PreViewStory from './PreviewStory';
 import Story from './Story';
 import { profileUserContext } from '..';
 
 const MyStory = () => {
-  const modalRef = useRef<HTMLDivElement & IBaseModal>(null);
+  const modalRef = useRef<any>(null);
   const profileUser = useContext<any>(profileUserContext);
   return (
     <>
@@ -18,13 +18,13 @@ const MyStory = () => {
               modalRef.current?.open();
             }}
           />
-          <Modal ref={modalRef}>
+          <BaseModal ref={modalRef}>
             <Story
               closeStory={() => {
                 modalRef.current?.close();
               }}
             />
-          </Modal>
+          </BaseModal>
         </div>
       )}
     </>

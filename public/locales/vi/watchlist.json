@@ -1,13 +1,13 @@
 {
-  "title": "Watchlist",
-  "titleInterest": "You may interest",
-  "cancelTxt": "Cancel",
-  "saveTxt": "Save",
-  "addTxt": "Add new",
+  "title": "Danh mục theo dõi",
+  "titleInterest": "Bạn có thể quan tâm",
+  "cancelTxt": "Hủy",
+  "saveTxt": "Lưu",
+  "addTxt": "Thêm mới",
   "search": {
-    "input": "Search for symbol or company",
-    "emptyTitle": "Empty",
-    "emptyDesc": "No transactions"
+    "input": "Tìm kiếm theo mã cổ phiếu hoặc công ty",
+    "emptyTitle": "Chưa có dữ liệu",
+    "emptyDesc": "Chưa có giao dịch"
   },
-  "editText": "Edit list"
+  "editText": "Chỉnh sửa"
 }

@@ -7,9 +7,9 @@ import Form from 'rc-field-form';
 import PeopleItem from '@components/Explore/ModalPeopleYouKnow/PeopleItem';
 import { TYPESEARCH } from '@components/Home/service';
 import FormItem from '@components/UI/FormItem';
+import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetPeople } from '../service';
@@ -73,7 +73,7 @@ const People = ({ keyword }: { keyword: any }) => {
           </FormItem>
         </Form>
         {people?.length > 0 ? (
-          <div className='mt-[20px] flex flex-col gap-y-[20px]'>
+          <div className='flex flex-col mobile:mt-[20px] mobile:gap-y-[12px] tablet:mt-[10px] desktop:gap-y-0'>
             {people?.map((item: any, index: number) => (
               <PeopleItem data={item} key={index} />
             ))}

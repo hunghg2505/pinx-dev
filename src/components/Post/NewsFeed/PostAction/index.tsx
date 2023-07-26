@@ -32,6 +32,7 @@ const PostAction = (props: IPostActionProps) => {
   const { isLike, idPost, onRefreshPostDetail, onNavigate, totalLikes, totalComments, urlPost } =
     props;
 
+  const [fullUrlPost, setFullUrlPost] = useState('');
   const [showModalShare, setShowModalShare] = useState(false);
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -50,6 +51,10 @@ const PostAction = (props: IPostActionProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModalShare]);
+
+  useEffect(() => {
+    setFullUrlPost(window.location.origin + urlPost);
+  }, []);
 
   const requestGetTotalShare = useRequest(getTotalSharePost, {
     manual: true,
@@ -151,7 +156,7 @@ const PostAction = (props: IPostActionProps) => {
 
   return (
     <>
-      <div className='action flex flex-row items-center justify-between desktop:justify-start'>
+      <div className='action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]'>
         <div
           className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
           onClick={() => handleLikeOrUnLikePost()}
@@ -160,13 +165,11 @@ const PostAction = (props: IPostActionProps) => {
             src={like && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
             color='#FFFFFF'
             alt=''
-            width={16}
-            height={14}
             sizes='100vw'
-            className='mr-[8px] h-[14px] w-[18px] object-contain'
+            className='mr-[8px] h-[20px] w-[22px] object-contain'
           />
           <Text
-            type='body-12-medium'
+            type='body-14-medium'
             color='primary-5'
             className={classNames({ '!text-[#589DC0]': like && isLogin })}
           >
@@ -180,11 +183,9 @@ const PostAction = (props: IPostActionProps) => {
           <img
             src='/static/icons/iconComment.svg'
             alt=''
-            width={14}
-            height={14}
-            className='mr-[8px] h-[14px] w-[14px] object-contain'
+            className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
-          <Text type='body-12-medium' color='primary-5'>
+          <Text type='body-14-medium' color='primary-5'>
             {totalComments || ''} Comment
           </Text>
         </div>
@@ -195,18 +196,16 @@ const PostAction = (props: IPostActionProps) => {
           <img
             src='/static/icons/iconShare.svg'
             alt=''
-            width={14}
-            height={14}
-            className='mr-[8px] h-[14px] w-[14px] object-contain'
+            className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
-          <Text type='body-12-medium' color='primary-5'>
+          <Text type='body-14-medium' color='primary-5'>
             {requestGetTotalShare?.data?.shares?.all || ''} Share
           </Text>
         </div>
       </div>
 
       <ModalShare
-        url={urlPost}
+        url={fullUrlPost}
         visible={showModalShare}
         handleClose={() => {
           setShowModalShare(false);

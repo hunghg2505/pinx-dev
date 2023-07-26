@@ -7,9 +7,9 @@ import Form from 'rc-field-form';
 import PostItem from '@components/Explore/Search/PostItem';
 import { TYPESEARCH } from '@components/Home/service';
 import FormItem from '@components/UI/FormItem';
+import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useGetPosts } from '../service';
@@ -73,7 +73,7 @@ const Post = ({ keyword }: { keyword: any }) => {
           </FormItem>
         </Form>
         {posts?.length > 0 ? (
-          <div className='mt-[20px] flex flex-col gap-y-[20px]'>
+          <div className='mt-[20px] flex flex-col mobile:gap-y-[16px] desktop:mt-0 desktop:gap-y-0'>
             {posts?.map((post: any, index: number) => {
               return <PostItem key={index} postDetail={post} />;
             })}

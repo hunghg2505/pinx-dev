@@ -185,7 +185,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment mb-[22px] px-[16px]'>
+    <div className='comment mb-[22px]'>
       <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
@@ -194,8 +194,8 @@ const ItemComment = (props: IProps) => {
           height='0'
           sizes='100vw'
           className={classNames('mr-[12px] cursor-pointer rounded-full object-cover', {
-            'h-[36px] w-[36px]': !isChildren,
-            'h-[28px] w-[28px]': isChildren,
+            'h-[40px] w-[40px]': !isChildren,
+            'h-[36px] w-[36px]': isChildren,
           })}
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
         />
@@ -206,35 +206,39 @@ const ItemComment = (props: IProps) => {
             'w-[calc(100%_-_48px)]': !isChildren,
           })}
         >
-          <div className='relative mb-[8px] rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
+          <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative'>
+              <div className='relative flex items-center'>
                 <Text type='body-14-semibold' color='neutral-1'>
                   {data?.customerInfo?.displayName}
                 </Text>
-
-                <img
-                  src='/static/icons/iconKol.svg'
-                  alt='Icon kol'
-                  className={classNames(
-                    'absolute left-full top-0 h-[16px] w-[16px] -translate-y-1/4 object-contain',
-                    {
-                      hidden: !data?.customerInfo?.isFeatureProfile,
-                    },
-                  )}
-                />
-              </div>
-              <button className='relative flex items-center' ref={ref}>
-                <Text type='body-14-regular' color='neutral-5'>
-                  {dayjs(data?.timeString).fromNow(true)}
-                </Text>
-                {isComment && (
+                {data?.customerInfo?.isFeatureProfile && (
                   <img
-                    src='/static/icons/iconDot.svg'
+                    src='/static/icons/iconKol.svg'
                     alt=''
                     width={0}
                     height={0}
-                    className='h-[18px] w-[18px] rotate-90 transform cursor-pointer'
+                    sizes='100vw'
+                    className='ml-[6px] h-[14px] w-[14px] object-contain'
+                  />
+                )}
+                {data?.customerInfo?.isKol && (
+                  <img
+                    src='/static/icons/iconTick.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[6px] h-[14px] w-[14px] object-contain'
+                  />
+                )}
+              </div>
+              <button className='relative flex items-center' ref={ref}>
+                {isComment && (
+                  <img
+                    src='/static/icons/iconDotHorizontal.svg'
+                    alt=''
+                    className='ml-[8px] h-[14px] w-[14px] rotate-90 transform cursor-pointer'
                     onClick={onShowDelete}
                   />
                 )}
@@ -270,7 +274,7 @@ const ItemComment = (props: IProps) => {
             </div>
 
             {data?.totalLikes > 0 && (
-              <div className='absolute bottom-0 right-[1px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
+              <div className='absolute bottom-0 right-[10px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6]'>
                 <img
                   src='/static/icons/iconLike.svg'
                   alt=''
@@ -284,6 +288,7 @@ const ItemComment = (props: IProps) => {
               </div>
             )}
           </div>
+
           {urlImage !== '' && (
             <Fancybox
               options={{
@@ -305,8 +310,8 @@ const ItemComment = (props: IProps) => {
             </Fancybox>
           )}
 
-          <div className='action flex'>
-            <div className='like mr-[38px] flex cursor-pointer' onClick={onLike}>
+          <div className='action flex gap-x-[18px]'>
+            <div className='like flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-14-regular'
                 className={classNames({
@@ -318,7 +323,7 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
             <div
-              className='comment mr-[38px] flex cursor-pointer'
+              className='comment flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
               <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
@@ -338,11 +343,10 @@ const ItemComment = (props: IProps) => {
             >
               {numberReport} Report
             </ModalReportComment>
-            {/* <Fancybox>
-                <a data-fancybox='gallery' href='/static/images/image_post.jpg'>
-                  <img alt='' src='/static/images/image_post.jpg' width='200' height='150' />
-                </a>
-              </Fancybox> */}
+
+            <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
+              {dayjs(data?.timeString).fromNow(true)}
+            </Text>
           </div>
           <div
             className='pointer-events-none visible absolute -bottom-[50px] h-[50px]'

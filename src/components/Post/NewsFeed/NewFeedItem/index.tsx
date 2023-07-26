@@ -1,39 +1,41 @@
-/* eslint-disable no-console */
-import React, { useEffect, useState, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
-// import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
+import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
+import ModalDelete from './ModalDelete';
+import ModalEdit from './ModalEdit';
 import PostAction from '../PostAction';
 
-const ModalReport = dynamic(import('../ModalReport'), {
-  ssr: false,
-});
-const ContentPostTypeHome = dynamic(import('./ContentPostTypeHome'), {
-  ssr: false,
-});
-const ContentPostTypeDetail = dynamic(import('./ContentPostTypeDetail'), {
-  ssr: false,
-});
+const ContentPostTypeDetail = dynamic(
+  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail'),
+);
+const ContentPostTypeHome = dynamic(
+  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome'),
+);
+dayjs.extend(utc);
 dayjs.extend(relativeTime);
+
 interface IProps {
   postDetail: IPost;
   isExplore?: boolean;
@@ -42,6 +44,7 @@ interface IProps {
   onRefreshPostDetail: () => void;
   postId: string;
   onHidePostSuccess?: (id: string) => void;
+  pinned?: boolean;
 }
 const IconPlus = () => (
   <svg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -51,6 +54,7 @@ const IconPlus = () => (
     />
   </svg>
 );
+
 const NewFeedItem = (props: IProps) => {
   const {
     onNavigate,
@@ -60,12 +64,14 @@ const NewFeedItem = (props: IProps) => {
     onHidePostSuccess,
     totalComments,
     isExplore = false,
+    pinned = false,
   } = props;
-
   const customerId = postDetail?.customerId;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
+  const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
@@ -80,6 +86,7 @@ const NewFeedItem = (props: IProps) => {
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
+
   React.useEffect(() => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
@@ -87,24 +94,24 @@ const NewFeedItem = (props: IProps) => {
   const handleHidePopup = () => {
     showReport && setShowReport(false);
   };
-  useClickOutSide(ref, handleHidePopup, excludeElements);
+  // useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  useEffect(() => {
-    setExcludeElements(() => {
-      return [
-        document.querySelector(`#${POPUP_COMPONENT_ID}`),
-        document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-      ];
-    });
-  }, [modalReportVisible]);
+  // useEffect(() => {
+  //   setExcludeElements(() => {
+  //     return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+  //   });
+  // }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
 
   const idPost = id || postDetail?.id;
-  const urlPost = window.location.origin + '/post/' + idPost;
-  const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
 
+  const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
+  const onRefreshListPost = () => {
+    onRefreshPostDetail();
+    onHidePostSuccess && onHidePostSuccess(postId);
+  };
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -260,12 +267,14 @@ const NewFeedItem = (props: IProps) => {
     }
     return name;
   };
+
   const renderContentPost = () => {
     if (id) {
       return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
     }
     return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
   };
+
   const renderTextFollow = () => {
     if (following) {
       return (
@@ -276,7 +285,7 @@ const NewFeedItem = (props: IProps) => {
               { 'bg-[#F3F2F6]': following },
             )}
           >
-            <Text type='body-14-bold' color='neutral-5' className='ml-[5px]'>
+            <Text type='body-14-bold' color='neutral-5'>
               Following
             </Text>
           </div>
@@ -286,7 +295,7 @@ const NewFeedItem = (props: IProps) => {
             alt=''
             width={0}
             height={0}
-            className='w-[24px] mobile:block tablet:hidden'
+            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </>
@@ -313,7 +322,7 @@ const NewFeedItem = (props: IProps) => {
               alt=''
               width={0}
               height={0}
-              className='w-[24px] mobile:block tablet:hidden'
+              className='mr-[10px] w-[24px] mobile:block tablet:hidden'
               sizes='100vw'
             />
           </>
@@ -321,6 +330,7 @@ const NewFeedItem = (props: IProps) => {
       </>
     );
   };
+
   const onClickProfileDetail = () => {
     if (
       [
@@ -333,13 +343,13 @@ const NewFeedItem = (props: IProps) => {
       router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
     }
   };
+
+  if (!postDetail) {
+    return <></>;
+  }
+
   return (
-    <div
-      className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
-        'border-b': totalComments > 0,
-        'border-t': !isExplore,
-      })}
-    >
+    <>
       <div className='flex flex-row justify-between '>
         <div className='flex cursor-pointer flex-row items-center' onClick={onClickProfileDetail}>
           <div
@@ -373,6 +383,7 @@ const NewFeedItem = (props: IProps) => {
                 )}
               />
             )}
+
             {[
               TYPEPOST.POST,
               TYPEPOST.ActivityTheme,
@@ -385,24 +396,40 @@ const NewFeedItem = (props: IProps) => {
           <div>
             <div className='flex'>
               <div className='mr-[5px] flex items-center'>
-                <Text type='body-14-semibold' color='neutral-1'>
+                <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
                   {renderDisplayName()}
                 </Text>
 
                 {postDetail?.post?.customerInfo?.isFeatureProfile && (
                   <img
                     src='/static/icons/iconKol.svg'
-                    alt='Icon kol'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[4px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+
+                {postDetail?.post?.customerInfo?.isKol && (
+                  <img
+                    src='/static/icons/iconTick.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
                     className='ml-[4px] h-[16px] w-[16px] object-contain'
                   />
                 )}
               </div>
             </div>
-            <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
-              {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
+            <Text type='body-12-regular' color='neutral-4' className='mt-[2px] tablet:text-[16px]'>
+              {postDetail?.timeString &&
+                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>
           </div>
         </div>
+
         <div className='flex items-center'>
           {[
             TYPEPOST.POST,
@@ -417,17 +444,28 @@ const NewFeedItem = (props: IProps) => {
           {isReported && router.pathname === '/explore' ? (
             ''
           ) : (
-            <button className={classNames('relative')} ref={ref}>
-              <img
-                src='/static/icons/iconDot.svg'
-                alt=''
-                width='0'
-                height='0'
-                className='w-[33px] cursor-pointer'
-                onClick={() => setShowReport(!showReport)}
-              />
-              {showReport && (
-                <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+            <div className='flex'>
+              {pinned && (
+                <img
+                  src='/static/icons/iconPinned.svg'
+                  alt=''
+                  className='mr-[16px] h-[28px] w-[28px]'
+                />
+              )}
+
+              <button className={classNames('relative')} ref={ref}>
+                <img
+                  src='/static/icons/iconDot.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  className='w-[33px] cursor-pointer'
+                  onClick={() => setShowReport(!showReport)}
+                />
+                <Fade
+                  visible={showReport}
+                  className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+                >
                   {[
                     TYPEPOST.POST,
                     TYPEPOST.ActivityTheme,
@@ -478,48 +516,61 @@ const NewFeedItem = (props: IProps) => {
                     </div>
                   )}
 
-                  {isMyProfilePath && (
+                  {(isMyProfilePath || isMyPost) && (
                     <>
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconEdit.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Edit
-                        </Text>
-                      </div>
-
-                      <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                        <img
-                          src='/static/icons/iconDelete.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2'>
-                          Delete
-                        </Text>
-                      </div>
+                      <ModalEdit
+                        visible={modalEditVisible}
+                        onVisible={setModalEditVisible}
+                        postDetail={postDetail}
+                      >
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconEdit.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Edit
+                          </Text>
+                        </div>
+                      </ModalEdit>
+                      <ModalDelete
+                        visible={modalDeleteVisible}
+                        onVisible={() => setModalDeleteVisible((prev) => !prev)}
+                        id={postDetail?.id}
+                        onRefreshPostDetail={onRefreshListPost}
+                      >
+                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                          <img
+                            src='/static/icons/iconDelete.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text type='body-14-medium' color='neutral-2'>
+                            Delete
+                          </Text>
+                        </div>
+                      </ModalDelete>
                     </>
                   )}
-                </div>
-              )}
-            </button>
+                </Fade>
+              </button>
+            </div>
           )}
         </div>
       </div>
+
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
         {renderContentPost()}
-        <div className='mobile:mt-[15px] desktop:mt-[24px]'>
+        <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostAction
-            urlPost={urlPost}
+            urlPost={'/post/' + idPost}
             isLike={isLike}
             idPost={String(idPost)}
             onRefreshPostDetail={onRefreshPostDetail}
@@ -529,7 +580,8 @@ const NewFeedItem = (props: IProps) => {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
+
 export default NewFeedItem;

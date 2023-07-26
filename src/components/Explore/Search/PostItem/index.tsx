@@ -12,8 +12,10 @@ import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import ItemHoverProfile from '@components/Post/NewsFeed/NewFeedItem/ItemHoverProfile';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
+import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
@@ -49,6 +51,7 @@ const PostItem = (props: IProps) => {
   const refHover = React.useRef(null);
   const isHovering = useHover(refHover);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isMobile } = useResponsive();
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
@@ -56,6 +59,8 @@ const PostItem = (props: IProps) => {
   // const isFollow = postDetail?.isFollowing;
   const isMyPost = isLogin && postDetail?.customerId === userId;
   const isKol = postDetail?.post?.customerInfo?.isKol;
+  const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
+  const isFeatureProfile = postDetail?.post?.customerInfo.isFeatureProfile;
   const [excludeElements, setExcludeElements] = React.useState<(Element | null)[]>([]);
   const handleReportPostSuccess = () => {
     setModalReportVisible(false);
@@ -212,7 +217,7 @@ const PostItem = (props: IProps) => {
             alt=''
             width={0}
             height={0}
-            className='w-[24px] mobile:block tablet:hidden'
+            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </>
@@ -239,7 +244,7 @@ const PostItem = (props: IProps) => {
               alt=''
               width={0}
               height={0}
-              className='w-[24px] mobile:block tablet:hidden'
+              className='mr-[10px] w-[24px] mobile:block tablet:hidden'
               sizes='100vw'
             />
           </>
@@ -249,7 +254,15 @@ const PostItem = (props: IProps) => {
   };
   return (
     <>
-      <div className='rounded-[12px] bg-[#FFF] p-[16px] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+      <div
+        className={classNames(
+          'relative rounded-[12px] bg-[#FFF] px-[16px] py-[16px] [border-bottom:1px_solid_##EEF5F9] [border-top:1px_solid_##EEF5F9] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]',
+          {
+            'py-[20px] !shadow-none after:absolute after:-left-[24px] after:bottom-0 after:h-[1px] after:w-[calc(100%+48px)] after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
+              !isMobile && isSearchPage,
+          },
+        )}
+      >
         <div className={classNames('newsfeed')}>
           <div className='flex flex-row justify-between'>
             <div className='flex cursor-pointer flex-row items-center'>
@@ -293,9 +306,19 @@ const PostItem = (props: IProps) => {
                   <Text type='body-14-semibold' color='neutral-1' className='mr-[5px]'>
                     {renderDisplayName()}
                   </Text>
-                  {isKol && (
+                  {isFeatureProfile && (
                     <img
                       src='/static/icons/iconKol.svg'
+                      alt=''
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                      className='h-[20px] w-[20px]'
+                    />
+                  )}
+                  {isKol && (
+                    <img
+                      src='/static/icons/iconTick.svg'
                       alt=''
                       width={0}
                       height={0}
@@ -330,8 +353,13 @@ const PostItem = (props: IProps) => {
                     className='w-[33px] cursor-pointer'
                     onClick={() => setShowReport(!showReport)}
                   />
-                  {showReport && (
-                    <div className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+
+                  <Fade
+                    visible={showReport}
+                    className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+                  >
+                    <>
+                      {' '}
                       {!isReported && !isMyPost && (
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
@@ -354,8 +382,8 @@ const PostItem = (props: IProps) => {
                           </ModalReport>
                         </div>
                       )}
-                    </div>
-                  )}
+                    </>
+                  </Fade>
                 </button>
               )}
             </div>

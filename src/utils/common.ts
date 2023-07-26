@@ -1,6 +1,8 @@
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
+import { ACNT_STAT_ACTIVE, ACNT_STAT_VSD_PENDING, USERTYPE } from './constant';
+
 export const ROUTE_PATH = {
   // AUTH
   LOGIN: '/auth/login',
@@ -47,8 +49,8 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
-  MY_PROFILE_FOLLOWING: 'profile/my-profile/follow?tab=following',
-  MY_PROFILE_FOLLOWER: 'profile/my-profile/follow?tab=followers',
+  MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
+  MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
   EDIT_MY_PROFILE: '/profile/edit',
   ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
@@ -84,7 +86,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople"><span>${name}</span></a>
+              <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople" data-type="userMention"><span>${name}</span></a>
               `,
             );
           }
@@ -153,6 +155,56 @@ export const formatMessage = (message: string, data: any) => {
   });
   return message;
 };
+export const formatMessagePost = (message: string) => {
+  const doc = document.createRange().createContextualFragment(message);
+  const divUser = doc.querySelector('.userName')?.innerHTML;
+  if (divUser) {
+    const textReplace = divUser?.replace('@', '');
+    message = message.replaceAll(divUser, textReplace);
+  }
+  const divStock = doc.querySelector('.stockMention')?.innerHTML;
+  if (divStock) {
+    const textReplace = divStock?.replace('%', '');
+    message = message.replaceAll(divStock, textReplace);
+  }
+  // const metas: any = doc.body.querySelectorAll('.userName');
+  const str = message.split(' ');
+  message = message.replaceAll('\n', '<p></p>');
+  // eslint-disable-next-line array-callback-return
+  str?.map((item) => {
+    if (item.includes('#')) {
+      message = message.replace(
+        item,
+        `
+        <a href="javascript:void(0)" class="hashtag">${item}</a>
+        `,
+      );
+    }
+    if (item.includes('http') && !item.includes('\n')) {
+      message = message.replaceAll(
+        item,
+        `
+        <a href="javascript:void(0)" class="link">${item}</a>
+        `,
+      );
+    }
+    if (item.includes('http') && item.includes('\n')) {
+      const newItem = item?.split('\n');
+      for (const item of newItem) {
+        if (item.includes('http')) {
+          message = message.replaceAll(
+            item,
+            `
+            <a href="javascript:void(0)" class="link">${item}</a>
+            `,
+          );
+        }
+      }
+    }
+    // }
+  });
+  return message;
+};
 export const toBase64 = (file: any) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -174,7 +226,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   const blob = new Blob([arr], { type });
   return URL.createObjectURL(blob);
 };
-export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'gif', 'heic', 'webp'];
+export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
 export const isImage = (file: any) => {
   if (!file) {
     return false;
@@ -240,4 +292,35 @@ export const enableScroll = () => {
 
 export const disableScroll = () => {
   document.body.style.overflow = 'hidden';
+};
+
+export const isValidURL = (urlString: any) => {
+  const res = urlString.match(
+    /(http(s)?:\/\/.)?(www\.)?[\w#%+.:=@~-]{2,256}\.[a-z]{2,6}\b([\w#%&+./:=?@~-]*)/g,
+  );
+  return res !== null;
+};
+
+export const calcUserStatusText = (acntStat: string) => {
+  switch (acntStat) {
+    case ACNT_STAT_ACTIVE: {
+      return 'Verified';
+    }
+    case ACNT_STAT_VSD_PENDING: {
+      return 'Pending';
+    }
+    default: {
+      return 'Unverified';
+    }
+  }
+};
+
+export const checkUserType = (custStat: string, acntStat?: string) => {
+  if (custStat === USERTYPE.NEW) {
+    return USERTYPE.NEW;
+  }
+  if (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED) {
+    return USERTYPE.EKYC;
+  }
+  return USERTYPE.VSD;
 };

@@ -8,7 +8,7 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IThemeDetail } from '@components/Themes/service';
 import Notification from '@components/UI/Notification';
-import NotificationSubsribeTheme from '@components/UI/Notification/SubscribeTheme';
+import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -39,7 +39,9 @@ const LandingPageDetailThemes = ({
     {
       manual: true,
       onSuccess: () => {
-        toast((t) => <NotificationSubsribeTheme theme={data} toastId={t.id} />);
+        toast((t) => <NotificationSubsribeTheme theme={data} toastId={t.id} />, {
+          duration: 5000,
+        });
         setPopupThemeData(data);
         refresh && refresh();
       },
@@ -58,7 +60,9 @@ const LandingPageDetailThemes = ({
     {
       manual: true,
       onSuccess: () => {
-        toast(() => <NotificationSubsribeTheme isUnsubscribe theme={data} />);
+        toast(() => <NotificationSubsribeTheme isUnsubscribe theme={data} />, {
+          duration: 5000,
+        });
         setPopupThemeData(data);
         setIsUnubsribeTheme(true);
         refresh && refresh();

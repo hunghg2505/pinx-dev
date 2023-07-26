@@ -13,7 +13,7 @@ const Back = () => {
   return (
     <>
       <span
-        className='absolute left-[16px] top-[16px] z-10 tablet:hidden'
+        className='absolute left-[16px] top-[16px] z-10 cursor-pointer tablet:hidden'
         onClick={() => {
           if (fromProfileMenu) {
             setOpenProfileMenu(true);
@@ -38,18 +38,17 @@ const Back = () => {
           />
         </svg>
       </span>
-      <div className='absolute bottom-[calc(100%)]  hidden w-full  tablet:block '>
+      <div className='absolute bottom-[calc(100%)]   mb-[calc(42px-28px)]  hidden  w-full tablet:block'>
         <img
-          src='/static/icons/arrow-left.svg'
+          src='/static/icons/back_icon.svg'
           alt='back'
-          className='mb-[20px] h-[32px] w-[32px] cursor-pointer'
+          className=' h-[28px] w-[28px] cursor-pointer '
           width={18.67}
           height={18.67}
           onClick={() => {
             router.back();
           }}
         />
-        <hr className='mx-[-24px] my-[20px] border-blue_light' />
       </div>
     </>
   );

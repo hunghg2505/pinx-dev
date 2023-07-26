@@ -1,29 +1,36 @@
 @import './reset.scss';
-@import './font.scss';
 @import './color.scss';
 @import './space.scss';
 @import './text.scss';
-@import './antd.scss';
-@import './editor.scss';
-@import './select.scss';
+@import './rc-component.scss';
 @import './scrollBar.scss';
 @import './input.scss';
 @import './shareButton.scss';
 @import './tiptap.scss';
-@import './modal.scss';
-@import 'rc-dialog/assets/index.css';
+@import './rc-dialog.scss';
+@import './rc-dropdown.scss';
 @import 'slick.scss';
+@import '@fancyapps/ui/dist/fancybox/fancybox.css';
+@import 'slick-carousel/slick/slick-theme.css';
+@import 'slick-carousel/slick/slick.css';
+
 *,
 html,
 body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
   font-size: 14px;
   line-height: normal;
   text-rendering: optimizeSpeed;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--fontInter), sans-serif !important;
+}
+body {
+  overflow-y: overlay !important;
+  overflow-x: hidden !important;
+}
+.overflow-overlay {
+  overflow-y: overlay !important;
 }
 .grecaptcha-badge {
   visibility: hidden;
@@ -31,6 +38,6 @@ body {
 .rc-tabs-dropdown-hidden {
   display: none;
 }
-.tagpeople{
+.tagpeople {
   color: #1f6eac !important;
 }

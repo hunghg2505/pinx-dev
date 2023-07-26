@@ -1,11 +1,10 @@
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import Dialog from 'rc-dialog';
 
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
-import 'rc-dialog/assets/index.css';
 
 const handleRedirect = (url: string) => {
   window.open(url, '_blank');
@@ -19,10 +18,6 @@ const PopUpEkycInternal = (props: IProps) => {
   const { visible } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
-  const renderCloseIcon = (): React.ReactNode => {
-    return <img src='/static/icons/close_icon.svg' alt='' />;
-  };
-
   const handleClose = () => {
     setPopupStatus({
       ...popupStatus,
@@ -31,7 +26,7 @@ const PopUpEkycInternal = (props: IProps) => {
   };
 
   return (
-    <Dialog visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+    <Modal visible={visible} onClose={handleClose}>
       <div className='fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-[#EAF4FB] p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
         <Text
           type='body-20-bold'
@@ -82,7 +77,7 @@ const PopUpEkycInternal = (props: IProps) => {
           />
         </div>
       </div>
-    </Dialog>
+    </Modal>
   );
 };
 export default PopUpEkycInternal;

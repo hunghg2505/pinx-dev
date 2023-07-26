@@ -254,7 +254,7 @@ const StockDetail = () => {
   };
 
   return (
-    <div>
+    <div className='rounded-[8px] bg-[#fff] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {
@@ -292,15 +292,9 @@ const StockDetail = () => {
           onClick={handleBack}
         >
           <img
-            src='/static/icons/icon_back_header.svg'
+            src='/static/icons/back_icon.svg'
             alt=''
-            className='h-[12px] w-[6px] object-contain mobile:block tablet:hidden'
-          />
-
-          <img
-            src='/static/icons/iconBack.svg'
-            alt=''
-            className='hidden h-[19px] w-[19px] object-contain tablet:block'
+            className='h-[28px] w-[28px] object-contain'
           />
         </div>
 
@@ -452,7 +446,7 @@ const StockDetail = () => {
           <Text type='body-20-semibold'>Brand awareness</Text>
         </div>
 
-        <div className='overflow-hidden pl-[16px] tablet:pl-[24px]'>
+        <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
           <Slider {...settings} variableWidth>
             {stockDetail?.data?.products.map((item, index) => (
               <div key={index} className='mr-[28px] !w-[112px]'>

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
 import { RoundButton } from '@components/UI/Button';
@@ -25,6 +26,7 @@ const convertSecond = (secs: number) => {
 };
 
 const OtpVerification = (props: IProps) => {
+  const { t } = useTranslation('common');
   const [form] = Form.useForm();
   const [otpRunning, setOtpRunning] = useState<boolean>(false);
   const [otpCount, setOtpCount] = useState<number>(props.otpTime ?? 120);
@@ -145,7 +147,7 @@ const OtpVerification = (props: IProps) => {
             'laptop:text-center laptop:text-[28px]': props.settingLayout,
           })}
         >
-          Confirm phone number
+          {t('confirm_phone_number')}
         </Text>
         <Text
           className={classNames('text-[18px] font-[400]', {
@@ -153,7 +155,7 @@ const OtpVerification = (props: IProps) => {
           })}
           color='neutral-4'
         >
-          Enter OTP sent to{' '}
+          {t('enter_otp_send_to')}{' '}
           <span className='font-[700] text-[--neutral-1]'>{replacedPhoneNumber()}</span>
         </Text>
       </div>
@@ -165,8 +167,8 @@ const OtpVerification = (props: IProps) => {
         })}
       >
         {isOtpExpired
-          ? 'The OTP is expired'
-          : `The OTP will be expired in ${convertSecond(otpCount)}s`}
+          ? t('otp_is_expired')
+          : `${t('otp_will_expire_in')} ${convertSecond(otpCount)}s`}
       </Text>
 
       <Form className='space-y-6' form={form} onValuesChange={onChange}>
@@ -193,7 +195,7 @@ const OtpVerification = (props: IProps) => {
 
       <div className='mt-6 flex items-center justify-between'>
         <Text type='body-12-regular' color='neutral-4'>
-          Cannot retrieve code via SMS?
+          {t('cannot_retrieve_otp')}
         </Text>
         <RoundButton
           className='flex min-w-[120px] items-center justify-center px-4'

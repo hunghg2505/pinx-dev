@@ -27,24 +27,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // if (!token && isMatchPath) {
-  //   url.pathname = '/auth/login';
-  //   return NextResponse.redirect(url);
-  // }
-
-  if (request.nextUrl.locale === 'vi') {
-    return NextResponse.redirect(
-      new URL(`/en${request.nextUrl.pathname}${request.nextUrl.search}`, request.url),
-    );
-  }
-
   return NextResponse.next();
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|robots.txt|public|images|manifest.json|sw.js|favicon.ico|workbox-*).*)',
+    '/((?!api|static|_next/static|_next/image|robots.txt|public|images|manifest.json|sw.js|favicon.ico|workbox-*).*)',
     '/',
   ],
 };

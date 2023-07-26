@@ -1,6 +1,7 @@
 // import { useTranslation } from 'next-i18next';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import toast from 'react-hot-toast';
 
@@ -22,6 +23,7 @@ interface IProps {
 }
 
 const CreateUsername = (props: IProps) => {
+  const { t } = useTranslation('common');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
@@ -67,14 +69,13 @@ const CreateUsername = (props: IProps) => {
 
   return (
     <div
-      className={`laptop:m-0 ${
-        props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
-      }`}
+      className={`laptop:m-0 ${props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
+        }`}
     >
       <div className='mt-[36px]'>
-        <Text type='body-28-bold'>Create username</Text>
+        <Text type='body-28-bold'>{t('create_username')}</Text>
         <Text type='body-16-regular' color='neutral-4'>
-          Set up your username across all Pinetree’s platform safely.
+          {t('create_username_sub_titile')}
         </Text>
       </div>
 
@@ -84,23 +85,22 @@ const CreateUsername = (props: IProps) => {
           rules={[
             {
               required: true,
-              message: 'Please enter user name',
+              message: t('please_enter_user_name'),
             },
             {
               pattern: REG_USERNAME,
-              message: 'Please check username format',
+              message: t('please_enter_valid_user_name'),
             },
           ]}
         >
           <LabelInput placeholder='Username' name='username' labelContent='Username' />
         </FormItem>
         <Text type='body-12-regular' className='!mt-1'>
-          Username must contain at least 1 uppercase letter and not contain special characters
-          including @ # $ % ^ & * ! ?
+          {t('create_username_rule')}
         </Text>
 
         <MainButton type='submit' className='!mt-10 w-full'>
-          Select this username
+          {t('select_this_username')}
         </MainButton>
       </Form>
     </div>

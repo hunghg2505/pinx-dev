@@ -2,11 +2,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
 import { ForwardedRefComponent } from '@components/Post/PostDetail';
 import { IComment } from '@components/Post/service';
+import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
@@ -84,7 +84,7 @@ const ModalComment = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Dialog
+      <Modal
         visible={visible}
         onClose={onVisible}
         closeIcon={renderCloseIcon()}
@@ -97,10 +97,11 @@ const ModalComment = (props: Iprops) => {
           <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
             className={classNames(
-              'mt-[16px] h-[66vh] overflow-y-auto',
+              'mt-[16px] overflow-y-auto pr-[12px] mobile:h-[calc(100%-100px)] tablet:h-[calc(100%-140px)]',
               {
-                'mobile:mb-[79px]': !isImageCommentMobile && isLogin,
-                'mobile:mb-[179px]': isImageCommentMobile && isLogin,
+                // 'mobile:mb-[79px]': !isImageCommentMobile && isLogin,
+                'mobile:h-[calc(100%-210px)] tablet:h-[calc(100%-250px)]':
+                  isImageCommentMobile && isLogin,
               },
               styles.content,
             )}
@@ -121,31 +122,25 @@ const ModalComment = (props: Iprops) => {
                 );
               })
             ) : (
-              <Text
-                type='body-14-regular'
-                color='neutral-3'
-                className='mt-[16px] text-center tablet:hidden'
-              >
+              <Text type='body-14-regular' color='neutral-3' className='mt-[16px] text-center'>
                 {t('empty_comment')}
               </Text>
             )}
           </div>
           {isLogin && (
-            <div className='mobile:block'>
-              <div className='fixed bottom-0 z-10 w-[375px] break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile-max:left-2/4 mobile-max:min-h-[34px] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:transform mobile-max:px-[3px]'>
-                <ForwardedRefComponent
-                  ref={refSubReplies}
-                  id={id}
-                  refresh={refreshCommentOfPost}
-                  refreshTotal={refresh}
-                  setImageCommentMobile={setImageCommentMobile}
-                  // width={width}
-                />
-              </div>
+            <div className='z-10 break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile:-mx-[16px] mobile-max:left-2/4 mobile-max:min-h-[34px] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:transform mobile-max:px-[3px] tablet:mx-0'>
+              <ForwardedRefComponent
+                ref={refSubReplies}
+                id={id}
+                refresh={refreshCommentOfPost}
+                refreshTotal={refresh}
+                setImageCommentMobile={setImageCommentMobile}
+                // width={width}
+              />
             </div>
           )}
         </div>
-      </Dialog>
+      </Modal>
     </>
   );
 };

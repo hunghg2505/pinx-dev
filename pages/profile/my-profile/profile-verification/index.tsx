@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import ProfileVerification from '@components/MenuProfile/ProfileVerification';
-import SettingLayout from '@layout/SettingLayout';
+import MainLayout from '@layout/MainLayout';
 
 const ProfileVerificationPage = () => {
   return (
@@ -14,17 +14,13 @@ const ProfileVerificationPage = () => {
 };
 
 ProfileVerificationPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <SettingLayout>
-      {page}
-    </SettingLayout>
-  );
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'profile'])),
+      ...(await serverSideTranslations(locale, ['common', 'profile', 'setting'])),
       // Will be passed to the page component as props
     },
   };

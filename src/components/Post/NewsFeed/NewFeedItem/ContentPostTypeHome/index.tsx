@@ -10,15 +10,33 @@ import { InView } from 'react-intersection-observer';
 import ReactPlayer from 'react-player';
 
 import { IPost, TYPEPOST } from '@components/Post/service';
+import CustomLink from '@components/UI/CustomLink';
 import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
-// import { useContainerDimensions } from '@hooks/useDimensions';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessage, formatMessagePost } from '@utils/common';
 
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
 });
+
+const ImageHeadPost = dynamic(
+  import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
+  {
+    ssr: false,
+    loading: () => (
+      <img
+        src='/static/images/img-blur.png'
+        alt=''
+        width='0'
+        height='0'
+        sizes='100vw'
+        className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[9px] rounded-tr-[9px] object-cover'
+      />
+    ),
+  },
+);
+
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
@@ -47,12 +65,7 @@ const ContentPostTypeHome = (props: IProps) => {
   const onReadMore = () => {
     setReadMore(!readMore);
   };
-  const onRedirect = (url: string) => {
-    router.push({
-      pathname: '/redirecting',
-      query: { url },
-    });
-  };
+
   const onRef = (ele: any) => {
     if (!ele) {
       return;
@@ -75,6 +88,7 @@ const ContentPostTypeHome = (props: IProps) => {
       window.removeEventListener('click', handleClick);
     };
   }, []);
+
   const stockCode = postDetail.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const urlStock = `${imageCompanyUrl}${
@@ -86,6 +100,7 @@ const ContentPostTypeHome = (props: IProps) => {
       : '/static/icons/iconUnSubcribe.svg';
 
   const postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail.id);
+
   const renderMetaData = () => {
     if (siteName === 'YouTube' && !urlImages?.[0]) {
       return (
@@ -99,12 +114,6 @@ const ContentPostTypeHome = (props: IProps) => {
                 controls={true}
                 height={300}
                 width={'100%'}
-                playsinline={true}
-                config={{
-                  youtube: {
-                    playerVars: { playsinline: 1 },
-                  },
-                }}
               />
             </div>
           )}
@@ -123,7 +132,7 @@ const ContentPostTypeHome = (props: IProps) => {
               <img
                 src={imageMetaData}
                 alt=''
-                className='rounded-[8px] object-cover mobile:h-[185px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[550px]'
+                className='mobile:h-[185px]desktop:h-[309px] w-full rounded-[8px] object-cover  '
               />
             </a>
           </Fancybox>
@@ -132,15 +141,17 @@ const ContentPostTypeHome = (props: IProps) => {
     }
     return <></>;
   };
+
   if (postDetail?.postType === TYPEPOST.ActivityTheme) {
     const isReadMore = height > 84;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -148,7 +159,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {/* {message} */}
             <div
               className='messageFormat messageBody messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -164,13 +175,10 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
             <img
               src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
               alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
               className='absolute right-0 top-0 h-full w-full'
             />
             <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
@@ -206,6 +214,7 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
+
   if (
     [
       TYPEPOST.PinetreeDailyNews,
@@ -217,19 +226,19 @@ const ContentPostTypeHome = (props: IProps) => {
   ) {
     const url = postDetail?.post.url ?? '';
     const isReadMore = height > 84;
+
     return (
       <>
         <div ref={onRef}>
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
           >
             {postDetail?.post.head}
-            {/* <div className='messageFormat messageBody' dangerouslySetInnerHTML={{ __html: message }}></div> */}
           </Text>
         </div>
         {isReadMore && (
@@ -242,31 +251,36 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
-          <Link href={postDetailUrl}>
-            <img
-              src={
-                postDetail?.post.headImageUrl ||
-                'https://image.vietstock.vn/2023/06/21/ca-map-ava-20230504_1743152.jpg'
+
+        <div
+          className={classNames(
+            'relative flex h-[113px] w-full flex-col justify-end  rounded-[9px]',
+            {
+              'h-[250px] tablet:h-[360px] ': !!postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
+          {postDetail?.post?.headImageUrl && (
+            <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1]  h-full w-full'>
+              <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            </CustomLink>
+          )}
+
+          <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
+            <div
+              className={
+                'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
               }
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
-            />
-          </Link>
-          <div className='absolute bottom-0 left-0 line-clamp-2 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
-            <Link href={postDetailUrl}>
-              <Text type='body-16-bold' color='cbblack'>
+            >
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
               </Text>
-            </Link>
-          </div>
-          <div
-            onClick={() => onRedirect(url)}
-            // href={url}
-            className=' absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+            </div>
+          </CustomLink>
+
+          <CustomLink
+            href={`/redirecting?url=${url}`}
+            className='absolute right-[9px] top-[9px] z-[3] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <img
               src='/static/icons/iconLink.svg'
@@ -276,7 +290,7 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='h-[18px] w-[18px]'
             />
-          </div>
+          </CustomLink>
         </div>
       </>
     );
@@ -284,13 +298,14 @@ const ContentPostTypeHome = (props: IProps) => {
 
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
     const isReadMore = height > 84;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment} ref={onRef}>
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -298,7 +313,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {/* {message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -314,7 +329,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div className='relative w-full rounded-[10px] mobile:h-[204px]  desktop:h-[309px]'>
             {postDetail?.post?.bgImage && (
               <img
                 src={postDetail?.post?.bgImage}
@@ -390,16 +405,18 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
+
   if (postDetail?.postType === TYPEPOST.ActivityMatchOrder) {
     const pnlRate = postDetail?.post?.pnlRate;
     const isReadMore = height > 84;
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     return (
       <>
         <div className='cursor-pointer' onClick={onComment}>
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px]', {
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
               'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
               'h-auto': isReadMore && readMore,
             })}
@@ -407,7 +424,7 @@ const ContentPostTypeHome = (props: IProps) => {
             {/* {postDetail?.post?.message} */}
             <div
               className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: message }}
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
         </div>
@@ -423,7 +440,7 @@ const ContentPostTypeHome = (props: IProps) => {
         )}
 
         <Link href={postDetailUrl}>
-          <div className='relative rounded-[15px] mobile:h-[204px] mobile:w-[343px] mobile-max:w-full desktop:h-[309px] desktop:w-[500px] xdesktop:w-[550px]'>
+          <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
             <img
               src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
               alt=''
@@ -502,6 +519,7 @@ const ContentPostTypeHome = (props: IProps) => {
       </>
     );
   }
+
   if (
     [
       TYPEPOST.VietstockLatestNews,
@@ -522,7 +540,11 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
               {postDetail?.post.head || postDetail?.post?.contentText}
             </Text>
           </div>
@@ -537,32 +559,40 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:w-[550px] relative flex flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full tablet:w-full desktop:h-[309px] xdesktop:w-[550px]'>
-          <Link href={postDetailUrl}>
-            {postDetail?.post?.headImageUrl && (
-              <img
-                src={postDetail?.post?.headImageUrl}
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
-              />
-            )}
-          </Link>
-          <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
-            <ListStock listStock={postDetail?.post?.tagStocks} />
-          </div>
-          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
-            <Link href={postDetailUrl}>
+
+        <div
+          className={classNames(
+            'relative flex h-[113px] w-full flex-col justify-end  rounded-[9px]',
+            {
+              'h-[250px] tablet:h-[360px] ': !!postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
+          {postDetail?.post?.headImageUrl && (
+            <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1] h-full  w-full'>
+              <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            </CustomLink>
+          )}
+
+          <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
+            <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
+              <ListStock listStock={postDetail?.post?.tagStocks} />
+            </div>
+
+            <div
+              className={
+                'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
+              }
+            >
               <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
               </Text>
-            </Link>
-          </div>
-          <div
-            onClick={() => onRedirect(url)}
-            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+            </div>
+          </CustomLink>
+
+          <CustomLink
+            href={`/redirecting?url=${url}`}
+            className='absolute right-[9px] top-[9px] z-[3] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <img
               src='/static/icons/iconLink.svg'
@@ -572,11 +602,12 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='h-[18px] w-[18px]'
             />
-          </div>
+          </CustomLink>
         </div>
       </>
     );
   }
+
   if ([TYPEPOST.CafeFNews].includes(postDetail?.postType)) {
     const url = postDetail?.post.url ?? '';
     const isReadMore = height > 84;
@@ -590,11 +621,16 @@ const ContentPostTypeHome = (props: IProps) => {
               'h-auto': isReadMore && readMore,
             })}
           >
-            <Text type='body-14-regular' color='neutral-1' className={classNames('mb-[16px]')}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
               {postDetail?.post.head}
             </Text>
           </div>
         )}
+
         {isReadMore && (
           <Text
             type='body-14-regular'
@@ -605,32 +641,40 @@ const ContentPostTypeHome = (props: IProps) => {
             {readMore ? 'See less' : 'See more'}
           </Text>
         )}
-        <div className='min-w-[1280px]:!w-[550px] relative flex w-full flex-col justify-end rounded-[15px] mobile:h-[204px] mobile:w-full desktop:h-[309px] desktop:w-[550px]'>
-          <Link href={postDetailUrl}>
-            {postDetail?.post?.headImageUrl && (
-              <img
-                src={postDetail?.post?.headImageUrl}
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px]'
-              />
-            )}
-          </Link>
-          <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
-            <ListStock listStock={postDetail?.post?.tagStocks} />
-          </div>
-          <div className='z-10 min-h-[44px] w-full rounded-bl-none rounded-br-none rounded-tl-[15px] rounded-tr-[15px] bg-[#ffffff] px-[12px] mobile:py-[10px] tablet:py-[16px]'>
-            <Link href={postDetailUrl}>
+
+        <div
+          className={classNames(
+            'relative flex h-[113px] w-full flex-col justify-end  rounded-[9px]',
+            {
+              'h-[250px] tablet:h-[360px] ': !!postDetail?.post?.headImageUrl,
+            },
+          )}
+        >
+          {postDetail?.post?.headImageUrl && (
+            <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1] h-full w-full'>
+              <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            </CustomLink>
+          )}
+
+          <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
+            <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
+              <ListStock listStock={postDetail?.post?.tagStocks} />
+            </div>
+
+            <div
+              className={
+                'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
+              }
+            >
               <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
                 {postDetail?.post?.title}
               </Text>
-            </Link>
-          </div>
-          <div
-            onClick={() => onRedirect(url)}
-            className='absolute right-[9px] top-[9px] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+            </div>
+          </CustomLink>
+
+          <CustomLink
+            href={`/redirecting?url=${url}`}
+            className='absolute right-[9px] top-[9px] z-[3] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
           >
             <img
               src='/static/icons/iconLink.svg'
@@ -640,16 +684,18 @@ const ContentPostTypeHome = (props: IProps) => {
               sizes='100vw'
               className='h-[18px] w-[18px]'
             />
-          </div>
+          </CustomLink>
         </div>
       </>
     );
   }
+
   if ([TYPEPOST.POST].includes(postDetail?.postType)) {
     const postThemeId = postDetail?.post?.postThemeId;
     const BgThemePost = bgTheme?.find((item: any) => item.id === postThemeId);
     const color = BgThemePost?.color?.code;
     const urlLink = postDetail?.post?.urlLinks?.[0] || '';
+    const messagePostFormat = formatMessagePost(postDetail?.post?.message);
     const onRefHtml = (ele: any) => {
       if (!ele) {
         return;
@@ -661,11 +707,11 @@ const ContentPostTypeHome = (props: IProps) => {
     };
     return (
       <>
-        <div className='1 cursor-pointer'>
+        <div className='cursor-pointer'>
           <div>
-            {postThemeId ? (
+            {postThemeId && postDetail?.post?.message?.length < 254 ? (
               <div
-                className='theme min-w-[1260px]:w-[660px] relative mobile:-mx-[16px] tablet:mx-0 desktop:!-ml-[63px] desktop:mt-[12px]'
+                className='theme relative flex w-full  flex-col justify-end rounded-[10px] '
                 onClick={onComment}
               >
                 <img
@@ -678,7 +724,7 @@ const ContentPostTypeHome = (props: IProps) => {
                     <Text type='body-14-bold' color='neutral-1'>
                       <div
                         className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
-                        dangerouslySetInnerHTML={{ __html: message }}
+                        dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                         style={{ color }}
                       ></div>
                     </Text>
@@ -695,18 +741,20 @@ const ContentPostTypeHome = (props: IProps) => {
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
-                    <Text type='body-14-regular' color='neutral-1' onClick={onComment}>
+                    <Text
+                      type='body-14-regular'
+                      color='neutral-1'
+                      className='tablet:!text-[16px]'
+                      onClick={onComment}
+                    >
                       <div
                         className='desc messageFormat messageBody my-[0] pb-[15px]'
-                        style={{ display: '-webkit-box' }}
-                        dangerouslySetInnerHTML={{ __html: message }}
+                        dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                       ></div>
                     </Text>
                     {!message?.includes(urlLink) && urlLink !== '' && (
                       <div className='messageFormat messageBody messageBody -mt-[15px] pb-[15px]'>
-                        <Link href='javascript:void(0)' className='link'>
-                          {urlLink}
-                        </Link>
+                        <span className='link'>{urlLink}</span>
                       </div>
                     )}
                   </div>
@@ -725,8 +773,7 @@ const ContentPostTypeHome = (props: IProps) => {
               {readMore ? 'See less' : 'See more'}
             </Text>
           )}
-          <div>{renderMetaData()}</div>
-
+          {!postThemeId && <div>{renderMetaData()}</div>}
           {urlImages?.length > 0 && (
             <Link href={postDetailUrl}>
               <div className='theme'>
@@ -735,7 +782,7 @@ const ContentPostTypeHome = (props: IProps) => {
                   alt=''
                   width={326}
                   height={185}
-                  className='h-[185px] w-[550px] rounded-[15px] object-cover object-top tablet:h-[309px]'
+                  className='h-[185px] w-full rounded-[10px] object-cover object-top tablet:h-[309px]'
                 />
               </div>
             </Link>

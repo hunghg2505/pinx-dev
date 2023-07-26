@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -23,6 +24,7 @@ const customInputClassName =
 const errorInputClassname = '!border-[#DA314F] !bg-[#FDF8ED]';
 
 const ChangePassword = () => {
+  const { t } = useTranslation('setting');
   const router = useRouter();
   const [form] = Form.useForm();
   const [settingValues, setSettingValues] = useAtom(settingAtom);
@@ -61,34 +63,31 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className='w-full text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
-      <div className='relative'>
-        <img
-          src='/static/icons/arrow-left.svg'
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='absolute left-[10px] top-[-4px] h-[32px] w-[32px] cursor-pointer laptop-max:hidden'
-          onClick={() => router.back()}
-        />
-      </div>
+    <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
       <img
-        src='/static/icons/icon_back_header.svg'
+        src='/static/icons/back_icon.svg'
         alt=''
         width='0'
         height='0'
-        className='mt-8 ml-4 left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden cursor-pointer'
+        className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px]'
         onClick={onBack}
       />
 
-      <Text type='body-20-bold' className='mb-1 ml-4 mt-6 laptop:mt-0 laptop:text-center'>
-        Change password
+      <Text
+        type='body-20-bold'
+        className='mb-1 mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-center'
+      >
+        {t('change_password')}
       </Text>
-      <Form className='mt-10 space-y-7 px-4 laptop:mb-24' form={form} onFinish={onSubmit}>
+      <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] laptop-max:hidden' />
+      <Form
+        className='mt-10 space-y-7 laptop-max:px-4 laptop:mb-24 laptop:mt-[20px]'
+        form={form}
+        onFinish={onSubmit}
+      >
         <div>
           <Text type='body-14-semibold' color='primary-5'>
-            Current password
+            {t('current_password')}
           </Text>
           <FormItem
             className='mt-2'
@@ -96,7 +95,7 @@ const ChangePassword = () => {
             rules={[
               {
                 required: true,
-                message: 'Please enter old password',
+                message: t('please_enter_old_password'),
               },
             ]}
           >
@@ -115,7 +114,7 @@ const ChangePassword = () => {
 
         <div>
           <Text type='body-14-semibold' color='primary-5'>
-            New password
+            {t('new_password')}
           </Text>
           <FormItem
             className='mt-2'
@@ -123,19 +122,16 @@ const ChangePassword = () => {
             rules={[
               {
                 required: true,
-                message: 'Please enter new password',
+                message: t('please_enter_new_password'),
               },
               {
                 pattern: REG_PASSWORD,
-                message:
-                  'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
+                message: t('new_password_rule'),
               },
               ({ getFieldValue }: { getFieldValue: any }) => ({
                 validator(_: any, value: any) {
                   if (getFieldValue('curPassword') === value) {
-                    return Promise.reject(
-                      new Error('Please enter new password other current password'),
-                    );
+                    return Promise.reject(new Error(t('new_password_error_1')));
                   }
                   return Promise.resolve();
                 },
@@ -157,7 +153,7 @@ const ChangePassword = () => {
 
         <div>
           <Text type='body-14-semibold' color='primary-5'>
-            Confirm new password
+            {t('confirm_new_password')}
           </Text>
           <FormItem
             className='mt-2'
@@ -168,9 +164,7 @@ const ChangePassword = () => {
                   if (getFieldValue('newPassword') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error('Confirm new password and new password not match'),
-                  );
+                  return Promise.reject(new Error(t('confirm_new_password_error_1')));
                 },
               }),
             ]}
@@ -192,7 +186,7 @@ const ChangePassword = () => {
           type='submit'
           className='fixed bottom-9 w-[calc(100%-32px)] laptop:absolute laptop:bottom-[-56px] laptop:m-auto laptop:w-1/2 laptop:translate-x-1/2'
         >
-          Next
+          {t('next')}
         </MainButton>
       </Form>
     </div>

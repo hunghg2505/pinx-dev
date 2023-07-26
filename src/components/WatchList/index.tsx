@@ -1,43 +1,94 @@
 import React from 'react';
 
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+// import { useAtom } from 'jotai';
+// import { atomWithStorage } from 'jotai/utils';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
+import { toast } from 'react-hot-toast';
 
-import { ITheme, IWatchListItem, useGetTheme } from '@components/Home/service';
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { Button } from '@components/UI/Button';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import Themes from '@components/WatchList/Themes';
+// @ts-ignore
+import YourWatchList from '@components/WatchList/YourWatchList';
 
-import ComponentWatchList from './ComponentWatchList';
-import styles from './index.module.scss';
-import InterestItem from './InterestItem';
 import ModalAddStock from './ModalAddStock';
-import { useGetInterest } from './service';
-import ThemeItem from './ThemeItem';
+import { useGetInterest, useGetYourWatchList } from './service';
 
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  // arrows: false,
-};
+
+const Interest = dynamic(() => import('@components/WatchList/Interest'), {
+  ssr: false,
+});
+
+// const isEditAtom = atomWithStorage('isEditWatchList', false);
 
 const WatchList = () => {
   const { t } = useTranslation('watchlist');
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
+  const [isSave, setIsSave] = React.useState<boolean>(false);
+  const [itemDelete, setItemDelete] = React.useState<any>([]);
+  const [watchlistId, setWatchlistId] = React.useState<number>();
+  const [dataStock, setDataStock] = React.useState<any>([]);
+  const router = useRouter();
+  const onGoBack = () => {
+    router.back();
+  };
 
-  const { theme } = useGetTheme();
+  const { interestStock, refreshInterest } = useGetInterest();
+  const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
+    onSuccess: (res) => {
+      setDataStock(res?.data?.[0]?.stocks);
+      setWatchlistId(res?.data?.[0]?.watchlistId);
+    }
+  });
 
-  const { interestStock, refresh } = useGetInterest();
+  React.useEffect(() => {
+    runYourWatchList();
+    setIsSave(false);
+  }, [isEdit]);
+
+  const useRemoveStock = useRequest(
+    (code) => {
+      return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(code));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        toast(() => <Notification type='success' message='Remove stock success' />);
+        refreshYourWatchList && refreshYourWatchList();
+      },
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e.error} />);
+      },
+    },
+  );
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSort = () => {};
+  const onSave = async () => {
+    // eslint-disable-next-line array-callback-return
+    await itemDelete.map((id:any) => {
+      useRemoveStock.run(id);
+    });
+    setIsEdit(!isEdit);
+  };
 
   return (
-    <div className='flex flex-col gap-y-[32px] px-[16px] pl-[16px] desktop:gap-y-[20px] desktop:p-[0px]'>
+    <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white px-[10px] py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
       <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
+        {!isEdit && (
+          <img
+            src='/static/icons/back_icon.svg'
+            alt=''
+            className='w-[28px] cursor-pointer desktop:hidden'
+            onClick={onGoBack}
+          />
+        )}
         {isEdit ? (
           <>
             <div className='relative flex items-center'>
@@ -45,17 +96,14 @@ const WatchList = () => {
                 <div className='flex min-h-[28px] items-center'>
                   <Text
                     type='body-12-semibold'
-                    className='text-[#1F6EAC] cursor-pointer'
+                    className='cursor-pointer text-[#1F6EAC]'
                     onClick={() => setIsEdit(false)}
                   >
-                    { t('cancelTxt') }
+                    {t('cancelTxt')}
                   </Text>
                 </div>
               </div>
-              <div
-                onClick={handleSort}
-                className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'
-              >
+              <div className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
                 <img
                   src='/static/icons/iconFilterSortaz.svg'
                   alt=''
@@ -64,22 +112,23 @@ const WatchList = () => {
               </div>
               <div className='ml-auto flex'>
                 <div className='flex min-h-[28px] items-center'>
-                  <Button className='flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full bg-[#589DC0]'>
+                  <Button onClick={onSave} disabled={!isSave} className={classNames('flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full', {
+                    'bg-[#589DC0]': isSave,
+                    'bg-[#ccc] ': !isSave,
+                  })}>
                     <Text type='body-12-medium' color='cbwhite'>
-                      { t('saveTxt') }
+                      {t('saveTxt')}
                     </Text>
                   </Button>
                 </div>
               </div>
             </div>
-            {/* Divider */}
-            <div className='desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9] min-h-[1px]'></div>
-            {/* /Divider */}
+            <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
           </>
         ) : (
           <div className='flex items-center justify-between'>
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
-              { t('title') }
+              {t('title')}
             </Text>
             <Button
               onClick={() => setIsEdit(true)}
@@ -91,57 +140,42 @@ const WatchList = () => {
                 className='mr-[4px] h-[13px] w-[13px]'
               />
               <Text type='body-14-semibold' color='primary-2'>
-                { t('editText') }
+                {t('editText')}
               </Text>
             </Button>
           </div>
         )}
 
-        <ComponentWatchList isEdit={isEdit} />
+        <YourWatchList
+          watchlistId={watchlistId}
+          dataStock={dataStock}
+          isEdit={isEdit}
+          yourWatchListStock={yourWatchListStock}
+          loadingYourWatchList={loadingYourWatchList}
+          setDataStock={setDataStock}
+          setIsSave={setIsSave}
+          itemDelete={itemDelete}
+          setItemDelete={setItemDelete}
+        />
         {isEdit && (
-          <ModalAddStock>
-            <div className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'>
-              <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
-              <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                { t('addTxt') }
-              </Text>
-            </div>
+          <ModalAddStock
+            refreshYourWatchList={refreshYourWatchList}
+            dataStock={dataStock}
+          >
+            <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+            <Text type='body-14-semibold' className='text-[#1F6EAC]'>
+              {t('addTxt')}
+            </Text>
           </ModalAddStock>
         )}
       </div>
-      {!isEdit && (
-        <div className='flex flex-col gap-y-[16px]'>
-          <Text type='body-20-bold' className='text-[#0D0D0D]'>
-            { t('titleInterest') }
-          </Text>
-          <div
-            className={classNames(
-              'ml-[-16px] mr-[-16px] flex gap-x-[16px] overflow-x-auto pb-[16px] pr-[16px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:pr-[24px]',
-              styles.listInterest,
-            )}
-          >
-            {interestStock?.map((item: IWatchListItem, index: number) => (
-              <div
-                key={index}
-                className='relative min-h-[172px] w-[112px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px] first:ml-[16px] desktop:first:ml-[24px]'
-              >
-                <InterestItem data={item} refresh={refresh} />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {!isEdit && (
-        <Slider className={classNames('', styles.sliderTheme)} {...settings}>
-          {theme?.map((item: ITheme, index: number) => {
-            return (
-              <div key={`them-${index}`}>
-                <ThemeItem data={item} />
-              </div>
-            );
-          })}
-        </Slider>
-      )}
+      <Interest
+        isEdit={isEdit}
+        interestStock={interestStock}
+        refreshInterest={refreshInterest}
+        refreshYourWatchList={refreshYourWatchList}
+      />
+      <Themes isEdit={isEdit} />
     </div>
   );
 };

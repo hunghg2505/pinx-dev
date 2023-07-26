@@ -1,10 +1,11 @@
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable indent */
-import { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
-import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
@@ -18,35 +19,60 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 
 import { useRegister } from './service';
 
+declare const grecaptcha: any;
+
+export interface IPropsWithReCapcha {
+  onGetReCapcha: (recapchaToken?: string) => void;
+}
+
 interface IProps {
   isModal?: boolean;
 }
 
+const onGetReCapcha = async () => {
+  return new Promise((resolve, reject) => {
+    if (!grecaptcha?.ready) {
+      reject(undefined);
+    }
+
+    grecaptcha.ready(async function () {
+      const token = await grecaptcha.execute(ENV.RECAPTHCHA_SITE_KEY, {
+        action: 'submit',
+      });
+      if (token) {
+        resolve(token);
+      }
+      reject(undefined);
+    });
+  });
+};
+
 const Register = (props: IProps) => {
+  const { t } = useTranslation('common');
   const { isModal } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [form] = Form.useForm();
-  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const { onRegister } = useAuth();
   const { userRegisterInfo, setUserRegisterInfo } = useUserRegisterInfo();
 
   const onSubmit = (values: any) => {
-    const registerParams = {
-      phoneNumber: values?.phoneNumber,
-      password: values?.password,
-      email: values?.email,
-      recaptcha: recaptchaToken,
-    };
-    requestRegister.run(registerParams);
-    setUserRegisterInfo(registerParams);
-    onRefreshReCaptcha();
+    onGetReCapcha().then((recaptchaToken: any) => {
+      const registerParams = {
+        phoneNumber: values?.phoneNumber,
+        password: values?.password,
+        email: values?.email,
+        recaptcha: recaptchaToken,
+      };
+      requestRegister.run(registerParams);
+      setUserRegisterInfo(registerParams);
+    });
   };
 
   const requestRegister = useRegister({
@@ -95,22 +121,12 @@ const Register = (props: IProps) => {
     },
   });
 
-  const onVerify = useCallback((token: any) => {
-    setRecaptchaToken(token);
-  }, []);
-
-  const onRefreshReCaptcha = () => {
-    /* do something like submit a form and then refresh recaptcha */
-    setRefreshReCaptcha((r: any) => !r);
-  };
-
   useEffect(() => {
     deleteRegisterCookies();
   }, []);
 
   return (
     <>
-      <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
       <Form
         className='mt-10 space-y-6 laptop:w-full laptop:max-w-[479px]'
         form={form}
@@ -122,18 +138,18 @@ const Register = (props: IProps) => {
           rules={[
             {
               required: true,
-              message: 'Please enter phone number',
+              message: t('please_enter_phone_number'),
             },
             {
               pattern: REG_PHONE_NUMBER,
-              message: 'Please enter valid phone number',
+              message: t('please_enter_valid_phone_number'),
             },
           ]}
         >
           <LabelInput
             type='tel'
-            placeholder='Phone number'
-            labelContent='Phone number'
+            placeholder={t('phone_number')}
+            labelContent={t('phone_number')}
             name='phoneNumber'
             maxLength={10}
           />
@@ -143,11 +159,11 @@ const Register = (props: IProps) => {
           rules={[
             {
               required: true,
-              message: 'Please enter email',
+              message: t('please_enter_email'),
             },
             {
               pattern: REG_EMAIL,
-              message: 'Please enter valid email',
+              message: t('please_enter_valid_email'),
             },
           ]}
         >
@@ -158,19 +174,18 @@ const Register = (props: IProps) => {
           rules={[
             {
               required: true,
-              message: 'Please enter password',
+              message: t('please_enter_password'),
             },
             {
               pattern: REG_PASSWORD,
-              message:
-                'Password must be at least 8 characters including at least 1 letter, 1 number and 1 special character.',
+              message: t('password_validate_error'),
             },
           ]}
         >
           <LabelInput
-            placeholder='Password'
+            placeholder={t('password')}
+            labelContent={t('password')}
             type='password'
-            labelContent='Password'
             name='password'
           />
         </FormItem>
@@ -179,27 +194,27 @@ const Register = (props: IProps) => {
           rules={[
             {
               required: true,
-              message: 'Please retype password',
+              message: t('please_retype_password'),
             },
             ({ getFieldValue }: { getFieldValue: any }) => ({
               validator(_: any, value: any) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('Password does not match'));
+                return Promise.reject(new Error(t('password_does_not_match')));
               },
             }),
           ]}
         >
           <LabelInput
-            placeholder='Confirm password'
+            placeholder={t('confirm_password')}
+            labelContent={t('confirm_password')}
             type='password'
-            labelContent='Confirm password'
             name='confirmPassword'
           />
         </FormItem>
         <div className='--neutral-1 text-[12px] font-[500] tablet:text-center'>
-          By signing up, I agree to the
+          {t('agree_to')}
           <span>
             <a
               href={TERM_AND_CONDITION_LINK}
@@ -207,12 +222,12 @@ const Register = (props: IProps) => {
               rel='noreferrer'
               className='!text-[--primary-2]'
             >
-              &nbsp;Terms & Conditions
+              &nbsp;{t('terms_and_conditions')}
             </a>
           </span>
         </div>
         <MainButton type='submit' className='w-full'>
-          Continue
+          {t('continue')}
         </MainButton>
       </Form>
     </>

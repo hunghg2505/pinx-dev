@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useClickAway, useDebounceFn, useFocusWithin } from 'ahooks';
 import classNames from 'classnames';
@@ -7,11 +7,12 @@ import Form from 'rc-field-form';
 
 import { TYPESEARCH } from '@components/Home/service';
 import { ExploreButton } from '@components/UI/Button';
+import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
+import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { IconSearchWhite } from '@layout/components/MainHeader';
 import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
@@ -25,16 +26,20 @@ const Search = (props: any, ref: any) => {
   const [form] = Form.useForm();
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
-  // const { listRecent } = useGetSearchRecent();
+  const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
+
   const { popular } = useGetPopular();
-  // const isLogin = getAccessToken();
+
   const router = useRouter();
+
   useFocusWithin(refInput, {
     onFocus: () => {
       setShowRecent(true);
     },
   });
+
   const { search, data, loading, refresh } = useSearchPublic();
+
   const { run } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search');
@@ -52,21 +57,25 @@ const Search = (props: any, ref: any) => {
       wait: 500,
     },
   );
+
   React.useImperativeHandle(ref, () => ({
     onKeyDown: (data: any) => {
       form.setFieldValue('search', data);
       run();
     },
   }));
+
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);
     run();
   };
+
   const valueInput = form.getFieldValue('search');
   const companies = data?.data?.companies;
   const news = data?.data?.news;
   const posts = data?.data?.posts;
   const users = data?.data?.users;
+
   const onShowMore = (type: string) => {
     router.push({
       pathname: ROUTE_PATH.SEARCH,
@@ -76,16 +85,20 @@ const Search = (props: any, ref: any) => {
       },
     });
   };
-  useClickAway(() => {
-    setShowRecent(false);
-  }, refInput);
+
+  useClickAway((e: any) => {
+    const main: any = document?.querySelector('main');
+
+    if (main.contains(e.srcElement)) {
+      setShowPopup(false);
+    }
+  }, searchResultPopupRef);
+
   return (
     <>
       <div
-        className={classNames('relative mr-[12px] mt-[16px] w-full', {
-          '[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]':
-            showPopup,
-        })}
+        className={classNames('AAAA relative z-[100] mr-[12px] mt-[16px] w-full')}
+        ref={searchResultPopupRef}
       >
         <div ref={refInput}>
           <Form form={form} onValuesChange={run}>
@@ -98,7 +111,7 @@ const Search = (props: any, ref: any) => {
             </FormItem>
           </Form>
           {showRecent && !valueInput && (
-            <div className='absolute left-0 top-[50px] z-20 w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
+            <div className='z-3 absolute left-0 top-[50px] w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
               {/* {isLogin && (
             <div className='absolute left-0 top-[50px] z-[999] w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
               {isLogin && (
@@ -144,116 +157,133 @@ const Search = (props: any, ref: any) => {
             </div>
           )}
         </div>
-        <div
-          className={classNames(
-            'pointer-events-none absolute left-0  top-[55px] z-20 w-full -translate-y-full transform rounded-[12px] bg-[#ffffff] px-[16px] opacity-0 [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] [transition:0.5s]',
-            { 'pointer-events-auto top-[50px] translate-y-[0] opacity-100': showPopup },
-          )}
-        >
-          <div className='mt-[24px]'>
-            <Text type='body-20-semibold' color='neutral-1'>
-              Company
-            </Text>
-            {loading && <Loading />}
-            {companies?.length > 0 ? (
-              <>
-                <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...companies]?.slice(0, 5)?.map((company: any, index: number) => {
-                    return <CompanyItem key={`company-${index}`} data={company} />;
-                  })}
-                </div>
-                {companies?.length > 5 && (
-                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      Show more
-                    </Text>
-                  </ExploreButton>
-                )}
-              </>
-            ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
-                No company result found for {valueInput}
+
+        <div className='relative'>
+          <Fade
+            visible={showPopup}
+            className='z-22 absolute left-0 top-[100%] w-full  rounded-[12px] bg-[#ffffff] px-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] '
+          >
+            <div className='mt-[24px]'>
+              <Text type='body-20-semibold' color='neutral-1'>
+                Company
               </Text>
-            )}
-          </div>
-          <div className='mt-[32px]'>
-            <Text type='body-20-semibold' color='neutral-1'>
-              People
-            </Text>
-            {loading && <Loading />}
-            {users?.length > 0 ? (
-              <>
-                <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...users]?.splice(0, 5)?.map((item: any, index: number) => (
-                    <PeopleItem data={item} key={index} />
-                  ))}
-                </div>
-                {users?.length > 5 && (
-                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      Show more
-                    </Text>
-                  </ExploreButton>
-                )}
-              </>
-            ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
-                No people result found for {valueInput}
+              {loading && <Loading />}
+              {companies?.length > 0 ? (
+                <>
+                  <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+                    {[...companies]?.slice(0, 5)?.map((company: any, index: number) => {
+                      return <CompanyItem key={`company-${index}`} data={company} />;
+                    })}
+                  </div>
+                  {companies?.length > 5 && (
+                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        Show more
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              ) : (
+                <Text
+                  type='body-14-regular'
+                  color='neutral-4'
+                  className='mt-[16px] tablet:mt-[2px]'
+                >
+                  No company result found for {valueInput}
+                </Text>
+              )}
+            </div>
+            <div className='mt-[32px]'>
+              <Text type='body-20-semibold' color='neutral-1'>
+                People
               </Text>
-            )}
-          </div>
-          <div className='mt-[32px]'>
-            <Text type='body-20-semibold' color='neutral-1'>
-              Posts
-            </Text>
-            {loading && <Loading />}
-            {posts?.length > 0 ? (
-              <>
-                <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                  {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
-                    return <PostItem key={index} postDetail={post} refresh={refresh} />;
-                  })}
-                </div>
-                {posts?.length > 3 && (
-                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.POST)}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      Exploring more posts
-                    </Text>
-                  </ExploreButton>
-                )}
-              </>
-            ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
-                No post result found for {valueInput}
+              {loading && <Loading />}
+              {users?.length > 0 ? (
+                <>
+                  <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+                    {[...users]?.splice(0, 5)?.map((item: any, index: number) => (
+                      <PeopleItem data={item} key={index} />
+                    ))}
+                  </div>
+                  {users?.length > 5 && (
+                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        Show more
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              ) : (
+                <Text
+                  type='body-14-regular'
+                  color='neutral-4'
+                  className='mt-[16px] tablet:mt-[2px]'
+                >
+                  No people result found for {valueInput}
+                </Text>
+              )}
+            </div>
+            <div className='mt-[32px]'>
+              <Text type='body-20-semibold' color='neutral-1'>
+                Posts
               </Text>
-            )}
-          </div>
-          <div className='mb-[24px] mt-[32px]'>
-            <Text type='body-20-semibold' color='neutral-1'>
-              News
-            </Text>
-            {loading && <Loading />}
-            {news?.length > 0 ? (
-              <>
-                <div className='my-[16px] flex flex-col gap-y-[12px]'>
-                  {[...news]?.splice(0, 3)?.map((item: any, index: number) => {
-                    return <NewsItem key={`new-${index}`} data={item} />;
-                  })}
-                </div>
-                {news?.length > 3 && (
-                  <ExploreButton onClick={() => onShowMore(TYPESEARCH.NEWS)}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      Exploring more news
-                    </Text>
-                  </ExploreButton>
-                )}
-              </>
-            ) : (
-              <Text type='body-14-regular' color='neutral-4' className='mt-[16px] tablet:mt-[2px]'>
-                No news result found for {valueInput}
+              {loading && <Loading />}
+              {posts?.length > 0 ? (
+                <>
+                  <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+                    {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
+                      return <PostItem key={index} postDetail={post} refresh={refresh} />;
+                    })}
+                  </div>
+                  {posts?.length > 3 && (
+                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.POST)}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        Exploring more posts
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              ) : (
+                <Text
+                  type='body-14-regular'
+                  color='neutral-4'
+                  className='mt-[16px] tablet:mt-[2px]'
+                >
+                  No post result found for {valueInput}
+                </Text>
+              )}
+            </div>
+            <div className='mb-[24px] mt-[32px]'>
+              <Text type='body-20-semibold' color='neutral-1'>
+                News
               </Text>
-            )}
-          </div>
+              {loading && <Loading />}
+              {news?.length > 0 ? (
+                <>
+                  <div className='my-[16px] flex flex-col gap-y-[12px]'>
+                    {[...news]?.splice(0, 3)?.map((item: any, index: number) => {
+                      return <NewsItem key={`new-${index}`} data={item} />;
+                    })}
+                  </div>
+                  {news?.length > 3 && (
+                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.NEWS)}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        Exploring more news
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              ) : (
+                <Text
+                  type='body-14-regular'
+                  color='neutral-4'
+                  className='mt-[16px] tablet:mt-[2px]'
+                >
+                  No news result found for {valueInput}
+                </Text>
+              )}
+            </div>
+          </Fade>
         </div>
       </div>
     </>

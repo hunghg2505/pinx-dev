@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable unicorn/consistent-destructuring */
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 
@@ -9,6 +11,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -23,13 +26,13 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { isImage } from '@utils/common';
+import { formatMessage, isImage } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import PopupComponent from '@utils/PopupComponent';
 
 import styles from './index.module.scss';
 import ModalLink from './ModalLink';
-import { requestAddPost } from './service';
+import { requestAddPost, requestUpdatePost } from './service';
 
 const IconSend = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'>
@@ -41,16 +44,13 @@ const IconSend = () => (
     />
   </svg>
 );
-const beforeUpload = (file: RcFile) => {
-  const isJpgOrPng = isImage(file);
-  // if (!isJpgOrPng) {
-  //   console.log('Không phải ảnh');
-  // }
-  return isJpgOrPng;
-};
+
 interface IProps {
-  hidePopup: () => void;
+  hidePopup?: () => void;
   refresh?: () => void;
+  onGetData?: (value: any) => void;
+  postDetail?: any;
+  isUpdate?: boolean;
 }
 interface IData {
   message: string | undefined;
@@ -63,102 +63,166 @@ interface IData {
 }
 
 const Compose = (props: IProps) => {
-  const { hidePopup, refresh } = props;
-  const [isShowMore, setIsShowMore] = React.useState(false);
+  const { t } = useTranslation('common');
+  const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
+  const postThemeId = postDetail?.post?.postThemeId;
+  const message =
+    postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+  console.log('message', message);
+  const postType = postDetail?.postType || '';
+  const [isShowMore, setIsShowMore] = React.useState(true);
   const [activeTheme, setActiveTheme] = React.useState('default');
+  const [hideListTheme, setHideListTheme] = React.useState(false);
   const [image, setImage] = React.useState<string>('');
   const [metaData, setMetaData] = React.useState<any>();
   const bgTheme = useAtomValue(postThemeAtom);
+  const themeInit = bgTheme?.find((item) => item.id === postThemeId);
   const themeActive = bgTheme?.find((item) => item.code === activeTheme);
   const { statusUser } = useUserType();
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder: 'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
-        emptyEditorClass: 'is-editor-empty',
-      }),
-      Mention.extend({
-        name: 'userMention',
-      }).configure({
-        HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
-        },
-        suggestion: {
-          ...Suggestion,
-          char: '@',
-          pluginKey: new PluginKey('userMention'),
-          items: async ({ query }: { query: string }) => {
-            const payload: ISearch = {
-              keyword: query,
-              searchType: TYPESEARCH.FRIEND,
-            };
-            const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
-              data: payload,
-            });
-            return data?.data?.users;
-          },
-        },
-      }),
-      Mention.extend({
-        name: 'stockMention',
-      }).configure({
-        HTMLAttributes: {
-          class: 'stockMention text-[14px] font-semibold leading-[18px]',
-        },
-        suggestion: {
-          ...Suggestion,
-          pluginKey: new PluginKey('stockMention'),
-          char: '%',
-          items: async ({ query }: { query: string }) => {
-            const payload: ISearch = {
-              keyword: query,
-              searchType: TYPESEARCH.STOCK,
-            };
-            const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
-              data: payload,
-            });
-
-            return data?.data?.companies;
-          },
-        },
-      }),
-      Mention.extend({
-        name: 'hashTag',
-      }).configure({
-        HTMLAttributes: {
-          class: 'hashTag text-[14px] font-semibold leading-[18px]',
-        },
-        suggestion: {
-          ...Suggestion,
-          pluginKey: new PluginKey('hashTag'),
-          char: '#',
-          items: async ({ query }: { query: string }) => {
-            const data = await privateRequest(
-              requestCommunity.post,
-              API_PATH.PRIVATE_HASHTAG_SUGGEST,
+  const isUpdateActivities = isUpdate && postType === 'ActivityTheme';
+  console.log('🚀 ~ file: index.tsx:81 ~ Compose ~ isUpdateActivities:', isUpdateActivities);
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit,
+        Placeholder.configure({
+          placeholder:
+            'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
+          emptyEditorClass: 'is-editor-empty',
+        }),
+        Mention.extend({
+          name: 'userMention',
+          renderHTML(props: any) {
+            return [
+              'a',
               {
-                data: {
-                  keyword: query,
-                },
+                style: 'font-weight:600;',
+                class: 'userName',
+                userkey: props && props.node?.attrs.id,
+                'data-username': props?.node.attrs.label,
+                'data-linked-resource-type': 'userinfo',
+                href: `/profile/${props?.node.attrs.id}`,
               },
-            );
-            return data?.data?.list;
+              `@${props?.node.attrs.label}`,
+            ];
           },
+        }).configure({
+          HTMLAttributes: {
+            class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
+          },
+
+          suggestion: {
+            ...Suggestion,
+            char: '@',
+            pluginKey: new PluginKey('userMention'),
+            items: async ({ query }: { query: string }) => {
+              const payload: ISearch = {
+                keyword: query,
+                searchType: TYPESEARCH.FRIEND,
+              };
+              const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+                data: payload,
+              });
+              return data?.data?.users;
+            },
+          },
+        }),
+        Mention.extend({
+          name: 'stockMention',
+          renderHTML(props: any) {
+            return [
+              'a',
+              {
+                style: 'font-weight:600;',
+                class: 'stockMention',
+                userkey: props && props.node?.attrs.id,
+                'data-username': props?.node.attrs.label,
+                'data-linked-resource-type': 'userinfo',
+                href: `/stock/${props?.node.attrs.label}`,
+              },
+              `%${props?.node.attrs.label}`,
+            ];
+          },
+        }).configure({
+          HTMLAttributes: {
+            class: 'stockMention text-[14px] font-semibold leading-[18px]',
+          },
+
+          suggestion: {
+            ...Suggestion,
+            pluginKey: new PluginKey('stockMention'),
+            char: '%',
+            items: async ({ query }: { query: string }) => {
+              const payload: ISearch = {
+                keyword: query,
+                searchType: TYPESEARCH.STOCK,
+              };
+              const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+                data: payload,
+              });
+
+              return data?.data?.companies;
+            },
+          },
+        }),
+        Mention.extend({
+          name: 'hashTag',
+        }).configure({
+          HTMLAttributes: {
+            class: 'hashTag text-[14px] font-semibold leading-[18px]',
+          },
+          renderLabel({ options, node }) {
+            return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
+          },
+          suggestion: {
+            ...Suggestion,
+            pluginKey: new PluginKey('hashTag'),
+            char: '#',
+            items: async ({ query }: { query: string }) => {
+              const data = await privateRequest(
+                requestCommunity.post,
+                API_PATH.PRIVATE_HASHTAG_SUGGEST,
+                {
+                  data: {
+                    keyword: query,
+                  },
+                },
+              );
+              return data?.data?.list;
+            },
+          },
+        }),
+      ],
+      editorProps: {
+        attributes: {
+          class: 'focus:outline-none h-full',
         },
-      }),
-    ],
-    editorProps: {
-      attributes: {
-        class: 'focus:outline-none h-full',
+      },
+      content: `${message || ''}`,
+      onUpdate({ editor }) {
+        const textCompose = editor?.getText();
+        const length = textCompose?.length;
+        if (length > 254) {
+          setActiveTheme('default');
+          setIsShowMore(false);
+        }
+        onGetData && onGetData(editor?.getText());
       },
     },
-  });
+    [message],
+  );
   const getDataOG = (value: any) => {
     setMetaData(value);
   };
   const showMore = () => {
     setIsShowMore(!isShowMore);
+  };
+  const beforeUpload = (file: RcFile) => {
+    const isJpgOrPng = isImage(file);
+    if (!isJpgOrPng) {
+      toast(() => <Notification type='error' message={t('not_image')} />);
+    }
+    return isJpgOrPng;
   };
   const onSelectTheme = (code: string) => {
     setActiveTheme(code);
@@ -186,7 +250,7 @@ const Compose = (props: IProps) => {
   );
   const useAddPost = useRequest(
     (data: any) => {
-      return requestAddPost(data);
+      return isUpdate ? requestUpdatePost(postDetail?.id, data) : requestAddPost(data);
     },
     {
       manual: true,
@@ -220,6 +284,7 @@ const Compose = (props: IProps) => {
     const users: any = [];
     const stock: any = [];
     const urlLink: any = [];
+    const messageHtml = editor?.getHTML();
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
@@ -276,18 +341,21 @@ const Compose = (props: IProps) => {
     });
     const message = test?.flat()?.join('\n');
     const data: IData = {
-      message: metaData ? message?.concat(` ${metaData['og:url']}`) : message,
+      message: metaData?.['og:url'] ? messageHtml?.concat(` ${metaData['og:url']}`) : messageHtml,
       tagPeople: formatTagPeople,
       tagStocks: stock,
-      postThemeId: themeActive?.id,
+      postThemeId: isUpdate && activeTheme === 'default' ? '' : themeActive?.id,
       // parentId: idReply === '' ? id : idReply,
       urlImages: [image],
-      urlLinks: metaData ? [...urlLink, metaData['og:url']] : urlLink,
+      urlLinks: metaData && activeTheme === 'default' ? [...urlLink, metaData['og:url']] : urlLink,
     };
-    if (activeTheme === 'default') {
+    if (activeTheme === 'default' && !isUpdate) {
       delete data?.postThemeId;
     }
     if (!image) {
+      delete data?.urlImages;
+    }
+    if (activeTheme !== 'default') {
       delete data?.urlImages;
     }
     if (!urlLink) {
@@ -308,7 +376,11 @@ const Compose = (props: IProps) => {
         />
       ));
     } else if (statusUser === USERTYPE.VSD) {
-      useAddPost.run(data);
+      if (editor?.getText()) {
+        useAddPost.run(data);
+      } else {
+        toast(() => <Notification type='error' message={t('err_add_post')} />);
+      }
     } else {
       hidePopup && hidePopup();
       PopupComponent.openEKYC();
@@ -332,13 +404,67 @@ const Compose = (props: IProps) => {
       editor?.commands?.insertContent('%');
     }
   };
+  React.useEffect(() => {
+    if (postType && postType === 'ActivityTheme') {
+      setHideListTheme(true);
+    }
+    return () => {
+      editor?.commands?.clearContent();
+    };
+  }, []);
+  React.useEffect(() => {
+    if (themeInit) {
+      setActiveTheme(themeInit.code);
+    }
+    if (postDetail?.post) {
+      console.log(postDetail?.post);
+    }
+  }, [postThemeId]);
+
+  const renderUploadImage = () => {
+    if (themeActive) {
+      return <></>;
+    } else if (!themeActive && isUpdateActivities) {
+      return <></>;
+    } else {
+      return (
+        <>
+          <Upload
+            accept='.png, .jpeg, .jpg'
+            onStart={onStart}
+            beforeUpload={beforeUpload}
+            className=''
+          >
+            <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+              <img src='/static/icons/explore/iconImage.svg' alt='' className='w-[20px]' />
+            </div>
+          </Upload>
+        </>
+      );
+    }
+  };
+  const renderModalLink = () => {
+    if (themeActive) {
+      return <></>;
+    } else if (!themeActive && isUpdateActivities) {
+      return <></>;
+    } else {
+      return (
+        <ModalLink getDataOG={getDataOG}>
+          <div className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+            <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
+          </div>
+        </ModalLink>
+      );
+    }
+  };
 
   return (
-    <>
+    <div className='h-full mobile-max:flex mobile-max:flex-col mobile-max:justify-between'>
       <div className='relative h-[208px]'>
         <EditorContent
           editor={editor}
-          className={classNames('relative z-10 h-full', {
+          className={classNames('relative z-10 h-full max-h-[220px] overflow-y-auto px-[5px]', {
             [`text-center text-[${themeActive?.color?.code}] pt-[20px] text-[${themeActive?.fontSize}] leading-[${themeActive?.lineHeight}] ${themeActive?.code}`]:
               themeActive && activeTheme !== 'default',
             'text-left': activeTheme === 'default',
@@ -352,132 +478,156 @@ const Compose = (props: IProps) => {
           />
         )}
       </div>
-      {useUploadImage?.loading ? (
-        <Loading />
-      ) : (
-        image && (
-          <div className='flex items-center justify-between'>
-            <img src={image} alt='' className='h-[90px] w-[58px]' />
-            <img
-              src='/static/icons/explore/iconClose.svg'
-              alt=''
-              className='h-[20px] w-[20px] cursor-pointer'
-              onClick={() => setImage('')}
-            />
-          </div>
-        )
-      )}
-      {Object.keys(metaData).length > 0 && (
-        <div className='flex items-center justify-between'>
-          <div className='flex'>
-            <img
-              src={metaData['og:image']}
-              alt=''
-              className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
-            />
-            <Text className='w-[calc(100%_-_120px)] break-all text-[10px]' color='cbblack'>
-              {metaData['og:url']}
-            </Text>
-          </div>
-          <img
-            src='/static/icons/explore/iconClose.svg'
-            alt=''
-            className='h-[20px] w-[20px] cursor-pointer'
-            onClick={() => setMetaData({})}
-          />
-        </div>
-      )}
-
-      <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
-        <div
-          className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
-          onClick={showMore}
-        >
-          <img src='/static/icons/explore/iconCompose.svg' alt='' className='h-[22px] w-[22px]' />
-        </div>
-        {isShowMore && (
-          <div
-            className={classNames(
-              'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
-              styles.listItem,
-            )}
-          >
+      <div>
+        {useUploadImage?.loading ? (
+          <Loading />
+        ) : (
+          image &&
+          activeTheme === 'default' && (
+            <div className='flex items-center justify-between'>
+              <img src={image} alt='' className='h-[58px] w-[90px] rounded-[8px] object-contain' />
+              <img
+                src='/static/icons/explore/iconClose.svg'
+                alt=''
+                className='h-[20px] w-[20px] cursor-pointer'
+                onClick={() => setImage('')}
+              />
+            </div>
+          )
+        )}
+        {metaData && Object.keys(metaData).length > 0 && activeTheme === 'default' && (
+          <>
+            <div className='my-[12px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+            <div className=' flex items-center justify-between'>
+              <div className='flex w-full'>
+                <img
+                  src={metaData['og:image']}
+                  alt=''
+                  className='mr-[8px] h-[58px] w-[90px] rounded-[12px]'
+                />
+                <Text
+                  className='w-[calc(100%_-_120px)] break-all text-left text-[10px]'
+                  color='cbblack'
+                >
+                  {metaData['og:url']}
+                </Text>
+              </div>
+              <img
+                src='/static/icons/explore/iconClose.svg'
+                alt=''
+                className='h-[20px] w-[20px] cursor-pointer'
+                onClick={() => setMetaData({})}
+              />
+            </div>
+          </>
+        )}
+        {!hideListTheme && (
+          <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
             <div
-              className={classNames(
-                'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
-              )}
-              onClick={() => onSelectTheme('default')}
-            ></div>
-            {bgTheme?.map((item: any, index: number) => {
-              return (
+              className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
+              onClick={showMore}
+            >
+              <img
+                src='/static/icons/explore/iconCompose.svg'
+                alt=''
+                className='h-[22px] w-[22px]'
+              />
+            </div>
+            {isShowMore && (
+              <div
+                className={classNames(
+                  'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
+                  styles.listItem,
+                )}
+              >
                 <div
                   className={classNames(
-                    'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                    { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
+                    'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                    { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
                   )}
-                  key={index}
-                  onClick={() => onSelectTheme(item.code)}
-                >
-                  <img
-                    src={item.bgImage}
-                    alt=''
-                    className='absolute left-0 top-0 h-full w-full rounded-[10px]'
-                  />
-                </div>
-              );
-            })}
+                  onClick={() => onSelectTheme('default')}
+                ></div>
+                {bgTheme?.map((item: any, index: number) => {
+                  return (
+                    <div
+                      className={classNames(
+                        'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                        { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
+                      )}
+                      key={index}
+                      onClick={() => onSelectTheme(item.code)}
+                    >
+                      <img
+                        src={item.bgImage}
+                        alt=''
+                        className='absolute left-0 top-0 h-full w-full rounded-[10px]'
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
-      </div>
-      <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      <div className='flex justify-between'>
-        <div className='flex gap-x-[16px]'>
-          {!themeActive && (
-            <Upload
-              accept='.png, .jpeg, .jpg'
-              onStart={onStart}
-              beforeUpload={beforeUpload}
-              className=''
+        {postType === 'ActivityTheme' && (
+          <div className='relative flex h-[205px] w-full rounded-lg'>
+            <img
+              src={postDetail?.post?.bgImage}
+              alt=''
+              className='absolute left-0 top-0 h-full w-full rounded-lg object-cover'
+            />
+            <div className='my-[18px] ml-[20px] flex w-[120px] flex-col items-center justify-around rounded-lg bg-[rgba(248,248,248,0.50)] px-2 backdrop-blur-[1px]'>
+              <img
+                src={
+                  postDetail?.post?.action === 'SUBSCRIBLE'
+                    ? '/static/icons/Lotus-gray.svg'
+                    : '/static/icons/Lotus-blue.svg'
+                }
+                alt=''
+                className='mx-auto h-[22px] w-[22px] rounded-full bg-white'
+              />
+              <Text type='body-12-medium' className='mt'>
+                {postDetail?.post?.action === 'UNSUBSCRIBE' ? 'Unsubscribe' : 'Subscribe'}
+              </Text>
+              <Text type='body-12-bold' className='text-center'>
+                {postDetail?.post.themeName}
+              </Text>
+            </div>
+          </div>
+        )}
+
+        <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+        <div className='flex justify-between'>
+          <div className='flex gap-x-[16px]'>
+            {renderUploadImage()}
+            <div
+              className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+              onClick={onAddPeople}
             >
-              <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-                <img src='/static/icons/explore/iconImage.svg' alt='' className='w-[20px]' />
-              </div>
-            </Upload>
-          )}
-          <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
-            onClick={onAddPeople}
-          >
-            <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
-          </div>
+              <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
+            </div>
 
-          <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
-            onClick={onAddStock}
-          >
-            <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
-          </div>
+            <div
+              className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+              onClick={onAddStock}
+            >
+              <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
+            </div>
 
-          {!themeActive && (
-            <ModalLink getDataOG={getDataOG}>
-              <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-                <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
-              </div>
-            </ModalLink>
-          )}
-        </div>
-        <div
-          className='flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
-          onClick={addPost}
-        >
-          {useAddPost?.loading ? <Loading /> : <IconSend />}
-          <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
-            Post
-          </Text>
+            {renderModalLink()}
+          </div>
+          <div
+            className='flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
+            onClick={addPost}
+          >
+            {useAddPost?.loading ? <Loading /> : <IconSend />}
+            <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
+              Post
+            </Text>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Compose;

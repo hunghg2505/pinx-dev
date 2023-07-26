@@ -1,4 +1,5 @@
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
@@ -9,6 +10,8 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+
+import styles from './index.module.scss';
 
 interface IProps {
   data: IKOL;
@@ -60,8 +63,10 @@ const ItemInfluence = (props: IProps) => {
       });
     }
   };
+  const isFeatureProfile = data?.isFeatureProfile;
+  const isKol = data?.isKol;
   return (
-    <div className='w-[161px] cursor-pointer mobile-max:w-full tablet:w-[161px]'>
+    <div className='cursor-pointer '>
       <div className='relative h-[252px] w-[100%] rounded-[15px]'>
         <div
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
@@ -76,18 +81,33 @@ const ItemInfluence = (props: IProps) => {
               >
                 {data?.displayName}
               </Text>
-
-              <img
-                src='/static/icons/iconKol.svg'
-                alt=''
-                width={16}
-                height={16}
-                sizes='100vw'
-                className='ml-[2px] w-[16px]'
-              />
+              {isFeatureProfile && (
+                <img
+                  src='/static/icons/iconKol.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='h-[20px] w-[20px]'
+                />
+              )}
+              {isKol && (
+                <img
+                  src='/static/icons/iconTick.svg'
+                  alt=''
+                  width={0}
+                  height={0}
+                  sizes='100vw'
+                  className='ml-[8px] h-[16px] w-[16px]'
+                />
+              )}
             </div>
 
-            <Text type='body-14-regular' color='cbwhite' className='mt-[6px]'>
+            <Text
+              type='body-14-regular'
+              color='cbwhite'
+              className={classNames('mt-[6px]', styles.limitLine2)}
+            >
               {data.position}
             </Text>
           </div>

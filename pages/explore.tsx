@@ -4,11 +4,12 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 
 const Explore = dynamic(() => import('@components/Explore'), {
   ssr: false,
 });
-const ExploreLayout = dynamic(() => import('@layout/ExploreLayout'));
+
 const ExplorePage = () => {
   return (
     <>
@@ -19,13 +20,13 @@ const ExplorePage = () => {
 };
 ExplorePage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ExploreLayout>
+    <MainLayout>
       <>{page}</>
-    </ExploreLayout>
+    </MainLayout>
   );
 };
 
-export async function getServerSideProps({ locale }: any) {
+export async function getStaticProps({ locale }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'theme'])),

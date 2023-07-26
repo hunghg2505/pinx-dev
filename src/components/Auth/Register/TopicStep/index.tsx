@@ -16,7 +16,7 @@ interface ITopicCard {
 }
 
 const RegisterCompanyStep = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<ITopicCard[]>([]);
 
@@ -70,10 +70,10 @@ const RegisterCompanyStep = () => {
           </div>
           <div className='flex flex-col items-center'>
             <Text type='body-28-bold' className='mt-6'>
-              Your favourite topics
+              {t('register_topic_titile')}
             </Text>
             <div className='neutral-4 mt-[8px] flex flex-col items-center'>
-              <Text type='body-16-regular'>Select what you would like to get updates </Text>
+              <Text type='body-16-regular'>{t('register_topic_sub_titile')}</Text>
             </div>
           </div>
           <div
@@ -105,20 +105,20 @@ const RegisterCompanyStep = () => {
                     type={'body-16-bold'}
                     color={checkIsSelected(item?.topicCode) ? 'primary-2' : 'neutral-1'}
                   >
-                    {t(`${item.topicName}`)}
+                    {item.topicName}
                   </Text>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}
               className='my-auto flex h-[49px] w-[343px] items-center justify-center rounded-[10px] bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-center text-[17px] font-[700] text-white'
             >
-              Select <Text className='ml-[3px]'>({selected.length})</Text>
+              {t('select')} <Text className='ml-[3px]'>({selected.length})</Text>
             </button>
           </div>
         </div>

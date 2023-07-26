@@ -321,7 +321,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-[16px] desktop:mt-[12px] desktop:px-0'>
+      <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
           alt=''
@@ -331,7 +331,7 @@ const Editor = (props: IProps, ref?: any) => {
           className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
         />
         <div
-          className='bottom-0 left-0 flex min-h-[40px] items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[20px]'
+          className='bottom-0 left-0 flex min-h-[40px] items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[12px]'
           ref={messagesEndRef}
         >
           <div className='flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
@@ -361,12 +361,12 @@ const Editor = (props: IProps, ref?: any) => {
             <div className='w-full justify-between mobile:hidden tablet:flex'>
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <img
-                  src='/static/icons/iconImage.svg'
+                  src='/static/icons/iconCamera.svg'
                   alt=''
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='mr-[8px] w-[28px]'
+                  className='mr-[8px] mt-[12px] h-[21px] w-[24px] object-contain'
                 />
               </Upload>
               {useAddComment?.loading || useReplyComment?.loading ? (
@@ -398,14 +398,14 @@ const Editor = (props: IProps, ref?: any) => {
                     width='0'
                     height='0'
                     sizes='100vw'
-                    className='h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
+                    className='mt-[8px] h-[100px] w-[100px] object-cover mobile:hidden tablet:block'
                   />
                   <img
                     src='/static/icons/iconCloseWhite.svg'
                     alt=''
                     width={0}
                     height={0}
-                    className='absolute -right-[12px] -top-[12px] w-[24px] cursor-pointer'
+                    className='absolute -right-[12px] -top-[6px] w-[24px] cursor-pointer'
                     onClick={onCloseImage}
                   />
                 </div>

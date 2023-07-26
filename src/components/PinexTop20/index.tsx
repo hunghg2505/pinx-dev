@@ -68,7 +68,7 @@ const PinexTop20 = () => {
     }
   };
   return (
-    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
+    <div className='mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:p-[16px]'>
       <div className='relative text-center'>
         <img
           src='/static/icons/back_icon.svg'

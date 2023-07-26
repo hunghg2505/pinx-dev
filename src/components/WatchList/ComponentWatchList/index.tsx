@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable unicorn/consistent-destructuring */
+import React, { useMemo } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -16,10 +17,13 @@ import ItemWatchList from '../ItemWatchList';
 
 interface IProps {
   isEdit?: boolean;
+  page_size?: number;
+  footer?: (list: any) => void;
 }
 const ComponentWatchList = (props: IProps) => {
-  const { isEdit = false } = props;
+  const { isEdit = false, page_size } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
+  const [dataSocket, setDataSocket] = React.useState<any>({});
   const useWatchList = useRequest(
     () => {
       return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
@@ -37,6 +41,7 @@ const ComponentWatchList = (props: IProps) => {
       },
     },
   );
+
   React.useEffect(() => {
     useWatchList.run();
     return () => {
@@ -48,7 +53,23 @@ const ComponentWatchList = (props: IProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [dataSocket, setDataSocket] = React.useState<any>({});
+
+  const dataFormat = useMemo(() => {
+    const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
+    if (findIndex && findIndex !== -1) {
+      const data = dataStock[findIndex];
+      dataStock[findIndex] = {
+        ...data,
+        ...dataSocket,
+      };
+    }
+
+    if (page_size) {
+      return dataStock?.slice(0, page_size);
+    }
+
+    return dataStock;
+  }, [dataStock, dataStock, page_size]);
 
   socket.on('public', (message: any) => {
     const data = message.data;
@@ -56,18 +77,11 @@ const ComponentWatchList = (props: IProps) => {
       setDataSocket(data);
     }
   });
-  const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex && findIndex !== -1) {
-    const data = dataStock[findIndex];
-    dataStock[findIndex] = {
-      ...data,
-      ...dataSocket,
-    };
-  }
+
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
-        {dataStock?.map((item: IWatchListItem, index: number) => (
+        {dataFormat?.map((item: IWatchListItem, index: number) => (
           <div
             key={index}
             className={classNames({
@@ -81,6 +95,8 @@ const ComponentWatchList = (props: IProps) => {
           </div>
         ))}
       </div>
+
+      {props?.footer && props?.footer?.(dataFormat)}
     </>
   );
 };
