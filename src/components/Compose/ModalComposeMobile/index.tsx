@@ -36,7 +36,7 @@ const ModalComposeMobile = (props: IProps) => {
   return (
     <>
       <span onClick={onVisible}>{children}</span>
-      <Modal visible={visible} onClose={onVisible} className={styles.modalCompose}>
+      <Modal visible={visible} onClose={onVisible} className={styles.modalCompose} destroyOnClose>
         <div className='h-[100%] text-center'>
           <Text type='body-20-semibold' color='neutral-black'>
             {t('common:create_post')}
