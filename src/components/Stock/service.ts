@@ -19,6 +19,7 @@ import {
   IResponseThemesOfStock,
   CompanyRelatedType,
   IResponseCompaniesRelated,
+  IPayloadShareStock,
 } from './type';
 
 const useStockDetail = (stockCode: string): IResponseStockDetail => {
@@ -354,6 +355,21 @@ const useCompaniesRelated = (
   };
 };
 
+const useShareStockActivity = (options?: IOptions) => {
+  const requestShareStock = useRequest(
+    (payload: IPayloadShareStock) =>
+      privateRequest(requestCommunity.post, API_PATH.PRIVATE_ACTIVITY_WATCH_LIST_ADD, {
+        data: payload,
+      }),
+    {
+      manual: true,
+      ...options,
+    },
+  );
+
+  return requestShareStock;
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -373,4 +389,5 @@ export {
   useStockWatching,
   useStockInvesting,
   useCompaniesRelated,
+  useShareStockActivity,
 };
