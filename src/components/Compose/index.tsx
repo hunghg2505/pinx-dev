@@ -9,7 +9,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'next-i18next';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -32,6 +32,7 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { base64ToBlob, formatMessage, isImage, toBase64 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
@@ -66,7 +67,7 @@ const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   const bgTheme = useAtomValue(postThemeAtom);
-
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
 
   const message =
