@@ -1,12 +1,12 @@
+/* eslint-disable react/prop-types */
 import { useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
-import Link from 'next/link';
 import { InView } from 'react-intersection-observer';
 import ReactPlayer from 'react-player';
 
-import Fancybox from '@components/UI/Fancybox';
+import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import Text from '@components/UI/Text';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -19,14 +19,13 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
 
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
-  const { imageMetaData, siteName, videoId, urlImages, message, postDetailUrl } = useMemo(() => {
+  const { imageMetaData, siteName, videoId, message } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
 
     return {
       imageMetaData: metaData?.images?.[0],
-      siteName: metaData?.siteName,
+      siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
-      urlImages: postDetail?.post?.urlImages,
       message:
         postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
@@ -60,7 +59,19 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
   };
 
   const MetaData = () => {
-    if (`${siteName}`.toLowerCase() === 'youTube' && !urlImages?.[0] && videoId) {
+    if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
+      return (
+        <ModalMedia url={imageMetaData}>
+          <img
+            src={imageMetaData}
+            alt=''
+            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white object-contain p-[12px] desktop:p-[16px]'
+          />
+        </ModalMedia>
+      );
+    }
+
+    if (siteName === 'youtube' && videoId) {
       return (
         <InView onChange={setInView}>
           {({ ref }) => (
@@ -79,7 +90,7 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
       );
     }
 
-    if (`${siteName}`.toLowerCase() === 'vimeo') {
+    if (siteName === 'vimeo' && videoId) {
       return (
         <InView onChange={setInView}>
           {({ ref }) => (
@@ -95,7 +106,7 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
       );
     }
 
-    if (`${siteName}`.toLowerCase() === 'tiktok') {
+    if (siteName === 'tiktok' && videoId) {
       return (
         <InView onChange={setInView}>
           {({ ref }) => (
@@ -111,24 +122,28 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
       );
     }
 
-    if (imageMetaData) {
+    return (
+      <>
+        AAA {siteName} {videoId}
+      </>
+    );
+  };
+
+  const ShowImage = () => {
+    if (postDetail?.post?.urlImages?.length > 0) {
       return (
-        <div className='theme'>
-          <Fancybox
-            options={{
-              closeButton: true,
-            }}
-          >
-            <a data-fancybox='gallery' href={imageMetaData}>
-              <img
-                src={imageMetaData}
-                alt=''
-                className='mobile:h-[185px]desktop:h-[309px] w-full rounded-[8px] object-cover  '
-              />
-            </a>
-          </Fancybox>
-        </div>
+        <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
+          <img
+            src={postDetail?.post?.urlImages?.[0]}
+            alt=''
+            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white object-contain p-[12px] desktop:p-[16px]'
+          />
+        </ModalMedia>
       );
+    }
+
+    if (postDetail?.post?.metadataList?.length) {
+      return <MetaData />;
     }
 
     return <></>;
@@ -203,25 +218,7 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
         </Text>
       )}
 
-      {!postThemeId && (
-        <div>
-          <MetaData />
-        </div>
-      )}
-
-      {urlImages?.length > 0 && (
-        <Link href={postDetailUrl}>
-          <div className='theme'>
-            <img
-              src={urlImages?.[0]}
-              alt=''
-              width={326}
-              height={185}
-              className='h-[185px] w-full rounded-[10px] object-cover object-top tablet:h-[309px]'
-            />
-          </div>
-        </Link>
-      )}
+      <ShowImage />
     </div>
   );
 };
