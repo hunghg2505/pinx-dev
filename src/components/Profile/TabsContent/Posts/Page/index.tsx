@@ -30,12 +30,12 @@ const Page = ({
   );
   return (
     <>
-      {data?.data?.list?.map((item: IPost, index: number) => {        
+      {data?.data?.list?.map((item: IPost, index: number) => {
         return (
           <NewsFeed
             key={index}
             data={item}
-            id={'12312'}
+            id={item.id}
             refresh={() => {
               refresh();
             }}
