@@ -3,6 +3,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
 import ReactPlayer from 'react-player';
 
@@ -13,6 +14,7 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
 const Content = memo(({ postDetail, onComment }: any) => {
+  const { t } = useTranslation();
   const [showReadMore, setShowReadMore] = useState<boolean>(false);
   const [readMore, setReadMore] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
@@ -128,7 +130,7 @@ const Content = memo(({ postDetail, onComment }: any) => {
           className='w-[75px] cursor-pointer'
           onClick={() => setReadMore(!readMore)}
         >
-          {readMore ? 'See less' : 'See more'}
+          {readMore ? t('see_less') : t('see_more')}
         </Text>
       )}
     </>

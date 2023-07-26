@@ -88,7 +88,7 @@ const PopupSubsribeTheme = (props: IProps) => {
             className='mb-5 flex h-[50px] flex-col items-start justify-start'
           >
             <textarea
-              placeholder='Input content...'
+              placeholder={t('what_do_you_want_to_comment')}
               className='h-full w-full resize-none outline-none'
             />
           </FormItem>
@@ -125,7 +125,7 @@ const PopupSubsribeTheme = (props: IProps) => {
                 <Loading />
               </div>
             )}
-            Create post
+            {t('create_post')}
           </MainButton>
         </Form>
       </Modal>

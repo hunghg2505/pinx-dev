@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { useAuth } from '@store/auth/useAuth';
@@ -19,6 +20,7 @@ const BasicInfo = ({
   status: string;
   close: () => void;
 }) => {
+  const { t } = useTranslation();
   const { isLogin } = useAuth();
   const router = useRouter();
   return (
@@ -52,14 +54,12 @@ const BasicInfo = ({
           <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
           {status && (
             <span
-              className={classNames('text-[#EAA100]',
-                {
-                  '!text-[#128F63]': status === USER_STATUS_VERIFIED,
-                  '!text-[#F1BA09]': status === USER_STATUS_PENDING,
-                }
-              )}
+              className={classNames('text-[#EAA100]', {
+                '!text-[#128F63]': status === USER_STATUS_VERIFIED,
+                '!text-[#F1BA09]': status === USER_STATUS_PENDING,
+              })}
             >
-              {status}
+              {t(status)}
             </span>
           )}
         </div>

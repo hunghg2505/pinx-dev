@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -15,6 +16,7 @@ export const ActivityTheme = ({
   iconPost,
   messagePostFormat,
 }: any) => {
+  const { t } = useTranslation();
   return (
     <div className='ActivityTheme'>
       <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
@@ -40,7 +42,7 @@ export const ActivityTheme = ({
           className='cursor-pointer'
           onClick={onReadMore}
         >
-          {readMore ? 'See less' : 'See more'}
+          {readMore ? t('see_less') : t('see_more')}
         </Text>
       </Fade>
 

@@ -120,7 +120,7 @@ const Compose = (props: IProps) => {
         refresh && refresh();
         setMetaData(null);
 
-        toast(() => <Notification type='success' message='Post is update successfully' />);
+        toast(() => <Notification type='success' message={t('post_update_success_msg')} />);
       },
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
@@ -700,7 +700,7 @@ const Compose = (props: IProps) => {
             <IconSend />
           )}
           <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
-            Post
+            {t('post_action')}
           </Text>
         </div>
       </div>

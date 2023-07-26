@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
@@ -15,6 +16,8 @@ export const ActivityWatchlist = ({
   onComment,
   messagePostFormat,
 }: any) => {
+  const { t } = useTranslation();
+
   return (
     <div className='ActivityWatchlist'>
       <div className='cursor-pointer' onClick={onComment} ref={onRef}>
@@ -40,7 +43,7 @@ export const ActivityWatchlist = ({
           className='cursor-pointer'
           onClick={onReadMore}
         >
-          {readMore ? 'See less' : 'See more'}
+          {readMore ? t('see_less') : t('see_more')}
         </Text>
       )}
 
