@@ -12,7 +12,6 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 import ModalComment from './ModalComment';
 
@@ -80,7 +79,11 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser !== USERTYPE.VSD) {
-        PopupComponent.openEKYC();
+        // PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
       } else if (isLike) {
         useUnLike.run();
       } else {

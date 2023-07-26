@@ -7,7 +7,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
+// import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
   const { t } = useTranslation('home');
@@ -19,7 +19,11 @@ const ComposeButton = () => {
       if (statusUser === USERTYPE.VSD) {
         // console.log('User vsd');
       } else {
-        PopupComponent.openEKYC();
+        // PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
       }
     } else {
       setPopupStatus({
