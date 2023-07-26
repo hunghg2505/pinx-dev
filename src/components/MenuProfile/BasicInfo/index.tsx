@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 
 const BasicInfo = ({
   avatar,
@@ -51,13 +52,11 @@ const BasicInfo = ({
           <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
           {status && (
             <span
-              className={classNames(
+              className={classNames('text-[#EAA100]',
                 {
-                  '!text-green': status === 'Verified',
-                },
-                {
-                  'text-light_orange': status !== 'Verified',
-                },
+                  '!text-[#128F63]': status === USER_STATUS_VERIFIED,
+                  '!text-[#F1BA09]': status === USER_STATUS_PENDING,
+                }
               )}
             >
               {status}

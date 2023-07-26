@@ -9,6 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -61,6 +62,7 @@ const IconPlus = () => (
 );
 
 const NewFeedItem = (props: IProps) => {
+  const { t } = useTranslation('common');
   const {
     onNavigate,
     onRefreshPostDetail,
@@ -291,7 +293,7 @@ const NewFeedItem = (props: IProps) => {
             )}
           >
             <Text type='body-14-bold' color='neutral-5'>
-              Following
+              {t('following')}
             </Text>
           </div>
 
@@ -318,7 +320,7 @@ const NewFeedItem = (props: IProps) => {
             >
               <IconPlus />
               <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-                Follow
+                {t('follow')}
               </Text>
             </div>
 
@@ -442,12 +444,12 @@ const NewFeedItem = (props: IProps) => {
             TYPEPOST.ActivityMatchOrder,
             TYPEPOST.ActivityWatchlist,
           ].includes(postDetail?.post.postType) && (
-            <div className='cursor-pointer' onClick={onFollow}>
-              {renderTextFollow()}
-            </div>
-          )}
+              <div className='cursor-pointer' onClick={onFollow}>
+                {renderTextFollow()}
+              </div>
+            )}
           {(isReported && router.pathname === '/explore') ||
-          (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
+            (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
             ''
           ) : (
             <div className='flex'>
@@ -494,7 +496,7 @@ const NewFeedItem = (props: IProps) => {
                           className='mr-[8px] h-[20px] w-[20px] object-contain'
                         />
                         <Text type='body-14-medium' color='neutral-2'>
-                          Hide
+                          {t('hide')}
                         </Text>
                       </div>
                     )}
@@ -516,7 +518,7 @@ const NewFeedItem = (props: IProps) => {
                         onReportSuccess={handleReportPostSuccess}
                       >
                         <Text type='body-14-medium' color='neutral-2'>
-                          Report
+                          {t('report')}
                         </Text>
                       </ModalReport>
                     </div>
@@ -539,7 +541,7 @@ const NewFeedItem = (props: IProps) => {
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
                           <Text type='body-14-medium' color='neutral-2'>
-                            Edit
+                            {t('edit')}
                           </Text>
                         </div>
                       </ModalEdit>
@@ -559,7 +561,7 @@ const NewFeedItem = (props: IProps) => {
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
                           <Text type='body-14-medium' color='neutral-2'>
-                            Delete
+                            {t('delete')}
                           </Text>
                         </div>
                       </ModalDelete>

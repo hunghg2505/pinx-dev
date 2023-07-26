@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
@@ -14,6 +15,7 @@ interface IProps {
   pinned?: boolean;
 }
 const NewsFeed = (props: IProps) => {
+  const { t } = useTranslation('home');
   const { data, refresh, id, onHidePost, pinned = false } = props;
   const router = useRouter();
   const onNavigate = () => {
@@ -37,7 +39,7 @@ const NewsFeed = (props: IProps) => {
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
-            View more {countComment - 1} comments...
+            {t('view_more')} {countComment - 1} {t('comments')}...
           </Text>
         </div>
       );

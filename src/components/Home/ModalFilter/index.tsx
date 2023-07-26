@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -27,6 +28,7 @@ export enum FILTER_TYPE {
   NEWS = 'NEWS',
 }
 const ModalFilter = (props: IProps) => {
+  const { t } = useTranslation('home');
   const { run, type } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
@@ -90,7 +92,7 @@ const ModalFilter = (props: IProps) => {
             className='mr-[8px] h-[16px] w-[16px]'
           />
           <Text className='' type='body-14-semibold'>
-            Filter posts by
+            {t('filter_posts_by')}
           </Text>
         </div>
         <div className='list mt-[36px]'>

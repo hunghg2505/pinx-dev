@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import { PREFIX_API_MARKET } from '@api/request';
@@ -30,6 +31,7 @@ export const getMarketCodeChart = (marketCode: string) => {
   return '';
 };
 const MarketDesktop = () => {
+  const { t } = useTranslation('commoon');
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run, loading } = useRequest(
@@ -76,7 +78,7 @@ const MarketDesktop = () => {
     return (
       <>
         <div className='mb-[25px]  min-h-[536px] w-full rounded-[8px] bg-[#fff]  px-[20px] py-[30px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
-          <p className='body-16-bold cbblack mb-[25px]'>Market</p>
+          <p className='body-16-bold cbblack mb-[25px]'>{t('market')}</p>
 
           <img src='/static/images/fake-stock.png' className=' w-full object-contain' alt='' />
         </div>
@@ -88,7 +90,7 @@ const MarketDesktop = () => {
     <>
       <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
         <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-          Market
+          {t('market')}
         </Text>
 
         <Tabs defaultActiveKey='1' className='tabHomePc'>
@@ -135,7 +137,7 @@ const MarketDesktop = () => {
                     <div className='flex'>
                       <div className='mr-[35px] text-right'>
                         <Text type='body-12-regular' className='text-[#78909C]'>
-                          Val
+                          {t('val')}
                         </Text>
                         <Text type='body-13-semibold' className='mt-[6px] text-[#263238] '>
                           {item.value.toLocaleString('en-US')}
@@ -143,7 +145,7 @@ const MarketDesktop = () => {
                       </div>
                       <div className='text-right'>
                         <Text type='body-12-regular' className=' text-[#78909C]'>
-                          Vol
+                          {t('vol')}
                         </Text>
                         <Text type='body-13-semibold' className='mt-[6px] text-[#263238]'>
                           {item.vol.toLocaleString('en-US')}

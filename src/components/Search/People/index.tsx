@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useDebounceFn } from 'ahooks';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
 import PeopleItem from '@components/Explore/ModalPeopleYouKnow/PeopleItem';
@@ -15,6 +16,7 @@ import { ROUTE_PATH } from '@utils/common';
 import { useGetPeople } from '../service';
 
 const People = ({ keyword }: { keyword: any }) => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [page, setPage] = React.useState<number>(0);
   const [listComapany, setListCompany] = React.useState<any>([]);
@@ -66,7 +68,7 @@ const People = ({ keyword }: { keyword: any }) => {
           <FormItem name='search'>
             <Input
               className='h-[40px] w-full rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
-              placeholder='Are you looking for something?'
+              placeholder={t('are_you_looking_for_something')}
               icon={<IconSearchWhite />}
               ref={refInput}
             />
@@ -82,7 +84,7 @@ const People = ({ keyword }: { keyword: any }) => {
           <div className=''>
             <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
             <Text type='body-14-regular' color='neutral-gray' className='text-center'>
-              No people result {keyword ? `found for ${keyword}` : ''}
+              {t('no_people_result')} {keyword ? `${t('found_for')} ${keyword}` : ''}
             </Text>
           </div>
         )}
