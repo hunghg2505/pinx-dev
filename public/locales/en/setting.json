@@ -38,5 +38,6 @@
   "deactivate_account": "Deactivate account",
   "ekyc_title": "eKYC chỉ 2 phút trên",
   "deactivate_account_content": "When closing the trading account, the login and trading on the VSD account will be disabled. To fulfill the request to close the trading account, all payments/settlements, debts, custody... must be paid accoring to the obligations of related parties. When requesting to close the trading account, Pinetree’s customer service department will receive the request and contact you directly to assist you in confirming the documents with your rights and obligations in the order prescribed by law.",
-  "got_it": "Got it"
+  "got_it": "Got it",
+  "select_language": "Select languague"
 }
