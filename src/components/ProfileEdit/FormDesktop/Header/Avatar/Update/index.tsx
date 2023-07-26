@@ -13,7 +13,7 @@ const Update = () => {
           <>
             <input
               type='file'
-              accept='image/*'
+              accept="image/png, image/jpeg"
               className='hidden'
               onChange={(e: any) => {
                 const formData = new FormData();
