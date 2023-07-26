@@ -505,6 +505,9 @@ const Compose = (props: IProps) => {
     const stock: any = [];
     const urlLink: any = [];
     const messageHtml = editor?.getHTML();
+
+    const url = metaData?.find((it) => it?.property === 'og:url')?.content;
+
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
@@ -560,14 +563,15 @@ const Compose = (props: IProps) => {
       };
     });
     const message = test?.flat()?.join('\n');
+
     const data: IData = {
-      message: metaData?.['og:url'] ? messageHtml?.concat(` ${metaData['og:url']}`) : messageHtml,
+      message: url ? messageHtml?.concat(` ${url}`) : messageHtml,
       tagPeople: formatTagPeople,
       tagStocks: stock,
       postThemeId: isUpdate && activeTheme === 'default' ? '' : themeActive?.id,
       // parentId: idReply === '' ? id : idReply,
       urlImages: [image],
-      urlLinks: metaData && activeTheme === 'default' ? [...urlLink, metaData['og:url']] : urlLink,
+      urlLinks: metaData && activeTheme === 'default' ? [...urlLink, url] : urlLink,
     };
     if (activeTheme === 'default' && !isUpdate) {
       delete data?.postThemeId;
