@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-add-event-listener */
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
@@ -191,14 +192,15 @@ export const formatMessagePost = (message: string) => {
   });
   return message;
 };
+
 export const toBase64 = (file: any) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', () => resolve(reader.result));
-    // eslint-disable-next-line unicorn/prefer-add-event-listener
-    reader.onerror = reject;
+    reader.onerror = (error) => reject(error);
   });
+
 export const base64ToBlob = (base64: any, type: any) => {
   const base64Slice = base64.split(',')[1];
   const binStr = window.atob(base64Slice.replaceAll(/\s/g, ''));
@@ -212,6 +214,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   const blob = new Blob([arr], { type });
   return URL.createObjectURL(blob);
 };
+
 export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
 export const isImage = (file: any) => {
   if (!file) {

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import ReactPlayer from 'react-player';
 
 import { useGetBgTheme } from '@components/Home/service';
@@ -18,6 +19,7 @@ interface IProps {
   onNavigate?: () => void;
 }
 const ContentPostTypeDetail = (props: IProps) => {
+  const { t } = useTranslation();
   const { postDetail, onNavigate } = props;
   console.log('🚀 ~ file: index.tsx:22 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
@@ -180,7 +182,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           onClick={onRedirect}
         >
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
-            Read more
+            {t('read_more')}
           </Text>
           <img
             src='/static/icons/iconNext.svg'
@@ -249,7 +251,7 @@ const ContentPostTypeDetail = (props: IProps) => {
           onClick={onRedirect}
         >
           <Text type='body-14-regular' color='primary-1' className='mr-[5px]'>
-            Read more
+            {t('read_more')}
           </Text>
           <img
             src='/static/icons/iconNext.svg'
@@ -504,7 +506,7 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           {postThemeId ? (
-            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'>
+            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''

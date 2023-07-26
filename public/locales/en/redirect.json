@@ -1,0 +1,8 @@
+{
+  "redirect": "Redirect",
+  "title": "Redirecting you in",
+  "description": {
+    "first_line": "You are leaving PineX. Please do not share your log-in information to any 3rd party",
+    "second_line": "Not being directed? Use the ‘Continue’ button below"
+  }
+}

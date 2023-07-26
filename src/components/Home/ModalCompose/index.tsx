@@ -1,15 +1,13 @@
 import React from 'react';
 
 import { useDebounceFn } from 'ahooks';
-import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
+import Compose from '@components/Compose';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
-
-const Compose = dynamic(() => import('@components/Compose'));
 
 interface Iprops {
   closeIcon?: boolean;
@@ -17,25 +15,11 @@ interface Iprops {
 }
 const ModalCompose = (props: Iprops, ref: any) => {
   const { t } = useTranslation('common');
-  const { closeIcon, refresh } = props;
+  const { refresh } = props;
   const [visible, setVisible] = React.useState(false);
   const [value, setValue] = React.useState<any>();
   const [visibleConfirm, setVisibleConfirm] = React.useState(false);
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='w-[13px]'
-      />
-    );
-  };
+
   const { run } = useDebounceFn(
     (value) => {
       setValue(value);
@@ -77,7 +61,6 @@ const ModalCompose = (props: Iprops, ref: any) => {
       <Modal
         visible={visible}
         onClose={onCloseModal}
-        closeIcon={renderCloseIcon()}
         className={styles.modalCompose}
         destroyOnClose={true}
       >
@@ -94,9 +77,8 @@ const ModalCompose = (props: Iprops, ref: any) => {
 
       <Modal
         visible={visibleConfirm}
-        onClose={onGetData as any}
-        closable={false}
         className={styles.modalCompose}
+        onClose={() => setVisibleConfirm(false)}
       >
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>

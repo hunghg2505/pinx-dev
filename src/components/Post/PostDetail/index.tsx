@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
 import PopupAuth from '@components/UI/Popup/PopupAuth';
@@ -48,6 +49,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
 });
 
 const PostDetail = () => {
+  const { t } = useTranslation();
   const refSubReplies: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
@@ -97,7 +99,7 @@ const PostDetail = () => {
   const getSubComment = (payload: IComment[]) => {
     if (payload.length > 0) {
       return (
-        <div className='sub-comment ml-[52px]'>
+        <div className='sub-comment ml-[48px]'>
           {payload?.map((comment: IComment, index: number) => (
             <ItemComment
               data={comment}
@@ -155,7 +157,7 @@ const PostDetail = () => {
           <Text
             type='body-20-bold'
             color='primary-5'
-            className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center '
+            className='absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-center '
           >
             Post detail
           </Text>
@@ -239,7 +241,7 @@ const PostDetail = () => {
                 color='neutral-3'
                 className='mt-[16px] text-center tablet:mb-[32px]'
               >
-                There is no comments
+                {t('empty_comment')}
               </Text>
             </>
           )}

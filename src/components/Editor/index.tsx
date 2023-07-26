@@ -7,6 +7,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -49,6 +50,7 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const Editor = (props: IProps, ref?: any) => {
+  const { t } = useTranslation();
   const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -63,7 +65,7 @@ const Editor = (props: IProps, ref?: any) => {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: 'What do you want to comment?',
+        placeholder: t('what_do_you_want_to_comment'),
       }),
       Mention.extend({
         name: 'userMention',

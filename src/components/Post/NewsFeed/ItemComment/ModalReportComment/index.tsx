@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -27,6 +28,7 @@ interface IProps {
   refreshCommentOfPOst?: () => void;
 }
 const ModalReportComment = (props: IProps) => {
+  const { t } = useTranslation();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { children, postID, isReported, refresh, refreshCommentOfPOst } = props;
   const { statusUser, isLogin } = useUserType();
@@ -89,19 +91,19 @@ const ModalReportComment = (props: IProps) => {
   };
   const options = [
     {
-      label: 'Bad content',
+      label: t('report_reason.bad_content'),
       value: TYPEREPORT.INAPPROPRIATE,
     },
     {
-      label: 'Spam',
+      label: t('report_reason.spam'),
       value: TYPEREPORT.SPAM,
     },
     {
-      label: 'Violent content',
+      label: t('report_reason.violent_content'),
       value: TYPEREPORT.PROVOKE,
     },
     {
-      label: 'Other',
+      label: t('report_reason.other'),
       value: TYPEREPORT.OTHER,
     },
   ];
@@ -119,15 +121,15 @@ const ModalReportComment = (props: IProps) => {
       </Text>
       <Modal visible={visible} onClose={onVisible} closable={false}>
         <Text type='body-20-bold' color='neutral-1' className='mb-[12px] text-center'>
-          Report
+          {t('report')}
         </Text>
         <Text
           type='body-12-medium'
           color='neutral-3'
           className='mb-[16px] text-center !leading-[16px]'
         >
-          Let us know your reason to report this post. <br />
-          You are always welcome!
+          {t('report_modal_content')} <br />
+          {t('welcome_text')}
         </Text>
         <Form
           form={form}
@@ -141,7 +143,7 @@ const ModalReportComment = (props: IProps) => {
             rules={[
               {
                 required: true,
-                message: 'Vui lòng nhập lý do',
+                message: t('please_enter_reason'),
               },
             ]}
           >
@@ -161,7 +163,7 @@ const ModalReportComment = (props: IProps) => {
                     className='mt-[10px] border-b border-solid border-[#1F6EAC]'
                   >
                     <Input
-                      placeholder='Tell us your reason...'
+                      placeholder={`${t('tell_us_your_reason')}...`}
                       className='h-[38px] w-full pl-[5px] outline-none'
                     />
                   </FormItem>
@@ -175,12 +177,12 @@ const ModalReportComment = (props: IProps) => {
               className='flex h-[49px] w-full cursor-pointer items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB]'
             >
               <Text type='body-16-bold' color='primary-2'>
-                Cancel
+                {t('cancel')}
               </Text>
             </div>
             <button className='h-[49px] w-full rounded-[8px] bg-[#1F6EAC]' type='submit'>
               <Text type='body-16-bold' color='cbwhite'>
-                Send
+                {t('send')}
               </Text>
             </button>
           </div>

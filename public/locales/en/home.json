@@ -6,11 +6,12 @@
   "People_you_may_know": "People you may know",
   "explore_people": "Explore people",
   "economy_in_the_themes": "Economy in the themes",
-  "create_post": "Create post",
   "compose": "Compose",
   "news_feed": "News feed",
   "most_recent": "Most recent",
   "filter_posts_by": "Filter posts by",
   "view_more": "View more",
-  "comments": "comments"
+  "comments": "comments",
+  "what_is_in_your_mind": "What is in your mind?",
+  "create_post_placeholder": "Use % to mention a stock, # to hashtag an article, @ to mention someone else"
 }

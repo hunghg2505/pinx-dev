@@ -127,12 +127,12 @@ const Profile = () => {
               </div>
 
               <div className='flex justify-between gap-[10px]'>
-                <div>
+                {/* <div>
                   <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
                     {t('post')}
                   </Text>
                   <Text type='body-12-semibold'>0</Text>
-                </div>
+                </div> */}
 
                 <div>
                   <Text type='body-12-regular' className='mb-[4px] text-[#474D57]'>
