@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -21,6 +22,7 @@ interface IProps {
 }
 
 const PopupSubsribeTheme = (props: IProps) => {
+  const { t } = useTranslation();
   const { visible } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const [popupThemeData] = useAtom(popupThemeDataAtom);
@@ -39,9 +41,11 @@ const PopupSubsribeTheme = (props: IProps) => {
   });
 
   const initialValues = {
-    shareContent: `${userLoginInfo.displayName} has just ${
-      isUnubsribeTheme ? 'unsubscribed' : 'subscribed'
-    } to ${popupThemeData.name}`,
+    shareContent: t('has_just_subscribe_theme', {
+      name: userLoginInfo.displayName,
+      action: isUnubsribeTheme ? t('unsubscribe_theme') : t('subscribe_theme'),
+      themeName: popupThemeData.name,
+    }),
   };
 
   const handleClose = () => {
@@ -70,7 +74,7 @@ const PopupSubsribeTheme = (props: IProps) => {
           className='mx-auto mb-1 h-[52px] w-[52px] text-center'
         />
         <Text type='body-24-bold' className='text-center text-[#128F63]'>
-          I&apos;m {isUnubsribeTheme ? 'unsubscribing' : 'subscribing'}
+          {isUnubsribeTheme ? t('im_unsubscribing') : t('im_subscribing')}
         </Text>
         <Form
           form={form}
@@ -103,7 +107,7 @@ const PopupSubsribeTheme = (props: IProps) => {
                 className='mx-auto h-[22px] w-[22px] rounded-full bg-white'
               />
               <Text type='body-12-medium' className='mt'>
-                {isUnubsribeTheme ? 'Unsubscribe' : 'Subscribe'}
+                {isUnubsribeTheme ? t('unsubscribe') : t('subscribe')}
               </Text>
               <Text type='body-12-bold' className='text-center'>
                 {popupThemeData.name}
@@ -112,7 +116,7 @@ const PopupSubsribeTheme = (props: IProps) => {
           </div>
 
           <MainButton className='mt-5 w-full' type='submit'>
-            Create post
+            {t('create_post')}
           </MainButton>
         </Form>
       </Modal>

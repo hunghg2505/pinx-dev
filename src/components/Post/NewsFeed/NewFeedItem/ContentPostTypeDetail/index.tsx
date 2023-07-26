@@ -504,7 +504,7 @@ const ContentPostTypeDetail = (props: IProps) => {
       <>
         <div className='cursor-pointer' onClick={onComment}>
           {postThemeId ? (
-            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end mobile:-mx-[16px] tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'>
+            <div className='theme min-w-[1280px]:w-[550px] relative flex flex-col justify-end tablet:mx-0 desktop:w-[500px] desktop:rounded-[12px] xdesktop:w-[550px]'>
               <img
                 src={BgThemePost?.bgImage}
                 alt=''

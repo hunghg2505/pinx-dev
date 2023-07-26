@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { SHARE_THIS_PROPERTY_ID, ZALO_OAID } from 'src/constant';
@@ -14,6 +16,7 @@ interface IModalShareProps {
 }
 
 const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
+  const { t } = useTranslation();
   const [isCopied, setIsCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -101,7 +104,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
       <div className='mt-[24px]'>
         <div>
           <Text type='body-20-bold' className='mb-[18px] text-center'>
-            Share to...
+            {t('share_to')}...
           </Text>
           <div className='mb-[12px] text-center'>
             <div
@@ -116,7 +119,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
 
           <div className='border-b border-solid border-[var(--neutral-7)] pb-[12px]'>
             <Text type='body-14-medium' color='neutral-4' className='mb-[12px]'>
-              Or share to:
+              {t('or_share_to')}:
             </Text>
             <div className='sharethis-inline-share-buttons gap-4' data-url={url}></div>
           </div>
@@ -126,7 +129,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
               type='text'
               readOnly
               value={url}
-              className='h-full w-full rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
+              className='h-full w-full flex-1 rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
               ref={inputRef}
             />
 
@@ -135,7 +138,7 @@ const ModalShare = ({ url, visible, handleClose }: IModalShareProps) => {
               onClick={handleCopy}
             >
               <Text type='body-14-medium' color='cbwhite'>
-                {isCopied ? 'Copied' : 'Copy link'}
+                {isCopied ? t('copied') : t('copy_link')}
               </Text>
             </button>
           </div>

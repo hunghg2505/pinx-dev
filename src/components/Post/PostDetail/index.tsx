@@ -155,7 +155,7 @@ const PostDetail = () => {
           <Text
             type='body-20-bold'
             color='primary-5'
-            className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center '
+            className='absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-center '
           >
             Post detail
           </Text>

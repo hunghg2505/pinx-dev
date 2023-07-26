@@ -39,7 +39,7 @@ const NewsFeed = (props: IProps) => {
           onClick={onNavigate}
         >
           <Text type='body-14-medium' color='primary-2'>
-            {t('view_more')} {countComment - 1} {t('comments')}...
+            {t('common:view_more')} {countComment - 1} {t('common:comments')}...
           </Text>
         </div>
       );

@@ -63,7 +63,7 @@ type TMeta = Array<{
 }>;
 
 const Compose = (props: IProps) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'home']);
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   const bgTheme = useAtomValue(postThemeAtom);
 
@@ -170,8 +170,7 @@ const Compose = (props: IProps) => {
       extensions: [
         StarterKit,
         Placeholder.configure({
-          placeholder:
-            'Use % to mention a stock, # to hashtag an article, @ to mention someone else',
+          placeholder: t('home:create_post_placeholder'),
           emptyEditorClass: 'is-editor-empty',
         }),
         Mention.extend({
@@ -647,9 +646,9 @@ const Compose = (props: IProps) => {
         <ListTheme themeActiveId={themeActiveId} onSelectThemeId={onSelectThemeId} />
       </Fade>
 
-      {/* <Fade visible={postType === 'ActivityTheme'}>
+      <Fade visible={postType === 'ActivityTheme'}>
         <ActivityTheme postDetail={postDetail} />
-      </Fade> */}
+      </Fade>
 
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
 
@@ -659,7 +658,9 @@ const Compose = (props: IProps) => {
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddPeople}
           >
-            <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
+            <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
+              {t('post_action')}
+            </Text>
           </div>
 
           <div

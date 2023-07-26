@@ -20,9 +20,9 @@ const Page = ({
       onSuccess: (res: any) => {
         setState((prev: any) => ({
           ...prev,
-          last: res.data.last,
+          last: res?.data?.last,
           hasNext: res?.data?.hasNext,
-          notFound: prev.last === undefined && !res?.data?.list?.length,
+          notFound: res.last === undefined && !res?.data?.list?.length,
         }));
       },
     },
@@ -30,12 +30,12 @@ const Page = ({
   );
   return (
     <>
-      {data?.data?.list?.map((item: IPost, index: number) => {        
+      {data?.data?.list?.map((item: IPost, index: number) => {
         return (
           <NewsFeed
             key={index}
             data={item}
-            id={'12312'}
+            id={item.id}
             refresh={() => {
               refresh();
             }}
