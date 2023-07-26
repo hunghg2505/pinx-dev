@@ -17,7 +17,7 @@ import styles from './index.module.scss';
 const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refreshYourWatchList?: () => void, like?: boolean }) => {
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Add stock success' />);
+      // toast(() => <Notification type='success' message='Add stock success' />);
       refreshYourWatchList && refreshYourWatchList();
     },
   });
@@ -29,7 +29,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
       manual: true,
       onSuccess: () => {
         refreshYourWatchList && refreshYourWatchList();
-        toast(() => <Notification type='success' message='Remove stock success' />);
+        // toast(() => <Notification type='success' message='Remove stock success' />);
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e.error} />);
