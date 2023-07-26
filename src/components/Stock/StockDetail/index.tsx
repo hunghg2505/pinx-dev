@@ -135,6 +135,7 @@ const StockDetail = () => {
   const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const refSlide = useRef<any>(null);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -450,22 +451,46 @@ const StockDetail = () => {
           <Text type='body-20-semibold'>Brand awareness</Text>
         </div>
 
-        <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
-          <Slider {...settings} variableWidth>
-            {stockDetail?.data?.products.map((item, index) => (
-              <div key={index} className='mr-[28px] !w-[112px]'>
-                <img
-                  src={PRODUCT_COMPANY_IMAGE(item.imageUrl)}
-                  alt={item.name}
-                  className='h-[112px] w-full rounded-[4px] object-cover'
-                />
+        <div className='relative'>
+          <div
+            onClick={() => refSlide.current.slickPrev()}
+            className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          >
+            <img
+              src='/static/icons/iconGrayPrev.svg'
+              alt='Icon prev'
+              className='h-[16px] w-[7px] object-contain'
+            />
+          </div>
 
-                <Text className='mt-[12px] text-center' type='body-12-regular'>
-                  {item.name}
-                </Text>
-              </div>
-            ))}
-          </Slider>
+          <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
+            <Slider {...settings} variableWidth ref={refSlide}>
+              {stockDetail?.data?.products.map((item, index) => (
+                <div key={index} className='mr-[28px] !w-[112px]'>
+                  <img
+                    src={PRODUCT_COMPANY_IMAGE(item.imageUrl)}
+                    alt={item.name}
+                    className='h-[112px] w-full rounded-[4px] object-cover'
+                  />
+
+                  <Text className='mt-[12px] text-center' type='body-12-regular'>
+                    {item.name}
+                  </Text>
+                </div>
+              ))}
+            </Slider>
+          </div>
+
+          <div
+            onClick={() => refSlide.current.slickNext()}
+            className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          >
+            <img
+              src='/static/icons/iconGrayNext.svg'
+              alt='Icon next'
+              className='h-[16px] w-[7px] object-contain'
+            />
+          </div>
         </div>
       </div>
 
@@ -495,7 +520,7 @@ const StockDetail = () => {
               </div>
             )}
 
-            <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
+            <Text type='body-14-regular' className='ml-[8px] text-[#0D0D0D]'>
               {item.tagName}
             </Text>
 
@@ -503,7 +528,7 @@ const StockDetail = () => {
               <img
                 src='/static/icons/iconBlackRight.svg'
                 alt='Icon right'
-                className='h-[6px] w-[4px] object-contain'
+                className='h-[12px] w-[8px] object-contain'
               />
             </div>
           </div>
@@ -584,7 +609,7 @@ const StockDetail = () => {
 
       {/* also own */}
       {taggingInfo?.data?.subsidiaries && taggingInfo.data.subsidiaries.length > 0 && (
-        <div className='mb-[28px] border-t border-solid border-[var(--neutral-7)] pt-[28px]'>
+        <div className='mb-[28px] pt-[28px]'>
           <div className='px-[16px] tablet:px-[24px]'>
             <Text type='body-20-semibold' className='mb-[8px]'>
               Also Own
@@ -610,7 +635,7 @@ const StockDetail = () => {
       )}
 
       {/* rating */}
-      <div className='border-t-[8px] border-solid border-[#F7F6F8] pt-[28px] tablet:border-t-[1px]'>
+      <div className='pt-[28px]'>
         <div className='px-[16px] tablet:px-[24px]'>
           <Text type='body-20-semibold' className='mb-[16px]'>
             Rating
@@ -901,7 +926,7 @@ const StockDetail = () => {
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <Text type='body-20-semibold'>Activities</Text>
 
-        <div className='my-[20px] flex flex-col gap-y-[16px]'>
+        <div className='flex flex-col gap-y-[16px] py-[20px]'>
           {stockActivities?.data.list.map((item, index) => (
             <ActivityItem data={item} key={index} refreshStockActivities={refreshStockActivities} />
           ))}
