@@ -14,7 +14,7 @@ const Header = () => {
       <div className='flex items-center justify-between py-[16px]'>
         <Back />
       </div>
-      <div className='relative  pt-[21%]'>
+      <div className='relative  pt-[41%]'>
         <Cover />
         <div className='mx-auto'>
           <Avatar />
