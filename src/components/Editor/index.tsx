@@ -328,7 +328,7 @@ const Editor = (props: IProps, ref?: any) => {
           width={0}
           height={0}
           sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] rounded-full object-contain mobile:hidden tablet:block'
+          className='mr-[8px] h-[40px] w-[40px] rounded-full object-cover mobile:hidden tablet:block'
         />
         <div
           className='bottom-0 left-0 flex min-h-[40px] items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[12px]'

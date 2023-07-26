@@ -128,7 +128,7 @@ const ModalComment = (props: Iprops) => {
             )}
           </div>
           {isLogin && (
-            <div className='z-10 break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile:-mx-[16px] mobile-max:left-2/4 mobile-max:min-h-[34px] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:transform mobile-max:px-[3px] tablet:mx-0'>
+            <div className='z-10 break-all border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] mobile:-mx-[16px] tablet:mx-0'>
               <ForwardedRefComponent
                 ref={refSubReplies}
                 id={id}
