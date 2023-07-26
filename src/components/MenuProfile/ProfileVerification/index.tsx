@@ -42,6 +42,16 @@ const handleRedirect = (url: string) => {
   window.open(url, '_blank');
 };
 
+const renderIdentifyCardNumber = (lastNumToShow: number, value?: string) => {
+  if (value && value?.length > lastNumToShow) {
+    const first = value?.slice(0, -lastNumToShow).replaceAll(/./g, '*');
+    const last = value?.slice(-lastNumToShow) || '';
+    return first + last;
+  } else {
+    return '';
+  }
+};
+
 const ProfileVerification = () => {
   const { t } = useTranslation('setting');
   const router = useRouter();
@@ -279,7 +289,7 @@ const ProfileVerification = () => {
             <FormItem className='mt-4' name='fullName'>
               <Input
                 disabled
-                value={userLoginInfo?.identityCardNo}
+                value={renderIdentifyCardNumber(3, userLoginInfo?.identityCardNo)}
                 className={classNames(customInputClassName, {
                   [hideBorder]: isMobile,
                 })}

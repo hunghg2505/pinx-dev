@@ -23,6 +23,8 @@
     "jotai": "^2.2.0",
     "next": "^13.4.7",
     "next-i18next": "^11.0.0",
+    "node-fetch": "^2.6.12",
+    "node-html-parser": "^6.1.5",
     "rc-checkbox": "^3.0.1",
     "rc-dialog": "^8.6.0",
     "rc-field-form": "^1.32.1",

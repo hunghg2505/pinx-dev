@@ -13,7 +13,12 @@ import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
-import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
+import {
+  IPost,
+  TYPEPOST,
+  TypePostOnlyReportAction,
+  requestHidePost,
+} from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -425,7 +430,7 @@ const NewFeedItem = (props: IProps) => {
                 )}
               </div>
             </div>
-            <Text type='body-12-regular' color='neutral-4' className='mt-[2px] tablet:text-[16px]'>
+            <Text type='body-14-regular' color='neutral-4' className='mt-[2px] font-[300]'>
               {postDetail?.timeString &&
                 dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>
@@ -443,7 +448,8 @@ const NewFeedItem = (props: IProps) => {
                 {renderTextFollow()}
               </div>
             )}
-          {isReported && router.pathname === '/explore' ? (
+          {(isReported && router.pathname === '/explore') ||
+            (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
             ''
           ) : (
             <div className='flex'>

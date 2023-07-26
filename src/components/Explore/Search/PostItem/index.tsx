@@ -19,7 +19,6 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import PostTypeHome from './PostTypeHome';
@@ -73,10 +72,7 @@ const PostItem = (props: IProps) => {
   useClickOutSide(ref, handleHidePopup, excludeElements);
   React.useEffect(() => {
     setExcludeElements(() => {
-      return [
-        document.querySelector(`#${POPUP_COMPONENT_ID}`),
-        document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-      ];
+      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
     });
   }, [modalReportVisible]);
   const onFollowUser = useRequest(

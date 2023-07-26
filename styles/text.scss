@@ -168,3 +168,10 @@
   font-weight: 500;
   line-height: 16px;
 }
+
+.text-1-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}

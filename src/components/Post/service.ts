@@ -132,6 +132,19 @@ export enum TYPEPOST {
   PinetreePost = 'PinetreePost',
   CafeFNews = 'CafeFNews',
 }
+
+export const TypePostOnlyReportAction = [
+  TYPEPOST.VietstockNews,
+  TYPEPOST.VietstockLatestNews,
+  TYPEPOST.VietstockStockNews,
+  TYPEPOST.TNCKNews,
+  TYPEPOST.PinetreeDailyNews,
+  TYPEPOST.PinetreeWeeklyNews,
+  TYPEPOST.PinetreeMorningBrief,
+  TYPEPOST.PinetreeMarketBrief,
+  TYPEPOST.CafeFNews,
+];
+
 const getPostDetail = async (postId: string) => {
   return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };

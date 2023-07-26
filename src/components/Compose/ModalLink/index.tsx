@@ -10,11 +10,19 @@ import { isValidURL } from '@utils/common';
 
 interface IProps {
   children: any;
-  closeIcon?: any;
   getDataOG: (value: any) => void;
 }
+
+const getMetaData = async (url: string) => {
+  try {
+    const response: any = await fetch(`/api/seo-url?url=${url}`.trim()).then((r) => r.json());
+
+    return response?.meta;
+  } catch {}
+};
+
 const ModalLink = (props: IProps) => {
-  const { children, closeIcon, getDataOG } = props;
+  const { children, getDataOG } = props;
   const { t } = useTranslation('common');
   const [visible, setVisible] = React.useState<boolean>(false);
   const onVisible = async () => {
@@ -24,73 +32,30 @@ const ModalLink = (props: IProps) => {
       form.setFieldValue('search', text);
     }
   };
+
   const [form] = Form.useForm();
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='w-[13px]'
-      />
-    );
-  };
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const getMetaData = async (url: string) => {
-    try {
-      const response = await fetch(url);
-      const result = await response.text();
-      const doc = new DOMParser().parseFromString(result, 'text/html');
-      const metas: any = doc?.querySelectorAll('meta');
-      const summary = [];
-      for (const meta of metas) {
-        const tempsum: any = {};
-        const attributes = meta.getAttributeNames();
-        for (const attribute of attributes) {
-          tempsum[attribute] = meta.getAttribute(attribute);
-        }
-        summary.push(tempsum);
-      }
-      const dataFormat: any = {};
-      for (const item of summary) {
-        if (item && item.property) {
-          dataFormat[item.property] = item.content;
-        }
-      }
-      return dataFormat;
-    } catch (error) {
-      console.log('Error:', error);
-    }
-  };
-  const onSubmit = async () => {
-    const value = form.getFieldValue('search');
-    const data = await getMetaData(value);
-    getDataOG(data);
+
+  const onSubmit = async (values: any) => {
+    const data = await getMetaData(values?.search);
+
     setVisible(!visible);
+
+    getDataOG(data);
   };
+
   return (
     <>
       <span onClick={onVisible}>{children}</span>
-      <Modal
-        visible={visible}
-        onClose={onVisible}
-        closeIcon={renderCloseIcon()}
-        className='addLink'
-      >
+
+      <Modal visible={visible} onClose={onVisible} className='addLink'>
         <div className='text-center'>
           <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
             Add link to post
           </Text>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-          <Form form={form} className='h-[121px]' onFinish={onSubmit}>
+          <Form form={form} onFinish={onSubmit}>
             <FormItem
               name='search'
-              className='flex h-full flex-col items-start justify-start'
               rules={[
                 () => ({
                   validator(_: any, value: any) {
@@ -102,7 +67,7 @@ const ModalLink = (props: IProps) => {
                 }),
               ]}
             >
-              <textarea placeholder='Input link...' className=' h-full w-full outline-none' />
+              <textarea placeholder='Input link...' className='h-[100px] w-full outline-none' />
             </FormItem>
           </Form>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
@@ -119,7 +84,7 @@ const ModalLink = (props: IProps) => {
               type='body-16-semibold'
               color='primary-2'
               className='w-2/4 cursor-pointer'
-              onClick={() => form.submit()}
+              onClick={form.submit}
             >
               Save
             </Text>
