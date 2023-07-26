@@ -10,7 +10,7 @@ import Post from './Post';
 
 const Info = () => {
   return (
-    <div className='relative px-[16px] tablet:pl-[132px] pt-[20px]'>
+    <div className='relative px-[16px] tablet:pl-[132px] pt-[20px] xdesktop:pl-[172px]'>
       <EditDeskTop />
       <Name />
       <Position />

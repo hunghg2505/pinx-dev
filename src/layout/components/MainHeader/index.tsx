@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useRouteSetting } from '@hooks/useRouteSetting';
 import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
@@ -24,6 +25,7 @@ const MenuMobile = () => {
   const [isShowNavigate, setIsShowNavigate] = useSidebarMobile();
   const router = useRouter();
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+  const { isRouteSetting } = useRouteSetting();
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
@@ -55,9 +57,13 @@ const MenuMobile = () => {
       </span>
       <div
         className={classNames(
-          'overflow-overlay absolute left-[-100%] top-[55px] z-[9999]  h-[calc(100vh-115px)] w-full bg-[#fff] pb-[100px] pt-[12px]  [transition:0.3s] desktop:hidden ',
+          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[100px] pt-[12px] [transition:0.3s] desktop:hidden ',
           {
             'left-[0]': isShowNavigate,
+            'top-[55px]': isRouteSetting,
+            'h-[calc(100vh-56px)]': isRouteSetting,
+            'top-[115px]': !isRouteSetting,
+            'h-[calc(100vh-115px)]': !isRouteSetting,
           },
         )}
       >
@@ -70,22 +76,12 @@ const MenuMobile = () => {
 };
 
 const MainHeader = () => {
-  const router = useRouter();
-
-  const isHideHeaderOpenAppOnMobile = [
-    ROUTE_PATH.REDIRECT,
-    ROUTE_PATH.SETTING,
-    ROUTE_PATH.SETTING_CHANGE_PASSWORD,
-    ROUTE_PATH.SETTING_CHANGE_USERNAME,
-    ROUTE_PATH.SETTING_CHANGE_PASSWORD_VERIFICATION,
-    ROUTE_PATH.SETTING_CHANGE_USERNAME_VERIFICATION,
-    ROUTE_PATH.PROFILE_VERIFICATION,
-  ].includes(router?.pathname);
+  const { isRouteSetting } = useRouteSetting();
 
   return (
     <>
       <div className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'>
-        {!isHideHeaderOpenAppOnMobile && (
+        {!isRouteSetting && (
           <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
             <div className='flex flex-row'>
               <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
@@ -110,7 +106,7 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between overflow-hidden px-[10px] desktop:h-[84px] desktop:px-[0]'>
           <div className='flex items-center gap-[16px]'>
             <CustomLink href={ROUTE_PATH.HOME}>
               <img

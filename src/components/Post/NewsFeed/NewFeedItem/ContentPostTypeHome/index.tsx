@@ -737,7 +737,8 @@ const ContentPostTypeHome = (props: IProps) => {
                   <div
                     ref={onRefHtml}
                     className={classNames({
-                      'line-clamp-4 h-[70px] overflow-hidden': isReadMorePost && !readMore,
+                      'line-clamp-4 h-[70px] overflow-hidden tablet:h-[80px]':
+                        isReadMorePost && !readMore,
                       'h-auto': isReadMorePost && readMore,
                     })}
                   >
