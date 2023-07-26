@@ -12,8 +12,7 @@ const FooterSignUp = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
-  const auth = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
+  const { isLogin } = useAuth();
 
   const footerRef = useRef(null);
 
@@ -55,10 +54,6 @@ const FooterSignUp = () => {
     };
   }, [footerHeight]);
 
-  useEffect(() => {
-    setIsLogin(auth.isLogin);
-  }, [auth.isLogin]);
-
   const redirectToSignUp = () => {
     router.push({
       pathname: ROUTE_PATH.LOGIN,
@@ -81,7 +76,7 @@ const FooterSignUp = () => {
   return (
     <footer
       ref={footerRef}
-      className='fixed bottom-0 left-0 right-0 z-10'
+      className='fixed bottom-0 left-0 right-0 z-[12]'
       style={{ height: `${footerHeight}px` }}
     >
       {/* mobile */}
@@ -119,7 +114,7 @@ const FooterSignUp = () => {
       {/* > tablet */}
       <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className=' h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white transition mobile:hidden tablet:flex '
+        className=' z-[999] h-full w-full items-center justify-center border-t border-solid border-t-[var(--primary-3)] bg-white transition mobile:hidden tablet:flex'
       >
         <Text
           type='body-20-medium'

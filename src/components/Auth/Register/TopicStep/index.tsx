@@ -112,7 +112,7 @@ const RegisterCompanyStep = () => {
             ))}
           </div>
 
-          <div className='fixed bottom-0 left-0 right-0 z-10 flex h-[81px] w-full justify-center bg-white px-[16px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center bg-white px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}

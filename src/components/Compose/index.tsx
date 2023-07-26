@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable unicorn/consistent-destructuring */
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 
@@ -63,18 +65,22 @@ interface IData {
 const Compose = (props: IProps) => {
   const { t } = useTranslation('common');
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
-  console.log('🚀 ~ file: index.tsx:66 ~ Compose ~ postDetail:', postDetail);
   const postThemeId = postDetail?.post?.postThemeId;
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+  console.log('message', message);
+  const postType = postDetail?.postType || '';
   const [isShowMore, setIsShowMore] = React.useState(true);
   const [activeTheme, setActiveTheme] = React.useState('default');
+  const [hideListTheme, setHideListTheme] = React.useState(false);
   const [image, setImage] = React.useState<string>('');
   const [metaData, setMetaData] = React.useState<any>();
   const bgTheme = useAtomValue(postThemeAtom);
   const themeInit = bgTheme?.find((item) => item.id === postThemeId);
   const themeActive = bgTheme?.find((item) => item.code === activeTheme);
   const { statusUser } = useUserType();
+  const isUpdateActivities = isUpdate && postType === 'ActivityTheme';
+  console.log('🚀 ~ file: index.tsx:81 ~ Compose ~ isUpdateActivities:', isUpdateActivities);
   const editor = useEditor(
     {
       extensions: [
@@ -86,10 +92,25 @@ const Compose = (props: IProps) => {
         }),
         Mention.extend({
           name: 'userMention',
+          renderHTML(props: any) {
+            return [
+              'a',
+              {
+                style: 'font-weight:600;',
+                class: 'userName',
+                userkey: props && props.node?.attrs.id,
+                'data-username': props?.node.attrs.label,
+                'data-linked-resource-type': 'userinfo',
+                href: `/profile/${props?.node.attrs.id}`,
+              },
+              `@${props?.node.attrs.label}`,
+            ];
+          },
         }).configure({
           HTMLAttributes: {
             class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
           },
+
           suggestion: {
             ...Suggestion,
             char: '@',
@@ -108,10 +129,25 @@ const Compose = (props: IProps) => {
         }),
         Mention.extend({
           name: 'stockMention',
+          renderHTML(props: any) {
+            return [
+              'a',
+              {
+                style: 'font-weight:600;',
+                class: 'stockMention',
+                userkey: props && props.node?.attrs.id,
+                'data-username': props?.node.attrs.label,
+                'data-linked-resource-type': 'userinfo',
+                href: `/stock/${props?.node.attrs.label}`,
+              },
+              `%${props?.node.attrs.label}`,
+            ];
+          },
         }).configure({
           HTMLAttributes: {
             class: 'stockMention text-[14px] font-semibold leading-[18px]',
           },
+
           suggestion: {
             ...Suggestion,
             pluginKey: new PluginKey('stockMention'),
@@ -134,6 +170,9 @@ const Compose = (props: IProps) => {
         }).configure({
           HTMLAttributes: {
             class: 'hashTag text-[14px] font-semibold leading-[18px]',
+          },
+          renderLabel({ options, node }) {
+            return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
           },
           suggestion: {
             ...Suggestion,
@@ -245,6 +284,7 @@ const Compose = (props: IProps) => {
     const users: any = [];
     const stock: any = [];
     const urlLink: any = [];
+    const messageHtml = editor?.getHTML();
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
@@ -301,7 +341,7 @@ const Compose = (props: IProps) => {
     });
     const message = test?.flat()?.join('\n');
     const data: IData = {
-      message: metaData ? message?.concat(` ${metaData['og:url']}`) : message,
+      message: metaData?.['og:url'] ? messageHtml?.concat(` ${metaData['og:url']}`) : messageHtml,
       tagPeople: formatTagPeople,
       tagStocks: stock,
       postThemeId: isUpdate && activeTheme === 'default' ? '' : themeActive?.id,
@@ -337,7 +377,6 @@ const Compose = (props: IProps) => {
       ));
     } else if (statusUser === USERTYPE.VSD) {
       if (editor?.getText()) {
-        console.log('data', data);
         useAddPost.run(data);
       } else {
         toast(() => <Notification type='error' message={t('err_add_post')} />);
@@ -366,6 +405,9 @@ const Compose = (props: IProps) => {
     }
   };
   React.useEffect(() => {
+    if (postType && postType === 'ActivityTheme') {
+      setHideListTheme(true);
+    }
     return () => {
       editor?.commands?.clearContent();
     };
@@ -374,7 +416,49 @@ const Compose = (props: IProps) => {
     if (themeInit) {
       setActiveTheme(themeInit.code);
     }
+    if (postDetail?.post) {
+      console.log(postDetail?.post);
+    }
   }, [postThemeId]);
+
+  const renderUploadImage = () => {
+    if (themeActive) {
+      return <></>;
+    } else if (!themeActive && isUpdateActivities) {
+      return <></>;
+    } else {
+      return (
+        <>
+          <Upload
+            accept='.png, .jpeg, .jpg'
+            onStart={onStart}
+            beforeUpload={beforeUpload}
+            className=''
+          >
+            <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+              <img src='/static/icons/explore/iconImage.svg' alt='' className='w-[20px]' />
+            </div>
+          </Upload>
+        </>
+      );
+    }
+  };
+  const renderModalLink = () => {
+    if (themeActive) {
+      return <></>;
+    } else if (!themeActive && isUpdateActivities) {
+      return <></>;
+    } else {
+      return (
+        <ModalLink getDataOG={getDataOG}>
+          <div className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+            <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
+          </div>
+        </ModalLink>
+      );
+    }
+  };
+
   return (
     <div className='h-full mobile-max:flex mobile-max:flex-col mobile-max:justify-between'>
       <div className='relative h-[208px]'>
@@ -437,64 +521,85 @@ const Compose = (props: IProps) => {
             </div>
           </>
         )}
-
-        <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
-          <div
-            className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
-            onClick={showMore}
-          >
-            <img src='/static/icons/explore/iconCompose.svg' alt='' className='h-[22px] w-[22px]' />
-          </div>
-          {isShowMore && (
+        {!hideListTheme && (
+          <div className='mt-[20px] flex h-[42px] gap-x-[10px] overflow-x-auto'>
             <div
-              className={classNames(
-                'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
-                styles.listItem,
-              )}
+              className='w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
+              onClick={showMore}
             >
+              <img
+                src='/static/icons/explore/iconCompose.svg'
+                alt=''
+                className='h-[22px] w-[22px]'
+              />
+            </div>
+            {isShowMore && (
               <div
                 className={classNames(
-                  'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                  { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
+                  'w-[calc(100%_-_50px)] overflow-auto whitespace-nowrap text-left',
+                  styles.listItem,
                 )}
-                onClick={() => onSelectTheme('default')}
-              ></div>
-              {bgTheme?.map((item: any, index: number) => {
-                return (
-                  <div
-                    className={classNames(
-                      'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
-                      { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
-                    )}
-                    key={index}
-                    onClick={() => onSelectTheme(item.code)}
-                  >
-                    <img
-                      src={item.bgImage}
-                      alt=''
-                      className='absolute left-0 top-0 h-full w-full rounded-[10px]'
-                    />
-                  </div>
-                );
-              })}
+              >
+                <div
+                  className={classNames(
+                    'mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px]  bg-[#EBEBEB] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                    { 'border-[2px] border-solid border-[#FFF]': activeTheme === 'default' },
+                  )}
+                  onClick={() => onSelectTheme('default')}
+                ></div>
+                {bgTheme?.map((item: any, index: number) => {
+                  return (
+                    <div
+                      className={classNames(
+                        'relative mr-[10px] inline-block h-[38px] w-[38px] cursor-pointer rounded-[10px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]',
+                        { 'border-[2px] border-solid border-[#FFF]': item.code === activeTheme },
+                      )}
+                      key={index}
+                      onClick={() => onSelectTheme(item.code)}
+                    >
+                      <img
+                        src={item.bgImage}
+                        alt=''
+                        className='absolute left-0 top-0 h-full w-full rounded-[10px]'
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+        {postType === 'ActivityTheme' && (
+          <div className='relative flex h-[205px] w-full rounded-lg'>
+            <img
+              src={postDetail?.post?.bgImage}
+              alt=''
+              className='absolute left-0 top-0 h-full w-full rounded-lg object-cover'
+            />
+            <div className='my-[18px] ml-[20px] flex w-[120px] flex-col items-center justify-around rounded-lg bg-[rgba(248,248,248,0.50)] px-2 backdrop-blur-[1px]'>
+              <img
+                src={
+                  postDetail?.post?.action === 'SUBSCRIBLE'
+                    ? '/static/icons/Lotus-gray.svg'
+                    : '/static/icons/Lotus-blue.svg'
+                }
+                alt=''
+                className='mx-auto h-[22px] w-[22px] rounded-full bg-white'
+              />
+              <Text type='body-12-medium' className='mt'>
+                {postDetail?.post?.action === 'UNSUBSCRIBE' ? 'Unsubscribe' : 'Subscribe'}
+              </Text>
+              <Text type='body-12-bold' className='text-center'>
+                {postDetail?.post.themeName}
+              </Text>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
         <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
         <div className='flex justify-between'>
           <div className='flex gap-x-[16px]'>
-            {!themeActive && (
-              <Upload
-                accept='.png, .jpeg, .jpg'
-                onStart={onStart}
-                beforeUpload={beforeUpload}
-                className=''
-              >
-                <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-                  <img src='/static/icons/explore/iconImage.svg' alt='' className='w-[20px]' />
-                </div>
-              </Upload>
-            )}
+            {renderUploadImage()}
             <div
               className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
               onClick={onAddPeople}
@@ -509,13 +614,7 @@ const Compose = (props: IProps) => {
               <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
             </div>
 
-            {!themeActive && (
-              <ModalLink getDataOG={getDataOG}>
-                <div className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
-                  <img src='/static/icons/explore/iconLink.svg' alt='' className='w-[20px]' />
-                </div>
-              </ModalLink>
-            )}
+            {renderModalLink()}
           </div>
           <div
             className='flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'

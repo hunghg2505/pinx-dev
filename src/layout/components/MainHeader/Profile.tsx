@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-useless-spread */
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 
+import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
@@ -19,12 +20,21 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
+import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, isUserVerified } from '@utils/common';
 
 const MenuProfileMobile = forwardRef((_, ref) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [openProfileMenu, setOpenProfileMenu] = useAtom(openProfileAtom);
   const router = useRouter();
+  const [, setIsShowNavigate] = useSidebarMobile();
+
+  useMount(() => {
+    router.events.on('routeChangeStart', () => {
+      console.log('close menu');
+      setOpenProfileMenu(false);
+    });
+  });
 
   useEffect(() => {
     setOpenProfileMenu(false);
@@ -32,6 +42,8 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
   const onVisible = useCallback(() => {
     setOpenProfileMenu(!openProfileMenu);
+    // @ts-ignore
+    setIsShowNavigate(false);
   }, [openProfileMenu]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
@@ -39,10 +51,10 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   return (
     <div
       className={
-        'absolute left-[-100%] top-[0] z-[9999] h-[calc(100vh-115px)] w-full bg-[white]  [transition:0.3s] tablet:hidden'
+        'overflow-overlay  absolute left-[100%] top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden'
       }
       style={{
-        left: openProfileMenu ? 0 : '-100%',
+        left: openProfileMenu ? 0 : '100%',
       }}
     >
       <Back
@@ -96,7 +108,10 @@ const Profile = () => {
 
             <div className='my-[6px] text-[12px] text-[#474D57]'>
               {t('joined_since')}
-              <span className='text-[12px] font-[600] text-neutral_black'> {dayjs(userLoginInfo?.openDate).format('YYYY')}</span>
+              <span className='text-[12px] font-[600] text-neutral_black'>
+                {' '}
+                {dayjs(userLoginInfo?.openDate).format('YYYY')}
+              </span>
             </div>
 
             <div className='flex justify-between gap-[10px]'>
@@ -177,7 +192,7 @@ const Profile = () => {
             overlay={<ProfileOverlay />}
             placement='bottomRight'
           >
-            <div className='relative h-[36px] w-[36px] cursor-pointer overflow-hidden rounded-full object-cover tablet:h-[44px] tablet:w-[44px] '>
+            <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
               <img
                 src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
                 alt=''
@@ -199,7 +214,7 @@ const Profile = () => {
         <img
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          className='h-[36px] w-[36px] cursor-pointer rounded-full mobile:block tablet:hidden tablet:h-[44px] tablet:w-[44px]'
+          className='h-[40px] w-[40px] cursor-pointer rounded-full mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />
       </>
@@ -211,7 +226,7 @@ const Profile = () => {
       <div className='flex items-center gap-[12px]'>
         <CustomLink
           href={ROUTE_PATH.LOGIN}
-          className='flex h-[44px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
+          className='flex h-[40px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
         >
           <Text type='body-14-bold' color='primary-2'>
             {t('log_in')}
@@ -219,7 +234,7 @@ const Profile = () => {
         </CustomLink>
 
         <CustomLink
-          className='  hidden h-[44px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
+          className='  hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
           href={`${ROUTE_PATH.LOGIN}?type=register`}
         >
           <Text type='body-14-bold' color='cbwhite'>

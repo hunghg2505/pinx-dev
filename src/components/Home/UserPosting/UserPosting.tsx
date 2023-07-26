@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -12,18 +12,13 @@ const UserPosting = ({ addPostSuccess }: any) => {
   const router = useRouter();
   const { userLoginInfo } = useUserLoginInfo();
   const refModal: any = useRef();
-  const [loading, setLoading] = useState(false);
-  const auth = useAuth();
-
-  useEffect(() => {
-    setLoading(auth.isLogin);
-  }, []);
+  const { isLogin } = useAuth();
 
   const onShowModal = () => {
     refModal?.current?.onVisible && refModal?.current?.onVisible();
   };
 
-  if (!loading) {
+  if (!isLogin) {
     return <></>;
   }
 

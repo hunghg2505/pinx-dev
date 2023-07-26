@@ -26,7 +26,7 @@ const StockSubscriber = () => {
         <title>Subscriber</title>
       </Head>
 
-      <div>
+      <div className='rounded-[8px] bg-white desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
         <div className='relative flex h-[46px] items-center justify-center tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9]'>
           <div className='absolute left-[16px] top-1/2 flex -translate-y-1/2 items-center justify-between tablet:left-[24px]'>
             <div
@@ -34,15 +34,9 @@ const StockSubscriber = () => {
               onClick={handleBack}
             >
               <img
-                src='/static/icons/icon_back_header.svg'
+                src='/static/icons/back_icon.svg'
                 alt=''
-                className='h-[14px] w-[7px] object-contain tablet:hidden'
-              />
-
-              <img
-                src='/static/icons/iconBack.svg'
-                alt=''
-                className='hidden h-[19px] w-[19px] object-contain tablet:block'
+                className='h-[28px] w-[28px] object-contain'
               />
             </div>
           </div>

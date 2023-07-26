@@ -12,14 +12,12 @@ interface IProps {
   children: any;
   id: string;
   onRefreshPostDetail: () => void;
+  visible: boolean;
+  onVisible: () => void;
 }
 const ModalDelete = (props: IProps) => {
   const { t } = useTranslation();
-  const { children, id, onRefreshPostDetail } = props;
-  const [visible, setVisible] = React.useState(false);
-  const onVisible = () => {
-    setVisible(!visible);
-  };
+  const { children, id, onRefreshPostDetail, visible, onVisible } = props;
   const { run } = useDeletePost({
     onSuccess: () => {
       toast(() => <Notification type='success' message={t('delete_post_success')} />);
@@ -33,7 +31,7 @@ const ModalDelete = (props: IProps) => {
   return (
     <>
       <span onClick={onVisible}>{children}</span>
-      <Modal visible={visible} onClose={onVisible} closable={false} className='deleteCompose'>
+      <Modal visible={visible} onClose={onVisible} closable={false}>
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>
             {t('delete')}

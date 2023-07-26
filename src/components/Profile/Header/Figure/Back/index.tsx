@@ -31,11 +31,11 @@ const Back = () => {
       </span>
       <div className='absolute bottom-[calc(100%)]  mb-[calc(42px-28px)] hidden  w-full tablet:block '>
         <img
-          src='/static/icons/arrow-left.svg'
+          src='/static/icons/back_icon.svg'
           alt='back'
           className=' h-[28px] w-[28px] cursor-pointer'
-          width={18.67}
-          height={18.67}
+          width={28}
+          height={28}
           onClick={() => {
             router.back();
           }}

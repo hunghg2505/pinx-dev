@@ -13,7 +13,6 @@ import InterestItem from './InterestItem';
 
 interface IProps {
   isEdit?: boolean;
-  loadingInterest?: boolean;
   interestStock?: any;
   refreshInterest?: () => void;
   refreshYourWatchList?: () => void;
@@ -26,7 +25,7 @@ const settings = {
   slidesToScroll: 5,
 };
 const Interest = (props: IProps) => {
-  const { isEdit = false, loadingInterest, interestStock, refreshInterest } = props;
+  const { isEdit = false, interestStock, refreshInterest, refreshYourWatchList } = props;
   const { t } = useTranslation('watchlist');
   const { isDesktop, isMobile } = useResponsive();
   return (
@@ -36,52 +35,41 @@ const Interest = (props: IProps) => {
           <Text type='body-20-bold' className='text-[#0D0D0D]'>
             {t('titleInterest')}
           </Text>
-          {loadingInterest
-            ? (
-              <div className='min-h-[184px] flex items-center justify-center backdrop-blur-sm'>
-
-              </div>
-            )
-            : (
-              <>
-                {isMobile && (
+          {isMobile && (
+            <div
+              className={classNames(
+                'ml-[-16px] mr-[-16px] flex gap-x-[16px] overflow-x-auto pb-[16px] pr-[16px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:pr-[24px]',
+                styles.listInterest,
+              )}
+            >
+              {interestStock?.map((item: IWatchListItem, index: number) => (
+                <div
+                  key={index}
+                  className='relative min-h-[172px] w-[112px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px] first:ml-[16px] desktop:first:ml-[24px]'
+                >
+                  <InterestItem data={item} refresh={refreshInterest} refreshYourWatchList={refreshYourWatchList} />
+                </div>
+              ))}
+            </div>
+          )}
+          {isDesktop && (
+            <>
+              <Slider
+                {...settings}
+                className={classNames('', styles.slickSlider)}
+                draggable
+              >
+                {interestStock?.map((item: IWatchListItem, index: number) => (
                   <div
-                    className={classNames(
-                      'ml-[-16px] mr-[-16px] flex gap-x-[16px] overflow-x-auto pb-[16px] pr-[16px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:pr-[24px]',
-                      styles.listInterest,
-                    )}
+                    key={index}
+                    className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
                   >
-                    {interestStock?.map((item: IWatchListItem, index: number) => (
-                      <div
-                        key={index}
-                        className='relative min-h-[172px] w-[112px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px] first:ml-[16px] desktop:first:ml-[24px]'
-                      >
-                        <InterestItem data={item} refresh={refreshInterest} />
-                      </div>
-                    ))}
+                    <InterestItem data={item} refresh={refreshInterest} refreshYourWatchList={refreshYourWatchList} />
                   </div>
-                )}
-                {isDesktop && (
-                  <>
-                    <Slider
-                      {...settings}
-                      className={classNames('', styles.slickSlider)}
-                      draggable
-                    >
-                      {interestStock?.map((item: IWatchListItem, index: number) => (
-                        <div
-                          key={index}
-                          className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
-                        >
-                          <InterestItem data={item} refresh={refreshInterest} />
-                        </div>
-                      ))}
-                    </Slider>
-                  </>
-                )}
-              </>
-            )
-          }
+                ))}
+              </Slider>
+            </>
+          )}
         </div>
       )}
     </>

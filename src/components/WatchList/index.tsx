@@ -1,18 +1,26 @@
 import React from 'react';
 
+import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { Button } from '@components/UI/Button';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import Themes from '@components/WatchList/Themes';
+// @ts-ignore
+import YourWatchList from '@components/WatchList/YourWatchList';
 
-import ComponentWatchList from './ComponentWatchList';
 import ModalAddStock from './ModalAddStock';
-import { useGetInterest } from './service';
+import { useGetInterest, useGetYourWatchList } from './service';
+
 
 const Interest = dynamic(() => import('@components/WatchList/Interest'), {
   ssr: false,
@@ -23,12 +31,52 @@ const isEditAtom = atomWithStorage('isEditWatchList', false);
 const WatchList = () => {
   const { t } = useTranslation('watchlist');
   const [isEdit, setIsEdit] = useAtom(isEditAtom);
+  const [isSave, setIsSave] = React.useState<boolean>(false);
+  const [itemDelete, setItemDelete] = React.useState<any>([]);
+  const [watchlistId, setWatchlistId] = React.useState<number>();
+  const [dataStock, setDataStock] = React.useState<any>([]);
   const router = useRouter();
   const onGoBack = () => {
     router.back();
   };
 
-  const { interestStock, refreshInterest, loadingInterest } = useGetInterest();
+  const { interestStock, refreshInterest } = useGetInterest();
+  const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
+    onSuccess: (res) => {
+      setDataStock(res?.data?.[0]?.stocks);
+      setWatchlistId(res?.data?.[0]?.watchlistId);
+    }
+  });
+
+  React.useEffect(() => {
+    runYourWatchList();
+    setIsSave(false);
+  }, [isEdit]);
+
+  const useRemoveStock = useRequest(
+    (code) => {
+      return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(code));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        toast(() => <Notification type='success' message='Remove stock success' />);
+      },
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e.error} />);
+      },
+    },
+  );
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const onSave = () => {
+    setIsEdit(!isEdit);
+    refreshYourWatchList && refreshYourWatchList();
+    // eslint-disable-next-line array-callback-return
+    itemDelete.map((id:any) => {
+      useRemoveStock.run(id);
+    });
+  };
 
   return (
     <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white px-[10px] py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
@@ -64,7 +112,10 @@ const WatchList = () => {
               </div>
               <div className='ml-auto flex'>
                 <div className='flex min-h-[28px] items-center'>
-                  <Button className='flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full bg-[#589DC0]'>
+                  <Button onClick={onSave} disabled={!isSave} className={classNames('flex min-h-[24px] min-w-[76px] items-center justify-center rounded-full', {
+                    'bg-[#589DC0]': isSave,
+                    'bg-[#ccc] ': !isSave,
+                  })}>
                     <Text type='body-12-medium' color='cbwhite'>
                       {t('saveTxt')}
                     </Text>
@@ -95,9 +146,22 @@ const WatchList = () => {
           </div>
         )}
 
-        <ComponentWatchList isEdit={isEdit} />
+        <YourWatchList
+          watchlistId={watchlistId}
+          dataStock={dataStock}
+          isEdit={isEdit}
+          yourWatchListStock={yourWatchListStock}
+          loadingYourWatchList={loadingYourWatchList}
+          setDataStock={setDataStock}
+          setIsSave={setIsSave}
+          itemDelete={itemDelete}
+          setItemDelete={setItemDelete}
+        />
         {isEdit && (
-          <ModalAddStock>
+          <ModalAddStock
+            refreshYourWatchList={refreshYourWatchList}
+            dataStock={dataStock}
+          >
             <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
             <Text type='body-14-semibold' className='text-[#1F6EAC]'>
               {t('addTxt')}
@@ -105,8 +169,12 @@ const WatchList = () => {
           </ModalAddStock>
         )}
       </div>
-
-      <Interest isEdit={isEdit} loadingInterest={loadingInterest} interestStock={interestStock} refreshInterest={refreshInterest} />
+      <Interest
+        isEdit={isEdit}
+        interestStock={interestStock}
+        refreshInterest={refreshInterest}
+        refreshYourWatchList={refreshYourWatchList}
+      />
       <Themes isEdit={isEdit} />
     </div>
   );

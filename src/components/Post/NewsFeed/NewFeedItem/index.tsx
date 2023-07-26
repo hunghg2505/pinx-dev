@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useRequest, useHover } from 'ahooks';
 import classNames from 'classnames';
@@ -15,12 +16,10 @@ import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-// import useClickOutSide from '@hooks/useClickOutside';
+import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
-
-// import { POPUP_COMPONENT_ID, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
@@ -71,7 +70,9 @@ const NewFeedItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [showReport, setShowReport] = React.useState(false);
   const [modalReportVisible, setModalReportVisible] = useState(false);
-  // const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
+  const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
@@ -83,27 +84,23 @@ const NewFeedItem = (props: IProps) => {
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   const isReported = postDetail?.isReport;
   const isMyPost = isLogin && postDetail?.customerId === userId;
-  const isPostDetailPath = router?.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [following, setFollowing] = React.useState(postDetail?.isFollowing);
   const [report, setReport] = React.useState(isReported);
+
   React.useEffect(() => {
     setFollowing(postDetail?.isFollowing);
     setReport(isReported);
   }, [postDetail?.isFollowing, isReported]);
-  // const handleHidePopup = () => {
-  //   showReport && setShowReport(false);
-  // };
+  const handleHidePopup = () => {
+    showReport && setShowReport(false);
+  };
   // useClickOutSide(ref, handleHidePopup, excludeElements);
 
   // useEffect(() => {
   //   setExcludeElements(() => {
-  //     return [
-  //       document.querySelector(`#${POPUP_COMPONENT_ID}`),
-  //       document.querySelector(`.${RC_DIALOG_CLASS_NAME}`),
-  //       document.querySelector('.deleteCompose'),
-  //     ];
+  //     return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
   //   });
-  // }, [modalReportVisible]);
+  // }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
 
   const id = router.query?.id;
   const isLike = postDetail?.isLike;
@@ -270,12 +267,14 @@ const NewFeedItem = (props: IProps) => {
     }
     return name;
   };
+
   const renderContentPost = () => {
     if (id) {
       return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
     }
     return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
   };
+
   const renderTextFollow = () => {
     if (following) {
       return (
@@ -296,7 +295,7 @@ const NewFeedItem = (props: IProps) => {
             alt=''
             width={0}
             height={0}
-            className='w-[24px] mobile:block tablet:hidden'
+            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </>
@@ -323,7 +322,7 @@ const NewFeedItem = (props: IProps) => {
               alt=''
               width={0}
               height={0}
-              className='w-[24px] mobile:block tablet:hidden'
+              className='mr-[10px] w-[24px] mobile:block tablet:hidden'
               sizes='100vw'
             />
           </>
@@ -331,6 +330,7 @@ const NewFeedItem = (props: IProps) => {
       </>
     );
   };
+
   const onClickProfileDetail = () => {
     if (
       [
@@ -349,12 +349,7 @@ const NewFeedItem = (props: IProps) => {
   }
 
   return (
-    <div
-      className={classNames('newsfeed  border-solid border-[#D8EBFC] py-[24px]', {
-        'border-b': totalComments > 0 || isPostDetailPath,
-        'border-t': !isExplore,
-      })}
-    >
+    <>
       <div className='flex flex-row justify-between '>
         <div className='flex cursor-pointer flex-row items-center' onClick={onClickProfileDetail}>
           <div
@@ -388,6 +383,7 @@ const NewFeedItem = (props: IProps) => {
                 )}
               />
             )}
+
             {[
               TYPEPOST.POST,
               TYPEPOST.ActivityTheme,
@@ -400,7 +396,7 @@ const NewFeedItem = (props: IProps) => {
           <div>
             <div className='flex'>
               <div className='mr-[5px] flex items-center'>
-                <Text type='body-14-semibold' color='neutral-1'>
+                <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
                   {renderDisplayName()}
                 </Text>
 
@@ -414,6 +410,7 @@ const NewFeedItem = (props: IProps) => {
                     className='ml-[4px] h-[16px] w-[16px] object-contain'
                   />
                 )}
+
                 {postDetail?.post?.customerInfo?.isKol && (
                   <img
                     src='/static/icons/iconTick.svg'
@@ -426,12 +423,13 @@ const NewFeedItem = (props: IProps) => {
                 )}
               </div>
             </div>
-            <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
+            <Text type='body-12-regular' color='neutral-4' className='mt-[2px] tablet:text-[16px]'>
               {postDetail?.timeString &&
                 dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
             </Text>
           </div>
         </div>
+
         <div className='flex items-center'>
           {[
             TYPEPOST.POST,
@@ -520,7 +518,11 @@ const NewFeedItem = (props: IProps) => {
 
                   {(isMyProfilePath || isMyPost) && (
                     <>
-                      <ModalEdit postDetail={postDetail}>
+                      <ModalEdit
+                        visible={modalEditVisible}
+                        onVisible={setModalEditVisible}
+                        postDetail={postDetail}
+                      >
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconEdit.svg'
@@ -535,7 +537,12 @@ const NewFeedItem = (props: IProps) => {
                           </Text>
                         </div>
                       </ModalEdit>
-                      <ModalDelete id={postDetail?.id} onRefreshPostDetail={onRefreshListPost}>
+                      <ModalDelete
+                        visible={modalDeleteVisible}
+                        onVisible={() => setModalDeleteVisible((prev) => !prev)}
+                        id={postDetail?.id}
+                        onRefreshPostDetail={onRefreshListPost}
+                      >
                         <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconDelete.svg'
@@ -558,9 +565,10 @@ const NewFeedItem = (props: IProps) => {
           )}
         </div>
       </div>
+
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
         {renderContentPost()}
-        <div className='mobile:mt-[15px] desktop:mt-[24px]'>
+        <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostAction
             urlPost={'/post/' + idPost}
             isLike={isLike}
@@ -572,7 +580,8 @@ const NewFeedItem = (props: IProps) => {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
+
 export default NewFeedItem;

@@ -8,14 +8,12 @@ const Back = ({ close }: { close: () => void }) => {
     <>
       <header className='relative flex px-[16px] py-[16px] align-middle text-[16px]'>
         <img
-          src='/static/icons/arrow-left.svg'
+          src='/static/icons/back_icon.svg'
           alt='avatar'
-          className='absolute left-[16px] top-[16px] inline w-[18.67px] rounded-full'
-          width={18.67}
-          height={18.67}
+          className='absolute left-[16px] top-[16px] inline h-[28px] w-[28px] rounded-full'
           onClick={close}
         />
-        <b className='bold mr-auto ml-[30px]'>{t('my_profile')}</b>
+        <b className='bold ml-[30px] mr-auto'>{t('my_profile')}</b>
       </header>
     </>
   );

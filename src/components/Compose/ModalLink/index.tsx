@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
-import request from 'umi-request';
 
 import FormItem from '@components/UI/FormItem';
 import Modal from '@components/UI/Modal/Modal';
@@ -41,30 +40,39 @@ const ModalLink = (props: IProps) => {
       />
     );
   };
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const getMetaData = async (url: string) => {
+    try {
+      const response = await fetch(url);
+      const result = await response.text();
+      const doc = new DOMParser().parseFromString(result, 'text/html');
+      const metas: any = doc?.querySelectorAll('meta');
+      const summary = [];
+      for (const meta of metas) {
+        const tempsum: any = {};
+        const attributes = meta.getAttributeNames();
+        for (const attribute of attributes) {
+          tempsum[attribute] = meta.getAttribute(attribute);
+        }
+        summary.push(tempsum);
+      }
+      const dataFormat: any = {};
+      for (const item of summary) {
+        if (item && item.property) {
+          dataFormat[item.property] = item.content;
+        }
+      }
+      return dataFormat;
+    } catch (error) {
+      console.log('Error:', error);
+    }
+  };
   const onSubmit = async () => {
     const value = form.getFieldValue('search');
-    const data = await request(value);
-    const doc = new DOMParser().parseFromString(data, 'text/html');
-    const metas: any = doc.querySelectorAll('meta');
-    const summary = [];
-    for (const meta of metas) {
-      const tempsum: any = {};
-      const attributes = meta.getAttributeNames();
-      for (const attribute of attributes) {
-        tempsum[attribute] = meta.getAttribute(attribute);
-      }
-      summary.push(tempsum);
-    }
-    const dataFormat: any = {};
-    for (const item of summary) {
-      if (item && item.property) {
-        dataFormat[item.property] = item.content;
-      }
-    }
-    getDataOG(dataFormat);
+    const data = await getMetaData(value);
+    getDataOG(data);
     setVisible(!visible);
   };
-
   return (
     <>
       <span onClick={onVisible}>{children}</span>
@@ -86,9 +94,7 @@ const ModalLink = (props: IProps) => {
               rules={[
                 () => ({
                   validator(_: any, value: any) {
-                    console.log('123', isValidURL(value));
                     if (value && isValidURL(value)) {
-                      console.log('123');
                       return Promise.resolve();
                     }
                     return Promise.reject(new Error(t('not_link')));

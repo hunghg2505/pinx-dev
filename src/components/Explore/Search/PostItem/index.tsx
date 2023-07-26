@@ -217,7 +217,7 @@ const PostItem = (props: IProps) => {
             alt=''
             width={0}
             height={0}
-            className='w-[24px] mobile:block tablet:hidden'
+            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </>
@@ -244,7 +244,7 @@ const PostItem = (props: IProps) => {
               alt=''
               width={0}
               height={0}
-              className='w-[24px] mobile:block tablet:hidden'
+              className='mr-[10px] w-[24px] mobile:block tablet:hidden'
               sizes='100vw'
             />
           </>

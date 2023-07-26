@@ -11,11 +11,9 @@ const LoginHeader = () => {
       onClick={router.back}
     >
       <img
-        src='/static/icons/icon_back_header.svg'
+        src='/static/icons/back_icon.svg'
         alt=''
-        width='0'
-        height='0'
-        className='left-[10px] top-[23px] h-[16px] w-[10px] laptop:hidden'
+        className='left-[10px] top-[23px] h-[28px] w-[28px] laptop:hidden'
       />
     </div>
   );

@@ -39,40 +39,49 @@ const Tabs: React.FC<Props & Ref> = React.forwardRef((props: Props, ref: Ref['re
 
   const [activeTab, setActiveTab] = React.useState<any>(currentTab || defaultTab);
 
-  const leftToScroll = () => {
-    let left = 0;
-    switch (activeTab) {
-      case TabsEnum.Profit:
-      case TabsEnum.Revenue: {
-        left = 0;
-        break;
-      }
-      case TabsEnum.MarketCapitalization: {
-        left = 216;
-        break;
-      }
-      case TabsEnum.Price:
-      case TabsEnum.ChangeInPrice1Y: {
-        left = 478;
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-    return left;
-  };
-  React.useEffect(() => {
-    refScroll.current.scrollLeft = leftToScroll();
-  });
+  // const leftToScroll = () => {
+  //   let left = 0;
+  //   switch (activeTab) {
+  //     case TabsEnum.Profit:
+  //     case TabsEnum.Revenue: {
+  //       left = 0;
+  //       break;
+  //     }
+  //     case TabsEnum.MarketCapitalization: {
+  //       left = 216;
+  //       break;
+  //     }
+  //     case TabsEnum.Price:
+  //     case TabsEnum.ChangeInPrice1Y: {
+  //       left = 478;
+  //       break;
+  //     }
+  //     default: {
+  //       break;
+  //     }
+  //   }
+  //   return left;
+  // };
+  // React.useEffect(() => {
+  //   refScroll.current.scrollLeft = leftToScroll();
+  // });
+
   const onChangeTab = (newTab: any) => {
     setActiveTab(newTab);
     onChange(newTab);
+
+    const itemActive = refScroll.current?.querySelector(`.tab-20-${newTab}`);
+    console.log({ itemActive });
+
+    if (itemActive) {
+      itemActive.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
   };
 
   React.useImperativeHandle(ref, () => {
     return { setActiveTab: (data: any) => setActiveTab(data) };
   });
+
   return (
     <div className={styles.tabs} ref={refScroll}>
       <div

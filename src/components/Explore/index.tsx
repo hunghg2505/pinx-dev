@@ -111,7 +111,7 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full rounded-[8px] bg-white px-[10px] text-left mobile-max:mt-[24px] desktop:px-[31px] desktop:py-[20px]'>
+    <div className='w-full rounded-[8px] bg-white p-[10px] text-left mobile-max:mt-[24px] desktop:p-[16px] '>
       <Text
         type='body-24-semibold'
         color='cbblack'
@@ -120,10 +120,11 @@ const Explore = () => {
         Discovery
       </Text>
       <Search ref={refClick} />
-      {/* key word search */}
+
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
         Top keyword search
       </Text>
+
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listKeyWords?.map((item: any, index: number) => {
           return (
@@ -155,6 +156,7 @@ const Explore = () => {
           </div>
         )}
       </ExploreButton>
+
       {/* key word search */}
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       {/* Explore influencer */}
@@ -162,9 +164,11 @@ const Explore = () => {
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         People in spotlight
       </Text>
+
       <div className='mb-[16px]'>
         <Influencer />
       </div>
+
       <ExploreButton onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}>
         <Text type='body-14-bold' color='primary-2'>
           Explore influencer
@@ -217,9 +221,13 @@ const Explore = () => {
       <div className='relative mb-[16px]'>
         <div
           onClick={() => refSlideTheme?.current?.slickPrev()}
-          className='absolute -left-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform cursor-pointer tablet-max:hidden'
+          className='absolute -left-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
-          <img src='/static/images/btn-prev.png' alt='' />
+          <img
+            src='/static/icons/iconGrayPrev.svg'
+            alt='Icon prev'
+            className='h-[16px] w-[7px] object-contain'
+          />
         </div>
         <div className='slideTheme max-w-[700px] overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlideTheme}>
@@ -236,9 +244,13 @@ const Explore = () => {
         </div>
         <div
           onClick={() => refSlideTheme?.current?.slickNext()}
-          className='absolute -right-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform tablet-max:hidden'
+          className='absolute -right-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
-          <img src='/static/images/btn-next.png' alt='' className=' cursor-pointer' />
+          <img
+            src='/static/icons/iconGrayNext.svg'
+            alt='Icon next'
+            className='h-[16px] w-[7px] object-contain'
+          />
         </div>
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
@@ -306,9 +318,13 @@ const Explore = () => {
       <div className='relative mb-[16px]'>
         <div
           onClick={() => refSlidePinex.current.slickPrev()}
-          className='absolute -left-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform cursor-pointer tablet-max:hidden'
+          className='absolute -left-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
-          <img src='/static/images/btn-prev.png' alt='' />
+          <img
+            src='/static/icons/iconGrayPrev.svg'
+            alt='Icon prev'
+            className='h-[16px] w-[7px] object-contain'
+          />
         </div>
         <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlidePinex}>
@@ -319,9 +335,13 @@ const Explore = () => {
         </div>
         <div
           onClick={() => refSlidePinex.current.slickNext()}
-          className='absolute -right-[16px] top-2/4 z-10 h-[32px] w-[32px] -translate-y-2/4 transform tablet-max:hidden'
+          className='absolute -right-[20px] top-2/4 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
-          <img src='/static/images/btn-next.png' alt='' className=' cursor-pointer' />
+          <img
+            src='/static/icons/iconGrayNext.svg'
+            alt='Icon next'
+            className='h-[16px] w-[7px] object-contain'
+          />
         </div>
       </div>
       <ExploreButton onClick={() => router.push(ROUTE_PATH.PINEX_TOP_20)}>

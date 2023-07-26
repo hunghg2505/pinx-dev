@@ -16,11 +16,13 @@ import ItemAddStock from './ItemAddStock';
 
 interface IProps {
   children: any;
+  refreshYourWatchList?: () => void;
+  dataStock: any;
 }
 
 const ModalAddStock = (props: IProps) => {
   const { t } = useTranslation('watchlist');
-  const { children } = props;
+  const { children, refreshYourWatchList, dataStock } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState<boolean>(false);
   const onVisible = () => {
@@ -41,6 +43,8 @@ const ModalAddStock = (props: IProps) => {
     },
   );
   const listStock = data?.data?.companies || [];
+  console.log('ModalAddStock dataStock',dataStock);
+  console.log('ModalAddStock listStock',listStock);
 
   return (
     <>
@@ -80,7 +84,11 @@ const ModalAddStock = (props: IProps) => {
                   key={index}
                   className='relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
                 >
-                  <ItemAddStock data={item} />
+                  <ItemAddStock
+                    refreshYourWatchList={refreshYourWatchList}
+                    data={item}
+                    like={true}
+                  />
                 </div>
               ))}
             </div>

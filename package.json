@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cp env.development .env && next dev",
+    "dev": "env-cmd -f env.development next dev",
     "standalone": "PORT=80 node server.js",
     "build": "next build",
     "start": "env-cmd -f env.development next start",
@@ -38,10 +38,12 @@
     "react-intersection-observer": "^9.5.2",
     "react-player": "^2.12.0",
     "react-slick": "^0.29.0",
+    "reactjs-s4y": "^1.0.2",
     "sharp": "^0.32.1",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",
     "tippy.js": "^6.3.7",
+    "uikit": "^3.16.22",
     "umi-request": "^1.2.3"
   },
   "devDependencies": {

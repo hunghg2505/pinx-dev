@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-
+import { useMount } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -9,7 +9,9 @@ import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import SideBar from '@layout/MainLayout/SideBar';
-import { ROUTE_PATH, disableScroll, enableScroll } from '@utils/common';
+import { openProfileAtom } from '@store/profile/profile';
+import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
+import { ROUTE_PATH } from '@utils/common';
 
 export const IconCloseMenu = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='23' height='24' viewBox='0 0 23 24' fill='none'>
@@ -19,18 +21,23 @@ export const IconCloseMenu = () => (
 );
 
 const MenuMobile = () => {
-  const [isShowNavigate, setIsShowNavigate] = React.useState(false);
+  const [isShowNavigate, setIsShowNavigate] = useSidebarMobile();
+  const router = useRouter();
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
 
-  useEffect(() => {
-    if (isShowNavigate) {
-      disableScroll();
-    } else {
-      enableScroll();
-    }
-  }, [isShowNavigate]);
+  useMount(() => {
+    router.events.on('routeChangeStart', () => {
+      console.log('close menu');
+      // @ts-ignore
+      setIsShowNavigate(false);
+    });
+  });
 
   const onShowNavigate = () => {
+    // @ts-ignore
     setIsShowNavigate(!isShowNavigate);
+
+    setOpenProfileMenu(false);
   };
 
   return (
@@ -48,7 +55,7 @@ const MenuMobile = () => {
       </span>
       <div
         className={classNames(
-          'absolute  left-[-100%]  top-[55px] z-[9999] h-[calc(100vh-115px)] w-full bg-[#fff]  [transition:0.3s] desktop:hidden ',
+          'overflow-overlay absolute left-[-100%] top-[55px] z-[9999]  h-[calc(100vh-115px)] w-full bg-[#fff] pb-[100px] pt-[12px]  [transition:0.3s] desktop:hidden ',
           {
             'left-[0]': isShowNavigate,
           },
@@ -77,7 +84,7 @@ const MainHeader = () => {
 
   return (
     <>
-      <div className=' sticky left-0 top-0 z-[99] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'>
+      <div className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white desktop:h-[84px]'>
         {!isHideHeaderOpenAppOnMobile && (
           <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
             <div className='flex flex-row'>
