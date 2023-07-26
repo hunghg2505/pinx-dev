@@ -126,24 +126,28 @@ const WatchList = () => {
             <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
           </>
         ) : (
-          <div className='flex items-center justify-between'>
-            <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
-              {t('title')}
-            </Text>
-            <Button
-              onClick={() => setIsEdit(true)}
-              className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
-            >
-              <img
-                src='/static/icons/explore/iconEdit.svg'
-                alt=''
-                className='mr-[4px] h-[13px] w-[13px]'
-              />
-              <Text type='body-14-semibold' color='primary-2'>
-                {t('editText')}
-              </Text>
-            </Button>
-          </div>
+          <>
+            {yourWatchListStock?.length > 0 && (
+              <div className='flex items-center justify-between'>
+                <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
+                  {t('title')}
+                </Text>
+                <Button
+                  onClick={() => setIsEdit(true)}
+                  className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
+                >
+                  <img
+                    src='/static/icons/explore/iconEdit.svg'
+                    alt=''
+                    className='mr-[4px] h-[13px] w-[13px]'
+                  />
+                  <Text type='body-14-semibold' color='primary-2'>
+                    {t('editText')}
+                  </Text>
+                </Button>
+              </div>
+            )}
+          </>
         )}
 
         <YourWatchList
