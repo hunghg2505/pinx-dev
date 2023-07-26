@@ -22,7 +22,7 @@ const Page = ({
           ...prev,
           last: res?.data?.last,
           hasNext: res?.data?.hasNext,
-          notFound: prev.last === undefined && !res?.data?.list?.length,
+          notFound: res.last === undefined && !res?.data?.list?.length,
         }));
       },
     },
