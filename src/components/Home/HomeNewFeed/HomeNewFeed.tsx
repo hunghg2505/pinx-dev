@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
@@ -233,7 +234,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
                 {t('people_in_spotlight')}
               </Text>
-
               <Influencer />
               <div className='mt-[16px]'>
                 <button
@@ -268,11 +268,13 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                   <PeopleList data={suggestionPeople} refresh={refreshList} />
                 </div>
                 <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
-                  <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('explore_people')}
-                    </Text>
-                  </button>
+                  <ModalPeopleYouKnow>
+                    <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('explore_people')}
+                      </Text>
+                    </button>
+                  </ModalPeopleYouKnow>
                 </div>
               </div>
             )}

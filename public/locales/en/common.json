@@ -169,5 +169,16 @@
   "for": "for",
   "people_in_spotlight": "People in spotlight",
   "people_in_spotlight_desc": "Be inspired by our stock expert’s investment stories.",
-  "search_lowercase": "search"
+  "search_lowercase": "search",
+  "share_to": "Share to",
+  "or_share_to": "Or share to",
+  "create_post": "Create post",
+  "im_subscribing": "I'm subscribing",
+  "im_unsubscribing": "I'm unsubscribing",
+  "has_just_subscribe_theme": "{{name}} has just {{action}} to {{themeName}}",
+  "subscribe_theme": "subscribed",
+  "unsubscribe_theme": "unsubscribed",
+  "copy_link": "Copy link",
+  "copied": "Copied",
+  "post_action": "Post"
 }

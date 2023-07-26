@@ -2,6 +2,7 @@ import { useRef } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import ModalCompose from '@components/Home/ModalCompose';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
@@ -12,6 +13,8 @@ import { ROUTE_PATH } from '@utils/common';
 
 const Unverify = dynamic(() => import('./UnVerify'));
 const UserPosting = ({ addPostSuccess }: any) => {
+  const { t } = useTranslation('home');
+
   const router = useRouter();
   const { userLoginInfo } = useUserLoginInfo();
   const refModal: any = useRef();
@@ -55,7 +58,7 @@ const UserPosting = ({ addPostSuccess }: any) => {
         <div className='mt-[5px] pl-[61px]'>
           <textarea
             onClick={onShowModal}
-            placeholder='What is in your mind?'
+            placeholder={t('what_is_in_your_mind')}
             className='w-full rounded-[5px] bg-[#EFF2F5] pl-[10px] pt-[10px] focus:outline-none desktop:h-[70px]'
           />
         </div>

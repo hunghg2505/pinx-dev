@@ -16,7 +16,7 @@ interface IProps {
   refresh?: () => void;
 }
 const ModalComposeMobile = (props: IProps) => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'common']);
   const { children, closeIcon, refresh } = props;
   const [visible, setVisible] = React.useState<boolean>(false);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -58,7 +58,7 @@ const ModalComposeMobile = (props: IProps) => {
         {/* <Compose hidePopup={hidePopup} refresh={refresh} /> */}
         <div className='h-[100%] text-center'>
           <Text type='body-20-semibold' color='neutral-black'>
-            {t('create_post')}
+            {t('common:create_post')}
           </Text>
           <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div className='mobile-max:h-[70%]'>
