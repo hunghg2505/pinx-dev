@@ -60,7 +60,7 @@ const WatchList = () => {
     {
       manual: true,
       onSuccess: () => {
-        toast(() => <Notification type='success' message='Remove stock success' />);
+        // toast(() => <Notification type='success' message='Remove stock success' />);
         refreshYourWatchList && refreshYourWatchList();
       },
       onError: (e: any) => {
@@ -75,7 +75,7 @@ const WatchList = () => {
     await itemDelete.map((id:any) => {
       useRemoveStock.run(id);
     });
-    setIsEdit(!isEdit);
+    await setIsEdit(!isEdit);
   };
 
   return (

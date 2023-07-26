@@ -89,19 +89,12 @@ const ModalAddStock = (props: IProps) => {
             <div className='flex h-[300px] flex-col gap-y-[16px] overflow-y-auto overflow-x-hidden pr-[10px]'>
               {listStock?.map((item: any, index: number) => (
                 <>
-                  {
-
-                  }
-                  <div
+                  <ItemAddStock
                     key={index}
-                    className='relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
-                  >
-                    <ItemAddStock
-                      refreshYourWatchList={refreshYourWatchList}
-                      data={item}
-                      like={checkHeart(item)}
-                    />
-                  </div>
+                    refreshYourWatchList={refreshYourWatchList}
+                    data={item}
+                    like={checkHeart(item)}
+                  />
                 </>
               ))}
             </div>
