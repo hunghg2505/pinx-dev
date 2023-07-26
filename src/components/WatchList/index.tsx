@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+// import { useAtom } from 'jotai';
+// import { atomWithStorage } from 'jotai/utils';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -26,11 +26,11 @@ const Interest = dynamic(() => import('@components/WatchList/Interest'), {
   ssr: false,
 });
 
-const isEditAtom = atomWithStorage('isEditWatchList', false);
+// const isEditAtom = atomWithStorage('isEditWatchList', false);
 
 const WatchList = () => {
   const { t } = useTranslation('watchlist');
-  const [isEdit, setIsEdit] = useAtom(isEditAtom);
+  const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isSave, setIsSave] = React.useState<boolean>(false);
   const [itemDelete, setItemDelete] = React.useState<any>([]);
   const [watchlistId, setWatchlistId] = React.useState<number>();
@@ -61,6 +61,7 @@ const WatchList = () => {
       manual: true,
       onSuccess: () => {
         toast(() => <Notification type='success' message='Remove stock success' />);
+        refreshYourWatchList && refreshYourWatchList();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e.error} />);
@@ -69,13 +70,12 @@ const WatchList = () => {
   );
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const onSave = () => {
-    setIsEdit(!isEdit);
-    refreshYourWatchList && refreshYourWatchList();
+  const onSave = async () => {
     // eslint-disable-next-line array-callback-return
-    itemDelete.map((id:any) => {
+    await itemDelete.map((id:any) => {
       useRemoveStock.run(id);
     });
+    setIsEdit(!isEdit);
   };
 
   return (
