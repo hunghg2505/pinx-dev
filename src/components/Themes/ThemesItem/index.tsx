@@ -160,7 +160,7 @@ const ThemesItem = (props: IProps) => {
               </Text>
               {theme.totalSubscribe !== 0 && (
                 <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
-                  {theme.totalSubscribe} {t('common:subcribers')}
+                  {theme.totalSubscribe} {t('common:subscribers')}
                 </Text>
               )}
             </div>

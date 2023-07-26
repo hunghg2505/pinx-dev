@@ -13,7 +13,7 @@ const Back = ({ close }: { close: () => void }) => {
           className='absolute left-[16px] top-[16px] inline h-[28px] w-[28px] rounded-full'
           onClick={close}
         />
-        <b className='bold ml-[30px] mr-auto'>{t('my_profile')}</b>
+        <b className='bold ml-[30px] mr-auto mt-[2px]'>{t('my_profile')}</b>
       </header>
     </>
   );

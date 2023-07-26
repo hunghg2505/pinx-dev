@@ -1,21 +1,29 @@
 import { useRef } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import ModalCompose from '@components/Home/ModalCompose';
+import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
+const Unverify = dynamic(() => import('./UnVerify'));
 const UserPosting = ({ addPostSuccess }: any) => {
   const router = useRouter();
   const { userLoginInfo } = useUserLoginInfo();
   const refModal: any = useRef();
+  const refModalUnVerify = useRef<IBaseModal>(null);
   const { isLogin } = useAuth();
 
   const onShowModal = () => {
-    refModal?.current?.onVisible && refModal?.current?.onVisible();
+    if (userLoginInfo.custStat === 'NEW') {
+      refModalUnVerify?.current?.open && refModalUnVerify?.current?.open();
+    } else {
+      refModal?.current?.onVisible && refModal?.current?.onVisible();
+    }
   };
 
   if (!isLogin) {
@@ -54,6 +62,9 @@ const UserPosting = ({ addPostSuccess }: any) => {
       </div>
 
       <ModalCompose ref={refModal} refresh={addPostSuccess} />
+      <BaseModal ref={refModalUnVerify}>
+        <Unverify close={refModalUnVerify?.current?.close} />
+      </BaseModal>
     </>
   );
 };
