@@ -24,7 +24,7 @@ const SearchInput = () => {
           <FormItem name='search'>
             <Input
               className='h-[40px] w-[220px] rounded-[8px] bg-[#EFF2F5] pl-[36px] pr-[12px] outline-none'
-              placeholder={t('search_lowercase')}
+              placeholder={t('search_uppercase')}
               icon={<IconSearchWhite />}
             />
           </FormItem>
