@@ -28,7 +28,9 @@ const WatchList = () => {
                 className='mt-4 h-[40px] w-full rounded-[5px] bg-[#F0F7FC]'
                 onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
               >
-                <Text color='primary-2'>{t('view_more')}</Text>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('view_more')}
+                </Text>
               </Button>
             );
           }
