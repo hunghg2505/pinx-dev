@@ -167,9 +167,17 @@ export const formatMessagePost = (message: string) => {
     const textReplace = divStock?.replace('%', '');
     message = message.replaceAll(divStock, textReplace);
   }
+  const textLink = doc.querySelector('p')?.innerHTML;
+  if (textLink && textLink?.includes('http')) {
+    message = message.replaceAll(
+      textLink,
+      `<a href="javascript:void(0)" class="link">${textLink}</a>`,
+    );
+  }
+
   // const metas: any = doc.body.querySelectorAll('.userName');
   const str = message.split(' ');
-  message = message.replaceAll('\n', '<p></p>');
+  // message = message.replaceAll('\n', '<p></p>');
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
     if (item.includes('#')) {
@@ -180,28 +188,6 @@ export const formatMessagePost = (message: string) => {
         `,
       );
     }
-    if (item.includes('http') && !item.includes('\n')) {
-      message = message.replaceAll(
-        item,
-        `
-        <a href="javascript:void(0)" class="link">${item}</a>
-        `,
-      );
-    }
-    if (item.includes('http') && item.includes('\n')) {
-      const newItem = item?.split('\n');
-      for (const item of newItem) {
-        if (item.includes('http')) {
-          message = message.replaceAll(
-            item,
-            `
-            <a href="javascript:void(0)" class="link">${item}</a>
-            `,
-          );
-        }
-      }
-    }
-    // }
   });
   return message;
 };

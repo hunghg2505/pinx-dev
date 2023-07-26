@@ -2,6 +2,7 @@
   position: relative;
   width: auto;
   margin: 10px;
+  max-width: 600px;
 }
 .rc-dialog-wrap {
   position: fixed;
@@ -171,7 +172,7 @@
   .md-modal-mask {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 49;
     height: 100%;
     background-color: #00000073;
   }
