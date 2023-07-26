@@ -12,5 +12,7 @@
   "enter_jobs_title": "Enter job title",
   "enter_display_name": "Enter display name",
   "enter_bio": "Enter bio",
-  "pending": "Pending"
+  "pending": "Pending",
+  "displayname_required":"Display name can't be blank",
+  "position_required":"Job title can't be blank"
 }
