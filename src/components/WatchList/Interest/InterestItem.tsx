@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
@@ -7,7 +7,7 @@ import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+// import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -44,9 +44,16 @@ const InterestItem = (props: IProps) => {
   };
   return (
     <>
-      <Link className='absolute inset-x-0 inset-y-0' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)} />
+      {/* <Link
+        className='absolute inset-x-0 inset-y-0'
+        href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+      /> */}
       <div className='flex flex-col gap-y-[16px]'>
-        <img src={url} alt='' className='m-auto h-[40px] w-[40px] rounded-full object-contain bg-white' />
+        <img
+          src={url}
+          alt=''
+          className='m-auto h-[40px] w-[40px] rounded-full bg-white object-contain'
+        />
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text
             type='body-14-semibold'
@@ -79,13 +86,13 @@ const InterestItem = (props: IProps) => {
               {data?.changePc || data?.changePercent}%
             </Text>
             {requestSelectStock?.loading ? (
-              <div className='absolute inset-x-0 inset-y-0 backdrop-blur-sm flex items-center justify-center'>
+              <div className='absolute inset-x-0 inset-y-0 flex items-center justify-center backdrop-blur-sm'>
                 <Loading />
               </div>
             ) : (
               <div
                 className={classNames(
-                  'absolute z-50 bottom-[-10px] left-1/2 flex h-[24px] w-[24px] translate-x-[-50%] cursor-pointer items-center justify-center rounded-full bg-[#fff]',
+                  'absolute bottom-[-10px] left-1/2 z-50 flex h-[24px] w-[24px] translate-x-[-50%] cursor-pointer items-center justify-center rounded-full bg-[#fff]',
                   styles.heart,
                 )}
                 onClick={onAddStock}
