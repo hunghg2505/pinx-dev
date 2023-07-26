@@ -7,12 +7,14 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
+import { Avatar } from '@components/Post/NewsFeed/NewFeedItem/components/Avatar';
+import { Follower } from '@components/Post/NewsFeed/NewFeedItem/components/Follower';
+import { UserName } from '@components/Post/NewsFeed/NewFeedItem/components/UserName';
 import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
 import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import {
@@ -21,10 +23,8 @@ import {
   TypePostOnlyReportAction,
   requestHidePost,
 } from '@components/Post/service';
-import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
-import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
@@ -50,188 +50,6 @@ interface IProps {
   onHidePostSuccess?: (id: string) => void;
   pinned?: boolean;
 }
-
-const Avatar = ({ postDetail }: any) => {
-  const name =
-    postDetail?.post?.customerInfo?.displayName &&
-    toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
-
-  const url = useMemo(() => {
-    if (
-      [
-        TYPEPOST.PinetreeDailyNews,
-        TYPEPOST.PinetreeMarketBrief,
-        TYPEPOST.PinetreeMorningBrief,
-        TYPEPOST.PinetreePost,
-        TYPEPOST.PinetreeWeeklyNews,
-      ].includes(postDetail?.post.postType)
-    ) {
-      return '/static/logo/logoPintree.png';
-    }
-
-    if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
-      return 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
-    }
-
-    if (
-      [
-        TYPEPOST.POST,
-        TYPEPOST.ActivityTheme,
-        TYPEPOST.ActivityWatchlist,
-        TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
-    ) {
-      return postDetail?.post?.customerInfo?.avatar;
-    }
-    if (
-      [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
-        postDetail?.post.postType,
-      )
-    ) {
-      return 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
-    }
-    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      return '/static/logo/logoCafeF.png';
-    }
-  }, [postDetail?.post.postType]);
-
-  if (postDetail?.post?.customerInfo?.avatar === '') {
-    return <AvatarDefault name={name} />;
-  }
-
-  return (
-    <>
-      <img
-        src={url}
-        alt='avatar'
-        sizes='100vw'
-        className={classNames(
-          'mr-2 rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
-          {
-            'object-cover': [
-              TYPEPOST.POST,
-              TYPEPOST.ActivityTheme,
-              TYPEPOST.ActivityWatchlist,
-              TYPEPOST.ActivityMatchOrder,
-            ].includes(postDetail?.post.postType),
-          },
-        )}
-      />
-    </>
-  );
-};
-
-const UserName = ({ postDetail }: any) => {
-  const name = useMemo(() => {
-    if (
-      [
-        TYPEPOST.PinetreeDailyNews,
-        TYPEPOST.PinetreeMarketBrief,
-        TYPEPOST.PinetreeMorningBrief,
-        TYPEPOST.PinetreePost,
-        TYPEPOST.PinetreeWeeklyNews,
-      ].includes(postDetail?.post.postType)
-    ) {
-      return 'Pinetree';
-    }
-    if (
-      [
-        TYPEPOST.POST,
-        TYPEPOST.ActivityTheme,
-        TYPEPOST.ActivityWatchlist,
-        TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
-    ) {
-      return postDetail?.post?.customerInfo?.displayName;
-    }
-    if (
-      [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
-        postDetail?.post.postType,
-      )
-    ) {
-      return 'Vietstock';
-    }
-    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      return 'CafeF';
-    }
-    if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
-      return 'Tin nhanh chứng khoán';
-    }
-  }, []);
-
-  return (
-    <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
-      {name}
-    </Text>
-  );
-};
-
-const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => {
-  if (
-    ![
-      TYPEPOST.POST,
-      TYPEPOST.ActivityTheme,
-      TYPEPOST.ActivityMatchOrder,
-      TYPEPOST.ActivityWatchlist,
-    ].includes(postDetail?.post.postType)
-  ) {
-    return <></>;
-  }
-
-  if (following) {
-    return (
-      <div className='cursor-pointer' onClick={onFollow}>
-        <div
-          className={classNames(
-            'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-            { 'bg-[#F3F2F6]': following },
-          )}
-        >
-          <Text type='body-14-bold' color='neutral-5'>
-            Following
-          </Text>
-        </div>
-
-        <img
-          src='/static/icons/iconUserFollow.svg'
-          alt=''
-          width={0}
-          height={0}
-          className='mr-[10px] w-[24px] mobile:block tablet:hidden'
-          sizes='100vw'
-        />
-      </div>
-    );
-  }
-  return (
-    <>
-      <Fade visible={!isMyPost}>
-        <div className='cursor-pointer' onClick={onFollow}>
-          <div
-            className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
-              { 'bg-[#F3F2F6]': following },
-            )}
-          >
-            <IconPlus />
-            <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-              Follow
-            </Text>
-          </div>
-
-          <img
-            src='/static/icons/iconUserUnFollow.svg'
-            alt=''
-            width={0}
-            height={0}
-            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
-            sizes='100vw'
-          />
-        </div>
-      </Fade>
-    </>
-  );
-};
 
 const PostContent = ({ id, onNavigate, postDetail }: any) => {
   if (id) {
