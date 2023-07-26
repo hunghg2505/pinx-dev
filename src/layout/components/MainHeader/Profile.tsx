@@ -55,7 +55,6 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   }, [openProfileMenu]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
-  console.log({ isRouteSetting });
 
   return (
     <div
