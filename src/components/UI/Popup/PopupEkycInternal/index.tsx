@@ -27,7 +27,7 @@ const PopUpEkycInternal = (props: IProps) => {
 
   return (
     <Modal visible={visible} onClose={handleClose}>
-      <div className='fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-[#EAF4FB] p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
+      <div className=''>
         <Text
           type='body-20-bold'
           color='neutral-1'

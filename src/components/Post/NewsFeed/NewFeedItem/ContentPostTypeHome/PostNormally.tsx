@@ -16,22 +16,7 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
   const [isReadMorePost, setIsReadMorePost] = useState<boolean>(false);
   const [, setInView] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
-  const doc = document.createRange().createContextualFragment(postDetail?.post?.message);
-  function countText(node: any) {
-    let counter = 0;
-    if (node.nodeType === 3) {
-      counter++;
-    } else if (node.nodeType === 1) {
-      // if it is an element node,
-      const children = node.childNodes; // examine the children
-      for (let i = children.length; i--; ) {
-        counter += countText(children[i]);
-      }
-    }
-    return counter;
-  }
-  const test = countText(doc);
-  console.log('🚀 ~ file: PostNormally.tsx:34 ~ PostNormally ~ test:', test);
+
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const { imageMetaData, siteName, videoId, message } = useMemo(() => {
@@ -167,7 +152,7 @@ export const PostNormally = ({ onReadMore, readMore, postDetail, onComment, heig
   return (
     <div className='PostNormally cursor-pointer'>
       <div>
-        {postThemeId && postDetail?.post?.message?.length < 254 ? (
+        {postThemeId ? (
           <div
             className='theme relative flex w-full  flex-col justify-end rounded-[10px] '
             onClick={onComment}
