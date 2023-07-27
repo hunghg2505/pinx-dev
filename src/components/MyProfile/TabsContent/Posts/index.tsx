@@ -1,31 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useGetMYPost } from '@components/MyProfile/service';
-import NewsFeed from '@components/Post/NewsFeed';
-import { IPost } from '@components/Post/service';
+import useElementOnscreen from '@utils/useElementOnscreen';
 
 import NotFound from './NotFound';
-import useLoadMore from './useLoadMore';
+import Page from './Page';
 
 const Posts = () => {
-  const { data, refresh, run, loading } = useGetMYPost();
-
-  const { lastElementRef } = useLoadMore(data, loading, run);
+  const [state, setState] = useState<{
+    pages: string[];
+    last: string;
+    hasNext: boolean;
+    notFound: boolean;
+  }>({
+    pages: [],
+    last: '',
+    hasNext: true,
+    notFound: false,
+  });
+  const { lastElementRef } = useElementOnscreen(() => {
+    if (state.hasNext && state.last) {
+      setState((prev) => ({ ...prev, pages: [...prev.pages, prev.last], hasNext: false }));
+    }
+  });
 
   return (
     <div>
-      {!data?.list?.length && <NotFound />}
-
-      {data?.list?.map((item: IPost, index: number) => {
-        if (index === data?.list.length - 1) {
-          return (
-            <div ref={lastElementRef} key={index}>
-              <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />
-            </div>
-          );
+      <Page setState={state.pages.length === 0 ? setState : () => {}} />
+      {state.pages?.map((page, index) => {
+        if (index === state.pages.length - 1) {
+          return <Page last={page} key={page} setState={setState} />;
         }
-        return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
+        return <Page last={page} key={page} />;
       })}
+      <div ref={lastElementRef}></div>
+      {state.notFound && <NotFound />}
     </div>
   );
 };

@@ -1,0 +1,19 @@
+{
+  "top_20_tab": {
+    "profit": "Profit",
+    "revenue": "Revenue",
+    "market_capitalization": "Market Capitalization",
+    "price": "Price",
+    "change_in_price_1y": "Change In Price 1Y",
+    "profit_desc": "Top 20 companies having the largest profit in recent quarter",
+    "profit_unit": "Unit: million VND",
+    "revenue_desc": "Top 20 companies having the largest revenue in recent quarter",
+    "revenue_unit": "Unit: billion VND",
+    "market_cap_desc": "Top 20 companies having the largest capitalization",
+    "market_cap_unit": "Unit: Trillion VND",
+    "price_desc": "Top 20 companies having the highest market price based on last closing price",
+    "price_unit": "Unit: VND",
+    "change_in_price_1y_desc": "Top 20 companies having the largest change in price within 1 year",
+    "change_in_price_1y_unit": "Unit: %"
+  }
+}

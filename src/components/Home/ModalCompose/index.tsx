@@ -4,6 +4,7 @@ import { useDebounceFn } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 
 import Compose from '@components/Compose';
+import { IPost } from '@components/Post/service';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
@@ -11,7 +12,7 @@ import styles from './index.module.scss';
 
 interface Iprops {
   closeIcon?: boolean;
-  refresh?: () => void;
+  refresh?: (data: IPost) => void;
 }
 const ModalCompose = (props: Iprops, ref: any) => {
   const { t } = useTranslation('common');

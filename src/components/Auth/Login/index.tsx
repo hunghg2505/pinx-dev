@@ -70,7 +70,7 @@ const Login = (props: Iprops) => {
   return (
     <>
       <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
-        <FormItem name='username' rules={[{ required: true, message: 'Please enter username' }]}>
+        <FormItem name='username' rules={[{ required: true, message: t('please_enter_username') }]}>
           <LabelInput placeholder={t('username')} labelContent={t('username')} name='username' />
         </FormItem>
         <FormItem
@@ -78,7 +78,7 @@ const Login = (props: Iprops) => {
           rules={[
             {
               required: true,
-              message: 'Please enter password',
+              message: t('please_enter_password'),
             },
           ]}
         >

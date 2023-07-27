@@ -1,6 +1,10 @@
+import { useTranslation } from 'next-i18next';
+
 import Text from '@components/UI/Text';
 
 export const ActivityTheme = ({ postDetail }: any) => {
+  const { t } = useTranslation();
+
   return (
     <div className='relative flex h-[205px] w-full rounded-lg'>
       <img
@@ -19,7 +23,7 @@ export const ActivityTheme = ({ postDetail }: any) => {
           className='mx-auto h-[22px] w-[22px] rounded-full bg-white'
         />
         <Text type='body-12-medium' className='mt'>
-          {postDetail?.post?.action === 'UNSUBSCRIBE' ? 'Unsubscribe' : 'Subscribe'}
+          {postDetail?.post?.action === 'UNSUBSCRIBE' ? t('unsubscribe') : t('subscribe')}
         </Text>
         <Text type='body-12-bold' className='text-center'>
           {postDetail?.post.themeName}

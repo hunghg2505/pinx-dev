@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
+import { profileUserContext } from '@components/MyProfile';
 
 const NotFound = () => {
   const { t } = useTranslation('profile');
+  const profileUser = useContext<any>(profileUserContext);
   return (
     <div className='flex  w-full flex-wrap justify-center gap-[48px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap'>
       <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
@@ -20,7 +22,7 @@ const NotFound = () => {
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('following_empty')}
           </p>
-          <ModalPeopleYouKnow>
+          <ModalPeopleYouKnow onClose={profileUser.reload}>
             <button
               className='
               line-[18px]

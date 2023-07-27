@@ -81,37 +81,15 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const refScroll = React.useRef(null);
-  const [isPost, setIsPost] = React.useState(false);
 
   const [newFeed, setNewFeed] = React.useState<IPost[]>([]);
   const [lastNewFeed, setLastNewFeed] = React.useState<string>('');
-  const { run, refresh, loading, listNewFeed } = useGetListNewFeed({
+  const { run, loading, listNewFeed } = useGetListNewFeed({
     onSuccess: (res) => {
       setLastNewFeed(res?.data?.last);
-      const newData = [...newFeed];
-      const check = res?.data?.list;
-      for (const item of check) {
-        const index = newData.findIndex((fi) => fi.id === item.id);
-        if (index < 0) {
-          if (isPost) {
-            newData.unshift(item);
-          } else {
-            newData.push(item);
-          }
-        }
-
-        if (index >= 0) {
-          newData.splice(index, 1, item);
-        }
-      }
-      setNewFeed(newData);
+      setNewFeed(res?.data?.list ?? []);
     },
   });
-
-  const addPostSuccess = () => {
-    setIsPost(true);
-    refresh();
-  };
 
   const { lastElementRef } = useLoadMore(filterType, listNewFeed, loading, run);
   const { watchList } = useGetWatchList();
@@ -138,13 +116,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     }
   };
 
-  const onHidePost = (id: string) => {
-    const newData = [...newFeed];
-    const index = newData?.findIndex((item) => item.id === id);
-    if (index >= 0) {
-      newData.splice(index, 1);
-    }
-    setNewFeed(newData);
+  const onAddNewPost = (newData: IPost) => {
+    setNewFeed((prev) => {
+      prev.unshift(newData);
+
+      return [...prev];
+    });
   };
 
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
@@ -184,7 +161,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                 className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
                 onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
               >
-                <Text type='body-14-medium' color='primary-1'>
+                <Text type='body-12-medium' className='tablet:text-[14px]' color='primary-1'>
                   {t('see_all')}
                 </Text>
                 <img
@@ -200,30 +177,19 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
             <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
           </div>
 
-          <UserPosting addPostSuccess={addPostSuccess} />
+          <UserPosting onAddNewPost={onAddNewPost} />
 
           <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
           <div className='relative'>
-            <PinPost
-              refresh={refresh}
-              onHidePost={onHidePost}
-              pinPostDataInitial={pinPostDataInitial}
-            />
+            <PinPost pinPostDataInitial={pinPostDataInitial} />
 
             <div>
               {newFeed?.slice(0, 1)?.map((item: IPost) => {
-                return (
-                  <NewsFeed
-                    key={`newFeed-${item.id}`}
-                    data={item}
-                    id={item.id}
-                    refresh={refresh}
-                    onHidePost={onHidePost}
-                  />
-                );
+                return <NewsFeed key={`newFeed-${item.id}`} data={item} />;
               })}
             </div>
+
             <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
               <div className='pb-[13px] pt-[10px] '>
                 <Trending />
@@ -234,7 +200,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
                 {t('people_in_spotlight')}
               </Text>
+
               <Influencer />
+
               <div className='mt-[16px]'>
                 <button
                   className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
@@ -281,15 +249,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
             <div>
               {newFeed?.slice(1, 4)?.map((item: IPost) => {
-                return (
-                  <NewsFeed
-                    key={`newFeed-${item.id}`}
-                    data={item}
-                    id={item.id}
-                    refresh={refresh}
-                    onHidePost={onHidePost}
-                  />
-                );
+                return <NewsFeed key={`newFeed-${item.id}`} data={item} />;
               })}
             </div>
 
@@ -302,15 +262,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
             <div>
               {newFeed?.slice(5)?.map((item: IPost) => {
-                return (
-                  <NewsFeed
-                    key={`newFeed-${item.id}`}
-                    data={item}
-                    id={item.id}
-                    refresh={refresh}
-                    onHidePost={onHidePost}
-                  />
-                );
+                return <NewsFeed key={`newFeed-${item.id}`} data={item} />;
               })}
             </div>
           </div>

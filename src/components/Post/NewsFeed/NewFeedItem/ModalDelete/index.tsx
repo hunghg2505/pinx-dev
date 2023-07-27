@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -11,26 +11,34 @@ import Text from '@components/UI/Text';
 interface IProps {
   children: any;
   id: string;
-  onRefreshPostDetail: () => void;
-  visible: boolean;
-  onVisible: () => void;
+  onDeletePost: () => void;
 }
+
 const ModalDelete = (props: IProps) => {
   const { t } = useTranslation();
-  const { children, id, onRefreshPostDetail, visible, onVisible } = props;
+  const { children, id, onDeletePost } = props;
+  const [visible, setVisible] = useState(false);
+
   const { run } = useDeletePost({
     onSuccess: () => {
       toast(() => <Notification type='success' message={t('delete_post_success')} />);
-      onRefreshPostDetail && onRefreshPostDetail();
-      onVisible();
+      setVisible(false);
+      onDeletePost();
     },
   });
+
+  const onVisible = () => {
+    setVisible(!visible);
+  };
+
   const onOk = () => {
     run(id);
   };
+
   return (
     <>
       <span onClick={onVisible}>{children}</span>
+
       <Modal visible={visible} onClose={onVisible} closable={false}>
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>

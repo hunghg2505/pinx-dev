@@ -370,8 +370,6 @@ const PostItem = (props: IProps) => {
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
                           <ModalReport
-                            visible={modalReportVisible}
-                            onModalReportVisible={setModalReportVisible}
                             postID={postDetail?.id}
                             onReportSuccess={handleReportPostSuccess}
                           >

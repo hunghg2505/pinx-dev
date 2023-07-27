@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -9,20 +11,20 @@ import { IPost, useCommentsOfPost } from '../service';
 
 interface IProps {
   data: IPost;
-  id: string;
-  refresh: () => void;
-  onHidePost?: (id: string) => void;
   pinned?: boolean;
 }
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, refresh, id, onHidePost, pinned = false } = props;
+  const { data, pinned = false } = props;
+
+  const [postData, setPostData] = useState(data);
+
   const router = useRouter();
   const onNavigate = () => {
-    router.push(`/post/${data?.id}`);
+    router.push(`/post/${postData?.id}`);
   };
 
-  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(data?.id));
+  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postData?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
   const commentChild = commentsOfPost?.data?.list?.reduce(
     (acc: any, current: any) => acc + current?.totalChildren,
@@ -48,16 +50,22 @@ const NewsFeed = (props: IProps) => {
     return <></>;
   };
 
+  const onRefreshPostItem = (newData: IPost) => {
+    setPostData(newData);
+  };
+
+  if (!postData) {
+    return <></>;
+  }
+
   return (
     <>
       <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
         <NewFeedItem
           onNavigate={onNavigate}
-          postDetail={data}
+          postDetail={postData}
           totalComments={countComment}
-          onRefreshPostDetail={refresh}
-          postId={id}
-          onHidePostSuccess={onHidePost}
+          onRefreshPostDetail={onRefreshPostItem}
           pinned={pinned}
         />
 
@@ -68,7 +76,6 @@ const NewsFeed = (props: IProps) => {
                 <ItemComment
                   onNavigate={onNavigate}
                   data={commentsOfPost?.data?.list?.[0]}
-                  refresh={refresh}
                   refreshCommentOfPOst={refreshCommentOfPost}
                 />
               </div>

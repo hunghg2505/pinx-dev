@@ -92,7 +92,7 @@ const RegisterThemes = () => {
                 {t('register_theme_titile')}
               </Text>
               <div className='neutral-4 mt-[8px] flex flex-col items-center text-[body-14-medium] tablet:w-full desktop:w-full'>
-                <Text type='body-16-regular'>{t('register_theme_sub_titile')}</Text>
+                <Text type='body-16-regular'>{t('auth:register_theme_sub_titile')}</Text>
               </div>
             </div>
           </div>

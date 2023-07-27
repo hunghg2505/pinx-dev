@@ -1,6 +1,6 @@
 {
   "home.title": "Trang chủ",
-  "see_all": "Xem tất cả",
+  "see_all": "Xem hết",
   "people_in_spotlight": "Ngôi sao đầu tư",
   "explore_influencer": "Khám phá thêm",
   "People_you_may_know": "Bạn có thể biết",
@@ -10,6 +10,5 @@
   "news_feed": "Bản tin",
   "most_recent": "Mới nhất",
   "filter_posts_by": "Lọc bài viết theo",
-  "what_is_in_your_mind": "Bạn đang nghĩ gì?",
-  "create_post_placeholder": "Sử dụng % để đề cập đến mã cổ phiếu, # để hashtag bài viết, @ để đề cập đến người khác"
+  "what_is_in_your_mind": "Bạn đang nghĩ gì?"
 }

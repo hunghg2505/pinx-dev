@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
+import { getMetaData } from '@components/Compose/ModalAddLink/service';
 import FormItem from '@components/UI/FormItem';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -13,14 +14,6 @@ interface IProps {
   getDataOG: (value: any) => void;
   urlLinkInitial?: string;
 }
-
-const getMetaData = async (url: string) => {
-  try {
-    const response: any = await fetch(`/api/seo-url?url=${url}`.trim()).then((r) => r.json());
-
-    return response?.meta;
-  } catch {}
-};
 
 const ModalLink = (props: IProps) => {
   const { children, getDataOG, urlLinkInitial } = props;
