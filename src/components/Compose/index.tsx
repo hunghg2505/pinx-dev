@@ -141,7 +141,9 @@ const Compose = (props: IProps) => {
     {
       manual: true,
       onSuccess: async () => {
-        await requestGetDetailPost.runAsync();
+        if (refresh) {
+          await requestGetDetailPost.runAsync();
+        }
 
         hidePopup && hidePopup();
         setMetaData(null);
@@ -351,6 +353,7 @@ const Compose = (props: IProps) => {
       const messageHtml = editor?.getHTML();
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
+
       if (imageUploaded?.file && themeActiveId === 'default') {
         const formData = new FormData();
         formData.append('files', imageUploaded?.file);
@@ -455,7 +458,7 @@ const Compose = (props: IProps) => {
       }
 
       if (!urlLinks?.length && !metaData?.length) {
-        delete data.metadata;
+        data.metadata = [];
       }
 
       if (themeActiveId === 'default' && !isUpdate) {
@@ -671,7 +674,7 @@ const Compose = (props: IProps) => {
 
       <ShowMetaTagsUpload />
 
-      <Fade visible={hiddenThemeSelected}>
+      <Fade visible={hiddenThemeSelected && postType !== 'ActivityTheme'}>
         <ListTheme themeActiveId={themeActiveId} onSelectThemeId={onSelectThemeId} />
       </Fade>
 
@@ -715,7 +718,9 @@ const Compose = (props: IProps) => {
                 requestAddPost?.loading ||
                 requestUploadFile.loading ||
                 requestUpdatePost.loading ||
-                requestGetDetailPost.loading,
+                requestGetDetailPost.loading ||
+                !editor?.getText(),
+              'opacity-60': !editor?.getText(),
             },
           )}
           onClick={onAddPost}

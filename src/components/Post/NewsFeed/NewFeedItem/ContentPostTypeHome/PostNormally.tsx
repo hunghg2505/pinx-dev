@@ -216,22 +216,6 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
   }, [postDetail]);
 
   const MetaData = () => {
-    if (postDetail?.post?.metadata?.length) {
-      return <MetaContent metaData={JSON.parse(postDetail?.post?.metadata?.[0]) as any} />;
-    }
-
-    if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
-      return (
-        <ModalMedia url={imageMetaData}>
-          <img
-            src={imageMetaData}
-            alt=''
-            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
-          />
-        </ModalMedia>
-      );
-    }
-
     if (siteName === 'youtube' && videoId) {
       return (
         <InView>
@@ -280,6 +264,22 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
             </div>
           )}
         </InView>
+      );
+    }
+
+    if (postDetail?.post?.metadata?.length) {
+      return <MetaContent metaData={JSON.parse(postDetail?.post?.metadata?.[0]) as any} />;
+    }
+
+    if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
+      return (
+        <ModalMedia url={imageMetaData}>
+          <img
+            src={imageMetaData}
+            alt=''
+            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
+          />
+        </ModalMedia>
       );
     }
 

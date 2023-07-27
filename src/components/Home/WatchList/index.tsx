@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/router';
@@ -14,10 +14,21 @@ import ItemStock from './ItemStock';
 import WatchListDesktop from './WatchListDesktop';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from '../service';
 
+const settings = {
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  // autoplay: true,
+  // autoplaySpeed: 1000,
+};
+
 const WatchList = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const [dataStock, setDataStock] = React.useState<any>([]);
+  const [dataStock, setDataStock] = useState<any>([]);
 
   const useWatchList = useRequest(
     () => {
@@ -36,7 +47,8 @@ const WatchList = () => {
       },
     },
   );
-  React.useEffect(() => {
+
+  useEffect(() => {
     useWatchList.run();
     return () => {
       if (dataStock) {
@@ -48,7 +60,7 @@ const WatchList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [dataSocket, setDataSocket] = React.useState<any>({});
+  const [dataSocket, setDataSocket] = useState<any>({});
 
   socket.on('public', (message: any) => {
     const data = message.data;
@@ -65,16 +77,7 @@ const WatchList = () => {
       ...dataSocket,
     };
   }
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: false,
-    // autoplay: true,
-    // autoplaySpeed: 1000,
-  };
+
   const onAddStock = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
   };

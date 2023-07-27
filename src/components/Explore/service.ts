@@ -89,7 +89,7 @@ export const useGetPopular = () => {
   };
 };
 export const useSearchPublic = () => {
-  const { data, run, loading, refresh } = useRequest(
+  const { data, run, loading, refresh, mutate } = useRequest(
     (payload: ISearch) => {
       const isLogin = !!getAccessToken();
       return isLogin
@@ -107,5 +107,6 @@ export const useSearchPublic = () => {
     search: run,
     loading,
     refresh,
+    mutate,
   };
 };
