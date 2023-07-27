@@ -22,9 +22,10 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 interface Iprops {
   data: ISuggestionPeople;
   reload?: () => void;
+  refreshList?: () => void;
 }
 const PeopleItem = (props: Iprops) => {
-  const { data, reload } = props;
+  const { data, reload, refreshList } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
@@ -42,6 +43,7 @@ const PeopleItem = (props: Iprops) => {
       onSuccess: () => {
         // setIsFollow(true);
         reload && reload();
+        refreshList && refreshList();
         // refreshList();
       },
       onError: (e: any) => {
