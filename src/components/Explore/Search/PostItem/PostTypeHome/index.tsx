@@ -418,7 +418,7 @@ const PostTypeHome = (props: IProps) => {
           <div onClick={onComment}>
             {postThemeId ? (
               <div
-                className='theme relative w-[calc(100%_+_63px)] mobile-max:w-full tablet:mx-0  desktop:!-ml-[63px] desktop:mt-[12px]'
+                className='theme relative mobile-max:w-full tablet:mx-0  desktop:!-ml-[63px] desktop:mt-[12px]'
                 onClick={onComment}
               >
                 <img
