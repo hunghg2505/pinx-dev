@@ -176,7 +176,9 @@ const NewFeedItem = (props: IProps) => {
           TYPEPOST.PinetreePost,
         ].includes(postDetail?.post.postType) &&
         router.pathname !== '/explore' &&
-        !isMyProfilePath;
+        router.pathname.includes('/profile/')
+          ? router.pathname.includes('my-profile')
+          : false && !isMyProfilePath;
 
       const cond2 = !isReported && !isMyPost;
 
