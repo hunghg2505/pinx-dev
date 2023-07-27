@@ -206,5 +206,6 @@
   "save": "Lưu",
   "add_link_to_post": "Thêm link bài viết",
   "input_link": "Nhập đường dẫn",
-  "post_update_success_msg": "Chỉnh sửa thành công"
+  "post_update_success_msg": "Chỉnh sửa thành công",
+  "post_create_success_msg": "Tạo bài viết thành công"
 }
