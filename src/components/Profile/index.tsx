@@ -20,10 +20,6 @@ const Profile = (props: any) => {
     loading,
   } = useGePrivatetProfileOtherUser(Number(router.query.id));
 
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
     <profileUserContext.Provider
       value={{
@@ -33,15 +29,18 @@ const Profile = (props: any) => {
         refresh: RefreshPrivate,
       }}
     >
-      <div className=' flex '>
-        <div className='w-full '>
-          <div className='rounded-[8px] bg-white shadow-[0_1px_2px_0px_rgba(88,102,126,0.12)] mobile:pb-[20px] tablet:px-[20px] tablet:py-[20px]'>
-            <Header />
-            <MyStory />
-            <TabsContent />
+      <>
+        <div className=' flex '>
+          <div className='w-full '>
+            <div className='rounded-[8px] bg-white shadow-[0_1px_2px_0px_rgba(88,102,126,0.12)] mobile:pb-[20px] tablet:px-[20px] tablet:py-[20px]'>
+              <Header />
+              <MyStory />
+              <TabsContent />
+            </div>
           </div>
         </div>
-      </div>
+        {loading && <Loading />}
+      </>
     </profileUserContext.Provider>
   );
 };
