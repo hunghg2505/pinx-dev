@@ -101,6 +101,9 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        if (router.route === '/post/[id]') {
+          return router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
+        }
         onRefreshPostDetail(undefined);
       },
       onError: (err: any) => {
