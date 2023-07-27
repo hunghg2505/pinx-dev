@@ -2,6 +2,7 @@
 /* eslint-disable indent */
 import React, { useEffect } from 'react';
 
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -128,7 +129,9 @@ const Register = (props: IProps) => {
   return (
     <>
       <Form
-        className='mt-10 space-y-6 laptop:w-full laptop:max-w-[479px]'
+        className={classNames('mt-10 space-y-6', {
+          'laptop:w-full laptop:max-w-[479px]': !isModal,
+        })}
         form={form}
         onFinish={onSubmit}
       >

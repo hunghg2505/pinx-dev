@@ -61,7 +61,7 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
 
-  const { customerId, postId, isLike, isMyProfilePath } = useMemo(() => {
+  const { customerId, postId, isLike, isMyProfilePath, isPostDetailPath } = useMemo(() => {
     return {
       customerId: postDetail?.customerId,
 
@@ -72,6 +72,8 @@ const NewFeedItem = (props: IProps) => {
       postId: postDetail?.id || router.query?.id,
 
       isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
+
+      isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
     };
   }, [
     postDetail?.customerId,
@@ -404,7 +406,12 @@ const NewFeedItem = (props: IProps) => {
       </div>
 
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
-        <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} pinned={pinned} />
+        <ContentPostTypeHome
+          isPostDetailPath={isPostDetailPath}
+          onNavigate={onNavigate}
+          postDetail={postDetail}
+          pinned={pinned}
+        />
 
         <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostActionComment
