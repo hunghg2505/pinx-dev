@@ -43,7 +43,7 @@ const WatchList = () => {
   const { interestStock, refreshInterest } = useGetInterest();
   const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
     onSuccess: (res) => {
-      // setDataStock(res?.data?.[0]?.stocks);
+      setDataStock(res?.data?.[0]?.stocks);
       setWatchlistId(res?.data?.[0]?.watchlistId);
     }
   });
