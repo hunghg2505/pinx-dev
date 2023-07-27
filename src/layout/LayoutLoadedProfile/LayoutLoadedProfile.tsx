@@ -11,7 +11,11 @@ const LayoutLoadedProfile = ({ children }: IPropsLayoutLoadedProfile) => {
   const { userLoginInfo } = useUserLoginInfo();
 
   if (!userLoginInfo?.id) {
-    return <Loading />;
+    return (
+      <div className='flex items-center justify-center'>
+        <Loading />
+      </div>
+    );
   }
 
   return <>{children}</>;

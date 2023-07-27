@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
-import ReactPlayer from 'react-player';
 
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import CustomLink from '@components/UI/CustomLink';
@@ -168,7 +167,7 @@ const MetaContent = ({ metaData }: any) => {
   const { url, imageUrl, title, description } = data;
 
   return (
-    <CustomLink href={`/redirecting?url=${url}`}>
+    <CustomLink href={`/redirecting?url=${url}`} className='mt-4'>
       <div className='relative'>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && <img src={imageUrl} alt='' className='h-[200px] w-full object-cover' />}
@@ -216,35 +215,18 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
   }, [postDetail]);
 
   const MetaData = () => {
-    if (postDetail?.post?.metadata?.length) {
-      return <MetaContent metaData={JSON.parse(postDetail?.post?.metadata?.[0]) as any} />;
-    }
-
-    if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
-      return (
-        <ModalMedia url={imageMetaData}>
-          <img
-            src={imageMetaData}
-            alt=''
-            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
-          />
-        </ModalMedia>
-      );
-    }
-
     if (siteName === 'youtube' && videoId) {
       return (
         <InView>
           {({ ref }) => (
-            <div ref={ref}>
-              <ReactPlayer
-                url={`https://www.youtube.com/embed/${videoId}?rel=0`}
-                playing={true}
-                muted={true}
-                controls={true}
-                height={300}
-                width={'100%'}
-              />
+            <div ref={ref} className='mt-4'>
+              <iframe
+                width='560'
+                height='315'
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
+                title='YouTube video player'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+              ></iframe>
             </div>
           )}
         </InView>
@@ -255,7 +237,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       return (
         <InView>
           {({ ref }) => (
-            <div ref={ref}>
+            <div ref={ref} className='mt-4'>
               <iframe
                 src={`https://player.vimeo.com/video/${videoId}`}
                 allow='encrypted-media;'
@@ -271,7 +253,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       return (
         <InView>
           {({ ref }) => (
-            <div ref={ref}>
+            <div ref={ref} className='mt-4'>
               <iframe
                 src={`https://www.tiktok.com/embed/${videoId}`}
                 allow='encrypted-media;'
@@ -280,6 +262,22 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
             </div>
           )}
         </InView>
+      );
+    }
+
+    if (postDetail?.post?.metadata?.length) {
+      return <MetaContent metaData={JSON.parse(postDetail?.post?.metadata?.[0]) as any} />;
+    }
+
+    if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
+      return (
+        <ModalMedia url={imageMetaData}>
+          <img
+            src={imageMetaData}
+            alt=''
+            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
+          />
+        </ModalMedia>
       );
     }
 

@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
-import PostItem from '@components/Explore/Search/PostItem';
 import { TYPESEARCH } from '@components/Home/service';
+import NewsFeed from '@components/Post/NewsFeed';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
@@ -75,9 +75,9 @@ const Post = ({ keyword }: { keyword: any }) => {
           </FormItem>
         </Form>
         {posts?.length > 0 ? (
-          <div className='mt-[20px] flex flex-col mobile:gap-y-[16px] desktop:mt-0 desktop:gap-y-0'>
-            {posts?.map((post: any, index: number) => {
-              return <PostItem key={index} postDetail={post} />;
+          <div className='mt-[20px]'>
+            {posts?.map((post: any) => {
+              return <NewsFeed key={`search-post-item-${post?.id}`} data={post} />;
             })}
           </div>
         ) : (

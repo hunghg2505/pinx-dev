@@ -43,7 +43,7 @@ interface IProps {
   isExplore?: boolean;
   totalComments: number;
   onNavigate?: () => void;
-  onRefreshPostDetail: (data: any) => void;
+  onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
 }
 
@@ -251,7 +251,10 @@ const NewFeedItem = (props: IProps) => {
 
               {cond3 && (
                 <>
-                  <ModalEdit postDetail={postDetail} refresh={onRefreshPostDetail}>
+                  <ModalEdit
+                    postDetail={postDetail}
+                    refresh={(newData) => onRefreshPostDetail(newData, true)}
+                  >
                     <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [border-bottom:1px_solid_#EAF4FB]'>
                       <img
                         src='/static/icons/iconEdit.svg'
