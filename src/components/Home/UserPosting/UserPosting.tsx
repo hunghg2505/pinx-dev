@@ -12,7 +12,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 const Unverify = dynamic(() => import('./UnVerify'));
-const UserPosting = ({ addPostSuccess }: any) => {
+const UserPosting = ({ onAddNewPost }: any) => {
   const { t } = useTranslation('home');
 
   const router = useRouter();
@@ -64,7 +64,7 @@ const UserPosting = ({ addPostSuccess }: any) => {
         </div>
       </div>
 
-      <ModalCompose ref={refModal} refresh={addPostSuccess} />
+      <ModalCompose ref={refModal} refresh={onAddNewPost} />
       <BaseModal ref={refModalUnVerify}>
         <Unverify close={refModalUnVerify?.current?.close} />
       </BaseModal>

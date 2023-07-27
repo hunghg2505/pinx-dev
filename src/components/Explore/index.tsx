@@ -76,7 +76,7 @@ const Explore = () => {
   const router = useRouter();
   const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
-  const { run, refresh, listNewFeed } = useGetListNewFeed();
+  const { run, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
   const { listMention } = useGetTopMentionStock();
@@ -381,13 +381,13 @@ const Explore = () => {
       <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
         <div className='hidden mobile-max:block'>
-          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
-            return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
+          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
+            return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
           })}
         </div>
         <div className='-mt-[4px] block mobile-max:hidden'>
-          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost, index: number) => {
-            return <TrendingOnnPinex key={index} data={item} id={item.id} refresh={refresh} />;
+          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
+            return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
           })}
         </div>
       </div>

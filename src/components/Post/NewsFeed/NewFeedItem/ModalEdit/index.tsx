@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useDebounceFn } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 
 import Compose from '@components/Compose';
+import { IPost } from '@components/Post/service';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
@@ -11,18 +12,16 @@ import styles from './index.module.scss';
 
 interface Iprops {
   children: any;
-  closeIcon?: boolean;
-  refresh?: () => void;
+  refresh?: (data: IPost) => void;
   postDetail: any;
-  visible: boolean;
-  onVisible: (visible: boolean) => void;
 }
 
-const ModalEdit = (props: Iprops, ref: any) => {
+const ModalEdit = (props: Iprops) => {
   const { t } = useTranslation('common');
-  const { refresh, children, postDetail, visible, onVisible: setVisible } = props;
+  const { refresh, children, postDetail } = props;
   const [value, setValue] = React.useState<any>();
   const [visibleConfirm, setVisibleConfirm] = React.useState(false);
+  const [visible, setVisible] = useState(false);
 
   const { run } = useDebounceFn(
     (value) => {
@@ -59,7 +58,6 @@ const ModalEdit = (props: Iprops, ref: any) => {
     setVisible(false);
     setValue('');
   };
-  React.useImperativeHandle(ref, () => ({ onVisible }));
 
   return (
     <>
@@ -122,4 +120,4 @@ const ModalEdit = (props: Iprops, ref: any) => {
     </>
   );
 };
-export default React.forwardRef(ModalEdit);
+export default ModalEdit;

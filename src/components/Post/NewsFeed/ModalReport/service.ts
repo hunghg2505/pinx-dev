@@ -7,7 +7,7 @@ export enum TYPEREPORT {
   SPAM = 'SPAM',
   OTHER = 'OTHER',
 }
-export const requestReportPost = (postId: string, payload: any) => {
+export const serviceReportPost = (postId: string, payload: any) => {
   return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_REPORT_POST(postId), {
     data: payload,
   });

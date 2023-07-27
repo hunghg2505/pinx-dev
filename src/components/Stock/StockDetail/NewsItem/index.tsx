@@ -88,7 +88,7 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
         isLike={data.isLike}
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}
-        onRefreshPostDetail={onRefreshNews}
+        // onRefreshPostDetail={onRefreshNews}
         onNavigate={goToPostDetail}
       />
     </div>
