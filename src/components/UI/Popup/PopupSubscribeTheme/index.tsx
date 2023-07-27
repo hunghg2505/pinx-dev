@@ -24,7 +24,7 @@ interface IProps {
 
 const PopupSubsribeTheme = (props: IProps) => {
   const { t } = useTranslation();
-  const { visible } = props;
+  const { visible, onRefreshActivities } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const [popupThemeData] = useAtom(popupThemeDataAtom);
   const [, setPopupStatus] = useAtom(popupStatusAtom);
@@ -32,8 +32,9 @@ const PopupSubsribeTheme = (props: IProps) => {
   const [form] = Form.useForm();
 
   const requestShareThemeActivity = useShareThemeActivity({
-    onSuccess: () => {
-      // onRefreshActivities && onRefreshActivities();
+    onSuccess: async () => {
+      onRefreshActivities && onRefreshActivities();
+      toast(() => <Notification type='success' message={t('share_subscribe_theme_success')} />);
       handleClose();
     },
     onError(e: any) {

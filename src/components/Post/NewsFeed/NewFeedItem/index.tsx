@@ -329,7 +329,7 @@ const NewFeedItem = (props: IProps) => {
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
           className='flex w-full flex-1 justify-between'
         >
-          <div className='flex cursor-pointer flex-row items-center'>
+          <div className='flex cursor-pointer flex-row items-center flex-1'>
             <div
               ref={refHover}
               className={classNames('relative', {
@@ -357,9 +357,9 @@ const NewFeedItem = (props: IProps) => {
               </Fade>
             </div>
 
-            <div>
+            <div className='flex-1'>
               <div className='flex'>
-                <div className='mr-[5px] flex items-center'>
+                <div className='mr-[5px] flex items-center flex-1'>
                   <UserName postDetail={postDetail} />
 
                   {postDetail?.post?.customerInfo?.isFeatureProfile && (
