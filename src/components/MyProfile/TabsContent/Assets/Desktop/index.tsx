@@ -7,7 +7,7 @@ import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='flex  w-full flex-wrap tablet:flex-nowrap justify-center gap-[56px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center'>
+    <div className='flex  w-full flex-wrap justify-center gap-[56px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap'>
       <img
         src={'/static/images/rocket.png'}
         height={433}
@@ -24,14 +24,14 @@ const Mobile = () => {
             <img
               src={'/static/images/googleplay.png'}
               alt="Don't have any result"
-              className=' mb-[12px] h-[30px] w-[106px] object-contain '
+              className=' h-[30px] w-[106px] object-contain '
               onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
             />
 
             <img
               src={'/static/images/appstore.png'}
               alt="Don't have any result"
-              className=' mb-[12px] h-[30px] w-[106px] object-contain '
+              className=' h-[30px] w-[106px] object-contain '
               onClick={() => window.open(APP_STORE_DOWNLOAD)}
             />
           </div>
