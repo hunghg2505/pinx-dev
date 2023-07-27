@@ -7,7 +7,6 @@ import request from 'umi-request';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import Notification from '@components/UI/Notification';
-import { ROUTE_PATH } from '@utils/common';
 
 export const useUpdateUserProfile = () => {
   const { t } = useTranslation('editProfile');
@@ -21,7 +20,7 @@ export const useUpdateUserProfile = () => {
     {
       manual: true,
       onSuccess: () => {
-        router.push(ROUTE_PATH.MY_PROFILE);
+        router.back();
         toast(() => <Notification type='success' message={t('upload_profile_success')} />);
       },
       onError: () => {

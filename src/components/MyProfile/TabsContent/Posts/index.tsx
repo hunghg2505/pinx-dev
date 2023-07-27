@@ -12,7 +12,7 @@ const Posts = () => {
     hasNext: boolean;
     notFound: boolean;
   }>({
-    pages: [],
+    pages: ['1'],
     last: '',
     hasNext: true,
     notFound: false,
@@ -22,18 +22,18 @@ const Posts = () => {
       setState((prev) => ({ ...prev, pages: [...prev.pages, prev.last], hasNext: false }));
     }
   });
-
+  console.log(state);
   return (
     <div>
-      <Page setState={state.pages.length === 0 ? setState : () => {}} />
+      {/* <Page setState={state?.pages?.length === 0 ? setState : () => {}} /> */}
       {state.pages?.map((page, index) => {
         if (index === state.pages.length - 1) {
-          return <Page last={page} key={page} setState={setState} />;
+          return <Page last={page} key={state.last+page} setState={setState} />;
         }
-        return <Page last={page} key={page} />;
+        return <Page last={page} key={state.last+page} />;
       })}
       <div ref={lastElementRef}></div>
-      {state.notFound && <NotFound />}
+      {state.notFound && <NotFound setState={setState} />}
     </div>
   );
 };
