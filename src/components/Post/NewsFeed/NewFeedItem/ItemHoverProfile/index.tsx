@@ -36,7 +36,6 @@ const ItemHoverProfile = (props: IProps) => {
             <AvatarDefault name={name} />
           </div>
         )}
-
         <div className='my-[4px] w-full flex-1'>
           <Text type='body-16-semibold' color='neutral-1'>
             {profileOtherUser?.displayName}

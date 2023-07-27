@@ -43,7 +43,7 @@ export const UserName = ({ postDetail }: any) => {
   }, []);
 
   return (
-    <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px]'>
+    <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px] truncate flex-1 w-[5em]'>
       {name}
     </Text>
   );
