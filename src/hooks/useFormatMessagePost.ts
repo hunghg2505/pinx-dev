@@ -12,7 +12,7 @@ export const useFormatMessagePost = (message: string) => {
 
     const newMessage = formatMessagePost(message);
     setMessageFormat(newMessage);
-  }, []);
+  }, [message]);
 
   return messageFormat;
 };

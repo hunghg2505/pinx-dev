@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
@@ -14,7 +14,7 @@ const Page = ({
   setState?: (totalPages: any) => void;
 }) => {
   const profileUser = useContext<any>(profileUserContext);
-  const { data, refresh } = useGetPost(
+  const { data } = useGetPost(
     profileUser.id,
     {
       onSuccess: (res: any) => {
@@ -22,7 +22,7 @@ const Page = ({
           ...prev,
           last: res?.data?.last,
           hasNext: res?.data?.hasNext,
-          notFound: res.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
+          notFound: res?.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
         }));
       },
     },
@@ -30,19 +30,10 @@ const Page = ({
   );
   return (
     <>
-      {data?.data?.list?.map((item: IPost, index: number) => {
-        return (
-          <NewsFeed
-            key={index}
-            data={item}
-            id={item.id}
-            refresh={() => {
-              refresh();
-            }}
-          />
-        );
+      {data?.data?.list?.map((item: IPost) => {
+        return <NewsFeed key={`data-post-${item.id}`} data={item} />;
       })}
     </>
   );
 };
-export default Page;
+export default memo(Page);

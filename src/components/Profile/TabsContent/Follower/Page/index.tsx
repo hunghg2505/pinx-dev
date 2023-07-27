@@ -22,7 +22,6 @@ const Page = ({
         totalPages: res?.totalPages,
         notFound: page === 1 && !res?.data?.length,
       }));
-      profileUser.reload();
     },
   });
 
@@ -31,7 +30,13 @@ const Page = ({
       {data?.data?.map((item: any) => {
         return (
           <div key={item.id}>
-            <UserFolowDesktop {...item} refresh={refresh} />
+            <UserFolowDesktop
+              {...item}
+              refresh={() => {
+                refresh();
+                profileUser.reload();
+              }}
+            />
           </div>
         );
       })}

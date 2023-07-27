@@ -145,7 +145,7 @@ export const TypePostOnlyReportAction = [
   TYPEPOST.CafeFNews,
 ];
 
-const getPostDetail = async (postId: string) => {
+export const getPostDetail = async (postId: string) => {
   return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };
 
