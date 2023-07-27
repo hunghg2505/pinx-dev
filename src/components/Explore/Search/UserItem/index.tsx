@@ -22,18 +22,18 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 interface Iprops {
   data: ISuggestionPeople;
   reload?: () => void;
-  refreshList?: () => void;
 }
-const PeopleItem = (props: Iprops) => {
-  const { data, reload, refreshList } = props;
+const UserItem = (props: Iprops) => {
+  const { data, reload } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  // const [isFollow, setIsFollow] = React.useState<boolean>(false);
-  const isFollow = data?.isFollowed;
+  const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
-
+  React.useEffect(() => {
+    setIsFollow(data?.isFollowed);
+  }, [data?.isFollowed]);
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);
@@ -41,9 +41,8 @@ const PeopleItem = (props: Iprops) => {
     {
       manual: true,
       onSuccess: () => {
-        // setIsFollow(true);
+        setIsFollow(true);
         reload && reload();
-        refreshList && refreshList();
         // refreshList();
       },
       onError: (e: any) => {
@@ -58,7 +57,7 @@ const PeopleItem = (props: Iprops) => {
     {
       manual: true,
       onSuccess: () => {
-        // setIsFollow(false);
+        setIsFollow(false);
         reload && reload();
         // refreshList();
       },
@@ -69,7 +68,7 @@ const PeopleItem = (props: Iprops) => {
   );
   const onFollow = (id: number) => {
     if (isLogin) {
-      if (data.isFollowed) {
+      if (isFollow) {
         useUnFollowUser.run(id);
       } else {
         useFollowUser.run(id);
@@ -152,4 +151,4 @@ const PeopleItem = (props: Iprops) => {
     </div>
   );
 };
-export default PeopleItem;
+export default UserItem;

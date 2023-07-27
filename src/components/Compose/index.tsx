@@ -22,12 +22,13 @@ import { ImageTheme } from '@components/Compose/ImageTheme';
 import { ListTheme } from '@components/Compose/ListTheme';
 import { Metatags } from '@components/Compose/Metatags';
 import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
+import { getMetaData } from '@components/Compose/ModalAddLink/service';
 import { UploadImage } from '@components/Compose/UploadImage';
 import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
-import IconHashTag from '@components/UI/Icon/IconHashTag';
+// import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
@@ -35,7 +36,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { base64ToBlob, formatMessage, isImage, toBase64 } from '@utils/common';
+import { base64ToBlob, formatMessage, getMeta, isImage, toBase64 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -56,6 +57,7 @@ interface IData {
   tagStocks: any;
   urlImages?: string[];
   urlLinks?: any;
+  metadata?: string[];
 }
 
 type TMeta = Array<{
@@ -70,8 +72,6 @@ const Compose = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
 
-  const urlLinkInitial = postDetail?.post?.urlLinks?.[0] || '';
-
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -79,7 +79,16 @@ const Compose = (props: IProps) => {
 
   const isUpdateActivities = isUpdate && postType === 'ActivityTheme';
 
-  const [metaData, setMetaData] = useState<TMeta | null>();
+  // @ts-ignore
+  const [metaData, setMetaData] = useState<TMeta | null>(() => {
+    // Link đầu tiên trong editor
+    if (postDetail?.post?.metadata?.length) {
+      return JSON.parse(postDetail?.post?.metadata?.[0]);
+    }
+
+    // Link khi gắn link
+    return undefined;
+  });
 
   const themeActive = bgTheme?.find((item) => item.code === 'default');
 
@@ -192,7 +201,7 @@ const Compose = (props: IProps) => {
       extensions: [
         StarterKit,
         Placeholder.configure({
-          placeholder: t('home:create_post_placeholder'),
+          placeholder: t('common:create_post_placeholder'),
           emptyEditorClass: 'is-editor-empty',
         }),
         Mention.extend({
@@ -267,34 +276,6 @@ const Compose = (props: IProps) => {
               });
 
               return data?.data?.companies;
-            },
-          },
-        }),
-        Mention.extend({
-          name: 'hashTag',
-        }).configure({
-          HTMLAttributes: {
-            class: 'hashTag text-[14px] font-semibold leading-[18px]',
-          },
-          renderLabel({ options, node }) {
-            return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
-          },
-          suggestion: {
-            ...Suggestion,
-            pluginKey: new PluginKey('hashTag'),
-            char: '#',
-            items: async ({ query }: { query: string }) => {
-              const data = await privateRequest(
-                requestCommunity.post,
-                API_PATH.PRIVATE_HASHTAG_SUGGEST,
-                {
-                  data: {
-                    keyword: query,
-                  },
-                },
-              );
-
-              return data?.data?.list;
             },
           },
         }),
@@ -382,9 +363,7 @@ const Compose = (props: IProps) => {
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
 
       const urlLinks = [];
-      if (urlLinkInitial) {
-        urlLinks.push(urlLinkInitial);
-      }
+
       if (url) {
         urlLinks.push(url);
       }
@@ -462,7 +441,23 @@ const Compose = (props: IProps) => {
         urlImages: [imageUploadedUrl],
         urlLinks,
       };
-      console.log('data', data);
+
+      if (urlLinks?.length && !metaData?.length) {
+        const dataSeo = await getMetaData(urlLinks[0]);
+
+        if (dataSeo?.length) {
+          data.metadata = [JSON.stringify(dataSeo)];
+        }
+      }
+
+      if (metaData?.length) {
+        data.metadata = [JSON.stringify(metaData)];
+      }
+
+      if (!urlLinks?.length && !metaData?.length) {
+        delete data.metadata;
+      }
+
       if (themeActiveId === 'default' && !isUpdate) {
         delete data?.postThemeId;
       }
@@ -478,7 +473,7 @@ const Compose = (props: IProps) => {
 
       // hide when > 240 characters
       if (!hiddenThemeSelected) {
-        data.postThemeId = 'default';
+        data.postThemeId = '';
       }
 
       if (message?.toLowerCase()?.includes('script')) {
@@ -535,15 +530,15 @@ const Compose = (props: IProps) => {
     }
   };
 
-  const onAddHashTag = () => {
-    editor?.commands?.focus('end');
-    const text = editor?.getText();
-    if (text) {
-      editor?.commands?.insertContent(' #');
-    } else {
-      editor?.commands?.insertContent('#');
-    }
-  };
+  // const onAddHashTag = () => {
+  //   editor?.commands?.focus('end');
+  //   const text = editor?.getText();
+  //   if (text) {
+  //     editor?.commands?.insertContent(' #');
+  //   } else {
+  //     editor?.commands?.insertContent('#');
+  //   }
+  // };
 
   const getStyles = () => {
     if (!hiddenThemeSelected && themeSelected?.textAlign) {
@@ -594,11 +589,7 @@ const Compose = (props: IProps) => {
         </Fade>
 
         <Fade visible={!themeSelected?.id}>
-          <ModalAddLink
-            isUpdateActivities={isUpdateActivities}
-            getDataOG={getDataOG}
-            urlLinkInitial={urlLinkInitial}
-          />
+          <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
         </Fade>
       </>
     );
@@ -706,12 +697,12 @@ const Compose = (props: IProps) => {
             <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
           </div>
 
-          <div
+          {/* <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddHashTag}
           >
             <IconHashTag />
-          </div>
+          </div> */}
 
           <UploadAndAddLink />
         </div>

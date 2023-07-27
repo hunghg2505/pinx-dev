@@ -18,13 +18,14 @@ import { ROUTE_PATH, formatMessage } from '@utils/common';
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
+  pinned?: boolean;
 }
 
 const IMAGE_COMPANY_URL = 'https://static.pinetree.com.vn/upload/images/companies/';
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
-  const { postDetail, onNavigate } = props;
+  const { postDetail, onNavigate, pinned } = props;
   const [readMore, setReadMore] = useState(false);
 
   const [height, setHeight] = useState<number>(0);
@@ -195,6 +196,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        pinned={pinned}
       />
     );
   }
@@ -209,6 +211,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        pinned={pinned}
       />
     );
   }

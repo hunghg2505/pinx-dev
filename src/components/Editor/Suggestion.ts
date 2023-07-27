@@ -31,7 +31,7 @@ export default {
       },
 
       onUpdate(props: any) {
-        component.updateProps(props);
+        component?.updateProps(props);
 
         if (!props.clientRect) {
           return;

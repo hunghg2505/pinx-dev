@@ -167,9 +167,7 @@ const ModalLoginTerms = (props: IProps) => {
           ))}
         </div>
         <Text type='body-12-regular' className='mt-2 text-center'>
-          {userType === 'VSD'
-            ? '(!) Please confirm before July 22, 2023. After the above period, the online trading feature will be discontinued due to limitations on data processing transactions.'
-            : 'You need to agree to continue using the services'}
+          {userType === 'VSD' ? `(!) ${t('degree_13_note_1')}` : t('degree_13_note_2')}
         </Text>
         <div className='mt-12'>
           <a className='w-full' href={PHONE_CONTACT_SUPPORT}>
@@ -181,7 +179,7 @@ const ModalLoginTerms = (props: IProps) => {
                 height='0'
                 className='mr-2 h-[20px] w-[20px]'
               />
-              {isMobile && 'Contact support'}
+              {isMobile && t('contact_support')}
               {isDesktop && '024 6282 3535'}
             </RoundButton>
           </a>

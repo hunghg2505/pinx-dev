@@ -66,7 +66,7 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const Explore = () => {
-  const { t } = useTranslation('theme');
+  const { t } = useTranslation(['theme', 'explore']);
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
   const refSlideTheme: any = React.useRef();
@@ -203,7 +203,7 @@ const Explore = () => {
           <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
             <PeopleList data={suggestionPeople} refresh={refreshList} />
           </div>
-          <ModalPeopleYouKnow>
+          <ModalPeopleYouKnow refreshList={refreshList}>
             <ExploreButton>
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_people')}
@@ -331,7 +331,7 @@ const Explore = () => {
         <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlidePinex}>
             {optionTab?.map((item: any, index: number) => (
-              <PinexTop label={item.label} value={item.value} key={index} />
+              <PinexTop label={t(`explore:${item.label}`)} value={item.value} key={index} />
             ))}
           </Slider>
         </div>
