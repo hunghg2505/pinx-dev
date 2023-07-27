@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
@@ -10,6 +11,7 @@ import { privateRequest, requestPist } from '@api/request';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
+import styles from './index.module.scss';
 import ItemStock from './ItemStock';
 import WatchListDesktop from './WatchListDesktop';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from '../service';
@@ -78,6 +80,7 @@ const WatchList = () => {
   const onAddStock = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
   };
+  console.log('xxx dataStock', dataStock.slice(0, 5));
   return (
     <>
       <div className='mt-[22px] h-[179px] max-w-[700px] justify-center overflow-hidden mobile:block  tablet:hidden '>
@@ -85,8 +88,9 @@ const WatchList = () => {
           <div>
             <Slider
               {...settings}
-              className='mx-[auto] my-[0] flex w-[calc(100%_-_32px)]'
+              className={classNames('mx-[auto] my-[0] flex w-[calc(100%_-_32px)]', styles.watchListSlick)}
               variableWidth
+
             >
               {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
                 return <ItemStock key={index} data={item} />;
