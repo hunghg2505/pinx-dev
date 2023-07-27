@@ -122,7 +122,7 @@ const Profile = () => {
                 {t('joined_since')}
                 <span className='text-[12px] font-[600] text-neutral_black'>
                   {' '}
-                  {dayjs(userLoginInfo?.openDate).format('YYYY')}
+                  {userLoginInfo?.openDate && dayjs(userLoginInfo?.openDate).format('YYYY')}
                 </span>
               </div>
 
