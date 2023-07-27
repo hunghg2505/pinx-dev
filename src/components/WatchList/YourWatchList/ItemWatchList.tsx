@@ -72,11 +72,11 @@ const ItemWatchList = ({
           <Text
             type='body-12-regular'
             className={classNames({
-              'max-w-[155px] text-[#474D57]': isEdit,
-              'max-w-[155px] text-[#999] ': !isEdit,
+              'text-[#474D57]': isEdit,
+              'text-[#999]': !isEdit,
             })}
           >
-            {data?.shortName}
+            {data?.name}
           </Text>
         </div>
       </div>

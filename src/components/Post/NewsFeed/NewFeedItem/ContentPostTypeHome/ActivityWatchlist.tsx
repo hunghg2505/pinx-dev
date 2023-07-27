@@ -108,7 +108,7 @@ export const ActivityWatchlist = ({
                 color='neutral-3'
                 className='mb-[2px] mt-[12px] desktop:mt-[19px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
-                Made on PineX
+                {t('made_on_pinex')}
               </Text>
               <Text
                 type='body-12-medium'

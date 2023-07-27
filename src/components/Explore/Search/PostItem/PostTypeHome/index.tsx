@@ -362,7 +362,7 @@ const PostTypeHome = (props: IProps) => {
                     { 'mt-[24px]': postDetail?.post?.type === 'BUY' },
                   )}
                 >
-                  {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
+                  {postDetail?.post?.type === 'BUY' ? t('bought') : t('sell')}
                 </Text>
                 {postDetail?.post?.type === 'SELL' && (
                   <Text

@@ -145,7 +145,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                   color='primary-5'
                   className='mobile:mt-[27px] tablet:mt-[45px] tablet:!text-[20px]'
                 >
-                  {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
+                  {postDetail?.post.action === 'SUBSCRIBE' ? t('subscribe') : t('unsubscribe')}
                 </Text>
                 <Text
                   type='body-12-bold'
@@ -382,7 +382,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 color='neutral-3'
                 className='mb-[2px] mt-[12px] desktop:mt-[19px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
-                Made on PineX
+                {t('made_on_pinex')}
               </Text>
               <Text
                 type='body-12-medium'
@@ -463,7 +463,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                   { '!mt-[24px]': postDetail?.post?.type === 'BUY' },
                 )}
               >
-                {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
+                {postDetail?.post?.type === 'BUY' ? t('bought') : t('sell')}
               </Text>
               {postDetail?.post?.type === 'SELL' && (
                 <Text
@@ -482,7 +482,7 @@ const ContentPostTypeDetail = (props: IProps) => {
                 color='neutral-3'
                 className='mb-[2px] mt-[10px] desktop:mt-[24px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
-                Made on PineX
+                {t('made_on_pinex')}
               </Text>
               <Text
                 type='body-12-medium'

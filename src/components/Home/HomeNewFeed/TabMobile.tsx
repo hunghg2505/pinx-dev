@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import { useAuth } from '@store/auth/useAuth';
 
+import styles from './index.module.scss';
 import Market from '../Market';
 import WatchList from '../WatchList';
 
@@ -17,7 +19,12 @@ const TabMobile = ({ selectTab, onChangeTab }: IPropsTabMobile) => {
 
   return (
     <>
-      <Tabs defaultActiveKey='2' activeKey={selectTab} className='tabHome' onChange={onChangeTab}>
+      <Tabs
+        defaultActiveKey='2'
+        activeKey={selectTab}
+        className={classNames('tabHome', styles.tabMobile)}
+        onChange={onChangeTab}
+      >
         {isLogin && (
           <TabPane tab={t('user_watchlist')} key='1'>
             <WatchList />
