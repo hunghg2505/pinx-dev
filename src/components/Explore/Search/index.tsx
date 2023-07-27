@@ -132,7 +132,7 @@ const Search = (props: any, ref: any) => {
               {isLogin && (
                 <>
                   <Text type='body-14-semibold' color='neutral-black'>
-                    Recent
+                    {t('common:recent')}
                   </Text>
                   <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px]'>
                     {listRecent?.slice(0, 5)?.map((item: any, index: number) => {

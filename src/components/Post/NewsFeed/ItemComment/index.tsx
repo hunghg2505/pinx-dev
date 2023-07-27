@@ -64,12 +64,7 @@ const ItemComment = (props: IProps) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE && isPostDetailPath) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         setPopupStatus({ ...popupStatus, popupEkyc: true });
       } else if (onNavigate) {
@@ -108,10 +103,7 @@ const ItemComment = (props: IProps) => {
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         }
       },
@@ -130,10 +122,7 @@ const ItemComment = (props: IProps) => {
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         }
       },
@@ -142,12 +131,7 @@ const ItemComment = (props: IProps) => {
   const onLike = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser !== USERTYPE.VSD) {
         setPopupStatus({ ...popupStatus, popupEkyc: true });
       } else if (isLike) {

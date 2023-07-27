@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
@@ -124,6 +125,7 @@ const convertFinancialIndexData = (data?: IFinancialIndex) => {
 };
 
 const StockDetail = () => {
+  const { t } = useTranslation();
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
@@ -230,12 +232,7 @@ const StockDetail = () => {
   const checkUserTypeReview = (callback: () => void) => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser === USERTYPE.VSD) {
         callback();
       } else {

@@ -38,7 +38,7 @@ const ForgotPasswordStepOne = () => {
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
       router.push(ROUTE_PATH.LOGIN);
-      toast(() => <Notification type='success' message='Password request is successful' />);
+      toast(() => <Notification type='success' message={t('request_password_msg')} />);
     },
     onError(e: any) {
       toast(() => <Notification type='error' message={e?.error} />);
