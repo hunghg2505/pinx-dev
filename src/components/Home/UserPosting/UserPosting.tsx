@@ -53,7 +53,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
             />
           )}
 
-          <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+          <Text type='body-16-semibold' className='truncate max-w-[calc(100%-100px)] w-full flex-1'>{userLoginInfo?.displayName}</Text>
         </div>
         <div className='mt-[5px] pl-[61px]'>
           <textarea
