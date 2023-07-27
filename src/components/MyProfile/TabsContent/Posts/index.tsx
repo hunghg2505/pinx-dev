@@ -8,7 +8,7 @@ import NotFound from './NotFound';
 import useLoadMore from './useLoadMore';
 
 const Posts = () => {
-  const { data, refresh, run, loading } = useGetMYPost();
+  const { data, run, loading } = useGetMYPost();
 
   const { lastElementRef } = useLoadMore(data, loading, run);
 
@@ -19,28 +19,13 @@ const Posts = () => {
       {data?.list?.map((item: IPost, index: number) => {
         if (index === data?.list.length - 1) {
           return (
-            <div ref={lastElementRef} key={index}>
-              <NewsFeed
-                key={index}
-                data={item}
-                id={item.id}
-                refresh={() => {
-                  refresh();
-                }}
-              />
+            <div ref={lastElementRef} key={`my-post-${item.id}`}>
+              <NewsFeed data={item} />
             </div>
           );
         }
-        return (
-          <NewsFeed
-            key={index}
-            data={item}
-            id={item.id}
-            refresh={() => {
-              refresh();
-            }}
-          />
-        );
+
+        return <NewsFeed key={`my-post-${item.id}`} data={item} />;
       })}
     </div>
   );

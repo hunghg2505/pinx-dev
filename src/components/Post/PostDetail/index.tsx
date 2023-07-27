@@ -85,6 +85,7 @@ const PostDetail = () => {
     }
     setWidth(ele?.offsetWidth);
   };
+
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
 
@@ -96,6 +97,7 @@ const PostDetail = () => {
       refSubReplies?.current?.onComment(value, customerId, id);
     }
   };
+
   const getSubComment = (payload: IComment[]) => {
     if (payload.length > 0) {
       return (
