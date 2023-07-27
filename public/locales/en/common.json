@@ -210,5 +210,6 @@
   "post_create_success_msg": "Post is created successfully",
   "sell": "Sell",
   "bought": "Bought",
-  "share_subscribe_theme_success": "You have successfully share"
+  "share_subscribe_theme_success": "You have successfully share",
+  "create_post_placeholder": "Use % to mention a stock, # to hashtag an article, @ to mention someone else"
 }

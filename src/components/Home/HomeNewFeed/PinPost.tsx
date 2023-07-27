@@ -26,7 +26,14 @@ const PinPost = ({ refresh, pinPostDataInitial }: any) => {
   return (
     <>
       {data?.map((item: IPost) => {
-        return <NewsFeed data={item} key={`pined-post-${item.id}`} pinned={true} />;
+        return (
+          <NewsFeed
+            data={item}
+            key={`pined-post-${item.id}`}
+            pinned={true}
+            onRefreshList={onRefresh}
+          />
+        );
       })}
     </>
   );

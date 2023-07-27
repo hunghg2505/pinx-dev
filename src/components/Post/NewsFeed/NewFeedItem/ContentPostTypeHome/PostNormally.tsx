@@ -8,6 +8,7 @@ import { InView } from 'react-intersection-observer';
 import ReactPlayer from 'react-player';
 
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -53,10 +54,14 @@ const Content = memo(({ postDetail, onComment }: any) => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
 
       if (ele?.clientHeight) {
-        setShowReadMore(ele?.clientHeight > 76);
+        if (window.innerWidth > 768) {
+          setShowReadMore(ele?.clientHeight > 76);
+        } else {
+          setShowReadMore(ele?.clientHeight > 74);
+        }
       }
       clearTimeout(t);
-    }, 300);
+    }, 400);
   }, []);
 
   const PostContent = () => {
@@ -90,8 +95,8 @@ const Content = memo(({ postDetail, onComment }: any) => {
       return (
         <div
           id={`post-content-${postDetail.id}`}
-          className={classNames(' mb-3', {
-            'h-[76px] overflow-hidden': showReadMore,
+          className={classNames('', {
+            'h-[74px] overflow-hidden desktop:h-[76px]': showReadMore,
             '!h-auto': readMore,
           })}
         >
@@ -137,6 +142,62 @@ const Content = memo(({ postDetail, onComment }: any) => {
   );
 });
 
+const MetaContent = ({ metaData }: any) => {
+  const data = useMemo(() => {
+    if (!metaData?.length) {
+      return;
+    }
+
+    const url = metaData?.find((it: any) => it?.property === 'og:url')?.content;
+    const imageUrl = metaData?.find((it: any) => it?.property === 'og:image')?.content;
+    const title = metaData?.find((it: any) => it?.property === 'og:title')?.content;
+    const description = metaData?.find((it: any) => it?.property === 'og:description')?.content;
+
+    return {
+      url,
+      imageUrl,
+      title,
+      description,
+    };
+  }, [metaData]);
+
+  if (!data) {
+    return <></>;
+  }
+
+  const { url, imageUrl, title, description } = data;
+
+  return (
+    <CustomLink href={`/redirecting?url=${url}`}>
+      <div className='relative'>
+        <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
+          {imageUrl && <img src={imageUrl} alt='' className='h-[200px] w-full object-cover' />}
+
+          <div className='bg-[#EBEBEB] p-[10px]'>
+            {url && (
+              <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
+                {url}
+              </Text>
+            )}
+
+            {title && (
+              <Text type='body-16-medium' color='cbblack' className='my-[8px] text-left'>
+                {title}
+              </Text>
+            )}
+
+            {description && (
+              <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
+                {description}
+              </Text>
+            )}
+          </div>
+        </div>
+      </div>
+    </CustomLink>
+  );
+};
+
 export const PostNormally = ({ postDetail, onComment }: any) => {
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
@@ -155,6 +216,10 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
   }, [postDetail]);
 
   const MetaData = () => {
+    if (postDetail?.post?.metadata?.length) {
+      return <MetaContent metaData={JSON.parse(postDetail?.post?.metadata?.[0]) as any} />;
+    }
+
     if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
       return (
         <ModalMedia url={imageMetaData}>
