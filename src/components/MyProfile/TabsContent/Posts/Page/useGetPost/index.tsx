@@ -15,7 +15,7 @@ export const useGetMYPost = (config?: any, last?: string | null) => {
       });
     },
     {
-      ...config,
+      ...config,      
     },
   );
 };

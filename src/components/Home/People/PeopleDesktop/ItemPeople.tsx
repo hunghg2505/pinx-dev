@@ -14,17 +14,19 @@ import {
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
   refreshList?: () => void;
-}
+} 
 const ItemPeople = (props: IProps) => {
   const { t } = useTranslation('common');
   const { data, refreshList } = props;
   const isFollow = data?.isFollowed;
   const router = useRouter();
+  const { userLoginInfo, setUserLoginInfo } = useUserLoginInfo();
   // const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(
     (id: number) => {
@@ -34,6 +36,10 @@ const ItemPeople = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         // setIsFollow(true);
+        setUserLoginInfo({
+          ...userLoginInfo,
+          totalFollowing: Number(userLoginInfo?.totalFollowing) + 1,
+        });
         refreshList && refreshList();
       },
       onError: (e: any) => {
@@ -48,7 +54,10 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        // setIsFollow(false);
+        setUserLoginInfo({
+          ...userLoginInfo,
+          totalFollowing: Number(userLoginInfo?.totalFollowing) + 1,
+        });
         refreshList && refreshList();
       },
       onError: (e: any) => {
