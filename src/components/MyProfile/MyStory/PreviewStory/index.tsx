@@ -10,7 +10,7 @@ const PreViewStory = ({ openStory }: { openStory: () => void }) => {
   return (
     <div className='relative rounded-[8px] bg-primary_blue_light px-[16px] py-[12px]'>
       <span className='absolute bottom-[100%] left-[28px] h-0 w-[24px] border-b-[12px] border-l-[12px] border-r-[12px] border-t-0 border-solid border-primary_blue_light border-l-[transparent] border-r-[transparent]'></span>
-      <pre className='mb-[13px] line-clamp-2 w-full text-[12px]'>{profileUser?.caption}</pre>
+      <p className='mb-[13px] line-clamp-2 w-full text-[12px] whitespace-pre-line'>{profileUser?.caption}</p>
       <button className='flex items-center text-[12px]' onClick={openStory}>
         <span className='text-[12px] font-[600] text-primary_blue'>{t('my_story')}</span>
         <svg

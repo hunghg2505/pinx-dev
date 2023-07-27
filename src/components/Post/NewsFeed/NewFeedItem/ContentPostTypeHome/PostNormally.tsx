@@ -167,7 +167,7 @@ const MetaContent = ({ metaData }: any) => {
   const { url, imageUrl, title, description } = data;
 
   return (
-    <CustomLink href={`/redirecting?url=${url}`} className='mt-4'>
+    <CustomLink href={`/redirecting?url=${url}`} className='mt-4 block'>
       <div className='relative'>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && <img src={imageUrl} alt='' className='h-[200px] w-full object-cover' />}
@@ -221,11 +221,13 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
           {({ ref }) => (
             <div ref={ref} className='mt-4'>
               <iframe
-                width='560'
-                height='315'
+                className='iframe-placeholder h-[345px] w-full'
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                onLoad={() => {
+                  console.log('onLoad');
+                }}
               ></iframe>
             </div>
           )}
@@ -257,7 +259,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
               <iframe
                 src={`https://www.tiktok.com/embed/${videoId}`}
                 allow='encrypted-media;'
-                className='h-[740px] w-full'
+                className='h-[740px] !w-full '
               ></iframe>
             </div>
           )}
@@ -275,7 +277,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
           <img
             src={imageMetaData}
             alt=''
-            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
+            className='my-[10px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
           />
         </ModalMedia>
       );
@@ -291,7 +293,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
           <img
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
-            className='mb-5 mt-[6px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
+            className='my-[10px]  max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
           />
         </ModalMedia>
       );

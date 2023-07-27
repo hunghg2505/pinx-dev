@@ -39,17 +39,17 @@ const Mobile = () => {
         }}
       >
         <TabPane tab={t('posts')} key='post'>
-          <div className='px-[16px] tablet:px-0'>
+          <div>
             <Posts />
           </div>
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
-          <div className='px-[16px] tablet:px-0'>
+          <div>
             <WatchList />
           </div>
         </TabPane>
         <TabPane
-          className='px-[16px]'
+          className='px-[10px]'
           tab={<div className='flex justify-center'>{t('assets')}</div>}
           key='assets'
         >
