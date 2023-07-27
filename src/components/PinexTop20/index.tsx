@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Tabs, { TabsEnum } from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
@@ -13,28 +14,29 @@ import Revenue from './Revenue';
 
 export const optionTab = [
   {
-    label: 'Profit',
+    label: 'top_20_tab.profit',
     value: TabsEnum.Profit,
   },
   {
-    label: 'Revenue',
+    label: 'top_20_tab.revenue',
     value: TabsEnum.Revenue,
   },
   {
-    label: 'Market Capitalization',
+    label: 'top_20_tab.market_capitalization',
     value: TabsEnum.MarketCapitalization,
   },
   {
-    label: 'Price',
+    label: 'top_20_tab.price',
     value: TabsEnum.Price,
   },
   {
-    label: 'Change In Price 1Y',
+    label: 'top_20_tab.change_in_price_1y',
     value: TabsEnum.ChangeInPrice1Y,
   },
 ];
 
 const PinexTop20 = () => {
+  const { t } = useTranslation(['explore', 'theme']);
   const router = useRouter();
   const type: any = router?.query?.type;
   const [selectTab, setSelectTab] = React.useState<TabsEnum>(type || TabsEnum.Profit);
@@ -77,14 +79,14 @@ const PinexTop20 = () => {
           onClick={onGoBack}
         />
         <Text type='body-20-semibold' color='neutral-1' className='mobile:hidden tablet:block'>
-          PineX top 20
+          {t('theme:pinex_top_20')}
         </Text>
       </div>
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
       <div className='mobile:mt-[45px] tablet:mt-0'>
         <Tabs
           onChange={onChangeTab}
-          contenTab={optionTab}
+          contenTab={optionTab.map((item) => ({ ...item, label: t(item.label) }))}
           defaultTab={TabsEnum.Profit}
           currentTab={selectTab}
         />
