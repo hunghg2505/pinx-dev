@@ -161,18 +161,6 @@ const WatchList = () => {
           itemDelete={itemDelete}
           setItemDelete={setItemDelete}
         />
-        {isEdit && (
-          <ModalAddStock
-            refreshYourWatchList={refreshYourWatchList}
-            dataStock={dataStock}
-            yourWatchListStock={yourWatchListStock}
-          >
-            <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
-            <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-              {t('addTxt')}
-            </Text>
-          </ModalAddStock>
-        )}
       </div>
       <Interest
         isEdit={isEdit}
@@ -181,6 +169,17 @@ const WatchList = () => {
         refreshYourWatchList={refreshYourWatchList}
       />
       <Themes isEdit={isEdit} />
+      <ModalAddStock
+        isEdit={isEdit}
+        refreshYourWatchList={refreshYourWatchList}
+        dataStock={dataStock}
+        yourWatchListStock={yourWatchListStock}
+      >
+        <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+        <Text type='body-14-semibold' className='text-[#1F6EAC]'>
+          {t('addTxt')}
+        </Text>
+      </ModalAddStock>
     </div>
   );
 };
