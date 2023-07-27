@@ -1,11 +1,41 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
+
+import CustomLink from '@components/UI/CustomLink';
+import Text from '@components/UI/Text';
+
 const MainHeaderFake = () => {
+  const { t } = useTranslation();
+
   return (
     <>
+      <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
+        <div className='flex flex-row'>
+          <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
+          <div className='ml-[8px]'>
+            <Text type='body-14-regular' color='primary-5'>
+              {t('try_full_experience_on')}
+            </Text>
+            <CustomLink href='https://onelink.to/cgarrk'>
+              <Text type='body-14-medium' color='primary-5'>
+                {t('mobile_app')}
+              </Text>
+            </CustomLink>
+          </div>
+        </div>
+        <CustomLink href='https://onelink.to/cgarrk'>
+          <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
+            <Text type='body-14-bold' color='neutral-9'>
+              {t('open_app')}
+            </Text>
+          </div>
+        </CustomLink>
+      </div>
+
       <div className='flex h-[56px] items-center border-b-[1px] border-solid border-[#EBEBEB] bg-white px-[10px] desktop:h-[84px] desktop:px-0'>
         <div className='mx-auto flex w-[100%]  max-w-[1355px] items-center justify-between gap-[32px]'>
-          <div className='h-[36px] w-[36px] rounded-[12px] bg-[#2b77b0] desktop:h-[52px] desktop:w-[52px]'></div>
+          <div className='h-[40px] w-[40px] rounded-[12px] bg-[#2b77b0] desktop:h-[52px] desktop:w-[52px]'></div>
 
           <div className='flex items-center gap-[12px]'>
             <div className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'></div>

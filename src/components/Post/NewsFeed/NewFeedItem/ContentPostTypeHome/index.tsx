@@ -40,13 +40,18 @@ const ContentPostTypeHome = (props: IProps) => {
 
     const stockCode = postDetail.post?.stockCode;
 
-    const urlStock = `${IMAGE_COMPANY_URL}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-      }.png`;
+    const urlStock = `${IMAGE_COMPANY_URL}${
+      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+    }.png`;
 
     const iconPost =
       postDetail?.post.action === 'SUBSCRIBE'
         ? '/static/icons/iconSubcribe.svg'
         : '/static/icons/iconUnSubcribe.svg';
+    let postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail?.id);
+    if (postDetail?.postType === TYPEPOST.ActivityTheme) {
+      postDetailUrl = ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode);
+    }
 
     return {
       imageMetaData: metaData?.images?.[0],
@@ -57,7 +62,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
       urlStock,
       iconPost,
-      postDetailUrl: ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode),
+      postDetailUrl,
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);
