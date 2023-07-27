@@ -19,13 +19,14 @@ interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
   pinned?: boolean;
+  isPostDetailPath: boolean;
 }
 
 const IMAGE_COMPANY_URL = 'https://static.pinetree.com.vn/upload/images/companies/';
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
-  const { postDetail, onNavigate, pinned } = props;
+  const { postDetail, onNavigate, pinned, isPostDetailPath } = props;
   const [readMore, setReadMore] = useState(false);
 
   const [height, setHeight] = useState<number>(0);
@@ -147,6 +148,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        isPostDetailPath={isPostDetailPath}
       />
     );
   }
@@ -201,6 +203,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail={postDetail}
         post_url={post_url}
         pinned={pinned}
+        isPostDetailPath={isPostDetailPath}
       />
     );
   }
@@ -216,6 +219,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail={postDetail}
         post_url={post_url}
         pinned={pinned}
+        isPostDetailPath={isPostDetailPath}
       />
     );
   }

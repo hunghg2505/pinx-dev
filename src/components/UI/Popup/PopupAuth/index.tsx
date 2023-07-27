@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Login from '@components/Auth/Login';
@@ -16,7 +17,8 @@ interface IProps {
 }
 
 const PopupAuth = (props: IProps) => {
-  const [curTab, setCurTab] = useState<string>('login');
+  const { t } = useTranslation();
+  const [curTab, setCurTab] = useState<string>(AUTH_TAB_TYPE.LOGIN);
   const { visible, onClose } = props;
 
   const handleClose = () => {
@@ -49,10 +51,10 @@ const PopupAuth = (props: IProps) => {
           </div>
         )}
         <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
-          <TabPane tab='Login' key={AUTH_TAB_TYPE.LOGIN}>
+          <TabPane tab={t('login')} key={AUTH_TAB_TYPE.LOGIN}>
             <Login isModal />
           </TabPane>
-          <TabPane tab='Sign up' key={AUTH_TAB_TYPE.REGISTER}>
+          <TabPane tab={t('sign_up')} key={AUTH_TAB_TYPE.REGISTER}>
             <Register isModal />
           </TabPane>
         </Tabs>

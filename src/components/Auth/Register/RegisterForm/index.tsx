@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
@@ -13,6 +14,7 @@ import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 // import Text from '@components/UI/Text';
 import Notification from '@components/UI/Notification';
+import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
@@ -127,11 +129,7 @@ const Register = (props: IProps) => {
 
   return (
     <>
-      <Form
-        className='mt-10 space-y-6 laptop:w-full'
-        form={form}
-        onFinish={onSubmit}
-      >
+      <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
         <FormItem
           name='phoneNumber'
           normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}
@@ -229,6 +227,16 @@ const Register = (props: IProps) => {
         <MainButton type='submit' className='w-full'>
           {t('continue')}
         </MainButton>
+
+        {!isModal && (
+          <div className='mt-9 flex flex-col items-center'>
+            <Link href={ROUTE_PATH.HOME}>
+              <Text type='body-14-medium' color='primary-1'>
+                {t('skip_forgot_password')}
+              </Text>
+            </Link>
+          </div>
+        )}
       </Form>
     </>
   );
