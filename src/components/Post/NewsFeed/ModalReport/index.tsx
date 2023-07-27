@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
+import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -17,26 +18,36 @@ import { USERTYPE } from '@utils/constant';
 import { RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import Reason from './Reason';
-import { TYPEREPORT, requestReportPost } from './service';
+import { TYPEREPORT, serviceReportPost } from './service';
 
 interface IProps {
   children: any;
-  closeIcon?: boolean;
   postID: string;
-  visible: boolean;
-  onModalReportVisible: (v: boolean) => void;
   onReportSuccess: () => void;
 }
 const ModalReport = (props: IProps) => {
   const { t } = useTranslation('common');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { children, postID, visible, onModalReportVisible, onReportSuccess } = props;
+  const { children, postID, onReportSuccess } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
+
+  const requestReport = useRequest(
+    (payload: any) => {
+      return serviceReportPost(postID, payload);
+    },
+    {
+      manual: true,
+      onSuccess: onReportSuccess,
+    },
+  );
+
+  const [visible, setVisible] = useState(false);
+
   const onVisible = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
-        onModalReportVisible(!visible);
+        setVisible(!visible);
       } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         toast(() => (
           <Notification
@@ -59,19 +70,10 @@ const ModalReport = (props: IProps) => {
     }
   };
 
-  const onReport = useRequest(
-    (payload: any) => {
-      return requestReportPost(postID, payload);
-    },
-    {
-      manual: true,
-      onSuccess: onReportSuccess,
-    },
-  );
   const onFinish = () => {
     const value = form.getFieldsValue();
     if (isLogin) {
-      onReport.run(value);
+      requestReport.run(value);
     }
   };
   const options = [
@@ -163,7 +165,14 @@ const ModalReport = (props: IProps) => {
                 {t('cancel')}
               </Text>
             </div>
-            <button className='h-[49px] w-full rounded-[8px] bg-[#1F6EAC]' type='submit'>
+            <button
+              className='flex h-[49px] w-full cursor-pointer items-center justify-center  gap-[6px] rounded-[8px] bg-[#1F6EAC]'
+              type='submit'
+              style={{
+                pointerEvents: requestReport.loading ? 'none' : 'auto',
+              }}
+            >
+              {requestReport.loading && <Loading className='!bg-white' />}
               <Text type='body-16-bold' color='cbwhite'>
                 {t('send')}
               </Text>

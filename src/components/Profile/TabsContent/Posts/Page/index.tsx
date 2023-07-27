@@ -14,7 +14,7 @@ const Page = ({
   setState?: (totalPages: any) => void;
 }) => {
   const profileUser = useContext<any>(profileUserContext);
-  const { data, refresh } = useGetPost(
+  const { data } = useGetPost(
     profileUser.id,
     {
       onSuccess: (res: any) => {
@@ -30,17 +30,8 @@ const Page = ({
   );
   return (
     <>
-      {data?.data?.list?.map((item: IPost, index: number) => {
-        return (
-          <NewsFeed
-            key={index}
-            data={item}
-            id={item.id}
-            refresh={() => {
-              refresh();
-            }}
-          />
-        );
+      {data?.data?.list?.map((item: IPost) => {
+        return <NewsFeed key={`data-post-${item.id}`} data={item} />;
       })}
     </>
   );

@@ -12,7 +12,7 @@ const Page = ({
   last?: string | null;
   setState?: (totalPages: any) => void;
 }) => {
-  const { data, refresh } = useGetMYPost(
+  const { data } = useGetMYPost(
     {
       onSuccess: (res: any) => {
         setState((prev: any) => ({
@@ -27,17 +27,8 @@ const Page = ({
   );
   return (
     <>
-      {data?.data?.list?.map((item: IPost, index: number) => {
-        return (
-          <NewsFeed
-            key={index}
-            data={item}
-            id={item.id}
-            refresh={() => {
-              refresh();
-            }}
-          />
-        );
+      {data?.data?.list?.map((item: IPost) => {
+        return <NewsFeed key={`my-post-item-${item.id}`} data={item} />;
       })}
     </>
   );

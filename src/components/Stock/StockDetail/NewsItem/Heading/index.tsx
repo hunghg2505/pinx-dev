@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
@@ -21,7 +22,6 @@ dayjs.extend(relativeTime);
 
 const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
   const { i18n } = useTranslation();
-  const [modalReportVisible, setModalReportVisible] = useState(false);
   const [openPopupReport, setOpenPopupReport] = useState(false);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const ref = useRef<HTMLButtonElement>(null);
@@ -32,14 +32,13 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
 
   useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  useEffect(() => {
-    setExcludeElements(() => {
-      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
-    });
-  }, [modalReportVisible]);
+  // useEffect(() => {
+  //   setExcludeElements(() => {
+  //     return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+  //   });
+  // }, [modalReportVisible]);
 
   const handleReportPostSuccess = () => {
-    setModalReportVisible(false);
     setOpenPopupReport(false);
     onRefreshNews();
   };
@@ -78,12 +77,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
                 sizes='100vw'
                 className='mr-[8px] h-[20px] w-[20px] object-contain'
               />
-              <ModalReport
-                visible={modalReportVisible}
-                onModalReportVisible={setModalReportVisible}
-                postID={data.id}
-                onReportSuccess={handleReportPostSuccess}
-              >
+              <ModalReport postID={data.id} onReportSuccess={handleReportPostSuccess}>
                 <Text type='body-14-medium' color='neutral-2'>
                   Report
                 </Text>

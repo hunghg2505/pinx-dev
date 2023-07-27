@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import { getTotalSharePost, likePost, unlikePost } from '@components/Post/service';
+import { likePost, unlikePost } from '@components/Post/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -16,12 +16,13 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
-const ModalShare = dynamic(() => import('../ModalShare'));
+const ModalShare = dynamic(() => import('../ModalShare'), {
+  ssr: false,
+});
 
 interface IPostActionProps {
   isLike: boolean;
   idPost: string;
-  onRefreshPostDetail: () => void;
   onNavigate?: () => void;
   totalLikes: number;
   totalComments: number;
@@ -30,36 +31,19 @@ interface IPostActionProps {
 
 const PostAction = (props: IPostActionProps) => {
   const { t } = useTranslation('common');
-  const { isLike, idPost, onRefreshPostDetail, onNavigate, totalLikes, totalComments, urlPost } =
-    props;
+  const { isLike, idPost, onNavigate, totalLikes, totalComments, urlPost } = props;
 
-  const [fullUrlPost, setFullUrlPost] = useState('');
-  const [showModalShare, setShowModalShare] = useState(false);
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const [like, setLike] = React.useState(isLike);
   const [totalLike, setTotalLike] = React.useState(totalLikes);
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+
   React.useEffect(() => {
     setLike(isLike);
     setTotalLike(totalLikes);
   }, [isLike, totalLikes]);
-  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
-
-  useEffect(() => {
-    if (!showModalShare) {
-      requestGetTotalShare.run(urlPost);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModalShare]);
-
-  useEffect(() => {
-    setFullUrlPost(window.location.origin + urlPost);
-  }, []);
-
-  const requestGetTotalShare = useRequest(getTotalSharePost, {
-    manual: true,
-  });
 
   const useLikePost = useRequest(
     () => {
@@ -68,7 +52,6 @@ const PostAction = (props: IPostActionProps) => {
     {
       manual: true,
       onSuccess: () => {
-        onRefreshPostDetail && onRefreshPostDetail();
         setLike(true);
         setTotalLike(totalLikes + 1);
       },
@@ -91,7 +74,6 @@ const PostAction = (props: IPostActionProps) => {
     {
       manual: true,
       onSuccess: () => {
-        onRefreshPostDetail && onRefreshPostDetail();
         setLike(false);
         setTotalLike(totalLikes - 1);
       },
@@ -107,6 +89,7 @@ const PostAction = (props: IPostActionProps) => {
       },
     },
   );
+
   const handleLikeOrUnLikePost = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
@@ -167,7 +150,7 @@ const PostAction = (props: IPostActionProps) => {
       <div className='action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]'>
         <div
           className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
-          onClick={() => handleLikeOrUnLikePost()}
+          onClick={handleLikeOrUnLikePost}
         >
           <img
             src={like && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
@@ -197,28 +180,19 @@ const PostAction = (props: IPostActionProps) => {
             {totalComments || ''} {t('comment')}
           </Text>
         </div>
-        <div
-          className='report flex cursor-pointer flex-row items-center justify-center'
-          onClick={() => setShowModalShare(true)}
-        >
-          <img
-            src='/static/icons/iconShare.svg'
-            alt=''
-            className='mr-[8px] h-[20px] w-[20px] object-contain'
-          />
-          <Text type='body-14-medium' color='primary-5'>
-            {requestGetTotalShare?.data?.shares?.all || ''} {t('share')}
-          </Text>
-        </div>
+        <ModalShare urlPost={urlPost}>
+          <div className='report flex cursor-pointer flex-row items-center justify-center'>
+            <img
+              src='/static/icons/iconShare.svg'
+              alt=''
+              className='mr-[8px] h-[20px] w-[20px] object-contain'
+            />
+            <Text type='body-14-medium' color='primary-5'>
+              {t('share')}
+            </Text>
+          </div>
+        </ModalShare>
       </div>
-
-      <ModalShare
-        url={fullUrlPost}
-        visible={showModalShare}
-        handleClose={() => {
-          setShowModalShare(false);
-        }}
-      />
     </>
   );
 };
