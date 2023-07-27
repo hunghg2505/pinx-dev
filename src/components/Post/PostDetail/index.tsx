@@ -107,7 +107,7 @@ const PostDetail = () => {
               data={comment}
               key={index}
               onReplies={onReplies}
-              refresh={refreshCommentOfPost}
+              refreshCommentOfPOst={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
               width={width}
@@ -181,7 +181,6 @@ const PostDetail = () => {
             postDetail={postDetail?.data}
             totalComments={countComment}
             onRefreshPostDetail={refresh}
-            postId={postDetail?.data?.id}
           />
         </div>
 
@@ -216,8 +215,8 @@ const PostDetail = () => {
                   <ItemComment
                     data={item}
                     onReplies={onReplies}
-                    refresh={refreshCommentOfPost}
                     refreshTotal={refresh}
+                    refreshCommentOfPOst={refreshCommentOfPost}
                     width={width}
                   />
                   {getSubComment(item.children)}
