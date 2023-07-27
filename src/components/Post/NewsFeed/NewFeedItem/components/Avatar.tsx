@@ -47,7 +47,7 @@ export const Avatar = ({ postDetail }: any) => {
       return 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
-      return '/static/logo/logoCafeF.png';
+      return '/static/logo/cafef-logo.png';
     }
   }, [postDetail?.post.postType]);
 
@@ -62,7 +62,7 @@ export const Avatar = ({ postDetail }: any) => {
         alt='avatar'
         sizes='100vw'
         className={classNames(
-          'mr-2 rounded-full object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+          'mr-2 rounded-full border border-solid border-[#ebebeb] object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
           {
             'object-cover': [
               TYPEPOST.POST,
