@@ -11,6 +11,8 @@ import { Barlow, Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
+import 'dayjs/locale/vi';
+import 'dayjs/locale/en';
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
 
