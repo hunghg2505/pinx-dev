@@ -168,6 +168,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
   const { data, run, refresh, loading } = useRequest(
     (type: any, last?: string) => {
       const isLogin = !!getAccessToken();
+
       const params: any = {
         filterType: type,
         last,
@@ -191,6 +192,32 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     run,
     refresh,
     loading,
+  };
+};
+
+export const serviceGetNewFeed = async (type: any, last?: string) => {
+  const isLogin = !!getAccessToken();
+
+  const params: any = {
+    filterType: type,
+    last: last || '',
+  };
+
+  if (isLogin) {
+    const r = await requestGetList(params);
+    return {
+      list: r?.data?.list,
+      nextId: r?.data?.hasNext ? r?.data?.last : false,
+      type,
+    };
+  }
+
+  const r = await requestCommunity.get(API_PATH.NEWFEED_LIST, { params });
+
+  return {
+    list: r?.data?.list,
+    nextId: r?.data?.hasNext ? r?.data?.last : false,
+    type,
   };
 };
 

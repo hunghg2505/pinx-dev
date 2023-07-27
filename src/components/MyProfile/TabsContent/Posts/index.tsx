@@ -1,39 +1,69 @@
-import React, { useState } from 'react';
+import { useRequest } from 'ahooks';
 
-import useElementOnscreen from '@utils/useElementOnscreen';
+import { getMyPost } from '@components/MyProfile/TabsContent/Posts/service';
+import NewsFeed from '@components/Post/NewsFeed';
+import SkeletonLoading from '@components/UI/Skeleton';
+import useObserver from '@hooks/useObserver';
 
 import NotFound from './NotFound';
-import Page from './Page';
 
 const Posts = () => {
-  const [state, setState] = useState<{
-    pages: string[];
-    last: string;
-    hasNext: boolean;
-    notFound: boolean;
-  }>({
-    pages: ['1'],
-    last: '',
-    hasNext: true,
-    notFound: false,
-  });
-  const { lastElementRef } = useElementOnscreen(() => {
-    if (state.hasNext && state.last) {
-      setState((prev) => ({ ...prev, pages: [...prev.pages, prev.last], hasNext: false }));
+  const { data, loading, mutate, runAsync, refresh } = useRequest(async (nextId: any) => {
+    if (nextId === false) {
+      return;
     }
+
+    return getMyPost(nextId);
   });
-  console.log(state);
+
+  const service = async () => {
+    if (!data?.nextId || loading) {
+      return;
+    }
+
+    const newData: any = await runAsync(data?.nextId);
+
+    if (newData?.list?.length) {
+      mutate({
+        list: [...data?.list, ...newData?.list],
+        nextId: newData?.nextId,
+      });
+    }
+  };
+
+  const { refLastElement } = useObserver();
+
+  if (loading && !data?.list?.length) {
+    return (
+      <div>
+        <SkeletonLoading />
+      </div>
+    );
+  }
+
+  if (!loading && !data?.list?.length) {
+    return <NotFound refresh={refresh} />;
+  }
+
   return (
     <div>
-      {/* <Page setState={state?.pages?.length === 0 ? setState : () => {}} /> */}
-      {state.pages?.map((page, index) => {
-        if (index === state.pages.length - 1) {
-          return <Page last={page} key={state.last+page} setState={setState} />;
-        }
-        return <Page last={page} key={state.last+page} />;
-      })}
-      <div ref={lastElementRef}></div>
-      {state.notFound && <NotFound setState={setState} />}
+      <div>
+        {data?.list?.map((item: any, idx: number) => {
+          if (idx + 1 === data?.list?.length) {
+            return (
+              <div ref={(node) => refLastElement(node, service)} key={`my-post-${item?.id}`}>
+                <NewsFeed data={item} />
+              </div>
+            );
+          }
+
+          return (
+            <div key={`my-post-${item?.id}`}>
+              <NewsFeed data={item} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

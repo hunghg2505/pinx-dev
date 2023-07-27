@@ -9,11 +9,12 @@ import { profileUserContext } from '@components/MyProfile';
 import Notification from '@components/UI/Notification';
 import { popupStatusAtom } from '@store/popup/popup';
 
-const NotFound = ({ setState }: { setState: (state: any) => void }) => {
+const NotFound = ({ refresh }: any) => {
   const profileUser = useContext(profileUserContext);
   const { t } = useTranslation('profile');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const refModal: any = useRef();
+
   return (
     <>
       <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap tablet:px-0'>
@@ -42,15 +43,7 @@ const NotFound = ({ setState }: { setState: (state: any) => void }) => {
                   refModal?.current?.onVisible && refModal?.current?.onVisible();
                 }
               }}
-              className='
-              line-[18px]
-          block
-          w-full
-          max-w-[260px]
-          rounded-[8px] bg-gradient-to-l
-          from-[#1D6CAB]
-        to-[#589DC0]
-        px-[24px]
+              className='line-[18px] block w-full  max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px]
         py-[12px]
         text-[14px]
         font-[600]
@@ -62,17 +55,7 @@ const NotFound = ({ setState }: { setState: (state: any) => void }) => {
           </div>
         </div>
       </div>
-      <ModalCompose
-        ref={refModal}
-        refresh={(data) => {
-          setState(() => ({
-            pages: ['1'],
-            last: data.id,
-            hasNext: true,
-            notFound: false,
-          }));
-        }}
-      />
+      <ModalCompose ref={refModal} refresh={refresh} />
     </>
   );
 };
