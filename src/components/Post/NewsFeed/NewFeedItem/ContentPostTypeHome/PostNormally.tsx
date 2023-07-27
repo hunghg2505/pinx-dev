@@ -54,10 +54,14 @@ const Content = memo(({ postDetail, onComment }: any) => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
 
       if (ele?.clientHeight) {
-        setShowReadMore(ele?.clientHeight > 76);
+        if (window.innerWidth > 768) {
+          setShowReadMore(ele?.clientHeight > 76);
+        } else {
+          setShowReadMore(ele?.clientHeight > 74);
+        }
       }
       clearTimeout(t);
-    }, 300);
+    }, 400);
   }, []);
 
   const PostContent = () => {
@@ -91,8 +95,8 @@ const Content = memo(({ postDetail, onComment }: any) => {
       return (
         <div
           id={`post-content-${postDetail.id}`}
-          className={classNames(' mb-3', {
-            'h-[76px] overflow-hidden': showReadMore,
+          className={classNames('', {
+            'h-[74px] overflow-hidden desktop:h-[76px]': showReadMore,
             '!h-auto': readMore,
           })}
         >
