@@ -203,7 +203,7 @@ const Explore = () => {
           <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
             <PeopleList data={suggestionPeople} refresh={refreshList} />
           </div>
-          <ModalPeopleYouKnow>
+          <ModalPeopleYouKnow refreshList={refreshList}>
             <ExploreButton>
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_people')}
