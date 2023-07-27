@@ -101,6 +101,16 @@ const Login = (props: Iprops) => {
         <MainButton type='submit' className='!mt-2 w-full'>
           {t('login')}
         </MainButton>
+
+        {!isModal && (
+          <div className='mt-9 flex flex-col items-center'>
+            <NextLink href={ROUTE_PATH.HOME}>
+              <Text type='body-14-medium' color='primary-1'>
+                {t('skip_forgot_password')}
+              </Text>
+            </NextLink>
+          </div>
+        )}
       </Form>
     </>
   );

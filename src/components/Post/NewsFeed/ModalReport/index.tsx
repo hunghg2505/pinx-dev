@@ -49,12 +49,7 @@ const ModalReport = (props: IProps) => {
       if (statusUser === USERTYPE.VSD) {
         setVisible(!visible);
       } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else {
         // PopupComponent.openEKYC();
         setPopupStatus({

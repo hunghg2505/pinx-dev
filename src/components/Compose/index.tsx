@@ -153,10 +153,7 @@ const Compose = (props: IProps) => {
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         } else {
           toast(() => <Notification type='error' message={error.error} />);
@@ -186,10 +183,7 @@ const Compose = (props: IProps) => {
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         } else {
           toast(() => <Notification type='error' message={error.error} />);
@@ -490,10 +484,7 @@ const Compose = (props: IProps) => {
 
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         return toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
+          <Notification type='error' message={t('message_account_pending_to_close')} />
         ));
       }
 

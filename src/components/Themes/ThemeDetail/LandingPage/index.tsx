@@ -41,6 +41,9 @@ const LandingPageDetailThemes = ({
       onSuccess: () => {
         toast((t) => <NotificationSubsribeTheme theme={data} toastId={t.id} />, {
           duration: 5000,
+          style: {
+            maxWidth: '90vw',
+          },
         });
         setPopupThemeData(data);
         refresh && refresh();
@@ -62,6 +65,9 @@ const LandingPageDetailThemes = ({
       onSuccess: () => {
         toast(() => <NotificationSubsribeTheme isUnsubscribe theme={data} />, {
           duration: 5000,
+          style: {
+            maxWidth: '90vw',
+          },
         });
         setPopupThemeData(data);
         setIsUnubsribeTheme(true);

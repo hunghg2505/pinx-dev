@@ -20,7 +20,7 @@ const ImageHeadPost = dynamic(
         width='0'
         height='0'
         sizes='100vw'
-        className='absolute left-0 top-0 h-full w-full rounded-bl-none rounded-br-none rounded-tl-[9px] rounded-tr-[9px] object-cover'
+        className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
       />
     ),
   },
@@ -35,6 +35,7 @@ export const CafeFNews = ({
   postDetail,
   post_url,
   pinned,
+  isPostDetailPath,
 }: any) => {
   const { t } = useTranslation();
 
@@ -44,7 +45,8 @@ export const CafeFNews = ({
         <div
           ref={onRef}
           className={classNames({
-            'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
+            'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
+            'line-clamp-3': isPostDetailPath,
             'h-auto': isReadMore && readMore,
           })}
         >
@@ -58,7 +60,7 @@ export const CafeFNews = ({
         </div>
       )}
 
-      {isReadMore && (
+      {isReadMore && !isPostDetailPath && (
         <Text
           type='body-14-regular'
           color='neutral-3'
@@ -67,6 +69,24 @@ export const CafeFNews = ({
         >
           {readMore ? t('see_less') : t('see_more')}
         </Text>
+      )}
+
+      {isPostDetailPath && (
+        <div className='text-right'>
+          <CustomLink href={`/redirecting?url=${post_url}`}>
+            <div className='my-[8px] inline-flex items-center'>
+              <Text type='body-14-regular' color='primary-1'>
+                {t('see_more')}
+              </Text>
+
+              <img
+                src='/static/icons/chevronRightPrimaryLight.svg'
+                alt='Icon chevron right'
+                className='h-[20px] w-[20px] object-contain'
+              />
+            </div>
+          </CustomLink>
+        </div>
       )}
 
       <div
@@ -86,25 +106,33 @@ export const CafeFNews = ({
           <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
         )}
 
-        <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
-          <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
-            <ListStock listStock={postDetail?.post?.tagStocks} />
-          </div>
+        {!isPostDetailPath && (
+          <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
+            <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
+              <ListStock listStock={postDetail?.post?.tagStocks} />
+            </div>
 
-          <div
-            className={
-              'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
-            }
-          >
-            <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
-              {postDetail?.post?.title}
-            </Text>
-          </div>
-        </CustomLink>
+            <div
+              className={
+                'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
+              }
+            >
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
+            </div>
+          </CustomLink>
+        )}
 
         <CustomLink
           href={`/redirecting?url=${post_url}`}
-          className='absolute right-[9px] top-[9px] z-[3] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]'
+          className={classNames(
+            'absolute z-[3] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]',
+            {
+              'right-[9px] top-[9px]': !isPostDetailPath,
+              'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2': isPostDetailPath,
+            },
+          )}
         >
           <img
             src='/static/icons/iconLink.svg'

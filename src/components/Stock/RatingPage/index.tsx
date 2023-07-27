@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import Notification from '@components/UI/Notification';
@@ -15,6 +16,7 @@ import { useStockReviews } from '../service';
 import ReviewItem from '../StockDetail/ReviewItem';
 
 const StockRating = () => {
+  const { t } = useTranslation();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [openPopup, setOpenPopup] = useState(false);
   const { userId, isLogin, statusUser } = useUserType();
@@ -31,12 +33,7 @@ const StockRating = () => {
   const handleClickBtnReview = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser === USERTYPE.VSD) {
         setOpenPopup(true);
       } else {
