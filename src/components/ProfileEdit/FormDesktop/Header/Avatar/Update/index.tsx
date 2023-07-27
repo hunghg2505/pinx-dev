@@ -13,7 +13,7 @@ const Update = () => {
           <>
             <input
               type='file'
-              accept='image/*'
+              accept="image/png, image/jpeg"
               className='hidden'
               onChange={(e: any) => {
                 const formData = new FormData();
@@ -21,7 +21,7 @@ const Update = () => {
                 run(formData, 'coverImage', onChange);
               }}
             />
-            <p className='absolute  bottom-0 right-[10px] flex h-[44px]  w-[44px] items-center justify-center rounded-full border-[2px] border-solid border-white bg-primary_blue '>
+            <p className='absolute  bottom-0 right-[10px] flex h-[44px]  w-[44px] items-center justify-center rounded-full border-[2px] border-solid border-white bg-primary_blue cursor-pointer'>
               <svg
                 width='18'
                 height='16'

@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import { TYPEPOST } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
-import IconPlus from '@components/UI/Icon/IconPlus';
+import IconPlus1 from '@components/UI/Icon/IconPlus1';
 import Text from '@components/UI/Text';
 
 export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => {
+  const { t } = useTranslation();
+
   if (
     ![
       TYPEPOST.POST,
@@ -24,12 +27,12 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
       <div className='cursor-pointer' onClick={onFollow}>
         <div
           className={classNames(
-            'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+            'mr-[10px] flex h-[36px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] px-[12px] mobile:hidden tablet:flex ',
             { 'bg-[#F3F2F6]': following },
           )}
         >
           <Text type='body-14-bold' color='neutral-5'>
-            Following
+            {t('following')}
           </Text>
         </div>
 
@@ -54,9 +57,9 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
               { 'bg-[#F3F2F6]': following },
             )}
           >
-            <IconPlus />
+            <IconPlus1 />
             <Text type='body-14-bold' color='primary-2' className='ml-[5px]'>
-              Follow
+              {t('follow')}
             </Text>
           </div>
 

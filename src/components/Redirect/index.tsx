@@ -2,10 +2,12 @@ import React from 'react';
 
 import { useCountDown } from 'ahooks';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
 const Redirect = () => {
+  const { t } = useTranslation(['redirect', 'common']);
   const [targetDate, setTargetDate] = React.useState<number>();
   const router = useRouter();
   const url = router?.query?.url;
@@ -30,7 +32,7 @@ const Redirect = () => {
     <>
       <div className='header relative mb-[37px] border-b border-solid border-[#D8EBFC] tablet:hidden desktop:hidden'>
         <Text type='body-16-bold' color='primary-5' className='py-[16px] text-center '>
-          Redirect
+          {t('redirect')}
         </Text>
         <img
           src='/static/icons/back_icon.svg'
@@ -56,7 +58,7 @@ const Redirect = () => {
           color='neutral-2'
           className='mt-[30px] tablet:mt-[36px] tablet:!text-[24px] tablet:!font-bold'
         >
-          Redirecting you in {Math.round(countdown / 1000)}s...
+          {t('title')} {Math.round(countdown / 1000)}s...
         </Text>
         <div className='flex mobile:mt-[16px] tablet:mt-[25px]'>
           <img
@@ -67,7 +69,7 @@ const Redirect = () => {
             className='mr-[10px] h-[20px] w-[20px] object-contain'
           />
           <Text type='body-14-regular' color='neutral-4' className='text-center'>
-            You are leaving PineX. Please do not share your log-in information to any 3rd party
+            {t('description.first_line')}
           </Text>
         </div>
         <Text
@@ -75,7 +77,7 @@ const Redirect = () => {
           color='neutral-4'
           className='text-center mobile:mt-[16px] tablet:mt-[25px]'
         >
-          Not being directed? Use the ‘Continue’ button below
+          {t('description.second_line')}
         </Text>
         <div className='flex mobile:mt-[16px] tablet:mt-[24px]'>
           <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px] tablet:py-[16px]'>
@@ -99,7 +101,7 @@ const Redirect = () => {
             onClick={onContinute}
           >
             <Text type='body-14-semibold' color='neutral-9' className='tablet:!text-[16px]'>
-              Continue
+              {t('common:continue2')}
             </Text>
           </div>
         </div>

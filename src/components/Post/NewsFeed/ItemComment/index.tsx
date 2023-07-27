@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -40,6 +41,7 @@ interface IProps {
   refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
+  const { t } = useTranslation();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const { statusUser, isLogin } = useUserType();
@@ -193,7 +195,7 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className={classNames('mr-[12px] cursor-pointer rounded-full object-cover', {
+          className={classNames('mr-[8px] cursor-pointer rounded-full object-cover', {
             'h-[40px] w-[40px]': !isChildren,
             'h-[36px] w-[36px]': isChildren,
           })}
@@ -256,13 +258,13 @@ const ItemComment = (props: IProps) => {
                       className='mr-[8px] h-[24px] w-[24px]'
                     />
                     <Text type='body-16-regular' color='primary-5'>
-                      Delete
+                      {t('delete')}
                     </Text>
                   </div>
                 )}
               </button>
             </div>
-            <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] py-[12px]'>
+            <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'>
               <Text type='body-16-regular' className='text-[#0D0D0D]'>
                 {message && (
                   <div
@@ -319,7 +321,7 @@ const ItemComment = (props: IProps) => {
                   'text-[#808080]': !data?.isLike || !isLogin,
                 })}
               >
-                Like
+                {t('like')}
               </Text>
             </div>
             <div
@@ -331,7 +333,7 @@ const ItemComment = (props: IProps) => {
               </Text>
               <div>
                 <Text type='body-14-regular' color='neutral-4'>
-                  Reply
+                  {t('reply')}
                 </Text>
               </div>
             </div>
@@ -341,7 +343,7 @@ const ItemComment = (props: IProps) => {
               refresh={refresh}
               refreshCommentOfPOst={refreshCommentOfPOst}
             >
-              {numberReport} Report
+              {numberReport} {t('report')}
             </ModalReportComment>
 
             <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>

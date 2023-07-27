@@ -48,7 +48,7 @@ export async function getServerSideProps({ locale, req, query }: GetServerSidePr
 
   const res = await fetch(
     PREFIX_API_PIST + API_PATH.PUBLIC_GET_OTHER_USER_PROFILE(Number(query.id)),
-  );
+  );  
 
   if (res.status === 200) {
     const data = await res.json();

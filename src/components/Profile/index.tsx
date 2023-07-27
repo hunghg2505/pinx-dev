@@ -2,6 +2,8 @@ import React, { createContext } from 'react';
 
 import { useRouter } from 'next/router';
 
+import Loading from '@components/UI/Loading';
+
 import Header from './Header';
 import MyStory from './MyStory';
 import { useGePrivatetProfileOtherUser } from './service';
@@ -15,7 +17,12 @@ const Profile = (props: any) => {
     privateProfileOtherUser,
     run: runPrivate,
     refresh: RefreshPrivate,
+    loading,
   } = useGePrivatetProfileOtherUser(Number(router.query.id));
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <profileUserContext.Provider

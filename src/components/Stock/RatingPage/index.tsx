@@ -9,7 +9,6 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 import PopupReview from '../Popup/PopupReview';
 import { useStockReviews } from '../service';
@@ -41,7 +40,11 @@ const StockRating = () => {
       } else if (statusUser === USERTYPE.VSD) {
         setOpenPopup(true);
       } else {
-        PopupComponent.openEKYC();
+        // PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
       }
     } else {
       setPopupStatus({

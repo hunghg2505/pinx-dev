@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-add-event-listener */
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
@@ -167,9 +168,17 @@ export const formatMessagePost = (message: string) => {
     const textReplace = divStock?.replace('%', '');
     message = message.replaceAll(divStock, textReplace);
   }
+  const textLink = doc.querySelector('p')?.innerHTML;
+  if (textLink && textLink?.includes('http')) {
+    message = message.replaceAll(
+      textLink,
+      `<a href="javascript:void(0)" class="link">${textLink}</a>`,
+    );
+  }
+
   // const metas: any = doc.body.querySelectorAll('.userName');
   const str = message.split(' ');
-  message = message.replaceAll('\n', '<p></p>');
+  // message = message.replaceAll('\n', '<p></p>');
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
     if (item.includes('#')) {
@@ -180,39 +189,18 @@ export const formatMessagePost = (message: string) => {
         `,
       );
     }
-    if (item.includes('http') && !item.includes('\n')) {
-      message = message.replaceAll(
-        item,
-        `
-        <a href="javascript:void(0)" class="link">${item}</a>
-        `,
-      );
-    }
-    if (item.includes('http') && item.includes('\n')) {
-      const newItem = item?.split('\n');
-      for (const item of newItem) {
-        if (item.includes('http')) {
-          message = message.replaceAll(
-            item,
-            `
-            <a href="javascript:void(0)" class="link">${item}</a>
-            `,
-          );
-        }
-      }
-    }
-    // }
   });
   return message;
 };
+
 export const toBase64 = (file: any) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', () => resolve(reader.result));
-    // eslint-disable-next-line unicorn/prefer-add-event-listener
-    reader.onerror = reject;
+    reader.onerror = (error) => reject(error);
   });
+
 export const base64ToBlob = (base64: any, type: any) => {
   const base64Slice = base64.split(',')[1];
   const binStr = window.atob(base64Slice.replaceAll(/\s/g, ''));
@@ -226,6 +214,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   const blob = new Blob([arr], { type });
   return URL.createObjectURL(blob);
 };
+
 export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
 export const isImage = (file: any) => {
   if (!file) {
@@ -342,12 +331,79 @@ export const getMeta = (doc: any) => {
   return summary;
 };
 
-export const getYoutubeVideoId = (url: string) => {
-  if (!url) {
+export const getVideoId = (url: string, site: string) => {
+  const siteLower = `${site}`.toLowerCase();
+
+  if (!url || !site) {
     return false;
   }
 
-  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  const match = url.match(regExp);
-  return match && match[7].length === 11 ? match[7] : false;
+  if (siteLower === 'youtube') {
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    const match = url.match(regExp);
+    return match && match[7].length === 11 ? match[7] : false;
+  }
+
+  if (siteLower === 'tiktok') {
+    // Parse basic url and embeds
+    const basicReg = /tiktok\.com(.*)\/video\/(\d+)/gm;
+    const basicParsed = basicReg.exec(url);
+    if (basicParsed && basicParsed.length > 2) {
+      return basicParsed[2];
+    }
+  }
+
+  if (siteLower === 'vimeo') {
+    let string_ = url;
+    if (string_.includes('#')) {
+      [string_] = string_.split('#');
+    }
+
+    if (string_.includes('?') && !string_.includes('clip_id=')) {
+      [string_] = string_.split('?');
+    }
+
+    let id;
+    let array;
+
+    const event = /https?:\/\/vimeo\.com\/event\/(\d+)$/;
+
+    const eventMatches = event.exec(string_);
+
+    if (eventMatches && eventMatches[1]) {
+      return eventMatches[1];
+    }
+
+    const primary = /https?:\/\/vimeo\.com\/(\d+)/;
+
+    const matches = primary.exec(string_);
+    if (matches && matches[1]) {
+      return matches[1];
+    }
+
+    const vimeoPipe = [
+      'https?://player.vimeo.com/video/[0-9]+$',
+      'https?://vimeo.com/channels',
+      'groups',
+      'album',
+    ].join('|');
+
+    const vimeoRegex = new RegExp(vimeoPipe, 'gim');
+
+    if (vimeoRegex.test(string_)) {
+      array = string_.split('/');
+      if (array && array.length > 0) {
+        id = array.pop();
+      }
+    } else if (/clip_id=/gim.test(string_)) {
+      array = string_.split('clip_id=');
+      if (array && array.length > 0) {
+        [id] = array[1].split('&');
+      }
+    }
+
+    return id;
+  }
+
+  return false;
 };

@@ -15,6 +15,7 @@ const UpLoadCover = () => {
       <input
         disabled={loading || loadingUpload}
         type='file'
+        accept="image/png, image/jpeg"
         className='hidden'
         onChange={(e: any) => {
           const formData = new FormData();

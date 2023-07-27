@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -34,6 +35,8 @@ export const CafeFNews = ({
   postDetail,
   post_url,
 }: any) => {
+  const { t } = useTranslation();
+
   return (
     <div className='CafeFNews'>
       {postDetail?.post.head && (
@@ -61,7 +64,7 @@ export const CafeFNews = ({
           className='w-[75px] cursor-pointer'
           onClick={onReadMore}
         >
-          {readMore ? 'See less' : 'See more'}
+          {readMore ? t('see_less') : t('see_more')}
         </Text>
       )}
 

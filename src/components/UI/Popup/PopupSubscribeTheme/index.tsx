@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -21,6 +23,7 @@ interface IProps {
 }
 
 const PopupSubsribeTheme = (props: IProps) => {
+  const { t } = useTranslation();
   const { visible } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const [popupThemeData] = useAtom(popupThemeDataAtom);
@@ -39,9 +42,11 @@ const PopupSubsribeTheme = (props: IProps) => {
   });
 
   const initialValues = {
-    shareContent: `${userLoginInfo.displayName} has just ${
-      isUnubsribeTheme ? 'unsubscribed' : 'subscribed'
-    } to ${popupThemeData.name}`,
+    shareContent: t('has_just_subscribe_theme', {
+      name: userLoginInfo.displayName,
+      action: isUnubsribeTheme ? t('unsubscribe_theme') : t('subscribe_theme'),
+      themeName: popupThemeData.name,
+    }),
   };
 
   const handleClose = () => {
@@ -70,7 +75,7 @@ const PopupSubsribeTheme = (props: IProps) => {
           className='mx-auto mb-1 h-[52px] w-[52px] text-center'
         />
         <Text type='body-24-bold' className='text-center text-[#128F63]'>
-          I&apos;m {isUnubsribeTheme ? 'unsubscribing' : 'subscribing'}
+          {isUnubsribeTheme ? t('im_unsubscribing') : t('im_subscribing')}
         </Text>
         <Form
           form={form}
@@ -83,7 +88,7 @@ const PopupSubsribeTheme = (props: IProps) => {
             className='mb-5 flex h-[50px] flex-col items-start justify-start'
           >
             <textarea
-              placeholder='Input content...'
+              placeholder={t('what_do_you_want_to_comment')}
               className='h-full w-full resize-none outline-none'
             />
           </FormItem>
@@ -103,16 +108,24 @@ const PopupSubsribeTheme = (props: IProps) => {
                 className='mx-auto h-[22px] w-[22px] rounded-full bg-white'
               />
               <Text type='body-12-medium' className='mt'>
-                {isUnubsribeTheme ? 'Unsubscribe' : 'Subscribe'}
+                {isUnubsribeTheme ? t('unsubscribe') : t('subscribe')}
               </Text>
               <Text type='body-12-bold' className='text-center'>
                 {popupThemeData.name}
               </Text>
             </div>
           </div>
-
-          <MainButton className='mt-5 w-full' type='submit'>
-            Create post
+          <MainButton
+            className='mt-5 flex w-full justify-center'
+            type='submit'
+            disabled={requestShareThemeActivity?.loading}
+          >
+            {requestShareThemeActivity?.loading && (
+              <div className='mr-[8px]'>
+                <Loading />
+              </div>
+            )}
+            {t('create_post')}
           </MainButton>
         </Form>
       </Modal>

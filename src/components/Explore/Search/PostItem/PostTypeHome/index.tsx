@@ -12,7 +12,7 @@ import Fancybox from '@components/UI/Fancybox';
 import Text from '@components/UI/Text';
 // import { useContainerDimensions } from '@hooks/useDimensions';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessagePost } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -32,9 +32,7 @@ const PostTypeHome = (props: IProps) => {
   const url = metaData?.url?.split('/')?.slice(-1);
   const urlImages = postDetail?.post?.urlImages;
   const ref = useRef(null);
-  const message =
-    postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
-
+  const message = postDetail?.post?.message && formatMessagePost(postDetail?.post?.message);
   const onComment = () => {
     router.push(ROUTE_PATH.POST_DETAIL(postDetail?.id));
   };
@@ -66,8 +64,9 @@ const PostTypeHome = (props: IProps) => {
   }, []);
   const stockCode = postDetail?.post?.stockCode;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const urlStock = `${imageCompanyUrl}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
+  const urlStock = `${imageCompanyUrl}${
+    stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+  }.png`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'

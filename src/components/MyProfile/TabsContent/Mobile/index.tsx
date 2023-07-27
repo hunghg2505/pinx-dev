@@ -39,7 +39,7 @@ const Mobile = () => {
         }}
       >
         <TabPane tab={t('posts')} key='post'>
-          <div className='mt-[-21px]  px-[16px] tablet:px-0'>
+          <div className='px-[16px] tablet:px-0'>
             <Posts />
           </div>
         </TabPane>

@@ -14,7 +14,6 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 import { RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import Reason from './Reason';
@@ -46,7 +45,11 @@ const ModalReport = (props: IProps) => {
           />
         ));
       } else {
-        PopupComponent.openEKYC();
+        // PopupComponent.openEKYC();
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
       }
     } else {
       setPopupStatus({
@@ -73,19 +76,19 @@ const ModalReport = (props: IProps) => {
   };
   const options = [
     {
-      label: 'Bad content',
+      label: t('report_reason.bad_content'),
       value: TYPEREPORT.INAPPROPRIATE,
     },
     {
-      label: 'Spam',
+      label: t('report_reason.spam'),
       value: TYPEREPORT.SPAM,
     },
     {
-      label: 'Violent content',
+      label: t('report_reason.violent_content'),
       value: TYPEREPORT.PROVOKE,
     },
     {
-      label: 'Other',
+      label: t('report_reason.other'),
       value: TYPEREPORT.OTHER,
     },
   ];

@@ -27,7 +27,7 @@
   "top_mention_stock": "Được đề cập nhiều nhất",
   "top_most_mention_stock_pinex": "Top cổ phiếu được nhắc tới nhiều nhất trên PineX",
   "explore_top_mention_stock": "Khám phá thêm",
-  "pinex_top_20": "Top 20 PineX",
+  "pinex_top_20": "Top 20",
   "explore_more": "Khám phá thêm",
   "new_ipo": "Cổ phiếu niêm yết mới",
   "new_ipo_stocks": "Cổ phiếu niêm yết mới",
@@ -45,5 +45,7 @@
   "no_post_result_found_for": "Không có thông tin",
   "news": "Tin tức",
   "exploring_more_news": "Khám phá thêm",
-  "no_news_result_found_for": "Không có thông tin"
+  "no_news_result_found_for": "Không có thông tin",
+  "desc.subscribe": "Quan tâm chủ đề này",
+  "desc.unsubscribe": "Bỏ quam tâm chủ đề"
 }

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 
-import { useRequest, useHover } from 'ahooks';
+import { useRequest, useHover, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -15,7 +15,7 @@ import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { Avatar } from '@components/Post/NewsFeed/NewFeedItem/components/Avatar';
 import { Follower } from '@components/Post/NewsFeed/NewFeedItem/components/Follower';
 import { UserName } from '@components/Post/NewsFeed/NewFeedItem/components/UserName';
-import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
+// import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
 import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import {
   IPost,
@@ -26,7 +26,6 @@ import {
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-import useClickOutSide from '@hooks/useClickOutside';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
@@ -50,14 +49,6 @@ interface IProps {
   onHidePostSuccess?: (id: string) => void;
   pinned?: boolean;
 }
-
-const PostContent = ({ id, onNavigate, postDetail }: any) => {
-  if (id) {
-    return <ContentPostTypeDetail onNavigate={onNavigate} postDetail={postDetail} />;
-  }
-
-  return <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />;
-};
 
 const NewFeedItem = (props: IProps) => {
   const { t } = useTranslation('common');
@@ -93,7 +84,7 @@ const NewFeedItem = (props: IProps) => {
 
       isLike: postDetail?.isLike,
 
-      idPost: router.query?.id || postDetail?.id,
+      idPost: postDetail?.id || router.query?.id,
 
       isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
     };
@@ -125,13 +116,19 @@ const NewFeedItem = (props: IProps) => {
     showReport && setShowReport(false);
   };
 
-  useClickOutSide(ref, handleHidePopup, excludeElements);
+  // useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  useEffect(() => {
-    setExcludeElements(() => {
-      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
-    });
-  }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
+  // useEffect(() => {
+  //   setExcludeElements(() => {
+  //     return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+  //   });
+  // }, [modalReportVisible, modalDeleteVisible, modalEditVisible, popupStatus]);
+
+  useClickAway(() => {
+    if (!modalEditVisible && !modalDeleteVisible && !modalReportVisible) {
+      handleHidePopup();
+    }
+  }, ref);
 
   const onRefreshListPost = () => {
     onRefreshPostDetail();
@@ -229,7 +226,7 @@ const NewFeedItem = (props: IProps) => {
       <div className='mb-4 flex flex-row justify-between'>
         <CustomLink
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
-          className='flex w-full justify-between'
+          className='flex w-full flex-1 justify-between'
         >
           <div className='flex cursor-pointer flex-row items-center'>
             <div
@@ -287,7 +284,7 @@ const NewFeedItem = (props: IProps) => {
                   )}
                 </div>
               </div>
-              <Text type='body-14-regular' color='neutral-4' className='mt-[2px] font-[300]'>
+              <Text type='body-12-regular' color='neutral-4' className='mt-[2px] font-[300]'>
                 {postDetail?.timeString &&
                   dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
               </Text>
@@ -305,7 +302,15 @@ const NewFeedItem = (props: IProps) => {
 
           {(isReported && router.pathname === '/explore') ||
           (isReported && TypePostOnlyReportAction.includes(postDetail?.post.postType)) ? (
-            ''
+            <div>
+              {pinned && (
+                <img
+                  src='/static/icons/iconPinned.svg'
+                  alt=''
+                  className='mr-[16px] h-[28px] w-[28px]'
+                />
+              )}
+            </div>
           ) : (
             <div className='flex'>
               {pinned && (
@@ -327,7 +332,7 @@ const NewFeedItem = (props: IProps) => {
                 />
                 <Fade
                   visible={showReport}
-                  className='popup absolute right-0 z-20 w-[118px] rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+                  className='popup absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
                 >
                   {[
                     TYPEPOST.POST,
@@ -350,7 +355,7 @@ const NewFeedItem = (props: IProps) => {
                           sizes='100vw'
                           className='mr-[8px] h-[20px] w-[20px] object-contain'
                         />
-                        <Text type='body-14-medium' color='neutral-2'>
+                        <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
                           {t('hide')}
                         </Text>
                       </div>
@@ -372,7 +377,11 @@ const NewFeedItem = (props: IProps) => {
                         postID={postDetail?.id}
                         onReportSuccess={handleReportPostSuccess}
                       >
-                        <Text type='body-14-medium' color='neutral-2'>
+                        <Text
+                          type='body-14-medium'
+                          color='neutral-2'
+                          className='mr-[8px] whitespace-nowrap'
+                        >
                           {t('report')}
                         </Text>
                       </ModalReport>
@@ -385,8 +394,9 @@ const NewFeedItem = (props: IProps) => {
                         visible={modalEditVisible}
                         onVisible={setModalEditVisible}
                         postDetail={postDetail}
+                        refresh={onRefreshPostDetail}
                       >
-                        <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                        <div className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'>
                           <img
                             src='/static/icons/iconEdit.svg'
                             alt=''
@@ -395,8 +405,12 @@ const NewFeedItem = (props: IProps) => {
                             sizes='100vw'
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
-                          <Text type='body-14-medium' color='neutral-2'>
-                            {t('edit')}
+                          <Text
+                            type='body-14-medium'
+                            color='neutral-2'
+                            className='mr-[8px] whitespace-nowrap'
+                          >
+                            {t('edit_post')}
                           </Text>
                         </div>
                       </ModalEdit>
@@ -415,7 +429,11 @@ const NewFeedItem = (props: IProps) => {
                             sizes='100vw'
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
-                          <Text type='body-14-medium' color='neutral-2'>
+                          <Text
+                            type='body-14-medium'
+                            color='neutral-2'
+                            className='mr-[8px] whitespace-nowrap'
+                          >
                             {t('delete')}
                           </Text>
                         </div>
@@ -430,7 +448,7 @@ const NewFeedItem = (props: IProps) => {
       </div>
 
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
-        <PostContent id={id} onNavigate={onNavigate} postDetail={postDetail} />
+        <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />
 
         <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostAction

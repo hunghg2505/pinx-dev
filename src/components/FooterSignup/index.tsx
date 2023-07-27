@@ -109,7 +109,7 @@ const FooterSignUp = () => {
         </button>
 
         <Text type='body-14-regular' color='primary-5' className='ml-[8px] flex-1'>
-          {t('log_in')}
+          {t('to_join_the_discussion')}
         </Text>
       </div>
 

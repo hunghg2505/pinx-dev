@@ -107,7 +107,6 @@ const ProfileVerification = () => {
       setPopupStatus({ ...popupStatus, popupDeactivateAccount: true });
     }
   };
-  console.log('xxx 123', calcUserStatusText(userLoginInfo.acntStat || ''));
 
   if (!userLoginInfo.id) {
     return <></>;
@@ -183,7 +182,7 @@ const ProfileVerification = () => {
                   calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_PENDING,
               })}
             >
-              {calcUserStatusText(userLoginInfo.acntStat || '')}
+              {t(`common:${calcUserStatusText(userLoginInfo.acntStat || '')}`)}
             </span>
           </div>
         </div>
