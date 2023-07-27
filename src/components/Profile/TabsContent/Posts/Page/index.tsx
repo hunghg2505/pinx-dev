@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
@@ -31,18 +31,20 @@ const Page = ({
   return (
     <>
       {data?.data?.list?.map((item: IPost, index: number) => {
-        return (
-          <NewsFeed
-            key={index}
-            data={item}
-            id={item.id}
-            refresh={() => {
-              refresh();
-            }}
-          />
-        );
+        return memo(() => {
+          return (
+            <NewsFeed
+              key={index}
+              data={item}
+              id={item.id}
+              refresh={() => {
+                refresh();
+              }}
+            />
+          );
+        });
       })}
     </>
   );
 };
-export default Page;
+export default memo(Page);

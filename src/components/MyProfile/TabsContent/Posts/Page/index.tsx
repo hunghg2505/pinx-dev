@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
@@ -42,4 +42,4 @@ const Page = ({
     </>
   );
 };
-export default Page;
+export default memo(Page);
