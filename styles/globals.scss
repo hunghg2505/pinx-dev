@@ -10,9 +10,9 @@
 @import './rc-dialog.scss';
 @import './rc-dropdown.scss';
 @import 'slick.scss';
-@import '@fancyapps/ui/dist/fancybox/fancybox.css';
 @import 'slick-carousel/slick/slick-theme.css';
 @import 'slick-carousel/slick/slick.css';
+@import 'rc-checkbox/assets/index.css';
 
 *,
 html,
@@ -29,6 +29,10 @@ body {
   position: relative;
   overflow-x: hidden !important;
   overflow-y: overlay !important;
+  background-color: #f8fafd;
+  @media (min-width: 992px) {
+    min-height: 100vh;
+  }
 }
 .overflow-overlay {
   overflow-y: overlay !important;
