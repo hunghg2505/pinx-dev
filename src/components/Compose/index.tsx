@@ -201,7 +201,7 @@ const Compose = (props: IProps) => {
       extensions: [
         StarterKit,
         Placeholder.configure({
-          placeholder: t('home:create_post_placeholder'),
+          placeholder: t('common:create_post_placeholder'),
           emptyEditorClass: 'is-editor-empty',
         }),
         Mention.extend({

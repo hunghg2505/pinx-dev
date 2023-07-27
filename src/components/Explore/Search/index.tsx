@@ -14,13 +14,14 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
 import PostItem from './PostItem';
-import PeopleItem from '../ModalPeopleYouKnow/PeopleItem';
-import { useGetPopular, useSearchPublic } from '../service';
+import UserItem from './UserItem';
+import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
 
 const Search = (props: any, ref: any) => {
   const { t } = useTranslation('theme');
@@ -29,9 +30,9 @@ const Search = (props: any, ref: any) => {
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
-
+  const isLogin = !!getAccessToken();
   const { popular } = useGetPopular();
-
+  const { listRecent } = useGetSearchRecent();
   const router = useRouter();
 
   useFocusWithin(refInput, {
@@ -118,8 +119,6 @@ const Search = (props: any, ref: any) => {
           </Form>
           {showRecent && !valueInput && (
             <div className='z-3 absolute left-0 top-[50px] w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
-              {/* {isLogin && (
-            <div className='absolute left-0 top-[50px] z-[999] w-full rounded-[8px] bg-[#FFF] px-[16px] py-[24px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
               {isLogin && (
                 <>
                   <Text type='body-14-semibold' color='neutral-black'>
@@ -141,7 +140,8 @@ const Search = (props: any, ref: any) => {
                     })}
                   </div>
                 </>
-              )} */}
+              )}
+
               <Text type='body-14-semibold' color='neutral-black'>
                 {t('popular')}
               </Text>
@@ -208,7 +208,7 @@ const Search = (props: any, ref: any) => {
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
                     {[...users]?.splice(0, 5)?.map((item: any, index: number) => (
-                      <PeopleItem data={item} key={index} />
+                      <UserItem data={item} key={index} />
                     ))}
                   </div>
                   {users?.length > 5 && (

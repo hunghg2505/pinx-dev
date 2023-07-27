@@ -1,9 +1,13 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
+
+import { popupStatusAtom } from '@store/popup/popup';
 
 const NotFound = () => {
   const { t } = useTranslation('profile');
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   return (
     <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap tablet:px-0'>
       <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
@@ -19,6 +23,12 @@ const NotFound = () => {
             {t('post_empty')}
           </p>
           <button
+            onClick={() => {
+              setPopupStatus({
+                ...popupStatus,
+                popupEkyc: true,
+              });
+            }}
             className='
               line-[18px]
           block

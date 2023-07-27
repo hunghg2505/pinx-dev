@@ -209,5 +209,6 @@
   "post_update_success_msg": "Post is updated successfully",
   "post_create_success_msg": "Post is created successfully",
   "sell": "Sell",
-  "bought": "Bought"
+  "bought": "Bought",
+  "create_post_placeholder": "Use % to mention a stock, # to hashtag an article, @ to mention someone else"
 }
