@@ -19,9 +19,9 @@ const Normal = ({ closeStory }: { closeStory: () => void }) => {
       </header>
       <hr className='mb-[24px] mt-[12px] border-neutral_07' />
       <main className='  px-[12px] pb-[20px] '>
-        <p className='liner-[21px] mb-[16px] h-[268px] w-full overflow-auto text-[16px] text-neutral_black'>
+        <pre className='liner-[21px] mb-[16px] h-[268px] w-full overflow-auto text-[16px] text-neutral_black'>
           {profileUser?.caption}
-        </p>
+        </pre>
       </main>
     </article>
   );
