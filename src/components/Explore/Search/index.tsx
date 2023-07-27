@@ -40,6 +40,10 @@ const Search = (props: any, ref: any) => {
     },
   });
 
+  useClickAway(() => {
+    setShowRecent(false);
+  }, refInput);
+
   const { search, data, loading, refresh } = useSearchPublic();
 
   const { run } = useDebounceFn(

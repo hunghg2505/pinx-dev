@@ -275,7 +275,7 @@ const ProfileVerification = () => {
             <FormItem className='mt-4' name='fullName'>
               <Input
                 disabled
-                value={dayjs(userLoginInfo?.dob).format('DD-MM-YYYY')}
+                value={userLoginInfo?.dob && dayjs(userLoginInfo?.dob).format('DD-MM-YYYY')}
                 className={customInputClassName}
               />
             </FormItem>

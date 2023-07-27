@@ -1,0 +1,13 @@
+.tabMobile {
+  :global {
+    .rc-tabs-tab-btn {
+      @media (max-width: 768px) {
+        font-size: 14px !important;
+      }
+    }
+
+    .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
+      display: none;
+    }
+  }
+}

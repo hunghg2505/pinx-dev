@@ -91,7 +91,7 @@ export const ActivityMatchOrder = ({
                   { 'mt-[24px]': postDetail?.post?.type === 'BUY' },
                 )}
               >
-                {postDetail?.post?.type === 'BUY' ? 'Bought' : 'Sell'}
+                {postDetail?.post?.type === 'BUY' ? t('bought') : t('sell')}
               </Text>
               {postDetail?.post?.type === 'SELL' && (
                 <Text
@@ -110,7 +110,7 @@ export const ActivityMatchOrder = ({
                 color='neutral-3'
                 className='mb-[2px] mt-[10px] desktop:mt-[24px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
-                Made on PineX
+                {t('made_on_pinex')}
               </Text>
               <Text
                 type='body-12-medium'
