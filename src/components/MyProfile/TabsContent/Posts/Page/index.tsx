@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
@@ -19,7 +19,7 @@ const Page = ({
           ...prev,
           last: res?.data?.last,
           hasNext: res?.data?.hasNext,
-          notFound: res.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
+          notFound: res?.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
         }));
       },
     },
@@ -42,4 +42,4 @@ const Page = ({
     </>
   );
 };
-export default Page;
+export default memo(Page);
