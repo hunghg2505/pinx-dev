@@ -1,5 +1,6 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -104,7 +105,9 @@ const ThemesItem = (props: IProps) => {
       onError: () => {},
     },
   );
-  const onSubcribe = () => {
+  const onSubcribe = (e: any) => {
+    e.preventDefault();
+
     if (isLogin) {
       if (theme?.isSubsribed) {
         useUnSubcribe.run(theme.code);
@@ -153,24 +156,26 @@ const ThemesItem = (props: IProps) => {
               onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
             />
           )}
-          <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
-            <div className='flex h-[65px] flex-col items-center justify-center px-[8px]'>
-              <Text type='body-12-bold' color='primary-5' className='text-center'>
-                {theme?.name}
-              </Text>
-              {theme.totalSubscribe !== 0 && (
-                <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
-                  {theme.totalSubscribe} {t('common:subscribers')}
+          <Link href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
+            <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
+              <div className='flex h-[65px] flex-col items-center justify-center px-[8px]'>
+                <Text type='body-12-bold' color='primary-5' className='text-center'>
+                  {theme?.name}
                 </Text>
-              )}
+                {theme.totalSubscribe !== 0 && (
+                  <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
+                    {theme.totalSubscribe} {t('common:subscribers')}
+                  </Text>
+                )}
+              </div>
+              <button
+                className='flex h-[32px] w-full flex-row items-center justify-center [border-top:1px_solid_#B1D5F1]'
+                onClick={onSubcribe}
+              >
+                {renderSubcribe()}
+              </button>
             </div>
-            <button
-              className='flex h-[32px] w-full flex-row items-center justify-center [border-top:1px_solid_#B1D5F1]'
-              onClick={onSubcribe}
-            >
-              {renderSubcribe()}
-            </button>
-          </div>
+          </Link>
         </div>
       </div>
     </>

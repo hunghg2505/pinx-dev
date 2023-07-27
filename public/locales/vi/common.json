@@ -166,7 +166,7 @@
   "no_post_result": "Không có thông tin",
   "found_for": "về",
   "subscribe": "Quan tâm",
-  "unsubscribe": "Chưa quan tâm",
+  "unsubscribe": "Bỏ quan tâm",
   "see_less": "Thu gọn",
   "see_more": "Xem thêm",
   "made_on_pinex": "Ngày giao dịch",
@@ -207,5 +207,7 @@
   "add_link_to_post": "Thêm link bài viết",
   "input_link": "Nhập đường dẫn",
   "post_update_success_msg": "Chỉnh sửa thành công",
-  "post_create_success_msg": "Tạo bài viết thành công"
+  "post_create_success_msg": "Tạo bài viết thành công",
+  "sell": "Bán",
+  "bought": "Bought"
 }

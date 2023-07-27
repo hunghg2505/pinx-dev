@@ -161,7 +161,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                 className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
                 onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
               >
-                <Text type='body-14-medium' color='primary-1'>
+                <Text type='body-12-medium' className='tablet:text-[14px]' color='primary-1'>
                   {t('see_all')}
                 </Text>
                 <img

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { useRequest, useHover, useClickAway } from 'ahooks';
+import { useHover, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -31,6 +31,9 @@ import ModalDelete from './ModalDelete';
 import ModalEdit from './ModalEdit';
 import PostActionComment from '../PostAction';
 
+// import 'dayjs/locale/vi';
+// import 'dayjs/locale/en';
+
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
@@ -44,7 +47,8 @@ interface IProps {
 }
 
 const NewFeedItem = (props: IProps) => {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
+
   const { onNavigate, onRefreshPostDetail, postDetail, totalComments, pinned = false } = props;
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -306,7 +310,6 @@ const NewFeedItem = (props: IProps) => {
   if (!postDetail) {
     return <></>;
   }
-
   return (
     <>
       <div className='mb-4 flex flex-row justify-between'>
@@ -372,7 +375,9 @@ const NewFeedItem = (props: IProps) => {
               </div>
               <Text type='body-12-regular' color='neutral-4' className='mt-[2px] font-[300]'>
                 {postDetail?.timeString &&
-                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
+                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
+                    .locale(i18n.language)
+                    .fromNow(true)}
               </Text>
             </div>
           </div>

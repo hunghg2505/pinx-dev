@@ -70,6 +70,8 @@ const Compose = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
 
+  const urlLinkInitial = postDetail?.post?.urlLinks?.[0] || '';
+
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -380,7 +382,9 @@ const Compose = (props: IProps) => {
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
 
       const urlLinks = [];
-
+      if (urlLinkInitial) {
+        urlLinks.push(urlLinkInitial);
+      }
       if (url) {
         urlLinks.push(url);
       }
@@ -458,7 +462,7 @@ const Compose = (props: IProps) => {
         urlImages: [imageUploadedUrl],
         urlLinks,
       };
-
+      console.log('data', data);
       if (themeActiveId === 'default' && !isUpdate) {
         delete data?.postThemeId;
       }
@@ -590,7 +594,11 @@ const Compose = (props: IProps) => {
         </Fade>
 
         <Fade visible={!themeSelected?.id}>
-          <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+          <ModalAddLink
+            isUpdateActivities={isUpdateActivities}
+            getDataOG={getDataOG}
+            urlLinkInitial={urlLinkInitial}
+          />
         </Fade>
       </>
     );
