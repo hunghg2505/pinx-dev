@@ -43,8 +43,23 @@ export const UserName = ({ postDetail }: any) => {
   }, []);
 
   return (
-    <Text type='body-14-semibold' color='neutral-1' className='tablet:text-[16px] truncate flex-1 w-[5em]'>
-      {name}
+    <Text
+      type='body-14-semibold'
+      color='neutral-1'
+      className='flex w-[5em] flex-1 items-center truncate tablet:text-[16px]'
+    >
+      <span className='max-w-[160px] '>{name}</span>
+
+      {postDetail?.post?.customerInfo?.isKol && (
+        <img
+          src='/static/icons/iconTick.svg'
+          alt=''
+          width={0}
+          height={0}
+          sizes='100vw'
+          className='ml-[4px] h-[16px] w-[16px] object-contain'
+        />
+      )}
     </Text>
   );
 };
