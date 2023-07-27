@@ -20,27 +20,11 @@ const Posts = () => {
         if (index === data?.list.length - 1) {
           return (
             <div ref={lastElementRef} key={index}>
-              <NewsFeed
-                key={index}
-                data={item}
-                id={item.id}
-                refresh={() => {
-                  refresh();
-                }}
-              />
+              <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />
             </div>
           );
         }
-        return (
-          <NewsFeed
-            key={index}
-            data={item}
-            id={item.id}
-            refresh={() => {
-              refresh();
-            }}
-          />
-        );
+        return <NewsFeed key={index} data={item} id={item.id} refresh={refresh} />;
       })}
     </div>
   );
