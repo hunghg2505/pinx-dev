@@ -112,7 +112,7 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+    <div className='relative w-full rounded-[8px] bg-white pt-4 text-left '>
       <img
         src='/static/icons/chevron-left.svg'
         className='!w-[28px] laptop:hidden'
@@ -120,14 +120,12 @@ const ProfileVerification = () => {
         onClick={router.back}
       />
       <PopupDeactivateAccount visible={popupStatus.popupDeactivateAccount} />
-      <div className='laptop-max:hidden laptop:mt-0'>
+      <div className='relative laptop-max:hidden laptop:mt-0'>
         <img
           src='/static/icons/back_icon.svg'
           alt=''
-          width='0'
-          height='0'
-          className='ml-4 mt-8 h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[24px] laptop:top-0'
-          onClick={() => router.back()}
+          className='absolute left-0 top-[-2px] h-[28px] w-[28px] cursor-pointer'
+          onClick={router.back}
         />
         <Text
           type='body-20-bold'

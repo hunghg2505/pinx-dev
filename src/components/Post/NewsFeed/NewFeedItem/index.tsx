@@ -171,17 +171,19 @@ const NewFeedItem = (props: IProps) => {
   const ButtonAction = () => {
     const renderdButton = () => {
       const cond1 =
-        [
-          TYPEPOST.POST,
-          TYPEPOST.ActivityTheme,
-          TYPEPOST.ActivityMatchOrder,
-          TYPEPOST.ActivityWatchlist,
-          TYPEPOST.PinetreePost,
-        ].includes(postDetail?.post.postType) &&
-        router.pathname !== '/explore' &&
-        router.pathname.includes('/profile/')
-          ? router.pathname.includes('my-profile')
-          : false && !isMyProfilePath;
+        !(
+          [
+            TYPEPOST.POST,
+            TYPEPOST.ActivityTheme,
+            TYPEPOST.ActivityMatchOrder,
+            TYPEPOST.ActivityWatchlist,
+            TYPEPOST.PinetreePost,
+          ].includes(postDetail?.post.postType) &&
+          router.pathname !== '/explore' &&
+          router.pathname.includes('/profile/') &&
+          isMyPost &&
+          isMyProfilePath
+        ) && !pinned;
 
       const cond2 = !isReported && !isMyPost;
 
@@ -329,7 +331,7 @@ const NewFeedItem = (props: IProps) => {
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
           className='flex w-full flex-1 justify-between'
         >
-          <div className='flex cursor-pointer flex-row items-center flex-1'>
+          <div className='flex flex-1 cursor-pointer flex-row items-center'>
             <div
               ref={refHover}
               className={classNames('relative', {
@@ -359,7 +361,7 @@ const NewFeedItem = (props: IProps) => {
 
             <div className='flex-1'>
               <div className='flex'>
-                <div className='mr-[5px] flex items-center flex-1'>
+                <div className='mr-[5px] flex flex-1 items-center'>
                   <UserName postDetail={postDetail} />
 
                   {postDetail?.post?.customerInfo?.isFeatureProfile && (
