@@ -65,7 +65,12 @@ const NotFound = ({ setState }: { setState: (state: any) => void }) => {
       <ModalCompose
         ref={refModal}
         refresh={(data) => {
-          setState((prev: any) => ({ prev, last: data.id }));
+          setState(() => ({
+            pages: ['1'],
+            last: data.id,
+            hasNext: true,
+            notFound: false,
+          }));
         }}
       />
     </>
