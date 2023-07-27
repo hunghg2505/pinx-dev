@@ -28,7 +28,7 @@ import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
-import IconHashTag from '@components/UI/Icon/IconHashTag';
+// import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
@@ -276,34 +276,6 @@ const Compose = (props: IProps) => {
               });
 
               return data?.data?.companies;
-            },
-          },
-        }),
-        Mention.extend({
-          name: 'hashTag',
-        }).configure({
-          HTMLAttributes: {
-            class: 'hashTag text-[14px] font-semibold leading-[18px]',
-          },
-          renderLabel({ options, node }) {
-            return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
-          },
-          suggestion: {
-            ...Suggestion,
-            pluginKey: new PluginKey('hashTag'),
-            char: '#',
-            items: async ({ query }: { query: string }) => {
-              const data = await privateRequest(
-                requestCommunity.post,
-                API_PATH.PRIVATE_HASHTAG_SUGGEST,
-                {
-                  data: {
-                    keyword: query,
-                  },
-                },
-              );
-
-              return data?.data?.list;
             },
           },
         }),
@@ -558,15 +530,15 @@ const Compose = (props: IProps) => {
     }
   };
 
-  const onAddHashTag = () => {
-    editor?.commands?.focus('end');
-    const text = editor?.getText();
-    if (text) {
-      editor?.commands?.insertContent(' #');
-    } else {
-      editor?.commands?.insertContent('#');
-    }
-  };
+  // const onAddHashTag = () => {
+  //   editor?.commands?.focus('end');
+  //   const text = editor?.getText();
+  //   if (text) {
+  //     editor?.commands?.insertContent(' #');
+  //   } else {
+  //     editor?.commands?.insertContent('#');
+  //   }
+  // };
 
   const getStyles = () => {
     if (!hiddenThemeSelected && themeSelected?.textAlign) {
@@ -725,12 +697,12 @@ const Compose = (props: IProps) => {
             <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
           </div>
 
-          <div
+          {/* <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddHashTag}
           >
             <IconHashTag />
-          </div>
+          </div> */}
 
           <UploadAndAddLink />
         </div>

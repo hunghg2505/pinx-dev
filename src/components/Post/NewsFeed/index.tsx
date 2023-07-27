@@ -12,10 +12,11 @@ import { IPost, useCommentsOfPost } from '../service';
 interface IProps {
   data: IPost;
   pinned?: boolean;
+  onRefreshList?: () => void;
 }
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false } = props;
+  const { data, pinned = false, onRefreshList } = props;
 
   const [postData, setPostData] = useState(data);
 
@@ -52,6 +53,10 @@ const NewsFeed = (props: IProps) => {
 
   const onRefreshPostItem = (newData: IPost) => {
     setPostData(newData);
+
+    if (onRefreshList) {
+      onRefreshList();
+    }
   };
 
   if (!postData) {
