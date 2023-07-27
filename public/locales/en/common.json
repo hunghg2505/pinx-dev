@@ -204,5 +204,7 @@
   "add_link_to_post": " Add link to post",
   "input_link": "Input link",
   "post_update_success_msg": "Post is updated successfully",
-  "post_create_success_msg": "Post is created successfully"
+  "post_create_success_msg": "Post is created successfully",
+  "sell": "Sell",
+  "bought": "Bought"
 }

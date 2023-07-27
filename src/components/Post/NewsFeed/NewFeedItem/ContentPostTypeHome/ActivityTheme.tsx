@@ -70,7 +70,7 @@ export const ActivityTheme = ({
                 color='primary-5'
                 className='mobile:mt-[27px] desktop:mt-[45px] desktop:!text-[20px]'
               >
-                {postDetail?.post.action === 'SUBSCRIBE' ? 'Subscribe' : 'Unsubscribe'}
+                {postDetail?.post.action === 'SUBSCRIBE' ? t('subscribe') : t('unsubscribe')}
               </Text>
               <Text
                 type='body-12-bold'
