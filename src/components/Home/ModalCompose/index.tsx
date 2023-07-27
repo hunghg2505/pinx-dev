@@ -80,6 +80,7 @@ const ModalCompose = (props: Iprops, ref: any) => {
         visible={visibleConfirm}
         className={styles.modalCompose}
         onClose={() => setVisibleConfirm(false)}
+        destroyOnClose
       >
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>

@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
 import { TYPESEARCH } from '@components/Home/service';
+import NewsFeed from '@components/Post/NewsFeed';
 import { ExploreButton } from '@components/UI/Button';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
@@ -19,7 +20,6 @@ import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
-import PostItem from './PostItem';
 import UserItem from './UserItem';
 import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
 
@@ -45,7 +45,7 @@ const Search = (props: any, ref: any) => {
     setShowRecent(false);
   }, refInput);
 
-  const { search, data, loading, refresh } = useSearchPublic();
+  const { search, data, loading, mutate } = useSearchPublic();
 
   const { run } = useDebounceFn(
     () => {
@@ -82,6 +82,16 @@ const Search = (props: any, ref: any) => {
   const news = data?.data?.news;
   const posts = data?.data?.posts;
   const users = data?.data?.users;
+
+  const onRemoveData = (postId: any) => () => {
+    // mutate
+    mutate({
+      data: {
+        ...data.data,
+        posts: posts?.filter((item: any) => item?.id !== postId),
+      },
+    });
+  };
 
   const onShowMore = (type: string) => {
     router.push({
@@ -237,8 +247,14 @@ const Search = (props: any, ref: any) => {
               {posts?.length > 0 ? (
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-                    {[...posts]?.splice(0, 3)?.map((post: any, index: number) => {
-                      return <PostItem key={index} postDetail={post} refresh={refresh} />;
+                    {[...posts]?.splice(0, 3)?.map((post: any) => {
+                      return (
+                        <NewsFeed
+                          key={`explore-search-${post?.id}`}
+                          data={post}
+                          onRemoveData={onRemoveData(post?.id)}
+                        />
+                      );
                     })}
                   </div>
                   {posts?.length > 3 && (
@@ -267,8 +283,8 @@ const Search = (props: any, ref: any) => {
               {news?.length > 0 ? (
                 <>
                   <div className='my-[16px] flex flex-col gap-y-[12px]'>
-                    {[...news]?.splice(0, 3)?.map((item: any, index: number) => {
-                      return <NewsItem key={`new-${index}`} data={item} />;
+                    {[...news]?.splice(0, 3)?.map((item: any) => {
+                      return <NewsItem key={`new-items-${item?.id}`} data={item} />;
                     })}
                   </div>
                   {news?.length > 3 && (

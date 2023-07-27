@@ -11,6 +11,7 @@ interface Props {
   hideError?: boolean;
   className?: string;
   [k: string]: any;
+  dependencies?: string[];
 }
 
 const FormItem: React.FC<Props> = ({ children, hideError = false, className, ...props }: Props) => {

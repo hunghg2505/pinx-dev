@@ -24,7 +24,7 @@ const Activities = (props: IProps, ref: any) => {
 
   React.useImperativeHandle(ref, () => {
     return {
-      refresh,
+      onRefreshActivities: refresh,
     };
   });
 

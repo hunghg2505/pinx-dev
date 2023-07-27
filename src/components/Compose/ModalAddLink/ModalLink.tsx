@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
@@ -48,44 +49,45 @@ const ModalLink = (props: IProps) => {
           </Text>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <Form form={form} onFinish={onSubmit} initialValues={{ search: urlLinkInitial }}>
-            <FormItem
-              name='search'
-              rules={[
-                () => ({
-                  validator(_: any, value: any) {
-                    if (value && isValidURL(value)) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error(t('not_link')));
-                  },
-                }),
-              ]}
-            >
+            <FormItem name='search'>
               <textarea
                 placeholder={`${t('input_link')}...`}
                 className='h-[100px] w-full outline-none'
               />
             </FormItem>
+            <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+            <div className='flex items-center justify-center gap-[30px]'>
+              <Text
+                type='body-16-semibold'
+                color='neutral-black'
+                className='cursor-pointer [border-right:1px_solid_#EBEBEB]'
+                onClick={onVisible}
+              >
+                {t('cancel')}
+              </Text>
+
+              <FormItem dependencies={['search']}>
+                {({ value }: any) => {
+                  return (
+                    <Text
+                      type='body-16-semibold'
+                      color='primary-2'
+                      className={classNames(
+                        'flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)] text-white',
+                        {
+                          'opacity-50': !isValidURL(value?.search),
+                          'pointer-events-none': !isValidURL(value?.search),
+                        },
+                      )}
+                      onClick={form.submit}
+                    >
+                      {t('save')}
+                    </Text>
+                  );
+                }}
+              </FormItem>
+            </div>
           </Form>
-          <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-          <div className='flex items-center'>
-            <Text
-              type='body-16-semibold'
-              color='neutral-black'
-              className='w-2/4 cursor-pointer [border-right:1px_solid_#EBEBEB]'
-              onClick={onVisible}
-            >
-              {t('cancel')}
-            </Text>
-            <Text
-              type='body-16-semibold'
-              color='primary-2'
-              className='w-2/4 cursor-pointer'
-              onClick={form.submit}
-            >
-              {t('save')}
-            </Text>
-          </div>
         </div>
       </Modal>
     </>

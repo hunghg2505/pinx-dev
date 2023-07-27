@@ -10,13 +10,13 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
+import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import {
   IComment,
   requestHideComment,
   requestLikeComment,
   requestUnLikeComment,
 } from '@components/Post/service';
-import Fancybox from '@components/UI/Fancybox';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -288,25 +288,17 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
 
-          {urlImage !== '' && (
-            <Fancybox
-              options={{
-                closeButton: true,
-              }}
-            >
-              <a data-fancybox='gallery' href={urlImage}>
-                {urlImage && (
-                  <img
-                    src={urlImage}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
-                  />
-                )}
-              </a>
-            </Fancybox>
+          {urlImage && (
+            <ModalMedia url={urlImage}>
+              <img
+                src={urlImage}
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
+              />
+            </ModalMedia>
           )}
 
           <div className='action flex gap-x-[18px]'>
