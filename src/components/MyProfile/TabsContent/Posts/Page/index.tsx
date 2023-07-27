@@ -19,7 +19,7 @@ const Page = ({
           ...prev,
           last: res?.data?.last,
           hasNext: res?.data?.hasNext,
-          notFound: res.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
+          notFound: res?.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
         }));
       },
     },
