@@ -149,7 +149,7 @@ const Compose = (props: IProps) => {
         refresh && refresh();
         setMetaData(null);
 
-        toast(() => <Notification type='success' message='Post is created successfully' />);
+        toast(() => <Notification type='success' message={t('post_create_success_msg')} />);
       },
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
