@@ -31,18 +31,16 @@ const Page = ({
   return (
     <>
       {data?.data?.list?.map((item: IPost, index: number) => {
-        return memo(() => {
-          return (
-            <NewsFeed
-              key={index}
-              data={item}
-              id={item.id}
-              refresh={() => {
-                refresh();
-              }}
-            />
-          );
-        });
+        return (
+          <NewsFeed
+            key={index}
+            data={item}
+            id={item.id}
+            refresh={() => {
+              refresh();
+            }}
+          />
+        );
       })}
     </>
   );
