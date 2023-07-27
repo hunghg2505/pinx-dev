@@ -21,7 +21,6 @@ interface IProps {
 const ContentPostTypeDetail = (props: IProps) => {
   const { t } = useTranslation();
   const { postDetail, onNavigate } = props;
-  console.log('🚀 ~ file: index.tsx:22 ~ ContentPostTypeDetail ~ postDetail:', postDetail);
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const router = useRouter();

@@ -224,7 +224,6 @@ const NewFeedItem = (props: IProps) => {
   if (!postDetail) {
     return <></>;
   }
-
   return (
     <>
       <div className='mb-4 flex flex-row justify-between'>
@@ -347,25 +346,33 @@ const NewFeedItem = (props: IProps) => {
                     TYPEPOST.ActivityWatchlist,
                     TYPEPOST.PinetreePost,
                   ].includes(postDetail?.post.postType) &&
-                    router.pathname !== '/explore' &&
-                    !isMyProfilePath && (
-                      <div
-                        className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                        onClick={handleHidePost}
-                      >
-                        <img
-                          src='/static/icons/iconUnHide.svg'
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='mr-[8px] h-[20px] w-[20px] object-contain'
-                        />
-                        <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
-                          {t('hide')}
-                        </Text>
-                      </div>
-                    )}
+                  router.pathname !== '/explore' &&
+                  // profile but not !myProfile router.pathname.inclues('profile')
+                  router.pathname.includes('/profile/')
+                    ? router.pathname.includes('/my-profile')
+                    : true &&
+                      !isMyProfilePath && (
+                        <div
+                          className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+                          onClick={handleHidePost}
+                        >
+                          <img
+                            src='/static/icons/iconUnHide.svg'
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='mr-[8px] h-[20px] w-[20px] object-contain'
+                          />
+                          <Text
+                            type='body-14-medium'
+                            color='neutral-2'
+                            className='whitespace-nowrap'
+                          >
+                            {t('hide')}
+                          </Text>
+                        </div>
+                      )}
 
                   {!report && !isMyPost && (
                     <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
