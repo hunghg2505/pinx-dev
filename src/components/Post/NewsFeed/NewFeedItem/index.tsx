@@ -193,7 +193,7 @@ const NewFeedItem = (props: IProps) => {
 
       return (
         <Dropdown
-          trigger={['hover']}
+          trigger={['hover', 'click']}
           animation='slide-up'
           placement='bottomRight'
           overlay={
