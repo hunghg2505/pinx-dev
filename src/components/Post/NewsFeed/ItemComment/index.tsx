@@ -41,7 +41,7 @@ interface IProps {
   refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const { statusUser, isLogin } = useUserType();
@@ -347,7 +347,7 @@ const ItemComment = (props: IProps) => {
             </ModalReportComment>
 
             <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
-              {dayjs(data?.timeString).fromNow(true)}
+              {dayjs(data?.timeString)?.locale(i18n.language)?.fromNow(true)}
             </Text>
           </div>
           <div

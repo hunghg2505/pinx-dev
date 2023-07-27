@@ -16,8 +16,7 @@ export enum ActionPostEnum {
   SUBSCRIBE = 'SUBSCRIBE',
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
-  const { t } = useTranslation('theme');
-  console.log('🚀 ~ file: index.tsx:18 ~ ItemActivities ~ data:', data);
+  const { t, i18n } = useTranslation('theme');
   const messageBody =
     data?.post?.action === ActionPostEnum.SUBSCRIBE ? t('desc.subscribe') : t('desc.unsubscribe');
   const router = useRouter();
@@ -53,7 +52,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
               {data?.post?.customerInfo?.displayName}
             </Text>
             <Text type='body-12-regular' color='neutral-gray'>
-              {dayjs(data?.timeString).fromNow(true)}
+              {dayjs(data?.timeString)?.locale(i18n.language).fromNow(true)}
             </Text>
           </div>
           <div className='mt-[15px] flex items-center'>

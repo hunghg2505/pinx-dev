@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
@@ -18,6 +19,7 @@ const IconLink = () => (
 );
 dayjs.extend(relativeTime);
 const NewsItem = ({ data }: { data: any }) => {
+  const { i18n } = useTranslation();
   const router = useRouter();
   const onGoToDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data?.id));
@@ -43,7 +45,7 @@ const NewsItem = ({ data }: { data: any }) => {
               {data?.post?.vendorInfo?.name}
             </Text>
             <Text type='body-12-regular' color='neutral-gray'>
-              {data?.timeString && dayjs(data?.timeString)?.fromNow()}
+              {data?.timeString && dayjs(data?.timeString)?.locale(i18n.language)?.fromNow()}
             </Text>
           </div>
           <Text type='body-14-semibold' color='cbblack'>

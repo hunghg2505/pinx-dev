@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useRequest, useHover, useClickAway } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import * as locale from 'dayjs/locale/te';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
@@ -36,6 +37,9 @@ import ModalDelete from './ModalDelete';
 import ModalEdit from './ModalEdit';
 import PostAction from '../PostAction';
 
+// import 'dayjs/locale/vi';
+// import 'dayjs/locale/en';
+
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
@@ -51,7 +55,7 @@ interface IProps {
 }
 
 const NewFeedItem = (props: IProps) => {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const {
     onNavigate,
     onRefreshPostDetail,
@@ -286,7 +290,9 @@ const NewFeedItem = (props: IProps) => {
               </div>
               <Text type='body-12-regular' color='neutral-4' className='mt-[2px] font-[300]'>
                 {postDetail?.timeString &&
-                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss').fromNow(true)}
+                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
+                    .locale(i18n.language)
+                    .fromNow(true)}
               </Text>
             </div>
           </div>

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useTranslation } from 'next-i18next';
 
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { IPost } from '@components/Post/service';
@@ -19,6 +20,7 @@ interface IHeadingNewsItemProps {
 dayjs.extend(relativeTime);
 
 const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
+  const { i18n } = useTranslation();
   const [modalReportVisible, setModalReportVisible] = useState(false);
   const [openPopupReport, setOpenPopupReport] = useState(false);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
@@ -54,7 +56,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
       </Text>
 
       <Text type='body-12-regular' className='ml-auto text-[#999999] tablet:ml-[8px]'>
-        {dayjs(data.timeString).fromNow()}
+        {dayjs(data.timeString)?.locale(i18n.language)?.fromNow()}
       </Text>
 
       <button className='relative ml-[16px] tablet:ml-auto' ref={ref}>
