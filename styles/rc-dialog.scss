@@ -3,6 +3,10 @@
   width: auto;
   margin: 10px;
   max-width: 625px;
+
+  @media (max-width: 568px) {
+    max-width: calc(100% - 20px);
+  }
 }
 .rc-dialog-wrap {
   position: fixed;
