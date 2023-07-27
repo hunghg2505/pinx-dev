@@ -212,5 +212,6 @@
   "post_update_success_msg": "Chỉnh sửa thành công",
   "post_create_success_msg": "Tạo bài viết thành công",
   "sell": "Bán",
-  "bought": "Bought"
+  "bought": "Bought",
+  "share_subscribe_theme_success": "Bạn đã chia sẻ thành công"
 }

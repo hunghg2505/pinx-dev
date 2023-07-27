@@ -209,5 +209,6 @@
   "post_update_success_msg": "Post is updated successfully",
   "post_create_success_msg": "Post is created successfully",
   "sell": "Sell",
-  "bought": "Bought"
+  "bought": "Bought",
+  "share_subscribe_theme_success": "You have successfully share"
 }

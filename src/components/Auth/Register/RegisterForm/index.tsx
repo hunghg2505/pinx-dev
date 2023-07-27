@@ -128,7 +128,7 @@ const Register = (props: IProps) => {
   return (
     <>
       <Form
-        className='mt-10 space-y-6 laptop:w-full laptop:max-w-[479px]'
+        className='mt-10 space-y-6 laptop:w-full'
         form={form}
         onFinish={onSubmit}
       >

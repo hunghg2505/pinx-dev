@@ -13,15 +13,14 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 // import Community from './Community';
+import Activities from './Activities';
 import StockSymbols from './StockSymbols';
 import { TabsThemeDetailEnum, useGetThemeDetail } from '../service';
 
 const LandingPageDetailThemes = dynamic(() => import('./LandingPage'), {
   ssr: false,
 });
-const Activities = dynamic(() => import('./Activities'), {
-  ssr: false,
-});
+
 const ThemeDetail = () => {
   const { t } = useTranslation('theme');
   const router = useRouter();
