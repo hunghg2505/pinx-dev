@@ -11,6 +11,7 @@ import { isValidURL } from '@utils/common';
 interface IProps {
   children: any;
   getDataOG: (value: any) => void;
+  urlLinkInitial?: string;
 }
 
 const getMetaData = async (url: string) => {
@@ -22,7 +23,7 @@ const getMetaData = async (url: string) => {
 };
 
 const ModalLink = (props: IProps) => {
-  const { children, getDataOG } = props;
+  const { children, getDataOG, urlLinkInitial } = props;
   const { t } = useTranslation('common');
   const [visible, setVisible] = React.useState<boolean>(false);
   const onVisible = async () => {
@@ -53,7 +54,7 @@ const ModalLink = (props: IProps) => {
             {t('add_link_to_post')}
           </Text>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-          <Form form={form} onFinish={onSubmit}>
+          <Form form={form} onFinish={onSubmit} initialValues={{ search: urlLinkInitial }}>
             <FormItem
               name='search'
               rules={[

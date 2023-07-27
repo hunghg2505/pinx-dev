@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import { IPost } from '@components/Post/service';
 import { ACTIVITIES_TYPE } from '@components/Stock/const';
@@ -20,6 +21,7 @@ interface IActivityItemProps {
 dayjs.extend(relativeTime);
 
 const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
+  const { i18n } = useTranslation();
   let icon;
   let content;
   const isSellUp =
@@ -62,7 +64,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
             </Link>
 
             <Text type='body-12-regular' className='text-[#999999]'>
-              {dayjs(data.timeString).fromNow()}
+              {dayjs(data.timeString)?.locale(i18n.language)?.fromNow()}
             </Text>
           </div>
 
