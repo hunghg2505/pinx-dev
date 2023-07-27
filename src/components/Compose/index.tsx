@@ -453,6 +453,11 @@ const Compose = (props: IProps) => {
         delete data?.urlLinks;
       }
 
+      // hide when > 240 characters
+      if (!hiddenThemeSelected) {
+        data.postThemeId = 'default';
+      }
+
       if (message?.toLowerCase()?.includes('script')) {
         return toast(() => (
           <Notification
@@ -659,7 +664,7 @@ const Compose = (props: IProps) => {
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
 
       <div className='flex justify-between'>
-        <div className='flex gap-x-[10px] desktop:gap-x-[16px]'>
+        <div className='flex gap-x-[6px] desktop:gap-x-[16px]'>
           <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddPeople}
