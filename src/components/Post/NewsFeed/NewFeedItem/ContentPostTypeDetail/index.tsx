@@ -37,11 +37,10 @@ const ContentPostTypeDetail = (props: IProps) => {
   const urlYoutube = metaData?.url?.slice(-11);
   const urlImages = postDetail?.post?.urlImages;
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const urlStock = `${imageCompanyUrl}${
-    postDetail?.post?.stockCode?.length === 3 || postDetail?.post?.stockCode?.[0] !== 'C'
-      ? postDetail?.post?.stockCode
-      : postDetail?.post?.stockCode?.slice(1, 4)
-  }.png`;
+  const urlStock = `${imageCompanyUrl}${postDetail?.post?.stockCode?.length === 3 || postDetail?.post?.stockCode?.[0] !== 'C'
+    ? postDetail?.post?.stockCode
+    : postDetail?.post?.stockCode?.slice(1, 4)
+    }.png`;
   const iconPost =
     postDetail?.post.action === 'SUBSCRIBE'
       ? '/static/icons/iconSubcribe.svg'
@@ -298,9 +297,8 @@ const ContentPostTypeDetail = (props: IProps) => {
   if ([TYPEPOST.ActivityWatchlist].includes(postDetail?.postType)) {
     const stockCode = postDetail.post?.stockCode;
     const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-    const url = `${imageCompanyUrl}${
-      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
+    const url = `${imageCompanyUrl}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+      }.png`;
 
     return (
       <>

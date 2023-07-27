@@ -40,9 +40,8 @@ const ContentPostTypeHome = (props: IProps) => {
 
     const stockCode = postDetail.post?.stockCode;
 
-    const urlStock = `${IMAGE_COMPANY_URL}${
-      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
+    const urlStock = `${IMAGE_COMPANY_URL}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+      }.png`;
 
     const iconPost =
       postDetail?.post.action === 'SUBSCRIBE'
@@ -58,7 +57,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
       urlStock,
       iconPost,
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
+      postDetailUrl: ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode),
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);
