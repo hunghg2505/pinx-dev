@@ -453,6 +453,11 @@ const Compose = (props: IProps) => {
         delete data?.urlLinks;
       }
 
+      // hide when > 240 characters
+      if (!hiddenThemeSelected) {
+        data.postThemeId = 'default';
+      }
+
       if (message?.toLowerCase()?.includes('script')) {
         return toast(() => (
           <Notification
