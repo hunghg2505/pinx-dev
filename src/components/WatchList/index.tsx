@@ -43,7 +43,7 @@ const WatchList = () => {
   const { interestStock, refreshInterest } = useGetInterest();
   const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
     onSuccess: (res) => {
-      // setDataStock(res?.data?.[0]?.stocks);
+      setDataStock(res?.data?.[0]?.stocks);
       setWatchlistId(res?.data?.[0]?.watchlistId);
     }
   });
@@ -103,7 +103,7 @@ const WatchList = () => {
                   </Text>
                 </div>
               </div>
-              <div className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
+              <div className='absolute opacity-0 left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
                 <img
                   src='/static/icons/iconFilterSortaz.svg'
                   alt=''
