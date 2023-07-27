@@ -138,7 +138,7 @@ const PopupFollowStock = ({
               </Text>
 
               <Text type='body-12-medium' color='neutral-darkgray' className='mt-[12px]'>
-                Made on PineX
+                {t('made_on_pinex')}
               </Text>
               <Text type='body-12-medium' color='neutral-darkgray' className='mt-[2px]'>
                 {dayjs().format('DD/MM/YYYY')}

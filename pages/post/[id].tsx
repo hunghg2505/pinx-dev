@@ -4,11 +4,12 @@ import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
+import MainLayout from '@layout/MainLayout';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   ssr: false,
 });
-const MainLayout = dynamic(() => import('@layout/MainLayout'));
+
 const PostDetailPage = () => {
   return (
     <>

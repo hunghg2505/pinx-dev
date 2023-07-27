@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useTranslation } from 'next-i18next';
 
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { IPost } from '@components/Post/service';
@@ -19,7 +21,7 @@ interface IHeadingNewsItemProps {
 dayjs.extend(relativeTime);
 
 const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
-  const [modalReportVisible, setModalReportVisible] = useState(false);
+  const { i18n } = useTranslation();
   const [openPopupReport, setOpenPopupReport] = useState(false);
   const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const ref = useRef<HTMLButtonElement>(null);
@@ -30,14 +32,13 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
 
   useClickOutSide(ref, handleHidePopup, excludeElements);
 
-  useEffect(() => {
-    setExcludeElements(() => {
-      return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
-    });
-  }, [modalReportVisible]);
+  // useEffect(() => {
+  //   setExcludeElements(() => {
+  //     return [...(document.querySelectorAll('.rc-dialog-wrap') as any)];
+  //   });
+  // }, [modalReportVisible]);
 
   const handleReportPostSuccess = () => {
-    setModalReportVisible(false);
     setOpenPopupReport(false);
     onRefreshNews();
   };
@@ -54,7 +55,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
       </Text>
 
       <Text type='body-12-regular' className='ml-auto text-[#999999] tablet:ml-[8px]'>
-        {dayjs(data.timeString).fromNow()}
+        {dayjs(data.timeString)?.locale(i18n.language)?.fromNow()}
       </Text>
 
       <button className='relative ml-[16px] tablet:ml-auto' ref={ref}>
@@ -76,12 +77,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
                 sizes='100vw'
                 className='mr-[8px] h-[20px] w-[20px] object-contain'
               />
-              <ModalReport
-                visible={modalReportVisible}
-                onModalReportVisible={setModalReportVisible}
-                postID={data.id}
-                onReportSuccess={handleReportPostSuccess}
-              >
+              <ModalReport postID={data.id} onReportSuccess={handleReportPostSuccess}>
                 <Text type='body-14-medium' color='neutral-2'>
                   Report
                 </Text>

@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -37,6 +38,7 @@ const IconPlus = () => (
   </svg>
 );
 const PostItem = (props: IProps) => {
+  const { i18n } = useTranslation();
   const { postDetail } = props;
   const router = useRouter();
   const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
@@ -324,7 +326,8 @@ const PostItem = (props: IProps) => {
                   )}
                 </div>
                 <Text type='body-12-regular' color='neutral-4' className='mt-[2px]'>
-                  {postDetail?.timeString && dayjs(postDetail?.timeString)?.fromNow()}
+                  {postDetail?.timeString &&
+                    dayjs(postDetail?.timeString)?.locale(i18n.language)?.fromNow()}
                 </Text>
               </div>
             </div>
@@ -367,8 +370,6 @@ const PostItem = (props: IProps) => {
                             className='mr-[8px] h-[20px] w-[20px] object-contain'
                           />
                           <ModalReport
-                            visible={modalReportVisible}
-                            onModalReportVisible={setModalReportVisible}
                             postID={postDetail?.id}
                             onReportSuccess={handleReportPostSuccess}
                           >

@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -25,6 +25,7 @@ import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
 import { UploadImage } from '@components/Compose/UploadImage';
 import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
+import { IPost, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
 import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
@@ -36,13 +37,12 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { base64ToBlob, formatMessage, isImage, toBase64 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import PopupComponent from '@utils/PopupComponent';
 
 import { serviceAddPost, serviceUpdatePost } from './service';
 
 interface IProps {
   hidePopup?: () => void;
-  refresh?: () => void;
+  refresh?: (data: IPost) => void;
   onGetData?: (value: any) => void;
   postDetail?: any;
   isUpdate?: boolean;
@@ -69,6 +69,8 @@ const Compose = (props: IProps) => {
   const bgTheme = useAtomValue(postThemeAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
+
+  const urlLinkInitial = postDetail?.post?.urlLinks?.[0] || '';
 
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
@@ -109,15 +111,30 @@ const Compose = (props: IProps) => {
     },
   );
 
+  const requestGetDetailPost = useRequest(
+    () => {
+      return getPostDetail(postDetail.id);
+    },
+    {
+      manual: true,
+      onSuccess: (r) => {
+        if (r?.data?.id && refresh) {
+          refresh(r?.data);
+        }
+      },
+    },
+  );
+
   const requestUpdatePost = useRequest(
     (data: any) => {
       return serviceUpdatePost(postDetail?.id, data);
     },
     {
       manual: true,
-      onSuccess: () => {
+      onSuccess: async () => {
+        await requestGetDetailPost.runAsync();
+
         hidePopup && hidePopup();
-        refresh && refresh();
         setMetaData(null);
 
         toast(() => <Notification type='success' message={t('post_update_success_msg')} />);
@@ -143,11 +160,15 @@ const Compose = (props: IProps) => {
     },
     {
       manual: true,
-      onSuccess: () => {
+      onSuccess: (r: any) => {
         editor?.commands.clearContent();
         hidePopup && hidePopup();
-        refresh && refresh();
         setMetaData(null);
+
+        // Refresh when add new post
+        if (refresh && r?.data?.id) {
+          refresh(r?.data);
+        }
 
         toast(() => <Notification type='success' message={t('post_create_success_msg')} />);
       },
@@ -361,7 +382,9 @@ const Compose = (props: IProps) => {
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
 
       const urlLinks = [];
-
+      if (urlLinkInitial) {
+        urlLinks.push(urlLinkInitial);
+      }
       if (url) {
         urlLinks.push(url);
       }
@@ -439,7 +462,7 @@ const Compose = (props: IProps) => {
         urlImages: [imageUploadedUrl],
         urlLinks,
       };
-
+      console.log('data', data);
       if (themeActiveId === 'default' && !isUpdate) {
         delete data?.postThemeId;
       }
@@ -451,6 +474,11 @@ const Compose = (props: IProps) => {
       if (themeActiveId !== 'default') {
         delete data?.urlImages;
         delete data?.urlLinks;
+      }
+
+      // hide when > 240 characters
+      if (!hiddenThemeSelected) {
+        data.postThemeId = 'default';
       }
 
       if (message?.toLowerCase()?.includes('script')) {
@@ -566,7 +594,11 @@ const Compose = (props: IProps) => {
         </Fade>
 
         <Fade visible={!themeSelected?.id}>
-          <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+          <ModalAddLink
+            isUpdateActivities={isUpdateActivities}
+            getDataOG={getDataOG}
+            urlLinkInitial={urlLinkInitial}
+          />
         </Fade>
       </>
     );
@@ -689,12 +721,18 @@ const Compose = (props: IProps) => {
             'flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]',
             {
               'pointer-events-none':
-                requestAddPost?.loading || requestUploadFile.loading || requestUpdatePost.loading,
+                requestAddPost?.loading ||
+                requestUploadFile.loading ||
+                requestUpdatePost.loading ||
+                requestGetDetailPost.loading,
             },
           )}
           onClick={onAddPost}
         >
-          {requestAddPost?.loading || requestUploadFile.loading || requestUpdatePost.loading ? (
+          {requestAddPost?.loading ||
+          requestUploadFile.loading ||
+          requestUpdatePost.loading ||
+          requestGetDetailPost.loading ? (
             <Loading />
           ) : (
             <IconSend />

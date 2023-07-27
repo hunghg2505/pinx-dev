@@ -3,6 +3,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { MainButton } from '@components/UI/Button';
@@ -17,6 +18,7 @@ interface IProps {
 
 const DeactivateAccount = (props: IProps) => {
   const { t } = useTranslation('setting');
+  const router = useRouter();
   const { userLoginInfo } = useUserLoginInfo();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
@@ -43,6 +45,17 @@ const DeactivateAccount = (props: IProps) => {
           onClose={onClosePopup}
         />
       )}
+
+      <div
+        onClick={() => router.back()}
+        className='cursor-pointer pl-[12px] pt-[12px] mobile:inline-block tablet:hidden'
+      >
+        <img
+          src='/static/icons/back_icon.svg'
+          alt='Back icon'
+          className='inline-block h-[28px] w-[28px] object-contain'
+        />
+      </div>
 
       <div className='px-4'>
         <Text

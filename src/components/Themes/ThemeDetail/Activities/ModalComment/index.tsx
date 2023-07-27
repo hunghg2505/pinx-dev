@@ -70,7 +70,7 @@ const ModalComment = (props: Iprops) => {
               data={comment}
               key={index}
               onReplies={onReplies}
-              refresh={refreshCommentOfPost}
+              refreshCommentOfPOst={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
             />
@@ -115,7 +115,7 @@ const ModalComment = (props: Iprops) => {
                       data={item}
                       onReplies={onReplies}
                       refreshTotal={refresh}
-                      refresh={refreshCommentOfPost}
+                      refreshCommentOfPOst={refreshCommentOfPost}
                     />
                     {getSubComment(item.children)}
                   </>

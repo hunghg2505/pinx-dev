@@ -18,7 +18,7 @@ export const FilterFake = () => {
         <Text
           type='body-16-bold'
           color='neutral-2'
-          className='mr-[12px] mobile:text-[16px] desktop:!text-[24px]'
+          className='mr-[12px] mobile:text-[20px] desktop:!text-[24px]'
         >
           {t('news_feed')}
         </Text>
@@ -38,7 +38,7 @@ const HomeFeedFilter = (props: IPropsModalFilter) => {
         <Text
           type='body-16-bold'
           color='neutral-2'
-          className='mr-[12px] mobile:text-[16px] desktop:!text-[24px]'
+          className='mr-[12px] mobile:text-[20px] desktop:!text-[24px]'
         >
           {t('news_feed')}
         </Text>

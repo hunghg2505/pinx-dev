@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import {
   ISuggestionPeople,
   requestFollowUser,
-  requestUnFollowUser,
+  // requestUnFollowUser,
 } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -18,22 +18,22 @@ interface IProps {
   data: ISuggestionPeople;
   refresh?: () => void;
 }
-const IconFollowBlue = () => (
-  <svg width='10' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <path
-      d='M1 5L4.99529 9L13 1'
-      stroke='#FFFFFF'
-      strokeWidth='1.5'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-    />
-  </svg>
-);
+// const IconFollowBlue = () => (
+//   <svg width='10' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
+//     <path
+//       d='M1 5L4.99529 9L13 1'
+//       stroke='#FFFFFF'
+//       strokeWidth='1.5'
+//       strokeLinecap='round'
+//       strokeLinejoin='round'
+//     />
+//   </svg>
+// );
 const ItemPeople = (props: IProps) => {
   const { t } = useTranslation();
   const { data, refresh } = props;
   const router = useRouter();
-  const [isFollow, setIsFollow] = React.useState(false);
+  // const [isFollow, setIsFollow] = React.useState(false);
   const image = data.avatar.includes('http');
   const useFollowUser = useRequest(
     () => {
@@ -43,35 +43,36 @@ const ItemPeople = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh && refresh();
-        setIsFollow(true);
+        // setIsFollow(true);
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
       },
     },
   );
-  const useUnFollowUser = useRequest(
-    () => {
-      return requestUnFollowUser(data.id);
-    },
-    {
-      manual: true,
-      onSuccess: () => {
-        setIsFollow(false);
-        // refresh && refresh();
-        // refreshList();
-      },
-      onError: (e: any) => {
-        toast(() => <Notification type='error' message={e?.error} />);
-      },
-    },
-  );
+  // const useUnFollowUser = useRequest(
+  //   () => {
+  //     return requestUnFollowUser(data.id);
+  //   },
+  //   {
+  //     manual: true,
+  //     onSuccess: () => {
+  //       setIsFollow(false);
+  //       refresh && refresh();
+  //       // refreshList();
+  //     },
+  //     onError: (e: any) => {
+  //       toast(() => <Notification type='error' message={e?.error} />);
+  //     },
+  //   },
+  // );
   const onFollow = () => {
-    if (isFollow) {
-      useUnFollowUser.run();
-    } else {
-      useFollowUser.run();
-    }
+    // if (isFollow) {
+    //   useUnFollowUser.run();
+    // } else {
+    //   useFollowUser.run();
+    // }
+    useFollowUser.run();
   };
   return (
     <>
@@ -131,7 +132,7 @@ const ItemPeople = (props: IProps) => {
           className='flex h-[24px] w-[33px] cursor-pointer items-center justify-center rounded-[16px] bg-[#589DC0]'
           onClick={onFollow}
         >
-          {isFollow ? (
+          {/* {isFollow ? (
             <IconFollowBlue />
           ) : (
             <img
@@ -141,7 +142,8 @@ const ItemPeople = (props: IProps) => {
               height='0'
               className='w-[10px]'
             />
-          )}
+          )} */}
+          <img src='/static/icons/iconPlus.svg' alt='' width='0' height='0' className='w-[10px]' />
         </div>
       </div>
     </>

@@ -34,14 +34,13 @@ interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
-  refresh?: () => void;
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
   refreshCommentOfPOst?: () => void;
 }
 const ItemComment = (props: IProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const { statusUser, isLogin } = useUserType();
@@ -50,7 +49,6 @@ const ItemComment = (props: IProps) => {
     onNavigate,
     data,
     onReplies,
-    refresh,
     refreshTotal,
     isChildren = false,
     width,
@@ -97,6 +95,7 @@ const ItemComment = (props: IProps) => {
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
   const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
+
   const useLike = useRequest(
     () => {
       return requestLikeComment(data.id);
@@ -104,7 +103,6 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh && refresh();
         refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
@@ -119,6 +117,7 @@ const ItemComment = (props: IProps) => {
       },
     },
   );
+
   const useUnLike = useRequest(
     () => {
       return requestUnLikeComment(data.id);
@@ -126,7 +125,6 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh && refresh();
         refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
@@ -173,7 +171,6 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh && refresh();
         refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);
@@ -340,14 +337,13 @@ const ItemComment = (props: IProps) => {
             <ModalReportComment
               isReported={data?.isReport}
               postID={data?.id}
-              refresh={refresh}
               refreshCommentOfPOst={refreshCommentOfPOst}
             >
               {numberReport} {t('report')}
             </ModalReportComment>
 
             <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
-              {dayjs(data?.timeString).fromNow(true)}
+              {dayjs(data?.timeString)?.locale(i18n.language)?.fromNow(true)}
             </Text>
           </div>
           <div
