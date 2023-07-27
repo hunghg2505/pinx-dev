@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
+import { profileUserContext } from '@components/MyProfile';
+import Notification from '@components/UI/Notification';
 import { popupStatusAtom } from '@store/popup/popup';
 
 const NotFound = () => {
   const { t } = useTranslation('profile');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const profileUser = useContext<any>(profileUserContext);
+
   return (
     <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap tablet:px-0'>
       <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
@@ -24,10 +29,14 @@ const NotFound = () => {
           </p>
           <button
             onClick={() => {
-              setPopupStatus({
-                ...popupStatus,
-                popupEkyc: true,
-              });
+              if (profileUser.custStat === 'PRO' && profileUser.acntStat === 'PENDING_TO_CLOSE') {
+                toast(() => <Notification type='error' message={t('pennding_to_close')} />);
+              } else {
+                setPopupStatus({
+                  ...popupStatus,
+                  popupEkyc: true,
+                });
+              }
             }}
             className='
               line-[18px]
