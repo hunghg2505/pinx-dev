@@ -192,12 +192,21 @@ const NewFeedItem = (props: IProps) => {
       }
 
       return (
-        <Dropdown
-          trigger={['hover', 'click']}
-          animation='slide-up'
-          placement='bottomRight'
-          overlay={
-            <div className='box-shadow w-[100px]'>
+        <div className='relative'>
+          <img
+            src='/static/icons/iconDot.svg'
+            alt=''
+            width='0'
+            height='0'
+            className='w-[33px] cursor-pointer'
+            onClick={() => setShowButtonActions(!showButtonActions)}
+          />
+
+          <Fade
+            visible={showButtonActions}
+            className='popup box-shadow absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+          >
+            <div className=' '>
               {cond1 && (
                 <div
                   className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
@@ -284,17 +293,8 @@ const NewFeedItem = (props: IProps) => {
                 </>
               )}
             </div>
-          }
-        >
-          <img
-            src='/static/icons/iconDot.svg'
-            alt=''
-            width='0'
-            height='0'
-            className='w-[33px] cursor-pointer'
-            onClick={() => setShowButtonActions(!showButtonActions)}
-          />
-        </Dropdown>
+          </Fade>
+        </div>
       );
     };
 
@@ -318,6 +318,7 @@ const NewFeedItem = (props: IProps) => {
   if (!postDetail) {
     return <></>;
   }
+
   return (
     <>
       <div className='mb-4 flex flex-row justify-between'>
