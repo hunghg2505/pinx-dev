@@ -3,13 +3,17 @@ import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
+import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
@@ -71,6 +75,7 @@ const IconChecked = () => (
 
 const ThemesItem = (props: IProps) => {
   const { t } = useTranslation(['theme', 'common']);
+  const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const isLogin = !!getAccessToken();
   const { theme, refresh } = props;
@@ -85,9 +90,15 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        toast((t) => <NotificationSubsribeTheme theme={theme} toastId={t.id} />, {
+          duration: 5000,
+        });
+        setPopupThemeData(theme);
         refresh && refresh();
       },
-      onError: () => {},
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e?.error} />);
+      },
     },
   );
   const useUnSubcribe = useRequest(
@@ -100,9 +111,15 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        toast(() => <NotificationSubsribeTheme isUnsubscribe theme={theme} />, {
+          duration: 5000,
+        });
+        setPopupThemeData(theme);
         refresh && refresh();
       },
-      onError: () => {},
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e?.error} />);
+      },
     },
   );
   const onSubcribe = (e: any) => {

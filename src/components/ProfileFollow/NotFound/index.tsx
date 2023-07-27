@@ -3,14 +3,12 @@ import React from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
-import noutFoundIMG from './hand chat connect 1.png';
-
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
     <div className='width-[100%]  rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
       <Image
-        src={noutFoundIMG}
+        src={'/static/images/hand chat connect.png'}
         height={312}
         width={291}
         alt="Don't have any result"

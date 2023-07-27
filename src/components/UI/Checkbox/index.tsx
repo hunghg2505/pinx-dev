@@ -3,8 +3,6 @@ import React from 'react';
 
 import Checkbox from 'rc-checkbox';
 
-import 'rc-checkbox/assets/index.css';
-
 interface CheckBoxProps {
   children?: React.ReactNode;
   className?: string;

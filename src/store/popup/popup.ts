@@ -12,6 +12,7 @@ export interface IModalStatus {
   popupEkyc: boolean;
   popupSubsribeTheme: boolean;
   popupSubsribeStock: boolean;
+  popupSubsribeThemeHome: boolean;
 }
 
 export const initialPopupStatus: IModalStatus = {
@@ -26,6 +27,7 @@ export const initialPopupStatus: IModalStatus = {
   popupEkyc: false,
   popupSubsribeTheme: false,
   popupSubsribeStock: false,
+  popupSubsribeThemeHome: false,
 };
 
 export const popupStatusAtom = atom({
