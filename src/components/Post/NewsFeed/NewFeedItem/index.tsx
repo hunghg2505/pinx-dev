@@ -43,7 +43,7 @@ interface IProps {
   isExplore?: boolean;
   totalComments: number;
   onNavigate?: () => void;
-  onRefreshPostDetail: (data: any) => void;
+  onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
 }
 
@@ -173,17 +173,19 @@ const NewFeedItem = (props: IProps) => {
   const ButtonAction = () => {
     const renderdButton = () => {
       const cond1 =
-        [
-          TYPEPOST.POST,
-          TYPEPOST.ActivityTheme,
-          TYPEPOST.ActivityMatchOrder,
-          TYPEPOST.ActivityWatchlist,
-          TYPEPOST.PinetreePost,
-        ].includes(postDetail?.post.postType) &&
-        router.pathname !== '/explore' &&
-        router.pathname.includes('/profile/')
-          ? router.pathname.includes('my-profile')
-          : false && !isMyProfilePath;
+        !(
+          [
+            TYPEPOST.POST,
+            TYPEPOST.ActivityTheme,
+            TYPEPOST.ActivityMatchOrder,
+            TYPEPOST.ActivityWatchlist,
+            TYPEPOST.PinetreePost,
+          ].includes(postDetail?.post.postType) &&
+          router.pathname !== '/explore' &&
+          router.pathname.includes('/profile/') &&
+          isMyPost &&
+          isMyProfilePath
+        ) && !pinned;
 
       const cond2 = !isReported && !isMyPost;
 
@@ -194,12 +196,21 @@ const NewFeedItem = (props: IProps) => {
       }
 
       return (
-        <Dropdown
-          trigger={['hover', 'click']}
-          animation='slide-up'
-          placement='bottomRight'
-          overlay={
-            <div className='box-shadow w-[100px]'>
+        <div className='relative'>
+          <img
+            src='/static/icons/iconDot.svg'
+            alt=''
+            width='0'
+            height='0'
+            className='w-[33px] cursor-pointer'
+            onClick={() => setShowButtonActions(!showButtonActions)}
+          />
+
+          <Fade
+            visible={showButtonActions}
+            className='popup box-shadow absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+          >
+            <div className=' '>
               {cond1 && (
                 <div
                   className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
@@ -244,7 +255,10 @@ const NewFeedItem = (props: IProps) => {
 
               {cond3 && (
                 <>
-                  <ModalEdit postDetail={postDetail} refresh={onRefreshPostDetail}>
+                  <ModalEdit
+                    postDetail={postDetail}
+                    refresh={(newData) => onRefreshPostDetail(newData, true)}
+                  >
                     <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [border-bottom:1px_solid_#EAF4FB]'>
                       <img
                         src='/static/icons/iconEdit.svg'
@@ -286,17 +300,8 @@ const NewFeedItem = (props: IProps) => {
                 </>
               )}
             </div>
-          }
-        >
-          <img
-            src='/static/icons/iconDot.svg'
-            alt=''
-            width='0'
-            height='0'
-            className='w-[33px] cursor-pointer'
-            onClick={() => setShowButtonActions(!showButtonActions)}
-          />
-        </Dropdown>
+          </Fade>
+        </div>
       );
     };
 
@@ -320,6 +325,7 @@ const NewFeedItem = (props: IProps) => {
   if (!postDetail) {
     return <></>;
   }
+
   return (
     <>
       <div className='mb-4 flex flex-row justify-between'>
@@ -327,7 +333,7 @@ const NewFeedItem = (props: IProps) => {
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
           className='flex w-full flex-1 justify-between'
         >
-          <div className='flex cursor-pointer flex-row items-center'>
+          <div className='flex flex-1 cursor-pointer flex-row items-center'>
             <div
               ref={refHover}
               className={classNames('relative', {
@@ -355,9 +361,9 @@ const NewFeedItem = (props: IProps) => {
               </Fade>
             </div>
 
-            <div>
+            <div className='flex-1'>
               <div className='flex'>
-                <div className='mr-[5px] flex items-center'>
+                <div className='mr-[5px] flex flex-1 items-center'>
                   <UserName postDetail={postDetail} />
 
                   {postDetail?.post?.customerInfo?.isFeatureProfile && (

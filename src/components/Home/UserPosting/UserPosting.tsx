@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import ModalCompose from '@components/Home/ModalCompose';
+import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -33,6 +34,10 @@ const UserPosting = ({ onAddNewPost }: any) => {
     return <></>;
   }
 
+  if (!userLoginInfo?.id) {
+    return <UserPostingFake />;
+  }
+
   return (
     <>
       <div className='rounded-[8px] bg-[#FFFFFF] p-[20px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)] mobile:hidden tablet:mb-[20px] tablet:block'>
@@ -53,7 +58,9 @@ const UserPosting = ({ onAddNewPost }: any) => {
             />
           )}
 
-          <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+          <Text type='body-16-semibold' className='w-full max-w-[calc(100%-100px)] flex-1 truncate'>
+            {userLoginInfo?.displayName}
+          </Text>
         </div>
         <div className='mt-[5px] pl-[61px]'>
           <textarea

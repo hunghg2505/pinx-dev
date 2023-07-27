@@ -13,10 +13,11 @@ interface IProps {
   data: IPost;
   pinned?: boolean;
   onRefreshList?: () => void;
+  onRemoveData?: () => void;
 }
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false, onRefreshList } = props;
+  const { data, pinned = false, onRefreshList, onRemoveData } = props;
 
   const [postData, setPostData] = useState(data);
 
@@ -51,11 +52,15 @@ const NewsFeed = (props: IProps) => {
     return <></>;
   };
 
-  const onRefreshPostItem = (newData: IPost) => {
+  const onRefreshPostItem = (newData: IPost, isEdit = false) => {
     setPostData(newData);
 
     if (onRefreshList) {
       onRefreshList();
+    }
+
+    if (!isEdit && onRemoveData) {
+      onRemoveData();
     }
   };
 
@@ -65,7 +70,7 @@ const NewsFeed = (props: IProps) => {
 
   return (
     <>
-      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div className='box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={postData}

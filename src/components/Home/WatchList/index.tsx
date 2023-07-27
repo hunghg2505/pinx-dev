@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
@@ -10,14 +11,26 @@ import { privateRequest, requestPist } from '@api/request';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
+import styles from './index.module.scss';
 import ItemStock from './ItemStock';
 import WatchListDesktop from './WatchListDesktop';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from '../service';
 
+const settings = {
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrows: false,
+  // autoplay: true,
+  // autoplaySpeed: 1000,
+};
+
 const WatchList = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const [dataStock, setDataStock] = React.useState<any>([]);
+  const [dataStock, setDataStock] = useState<any>([]);
 
   const useWatchList = useRequest(
     () => {
@@ -36,7 +49,8 @@ const WatchList = () => {
       },
     },
   );
-  React.useEffect(() => {
+
+  useEffect(() => {
     useWatchList.run();
     return () => {
       if (dataStock) {
@@ -48,7 +62,7 @@ const WatchList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [dataSocket, setDataSocket] = React.useState<any>({});
+  const [dataSocket, setDataSocket] = useState<any>({});
 
   socket.on('public', (message: any) => {
     const data = message.data;
@@ -65,19 +79,11 @@ const WatchList = () => {
       ...dataSocket,
     };
   }
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: false,
-    // autoplay: true,
-    // autoplaySpeed: 1000,
-  };
+
   const onAddStock = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
   };
+  console.log('xxx dataStock', dataStock.slice(0, 5));
   return (
     <>
       <div className='mt-[22px] h-[179px] max-w-[700px] justify-center overflow-hidden mobile:block  tablet:hidden '>
@@ -85,8 +91,9 @@ const WatchList = () => {
           <div>
             <Slider
               {...settings}
-              className='mx-[auto] my-[0] flex w-[calc(100%_-_32px)]'
+              className={classNames('mx-[auto] my-[0] flex w-[calc(100%_-_32px)]', styles.watchListSlick)}
               variableWidth
+
             >
               {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
                 return <ItemStock key={index} data={item} />;

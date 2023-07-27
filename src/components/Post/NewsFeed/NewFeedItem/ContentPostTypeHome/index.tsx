@@ -49,6 +49,10 @@ const ContentPostTypeHome = (props: IProps) => {
       postDetail?.post.action === 'SUBSCRIBE'
         ? '/static/icons/iconSubcribe.svg'
         : '/static/icons/iconUnSubcribe.svg';
+    let postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail?.id);
+    if (postDetail?.postType === TYPEPOST.ActivityTheme) {
+      postDetailUrl = ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode);
+    }
 
     return {
       imageMetaData: metaData?.images?.[0],
@@ -59,7 +63,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
       urlStock,
       iconPost,
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
+      postDetailUrl,
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);
