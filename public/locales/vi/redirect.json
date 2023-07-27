@@ -1,0 +1,8 @@
+{
+  "redirect": "Chuyển hướng",
+  "title": "Chuyển hướng sau",
+  "description": {
+    "first_line": "Bạn đang rời khỏi PineX. Vui lòng không chia sẻ thông tin đăng nhập với bất kỳ bên thứ 3 nào.",
+    "second_line": "Không chuyển hướng? Vui lòng ấn nút 'Tiếp tục' bên dưới"
+  }
+}

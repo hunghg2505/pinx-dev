@@ -26,14 +26,14 @@ const reducer = (state: any, action: any) => {
 
 export const _popoverStyles = {
   opacity: 0,
-  transitionDuration: '300ms',
+  transitionDuration: '150ms',
   transitionProperty: 'opacity',
   transitionTimingFunction: 'cubic-bezier(0, 0, 1, 1)',
 };
 
 export const _popoverVisibleStyles = {
   opacity: 1,
-  transitionDuration: '300ms',
+  transitionDuration: '150ms',
   transitionTimingFunction: 'cubic-bezier(0, 0, 1, 1)',
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import ThemesItem from '@components/Themes/ThemesItem';
@@ -46,6 +47,7 @@ const settings = {
 };
 
 const ListTheme = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const token = getAccessToken();
   const isLogin = !!token;
@@ -89,7 +91,7 @@ const ListTheme = () => {
           onClick={() => router.push(ROUTE_PATH.THEME)}
         >
           <Text type='body-14-bold' color='primary-2'>
-            Explore themes
+            {t('theme:explore_themes')}
           </Text>
         </div>
       </div>

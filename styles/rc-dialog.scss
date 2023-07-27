@@ -2,6 +2,11 @@
   position: relative;
   width: auto;
   margin: 10px;
+  max-width: 625px;
+
+  @media (max-width: 568px) {
+    max-width: calc(100% - 20px);
+  }
 }
 .rc-dialog-wrap {
   position: fixed;
@@ -32,6 +37,10 @@
   margin: auto;
   overflow: auto;
   max-height: calc(100vh - 50px);
+
+  @media (max-width: 576px) {
+    max-height: calc(100vh - 160px);
+  }
 }
 .rc-dialog-close {
   cursor: pointer;
@@ -171,7 +180,7 @@
   .md-modal-mask {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 49;
     height: 100%;
     background-color: #00000073;
   }

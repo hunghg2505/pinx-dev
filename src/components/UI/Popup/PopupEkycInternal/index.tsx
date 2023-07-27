@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -15,6 +16,7 @@ interface IProps {
 }
 
 const PopUpEkycInternal = (props: IProps) => {
+  const { t } = useTranslation();
   const { visible } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
@@ -27,16 +29,16 @@ const PopUpEkycInternal = (props: IProps) => {
 
   return (
     <Modal visible={visible} onClose={handleClose}>
-      <div className='fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-[#EAF4FB] p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
+      <div className=''>
         <Text
           type='body-20-bold'
           color='neutral-1'
           className='mb-[12px] text-center tablet:!text-[24px]'
         >
-          Access Limited
+          {t('access_limited')}
         </Text>
         <Text type='body-16-regular' color='neutral-3' className='mb-[24px] text-center'>
-          You need to upgrade your account to gain access to this feature by using PineX app
+          {t('upgrade_your_account')}
         </Text>
 
         <div className='gap-x-[13px] mobile:flex tablet:hidden'>
@@ -45,7 +47,7 @@ const PopUpEkycInternal = (props: IProps) => {
             onClick={handleClose}
           >
             <Text type='body-16-bold' color='primary-2'>
-              Cancel
+              {t('cancel')}
             </Text>
           </div>
           <Link
@@ -53,7 +55,7 @@ const PopUpEkycInternal = (props: IProps) => {
             className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
           >
             <Text type='body-16-bold' color='cbwhite'>
-              OK
+              {t('ok')}
             </Text>
           </Link>
         </div>

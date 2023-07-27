@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 import 'rc-dialog/assets/index.css';
 import dayjs from 'dayjs';
+import { useTranslation } from 'next-i18next';
 import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -35,6 +36,7 @@ const PopupFollowStock = ({
   background,
   onRefreshStockActivities,
 }: IPopupFollowStockProps) => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
 
@@ -93,7 +95,7 @@ const PopupFollowStock = ({
           className='mb-[20px] flex h-[60px] flex-col items-start justify-start'
         >
           <textarea
-            placeholder='What do you want to comment?'
+            placeholder={t('what_do_you_want_to_comment')}
             className='h-full w-full resize-none text-[16px] outline-none'
           />
         </FormItem>
@@ -146,7 +148,7 @@ const PopupFollowStock = ({
         </div>
 
         <MainButton type='submit' className='mt-[20px] w-full'>
-          Create post
+          {t('create_post')}
         </MainButton>
       </Form>
     </Dialog>

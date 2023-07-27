@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import { API_PATH } from '@api/constant';
@@ -14,6 +15,7 @@ import WatchListDesktop from './WatchListDesktop';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from '../service';
 
 const WatchList = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [dataStock, setDataStock] = React.useState<any>([]);
 
@@ -105,7 +107,7 @@ const WatchList = () => {
               className='mb-[24px] mt-[48px] h-[38px] w-[38px]'
             />
             <Text type='body-14-bold' color='primary-1' className='text-center'>
-              Add favorite stock
+              {t('add_favorite_stock')}
             </Text>
           </div>
         )}
@@ -127,7 +129,7 @@ const WatchList = () => {
               className='mr-[12px] h-[36px] w-[36px]'
             />
             <Text type='body-14-bold' color='primary-1' className='text-center'>
-              Add favorite stock
+              {t('add_favorite_stock')}
             </Text>
           </div>
         )}

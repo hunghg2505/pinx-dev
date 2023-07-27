@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import {
@@ -29,7 +30,8 @@ const IconFollowBlue = () => (
   </svg>
 );
 const ItemPeople = (props: IProps) => {
-  const { data } = props;
+  const { t } = useTranslation();
+  const { data, refresh } = props;
   const router = useRouter();
   const [isFollow, setIsFollow] = React.useState(false);
   const image = data.avatar.includes('http');
@@ -40,7 +42,7 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        // refresh && refresh();
+        refresh && refresh();
         setIsFollow(true);
       },
       onError: (e: any) => {
@@ -122,7 +124,7 @@ const ItemPeople = (props: IProps) => {
 
           <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
             <p>{data?.numberFollowers}</p>
-            <p>Followers</p>
+            <p>{t('followers')}</p>
           </Text>
         </div>
         <div

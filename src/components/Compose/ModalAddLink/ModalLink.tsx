@@ -50,7 +50,7 @@ const ModalLink = (props: IProps) => {
       <Modal visible={visible} onClose={onVisible} className='addLink'>
         <div className='text-center'>
           <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
-            Add link to post
+            {t('add_link_to_post')}
           </Text>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <Form form={form} onFinish={onSubmit}>
@@ -67,7 +67,10 @@ const ModalLink = (props: IProps) => {
                 }),
               ]}
             >
-              <textarea placeholder='Input link...' className='h-[100px] w-full outline-none' />
+              <textarea
+                placeholder={`${t('input_link')}...`}
+                className='h-[100px] w-full outline-none'
+              />
             </FormItem>
           </Form>
           <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
@@ -78,7 +81,7 @@ const ModalLink = (props: IProps) => {
               className='w-2/4 cursor-pointer [border-right:1px_solid_#EBEBEB]'
               onClick={onVisible}
             >
-              Cancel
+              {t('cancel')}
             </Text>
             <Text
               type='body-16-semibold'
@@ -86,7 +89,7 @@ const ModalLink = (props: IProps) => {
               className='w-2/4 cursor-pointer'
               onClick={form.submit}
             >
-              Save
+              {t('save')}
             </Text>
           </div>
         </div>

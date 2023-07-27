@@ -151,10 +151,9 @@ const Setting = () => {
               {item.title}
             </Text>
             {item.isNew && (
-              <div className='bg-[#D87737] rounded-[4px] px-[6px] py-[3px] text-white ml-[10px]'>
+              <div className='ml-[10px] rounded-[4px] bg-[#D87737] px-[6px] py-[3px] text-white'>
                 {t('new')}
               </div>
-
             )}
           </div>
 
@@ -209,10 +208,10 @@ const Setting = () => {
           alt=''
           width='0'
           height='0'
-          className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px]'
+          className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px] laptop:hidden'
           onClick={onBack}
         />
-        <Text className='mb-1 text-[20px] font-[700] mobile:mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-center laptop:text-[28px]'>
+        <Text className='mb-1 text-[20px] font-[700] mobile:mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-left laptop:text-[28px]'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />

@@ -1,3 +1,5 @@
+import { useTranslation } from 'next-i18next';
+
 import Text from '@components/UI/Text';
 
 import { ITrending, useGetTrending } from '../service';
@@ -7,11 +9,12 @@ export enum TYPETRENDING {
   ALL = 'ALL',
 }
 const Trending = () => {
+  const { t } = useTranslation();
   const { dataTrending } = useGetTrending();
   return (
     <>
       <Text type='body-16-bold' color='neutral-2' className='mb-4'>
-        Trending
+        {t('trending')}
       </Text>
       <div className='flex flex-wrap gap-x-[18px] gap-y-[10px]'>
         {dataTrending
