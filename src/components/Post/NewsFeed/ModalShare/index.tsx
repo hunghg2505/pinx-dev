@@ -8,6 +8,8 @@ import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { SHARE_THIS_PROPERTY_ID, ZALO_OAID } from 'src/constant';
 
+import styles from './index.module.scss';
+
 const ZALO_SCRIPT_ID = 'zalo-share-script';
 const SHARE_THIS_SCRIPT_ID = 'share-this-script';
 
@@ -120,6 +122,7 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
           setIsCopied(false);
           setVisible(false);
         }}
+        className={styles.modalShare}
       >
         <div className='mt-[24px]'>
           <div>
