@@ -22,6 +22,7 @@ const Page = ({
           notFound: res?.last === undefined && !res?.data?.list?.length && prev.pages.length === 0,
         }));
       },
+      refreshDeps: [last],
     },
     last,
   );
