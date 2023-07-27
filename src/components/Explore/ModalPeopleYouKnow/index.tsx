@@ -14,10 +14,12 @@ import PeopleItem from './PeopleItem';
 interface Iprops {
   children: any;
   closeIcon?: boolean;
+  onClose?: () => void;
 }
 
 const ModalPeopleYouKnow = (props: Iprops) => {
   const { t } = useTranslation('common');
+  const { onClose = () => {} } = props;
   const refScroll = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState<boolean>(false);
   const { children, closeIcon } = props;
@@ -56,7 +58,10 @@ const ModalPeopleYouKnow = (props: Iprops) => {
       </div>
       <Modal
         visible={visible}
-        onClose={onVisible}
+        onClose={() => {
+          onVisible();
+          onClose();
+        }}
         closeIcon={renderCloseIcon()}
         className='peopleYouKnow'
         wrapClassName={styles.dialog}
@@ -81,4 +86,5 @@ const ModalPeopleYouKnow = (props: Iprops) => {
     </>
   );
 };
+
 export default ModalPeopleYouKnow;
