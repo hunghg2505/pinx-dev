@@ -72,6 +72,10 @@ export const PineTreePost = ({
           </CustomLink>
         )}
 
+        {!postDetail?.post?.headImageUrl && (
+          <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
+        )}
+
         <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
           <div
             className={

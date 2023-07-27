@@ -462,16 +462,16 @@ const Compose = (props: IProps) => {
       }
 
       if (themeActiveId === 'default' && !isUpdate) {
-        delete data?.postThemeId;
+        data.postThemeId = '';
       }
 
       if (!imageUploadedUrl) {
-        delete data?.urlImages;
+        data.urlImages = [];
       }
 
       if (themeActiveId !== 'default') {
-        delete data?.urlImages;
-        delete data?.urlLinks;
+        data.urlImages = [];
+        data.urlLinks = [];
       }
 
       // hide when > 240 characters

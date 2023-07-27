@@ -82,6 +82,10 @@ export const VietStockNews = ({
           </CustomLink>
         )}
 
+        {!postDetail?.post?.headImageUrl && (
+          <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
+        )}
+
         {!postDetail?.post?.headImageUrl && pinned && (
           <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
         )}
