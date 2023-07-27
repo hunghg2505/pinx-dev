@@ -1,14 +1,22 @@
 import React from 'react';
 
-import { ISuggestionPeople, useSuggestPeople } from '@components/Home/service';
+import { ISuggestionPeople } from '@components/Home/service';
 import SkeletonLoading from '@components/UI/Skeleton';
 import { getAccessToken } from '@store/auth';
 
 import ItemPeople from './ItemPeople';
 
-const PeopleDesktop = () => {
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+interface IPeopleDesktopProps {
+  suggestionPeople: any;
+  getSuggestFriend: () => void;
+  refreshList: () => void;
+}
 
+const PeopleDesktop = ({
+  suggestionPeople,
+  getSuggestFriend,
+  refreshList,
+}: IPeopleDesktopProps) => {
   React.useEffect(() => {
     const isLogin = !!getAccessToken();
 
