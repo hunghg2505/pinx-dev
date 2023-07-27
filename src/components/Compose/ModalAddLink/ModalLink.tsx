@@ -20,6 +20,7 @@ const ModalLink = (props: IProps) => {
   const { children, getDataOG, urlLinkInitial } = props;
   const { t } = useTranslation('common');
   const [visible, setVisible] = React.useState<boolean>(false);
+
   const onVisible = async () => {
     setVisible(!visible);
     const text = await navigator?.clipboard?.readText();
