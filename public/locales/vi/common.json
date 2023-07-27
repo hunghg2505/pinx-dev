@@ -125,7 +125,7 @@
   "footer_content": "Đăng ký hoặc Đăng nhập để tham gia trao đổi",
   "Verified": "Đã xác thực",
   "Unverified": "Chưa xác thực",
-  "Pending": "Đang xác thực",
+  "Pending": "Chờ xác thực",
   "upgrade_account": "Nâng cấp tài khoản giao dịch",
   "try_full_experience_on": "Trải nghiệm đầy đủ tại",
   "mobile_app": "App điện thoại",
@@ -212,5 +212,6 @@
   "post_update_success_msg": "Chỉnh sửa thành công",
   "post_create_success_msg": "Tạo bài viết thành công",
   "sell": "Bán",
-  "bought": "Bought"
+  "bought": "Bought",
+  "create_post_placeholder": "Sử dụng % để đề cập đến mã cổ phiếu, # để hashtag bài viết, @ để đề cập đến người khác"
 }
