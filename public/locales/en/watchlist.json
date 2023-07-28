@@ -9,5 +9,6 @@
     "emptyTitle": "Empty",
     "emptyDesc": "No transactions"
   },
-  "editText": "Edit list"
+  "editText": "Edit list",
+  "emptyText": "Empty"
 }
