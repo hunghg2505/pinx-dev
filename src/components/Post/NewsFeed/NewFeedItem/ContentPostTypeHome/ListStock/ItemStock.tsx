@@ -18,7 +18,7 @@ const ItemStock = ({ data }: { data: string }) => {
             <img
               src={url}
               alt=''
-              className='block h-[24px] w-[24px] rounded-full border-2 border-solid border-white object-contain'
+              className='block h-[24px] min-w-[24px] max-w-[24px] rounded-full border-2 border-solid border-white object-contain'
             />
           </div>
         )}
