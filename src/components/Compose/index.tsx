@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -32,7 +32,13 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
-import getSeoDataFromLink, { base64ToBlob, formatMessage, isImage, toBase64 } from '@utils/common';
+import getSeoDataFromLink, {
+  base64ToBlob,
+  converStringMessageToObject,
+  formatMessage,
+  isImage,
+  toBase64,
+} from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -63,11 +69,14 @@ type TMeta = Array<{
 
 const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
+
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
+  // console.log('🚀 ~ file: index.tsx:78 ~ Compose ~ postDetail:', postDetail);
   const bgTheme = useAtomValue(postThemeAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
-
+  const objectMessage = converStringMessageToObject(postDetail?.post?.message);
+  console.log('🚀 ~ file: index.tsx:145 ~ Compose ~ objectMessage:', objectMessage);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -277,7 +286,7 @@ const Compose = (props: IProps) => {
           class: 'focus:outline-none h-full',
         },
       },
-      content: `${message || ''}`,
+      // content: `${message || ''}`,
       onUpdate({ editor }) {
         const textCompose = editor?.getText();
         const length = textCompose?.length;
@@ -291,6 +300,12 @@ const Compose = (props: IProps) => {
     },
     [message],
   );
+
+  React.useEffect(() => {
+    if (isUpdate) {
+      editor?.commands?.insertContent(objectMessage);
+    }
+  }, [editor]);
 
   const themeSelected: any = useMemo(() => {
     if (themeActiveId === 'default') {
@@ -339,8 +354,10 @@ const Compose = (props: IProps) => {
 
       const users: any = [];
       const stock: any = [];
-
-      const messageHtml = editor?.getHTML();
+      const idUser: any = [];
+      const messageHtml = editor?.getJSON();
+      console.log('html', editor?.getHTML());
+      console.log('🚀 ~ file: index.tsx:357 ~ onAddPost ~ messageHtml:', messageHtml);
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
 
@@ -360,12 +377,11 @@ const Compose = (props: IProps) => {
       if (url) {
         urlLinks.push(url);
       }
-
       const test = editor?.getJSON()?.content?.map((item: any) => {
         const abcd = item?.content?.map((text: any) => {
           let p = '';
 
-          if (text.type === 'text') {
+          if (text.type === 'text' && text?.text !== ' ') {
             const txt = text.text.split(' ');
             for (const item of txt) {
               if (item.includes('http') && urlLinks.length < 2) {
@@ -379,24 +395,44 @@ const Compose = (props: IProps) => {
           if (text.type === 'userMention') {
             const query = text.attrs.label;
             users.push(query);
+            idUser.push(text.attrs.id);
             p = `@[${text.attrs.label}](${text.attrs.id})`;
           }
 
           if (text.type === 'stockMention') {
             const query = text.attrs.label;
             stock.push(query);
-            p = `%[${text.attrs.label}](${text.attrs.label})`;
+            p = `%[${text.attrs.label}](${text.attrs.label}) `;
           }
 
-          if (text.type === 'hardBreak') {
-            p = '\n';
-          }
+          // if (text.type === 'hardBreak') {
+          //   p = '\n';
+          // }
 
           return p;
         });
-        return abcd?.join('');
-      });
+        const dataReduce = abcd?.reduce((acc: any, cur: any, index: any) => {
+          if (cur === '') {
+            const prevIndex = index - 1;
 
+            if (prevIndex >= 0) {
+              const item = acc[prevIndex];
+              if (item) {
+                acc.splice(prevIndex, 1, `${item} `);
+              }
+            }
+            return acc;
+          }
+
+          acc.push(cur);
+
+          return acc;
+        }, []);
+        const dataJoin = dataReduce?.join('');
+        return dataJoin;
+      });
+      // console.log('test', reduce.join(''));
+      const message = test?.flat().join('\n');
       const tagPeople = await Promise.all(
         users?.map(async (item: string) => {
           const payload: ISearch = {
@@ -406,28 +442,35 @@ const Compose = (props: IProps) => {
           const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
             data: payload,
           });
+
           return data?.data?.users;
         }),
       );
 
-      const formatTagPeople = tagPeople.flat()?.map((item: any) => {
-        return {
-          avatar: item?.avatar,
-          customerId: item?.id,
-          id: item?.id,
-          displayName: item?.displayName,
-          isFeatureProfile: item?.isFeatureProfile,
-          isKol: item?.isKol,
-          name: item?.name,
-          numberFollowers: item?.numberFollowers,
-        };
-      });
+      const formatTagPeople = tagPeople
+        .flat()
+        ?.filter((item) => idUser.includes(item?.id))
+        ?.map((item: any) => {
+          return {
+            avatar: item?.avatar,
+            customerId: item?.id,
+            id: item?.id,
+            displayName: item?.displayName,
+            isFeatureProfile: item?.isFeatureProfile,
+            isKol: item?.isKol,
+            name: item?.name,
+            username: item?.username,
+            numberFollowers: item?.numberFollowers,
+          };
+        });
 
-      const message = test?.flat()?.join('\n');
+      // const message = test?.flat()?.join('\n');
 
       const data: IData = {
-        message: messageHtml,
-        tagPeople: formatTagPeople,
+        message,
+        tagPeople: isUpdate
+          ? [...postDetail?.post?.tagPeople, ...formatTagPeople]
+          : formatTagPeople,
         tagStocks: stock,
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
         // parentId: idReply === '' ? id : idReply,
@@ -492,7 +535,6 @@ const Compose = (props: IProps) => {
         if (isUpdate) {
           return requestUpdatePost.run(data);
         }
-
         requestAddPost.run(data);
       }
     } catch (error) {
