@@ -14,7 +14,6 @@ const NotFound = ({ refresh }: any) => {
   const { t } = useTranslation('profile');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const refModal: any = useRef();
-
   return (
     <>
       <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap tablet:px-0'>
@@ -43,12 +42,7 @@ const NotFound = ({ refresh }: any) => {
                   refModal?.current?.onVisible && refModal?.current?.onVisible();
                 }
               }}
-              className='line-[18px] block w-full  max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px]
-        py-[12px]
-        text-[14px]
-        font-[600]
-        text-white
-        '
+              className='line-[18px] block w-full  max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white'
             >
               {t('write_now')}
             </button>
