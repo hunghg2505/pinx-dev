@@ -17,7 +17,6 @@ const Page = ({
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
-        notFound: page === 1 && !res?.data?.length,
       }));
     },
   });
@@ -25,11 +24,14 @@ const Page = ({
     <>
       {data?.data?.map((item: any) => {
         return (
-          <div key={item.id}>
+          <div key={item.id} className='ease-in-out duration-1000'>
             <UserFolowDesktop
               {...item}
-              refresh={() => {
-                profileUser.reload();
+              onUnFollow={() => {
+                profileUser.setState((prev: any) => ({
+                  ...prev,
+                  totalFollowing: prev.totalFollowing - 1,
+                }));
                 refresh();
               }}
             />

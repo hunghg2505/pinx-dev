@@ -34,6 +34,12 @@ const Desktop = () => {
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
                   replace({ query: { ...query, tab: key } });
+                  if (key === 'following') {
+                    profileUser.setState((prev: any) => ({ ...prev, followingKey: Date.now() }));
+                  }
+                  if (key === 'followers') {
+                    profileUser.setState((prev: any) => ({ ...prev, followerKey: Date.now() }));
+                  }
                 }}
               />
             </>
@@ -61,12 +67,12 @@ const Desktop = () => {
 
         <TabPane tab={t('following')} key='following'>
           <div className='px-[16px] tablet:px-0'>
-            <Following key={profileUser?.totalFollowing} />
+            <Following totalFollowing={profileUser.totalFollowing} key={profileUser.followingKey} />
           </div>
         </TabPane>
         <TabPane tab={t('followers')} key='followers'>
           <div className='px-[16px] tablet:px-0'>
-            <Follower key={profileUser?.totalFollower} />
+            <Follower totalFollower={profileUser?.totalFollower} key={profileUser.followerKey} />
           </div>
         </TabPane>
       </Tabs>

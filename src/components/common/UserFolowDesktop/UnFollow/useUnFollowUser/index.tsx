@@ -16,7 +16,10 @@ const useUnFollowUser = () => {
     },
     {
       manual: true,
-      onSuccess: context?.refresh,
+      onSuccess: () => {
+        context.setState((prev: any) => ({ ...prev, isFollowed: false }));
+        context?.onUnFollow();
+      },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
       },

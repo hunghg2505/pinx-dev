@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -11,13 +11,29 @@ export const profileUserContext = createContext<any>(undefined);
 
 const MyProfile = () => {
   const { userLoginInfo } = useUserLoginInfo();
-  const { profileOtherUser, run } = useGetProfileOtherUser(Number(userLoginInfo?.id));
+  const { profileOtherUser, run } = useGetProfileOtherUser(Number(userLoginInfo?.id), {
+    onSuccess: (res: any) => {
+      setState({
+        ...res.data,
+        followingKey: Date.now(),
+        followerKey: Date.now(),
+      });
+    },
+  });
+  const [state, setState] = useState({
+    ...userLoginInfo,
+    ...profileOtherUser,
+    followingKey: Date.now(),
+    followerKey: Date.now(),
+  });
   return (
     <profileUserContext.Provider
       value={{
-        ...userLoginInfo,
-        ...profileOtherUser,
-        reload: run,
+        ...state,
+        reload: async () => {
+          await run();
+        },
+        setState,
       }}
     >
       <div className=' flex min-h-screen'>

@@ -22,7 +22,12 @@ const NotFound = () => {
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('following_empty')}
           </p>
-          <ModalPeopleYouKnow onClose={profileUser.reload}>
+          <ModalPeopleYouKnow
+            onClose={() => {
+              profileUser.reload();
+              profileUser.setState((prev: any) => ({ ...prev, followingKey: Date.now() }));
+            }}
+          >
             <button
               className='
               line-[18px]
