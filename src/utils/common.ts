@@ -433,13 +433,9 @@ export default async function getSeoDataFromLink(url: string) {
     }
 
     if (url.includes('tiktok')) {
-      const rest: any = await fetch(`https://www.tiktok.com/oembed?url=${new URL(url)}`, {
-        mode: 'cors',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-        },
-      }).then((res: any) => res.json());
+      const rest: any = await fetch(`https://www.tiktok.com/oembed?url=${new URL(url)}`).then(
+        (res: any) => res.json(),
+      );
 
       const formatMetaTiktok = [
         { property: 'og:site_name', content: rest?.provider_name || 'Tiktok' },
@@ -453,12 +449,7 @@ export default async function getSeoDataFromLink(url: string) {
       return formatMetaTiktok;
     }
 
-    const rest = await fetch(new URL(url), {
-      mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    }).then((res: any) => res.text());
+    const rest = await fetch(new URL(url)).then((res: any) => res.text());
 
     const doc = new DOMParser().parseFromString(rest as string, 'text/html');
 
@@ -479,6 +470,11 @@ export default async function getSeoDataFromLink(url: string) {
   } catch (error: any) {
     console.log('ERROR FETCHING META LINK', error);
 
-    return [];
+    return [
+      {
+        property: 'og:url',
+        content: url,
+      },
+    ];
   }
 }
