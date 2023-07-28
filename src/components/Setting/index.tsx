@@ -2,7 +2,7 @@
 import React, { useMemo, useState } from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+// import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import type { SwitchChangeEventHandler } from 'rc-switch';
@@ -15,7 +15,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie } from '@store/locale';
-import { openProfileAtom } from '@store/profile/profile';
+// import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
 
@@ -46,8 +46,8 @@ const Setting = () => {
   const { data: settingsData, loading } = useGetSettings();
   const { isMobile } = useResponsive();
   const { isDesktop } = useResponsive();
-  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
-  const fromProfileMenu = router.query.from_profile_menu;
+  // const [, setOpenProfileMenu] = useAtom(openProfileAtom);
+  // const fromProfileMenu = router.query.from_profile_menu;
 
   const requestUpdateSetting = useUpdateSetting({
     onError: (e: any) => {
@@ -187,12 +187,12 @@ const Setting = () => {
     setPopupHotlineVisible(!popupHotlineVisible);
   };
 
-  const onBack = () => {
-    if (fromProfileMenu) {
-      setOpenProfileMenu(true);
-    }
-    router.back();
-  };
+  // const onBack = () => {
+  //   if (fromProfileMenu) {
+  //     setOpenProfileMenu(true);
+  //   }
+  //   router.back();
+  // };
 
   if (loading) {
     return <></>;
@@ -203,15 +203,15 @@ const Setting = () => {
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
       <div className='relative rounded-[8px] bg-white text-left first-letter:w-full mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
-        <img
+        {/* <img
           src='/static/icons/back_icon.svg'
           alt=''
           width='0'
           height='0'
           className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px] laptop:hidden'
           onClick={onBack}
-        />
-        <Text className='mb-1 text-[20px] font-[700] mobile:mt-6 laptop-max:ml-4 laptop:mt-0 laptop:text-left laptop:text-[28px]'>
+        /> */}
+        <Text className='mb-1 text-[20px] font-[700] mobile:pt-6 laptop-max:ml-4 laptop:pt-0 laptop:text-left laptop:text-[28px]'>
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />

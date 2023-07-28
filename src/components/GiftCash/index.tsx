@@ -24,7 +24,7 @@ const GiftCash = () => {
   return (
     <div className='overflow-x-hidden rounded-[8px] bg-[#FFF] px-[24px] py-[20px] laptop-max:px-[10px]'>
       <div className='relative'>
-        <Text type='body-28-bold' color='neutral-1' className='hidden desktop:block'>
+        <Text type='body-28-bold' color='neutral-1' className='mb-[24px] tablet:mb-0'>
           {t('giftcash.title')}
         </Text>
       </div>
