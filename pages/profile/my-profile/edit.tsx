@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 
-import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -29,15 +28,7 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getServerSideProps({ locale, req }: GetServerSidePropsContext) {
-  if (typeof req.cookies?.accessToken !== 'string') {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+export async function getStaticProps({ locale }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'editProfile'])),

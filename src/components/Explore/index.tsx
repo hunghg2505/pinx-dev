@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
@@ -12,6 +11,7 @@ import { optionTab } from '@components/PinexTop20';
 import { IPost } from '@components/Post/service';
 import ThemesItem from '@components/Themes/ThemesItem';
 import { ExploreButton } from '@components/UI/Button';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
@@ -73,7 +73,6 @@ const Explore = () => {
   const refSlidePinex: any = React.useRef();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const isLogin = !!getAccessToken();
-  const router = useRouter();
   const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
   const { run, listNewFeed } = useGetListNewFeed();
@@ -86,12 +85,7 @@ const Explore = () => {
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
   const maxTopMentionStock =
     listMention && Math.max(...listMention?.map((item: any) => item.totalCount));
-  const onExplorePost = () => {
-    router.push({
-      pathname: ROUTE_PATH.HOME,
-      query: { filterType: FILTER_TYPE?.MOST_REACTED },
-    });
-  };
+
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
     if (isLogin) {
@@ -121,6 +115,7 @@ const Explore = () => {
       >
         {t('discovery')}
       </Text>
+
       <Search ref={refClick} />
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
@@ -159,9 +154,7 @@ const Explore = () => {
         )}
       </ExploreButton>
 
-      {/* key word search */}
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-      {/* Explore influencer */}
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('people_in_spotlight')}
@@ -171,15 +164,13 @@ const Explore = () => {
         <Influencer />
       </div>
 
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}>
-        <Text type='body-14-bold' color='primary-2'>
-          {t('explore_influencer')}
-        </Text>
-      </ExploreButton>
-      {/* Explore influencer */}
-      {/* <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div> */}
-
-      {/* People you may know */}
+      <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
+        <ExploreButton>
+          <Text type='body-14-bold' color='primary-2'>
+            {t('explore_influencer')}
+          </Text>
+        </ExploreButton>
+      </CustomLink>
 
       {suggestionPeople && (
         <>
@@ -222,8 +213,8 @@ const Explore = () => {
 
       <div className='relative mb-[16px]'>
         <div
-          onClick={() => refSlideTheme?.current?.slickPrev()}
-          className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          onClick={refSlideTheme?.current?.slickPrev}
+          className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
             src='/static/icons/iconGrayPrev.svg'
@@ -231,6 +222,7 @@ const Explore = () => {
             className='h-[16px] w-[7px] object-contain'
           />
         </div>
+
         <div className='slideTheme max-w-[700px] overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlideTheme}>
             {theme?.map((theme: ITheme, index: number) => {
@@ -244,8 +236,9 @@ const Explore = () => {
             })}
           </Slider>
         </div>
+
         <div
-          onClick={() => refSlideTheme?.current?.slickNext()}
+          onClick={refSlideTheme?.current?.slickNext}
           className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
@@ -255,14 +248,16 @@ const Explore = () => {
           />
         </div>
       </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.THEME)}>
-        <Text type='body-14-bold' color='primary-2'>
-          {t('explore_themes')}
-        </Text>
-      </ExploreButton>
-      {/* theme */}
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <CustomLink href={ROUTE_PATH.THEME}>
+        <ExploreButton>
+          <Text type='body-14-bold' color='primary-2'>
+            {t('explore_themes')}
+          </Text>
+        </ExploreButton>
+      </CustomLink>
+
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'>Cus</div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('top_watching_stock')}
       </Text>
@@ -281,19 +276,24 @@ const Explore = () => {
             );
           })}
       </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.TOP_WATCHING)}>
-        <Text type='body-14-bold' color='primary-2'>
-          {t('explore_top_watching_stock')}
-        </Text>
-      </ExploreButton>
+
+      <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
+        <ExploreButton>
+          <Text type='body-14-bold' color='primary-2'>
+            {t('explore_top_watching_stock')}
+          </Text>
+        </ExploreButton>
+      </CustomLink>
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('top_mention_stock')}
       </Text>
+
       <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
         {t('top_most_mention_stock_pinex')}
       </Text>
+
       <div className='mb-[16px] flex flex-col gap-y-[12px]'>
         {listMention &&
           [...listMention]?.splice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
@@ -307,19 +307,22 @@ const Explore = () => {
             );
           })}
       </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.TOPMENTION)}>
-        <Text type='body-14-bold' color='primary-2'>
-          {t('explore_top_mention_stock')}
-        </Text>
-      </ExploreButton>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <CustomLink href={ROUTE_PATH.TOPMENTION}>
+        <ExploreButton>
+          <Text type='body-14-bold' color='primary-2'>
+            {t('explore_top_mention_stock')}
+          </Text>
+        </ExploreButton>
+      </CustomLink>
+
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'>C</div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('pinex_top_20')}
       </Text>
       <div className='relative mb-[16px]'>
         <div
-          onClick={() => refSlidePinex.current.slickPrev()}
+          onClick={refSlidePinex?.current?.slickPrev}
           className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
@@ -328,15 +331,17 @@ const Explore = () => {
             className='h-[16px] w-[7px] object-contain'
           />
         </div>
+
         <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
           <Slider {...settings} variableWidth ref={refSlidePinex}>
-            {optionTab?.map((item: any, index: number) => (
-              <PinexTop label={t(`explore:${item.label}`)} value={item.value} key={index} />
+            {optionTab?.map((item: any) => (
+              <PinexTop label={t(`explore:${item.label}`)} value={item.value} key={item.value} />
             ))}
           </Slider>
         </div>
+
         <div
-          onClick={() => refSlidePinex.current.slickNext()}
+          onClick={refSlidePinex?.current?.slickNext}
           className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
@@ -346,15 +351,20 @@ const Explore = () => {
           />
         </div>
       </div>
-      <ExploreButton onClick={() => router.push(ROUTE_PATH.PINEX_TOP_20)}>
-        <Text type='body-14-bold' color='primary-2'>
-          {t('explore_more')}
-        </Text>
-      </ExploreButton>
+
+      <CustomLink href={ROUTE_PATH.PINEX_TOP_20}>
+        <ExploreButton>
+          <Text type='body-14-bold' color='primary-2'>
+            {t('explore_more')}
+          </Text>
+        </ExploreButton>
+      </CustomLink>
+
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('new_ipo')}
       </Text>
+
       {stockIPO?.length > 0 ? (
         <>
           <div className='mb-[16px] flex flex-col gap-y-[12px]'>
@@ -375,9 +385,11 @@ const Explore = () => {
       )}
 
       <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+
       <Text type='body-20-semibold' color='neutral-1'>
         {t('trending_on_pinex')}
       </Text>
+
       <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full bg-[#ffffff] mobile:hidden tablet:block'></div>
         <div className='hidden mobile-max:block'>
@@ -391,11 +403,14 @@ const Explore = () => {
           })}
         </div>
       </div>
-      <ExploreButton onClick={onExplorePost}>
-        <Text type='body-14-bold' color='primary-2'>
-          {t('explore_hot_topics')}
-        </Text>
-      </ExploreButton>
+
+      <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
+        <ExploreButton>
+          <Text type='body-14-bold' color='primary-2'>
+            {t('explore_hot_topics')}
+          </Text>
+        </ExploreButton>
+      </CustomLink>
     </div>
   );
 };

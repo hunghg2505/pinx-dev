@@ -12,6 +12,7 @@ import {
   requestUnFollowUser,
 } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
@@ -93,43 +94,43 @@ const PeopleItem = (props: Iprops) => {
         },
       )}
     >
-      <div
-        className='flex cursor-pointer items-center'
-        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
-      >
-        {data?.avatar ? (
-          <img src={data?.avatar} alt='' className='mr-[8px] h-[44px] w-[44px] rounded-full' />
-        ) : (
-          <div className='mr-[8px] h-[44px] w-[44px]'>
-            <AvatarDefault name={name} />
-          </div>
-        )}
+      <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data?.id)}>
+        <div className='flex cursor-pointer items-center'>
+          {data?.avatar ? (
+            <img src={data?.avatar} alt='' className='mr-[8px] h-[44px] w-[44px] rounded-full' />
+          ) : (
+            <div className='mr-[8px] h-[44px] w-[44px]'>
+              <AvatarDefault name={name} />
+            </div>
+          )}
 
-        <Text type='body-14-semibold' className='text-[#474D57]'>
-          {data?.displayName}
-        </Text>
+          <Text type='body-14-semibold' className='text-[#474D57]'>
+            {data?.displayName}
+          </Text>
 
-        {data?.isFeatureProfile && (
-          <img
-            src='/static/icons/iconKol.svg'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='h-[20px] w-[20px]'
-          />
-        )}
-        {data?.isKol && (
-          <img
-            src='/static/icons/iconTick.svg'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='ml-[8px] h-[16px] w-[16px]'
-          />
-        )}
-      </div>
+          {data?.isFeatureProfile && (
+            <img
+              src='/static/icons/iconKol.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[20px] w-[20px]'
+            />
+          )}
+          {data?.isKol && (
+            <img
+              src='/static/icons/iconTick.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='ml-[8px] h-[16px] w-[16px]'
+            />
+          )}
+        </div>
+      </CustomLink>
+
       <div
         className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
           'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7]': isFollow,

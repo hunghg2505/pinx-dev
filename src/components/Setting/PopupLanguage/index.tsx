@@ -10,7 +10,6 @@ import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 
 interface IProps {
   visible: boolean;
-  closeIcon?: React.ReactNode;
   onToggle: () => void;
 }
 
@@ -37,26 +36,13 @@ const PopupLanguage = (props: IProps) => {
     router.push(router.asPath, router.asPath, { locale: lang });
   };
 
-  const renderCloseIcon = (): React.ReactNode => {
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='h-[21px] w-[21px]'
-      />
-    );
-  };
-
   const handleClose = () => {
     onToggle();
   };
 
   return (
     <>
-      <Modal visible={visible} onClose={handleClose} closeIcon={renderCloseIcon()}>
+      <Modal visible={visible} onClose={handleClose}>
         <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
           <Text type='body-24-bold'>{t('language')}</Text>
           <Text type='body-14-regular' color='primary-5'>

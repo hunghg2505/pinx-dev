@@ -8,7 +8,6 @@ import styles from './index.module.scss';
 
 interface IProps {
   visible: boolean;
-  closeIcon?: React.ReactNode;
   onToggle: () => void;
 }
 
@@ -16,31 +15,13 @@ const PopupHotline = (props: IProps) => {
   const { t } = useTranslation();
   const { visible, onToggle } = props;
 
-  const renderCloseIcon = (): React.ReactNode => {
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='h-[21px] w-[21px]'
-      />
-    );
-  };
-
   const handleClose = () => {
     onToggle();
   };
 
   return (
     <>
-      <Modal
-        visible={visible}
-        onClose={handleClose}
-        closeIcon={renderCloseIcon()}
-        className={styles.customDialog}
-      >
+      <Modal visible={visible} onClose={handleClose} className={styles.customDialog}>
         <div className='flex'>
           <img
             src='/static/images/hotline.png'
