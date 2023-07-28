@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
-import { getMetaData } from '@components/Compose/ModalAddLink/service';
 import FormItem from '@components/UI/FormItem';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { isValidURL } from '@utils/common';
+import getSeoDataFromLink, { isValidURL } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -25,16 +24,27 @@ const ModalLink = (props: IProps) => {
 
   const onVisible = async () => {
     setVisible(!visible);
-    const text = await navigator?.clipboard?.readText();
-    if (text && text.includes('http')) {
-      form.setFieldValue('search', text);
-    }
   };
+
+  useEffect(() => {
+    const init = async () => {
+      if (visible) {
+        const text = await navigator?.clipboard?.readText();
+        const t = setTimeout(() => {
+          if (text && text.includes('http')) {
+            form.setFieldValue('search', text);
+          }
+          clearTimeout(t);
+        }, 400);
+      }
+    };
+    init();
+  }, [visible]);
 
   const [form] = Form.useForm();
 
   const onSubmit = async (values: any) => {
-    const data = await getMetaData(values?.search);
+    const data = await getSeoDataFromLink(values?.search);
 
     setVisible(!visible);
 
@@ -75,7 +85,7 @@ const ModalLink = (props: IProps) => {
                 {t('cancel')}
               </Text>
 
-              <FormItem dependencies={['search']} className='w-1/2'>
+              <FormItem dependencies={['search']} shouldUpdate className='w-1/2'>
                 {({ value }: any) => {
                   return (
                     <Text

@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/no-null */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useMemo, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
@@ -16,19 +14,17 @@ import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestPist } from '@api/request';
+import { privateRequest, requestPist } from '@api/request';
 import { ActivityTheme } from '@components/Compose/ActivityTheme';
 import { ImageTheme } from '@components/Compose/ImageTheme';
 import { ListTheme } from '@components/Compose/ListTheme';
 import { Metatags } from '@components/Compose/Metatags';
 import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
-import { getMetaData } from '@components/Compose/ModalAddLink/service';
 import { UploadImage } from '@components/Compose/UploadImage';
 import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
-// import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
@@ -36,11 +32,10 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
-import {
+import getSeoDataFromLink, {
   base64ToBlob,
   converStringMessageToObject,
   formatMessage,
-  getMeta,
   isImage,
   toBase64,
 } from '@utils/common';
@@ -74,34 +69,7 @@ type TMeta = Array<{
 
 const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
-  const object = {
-    type: 'doc',
-    content: [
-      {
-        type: 'paragraph',
-        content: [
-          {
-            type: 'userMention',
-            attrs: {
-              id: 138,
-              label: 'TỐNG THỊ NGA',
-            },
-          },
-          {
-            type: 'text',
-            text: '',
-          },
-          {
-            type: 'stockMention',
-            attrs: {
-              id: null,
-              label: 'AAA',
-            },
-          },
-        ],
-      },
-    ],
-  };
+
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   // console.log('🚀 ~ file: index.tsx:78 ~ Compose ~ postDetail:', postDetail);
   const bgTheme = useAtomValue(postThemeAtom);
@@ -511,7 +479,7 @@ const Compose = (props: IProps) => {
       };
 
       if (urlLinks?.length && !metaData?.length) {
-        const dataSeo = await getMetaData(urlLinks[0]);
+        const dataSeo = await getSeoDataFromLink(urlLinks[0]);
 
         if (dataSeo?.length) {
           data.metadata = [JSON.stringify(dataSeo)];
@@ -790,7 +758,7 @@ const Compose = (props: IProps) => {
           requestUploadFile.loading ||
           requestUpdatePost.loading ||
           requestGetDetailPost.loading ? (
-            <Loading />
+            <Loading className='!bg-white' />
           ) : (
             <IconSend />
           )}

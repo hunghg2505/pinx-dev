@@ -16,6 +16,7 @@ import BasicInfo from '@components/MenuProfile/BasicInfo';
 import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
 import CustomLink from '@components/UI/CustomLink';
+import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -57,7 +58,8 @@ const MenuProfileMobile = forwardRef((_, ref) => {
   useImperativeHandle(ref, () => ({ onVisible }));
 
   return (
-    <div
+    <Fade
+      visible={openProfileMenu}
       className={classNames(
         'fixed  left-[100%] z-[9999] w-full overflow-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden',
         {
@@ -65,11 +67,9 @@ const MenuProfileMobile = forwardRef((_, ref) => {
           'h-[calc(100vh-56px)]': isRouteSetting,
           'top-[115px]': !isRouteSetting,
           'h-[calc(100vh-115px)]': !isRouteSetting,
+          '!left-0': openProfileMenu,
         },
       )}
-      style={{
-        left: openProfileMenu ? 0 : '100%',
-      }}
     >
       <Back
         close={() => {
@@ -92,7 +92,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
       />
 
       <Options />
-    </div>
+    </Fade>
   );
 });
 

@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-/* eslint-disable unicorn/no-null */
+
 import React from 'react';
 
 const TIMEOUT = 1000;
