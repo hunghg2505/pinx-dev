@@ -1,24 +1,10 @@
-import React, { useContext } from 'react';
+import React, { ReactElement } from 'react';
 
-import { profileUserContext } from '@components/MyProfile';
-
-import IconAvartaEdit from './IconAvartaEdit';
-
-const Avatar = () => {
-  const profileUser = useContext<any>(profileUserContext);
-
+const Avatar = ({ children }: { children: ReactElement }) => {
   return (
     <div className='absolute bottom-[0%] left-[16px] z-10  translate-y-[50%]   tablet:left-[10px]  tablet:p-[0px] xdesktop:left-[20px]'>
-      {profileUser?.avatar && (
-        <img
-          src={profileUser?.avatar}
-          alt='background cover'
-          width={113}
-          height={113}
-          className='h-[113px] w-[113px] rounded-full bg-white object-cover p-[5px] tablet:h-[100px] tablet:w-[100px] xdesktop:h-[120px] xdesktop:w-[120px]'
-        />
-      )}
-      <IconAvartaEdit />
+      {children}
+      
     </div>
   );
 };
