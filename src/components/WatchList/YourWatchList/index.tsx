@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { IWatchListItem } from '@components/Home/service';
 import { Button } from '@components/UI/Button';
+// @ts-ignore
 import Empty from '@components/UI/Empty';
 import Text from '@components/UI/Text';
 import ModalAddStock from '@components/WatchList/ModalAddStock';
@@ -109,18 +110,6 @@ const YourWatchList = (props: IProps) => {
         {dataStock?.length < 1 && (
           <>
             <Empty/>
-            {!isEdit&&(
-              <ModalAddStock
-                refreshYourWatchList={refreshYourWatchList}
-                dataStock={dataStock}
-                yourWatchListStock={yourWatchListStock}
-              >
-                <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
-                <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                  {t('addTxt')}
-                </Text>
-              </ModalAddStock>
-            )}
           </>
         )}
         {isEdit ? (
