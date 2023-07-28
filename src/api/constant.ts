@@ -133,7 +133,7 @@ export const API_PATH = {
   PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
   PRIVATE_HASHTAG_SUGGEST: '/private/post/hashtag/suggest',
   // ipo
-  PUBLIC_GET_ALL_STOCK_IPO: '/public/company/ipo-listed',
+  PUBLIC_GET_ALL_STOCK_IPO: '/public/stock/ipo/all',
 
   // martket
   PUBLIC_TOP_PROFIT: '/public/company/profit',

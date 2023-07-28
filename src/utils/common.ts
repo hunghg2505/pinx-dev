@@ -501,6 +501,7 @@ export const converStringMessageToObject = (message: string) => {
         return b.flat();
       });
       const addSpace = newArray.flat();
+      console.log('🚀 ~ file: common.ts:504 ~ content:txt?.map ~ addSpace:', addSpace);
       // console.log('🚀 ~ file: common.ts:481 ~ content:txt?.map ~ addSpace:', addSpace);
       const data = addSpace?.map((check: any) => {
         if (check.includes('@')) {

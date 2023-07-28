@@ -1,38 +1,34 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { popupStatusAtom } from '@store/popup/popup';
-import { USERTYPE } from '@utils/constant';
 // import PopupComponent from '@utils/PopupComponent';
 
 const ComposeButton = () => {
   const { t } = useTranslation('home');
-  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isLogin, statusUser } = useUserType();
+  const { isLogin } = useUserType();
 
-  const handleClick = () => {
-    if (isLogin) {
-      if (statusUser === USERTYPE.VSD) {
-        // console.log('User vsd');
-      } else {
-        // PopupComponent.openEKYC();
-        setPopupStatus({
-          ...popupStatus,
-          popupEkyc: true,
-        });
-      }
-    } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
-    }
-  };
+  // const handleClick = () => {
+  //   if (isLogin) {
+  //     if (statusUser === USERTYPE.VSD) {
+  //       // console.log('User vsd');
+  //     } else {
+  //       // PopupComponent.openEKYC();
+  //       setPopupStatus({
+  //         ...popupStatus,
+  //         popupEkyc: true,
+  //       });
+  //     }
+  //   } else {
+  //     setPopupStatus({
+  //       ...popupStatus,
+  //       popupAccessLinmit: true,
+  //     });
+  //   }
+  // };
 
   return (
     <div
@@ -41,10 +37,7 @@ const ComposeButton = () => {
         'bottom-[60px]': !isLogin,
       })}
     >
-      <button
-        onClick={handleClick}
-        className='flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'
-      >
+      <button className='flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'>
         <img
           src='/static/icons/iconPen.svg'
           alt='Icon pen'

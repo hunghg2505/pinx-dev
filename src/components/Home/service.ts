@@ -146,7 +146,7 @@ interface IOptionsRequest {
   onError?: (e: any) => void;
 }
 export const useGetListFillter = () => {
-  const { data } = useRequest(
+  const { data, refresh } = useRequest(
     () => {
       return requestCommunity.get(API_PATH.FILTER_LIST);
     },
@@ -158,6 +158,7 @@ export const useGetListFillter = () => {
 
   return {
     data,
+    refresh,
   };
 };
 const requestGetList = (params: any) => {

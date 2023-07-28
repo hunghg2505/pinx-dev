@@ -78,6 +78,7 @@ const Explore = () => {
   const { run, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
+  console.log('🚀 ~ file: index.tsx:82 ~ Explore ~ stockIPO:', stockIPO);
   const { listMention } = useGetTopMentionStock();
 
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);

@@ -221,7 +221,7 @@ const NewFeedItem = (props: IProps) => {
       }
 
       return (
-        <div className='relative'>
+        <div className='relative z-50'>
           <img
             src='/static/icons/iconDot.svg'
             alt=''

@@ -85,6 +85,30 @@ const ItemComment = (props: IProps) => {
   useClickAway(() => {
     showDelete && setShowDelete(false);
   }, ref);
+  // const onRedirect = (url: string) => {
+  //   router.push({
+  //     pathname: '/redirecting',
+  //     query: { url },
+  //   });
+  // };
+  React.useEffect(() => {
+    const handleClick = (event: any) => {
+      console.log('123');
+      console.log('🚀 ~ file: index.tsx:96 ~ handleClick ~ event:', event);
+      const textContent = event?.target?.textContent;
+      const classElement = event?.target?.className;
+      if (classElement === 'link') {
+        router.push({
+          pathname: '/redirecting',
+          query: { url: textContent },
+        });
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.displayName || '';
   const isLike = data?.isLike;
@@ -167,6 +191,16 @@ const ItemComment = (props: IProps) => {
   const onDelete = () => {
     useHideComment.run();
   };
+  const handleClick = (event: any) => {
+    const textContent = event?.target?.textContent;
+    const classElement = event?.target?.className;
+    if (classElement === 'link') {
+      router.push({
+        pathname: '/redirecting',
+        query: { url: textContent },
+      });
+    }
+  };
   return (
     <div className='comment mt-[12px]'>
       <div className='flex flex-row items-start'>
@@ -245,7 +279,10 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
-            <div className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'>
+            <div
+              className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
+              onClick={(event) => handleClick(event)}
+            >
               <Text type='body-16-regular' className='text-[#0D0D0D]'>
                 {message && (
                   <div

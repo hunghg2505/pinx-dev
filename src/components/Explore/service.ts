@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestMarket, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestPist } from '@api/request';
 import { ISearch } from '@components/Home/service';
 import { getAccessToken } from '@store/auth';
 
@@ -69,7 +69,7 @@ export const useGetAllIPO = () => {
     day: 1,
   };
   const { data } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_GET_ALL_STOCK_IPO, { params });
+    return requestPist.get(API_PATH.PUBLIC_GET_ALL_STOCK_IPO, { params });
   });
   return {
     stockIPO: data?.data,
