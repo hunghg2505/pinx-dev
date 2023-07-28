@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
