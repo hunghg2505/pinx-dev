@@ -233,30 +233,6 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       );
     }
 
-    if (siteName === 'tiktok' && videoId) {
-      return (
-        <InView>
-          {({ ref }) => (
-            <div
-              ref={ref}
-              className='relative  mt-4 overflow-hidden  rounded-[10px] border-[1px] border-solid border-[#EBEBEB] '
-            >
-              <div className='!absolute left-0 top-0 z-0 h-full !w-full bg-[#121212]'></div>
-
-              <div className='relative z-[1] mx-auto h-[565px] max-w-[320px] '>
-                <iframe
-                  src={`https://www.tiktok.com/embed/${videoId}`}
-                  allow='encrypted-media;'
-                  className='iframe-placeholder !absolute left-0 top-0 h-full !w-full'
-                  scrolling='no'
-                ></iframe>
-              </div>
-            </div>
-          )}
-        </InView>
-      );
-    }
-
     if (postDetail?.post?.metadata?.length) {
       return <MetaContent metaData={JSON.parse(postDetail?.post?.metadata?.[0]) as any} />;
     }
