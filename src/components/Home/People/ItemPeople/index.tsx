@@ -12,6 +12,7 @@ import {
 } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
@@ -35,6 +36,8 @@ const ItemPeople = (props: IProps) => {
   const router = useRouter();
   // const [isFollow, setIsFollow] = React.useState(false);
   const image = data.avatar.includes('http');
+  const { run: getUserProfile } = useProfileInitial();
+
   const useFollowUser = useRequest(
     () => {
       return requestFollowUser(data.id);
@@ -42,6 +45,7 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         refresh && refresh();
         // setIsFollow(true);
       },

@@ -40,5 +40,6 @@
   "deactivate_account_content": "Khi thực hiện đóng tài khoản GDCK, việc đăng nhập và giao dịch trên tài khoản VSD sẽ bị vô hiệu hóa. Để thực hiện yêu cầu đóng tài khoản GDCK, mọi khoản thanh toán / tất toán, nợ, lưu ký... phải được thanh toán theo nghĩa vụ với những bên liên quan. Khi yêu cầu đóng tài khoản GDCK, bộ phận chăm sóc khách hàng của Pinetree sẽ tiếp nhận yêu cầu và liên lạc trực tiếp hỗ trợ quý khách xác nhận các tài liệu và quyền lợi, nghĩa vụ theo trình tự được pháp luật quy định.",
   "got_it": "Đã hiểu",
   "select_language": "Chọn ngôn ngữ",
-  "new": "Mới"
+  "new": "Mới",
+  "new_username_error_1": "Tên đăng nhập mới không được trùng với tên đăng nhập hiện tại"
 }

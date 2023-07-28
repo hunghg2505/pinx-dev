@@ -111,6 +111,14 @@ const ChangeUsername = () => {
                 pattern: REG_USERNAME,
                 message: t('please_check_username_format'),
               },
+              () => ({
+                validator(_: any, value: any) {
+                  if (userLoginInfo?.username === value) {
+                    return Promise.reject(new Error(t('new_username_error_1')));
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
           >
             {(field: any) => (

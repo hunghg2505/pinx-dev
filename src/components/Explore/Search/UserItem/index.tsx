@@ -17,6 +17,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
@@ -30,6 +31,8 @@ const UserItem = (props: Iprops) => {
   const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
+  const { run: getUserProfile } = useProfileInitial();
+
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   React.useEffect(() => {
     setIsFollow(data?.isFollowed);
@@ -41,6 +44,7 @@ const UserItem = (props: Iprops) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setIsFollow(true);
         reload && reload();
         // refreshList();
@@ -57,6 +61,7 @@ const UserItem = (props: Iprops) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setIsFollow(false);
         reload && reload();
         // refreshList();

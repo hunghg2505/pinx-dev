@@ -23,6 +23,7 @@ import Text from '@components/UI/Text';
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -95,6 +96,8 @@ const NewFeedItem = (props: IProps) => {
 
   const { refButtonList } = useHandlActionsPost();
 
+  const { run: getUserProfile } = useProfileInitial();
+
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -123,6 +126,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setFollowing(true);
       },
     },
@@ -136,6 +140,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setFollowing(false);
       },
     },
