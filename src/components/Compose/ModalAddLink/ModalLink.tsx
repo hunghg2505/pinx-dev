@@ -10,6 +10,8 @@ import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { isValidURL } from '@utils/common';
 
+import styles from './index.module.scss';
+
 interface IProps {
   children: any;
   getDataOG: (value: any) => void;
@@ -43,38 +45,44 @@ const ModalLink = (props: IProps) => {
     <>
       <span onClick={onVisible}>{children}</span>
 
-      <Modal visible={visible} onClose={onVisible} className='addLink'>
+      <Modal
+        visible={visible}
+        onClose={onVisible}
+        className={classNames('addLink', styles.modalAddLink)}
+      >
         <div className='text-center'>
-          <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
+          <Text
+            type='body-20-semibold'
+            color='neutral-1'
+            className='mb-[16px] mt-[24px] border-b border-solid border-[#EBEBEB] pb-[18px]'
+          >
             {t('add_link_to_post')}
           </Text>
-          <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <Form form={form} onFinish={onSubmit} initialValues={{ search: urlLinkInitial }}>
             <FormItem name='search'>
               <textarea
                 placeholder={`${t('input_link')}...`}
-                className='h-[100px] w-full outline-none'
+                className='h-[100px] w-full px-[16px] outline-none'
               />
             </FormItem>
-            <div className='my-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
-            <div className='flex items-center justify-center gap-[30px]'>
+            <div className='mt-[16px] flex items-center justify-center border border-t border-solid border-[#EBEBEB]'>
               <Text
                 type='body-16-semibold'
                 color='neutral-black'
-                className='cursor-pointer'
+                className='w-1/2 cursor-pointer border-r border-solid border-[#EBEBEB] py-[14px]'
                 onClick={onVisible}
               >
                 {t('cancel')}
               </Text>
 
-              <FormItem dependencies={['search']}>
+              <FormItem dependencies={['search']} className='w-1/2'>
                 {({ value }: any) => {
                   return (
                     <Text
                       type='body-16-semibold'
                       color='primary-2'
                       className={classNames(
-                        'flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)] text-white',
+                        'mx-auto cursor-pointer items-center justify-center py-[14px]',
                         {
                           'opacity-50': !isValidURL(value?.search),
                           'pointer-events-none': !isValidURL(value?.search),
