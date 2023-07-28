@@ -36,7 +36,14 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { base64ToBlob, formatMessage, getMeta, isImage, toBase64 } from '@utils/common';
+import {
+  base64ToBlob,
+  formatMessage,
+  formatStringToObject,
+  getMeta,
+  isImage,
+  toBase64,
+} from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -68,10 +75,12 @@ type TMeta = Array<{
 const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
+  // console.log('🚀 ~ file: index.tsx:78 ~ Compose ~ postDetail:', postDetail);
   const bgTheme = useAtomValue(postThemeAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
-
+  const text = formatStringToObject(postDetail?.post?.message);
+  // console.log('🚀 ~ file: index.tsx:82 ~ Compose ~ text:', text);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -395,12 +404,13 @@ const Compose = (props: IProps) => {
       if (url) {
         urlLinks.push(url);
       }
-
+      console.log('editor?.getJSON()', editor?.getJSON());
       const test = editor?.getJSON()?.content?.map((item: any) => {
+        console.log('🚀 ~ file: index.tsx:409 ~ test ~ item:', item);
         const abcd = item?.content?.map((text: any) => {
           let p = '';
 
-          if (text.type === 'text') {
+          if (text.type === 'text' && text?.text !== ' ') {
             const txt = text.text.split(' ');
             for (const item of txt) {
               if (item.includes('http') && urlLinks.length < 2) {
@@ -423,15 +433,34 @@ const Compose = (props: IProps) => {
             p = `%[${text.attrs.label}](${text.attrs.label})`;
           }
 
-          if (text.type === 'hardBreak') {
-            p = '\n';
-          }
+          // if (text.type === 'hardBreak') {
+          //   p = '\n';
+          // }
 
           return p;
         });
-        return abcd?.join('');
-      });
+        const dataReduce = abcd?.reduce((acc: any, cur: any, index: any) => {
+          if (cur === '') {
+            const prevIndex = index - 1;
 
+            if (prevIndex >= 0) {
+              const item = acc[prevIndex];
+              if (item) {
+                acc.splice(prevIndex, 1, `${item} `);
+              }
+            }
+            return acc;
+          }
+
+          acc.push(cur);
+
+          return acc;
+        }, []);
+        const dataJoin = dataReduce?.join('');
+        return dataJoin;
+      });
+      // console.log('test', reduce.join(''));
+      const message = test?.flat().join('\n');
       const tagPeople = await Promise.all(
         users?.map(async (item: string) => {
           const payload: ISearch = {
@@ -458,10 +487,10 @@ const Compose = (props: IProps) => {
         };
       });
 
-      const message = test?.flat()?.join('\n');
+      // const message = test?.flat()?.join('\n');
 
       const data: IData = {
-        message: messageHtml,
+        message,
         tagPeople: formatTagPeople,
         tagStocks: stock,
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
@@ -530,7 +559,6 @@ const Compose = (props: IProps) => {
         if (isUpdate) {
           return requestUpdatePost.run(data);
         }
-
         requestAddPost.run(data);
       }
     } catch (error) {

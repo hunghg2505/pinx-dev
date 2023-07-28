@@ -10,17 +10,17 @@ import ReactPlayer from 'react-player';
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
+// import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
-const Content = memo(({ postDetail, onComment }: any) => {
+const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const { t } = useTranslation();
   const [showReadMore, setShowReadMore] = useState<boolean>(false);
   const [readMore, setReadMore] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
 
-  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
+  // const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const { message } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
@@ -195,7 +195,7 @@ const MetaContent = ({ metaData }: any) => {
 };
 
 export const PostNormally = ({ postDetail, onComment }: any) => {
-  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
+  const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
 
   const { imageMetaData, siteName, videoId } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
@@ -304,7 +304,13 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
 
   return (
     <div className='PostNormally cursor-pointer'>
-      {messagePostFormat && <Content onComment={onComment} postDetail={postDetail} />}
+      {messagePostFormat && (
+        <Content
+          onComment={onComment}
+          postDetail={postDetail}
+          messagePostFormat={messagePostFormat}
+        />
+      )}
 
       <ShowImage />
     </div>

@@ -61,6 +61,7 @@ export const ROUTE_PATH = {
 };
 
 export const formatMessage = (message: string, data: any) => {
+  console.log('🚀 ~ file: common.ts:64 ~ formatMessage ~ message:', message);
   const str = message.split(' ');
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
@@ -69,6 +70,7 @@ export const formatMessage = (message: string, data: any) => {
   const listStock = data?.tagStocks?.map((item: string) => {
     return `%[${item}](${item})`;
   });
+  console.log('🚀 ~ file: common.ts:73 ~ listStock ~ listStock:', listStock);
   if (tagPeople) {
     for (const item of tagPeople) {
       const start = item.indexOf('[') + 1;
@@ -112,7 +114,8 @@ export const formatMessage = (message: string, data: any) => {
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
-        message = message.replace(
+        console.log('item', item);
+        message = message.replaceAll(
           item,
           `
           <a href="${window.location.origin}/stock/${ID}" className="tagStock">${name}</a>
@@ -406,4 +409,8 @@ export const getVideoId = (url: string, site: string) => {
   }
 
   return false;
+};
+
+export const formatStringToObject = (message: string) => {
+  return message;
 };
