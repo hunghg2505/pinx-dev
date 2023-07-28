@@ -302,7 +302,7 @@ export const calcUserStatusText = (acntStat: string) => {
   }
 };
 
-export const checkUserType = (custStat: string, acntStat?: string) => {
+export const checkUserType = (custStat?: string, acntStat?: string) => {
   if (custStat === USERTYPE.NEW) {
     return USERTYPE.NEW;
   }

@@ -14,7 +14,6 @@ import styles from './index.module.scss';
 
 interface Iprops {
   children: any;
-  closeIcon?: boolean;
   commentsOfPost: any;
   refreshCommentOfPost: () => void;
   id: string;
@@ -22,7 +21,7 @@ interface Iprops {
 }
 
 const ModalComment = (props: Iprops) => {
-  const { children, closeIcon, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
+  const { children, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
   const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
 
@@ -46,21 +45,7 @@ const ModalComment = (props: Iprops) => {
       refSubReplies?.current?.onComment(value, customerId, id);
     }
   };
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return (
-      <img
-        src='/static/icons/iconClose.svg'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='w-[21px]'
-      />
-    );
-  };
+
   const getSubComment = (payload: IComment[]) => {
     if (payload.length > 0) {
       return (
@@ -84,12 +69,7 @@ const ModalComment = (props: Iprops) => {
       <div onClick={onVisible} className='cursor-pointer'>
         {children}
       </div>
-      <Modal
-        visible={visible}
-        onClose={onVisible}
-        closeIcon={renderCloseIcon()}
-        className={styles.modalComment}
-      >
+      <Modal visible={visible} onClose={onVisible} className={styles.modalComment}>
         <div className='h-[80vh]'>
           <Text type='body-20-semibold' color='primary-5' className='text-center'>
             {t('comment')}

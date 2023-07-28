@@ -166,7 +166,7 @@ const PostDetail = () => {
 
           <div
             onClick={onGoToBack}
-            className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[16px]'
+            className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[0] desktop:px-[20px]'
           >
             <img
               src='/static/icons/back_icon.svg'
@@ -176,7 +176,7 @@ const PostDetail = () => {
           </div>
         </div>
 
-        <div className='mobile:px-[16px] desktop:px-[20px]'>
+        <div className='mobile:px-[0] desktop:px-[20px]'>
           <NewFeedItem
             postDetail={postDetail?.data}
             totalComments={countComment}

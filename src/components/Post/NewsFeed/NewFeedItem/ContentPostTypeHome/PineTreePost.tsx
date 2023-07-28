@@ -61,7 +61,7 @@ export const PineTreePost = ({
       )}
 
       {isPostDetailPath && (
-        <div className='text-right'>
+        <div className='mb-[6px] text-right '>
           <CustomLink href={`/redirecting?url=${post_url}`}>
             <div
               className={classNames('inline-flex items-center', {

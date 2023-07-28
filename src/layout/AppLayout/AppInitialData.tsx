@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Script from 'next/script';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
+import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
@@ -18,8 +19,11 @@ const AppInitialData = () => {
   const { isLogin } = useAuth();
   const router = useRouter();
   usePostThemeInitial();
+  const { handleRemoveActionPost } = useHandlActionsPost();
 
   useMount(() => {
+    handleRemoveActionPost();
+
     if (isLogin) {
       run();
     }

@@ -5,7 +5,6 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
-import { useRouterPostDetail } from '@hooks/useRoutePostDEtail';
 
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
@@ -40,34 +39,33 @@ export const VietStockNews = ({
   isPostDetailPath,
 }: any) => {
   const { t } = useTranslation();
-  const isRouterDetail = useRouterPostDetail();
 
   const renderThumbnail = () => {
     if (!postDetail?.post?.headImageUrl) {
       return (
-        <CustomLink href={isRouterDetail ? `/redirecting?url=${post_url}` : postDetailUrl}>
-          <div
-            className={
-              'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'
-            }
-          >
-            <div className='flex h-[115px] w-[115px] items-center justify-center bg-[#EFF2F5] tablet:h-[168px]  tablet:w-[168px]'>
-              <IconLink />
-            </div>
-
-            {!isPostDetailPath && (
-              <div className=' flex w-full flex-1 flex-col items-start justify-center p-2 [border-left:1px_solid_#CCC] tablet:p-5'>
-                <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
-                  {postDetail?.post?.title}
-                </Text>
-
-                <div className='mt-[10px] w-full overflow-hidden'>
-                  <ListStock listStock={postDetail?.post?.tagStocks} />
-                </div>
+        <div
+          className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
+        >
+          <CustomLink href={`/redirecting?url=${post_url}`}>
+            <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[168px]  tablet:w-[168px]'>
+              <div className='scale-[0.6] desktop:scale-[1]'>
+                <IconLink />
               </div>
-            )}
+            </div>
+          </CustomLink>
+
+          <div className=' flex w-full flex-1 flex-col items-start justify-center p-2 [border-left:1px_solid_#CCC] tablet:p-5'>
+            <CustomLink href={`/redirecting?url=${post_url}`}>
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
+            </CustomLink>
+
+            <div className='mt-[10px] w-full overflow-hidden'>
+              <ListStock listStock={postDetail?.post?.tagStocks} />
+            </div>
           </div>
-        </CustomLink>
+        </div>
       );
     }
 
@@ -164,7 +162,7 @@ export const VietStockNews = ({
       )}
 
       {isPostDetailPath && (
-        <div className='text-right'>
+        <div className='mb-[6px] text-right '>
           <CustomLink href={`/redirecting?url=${post_url}`}>
             <div
               className={classNames('inline-flex items-center', {
