@@ -19,6 +19,7 @@ interface IProps {
   yourWatchListStock?: any;
   refreshYourWatchList?:any;
   loadingYourWatchList?: boolean;
+  refreshInterest?: any;
   setDataStock?: any;
 }
 const YourWatchList = (props: IProps) => {
@@ -28,6 +29,7 @@ const YourWatchList = (props: IProps) => {
     setIsEdit,
     yourWatchListStock,
     refreshYourWatchList,
+    refreshInterest,
     setDataStock,
   } = props;
   const { t } = useTranslation('watchlist');
@@ -128,6 +130,7 @@ const YourWatchList = (props: IProps) => {
                   data={item}
                   isEdit={isEdit}
                   refreshYourWatchList={refreshYourWatchList}
+                  refreshInterest={refreshInterest}
                 />
               </div>
             ))}
