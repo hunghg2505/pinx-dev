@@ -483,10 +483,10 @@ export const converStringMessageToObject = (message: string) => {
         }
         return acc;
       }, []);
-      const newArray = checkSplit?.map((item: any) => {
+      const newArray = checkSplit?.map((item: any, index: number) => {
         const b = [];
         if (item.includes('@')) {
-          const a = [item, ''];
+          const a = index === 0 ? [item, ''] : ['', item, ''];
           b.push(a);
         } else {
           b.push(item);
@@ -509,7 +509,7 @@ export const converStringMessageToObject = (message: string) => {
           const name = check.slice(start, end);
           const startId = check.indexOf('(') + 1;
           const endId = check.indexOf(')');
-          const ID = item.slice(startId, endId);
+          const ID = check.slice(startId, endId);
           return {
             type: 'userMention',
             attrs: {
