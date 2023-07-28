@@ -1,7 +1,8 @@
 import React from 'react';
 
-import classNames from 'classnames';
 // import Link from 'next/link';
+import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
@@ -24,6 +25,7 @@ const ItemWatchList = ({
   itemDelete?: any;
   setItemDelete?: any;
 }) => {
+  const { i18n } = useTranslation();
   const highest_price = data?.hp || data?.refPrice;
   const lowest_price = data?.lp || data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -72,11 +74,11 @@ const ItemWatchList = ({
           <Text
             type='body-12-regular'
             className={classNames({
-              'max-w-[155px] tablet:max-w-[100%] text-[#474D57]': isEdit,
-              'max-w-[155px] tablet:max-w-[100%] text-[#999] ': !isEdit,
+              'max-w-[155px] text-[#474D57] tablet:max-w-[100%]': isEdit,
+              'max-w-[155px] text-[#999] tablet:max-w-[100%] ': !isEdit,
             })}
           >
-            {data?.name}
+            {i18n.language === 'vi' ? data?.name : data?.nameEn}
           </Text>
         </div>
       </div>
