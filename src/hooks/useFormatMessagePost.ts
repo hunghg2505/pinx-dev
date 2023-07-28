@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { formatMessagePost } from '@utils/common';
+import { formatMessage } from '@utils/common';
 
-export const useFormatMessagePost = (message: string) => {
+export const useFormatMessagePost = (message: string, data: any) => {
   const [messageFormat, setMessageFormat] = useState<string>('');
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export const useFormatMessagePost = (message: string) => {
       return undefined;
     }
 
-    const newMessage = formatMessagePost(message);
+    const newMessage = formatMessage(message, data);
     setMessageFormat(newMessage);
   }, [message]);
 
