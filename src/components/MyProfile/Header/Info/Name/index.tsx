@@ -13,7 +13,7 @@ const Name = ({
 }) => {
   return (
     <>
-      <div className='mb-[4px] flex items-center gap-[8px] tablet:absolute tablet:bottom-[calc(100%+32px)] '>
+      <div className='mb-[4px] items-center gap-[8px] '>
         <h3 className='max-w-[300px] truncate text-[20px] font-[600]'>{displayName}</h3>
 
         {isKol && (

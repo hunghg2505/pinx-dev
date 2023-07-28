@@ -13,7 +13,7 @@ const Following = ({ totalFollowing }: { totalFollowing: number }) => {
   }, []);
   return (
     <p
-      className=' cursor-pointer text-[12px] tablet:flex tablet:flex-col-reverse'
+      className=' flex cursor-pointer text-[12px]'
       onClick={() => {
         if (state.mobile) {
           router.push(
@@ -29,7 +29,6 @@ const Following = ({ totalFollowing }: { totalFollowing: number }) => {
       </b>
       <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
         {t('following')}
-        <span className='hidden tablet:inline'>:</span>
       </span>
     </p>
   );
