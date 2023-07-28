@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { TYPESEARCH } from '@components/Home/service';
 import Text from '@components/UI/Text';
@@ -10,6 +11,7 @@ import People from './People';
 import Post from './Post';
 
 const Search = () => {
+  const { t } = useTranslation('theme');
   const router = useRouter();
   const onGoBack = () => {
     router.push(ROUTE_PATH.EXPLORE);
@@ -19,16 +21,16 @@ const Search = () => {
   const renderText = () => {
     switch (type) {
       case TYPESEARCH.STOCK: {
-        return 'Company';
+        return t('company');
       }
       case TYPESEARCH.FRIEND: {
-        return 'People';
+        return t('people');
       }
       case TYPESEARCH.POST: {
-        return 'Post';
+        return t('post');
       }
       case TYPESEARCH.NEWS: {
-        return 'News';
+        return t('news');
       }
       default: {
         break;
@@ -57,7 +59,7 @@ const Search = () => {
   };
 
   return (
-    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px] tablet-max:px-[0]'>
+    <div className='rounded-[8px] bg-[#FFF] px-[24px] py-[20px]'>
       <div className='relative text-center'>
         <img
           src='/static/icons/back_icon.svg'
