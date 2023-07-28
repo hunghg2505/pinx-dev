@@ -29,7 +29,7 @@ export const ActivityTheme = ({
           })}
         >
           <div
-            className='messageFormat messageBody messageBody'
+            className='messageFormat messageBody messageBody whitespace-pre-line'
             dangerouslySetInnerHTML={{ __html: messagePostFormat }}
           ></div>
         </Text>
