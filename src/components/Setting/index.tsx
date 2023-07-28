@@ -211,7 +211,10 @@ const Setting = () => {
           className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px] laptop:hidden'
           onClick={onBack}
         /> */}
-        <Text className='mb-1 text-[20px] font-[700] mobile:pt-6 laptop-max:ml-4 laptop:pt-0 laptop:text-left laptop:text-[28px]'>
+        <Text
+          type='body-24-semibold'
+          className='mb-1 mobile:pt-6 laptop-max:ml-4 tablet:!text-[28px] tablet:!font-bold laptop:pt-0 laptop:text-left'
+        >
           {t('settings')}
         </Text>
         <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />

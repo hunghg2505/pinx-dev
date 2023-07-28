@@ -45,9 +45,9 @@ export const VietStockNews = ({
         <div
           ref={onRef}
           className={classNames({
-            'line-clamp-3': isPostDetailPath,
+            // 'line-clamp-3': isPostDetailPath,
             'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
-            'h-auto': isReadMore && readMore,
+            'h-auto': (isReadMore && readMore) || isPostDetailPath,
           })}
         >
           <Text

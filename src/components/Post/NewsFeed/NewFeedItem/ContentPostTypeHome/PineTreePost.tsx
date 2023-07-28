@@ -42,8 +42,8 @@ export const PineTreePost = ({
           color='neutral-1'
           className={classNames('mb-[16px] tablet:!text-[16px]', {
             'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
-            'line-clamp-3': isPostDetailPath,
-            'h-auto': isReadMore && readMore,
+            // 'line-clamp-3': isPostDetailPath,
+            'h-auto': (isReadMore && readMore) || isPostDetailPath,
           })}
         >
           {postDetail?.post.head}
