@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import Image from 'next/image';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
@@ -16,6 +17,7 @@ import { imageStock } from '@utils/common';
 import styles from './index.module.scss';
 
 const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refreshYourWatchList?: () => void, like?: boolean }) => {
+  const { i18n } = useTranslation();
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       // toast(() => <Notification type='success' message='Add stock success' />);
@@ -68,7 +70,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
             </Text>
           </div>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            {data?.name}
+            {i18n.language === 'vi' ? data?.name : data?.shortName}
           </Text>
         </div>
       </div>
