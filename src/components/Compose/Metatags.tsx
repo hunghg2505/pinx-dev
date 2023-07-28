@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import classNames from 'classnames';
+
 import Text from '@components/UI/Text';
 
 type TMeta = Array<{
@@ -44,7 +46,15 @@ export const Metatags = ({
 
       <div className='relative'>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
-          {imageUrl && <img src={imageUrl} alt='' className='h-[200px] w-full object-cover' />}
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt=''
+              className={classNames('h-[200px] w-full bg-[#ebebeb7c] object-cover', {
+                '!object-contain': url?.includes('tiktok'),
+              })}
+            />
+          )}
 
           <div className='bg-[#EBEBEB] p-[10px]'>
             {url && (

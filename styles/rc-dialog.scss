@@ -5,7 +5,7 @@
   max-width: 625px;
 
   @media (max-width: 568px) {
-    max-width: calc(100% - 20px);
+    max-width: calc(100vw - 20px) !important;
   }
 }
 .rc-dialog-wrap {
