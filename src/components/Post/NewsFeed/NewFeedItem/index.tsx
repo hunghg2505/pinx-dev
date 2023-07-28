@@ -360,7 +360,7 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='mb-4 flex flex-row justify-between'>
+      <div className='mb-[2px] flex flex-row justify-between'>
         <MaybeLink
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ''}
           className='flex w-full flex-1 justify-between'
@@ -423,7 +423,7 @@ const NewFeedItem = (props: IProps) => {
         </div>
       </div>
 
-      <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
+      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}
