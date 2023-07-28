@@ -61,3 +61,9 @@ body {
   background-position: center;
   background-image: url(/static/gif/loader.gif);
 }
+
+.headerHide {
+  @media (max-width: 576px) {
+    transform: translateY(-415px) !important;
+  }
+}
