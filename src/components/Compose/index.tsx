@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -38,8 +38,8 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
 import {
   base64ToBlob,
+  converStringMessageToObject,
   formatMessage,
-  formatStringToObject,
   getMeta,
   isImage,
   toBase64,
@@ -74,13 +74,41 @@ type TMeta = Array<{
 
 const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
+  const object = {
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'userMention',
+            attrs: {
+              id: 138,
+              label: 'TỐNG THỊ NGA',
+            },
+          },
+          {
+            type: 'text',
+            text: '',
+          },
+          {
+            type: 'stockMention',
+            attrs: {
+              id: null,
+              label: 'AAA',
+            },
+          },
+        ],
+      },
+    ],
+  };
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   // console.log('🚀 ~ file: index.tsx:78 ~ Compose ~ postDetail:', postDetail);
   const bgTheme = useAtomValue(postThemeAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
-  const text = formatStringToObject(postDetail?.post?.message);
-  // console.log('🚀 ~ file: index.tsx:82 ~ Compose ~ text:', text);
+  const objectMessage = converStringMessageToObject(postDetail?.post?.message);
+  console.log('🚀 ~ file: index.tsx:145 ~ Compose ~ objectMessage:', objectMessage);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -290,7 +318,7 @@ const Compose = (props: IProps) => {
           class: 'focus:outline-none h-full',
         },
       },
-      content: `${message || ''}`,
+      // content: `${message || ''}`,
       onUpdate({ editor }) {
         const textCompose = editor?.getText();
         const length = textCompose?.length;
@@ -304,6 +332,12 @@ const Compose = (props: IProps) => {
     },
     [message],
   );
+
+  React.useEffect(() => {
+    if (isUpdate) {
+      editor?.commands?.insertContent(objectMessage);
+    }
+  }, [editor]);
 
   const themeSelected: any = useMemo(() => {
     if (themeActiveId === 'default') {
@@ -352,8 +386,10 @@ const Compose = (props: IProps) => {
 
       const users: any = [];
       const stock: any = [];
-
-      const messageHtml = editor?.getHTML();
+      const idUser: any = [];
+      const messageHtml = editor?.getJSON();
+      console.log('html', editor?.getHTML());
+      console.log('🚀 ~ file: index.tsx:357 ~ onAddPost ~ messageHtml:', messageHtml);
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
 
@@ -373,9 +409,7 @@ const Compose = (props: IProps) => {
       if (url) {
         urlLinks.push(url);
       }
-      console.log('editor?.getJSON()', editor?.getJSON());
       const test = editor?.getJSON()?.content?.map((item: any) => {
-        console.log('🚀 ~ file: index.tsx:409 ~ test ~ item:', item);
         const abcd = item?.content?.map((text: any) => {
           let p = '';
 
@@ -393,13 +427,14 @@ const Compose = (props: IProps) => {
           if (text.type === 'userMention') {
             const query = text.attrs.label;
             users.push(query);
+            idUser.push(text.attrs.id);
             p = `@[${text.attrs.label}](${text.attrs.id})`;
           }
 
           if (text.type === 'stockMention') {
             const query = text.attrs.label;
             stock.push(query);
-            p = `%[${text.attrs.label}](${text.attrs.label})`;
+            p = `%[${text.attrs.label}](${text.attrs.label}) `;
           }
 
           // if (text.type === 'hardBreak') {
@@ -439,28 +474,35 @@ const Compose = (props: IProps) => {
           const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
             data: payload,
           });
+
           return data?.data?.users;
         }),
       );
 
-      const formatTagPeople = tagPeople.flat()?.map((item: any) => {
-        return {
-          avatar: item?.avatar,
-          customerId: item?.id,
-          id: item?.id,
-          displayName: item?.displayName,
-          isFeatureProfile: item?.isFeatureProfile,
-          isKol: item?.isKol,
-          name: item?.name,
-          numberFollowers: item?.numberFollowers,
-        };
-      });
+      const formatTagPeople = tagPeople
+        .flat()
+        ?.filter((item) => idUser.includes(item?.id))
+        ?.map((item: any) => {
+          return {
+            avatar: item?.avatar,
+            customerId: item?.id,
+            id: item?.id,
+            displayName: item?.displayName,
+            isFeatureProfile: item?.isFeatureProfile,
+            isKol: item?.isKol,
+            name: item?.name,
+            username: item?.username,
+            numberFollowers: item?.numberFollowers,
+          };
+        });
 
       // const message = test?.flat()?.join('\n');
 
       const data: IData = {
         message,
-        tagPeople: formatTagPeople,
+        tagPeople: isUpdate
+          ? [...postDetail?.post?.tagPeople, ...formatTagPeople]
+          : formatTagPeople,
         tagStocks: stock,
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
         // parentId: idReply === '' ? id : idReply,
