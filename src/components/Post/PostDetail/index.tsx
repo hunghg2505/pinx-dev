@@ -59,6 +59,7 @@ const PostDetail = () => {
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
+
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {

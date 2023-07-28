@@ -219,13 +219,13 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       <NewsFeed key={`home-post-item-${firstPost?.id}`} data={firstPost} />
 
-      <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
+      <div className='box-shadow card-style'>
         <div className='pb-[13px] pt-[10px] '>
           <Trending />
         </div>
       </div>
 
-      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
           {t('people_in_spotlight')}
         </Text>
@@ -279,7 +279,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
       })}
 
-      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
           {t('economy_in_the_themes')}
         </Text>

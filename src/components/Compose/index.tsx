@@ -5,7 +5,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useRequest } from 'ahooks';
+import { useDeepCompareEffect, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'next-i18next';
@@ -71,7 +71,6 @@ const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
 
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
-  // console.log('🚀 ~ file: index.tsx:78 ~ Compose ~ postDetail:', postDetail);
   const bgTheme = useAtomValue(postThemeAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
@@ -300,6 +299,10 @@ const Compose = (props: IProps) => {
     [message],
   );
 
+  useDeepCompareEffect(() => {
+    editor?.commands?.focus();
+  }, [editor]);
+
   React.useEffect(() => {
     if (isUpdate) {
       editor?.commands?.insertContent(objectMessage);
@@ -354,9 +357,6 @@ const Compose = (props: IProps) => {
       const users: any = [];
       const stock: any = [];
       const idUser: any = [];
-      const messageHtml = editor?.getJSON();
-      console.log('html', editor?.getHTML());
-      console.log('🚀 ~ file: index.tsx:357 ~ onAddPost ~ messageHtml:', messageHtml);
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
 
@@ -430,7 +430,7 @@ const Compose = (props: IProps) => {
         const dataJoin = dataReduce?.join('');
         return dataJoin;
       });
-      // console.log('test', reduce.join(''));
+
       const message = test?.flat().join('\n');
       const tagPeople = await Promise.all(
         users?.map(async (item: string) => {

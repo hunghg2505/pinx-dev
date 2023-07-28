@@ -10,11 +10,7 @@ const Setting = dynamic(() => import('@components/Setting'), {
 });
 
 const SettingPage = () => {
-  return (
-    <div>
-      <Setting />
-    </div>
-  );
+  return <Setting />;
 };
 
 SettingPage.getLayout = function getLayout(page: ReactElement) {
