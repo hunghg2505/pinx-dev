@@ -19,10 +19,10 @@ const WatchList = () => {
   const { isLogin } = useAuth();
   return (
     <>
-      {(!isShareWatchList || !isUserShareWatchList || !watchList) && (
+      {(!isShareWatchList || !isUserShareWatchList || watchList.length === 0) && (
         <NotFound
           type={(() => {
-            if (!isShareWatchList && isUserShareWatchList) {
+            if (isShareWatchList && isUserShareWatchList && watchList.length === 0) {
               return 1;
             }
             if (isShareWatchList && !isUserShareWatchList) {
