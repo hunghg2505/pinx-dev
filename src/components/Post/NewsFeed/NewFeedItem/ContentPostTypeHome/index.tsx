@@ -18,13 +18,15 @@ import { ROUTE_PATH, formatMessage } from '@utils/common';
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
+  pinned?: boolean;
+  isPostDetailPath: boolean;
 }
 
 const IMAGE_COMPANY_URL = 'https://static.pinetree.com.vn/upload/images/companies/';
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
-  const { postDetail, onNavigate } = props;
+  const { postDetail, onNavigate, pinned, isPostDetailPath } = props;
   const [readMore, setReadMore] = useState(false);
 
   const [height, setHeight] = useState<number>(0);
@@ -47,6 +49,10 @@ const ContentPostTypeHome = (props: IProps) => {
       postDetail?.post.action === 'SUBSCRIBE'
         ? '/static/icons/iconSubcribe.svg'
         : '/static/icons/iconUnSubcribe.svg';
+    let postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail?.id);
+    if (postDetail?.postType === TYPEPOST.ActivityTheme) {
+      postDetailUrl = ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode);
+    }
 
     return {
       imageMetaData: metaData?.images?.[0],
@@ -57,7 +63,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
       urlStock,
       iconPost,
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
+      postDetailUrl,
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);
@@ -142,6 +148,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        isPostDetailPath={isPostDetailPath}
       />
     );
   }
@@ -195,6 +202,8 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        pinned={pinned}
+        isPostDetailPath={isPostDetailPath}
       />
     );
   }
@@ -209,6 +218,8 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        pinned={pinned}
+        isPostDetailPath={isPostDetailPath}
       />
     );
   }

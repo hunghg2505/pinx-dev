@@ -197,10 +197,7 @@ const Editor = (props: IProps, ref?: any) => {
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         } else {
           toast(() => <Notification type='error' message={error.error} />);
@@ -226,10 +223,7 @@ const Editor = (props: IProps, ref?: any) => {
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         } else {
           toast(() => <Notification type='error' message={error.error} />);
@@ -304,12 +298,7 @@ const Editor = (props: IProps, ref?: any) => {
         />
       ));
     } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-      toast(() => (
-        <Notification
-          type='error'
-          message='Your account has been pending to close. You cannot perform this action'
-        />
-      ));
+      toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
     } else if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);

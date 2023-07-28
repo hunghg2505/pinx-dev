@@ -9,6 +9,7 @@ import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import Dropdown from 'rc-dropdown';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -42,7 +43,7 @@ interface IProps {
   isExplore?: boolean;
   totalComments: number;
   onNavigate?: () => void;
-  onRefreshPostDetail: (data: any) => void;
+  onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
 }
 
@@ -60,7 +61,7 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
 
-  const { customerId, postId, isLike, isMyProfilePath } = useMemo(() => {
+  const { customerId, postId, isLike, isMyProfilePath, isPostDetailPath } = useMemo(() => {
     return {
       customerId: postDetail?.customerId,
 
@@ -71,6 +72,8 @@ const NewFeedItem = (props: IProps) => {
       postId: postDetail?.id || router.query?.id,
 
       isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
+
+      isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
     };
   }, [
     postDetail?.customerId,
@@ -80,7 +83,6 @@ const NewFeedItem = (props: IProps) => {
     router.pathname,
   ]);
 
-  const ref = useRef<HTMLButtonElement>(null);
   const refHover = useRef(null);
 
   const isHovering = useHover(refHover);
@@ -89,7 +91,7 @@ const NewFeedItem = (props: IProps) => {
 
   const [following, setFollowing] = useState(postDetail?.isFollowing);
 
-  const [isReported, setReported] = useState(postDetail?.isReport);
+  const [isReported, setReported] = useState(!!postDetail?.isReport);
 
   const [showButtonActions, setShowButtonActions] = useState(false);
 
@@ -102,8 +104,9 @@ const NewFeedItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         if (router.route === '/post/[id]') {
-          return router.push(ROUTE_PATH.PROFILE_DETAIL(customerId));
+          router.back();
         }
+
         onRefreshPostDetail(undefined);
       },
       onError: (err: any) => {
@@ -171,28 +174,49 @@ const NewFeedItem = (props: IProps) => {
   const ButtonAction = () => {
     const renderdButton = () => {
       const cond1 =
-        [
-          TYPEPOST.POST,
-          TYPEPOST.ActivityTheme,
-          TYPEPOST.ActivityMatchOrder,
-          TYPEPOST.ActivityWatchlist,
-          TYPEPOST.PinetreePost,
-        ].includes(postDetail?.post.postType) &&
-        router.pathname !== '/explore' &&
-        router.pathname.includes('/profile/')
-          ? router.pathname.includes('my-profile')
-          : false && !isMyProfilePath;
+        !customerId ||
+        pinned ||
+        router.pathname === ROUTE_PATH.EXPLORE ||
+        router.pathname === '/profile/[id]' ||
+        router.pathname === '/profile/my-profile';
 
       const cond2 = !isReported && !isMyPost;
 
-      const cond3 = isMyProfilePath || isMyPost;
+      const cond3 = isMyPost;
 
-      if (!cond1 && !cond2 && !cond3) {
+      const renderHideButton = () => {
+        if (cond1) {
+          return <></>;
+        }
+
+        return (
+          <>
+            <div
+              className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
+              onClick={handleHidePost}
+            >
+              <img
+                src='/static/icons/iconUnHide.svg'
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='mr-[8px] h-[20px] w-[20px] object-contain'
+              />
+              <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
+                {t('hide')}
+              </Text>
+            </div>
+          </>
+        );
+      };
+
+      if (cond1 && !cond2 && !cond3) {
         return <></>;
       }
 
       return (
-        <button className={classNames('relative')} ref={ref}>
+        <div className='relative'>
           <img
             src='/static/icons/iconDot.svg'
             alt=''
@@ -204,94 +228,83 @@ const NewFeedItem = (props: IProps) => {
 
           <Fade
             visible={showButtonActions}
-            className='popup absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
+            className='popup box-shadow absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
           >
-            {cond1 && (
-              <div
-                className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
-                onClick={handleHidePost}
-              >
-                <img
-                  src='/static/icons/iconUnHide.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  sizes='100vw'
-                  className='mr-[8px] h-[20px] w-[20px] object-contain'
-                />
-                <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
-                  {t('hide')}
-                </Text>
-              </div>
-            )}
-            {cond2 && (
-              <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                <img
-                  src='/static/icons/iconFlag.svg'
-                  alt=''
-                  width='0'
-                  height='0'
-                  sizes='100vw'
-                  className='mr-[8px] h-[20px] w-[20px] object-contain'
-                />
+            <div className=' '>
+              {renderHideButton()}
 
-                <ModalReport postID={postId as string} onReportSuccess={() => setReported(true)}>
-                  <Text
-                    type='body-14-medium'
-                    color='neutral-2'
-                    className='mr-[8px] whitespace-nowrap'
+              {cond2 && (
+                <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                  <img
+                    src='/static/icons/iconFlag.svg'
+                    alt=''
+                    width='0'
+                    height='0'
+                    sizes='100vw'
+                    className='mr-[8px] h-[20px] w-[20px] object-contain'
+                  />
+
+                  <ModalReport postID={postId as string} onReportSuccess={() => setReported(true)}>
+                    <Text
+                      type='body-14-medium'
+                      color='neutral-2'
+                      className='mr-[8px] whitespace-nowrap'
+                    >
+                      {t('report')}
+                    </Text>
+                  </ModalReport>
+                </div>
+              )}
+
+              {cond3 && (
+                <>
+                  <ModalEdit
+                    postDetail={postDetail}
+                    refresh={(newData) => onRefreshPostDetail(newData, true)}
                   >
-                    {t('report')}
-                  </Text>
-                </ModalReport>
-              </div>
-            )}
+                    <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [border-bottom:1px_solid_#EAF4FB]'>
+                      <img
+                        src='/static/icons/iconEdit.svg'
+                        alt=''
+                        width='0'
+                        height='0'
+                        sizes='100vw'
+                        className='mr-[8px] h-[20px] w-[20px] object-contain'
+                      />
+                      <Text
+                        type='body-14-medium'
+                        color='neutral-2'
+                        className='mr-[8px] whitespace-nowrap'
+                      >
+                        {t('edit_post')}
+                      </Text>
+                    </div>
+                  </ModalEdit>
 
-            {cond3 && (
-              <>
-                <ModalEdit postDetail={postDetail} refresh={onRefreshPostDetail}>
-                  <div className='ml-[12px] flex h-[44px] items-center [border-bottom:1px_solid_#EAF4FB]'>
-                    <img
-                      src='/static/icons/iconEdit.svg'
-                      alt=''
-                      width='0'
-                      height='0'
-                      sizes='100vw'
-                      className='mr-[8px] h-[20px] w-[20px] object-contain'
-                    />
-                    <Text
-                      type='body-14-medium'
-                      color='neutral-2'
-                      className='mr-[8px] whitespace-nowrap'
-                    >
-                      {t('edit_post')}
-                    </Text>
-                  </div>
-                </ModalEdit>
-
-                <ModalDelete id={postDetail?.id} onDeletePost={onDeletePost}>
-                  <div className='ml-[12px] flex h-[44px] items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                    <img
-                      src='/static/icons/iconDelete.svg'
-                      alt=''
-                      width='0'
-                      height='0'
-                      sizes='100vw'
-                      className='mr-[8px] h-[20px] w-[20px] object-contain'
-                    />
-                    <Text
-                      type='body-14-medium'
-                      color='neutral-2'
-                      className='mr-[8px] whitespace-nowrap'
-                    >
-                      {t('delete')}
-                    </Text>
-                  </div>
-                </ModalDelete>
-              </>
-            )}
+                  <ModalDelete id={postDetail?.id} onDeletePost={onDeletePost}>
+                    <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
+                      <img
+                        src='/static/icons/iconDelete.svg'
+                        alt=''
+                        width='0'
+                        height='0'
+                        sizes='100vw'
+                        className='mr-[8px] h-[20px] w-[20px] object-contain'
+                      />
+                      <Text
+                        type='body-14-medium'
+                        color='neutral-2'
+                        className='mr-[8px] whitespace-nowrap'
+                      >
+                        {t('delete')}
+                      </Text>
+                    </div>
+                  </ModalDelete>
+                </>
+              )}
+            </div>
           </Fade>
-        </button>
+        </div>
       );
     };
 
@@ -315,6 +328,7 @@ const NewFeedItem = (props: IProps) => {
   if (!postDetail) {
     return <></>;
   }
+
   return (
     <>
       <div className='mb-4 flex flex-row justify-between'>
@@ -322,7 +336,7 @@ const NewFeedItem = (props: IProps) => {
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
           className='flex w-full flex-1 justify-between'
         >
-          <div className='flex cursor-pointer flex-row items-center'>
+          <div className='flex flex-1 cursor-pointer flex-row items-center'>
             <div
               ref={refHover}
               className={classNames('relative', {
@@ -350,25 +364,14 @@ const NewFeedItem = (props: IProps) => {
               </Fade>
             </div>
 
-            <div>
+            <div className='flex-1'>
               <div className='flex'>
-                <div className='mr-[5px] flex items-center'>
+                <div className='mr-[5px] flex flex-1 items-center'>
                   <UserName postDetail={postDetail} />
 
                   {postDetail?.post?.customerInfo?.isFeatureProfile && (
                     <img
                       src='/static/icons/iconKol.svg'
-                      alt=''
-                      width={0}
-                      height={0}
-                      sizes='100vw'
-                      className='ml-[4px] h-[16px] w-[16px] object-contain'
-                    />
-                  )}
-
-                  {postDetail?.post?.customerInfo?.isKol && (
-                    <img
-                      src='/static/icons/iconTick.svg'
                       alt=''
                       width={0}
                       height={0}
@@ -401,7 +404,12 @@ const NewFeedItem = (props: IProps) => {
       </div>
 
       <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
-        <ContentPostTypeHome onNavigate={onNavigate} postDetail={postDetail} />
+        <ContentPostTypeHome
+          isPostDetailPath={isPostDetailPath}
+          onNavigate={onNavigate}
+          postDetail={postDetail}
+          pinned={pinned}
+        />
 
         <div className='mobile:mt-[22px] desktop:mt-[28px]'>
           <PostActionComment

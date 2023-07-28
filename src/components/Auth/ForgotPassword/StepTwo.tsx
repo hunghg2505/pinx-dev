@@ -38,7 +38,7 @@ const ForgotPasswordStepOne = () => {
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
       router.push(ROUTE_PATH.LOGIN);
-      toast(() => <Notification type='success' message='Password request is successful' />);
+      toast(() => <Notification type='success' message={t('request_password_msg')} />);
     },
     onError(e: any) {
       toast(() => <Notification type='error' message={e?.error} />);
@@ -61,7 +61,7 @@ const ForgotPasswordStepOne = () => {
   };
 
   return (
-    <div className='mobile:mt-20 laptop:m-0 laptop:min-w-[450px]'>
+    <div className='mobile:mt-20 laptop:m-0 laptop:mb-[70px] laptop:min-w-[450px]'>
       <div className='mt-[36px]'>
         <Text type='body-28-bold'>{t('forgot_password')}</Text>
         <Text type='body-16-regular' color='neutral-4'>

@@ -52,7 +52,7 @@ export const ROUTE_PATH = {
   MY_PROFILE: '/profile/my-profile',
   MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
   MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
-  EDIT_MY_PROFILE: '/profile/edit',
+  EDIT_MY_PROFILE: '/profile/my-profile/edit',
   ASSET: '/profile/my-profile?tab=assets',
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
@@ -413,4 +413,20 @@ export const getVideoId = (url: string, site: string) => {
 
 export const formatStringToObject = (message: string) => {
   return message;
+};
+export const getQueryFromUrl = () => {
+  try {
+    if (!location.search) {
+      return {};
+    }
+
+    const search = location.search.slice(1);
+    return JSON.parse(
+      '{"' +
+        decodeURI(search).replaceAll('"', '\\"').replaceAll('&', '","').replaceAll('=', '":"') +
+        '"}',
+    );
+  } catch {
+    return {};
+  }
 };

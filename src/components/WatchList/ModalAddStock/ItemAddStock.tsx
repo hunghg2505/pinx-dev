@@ -64,7 +64,7 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
               {data?.stockExchange}
             </Text>
           </div>
-          <Text type='body-12-regular' className='max-w-[155px] text-[#474D57]'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
             {data?.name}
           </Text>
         </div>

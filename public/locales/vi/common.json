@@ -101,7 +101,6 @@
   "delete": "Xoá",
   "delete.desc": "Bạn có chắc muốn xoá?",
   "not_image": "Không phải hình ảnh",
-  "not_link": "Không phải đường link",
   "err_add_post": "Bạn chưa nhập nội dung bài viết",
   "delete_post_success": "Xoá bài thành công",
   "joined_since": "Tham gia từ",
@@ -213,5 +212,8 @@
   "post_create_success_msg": "Tạo bài viết thành công",
   "sell": "Bán",
   "bought": "Bought",
-  "create_post_placeholder": "Sử dụng % để đề cập đến mã cổ phiếu, # để hashtag bài viết, @ để đề cập đến người khác"
+  "share_subscribe_theme_success": "Bạn đã chia sẻ thành công",
+  "create_post_placeholder": "Sử dụng % để đề cập đến mã cổ phiếu, # để hashtag bài viết, @ để đề cập đến người khác",
+  "recent": "Gần đây",
+  "request_password_msg": "Yêu cầu lấy lại mật khẩu thành công"
 }

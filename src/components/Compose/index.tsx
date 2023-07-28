@@ -28,7 +28,7 @@ import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
-import IconHashTag from '@components/UI/Icon/IconHashTag';
+// import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
@@ -150,7 +150,9 @@ const Compose = (props: IProps) => {
     {
       manual: true,
       onSuccess: async () => {
-        await requestGetDetailPost.runAsync();
+        if (refresh) {
+          await requestGetDetailPost.runAsync();
+        }
 
         hidePopup && hidePopup();
         setMetaData(null);
@@ -160,10 +162,7 @@ const Compose = (props: IProps) => {
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         } else {
           toast(() => <Notification type='error' message={error.error} />);
@@ -193,10 +192,7 @@ const Compose = (props: IProps) => {
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         } else {
           toast(() => <Notification type='error' message={error.error} />);
@@ -288,34 +284,6 @@ const Compose = (props: IProps) => {
             },
           },
         }),
-        Mention.extend({
-          name: 'hashTag',
-        }).configure({
-          HTMLAttributes: {
-            class: 'hashTag text-[14px] font-semibold leading-[18px]',
-          },
-          renderLabel({ options, node }) {
-            return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
-          },
-          suggestion: {
-            ...Suggestion,
-            pluginKey: new PluginKey('hashTag'),
-            char: '#',
-            items: async ({ query }: { query: string }) => {
-              const data = await privateRequest(
-                requestCommunity.post,
-                API_PATH.PRIVATE_HASHTAG_SUGGEST,
-                {
-                  data: {
-                    keyword: query,
-                  },
-                },
-              );
-
-              return data?.data?.list;
-            },
-          },
-        }),
       ],
       editorProps: {
         attributes: {
@@ -388,6 +356,7 @@ const Compose = (props: IProps) => {
       const messageHtml = editor?.getHTML();
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
+
       if (imageUploaded?.file && themeActiveId === 'default') {
         const formData = new FormData();
         formData.append('files', imageUploaded?.file);
@@ -512,20 +481,20 @@ const Compose = (props: IProps) => {
       }
 
       if (!urlLinks?.length && !metaData?.length) {
-        delete data.metadata;
+        data.metadata = [];
       }
 
       if (themeActiveId === 'default' && !isUpdate) {
-        delete data?.postThemeId;
+        data.postThemeId = '';
       }
 
       if (!imageUploadedUrl) {
-        delete data?.urlImages;
+        data.urlImages = [];
       }
 
       if (themeActiveId !== 'default') {
-        delete data?.urlImages;
-        delete data?.urlLinks;
+        data.urlImages = [];
+        data.urlLinks = [];
       }
 
       // hide when > 240 characters
@@ -544,10 +513,7 @@ const Compose = (props: IProps) => {
 
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         return toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
+          <Notification type='error' message={t('message_account_pending_to_close')} />
         ));
       }
 
@@ -586,15 +552,15 @@ const Compose = (props: IProps) => {
     }
   };
 
-  const onAddHashTag = () => {
-    editor?.commands?.focus('end');
-    const text = editor?.getText();
-    if (text) {
-      editor?.commands?.insertContent(' #');
-    } else {
-      editor?.commands?.insertContent('#');
-    }
-  };
+  // const onAddHashTag = () => {
+  //   editor?.commands?.focus('end');
+  //   const text = editor?.getText();
+  //   if (text) {
+  //     editor?.commands?.insertContent(' #');
+  //   } else {
+  //     editor?.commands?.insertContent('#');
+  //   }
+  // };
 
   const getStyles = () => {
     if (!hiddenThemeSelected && themeSelected?.textAlign) {
@@ -727,7 +693,7 @@ const Compose = (props: IProps) => {
 
       <ShowMetaTagsUpload />
 
-      <Fade visible={hiddenThemeSelected}>
+      <Fade visible={hiddenThemeSelected && postType !== 'ActivityTheme'}>
         <ListTheme themeActiveId={themeActiveId} onSelectThemeId={onSelectThemeId} />
       </Fade>
 
@@ -753,12 +719,12 @@ const Compose = (props: IProps) => {
             <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
           </div>
 
-          <div
+          {/* <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddHashTag}
           >
             <IconHashTag />
-          </div>
+          </div> */}
 
           <UploadAndAddLink />
         </div>
@@ -771,7 +737,9 @@ const Compose = (props: IProps) => {
                 requestAddPost?.loading ||
                 requestUploadFile.loading ||
                 requestUpdatePost.loading ||
-                requestGetDetailPost.loading,
+                requestGetDetailPost.loading ||
+                !editor?.getText(),
+              'opacity-60': !editor?.getText(),
             },
           )}
           onClick={onAddPost}

@@ -12,6 +12,8 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
+import { useSuggestPeople } from '../service';
+
 const WatchList = () => {
   const router = useRouter();
   const { t } = useTranslation('common');
@@ -51,6 +53,7 @@ const WatchList = () => {
 };
 
 const ContentRight = () => {
+  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
@@ -86,8 +89,12 @@ const ContentRight = () => {
           <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
             {t('people_you_may_know')}
           </Text>
-          <PeopleDesktop />
-          <ModalPeopleYouKnow>
+          <PeopleDesktop
+            suggestionPeople={suggestionPeople}
+            refreshList={refreshList}
+            getSuggestFriend={getSuggestFriend}
+          />
+          <ModalPeopleYouKnow refreshList={refreshList}>
             <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
               <Text type='body-14-bold' color='primary-2'>
                 {t('view_more')}

@@ -10,13 +10,13 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
+import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import {
   IComment,
   requestHideComment,
   requestLikeComment,
   requestUnLikeComment,
 } from '@components/Post/service';
-import Fancybox from '@components/UI/Fancybox';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -64,12 +64,7 @@ const ItemComment = (props: IProps) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE && isPostDetailPath) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser !== USERTYPE.VSD && isPostDetailPath) {
         setPopupStatus({ ...popupStatus, popupEkyc: true });
       } else if (onNavigate) {
@@ -108,10 +103,7 @@ const ItemComment = (props: IProps) => {
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         }
       },
@@ -130,10 +122,7 @@ const ItemComment = (props: IProps) => {
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
           toast(() => (
-            <Notification
-              type='error'
-              message='Your account has been pending to close. You cannot perform this action'
-            />
+            <Notification type='error' message={t('message_account_pending_to_close')} />
           ));
         }
       },
@@ -142,12 +131,7 @@ const ItemComment = (props: IProps) => {
   const onLike = () => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your account has been pending to close. You cannot perform this action'
-          />
-        ));
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else if (statusUser !== USERTYPE.VSD) {
         setPopupStatus({ ...popupStatus, popupEkyc: true });
       } else if (isLike) {
@@ -288,25 +272,17 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
 
-          {urlImage !== '' && (
-            <Fancybox
-              options={{
-                closeButton: true,
-              }}
-            >
-              <a data-fancybox='gallery' href={urlImage}>
-                {urlImage && (
-                  <img
-                    src={urlImage}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
-                  />
-                )}
-              </a>
-            </Fancybox>
+          {urlImage && (
+            <ModalMedia url={urlImage}>
+              <img
+                src={urlImage}
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
+              />
+            </ModalMedia>
           )}
 
           <div className='action flex gap-x-[18px]'>

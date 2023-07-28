@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
@@ -34,7 +35,12 @@ const ComposeButton = () => {
   };
 
   return (
-    <div className='fixed bottom-[10px] right-[10px] z-50 h-[44px]'>
+    <div
+      className={classNames('fixed right-[10px] z-50 h-[44px]', {
+        'bottom-[10px]': isLogin,
+        'bottom-[60px]': !isLogin,
+      })}
+    >
       <button
         onClick={handleClick}
         className='flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'

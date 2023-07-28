@@ -1,21 +1,40 @@
 @keyframes isIncrease {
-  to {background-color: #128F63;border-radius: 100px; color: #ffffff;}
+  to {
+    background-color: #128f63;
+    border-radius: 100px;
+    color: #ffffff;
+  }
 }
-.isIncrease{
+.isIncrease {
   animation-name: isIncrease;
   animation-duration: 0.5s;
 }
 @keyframes isDecrease {
-  to {background-color: #DB4444;border-radius: 100px;color: #ffffff;}
+  to {
+    background-color: #db4444;
+    border-radius: 100px;
+    color: #ffffff;
+  }
 }
-.isDecrease{
+.isDecrease {
   animation-name: isDecrease;
   animation-duration: 0.5s;
 }
 @keyframes isNoChange {
-  to {background-color: #E6A70A;border-radius: 100px;color: #ffffff;}
+  to {
+    background-color: #e6a70a;
+    border-radius: 100px;
+    color: #ffffff;
+  }
 }
-.isNoChange{
+.isNoChange {
   animation-name: isNoChange;
   animation-duration: 0.5s;
+}
+.watchListSlick {
+  :global {
+    .slick-track {
+      display: flex;
+    }
+  }
 }

@@ -72,8 +72,8 @@ const ItemWatchList = ({
           <Text
             type='body-12-regular'
             className={classNames({
-              'mobile-max:max-w-[155px] text-[#474D57]': isEdit,
-              'mobile-max:max-w-[155px] text-[#999] ': !isEdit,
+              'max-w-[155px] tablet:max-w-[100%] text-[#474D57]': isEdit,
+              'max-w-[155px] tablet:max-w-[100%] text-[#999] ': !isEdit,
             })}
           >
             {data?.name}

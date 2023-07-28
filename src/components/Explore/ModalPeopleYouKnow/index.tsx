@@ -15,11 +15,12 @@ interface Iprops {
   children: any;
   closeIcon?: boolean;
   onClose?: () => void;
+  refreshList?: () => void;
 }
 
 const ModalPeopleYouKnow = (props: Iprops) => {
   const { t } = useTranslation('common');
-  const { onClose = () => {} } = props;
+  const { onClose = () => {}, refreshList } = props;
   const refScroll = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState<boolean>(false);
   const { children, closeIcon } = props;
@@ -78,7 +79,9 @@ const ModalPeopleYouKnow = (props: Iprops) => {
             ref={refScroll}
           >
             {data?.list?.map((people: ISuggestionPeople, index: number) => {
-              return <PeopleItem key={index} data={people} reload={reload} />;
+              return (
+                <PeopleItem key={index} data={people} reload={reload} refreshList={refreshList} />
+              );
             })}
           </div>
         </div>

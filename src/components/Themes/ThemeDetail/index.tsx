@@ -13,15 +13,14 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
 // import Community from './Community';
+import Activities from './Activities';
 import StockSymbols from './StockSymbols';
 import { TabsThemeDetailEnum, useGetThemeDetail } from '../service';
 
 const LandingPageDetailThemes = dynamic(() => import('./LandingPage'), {
   ssr: false,
 });
-const Activities = dynamic(() => import('./Activities'), {
-  ssr: false,
-});
+
 const ThemeDetail = () => {
   const { t } = useTranslation('theme');
   const router = useRouter();
@@ -105,15 +104,19 @@ const ThemeDetail = () => {
           onRefreshActivities={onRefreshActivities}
         />
       )}
-      <div className='mb-10 mt-[24px] rounded-[10px] bg-white px-[10px] desktop:px-[24px] desktop:py-[20px] xdesktop:mt-[0]'>
-        <div className='relative text-center'>
+      <div className='mb-10 rounded-[10px] bg-white px-[10px] pt-[24px] desktop:px-[24px] desktop:py-[20px]'>
+        <div className='relative h-[20px]'>
           <img
             src='/static/icons/back_icon.svg'
             alt=''
-            className='absolute left-0 top-0 mb-[16px] w-[28px] cursor-pointer'
+            className='absolute left-0 top-1/2 w-[28px] -translate-y-1/2 cursor-pointer'
             onClick={onGoBack}
           />
-          <Text type='body-20-bold' color='neutral-1' className=''>
+          <Text
+            type='body-20-bold'
+            color='neutral-1'
+            className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+          >
             {t('title')}
           </Text>
         </div>

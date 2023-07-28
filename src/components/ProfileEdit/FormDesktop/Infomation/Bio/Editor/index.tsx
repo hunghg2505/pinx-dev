@@ -19,7 +19,7 @@ const Editor = ({ value, onChange }: { value: any; onChange: (value: any) => voi
         class: 'focus:outline-none h-full',
       },
     },
-    content: value,
+    content: `<p>${value.replaceAll('\n', '</p><p>')}</p>`,
     onUpdate: ({ editor }: { editor: any }) => {
       if (editor) {
         let value = '';

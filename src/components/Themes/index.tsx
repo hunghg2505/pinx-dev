@@ -16,14 +16,18 @@ const Themes = () => {
   const { theme } = useGetTheme();
   return (
     <div className='mb-10 rounded-[8px] bg-[#FFF] px-[10px] py-[20px] tablet:px-[0]'>
-      <div className='relative text-center'>
+      <div className='relative h-[25px] text-center'>
         <img
           src='/static/icons/back_icon.svg'
           alt=''
-          className='absolute left-0 top-0 w-[28px] cursor-pointer'
+          className='absolute left-0 top-1/2 w-[28px] -translate-y-1/2 cursor-pointer tablet:left-[16px]'
           onClick={onGoBack}
         />
-        <Text type='body-20-bold' color='neutral-1'>
+        <Text
+          type='body-20-bold'
+          color='neutral-1'
+          className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+        >
           {t('themes')}
         </Text>
       </div>
