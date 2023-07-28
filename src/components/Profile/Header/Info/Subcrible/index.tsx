@@ -17,7 +17,7 @@ const Subcrible = () => {
           setVisible(false);
         }}
       />
-      <div className=' absolute bottom-[calc(100%+19px)] right-[16px]  text-right tablet:bottom-0 tablet:right-0'>
+      <div className=' mb-[5px] hidden text-right tablet:block'>
         {profileUser?.isFollowed && <Unsubscribe />}
         {!profileUser?.isFollowed && (
           <Subscribing
