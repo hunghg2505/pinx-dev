@@ -4,7 +4,7 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
-export const useGetProfileOtherUser = (id: number) => {
+export const useGetProfileOtherUser = (id: number, config?: any) => {
   const { data, run } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
@@ -14,6 +14,7 @@ export const useGetProfileOtherUser = (id: number) => {
     },
     {
       refreshDeps: [id],
+      ...config,      
     },
   );
   return {
