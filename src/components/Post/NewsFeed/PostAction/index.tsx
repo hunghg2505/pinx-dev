@@ -53,7 +53,7 @@ const PostAction = (props: IPostActionProps) => {
       manual: true,
       onSuccess: () => {
         setLike(true);
-        setTotalLike(totalLikes + 1);
+        setTotalLike(totalLike + 1);
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -72,7 +72,7 @@ const PostAction = (props: IPostActionProps) => {
       manual: true,
       onSuccess: () => {
         setLike(false);
-        setTotalLike(totalLikes - 1);
+        setTotalLike(totalLike - 1);
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
