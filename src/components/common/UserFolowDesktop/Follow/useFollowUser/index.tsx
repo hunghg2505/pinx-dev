@@ -16,7 +16,10 @@ const useFollowUser = () => {
     },
     {
       manual: true,
-      onSuccess: context?.refresh,
+      onSuccess: () => {
+        context.setState((prev: any) => ({ ...prev, isFollowed: true }));
+        context.onFollow();
+      },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
       },

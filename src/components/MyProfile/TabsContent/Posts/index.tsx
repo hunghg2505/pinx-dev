@@ -52,14 +52,14 @@ const Posts = () => {
           if (idx + 1 === data?.list?.length) {
             return (
               <div ref={(node) => refLastElement(node, service)} key={`my-post-${item?.id}`}>
-                <NewsFeed data={item} />
+                <NewsFeed data={item} onRemoveData={refresh} />
               </div>
             );
           }
 
           return (
             <div key={`my-post-${item?.id}`}>
-              <NewsFeed data={item} />
+              <NewsFeed data={item} onRemoveData={refresh} />
             </div>
           );
         })}
