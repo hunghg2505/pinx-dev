@@ -168,9 +168,17 @@ const MetaContent = ({ metaData }: any) => {
 
   return (
     <CustomLink href={`/redirecting?url=${url}`} className='mt-4 block'>
-      <div className='relative'>
+      <div className='relative '>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
-          {imageUrl && <img src={imageUrl} alt='' className='h-[200px] w-full object-cover' />}
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt=''
+              className={classNames('h-[290px] w-full bg-[#12121239] object-cover', {
+                '!object-contain': url?.includes('tiktok'),
+              })}
+            />
+          )}
 
           <div className='bg-[#EBEBEB] p-[10px]'>
             {url && (
