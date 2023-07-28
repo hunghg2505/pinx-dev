@@ -1,12 +1,12 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import { IWatchListItem } from '@components/Home/service';
 import { Button } from '@components/UI/Button';
 // @ts-ignore
-import Empty from '@components/UI/Empty';
 import Text from '@components/UI/Text';
 import ModalAddStock from '@components/WatchList/ModalAddStock';
 import ItemWatchList from '@components/WatchList/YourWatchList/ItemWatchList';
@@ -19,8 +19,14 @@ interface IProps {
   yourWatchListStock?: any;
   refreshYourWatchList?:any;
   loadingYourWatchList?: boolean;
+  refreshInterest?: any;
   setDataStock?: any;
 }
+
+const Empty = dynamic(() => import('@components/UI/Empty'), {
+  ssr: false,
+});
+
 const YourWatchList = (props: IProps) => {
   const {
     dataStock,
@@ -28,6 +34,7 @@ const YourWatchList = (props: IProps) => {
     setIsEdit,
     yourWatchListStock,
     refreshYourWatchList,
+    refreshInterest,
     setDataStock,
   } = props;
   const { t } = useTranslation('watchlist');
@@ -128,6 +135,7 @@ const YourWatchList = (props: IProps) => {
                   data={item}
                   isEdit={isEdit}
                   refreshYourWatchList={refreshYourWatchList}
+                  refreshInterest={refreshInterest}
                 />
               </div>
             ))}

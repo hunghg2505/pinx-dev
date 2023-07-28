@@ -6,9 +6,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
   // i18n
   i18n,
+  swcMinify: true,
   output: 'standalone',
 
   // config env

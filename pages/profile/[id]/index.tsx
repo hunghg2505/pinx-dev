@@ -5,8 +5,6 @@ import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { API_PATH } from '@api/constant';
-import { PREFIX_API_PIST } from '@api/request';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
 import { ROUTE_PATH } from '@utils/common';
@@ -46,24 +44,10 @@ export async function getServerSideProps({ locale, req, query }: GetServerSidePr
     }
   }
 
-  const res = await fetch(
-    PREFIX_API_PIST + API_PATH.PUBLIC_GET_OTHER_USER_PROFILE(Number(query.id)),
-  );
-
-  if (res.status === 200) {
-    const data = await res.json();
-    return {
-      props: {
-        ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
-        data,
-        // Will be passed to the page component as props
-      },
-    };
-  }
   return {
-    redirect: {
-      destination: ROUTE_PATH.NOT_FOUND,
-      permanent: false,
+    props: {
+      ...(await serverSideTranslations(locale || 'en', ['common', 'profile'])),
+      // Will be passed to the page component as props
     },
   };
 }

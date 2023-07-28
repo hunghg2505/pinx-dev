@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 
 import { useLoginOtp } from '@components/Auth/Login/OtpVerification/service';
@@ -23,6 +24,7 @@ const MainHeader = dynamic(() => import('@layout/components/MainHeader'), {
 });
 
 const ChangePasswordVertification = () => {
+  const { t } = useTranslation('common');
   const { userLoginInfo } = useUserLoginInfo();
   const router = useRouter();
   const [settingValues] = useAtom(settingAtom);
@@ -60,7 +62,7 @@ const ChangePasswordVertification = () => {
 
   const requestChangePassword = useChangePassord({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='Change password success' />);
+      toast(() => <Notification type='success' message={t('change_password_successfully')} />);
       onLogout(ROUTE_PATH.LOGIN);
     },
     onError: (e: any) => {

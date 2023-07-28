@@ -168,9 +168,17 @@ const MetaContent = ({ metaData }: any) => {
 
   return (
     <CustomLink href={`/redirecting?url=${url}`} className='mt-4 block'>
-      <div className='relative'>
+      <div className='relative '>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
-          {imageUrl && <img src={imageUrl} alt='' className='h-[200px] w-full object-cover' />}
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt=''
+              className={classNames('h-[290px] w-full bg-[#12121239] object-cover', {
+                '!object-contain': url?.includes('tiktok'),
+              })}
+            />
+          )}
 
           <div className='bg-[#EBEBEB] p-[10px]'>
             {url && (
@@ -225,41 +233,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                onLoad={() => {
-                  console.log('onLoad');
-                }}
-              ></iframe>
-            </div>
-          )}
-        </InView>
-      );
-    }
-
-    if (siteName === 'vimeo' && videoId) {
-      return (
-        <InView>
-          {({ ref }) => (
-            <div ref={ref} className='mt-4'>
-              <iframe
-                src={`https://player.vimeo.com/video/${videoId}`}
-                allow='encrypted-media;'
-                className='h-[345px] w-full'
-              ></iframe>
-            </div>
-          )}
-        </InView>
-      );
-    }
-
-    if (siteName === 'tiktok' && videoId) {
-      return (
-        <InView>
-          {({ ref }) => (
-            <div ref={ref} className='mt-4'>
-              <iframe
-                src={`https://www.tiktok.com/embed/${videoId}`}
-                allow='encrypted-media;'
-                className='h-[740px] !w-full '
+                scrolling='no'
               ></iframe>
             </div>
           )}

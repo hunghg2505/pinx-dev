@@ -175,14 +175,19 @@ const ThemesItem = (props: IProps) => {
           )}
           <Link href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
             <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)] backdrop-blur-[2px] backdrop-filter'>
-              <div className='flex h-[65px] flex-col items-center justify-center px-[8px]'>
+              <div className='flex h-[80px] flex-col items-center justify-center px-[8px]'>
                 <Text type='body-12-bold' color='primary-5' className='text-center'>
                   {theme?.name}
                 </Text>
                 {theme.totalSubscribe !== 0 && (
-                  <Text type='body-12-bold' color='neutral-4' className='mb-[6px] text-center'>
-                    {theme.totalSubscribe} {t('common:subscribers')}
-                  </Text>
+                  <>
+                    <Text type='body-12-bold' color='neutral-4' className='my-[6px] text-center'>
+                      {theme.totalSubscribe}
+                    </Text>
+                    <Text type='body-12-bold' color='neutral-4' className='text-center'>
+                      {t('common:subscribers')}
+                    </Text>
+                  </>
                 )}
               </div>
               <button
