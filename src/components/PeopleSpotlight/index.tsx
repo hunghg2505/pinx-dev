@@ -19,7 +19,7 @@ const PeopleSpotlight = () => {
           <img
             src='/static/icons/back_icon.svg'
             alt=''
-            className='absolute left-0 top-0 w-[28px] cursor-pointer'
+            className='absolute left-0 top-0 w-[28px] cursor-pointer tablet:left-[16px]'
             onClick={onGoBack}
           />
           <Text type='body-20-semibold' color='neutral-1' className='mobile:hidden tablet:block'>

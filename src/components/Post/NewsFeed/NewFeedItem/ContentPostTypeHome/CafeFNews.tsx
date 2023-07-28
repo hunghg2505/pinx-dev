@@ -46,8 +46,8 @@ export const CafeFNews = ({
           ref={onRef}
           className={classNames({
             'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
-            'line-clamp-3': isPostDetailPath,
-            'h-auto': isReadMore && readMore,
+            // 'line-clamp-3': isPostDetailPath,
+            'h-auto': (isReadMore && readMore) || isPostDetailPath,
           })}
         >
           <Text
