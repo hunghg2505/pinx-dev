@@ -76,7 +76,6 @@ const Compose = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
   const objectMessage = converStringMessageToObject(postDetail?.post?.message);
-  console.log('🚀 ~ file: index.tsx:145 ~ Compose ~ objectMessage:', objectMessage);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 

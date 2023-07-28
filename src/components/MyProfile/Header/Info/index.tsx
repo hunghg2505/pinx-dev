@@ -13,7 +13,7 @@ import Position from './Position';
 const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='relative px-[16px] pt-[20px] tablet:pl-[132px] xdesktop:pl-[172px]'>
+    <div className='relative px-[16px]  tablet:pl-[132px] xdesktop:pl-[172px]'>
       <EditDeskTop />
       <Name
         displayName={profileUser.displayName}

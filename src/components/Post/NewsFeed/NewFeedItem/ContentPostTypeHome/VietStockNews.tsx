@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
-import { useRouterPostDetail } from '@hooks/useRoutePostDEtail';
+import { useRouterPostDetail } from '@hooks/useIsRoutePostDetail';
 
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
@@ -41,6 +41,7 @@ export const VietStockNews = ({
 }: any) => {
   const { t } = useTranslation();
   const isRouterDetail = useRouterPostDetail();
+  console.log({ isRouterDetail });
 
   const renderThumbnail = () => {
     if (!postDetail?.post?.headImageUrl) {
@@ -55,17 +56,15 @@ export const VietStockNews = ({
               <IconLink />
             </div>
 
-            {!isPostDetailPath && (
-              <div className=' flex w-full flex-1 flex-col items-start justify-center p-2 [border-left:1px_solid_#CCC] tablet:p-5'>
-                <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
-                  {postDetail?.post?.title}
-                </Text>
+            <div className=' flex w-full flex-1 flex-col items-start justify-center p-2 [border-left:1px_solid_#CCC] tablet:p-5'>
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
 
-                <div className='mt-[10px] w-full overflow-hidden'>
-                  <ListStock listStock={postDetail?.post?.tagStocks} />
-                </div>
+              <div className='mt-[10px] w-full overflow-hidden'>
+                <ListStock listStock={postDetail?.post?.tagStocks} />
               </div>
-            )}
+            </div>
           </div>
         </CustomLink>
       );

@@ -67,3 +67,10 @@ body {
     transform: translateY(-415px) !important;
   }
 }
+
+// hide action post
+
+.active-actions-post {
+  opacity: 1 !important;
+  pointer-events: initial !important;
+}

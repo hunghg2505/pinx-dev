@@ -14,7 +14,7 @@ import Subcrible from './Subcrible';
 const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='relative px-[16px] pt-[20px] tablet:pl-[132px] xdesktop:pl-[172px]'>
+    <div className='relative px-[16px]  tablet:pl-[132px] xdesktop:pl-[172px]'>
       <Subcrible />
       <Name
         displayName={profileUser.displayName}
