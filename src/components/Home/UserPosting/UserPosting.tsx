@@ -58,9 +58,33 @@ const UserPosting = ({ onAddNewPost }: any) => {
             />
           )}
 
-          <Text type='body-16-semibold' className='w-full max-w-[calc(100%-100px)] flex-1 truncate'>
-            {userLoginInfo?.displayName}
-          </Text>
+          <div className='flex items-center'>
+            <Text type='body-16-semibold' className='w-full max-w-[160px] truncate'>
+              {userLoginInfo?.displayName}
+            </Text>
+
+            {userLoginInfo?.isKol && (
+              <img
+                src='/static/icons/iconTick.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[8px] h-[16px] w-[16px] object-contain'
+              />
+            )}
+
+            {userLoginInfo?.isFeatureProfile && (
+              <img
+                src='/static/icons/iconKol.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[2px] h-[20px] w-[20px] object-contain'
+              />
+            )}
+          </div>
         </div>
         <div className='mt-[5px] pl-[61px]'>
           <textarea

@@ -14,11 +14,15 @@ const BasicInfo = ({
   userName,
   status,
   close,
+  isKol,
+  isFeatureProfile,
 }: {
   avatar: string;
   userName: string;
   status: string;
   close: () => void;
+  isKol?: boolean;
+  isFeatureProfile?: boolean;
 }) => {
   const { t } = useTranslation();
   const { isLogin } = useAuth();
@@ -51,7 +55,31 @@ const BasicInfo = ({
           </div>
         )}
         <div className='ml-[12px] mr-auto flex-col justify-center'>
-          <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
+          <div className='flex items-center'>
+            <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
+
+            {isKol && (
+              <img
+                src='/static/icons/iconTick.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[8px] h-[16px] w-[16px] object-contain'
+              />
+            )}
+
+            {isFeatureProfile && (
+              <img
+                src='/static/icons/iconKol.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[2px] h-[20px] w-[20px] object-contain'
+              />
+            )}
+          </div>
           {status && (
             <span
               className={classNames('text-[#EAA100]', {

@@ -37,6 +37,8 @@ interface InitUserLoginInfo {
   identityCardNo?: string;
   address?: string;
   openDate?: string;
+  isKol?: boolean;
+  isFeatureProfile?: boolean;
 }
 
 const initialUserLoginInfo: InitUserLoginInfo = {

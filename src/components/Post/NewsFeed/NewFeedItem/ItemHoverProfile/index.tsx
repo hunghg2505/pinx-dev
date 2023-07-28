@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useTranslation } from 'next-i18next';
 
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
@@ -13,6 +14,7 @@ interface IProps {
   name: string;
 }
 const ItemHoverProfile = (props: IProps) => {
+  const { t } = useTranslation();
   const { postDetail, name } = props;
   const { profileOtherUser } = useGetProfileOtherUser(postDetail?.customerId);
   if (!profileOtherUser) {
@@ -42,7 +44,7 @@ const ItemHoverProfile = (props: IProps) => {
           </Text>
           <div className='flex'>
             <Text type='body-12-regular' color='primary-5' className='mr-[5px]'>
-              Join date:
+              {t('join_date')}:
             </Text>
             <Text type='body-12-semibold' color='neutral-1'>
               {dayjs(profileOtherUser?.createdAt).format('MM/YYYY')}
@@ -60,7 +62,7 @@ const ItemHoverProfile = (props: IProps) => {
             </div> */}
             <div className='mr-[30px]'>
               <Text type='body-12-regular' color='primary-5'>
-                Follower:
+                {t('follower')}:
               </Text>
               <Text type='body-12-semibold' color='neutral-1'>
                 {profileOtherUser?.totalFollower}
@@ -68,7 +70,7 @@ const ItemHoverProfile = (props: IProps) => {
             </div>
             <div>
               <Text type='body-12-regular' color='primary-5'>
-                Following:
+                {t('following')}:
               </Text>
               <Text type='body-12-semibold' color='neutral-1'>
                 {profileOtherUser?.totalFollowing}

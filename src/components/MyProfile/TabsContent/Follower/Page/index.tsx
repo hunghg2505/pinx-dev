@@ -12,12 +12,11 @@ const Page = ({
   setState?: (totalPages: any) => void;
 }) => {
   const profileUser = useContext<any>(profileUserContext);
-  const { data, refresh } = useCustomerFollower(page, {
+  const { data } = useCustomerFollower(page, {
     onSuccess: (res: any) => {
       setState((prev: any) => ({
         ...prev,
         totalPages: res?.totalPages,
-        notFound: page === 1 && !res?.data?.length,
       }));
     },
   });
@@ -28,9 +27,17 @@ const Page = ({
           <div key={item.id}>
             <UserFolowDesktop
               {...item}
-              refresh={() => {
-                refresh();
-                profileUser.reload();
+              onFollow={() => {
+                profileUser.setState((prev: any) => ({
+                  ...prev,
+                  totalFollowing: prev.totalFollowing + 1,
+                }));
+              }}
+              onUnFollow={() => {
+                profileUser.setState((prev: any) => ({
+                  ...prev,
+                  totalFollowing: prev.totalFollowing - 1,
+                }));
               }}
             />
           </div>

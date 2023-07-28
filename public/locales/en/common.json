@@ -213,5 +213,6 @@
   "share_subscribe_theme_success": "You have successfully share",
   "create_post_placeholder": "Use % to mention a stock, # to hashtag an article, @ to mention someone else",
   "recent": "Recent",
-  "request_password_msg": "Password request is successful"
+  "request_password_msg": "Password request is successful",
+  "join_date": "Join date"
 }

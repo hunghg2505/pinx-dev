@@ -11,8 +11,8 @@ import ModalAddStock from '@components/WatchList/ModalAddStock';
 import ItemWatchList from '@components/WatchList/YourWatchList/ItemWatchList';
 
 interface IProps {
-  watchlistId?: number,
-  dataStock?: any,
+  watchlistId?: number;
+  dataStock?: any;
   isEdit?: boolean;
   setIsEdit?: any;
   yourWatchListStock?: any;
@@ -130,7 +130,7 @@ const YourWatchList = (props: IProps) => {
                 key={index}
                 className={classNames({
                   'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
-                  isEdit,
+                    isEdit,
                   'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
                     !isEdit,
                 })}
@@ -160,7 +160,7 @@ const YourWatchList = (props: IProps) => {
                 key={index}
                 className={classNames({
                   'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
-                  isEdit,
+                    isEdit,
                   'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
                     !isEdit,
                 })}
@@ -174,7 +174,6 @@ const YourWatchList = (props: IProps) => {
             ))}
           </>
         )}
-
       </div>
     </>
   );

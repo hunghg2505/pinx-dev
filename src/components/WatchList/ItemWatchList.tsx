@@ -1,6 +1,7 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 // import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
@@ -19,6 +20,7 @@ const ItemWatchList = ({
   isEdit: boolean;
   refresh: () => void;
 }) => {
+  const { i18n } = useTranslation();
   const highest_price = data?.hp || data?.refPrice;
   const lowest_price = data?.lp || data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -54,7 +56,7 @@ const ItemWatchList = ({
 
   return (
     <>
-      <div className={classNames('flex items-center gap-x-[10px]')}>
+      <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
         {/* <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}> */}
         <img
           src={url}
@@ -62,7 +64,7 @@ const ItemWatchList = ({
           className='h-[36px] w-[36px] rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'
         />
         {/* </Link> */}
-        <div className='flex flex-col gap-y-[4px]'>
+        <div className='flex flex-1 flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
             {/* <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}> */}
             <Text type='body-16-semibold' className='text-[#0D0D0D]'>
@@ -78,12 +80,12 @@ const ItemWatchList = ({
           </div>
           <Text
             type='body-12-regular'
-            className={classNames({
+            className={classNames('line-clamp-2', {
               'max-w-[155px] text-[#474D57]': isEdit,
               'max-w-[155px] text-[#999] ': !isEdit,
             })}
           >
-            {data?.shortName}
+            {i18n.language === 'vi' ? data?.name : data?.nameEn}
           </Text>
         </div>
       </div>
