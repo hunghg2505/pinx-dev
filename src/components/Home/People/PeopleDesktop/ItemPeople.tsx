@@ -14,19 +14,19 @@ import {
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
   refreshList?: () => void;
-} 
+}
 const ItemPeople = (props: IProps) => {
   const { t } = useTranslation('common');
   const { data, refreshList } = props;
   const isFollow = data?.isFollowed;
   const router = useRouter();
-  const { userLoginInfo, setUserLoginInfo } = useUserLoginInfo();
+  const { run: getUserProfile } = useProfileInitial();
   // const [isFollow, setIsFollow] = React.useState(false);
   const useFollowUser = useRequest(
     (id: number) => {
@@ -36,10 +36,7 @@ const ItemPeople = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         // setIsFollow(true);
-        setUserLoginInfo({
-          ...userLoginInfo,
-          totalFollowing: Number(userLoginInfo?.totalFollowing) + 1,
-        });
+        getUserProfile();
         refreshList && refreshList();
       },
       onError: (e: any) => {
@@ -54,10 +51,7 @@ const ItemPeople = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        setUserLoginInfo({
-          ...userLoginInfo,
-          totalFollowing: Number(userLoginInfo?.totalFollowing) + 1,
-        });
+        getUserProfile();
         refreshList && refreshList();
       },
       onError: (e: any) => {
@@ -88,7 +82,7 @@ const ItemPeople = (props: IProps) => {
             width='0'
             height='0'
             sizes='100vw'
-            className='mr-[10px] h-[48px] w-[48px] rounded-full'
+            className='mr-[10px] h-[48px] w-[48px] rounded-full object-cover'
           />
         ) : (
           <div className='mr-[10px] h-[48px] w-[48px]'>

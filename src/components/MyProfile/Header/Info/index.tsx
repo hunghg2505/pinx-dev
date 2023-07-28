@@ -13,21 +13,24 @@ import Position from './Position';
 const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='relative px-[16px] pt-[20px] tablet:pl-[132px] xdesktop:pl-[172px]'>
-      <EditDeskTop />
-      <Name
-        displayName={profileUser.displayName}
-        isKol={profileUser.isKol}
-        isFeatureProfile={profileUser.isFeatureProfile}
-      />
-      <Position position={profileUser?.position} />
-      <div className='mb-[5px] flex gap-[8px] xdesktop:gap-[40px]'>
-        {/* <Post /> */}
-        <Follower totalFollower={profileUser?.totalFollower} />
-        <span className='text-[#808A9D] tablet:hidden'>&bull;</span>
-        <Following totalFollowing={profileUser?.totalFollowing} />
+    <div className='relative flex w-full grid-flow-col items-center gap-2 pl-[16px] pr-[16px]  pt-[20px] tablet:pl-[132px] tablet:pr-0 xdesktop:mt-[0] xdesktop:pl-[168px] '>
+      <div className='flex-auto'>
+        <Name
+          displayName={profileUser.displayName}
+          isKol={profileUser.isKol}
+          isFeatureProfile={profileUser.isFeatureProfile}
+        />
+        <Position position={profileUser?.position} />
+        <div className='mb-[5px] flex gap-[8px] xdesktop:gap-[8px]'>
+          <Follower totalFollower={profileUser?.totalFollower} />
+          <span className='text-[#808A9D]'>&bull;</span>
+          <Following totalFollowing={profileUser?.totalFollowing} />
+        </div>
       </div>
-      <Joined year={new Date(profileUser?.createdAt)?.getFullYear()} />
+      <div className='flex-none flex-col items-start justify-start'>
+        <EditDeskTop />
+        <Joined year={new Date(profileUser?.createdAt)?.getFullYear()} />
+      </div>
     </div>
   );
 };

@@ -20,8 +20,10 @@ import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
+import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -92,7 +94,9 @@ const NewFeedItem = (props: IProps) => {
 
   const [isReported, setReported] = useState(!!postDetail?.isReport);
 
-  const [showButtonActions, setShowButtonActions] = useState(false);
+  const { refButtonList } = useHandlActionsPost();
+
+  const { run: getUserProfile } = useProfileInitial();
 
   // hide post
   const onHidePost = useRequest(
@@ -122,6 +126,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setFollowing(true);
       },
     },
@@ -135,6 +140,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setFollowing(false);
       },
     },
@@ -221,15 +227,13 @@ const NewFeedItem = (props: IProps) => {
             alt=''
             width='0'
             height='0'
-            className='w-[33px] cursor-pointer'
-            onClick={() => setShowButtonActions(!showButtonActions)}
+            data-img-dot={true}
+            className='imgDot w-[33px] cursor-pointer'
+            ref={refButtonList as any}
           />
 
-          <Fade
-            visible={showButtonActions}
-            className='popup box-shadow absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'
-          >
-            <div className=' '>
+          <div className='box-shadow pointer-events-none absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] opacity-0 transition-all duration-300 [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
+            <div>
               {renderHideButton()}
 
               {cond2 && (
@@ -302,20 +306,16 @@ const NewFeedItem = (props: IProps) => {
                 </>
               )}
             </div>
-          </Fade>
+          </div>
         </div>
       );
     };
 
     return (
       <>
-        <div className='flex'>
+        <div className='flex gap-[6px]'>
           {pinned && (
-            <img
-              src='/static/icons/iconPinned.svg'
-              alt=''
-              className='mr-[16px] h-[28px] w-[28px]'
-            />
+            <img src='/static/icons/iconPinned.svg' alt='' className='h-[28px] w-[28px]' />
           )}
 
           {renderdButton()}
@@ -350,7 +350,7 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='mb-4 flex flex-row justify-between'>
+      <div className='mb-[2px] flex flex-row justify-between'>
         <MaybeLink
           href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ''}
           className='flex w-full flex-1 justify-between'
@@ -399,7 +399,7 @@ const NewFeedItem = (props: IProps) => {
           </div>
         </MaybeLink>
 
-        <div className='flex items-center'>
+        <div className='flex items-center gap-[6px]'>
           {!isMyProfileOrUserDetailPath && (
             <Follower
               postDetail={postDetail}
@@ -413,7 +413,7 @@ const NewFeedItem = (props: IProps) => {
         </div>
       </div>
 
-      <div className='mobile:mt-[16px] desktop:ml-[64px] desktop:mt-0'>
+      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

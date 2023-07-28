@@ -198,11 +198,11 @@ const Setting = () => {
     return <></>;
   }
   return (
-    <>
+    <div className='p-[10px] desktop:p-0'>
       <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div className='relative rounded-[8px] bg-white text-left first-letter:w-full mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+      <div className='box-shadow card-style relative text-left first-letter:w-full mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
         {/* <img
           src='/static/icons/back_icon.svg'
           alt=''
@@ -259,7 +259,7 @@ const Setting = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

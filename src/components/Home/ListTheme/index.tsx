@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import ThemesItem from '@components/Themes/ThemesItem';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
@@ -48,7 +48,6 @@ const settings = {
 
 const ListTheme = () => {
   const { t } = useTranslation();
-  const router = useRouter();
   const token = getAccessToken();
   const isLogin = !!token;
   const { theme, refresh } = useGetTheme();
@@ -57,7 +56,7 @@ const ListTheme = () => {
     <div>
       <div className='relative h-[252px] '>
         <div
-          onClick={() => refSlide.current.slickPrev()}
+          onClick={refSlide?.current?.slickPrev}
           className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
@@ -74,7 +73,7 @@ const ListTheme = () => {
           </Slider>
         </div>
         <div
-          onClick={() => refSlide.current.slickNext()}
+          onClick={refSlide?.current?.slickNext}
           className='absolute -right-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
@@ -85,16 +84,15 @@ const ListTheme = () => {
         </div>
       </div>
 
-      <div className=' mt-[16px] w-full'>
-        <div
-          className='flex h-[46px] w-full cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#EAF4FB]'
-          onClick={() => router.push(ROUTE_PATH.THEME)}
-        >
-          <Text type='body-14-bold' color='primary-2'>
-            {t('theme:explore_themes')}
-          </Text>
+      <CustomLink href={ROUTE_PATH.THEME}>
+        <div className=' mt-[16px] w-full'>
+          <div className='flex h-[46px] w-full cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#EAF4FB]'>
+            <Text type='body-14-bold' color='primary-2'>
+              {t('theme:explore_themes')}
+            </Text>
+          </div>
         </div>
-      </div>
+      </CustomLink>
     </div>
   );
 };

@@ -91,7 +91,7 @@ const RegisterCompanyStep = () => {
   return (
     <div className='flex align-middle desktop:container tablet:h-[100vh] desktop:h-[100vh]'>
       <div className='md:h-screen lg:py-0 flex flex-1 flex-col items-center justify-center py-8 tablet:mx-auto'>
-        <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
+        <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
             <img
               src='/static/icons/logo.svg'
@@ -102,8 +102,8 @@ const RegisterCompanyStep = () => {
               className={'h-[72px] w-[72px] object-contain'}
             />
           </div>
-          <div className='max-sm:mt-6 flex flex-col items-center'>
-            <Text type='body-28-bold' className='mt-6'>
+          <div className='max-sm:mt-6 flex flex-col items-center px-3'>
+            <Text type='body-28-bold' className='mt-6 text-center'>
               {t('register_company_titile')}
             </Text>
             <div className='neutral-4 mt-[8px] flex flex-col items-center'>
@@ -124,11 +124,10 @@ const RegisterCompanyStep = () => {
             {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
             <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-                const urlImageCompany = `${
-                  item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                    ? item.stockCode
-                    : item.stockCode?.slice(1, 4)
-                }.png`;
+                const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                  ? item.stockCode
+                  : item.stockCode?.slice(1, 4)
+                  }.png`;
                 return (
                   <div
                     className={classNames('relative h-[67px] w-[67px]', styles.companyCard)}
@@ -171,7 +170,7 @@ const RegisterCompanyStep = () => {
               })}
             </div>
           </div>
-          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center bg-white px-[16px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}

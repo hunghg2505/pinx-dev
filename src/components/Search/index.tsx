@@ -27,7 +27,7 @@ const Search = () => {
         return t('people');
       }
       case TYPESEARCH.POST: {
-        return t('post');
+        return t('posts');
       }
       case TYPESEARCH.NEWS: {
         return t('news');

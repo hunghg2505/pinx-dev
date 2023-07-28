@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
+import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 
 const ListStock = dynamic(import('./ListStock'), {
@@ -39,59 +40,36 @@ export const VietStockNews = ({
 }: any) => {
   const { t } = useTranslation();
 
-  return (
-    <div className='VietStockNews'>
-      {(postDetail?.post.head || postDetail?.post?.contentText) && (
+  const renderThumbnail = () => {
+    if (!postDetail?.post?.headImageUrl) {
+      return (
         <div
-          ref={onRef}
-          className={classNames({
-            // 'line-clamp-3': isPostDetailPath,
-            'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
-            'h-auto': (isReadMore && readMore) || isPostDetailPath,
-          })}
+          className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
-          <Text
-            type='body-14-regular'
-            color='neutral-1'
-            className={classNames('mb-[16px] tablet:!text-[16px]')}
-          >
-            {postDetail?.post.head || postDetail?.post?.contentText}
-          </Text>
-        </div>
-      )}
-      {isReadMore && !isPostDetailPath && (
-        <Text
-          type='body-14-regular'
-          color='neutral-3'
-          className='cursor-pointer'
-          onClick={onReadMore}
-        >
-          {readMore ? t('see_less') : t('see_more')}
-        </Text>
-      )}
-
-      {isPostDetailPath && (
-        <div className='text-right'>
           <CustomLink href={`/redirecting?url=${post_url}`}>
-            <div
-              className={classNames('inline-flex items-center', {
-                'mb-[8px]': !!postDetail?.post?.headImageUrl,
-              })}
-            >
-              <Text type='body-14-regular' color='primary-1'>
-                {t('see_more')}
-              </Text>
-
-              <img
-                src='/static/icons/chevronRightPrimaryLight.svg'
-                alt='Icon chevron right'
-                className='h-[20px] w-[20px] object-contain'
-              />
+            <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[168px]  tablet:w-[168px]'>
+              <div className='scale-[0.6] desktop:scale-[1]'>
+                <IconLink />
+              </div>
             </div>
           </CustomLink>
-        </div>
-      )}
 
+          <div className=' flex w-full flex-1 flex-col items-start justify-center p-2 [border-left:1px_solid_#CCC] tablet:p-5'>
+            <CustomLink href={`/redirecting?url=${post_url}`}>
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
+            </CustomLink>
+
+            <div className='mt-[10px] w-full overflow-hidden'>
+              <ListStock listStock={postDetail?.post?.tagStocks} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
       <div
         className={classNames(
           'relative flex h-[113px] w-full flex-col justify-end  rounded-[9px]',
@@ -105,10 +83,6 @@ export const VietStockNews = ({
           <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1] h-full  w-full'>
             <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
           </CustomLink>
-        )}
-
-        {!postDetail?.post?.headImageUrl && (
-          <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
         )}
 
         {!postDetail?.post?.headImageUrl && pinned && (
@@ -153,6 +127,63 @@ export const VietStockNews = ({
           />
         </CustomLink>
       </div>
+    );
+  };
+
+  return (
+    <div className='VietStockNews'>
+      {(postDetail?.post.head || postDetail?.post?.contentText) && (
+        <div
+          ref={onRef}
+          className={classNames({
+            // 'line-clamp-3': isPostDetailPath,
+            'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
+            'h-auto': (isReadMore && readMore) || isPostDetailPath,
+          })}
+        >
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('mb-[16px] tablet:!text-[16px]')}
+          >
+            {postDetail?.post.head || postDetail?.post?.contentText}
+          </Text>
+        </div>
+      )}
+      {isReadMore && !isPostDetailPath && (
+        <Text
+          type='body-14-regular'
+          color='neutral-3'
+          className='cursor-pointer'
+          onClick={onReadMore}
+        >
+          {readMore ? t('see_less') : t('see_more')}
+        </Text>
+      )}
+
+      {isPostDetailPath && (
+        <div className='mb-[6px] text-right '>
+          <CustomLink href={`/redirecting?url=${post_url}`}>
+            <div
+              className={classNames('inline-flex items-center', {
+                'mb-[8px]': !!postDetail?.post?.headImageUrl,
+              })}
+            >
+              <Text type='body-14-regular' color='primary-1'>
+                {t('see_more')}
+              </Text>
+
+              <img
+                src='/static/icons/chevronRightPrimaryLight.svg'
+                alt='Icon chevron right'
+                className='h-[20px] w-[20px] object-contain'
+              />
+            </div>
+          </CustomLink>
+        </div>
+      )}
+
+      {renderThumbnail()}
     </div>
   );
 };

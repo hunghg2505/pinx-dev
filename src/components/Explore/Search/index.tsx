@@ -118,7 +118,7 @@ const Search = (props: any, ref: any) => {
   return (
     <>
       <div
-        className={classNames('relative z-[100] mr-[12px] mt-[16px] w-full')}
+        className={classNames('relative z-[100] mr-[12px] mt-[16px] w-full ')}
         ref={searchResultPopupRef}
       >
         <div ref={refInput}>

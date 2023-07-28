@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import React, { useEffect } from 'react';
 
-import 'rc-dialog/assets/index.css';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
 import Dialog from 'rc-dialog';
@@ -64,23 +63,8 @@ const PopupFollowStock = ({
     });
   };
 
-  const renderCloseIcon = () => {
-    return (
-      <img
-        src='/static/icons/close_icon.svg'
-        alt='Icon close'
-        className='h-[21px] w-[21px] object-contain'
-      />
-    );
-  };
-
   return (
-    <Dialog
-      visible={visible}
-      onClose={onClose}
-      closeIcon={renderCloseIcon()}
-      className={styles.popupFollowStock}
-    >
+    <Dialog visible={visible} onClose={onClose} className={styles.popupFollowStock}>
       <img
         src='/static/icons/speaker.svg'
         alt='Icon speaker'

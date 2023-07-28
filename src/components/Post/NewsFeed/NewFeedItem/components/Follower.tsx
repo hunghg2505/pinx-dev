@@ -25,7 +25,7 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
       <div className='cursor-pointer' onClick={onFollow}>
         <div
           className={classNames(
-            'mr-[10px] flex h-[36px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] px-[12px] mobile:hidden tablet:flex ',
+            'flex h-[36px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] px-[12px] mobile:hidden tablet:flex ',
             { 'bg-[#F3F2F6]': following },
           )}
         >
@@ -39,7 +39,7 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
           alt=''
           width={0}
           height={0}
-          className='mr-[10px] w-[24px] mobile:block tablet:hidden'
+          className='w-[24px] mobile:block tablet:hidden'
           sizes='100vw'
         />
       </div>
@@ -51,7 +51,7 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
         <div className='cursor-pointer' onClick={onFollow}>
           <div
             className={classNames(
-              'mr-[10px] flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
+              'flex h-[36px] w-[89px] flex-row items-center justify-center rounded-[5px] bg-[#EAF4FB] mobile:hidden tablet:flex ',
               { 'bg-[#F3F2F6]': following },
             )}
           >
@@ -66,7 +66,7 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
             alt=''
             width={0}
             height={0}
-            className='mr-[10px] w-[24px] mobile:block tablet:hidden'
+            className='w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
           />
         </div>

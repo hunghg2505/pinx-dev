@@ -75,7 +75,7 @@ const RegisterThemes = () => {
   return (
     <div className='desktop:container'>
       <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-[10px] tablet:pt-8 desktop:pt-8'>
-        <div className='themeCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg bg-white'>
+        <div className='themeCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
             <img
               src='/static/icons/logo.svg'
@@ -119,7 +119,7 @@ const RegisterThemes = () => {
               );
             })}
           </div>
-          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center bg-white px-[16px]'>
+          <div className='fixed bottom-0 left-0 right-0 z-[11] flex h-[81px] w-full justify-center px-[16px]'>
             <button
               type='submit'
               onClick={handleContinue}

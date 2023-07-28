@@ -2,6 +2,7 @@
 /* eslint-disable indent */
 import React, { useEffect } from 'react';
 
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -129,7 +130,13 @@ const Register = (props: IProps) => {
 
   return (
     <>
-      <Form className='mt-10 space-y-6 laptop:w-full' form={form} onFinish={onSubmit}>
+      <Form
+        className={classNames('mt-10 mx-auto space-y-6 laptop:w-full ', {
+          'max-w-[475px]': !isModal
+        })}
+        form={form}
+        onFinish={onSubmit}
+      >
         <FormItem
           name='phoneNumber'
           normalize={(value: any, prevValue: any) => normalizeNumber(value, prevValue)}

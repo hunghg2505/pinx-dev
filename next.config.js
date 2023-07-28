@@ -11,6 +11,11 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
 
+  // Back scroll postion
+  experimental: {
+    scrollRestoration: true,
+  },
+
   // config env
   publicRuntimeConfig: {
     NODE_ENV: process.env.NODE_ENV,

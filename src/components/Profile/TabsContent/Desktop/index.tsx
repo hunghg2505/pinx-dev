@@ -20,6 +20,10 @@ const Desktop = () => {
   const { replace, query } = useRouter();
   const profileUser = useContext<any>(profileUserContext);
 
+  if (!profileUser?.id) {
+    return <></>;
+  }
+
   return (
     <div className='px-[16px] tablet:px-0'>
       <Tabs

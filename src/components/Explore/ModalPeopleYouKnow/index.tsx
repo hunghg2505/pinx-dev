@@ -23,7 +23,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
   const { onClose = () => {}, refreshList } = props;
   const refScroll = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState<boolean>(false);
-  const { children, closeIcon } = props;
+  const { children } = props;
   const { onLoadmorePeople } = useSuggestPeopleTheme();
   const { data, reload } = useInfiniteScroll<any>(
     async (d: any) => {
@@ -43,14 +43,6 @@ const ModalPeopleYouKnow = (props: Iprops) => {
   const onVisible = () => {
     setVisible(!visible);
   };
-  const renderCloseIcon = (): React.ReactNode => {
-    if (closeIcon) {
-      return closeIcon;
-    }
-    return (
-      <img src='/static/icons/iconClose.svg' alt='' className='h-[20px] w-[20px] object-contain' />
-    );
-  };
 
   return (
     <>
@@ -63,7 +55,6 @@ const ModalPeopleYouKnow = (props: Iprops) => {
           onVisible();
           onClose();
         }}
-        closeIcon={renderCloseIcon()}
         className='peopleYouKnow'
         wrapClassName={styles.dialog}
       >
@@ -78,9 +69,14 @@ const ModalPeopleYouKnow = (props: Iprops) => {
             className='mt-[16px] flex h-[500px] flex-col gap-y-[16px] overflow-auto mobile-max:h-[350px]'
             ref={refScroll}
           >
-            {data?.list?.map((people: ISuggestionPeople, index: number) => {
+            {data?.list?.map((people: ISuggestionPeople) => {
               return (
-                <PeopleItem key={index} data={people} reload={reload} refreshList={refreshList} />
+                <PeopleItem
+                  key={`people-${people.id}`}
+                  data={people}
+                  reload={reload}
+                  refreshList={refreshList}
+                />
               );
             })}
           </div>

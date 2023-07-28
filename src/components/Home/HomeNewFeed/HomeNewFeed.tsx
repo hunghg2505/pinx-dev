@@ -11,6 +11,7 @@ import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import { IPost } from '@components/Post/service';
+import CustomLink from '@components/UI/CustomLink';
 import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
@@ -76,9 +77,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
 
-  socket.on('connect', function () {
-    requestJoinIndex();
-  });
+  socket.on('connect', requestJoinIndex);
 
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
@@ -193,21 +192,20 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     <div className='relative px-[10px] mobile:pt-[10px] desktop:pt-0'>
       <div className='relative mobile:block tablet:hidden'>
         {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
-          <button
-            className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
-            onClick={() => router.push(ROUTE_PATH.WATCHLIST)}
-          >
-            <Text type='body-12-medium' className='tablet:text-[14px]' color='primary-1'>
-              {t('see_all')}
-            </Text>
-            <img
-              src='/static/icons/iconNext.svg'
-              width={5}
-              height={5}
-              alt=''
-              className='ml-[11px] w-[10px]'
-            />
-          </button>
+          <CustomLink href={ROUTE_PATH.WATCHLIST}>
+            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
+              <Text type='body-12-medium' className='tablet:text-[14px]' color='primary-1'>
+                {t('see_all')}
+              </Text>
+              <img
+                src='/static/icons/iconNext.svg'
+                width={5}
+                height={5}
+                alt=''
+                className='ml-[11px] w-[10px]'
+              />
+            </button>
+          </CustomLink>
         )}
 
         <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
@@ -221,29 +219,28 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       <NewsFeed key={`home-post-item-${firstPost?.id}`} data={firstPost} />
 
-      <div className='bg-[#ffffff] px-[16px] [border-top:1px_solid_#EAF4FB] mobile:block desktop:hidden'>
+      <div className='box-shadow card-style'>
         <div className='pb-[13px] pt-[10px] '>
           <Trending />
         </div>
       </div>
 
-      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
           {t('people_in_spotlight')}
         </Text>
 
         <Influencer />
 
-        <div className='mt-[16px]'>
-          <button
-            className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'
-            onClick={() => router.push(ROUTE_PATH.PEOPLEINSPOTLIGHT)}
-          >
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_influencer')}
-            </Text>
-          </button>
-        </div>
+        <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
+          <div className='mt-[16px]'>
+            <button className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
+              <Text type='body-14-bold' color='primary-2'>
+                {t('explore_influencer')}
+              </Text>
+            </button>
+          </div>
+        </CustomLink>
       </div>
 
       {suggestionPeople && (
@@ -282,7 +279,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
       })}
 
-      <div className='mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
           {t('economy_in_the_themes')}
         </Text>

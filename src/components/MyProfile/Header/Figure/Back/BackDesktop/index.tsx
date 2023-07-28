@@ -6,7 +6,7 @@ const BackDesktop = () => {
   const router = useRouter();
   return (
     <>
-      <div className='absolute left-[16px] top-[16px]  z-10 hidden h-[28px] w-[28px] rounded-full bg-white/50 tablet:block'>
+      <div className='absolute left-[16px] top-[16px] z-10 h-[28px] w-[28px] rounded-full bg-white/50'>
         <img
           src='/static/icons/back_icon.svg'
           alt='back'

@@ -44,7 +44,7 @@ const Influencer = () => {
   return (
     <div className='peopleInfluence relative w-[100%]'>
       <div
-        onClick={() => refSlide.current.slickPrev()}
+        onClick={refSlide?.current?.slickPrev}
         className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
         <img
@@ -69,7 +69,7 @@ const Influencer = () => {
         </Slider>
       </div>
       <div
-        onClick={() => refSlide.current.slickNext()}
+        onClick={refSlide?.current?.slickNext}
         className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
         <img

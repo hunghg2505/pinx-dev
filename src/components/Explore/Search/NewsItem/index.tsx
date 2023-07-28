@@ -3,6 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -17,20 +18,18 @@ const IconLink = () => (
     />
   </svg>
 );
+
 dayjs.extend(relativeTime);
+
 const NewsItem = ({ data }: { data: any }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const onGoToDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data?.id));
   };
+
   const url = data?.post?.url;
-  const onRedirect = () => {
-    router.push({
-      pathname: '/redirecting',
-      query: { url },
-    });
-  };
+
   return (
     <>
       <div className='flex'>
@@ -52,16 +51,18 @@ const NewsItem = ({ data }: { data: any }) => {
             {data?.post?.title}
           </Text>
         </div>
-        <div className='relative cursor-pointer' onClick={onRedirect}>
-          <img
-            src={data?.post?.thumbImageUrl}
-            alt=''
-            className='h-[73px] w-[73px] rounded-[12px] object-cover'
-          />
-          <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
-            <IconLink />
+        <CustomLink href={`/redirecting?url=${url}`}>
+          <div className='relative cursor-pointer'>
+            <img
+              src={data?.post?.thumbImageUrl}
+              alt=''
+              className='h-[73px] w-[73px] rounded-[12px] object-cover'
+            />
+            <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
+              <IconLink />
+            </div>
           </div>
-        </div>
+        </CustomLink>
       </div>
     </>
   );

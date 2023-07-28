@@ -1,7 +1,6 @@
 import React, { createContext } from 'react';
 
 import Avatar from './Avatar';
-import Back from './Back';
 import Cover from './Cover';
 import Phone from './Phone';
 import Verify from './Verify';
@@ -10,11 +9,11 @@ export const profileUserContext = createContext(undefined);
 
 const Header = () => {
   return (
-    <div className='bg-white px-[20px]'>
-      <div className='flex items-center justify-between pt-[20px] pb-[14px]'>
+    <div className='bg-white px-[20px] pt-[20px]'>
+      {/* <div className='flex items-center justify-between pb-[14px] pt-[20px]'>
         <Back />
-      </div>
-      <div className='relative  pt-[200px]'>
+      </div> */}
+      <div className='relative pt-[41%]'>
         <Cover />
         <div className='mx-auto'>
           <Avatar />
