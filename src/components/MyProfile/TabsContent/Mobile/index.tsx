@@ -38,10 +38,8 @@ const Mobile = () => {
           replace({ query: { ...query, tab: key } });
         }}
       >
-        <TabPane tab={t('posts')} key='post'>
-          <div>
-            <Posts />
-          </div>
+        <TabPane tab={t('posts')} key='post' className='px-[10px]'>
+          <Posts />
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
           <div>
