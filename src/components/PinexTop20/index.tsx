@@ -70,20 +70,26 @@ const PinexTop20 = () => {
     }
   };
   return (
-    <div className='mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:p-[16px]'>
-      <div className='relative text-center'>
+    <div className='mb-10 rounded-[8px] bg-[#FFF] mobile:px-[10px] mobile:py-[10px] tablet:px-0 tablet:py-[16px]'>
+      <div className='text-center] relative tablet:py-[14px]'>
         <img
           src='/static/icons/back_icon.svg'
           alt=''
-          className='absolute left-0 top-0 w-[28px] cursor-pointer'
+          className='absolute top-0 w-[28px] cursor-pointer mobile:left-0 tablet:left-[16px] tablet:top-1/2 tablet:-translate-y-1/2'
           onClick={onGoBack}
         />
-        <Text type='body-20-semibold' color='neutral-1' className='mobile:hidden tablet:block'>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mobile:hidden tablet:block'
+        >
           {t('theme:pinex_top_20')}
         </Text>
       </div>
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
-      <div className='mobile:mt-[45px] tablet:mt-0'>
+
+      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
+
+      <div className='mobile:mt-[45px] tablet:mt-0 tablet:px-[16px]'>
         <Tabs
           onChange={onChangeTab}
           contenTab={optionTab.map((item) => ({ ...item, label: t(item.label) }))}
