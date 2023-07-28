@@ -225,25 +225,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                onLoad={() => {
-                  console.log('onLoad');
-                }}
-              ></iframe>
-            </div>
-          )}
-        </InView>
-      );
-    }
-
-    if (siteName === 'vimeo' && videoId) {
-      return (
-        <InView>
-          {({ ref }) => (
-            <div ref={ref} className='mt-4'>
-              <iframe
-                src={`https://player.vimeo.com/video/${videoId}`}
-                allow='encrypted-media;'
-                className='h-[345px] w-full'
+                scrolling='no'
               ></iframe>
             </div>
           )}
@@ -255,12 +237,20 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       return (
         <InView>
           {({ ref }) => (
-            <div ref={ref} className='mt-4'>
-              <iframe
-                src={`https://www.tiktok.com/embed/${videoId}`}
-                allow='encrypted-media;'
-                className='h-[740px] !w-full '
-              ></iframe>
+            <div
+              ref={ref}
+              className='relative  mt-4 overflow-hidden  rounded-[10px] border-[1px] border-solid border-[#EBEBEB] '
+            >
+              <div className='!absolute left-0 top-0 z-0 h-full !w-full bg-[#121212]'></div>
+
+              <div className='relative z-[1] mx-auto h-[565px] max-w-[320px] '>
+                <iframe
+                  src={`https://www.tiktok.com/embed/${videoId}`}
+                  allow='encrypted-media;'
+                  className='iframe-placeholder !absolute left-0 top-0 h-full !w-full'
+                  scrolling='no'
+                ></iframe>
+              </div>
             </div>
           )}
         </InView>
