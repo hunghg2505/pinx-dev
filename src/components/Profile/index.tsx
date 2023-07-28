@@ -2,29 +2,33 @@ import React, { createContext } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import Loading from '@components/UI/Loading';
+import { ROUTE_PATH } from '@utils/common';
 
 import Header from './Header';
 import MyStory from './MyStory';
-import { useGePrivatetProfileOtherUser } from './service';
 import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);
 
-const Profile = (props: any) => {
+const Profile = () => {
   const router = useRouter();
   const {
-    privateProfileOtherUser,
+    profileOtherUser,
     run: runPrivate,
     refresh: RefreshPrivate,
     loading,
-  } = useGePrivatetProfileOtherUser(Number(router.query.id));
+  } = useGetProfileOtherUser(Number(router.query.id), {
+    onError: () => {
+      router.replace(ROUTE_PATH.NOT_FOUND);
+    },
+  });
 
   return (
     <profileUserContext.Provider
       value={{
-        ...props?.data?.data,
-        ...privateProfileOtherUser,
+        ...profileOtherUser,
         reload: runPrivate,
         refresh: RefreshPrivate,
       }}

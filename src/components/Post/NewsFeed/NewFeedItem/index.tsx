@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useMemo, useRef, useState } from 'react';
+import { ReactNode, useMemo, useRef, useState } from 'react';
 
 import { useHover, useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -61,7 +61,14 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
 
-  const { customerId, postId, isLike, isMyProfilePath, isPostDetailPath } = useMemo(() => {
+  const {
+    customerId,
+    postId,
+    isLike,
+    isMyProfilePath,
+    isPostDetailPath,
+    isMyProfileOrUserDetailPath,
+  } = useMemo(() => {
     return {
       customerId: postDetail?.customerId,
 
@@ -74,6 +81,8 @@ const NewFeedItem = (props: IProps) => {
       isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
 
       isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
+
+      isMyProfileOrUserDetailPath: router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH),
     };
   }, [
     postDetail?.customerId,
@@ -329,14 +338,34 @@ const NewFeedItem = (props: IProps) => {
     return <></>;
   }
 
+  const MaybeLink = ({
+    children,
+    href,
+    className,
+  }: {
+    children: ReactNode;
+    href: string;
+    className?: string;
+  }) => {
+    if (href) {
+      return (
+        <CustomLink className={className} href={href}>
+          {children}
+        </CustomLink>
+      );
+    }
+
+    return <div className={className}>{children}</div>;
+  };
+
   return (
     <>
       <div className='mb-4 flex flex-row justify-between'>
-        <CustomLink
-          href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : '/'}
+        <MaybeLink
+          href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ''}
           className='flex w-full flex-1 justify-between'
         >
-          <div className='flex flex-1 cursor-pointer flex-row items-center'>
+          <div className='flex flex-1 flex-row items-center'>
             <div
               ref={refHover}
               className={classNames('relative', {
@@ -368,17 +397,6 @@ const NewFeedItem = (props: IProps) => {
               <div className='flex'>
                 <div className='mr-[5px] flex flex-1 items-center'>
                   <UserName postDetail={postDetail} />
-
-                  {postDetail?.post?.customerInfo?.isFeatureProfile && (
-                    <img
-                      src='/static/icons/iconKol.svg'
-                      alt=''
-                      width={0}
-                      height={0}
-                      sizes='100vw'
-                      className='ml-[4px] h-[16px] w-[16px] object-contain'
-                    />
-                  )}
                 </div>
               </div>
               <Text type='body-12-regular' color='neutral-4' className='mt-[2px] font-[300]'>
@@ -389,15 +407,17 @@ const NewFeedItem = (props: IProps) => {
               </Text>
             </div>
           </div>
-        </CustomLink>
+        </MaybeLink>
 
         <div className='flex items-center'>
-          <Follower
-            postDetail={postDetail}
-            onFollow={onFollow}
-            following={following}
-            isMyPost={isMyPost}
-          />
+          {!isMyProfileOrUserDetailPath && (
+            <Follower
+              postDetail={postDetail}
+              onFollow={onFollow}
+              following={following}
+              isMyPost={isMyPost}
+            />
+          )}
 
           <ButtonAction />
         </div>

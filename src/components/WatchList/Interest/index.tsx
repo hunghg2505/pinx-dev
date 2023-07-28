@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
@@ -10,6 +11,7 @@ import { useResponsive } from '@hooks/useResponsive';
 
 import styles from './index.module.scss';
 import InterestItem from './InterestItem';
+
 
 interface IProps {
   isEdit?: boolean;
@@ -24,6 +26,11 @@ const settings = {
   slidesToShow: 5,
   slidesToScroll: 5,
 };
+
+const Empty = dynamic(() => import('@components/UI/Empty'), {
+  ssr: false,
+});
+
 const Interest = (props: IProps) => {
   const { isEdit = false, interestStock, refreshInterest, refreshYourWatchList } = props;
   const { t } = useTranslation('watchlist');
@@ -35,7 +42,10 @@ const Interest = (props: IProps) => {
           <Text type='body-20-bold' className='text-[#0D0D0D]'>
             {t('titleInterest')}
           </Text>
-          {isMobile && (
+          {interestStock?.length < 1 && (
+            <Empty/>
+          )}
+          {isMobile && interestStock?.length>0 && (
             <div
               className={classNames(
                 'ml-[-16px] mr-[-16px] flex gap-x-[16px] overflow-x-auto pb-[16px] pr-[16px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:pr-[24px]',
@@ -52,7 +62,7 @@ const Interest = (props: IProps) => {
               ))}
             </div>
           )}
-          {isDesktop && (
+          {isDesktop && interestStock?.length>0 && (
             <>
               <Slider
                 {...settings}

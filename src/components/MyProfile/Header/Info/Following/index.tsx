@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { profileUserContext } from '@components/MyProfile';
-
-const Following = () => {
+const Following = ({ totalFollowing }: { totalFollowing: number }) => {
   const { t } = useTranslation('profile');
-  const profileUser = useContext<any>(profileUserContext);
+
   const router = useRouter();
   const [state, setState] = useState({ mobile: false });
   useEffect(() => {
@@ -27,7 +25,7 @@ const Following = () => {
       }}
     >
       <b className='mr-[8px] text-[14px] font-[600] leading-[18px] text-neutral_black '>
-        {profileUser?.totalFollowing || 0}
+        {totalFollowing || 0}
       </b>
       <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
         {t('following')}

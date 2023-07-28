@@ -1,29 +1,26 @@
 import React from 'react';
 
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-// import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
-// import { ROUTE_PATH } from '@utils/common';
 
 const ItemWatchList = ({
   data,
   isEdit,
-  dataStock,
-  setDataStock,
-  setIsSave,
-  setItemDelete,
+  refreshYourWatchList,
+  refreshInterest
 }: {
   data: IWatchListItem;
   isEdit: boolean;
-  refresh?: () => void;
-  dataStock?: any;
-  setDataStock?: any;
-  setIsSave?: any;
-  itemDelete?: any;
-  setItemDelete?: any;
+  refreshYourWatchList: any;
+  refreshInterest?: any
 }) => {
+  const { i18n } = useTranslation();
   const highest_price = data?.hp || data?.refPrice;
   const lowest_price = data?.lp || data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -38,11 +35,25 @@ const ItemWatchList = ({
       : data?.stockCode?.slice(1, 4)
   }.png`;
 
-  const onRemove = () => {
-    setIsSave(true);
-    const dataSet = dataStock.filter((stock: any) => stock.stockCode !== data?.stockCode);
-    setDataStock(dataSet);
-    setItemDelete((prev: any) => [...prev, data?.stockCode]);
+  const useRemoveStock = useRequest(
+    (code) => {
+      return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(code));
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        refreshInterest&&refreshInterest();
+        refreshYourWatchList&&refreshYourWatchList();
+        console.log('Remove Stock Success!',data?.stockCode);
+      },
+      onError: (e:any) => {
+        console.log('Error!',e.error);
+      }
+    }
+  );
+
+  const onRemoveStock = () => {
+    useRemoveStock.run(data?.stockCode);
   };
 
   return (
@@ -72,22 +83,22 @@ const ItemWatchList = ({
           <Text
             type='body-12-regular'
             className={classNames({
-              'max-w-[155px] tablet:max-w-[100%] text-[#474D57]': isEdit,
-              'max-w-[155px] tablet:max-w-[100%] text-[#999] ': !isEdit,
+              'max-w-[155px] text-[#474D57] tablet:max-w-[100%]': isEdit,
+              'max-w-[155px] text-[#999] tablet:max-w-[100%] ': !isEdit,
             })}
           >
-            {data?.name}
+            {i18n.language === 'vi' ? data?.name : data?.nameEn}
           </Text>
         </div>
       </div>
       {isEdit ? (
         <div className='flex pr-[12px]'>
-          <img src='/static/icons/iconSwitch.svg' alt='' className='h-[21px] w-[20px]' />
+          <img src='/static/icons/iconSwitch.svg' alt='' className='h-[21px] w-[20px] opacity-0' />
           <img
             src='/static/icons/iconCloseBlue.svg'
             alt=''
             className='absolute -right-2 -top-2 h-[18px] w-[18px] cursor-pointer'
-            onClick={onRemove}
+            onClick={onRemoveStock}
           />
         </div>
       ) : (

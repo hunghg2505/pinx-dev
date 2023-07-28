@@ -31,7 +31,7 @@ export const getMarketCodeChart = (marketCode: string) => {
   return '';
 };
 const MarketDesktop = () => {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run, loading } = useRequest(
@@ -156,7 +156,7 @@ const MarketDesktop = () => {
                   <iframe
                     src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
                       item.mc,
-                    )}&type=INDEX&ref=${item.oIndex}`}
+                    )}&type=INDEX&ref=${item.oIndex}&lang=${i18n.language}`}
                     className='h-[350px] w-full rounded-[8px]'
                   ></iframe>
                 </div>

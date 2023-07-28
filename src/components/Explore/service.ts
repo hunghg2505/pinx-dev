@@ -20,6 +20,12 @@ export interface IStockIPO {
   stockCode: string;
   stockExchange: string;
 }
+
+interface IOptions {
+  onSuccess?: (res: any) => void;
+  onError?: (error: any) => void;
+}
+
 export const useGetKeyWordsTop = () => {
   const { data } = useRequest(() => {
     const params = {
@@ -70,11 +76,12 @@ export const useGetAllIPO = () => {
   };
 };
 export const useGetSearchRecent = () => {
-  const { data } = useRequest(() => {
+  const { data, refresh } = useRequest(() => {
     return privateRequest(requestPist.get, API_PATH.PRIVATE_SEARCH_CUSTOMER_RECENT);
   });
   return {
     listRecent: data?.data,
+    refreshSearchRecent: refresh,
   };
 };
 export const useGetPopular = () => {
@@ -88,7 +95,7 @@ export const useGetPopular = () => {
     popular: data?.data,
   };
 };
-export const useSearchPublic = () => {
+export const useSearchPublic = (options?: IOptions) => {
   const { data, run, loading, refresh, mutate } = useRequest(
     (payload: ISearch) => {
       const isLogin = !!getAccessToken();
@@ -100,6 +107,7 @@ export const useSearchPublic = () => {
     },
     {
       manual: true,
+      ...options,
     },
   );
   return {

@@ -48,11 +48,22 @@ export const UserName = ({ postDetail }: any) => {
       color='neutral-1'
       className='flex w-[5em] flex-1 items-center truncate tablet:text-[16px]'
     >
-      <span className='max-w-[160px] '>{name}</span>
+      <span className='max-w-[160px]'>{name}</span>
 
       {postDetail?.post?.customerInfo?.isKol && (
         <img
           src='/static/icons/iconTick.svg'
+          alt=''
+          width={0}
+          height={0}
+          sizes='100vw'
+          className='ml-[4px] h-[16px] w-[16px] object-contain'
+        />
+      )}
+
+      {postDetail?.post?.customerInfo?.isFeatureProfile && (
+        <img
+          src='/static/icons/iconKol.svg'
           alt=''
           width={0}
           height={0}

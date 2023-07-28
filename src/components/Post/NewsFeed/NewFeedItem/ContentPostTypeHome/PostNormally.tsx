@@ -225,41 +225,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                onLoad={() => {
-                  console.log('onLoad');
-                }}
-              ></iframe>
-            </div>
-          )}
-        </InView>
-      );
-    }
-
-    if (siteName === 'vimeo' && videoId) {
-      return (
-        <InView>
-          {({ ref }) => (
-            <div ref={ref} className='mt-4'>
-              <iframe
-                src={`https://player.vimeo.com/video/${videoId}`}
-                allow='encrypted-media;'
-                className='h-[345px] w-full'
-              ></iframe>
-            </div>
-          )}
-        </InView>
-      );
-    }
-
-    if (siteName === 'tiktok' && videoId) {
-      return (
-        <InView>
-          {({ ref }) => (
-            <div ref={ref} className='mt-4'>
-              <iframe
-                src={`https://www.tiktok.com/embed/${videoId}`}
-                allow='encrypted-media;'
-                className='h-[740px] !w-full '
+                scrolling='no'
               ></iframe>
             </div>
           )}

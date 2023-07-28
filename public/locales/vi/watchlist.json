@@ -9,5 +9,6 @@
     "emptyTitle": "Chưa có dữ liệu",
     "emptyDesc": "Chưa có giao dịch"
   },
-  "editText": "Chỉnh sửa"
+  "editText": "Chỉnh sửa",
+  "emptyText": "Không có dữ liệu"
 }
