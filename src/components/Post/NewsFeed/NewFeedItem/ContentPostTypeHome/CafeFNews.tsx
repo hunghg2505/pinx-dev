@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -133,60 +134,62 @@ export const CafeFNews = ({
   };
 
   return (
-    <div className='CafeFNews'>
-      {postDetail?.post.head && (
-        <div
-          ref={onRef}
-          className={classNames({
-            'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
-            // 'line-clamp-3': isPostDetailPath,
-            'h-auto': (isReadMore && readMore) || isPostDetailPath,
-          })}
-        >
+    <Link href={postDetailUrl}>
+      <div className='CafeFNews'>
+        {postDetail?.post.head && (
+          <div
+            ref={onRef}
+            className={classNames({
+              'line-clamp-4 h-[85px] overflow-hidden': !isPostDetailPath && isReadMore && !readMore,
+              // 'line-clamp-3': isPostDetailPath,
+              'h-auto': (isReadMore && readMore) || isPostDetailPath,
+            })}
+          >
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className={classNames('mb-[16px] tablet:!text-[16px]')}
+            >
+              {postDetail?.post.head}
+            </Text>
+          </div>
+        )}
+
+        {isReadMore && !isPostDetailPath && (
           <Text
             type='body-14-regular'
-            color='neutral-1'
-            className={classNames('mb-[16px] tablet:!text-[16px]')}
+            color='neutral-3'
+            className='w-[75px] cursor-pointer'
+            onClick={onReadMore}
           >
-            {postDetail?.post.head}
+            {readMore ? t('see_less') : t('see_more')}
           </Text>
-        </div>
-      )}
+        )}
 
-      {isReadMore && !isPostDetailPath && (
-        <Text
-          type='body-14-regular'
-          color='neutral-3'
-          className='w-[75px] cursor-pointer'
-          onClick={onReadMore}
-        >
-          {readMore ? t('see_less') : t('see_more')}
-        </Text>
-      )}
+        {isPostDetailPath && (
+          <div className='mb-[6px] text-right'>
+            <CustomLink href={`/redirecting?url=${post_url}`}>
+              <div
+                className={classNames('inline-flex items-center', {
+                  'mb-[8px]': !!postDetail?.post?.headImageUrl,
+                })}
+              >
+                <Text type='body-14-regular' color='primary-1'>
+                  {t('see_more')}
+                </Text>
 
-      {isPostDetailPath && (
-        <div className='mb-[6px] text-right'>
-          <CustomLink href={`/redirecting?url=${post_url}`}>
-            <div
-              className={classNames('inline-flex items-center', {
-                'mb-[8px]': !!postDetail?.post?.headImageUrl,
-              })}
-            >
-              <Text type='body-14-regular' color='primary-1'>
-                {t('see_more')}
-              </Text>
+                <img
+                  src='/static/icons/chevronRightPrimaryLight.svg'
+                  alt='Icon chevron right'
+                  className='h-[20px] w-[20px] object-contain'
+                />
+              </div>
+            </CustomLink>
+          </div>
+        )}
 
-              <img
-                src='/static/icons/chevronRightPrimaryLight.svg'
-                alt='Icon chevron right'
-                className='h-[20px] w-[20px] object-contain'
-              />
-            </div>
-          </CustomLink>
-        </div>
-      )}
-
-      {renderThumbnail()}
-    </div>
+        {renderThumbnail()}
+      </div>
+    </Link>
   );
 };
