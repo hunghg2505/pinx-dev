@@ -15,6 +15,7 @@ const Interest = dynamic(() => import('@components/WatchList/Interest'), {
 });
 
 const WatchList = () => {
+  const [mounted, setMounted] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [watchlistId, setWatchlistId] = React.useState<number>();
   const [dataStock, setDataStock] = React.useState<any>([]);
@@ -34,7 +35,11 @@ const WatchList = () => {
 
   React.useEffect(() => {
     runYourWatchList();
-  }, [isEdit]);
+    setMounted(true);
+  }, []);
+
+  // For Next.js 13, return jsx once the component is mounted
+  if (!mounted) { return <></>; }
 
   return (
     <div className='flex flex-col gap-y-[32px] rounded-[8px] bg-white px-[10px] py-[20px] desktop:gap-y-[20px] desktop:px-[24px]'>
