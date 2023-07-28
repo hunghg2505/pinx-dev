@@ -1,16 +1,17 @@
 .tabs::-webkit-scrollbar {
   width: 100px !important;
-    background: none !important;  
+  background: none !important;
 }
-.tabs{
+.tabs {
   overflow-x: scroll;
   // width: 1000px;
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
-  &::-webkit-scrollbar{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
     display: none !important;
   }
+  border-bottom: 1px solid #eef5f9;
 }
-.abcd{
+.abcd {
   transform: translateX(-100%);
 }

@@ -61,7 +61,14 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
 
-  const { customerId, postId, isLike, isMyProfilePath, isPostDetailPath } = useMemo(() => {
+  const {
+    customerId,
+    postId,
+    isLike,
+    isMyProfilePath,
+    isPostDetailPath,
+    isMyProfileOrUserDetailPath,
+  } = useMemo(() => {
     return {
       customerId: postDetail?.customerId,
 
@@ -74,6 +81,8 @@ const NewFeedItem = (props: IProps) => {
       isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
 
       isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
+
+      isMyProfileOrUserDetailPath: router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH),
     };
   }, [
     postDetail?.customerId,
@@ -401,12 +410,14 @@ const NewFeedItem = (props: IProps) => {
         </MaybeLink>
 
         <div className='flex items-center'>
-          <Follower
-            postDetail={postDetail}
-            onFollow={onFollow}
-            following={following}
-            isMyPost={isMyPost}
-          />
+          {!isMyProfileOrUserDetailPath && (
+            <Follower
+              postDetail={postDetail}
+              onFollow={onFollow}
+              following={following}
+              isMyPost={isMyPost}
+            />
+          )}
 
           <ButtonAction />
         </div>

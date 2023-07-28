@@ -81,6 +81,8 @@ const MenuProfileMobile = forwardRef((_, ref) => {
         avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
         status={calcUserStatusText(userLoginInfo.acntStat || '')}
         close={close}
+        isKol={userLoginInfo?.isKol}
+        isFeatureProfile={userLoginInfo?.isFeatureProfile}
       />
 
       <Follow
@@ -116,7 +118,31 @@ const Profile = () => {
               className='h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
             />
             <div className=' flex-1'>
-              <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+              <div className='flex items-center'>
+                <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+
+                {userLoginInfo?.isKol && (
+                  <img
+                    src='/static/icons/iconTick.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[8px] h-[16px] w-[16px] object-contain'
+                  />
+                )}
+
+                {userLoginInfo?.isFeatureProfile && (
+                  <img
+                    src='/static/icons/iconKol.svg'
+                    alt=''
+                    width={0}
+                    height={0}
+                    sizes='100vw'
+                    className='ml-[2px] h-[20px] w-[20px] object-contain'
+                  />
+                )}
+              </div>
 
               <div className='my-[6px] text-[12px] text-[#474D57]'>
                 {t('joined_since')}

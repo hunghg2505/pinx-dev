@@ -63,7 +63,11 @@ export const PineTreePost = ({
       {isPostDetailPath && (
         <div className='text-right'>
           <CustomLink href={`/redirecting?url=${post_url}`}>
-            <div className='my-[8px] inline-flex items-center'>
+            <div
+              className={classNames('inline-flex items-center', {
+                'mb-[8px]': !!postDetail?.post?.headImageUrl,
+              })}
+            >
               <Text type='body-14-regular' color='primary-1'>
                 {t('see_more')}
               </Text>
@@ -83,6 +87,7 @@ export const PineTreePost = ({
           'relative flex h-[113px] w-full flex-col justify-end  rounded-[9px]',
           {
             'h-[250px] tablet:h-[360px] ': !!postDetail?.post?.headImageUrl,
+            '!h-0': !postDetail?.post?.headImageUrl && isPostDetailPath,
           },
         )}
       >

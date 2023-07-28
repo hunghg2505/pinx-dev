@@ -83,7 +83,7 @@ const ItemWatchList = ({
               'max-w-[155px] text-[#999] ': !isEdit,
             })}
           >
-            {data?.shortName}
+            {data?.name}
           </Text>
         </div>
       </div>

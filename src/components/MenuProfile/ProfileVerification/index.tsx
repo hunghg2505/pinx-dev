@@ -159,9 +159,31 @@ const ProfileVerification = () => {
         </div>
 
         <div className='flex flex-col'>
-          <Text type='body-20-semibold' className='mb-[2px]'>
-            {userLoginInfo?.displayName}
-          </Text>
+          <div className='mb-[2px] flex items-center'>
+            <Text type='body-20-semibold'>{userLoginInfo?.displayName}</Text>
+
+            {userLoginInfo?.isKol && (
+              <img
+                src='/static/icons/iconTick.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[8px] h-[18px] w-[18px] object-contain'
+              />
+            )}
+
+            {userLoginInfo?.isFeatureProfile && (
+              <img
+                src='/static/icons/iconKol.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='ml-[2px] h-[24px] w-[24px] object-contain'
+              />
+            )}
+          </div>
           <div className='flex items-center text-[#999999]'>
             <img
               src='/static/icons/icon_phone.svg'
