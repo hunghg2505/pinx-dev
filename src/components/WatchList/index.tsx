@@ -56,6 +56,7 @@ const WatchList = () => {
           yourWatchListStock={yourWatchListStock}
           refreshYourWatchList={refreshYourWatchList}
           loadingYourWatchList={loadingYourWatchList}
+          refreshInterest={refreshInterest}
           setDataStock={setDataStock}
         />
       </div>
