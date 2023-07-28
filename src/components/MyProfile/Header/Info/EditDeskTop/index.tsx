@@ -8,12 +8,12 @@ import { ROUTE_PATH } from '@utils/common';
 const EditDeskTop = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className=' absolute bottom-[calc(100%+19px)] right-[16px]  hidden text-right tablet:bottom-0 tablet:right-0 tablet:block'>
+    <div className='hidden text-right tablet:bottom-0 tablet:right-0 tablet:block'>
       <Link
         href={ROUTE_PATH.EDIT_MY_PROFILE}
-        className='ml-1 text-[14px] font-[700] text-primary_blue hover:text-primary_blue'
+        className='text-[14px] font-[700] text-primary_blue hover:text-primary_blue'
       >
-        <div className=' flex cursor-pointer flex-row items-center justify-center rounded-[8px] bg-blue_light  px-[12px] py-[10px] tablet:flex'>
+        <div className='flex cursor-pointer flex-row items-center justify-center rounded-[8px] bg-blue_light  px-[12px] py-[10px] tablet:flex'>
           {t('edit_profile')}
         </div>
       </Link>

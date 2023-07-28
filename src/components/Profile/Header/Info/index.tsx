@@ -14,7 +14,7 @@ import Subcrible from './Subcrible';
 const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='relative  flex w-full grid-flow-col gap-2  px-[16px] pt-[20px] tablet:pl-[132px] xdesktop:mt-[0] xdesktop:pl-[168px] '>
+    <div className='relative flex w-full grid-flow-col items-center gap-2 pl-[16px] pr-[16px]  pt-[20px] tablet:pl-[132px] tablet:pr-0 xdesktop:mt-[0] xdesktop:pl-[168px] '>
       <div className='flex-auto'>
         <Name
           displayName={profileUser.displayName}
