@@ -168,7 +168,7 @@ const ItemComment = (props: IProps) => {
     useHideComment.run();
   };
   return (
-    <div className='comment mb-[22px]'>
+    <div className='comment mt-[12px]'>
       <div className='flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
@@ -184,7 +184,7 @@ const ItemComment = (props: IProps) => {
         />
         {/* bg-[#F6FAFD] */}
         <div
-          className={classNames('content relative', {
+          className={classNames('content relative flex-1', {
             'w-[calc(100%_-_40px)]': isChildren,
             'w-[calc(100%_-_48px)]': !isChildren,
           })}
