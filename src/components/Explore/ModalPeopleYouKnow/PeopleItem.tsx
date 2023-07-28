@@ -101,7 +101,11 @@ const PeopleItem = (props: Iprops) => {
       <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data?.id)}>
         <div className='flex cursor-pointer items-center'>
           {data?.avatar ? (
-            <img src={data?.avatar} alt='' className='mr-[8px] h-[44px] w-[44px] rounded-full' />
+            <img
+              src={data?.avatar}
+              alt=''
+              className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
+            />
           ) : (
             <div className='mr-[8px] h-[44px] w-[44px]'>
               <AvatarDefault name={name} />
