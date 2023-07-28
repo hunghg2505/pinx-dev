@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { profileUserContext } from '@components/MyProfile';
 
+import Img from './Image';
 import UpLoadCover from './UpLoadCover';
 
 const Cover = () => {
@@ -11,11 +12,7 @@ const Cover = () => {
     <>
       {profileUser?.coverImage && (
         <>
-          <img
-            src={profileUser?.coverImage}
-            alt='background cover'
-            className='absolute left-0 top-0 h-full w-full object-cover tablet:rounded-[8px]'
-          />
+          <Img coverImage={profileUser?.coverImage} />
           <UpLoadCover />
         </>
       )}
