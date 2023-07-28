@@ -3,21 +3,27 @@ import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import Text from '@components/UI/Text';
+import { ONE_LINK_DOWNLOAD } from 'src/constant';
+
 const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='width-[100%]  px-16px flex flex-wrap justify-center  rounded-[12px] py-[32px] text-center mb-[50px]'>
-      <p className='line-[21px] mb-[12px] max-w-full text-[16px] font-[700] text-dark_grey'>
+    <div className='mx-[16px] rounded-[12px] border border-dashed border-primary_light_blue bg-[#F0F7FC] p-[20px] text-center'>
+      <Text type='body-16-bold' color='primary-5' className='mb-[12px]'>
         {t('asset_desktop')}
-      </p>
-      <p className='line-[18px] mb-[16px] w-full max-w-[323px] text-[14px] text-dark_grey'>
+      </Text>
+
+      <Text type='body-14-regular' color='primary-5'>
         {t('install_app')}
-      </p>
-      <Link
-        href={'https://onelink.to/cgarrk'}
-        className='line-[18px] block rounded-[41px] bg-gradient-to-r from-[#589DC0] to-[#1D6CAB] px-[18px] py-[10px] text-[14px] font-[700] text-white'
-      >
-        {t('install')}
+      </Text>
+
+      <Link href={ONE_LINK_DOWNLOAD}>
+        <button className='mx-auto mt-[20px] block h-[38px] rounded-[41px] bg-gradient-to-r from-[#589DC0] to-[#1D6CAB] px-[16px]'>
+          <Text type='body-14-bold' color='cbwhite'>
+            {t('install')}
+          </Text>
+        </button>
       </Link>
     </div>
   );

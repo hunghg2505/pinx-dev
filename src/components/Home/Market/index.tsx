@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import { PREFIX_API_MARKET } from '@api/request';
 import Text from '@components/UI/Text';
@@ -12,50 +13,20 @@ import styles from './index.module.scss';
 import { socket } from '../service';
 
 const enum MARKET_STATUS {
-  P = 'ATO session',
-  O = 'Continuous session',
-  I = 'Time break',
-  A = 'ATC session',
-  Z = 'Put Through session',
-  C = 'Market Closed',
-  S = 'Market Paused',
-  W = 'Market Closed',
-  L = 'PLO session',
-  WO = 'Waiting Open',
+  P = 'market_status.ato_session',
+  O = 'market_status.continuous_session',
+  I = 'market_status.time_break',
+  A = 'market_status.atc_session',
+  Z = 'market_status.put_through_session',
+  C = 'market_status.market_closed',
+  S = 'market_status.market_paused',
+  W = 'market_status.market_closed2',
+  L = 'market_status.plo_session',
+  WO = 'market_status.waiting_open',
 }
-const renderMarketStatus = (type: string) => {
-  if (type === 'P') {
-    return MARKET_STATUS.P;
-  }
-  if (type === 'O') {
-    return MARKET_STATUS.O;
-  }
-  if (type === 'I') {
-    return MARKET_STATUS.I;
-  }
-  if (type === 'A') {
-    return MARKET_STATUS.A;
-  }
-  if (type === 'Z') {
-    return MARKET_STATUS.Z;
-  }
-  if (type === 'C') {
-    return MARKET_STATUS.C;
-  }
-  if (type === 'S') {
-    return MARKET_STATUS.S;
-  }
-  if (type === 'W') {
-    return MARKET_STATUS.W;
-  }
-  if (type === 'L') {
-    return MARKET_STATUS.L;
-  }
-  if (type === 'WO') {
-    return MARKET_STATUS.WO;
-  }
-};
+
 const Market = () => {
+  const { t } = useTranslation('home');
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
   const { run } = useRequest(
@@ -73,6 +44,40 @@ const Market = () => {
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const renderMarketStatus = (type: string) => {
+    if (type === 'P') {
+      return t(MARKET_STATUS.P);
+    }
+    if (type === 'O') {
+      return t(MARKET_STATUS.O);
+    }
+    if (type === 'I') {
+      return t(MARKET_STATUS.I);
+    }
+    if (type === 'A') {
+      return t(MARKET_STATUS.A);
+    }
+    if (type === 'Z') {
+      return t(MARKET_STATUS.Z);
+    }
+    if (type === 'C') {
+      return t(MARKET_STATUS.C);
+    }
+    if (type === 'S') {
+      return t(MARKET_STATUS.S);
+    }
+    if (type === 'W') {
+      return t(MARKET_STATUS.W);
+    }
+    if (type === 'L') {
+      return t(MARKET_STATUS.L);
+    }
+    if (type === 'WO') {
+      return t(MARKET_STATUS.WO);
+    }
+  };
+
   socket.on('public', (message: any) => {
     const data = message.data;
     if (data?.id === 1101) {

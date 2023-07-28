@@ -10,5 +10,17 @@
   "news_feed": "Bản tin",
   "most_recent": "Mới nhất",
   "filter_posts_by": "Lọc bài viết theo",
-  "what_is_in_your_mind": "Bạn đang nghĩ gì?"
+  "what_is_in_your_mind": "Bạn đang nghĩ gì?",
+  "market_status": {
+    "ato_session": "Phiên ATO",
+    "continuous_session": "Phiên liên tục",
+    "time_break": "Nghỉ trưa",
+    "atc_session": "Phiên ATC",
+    "put_through_session": "Phiên thỏa thuận",
+    "market_closed": "Đóng cửa",
+    "market_paused": "Tạm dừng",
+    "market_closed2": "Đóng cửa",
+    "plo_session": "Phiên PLO",
+    "waiting_open": "Chờ mở cửa"
+  }
 }

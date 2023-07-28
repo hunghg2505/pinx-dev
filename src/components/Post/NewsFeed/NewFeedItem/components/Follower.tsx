@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 

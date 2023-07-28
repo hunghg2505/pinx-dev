@@ -83,7 +83,6 @@ const WatchList = () => {
   const onAddStock = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
   };
-  console.log('xxx dataStock', dataStock.slice(0, 5));
   return (
     <>
       <div className='mt-[22px] h-[179px] max-w-[700px] justify-center overflow-hidden mobile:block  tablet:hidden '>
@@ -91,9 +90,11 @@ const WatchList = () => {
           <div>
             <Slider
               {...settings}
-              className={classNames('mx-[auto] my-[0] flex w-[calc(100%_-_32px)]', styles.watchListSlick)}
+              className={classNames(
+                'mx-[auto] my-[0] flex w-[calc(100%_-_32px)]',
+                styles.watchListSlick,
+              )}
               variableWidth
-
             >
               {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
                 return <ItemStock key={index} data={item} />;
