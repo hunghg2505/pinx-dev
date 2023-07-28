@@ -1,11 +1,11 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import { IWatchListItem } from '@components/Home/service';
-import Empty from '@components/UI/Empty';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 
@@ -26,6 +26,11 @@ const settings = {
   slidesToShow: 5,
   slidesToScroll: 5,
 };
+
+const Empty = dynamic(() => import('@components/UI/Empty'), {
+  ssr: false,
+});
+
 const Interest = (props: IProps) => {
   const { isEdit = false, interestStock, refreshInterest, refreshYourWatchList } = props;
   const { t } = useTranslation('watchlist');
