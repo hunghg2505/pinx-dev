@@ -12,5 +12,17 @@
   "filter_posts_by": "Filter posts by",
   "view_more": "View more",
   "comments": "comments",
-  "what_is_in_your_mind": "What is in your mind?"
+  "what_is_in_your_mind": "What is in your mind?",
+  "market_status": {
+    "ato_session": "ATO session",
+    "continuous_session": "Continuous session",
+    "time_break": "Time break",
+    "atc_session": "ATC session",
+    "put_through_session": "Put Through session",
+    "market_closed": "Market Closed",
+    "market_paused": "Market Paused",
+    "market_closed2": "Market Closed",
+    "plo_session": "PLO session",
+    "waiting_open": "Waiting Open"
+  }
 }

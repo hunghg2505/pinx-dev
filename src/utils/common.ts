@@ -113,7 +113,7 @@ export const formatMessage = (message: string, data: any) => {
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
-        message = message.replace(
+        message = message.replaceAll(
           item,
           `
           <a href="${window.location.origin}/stock/${ID}" className="tagStock">${name}</a>
@@ -424,6 +424,132 @@ export const getQueryFromUrl = () => {
   } catch {
     return {};
   }
+};
+export const converStringMessageToObject = (message: string) => {
+  const txt = message?.split('\n');
+  const ignore: any = [];
+  const newObject = {
+    type: 'doc',
+    content: txt?.map((item) => {
+      const checkSplit = item.split(' ')?.reduce((acc: any, cur: any, index: any, array: any) => {
+        const isStart = cur.includes('[');
+        const isEnd = cur.includes(']');
+
+        if (isStart && !isEnd) {
+          for (const [i, item] of array.entries()) {
+            if (cur === item) {
+              continue;
+            }
+            if (i <= index) {
+              continue;
+            }
+
+            ignore.push(i);
+
+            cur = cur?.concat(` ${item}`);
+
+            const isEndItem = item.includes(']');
+
+            if (isEndItem) {
+              break;
+            }
+          }
+        }
+
+        const can = !ignore.includes(index);
+
+        if (can) {
+          const nCur = `${cur}`;
+
+          const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%'));
+
+          if (isSepecial) {
+            acc.push(nCur);
+          } else {
+            const prevItem = acc.at(-1);
+
+            if (prevItem) {
+              const isPrevItemSepecial = Boolean(prevItem.includes('@') || prevItem.includes('%'));
+
+              if (isPrevItemSepecial) {
+                acc.push(nCur);
+              } else {
+                acc[acc.length - 1] = `${prevItem} ${nCur}`;
+              }
+            } else {
+              acc.push(nCur);
+            }
+          }
+        }
+        return acc;
+      }, []);
+      const newArray = checkSplit?.map((item: any, index: number) => {
+        const b = [];
+        if (item.includes('@')) {
+          const a = index === 0 ? [item, ''] : ['', item, ''];
+          b.push(a);
+        } else {
+          b.push(item);
+        }
+        // if (item.includes('%')) {
+        //   const c = [item, ''];
+        //   b.push(c);
+        // }
+        // if (!item.includes('@') && !item.includes('%')) {
+        //   b.push(item);
+        // }
+        return b.flat();
+      });
+      const addSpace = newArray.flat();
+      // console.log('🚀 ~ file: common.ts:481 ~ content:txt?.map ~ addSpace:', addSpace);
+      const data = addSpace?.map((check: any) => {
+        if (check.includes('@')) {
+          const start = check.indexOf('[') + 1;
+          const end = check.indexOf(']');
+          const name = check.slice(start, end);
+          const startId = check.indexOf('(') + 1;
+          const endId = check.indexOf(')');
+          const ID = check.slice(startId, endId);
+          return {
+            type: 'userMention',
+            attrs: {
+              id: ID,
+              label: `${name}`,
+            },
+          };
+        }
+        if (check.includes('%')) {
+          const start = check.indexOf('[') + 1;
+          const end = check.indexOf(']');
+          const name = check.slice(start, end);
+          return {
+            type: 'stockMention',
+            attrs: {
+              // eslint-disable-next-line unicorn/no-null
+              id: null,
+              label: name,
+            },
+          };
+        }
+        if (!check.includes('%') && !check.includes('@') && check === '') {
+          return {
+            type: 'text',
+            text: ' ',
+          };
+        }
+
+        return {
+          type: 'text',
+          text: check,
+        };
+      });
+      return {
+        type: 'paragraph',
+        content: data,
+      };
+    }),
+  };
+  return newObject;
 };
 
 export default async function getSeoDataFromLink(url: string) {

@@ -132,7 +132,7 @@
     // line-height: 18px;
     color: #1a1a1a;
     word-break: break-all;
-    display: inline-block;
+    // display: inline-block;
     span {
       color: #1f6eac;
     }
@@ -142,7 +142,7 @@
   }
   .link {
     color: #3449d7 !important;
-    display: inline-block;
+    // display: inline-block;
     position: relative;
     z-index: 10;
     font-weight: 400 !important;
@@ -328,6 +328,9 @@
   float: left;
   height: 0;
   pointer-events: none;
+}
+.ProseMirror p strong{
+  font-weight: 400;
 }
 .ProseMirror:focus {
   -webkit-appearance: none;

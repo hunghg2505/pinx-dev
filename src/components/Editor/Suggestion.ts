@@ -37,14 +37,14 @@ export default {
           return;
         }
 
-        popup[0].setProps({
+        popup?.[0].setProps({
           getReferenceClientRect: props.clientRect,
         });
       },
 
       onKeyDown(props: any) {
         if (props.event.key === 'Escape') {
-          popup[0].hide();
+          popup?.[0].hide();
 
           return true;
         }

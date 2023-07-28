@@ -24,17 +24,15 @@ const WatchList = () => {
           type={(() => {
             if (isShareWatchList && isUserShareWatchList && watchList?.length === 0) {
               return 1;
-            }
-            if (isShareWatchList && !isUserShareWatchList) {
+            } else if (isShareWatchList === '0') {
               return 2;
-            }
-            if (!isShareWatchList && isUserShareWatchList) {
+            } else if (!isUserShareWatchList) {
               return 3;
-            }
-            if (!isLogin) {
+            } else if (isLogin) {
+              return 1;
+            } else {
               return 4;
             }
-            return 3;
           })()}
         />
       )}
