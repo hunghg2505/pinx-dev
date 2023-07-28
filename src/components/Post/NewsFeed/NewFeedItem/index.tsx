@@ -22,6 +22,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -94,6 +95,8 @@ const NewFeedItem = (props: IProps) => {
 
   const [showButtonActions, setShowButtonActions] = useState(false);
 
+  const { run: getUserProfile } = useProfileInitial();
+
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -122,6 +125,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setFollowing(true);
       },
     },
@@ -135,6 +139,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        getUserProfile();
         setFollowing(false);
       },
     },

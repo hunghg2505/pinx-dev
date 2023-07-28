@@ -9,6 +9,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -22,6 +23,7 @@ const ItemInfluence = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
   const { data, refresh } = props;
+  const { run: getUserProfile } = useProfileInitial();
 
   const isFollow = data?.isFollowed;
   const useFollowUser = useRequest(
@@ -32,6 +34,7 @@ const ItemInfluence = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        getUserProfile();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -46,6 +49,7 @@ const ItemInfluence = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         refresh();
+        getUserProfile();
       },
     },
   );

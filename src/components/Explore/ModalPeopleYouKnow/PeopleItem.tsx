@@ -17,6 +17,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
@@ -26,6 +27,7 @@ interface Iprops {
 }
 const PeopleItem = (props: Iprops) => {
   const { data, reload, refreshList } = props;
+  const { run: getUserProfile } = useProfileInitial();
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
@@ -42,6 +44,7 @@ const PeopleItem = (props: Iprops) => {
       manual: true,
       onSuccess: () => {
         // setIsFollow(true);
+        getUserProfile();
         reload && reload();
         refreshList && refreshList();
         // refreshList();
@@ -59,6 +62,7 @@ const PeopleItem = (props: Iprops) => {
       manual: true,
       onSuccess: () => {
         // setIsFollow(false);
+        getUserProfile();
         reload && reload();
         // refreshList();
       },
