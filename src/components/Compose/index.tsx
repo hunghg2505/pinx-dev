@@ -36,7 +36,13 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { base64ToBlob, formatMessage, getMeta, isImage, toBase64 } from '@utils/common';
+import getSeoDataFromLink, {
+  base64ToBlob,
+  formatMessage,
+  getMeta,
+  isImage,
+  toBase64,
+} from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -440,7 +446,7 @@ const Compose = (props: IProps) => {
       };
 
       if (urlLinks?.length && !metaData?.length) {
-        const dataSeo = await getMetaData(urlLinks[0]);
+        const dataSeo = await getSeoDataFromLink(urlLinks[0]);
 
         if (dataSeo?.length) {
           data.metadata = [JSON.stringify(dataSeo)];
