@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { profileUserContext } from '@components/MyProfile';
-
-const Follower = () => {
+const Follower = ({ totalFollower }: { totalFollower: number }) => {
   const { t } = useTranslation('profile');
   const router = useRouter();
-  const profileUser = useContext<any>(profileUserContext);
   const [state, setState] = useState({ mobile: false });
   useEffect(() => {
     return window.innerWidth >= 768 ? setState({ mobile: false }) : setState({ mobile: true });
@@ -26,9 +23,7 @@ const Follower = () => {
         }
       }}
     >
-      <b className='mr-[8px] text-[14px] font-[600] leading-[18px]'>
-        {profileUser?.totalFollower || 0}
-      </b>
+      <b className='mr-[8px] text-[14px] font-[600] leading-[18px]'>{totalFollower}</b>
       <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
         {t('followers')}
         <span className='hidden tablet:inline'>:</span>
