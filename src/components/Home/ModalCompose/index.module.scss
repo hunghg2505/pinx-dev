@@ -3,6 +3,10 @@
     .rc-dialog-content {
       width: 100% !important;
       max-width: 500px !important;
+
+      .rc-dialog-body {
+        padding: 20px;
+      }
     }
   }
 }

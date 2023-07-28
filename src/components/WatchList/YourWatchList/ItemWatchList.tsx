@@ -13,10 +13,12 @@ const ItemWatchList = ({
   data,
   isEdit,
   refreshYourWatchList,
+  refreshInterest
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refreshYourWatchList: any;
+  refreshInterest?: any
 }) => {
   const { i18n } = useTranslation();
   const highest_price = data?.hp || data?.refPrice;
@@ -40,7 +42,8 @@ const ItemWatchList = ({
     {
       manual: true,
       onSuccess: () => {
-        refreshYourWatchList && refreshYourWatchList();
+        refreshInterest&&refreshInterest();
+        refreshYourWatchList&&refreshYourWatchList();
         console.log('Remove Stock Success!',data?.stockCode);
       },
       onError: (e:any) => {
