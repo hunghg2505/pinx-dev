@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -9,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { IPost } from '@components/Post/service';
 import Text from '@components/UI/Text';
-import useClickOutSide from '@hooks/useClickOutside';
+// import useClickOutSide from '@hooks/useClickOutside';
 
 interface IHeadingNewsItemProps {
   className?: string;
@@ -23,14 +22,14 @@ dayjs.extend(relativeTime);
 const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
   const { i18n } = useTranslation();
   const [openPopupReport, setOpenPopupReport] = useState(false);
-  const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
+  // const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
   const ref = useRef<HTMLButtonElement>(null);
 
-  const handleHidePopup = () => {
-    openPopupReport && setOpenPopupReport(false);
-  };
+  // const handleHidePopup = () => {
+  //   openPopupReport && setOpenPopupReport(false);
+  // };
 
-  useClickOutSide(ref, handleHidePopup, excludeElements);
+  // useClickOutSide(ref, handleHidePopup, excludeElements);
 
   // useEffect(() => {
   //   setExcludeElements(() => {

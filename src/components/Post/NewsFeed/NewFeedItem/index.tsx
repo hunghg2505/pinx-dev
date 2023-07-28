@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactNode, useMemo, useRef, useState } from 'react';
 
 import { useHover, useRequest } from 'ahooks';
@@ -9,7 +8,6 @@ import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import Dropdown from 'rc-dropdown';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -61,36 +59,28 @@ const NewFeedItem = (props: IProps) => {
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
 
-  const {
-    customerId,
-    postId,
-    isLike,
-    isMyProfilePath,
-    isPostDetailPath,
-    isMyProfileOrUserDetailPath,
-  } = useMemo(() => {
-    return {
-      customerId: postDetail?.customerId,
+  const { customerId, postId, isLike, isPostDetailPath, isMyProfileOrUserDetailPath } =
+    useMemo(() => {
+      return {
+        customerId: postDetail?.customerId,
 
-      id: router.query?.id,
+        id: router.query?.id,
 
-      isLike: postDetail?.isLike,
+        isLike: postDetail?.isLike,
 
-      postId: postDetail?.id || router.query?.id,
+        postId: postDetail?.id || router.query?.id,
 
-      isMyProfilePath: router.pathname === ROUTE_PATH.MY_PROFILE,
+        isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
 
-      isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
-
-      isMyProfileOrUserDetailPath: router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH),
-    };
-  }, [
-    postDetail?.customerId,
-    postDetail?.isLike,
-    router.query?.id,
-    postDetail?.id,
-    router.pathname,
-  ]);
+        isMyProfileOrUserDetailPath: router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH),
+      };
+    }, [
+      postDetail?.customerId,
+      postDetail?.isLike,
+      router.query?.id,
+      postDetail?.id,
+      router.pathname,
+    ]);
 
   const refHover = useRef(null);
 
