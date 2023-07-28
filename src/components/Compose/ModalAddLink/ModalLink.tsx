@@ -61,7 +61,7 @@ const ModalLink = (props: IProps) => {
               <Text
                 type='body-16-semibold'
                 color='neutral-black'
-                className='cursor-pointer [border-right:1px_solid_#EBEBEB]'
+                className='cursor-pointer'
                 onClick={onVisible}
               >
                 {t('cancel')}

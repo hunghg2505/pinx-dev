@@ -32,7 +32,7 @@ const Search = (props: any, ref: any) => {
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
   const isLogin = !!getAccessToken();
   const { popular } = useGetPopular();
-  const { listRecent } = useGetSearchRecent();
+  const { listRecent, refreshSearchRecent } = useGetSearchRecent();
   const router = useRouter();
 
   useFocusWithin(refInput, {
@@ -45,7 +45,11 @@ const Search = (props: any, ref: any) => {
     setShowRecent(false);
   }, refInput);
 
-  const { search, data, loading, mutate } = useSearchPublic();
+  const { search, data, loading, mutate } = useSearchPublic({
+    onSuccess: () => {
+      refreshSearchRecent();
+    },
+  });
 
   const { run } = useDebounceFn(
     () => {
