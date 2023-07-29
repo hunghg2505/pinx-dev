@@ -8,6 +8,6 @@ export const useGetIsShareWatchList = () => {
     return privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_ALL_SETTINGS);
   });
   return {
-    isShareWatchList: data?.data?.share_watchlist,
+    isShareWatchList: data?.data?.share_watchlist !== '0',
   };
 };
