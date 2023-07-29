@@ -38,7 +38,7 @@ const MyProfile = () => {
     >
       <div className=' flex min-h-screen'>
         <div className='w-full '>
-          <div className='rounded-[8px] bg-white shadow-[0_1px_2px_0px_rgba(88,102,126,0.12)] mobile:pb-[20px] tablet:px-[20px] tablet:py-[20px]'>
+          <div className='box-shadow card-style rounded-[8px] bg-white mobile:pb-[20px] tablet:px-[20px] tablet:py-[20px]'>
             <Header />
             <MyStory />
             <TabsContent />
