@@ -8,6 +8,8 @@ import { IProfit, useGetTopPrice } from '../service';
 const Price = () => {
   const { t } = useTranslation('explore');
   const { price } = useGetTopPrice();
+  const maxPrice = price && Math.max(...price.map((item: IProfit) => item.price));
+
   return (
     <div className=''>
       <Text type='body-14-regular' color='cbblack'>
@@ -18,7 +20,14 @@ const Price = () => {
       </Text>
       <div className='mt-[16px] flex flex-col gap-y-[16px]'>
         {price?.map((price: IProfit, index: number) => {
-          return <PinexTop number={index + 1} key={`profit-${index}`} data={price} />;
+          return (
+            <PinexTop
+              percent={((price.price || 0) / maxPrice) * 100}
+              number={index + 1}
+              key={`profit-${index}`}
+              data={price}
+            />
+          );
         })}
       </div>
     </div>

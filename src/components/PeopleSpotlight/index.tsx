@@ -14,21 +14,24 @@ const PeopleSpotlight = () => {
   const { KOL, refresh } = useGetInfluencer();
   return (
     <>
-      <div className='rounded-[8px] bg-[#FFF] px-[10px] py-[20px] tablet:px-[0]'>
-        <div className='relative text-center'>
+      <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
+        <div className='relative h-[40px] text-center tablet:mb-[16px]'>
           <img
             src='/static/icons/back_icon.svg'
             alt=''
-            className='absolute left-0 top-0 w-[28px] cursor-pointer tablet:left-[16px]'
+            className='absolute top-1/2 w-[28px] -translate-y-1/2 cursor-pointer'
             onClick={onGoBack}
           />
-          <Text type='body-20-semibold' color='neutral-1' className='mobile:hidden tablet:block'>
+          <Text
+            type='body-20-semibold'
+            color='neutral-1'
+            className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mobile:hidden tablet:block'
+          >
             {t('people_in_spotlight')}
           </Text>
         </div>
-        <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
 
-        <div className='mb-4 mt-[44px] mobile:block tablet:hidden'>
+        <div className='mb-4 mobile:block tablet:mt-[24px] tablet:hidden'>
           <Text color='neutral-black' type='body-20-semibold' className='mb-[16px]'>
             {t('people_in_spotlight')}
           </Text>
@@ -36,7 +39,7 @@ const PeopleSpotlight = () => {
           <Text type='body-14-regular'>{t('people_in_spotlight_desc')}</Text>
         </div>
 
-        <div className='grid grid-cols-2 gap-[16px] px-[0] tablet:grid-cols-3 tablet:px-[16px] desktop:grid-cols-4 '>
+        <div className='grid grid-cols-2 gap-[16px] tablet:grid-cols-3 desktop:grid-cols-4 '>
           {KOL?.slice(0, 20).map((item: IKOL, index: number) => {
             return <ItemInfluence data={item} refresh={refresh} key={index} />;
           })}
