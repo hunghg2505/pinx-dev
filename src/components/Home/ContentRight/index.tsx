@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import StickyBox from 'react-sticky-box';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import MarketDesktop from '@components/Home/Market/MarketDesktop';
@@ -7,6 +8,7 @@ import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
 import { Button } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
+import Fade from '@components/UI/Fade';
 import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
@@ -64,47 +66,51 @@ const ContentRight = () => {
   const isProfilePath = router?.pathname === ROUTE_PATH.MY_PROFILE;
 
   return (
-    <div className='max-w-[350px]'>
-      {!isProfilePath && <MarketDesktop />}
+    <StickyBox offsetTop={110} offsetBottom={20}>
+      <div className='max-w-[350px]'>
+        <Fade visible={!isProfilePath}>
+          <MarketDesktop />
+        </Fade>
 
-      {isLogin && !isPageWatchList && (
-        <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-          <Text type='body-16-bold' color='cbblack' className='mb-4'>
-            {t('user_watchlist')}
-          </Text>
-          <WatchList />
-        </div>
-      )}
+        <Fade visible={isLogin && !isPageWatchList}>
+          <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
+            <Text type='body-16-bold' color='cbblack' className='mb-4'>
+              {t('user_watchlist')}
+            </Text>
+            <WatchList />
+          </div>
+        </Fade>
 
-      {!isProfilePath && (
-        <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-          <Text type='body-16-bold' color='cbblack' className='mb-[15px]'>
-            {t('trending')}
-          </Text>
-          <TrendingDesktop />
-        </div>
-      )}
+        <Fade visible={!isProfilePath}>
+          <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
+            <Text type='body-16-bold' color='cbblack' className='mb-[15px]'>
+              {t('trending')}
+            </Text>
+            <TrendingDesktop />
+          </div>
+        </Fade>
 
-      {isLogin && !isProfilePath && (
-        <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-          <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
-            {t('people_you_may_know')}
-          </Text>
-          <PeopleDesktop
-            suggestionPeople={suggestionPeople}
-            refreshList={refreshList}
-            getSuggestFriend={getSuggestFriend}
-          />
-          <ModalPeopleYouKnow refreshList={refreshList}>
-            <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('view_more')}
-              </Text>
-            </div>
-          </ModalPeopleYouKnow>
-        </div>
-      )}
-    </div>
+        <Fade visible={isLogin && !isProfilePath}>
+          <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
+            <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
+              {t('people_you_may_know')}
+            </Text>
+            <PeopleDesktop
+              suggestionPeople={suggestionPeople}
+              refreshList={refreshList}
+              getSuggestFriend={getSuggestFriend}
+            />
+            <ModalPeopleYouKnow refreshList={refreshList}>
+              <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('view_more')}
+                </Text>
+              </div>
+            </ModalPeopleYouKnow>
+          </div>
+        </Fade>
+      </div>
+    </StickyBox>
   );
 };
 export default ContentRight;

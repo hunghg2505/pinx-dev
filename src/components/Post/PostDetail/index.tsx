@@ -152,107 +152,40 @@ const PostDetail = () => {
           onClose={onCloseModal}
         />
       )}
-      <div
-        ref={onRef}
-        className='rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'
-      >
-        <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
-          <Text
-            type='body-20-bold'
-            color='primary-5'
-            className='absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-center '
-          >
-            Post detail
-          </Text>
+      <div className='p-[10px] desktop:p-0'>
+        <div ref={onRef} className='card-style rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0]'>
+          <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
+            <Text
+              type='body-20-bold'
+              color='primary-5'
+              className='absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-center '
+            >
+              Post detail
+            </Text>
 
-          <div
-            onClick={onGoToBack}
-            className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[0] desktop:px-[20px]'
-          >
-            <img
-              src='/static/icons/back_icon.svg'
-              alt='Back icon'
-              className='h-[28px] w-[28px] cursor-pointer'
+            <div
+              onClick={onGoToBack}
+              className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[0] desktop:px-[20px]'
+            >
+              <img
+                src='/static/icons/back_icon.svg'
+                alt='Back icon'
+                className='h-[28px] w-[28px] cursor-pointer'
+              />
+            </div>
+          </div>
+
+          <div className='mobile:px-[0] desktop:px-[20px]'>
+            <NewFeedItem
+              postDetail={postDetail?.data}
+              totalComments={countComment}
+              onRefreshPostDetail={refresh}
             />
           </div>
-        </div>
 
-        <div className='mobile:px-[0] desktop:px-[20px]'>
-          <NewFeedItem
-            postDetail={postDetail?.data}
-            totalComments={countComment}
-            onRefreshPostDetail={refresh}
-          />
-        </div>
-
-        {isLogin && (
-          <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
-            <ForwardedRefComponent
-              id={postDetail?.data?.id}
-              refresh={refreshCommentOfPost}
-              refreshTotal={refresh}
-              setImageCommentMobile={setImageCommentMobile}
-              width={width}
-            />
-          </div>
-        )}
-
-        <div
-          className={classNames(
-            'px-[16px] pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]',
-            {
-              'mobile:mb-[60px]': !isImageCommentMobile && isLogin,
-              'mobile:mb-[179px]': isImageCommentMobile && isLogin,
-            },
-          )}
-        >
-          {isHaveComment ? (
-            commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-              const isReply = item.children?.find((i) => {
-                return i?.id === showReply;
-              });
-              return (
-                <div className='mt-[16px]' key={index}>
-                  <ItemComment
-                    data={item}
-                    onReplies={onReplies}
-                    refreshTotal={refresh}
-                    refreshCommentOfPOst={refreshCommentOfPost}
-                    width={width}
-                  />
-                  {getSubComment(item.children)}
-                  {(showReply === item?.id || isReply) && width > 737 && (
-                    <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                      <ForwardedRefComponent
-                        ref={refSubReplies}
-                        id={postDetail?.data?.id}
-                        refresh={refreshCommentOfPost}
-                        refreshTotal={refresh}
-                        setImageCommentMobile={setImageCommentMobile}
-                        width={width}
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            <>
-              <Text
-                type='body-14-regular'
-                color='neutral-3'
-                className='mt-[16px] text-center tablet:mb-[32px]'
-              >
-                {t('empty_comment')}
-              </Text>
-            </>
-          )}
-        </div>
-        {width < 738 && isLogin && (
-          <div className='mobile:block tablet:hidden'>
-            <div className='fixed bottom-0 left-0 z-10 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full'>
+          {isLogin && (
+            <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
               <ForwardedRefComponent
-                ref={refSubReplies}
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPost}
                 refreshTotal={refresh}
@@ -260,10 +193,75 @@ const PostDetail = () => {
                 width={width}
               />
             </div>
-          </div>
-        )}
-      </div>
+          )}
 
+          <div
+            className={classNames(
+              'px-[16px] pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]',
+              {
+                'mobile:mb-[60px]': !isImageCommentMobile && isLogin,
+                'mobile:mb-[179px]': isImageCommentMobile && isLogin,
+              },
+            )}
+          >
+            {isHaveComment ? (
+              commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+                const isReply = item.children?.find((i) => {
+                  return i?.id === showReply;
+                });
+                return (
+                  <div className='mt-[16px]' key={index}>
+                    <ItemComment
+                      data={item}
+                      onReplies={onReplies}
+                      refreshTotal={refresh}
+                      refreshCommentOfPOst={refreshCommentOfPost}
+                      width={width}
+                    />
+                    {getSubComment(item.children)}
+                    {(showReply === item?.id || isReply) && width > 737 && (
+                      <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                        <ForwardedRefComponent
+                          ref={refSubReplies}
+                          id={postDetail?.data?.id}
+                          refresh={refreshCommentOfPost}
+                          refreshTotal={refresh}
+                          setImageCommentMobile={setImageCommentMobile}
+                          width={width}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <Text
+                  type='body-14-regular'
+                  color='neutral-3'
+                  className='mt-[16px] text-center tablet:mb-[32px]'
+                >
+                  {t('empty_comment')}
+                </Text>
+              </>
+            )}
+          </div>
+          {width < 738 && isLogin && (
+            <div className='mobile:block tablet:hidden'>
+              <div className='fixed bottom-0 left-0 z-10 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full'>
+                <ForwardedRefComponent
+                  ref={refSubReplies}
+                  id={postDetail?.data?.id}
+                  refresh={refreshCommentOfPost}
+                  refreshTotal={refresh}
+                  setImageCommentMobile={setImageCommentMobile}
+                  width={width}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
       <FooterSignUp />
     </>
   );

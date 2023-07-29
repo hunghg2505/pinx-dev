@@ -1,13 +1,9 @@
-import React from 'react';
-
-import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import { PREFIX_API_MARKET } from '@api/request';
-import { socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
+import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
 
 import styles from './index.module.scss';
 
@@ -32,49 +28,9 @@ export const getMarketCodeChart = (marketCode: string) => {
 };
 const MarketDesktop = () => {
   const { t, i18n } = useTranslation('common');
-  const [dataStock, setDataStock] = React.useState<any>([]);
-  const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
-  const { run, loading } = useRequest(
-    () => {
-      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
-    },
-    {
-      manual: true,
-      onSuccess: (res) => {
-        setDataStockIndex(res?.data);
-      },
-    },
-  );
+  const { dataStockIndex, findIndex } = useStockDesktop();
 
-  React.useEffect(() => {
-    run();
-  }, []);
-
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 1101) {
-      const [change, changePercent, x, increase, decrease, ref] = data.ot.split('|');
-      const newData = {
-        ...data,
-        change,
-        changePercent,
-        x,
-        increase,
-        decrease,
-        ref,
-      };
-      delete newData.ot;
-      setDataStock(newData);
-    }
-  });
-
-  const findIndex = dataStockIndex?.findIndex((item: any) => item.mc === dataStock.mc);
-  if (findIndex !== -1) {
-    const data = dataStockIndex[findIndex];
-    dataStockIndex[findIndex] = { ...dataStock, ...data };
-  }
-
-  if (loading) {
+  if (!dataStockIndex?.length) {
     return (
       <>
         <div className='mb-[25px]  min-h-[536px] w-full rounded-[8px] bg-[#fff]  px-[20px] py-[30px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
@@ -99,6 +55,7 @@ const MarketDesktop = () => {
             const isDecrease = item?.cIndex < item?.oIndex;
             const isNoChange = item?.cIndex === item?.oIndex;
             const isChange = findIndex === index;
+
             return (
               <TabPane tab={item.displayName} key={index + 1}>
                 <div className='mt-[20px]'>

@@ -1,13 +1,9 @@
 import { ReactElement } from 'react';
 
-import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import Setting from '@components/Setting';
 import MainLayout from '@layout/MainLayout';
-
-const Setting = dynamic(() => import('@components/Setting'), {
-  ssr: false,
-});
 
 const SettingPage = () => {
   return <Setting />;

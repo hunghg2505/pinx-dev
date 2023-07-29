@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 
-import { useMount } from 'ahooks';
+import { useMount, useUpdateEffect } from 'ahooks';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
 import { TOAST_LIMIT } from '@utils/constant';
 import { ENV } from '@utils/env';
 
@@ -22,6 +24,8 @@ const AppInitialData = () => {
   usePostThemeInitial();
   const { handleRemoveActionPost } = useHandlActionsPost();
   const { initialHomePostData } = usePostHomePage();
+  const { userLoginInfo } = useUserLoginInfo();
+  useStockDesktopInitial();
 
   useMount(() => {
     initialHomePostData();
@@ -31,6 +35,12 @@ const AppInitialData = () => {
       run();
     }
   });
+
+  useUpdateEffect(() => {
+    if (!userLoginInfo?.id) {
+      initialHomePostData();
+    }
+  }, [userLoginInfo?.id]);
 
   useEffect(() => {
     const locale = getLocaleCookie() as string;

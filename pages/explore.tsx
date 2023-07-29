@@ -1,14 +1,10 @@
 import { ReactElement } from 'react';
 
-import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import Explore from '@components/Explore';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
-
-const Explore = dynamic(() => import('@components/Explore'), {
-  ssr: false,
-});
 
 const ExplorePage = () => {
   return (

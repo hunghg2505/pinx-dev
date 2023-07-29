@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
+import StickyBox from 'react-sticky-box';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -140,7 +141,7 @@ const SideBar = () => {
   }, [MENUS, isLogin]);
 
   return (
-    <>
+    <StickyBox offsetTop={110}>
       <Menu items={items} className='sidebar-list' />
       <div className='px-[10px] pt-[25px] [border-top:1px_solid_#ECECEC]'>
         <Text type='body-12-regular' className='text-[#78909C]'>
@@ -193,7 +194,7 @@ const SideBar = () => {
           </CustomLink>
         </div>
       </div>
-    </>
+    </StickyBox>
   );
 };
 export default SideBar;
