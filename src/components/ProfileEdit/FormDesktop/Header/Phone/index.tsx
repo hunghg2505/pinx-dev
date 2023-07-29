@@ -1,14 +1,19 @@
 import React, { useContext } from 'react';
 
 import { profileUserContext } from '@components/ProfileEdit';
+import Text from '@components/UI/Text';
 
 const Phone = () => {
   const profileUser = useContext<any>(profileUserContext);
 
   return (
-    <h1 className='line-[18px] absolute  bottom-[-92px]  left-[96px] translate-x-[-50%] text-[14px] text-neutral_black'>
+    <Text
+      type='body-14-regular'
+      color='neutral-black'
+      className='absolute left-[calc(16px+113px/2)] top-[calc(100%+90px)] -translate-x-1/2 tablet:left-[calc(10px+100px/2)] tablet:top-[calc(100%+85px)] xdesktop:left-[calc(32px+120px/2)] xdesktop:top-[calc(100%+90px)]'
+    >
       {profileUser?.phone}
-    </h1>
+    </Text>
   );
 };
 export default Phone;
