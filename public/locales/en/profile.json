@@ -37,5 +37,6 @@
   "following_empty": "Discover more interested things from your connection",
   "post_empty": "Write something or create new thread to discuss",
   "write_now": "Write now",
-  "pennding_to_close": "Your account has been pending to close.  You cannot perform this action"
+  "pennding_to_close": "Your account has been pending to close.  You cannot perform this action",
+  "message_account_pending_to_close": "Your account has been pending to close. You cannot perform this action"
 }

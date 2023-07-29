@@ -134,8 +134,8 @@ export const CafeFNews = ({
   };
 
   return (
-    <Link href={postDetailUrl}>
-      <div className='CafeFNews'>
+    <div className='CafeFNews'>
+      <Link href={postDetailUrl}>
         {postDetail?.post.head && (
           <div
             ref={onRef}
@@ -154,42 +154,42 @@ export const CafeFNews = ({
             </Text>
           </div>
         )}
+      </Link>
 
-        {isReadMore && !isPostDetailPath && (
-          <Text
-            type='body-14-regular'
-            color='neutral-3'
-            className='w-[75px] cursor-pointer'
-            onClick={onReadMore}
-          >
-            {readMore ? t('see_less') : t('see_more')}
-          </Text>
-        )}
+      {isReadMore && !isPostDetailPath && (
+        <Text
+          type='body-14-regular'
+          color='neutral-3'
+          className='w-[75px] cursor-pointer'
+          onClick={onReadMore}
+        >
+          {readMore ? t('see_less') : t('see_more')}
+        </Text>
+      )}
 
-        {isPostDetailPath && (
-          <div className='mb-[6px] text-right'>
-            <CustomLink href={`/redirecting?url=${post_url}`}>
-              <div
-                className={classNames('inline-flex items-center', {
-                  'mb-[8px]': !!postDetail?.post?.headImageUrl,
-                })}
-              >
-                <Text type='body-14-regular' color='primary-1'>
-                  {t('see_more')}
-                </Text>
+      {isPostDetailPath && (
+        <div className='mb-[6px] text-right'>
+          <CustomLink href={`/redirecting?url=${post_url}`}>
+            <div
+              className={classNames('inline-flex items-center', {
+                'mb-[8px]': !!postDetail?.post?.headImageUrl,
+              })}
+            >
+              <Text type='body-14-regular' color='primary-1'>
+                {t('see_more')}
+              </Text>
 
-                <img
-                  src='/static/icons/chevronRightPrimaryLight.svg'
-                  alt='Icon chevron right'
-                  className='h-[20px] w-[20px] object-contain'
-                />
-              </div>
-            </CustomLink>
-          </div>
-        )}
+              <img
+                src='/static/icons/chevronRightPrimaryLight.svg'
+                alt='Icon chevron right'
+                className='h-[20px] w-[20px] object-contain'
+              />
+            </div>
+          </CustomLink>
+        </div>
+      )}
 
-        {renderThumbnail()}
-      </div>
-    </Link>
+      {renderThumbnail()}
+    </div>
   );
 };

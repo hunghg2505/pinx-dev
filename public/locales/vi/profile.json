@@ -37,5 +37,6 @@
   "following_empty": "Khám phá thêm từ cộng đồng của bạn",
   "post_empty": "Tạo ngay bài viết mới để chia sẻ với cộng đồng",
   "write_now": "Viết ngay",
-  "pennding_to_close":"Tài khoản của bạn đang trong trạng thái chờ đóng. Bạn không thể thực hiện hành động này"
+  "pennding_to_close": "Tài khoản của bạn đang trong trạng thái chờ đóng. Bạn không thể thực hiện hành động này",
+  "message_account_pending_to_close": "Tài khoản của bạn đang trong trạng thái chờ đóng. Bạn không thể thực hiện hành động này"
 }

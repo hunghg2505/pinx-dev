@@ -93,8 +93,6 @@ const ItemComment = (props: IProps) => {
   // };
   React.useEffect(() => {
     const handleClick = (event: any) => {
-      console.log('123');
-      console.log('🚀 ~ file: index.tsx:96 ~ handleClick ~ event:', event);
       const textContent = event?.target?.textContent;
       const classElement = event?.target?.className;
       if (classElement === 'link') {
