@@ -8,6 +8,9 @@ import { IProfit, useGetTopChangePrice } from '../service';
 const ChangeInPrice = () => {
   const { t } = useTranslation('explore');
   const { changePriceInY } = useGetTopChangePrice();
+  const maxChangePriceInY =
+    changePriceInY && Math.max(...changePriceInY.map((item: IProfit) => item.percentChange));
+
   return (
     <div className=''>
       <Text type='body-14-regular' color='cbblack'>
@@ -20,6 +23,7 @@ const ChangeInPrice = () => {
         {changePriceInY?.map((changePriceInY: IProfit, index: number) => {
           return (
             <PinexTop
+              percent={((changePriceInY.percentChange || 0) / maxChangePriceInY) * 100}
               number={index + 1}
               key={`profit-${index}`}
               data={changePriceInY}

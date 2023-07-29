@@ -219,7 +219,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       <NewsFeed key={`home-post-item-${firstPost?.id}`} data={firstPost} />
 
-      <div className='box-shadow card-style'>
+      <div className='box-shadow card-style tablet:hidden'>
         <div className='pb-[13px] pt-[10px] '>
           <Trending />
         </div>
@@ -280,7 +280,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       })}
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
+        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
           {t('economy_in_the_themes')}
         </Text>
         <ListTheme />

@@ -70,12 +70,12 @@ const PinexTop20 = () => {
     }
   };
   return (
-    <div className='mb-10 rounded-[8px] bg-[#FFF] mobile:px-[10px] mobile:py-[10px] tablet:px-0 tablet:py-[16px]'>
-      <div className='text-center] relative tablet:py-[14px]'>
+    <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
+      <div className='relative h-[40px] tablet:mb-[16px]'>
         <img
           src='/static/icons/back_icon.svg'
           alt=''
-          className='absolute top-0 w-[28px] cursor-pointer mobile:left-0 tablet:left-[16px] tablet:top-1/2 tablet:-translate-y-1/2'
+          className='absolute top-1/2 w-[28px] -translate-y-1/2 cursor-pointer'
           onClick={onGoBack}
         />
         <Text
@@ -87,9 +87,7 @@ const PinexTop20 = () => {
         </Text>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9] mobile:hidden tablet:block'></div>
-
-      <div className='mobile:mt-[45px] tablet:mt-0 tablet:px-[16px]'>
+      <div>
         <Tabs
           onChange={onChangeTab}
           contenTab={optionTab.map((item) => ({ ...item, label: t(item.label) }))}

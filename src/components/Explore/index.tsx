@@ -121,7 +121,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] mt-[36px]'>
+        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
           {t('top_keyword_search')}
         </Text>
 
@@ -262,7 +262,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
           {t('top_watching_stock')}
         </Text>
         <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
@@ -291,7 +291,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
           {t('top_mention_stock')}
         </Text>
 
@@ -396,7 +396,7 @@ const Explore = () => {
         {t('trending_on_pinex')}
       </Text>
 
-      <div className='relative mb-[16px] flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
+      <div className='relative flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full mobile:hidden tablet:block'></div>
         <div className='hidden mobile-max:block'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
