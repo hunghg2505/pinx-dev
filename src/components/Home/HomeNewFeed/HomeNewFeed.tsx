@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 
-import { useRequest } from 'ahooks';
+import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -18,6 +18,7 @@ import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
@@ -25,13 +26,13 @@ import { FILTER_TYPE } from '../ModalFilter';
 import {
   requestJoinIndex,
   requestLeaveIndex,
-  serviceGetNewFeed,
   socket,
   useGetWatchList,
   useSuggestPeople,
 } from '../service';
 
 const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
+  ssr: false,
   loading: () => <UserPostingFake />,
 });
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
@@ -88,24 +89,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const { refLastElement } = useObserver();
 
-  const {
-    loading: loadingPosts,
-    data: dataPosts,
-    run,
-    runAsync,
-    mutate,
-  } = useRequest(
-    async (nextId: any, type) => {
-      if (nextId === false) {
-        return;
-      }
-
-      return serviceGetNewFeed(type, nextId);
-    },
-    {
-      manual: true,
-    },
-  );
+  const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
 
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
@@ -115,7 +99,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     };
   }, [dataPosts]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
 
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
@@ -156,6 +140,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
     if (newData?.list?.length) {
       mutate({
+        // @ts-ignore
         list: [...dataPosts?.list, ...newData?.list],
         nextId: newData?.nextId,
         type: dataPosts?.type,
@@ -182,6 +167,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const onAddNewPost = (newData: IPost) => {
     mutate({
+      // @ts-ignore
       list: [newData, ...dataPosts?.list],
       nextId: dataPosts?.nextId,
       type: dataPosts?.type,
@@ -217,7 +203,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       <PinPost pinPostDataInitial={pinPostDataInitial} />
 
-      <NewsFeed key={`home-post-item-${firstPost?.id}`} data={firstPost} />
+      <NewsFeed key={`home-post-item-${firstPost?.id}`} data={firstPost as any} />
 
       <div className='box-shadow card-style'>
         <div className='pb-[13px] pt-[10px] '>

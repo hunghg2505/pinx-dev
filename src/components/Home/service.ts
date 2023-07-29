@@ -241,10 +241,13 @@ export const useGetListNewFeedAuth = () => {
     refresh,
   };
 };
-export const useGetTrending = () => {
-  const { data, loading } = useRequest(() => {
-    return requestPist.get(API_PATH.PUBLIC_GET_TRENDING);
-  });
+export const useGetTrending = (options = {}) => {
+  const { data, loading } = useRequest(
+    () => {
+      return requestPist.get(API_PATH.PUBLIC_GET_TRENDING);
+    },
+    { ...options },
+  );
   return {
     dataTrending: data?.data,
     loading,
@@ -287,13 +290,14 @@ export const requestLeaveIndex = () => {
   socket.emit('regs', JSON.stringify(message));
 };
 
-export const useSuggestPeople = () => {
+export const useSuggestPeople = (options = {}) => {
   const { data, refresh, run, loading } = useRequest(
     () => {
       return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
     },
     {
       manual: true,
+      ...options,
     },
   );
   return {

@@ -3,7 +3,10 @@ import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 const TrendingDesktop = () => {
-  const { dataTrending, loading } = useGetTrending();
+  const { dataTrending, loading } = useGetTrending({
+    staleTime: -1,
+    cacheKey: 'data-trending',
+  });
 
   if (loading) {
     return (

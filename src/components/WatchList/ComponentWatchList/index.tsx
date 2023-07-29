@@ -19,9 +19,10 @@ interface IProps {
   isEdit?: boolean;
   page_size?: number;
   footer?: (list: any) => void;
+  optionsRequest?: any;
 }
 const ComponentWatchList = (props: IProps) => {
-  const { isEdit = false, page_size } = props;
+  const { isEdit = false, page_size, optionsRequest = {} } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
   const useWatchList = useRequest(
@@ -39,6 +40,7 @@ const ComponentWatchList = (props: IProps) => {
           }
         }
       },
+      ...optionsRequest,
     },
   );
 

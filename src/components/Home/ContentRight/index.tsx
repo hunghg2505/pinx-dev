@@ -51,7 +51,10 @@ const WatchList = () => {
 };
 
 const ContentRight = () => {
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople({
+    staleTime: -1,
+    cacheKey: 'data-suggestionPeople',
+  });
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;

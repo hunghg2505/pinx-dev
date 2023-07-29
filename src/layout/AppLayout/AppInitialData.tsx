@@ -8,6 +8,7 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
+import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { TOAST_LIMIT } from '@utils/constant';
@@ -20,8 +21,10 @@ const AppInitialData = () => {
   const router = useRouter();
   usePostThemeInitial();
   const { handleRemoveActionPost } = useHandlActionsPost();
+  const { initialHomePostData } = usePostHomePage();
 
   useMount(() => {
+    initialHomePostData();
     handleRemoveActionPost();
 
     if (isLogin) {
