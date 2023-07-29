@@ -572,7 +572,7 @@ const Compose = (props: IProps) => {
   // };
 
   const getStyles = () => {
-    if (!hiddenThemeSelected && themeSelected?.textAlign) {
+    if (!hiddenThemeSelected) {
       return {
         textAlign: 'left',
       };
