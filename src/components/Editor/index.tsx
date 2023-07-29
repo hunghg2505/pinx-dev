@@ -6,6 +6,7 @@ import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
@@ -126,6 +127,8 @@ const Editor = (props: IProps, ref?: any) => {
     //   }
     // },
   });
+  const textComment = editor?.getText();
+
   const useUploadImage = useRequest(
     (formData: any) => {
       return request.post(
@@ -231,6 +234,7 @@ const Editor = (props: IProps, ref?: any) => {
       },
     },
   );
+
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
@@ -371,7 +375,10 @@ const Editor = (props: IProps, ref?: any) => {
                   width='0'
                   height='0'
                   sizes='100vw'
-                  className='w-[19px] cursor-pointer'
+                  className={classNames('w-[19px] cursor-pointer', {
+                    'pointer-events-none opacity-40': !textComment,
+                    'pointer-events-auto opacity-100': textComment,
+                  })}
                   onClick={onSend}
                 />
               )}
@@ -415,7 +422,10 @@ const Editor = (props: IProps, ref?: any) => {
               width='0'
               height='0'
               sizes='100vw'
-              className='w-[19px] cursor-pointer mobile:block tablet:hidden'
+              className={classNames('w-[19px] cursor-pointer mobile:block tablet:hidden', {
+                'pointer-events-none opacity-40': !textComment,
+                'pointer-events-auto opacity-100': textComment,
+              })}
               onClick={onSend}
             />
           )}
