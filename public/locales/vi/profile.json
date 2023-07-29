@@ -38,5 +38,9 @@
   "post_empty": "Tạo ngay bài viết mới để chia sẻ với cộng đồng",
   "write_now": "Viết ngay",
   "pennding_to_close": "Tài khoản của bạn đang trong trạng thái chờ đóng. Bạn không thể thực hiện hành động này",
+  "watchlist_notfound_1": "Bạn cần đăng nhập để thực hiện tính năng này",
+  "watchlist_notfound_2": "Bạn hãy bật tính năng chia sẻ để xem danh mục của người khác",
+  "watchlist_notfound_3": "Người dùng này chưa bật tính năng chia sẻ danh mục của mình. Vui lòng quay lại sau",
+  "watchlist_notfound_4": "Người dùng này chưa theo dõi mã chứng khoán nào. Vui lòng quay lại sau",
   "message_account_pending_to_close": "Tài khoản của bạn đang trong trạng thái chờ đóng. Bạn không thể thực hiện hành động này"
 }

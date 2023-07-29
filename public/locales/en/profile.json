@@ -38,5 +38,9 @@
   "post_empty": "Write something or create new thread to discuss",
   "write_now": "Write now",
   "pennding_to_close": "Your account has been pending to close.  You cannot perform this action",
+  "watchlist_notfound_1": "You need to log in to see friend's watchlist",
+  "watchlist_notfound_2": "Turn on your sharing feature to view friend's watchlist",
+  "watchlist_notfound_3": "Your friend has not turned on sharing feature. Please come back later",
+  "watchlist_notfound_4": "Opps, your friend has not added any stocks to watchlist. Please come back later",
   "message_account_pending_to_close": "Your account has been pending to close. You cannot perform this action"
 }

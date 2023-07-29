@@ -2,21 +2,31 @@ import React from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-const NotFound = ({ type }: { type: number }) => {
+import Text from '@components/UI/Text';
+
+export enum NotfoundMessage {
+  USER_NOT_LOGIN = '1',
+  USER_NOT_SHARE_WATCH_LIST = '2',
+  OTHER_USER_NOT_SHARE_WATCH_LIST = '3',
+  EMPTY_STOCK = '4',
+}
+
+const NotFound = ({ type }: { type?: NotfoundMessage }) => {
   const { t } = useTranslation('profile');
+
   return (
-    <div className='width-[100%]  border-pr justify-center rounded-[12px] border border-dashed border-primary_light_blue bg-primary_bgblue_2 p-[12px] py-[24px]'>
+    <div className='width-[100%]  border-pr justify-center rounded-[12px] border border-dashed border-primary_light_blue bg-[#F0F7FC] p-[12px] py-[24px]'>
       <img
         src='/static/icons/Lotus-blue.svg'
         alt=''
         className='mx-auto mb-[10px] h-[24px] w-[24px]'
       />
-      <p className='line-[16px] mx-auto w-[203] text-center text-[10px] text-dark_grey tablet:w-[250px] tablet:text-[12px]'>
-        {type === 1 && t('watchlist_notfound1')}
-        {type === 2 && t('watchlist_notfound2')}
-        {type === 3 && t('watchlist_notfound3')}
-        {type === 4 && t('watchlist_notfound4')}
-      </p>
+      <Text type='body-10-regular' color='primary-5' className='text-center'>
+        {type === NotfoundMessage.USER_NOT_LOGIN && t('watchlist_notfound_1')}
+        {type === NotfoundMessage.USER_NOT_SHARE_WATCH_LIST && t('watchlist_notfound_2')}
+        {type === NotfoundMessage.OTHER_USER_NOT_SHARE_WATCH_LIST && t('watchlist_notfound_3')}
+        {type === NotfoundMessage.EMPTY_STOCK && t('watchlist_notfound_4')}
+      </Text>
     </div>
   );
 };
