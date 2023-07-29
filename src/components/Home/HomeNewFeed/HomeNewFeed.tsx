@@ -226,7 +226,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
+        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
           {t('people_in_spotlight')}
         </Text>
 
