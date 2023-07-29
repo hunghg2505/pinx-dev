@@ -13,9 +13,9 @@ const Verify = () => {
       className={classNames(
         'absolute left-[calc(16px+113px/2)] -translate-x-1/2 text-[14px] tablet:left-[calc(10px+100px/2)] xdesktop:left-[calc(32px+120px/2)]',
         {
-          'top-[calc(100%+115px)] tablet:top-[calc(100%+110px)] xdesktop:top-[calc(100%+115px)]':
+          'top-[calc(100%+115px)] tablet:top-[calc(100%+110px)] xdesktop:top-[calc(100%+135px)]':
             !profileUser?.name,
-          'top-[calc(100%+125px)] tablet:top-[calc(100%+120px)] xdesktop:top-[calc(100%+125px)]':
+          'top-[calc(100%+125px)] tablet:top-[calc(100%+120px)] xdesktop:top-[calc(100%+145px)]':
             !!profileUser?.name,
         },
       )}
