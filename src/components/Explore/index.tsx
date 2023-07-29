@@ -265,9 +265,9 @@ const Explore = () => {
           </ExploreButton>
         </CustomLink>
       </div>
-
+      <div className='my-[20px] block h-[2px] w-full '></div>
       <div className='box-shadow card-style'>
-        <div className='my-[20px] block h-[2px] w-full '></div>
+        {/* <div className='my-[20px] block h-[2px] w-full '></div> */}
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
           {t('top_watching_stock')}
         </Text>
