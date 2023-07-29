@@ -147,6 +147,7 @@ const YourWatchList = (props: IProps) => {
               refreshYourWatchList={refreshYourWatchList}
               dataStock={dataStock}
               yourWatchListStock={yourWatchListStock}
+              isEdit={isEdit}
             >
               <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
               <Text type='body-14-semibold' className='text-[#1F6EAC]'>
@@ -156,20 +157,17 @@ const YourWatchList = (props: IProps) => {
           </>
         ) : (
           <>
-            {dataStock?.length < 1 && (
-              <>
-                <ModalAddStock
-                  refreshYourWatchList={refreshYourWatchList}
-                  dataStock={dataStock}
-                  yourWatchListStock={yourWatchListStock}
-                >
-                  <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
-                  <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                    {t('addTxt')}
-                  </Text>
-                </ModalAddStock>
-              </>
-            )}
+            <ModalAddStock
+              refreshYourWatchList={refreshYourWatchList}
+              dataStock={dataStock}
+              yourWatchListStock={yourWatchListStock}
+              isEdit={isEdit}
+            >
+              <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+              <Text type='body-14-semibold' className='text-[#1F6EAC]'>
+                {t('addTxt')}
+              </Text>
+            </ModalAddStock>
             {dataStock?.map((item: IWatchListItem, index: number) => (
               <div
                 key={index}

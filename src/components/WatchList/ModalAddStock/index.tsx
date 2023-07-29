@@ -20,11 +20,13 @@ const ModalAddStock = (
     refreshYourWatchList,
     dataStock,
     yourWatchListStock,
+    isEdit,
   }: {
     children?: any;
     refreshYourWatchList?: () => void;
     dataStock?: any;
     yourWatchListStock?: any;
+    isEdit?: boolean;
   }) => {
   const { t } = useTranslation('watchlist');
   const [form] = Form.useForm();
@@ -64,12 +66,22 @@ const ModalAddStock = (
 
   return (
     <>
-      <div
-        className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'
-        onClick={onVisible}
-      >
-        {children}
-      </div>
+      {isEdit && (
+        <div
+          className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'
+          onClick={onVisible}
+        >
+          {children}
+        </div>
+      )}
+      {!isEdit && dataStock?.length < 1 && (
+        <div
+          className='flex min-h-[68px] cursor-pointer items-center justify-center gap-x-[12px] rounded-[12px] border-[1px] border-dashed border-[#B1D5F1] hover:border-[#1F6EAC]'
+          onClick={onVisible}
+        >
+          {children}
+        </div>
+      )}
       <Modal className='popupAddNewStock' visible={visible} onClose={onVisible} closable={false}>
         <div className='flex flex-col gap-y-[20px]'>
           <div></div>
