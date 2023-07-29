@@ -11,10 +11,12 @@ import { ITheme } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 
 interface IProps {
   theme: ITheme;
@@ -78,6 +80,7 @@ const ThemesItem = (props: IProps) => {
   const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const isLogin = !!getAccessToken();
+  const { statusUser } = useUserType();
   const { theme, refresh } = props;
   const router = useRouter();
   const useSubcribe = useRequest(
@@ -90,10 +93,15 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        toast((t) => <NotificationSubsribeTheme theme={theme} toastId={t.id} />, {
-          duration: 5000,
-        });
-        setPopupThemeData(theme);
+        if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
+          toast((t) => <NotificationSubsribeTheme theme={theme} toastId={t.id} />, {
+            duration: 5000,
+            style: {
+              maxWidth: '90vw',
+            },
+          });
+          setPopupThemeData(theme);
+        }
         refresh && refresh();
       },
       onError: (e: any) => {
@@ -111,10 +119,15 @@ const ThemesItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        toast(() => <NotificationSubsribeTheme isUnsubscribe theme={theme} />, {
-          duration: 5000,
-        });
-        setPopupThemeData(theme);
+        if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
+          toast(() => <NotificationSubsribeTheme isUnsubscribe theme={theme} />, {
+            duration: 5000,
+            style: {
+              maxWidth: '90vw',
+            },
+          });
+          setPopupThemeData(theme);
+        }
         refresh && refresh();
       },
       onError: (e: any) => {

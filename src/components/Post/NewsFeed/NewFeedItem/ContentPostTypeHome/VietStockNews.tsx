@@ -48,21 +48,25 @@ export const VietStockNews = ({
           className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
           <CustomLink href={`/redirecting?url=${post_url}`}>
-            <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[168px]  tablet:w-[168px]'>
-              <div className='scale-[0.6] desktop:scale-[1]'>
+            <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'>
+              <div className='scale-[0.6]'>
                 <IconLink />
               </div>
             </div>
           </CustomLink>
 
-          <div className=' flex w-full flex-1 flex-col items-start justify-center p-2 [border-left:1px_solid_#CCC] tablet:p-5'>
+          <div className=' flex w-full flex-1 flex-col items-start justify-center gap-y-[10px] px-[8px] py-[8px] [border-left:1px_solid_#CCC] tablet:px-[12px]'>
             <CustomLink href={`/redirecting?url=${post_url}`}>
-              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+              <Text
+                type='body-14-bold'
+                color='cbblack'
+                className='line-clamp-2 tablet:!text-[16px]'
+              >
                 {postDetail?.post?.title}
               </Text>
             </CustomLink>
 
-            <div className='mt-[10px] w-full overflow-hidden'>
+            <div className='w-full overflow-hidden'>
               <ListStock listStock={postDetail?.post?.tagStocks} />
             </div>
           </div>
