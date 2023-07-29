@@ -37,7 +37,7 @@ const FormDesktop = () => {
             if (value.displayName === '') {
               toast(() => <Notification type='error' message={t('displayname_required')} />);
               return;
-            }            
+            }
             run(value);
           }}
         >
