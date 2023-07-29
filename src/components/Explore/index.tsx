@@ -107,8 +107,8 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full rounded-[8px] p-[10px] text-left mobile-max:mt-[24px] desktop:p-[16px] '>
-      <div className='box-shadow mb-5  rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
+    <div className='w-full rounded-[8px] p-[10px] text-left desktop:-mt-[16px] desktop:p-[16px]'>
+      <div className='box-shadow mb-[18px] rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
         <Text
           type='body-24-semibold'
           color='cbblack'
@@ -158,8 +158,6 @@ const Explore = () => {
         </ExploreButton>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full'></div>
-
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
           {t('people_in_spotlight')}
@@ -179,40 +177,37 @@ const Explore = () => {
       </div>
 
       {suggestionPeople && (
-        <>
-          <div className='my-[20px] block h-[2px] w-full '></div>
-          <div className='mr-[16px] mt-[32px] flex-row items-center mobile:flex desktop:hidden'>
-            <img
-              src='/static/icons/iconPeople.svg'
-              alt=''
-              width={20}
-              height={20}
-              className='mr-[8px] h-[20px] w-[20px] object-contain'
-            />
-            <Text type='body-16-bold' color='neutral-2'>
-              {t('people_you_may_know')}
-            </Text>
-          </div>
-        </>
-      )}
-
-      {suggestionPeople && (
-        <div className='mobile:block desktop:hidden'>
-          <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-            <PeopleList data={suggestionPeople} refresh={refreshList} />
-          </div>
-          <ModalPeopleYouKnow refreshList={refreshList}>
-            <ExploreButton>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('explore_people')}
+        <div className='box-shadow card-style tablet:hidden'>
+          <>
+            <div className='mr-[16px] flex flex-row items-center'>
+              <img
+                src='/static/icons/iconPeople.svg'
+                alt=''
+                width={20}
+                height={20}
+                className='mr-[8px] h-[20px] w-[20px] object-contain'
+              />
+              <Text type='body-16-bold' color='neutral-2'>
+                {t('people_you_may_know')}
               </Text>
-            </ExploreButton>
-          </ModalPeopleYouKnow>
-          <div className='my-[20px] block h-[2px] w-full '></div>
+            </div>
+
+            <div className='block'>
+              <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
+                <PeopleList data={suggestionPeople} refresh={refreshList} />
+              </div>
+              <ModalPeopleYouKnow refreshList={refreshList}>
+                <ExploreButton>
+                  <Text type='body-14-bold' color='primary-2'>
+                    {t('explore_people')}
+                  </Text>
+                </ExploreButton>
+              </ModalPeopleYouKnow>
+              <div className='mb-[18px] block w-full'></div>
+            </div>
+          </>
         </div>
       )}
-
-      {!suggestionPeople && <div className='my-[20px] block h-[2px] w-full '></div>}
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
@@ -265,9 +260,8 @@ const Explore = () => {
           </ExploreButton>
         </CustomLink>
       </div>
-      <div className='my-[20px] block h-[2px] w-full '></div>
+
       <div className='box-shadow card-style'>
-        {/* <div className='my-[20px] block h-[2px] w-full '></div> */}
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
           {t('top_watching_stock')}
         </Text>
@@ -295,8 +289,6 @@ const Explore = () => {
           </ExploreButton>
         </CustomLink>
       </div>
-
-      <div className='my-[20px] block h-[2px] w-full '></div>
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -329,8 +321,6 @@ const Explore = () => {
           </ExploreButton>
         </CustomLink>
       </div>
-
-      <div className='my-[20px] block h-[2px] w-full '></div>
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -377,8 +367,6 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full '></div>
-
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
           {t('new_ipo')}
@@ -403,8 +391,6 @@ const Explore = () => {
           </div>
         )}
       </div>
-
-      <div className='my-[20px] block h-[2px] w-full'></div>
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('trending_on_pinex')}

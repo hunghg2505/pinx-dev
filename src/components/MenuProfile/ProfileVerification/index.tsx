@@ -112,10 +112,10 @@ const ProfileVerification = () => {
     return <></>;
   }
   return (
-    <div className='relative w-full rounded-[8px] bg-white pt-4 text-left '>
+    <div className='box-shadow card-style relative w-full rounded-[8px] bg-white pt-4 text-left '>
       <img
         src='/static/icons/chevron-left.svg'
-        className='!w-[28px] laptop:hidden'
+        className='ml-[12px] !w-[28px] laptop:hidden'
         alt=''
         onClick={router.back}
       />
@@ -124,7 +124,7 @@ const ProfileVerification = () => {
         <img
           src='/static/icons/back_icon.svg'
           alt=''
-          className='absolute left-0 top-[-2px] h-[28px] w-[28px] cursor-pointer'
+          className='absolute left-[12px] top-[-2px] h-[28px] w-[28px] cursor-pointer'
           onClick={router.back}
         />
         <Text
@@ -361,17 +361,17 @@ const ProfileVerification = () => {
             sizes='100vw'
             className='mr-[7px] h-[103px] w-[164px]'
           />
-          <Text type='body-16-semibold'>{t('ekyc_title')}</Text>
-          <Text type='body-16-semibold' className='mb-4'>
-            app PineX
-          </Text>
-          <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
+          <div className='my-[20px] text-center'>
+            <Text type='body-16-semibold'>{t('ekyc_title')}</Text>
+            <Text type='body-16-semibold'>App PineX</Text>
+          </div>
+          <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
             <img
               src='/static/images/googleplay.png'
               alt='Download google play'
               width={180}
               height={52}
-              className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+              className='h-[32px] w-[106.5px] cursor-pointer object-contain'
               onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
             />
 
@@ -380,7 +380,7 @@ const ProfileVerification = () => {
               alt='Download app store'
               width={180}
               height={52}
-              className='h-[30px] w-[106.5px] cursor-pointer object-contain'
+              className='h-[32px] w-[106.5px] cursor-pointer object-contain'
               onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
             />
           </div>

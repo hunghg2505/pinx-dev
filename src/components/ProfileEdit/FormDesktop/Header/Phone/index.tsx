@@ -15,9 +15,9 @@ const Phone = () => {
       className={classNames(
         'absolute left-[calc(16px+113px/2)]  -translate-x-1/2 tablet:left-[calc(10px+100px/2)] xdesktop:left-[calc(32px+120px/2)]',
         {
-          'top-[calc(100%+90px)] tablet:top-[calc(100%+85px)] xdesktop:top-[calc(100%+90px)]':
+          'top-[calc(100%+90px)] tablet:top-[calc(100%+85px)] xdesktop:top-[calc(100%+110px)]':
             !profileUser?.name,
-          'top-[calc(100%+100px)] tablet:top-[calc(100%+95px)] xdesktop:top-[calc(100%+100px)]':
+          'top-[calc(100%+100px)] tablet:top-[calc(100%+95px)] xdesktop:top-[calc(100%+120px)]':
             !!profileUser?.name,
         },
       )}

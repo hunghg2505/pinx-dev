@@ -88,11 +88,10 @@ const MarketDesktop = () => {
 
   return (
     <>
-      <div className='mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
+      <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
         <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
           {t('market')}
         </Text>
-
         <Tabs defaultActiveKey='1' className='tabHomePc'>
           {dataStockIndex?.map((item: any, index: number) => {
             const [change, changePercent] = item.ot.split('|');

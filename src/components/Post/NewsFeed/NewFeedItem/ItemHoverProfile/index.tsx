@@ -23,7 +23,7 @@ const ItemHoverProfile = (props: IProps) => {
   return (
     <div
       className={classNames(
-        'absolute left-[50px] top-[45px] z-20 w-[352px] rounded-[16px] bg-[#FFF] px-[25px] py-[20px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)] mobile:hidden tablet:block',
+        'absolute left-[50px] top-[45px] z-20 w-[352px] max-w-[500px] rounded-[8px] bg-[#FFF] p-[16px] [box-shadow:0px_12px_42px_0px_rgba(24,_39,_75,_0.12),_0px_8px_18px_0px_rgba(24,_39,_75,_0.12)] mobile:hidden tablet:block',
       )}
     >
       <div className='flex'>
@@ -50,30 +50,25 @@ const ItemHoverProfile = (props: IProps) => {
               {dayjs(profileOtherUser?.createdAt).format('MM/YYYY')}
             </Text>
           </div>
+
           <div className='my-[15px] block h-[1px] bg-[#ECECEC]'></div>
-          <div className='flex flex-row'>
-            {/* <div>
-              <Text type='body-12-regular' color='primary-5'>
-                Post:
-              </Text>
-              <Text type='body-12-semibold' color='neutral-1'>
-                298
-              </Text>
-            </div> */}
-            <div className='mr-[30px]'>
-              <Text type='body-12-regular' color='primary-5'>
-                {t('follower')}:
-              </Text>
-              <Text type='body-12-semibold' color='neutral-1'>
-                {profileOtherUser?.totalFollower}
+
+          <div className='flex items-center justify-between gap-[10px]'>
+            <div className='flex gap-[4px]'>
+              <Text type='body-12-semibold'>{profileOtherUser?.totalFollower}</Text>
+              <Text type='body-12-regular' className='text-[#474D57]'>
+                {t('follower')}
               </Text>
             </div>
-            <div>
-              <Text type='body-12-regular' color='primary-5'>
-                {t('following')}:
-              </Text>
-              <Text type='body-12-semibold' color='neutral-1'>
-                {profileOtherUser?.totalFollowing}
+
+            <Text type='body-14-regular' className='text-[#808A9D]'>
+              •
+            </Text>
+
+            <div className='flex gap-[4px]'>
+              <Text type='body-12-semibold'>{profileOtherUser?.totalFollowing}</Text>
+              <Text type='body-12-regular' className='text-[#474D57]'>
+                {t('following')}
               </Text>
             </div>
           </div>

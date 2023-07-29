@@ -13,6 +13,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { isUnubsribeThemeAtom, popupThemeDataAtom } from '@store/theme';
+import { USERTYPE } from '@utils/constant';
 // import PopupComponent from '@utils/PopupComponent';
 
 const LandingPageDetailThemes = ({
@@ -24,7 +25,7 @@ const LandingPageDetailThemes = ({
 }) => {
   const { t } = useTranslation('theme');
   const code = data?.code;
-  const { isLogin } = useUserType();
+  const { isLogin, statusUser } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [, setIsUnubsribeTheme] = useAtom(isUnubsribeThemeAtom);
@@ -39,13 +40,15 @@ const LandingPageDetailThemes = ({
     {
       manual: true,
       onSuccess: () => {
-        toast((t) => <NotificationSubsribeTheme theme={data} toastId={t.id} />, {
-          duration: 5000,
-          style: {
-            maxWidth: '90vw',
-          },
-        });
-        setPopupThemeData(data);
+        if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
+          toast((t) => <NotificationSubsribeTheme theme={data} toastId={t.id} />, {
+            duration: 5000,
+            style: {
+              maxWidth: '90vw',
+            },
+          });
+          setPopupThemeData(data);
+        }
         refresh && refresh();
       },
       onError: (e: any) => {
@@ -63,13 +66,16 @@ const LandingPageDetailThemes = ({
     {
       manual: true,
       onSuccess: () => {
-        toast(() => <NotificationSubsribeTheme isUnsubscribe theme={data} />, {
-          duration: 5000,
-          style: {
-            maxWidth: '90vw',
-          },
-        });
-        setPopupThemeData(data);
+        if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
+          toast(() => <NotificationSubsribeTheme isUnsubscribe theme={data} />, {
+            duration: 5000,
+            style: {
+              maxWidth: '90vw',
+            },
+          });
+          setPopupThemeData(data);
+        }
+
         setIsUnubsribeTheme(true);
         refresh && refresh();
       },

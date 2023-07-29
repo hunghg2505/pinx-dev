@@ -12,7 +12,7 @@ import { profileUserContext } from '..';
 const Header = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
-    <header className='mb-[22px]'>
+    <header className='mb-[18px] tablet:mb-[16px]'>
       <Figure>
         <>
           <Back />

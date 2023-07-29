@@ -226,7 +226,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-2' className='mb-[14px]'>
+        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
           {t('people_in_spotlight')}
         </Text>
 
@@ -244,33 +244,33 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       {suggestionPeople && (
-        <div className='mr-[16px] flex-row items-center mobile:flex desktop:hidden'>
-          <img
-            src='/static/icons/iconPeople.svg'
-            alt=''
-            width={20}
-            height={20}
-            className='mr-[8px] h-[20px] w-[20px] object-contain'
-          />
-          <Text type='body-16-bold' color='neutral-2'>
-            {t('People_you_may_know')}
-          </Text>
-        </div>
-      )}
-
-      {suggestionPeople && (
-        <div className='mobile:block desktop:hidden'>
-          <div className='bg-[#ffffff] pl-[16px] pt-[15px]'>
-            <PeopleList data={suggestionPeople} refresh={refreshList} />
+        <div className='box-shadow card-style tablet:hidden'>
+          <div className='mr-[16px] flex flex-row items-center'>
+            <img
+              src='/static/icons/iconPeople.svg'
+              alt=''
+              width={20}
+              height={20}
+              className='mr-[8px] h-[20px] w-[20px] object-contain'
+            />
+            <Text type='body-16-bold' color='neutral-2'>
+              {t('People_you_may_know')}
+            </Text>
           </div>
-          <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
-            <ModalPeopleYouKnow refreshList={refreshList}>
-              <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('explore_people')}
-                </Text>
-              </button>
-            </ModalPeopleYouKnow>
+
+          <div>
+            <div className='bg-[#ffffff] pl-[16px] pt-[15px]'>
+              <PeopleList data={suggestionPeople} refresh={refreshList} />
+            </div>
+            <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
+              <ModalPeopleYouKnow refreshList={refreshList}>
+                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
+                  <Text type='body-14-bold' color='primary-2'>
+                    {t('explore_people')}
+                  </Text>
+                </button>
+              </ModalPeopleYouKnow>
+            </div>
           </div>
         </div>
       )}
