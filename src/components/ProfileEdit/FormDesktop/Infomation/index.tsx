@@ -10,8 +10,8 @@ export const profileUserContext = createContext(undefined);
 
 const Info = () => {
   return (
-    <div className='bg-white px-[16px] pb-[32px] pt-[16px]'>
-      <div className='pl-[175px]'>
+    <div className='bg-white px-[16px] pb-[32px] pt-[21px] xdesktop:pt-[26px]'>
+      <div className='pl-[159px] tablet:pl-[125px] xdesktop:pl-[188px]'>
         <Name />
         <DisplayName />
         <JobsTitle />

@@ -6,20 +6,16 @@ const Back = () => {
   const router = useRouter();
   return (
     <>
-      <span
-        className=''
-        onClick={() => {
-          router.back();
-        }}
-      >
+      <div className='absolute left-[16px] top-[16px] z-10 h-[28px] w-[28px] rounded-full bg-white/50'>
         <img
-          src='/static/icons/chevron-left.svg'
-          alt='avatar'
-          className=' inline w-[28px] rounded-full'
-          width={28}
-          height={28}
+          src='/static/icons/back_icon.svg'
+          alt='back'
+          className='h-[28px] w-[28px] cursor-pointer '
+          onClick={() => {
+            router.back();
+          }}
         />
-      </span>
+      </div>
     </>
   );
 };
