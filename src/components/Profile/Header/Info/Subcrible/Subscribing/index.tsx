@@ -25,7 +25,7 @@ const Subscribing = ({ access }: { access: () => void }) => {
   return (
     <>
       <div
-        className='flex cursor-pointer flex-row items-center justify-center whitespace-nowrap rounded-[8px]  bg-blue_light px-[12px] py-[10px] tablet:flex'
+        className='flex h-[36px] cursor-pointer flex-row items-center justify-center whitespace-nowrap  rounded-[8px] bg-blue_light px-[12px] tablet:flex'
         onClick={() => {
           if (isLogin) {
             onFollowUser.run();
