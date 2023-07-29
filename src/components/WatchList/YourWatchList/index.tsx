@@ -95,30 +95,29 @@ const YourWatchList = (props: IProps) => {
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
               {t('title')}
             </Text>
-            <Button
-              onClick={() => setIsEdit(true)}
-              className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
-            >
-              <img
-                src='/static/icons/explore/iconEdit.svg'
-                alt=''
-                className='mr-[4px] h-[13px] w-[13px]'
-              />
-              <Text type='body-14-semibold' color='primary-2'>
-                {t('editText')}
-              </Text>
-            </Button>
+            {dataStock?.length > 0 && (
+              <>
+                <Button
+                  onClick={() => setIsEdit(true)}
+                  className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
+                >
+                  <img
+                    src='/static/icons/explore/iconEdit.svg'
+                    alt=''
+                    className='mr-[4px] h-[13px] w-[13px]'
+                  />
+                  <Text type='body-14-semibold' color='primary-2'>
+                    {t('editText')}
+                  </Text>
+                </Button>
+              </>
+            )}
           </div>
         </>
       )}
       {/* /Top header */}
 
       <div className='flex flex-col gap-y-[16px]'>
-        {dataStock?.length < 1 && (
-          <>
-            <Empty/>
-          </>
-        )}
         {isEdit ? (
           <>
             {dataStock?.map((item: IWatchListItem, index: number) => (
@@ -139,6 +138,11 @@ const YourWatchList = (props: IProps) => {
                 />
               </div>
             ))}
+            {dataStock?.length < 1 && (
+              <>
+                <Empty/>
+              </>
+            )}
             <ModalAddStock
               refreshYourWatchList={refreshYourWatchList}
               dataStock={dataStock}
@@ -152,6 +156,20 @@ const YourWatchList = (props: IProps) => {
           </>
         ) : (
           <>
+            {dataStock?.length < 1 && (
+              <>
+                <ModalAddStock
+                  refreshYourWatchList={refreshYourWatchList}
+                  dataStock={dataStock}
+                  yourWatchListStock={yourWatchListStock}
+                >
+                  <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+                  <Text type='body-14-semibold' className='text-[#1F6EAC]'>
+                    {t('addTxt')}
+                  </Text>
+                </ModalAddStock>
+              </>
+            )}
             {dataStock?.map((item: IWatchListItem, index: number) => (
               <div
                 key={index}

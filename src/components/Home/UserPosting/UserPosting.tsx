@@ -1,32 +1,56 @@
 import { useRef } from 'react';
 
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
 import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { USERTYPE } from '@utils/constant';
 
 const Unverify = dynamic(() => import('./UnVerify'));
 const UserPosting = ({ onAddNewPost }: any) => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home']);
 
   const router = useRouter();
   const { userLoginInfo } = useUserLoginInfo();
   const refModal: any = useRef();
   const refModalUnVerify = useRef<IBaseModal>(null);
-  const { isLogin } = useAuth();
-
-  const onShowModal = () => {
-    if (userLoginInfo.custStat === 'NEW') {
-      refModalUnVerify?.current?.open && refModalUnVerify?.current?.open();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isLogin, statusUser } = useUserType();
+  // const onShowModal = () => {
+  //   if (userLoginInfo.custStat === 'NEW') {
+  //     refModalUnVerify?.current?.open && refModalUnVerify?.current?.open();
+  //   } else {
+  //     refModal?.current?.onVisible && refModal?.current?.onVisible();
+  //   }
+  // };
+  const onShowModal = async () => {
+    if (isLogin) {
+      if (statusUser === USERTYPE.VSD) {
+        refModal?.current?.onVisible();
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
+      } else {
+        setPopupStatus({
+          ...popupStatus,
+          popupEkyc: true,
+        });
+      }
     } else {
-      refModal?.current?.onVisible && refModal?.current?.onVisible();
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
     }
   };
 

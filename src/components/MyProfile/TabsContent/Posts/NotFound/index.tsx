@@ -1,18 +1,31 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import ModalCompose from '@components/Home/ModalCompose';
-import { profileUserContext } from '@components/MyProfile';
 import Notification from '@components/UI/Notification';
+import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { USERTYPE } from '@utils/constant';
 
 const NotFound = ({ refresh }: any) => {
-  const profileUser = useContext(profileUserContext);
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation(['profile', 'common']);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { statusUser } = useUserType();
+  const onClickWrite = () => {
+    if (statusUser === USERTYPE.VSD) {
+      refModal?.current?.onVisible && refModal?.current?.onVisible();
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
+    } else {
+      setPopupStatus({
+        ...popupStatus,
+        popupEkyc: true,
+      });
+    }
+  };
   const refModal: any = useRef();
   return (
     <>
@@ -30,18 +43,7 @@ const NotFound = ({ refresh }: any) => {
               {t('post_empty')}
             </p>
             <button
-              onClick={() => {
-                if (profileUser.custStat === 'PRO' && profileUser.acntStat === 'PENDING_TO_CLOSE') {
-                  toast(() => <Notification type='error' message={t('pennding_to_close')} />);
-                } else if (profileUser.custStat === 'NEW') {
-                  setPopupStatus({
-                    ...popupStatus,
-                    popupEkyc: true,
-                  });
-                } else {
-                  refModal?.current?.onVisible && refModal?.current?.onVisible();
-                }
-              }}
+              onClick={() => onClickWrite()}
               className='line-[18px] block w-full  max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white'
             >
               {t('write_now')}

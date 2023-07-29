@@ -78,7 +78,6 @@ const Explore = () => {
   const { run, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
-  console.log('🚀 ~ file: index.tsx:82 ~ Explore ~ stockIPO:', stockIPO);
   const { listMention } = useGetTopMentionStock();
 
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
@@ -159,7 +158,7 @@ const Explore = () => {
         </ExploreButton>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full'></div>
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -181,7 +180,7 @@ const Explore = () => {
 
       {suggestionPeople && (
         <>
-          <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+          <div className='my-[20px] block h-[2px] w-full '></div>
           <div className='mr-[16px] mt-[32px] flex-row items-center mobile:flex desktop:hidden'>
             <img
               src='/static/icons/iconPeople.svg'
@@ -209,11 +208,11 @@ const Explore = () => {
               </Text>
             </ExploreButton>
           </ModalPeopleYouKnow>
-          <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+          <div className='my-[20px] block h-[2px] w-full '></div>
         </div>
       )}
 
-      {!suggestionPeople && <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>}
+      {!suggestionPeople && <div className='my-[20px] block h-[2px] w-full '></div>}
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
@@ -268,7 +267,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+        <div className='my-[20px] block h-[2px] w-full '></div>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
           {t('top_watching_stock')}
         </Text>
@@ -297,7 +296,7 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full '></div>
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -331,7 +330,7 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full '></div>
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -378,7 +377,7 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full '></div>
 
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
@@ -405,7 +404,7 @@ const Explore = () => {
         )}
       </div>
 
-      <div className='my-[20px] block h-[2px] w-full bg-[#EEF5F9]'></div>
+      <div className='my-[20px] block h-[2px] w-full'></div>
 
       <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
         {t('trending_on_pinex')}
