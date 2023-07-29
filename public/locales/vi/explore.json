@@ -10,7 +10,7 @@
     "revenue_desc": "Top 20 công ty có doanh thu quý gần nhất đứng đầu thị trường",
     "revenue_unit": "Đơn vị: tỷ đồng",
     "market_cap_desc": "Top 20 công ty vốn hoá lớn nhất thị trường",
-    "market_cap_unit": "Đơn vị: Nghìn tỷ dồng",
+    "market_cap_unit": "Đơn vị: nghìn tỷ dồng",
     "price_desc": "Top 20 công ty có giá cổ phiếu trên thị trường lớn nhất theo giá đóng cửa phiên gần nhất",
     "price_unit": "Đơn vị: đồng",
     "change_in_price_1y_desc": "Top 20 công ty có biến động giá cổ phiếu lớn nhất trên thị trường",

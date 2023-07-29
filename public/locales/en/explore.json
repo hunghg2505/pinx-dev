@@ -10,7 +10,7 @@
     "revenue_desc": "Top 20 companies having the largest revenue in recent quarter",
     "revenue_unit": "Unit: billion VND",
     "market_cap_desc": "Top 20 companies having the largest capitalization",
-    "market_cap_unit": "Unit: Trillion VND",
+    "market_cap_unit": "Unit: trillion VND",
     "price_desc": "Top 20 companies having the highest market price based on last closing price",
     "price_unit": "Unit: VND",
     "change_in_price_1y_desc": "Top 20 companies having the largest change in price within 1 year",
