@@ -8,7 +8,7 @@ import { useGetIsShareWatchList } from './checkMyShareWatchList';
 import { useGetUerIsShareWatchList } from './checkUserShareWatchList';
 import { useCheckWatchList } from './checkWatchList';
 import ComponentWatchList from './ComponentWatchList';
-import NotFound from './NotFound';
+import NotFound, { NotfoundMessage } from './NotFound';
 import NotLogin from './NotLogin';
 
 const WatchList = () => {
@@ -17,28 +17,66 @@ const WatchList = () => {
   const { isUserShareWatchList } = useGetUerIsShareWatchList(Number(router?.query?.id));
   const { watchList } = useCheckWatchList(Number(router?.query?.id));
   const { isLogin } = useAuth();
+
+  // return (
+  //   <>
+  //     {(!isShareWatchList || !isUserShareWatchList || !watchList || watchList?.length === 0) && (
+  //   <NotFound
+  //     type={(() => {
+  //       if (isShareWatchList && isUserShareWatchList && watchList?.length === 0) {
+  //         return 1;
+  //       } else if (isShareWatchList === '0') {
+  //         return 2;
+  //       } else if (!isUserShareWatchList) {
+  //         return 3;
+  //       } else if (isLogin) {
+  //         return 1;
+  //       } else {
+  //         return 4;
+  //       }
+  //     })()}
+  //   />
+  // )}
+  //     {(!!isShareWatchList || !!isUserShareWatchList || !!watchList) && (
+  //       <ComponentWatchList watchList={watchList} />
+  //     )}
+  //     <NotLogin />
+  //   </>
+  // );
+
+  if (isLogin) {
+    if (
+      isShareWatchList &&
+      isUserShareWatchList &&
+      Array.isArray(watchList) &&
+      watchList.length > 0
+    ) {
+      return <ComponentWatchList watchList={watchList} />;
+    }
+
+    return (
+      <NotFound
+        type={(() => {
+          if (!isShareWatchList) {
+            return NotfoundMessage.USER_NOT_SHARE_WATCH_LIST;
+          } else if (!isUserShareWatchList) {
+            return NotfoundMessage.OTHER_USER_NOT_SHARE_WATCH_LIST;
+          } else if (
+            isShareWatchList &&
+            isUserShareWatchList &&
+            Array.isArray(watchList) &&
+            watchList.length === 0
+          ) {
+            return NotfoundMessage.EMPTY_STOCK;
+          }
+        })()}
+      />
+    );
+  }
+
   return (
     <>
-      {(!isShareWatchList || !isUserShareWatchList || !watchList || watchList?.length === 0) && (
-        <NotFound
-          type={(() => {
-            if (isShareWatchList && isUserShareWatchList && watchList?.length === 0) {
-              return 1;
-            } else if (isShareWatchList === '0') {
-              return 2;
-            } else if (!isUserShareWatchList) {
-              return 3;
-            } else if (isLogin) {
-              return 1;
-            } else {
-              return 4;
-            }
-          })()}
-        />
-      )}
-      {(!!isShareWatchList || !!isUserShareWatchList || !!watchList) && (
-        <ComponentWatchList watchList={watchList} />
-      )}
+      <NotFound type={NotfoundMessage.USER_NOT_LOGIN} />
       <NotLogin />
     </>
   );

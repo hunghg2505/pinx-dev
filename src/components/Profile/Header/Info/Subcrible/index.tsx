@@ -17,7 +17,7 @@ const Subcrible = () => {
           setVisible(false);
         }}
       />
-      <div className=' mb-[5px] hidden text-right tablet:block'>
+      <div className='text-right'>
         {profileUser?.isFollowed && <Unsubscribe />}
         {!profileUser?.isFollowed && (
           <Subscribing
