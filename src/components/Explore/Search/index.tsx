@@ -250,7 +250,7 @@ const Search = (props: any, ref: any) => {
               {loading && <Loading />}
               {posts?.length > 0 ? (
                 <>
-                  <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+                  <div className='mt-[16px] flex flex-col'>
                     {[...posts]?.splice(0, 3)?.map((post: any) => {
                       return (
                         <NewsFeed

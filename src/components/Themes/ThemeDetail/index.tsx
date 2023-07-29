@@ -104,12 +104,12 @@ const ThemeDetail = () => {
           onRefreshActivities={onRefreshActivities}
         />
       )}
-      <div className='mb-10 rounded-[10px] bg-white px-[10px] pt-[24px] desktop:px-[24px] desktop:py-[20px]'>
-        <div className='relative h-[20px]'>
+      <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
+        <div className='relative mb-[16px] mt-[12px] h-[40px] text-center tablet:mt-0'>
           <img
             src='/static/icons/back_icon.svg'
             alt=''
-            className='absolute left-0 top-1/2 w-[28px] -translate-y-1/2 cursor-pointer'
+            className='absolute top-1/2 w-[28px] -translate-y-1/2 cursor-pointer'
             onClick={onGoBack}
           />
           <Text
@@ -120,7 +120,7 @@ const ThemeDetail = () => {
             {t('title')}
           </Text>
         </div>
-        <div className='my-[20px] block h-[2px] bg-[#EEF5F9] tablet:w-[calc(100%+48px)] tablet:-translate-x-[24px]'></div>
+
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
           {/* {isLogin && <Community payload={themeDetail} />} */}

@@ -36,8 +36,6 @@ const TrendingOnnPinex = ({ data }: IProps) => {
         onRefreshPostDetail={onRefreshPostDetail}
         isExplore={true}
       />
-
-      <div className='pointer-events-none absolute left-2/4 top-0 hidden h-full w-[94%] -translate-x-2/4 transform border-b border-t border-solid border-[#ffffff] mobile-max:block'></div>
     </div>
   );
 };
