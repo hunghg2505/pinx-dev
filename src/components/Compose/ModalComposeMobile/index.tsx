@@ -1,8 +1,11 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
 import ModalCompose from '@components/Home/ModalCompose';
+import Notification from '@components/UI/Notification';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
@@ -13,6 +16,7 @@ interface IProps {
 }
 
 const ModalComposeMobile = (props: IProps) => {
+  const { t } = useTranslation('common');
   const { children, refresh } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin, statusUser } = useUserType();
@@ -22,8 +26,9 @@ const ModalComposeMobile = (props: IProps) => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD) {
         refModal?.current?.onVisible();
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else {
-        // PopupComponent.openEKYC();
         setPopupStatus({
           ...popupStatus,
           popupEkyc: true,

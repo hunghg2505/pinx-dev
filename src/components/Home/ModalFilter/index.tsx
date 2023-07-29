@@ -35,7 +35,6 @@ const ModalFilter = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
   const { data, refresh } = useGetListFillter();
-  console.log('🚀 ~ file: index.tsx:38 ~ ModalFilter ~ data:', data);
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {

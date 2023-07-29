@@ -3,6 +3,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
 
@@ -18,7 +19,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const [showReadMore, setShowReadMore] = useState<boolean>(false);
   const [readMore, setReadMore] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
-
+  const router = useRouter();
   // const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const { message } = useMemo(() => {
@@ -62,7 +63,16 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       clearTimeout(t);
     }, 400);
   }, []);
-
+  const onHandleClick = (e: any) => {
+    const textContent = e?.target?.textContent;
+    const classElement = e?.target?.className;
+    if (classElement === 'link') {
+      router.push({
+        pathname: '/redirecting',
+        query: { url: textContent },
+      });
+    }
+  };
   const PostContent = () => {
     if (postThemeId) {
       return (
@@ -98,6 +108,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
             'h-[74px] overflow-hidden desktop:h-[76px]': showReadMore,
             '!h-auto': readMore,
           })}
+          onClick={(event) => onHandleClick(event)}
         >
           <Text
             type='body-14-regular'
@@ -112,9 +123,11 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
           </Text>
 
           {!message?.includes(urlLink) && urlLink !== '' && (
-            <div className='messageFormat messageBody'>
-              <span className='link'>{urlLink}</span>
-            </div>
+            <CustomLink href={`/redirecting?url=${urlLink}`}>
+              <div className='messageFormat messageBody'>
+                <span className='link'>{urlLink}</span>
+              </div>
+            </CustomLink>
           )}
         </div>
       );

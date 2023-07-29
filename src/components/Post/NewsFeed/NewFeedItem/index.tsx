@@ -112,9 +112,6 @@ const NewFeedItem = (props: IProps) => {
 
         onRefreshPostDetail(undefined);
       },
-      onError: (err: any) => {
-        console.log('err', err);
-      },
     },
   );
 
