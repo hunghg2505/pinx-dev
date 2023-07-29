@@ -95,19 +95,23 @@ const YourWatchList = (props: IProps) => {
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
               {t('title')}
             </Text>
-            <Button
-              onClick={() => setIsEdit(true)}
-              className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
-            >
-              <img
-                src='/static/icons/explore/iconEdit.svg'
-                alt=''
-                className='mr-[4px] h-[13px] w-[13px]'
-              />
-              <Text type='body-14-semibold' color='primary-2'>
-                {t('editText')}
-              </Text>
-            </Button>
+            {dataStock?.length > 0 && (
+              <>
+                <Button
+                  onClick={() => setIsEdit(true)}
+                  className='flex items-center justify-center desktop:min-h-[34px] desktop:min-w-[135px] desktop:rounded-[5px] desktop:bg-[#EEF5F9]'
+                >
+                  <img
+                    src='/static/icons/explore/iconEdit.svg'
+                    alt=''
+                    className='mr-[4px] h-[13px] w-[13px]'
+                  />
+                  <Text type='body-14-semibold' color='primary-2'>
+                    {t('editText')}
+                  </Text>
+                </Button>
+              </>
+            )}
           </div>
         </>
       )}
