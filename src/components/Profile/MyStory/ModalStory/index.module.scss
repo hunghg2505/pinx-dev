@@ -1,0 +1,18 @@
+.modalStory {
+  max-width: 400px;
+
+  :global {
+    .rc-dialog-content {
+      border-radius: 12px;
+      max-height: 100%;
+
+      .rc-dialog-close {
+        z-index: 100;
+      }
+
+      .rc-dialog-body {
+        padding: 0;
+      }
+    }
+  }
+}
