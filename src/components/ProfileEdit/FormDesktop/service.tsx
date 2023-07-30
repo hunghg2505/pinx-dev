@@ -5,7 +5,7 @@ import request from 'umi-request';
 import Notification from '@components/UI/Notification';
 
 export const useUploadImage = () => {
-  const { run } = useRequest(
+  const { run, loading } = useRequest(
     async (formData: any, fieldName: string, setField: any) => {
       const res = await request.post(
         'https://static.pinetree.com.vn/cloud/internal/public/images/upload/pist?type=PIST_COMMUNITY',
@@ -30,5 +30,5 @@ export const useUploadImage = () => {
       },
     },
   );
-  return { run };
+  return { run, loading };
 };

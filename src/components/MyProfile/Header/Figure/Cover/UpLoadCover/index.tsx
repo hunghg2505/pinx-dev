@@ -8,22 +8,23 @@ import { useUploadImage } from './uploadImage';
 
 const UpLoadCover = () => {
   const profileUser = useContext<any>(profileUserContext);
-  const { run, loading } = useUpdateUserProfile(profileUser?.reload);
+  const { run } = useUpdateUserProfile(profileUser?.reload);
   const { run: uploadImage, loading: loadingUpload } = useUploadImage(run);
   return (
     <label className='cursor-pointer tablet:hidden'>
       <input
-        disabled={loading || loadingUpload}
+        disabled={loadingUpload}
         type='file'
-        accept="image/png, image/jpeg"
+        accept='image/png, image/jpeg'
         className='hidden'
         onChange={(e: any) => {
+          const file = e?.target?.files?.[0];
           const formData = new FormData();
-          formData.append('files', e?.target?.files?.[0]);
-          uploadImage(formData);
+          formData.append('files', file);
+          file && uploadImage(formData);
         }}
       />
-      <IconCoverEdit />
+      <IconCoverEdit loading={loadingUpload} />
     </label>
   );
 };
