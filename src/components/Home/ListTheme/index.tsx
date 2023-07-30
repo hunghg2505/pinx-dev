@@ -1,9 +1,10 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
-import ThemesItem from '@components/Themes/ThemesItem';
+// import ThemesItem from '@components/Themes/ThemesItem';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
@@ -11,6 +12,9 @@ import { ROUTE_PATH } from '@utils/common';
 
 import { ITheme, useGetTheme } from '../service';
 
+const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
+  ssr: false,
+});
 const settings = {
   dots: false,
   infinite: false,
@@ -25,14 +29,14 @@ const settings = {
     {
       breakpoint: 1024,
       settings: {
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 1,
       },
     },
     {
       breakpoint: 768,
       settings: {
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 1,
       },
     },
@@ -57,7 +61,7 @@ const ListTheme = () => {
       <div className='relative h-[252px] '>
         <div
           onClick={refSlide?.current?.slickPrev}
-          className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
             src='/static/icons/iconGrayPrev.svg'
@@ -66,9 +70,16 @@ const ListTheme = () => {
           />
         </div>
         <div className='slideTheme max-w-[700px] overflow-hidden'>
-          <Slider {...settings} variableWidth ref={refSlide} draggable>
+          <Slider {...settings} variableWidth ref={refSlide}>
             {theme?.map((item: ITheme, index: number) => {
-              return <ThemesItem theme={item} key={index} isLogin={isLogin} refresh={refresh} />;
+              return (
+                <ThemesItem
+                  theme={item}
+                  key={`themeHome-${index}`}
+                  isLogin={isLogin}
+                  refresh={refresh}
+                />
+              );
             })}
           </Slider>
         </div>
