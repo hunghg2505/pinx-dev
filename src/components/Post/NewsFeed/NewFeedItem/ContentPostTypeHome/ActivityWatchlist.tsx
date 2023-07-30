@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
@@ -17,10 +18,22 @@ export const ActivityWatchlist = ({
   messagePostFormat,
 }: any) => {
   const { t } = useTranslation();
-
+  const router = useRouter();
+  const onHandleClick = (e: any) => {
+    const textContent = e?.target?.textContent;
+    const classElement = e?.target?.className;
+    if (classElement === 'link') {
+      router.push({
+        pathname: '/redirecting',
+        query: { url: textContent },
+      });
+    } else {
+      onComment();
+    }
+  };
   return (
     <div className='ActivityWatchlist'>
-      <div className='cursor-pointer' onClick={onComment} ref={onRef}>
+      <div className='cursor-pointer' onClick={(e: any) => onHandleClick(e)} ref={onRef}>
         <Text
           type='body-14-regular'
           color='neutral-1'

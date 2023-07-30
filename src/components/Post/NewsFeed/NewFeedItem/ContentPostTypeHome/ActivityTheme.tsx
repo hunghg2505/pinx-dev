@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Fade from '@components/UI/Fade';
@@ -17,9 +18,26 @@ export const ActivityTheme = ({
   messagePostFormat,
 }: any) => {
   const { t } = useTranslation();
+  const router = useRouter();
+  const onHandleClick = (e: any) => {
+    const textContent = e?.target?.textContent;
+    const classElement = e?.target?.className;
+    if (classElement === 'link') {
+      router.push({
+        pathname: '/redirecting',
+        query: { url: textContent },
+      });
+    } else {
+      onComment();
+    }
+  };
   return (
     <div className='ActivityTheme'>
-      <div className={classNames('cursor-pointer')} onClick={onComment} ref={ref}>
+      <div
+        className={classNames('cursor-pointer')}
+        onClick={(e: any) => onHandleClick(e)}
+        ref={ref}
+      >
         <Text
           type='body-14-regular'
           color='neutral-1'
