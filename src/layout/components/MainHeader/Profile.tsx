@@ -271,7 +271,7 @@ const Profile = () => {
         <img
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          className='h-[40px] w-[40px] cursor-pointer rounded-full mobile:block tablet:hidden'
+          className='h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />
       </>
