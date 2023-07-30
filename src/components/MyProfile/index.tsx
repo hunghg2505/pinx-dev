@@ -1,5 +1,7 @@
 import React, { createContext, useState } from 'react';
 
+import classNames from 'classnames';
+
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
@@ -41,7 +43,13 @@ const MyProfile = () => {
           <div className='box-shadow card-style rounded-[8px] bg-white mobile:pb-[20px] tablet:px-[20px] tablet:py-[20px]'>
             <Header />
             <MyStory />
-            <TabsContent />
+            <div
+              className={classNames('mt-[24px]', {
+                'tablet:!mt-[32px]': !profileOtherUser?.caption,
+              })}
+            >
+              <TabsContent />
+            </div>
           </div>
         </div>
       </div>
