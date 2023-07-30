@@ -51,6 +51,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
 const PostDetail = () => {
   const { t } = useTranslation();
   const refSubReplies: any = useRef();
+  const refRepliesLaptop: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   const router = useRouter();
@@ -89,13 +90,15 @@ const PostDetail = () => {
 
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
-
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
     if (refSubReplies?.current?.onComment) {
       refSubReplies?.current?.onComment(value, customerId, id);
+    }
+    if (refRepliesLaptop?.current?.onComment) {
+      refRepliesLaptop?.current?.onComment(value, customerId, id);
     }
   };
 
@@ -186,6 +189,7 @@ const PostDetail = () => {
           {isLogin && (
             <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
               <ForwardedRefComponent
+                ref={refRepliesLaptop}
                 id={postDetail?.data?.id}
                 refresh={refreshCommentOfPost}
                 refreshTotal={refresh}
