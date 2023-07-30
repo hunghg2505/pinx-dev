@@ -54,7 +54,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
 
       if (ele?.clientHeight) {
         if (window.innerWidth > 768) {
-          setShowReadMore(ele?.clientHeight > 76);
+          setShowReadMore(ele?.clientHeight > 78);
         } else {
           setShowReadMore(ele?.clientHeight > 74);
         }
@@ -70,6 +70,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
         pathname: '/redirecting',
         query: { url: textContent },
       });
+    } else {
+      onComment();
     }
   };
   const PostContent = () => {
@@ -77,7 +79,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       return (
         <div
           className='theme relative flex w-full  flex-col justify-end rounded-[10px] '
-          onClick={onComment}
+          onClick={(event) => onHandleClick(event)}
         >
           <img
             src={BgThemePost?.bgImage}
@@ -104,7 +106,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
         <div
           id={`post-content-${postDetail.id}`}
           className={classNames('', {
-            'h-[74px] overflow-hidden desktop:h-[76px]': showReadMore,
+            'h-[74px] overflow-hidden mobile-max:h-[70px] desktop:h-[76px]': showReadMore,
             '!h-auto': readMore,
           })}
           onClick={(event) => onHandleClick(event)}
@@ -113,7 +115,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
             type='body-14-regular'
             color='neutral-1'
             className='tablet:!text-[16px]'
-            onClick={onComment}
+            // onClick={onComment}
           >
             <div
               className='desc messageFormat messageBody'
@@ -139,7 +141,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     <>
       <PostContent />
 
-      {showReadMore && (
+      {showReadMore && !postThemeId ? (
         <Text
           type='body-14-regular'
           color='neutral-3'
@@ -148,6 +150,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
         >
           {readMore ? t('see_less') : t('see_more')}
         </Text>
+      ) : (
+        ''
       )}
     </>
   );

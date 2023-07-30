@@ -160,11 +160,15 @@ const Editor = (props: IProps, ref?: any) => {
     setImageComment('');
     setImageCommentMobile(false);
   };
-
+  console.log('width', width);
   useImperativeHandle(ref, () => {
     return {
-      onComment: (value: any, customerId: number, id: string) => onComment(value, customerId, id),
+      onComment: (value: any, customerId: number, id: string) => {
+        console.log('aaa');
+        return onComment(value, customerId, id);
+      },
       onReply: () => {
+        console.log('123');
         editor?.commands?.focus(true, { scrollIntoView: false });
       },
       clearData: () => editor?.commands.clearContent(),
@@ -173,13 +177,16 @@ const Editor = (props: IProps, ref?: any) => {
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
     if (width && width >= 738) {
+      console.log('123');
       scrollToBottom();
       editor?.commands?.focus(true, { scrollIntoView: false });
+    } else {
+      console.log('bbb');
+      editor?.commands.clearContent();
+      editor?.commands.insertContent(
+        `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
+      );
     }
-    editor?.commands.clearContent();
-    editor?.commands.insertContent(
-      `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
-    );
   };
   // const onLike = () => {};
   const useAddComment = useRequest(

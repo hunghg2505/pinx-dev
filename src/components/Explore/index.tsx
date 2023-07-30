@@ -1,5 +1,6 @@
 import React from 'react';
 
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
@@ -9,7 +10,6 @@ import PeopleList from '@components/Home/People/PeopleList';
 import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
 import { IPost } from '@components/Post/service';
-import ThemesItem from '@components/Themes/ThemesItem';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -32,13 +32,16 @@ import {
 import TrendingOnnPinex from './TrendingOnPinex/inndex';
 import WatchingStock from './WatchingStock';
 
+const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
+  ssr: false,
+});
 const settings = {
   dots: false,
   infinite: false,
   speed: 500,
   slidesToShow: 4,
   slidesToScroll: 1,
-  swipeToSlide: true,
+  // swipeToSlide: true,
   responsive: [
     {
       breakpoint: 1024,
@@ -50,7 +53,7 @@ const settings = {
     {
       breakpoint: 768,
       settings: {
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 1,
       },
     },

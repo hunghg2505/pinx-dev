@@ -97,7 +97,6 @@ const NewFeedItem = (props: IProps) => {
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
-
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -109,7 +108,6 @@ const NewFeedItem = (props: IProps) => {
         if (router.route === '/post/[id]') {
           router.back();
         }
-
         onRefreshPostDetail(undefined);
       },
     },
@@ -170,7 +168,17 @@ const NewFeedItem = (props: IProps) => {
   };
 
   const onDeletePost = () => {
-    onRefreshPostDetail(undefined);
+    // onRefreshPostDetail(undefined);
+    // if (router.route === ROUTE_PATH.MY_PROFILE) {
+    //   onRefreshPostDetail(undefined);
+    // } else {
+    //   onRefreshPostDetail(undefined);
+    // }
+    if (router.route === '/post/[id]') {
+      router.back();
+    } else {
+      onRefreshPostDetail(undefined);
+    }
   };
 
   const ButtonAction = () => {
