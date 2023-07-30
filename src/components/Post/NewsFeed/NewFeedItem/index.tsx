@@ -169,10 +169,15 @@ const NewFeedItem = (props: IProps) => {
 
   const onDeletePost = () => {
     // onRefreshPostDetail(undefined);
-    if (router.route === ROUTE_PATH.MY_PROFILE) {
-      onRefreshPostDetail(undefined);
-    } else {
+    // if (router.route === ROUTE_PATH.MY_PROFILE) {
+    //   onRefreshPostDetail(undefined);
+    // } else {
+    //   onRefreshPostDetail(undefined);
+    // }
+    if (router.route === '/post/[id]') {
       router.back();
+    } else {
+      onRefreshPostDetail(undefined);
     }
   };
 
