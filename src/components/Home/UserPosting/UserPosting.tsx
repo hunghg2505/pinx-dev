@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
+import ModalComposeMobile from '@components/Compose/ModalComposeMobile';
 import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
@@ -16,6 +17,8 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
+
+import ComposeButton from '../ComposeButton';
 
 const Unverify = dynamic(() => import('./UnVerify'));
 const UserPosting = ({ onAddNewPost }: any) => {
@@ -120,6 +123,9 @@ const UserPosting = ({ onAddNewPost }: any) => {
       </div>
 
       <ModalCompose ref={refModal} refresh={onAddNewPost} />
+      <ModalComposeMobile refresh={onAddNewPost}>
+        <ComposeButton />
+      </ModalComposeMobile>
       <BaseModal ref={refModalUnVerify}>
         <Unverify close={refModalUnVerify?.current?.close} />
       </BaseModal>

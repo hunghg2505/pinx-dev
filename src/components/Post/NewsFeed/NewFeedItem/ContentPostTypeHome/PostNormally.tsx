@@ -16,12 +16,11 @@ import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
 const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const { t } = useTranslation();
-  const [showReadMore, setShowReadMore] = useState<boolean>(false);
+  const router = useRouter();
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
   const [readMore, setReadMore] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
-  const router = useRouter();
-  // const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
-
   const { message } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
 
@@ -187,9 +186,12 @@ const MetaContent = ({ metaData }: any) => {
             <img
               src={imageUrl}
               alt=''
-              className={classNames('h-[290px] w-full bg-[#12121239] object-cover', {
-                '!object-contain': url?.includes('tiktok'),
-              })}
+              className={classNames(
+                'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
+                {
+                  '!object-contain': url?.includes('tiktok'),
+                },
+              )}
             />
           )}
 
