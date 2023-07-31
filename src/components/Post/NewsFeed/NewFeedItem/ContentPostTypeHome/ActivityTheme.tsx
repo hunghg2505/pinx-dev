@@ -1,3 +1,5 @@
+import React, { useMemo } from 'react';
+
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -7,17 +9,28 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 
 export const ActivityTheme = ({
-  ref,
+  // onRef,
   onComment,
-  isReadMore,
-  onReadMore,
-  readMore,
+  // isReadMore,
+  // onReadMore,
+  // readMore,
   postDetailUrl,
   postDetail,
   iconPost,
   messagePostFormat,
 }: any) => {
   const { t } = useTranslation();
+  const [height, setHeight] = React.useState(0);
+  const [readMore, setReadMore] = React.useState(false);
+  // const isReadMore = height > 85;
+  const { isReadMore } = useMemo(() => {
+    const isReadMore = height > 84;
+
+    return {
+      isReadMore,
+    };
+  }, [postDetail]);
+
   const router = useRouter();
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
@@ -31,28 +44,47 @@ export const ActivityTheme = ({
       onComment();
     }
   };
+  const onRef = (ele: any) => {
+    if (!ele) {
+      return;
+    }
+    if (ele?.offsetHeight > 0) {
+      setHeight(ele?.offsetHeight);
+    }
+  };
+  const onReadMore = () => {
+    setReadMore(!readMore);
+  };
+  // console.log('isReadMore', isReadMore);
+  // const onRef = useCallback((ele: any) => {
+  //   if (!ele) {
+  //     return;
+  //   }
+  //   // console.log('ele', ele?.offsetHeight);
+  //   setHeight(ele?.offsetHeight);
+  // }, []);
   return (
-    <div className='ActivityTheme'>
+    <>
+      {/* <div className='ActivityTheme'> */}
       <div
-        className={classNames('cursor-pointer')}
+        className={classNames('ActivityTheme cursor-pointer')}
         onClick={(e: any) => onHandleClick(e)}
-        ref={ref}
+        ref={onRef}
       >
         <Text
           type='body-14-regular'
           color='neutral-1'
-          className={classNames('mb-[16px] tablet:!text-[16px]', {
-            'line-clamp-4 h-[85px] overflow-hidden': isReadMore && !readMore,
+          className={classNames('mb-[16px] line-clamp-4 tablet:!text-[16px]', {
+            'line-clamp-4 h-[80px] overflow-hidden': isReadMore && !readMore,
             'h-auto': isReadMore && readMore,
           })}
         >
           <div
-            className='messageFormat messageBody messageBody whitespace-pre-line'
+            className='messageFormat messageBody messageBody'
             dangerouslySetInnerHTML={{ __html: messagePostFormat }}
           ></div>
         </Text>
       </div>
-
       <Fade visible={isReadMore}>
         <Text
           type='body-14-regular'
@@ -63,7 +95,6 @@ export const ActivityTheme = ({
           {readMore ? t('see_less') : t('see_more')}
         </Text>
       </Fade>
-
       <Link href={postDetailUrl}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
           <img
@@ -101,6 +132,7 @@ export const ActivityTheme = ({
           </div>
         </div>
       </Link>
-    </div>
+      {/* </div> */}
+    </>
   );
 };

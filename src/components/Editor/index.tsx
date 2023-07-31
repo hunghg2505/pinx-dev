@@ -31,7 +31,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
-import { isImage } from '../../utils/common';
+import { isImage, validateHTML } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
@@ -300,7 +300,15 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
+
     if (message?.toLowerCase()?.includes('script')) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+        />
+      ));
+    } else if (message && validateHTML(message)) {
       toast(() => (
         <Notification
           type='error'

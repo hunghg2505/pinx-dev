@@ -126,10 +126,11 @@
 }
 .messageFormat {
   word-break: break-word;
+  line-height: 21px;
   a {
     font-weight: 600;
     @apply text-[14px] tablet:text-[16px];
-    line-height: 18px;
+    line-height: 21px;
     color: #1a1a1a;
     word-break: break-all;
     // display: inline-block;

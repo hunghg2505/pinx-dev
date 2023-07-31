@@ -40,7 +40,7 @@ const PinexTop = (props: Iprops) => {
     });
   };
   return (
-    <div className='mr-[16px] w-[161px] cursor-pointer' onClick={onHandleClick}>
+    <div className='mr-[16px] w-[156px] cursor-pointer' onClick={onHandleClick}>
       <div className='relative flex h-[252px] flex-col justify-end rounded-[12px] bg-[#ffffff] '>
         <img
           src={renderImage()}
