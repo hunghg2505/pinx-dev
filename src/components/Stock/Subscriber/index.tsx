@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
@@ -13,6 +14,7 @@ import InvestingTab from './InvestingTab';
 import WatchingTab from './WatchingTab';
 
 const StockSubscriber = () => {
+  const { t } = useTranslation(['stock', 'common']);
   const router = useRouter();
   const { stockCode }: any = router.query;
 
@@ -23,7 +25,7 @@ const StockSubscriber = () => {
   return (
     <>
       <Head>
-        <title>Subscriber</title>
+        <title>{t('subscribe_page_title')}</title>
       </Head>
 
       <div className='rounded-[8px] bg-white pb-[20px] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
@@ -42,21 +44,21 @@ const StockSubscriber = () => {
           </div>
 
           <Text type='body-20-bold' color='primary-5' className='hidden tablet:block'>
-            Community
+            {t('subscribe_page_title')}
           </Text>
         </div>
 
         <div className='px-[16px] tablet:px-[24px]'>
           <Tabs className={classNames(styles.tab, 'tablet:mt-[20px]')} defaultActiveKey='1'>
-            <TabPane tab='All' tabKey='1'>
+            <TabPane tab={t('subscriber_tab.all')} tabKey='1'>
               <AllTab stockCode={stockCode} />
             </TabPane>
 
-            <TabPane tab='Investing' key='2'>
+            <TabPane tab={t('subscriber_tab.investing')} key='2'>
               <InvestingTab stockCode={stockCode} />
             </TabPane>
 
-            <TabPane tab='Watching' key='3'>
+            <TabPane tab={t('subscriber_tab.watching')} key='3'>
               <WatchingTab stockCode={stockCode} />
             </TabPane>
           </Tabs>

@@ -81,49 +81,6 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 
-const fakeMultipleLanguage = (value: string) => {
-  switch (value) {
-    case FinancialIndexKey.marketCap: {
-      return 'MARKET CAP';
-    }
-    case FinancialIndexKey.volume: {
-      return 'VOLUME';
-    }
-    case FinancialIndexKey.pe: {
-      return 'P/E';
-    }
-    case FinancialIndexKey.roe: {
-      return 'ROE';
-    }
-    default: {
-      return '';
-    }
-  }
-};
-
-const convertFinancialIndexData = (data?: IFinancialIndex) => {
-  if (data) {
-    const onlyKeys = new Set([
-      FinancialIndexKey.marketCap,
-      FinancialIndexKey.volume,
-      FinancialIndexKey.pe,
-      FinancialIndexKey.roe,
-    ]);
-
-    const arr = Object.keys(data);
-    arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
-
-    return arr
-      .filter((item) => onlyKeys.has(item))
-      .map((item) => ({
-        label: fakeMultipleLanguage(item),
-        value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
-      }));
-  }
-
-  return [];
-};
-
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
   const [showSeeMore, setShowSeeMore] = useState(false);
@@ -174,18 +131,30 @@ const StockDetail = () => {
       refreshMyStocks();
 
       const title = isFollowedStock
-        ? `Tell people the reason you unwatched ${stockCode}?`
-        : `Tell people the reason you watched for ${stockCode}?`;
+        ? t('tell_people_reason_unwatched', {
+            stockCode,
+          })
+        : t('tell_people_reason_watched', {
+            stockCode,
+          });
 
-      toast((t) => (
-        <NotificationFollowStock
-          title={title}
-          onClickShare={() => {
-            toast.dismiss(t.id);
-            setOpenPopupFollowStock(true);
-          }}
-        />
-      ));
+      toast(
+        (t) => (
+          <NotificationFollowStock
+            title={title}
+            onClickShare={() => {
+              toast.dismiss(t.id);
+              setOpenPopupFollowStock(true);
+            }}
+          />
+        ),
+        {
+          duration: 5000,
+          style: {
+            maxWidth: '90vw',
+          },
+        },
+      );
     },
   });
 
@@ -255,6 +224,49 @@ const StockDetail = () => {
   const handleReviewSuccess = () => {
     refreshStockDetails();
     setOpenPopupReview(false);
+  };
+
+  const manualTranslate = (value: string) => {
+    switch (value) {
+      case FinancialIndexKey.marketCap: {
+        return t('financial_index.market_cap');
+      }
+      case FinancialIndexKey.volume: {
+        return t('financial_index.volume');
+      }
+      case FinancialIndexKey.pe: {
+        return t('financial_index.p/e');
+      }
+      case FinancialIndexKey.roe: {
+        return t('financial_index.roe');
+      }
+      default: {
+        return '';
+      }
+    }
+  };
+
+  const convertFinancialIndexData = (data?: IFinancialIndex) => {
+    if (data) {
+      const onlyKeys = new Set([
+        FinancialIndexKey.marketCap,
+        FinancialIndexKey.volume,
+        FinancialIndexKey.pe,
+        FinancialIndexKey.roe,
+      ]);
+
+      const arr = Object.keys(data);
+      arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
+
+      return arr
+        .filter((item) => onlyKeys.has(item))
+        .map((item) => ({
+          label: manualTranslate(item),
+          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
+        }));
+    }
+
+    return [];
   };
 
   return (

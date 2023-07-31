@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
 import Text from '@components/UI/Text';
@@ -11,6 +12,8 @@ interface ISubscriberItemProps {
 }
 
 const SubscriberItem = ({ data }: ISubscriberItemProps) => {
+  const { t } = useTranslation(['stock', 'commmon']);
+
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
@@ -28,7 +31,7 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
           </Text>
         </Link>
         <Text type='body-12-regular' color='neutral-5' className='mt-[2px]'>
-          {data.totalFollowers} followers
+          {data.totalFollowers} {t('common:followers')}
         </Text>
       </div>
 

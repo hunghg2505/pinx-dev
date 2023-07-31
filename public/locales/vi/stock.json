@@ -79,5 +79,37 @@
   },
   "subscribe_page_title": "Vi - Subscriber",
   "unlisted": "Vi - Unlisted",
-  "total": "Vi - Total"
+  "total": "Vi - Total",
+  "subscriber_tab": {
+    "all": "Vi - All",
+    "investing": "Vi - Investing",
+    "watching": "Vi - Watching"
+  },
+  "show_more": "Vi - Show more",
+  "financial_index": {
+    "market_cap": "Vi - Market cap",
+    "volume": "Vi - Volume",
+    "p/e": "Vi - P/E",
+    "roe": "Vi - Roe"
+  },
+  "activities": {
+    "subscribe": "Vi - Subscribe",
+    "unsubscribe": "Vi - Unsubscribe",
+    "invested_in": "Vi - Invested in",
+    "sold": "Vi - Sold"
+  },
+  "tell_people_reason_unwatched": "Vi - Tell people the reason you unwatched {{stockCode}}?",
+  "tell_people_reason_watched": "Vi - Tell people the reason you watched for {{stockCode}}?",
+  "share_stock": {
+    "message_success": "Vi - You have successfully shared",
+    "watching": "Vi - Watching",
+    "unwatch": "Vi - Unwatch",
+    "i_am_watching": "Vi - I'm watching",
+    "i_unwatched": "Vi - I unwatched",
+    "action_add": "thêm",
+    "action_delete": "xoá",
+    "action_add_from": "vào",
+    "action_delete_from": "khỏi",
+    "content_post": "{{displayName}} vừa mới {{action}} {{stockCode}} {{from}} danh sách theo dõi"
+  }
 }

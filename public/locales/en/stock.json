@@ -79,5 +79,35 @@
   },
   "subscribe_page_title": "Subscriber",
   "unlisted": "Unlisted",
-  "total": "Total"
+  "total": "Total",
+  "subscriber_tab": {
+    "all": "All",
+    "investing": "Investing",
+    "watching": "Watching"
+  },
+  "show_more": "Show more",
+  "financial_index": {
+    "market_cap": "Market cap",
+    "volume": "Volume",
+    "p/e": "P/E",
+    "roe": "Roe"
+  },
+  "activities": {
+    "subscribe": "Subscribe",
+    "unsubscribe": "Unsubscribe",
+    "invested_in": "Invested in",
+    "sold": "Sold"
+  },
+  "tell_people_reason_unwatched": "Tell people the reason you unwatched {{stockCode}}?",
+  "tell_people_reason_watched": "Tell people the reason you watched for {{stockCode}}?",
+  "share_stock": {
+    "message_success": "You have successfully shared",
+    "watching": "Watching",
+    "unwatch": "Unwatch",
+    "i_am_watching": "I'm watching",
+    "i_unwatched": "I unwatched",
+    "action_add": "add",
+    "action_delete": "deleted",
+    "content_post": "{{displayName}} has just {{action}} {{stockCode}} from their following list"
+  }
 }
