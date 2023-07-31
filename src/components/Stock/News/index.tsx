@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
@@ -9,6 +10,7 @@ import { useStockNews } from '../service';
 import NewsItem from '../StockDetail/NewsItem';
 
 const StockNews = () => {
+  const { t } = useTranslation(['stock', 'common']);
   const router = useRouter();
   const { stockCode }: any = router.query;
 
@@ -35,7 +37,7 @@ const StockNews = () => {
         </div>
 
         <Text type='body-20-bold' color='primary-5' className='hidden tablet:block'>
-          Recent news
+          {t('recent_news')}
         </Text>
       </div>
 

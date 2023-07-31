@@ -20,6 +20,7 @@ interface IHeadingNewsItemProps {
 dayjs.extend(relativeTime);
 
 const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
+  const { t } = useTranslation(['stock', 'common']);
   const { i18n } = useTranslation();
   const [openPopupReport, setOpenPopupReport] = useState(false);
   // const [excludeElements, setExcludeElements] = useState<(Element | null)[]>([]);
@@ -78,7 +79,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
               />
               <ModalReport postID={data.id} onReportSuccess={handleReportPostSuccess}>
                 <Text type='body-14-medium' color='neutral-2'>
-                  Report
+                  {t('common:report')}
                 </Text>
               </ModalReport>
             </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import { useStockWatchingInvesting } from '@components/Stock/service';
 import { IResponseWatchingInvesting } from '@components/Stock/type';
 import Text from '@components/UI/Text';
@@ -13,6 +15,7 @@ interface IAllTabProps {
 }
 
 const AllTab = ({ stockCode }: IAllTabProps) => {
+  const { t } = useTranslation(['stock', 'common']);
   const [watchingInvesting, setWatchingInvesting] = useState<IResponseWatchingInvesting>();
   const { isMobile } = useResponsive();
 
@@ -57,7 +60,7 @@ const AllTab = ({ stockCode }: IAllTabProps) => {
           color='primary-2'
           onClick={handleViewMore}
         >
-          Show more
+          {t('show_more')}
         </Text>
       )}
     </>
