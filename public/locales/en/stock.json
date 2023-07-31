@@ -1,0 +1,113 @@
+{
+  "follow_stock": "Follow stock",
+  "tab": {
+    "movements": "Movements",
+    "matchings": "Matchings",
+    "intraday": "Intraday"
+  },
+  "movements": {
+    "hight": "Hight",
+    "low": "Low",
+    "last_price": "Last price",
+    "ceiling": "Ceiling",
+    "ref": "Ref",
+    "floor": "Floor",
+    "total_vol": "Total Vol."
+  },
+  "matchings": {
+    "time": "Time",
+    "vol": "Vol",
+    "price": "Price"
+  },
+  "intraday": {
+    "price": "Price",
+    "total_volume": "Total Volume",
+    "range": "Range"
+  },
+  "intro": "Intro",
+  "brand_awareness": "Brand awareness",
+  "main_business": "Main business",
+  "revenue_sources": "Revenue Sources",
+  "highlights": "Highlights",
+  "also_own": "Also Own",
+  "own": "Own",
+  "rating": {
+    "title": "Rating",
+    "description": "How do you like this stock? Let’s spread to the world of investors",
+    "avg_score": "Avg. score",
+    "votes": "Votes",
+    "reviews": "Reviews",
+    "see_more": "See more review",
+    "empty_title": "No recent review",
+    "empty_description": "Recent review will show up here, so you can easily view them here later",
+    "empty_action": "Review now",
+    "latest_review": "Latest review"
+  },
+  "rating_page": {
+    "description": "Rating of stocks by PineX users",
+    "review": "Review"
+  },
+  "review_form": {
+    "title": "What do you think about {{stockCode}}",
+    "placeholder": "Enter your review"
+  },
+  "community": "Community",
+  "community_description": "Who is subcribed or investing in this company",
+  "recent_news": "Recent news",
+  "featured_in_themes": "Featured in themes",
+  "financial_calendar_title": "Financial calendar",
+  "financial_calendar_desc": "Most recent & upcoming events",
+  "financial_indicator_title": "Financial indicator",
+  "financial_indicator_quarters": "Quarters",
+  "financial_indicator_annual": "Annual",
+  "shareholders_title": "Shareholders",
+  "holding_ratio_title": "Holding ratio",
+  "financial_index_title": "Financial index",
+  "activities_title": "Activities",
+  "more_news": "More {{stockCode}} news",
+  "more_events": "More {{stockCode}} events",
+  "total_volume": "Total Volume",
+  "range": "Range",
+  "matched_price": "Matched Price",
+  "company_related_title": "Company Related",
+  "company_related_total": "Total",
+  "company_related_by_market_cap": "By market cap (Bil VND)",
+  "popup_confirm_review": {
+    "title": "Would you like to leave some thinking on this company?",
+    "do_it_later": "I’ll do it later",
+    "write_a_review": "Write a review"
+  },
+  "subscribe_page_title": "Subscriber",
+  "unlisted": "Unlisted",
+  "total": "Total",
+  "subscriber_tab": {
+    "all": "All",
+    "investing": "Investing",
+    "watching": "Watching"
+  },
+  "show_more": "Show more",
+  "financial_index": {
+    "market_cap": "Market cap",
+    "volume": "Volume",
+    "p/e": "P/E",
+    "roe": "Roe"
+  },
+  "activities": {
+    "subscribe": "Subscribe",
+    "unsubscribe": "Unsubscribe",
+    "invested_in": "Invested in",
+    "sold": "Sold"
+  },
+  "tell_people_reason_unwatched": "Tell people the reason you unwatched {{stockCode}}?",
+  "tell_people_reason_watched": "Tell people the reason you watched for {{stockCode}}?",
+  "share_stock": {
+    "message_success": "You have successfully shared",
+    "watching": "Watching",
+    "unwatch": "Unwatch",
+    "i_am_watching": "I'm watching",
+    "i_unwatched": "I unwatched",
+    "action_add": "add",
+    "action_delete": "deleted",
+    "content_post": "{{displayName}} has just {{action}} {{stockCode}} from their following list"
+  }
+}

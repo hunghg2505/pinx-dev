@@ -1,9 +1,13 @@
 import React from 'react';
 
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import { Button } from '@components/UI/Button';
 // @ts-ignore
@@ -29,6 +33,7 @@ const Empty = dynamic(() => import('@components/UI/Empty'), {
 
 const YourWatchList = (props: IProps) => {
   const {
+    watchlistId,
     dataStock,
     isEdit = false,
     setIsEdit,
@@ -38,10 +43,66 @@ const YourWatchList = (props: IProps) => {
     setDataStock,
   } = props;
   const { t } = useTranslation('watchlist');
+  const [isAz, setIsAz] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     setDataStock(yourWatchListStock);
   }, [isEdit]);
+
+  const handleOnDragEnd = (result:any) => {
+    if (!result.destination) { return; }
+
+    const items = [...dataStock];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setDataStock(items);
+    useSortStock.run(watchlistId,{
+      stocks: `${changeArrToString(items)}`,
+    });
+  };
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const changeArrToString = (data: any) => {
+    const tmp = [];
+    for (const item of data){
+      tmp.push(item.stockCode);
+    }
+    return tmp.toString();
+  };
+
+  const handleSort = async () => {
+    let sorted:any = [];
+    sorted = isAz ? [...dataStock].sort((a: any, b: any) => a.stockCode > b.stockCode ? 1 : -1) : [...dataStock].sort((a: any, b: any) => a.stockCode > b.stockCode ? -1 : 1);
+    await setDataStock(sorted);
+    useSortStock.run(watchlistId, {
+      stocks: `${changeArrToString(sorted)}`,
+    });
+    setIsAz(!isAz);
+  };
+
+
+  const useSortStock = useRequest(
+    (code,payload) => {
+      return privateRequest(requestPist.put, API_PATH.PRIVATE_SORT_STOCK(code),{
+        data: payload,
+      });
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        refreshInterest&&refreshInterest();
+        refreshYourWatchList&&refreshYourWatchList();
+        console.log('Remove Stock Success!');
+      },
+      onError: (e:any) => {
+        console.log('Error!',e.error);
+      }
+    }
+  );
+
+
+
+
 
   return (
     <>
@@ -75,15 +136,15 @@ const YourWatchList = (props: IProps) => {
               </div>
             </div>
             <div className='absolute opacity-0 left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
-              <img
-                src='/static/icons/iconFilterSortaz.svg'
-                alt=''
-                className='h-[28px] w-[28px]'
-              />
+
             </div>
             <div className='ml-auto flex'>
-              <div className='flex min-h-[28px] items-center'>
-
+              <div className='flex min-h-[28px] items-center cursor-pointer' onClick={handleSort}>
+                <img
+                  src={isAz?'/static/icons/iconFilterSortaz.svg':'/static/icons/iconFilterSortza.svg'}
+                  alt=''
+                  className='h-[28px] w-[28px]'
+                />
               </div>
             </div>
           </div>
@@ -117,30 +178,55 @@ const YourWatchList = (props: IProps) => {
       )}
       {/* /Top header */}
 
-      <div className='flex flex-col gap-y-[16px]'>
+      <div className='flex flex-col'>
         {isEdit ? (
           <>
-            {dataStock?.map((item: IWatchListItem, index: number) => (
-              <div
-                key={index}
-                className={classNames({
-                  'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
-                    isEdit,
-                  'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
-                    !isEdit,
-                })}
-              >
-                <ItemWatchList
-                  data={item}
-                  isEdit={isEdit}
-                  refreshYourWatchList={refreshYourWatchList}
-                  refreshInterest={refreshInterest}
-                />
-              </div>
-            ))}
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="characters">
+                {(provided) => (
+                  <div
+                    className={classNames({
+                      'characters flex flex-col': isEdit,
+                      'characters flex flex-col gap-y-[16px] ': !isEdit,
+                    })}
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {dataStock?.map((item: IWatchListItem, index:number) => {
+                      return (
+                        <Draggable key={index} draggableId={`${index}id`} index={index}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={classNames({
+                                '!bg-[#F0F7FC] !border-[#EFF2F5] ': snapshot.isDragging,
+                                'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px] mb-[16px] ':
+                                isEdit,
+                                'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
+                                  !isEdit,
+                              })}
+                            >
+                              <ItemWatchList
+                                data={item}
+                                isEdit={isEdit}
+                                refreshYourWatchList={refreshYourWatchList}
+                                refreshInterest={refreshInterest}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
             {dataStock?.length < 1 && (
               <>
-                <Empty/>
+                <Empty className={'mb-[16px]'} />
               </>
             )}
             <ModalAddStock
@@ -174,7 +260,7 @@ const YourWatchList = (props: IProps) => {
                 className={classNames({
                   'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
                     isEdit,
-                  'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
+                  'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] mt-[16px] first:mt-0':
                     !isEdit,
                 })}
               >

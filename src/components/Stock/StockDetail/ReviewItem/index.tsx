@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useTranslation } from 'next-i18next';
 
 import PopupReview from '@components/Stock/Popup/PopupReview';
 import Rating from '@components/Stock/Rating';
@@ -25,6 +26,7 @@ const ReviewItem = ({
   isMyReview = false,
   onEditReviewSuccess,
 }: IReviewItemProps) => {
+  const { t } = useTranslation(['stock', 'common']);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
@@ -110,7 +112,7 @@ const ReviewItem = ({
             color='primary-2'
             className='mt-[12px] inline-block cursor-pointer'
           >
-            {isSeeMore ? 'Less' : 'More...'}
+            {isSeeMore ? t('common:see_less') : t('common:see_more') + '...'}
           </Text>
         )}
 

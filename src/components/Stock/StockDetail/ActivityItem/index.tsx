@@ -21,7 +21,7 @@ interface IActivityItemProps {
 dayjs.extend(relativeTime);
 
 const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['stock', 'common']);
   let icon;
   let content;
   const isSellUp =
@@ -35,7 +35,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
 
   if (activityFound) {
     icon = activityFound.icon;
-    content = activityFound.label;
+    content = t(activityFound.label);
   }
 
   return (

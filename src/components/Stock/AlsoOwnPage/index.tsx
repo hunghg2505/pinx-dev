@@ -2,6 +2,7 @@ import React from 'react';
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
@@ -9,6 +10,7 @@ import AlsoOwnItem from '../AlsoOwnItem';
 import { useCompanyTaggingInfo } from '../service';
 
 const AlsoOwn = () => {
+  const { t } = useTranslation(['stock', 'common']);
   const router = useRouter();
   const { stockCode }: any = router.query;
   const { taggingInfo } = useCompanyTaggingInfo(stockCode);
@@ -20,7 +22,7 @@ const AlsoOwn = () => {
   return (
     <>
       <Head>
-        <title>Also Own</title>
+        <title>{t('also_own')}</title>
       </Head>
 
       <div className='rounded-[8px] bg-white pb-[20px] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
@@ -39,7 +41,7 @@ const AlsoOwn = () => {
           </div>
 
           <Text type='body-14-semibold' className='text-[#0D0D0D]'>
-            Total: {taggingInfo?.data?.subsidiaries.length}
+            {t('total')}: {taggingInfo?.data?.subsidiaries.length}
           </Text>
         </div>
 

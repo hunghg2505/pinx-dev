@@ -98,6 +98,8 @@
   "themes": "Themes",
   "empty_comment": "There is no comments",
   "ok": "OK",
+  "quit": "Quit",
+  "quit.desc": "Are you sure you want to quit?",
   "not_image": "Not image",
   "not_link": "Not link",
   "err_add_post": "You have not entered the post content",
@@ -198,6 +200,7 @@
   },
   "reply": "Reply",
   "delete": "Delete",
+  "delete.desc": "Are you sure you want to delete?",
   "what_do_you_want_to_comment": "What do you want to comment?",
   "close_account": {
     "title": "Request close account",

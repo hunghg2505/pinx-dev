@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useTranslation } from 'next-i18next';
 
 import { StockEventPost } from '@components/Stock/type';
 import Text from '@components/UI/Text';
@@ -12,6 +13,7 @@ interface ICalendarItemProps {
 }
 
 const CalendarItem = ({ data }: ICalendarItemProps) => {
+  const { i18n } = useTranslation(['stock', 'common']);
   const active = dayjs().isBefore(data.publishTime);
 
   const handleOpenPdfFile = () => {
@@ -34,7 +36,7 @@ const CalendarItem = ({ data }: ICalendarItemProps) => {
           )}
         >
           <Text type='body-12-medium' color='cbwhite'>
-            {getMonthName(dayjs(data.publishTime).get('month') + 1)}
+            {getMonthName(dayjs(data.publishTime).get('month') + 1, i18n.language)}
           </Text>
         </div>
 

@@ -19,6 +19,8 @@ const WatchList = () => {
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [watchlistId, setWatchlistId] = React.useState<number>();
   const [dataStock, setDataStock] = React.useState<any>([]);
+
+
   const router = useRouter();
   const { isMobile } = useResponsive();
   const onGoBack = () => {
@@ -26,13 +28,12 @@ const WatchList = () => {
   };
 
   const { interestStock, refreshInterest } = useGetInterest();
-  const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } =
-    useGetYourWatchList({
-      onSuccess: (res) => {
-        setDataStock(res?.data?.[0]?.stocks);
-        setWatchlistId(res?.data?.[0]?.watchlistId);
-      },
-    });
+  const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
+    onSuccess: (res) => {
+      setDataStock(res?.data?.[0]?.stocks);
+      setWatchlistId(res?.data?.[0]?.watchlistId);
+    },
+  });
 
   React.useEffect(() => {
     runYourWatchList();

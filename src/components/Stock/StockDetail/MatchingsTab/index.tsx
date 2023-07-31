@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import PopupMatchedPrice from '@components/Stock/Popup/PopupMatchedPrice';
 import Text from '@components/UI/Text';
 
 const MatchingsTab = () => {
+  const { t } = useTranslation(['stock', 'common']);
   const [openPopup, setOpenPopup] = useState(false);
 
   return (
@@ -13,17 +16,17 @@ const MatchingsTab = () => {
           <tr className='bg-[#EBEBEB] text-right'>
             <th className='py-[5px] pl-[16px] text-left'>
               <Text type='body-12-regular' color='primary-5'>
-                Time
+                {t('matchings.time')}
               </Text>
             </th>
             <th className='py-[5px]'>
               <Text type='body-12-regular' color='primary-5'>
-                Vol
+                {t('matchings.vol')}
               </Text>
             </th>
             <th className='py-[5px]'>
               <Text type='body-12-regular' color='primary-5'>
-                Price
+                {t('matchings.price')}
               </Text>
             </th>
             <th className='py-[5px] pr-[16px]'>
@@ -194,9 +197,9 @@ const MatchingsTab = () => {
                   setOpenPopup(true);
                 }}
                 type='body-14-medium'
-                className='cursor-pointer text-center text-[#3449D7] tablet:hidden'
+                className='cursor-pointer text-center uppercase text-[#3449D7] tablet:hidden'
               >
-                VIEW MORE
+                {t('common:view_more')}
               </Text>
 
               <div className='hidden px-[24px] tablet:block'>
@@ -206,8 +209,8 @@ const MatchingsTab = () => {
                   }}
                   className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
                 >
-                  <Text type='body-14-bold' color='primary-2'>
-                    VIEW MORE
+                  <Text type='body-14-bold' color='primary-2' className='uppercase'>
+                    {t('common:view_more')}
                   </Text>
                 </button>
               </div>

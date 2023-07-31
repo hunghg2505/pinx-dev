@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -15,6 +16,7 @@ interface IPopupMatchedPriceProps {
 const POPUP_CLASS_NAME = 'popup-matched-price';
 
 const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
+  const { t } = useTranslation(['stock', 'common']);
   const [popupWidth, setPopupWidth] = useState<number | undefined>();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
       className={classNames(styles.popupMatchedPrice, POPUP_CLASS_NAME)}
     >
       <Text type='body-16-bold' color='primary-5' className='text-center'>
-        Matched Price
+        {t('matched_price')}
       </Text>
 
       <table className='mt-[20px] text-right' style={{ width: `${popupWidth}px` }}>
@@ -48,17 +50,17 @@ const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
           <tr className='bg-[#EBEBEB] text-right'>
             <th className='py-[5px] pl-[16px] text-left'>
               <Text type='body-12-regular' color='primary-5'>
-                Time
+                {t('matchings.time')}
               </Text>
             </th>
             <th className='py-[5px]'>
               <Text type='body-12-regular' color='primary-5'>
-                Vol
+                {t('matchings.vol')}
               </Text>
             </th>
             <th className='py-[5px]'>
               <Text type='body-12-regular' color='primary-5'>
-                Price
+                {t('matchings.price')}
               </Text>
             </th>
             <th className='py-[5px] pr-[16px]'>
