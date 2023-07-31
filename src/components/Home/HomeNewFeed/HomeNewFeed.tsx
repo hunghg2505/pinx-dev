@@ -18,6 +18,7 @@ import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
@@ -76,6 +77,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { run: initUserProfile } = useProfileInitial();
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
 
   socket.on('connect', requestJoinIndex);
@@ -173,6 +175,16 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       type: dataPosts?.type,
     });
   };
+  React.useEffect(() => {
+    if (postDetailStatus.idPostDetail) {
+      const newData =
+        dataPosts?.list &&
+        [...dataPosts?.list].filter((item) => item.id !== postDetailStatus.idPostDetail);
+      mutate({
+        list: newData,
+      });
+    }
+  }, [postDetailStatus.idPostDetail]);
 
   return (
     <div className='relative px-[10px] mobile:pt-[10px] desktop:pt-0'>
