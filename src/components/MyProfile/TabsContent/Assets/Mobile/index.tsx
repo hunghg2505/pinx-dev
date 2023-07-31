@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import { ONE_LINK_DOWNLOAD } from 'src/constant';
+
 const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
@@ -21,20 +23,8 @@ const Mobile = () => {
               {t('start_investment')}
             </p>
             <Link
-              href='https://apps.apple.com/vn/app/pinex/id1570570518'
-              className='
-          line-[18px]
-          block
-          max-w-[260px]
-          rounded-[8px] bg-gradient-to-l
-          from-[#1D6CAB]
-        to-[#589DC0]
-        px-[24px]
-        py-[12px]
-        text-[14px]
-        font-[600]
-        text-white
-        '
+              href={ONE_LINK_DOWNLOAD}
+              className='line-[18px] block max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white hover:text-white'
             >
               {t('invest_now')}
             </Link>
