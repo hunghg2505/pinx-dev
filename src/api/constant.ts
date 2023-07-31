@@ -113,6 +113,7 @@ export const API_PATH = {
   PUBLIC_TOP_WATCHING: '/public/watchlist/top-watching',
   PUBLIC_TOP_MENTION: '/public/stock/top-mention',
   PRIVATE_REMOVE_STOCK: (code: string) => `/private/watchlist/stock/${code}/remove`,
+  PRIVATE_SORT_STOCK: (code: string) => `/private/watchlist/${code}/sort`,
   PRIVATE_SUGGESTED_STOCK: '/private/customer/watchlist/suggested/stockcodes',
   PUBLIC_TOP_CONFIG: '/public/stock/top-config',
   // theme
