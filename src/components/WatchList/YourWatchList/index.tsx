@@ -92,7 +92,7 @@ const YourWatchList = (props: IProps) => {
       onSuccess: () => {
         refreshInterest&&refreshInterest();
         refreshYourWatchList&&refreshYourWatchList();
-        console.log('Remove Stock Success!');
+        console.log('Drag Drop Success!');
       },
       onError: (e:any) => {
         console.log('Error!',e.error);
