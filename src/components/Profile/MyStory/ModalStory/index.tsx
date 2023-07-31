@@ -1,5 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 
+import classNames from 'classnames';
+
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 
@@ -63,8 +65,8 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
               </div>
             </div>
           </header>
-          <main className=' bg-neutral_black px-[16px] pb-[20px] pt-[40px]'>
-            <div className='h-[210px] w-full overflow-auto'>
+          <main className='bg-neutral_black px-[16px] pb-[20px] pt-[40px]'>
+            <div className={classNames('h-[210px] w-full overflow-auto', styles.caption)}>
               <Text type='body-16-regular' className='whitespace-pre-line leading-[21px]'>
                 {profileUser?.caption}
               </Text>
