@@ -65,14 +65,12 @@ const ComponentWatchList = (props: IProps) => {
         ...dataSocket,
       };
     }
-
     if (page_size) {
       return dataStock?.slice(0, page_size);
     }
 
     return dataStock;
-  }, [dataStock, dataStock, page_size]);
-
+  }, [dataStock, dataStock, page_size, dataSocket]);
   socket.on('public', (message: any) => {
     const data = message.data;
     if (data?.id === 3220) {

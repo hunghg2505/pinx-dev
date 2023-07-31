@@ -31,7 +31,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
-import { isImage } from '../../utils/common';
+import { isImage, validateHTML } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
@@ -160,15 +160,12 @@ const Editor = (props: IProps, ref?: any) => {
     setImageComment('');
     setImageCommentMobile(false);
   };
-  console.log('width', width);
   useImperativeHandle(ref, () => {
     return {
       onComment: (value: any, customerId: number, id: string) => {
-        console.log('aaa');
         return onComment(value, customerId, id);
       },
       onReply: () => {
-        console.log('123');
         editor?.commands?.focus(true, { scrollIntoView: false });
       },
       clearData: () => editor?.commands.clearContent(),
@@ -177,11 +174,13 @@ const Editor = (props: IProps, ref?: any) => {
   const onComment = (value: any, customerId: number, id: string) => {
     setIdReply(id);
     if (width && width >= 738) {
-      console.log('123');
       scrollToBottom();
       editor?.commands?.focus(true, { scrollIntoView: false });
+      editor?.commands.clearContent();
+      editor?.commands.insertContent(
+        `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
+      );
     } else {
-      console.log('bbb');
       editor?.commands.clearContent();
       editor?.commands.insertContent(
         `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
@@ -301,7 +300,15 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
+
     if (message?.toLowerCase()?.includes('script')) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+        />
+      ));
+    } else if (message && validateHTML(message)) {
       toast(() => (
         <Notification
           type='error'

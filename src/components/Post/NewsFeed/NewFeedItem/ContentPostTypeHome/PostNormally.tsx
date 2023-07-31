@@ -6,6 +6,7 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
+import ReactPlayer from 'react-player/youtube';
 
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import CustomLink from '@components/UI/CustomLink';
@@ -105,8 +106,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       return (
         <div
           id={`post-content-${postDetail.id}`}
-          className={classNames('', {
-            'h-[74px] overflow-hidden mobile-max:h-[70px] desktop:h-[76px]': showReadMore,
+          className={classNames('line-clamp-4', {
+            'h-[74px] overflow-hidden mobile-max:h-[66px] desktop:h-[80px]': showReadMore,
             '!h-auto': readMore,
           })}
           onClick={(event) => onHandleClick(event)}
@@ -229,6 +230,7 @@ const MetaContent = ({ metaData }: any) => {
 
 export const PostNormally = ({ postDetail, onComment }: any) => {
   const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
+  const [inView, setInView] = useState(false);
 
   const { imageMetaData, siteName, videoId } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
@@ -247,16 +249,26 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
   const MetaData = () => {
     if (siteName === 'youtube' && videoId) {
       return (
-        <InView>
+        <InView onChange={setInView} threshold={1}>
           {({ ref }) => (
             <div ref={ref} className='mt-4'>
-              <iframe
+              {/* <iframe
                 className='iframe-placeholder h-[345px] w-full'
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 scrolling='no'
-              ></iframe>
+              ></iframe> */}
+              <div className='iframe-placeholder h-[345px] w-full'>
+                <ReactPlayer
+                  url={`https://www.youtube.com/embed/${videoId}?rel=0`}
+                  playing={inView}
+                  muted={true}
+                  controls={true}
+                  height={'100%'}
+                  width={'100%'}
+                />
+              </div>
             </div>
           )}
         </InView>
