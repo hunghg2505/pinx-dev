@@ -93,7 +93,7 @@ const ItemWatchList = ({
       </div>
       {isEdit ? (
         <div className='flex pr-[12px]'>
-          <img src='/static/icons/iconSwitch.svg' alt='' className='h-[21px] w-[20px] opacity-0' />
+          <img src='/static/icons/iconSwitch.svg' alt='' className='h-[21px] w-[20px]' />
           <img
             src='/static/icons/iconCloseBlue.svg'
             alt=''
