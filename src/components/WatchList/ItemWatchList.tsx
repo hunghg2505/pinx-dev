@@ -21,8 +21,8 @@ const ItemWatchList = ({
   refresh: () => void;
 }) => {
   const { i18n } = useTranslation();
-  const highest_price = data?.hp || data?.refPrice;
-  const lowest_price = data?.lp || data?.refPrice;
+  const highest_price = data?.refPrice;
+  const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;

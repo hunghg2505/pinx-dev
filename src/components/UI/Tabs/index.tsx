@@ -62,16 +62,19 @@ const Tabs: React.FC<Props & Ref> = React.forwardRef((props: Props, ref: Ref['re
   //   }
   //   return left;
   // };
-  // React.useEffect(() => {
-  //   refScroll.current.scrollLeft = leftToScroll();
-  // });
+  React.useEffect(() => {
+    // refScroll.current.scrollLeft = leftToScroll();
+    const itemActive = refScroll.current?.querySelector(`.tab-20-${activeTab}`);
+    if (itemActive) {
+      itemActive.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, []);
 
   const onChangeTab = (newTab: any) => {
     setActiveTab(newTab);
     onChange(newTab);
 
     const itemActive = refScroll.current?.querySelector(`.tab-20-${newTab}`);
-    console.log({ itemActive });
 
     if (itemActive) {
       itemActive.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
