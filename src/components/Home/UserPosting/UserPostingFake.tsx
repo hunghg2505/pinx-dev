@@ -18,6 +18,7 @@ const UserPostingFake = () => {
         />
         <input
           type='text'
+          readOnly
           className='h-[36px] w-full flex-1 rounded-[5px] bg-[#fff] p-[10px] focus:outline-none'
           placeholder={t('what_is_on_your_mind')}
         />
