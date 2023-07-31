@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -9,6 +10,8 @@ import FormItem from '@components/UI/FormItem';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+
+import styles from './index.module.scss';
 
 interface IPopupReviewProps {
   visible: boolean;
@@ -27,6 +30,7 @@ const PopupReview = ({
   stockCode,
   message: messageProp,
 }: IPopupReviewProps) => {
+  const { t } = useTranslation(['stock', 'common']);
   const [currentStar, setCurrentStar] = useState(0);
   const [form] = Form.useForm();
 
@@ -61,6 +65,7 @@ const PopupReview = ({
       onClose={() => {
         onClose();
       }}
+      className={styles.modalReview}
     >
       <div className='fixed left-2/4 top-2/4 z-20 mx-[auto] my-[0] -translate-x-1/2 -translate-y-1/2 transform rounded-[8px] bg-[#F0F7FC] p-[24px] mobile:w-[calc(100%_-_32px)] tablet:w-[500px]'>
         <img
@@ -72,7 +77,9 @@ const PopupReview = ({
 
         <Form form={form} onFinish={onSubmit}>
           <Text type='body-20-bold' className='mt-[30px] text-[#0D0D0D]'>
-            What do you think about HPG?
+            {t('review_form.title', {
+              stockCode,
+            })}
           </Text>
 
           {/* star */}
@@ -82,7 +89,7 @@ const PopupReview = ({
 
           <FormItem name='message'>
             <textarea
-              placeholder='Enter your review'
+              placeholder={t('review_form.placeholder')}
               className='mb-[8px] mt-[16px] h-[230px] w-full resize-none rounded-[4px] border border-solid border-[#A6B0C3] p-[12px] text-[16px] text-[#808A9D] outline-none'
             />
           </FormItem>

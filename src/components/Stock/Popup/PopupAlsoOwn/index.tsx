@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import { ISubsidiaries } from '@components/Stock/type';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -13,11 +15,13 @@ interface IPopupAlsoOwnProps {
 }
 
 const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
+  const { t } = useTranslation(['stock', 'common']);
+
   return (
     <Modal visible={visible} onClose={onClose} className={styles.popup}>
       <div className='border-b border-solid border-[#EBEBEB] pb-[12px] pl-[20px]'>
         <Text type='body-20-semibold' className='text-[#0D0D0D]'>
-          Also Own
+          {t('also_own')}
         </Text>
       </div>
 
@@ -31,8 +35,8 @@ const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
           </div> */}
 
           <div className='inline-flex h-[20px] items-center justify-center rounded-[4px] border border-solid border-[#EBEBEB] px-[8px]'>
-            <Text type='body-10-regular' color='primary-5'>
-              UNLISTED
+            <Text type='body-10-regular' color='primary-5' className='uppercase'>
+              {t('unlisted')}
             </Text>
           </div>
         </div>
@@ -52,7 +56,7 @@ const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
 
           <div className='ml-[8px] text-right'>
             <Text type='body-12-regular' className='mb-[4px] text-[#999999]'>
-              Own
+              {t('own')}
             </Text>
             <Text type='body-16-semibold' className='text-[#0D0D0D]'>
               {data?.ownerRatio}%

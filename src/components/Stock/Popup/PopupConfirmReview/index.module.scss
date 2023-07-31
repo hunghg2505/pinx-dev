@@ -1,0 +1,7 @@
+.modalConfirmReview {
+  :global {
+    .rc-dialog-body {
+      @apply h-0 w-0 p-0;
+    }
+  }
+}

@@ -1,8 +1,12 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import Text from '@components/UI/Text';
 
 const IntradayTab = () => {
+  const { t } = useTranslation(['stock', 'common']);
+
   return (
     <div className='tablet:px-[24px]'>
       <table className='w-full border-collapse text-center'>
@@ -10,17 +14,17 @@ const IntradayTab = () => {
           <tr>
             <th className='border-y border-solid border-[#ccc] '>
               <Text type='body-12-regular' color='primary-5' className='bg-[#EBEBEB] py-[6px]'>
-                Price
+                {t('intraday.price')}
               </Text>
             </th>
             <th className='border border-solid border-[#ccc] '>
               <Text type='body-12-regular' color='primary-5' className='bg-[#EBEBEB] py-[6px]'>
-                Total Volume
+                {t('intraday.total_volume')}
               </Text>
             </th>
             <th className='border-y border-solid border-[#ccc] '>
               <Text type='body-12-regular' color='primary-5' className='bg-[#EBEBEB] py-[6px]'>
-                Range
+                {t('intraday.range')}
               </Text>
             </th>
           </tr>
