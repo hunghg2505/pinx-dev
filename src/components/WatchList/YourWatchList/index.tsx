@@ -195,13 +195,14 @@ const YourWatchList = (props: IProps) => {
                     {dataStock?.map((item: IWatchListItem, index:number) => {
                       return (
                         <Draggable key={index} draggableId={`${index}id`} index={index}>
-                          {(provided) => (
+                          {(provided, snapshot) => (
                             <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={classNames({
-                                'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px] mb-[16px]':
+                                '!bg-[#F0F7FC] !border-[#EFF2F5] ': snapshot.isDragging,
+                                'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px] mb-[16px] ':
                                 isEdit,
                                 'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
                                   !isEdit,
