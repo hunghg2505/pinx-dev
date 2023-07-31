@@ -15,6 +15,7 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
 const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
+  console.log('🚀 ~ file: PostNormally.tsx:18 ~ Content ~ postDetail:', postDetail);
   const { t } = useTranslation();
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);

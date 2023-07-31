@@ -57,7 +57,9 @@ const PostDetail = () => {
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const [width, setWidth] = React.useState<number>(0);
+  console.log('🚀 ~ file: index.tsx:60 ~ PostDetail ~ width:', width);
   const [showReply, setShowReply]: any = useState('');
+  console.log('🚀 ~ file: index.tsx:62 ~ PostDetail ~ showReply:', showReply);
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
 
@@ -94,11 +96,13 @@ const PostDetail = () => {
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
-    if (refSubReplies?.current?.onComment) {
-      refSubReplies?.current?.onComment(value, customerId, id);
-    }
-    if (refRepliesLaptop?.current?.onComment) {
-      refRepliesLaptop?.current?.onComment(value, customerId, id);
+    if (width > 737) {
+      if (refSubReplies?.current?.onComment) {
+        refSubReplies?.current?.onComment(value, customerId, id);
+      }
+    } else {
+      refRepliesLaptop?.current?.onComment &&
+        refRepliesLaptop?.current?.onComment(value, customerId, id);
     }
   };
 
@@ -210,9 +214,15 @@ const PostDetail = () => {
           >
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-                const isReply = item.children?.find((i) => {
-                  return i?.id === showReply;
-                });
+                console.log(
+                  '🚀 ~ file: index.tsx:215 ~ commentsOfPost?.data?.list?.map ~ item:',
+                  item,
+                );
+                // const isReply = item.children?.find((i) => {
+                //   return i?.id === showReply;
+                // });
+                const isReply = item.id === showReply;
+                console.log('🚀 ~ file: index.tsx:218 ~ isReply ~ isReply:', isReply);
                 return (
                   <div className='mt-[16px]' key={index}>
                     <ItemComment
