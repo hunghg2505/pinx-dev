@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
-import Dialog from 'rc-dialog';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
@@ -11,6 +10,7 @@ import { useShareStockActivity } from '@components/Stock/service';
 import { ShareStockAction } from '@components/Stock/type';
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -35,13 +35,13 @@ const PopupFollowStock = ({
   background,
   onRefreshStockActivities,
 }: IPopupFollowStockProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['stock', 'common']);
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
 
   const requestShareStockAct = useShareStockActivity({
     onSuccess: () => {
-      toast(() => <Notification type='success' message='You have successfully shared' />);
+      toast(() => <Notification type='success' message={t('share_stock.message_success')} />);
       onClose();
       onRefreshStockActivities();
     },
@@ -49,9 +49,14 @@ const PopupFollowStock = ({
 
   useEffect(() => {
     form.setFieldsValue({
-      shareContent: `${userLoginInfo.displayName} has just ${
-        isFollowedStock ? 'add' : 'deleted'
-      } ${stockCode} from their following list`,
+      shareContent: t('share_stock.content_post', {
+        displayName: userLoginInfo.displayName,
+        action: isFollowedStock ? t('share_stock.action_add') : t('share_stock.action_delete'),
+        stockCode,
+        from: isFollowedStock
+          ? t('share_stock.action_add_from')
+          : t('share_stock.action_delete_from'),
+      }),
     });
   }, [isFollowedStock]);
 
@@ -64,14 +69,14 @@ const PopupFollowStock = ({
   };
 
   return (
-    <Dialog visible={visible} onClose={onClose} className={styles.popupFollowStock}>
+    <Modal visible={visible} onClose={onClose} className={styles.popupFollowStock}>
       <img
         src='/static/icons/speaker.svg'
         alt='Icon speaker'
         className='mx-auto mb-[4px] mt-[12px] h-[52px] w-[52px]'
       />
       <Text type='body-24-bold' className='text-center' color='semantic-2-1'>
-        {isFollowedStock ? "I'm watching" : 'I unwatched'}
+        {isFollowedStock ? t('share_stock.i_am_watching') : t('share_stock.i_unwatched')}
       </Text>
       <Form form={form} className='mt-5' onFinish={onSubmit}>
         <FormItem
@@ -118,11 +123,11 @@ const PopupFollowStock = ({
               )}
 
               <Text type='body-12-medium' color='neutral-black' className='mt-[24px]'>
-                {isFollowedStock ? 'Watching' : 'Unwatch'}
+                {isFollowedStock ? t('share_stock.watching') : t('share_stock.unwatch')}
               </Text>
 
               <Text type='body-12-medium' color='neutral-darkgray' className='mt-[12px]'>
-                {t('made_on_pinex')}
+                {t('common:made_on_pinex')}
               </Text>
               <Text type='body-12-medium' color='neutral-darkgray' className='mt-[2px]'>
                 {dayjs().format('DD/MM/YYYY')}
@@ -132,10 +137,10 @@ const PopupFollowStock = ({
         </div>
 
         <MainButton type='submit' className='mt-[20px] w-full'>
-          {t('create_post')}
+          {t('common:create_post')}
         </MainButton>
       </Form>
-    </Dialog>
+    </Modal>
   );
 };
 

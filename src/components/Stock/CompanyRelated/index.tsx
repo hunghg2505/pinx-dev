@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
@@ -15,6 +16,7 @@ const DESC_MAX_LINE = 1;
 const DESC_MAX_HEIGHT = DESC_LINE_HEIGHT * DESC_MAX_LINE;
 
 const CompanyRelated = () => {
+  const { t } = useTranslation(['stock', 'common']);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const descRef = useRef<HTMLDivElement | null>(null);
@@ -48,7 +50,7 @@ const CompanyRelated = () => {
   return (
     <>
       <Head>
-        <title>Company Related</title>
+        <title>{t('company_related_title')}</title>
       </Head>
 
       <div className='rounded-[8px] bg-white pb-[20px] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
@@ -67,7 +69,7 @@ const CompanyRelated = () => {
           </div>
 
           <Text type='body-20-bold' color='primary-5' className='hidden tablet:block'>
-            Company Related
+            {t('company_related_title')}
           </Text>
         </div>
 
@@ -106,7 +108,7 @@ const CompanyRelated = () => {
                   color='primary-2'
                   className='mt-[12px] inline-block cursor-pointer'
                 >
-                  {isSeeMore ? 'Less' : 'More...'}
+                  {isSeeMore ? t('common:see_less') : t('common:see_more') + '...'}
                 </Text>
               )}
             </div>
@@ -114,11 +116,11 @@ const CompanyRelated = () => {
 
           <div className='mb-[32px] mt-[52px] flex items-center justify-between border-b border-solid border-b-[#EBEBEB] pb-[16px]'>
             <Text type='body-14-semibold' className='text-[#0D0D0D]'>
-              Total: {companiesRelated?.data.totalElements}
+              {t('company_related_total')}: {companiesRelated?.data.totalElements}
             </Text>
 
             <Text type='body-14-regular' color='primary-5'>
-              By market cap (Bil VND)
+              {t('company_related_by_market_cap')}
             </Text>
           </div>
 

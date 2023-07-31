@@ -76,6 +76,7 @@ const ModalPeopleYouKnow = (props: Iprops) => {
                   data={people}
                   reload={reload}
                   refreshList={refreshList}
+                  onClosePopup={onVisible}
                 />
               );
             })}

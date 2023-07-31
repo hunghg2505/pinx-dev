@@ -1,12 +1,15 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
 
 const MovementsTab = () => {
+  const { t } = useTranslation(['stock', 'common']);
+
   return (
     <>
       <div className='flex flex-col flex-wrap gap-y-[12px] px-[16px] tablet:flex-row tablet:gap-x-[15px] tablet:px-[22px]'>
@@ -16,7 +19,7 @@ const MovementsTab = () => {
               <tr className='h-[32px]'>
                 <td className='align-middle'>
                   <Text type='body-12-regular' className='text-[#474D57]'>
-                    Hight
+                    {t('movements.hight')}
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
@@ -28,7 +31,7 @@ const MovementsTab = () => {
               <tr className='h-[32px]'>
                 <td className='align-middle'>
                   <Text type='body-12-regular' className='text-[#474D57]'>
-                    Low
+                    {t('movements.low')}
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
@@ -40,7 +43,7 @@ const MovementsTab = () => {
               <tr className='h-[32px]'>
                 <td className='align-middle'>
                   <Text type='body-12-regular' className='text-[#474D57]'>
-                    Last price
+                    {t('movements.last_price')}
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
@@ -157,7 +160,7 @@ const MovementsTab = () => {
               <tr className='h-[32px]'>
                 <td className='align-middle'>
                   <Text type='body-12-regular' className='pl-[12px] text-[#474D57]'>
-                    Ceiling
+                    {t('movements.ceiling')}
                   </Text>
                 </td>
                 <td className='text-right align-middle'>
@@ -169,7 +172,7 @@ const MovementsTab = () => {
               <tr className='h-[32px]'>
                 <td className='align-middle'>
                   <Text type='body-12-regular' className='pl-[12px] text-[#474D57]'>
-                    Ref
+                    {t('movements.ref')}
                   </Text>
                 </td>
                 <td className='text-right align-middle'>
@@ -181,7 +184,7 @@ const MovementsTab = () => {
               <tr className='h-[32px]'>
                 <td className='align-middle'>
                   <Text type='body-12-regular' className='pl-[12px] text-[#474D57]'>
-                    Floor
+                    {t('movements.floor')}
                   </Text>
                 </td>
                 <td className='text-right align-middle'>
@@ -198,7 +201,7 @@ const MovementsTab = () => {
       <div className='mt-[20px] flex flex-wrap tablet:px-[22px]'>
         <div className='w-1/2 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            Total Vol.
+            {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -207,7 +210,7 @@ const MovementsTab = () => {
 
         <div className='w-1/2 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            Total Vol.
+            {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -216,7 +219,7 @@ const MovementsTab = () => {
 
         <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            Total Vol.
+            {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -225,7 +228,7 @@ const MovementsTab = () => {
 
         <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            Total Vol.
+            {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -234,7 +237,7 @@ const MovementsTab = () => {
 
         <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            Total Vol.
+            {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300

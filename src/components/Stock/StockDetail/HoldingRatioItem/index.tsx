@@ -18,7 +18,7 @@ const HoldingRatioItem = ({ label, value, className }: HoldingRatioItemProps) =>
         className,
       )}
     >
-      <Text type='body-14-regular' className='text-[#999999]'>
+      <Text type='body-14-regular' className='uppercase text-[#999999]'>
         {label}
       </Text>
 

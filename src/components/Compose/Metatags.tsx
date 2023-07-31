@@ -47,13 +47,15 @@ export const Metatags = ({
       <div className='relative'>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
-            <img
-              src={imageUrl}
-              alt=''
-              className={classNames('h-[200px] w-full bg-[#ebebeb7c] object-cover', {
-                '!object-contain': url?.includes('tiktok'),
-              })}
-            />
+            <div className='overflow-hidden'>
+              <img
+                src={imageUrl}
+                alt=''
+                className={classNames('h-[200px] w-full bg-[#ebebeb7c] object-cover', {
+                  '-translate-y-[13px] scale-[1.48] !object-contain': url?.includes('tiktok'),
+                })}
+              />
+            </div>
           )}
 
           <div className='bg-[#EBEBEB] p-[10px]'>

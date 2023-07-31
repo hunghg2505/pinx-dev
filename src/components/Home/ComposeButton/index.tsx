@@ -32,7 +32,7 @@ const ComposeButton = () => {
 
   return (
     <div
-      className={classNames('fixed right-[10px] z-50 h-[44px]', {
+      className={classNames('fixed right-[10px] z-[100] h-[44px]', {
         'bottom-[10px]': isLogin,
         'bottom-[60px]': !isLogin,
       })}

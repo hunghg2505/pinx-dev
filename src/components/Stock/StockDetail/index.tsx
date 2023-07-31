@@ -81,51 +81,8 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 
-const fakeMultipleLanguage = (value: string) => {
-  switch (value) {
-    case FinancialIndexKey.marketCap: {
-      return 'MARKET CAP';
-    }
-    case FinancialIndexKey.volume: {
-      return 'VOLUME';
-    }
-    case FinancialIndexKey.pe: {
-      return 'P/E';
-    }
-    case FinancialIndexKey.roe: {
-      return 'ROE';
-    }
-    default: {
-      return '';
-    }
-  }
-};
-
-const convertFinancialIndexData = (data?: IFinancialIndex) => {
-  if (data) {
-    const onlyKeys = new Set([
-      FinancialIndexKey.marketCap,
-      FinancialIndexKey.volume,
-      FinancialIndexKey.pe,
-      FinancialIndexKey.roe,
-    ]);
-
-    const arr = Object.keys(data);
-    arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
-
-    return arr
-      .filter((item) => onlyKeys.has(item))
-      .map((item) => ({
-        label: fakeMultipleLanguage(item),
-        value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
-      }));
-  }
-
-  return [];
-};
-
 const StockDetail = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation(['stock', 'common']);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
@@ -174,18 +131,30 @@ const StockDetail = () => {
       refreshMyStocks();
 
       const title = isFollowedStock
-        ? `Tell people the reason you unwatched ${stockCode}?`
-        : `Tell people the reason you watched for ${stockCode}?`;
+        ? t('tell_people_reason_unwatched', {
+            stockCode,
+          })
+        : t('tell_people_reason_watched', {
+            stockCode,
+          });
 
-      toast((t) => (
-        <NotificationFollowStock
-          title={title}
-          onClickShare={() => {
-            toast.dismiss(t.id);
-            setOpenPopupFollowStock(true);
-          }}
-        />
-      ));
+      toast(
+        (t) => (
+          <NotificationFollowStock
+            title={title}
+            onClickShare={() => {
+              toast.dismiss(t.id);
+              setOpenPopupFollowStock(true);
+            }}
+          />
+        ),
+        {
+          duration: 5000,
+          style: {
+            maxWidth: '90vw',
+          },
+        },
+      );
     },
   });
 
@@ -232,11 +201,12 @@ const StockDetail = () => {
   const checkUserTypeReview = (callback: () => void) => {
     if (isLogin) {
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
-        toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
+        toast(() => (
+          <Notification type='error' message={t('common:message_account_pending_to_close')} />
+        ));
       } else if (statusUser === USERTYPE.VSD) {
         callback();
       } else {
-        // PopupComponent.openEKYC();
         setPopupStatus({
           ...popupStatus,
           popupEkyc: true,
@@ -254,6 +224,49 @@ const StockDetail = () => {
   const handleReviewSuccess = () => {
     refreshStockDetails();
     setOpenPopupReview(false);
+  };
+
+  const manualTranslate = (value: string) => {
+    switch (value) {
+      case FinancialIndexKey.marketCap: {
+        return t('financial_index.market_cap');
+      }
+      case FinancialIndexKey.volume: {
+        return t('financial_index.volume');
+      }
+      case FinancialIndexKey.pe: {
+        return t('financial_index.p/e');
+      }
+      case FinancialIndexKey.roe: {
+        return t('financial_index.roe');
+      }
+      default: {
+        return '';
+      }
+    }
+  };
+
+  const convertFinancialIndexData = (data?: IFinancialIndex) => {
+    if (data) {
+      const onlyKeys = new Set([
+        FinancialIndexKey.marketCap,
+        FinancialIndexKey.volume,
+        FinancialIndexKey.pe,
+        FinancialIndexKey.roe,
+      ]);
+
+      const arr = Object.keys(data);
+      arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
+
+      return arr
+        .filter((item) => onlyKeys.has(item))
+        .map((item) => ({
+          label: manualTranslate(item),
+          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
+        }));
+    }
+
+    return [];
   };
 
   return (
@@ -321,7 +334,7 @@ const StockDetail = () => {
                 className='h-[16px] w-[16px] object-contain'
               />
               <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
-                Follow stock
+                {t('follow_stock')}
               </Text>
             </>
           )}
@@ -392,7 +405,7 @@ const StockDetail = () => {
       {/* chart */}
       <div className='mt-[8px] border-b border-solid border-[#EBEBEB] px-[16px] pb-[8px] tablet:px-[24px]'>
         <iframe
-          src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=en&ref=1000`}
+          src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=1000`}
           frameBorder='0'
           className='h-[350px] w-full'
         ></iframe>
@@ -400,15 +413,15 @@ const StockDetail = () => {
 
       {/* tab */}
       <Tabs className={styles.tabs} defaultActiveKey='1'>
-        <TabPane tab='Movements' tabKey='1'>
+        <TabPane tab={t('tab.movements')} tabKey='1'>
           <MovementsTab />
         </TabPane>
 
-        <TabPane tab='Matchings' key='2'>
+        <TabPane tab={t('tab.matchings')} key='2'>
           <MatchingsTab />
         </TabPane>
 
-        <TabPane tab='Intraday' key='3'>
+        <TabPane tab={t('tab.intraday')} key='3'>
           <IntradayTab />
         </TabPane>
       </Tabs>
@@ -416,7 +429,7 @@ const StockDetail = () => {
       {/* intro */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <Text type='body-20-semibold' className='mb-[16px]'>
-          Intro
+          {t('intro')}
         </Text>
 
         <div>
@@ -439,7 +452,7 @@ const StockDetail = () => {
               className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
             >
               <Text type='body-12-semibold' color='primary-2'>
-                {isSeeMore ? 'Less' : 'More'}
+                {isSeeMore ? t('common:see_less') : t('common:see_more') + '...'}
               </Text>
             </button>
           )}
@@ -448,7 +461,7 @@ const StockDetail = () => {
 
       <div>
         <div className='mb-[16px] mt-[28px] px-[16px] tablet:px-[24px]'>
-          <Text type='body-20-semibold'>Brand awareness</Text>
+          <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
         </div>
 
         <div className='relative'>
@@ -497,7 +510,7 @@ const StockDetail = () => {
       {/* main business */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <div className='mb-[4px]'>
-          <Text type='body-20-semibold'>Main business</Text>
+          <Text type='body-20-semibold'>{t('main_business')}</Text>
         </div>
 
         {taggingInfo?.data?.industries.map((item, index) => (
@@ -538,7 +551,7 @@ const StockDetail = () => {
       {/* revenue */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <Text type='body-20-semibold' className='mb-[16px]'>
-          Revenue Sources
+          {t('revenue_sources')}
         </Text>
 
         <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
@@ -575,7 +588,7 @@ const StockDetail = () => {
       {/* highlights */}
       <div className='mt-[28px] px-[16px] pb-[28px] tablet:px-[24px]'>
         <Text type='body-20-semibold' className='mb-[16px]'>
-          Highlights
+          {t('highlights')}
         </Text>
 
         {taggingInfo?.data?.highlights && taggingInfo.data.highlights.length > 6 && isMobile ? (
@@ -612,7 +625,7 @@ const StockDetail = () => {
         <div className='mb-[28px] pt-[28px]'>
           <div className='px-[16px] tablet:px-[24px]'>
             <Text type='body-20-semibold' className='mb-[8px]'>
-              Also Own
+              {t('also_own')}
             </Text>
 
             <div className='flex flex-col gap-y-[12px]'>
@@ -625,7 +638,7 @@ const StockDetail = () => {
               <Link href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
                 <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                   <Text type='body-14-bold' color='primary-2'>
-                    See more
+                    {t('common:see_more')}
                   </Text>
                 </button>
               </Link>
@@ -638,10 +651,10 @@ const StockDetail = () => {
       <div className='pt-[28px]'>
         <div className='px-[16px] tablet:px-[24px]'>
           <Text type='body-20-semibold' className='mb-[16px]'>
-            Rating
+            {t('rating.title')}
           </Text>
           <Text type='body-14-regular' className='mb-[12px]'>
-            How do you like this stock? Let’s spread to the world of investors
+            {t('rating.description')}
           </Text>
 
           <div className='mb-[28px] flex flex-col gap-y-[12px] tablet:flex-row tablet:justify-between'>
@@ -653,7 +666,7 @@ const StockDetail = () => {
             <div className='flex gap-x-[52px]'>
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
-                  Avg. score
+                  {t('rating.avg_score')}
                 </Text>
                 <Text type='body-20-medium' color='semantic-2-1'>
                   {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
@@ -662,7 +675,7 @@ const StockDetail = () => {
 
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
-                  Votes
+                  {t('rating.votes')}
                 </Text>
                 <Text type='body-20-medium' className='text-[#0D0D0D]'>
                   {stockDetails?.data.details.rate.totalRates}
@@ -671,7 +684,7 @@ const StockDetail = () => {
 
               <div>
                 <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
-                  Reviews
+                  {t('rating.reviews')}
                 </Text>
 
                 <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
@@ -704,7 +717,7 @@ const StockDetail = () => {
                 <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                   <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                     <Text type='body-14-bold' color='primary-2'>
-                      See more review
+                      {t('rating.see_more')}
                     </Text>
                   </button>
                 </Link>
@@ -712,9 +725,9 @@ const StockDetail = () => {
             </>
           ) : (
             <EmptyData
-              title='No recent review'
-              description='Recent review will show up here,so you can easily view them here later'
-              textHasAction='Review now'
+              title={t('rating.empty_title')}
+              description={t('rating.empty_description')}
+              textHasAction={t('rating.empty_action')}
               onClickTextHasAct={() => checkUserTypeReview(() => setOpenPopupReview(true))}
             />
           )}
@@ -723,9 +736,9 @@ const StockDetail = () => {
 
       {/* community */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
-        <Text type='body-20-semibold'>Community</Text>
+        <Text type='body-20-semibold'>{t('community')}</Text>
         <Text type='body-14-regular' className='mt-[16px]'>
-          Who is subcribed or investing in this company
+          {t('community_description')}
         </Text>
 
         <div className='mt-[16px] flex items-center justify-between tablet:justify-start'>
@@ -776,7 +789,7 @@ const StockDetail = () => {
       {/* recent news */}
       <div className='mt-[28px]'>
         <div className='mb-[4px] px-[16px] tablet:px-[24px]'>
-          <Text type='body-20-semibold'>Recent news</Text>
+          <Text type='body-20-semibold'>{t('recent_news')}</Text>
         </div>
 
         {stockNews?.data.list && stockNews.data.list.length > 0 && (
@@ -790,7 +803,9 @@ const StockDetail = () => {
                 <Link href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
                   <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
                     <Text type='body-14-bold' color='primary-2'>
-                      More {stockDetail?.data?.stockCode} news
+                      {t('more_news', {
+                        stockCode: stockDetail?.data?.stockCode,
+                      })}
                     </Text>
                   </button>
                 </Link>
@@ -804,7 +819,7 @@ const StockDetail = () => {
       {stockThemes && stockThemes.data.length > 0 && (
         <div className='mt-[28px]'>
           <div className='mb-[16px] px-[16px] tablet:px-[24px]'>
-            <Text type='body-20-semibold'>Featured in themes</Text>
+            <Text type='body-20-semibold'>{t('featured_in_themes')}</Text>
           </div>
 
           <div className='flex gap-x-[12px] px-[16px] tablet:px-[24px]'>
@@ -818,11 +833,11 @@ const StockDetail = () => {
       {/* calendar */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <Text type='body-20-semibold' className='mb-[16px]'>
-          Financial calendar
+          {t('financial_calendar_title')}
         </Text>
 
         <Text type='body-14-regular' className='mb-[12px]'>
-          Most recent & upcoming events
+          {t('financial_calendar_desc')}
         </Text>
 
         <div className='grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:grid-cols-2'>
@@ -835,7 +850,9 @@ const StockDetail = () => {
           <Link href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
             <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
               <Text type='body-14-bold' color='primary-2'>
-                More {stockDetail?.data?.stockCode} events
+                {t('more_events', {
+                  stockCode: stockDetail?.data?.stockCode,
+                })}
               </Text>
             </button>
           </Link>
@@ -845,16 +862,16 @@ const StockDetail = () => {
       {/* financial */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
         <Text type='body-20-semibold' className='mb-[16px]'>
-          Financial indicator
+          {t('financial_indicator_title')}
         </Text>
 
         <div className='tablet:hidden'>
           <Tabs className={styles.financialTab} defaultActiveKey='1'>
-            <TabPane tab='Quarters' tabKey='1'>
+            <TabPane tab={t('financial_indicator_quarters')} tabKey='1'>
               <FinancialQuartersTab />
             </TabPane>
 
-            <TabPane tab='Annual' key='2'>
+            <TabPane tab={t('financial_indicator_annual')} key='2'>
               <FinancialAnnualTab />
             </TabPane>
           </Tabs>
@@ -868,7 +885,7 @@ const StockDetail = () => {
 
       {/* shareholders */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
-        <Text type='body-20-bold'>Shareholders</Text>
+        <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
         {/* chart */}
         <div className='mt-[28px] flex justify-between gap-x-[12px] tablet:items-center'>
@@ -903,7 +920,7 @@ const StockDetail = () => {
 
       {/* holding ratio */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
-        <Text type='body-20-semibold'>Holding ratio</Text>
+        <Text type='body-20-semibold'>{t('holding_ratio_title')}</Text>
 
         <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
           {holdingRatio?.data.map((item, index) => (
@@ -913,7 +930,7 @@ const StockDetail = () => {
       </div>
 
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
-        <Text type='body-20-semibold'>Financial index</Text>
+        <Text type='body-20-semibold'>{t('financial_index_title')}</Text>
 
         <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
           {convertFinancialIndexData(financialIndex?.data).map((item, index) => (
@@ -924,7 +941,7 @@ const StockDetail = () => {
 
       {/* activities */}
       <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
-        <Text type='body-20-semibold'>Activities</Text>
+        <Text type='body-20-semibold'>{t('activities_title')}</Text>
 
         <div className='flex flex-col gap-y-[16px] py-[20px]'>
           {stockActivities?.data.list.map((item, index) => (

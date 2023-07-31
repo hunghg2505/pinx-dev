@@ -27,11 +27,12 @@ interface IPostActionProps {
   totalLikes: number;
   totalComments: number;
   urlPost: string;
+  className?: string;
 }
 
 const PostAction = (props: IPostActionProps) => {
   const { t } = useTranslation('common');
-  const { isLike, idPost, onNavigate, totalLikes, totalComments, urlPost } = props;
+  const { isLike, idPost, onNavigate, totalLikes, totalComments, urlPost, className } = props;
 
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -133,7 +134,12 @@ const PostAction = (props: IPostActionProps) => {
 
   return (
     <>
-      <div className='action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]'>
+      <div
+        className={classNames(
+          'action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]',
+          className,
+        )}
+      >
         <div
           className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
           onClick={handleLikeOrUnLikePost}

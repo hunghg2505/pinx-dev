@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import Text from '../Text';
 
 interface INotificationFollowStockProps {
@@ -8,6 +10,7 @@ interface INotificationFollowStockProps {
 }
 
 const NotificationFollowStock = ({ title, onClickShare }: INotificationFollowStockProps) => {
+  const { t } = useTranslation();
   return (
     <div className='flex w-full max-w-sm items-center'>
       <img
@@ -22,10 +25,10 @@ const NotificationFollowStock = ({ title, onClickShare }: INotificationFollowSto
 
       <button
         onClick={onClickShare}
-        className='ml-[8px] h-[36px] rounded-[8px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[29px]'
+        className='ml-[8px] h-[36px] rounded-[8px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px]'
       >
-        <Text type='body-14-bold' color='cbwhite'>
-          Share
+        <Text type='body-14-bold' color='cbwhite' className='whitespace-nowrap'>
+          {t('share')}
         </Text>
       </button>
     </div>

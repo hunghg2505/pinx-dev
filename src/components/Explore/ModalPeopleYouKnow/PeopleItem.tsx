@@ -12,7 +12,6 @@ import {
   requestUnFollowUser,
 } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
-import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
@@ -25,9 +24,10 @@ interface Iprops {
   data: ISuggestionPeople;
   reload?: () => void;
   refreshList?: () => void;
+  onClosePopup?: () => void;
 }
 const PeopleItem = (props: Iprops) => {
-  const { data, reload, refreshList } = props;
+  const { data, reload, refreshList, onClosePopup } = props;
   const { run: getUserProfile } = useProfileInitial();
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -88,6 +88,12 @@ const PeopleItem = (props: Iprops) => {
   };
   const name =
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
+
+  const handleNavigateToUserDetail = () => {
+    onClosePopup && onClosePopup();
+    router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id));
+  };
+
   return (
     <div
       className={classNames(
@@ -98,46 +104,44 @@ const PeopleItem = (props: Iprops) => {
         },
       )}
     >
-      <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data?.id)}>
-        <div className='flex cursor-pointer items-center'>
-          {data?.avatar ? (
-            <img
-              src={data?.avatar}
-              alt=''
-              className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
-            />
-          ) : (
-            <div className='mr-[8px] h-[44px] w-[44px]'>
-              <AvatarDefault name={name} />
-            </div>
-          )}
+      <div className='flex cursor-pointer items-center' onClick={handleNavigateToUserDetail}>
+        {data?.avatar ? (
+          <img
+            src={data?.avatar}
+            alt=''
+            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
+          />
+        ) : (
+          <div className='mr-[8px] h-[44px] w-[44px]'>
+            <AvatarDefault name={name} />
+          </div>
+        )}
 
-          <Text type='body-14-semibold' className='text-[#474D57]'>
-            {data?.displayName}
-          </Text>
+        <Text type='body-14-semibold' className='text-[#474D57]'>
+          {data?.displayName}
+        </Text>
 
-          {data?.isFeatureProfile && (
-            <img
-              src='/static/icons/iconKol.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='h-[20px] w-[20px]'
-            />
-          )}
-          {data?.isKol && (
-            <img
-              src='/static/icons/iconTick.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='ml-[8px] h-[16px] w-[16px]'
-            />
-          )}
-        </div>
-      </CustomLink>
+        {data?.isFeatureProfile && (
+          <img
+            src='/static/icons/iconKol.svg'
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='h-[20px] w-[20px]'
+          />
+        )}
+        {data?.isKol && (
+          <img
+            src='/static/icons/iconTick.svg'
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='ml-[8px] h-[16px] w-[16px]'
+          />
+        )}
+      </div>
 
       <div
         className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {

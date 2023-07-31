@@ -218,5 +218,6 @@
   "create_post_placeholder": "Sử dụng % để đề cập đến mã cổ phiếu, # để hashtag bài viết, @ để đề cập đến người khác",
   "recent": "Gần đây",
   "request_password_msg": "Yêu cầu lấy lại mật khẩu thành công",
-  "join_date": "Ngày tham gia"
+  "join_date": "Ngày tham gia",
+  "activity.tooMany.message": "Hết lượt đăng hoạt động trong ngày"
 }

@@ -252,11 +252,12 @@ export const formatNumber = (value: number) => {
   return value.toLocaleString('en-US');
 };
 
-export const getMonthName = (monthNumber: number) => {
+export const getMonthName = (monthNumber: number, localeParam = 'en-US') => {
+  const locale = localeParam === 'vi' ? 'vi-VN' : localeParam;
   const date = new Date();
   date.setMonth(monthNumber - 1);
 
-  return date.toLocaleString('en-US', { month: 'long' });
+  return date.toLocaleString(locale, { month: 'long' });
 };
 
 export const encryptPassword = (value: string) => {

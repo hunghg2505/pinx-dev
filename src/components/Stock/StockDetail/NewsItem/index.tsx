@@ -19,8 +19,6 @@ interface INewsItemProps {
 const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
   const router = useRouter();
 
-  const urlPost = window.location.origin + '/post/' + data.id;
-
   const handleOpenLink = () => {
     router.push({
       pathname: ROUTE_PATH.REDIRECT,
@@ -84,12 +82,12 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
 
       <PostAction
         idPost={data.id}
-        urlPost={urlPost}
+        urlPost={'/post' + data.id}
         isLike={data.isLike}
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}
-        // onRefreshPostDetail={onRefreshNews}
         onNavigate={goToPostDetail}
+        className='!border-none'
       />
     </div>
   );
