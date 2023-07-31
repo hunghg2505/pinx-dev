@@ -142,7 +142,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     <>
       <PostContent />
 
-      {showReadMore && !postThemeId ? (
+      {showReadMore && !postThemeId && !isPostDetailPath ? (
         <Text
           type='body-14-regular'
           color='neutral-3'
