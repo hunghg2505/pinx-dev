@@ -1,7 +1,5 @@
 import React from 'react';
 
-import IsFeatureProfile from './IsFeatureProfile';
-
 const Name = ({
   displayName,
   isKol,
@@ -27,7 +25,9 @@ const Name = ({
           />
         )}
 
-        {isFeatureProfile && <IsFeatureProfile />}
+        {isFeatureProfile && (
+          <img src='/static/icons/iconStarFollow.svg' alt='star' className='h-[20px] w-[20px]' />
+        )}
       </div>
     </>
   );

@@ -38,7 +38,11 @@ const PopupSubsribeTheme = (props: IProps) => {
       handleClose();
     },
     onError(e: any) {
-      toast(() => <Notification type='error' message={e?.error} />);
+      let error = e?.error;
+      if (e?.errorCode && e.errorCode === 'error.activity.tooMany') {
+        error = t('activity.tooMany.message');
+      }
+      toast(() => <Notification type='error' message={error} />);
     },
   });
 

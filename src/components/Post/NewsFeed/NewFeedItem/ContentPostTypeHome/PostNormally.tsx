@@ -187,16 +187,19 @@ const MetaContent = ({ metaData }: any) => {
       <div className='relative '>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
-            <img
-              src={imageUrl}
-              alt=''
-              className={classNames(
-                'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
-                {
-                  '!object-contain': url?.includes('tiktok'),
-                },
-              )}
-            />
+            <div className='overflow-hidden'>
+              <img
+                src={imageUrl}
+                alt=''
+                className={classNames(
+                  'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
+                  {
+                    '-translate-y-[18px] scale-[1.48] !object-contain mobile-max:-translate-y-[12px]':
+                      url?.includes('tiktok'),
+                  },
+                )}
+              />
+            </div>
           )}
 
           <div className='bg-[#EBEBEB] p-[10px]'>

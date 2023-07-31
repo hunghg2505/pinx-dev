@@ -54,7 +54,7 @@ const WatchList = () => {
 
 const ContentRight = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople({
-    staleTime: -1,
+    // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
   });
   const { t } = useTranslation('common');

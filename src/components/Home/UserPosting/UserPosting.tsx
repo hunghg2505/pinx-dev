@@ -11,7 +11,6 @@ import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
 import Notification from '@components/UI/Notification';
-import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -67,57 +66,27 @@ const UserPosting = ({ onAddNewPost }: any) => {
 
   return (
     <>
-      <div className='box-shadow card-style rounded-[8px] bg-[#FFFFFF] p-[20px] mobile:hidden tablet:mb-[20px] tablet:block'>
-        <div
-          className='flex items-center'
-          onClick={() => {
-            router.push(ROUTE_PATH.MY_PROFILE);
-          }}
-        >
+      <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
+        <div className='flex items-center'>
           {userLoginInfo?.avatar && (
             <img
               src={userLoginInfo?.avatar}
               alt=''
               width={0}
               height={0}
+              onClick={() => {
+                router.push(ROUTE_PATH.MY_PROFILE);
+              }}
               sizes='100vw'
               className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
             />
           )}
-
-          <div className='flex items-center'>
-            <Text type='body-16-semibold' className='w-full max-w-[160px] truncate'>
-              {userLoginInfo?.displayName}
-            </Text>
-
-            {userLoginInfo?.isKol && (
-              <img
-                src='/static/icons/iconTick.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='ml-[8px] h-[16px] w-[16px] object-contain'
-              />
-            )}
-
-            {userLoginInfo?.isFeatureProfile && (
-              <img
-                src='/static/icons/iconKol.svg'
-                alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
-                className='ml-[2px] h-[20px] w-[20px] object-contain'
-              />
-            )}
-          </div>
-        </div>
-        <div className='mt-[5px] pl-[61px]'>
-          <textarea
+          <input
+            type='text'
             onClick={onShowModal}
-            placeholder={t('what_is_in_your_mind')}
-            className='w-full rounded-[5px] bg-[#EFF2F5] pl-[10px] pt-[10px] focus:outline-none desktop:h-[70px]'
+            readOnly
+            className='h-[36px] w-full flex-1 rounded-[5px] bg-[#fff] p-[10px] focus:outline-none'
+            placeholder={t('what_is_on_your_mind')}
           />
         </div>
       </div>
