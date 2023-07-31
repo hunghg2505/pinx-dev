@@ -34,7 +34,6 @@ export const ROUTE_PATH = {
   STOCK_SUBSCRIBER: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/subscriber`,
   STOCK_RELATED: (stockCode: string, hashtagId: string) =>
     `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/related/${hashtagId}`,
-  PAGE_NOT_FOUND: '/page-not-found',
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
   GIFTCASH: '/gift-cash',

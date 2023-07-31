@@ -14,6 +14,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 import { isUnubsribeThemeAtom, popupThemeDataAtom } from '@store/theme';
+import { validateHTML } from '@utils/common';
 
 import { useShareThemeActivity } from './service';
 
@@ -66,7 +67,16 @@ const PopupSubsribeTheme = (props: IProps) => {
       themeCode: popupThemeData.code || '',
       themeName: popupThemeData.name || '',
     };
-    requestShareThemeActivity.run(payload);
+    if (values.shareContent && validateHTML(values.shareContent)) {
+      toast(() => (
+        <Notification
+          type='error'
+          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+        />
+      ));
+    } else {
+      requestShareThemeActivity.run(payload);
+    }
   };
 
   return (
