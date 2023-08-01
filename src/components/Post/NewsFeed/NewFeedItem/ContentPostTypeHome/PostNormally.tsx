@@ -54,10 +54,11 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
 
       if (ele?.clientHeight) {
+        console.log('123', ele?.clientHeight);
         if (window.innerWidth > 768) {
-          setShowReadMore(ele?.clientHeight > 78);
+          setShowReadMore(ele?.clientHeight > 84);
         } else {
-          setShowReadMore(ele?.clientHeight > 74);
+          setShowReadMore(ele?.clientHeight > 84);
         }
       }
       clearTimeout(t);
@@ -106,8 +107,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       return (
         <div
           id={`post-content-${postDetail.id}`}
-          className={classNames('line-clamp-4', {
-            'h-[74px] overflow-hidden mobile-max:h-[81px] desktop:h-[80px]': showReadMore,
+          className={classNames('', {
+            'h-[74px] overflow-hidden mobile-max:h-[81px] desktop:h-[84px]': showReadMore,
             '!line-clamp-none !h-auto': readMore || isPostDetailPath,
           })}
           onClick={(event) => onHandleClick(event)}
