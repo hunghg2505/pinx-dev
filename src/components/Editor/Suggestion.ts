@@ -21,12 +21,18 @@ export default {
 
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect,
-          appendTo: () => document.body,
+          appendTo: 'parent',
           content: component.element,
           showOnCreate: true,
           interactive: true,
           trigger: 'manual',
-          placement: 'bottom-start',
+          offset: () => {
+            if (props.editor.options.element.getBoundingClientRect().y - window.scrollY - 300 > 0) {
+              return [50, -50];
+            }
+            // [y,x]
+            return [0, -(component.element.firstChild.offsetHeight + 100)];
+          },
         });
       },
 
