@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 export const ActivityTheme = ({
   // onRef,
@@ -20,18 +21,11 @@ export const ActivityTheme = ({
   messagePostFormat,
 }: any) => {
   const { t } = useTranslation();
-  const [height, setHeight] = React.useState(0);
-  const [readMore, setReadMore] = React.useState(false);
-  // const isReadMore = height > 85;
-  const { isReadMore } = useMemo(() => {
-    const isReadMore = height > 84;
-
-    return {
-      isReadMore,
-    };
-  }, [postDetail]);
-
   const router = useRouter();
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const [readMore, setReadMore] = React.useState(false);
+  const [showReadMore, setShowReadMore] = React.useState<boolean>(false);
+  // const isReadMore = height > 85;
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
@@ -44,17 +38,24 @@ export const ActivityTheme = ({
       onComment();
     }
   };
-  const onRef = (ele: any) => {
-    if (!ele) {
-      return;
-    }
-    if (ele?.offsetHeight > 0) {
-      setHeight(ele?.offsetHeight);
-    }
-  };
   const onReadMore = () => {
     setReadMore(!readMore);
   };
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      const ele = document?.getElementById(`activityTheme-${postDetail.id}`);
+
+      console.log('🚀 ~ file: ActivityTheme.tsx:48 ~ t ~ ele:', ele?.clientHeight);
+      if (ele?.clientHeight) {
+        if (window.innerWidth > 768) {
+          setShowReadMore(ele?.clientHeight > 84);
+        } else {
+          setShowReadMore(ele?.clientHeight > 84);
+        }
+      }
+      clearTimeout(t);
+    }, 400);
+  }, []);
   // console.log('isReadMore', isReadMore);
   // const onRef = useCallback((ele: any) => {
   //   if (!ele) {
@@ -69,14 +70,14 @@ export const ActivityTheme = ({
       <div
         className={classNames('ActivityTheme cursor-pointer')}
         onClick={(e: any) => onHandleClick(e)}
-        ref={onRef}
+        id={`activityTheme-${postDetail.id}`}
       >
         <Text
           type='body-14-regular'
           color='neutral-1'
-          className={classNames('mb-[16px] line-clamp-4 tablet:!text-[16px]', {
-            'line-clamp-4 h-[80px] overflow-hidden': isReadMore && !readMore,
-            'h-auto': isReadMore && readMore,
+          className={classNames('mb-[16px] tablet:!text-[16px]', {
+            'line-clamp-4 h-[84px] overflow-hidden': showReadMore,
+            '!line-clamp-none !h-auto': isPostDetailPath || readMore,
           })}
         >
           <div
@@ -85,16 +86,19 @@ export const ActivityTheme = ({
           ></div>
         </Text>
       </div>
-      <Fade visible={isReadMore}>
-        <Text
-          type='body-14-regular'
-          color='neutral-3'
-          className='cursor-pointer'
-          onClick={onReadMore}
-        >
-          {readMore ? t('see_less') : t('see_more')}
-        </Text>
-      </Fade>
+      {!isPostDetailPath && (
+        <Fade visible={showReadMore}>
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? t('see_less') : t('see_more')}
+          </Text>
+        </Fade>
+      )}
+
       <Link href={postDetailUrl}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
           <img

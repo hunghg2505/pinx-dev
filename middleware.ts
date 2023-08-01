@@ -9,7 +9,7 @@ const AUTH_PATH: any = [
   ROUTE_PATH.REGISTER_OTP_VERIFICATION,
   ROUTE_PATH.UPDATE_USER_PROFILE,
 ];
-
+const PAGE_LOGIN: any = [ROUTE_PATH.WATCHLIST, ROUTE_PATH.MY_PROFILE];
 const PATH: any = [''];
 
 // Check auth from server side here
@@ -20,8 +20,12 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   const isMatchAuthPath = AUTH_PATH.find((path: string) => request.nextUrl.pathname === path);
+  const isMatchLoginPath = PAGE_LOGIN.find((path: string) => request.nextUrl.pathname === path);
   const isMatchPath = PATH.find((path: string) => request.nextUrl.pathname.includes(path));
-
+  if (!token && isMatchLoginPath) {
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
   if (token && isMatchAuthPath) {
     url.pathname = '/';
     return NextResponse.redirect(url);
