@@ -40,7 +40,7 @@ const MyProfile = () => {
     >
       <div className=' flex min-h-screen'>
         <div className='w-full '>
-          <div className='box-shadow card-style rounded-[8px] bg-white mobile:pb-[20px]'>
+          <div className='box-shadow card-style mobile:pb-[20px]'>
             <Header />
             <MyStory />
             <div
