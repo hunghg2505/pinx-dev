@@ -11,7 +11,7 @@ export const profileUserContext = createContext(undefined);
 
 const Header = () => {
   return (
-    <div className='bg-white px-[16px] '>
+    <div className='bg-white'>
       <div className='flex items-center justify-between py-[16px]'>
         <Back />
         <Save />

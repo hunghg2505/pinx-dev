@@ -2,6 +2,11 @@ $screen-tablet-width: 769px;
 
 .tab {
   :global {
+    .rc-tabs-nav-operations-hidden {
+      width: 0;
+      height: 0;
+    }
+
     .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
       display: none;
     }

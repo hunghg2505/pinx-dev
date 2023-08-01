@@ -24,7 +24,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
-import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
+import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
@@ -352,39 +352,41 @@ const ProfileVerification = () => {
           </ErrorMainButton>
         </Form>
 
-        <div className='mb-[82px] mt-[-77px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
-          <img
-            src='/static/images/book_list.png'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='mr-[7px] h-[103px] w-[164px]'
-          />
-          <div className='my-[20px] text-center'>
-            <Text type='body-16-semibold'>{t('ekyc_title')}</Text>
-            <Text type='body-16-semibold'>App PineX</Text>
-          </div>
-          <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
+        {userLoginInfo?.custStat === USERTYPE.NEW && (
+          <div className='mb-[82px] mt-[-77px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
             <img
-              src='/static/images/googleplay.png'
-              alt='Download google play'
-              width={180}
-              height={52}
-              className='h-[32px] w-[106.5px] cursor-pointer object-contain'
-              onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+              src='/static/images/book_list.png'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='mr-[7px] h-[103px] w-[164px]'
             />
+            <div className='my-[20px] text-center'>
+              <Text type='body-16-semibold'>{t('ekyc_title')}</Text>
+              <Text type='body-16-semibold'>App PineX</Text>
+            </div>
+            <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
+              <img
+                src='/static/images/googleplay.png'
+                alt='Download google play'
+                width={180}
+                height={52}
+                className='h-[32px] w-[106.5px] cursor-pointer object-contain'
+                onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+              />
 
-            <img
-              src='/static/images/appstore.png'
-              alt='Download app store'
-              width={180}
-              height={52}
-              className='h-[32px] w-[106.5px] cursor-pointer object-contain'
-              onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
-            />
+              <img
+                src='/static/images/appstore.png'
+                alt='Download app store'
+                width={180}
+                height={52}
+                className='h-[32px] w-[106.5px] cursor-pointer object-contain'
+                onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

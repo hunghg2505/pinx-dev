@@ -26,8 +26,10 @@ const Profile = () => {
         reload: run,
       }}
     >
-      <div className='w-full  overflow-hidden  rounded-[8px] bg-neutral_08 [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
-        {state.mobile ? <FormEdit /> : <FormDesktop />}
+      <div className='p-[10px] desktop:p-0'>
+        <div className='box-shadow card-style w-full overflow-hidden rounded-[8px] bg-white'>
+          {state.mobile ? <FormEdit /> : <FormDesktop />}
+        </div>
       </div>
     </profileUserContext.Provider>
   );
