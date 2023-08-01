@@ -26,12 +26,13 @@ export default {
           showOnCreate: true,
           interactive: true,
           trigger: 'manual',
+          // placement: 'bottom-start',
           offset: () => {
             if (props.editor.options.element.getBoundingClientRect().y - window.scrollY - 300 > 0) {
               return [50, -50];
             }
-            // [y,x]
-            return [0, -(component.element.firstChild.offsetHeight + 100)];
+            // [x,y]
+            return [-0, -(component.element.firstChild.offsetHeight + 80)];
           },
         });
       },
@@ -59,7 +60,7 @@ export default {
       },
 
       onExit() {
-        popup[0].destroy();
+        popup?.[0]?.destroy();
         component.destroy();
       },
     };

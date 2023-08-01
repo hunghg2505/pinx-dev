@@ -15,7 +15,7 @@ const Mobile = () => {
         alt="Don't have any result"
         className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[221px] tablet:w-[264px]'
       />
-      <div className='align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px] px-[20px]'>
+      <div className='align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] px-[20px] py-[44px] tablet:w-[287px]'>
         <div className='mx-auto my-auto w-fit'>
           <p className=' line-[28px]  mb-[30px]  max-w-[260px] text-[20px] font-[600]'>
             {t('start_investment')}
@@ -24,14 +24,14 @@ const Mobile = () => {
             <img
               src={'/static/images/googleplay.png'}
               alt="Don't have any result"
-              className=' h-[30px] w-[106px] object-contain '
+              className='h-[30px] w-[106px] cursor-pointer object-contain '
               onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
             />
 
             <img
               src={'/static/images/appstore.png'}
               alt="Don't have any result"
-              className=' h-[30px] w-[106px] object-contain '
+              className='h-[30px] w-[106px] cursor-pointer object-contain '
               onClick={() => window.open(APP_STORE_DOWNLOAD)}
             />
           </div>

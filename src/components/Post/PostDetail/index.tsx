@@ -17,6 +17,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -52,7 +53,9 @@ const PostDetail = () => {
   const { t } = useTranslation();
   const refSubReplies: any = useRef();
   const refRepliesLaptop: any = useRef();
+  const refRepliesMobile: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   const router = useRouter();
   const isLogin = !!getAccessToken();
@@ -60,11 +63,14 @@ const PostDetail = () => {
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
+  React.useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
 
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {
-      router.push(ROUTE_PATH.PAGE_NOT_FOUND);
+      router.push(ROUTE_PATH.NOT_FOUND);
     },
   });
 
@@ -81,24 +87,23 @@ const PostDetail = () => {
   const onGoToBack = () => {
     router.back();
   };
-  const onRef = (ele: any) => {
-    if (!ele) {
-      return;
-    }
-    setWidth(ele?.offsetWidth);
-  };
 
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
+    setPostDetailStatus({ ...postDetailStatus, isDoneReplies: false });
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
-    if (refSubReplies?.current?.onComment) {
-      refSubReplies?.current?.onComment(value, customerId, id);
-    }
-    if (refRepliesLaptop?.current?.onComment) {
-      refRepliesLaptop?.current?.onComment(value, customerId, id);
+    if (width > 770) {
+      if (refSubReplies?.current?.onComment) {
+        refSubReplies?.current?.onComment(value, customerId, id);
+      }
+    } else {
+      refRepliesLaptop?.current?.onComment &&
+        refRepliesLaptop?.current?.onComment(value, customerId, id);
+      refRepliesMobile?.current?.onComment &&
+        refRepliesMobile?.current?.onComment(value, customerId, id);
     }
   };
 
@@ -156,7 +161,7 @@ const PostDetail = () => {
         />
       )}
       <div className='p-[10px] desktop:p-0'>
-        <div ref={onRef} className='card-style rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0]'>
+        <div className='card-style rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0]'>
           <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
             <Text
               type='body-20-bold'
@@ -210,9 +215,10 @@ const PostDetail = () => {
           >
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-                const isReply = item.children?.find((i) => {
-                  return i?.id === showReply;
-                });
+                // const isReply = item.children?.find((i) => {
+                //   return i?.id === showReply;
+                // });
+                const isReply = item.id === showReply;
                 return (
                   <div className='mt-[16px]' key={index}>
                     <ItemComment
@@ -223,18 +229,20 @@ const PostDetail = () => {
                       width={width}
                     />
                     {getSubComment(item.children)}
-                    {(showReply === item?.id || isReply) && width > 737 && (
-                      <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                        <ForwardedRefComponent
-                          ref={refSubReplies}
-                          id={postDetail?.data?.id}
-                          refresh={refreshCommentOfPost}
-                          refreshTotal={refresh}
-                          setImageCommentMobile={setImageCommentMobile}
-                          width={width}
-                        />
-                      </div>
-                    )}
+                    {(showReply === item?.id || isReply) &&
+                      width > 770 &&
+                      !postDetailStatus.isDoneReplies && (
+                        <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                          <ForwardedRefComponent
+                            ref={refSubReplies}
+                            id={postDetail?.data?.id}
+                            refresh={refreshCommentOfPost}
+                            refreshTotal={refresh}
+                            setImageCommentMobile={setImageCommentMobile}
+                            width={width}
+                          />
+                        </div>
+                      )}
                   </div>
                 );
               })
@@ -250,11 +258,11 @@ const PostDetail = () => {
               </>
             )}
           </div>
-          {width < 738 && isLogin && (
+          {width < 770 && isLogin && (
             <div className='mobile:block tablet:hidden'>
               <div className='fixed bottom-0 left-0 z-10 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full'>
                 <ForwardedRefComponent
-                  ref={refSubReplies}
+                  ref={refRepliesMobile}
                   id={postDetail?.data?.id}
                   refresh={refreshCommentOfPost}
                   refreshTotal={refresh}

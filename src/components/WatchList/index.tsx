@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import {
+  requestJoinChannel,
+  requestLeaveChannel, socket
+} from '@components/Home/service';
 import Themes from '@components/WatchList/Themes';
 // @ts-ignore
 import YourWatchList from '@components/WatchList/YourWatchList';
@@ -19,7 +23,7 @@ const WatchList = () => {
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [watchlistId, setWatchlistId] = React.useState<number>();
   const [dataStock, setDataStock] = React.useState<any>([]);
-
+  const [dataSocket, setDataSocket] = React.useState<any>({});
 
   const router = useRouter();
   const { isMobile } = useResponsive();
@@ -32,13 +36,45 @@ const WatchList = () => {
     onSuccess: (res) => {
       setDataStock(res?.data?.[0]?.stocks);
       setWatchlistId(res?.data?.[0]?.watchlistId);
+      const data = res?.data?.[0]?.stocks;
+      if (data) {
+        for (const element of data) {
+          requestJoinChannel(element.stockCode);
+        }
+      }
     },
   });
 
   React.useEffect(() => {
     runYourWatchList();
     setMounted(true);
+    return () => {
+      if (dataStock) {
+        for (const element of dataStock) {
+          requestLeaveChannel(element.stockCode);
+        }
+      }
+    };
   }, []);
+
+  const dataFormat = useMemo(() => {
+    const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
+    if (findIndex && findIndex !== -1) {
+      const data = dataStock[findIndex];
+      dataStock[findIndex] = {
+        ...data,
+        ...dataSocket,
+      };
+    }
+
+    return dataStock;
+  }, [dataStock, dataSocket]);
+  socket.on('public', (message: any) => {
+    const data = message.data;
+    if (data?.id === 3220) {
+      setDataSocket(data);
+    }
+  });
 
   // For Next.js 13, return jsx once the component is mounted
   if (!mounted) {
@@ -60,7 +96,7 @@ const WatchList = () => {
 
           <YourWatchList
             watchlistId={watchlistId}
-            dataStock={dataStock}
+            dataStock={dataFormat}
             isEdit={isEdit}
             setIsEdit={setIsEdit}
             yourWatchListStock={yourWatchListStock}

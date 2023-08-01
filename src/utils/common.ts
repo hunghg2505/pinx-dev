@@ -34,7 +34,6 @@ export const ROUTE_PATH = {
   STOCK_SUBSCRIBER: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/subscriber`,
   STOCK_RELATED: (stockCode: string, hashtagId: string) =>
     `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/related/${hashtagId}`,
-  PAGE_NOT_FOUND: '/page-not-found',
   SEARCH: '/search',
   TOP_WATCHING: '/top-watching',
   GIFTCASH: '/gift-cash',
@@ -109,14 +108,14 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      const startId = item.indexOf('(') + 1;
-      const endId = item.indexOf(')');
-      const ID = item.slice(startId, endId);
+      // const startId = item.indexOf('(') + 1;
+      // const endId = item.indexOf(')');
+      // const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
         message = message.replaceAll(
           item,
           `
-          <a href="${window.location.origin}/stock/${ID}" className="tagStock">${name}</a>
+          <a href="javascript:void(0)" className="tagStock">${name}</a>
           `,
         );
       }
@@ -604,4 +603,13 @@ export default async function getSeoDataFromLink(url: string) {
       },
     ];
   }
+}
+export function validateHTML(htmlString: any) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, 'application/xml');
+  const errorNode = doc.querySelector('parsererror');
+  if (errorNode) {
+    return false;
+  }
+  return true;
 }

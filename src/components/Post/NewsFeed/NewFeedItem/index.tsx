@@ -23,6 +23,7 @@ import Text from '@components/UI/Text';
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
@@ -53,7 +54,7 @@ const NewFeedItem = (props: IProps) => {
   const { onNavigate, onRefreshPostDetail, postDetail, totalComments, pinned = false } = props;
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
 
@@ -107,6 +108,7 @@ const NewFeedItem = (props: IProps) => {
       onSuccess: () => {
         if (router.route === '/post/[id]') {
           router.back();
+          setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
         }
         onRefreshPostDetail(undefined);
       },
@@ -175,6 +177,7 @@ const NewFeedItem = (props: IProps) => {
     //   onRefreshPostDetail(undefined);
     // }
     if (router.route === '/post/[id]') {
+      setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
       router.back();
     } else {
       onRefreshPostDetail(undefined);

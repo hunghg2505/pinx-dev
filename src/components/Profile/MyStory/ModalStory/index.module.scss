@@ -16,3 +16,9 @@
     }
   }
 }
+
+.caption {
+  &::-webkit-scrollbar-track {
+    @apply rounded-[12px];
+  }
+}

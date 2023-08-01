@@ -35,7 +35,7 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
   return (
     <div
       className={classNames(
-        'border-b border-solid border-[var(--neutral-7)] px-[16px] py-[12px] tablet:px-[24px] tablet:pt-[12px]',
+        'border-b border-solid border-[var(--neutral-7)] py-[12px] tablet:pt-[12px]',
         className,
       )}
     >

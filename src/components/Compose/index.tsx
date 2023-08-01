@@ -38,6 +38,7 @@ import getSeoDataFromLink, {
   formatMessage,
   isImage,
   toBase64,
+  validateHTML,
 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -519,7 +520,14 @@ const Compose = (props: IProps) => {
           />
         ));
       }
-
+      if (message && validateHTML(message)) {
+        toast(() => (
+          <Notification
+            type='error'
+            message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
+          />
+        ));
+      }
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         return toast(() => (
           <Notification type='error' message={t('message_account_pending_to_close')} />

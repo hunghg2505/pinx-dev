@@ -8,7 +8,7 @@ const IntradayTab = () => {
   const { t } = useTranslation(['stock', 'common']);
 
   return (
-    <div className='tablet:px-[24px]'>
+    <div>
       <table className='w-full border-collapse text-center'>
         <thead>
           <tr>

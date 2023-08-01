@@ -44,7 +44,7 @@ const ModalLink = (props: IProps) => {
   const [form] = Form.useForm();
 
   const onSubmit = async (values: any) => {
-    const data = await getSeoDataFromLink(values?.search);
+    const data = await getSeoDataFromLink(values?.search.trim());
 
     setVisible(!visible);
 

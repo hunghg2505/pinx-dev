@@ -66,18 +66,24 @@ const DeactivateAccount = (props: IProps) => {
         >
           {t('deactivate_account')}
         </Text>
-        <Text type='body-16-regular' className='mobile:mt-6 laptop:mt-0'>
+        <Text
+          type='body-16-regular'
+          className={classNames('mobile:mt-6 laptop:mt-0', {
+            'mb-[100px]': !props.isPopup,
+          })}
+        >
           {t('deactivate_account_content')}
         </Text>
 
-        <MainButton
-          onClick={deactivateAccout}
-          className={classNames('mt-6 w-full', {
-            'fixed bottom-9 left-[16px] mt-0 !w-[calc(100%-32px)]': !props.isPopup,
+        <div
+          className={classNames({
+            'fixed bottom-0 left-0 right-0 mt-0 bg-[#f8fafd] px-[16px] pb-[24px]': !props.isPopup,
           })}
         >
-          {t('got_it')}
-        </MainButton>
+          <MainButton onClick={deactivateAccout} className={classNames('mt-[24px] w-full')}>
+            {t('got_it')}
+          </MainButton>
+        </div>
       </div>
     </>
   );
