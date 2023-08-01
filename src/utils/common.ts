@@ -108,14 +108,14 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      const startId = item.indexOf('(') + 1;
-      const endId = item.indexOf(')');
-      const ID = item.slice(startId, endId);
+      // const startId = item.indexOf('(') + 1;
+      // const endId = item.indexOf(')');
+      // const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
         message = message.replaceAll(
           item,
           `
-          <a href="${window.location.origin}/stock/${ID}" className="tagStock">${name}</a>
+          <a href="javascript:void(0)" className="tagStock">${name}</a>
           `,
         );
       }
