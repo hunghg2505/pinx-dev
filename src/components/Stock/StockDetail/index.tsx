@@ -270,7 +270,7 @@ const StockDetail = () => {
   };
 
   return (
-    <div className='rounded-[8px] bg-[#fff] shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
+    <>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {
@@ -304,130 +304,129 @@ const StockDetail = () => {
         onRefreshStockActivities={refreshStockActivities}
       />
 
-      <div className='flex h-[44px] w-full items-center justify-between px-[16px] tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9] tablet:px-[24px]'>
-        <div
-          className='-ml-[16px] flex h-full cursor-pointer items-center px-[16px] tablet:px-[24px]'
-          onClick={handleBack}
-        >
-          <img
-            src='/static/icons/back_icon.svg'
-            alt=''
-            className='h-[28px] w-[28px] object-contain'
-          />
-        </div>
-
-        <button
-          onClick={handleFollowOrUnfollowStock}
-          className='flex h-[32px] items-center justify-center rounded-full bg-[#F7F6F8] px-[10px]'
-        >
-          {isFollowedStock ? (
+      <div className='box-shadow card-style'>
+        <div className='flex h-[44px] w-full items-center justify-between tablet:h-[48px]'>
+          <div className='flex h-full cursor-pointer items-center' onClick={handleBack}>
             <img
-              src='/static/icons/iconHeartActiveNoShadow.svg'
-              alt='Icon heart'
-              className='h-[16px] w-[16px] object-contain'
+              src='/static/icons/back_icon.svg'
+              alt=''
+              className='h-[28px] w-[28px] object-contain'
             />
-          ) : (
-            <>
+          </div>
+
+          <button
+            onClick={handleFollowOrUnfollowStock}
+            className='flex h-[32px] items-center justify-center rounded-full bg-[#F7F6F8] px-[10px]'
+          >
+            {isFollowedStock ? (
               <img
-                src='/static/icons/iconHeart2.svg'
+                src='/static/icons/iconHeartActiveNoShadow.svg'
                 alt='Icon heart'
                 className='h-[16px] w-[16px] object-contain'
               />
-              <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
-                {t('follow_stock')}
-              </Text>
-            </>
-          )}
-        </button>
-      </div>
-
-      <div className='mt-[12px] flex items-center justify-between px-[16px]'>
-        <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
-          <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-            <img
-              src={imageStock(stockCode)}
-              alt={`Logo ${stockDetail?.data?.name}`}
-              className='block'
-            />
-          </div>
-
-          <div>
-            <div className='flex items-center'>
-              <Text type='body-24-semibold' className='text-[#0D0D0D]'>
-                {stockDetail?.data?.stockCode}
-              </Text>
-
-              <button className='ml-[8px] h-[20px] min-w-[48px] cursor-text rounded-[4px] border border-solid border-[var(--neutral-7)] px-[10px]'>
-                <Text type='body-10-regular' className='text-[#808A9D]'>
-                  {stockDetail?.data?.stockExchange}
+            ) : (
+              <>
+                <img
+                  src='/static/icons/iconHeart2.svg'
+                  alt='Icon heart'
+                  className='h-[16px] w-[16px] object-contain'
+                />
+                <Text type='body-12-regular' className='ml-[8px] text-[#0D0D0D]'>
+                  {t('follow_stock')}
                 </Text>
-              </button>
-            </div>
-
-            <Text type='body-10-regular' className='primary-5'>
-              {stockDetail?.data?.name}
-            </Text>
-          </div>
+              </>
+            )}
+          </button>
         </div>
 
-        <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
-          <div className='flex items-center'>
-            <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-              {stockDetails?.data.watchingNo}+
-            </Text>
+        <div className='mt-[12px] flex items-center justify-between'>
+          <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
+            <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
+              <img
+                src={imageStock(stockCode)}
+                alt={`Logo ${stockDetail?.data?.name}`}
+                className='block'
+              />
+            </div>
 
+            <div>
+              <div className='flex items-center'>
+                <Text type='body-24-semibold' className='text-[#0D0D0D]'>
+                  {stockDetail?.data?.stockCode}
+                </Text>
+
+                <button className='ml-[8px] h-[20px] min-w-[48px] cursor-text rounded-[4px] border border-solid border-[var(--neutral-7)] px-[10px]'>
+                  <Text type='body-10-regular' className='text-[#808A9D]'>
+                    {stockDetail?.data?.stockExchange}
+                  </Text>
+                </button>
+              </div>
+
+              <Text type='body-10-regular' className='primary-5'>
+                {stockDetail?.data?.name}
+              </Text>
+            </div>
+          </div>
+
+          <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
             <div className='flex items-center'>
-              {stockDetails?.data.watchingList
-                .slice(0, 3)
-                .reverse()
-                .map((item, index) => (
-                  <img
-                    key={index}
-                    src={item.avatar}
-                    alt='Subscriber user'
-                    className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                  />
-                ))}
+              <Text type='body-12-regular' className='primary-5 mr-[4px]'>
+                {stockDetails?.data.watchingNo}+
+              </Text>
+
+              <div className='flex items-center'>
+                {stockDetails?.data.watchingList
+                  .slice(0, 3)
+                  .reverse()
+                  .map((item, index) => (
+                    <img
+                      key={index}
+                      src={item.avatar}
+                      alt='Subscriber user'
+                      className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
+                    />
+                  ))}
+              </div>
+            </div>
+
+            <div className='text-right'>
+              <Text type='body-16-medium' className='semantic-2-1'>
+                23,000
+              </Text>
+              <Text type='body-12-regular' className='semantic-2-1'>
+                +2.3 / 0.02%
+              </Text>
             </div>
           </div>
-
-          <div className='text-right'>
-            <Text type='body-16-medium' className='semantic-2-1'>
-              23,000
-            </Text>
-            <Text type='body-12-regular' className='semantic-2-1'>
-              +2.3 / 0.02%
-            </Text>
-          </div>
         </div>
+
+        {/* chart */}
+        <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
+          <iframe
+            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=1000`}
+            frameBorder='0'
+            className='h-[350px] w-full'
+          ></iframe>
+        </div>
+
+        {/* tab */}
+        <Tabs className={styles.tabs} defaultActiveKey='1'>
+          <TabPane tab={t('tab.movements')} tabKey='1'>
+            <MovementsTab />
+          </TabPane>
+
+          <TabPane tab={t('tab.matchings')} key='2'>
+            <MatchingsTab />
+          </TabPane>
+
+          <TabPane tab={t('tab.intraday')} key='3'>
+            <IntradayTab />
+          </TabPane>
+        </Tabs>
       </div>
-
-      {/* chart */}
-      <div className='mt-[8px] border-b border-solid border-[#EBEBEB] px-[16px] pb-[8px] tablet:px-[24px]'>
-        <iframe
-          src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=1000`}
-          frameBorder='0'
-          className='h-[350px] w-full'
-        ></iframe>
-      </div>
-
-      {/* tab */}
-      <Tabs className={styles.tabs} defaultActiveKey='1'>
-        <TabPane tab={t('tab.movements')} tabKey='1'>
-          <MovementsTab />
-        </TabPane>
-
-        <TabPane tab={t('tab.matchings')} key='2'>
-          <MatchingsTab />
-        </TabPane>
-
-        <TabPane tab={t('tab.intraday')} key='3'>
-          <IntradayTab />
-        </TabPane>
-      </Tabs>
 
       {/* intro */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' className='mb-[16px]'>
           {t('intro')}
         </Text>
@@ -459,8 +458,8 @@ const StockDetail = () => {
         </div>
       </div>
 
-      <div>
-        <div className='mb-[16px] mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
+        <div className='mb-[16px]'>
           <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
         </div>
 
@@ -476,7 +475,7 @@ const StockDetail = () => {
             />
           </div>
 
-          <div className='max-w-[700px] overflow-hidden pl-[16px]  tablet:pl-[24px] '>
+          <div className='max-w-[700px] overflow-hidden'>
             <Slider {...settings} variableWidth ref={refSlide}>
               {stockDetail?.data?.products.map((item, index) => (
                 <div key={index} className='mr-[28px] !w-[112px]'>
@@ -508,14 +507,14 @@ const StockDetail = () => {
       </div>
 
       {/* main business */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <div className='mb-[4px]'>
           <Text type='body-20-semibold'>{t('main_business')}</Text>
         </div>
 
         {taggingInfo?.data?.industries.map((item, index) => (
           <div
-            className='flex cursor-pointer items-center border-b border-solid border-[var(--neutral-7)] py-[12px]'
+            className='flex cursor-pointer items-center border-solid border-[var(--neutral-7)] py-[12px] [&:not(:last-child)]:border-b'
             key={index}
             onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item.id)}
           >
@@ -549,7 +548,7 @@ const StockDetail = () => {
       </div>
 
       {/* revenue */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' className='mb-[16px]'>
           {t('revenue_sources')}
         </Text>
@@ -586,7 +585,7 @@ const StockDetail = () => {
       </div>
 
       {/* highlights */}
-      <div className='mt-[28px] px-[16px] pb-[28px] tablet:px-[24px]'>
+      <div className='box-shadow card-style pb-[28px]'>
         <Text type='body-20-semibold' className='mb-[16px]'>
           {t('highlights')}
         </Text>
@@ -622,120 +621,116 @@ const StockDetail = () => {
 
       {/* also own */}
       {taggingInfo?.data?.subsidiaries && taggingInfo.data.subsidiaries.length > 0 && (
-        <div className='mb-[28px] pt-[28px]'>
-          <div className='px-[16px] tablet:px-[24px]'>
-            <Text type='body-20-semibold' className='mb-[8px]'>
-              {t('also_own')}
-            </Text>
+        <div className='card-style box-shadow mb-[28px]'>
+          <Text type='body-20-semibold' className='mb-[8px]'>
+            {t('also_own')}
+          </Text>
 
-            <div className='flex flex-col gap-y-[12px]'>
-              {taggingInfo.data.subsidiaries.slice(0, ALSO_ITEM_LIMIT).map((item, index) => (
-                <AlsoOwnItem data={item} key={index} />
-              ))}
-            </div>
-
-            {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
-              <Link href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
-                <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('common:see_more')}
-                  </Text>
-                </button>
-              </Link>
-            )}
+          <div className='flex flex-col gap-y-[12px]'>
+            {taggingInfo.data.subsidiaries.slice(0, ALSO_ITEM_LIMIT).map((item, index) => (
+              <AlsoOwnItem data={item} key={index} />
+            ))}
           </div>
+
+          {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
+            <Link href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
+              <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('common:see_more')}
+                </Text>
+              </button>
+            </Link>
+          )}
         </div>
       )}
 
       {/* rating */}
-      <div className='pt-[28px]'>
-        <div className='px-[16px] tablet:px-[24px]'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('rating.title')}
-          </Text>
-          <Text type='body-14-regular' className='mb-[12px]'>
-            {t('rating.description')}
-          </Text>
+      <div className='box-shadow card-style'>
+        <Text type='body-20-semibold' className='mb-[16px]'>
+          {t('rating.title')}
+        </Text>
+        <Text type='body-14-regular' className='mb-[12px]'>
+          {t('rating.description')}
+        </Text>
 
-          <div className='mb-[28px] flex flex-col gap-y-[12px] tablet:flex-row tablet:justify-between'>
-            <Rating
-              star={stockDetails?.data.customerReview?.rateValue || 0}
-              onChange={(star) => checkUserTypeReview(() => handleRating(star))}
-            />
+        <div className='mb-[28px] flex flex-col gap-y-[12px] tablet:flex-row tablet:justify-between'>
+          <Rating
+            star={stockDetails?.data.customerReview?.rateValue || 0}
+            onChange={(star) => checkUserTypeReview(() => handleRating(star))}
+          />
 
-            <div className='flex gap-x-[52px]'>
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
-                  {t('rating.avg_score')}
-                </Text>
-                <Text type='body-20-medium' color='semantic-2-1'>
-                  {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
-                </Text>
-              </div>
+          <div className='flex gap-x-[52px]'>
+            <div>
+              <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
+                {t('rating.avg_score')}
+              </Text>
+              <Text type='body-20-medium' color='semantic-2-1'>
+                {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
+              </Text>
+            </div>
 
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
-                  {t('rating.votes')}
-                </Text>
-                <Text type='body-20-medium' className='text-[#0D0D0D]'>
-                  {stockDetails?.data.details.rate.totalRates}
-                </Text>
-              </div>
+            <div>
+              <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
+                {t('rating.votes')}
+              </Text>
+              <Text type='body-20-medium' className='text-[#0D0D0D]'>
+                {stockDetails?.data.details.rate.totalRates}
+              </Text>
+            </div>
 
-              <div>
-                <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
-                  {t('rating.reviews')}
-                </Text>
+            <div>
+              <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
+                {t('rating.reviews')}
+              </Text>
 
-                <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                  <div className='flex items-center'>
-                    <Text type='body-20-medium' color='primary-1'>
-                      {stockDetails?.data.details.totalReviews}
-                    </Text>
+              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+                <div className='flex items-center'>
+                  <Text type='body-20-medium' color='primary-1'>
+                    {stockDetails?.data.details.totalReviews}
+                  </Text>
 
-                    <img
-                      src='/static/icons/iconPrimaryRight.svg'
-                      alt='Icon primary right'
-                      className='ml-[10px] h-[8px] w-[4px] object-contain'
-                    />
-                  </div>
-                </Link>
-              </div>
+                  <img
+                    src='/static/icons/iconPrimaryRight.svg'
+                    alt='Icon primary right'
+                    className='ml-[10px] h-[8px] w-[4px] object-contain'
+                  />
+                </div>
+              </Link>
             </div>
           </div>
-
-          {stockDetails?.data.details.children.length ? (
-            <>
-              <ReviewItem
-                isMyReview={userId === stockDetails.data.details.children[0].customerId}
-                data={stockDetails.data.details.children[0]}
-                isLatestReview
-                onEditReviewSuccess={handleReviewSuccess}
-              />
-
-              {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
-                <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                  <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('rating.see_more')}
-                    </Text>
-                  </button>
-                </Link>
-              )}
-            </>
-          ) : (
-            <EmptyData
-              title={t('rating.empty_title')}
-              description={t('rating.empty_description')}
-              textHasAction={t('rating.empty_action')}
-              onClickTextHasAct={() => checkUserTypeReview(() => setOpenPopupReview(true))}
-            />
-          )}
         </div>
+
+        {stockDetails?.data.details.children.length ? (
+          <>
+            <ReviewItem
+              isMyReview={userId === stockDetails.data.details.children[0].customerId}
+              data={stockDetails.data.details.children[0]}
+              isLatestReview
+              onEditReviewSuccess={handleReviewSuccess}
+            />
+
+            {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
+              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+                <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                  <Text type='body-14-bold' color='primary-2'>
+                    {t('rating.see_more')}
+                  </Text>
+                </button>
+              </Link>
+            )}
+          </>
+        ) : (
+          <EmptyData
+            title={t('rating.empty_title')}
+            description={t('rating.empty_description')}
+            textHasAction={t('rating.empty_action')}
+            onClickTextHasAct={() => checkUserTypeReview(() => setOpenPopupReview(true))}
+          />
+        )}
       </div>
 
       {/* community */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold'>{t('community')}</Text>
         <Text type='body-14-regular' className='mt-[16px]'>
           {t('community_description')}
@@ -787,8 +782,8 @@ const StockDetail = () => {
       </div>
 
       {/* recent news */}
-      <div className='mt-[28px]'>
-        <div className='mb-[4px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
+        <div className='mb-[4px]'>
           <Text type='body-20-semibold'>{t('recent_news')}</Text>
         </div>
 
@@ -799,17 +794,15 @@ const StockDetail = () => {
             ))}
 
             {stockNews.data.list.length > NEWS_ITEM_LIMIT && (
-              <div className='px-[16px] tablet:px-[24px]'>
-                <Link href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
-                  <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('more_news', {
-                        stockCode: stockDetail?.data?.stockCode,
-                      })}
-                    </Text>
-                  </button>
-                </Link>
-              </div>
+              <Link href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
+                <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
+                  <Text type='body-14-bold' color='primary-2'>
+                    {t('more_news', {
+                      stockCode: stockDetail?.data?.stockCode,
+                    })}
+                  </Text>
+                </button>
+              </Link>
             )}
           </>
         )}
@@ -817,12 +810,12 @@ const StockDetail = () => {
 
       {/* featured in themes */}
       {stockThemes && stockThemes.data.length > 0 && (
-        <div className='mt-[28px]'>
-          <div className='mb-[16px] px-[16px] tablet:px-[24px]'>
+        <div className='box-shadow card-style'>
+          <div className='mb-[16px]'>
             <Text type='body-20-semibold'>{t('featured_in_themes')}</Text>
           </div>
 
-          <div className='flex gap-x-[12px] px-[16px] tablet:px-[24px]'>
+          <div className='flex gap-x-[12px]'>
             {stockThemes.data.map((item, index) => (
               <ThemeItem key={index} data={item} />
             ))}
@@ -831,7 +824,7 @@ const StockDetail = () => {
       )}
 
       {/* calendar */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' className='mb-[16px]'>
           {t('financial_calendar_title')}
         </Text>
@@ -860,7 +853,7 @@ const StockDetail = () => {
       </div>
 
       {/* financial */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold' className='mb-[16px]'>
           {t('financial_indicator_title')}
         </Text>
@@ -884,7 +877,7 @@ const StockDetail = () => {
       </div>
 
       {/* shareholders */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
         {/* chart */}
@@ -919,7 +912,7 @@ const StockDetail = () => {
       </div>
 
       {/* holding ratio */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold'>{t('holding_ratio_title')}</Text>
 
         <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
@@ -929,7 +922,7 @@ const StockDetail = () => {
         </div>
       </div>
 
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold'>{t('financial_index_title')}</Text>
 
         <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
@@ -940,7 +933,7 @@ const StockDetail = () => {
       </div>
 
       {/* activities */}
-      <div className='mt-[28px] px-[16px] tablet:px-[24px]'>
+      <div className='box-shadow card-style'>
         <Text type='body-20-semibold'>{t('activities_title')}</Text>
 
         <div className='flex flex-col gap-y-[16px] py-[20px]'>
@@ -949,7 +942,7 @@ const StockDetail = () => {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

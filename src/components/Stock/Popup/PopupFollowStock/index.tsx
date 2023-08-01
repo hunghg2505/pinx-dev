@@ -45,6 +45,13 @@ const PopupFollowStock = ({
       onClose();
       onRefreshStockActivities();
     },
+    onError: (e: any) => {
+      let error = e?.error;
+      if (e?.errorCode && e.errorCode === 'error.activity.tooMany') {
+        error = t('common:activity.tooMany.message');
+      }
+      toast(() => <Notification type='error' message={error} />);
+    },
   });
 
   useEffect(() => {
