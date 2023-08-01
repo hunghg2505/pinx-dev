@@ -1,37 +1,40 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 import classNames from 'classnames';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import CustomLink from '@components/UI/CustomLink';
+// import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 
-const ImageHeadPost = dynamic(
-  import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
-  {
-    ssr: false,
-    loading: () => (
-      <img
-        src='/static/images/img-blur.png'
-        alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
-        className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
-      />
-    ),
-  },
-);
+import ModalMedia from './ModalMedia';
+
+// const ImageHeadPost = dynamic(
+//   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <img
+//         src='/static/images/img-blur.png'
+//         alt=''
+//         width='0'
+//         height='0'
+//         sizes='100vw'
+//         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
+//       />
+//     ),
+//   },
+// );
 
 export const PineTreePost2 = ({
   // onRef,
   // isReadMore,
   // onReadMore,
   // readMore,
-  postDetailUrl,
+  // postDetailUrl,
   postDetail,
   pinned,
   isPostDetailPath,
@@ -72,6 +75,22 @@ export const PineTreePost2 = ({
       clearTimeout(t);
     }, 400);
   }, []);
+
+  const ShowImage = () => {
+    if (postDetail?.post?.urlImages?.length > 0) {
+      return (
+        <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
+          <img
+            src={postDetail?.post?.urlImages?.[0]}
+            alt=''
+            className='absolute left-0 top-0 h-full w-full rounded-[9px]'
+          />
+        </ModalMedia>
+      );
+    }
+
+    return <></>;
+  };
 
   return (
     <>
@@ -117,11 +136,13 @@ export const PineTreePost2 = ({
           },
         )}
       >
-        {postDetail?.post?.urlImages.length && (
+        {/* {postDetail?.post?.urlImages.length && (
           <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1]  h-full w-full'>
             <ImageHeadPost headImageUrl={postDetail?.post?.urlImages[0]} />
           </CustomLink>
-        )}
+        )} */}
+
+        <ShowImage />
 
         {!postDetail?.post?.urlImages.length && pinned && (
           <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
