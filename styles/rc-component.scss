@@ -324,6 +324,9 @@
 .rc-picker-month-btn:hover {
   filter: invert(37%) sepia(17%) saturate(3633%) hue-rotate(175deg) brightness(91%) contrast(87%);
 }
+.ProseMirror{
+  word-break: break-word;
+}
 .ProseMirror p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
