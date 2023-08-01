@@ -206,7 +206,7 @@ const PostDetail = () => {
 
           <div
             className={classNames(
-              'px-[16px] pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]',
+              'pb-[16px] tablet:mb-[32px] desktop:ml-[64px] desktop:px-[20px]',
               {
                 'mobile:mb-[60px]': !isImageCommentMobile && isLogin,
                 'mobile:mb-[179px]': isImageCommentMobile && isLogin,

@@ -21,13 +21,10 @@ const StockNews = () => {
   };
 
   return (
-    <div className='rounded-[8px] bg-white pb-[20px] desktop:[box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
-      <div className='relative flex h-[46px] items-center justify-center tablet:h-[72px] tablet:border-b tablet:border-solid tablet:border-[#EEF5F9]'>
-        <div className='absolute left-[16px] top-1/2 flex -translate-y-1/2 items-center justify-between tablet:left-[24px]'>
-          <div
-            className='cursor-pointer items-center py-[12px] pl-[8px] pr-[16px]'
-            onClick={handleBack}
-          >
+    <div className='box-shadow card-style bg-white'>
+      <div className='relative mb-[12px] flex h-[44px] items-center justify-center tablet:mb-0 tablet:h-[48px]'>
+        <div className='absolute left-0 top-1/2 flex -translate-y-1/2 items-center justify-between'>
+          <div className='cursor-pointer items-center pr-[16px]' onClick={handleBack}>
             <img
               src='/static/icons/back_icon.svg'
               alt=''
@@ -41,7 +38,7 @@ const StockNews = () => {
         </Text>
       </div>
 
-      <div className='mb-[16px]'>
+      <div>
         {stockNews?.data.list.map((item, index) => (
           <NewsItem
             key={index}

@@ -11,7 +11,7 @@ export const profileUserContext = createContext(undefined);
 const Info = () => {
   const { t } = useTranslation('editProfile');
   return (
-    <div className='bg-white px-[16px] pb-[24px] pt-[16px]'>
+    <div className='bg-white pt-[16px]'>
       <h1 className='line-[700]  mb-[24px] text-[22px] font-[700] text-neutral_black'>
         {t('information')}
       </h1>

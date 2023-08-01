@@ -300,7 +300,7 @@ const ItemComment = (props: IProps) => {
                   height='0'
                   className='mr-[10px] w-[15px]'
                 />
-                <Text type='body-12-regular' color='primary-1'>
+                <Text type='body-13-regular' color='primary-1' className='tablet:!text-[14px]'>
                   {data?.totalLikes}
                 </Text>
               </div>
@@ -320,11 +320,11 @@ const ItemComment = (props: IProps) => {
             </ModalMedia>
           )}
 
-          <div className='action flex gap-x-[18px]'>
+          <div className='action flex gap-x-[12px] tablet:gap-x-[18px]'>
             <div className='like flex cursor-pointer' onClick={onLike}>
               <Text
-                type='body-14-regular'
-                className={classNames({
+                type='body-13-regular'
+                className={classNames('tablet:!text-[14px]', {
                   'text-[#589DC0]': data?.isLike && isLogin,
                   'text-[#808080]': !data?.isLike || !isLogin,
                 })}
@@ -336,11 +336,15 @@ const ItemComment = (props: IProps) => {
               className='comment flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
-              <Text type='body-14-regular' color='neutral-4' className='mr-[3px]'>
+              <Text
+                type='body-13-regular'
+                color='neutral-4'
+                className='mr-[3px] tablet:!text-[14px]'
+              >
                 {data?.children?.length > 0 ? data?.children?.length : ''}
               </Text>
               <div>
-                <Text type='body-14-regular' color='neutral-4'>
+                <Text type='body-13-regular' color='neutral-4' className='tablet:!text-[14px]'>
                   {t('reply')}
                 </Text>
               </div>
@@ -353,7 +357,11 @@ const ItemComment = (props: IProps) => {
               {numberReport} {t('report')}
             </ModalReportComment>
 
-            <Text type='body-14-regular' color='neutral-4' className='select-none !font-light'>
+            <Text
+              type='body-13-regular'
+              color='neutral-4'
+              className='select-none !font-light tablet:!text-[14px]'
+            >
               {dayjs(data?.timeString)?.locale(i18n.language)?.fromNow(true)}
             </Text>
           </div>

@@ -45,7 +45,6 @@ export const ActivityTheme = ({
     const t = setTimeout(() => {
       const ele = document?.getElementById(`activityTheme-${postDetail.id}`);
 
-      console.log('🚀 ~ file: ActivityTheme.tsx:48 ~ t ~ ele:', ele?.clientHeight);
       if (ele?.clientHeight) {
         if (window.innerWidth > 768) {
           setShowReadMore(ele?.clientHeight > 84);
