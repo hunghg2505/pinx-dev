@@ -17,6 +17,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -54,6 +55,7 @@ const PostDetail = () => {
   const refRepliesLaptop: any = useRef();
   const refRepliesMobile: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   const router = useRouter();
   const isLogin = !!getAccessToken();
@@ -68,7 +70,7 @@ const PostDetail = () => {
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {
-      router.push(ROUTE_PATH.PAGE_NOT_FOUND);
+      router.push(ROUTE_PATH.NOT_FOUND);
     },
   });
 
@@ -88,6 +90,7 @@ const PostDetail = () => {
 
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
+    setPostDetailStatus({ ...postDetailStatus, isDoneReplies: false });
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -212,15 +215,10 @@ const PostDetail = () => {
           >
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
-                console.log(
-                  '🚀 ~ file: index.tsx:215 ~ commentsOfPost?.data?.list?.map ~ item:',
-                  item,
-                );
                 // const isReply = item.children?.find((i) => {
                 //   return i?.id === showReply;
                 // });
                 const isReply = item.id === showReply;
-                console.log('🚀 ~ file: index.tsx:218 ~ isReply ~ isReply:', isReply);
                 return (
                   <div className='mt-[16px]' key={index}>
                     <ItemComment
@@ -231,18 +229,20 @@ const PostDetail = () => {
                       width={width}
                     />
                     {getSubComment(item.children)}
-                    {(showReply === item?.id || isReply) && width > 770 && (
-                      <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                        <ForwardedRefComponent
-                          ref={refSubReplies}
-                          id={postDetail?.data?.id}
-                          refresh={refreshCommentOfPost}
-                          refreshTotal={refresh}
-                          setImageCommentMobile={setImageCommentMobile}
-                          width={width}
-                        />
-                      </div>
-                    )}
+                    {(showReply === item?.id || isReply) &&
+                      width > 770 &&
+                      !postDetailStatus.isDoneReplies && (
+                        <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                          <ForwardedRefComponent
+                            ref={refSubReplies}
+                            id={postDetail?.data?.id}
+                            refresh={refreshCommentOfPost}
+                            refreshTotal={refresh}
+                            setImageCommentMobile={setImageCommentMobile}
+                            width={width}
+                          />
+                        </div>
+                      )}
                   </div>
                 );
               })

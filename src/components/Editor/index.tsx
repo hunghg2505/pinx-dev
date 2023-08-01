@@ -28,6 +28,7 @@ import Notification from '@components/UI/Notification';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
@@ -55,6 +56,7 @@ const Editor = (props: IProps, ref?: any) => {
   const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -178,12 +180,12 @@ const Editor = (props: IProps, ref?: any) => {
       editor?.commands?.focus(true, { scrollIntoView: false });
       editor?.commands.clearContent();
       editor?.commands.insertContent(
-        `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
+        `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span> `,
       );
     } else {
       editor?.commands.clearContent();
       editor?.commands.insertContent(
-        `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span>`,
+        `<span data-type="userMention" class="userMention text-[14px] font-semibold leading-[18px]" data-id="${customerId}" data-label="${value}" contenteditable="false">@${value}</span> `,
       );
     }
   };
@@ -224,6 +226,7 @@ const Editor = (props: IProps, ref?: any) => {
         refreshTotal();
         refresh();
         setIdReply('');
+        setPostDetailStatus({ ...postDetailStatus, isDoneReplies: true });
         editor?.commands.clearContent();
         if (imageComment) {
           onCloseImage();

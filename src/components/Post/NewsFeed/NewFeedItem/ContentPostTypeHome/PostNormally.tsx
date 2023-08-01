@@ -108,7 +108,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
           id={`post-content-${postDetail.id}`}
           className={classNames('line-clamp-4', {
             'h-[74px] overflow-hidden mobile-max:h-[66px] desktop:h-[80px]': showReadMore,
-            '!h-auto': readMore,
+            'line-clamp-none !h-auto': readMore,
           })}
           onClick={(event) => onHandleClick(event)}
         >
@@ -142,7 +142,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     <>
       <PostContent />
 
-      {showReadMore && !postThemeId ? (
+      {showReadMore && !postThemeId && !isPostDetailPath ? (
         <Text
           type='body-14-regular'
           color='neutral-3'
