@@ -8,6 +8,7 @@ import { ActivityTheme } from '@components/Post/NewsFeed/NewFeedItem/ContentPost
 import { ActivityWatchlist } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityWatchlist';
 import { CafeFNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/CafeFNews';
 import { PineTreePost } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost';
+import { PineTreePost2 } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost2';
 import { PostNormally } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PostNormally';
 import { VietStockNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/VietStockNews';
 import { IPost, TYPEPOST } from '@components/Post/service';
@@ -137,7 +138,7 @@ const ContentPostTypeHome = (props: IProps) => {
       TYPEPOST.PinetreeMorningBrief,
       TYPEPOST.PinetreeMarketBrief,
       TYPEPOST.PinetreeWeeklyNews,
-      TYPEPOST.PinetreePost,
+      // TYPEPOST.PinetreePost,
     ].includes(postDetail?.postType)
   ) {
     return (
@@ -149,7 +150,25 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         post_url={post_url}
+        pinned={pinned}
         isPostDetailPath={isPostDetailPath}
+      />
+    );
+  }
+
+  if ([TYPEPOST.PinetreePost].includes(postDetail?.postType)) {
+    return (
+      <PineTreePost2
+        // onRef={onRef}
+        onComment={onComment}
+        // isReadMore={isReadMore}
+        // onReadMore={onReadMore}
+        // readMore={readMore}
+        postDetailUrl={postDetailUrl}
+        postDetail={postDetail}
+        pinned={pinned}
+        isPostDetailPath={isPostDetailPath}
+        messagePostFormat={messagePostFormat}
       />
     );
   }
