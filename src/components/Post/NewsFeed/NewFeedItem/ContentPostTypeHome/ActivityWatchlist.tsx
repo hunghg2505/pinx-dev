@@ -114,7 +114,7 @@ export const ActivityWatchlist = ({
                 color='neutral-1'
                 className='mt-[24px] desktop:mt-[36px] desktop:!text-[20px] desktop:!leading-[28px]'
               >
-                {postDetail?.post.action === 'ADD' ? 'Watching' : 'Unwatch'}
+                {postDetail?.post.action === 'ADD' ? t('watching') : t('unwatch')}
               </Text>
               <Text
                 type='body-12-medium'

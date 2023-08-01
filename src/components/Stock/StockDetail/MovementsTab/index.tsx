@@ -12,7 +12,7 @@ const MovementsTab = () => {
 
   return (
     <>
-      <div className='flex flex-col flex-wrap gap-y-[12px] px-[16px] tablet:flex-row tablet:gap-x-[15px] tablet:px-[22px]'>
+      <div className='flex flex-col flex-wrap gap-y-[12px] tablet:flex-row tablet:gap-x-[15px]'>
         <div className='flex flex-1'>
           <table className='flex-1'>
             <tbody>
@@ -198,7 +198,7 @@ const MovementsTab = () => {
         </div>
       </div>
 
-      <div className='mt-[20px] flex flex-wrap tablet:px-[22px]'>
+      <div className='mt-[20px] flex flex-wrap'>
         <div className='w-1/2 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
             {t('movements.total_vol')}

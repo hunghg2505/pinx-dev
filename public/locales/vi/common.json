@@ -219,5 +219,7 @@
   "recent": "Gần đây",
   "request_password_msg": "Yêu cầu lấy lại mật khẩu thành công",
   "join_date": "Ngày tham gia",
-  "activity.tooMany.message": "Hết lượt đăng hoạt động trong ngày"
+  "activity.tooMany.message": "Hết lượt đăng hoạt động trong ngày",
+  "watching": "Quan tâm",
+  "unwatch": "Bỏ quan tâm"
 }

@@ -12,5 +12,5 @@ export const ACTIVITIES_TYPE = [
     type: ActivityIconType.INVESTED,
     label: 'activities.invested_in',
   },
-  { icon: 'iconTrading.svg', type: ActivityIconType.SOLD, label: 'activities.activities' },
+  { icon: 'iconTrading.svg', type: ActivityIconType.SOLD, label: 'activities.sold' },
 ];
