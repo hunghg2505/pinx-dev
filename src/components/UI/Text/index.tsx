@@ -16,6 +16,7 @@ interface TextProps {
     | 'body-12-medium'
     | 'body-12-bold'
     | 'body-12-semibold'
+    | 'body-13-regular'
     | 'body-13-semibold'
     | 'body-14-regular'
     | 'body-14-bold'

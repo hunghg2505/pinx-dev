@@ -103,11 +103,11 @@ const ModalReportComment = (props: IProps) => {
     <>
       <Text
         onClick={onVisible}
-        className={classNames('cursor-pointer', {
+        className={classNames('cursor-pointer tablet:!text-[14px]', {
           'text-[#589DC0]': isReported && isLogin,
           'text-[#808080]': !isReported || !isLogin,
         })}
-        type='body-14-regular'
+        type='body-13-regular'
       >
         {children}
       </Text>
