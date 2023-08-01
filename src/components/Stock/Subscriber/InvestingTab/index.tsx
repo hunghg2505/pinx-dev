@@ -47,7 +47,7 @@ const InvestingTab = ({ stockCode }: IInvestingTabProps) => {
 
   return (
     <>
-      <div className='mb-[32px] mt-[20px] grid grid-cols-1 gap-x-[24px] gap-y-[16px] tablet:grid-cols-2 tablet:gap-y-[20px]'>
+      <div className='mt-[20px] grid grid-cols-1 gap-x-[24px] gap-y-[16px] tablet:grid-cols-2 tablet:gap-y-[20px]'>
         {stockInvesting?.data.list.map((item, index) => (
           <SubscriberItem data={item} key={index} />
         ))}
