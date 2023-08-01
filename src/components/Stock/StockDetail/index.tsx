@@ -936,7 +936,7 @@ const StockDetail = () => {
       <div className='box-shadow card-style'>
         <Text type='body-20-semibold'>{t('activities_title')}</Text>
 
-        <div className='flex flex-col gap-y-[16px] py-[20px]'>
+        <div className='flex flex-col gap-y-[16px] pt-[20px]'>
           {stockActivities?.data.list.map((item, index) => (
             <ActivityItem data={item} key={index} refreshStockActivities={refreshStockActivities} />
           ))}

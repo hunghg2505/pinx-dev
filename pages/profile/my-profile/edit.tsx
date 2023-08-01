@@ -23,7 +23,6 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
       <MainLayout>
         <LayoutLoadedProfile>{page} </LayoutLoadedProfile>
       </MainLayout>
-      ;
     </>
   );
 };

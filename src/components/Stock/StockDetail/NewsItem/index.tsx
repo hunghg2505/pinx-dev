@@ -34,10 +34,7 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
 
   return (
     <div
-      className={classNames(
-        'border-b border-solid border-[var(--neutral-7)] py-[12px] tablet:pt-[12px]',
-        className,
-      )}
+      className={classNames('border-b border-solid border-[var(--neutral-7)] pt-[12px]', className)}
     >
       <HeadingNewsItem
         isReport={data.isReport}
@@ -87,7 +84,6 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}
         onNavigate={goToPostDetail}
-        className='!border-none'
       />
     </div>
   );

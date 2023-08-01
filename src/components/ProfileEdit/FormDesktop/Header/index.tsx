@@ -10,7 +10,7 @@ export const profileUserContext = createContext(undefined);
 
 const Header = () => {
   return (
-    <div className='bg-white px-[20px] pt-[20px]'>
+    <div className='bg-white'>
       <div className='relative w-full pt-[41%] tablet:pt-[280px]'>
         <Back />
         <Cover />
