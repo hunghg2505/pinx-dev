@@ -54,7 +54,6 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
 
       if (ele?.clientHeight) {
-        console.log('123', ele?.clientHeight);
         if (window.innerWidth > 768) {
           setShowReadMore(ele?.clientHeight > 84);
         } else {
