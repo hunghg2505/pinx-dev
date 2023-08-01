@@ -220,5 +220,7 @@
   "recent": "Recent",
   "request_password_msg": "Password request is successful",
   "join_date": "Join date",
-  "activity.tooMany.message": "Exceed maximum activities for today"
+  "activity.tooMany.message": "Exceed maximum activities for today",
+  "watching": "Watching",
+  "unwatch": "Unwatch"
 }
