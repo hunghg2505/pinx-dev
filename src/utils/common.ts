@@ -128,7 +128,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replace(
         item,
         `
-        <a href="javascript:void(0)" class="hashtag">${item}</a>
+        <a href="${window.location.origin}/search-seo?keyword=${item}&type=company" class="hashtag">${item}</a>
         `,
       );
     }
@@ -492,13 +492,6 @@ export const converStringMessageToObject = (message: string) => {
         } else {
           b.push(item);
         }
-        // if (item.includes('%')) {
-        //   const c = [item, ''];
-        //   b.push(c);
-        // }
-        // if (!item.includes('@') && !item.includes('%')) {
-        //   b.push(item);
-        // }
         return b.flat();
       });
       const addSpace = newArray.flat();
@@ -532,6 +525,42 @@ export const converStringMessageToObject = (message: string) => {
             },
           };
         }
+        if (check.includes('#')) {
+          const newArray = check.split(' ');
+          const newArrayHashTag = newArray?.map((item: any) => {
+            const b = [];
+            if (item.includes('#')) {
+              const a = [item, ''];
+              b.push(a);
+            } else {
+              b.push(item);
+            }
+            return b.flat();
+          });
+          const newData = newArrayHashTag?.flat()?.map((itemHashTag: any) => {
+            if (itemHashTag.includes('#')) {
+              return {
+                type: 'hashTag',
+                attrs: {
+                  // eslint-disable-next-line unicorn/no-null
+                  id: null,
+                  label: itemHashTag,
+                },
+              };
+            }
+            if (!itemHashTag.includes('#') && itemHashTag === '') {
+              return {
+                type: 'text',
+                text: ' ',
+              };
+            }
+            return {
+              type: 'text',
+              text: itemHashTag,
+            };
+          });
+          return newData;
+        }
         if (!check.includes('%') && !check.includes('@') && check === '') {
           return {
             type: 'text',
@@ -546,7 +575,7 @@ export const converStringMessageToObject = (message: string) => {
       });
       return {
         type: 'paragraph',
-        content: data,
+        content: data.flat(),
       };
     }),
   };
