@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -9,6 +9,13 @@ const Search = ({ fullName: fullNameParams }: { fullName: string }) => {
   const [fullName, setFullName] = useState(fullNameParams);
   const { t } = useTranslation('profile');
   const { push, query } = useRouter();
+  const { tab } = query;
+
+  useEffect(() => {
+    return () => {
+      fullName && setFullName('');
+    };
+  }, [tab]);
 
   return (
     <form

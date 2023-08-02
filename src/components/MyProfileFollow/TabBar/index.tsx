@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 const TabBar = ({ tabKey }: { tabKey: string }) => {
   const { t } = useTranslation('profile');
   const searchParams = useSearchParams();
-  const { replace, query } = useRouter();
+  const { replace } = useRouter();
 
   return (
     <>
@@ -17,7 +17,7 @@ const TabBar = ({ tabKey }: { tabKey: string }) => {
           'text-neutral_06': searchParams.get('tab') !== tabKey,
         })}
         onClick={() => {
-          replace({ query: { ...query, tab: tabKey } });
+          replace({ query: { tab: tabKey } });
         }}
       >
         {t(tabKey)}

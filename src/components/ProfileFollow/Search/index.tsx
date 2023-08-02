@@ -1,18 +1,19 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import Form from 'rc-field-form';
+
+import FormItem from '@components/UI/FormItem';
 
 import SearchIcon from './SearchIcon';
 
 const Search = ({ fullName: fullNameProps }: { fullName: string }) => {
   const { t } = useTranslation('profile');
   const { push, query } = useRouter();
-  const [fullName, setFullName] = useState('');
+  const [form] = Form.useForm();
 
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = ({ fullName }: { fullName: string }) => {
     if (fullName) {
       push({ query: { ...query, fullName } });
     } else {
@@ -22,24 +23,30 @@ const Search = ({ fullName: fullNameProps }: { fullName: string }) => {
   };
 
   useEffect(() => {
-    setFullName(fullNameProps);
-  }, [fullNameProps]);
+    form.setFieldsValue({
+      fullName: fullNameProps,
+    });
+  }, [query]);
+
+  useEffect(() => {
+    return () => {
+      form.resetFields();
+    };
+  }, [query.tab]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label className='mb-[20px] flex border-b-2 border-solid border-neutral_07 px-[8px] py-[10px]'>
-        <input
-          className='flex-1 outline-none'
-          type='text'
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          placeholder={t('search_placeholder')}
-        />
-        <button>
-          <SearchIcon />
-        </button>
-      </label>
-    </form>
+    <Form form={form} onFinish={onSubmit}>
+      <div className='mb-[20px] flex items-center justify-between border-b-2 border-solid border-neutral_07 py-[10px]'>
+        <FormItem name='fullName' className='flex-1'>
+          <input
+            className='w-full outline-none'
+            type='text'
+            placeholder={t('search_placeholder')}
+          />
+        </FormItem>
+        <SearchIcon />
+      </div>
+    </Form>
   );
 };
 export default Search;
