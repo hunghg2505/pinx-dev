@@ -1,25 +1,39 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import UserFolowDesktop from '@components/common/UserFolowDesktop';
 import { profileUserContext } from '@components/MyProfile';
 import { useCustomerFollower } from '@components/MyProfileFollow/service';
 
 const Page = ({
-  page = 1,
+  page,
+  fullName,
   setState = () => {},
 }: {
   page?: number;
+  fullName?: string;
   setState?: (totalPages: any) => void;
 }) => {
   const profileUser = useContext<any>(profileUserContext);
-  const { data } = useCustomerFollower(page, {
-    onSuccess: (res: any) => {
-      setState((prev: any) => ({
-        ...prev,
-        totalPages: res?.totalPages,
-      }));
+  const { data, run } = useCustomerFollower(
+    {
+      page,
+      fullName,
     },
-  });
+    {
+      manual: true,
+      onSuccess: (res: any) => {
+        setState((prev: any) => ({
+          ...prev,
+          totalPages: res?.totalPages,
+        }));
+      },
+    },
+  );
+
+  useEffect(() => {
+    run();
+  }, [fullName]);
+
   return (
     <>
       {data?.data?.map((item: any) => {

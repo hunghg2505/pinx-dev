@@ -1,36 +1,52 @@
-import React, { useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import Form from 'rc-field-form';
+
+import FormItem from '@components/UI/FormItem';
 
 import SearchIcon from './SearchIcon';
 
-const Search = () => {
+const Search = ({ fullName: fullNameProps }: { fullName: string }) => {
   const { t } = useTranslation('profile');
   const { push, query } = useRouter();
+  const [form] = Form.useForm();
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const onSubmit = ({ fullName }: { fullName: string }) => {
+    if (fullName) {
+      push({ query: { ...query, fullName } });
+    } else {
+      delete query.fullName;
+      push({ query: { ...query } });
+    }
+  };
+
+  useEffect(() => {
+    form.setFieldsValue({
+      fullName: fullNameProps,
+    });
+  }, [query]);
+
+  useEffect(() => {
+    return () => {
+      form.resetFields();
+    };
+  }, [query.tab]);
+
   return (
-    <label className='mb-[20px] flex border-b-2 border-solid border-neutral_07 px-[8px] py-[10px]'>
-      <input
-        ref={inputRef}
-        className='flex-1 outline-none'
-        type='text'
-        placeholder={t('search_placeholder')}
-      />
-      <button
-        onClick={() => {
-          if (inputRef?.current?.value) {
-            push({ query: { ...query, search: inputRef?.current?.value } });
-          } else {
-            delete query.search;
-            push({ query: { ...query } });
-          }
-        }}
-      >
+    <Form form={form} onFinish={onSubmit}>
+      <div className='mb-[20px] flex items-center justify-between border-b-2 border-solid border-neutral_07 py-[10px]'>
+        <FormItem name='fullName' className='flex-1'>
+          <input
+            className='w-full outline-none'
+            type='text'
+            placeholder={t('search_placeholder')}
+          />
+        </FormItem>
         <SearchIcon />
-      </button>
-    </label>
+      </div>
+    </Form>
   );
 };
 export default Search;

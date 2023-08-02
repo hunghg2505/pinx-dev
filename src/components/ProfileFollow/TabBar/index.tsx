@@ -20,7 +20,7 @@ const TabBar = ({ tabKey }: { tabKey: string }) => {
           },
         )}
         onClick={() => {
-          replace({ query: { ...query, tab: tabKey } });
+          replace({ query: { id: query.id, tab: tabKey } });
         }}
       >
         {t(tabKey)}

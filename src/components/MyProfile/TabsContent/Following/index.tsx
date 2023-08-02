@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { useRouter } from 'next/router';
 
 import Search from '@components/common/Search';
-import { pageSize } from '@components/MyProfileFollow/service';
+import { pageSize, useCustomerFollowing } from '@components/MyProfileFollow/service';
 import useElementOnscreen from '@utils/useElementOnscreen';
 
 import NotFound from './NotFound';
 import Page from './Page';
 
-const Following = ({ totalFollowing }: { totalFollowing: number }) => {
+const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
+  const router = useRouter();
+  const [totalFollowing, setTotalFollowing] = useState(total);
+  const { fullName }: any = router.query;
   const [state, setState] = useState<{
     pages: number[];
     totalPages: number;
@@ -21,12 +26,29 @@ const Following = ({ totalFollowing }: { totalFollowing: number }) => {
     }
   });
 
+  const requestGetListFollowing = useCustomerFollowing(
+    {
+      fullName,
+    },
+    {
+      manual: true,
+    },
+  );
+
+  useEffect(() => {
+    (async () => {
+      const { totalElements, totalPages } = await requestGetListFollowing.runAsync();
+      setTotalFollowing(totalElements);
+      setState({ pages: [1], totalPages });
+    })();
+  }, [fullName]);
+
   return (
     <>
-      <Search />
-      <div className='mb-[20px] grid grid-cols-4 gap-[14px]'>
+      <Search fullName={fullName} />
+      <div className='grid grid-cols-4 gap-[14px]'>
         {state.pages.map((page) => {
-          return <Page page={page} key={page} />;
+          return <Page fullName={fullName} page={page} key={page} />;
         })}
         <div ref={lastElementRef}></div>
       </div>
