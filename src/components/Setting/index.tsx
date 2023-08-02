@@ -18,6 +18,7 @@ import { getLocaleCookie } from '@store/locale';
 // import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { Logout } from '@utils/dataLayer';
 
 import PopupHotline from './PopupHotline';
 import PopupLanguage from './PopupLanguage';
@@ -77,8 +78,12 @@ const Setting = () => {
       },
     ];
   }, [currentLang, isMobile, isLogin, t]);
-
-  const PINEX_HELP = useMemo(() => {
+  const onHandleLogout = () => {
+    const date = new Date();
+    onLogout();
+    Logout(date);
+  };
+  const PINEX_HELP: any = useMemo(() => {
     return [
       {
         title: `${t('version')} 2.1.1`,
@@ -115,7 +120,7 @@ const Setting = () => {
       },
       {
         title: t('log_out'),
-        action: () => onLogout(),
+        action: () => onHandleLogout(),
         linkStyle: !isMobile,
         hideDivider: !isMobile,
         hideArrow: !isMobile,
