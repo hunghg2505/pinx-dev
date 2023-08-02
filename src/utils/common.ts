@@ -35,6 +35,7 @@ export const ROUTE_PATH = {
   STOCK_RELATED: (stockCode: string, hashtagId: string) =>
     `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/related/${hashtagId}`,
   SEARCH: '/search',
+  SEARCHSEO: '/search-seo',
   TOP_WATCHING: '/top-watching',
   GIFTCASH: '/gift-cash',
   NOT_FOUND: '/404',
