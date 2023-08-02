@@ -563,14 +563,8 @@ const Compose = (props: IProps) => {
       if (!hiddenThemeSelected) {
         data.postThemeId = '';
       }
-      console.log('123', validateHTML(message));
       if (message?.toLowerCase()?.includes('script')) {
-        return toast(() => (
-          <Notification
-            type='error'
-            message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-          />
-        ));
+        return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (message && validateHTML(message)) {
         return toast(() => (

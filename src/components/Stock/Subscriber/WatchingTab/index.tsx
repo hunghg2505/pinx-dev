@@ -53,10 +53,10 @@ const WatchingTab = ({ stockCode }: IWatchingTabProps) => {
         ))}
       </div>
 
-      {stockWatching?.data.hasNext && !isMobile && (
+      {stockWatching?.data.hasNext && (
         <Text
           type='body-14-semibold'
-          className='mb-[32px] mt-[24px] cursor-pointer'
+          className='mt-[24px] hidden cursor-pointer tablet:block'
           color='primary-2'
           onClick={handleViewMore}
         >
