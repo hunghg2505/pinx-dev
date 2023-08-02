@@ -10,6 +10,7 @@ import { useShareStockActivity } from '@components/Stock/service';
 import { ShareStockAction } from '@components/Stock/type';
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
+import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -143,7 +144,16 @@ const PopupFollowStock = ({
           </div>
         </div>
 
-        <MainButton type='submit' className='mt-[20px] w-full'>
+        <MainButton
+          type='submit'
+          className='mt-[20px] flex w-full items-center justify-center'
+          disabled={requestShareStockAct.loading}
+        >
+          {requestShareStockAct.loading && (
+            <div className='mr-[12px]'>
+              <Loading />
+            </div>
+          )}
           {t('common:create_post')}
         </MainButton>
       </Form>
