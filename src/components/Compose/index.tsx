@@ -516,7 +516,7 @@ const Compose = (props: IProps) => {
         return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (message && validateHTML(message)) {
-        toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
+        return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         return toast(() => (

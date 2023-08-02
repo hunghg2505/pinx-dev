@@ -606,11 +606,6 @@ export default async function getSeoDataFromLink(url: string) {
   }
 }
 export function validateHTML(htmlString: any) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlString, 'application/xml');
-  const errorNode = doc.querySelector('parsererror');
-  if (errorNode) {
-    return false;
-  }
-  return true;
+  const testHtml = /<(?:"[^"]"["']|'[^']'["']|[^"'>])+>/g.test(htmlString);
+  return testHtml;
 }
