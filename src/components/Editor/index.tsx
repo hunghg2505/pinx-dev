@@ -305,19 +305,9 @@ const Editor = (props: IProps, ref?: any) => {
     };
 
     if (message?.toLowerCase()?.includes('script')) {
-      toast(() => (
-        <Notification
-          type='error'
-          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-        />
-      ));
+      toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (message && validateHTML(message)) {
-      toast(() => (
-        <Notification
-          type='error'
-          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-        />
-      ));
+      toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
       toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
     } else if (statusUser === USERTYPE.VSD) {

@@ -221,5 +221,6 @@
   "join_date": "Ngày tham gia",
   "activity.tooMany.message": "Hết lượt đăng hoạt động trong ngày",
   "watching": "Quan tâm",
-  "unwatch": "Bỏ quan tâm"
+  "unwatch": "Bỏ quan tâm",
+  "your_post_should_be_review": "Bạn cần kiểm duyệt nội dung do vi phạm chính sách của Pinetree Securities"
 }
