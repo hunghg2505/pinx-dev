@@ -401,16 +401,16 @@ const Explore = () => {
 
       <div className='relative flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full mobile:hidden tablet:block'></div>
-        <div className='hidden mobile-max:block'>
+        <div className='-mt-[4px]'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
             return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
           })}
         </div>
-        <div className='-mt-[4px] block mobile-max:hidden'>
+        {/* <div className='-mt-[4px] block mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
             return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
           })}
-        </div>
+        </div> */}
       </div>
 
       <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
