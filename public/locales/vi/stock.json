@@ -1,5 +1,5 @@
 {
-  "follow_stock": "Vi - Follow stock",
+  "follow_stock": "Thêm cổ phiếu",
   "tab": {
     "movements": "Vi - Movements",
     "matchings": "Vi - Matchings",
@@ -48,7 +48,7 @@
     "review": "Vi - Review"
   },
   "review_form": {
-    "title": "Vi - What do you think about {{stockCode}}",
+    "title": "Vi - What do you think about {{stockCode}}?",
     "placeholder": "Vi - Enter your review"
   },
   "community": "Vi - Community",
@@ -111,5 +111,7 @@
     "action_add_from": "vào",
     "action_delete_from": "khỏi",
     "content_post": "{{displayName}} vừa mới {{action}} {{stockCode}} {{from}} danh sách theo dõi"
-  }
+  },
+  "less": "Vi - Less",
+  "more": "Vi - More"
 }
