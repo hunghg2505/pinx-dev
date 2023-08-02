@@ -1,5 +1,5 @@
 {
-  "follow_stock": "Follow stock",
+  "follow_stock": "Watch",
   "tab": {
     "movements": "Movements",
     "matchings": "Matchings",
@@ -48,7 +48,7 @@
     "review": "Review"
   },
   "review_form": {
-    "title": "What do you think about {{stockCode}}",
+    "title": "What do you think about {{stockCode}}?",
     "placeholder": "Enter your review"
   },
   "community": "Community",
@@ -109,5 +109,7 @@
     "action_add": "add",
     "action_delete": "deleted",
     "content_post": "{{displayName}} has just {{action}} {{stockCode}} from their following list"
-  }
+  },
+  "less": "Less",
+  "more": "More"
 }

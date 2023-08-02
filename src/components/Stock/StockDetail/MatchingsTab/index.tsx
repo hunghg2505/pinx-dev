@@ -202,7 +202,7 @@ const MatchingsTab = () => {
                 {t('common:view_more')}
               </Text>
 
-              <div className='hidden px-[24px] tablet:block'>
+              <div className='hidden tablet:block'>
                 <button
                   onClick={() => {
                     setOpenPopup(true);

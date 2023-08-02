@@ -91,7 +91,7 @@ const PopupFollowStock = ({
           className='mb-[20px] flex h-[60px] flex-col items-start justify-start'
         >
           <textarea
-            placeholder={t('what_do_you_want_to_comment')}
+            placeholder={t('common:what_do_you_want_to_comment')}
             className='h-full w-full resize-none text-[16px] outline-none'
           />
         </FormItem>
