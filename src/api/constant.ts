@@ -162,4 +162,13 @@ export const API_PATH = {
   PUBLIC_GET_CUSTOMER_FOLLOWING: '/public/customer/following/other',
   GET_MY_CUSTOMER_FOLLOWER: '/private/customer/follower/friends',
   GET_MY_CUSTOMER_FOLLOWING: '/private/customer/following/friends',
+
+  // api v2
+  PRIVATE_HASHTAG_V2_COMMUNITY: '/private/post/hashtag/suggestV2',
+  PRIVATE_ADD_POST_V2_COMMUNITY: '/private/post/add-v2',
+  PRIVATE_ACTIVITY_WATCHLIST_V2: '/private/activity/watchlist/addV2',
+  PRIVATE_ACTIVITY_THEME_V2: '/private/activity/theme/addV2',
+  PRIVATE_UPDATE_POST_V2: (id: string) => `/private/mapping/${id}/updateV2`,
+  PRIVATE_ADD_COMMENT_V2: '/private/comment/addV2',
+  PRIVATE_REPLY_COMMENT_V2: (comment_Id: string) => `/private/comment/${comment_Id}/replyV2`,
 };

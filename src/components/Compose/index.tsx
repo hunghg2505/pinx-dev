@@ -14,7 +14,7 @@ import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestPist } from '@api/request';
 import { ActivityTheme } from '@components/Compose/ActivityTheme';
 import { ImageTheme } from '@components/Compose/ImageTheme';
 import { ListTheme } from '@components/Compose/ListTheme';
@@ -61,6 +61,7 @@ interface IData {
   urlImages?: string[];
   urlLinks?: any;
   metadata?: string[];
+  hashtags: any;
 }
 
 type TMeta = Array<{
@@ -222,7 +223,7 @@ const Compose = (props: IProps) => {
           },
         }).configure({
           HTMLAttributes: {
-            class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
+            class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[21px]',
           },
 
           suggestion: {
@@ -259,7 +260,7 @@ const Compose = (props: IProps) => {
           },
         }).configure({
           HTMLAttributes: {
-            class: 'stockMention text-[14px] font-semibold leading-[18px]',
+            class: 'stockMention text-[14px] font-semibold leading-[21px]',
           },
 
           suggestion: {
@@ -276,6 +277,47 @@ const Compose = (props: IProps) => {
               });
 
               return data?.data?.companies;
+            },
+          },
+        }),
+        Mention.extend({
+          name: 'hashTag',
+          renderHTML(prop: any) {
+            return [
+              'a',
+              {
+                style: 'font-weight:600;',
+                class: 'hashTag',
+                userkey: prop && prop.node?.attrs.id,
+                'data-username': prop?.node?.attrs?.label,
+                href: `/stock/${prop?.node?.attrs?.label}`,
+              },
+              `${prop?.node?.attrs?.label}`,
+            ];
+          },
+        }).configure({
+          HTMLAttributes: {
+            class: 'hashTag text-[14px] font-semibold leading-[21px]',
+          },
+
+          suggestion: {
+            ...Suggestion,
+            pluginKey: new PluginKey('hashTag'),
+            char: '#',
+            items: async ({ query }: { query: string }) => {
+              const payload: any = {
+                keyword: query,
+                page: 0,
+                pageSize: 10,
+              };
+              const data = await privateRequest(
+                requestCommunity.post,
+                API_PATH.PRIVATE_HASHTAG_V2_COMMUNITY,
+                {
+                  data: payload,
+                },
+              );
+              return data?.data?.list;
             },
           },
         }),
@@ -357,6 +399,7 @@ const Compose = (props: IProps) => {
 
       const users: any = [];
       const stock: any = [];
+      const hashtags: any = [];
       const idUser: any = [];
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
@@ -387,6 +430,9 @@ const Compose = (props: IProps) => {
               if (item.includes('http') && urlLinks.length < 2) {
                 urlLinks.push(item);
               }
+              if (item.includes('#')) {
+                hashtags.push(item);
+              }
             }
 
             p = text.text;
@@ -403,6 +449,11 @@ const Compose = (props: IProps) => {
             const query = text.attrs.label;
             stock.push(query);
             p = `%[${text.attrs.label}](${text.attrs.label}) `;
+          }
+          if (text.type === 'hashTag') {
+            const query = text.attrs.label;
+            hashtags.push(query);
+            p = text.attrs.label;
           }
 
           // if (text.type === 'hardBreak') {
@@ -472,6 +523,7 @@ const Compose = (props: IProps) => {
           ? [...postDetail?.post?.tagPeople, ...formatTagPeople]
           : formatTagPeople,
         tagStocks: stock,
+        hashtags,
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
         // parentId: idReply === '' ? id : idReply,
         urlImages: [imageUploadedUrl],
@@ -511,12 +563,11 @@ const Compose = (props: IProps) => {
       if (!hiddenThemeSelected) {
         data.postThemeId = '';
       }
-
       if (message?.toLowerCase()?.includes('script')) {
         return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (message && validateHTML(message)) {
-        toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
+        return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         return toast(() => (

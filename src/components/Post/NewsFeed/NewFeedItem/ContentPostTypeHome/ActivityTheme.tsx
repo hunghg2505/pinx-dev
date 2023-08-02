@@ -20,6 +20,7 @@ export const ActivityTheme = ({
   iconPost,
   messagePostFormat,
 }: any) => {
+  console.log('🚀 ~ file: ActivityTheme.tsx:23 ~ postDetail:', postDetail);
   const { t } = useTranslation();
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
@@ -45,7 +46,9 @@ export const ActivityTheme = ({
     const t = setTimeout(() => {
       const ele = document?.getElementById(`activityTheme-${postDetail.id}`);
 
+      console.log('🚀 ~ file: ActivityTheme.tsx:49 ~ t ~ ele:', ele?.clientHeight);
       if (ele?.clientHeight) {
+        console.log('ele?.clientHeight', ele?.clientHeight);
         if (window.innerWidth > 768) {
           setShowReadMore(ele?.clientHeight > 84);
         } else {

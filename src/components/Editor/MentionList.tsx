@@ -16,8 +16,11 @@ export default forwardRef((props: any, ref) => {
     const item = props.items[index];
     if (item) {
       const isStock = !!item?.stockCode;
+      const isHashTag = !!item.mappingId;
       if (isStock) {
         props.command({ id: item.id, label: item.stockCode });
+      } else if (isHashTag) {
+        props.command({ id: item.id, label: item.content });
       } else {
         props.command({ id: item.id, label: item.displayName });
       }
@@ -58,6 +61,18 @@ export default forwardRef((props: any, ref) => {
       return false;
     },
   }));
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const renderText = (item: any) => {
+    const isStock = !!item.stockCode;
+    const isHashTag = !!item.mappingId;
+    if (isStock) {
+      return item.stockCode;
+    }
+    if (isHashTag) {
+      return item.content;
+    }
+    return item.displayName;
+  };
   return (
     <div
       className={classNames(
@@ -73,6 +88,7 @@ export default forwardRef((props: any, ref) => {
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
+              const isHashTag = !!item.mappingId;
               let url = '';
               const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
               if (isStock) {
@@ -92,19 +108,21 @@ export default forwardRef((props: any, ref) => {
                   key={index}
                   onClick={() => selectItem(index)}
                 >
-                  <img
-                    src={isStock ? url : item.avatar}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
-                  />
+                  {!isHashTag && (
+                    <img
+                      src={isStock ? url : item.avatar}
+                      alt=''
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                      className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
+                    />
+                  )}
                   <Text
                     type='body-14-medium'
                     className='text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
                   >
-                    {isStock ? item.stockCode : item.displayName}
+                    {renderText(item)}
                   </Text>
                 </button>
               );
