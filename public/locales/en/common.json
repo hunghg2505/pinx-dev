@@ -222,5 +222,6 @@
   "join_date": "Join date",
   "activity.tooMany.message": "Exceed maximum activities for today",
   "watching": "Watching",
-  "unwatch": "Unwatch"
+  "unwatch": "Unwatch",
+  "your_post_should_be_review": "Your post should be reviewed due to violation to Pinetree Securities's policy"
 }
