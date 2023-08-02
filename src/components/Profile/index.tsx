@@ -37,7 +37,7 @@ const Profile = () => {
       <>
         <div className=' flex '>
           <div className='w-full '>
-            <div className='box-shadow card-style rounded-[8px] bg-white mobile:pb-[20px]'>
+            <div className='box-shadow border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] mobile:pb-[20px] desktop:p-[16px]'>
               <Header />
               <MyStory />
               <div
