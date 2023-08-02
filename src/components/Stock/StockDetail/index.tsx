@@ -130,31 +130,33 @@ const StockDetail = () => {
     onSuccess: () => {
       refreshMyStocks();
 
-      const title = isFollowedStock
-        ? t('tell_people_reason_unwatched', {
-            stockCode,
-          })
-        : t('tell_people_reason_watched', {
-            stockCode,
-          });
+      if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
+        const title = isFollowedStock
+          ? t('tell_people_reason_unwatched', {
+              stockCode,
+            })
+          : t('tell_people_reason_watched', {
+              stockCode,
+            });
 
-      toast(
-        (t) => (
-          <NotificationFollowStock
-            title={title}
-            onClickShare={() => {
-              toast.dismiss(t.id);
-              setOpenPopupFollowStock(true);
-            }}
-          />
-        ),
-        {
-          duration: 5000,
-          style: {
-            maxWidth: '90vw',
+        toast(
+          (t) => (
+            <NotificationFollowStock
+              title={title}
+              onClickShare={() => {
+                toast.dismiss(t.id);
+                setOpenPopupFollowStock(true);
+              }}
+            />
+          ),
+          {
+            duration: 5000,
+            style: {
+              maxWidth: '90vw',
+            },
           },
-        },
-      );
+        );
+      }
     },
   });
 
