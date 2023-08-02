@@ -58,7 +58,7 @@ import {
 import { CompanyRelatedType, FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
 
 const MAX_LINE = 4;
-const LINE_HEIGHT = 16;
+const LINE_HEIGHT = 21;
 const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 const STOCK_EVENT_ITEM_LIMIT = 4;
 const WATCHING_INVESTING_ITEM_LIMIT = 5;
@@ -130,31 +130,33 @@ const StockDetail = () => {
     onSuccess: () => {
       refreshMyStocks();
 
-      const title = isFollowedStock
-        ? t('tell_people_reason_unwatched', {
-            stockCode,
-          })
-        : t('tell_people_reason_watched', {
-            stockCode,
-          });
+      if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
+        const title = isFollowedStock
+          ? t('tell_people_reason_unwatched', {
+              stockCode,
+            })
+          : t('tell_people_reason_watched', {
+              stockCode,
+            });
 
-      toast(
-        (t) => (
-          <NotificationFollowStock
-            title={title}
-            onClickShare={() => {
-              toast.dismiss(t.id);
-              setOpenPopupFollowStock(true);
-            }}
-          />
-        ),
-        {
-          duration: 5000,
-          style: {
-            maxWidth: '90vw',
+        toast(
+          (t) => (
+            <NotificationFollowStock
+              title={title}
+              onClickShare={() => {
+                toast.dismiss(t.id);
+                setOpenPopupFollowStock(true);
+              }}
+            />
+          ),
+          {
+            duration: 5000,
+            style: {
+              maxWidth: '90vw',
+            },
           },
-        },
-      );
+        );
+      }
     },
   });
 
@@ -270,7 +272,7 @@ const StockDetail = () => {
   };
 
   return (
-    <>
+    <div className='p-[10px] desktop:p-0'>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {
@@ -362,8 +364,8 @@ const StockDetail = () => {
                 </button>
               </div>
 
-              <Text type='body-10-regular' className='primary-5'>
-                {stockDetail?.data?.name}
+              <Text type='body-12-regular' className='primary-5'>
+                {i18n.language === 'vi' ? stockDetail?.data?.nameVi : stockDetail?.data?.nameEn}
               </Text>
             </div>
           </div>
@@ -439,7 +441,7 @@ const StockDetail = () => {
             })}
           >
             <div ref={introDescRef} className='leading-[inherit]'>
-              <Text type='body-12-regular' className='whitespace-pre-line !leading-[inherit]'>
+              <Text type='body-14-regular' className='whitespace-pre-line !leading-[inherit]'>
                 {stockDetail?.data?.introduction}
               </Text>
             </div>
@@ -451,7 +453,7 @@ const StockDetail = () => {
               className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
             >
               <Text type='body-12-semibold' color='primary-2'>
-                {isSeeMore ? t('common:see_less') : t('common:see_more') + '...'}
+                {isSeeMore ? t('less') : t('more') + '...'}
               </Text>
             </button>
           )}
@@ -576,7 +578,7 @@ const StockDetail = () => {
                 <RevenueItem
                   key={index}
                   value={+item.percentage.toFixed(2)}
-                  label={item.sourceVi}
+                  label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
                 />
               ))}
             </div>
@@ -942,7 +944,7 @@ const StockDetail = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
