@@ -14,20 +14,19 @@ import Text from '@components/UI/Text';
 
 import ItemAddStock from './ItemAddStock';
 
-const ModalAddStock = (
-  {
-    children,
-    refreshYourWatchList,
-    dataStock,
-    yourWatchListStock,
-    isEdit,
-  }: {
-    children?: any;
-    refreshYourWatchList?: () => void;
-    dataStock?: any;
-    yourWatchListStock?: any;
-    isEdit?: boolean;
-  }) => {
+const ModalAddStock = ({
+  children,
+  refreshYourWatchList,
+  dataStock,
+  yourWatchListStock,
+  isEdit,
+}: {
+  children?: any;
+  refreshYourWatchList?: () => void;
+  dataStock?: any;
+  yourWatchListStock?: any;
+  isEdit?: boolean;
+}) => {
   const { t } = useTranslation('watchlist');
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState<boolean>(false);
@@ -53,12 +52,9 @@ const ModalAddStock = (
 
   const listStock = data?.data?.companies || [];
 
-  console.log('ModalAddStock dataStock',dataStock);
-  console.log('ModalAddStock listStock',listStock);
-
   const checkHeart = (code: any) => {
     const found = yourWatchListStock.find((element: any) => element?.stockCode === code?.stockCode);
-    if (found){
+    if (found) {
       return true;
     }
     return false;

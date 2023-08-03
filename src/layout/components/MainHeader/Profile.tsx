@@ -39,7 +39,6 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
-      console.log('close menu');
       setOpenProfileMenu(false);
     });
   });

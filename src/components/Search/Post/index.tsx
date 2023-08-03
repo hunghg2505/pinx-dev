@@ -21,7 +21,7 @@ const Post = ({ keyword }: { keyword: any }) => {
   const [page, setPage] = React.useState<number>(0);
   const [listComapany, setListCompany] = React.useState<any>([]);
   const refInput = React.useRef(null);
-  const { posts, run } = useGetPosts({
+  const { posts, run, refresh } = useGetPosts({
     onSuccess: (res: any) => {
       const newPage = page + 1;
       setPage(newPage);
@@ -77,7 +77,13 @@ const Post = ({ keyword }: { keyword: any }) => {
         {posts?.length > 0 ? (
           <div className='mt-[20px]'>
             {posts?.map((post: any) => {
-              return <NewsFeed key={`search-post-item-${post?.id}`} data={post} />;
+              return (
+                <NewsFeed
+                  key={`search-post-item-${post?.id}`}
+                  data={post}
+                  onRefreshList={refresh}
+                />
+              );
             })}
           </div>
         ) : (
