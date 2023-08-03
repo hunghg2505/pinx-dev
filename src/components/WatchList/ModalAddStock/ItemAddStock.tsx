@@ -16,7 +16,15 @@ import { imageStock } from '@utils/common';
 
 import styles from './index.module.scss';
 
-const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refreshYourWatchList?: () => void, like?: boolean }) => {
+const ItemAddStock = ({
+  data,
+  refreshYourWatchList,
+  like,
+}: {
+  data: any;
+  refreshYourWatchList?: () => void;
+  like?: boolean;
+}) => {
   const { i18n } = useTranslation();
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
@@ -43,19 +51,20 @@ const ItemAddStock = ({ data, refreshYourWatchList, like }: { data: any, refresh
     requestSelectStock.run(data?.stockCode);
   };
   const onRemoveStock = () => {
-    console.log('remove',data?.stockCode);
     useRemoveStock.run();
   };
-  console.log(`${data?.stockCode}`,like);
   return (
-    <div onClick={like?onRemoveStock:onAddStock} className='relative flex cursor-pointer items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'>
+    <div
+      onClick={like ? onRemoveStock : onAddStock}
+      className='relative flex cursor-pointer items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
+    >
       <div className='flex items-center gap-x-[10px]'>
         <Image
           src={imageStock(data?.stockCode)}
           alt=''
           width={48}
           height={48}
-          className='h-[36px] w-[36px] rounded-full object-contain tablet:h-[48px] tablet:w-[48px] bg-white'
+          className='h-[36px] w-[36px] rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'
         />
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>

@@ -70,6 +70,9 @@ export const formatMessage = (message: string, data: any) => {
   const listStock = data?.tagStocks?.map((item: string) => {
     return `%[${item}](${item})`;
   });
+  const listHashTag = data?.hashtags?.map((item: any) => {
+    return item;
+  });
   if (tagPeople) {
     for (const item of tagPeople) {
       const start = item.indexOf('[') + 1;
@@ -109,14 +112,24 @@ export const formatMessage = (message: string, data: any) => {
       const start = item.indexOf('[') + 1;
       const end = item.indexOf(']');
       const name = item.slice(start, end);
-      // const startId = item.indexOf('(') + 1;
-      // const endId = item.indexOf(')');
-      // const ID = item.slice(startId, endId);
       if (message && message.includes(item)) {
         message = message.replaceAll(
           item,
           `
           <a href="javascript:void(0)" className="tagStock">${name}</a>
+          `,
+        );
+      }
+    }
+  }
+  if (listHashTag) {
+    for (const item of listHashTag) {
+      if (message && message.includes(item)) {
+        const newItem = item.replace('#', '');
+        message = message.replaceAll(
+          item,
+          `
+          <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
           `,
         );
       }

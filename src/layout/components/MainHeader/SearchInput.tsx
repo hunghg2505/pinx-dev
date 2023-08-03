@@ -16,14 +16,13 @@ const SearchInput = () => {
   const { t } = useTranslation('common');
   const searchParams = useSearchParams();
   const search = searchParams.get('q') || '';
-  console.log('search',search);
   const [form] = Form.useForm();
   const [query, setQuery] = React.useState(search);
 
   // Remove value input search when refresh open new page
   React.useEffect(() => {
     setQuery(search);
-  },[search]);
+  }, [search]);
 
   const [inputFocus, setInputFocus] = React.useState(false);
   // const [showPopup, setShowPopup] = React.useState(false);
@@ -38,7 +37,7 @@ const SearchInput = () => {
     setInputFocus(false);
   }, ref);
 
-  const handleParam =  () => setQuery(form.getFieldValue('search'));
+  const handleParam = () => setQuery(form.getFieldValue('search'));
 
   const handleSubmit = () => {
     router.push({
@@ -58,17 +57,17 @@ const SearchInput = () => {
       </button>
 
       <div className='mr-[32px] mobile:hidden tablet:block'>
-        <Form
-          form={form}
-          onFinish={handleSubmit}
-          onValuesChange={handleParam}>
+        <Form form={form} onFinish={handleSubmit} onValuesChange={handleParam}>
           <FormItem name='search'>
             <Input
               ref={ref}
-              className={classNames('transition-all duration-300 ease-in-out h-[40px] rounded-[8px] pl-[36px] pr-[12px] outline-none',{
-                'w-[375px] bg-[#F7F6F8]': inputFocus,
-                'w-[220px] bg-[#EFF2F5] ': !inputFocus,
-              })}
+              className={classNames(
+                'h-[40px] rounded-[8px] pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
+                {
+                  'w-[375px] bg-[#F7F6F8]': inputFocus,
+                  'w-[220px] bg-[#EFF2F5] ': !inputFocus,
+                },
+              )}
               placeholder={t('search_uppercase')}
               icon={<IconSearchWhite />}
               value={query}

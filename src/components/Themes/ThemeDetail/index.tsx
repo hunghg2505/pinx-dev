@@ -60,12 +60,7 @@ const ThemeDetail = () => {
       value: TabsThemeDetailEnum.Activities,
     },
     // eslint-disable-next-line array-callback-return
-  ].filter((item) => {
-    if (!isLogin) {
-      return item.label !== t('tab.community');
-    }
-    return item;
-  });
+  ];
   const { themeDetail, refresh } = useGetThemeDetail(id, {
     onError: (err: any) => {
       if (err.errorCode === 'error.theme.notfound') {
@@ -76,7 +71,7 @@ const ThemeDetail = () => {
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsThemeDetailEnum.Community: {
-        return isLogin ? <Community payload={themeDetail} /> : <></>;
+        return <Community payload={themeDetail} />;
       }
       case TabsThemeDetailEnum.StockSymbols: {
         return <StockSymbols data={themeDetail} />;
@@ -124,7 +119,7 @@ const ThemeDetail = () => {
 
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
-          {isLogin && <Community payload={themeDetail} />}
+          <Community payload={themeDetail} />
           <StockSymbols data={themeDetail} />
           <Activities data={themeDetail} ref={refActivities} />
         </div>

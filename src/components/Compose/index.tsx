@@ -62,7 +62,7 @@ interface IData {
   urlImages?: string[];
   urlLinks?: any;
   metadata?: string[];
-  hashtags: any;
+  hashtags?: any;
 }
 
 type TMeta = Array<{
@@ -524,7 +524,7 @@ const Compose = (props: IProps) => {
           ? [...postDetail?.post?.tagPeople, ...formatTagPeople]
           : formatTagPeople,
         tagStocks: stock,
-        hashtags,
+        // hashtags,
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
         // parentId: idReply === '' ? id : idReply,
         urlImages: [imageUploadedUrl],

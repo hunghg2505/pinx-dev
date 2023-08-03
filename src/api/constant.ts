@@ -162,6 +162,7 @@ export const API_PATH = {
 
   // PROFILE
   GET_USER_POST: '/private/mapping/other-customer-mappings',
+  PUBLIC_GET_USER_POST: '/public/other-customer-mappings',
   GET_MY_POST: '/private/mapping/customer-mappings',
   GET_USER_WATCHLIST: '/private/watchlist/list/',
   UPDATE_USER_PROFILE: '/private/customer/update',
