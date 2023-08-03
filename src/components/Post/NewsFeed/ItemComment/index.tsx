@@ -108,8 +108,6 @@ const ItemComment = (props: IProps) => {
     };
   }, []);
   const message = data?.message && formatMessage(data?.message, data);
-  console.log('🚀 ~ file: index.tsx:111 ~ ItemComment ~ message:', message);
-  console.log('data?.message', data?.message);
   const name = data?.customerInfo?.displayName || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
