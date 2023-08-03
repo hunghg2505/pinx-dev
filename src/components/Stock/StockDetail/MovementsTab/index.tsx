@@ -3,12 +3,19 @@ import React from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
+import { useGetStockData } from '@components/Stock/service';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
 
-const MovementsTab = () => {
+interface IMovementsTabProps {
+  stockCode: string;
+}
+
+const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
   const { t } = useTranslation(['stock', 'common']);
+  const { stockData } = useGetStockData(stockCode);
+  console.log('🚀 ~ file: index.tsx:18 ~ MovementsTab ~ stockData:', stockData);
 
   return (
     <>

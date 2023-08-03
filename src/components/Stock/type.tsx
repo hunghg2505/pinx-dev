@@ -66,7 +66,7 @@ export interface IResponseStockDetail {
   };
 }
 
-interface IProduct {
+export interface IProduct {
   name: string;
   imageUrl: string;
 }
@@ -364,4 +364,43 @@ export interface IPayloadShareStock {
   action: ShareStockAction;
   message?: string;
   stockCode: string;
+}
+
+export interface IResponseStockData {
+  stockData?: {
+    data: {
+      id: number;
+      flag: string;
+      sym: string;
+      name: string;
+      mc: string;
+      c: number;
+      r: number;
+      f: number;
+      lastPrice: number;
+      lastVolume: number;
+      lot: number;
+      ot: string;
+      changePc: string;
+      avePrice: string;
+      highPrice: string;
+      lowPrice: string;
+      g1: string;
+      g2: string;
+      g3: string;
+      g4: string;
+      g5: string;
+      g6: string;
+      g7: string;
+      mp: string;
+      brd: string;
+      volumeInDay: number;
+      fBVol: string;
+      fBValue: string;
+      fSVol: null;
+      fSVolume: string;
+      fSValue: string;
+      fRoom: string;
+    };
+  };
 }
