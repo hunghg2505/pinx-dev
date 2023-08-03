@@ -19,6 +19,7 @@ import {
   CompanyRelatedType,
   IResponseCompaniesRelated,
   IPayloadShareStock,
+  IResponseStockData,
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
@@ -368,6 +369,17 @@ const useShareStockActivity = (options?: IOptions) => {
   return requestShareStock;
 };
 
+const useGetStockData = (stockCode: string, options?: IOptions): IResponseStockData => {
+  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_DATA(stockCode)), {
+    refreshDeps: [stockCode],
+    ...options,
+  });
+
+  return {
+    stockData: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -388,4 +400,5 @@ export {
   useStockInvesting,
   useCompaniesRelated,
   useShareStockActivity,
+  useGetStockData,
 };
