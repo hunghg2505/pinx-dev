@@ -14,6 +14,7 @@ import { ROUTE_PATH } from '@utils/common';
 
 // import Community from './Community';
 import Activities from './Activities';
+import Community from './Community';
 import StockSymbols from './StockSymbols';
 import { TabsThemeDetailEnum, useGetThemeDetail } from '../service';
 
@@ -31,7 +32,7 @@ const ThemeDetail = () => {
   const refActivities: any = useRef(null);
 
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
-    TabsThemeDetailEnum.StockSymbols,
+    TabsThemeDetailEnum.Community,
   );
   const onChangeTab = (value: TabsThemeDetailEnum) => {
     setSelectTab(value);
@@ -46,10 +47,10 @@ const ThemeDetail = () => {
     }
   }, [isLogin]);
   const optionTab = [
-    // {
-    //   label: t('tab.community'),
-    //   value: TabsThemeDetailEnum.Community,
-    // },
+    {
+      label: t('tab.community'),
+      value: TabsThemeDetailEnum.Community,
+    },
     {
       label: t('tab.stock_symbols'),
       value: TabsThemeDetailEnum.StockSymbols,
@@ -74,9 +75,9 @@ const ThemeDetail = () => {
   });
   const renderContentTab = () => {
     switch (selectTab) {
-      // case TabsThemeDetailEnum.Community: {
-      //   return isLogin ? <Community payload={themeDetail} /> : <></>;
-      // }
+      case TabsThemeDetailEnum.Community: {
+        return isLogin ? <Community payload={themeDetail} /> : <></>;
+      }
       case TabsThemeDetailEnum.StockSymbols: {
         return <StockSymbols data={themeDetail} />;
       }
@@ -123,7 +124,7 @@ const ThemeDetail = () => {
 
         <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
         <div className='desktop:hidden'>
-          {/* {isLogin && <Community payload={themeDetail} />} */}
+          {isLogin && <Community payload={themeDetail} />}
           <StockSymbols data={themeDetail} />
           <Activities data={themeDetail} ref={refActivities} />
         </div>
