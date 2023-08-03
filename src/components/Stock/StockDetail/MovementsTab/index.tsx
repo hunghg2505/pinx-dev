@@ -210,7 +210,7 @@ const MovementsTab = () => {
 
         <div className='w-1/2 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            {t('movements.total_vol')}
+            {t('movements.total_val')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -219,7 +219,7 @@ const MovementsTab = () => {
 
         <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            {t('movements.total_vol')}
+            {t('movements.foreign_buy')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -228,7 +228,7 @@ const MovementsTab = () => {
 
         <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            {t('movements.total_vol')}
+            {t('movements.total_room')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300
@@ -237,7 +237,7 @@ const MovementsTab = () => {
 
         <div className='w-1/3 border border-solid border-[#E6E6E6] py-[10px] text-center tablet:w-1/5'>
           <Text type='body-12-regular' className='text-[#474D57]'>
-            {t('movements.total_vol')}
+            {t('movements.foreign_sell')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
             10,578,300

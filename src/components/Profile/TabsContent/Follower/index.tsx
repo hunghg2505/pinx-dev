@@ -7,6 +7,7 @@ import NotFound from './NotFound';
 import Page from './Page';
 
 const Follower = () => {
+  const [fullName, setFullName] = useState('');
   const [state, setState] = useState<{
     pages: number[];
     totalPages: number;
@@ -24,13 +25,13 @@ const Follower = () => {
 
   return (
     <>
-      <Search />
-      <div className='mb-[20px] grid grid-cols-4 gap-[14px]'>
+      <Search onSearchChange={setFullName} />
+      <div className='grid grid-cols-4 gap-[14px]'>
         {state.pages.map((page) => {
           if (page === state.pages.length) {
-            return <Page page={page} key={page} setState={setState} />;
+            return <Page fullName={fullName} page={page} key={page} setState={setState} />;
           }
-          return <Page page={page} key={page} />;
+          return <Page fullName={fullName} page={page} key={page} />;
         })}
         <div ref={lastElementRef}></div>
       </div>

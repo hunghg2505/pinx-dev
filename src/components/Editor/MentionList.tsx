@@ -16,8 +16,11 @@ export default forwardRef((props: any, ref) => {
     const item = props.items[index];
     if (item) {
       const isStock = !!item?.stockCode;
+      const isHashTag = !!item.mappingId;
       if (isStock) {
         props.command({ id: item.id, label: item.stockCode });
+      } else if (isHashTag) {
+        props.command({ id: item.id, label: item.content });
       } else {
         props.command({ id: item.id, label: item.displayName });
       }
@@ -58,21 +61,38 @@ export default forwardRef((props: any, ref) => {
       return false;
     },
   }));
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const renderText = (item: any) => {
+    const isStock = !!item.stockCode;
+    const isHashTag = !!item.mappingId;
+    if (isStock) {
+      return item.stockCode;
+    }
+    if (isHashTag) {
+      return item.content;
+    }
+    return item.displayName;
+  };
   return (
     <div
       className={classNames(
-        'mentionList fixed right-0 flex justify-center mobile:bottom-[60px] mobile:left-0 mobile:w-full tablet:w-[375px] desktop:w-[375px]',
+        'mentionList flex justify-center overflow-hidden rounded-[12px] ',
         {
           'mobile-max:bottom-auto mobile-max:left-2/4 mobile-max:right-auto mobile-max:top-[58%] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:-translate-y-2/4 mobile-max:transform':
             router?.pathname === '/theme/[id]',
         },
+        {
+          'border border-solid border-neutral_07 bg-white ': props.items?.length,
+        },
       )}
     >
       {props.items?.length > 0 && (
-        <div className='w-[375px] bg-[#ffffff] p-[15px]'>
+        // để 375 thì màn mobile bị tràn ở write posst
+        <div className='w-[300px] max-w-full bg-[#ffffff]'>
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
+              const isHashTag = !!item.mappingId;
               let url = '';
               const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
               if (isStock) {
@@ -92,19 +112,21 @@ export default forwardRef((props: any, ref) => {
                   key={index}
                   onClick={() => selectItem(index)}
                 >
-                  <img
-                    src={isStock ? url : item.avatar}
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
-                  />
+                  {!isHashTag && (
+                    <img
+                      src={isStock ? url : item.avatar}
+                      alt=''
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                      className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
+                    />
+                  )}
                   <Text
                     type='body-14-medium'
                     className='text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
                   >
-                    {isStock ? item.stockCode : item.displayName}
+                    {renderText(item)}
                   </Text>
                 </button>
               );

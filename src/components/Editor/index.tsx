@@ -18,6 +18,7 @@ import { API_PATH } from '@api/constant';
 import {
   // PREFIX_API_UPLOADPHOTO,
   privateRequest,
+  requestCommunity,
   requestPist,
   // requestUploadPhoto,
 } from '@api/request';
@@ -73,9 +74,6 @@ const Editor = (props: IProps, ref?: any) => {
       Mention.extend({
         name: 'userMention',
       }).configure({
-        HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
-        },
         suggestion: {
           ...suggestion,
           char: '@',
@@ -115,19 +113,53 @@ const Editor = (props: IProps, ref?: any) => {
           },
         },
       }),
+      Mention.extend({
+        name: 'hashTag',
+        renderHTML(prop: any) {
+          return [
+            'a',
+            {
+              style: 'font-weight:600;',
+              class: 'hashTag',
+              userkey: prop && prop.node?.attrs.id,
+              'data-username': prop?.node?.attrs?.label,
+              href: `/stock/${prop?.node?.attrs?.label}`,
+            },
+            `${prop?.node?.attrs?.label}`,
+          ];
+        },
+      }).configure({
+        HTMLAttributes: {
+          class: 'hashTag text-[14px] font-semibold leading-[21px]',
+        },
+
+        suggestion: {
+          ...suggestion,
+          pluginKey: new PluginKey('hashTag'),
+          char: '#',
+          items: async ({ query }: { query: string }) => {
+            const payload: any = {
+              keyword: query,
+              page: 0,
+              pageSize: 10,
+            };
+            const data = await privateRequest(
+              requestCommunity.post,
+              API_PATH.PRIVATE_HASHTAG_V2_COMMUNITY,
+              {
+                data: payload,
+              },
+            );
+            return data?.data?.list;
+          },
+        },
+      }),
     ],
     editorProps: {
       attributes: {
         class: ' focus:outline-none abcd',
       },
     },
-    // onUpdate({ editor }) {
-    //   const text = editor.getText();
-    //   if (idReply && text === '' && width && width < 738) {
-    //     console.log('123');
-    //     setIdReply('');
-    //   }
-    // },
   });
   const textComment = editor?.getText();
 
@@ -247,10 +279,17 @@ const Editor = (props: IProps, ref?: any) => {
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
+    const hashtags: any = [];
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
         if (text.type === 'text') {
+          const txt = text?.text?.split(' ');
+          for (const item of txt) {
+            if (item.includes('#')) {
+              hashtags.push(item);
+            }
+          }
           p = text.text;
         }
         if (text.type === 'userMention') {
@@ -262,6 +301,11 @@ const Editor = (props: IProps, ref?: any) => {
           const query = text.attrs.label;
           stock.push(query);
           p = `%[${text.attrs.label}](${text.attrs.label})`;
+        }
+        if (text.type === 'hashTag') {
+          const query = text.attrs.label;
+          hashtags.push(query);
+          p = text.attrs.label;
         }
         if (text.type === 'hardBreak') {
           p = '\n';
@@ -298,6 +342,7 @@ const Editor = (props: IProps, ref?: any) => {
     const message = test?.flat()?.join(' \n ');
     const data = {
       message,
+      hashtags,
       tagPeople: formatTagPeople,
       tagStocks: stock,
       parentId: idReply === '' ? id : idReply,
@@ -305,19 +350,9 @@ const Editor = (props: IProps, ref?: any) => {
     };
 
     if (message?.toLowerCase()?.includes('script')) {
-      toast(() => (
-        <Notification
-          type='error'
-          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-        />
-      ));
+      toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (message && validateHTML(message)) {
-      toast(() => (
-        <Notification
-          type='error'
-          message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-        />
-      ));
+      toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
       toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
     } else if (statusUser === USERTYPE.VSD) {

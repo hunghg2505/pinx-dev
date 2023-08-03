@@ -1,0 +1,18 @@
+.comment {
+  [data-tippy-root] {
+    @media screen and (max-width: 768px) {
+      transform: none !important;
+    }
+  }
+  :global {
+    .mentionList {
+      position: fixed;
+      bottom: 73px;
+      left: 0;
+      right: 0;
+      & > * {
+        width: 100%;
+      }
+    }
+  }
+}

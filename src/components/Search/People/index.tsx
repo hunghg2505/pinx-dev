@@ -21,7 +21,7 @@ const People = ({ keyword }: { keyword: any }) => {
   const [page, setPage] = React.useState<number>(0);
   const [listComapany, setListCompany] = React.useState<any>([]);
   const refInput = React.useRef(null);
-  const { people, run } = useGetPeople({
+  const { people, run, refresh } = useGetPeople({
     onSuccess: (res: any) => {
       const newPage = page + 1;
       setPage(newPage);
@@ -48,19 +48,7 @@ const People = ({ keyword }: { keyword: any }) => {
       wait: 500,
     },
   );
-  // React.useEffect(() => {
-  //   window.addEventListener('scroll', loadMore);
-  //   return () => {
-  //     window.removeEventListener('scroll', loadMore);
-  //   };
-  // }, [page]);
-  // const loadMore = () => {
-  //   const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
-  //   const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
-  //   if (Math.floor(heightTop) === heigtBottom) {
-  //     run(keyword, page);
-  //   }
-  // };
+
   return (
     <>
       <div>
@@ -77,7 +65,7 @@ const People = ({ keyword }: { keyword: any }) => {
         {people?.length > 0 ? (
           <div className='flex flex-col mobile:mt-[20px] mobile:gap-y-[12px] tablet:mt-[10px] desktop:gap-y-0'>
             {people?.map((item: any, index: number) => (
-              <PeopleItem data={item} key={index} />
+              <PeopleItem data={item} key={index} refreshList={refresh} />
             ))}
           </div>
         ) : (

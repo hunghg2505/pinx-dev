@@ -49,7 +49,8 @@ export const API_PATH = {
   PRIVATE_REPORT_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/report`,
   PRIVATE_DELETE_COMMENT: (id: string) => `/private/comment/${id}`,
   PRIVATE_ADD_COMMENT: '/private/comment/add',
-
+  PRIVATE_ADD_COMMENT_V2: '/private/comment/addV2',
+  PRIVATE_REPLY_COMMENT_V2: (comment_Id: string) => `/private/comment/${comment_Id}/replyV2`,
   // user
   PRIVATE_FOLLOW_USER: '/private/customer/follow',
   PRIVATE_UNFOLLOW_USER: '/private/customer/unfollow',
@@ -65,8 +66,11 @@ export const API_PATH = {
   PUBLIC_ALL_THEME: '/public/theme/all',
   PRIVATE_GET_THEME_DETAIL: (code: string) => `/private/theme/${code}/details`,
   PUBLIC_GET_THEME_DETAIL: (code: string) => `/public/theme/${code}/detail`,
+  PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME: (code: string) =>
+    `/public/theme/${code}/subscribed-customers`,
   PRIVATE_GET_COMMUNITY_THEME_DETAIL: (code: string) =>
     `/private/theme/${code}/subscribed-customers`,
+
   PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME: (code: string) =>
     `/private/theme/${code}/subscribed-customers-full`,
   PRIVATE_GET_LIST_ACTIVITIES_THEME: '/private/activity/list-theme-activities',
@@ -104,6 +108,7 @@ export const API_PATH = {
   PUBLIC_HASHTAG_INDUSTRY: '/public/hashtag/industry',
   PUBLIC_HASHTAG_HIGHLIGHT: '/public/hashtag/highlights',
   PRIVATE_ACTIVITY_WATCH_LIST_ADD: '/private/activity/watchlist/add',
+  PRIVATE_ACTIVITY_WATCH_LIST_ADD_V2: '/private/activity/watchlist/addV2',
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',
@@ -129,12 +134,18 @@ export const API_PATH = {
   PRIVATE_SEARCH_KEYWORDS_TOP: '/private/search/keywords/top',
   PUBLIC_SEARCH_KEYWORDS_TOP: '/public/search/keyword/trending',
   PUBLIC_SEARCH_COMPANY: '/public/company/search',
+
   PUBLIC_SEARCH_PEOPLE: '/public/customer/search',
+  PRIVATE_SEARCH_PEOPLE: '/private/search/customers',
+
   PUBLIC_SEARCH_POST: '/public/mapping/post/search',
+  PRIVATE_SEARCH_POST: '/private/mapping/searching/posts',
+
   PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
+
   PUBLIC_SEARCH_SEO_SUGGEST: '/public/search-seo/suggest-v2',
   PUBLIC_SEARCH_SEO_DELETE: (code: string) => `/public/search-seo/${code}/delete-v2`,
-
+  PRIVATE_SEARCH_NEWS: '/private/mapping/searching/news',
   PRIVATE_HASHTAG_SUGGEST: '/private/post/hashtag/suggest',
   // ipo
   PUBLIC_GET_ALL_STOCK_IPO: '/public/stock/ipo/all',
@@ -164,4 +175,11 @@ export const API_PATH = {
   PUBLIC_GET_CUSTOMER_FOLLOWING: '/public/customer/following/other',
   GET_MY_CUSTOMER_FOLLOWER: '/private/customer/follower/friends',
   GET_MY_CUSTOMER_FOLLOWING: '/private/customer/following/friends',
+
+  // api v2
+  PRIVATE_HASHTAG_V2_COMMUNITY: '/private/post/hashtag/suggestV2',
+  PRIVATE_ADD_POST_V2_COMMUNITY: '/private/post/add-v2',
+  PRIVATE_ACTIVITY_WATCHLIST_V2: '/private/activity/watchlist/addV2',
+  PRIVATE_ACTIVITY_THEME_V2: '/private/activity/theme/addV2',
+  PRIVATE_UPDATE_POST_V2: (id: string) => `/private/mapping/${id}/updateV2`,
 };

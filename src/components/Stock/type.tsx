@@ -110,7 +110,7 @@ interface IRevenue {
   createdAt: string;
   updatedAt: string;
   sourceVi: string;
-  sourceEn: null;
+  sourceEn: string;
   revenueValue: number;
   percentage: number;
   reference: null;

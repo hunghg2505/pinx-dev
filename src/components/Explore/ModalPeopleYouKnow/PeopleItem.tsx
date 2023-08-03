@@ -28,6 +28,7 @@ interface Iprops {
 }
 const PeopleItem = (props: Iprops) => {
   const { data, reload, refreshList, onClosePopup } = props;
+  console.log('🚀 ~ file: PeopleItem.tsx:31 ~ PeopleItem ~ data:', data);
   const { run: getUserProfile } = useProfileInitial();
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -65,6 +66,7 @@ const PeopleItem = (props: Iprops) => {
         // setIsFollow(false);
         getUserProfile();
         reload && reload();
+        refreshList && refreshList();
         // refreshList();
       },
       onError: (e: any) => {

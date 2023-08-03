@@ -5,7 +5,11 @@ import { useTranslation } from 'next-i18next';
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import { profileUserContext } from '@components/MyProfile';
 
-const NotFound = () => {
+interface INotFoundProps {
+  message: string;
+}
+
+const NotFound = ({ message }: INotFoundProps) => {
   const { t } = useTranslation('profile');
   const profileUser = useContext<any>(profileUserContext);
   return (
@@ -19,31 +23,14 @@ const NotFound = () => {
       </div>
       <div className=' flex-0 align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] '>
         <div className='mx-auto my-auto w-fit'>
-          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
-            {t('following_empty')}
-          </p>
+          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>{message}</p>
           <ModalPeopleYouKnow
             onClose={() => {
               profileUser.reload();
               profileUser.setState((prev: any) => ({ ...prev, followingKey: Date.now() }));
             }}
           >
-            <button
-              className='
-              line-[18px]
-          block
-          w-full
-          max-w-[260px]
-          rounded-[8px] bg-gradient-to-l
-          from-[#1D6CAB]
-        to-[#589DC0]
-        px-[24px]
-        py-[12px]
-        text-[14px]
-        font-[600]
-        text-white
-        '
-            >
+            <button className='line-[18px] block w-full max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white'>
               {t('explore')}
             </button>
           </ModalPeopleYouKnow>

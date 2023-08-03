@@ -14,7 +14,7 @@ import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestPist } from '@api/request';
+import { privateRequest, requestCommunity, requestPist } from '@api/request';
 import { ActivityTheme } from '@components/Compose/ActivityTheme';
 import { ImageTheme } from '@components/Compose/ImageTheme';
 import { ListTheme } from '@components/Compose/ListTheme';
@@ -25,6 +25,7 @@ import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
+import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
@@ -61,6 +62,7 @@ interface IData {
   urlImages?: string[];
   urlLinks?: any;
   metadata?: string[];
+  hashtags: any;
 }
 
 type TMeta = Array<{
@@ -222,7 +224,7 @@ const Compose = (props: IProps) => {
           },
         }).configure({
           HTMLAttributes: {
-            class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
+            class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[21px]',
           },
 
           suggestion: {
@@ -259,7 +261,7 @@ const Compose = (props: IProps) => {
           },
         }).configure({
           HTMLAttributes: {
-            class: 'stockMention text-[14px] font-semibold leading-[18px]',
+            class: 'stockMention text-[14px] font-semibold leading-[21px]',
           },
 
           suggestion: {
@@ -276,6 +278,47 @@ const Compose = (props: IProps) => {
               });
 
               return data?.data?.companies;
+            },
+          },
+        }),
+        Mention.extend({
+          name: 'hashTag',
+          renderHTML(prop: any) {
+            return [
+              'a',
+              {
+                style: 'font-weight:600;',
+                class: 'hashTag',
+                userkey: prop && prop.node?.attrs.id,
+                'data-username': prop?.node?.attrs?.label,
+                href: `/stock/${prop?.node?.attrs?.label}`,
+              },
+              `${prop?.node?.attrs?.label}`,
+            ];
+          },
+        }).configure({
+          HTMLAttributes: {
+            class: 'hashTag text-[14px] font-semibold leading-[21px]',
+          },
+
+          suggestion: {
+            ...Suggestion,
+            pluginKey: new PluginKey('hashTag'),
+            char: '#',
+            items: async ({ query }: { query: string }) => {
+              const payload: any = {
+                keyword: query,
+                page: 0,
+                pageSize: 10,
+              };
+              const data = await privateRequest(
+                requestCommunity.post,
+                API_PATH.PRIVATE_HASHTAG_V2_COMMUNITY,
+                {
+                  data: payload,
+                },
+              );
+              return data?.data?.list;
             },
           },
         }),
@@ -357,6 +400,7 @@ const Compose = (props: IProps) => {
 
       const users: any = [];
       const stock: any = [];
+      const hashtags: any = [];
       const idUser: any = [];
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
@@ -387,6 +431,9 @@ const Compose = (props: IProps) => {
               if (item.includes('http') && urlLinks.length < 2) {
                 urlLinks.push(item);
               }
+              if (item.includes('#')) {
+                hashtags.push(item);
+              }
             }
 
             p = text.text;
@@ -403,6 +450,11 @@ const Compose = (props: IProps) => {
             const query = text.attrs.label;
             stock.push(query);
             p = `%[${text.attrs.label}](${text.attrs.label}) `;
+          }
+          if (text.type === 'hashTag') {
+            const query = text.attrs.label;
+            hashtags.push(query);
+            p = text.attrs.label;
           }
 
           // if (text.type === 'hardBreak') {
@@ -472,6 +524,7 @@ const Compose = (props: IProps) => {
           ? [...postDetail?.post?.tagPeople, ...formatTagPeople]
           : formatTagPeople,
         tagStocks: stock,
+        hashtags,
         postThemeId: isUpdate && themeActiveId === 'default' ? '' : themeActiveId,
         // parentId: idReply === '' ? id : idReply,
         urlImages: [imageUploadedUrl],
@@ -511,22 +564,11 @@ const Compose = (props: IProps) => {
       if (!hiddenThemeSelected) {
         data.postThemeId = '';
       }
-
       if (message?.toLowerCase()?.includes('script')) {
-        return toast(() => (
-          <Notification
-            type='error'
-            message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-          />
-        ));
+        return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (message && validateHTML(message)) {
-        toast(() => (
-          <Notification
-            type='error'
-            message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
-          />
-        ));
+        return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
       if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
         return toast(() => (
@@ -569,15 +611,15 @@ const Compose = (props: IProps) => {
     }
   };
 
-  // const onAddHashTag = () => {
-  //   editor?.commands?.focus('end');
-  //   const text = editor?.getText();
-  //   if (text) {
-  //     editor?.commands?.insertContent(' #');
-  //   } else {
-  //     editor?.commands?.insertContent('#');
-  //   }
-  // };
+  const onAddHashTag = () => {
+    editor?.commands?.focus('end');
+    const text = editor?.getText();
+    if (text) {
+      editor?.commands?.insertContent(' #');
+    } else {
+      editor?.commands?.insertContent('#');
+    }
+  };
 
   const getStyles = () => {
     if (!hiddenThemeSelected) {
@@ -736,12 +778,12 @@ const Compose = (props: IProps) => {
             <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
           </div>
 
-          {/* <div
+          <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddHashTag}
           >
             <IconHashTag />
-          </div> */}
+          </div>
 
           <UploadAndAddLink />
         </div>
