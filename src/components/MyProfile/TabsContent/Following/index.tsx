@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/router';
-
 import Search from '@components/common/Search';
 import { pageSize, useCustomerFollowing } from '@components/MyProfileFollow/service';
 import useElementOnscreen from '@utils/useElementOnscreen';
@@ -10,9 +8,8 @@ import NotFound from './NotFound';
 import Page from './Page';
 
 const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
-  const router = useRouter();
+  const [fullName, setFullName] = useState('');
   const [totalFollowing, setTotalFollowing] = useState(total);
-  const { fullName }: any = router.query;
   const [state, setState] = useState<{
     pages: number[];
     totalPages: number;
@@ -45,7 +42,7 @@ const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
 
   return (
     <>
-      <Search fullName={fullName} />
+      <Search onSearchChange={setFullName} />
       <div className='grid grid-cols-4 gap-[14px]'>
         {state.pages.map((page) => {
           return <Page fullName={fullName} page={page} key={page} />;

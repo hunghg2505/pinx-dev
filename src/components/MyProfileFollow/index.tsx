@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
 
 import HeaderMobile from '@components/common/HeaderMobile';
 
 import Back from './Back';
-// import NotFound from './NotFound';
 import Search from './Search';
 import TabBar from './TabBar';
 
@@ -15,8 +13,7 @@ const Follower = dynamic(() => import('./Follower'));
 const Following = dynamic(() => import('./Following'));
 const ProfileFollow = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const { fullName }: any = router.query;
+  const [fullName, setFullName] = useState('');
 
   return (
     <>
@@ -30,7 +27,7 @@ const ProfileFollow = () => {
             <TabBar tabKey='followers' />
             <TabBar tabKey='following' />
           </div>
-          <Search fullName={fullName} />
+          <Search onSearchChange={setFullName} />
           <div>
             {searchParams.get('tab') === 'followers' && <Follower fullName={fullName} />}
             {searchParams.get('tab') === 'following' && <Following fullName={fullName} />}
