@@ -257,12 +257,12 @@ export const requestUnLikeComment = (id: string) => {
   return privateRequest(requestCommunity.post, API_PATH.PRIVATE_UNLIKE_COMMENT(id));
 };
 export const requestReplyCommnet = (id: string, payload: any) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_REPLY_COMMENT(id), {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_REPLY_COMMENT_V2(id), {
     data: payload,
   });
 };
 export const requestAddComment = (payload: any) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_ADD_COMMENT, {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_ADD_COMMENT_V2, {
     data: payload,
   });
 };

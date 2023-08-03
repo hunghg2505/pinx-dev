@@ -185,3 +185,18 @@ export const serviceGetThemeDetailFromServer = async (code: any, ctx: any): Prom
     return {};
   }
 };
+
+export async function getCommunity(page: number, code: string): Promise<any> {
+  const r = await requestPist.get(API_PATH.PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME(code), {
+    params: {
+      page,
+      pageSize: 10,
+    },
+  });
+  const pageCommunity = r?.data?.first ? r?.data?.number + 2 : r?.data?.number + 1;
+  return {
+    list: r?.data?.content,
+    page: r?.data?.last ? false : pageCommunity,
+    totalElements: r?.data?.totalElements,
+  };
+}

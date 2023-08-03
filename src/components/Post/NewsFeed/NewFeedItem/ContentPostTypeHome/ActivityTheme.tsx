@@ -20,7 +20,6 @@ export const ActivityTheme = ({
   iconPost,
   messagePostFormat,
 }: any) => {
-  console.log('🚀 ~ file: ActivityTheme.tsx:23 ~ postDetail:', postDetail);
   const { t } = useTranslation();
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
