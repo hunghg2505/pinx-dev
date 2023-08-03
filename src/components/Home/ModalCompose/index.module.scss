@@ -10,3 +10,11 @@
     }
   }
 }
+.hidden_sugesstion {
+  :global {
+    .mentionList {
+      transition: 0.3s ease-in-out;
+      opacity: 0;
+    }
+  }
+}
