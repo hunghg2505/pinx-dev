@@ -34,6 +34,7 @@ import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
+import { SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -904,7 +905,7 @@ const StockDetail = () => {
       </div>
 
       {/* shareholders */}
-      {shareholder?.data && shareholder?.data.length > 0 && (
+      {shareholder?.data && shareholder.data.length > 0 && (
         <div className='box-shadow card-style'>
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
@@ -914,7 +915,18 @@ const StockDetail = () => {
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>
                   <div className='mb-[6px] flex items-center'>
-                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
+                    <div
+                      className='h-[10px] w-[35px] rounded-full'
+                      style={{
+                        backgroundColor:
+                          SHARE_HOLDER_COLOR[
+                            index %
+                              (shareholder?.data && shareholder?.data.length > 0
+                                ? shareholder.data.length
+                                : 0)
+                          ],
+                      }}
+                    ></div>
                     <Text type='body-14-semibold' className='ml-[4px]'>
                       {item.ratio}%
                     </Text>

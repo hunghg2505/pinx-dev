@@ -14,3 +14,12 @@ export const ACTIVITIES_TYPE = [
   },
   { icon: 'iconTrading.svg', type: ActivityIconType.SOLD, label: 'activities.sold' },
 ];
+
+export const SHARE_HOLDER_COLOR = [
+  '#72cd5f',
+  '#715f95',
+  '#55bee8',
+  '#e1658e',
+  '#fbda21',
+  '#999999',
+];
