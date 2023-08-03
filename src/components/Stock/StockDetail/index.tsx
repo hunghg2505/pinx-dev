@@ -98,7 +98,11 @@ const StockDetail = () => {
   const router = useRouter();
   const { stockCode }: any = router.query;
 
-  const { stockDetail } = useStockDetail(stockCode);
+  const { stockDetail } = useStockDetail(stockCode, {
+    onError: () => {
+      router.push(ROUTE_PATH.NOT_FOUND);
+    },
+  });
   const { shareholder } = useShareholder(stockCode);
   const { refreshMyStocks } = useMyListStock({
     onSuccess: (res: null | IResponseMyStocks) => {
@@ -111,7 +115,13 @@ const StockDetail = () => {
   const { stockEvents } = useFinancialCalendar(stockCode);
   const { stockThemes } = useThemesOfStock(stockCode);
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
-  const { taggingInfo } = useCompanyTaggingInfo(stockCode);
+  const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
+    onError: (e) => {
+      if (e.errorCode === 'error.company.not.found') {
+        router.push(ROUTE_PATH.NOT_FOUND);
+      }
+    },
+  });
   const { stockNews, refreshStockNews } = useStockNews(stockCode);
   const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
     limit: ACTIVITIES_ITEM_LIMIT,
