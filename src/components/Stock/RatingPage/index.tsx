@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
+import useBottomScroll from '@hooks/useBottomScroll';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from '@utils/constant';
@@ -14,17 +15,48 @@ import { USERTYPE } from '@utils/constant';
 import PopupReview from '../Popup/PopupReview';
 import { useStockReviews } from '../service';
 import ReviewItem from '../StockDetail/ReviewItem';
+import SkeletonLoading from '../StockDetail/ReviewItem/SkeletonLoading';
+import { IResponseStockReviews } from '../type';
+
+const LIMIT_REVIEW = 10;
 
 const StockRating = () => {
   const { t } = useTranslation(['stock', 'common']);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [openPopup, setOpenPopup] = useState(false);
+  const [reviews, setReviews] = useState<IResponseStockReviews>();
   const { userId, isLogin, statusUser } = useUserType();
+  const ref = useRef(null);
   const router = useRouter();
   const { stockCode }: any = router.query;
 
-  const { reviews, refreshStockReviews } = useStockReviews(stockCode);
+  const { onGetReviews, refreshStockReviews, loading } = useStockReviews(stockCode, {
+    onSuccess: ({ data }: IResponseStockReviews) => {
+      setReviews((prev) => ({
+        data: {
+          hasNext: data.hasNext,
+          last: data.last,
+          list: [...(prev?.data.list || []), ...data.list],
+        },
+      }));
+    },
+  });
   const myReview = reviews?.data.list.find((item) => item.customerId === userId);
+
+  useBottomScroll(ref, () => {
+    if (reviews?.data.hasNext && !loading) {
+      onGetReviews({
+        last: reviews?.data.last,
+        limit: LIMIT_REVIEW,
+      });
+    }
+  });
+
+  useEffect(() => {
+    onGetReviews({
+      limit: LIMIT_REVIEW,
+    });
+  }, []);
 
   const handleBack = () => {
     router.back();
@@ -80,7 +112,7 @@ const StockRating = () => {
             {t('rating_page.description')}
           </Text>
 
-          <div className='flex flex-col gap-y-[16px]'>
+          <div ref={ref} className='flex flex-col gap-y-[16px]'>
             {reviews?.data.list.map((item, index) => (
               <ReviewItem
                 isMyReview={item.customerId === userId}
@@ -90,6 +122,13 @@ const StockRating = () => {
                 onEditReviewSuccess={refreshStockReviews}
               />
             ))}
+
+            {reviews?.data.hasNext && loading && (
+              <>
+                <SkeletonLoading />
+                <SkeletonLoading />
+              </>
+            )}
           </div>
 
           <div
