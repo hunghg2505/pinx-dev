@@ -27,10 +27,10 @@ export default {
           trigger: 'manual',
           offset: () => {
             if (props.editor.options.element.getBoundingClientRect().y - window.scrollY - 300 > 0) {
-              return [195, -15];
+              return [200, 0];
             }
             // [x,y]
-            return [195, -(component.element.firstChild.offsetHeight + 0)];
+            return [200, -(component.element.firstChild.offsetHeight + 17)];
           },
         });
       },

@@ -76,15 +76,19 @@ export default forwardRef((props: any, ref) => {
   return (
     <div
       className={classNames(
-        'mentionList flex justify-center overflow-hidden rounded-[12px] border border-solid border-neutral_07 bg-white tablet:w-[375px] desktop:w-[375px]',
+        'mentionList flex justify-center overflow-hidden rounded-[12px] ',
         {
           'mobile-max:bottom-auto mobile-max:left-2/4 mobile-max:right-auto mobile-max:top-[58%] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:-translate-y-2/4 mobile-max:transform':
             router?.pathname === '/theme/[id]',
         },
+        {
+          'border border-solid border-neutral_07 bg-white ': props.items?.length,
+        },
       )}
     >
       {props.items?.length > 0 && (
-        <div className='w-[375px] bg-[#ffffff] p-[15px] '>
+        // để 375 thì màn mobile bị tràn ở write posst
+        <div className='w-[300px] max-w-full bg-[#ffffff]'>
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
