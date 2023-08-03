@@ -132,6 +132,9 @@ export const API_PATH = {
   PUBLIC_SEARCH_PEOPLE: '/public/customer/search',
   PUBLIC_SEARCH_POST: '/public/mapping/post/search',
   PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
+  PUBLIC_SEARCH_SEO_SUGGEST: '/public/search-seo/suggest-v2',
+  PUBLIC_SEARCH_SEO_DELETE: (code: string) => `/public/search-seo/${code}/delete-v2`,
+
   PRIVATE_HASHTAG_SUGGEST: '/private/post/hashtag/suggest',
   // ipo
   PUBLIC_GET_ALL_STOCK_IPO: '/public/stock/ipo/all',
