@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useRouter } from 'next/router';
-
 import Search from '@components/common/Search';
 import useElementOnscreen from '@utils/useElementOnscreen';
 
@@ -9,8 +7,7 @@ import NotFound from './NotFound';
 import Page from './Page';
 
 const Follower = () => {
-  const router = useRouter();
-  const { fullName }: any = router.query;
+  const [fullName, setFullName] = useState('');
   const [state, setState] = useState<{
     pages: number[];
     totalPages: number;
@@ -28,7 +25,7 @@ const Follower = () => {
 
   return (
     <>
-      <Search fullName={fullName} />
+      <Search onSearchChange={setFullName} />
       <div className='grid grid-cols-4 gap-[14px]'>
         {state.pages.map((page) => {
           if (page === state.pages.length) {

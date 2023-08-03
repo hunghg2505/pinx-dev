@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import Search from '@components/common/Search';
 import { pageSize, useCustomerFollowing } from '@components/MyProfileFollow/service';
@@ -10,9 +10,9 @@ import NotFound from './NotFound';
 import Page from './Page';
 
 const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
-  const router = useRouter();
+  const { t } = useTranslation(['common', 'profile']);
+  const [fullName, setFullName] = useState('');
   const [totalFollowing, setTotalFollowing] = useState(total);
-  const { fullName }: any = router.query;
   const [state, setState] = useState<{
     pages: number[];
     totalPages: number;
@@ -45,14 +45,15 @@ const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
 
   return (
     <>
-      <Search fullName={fullName} />
+      <Search onSearchChange={setFullName} />
       <div className='grid grid-cols-4 gap-[14px]'>
         {state.pages.map((page) => {
           return <Page fullName={fullName} page={page} key={page} />;
         })}
         <div ref={lastElementRef}></div>
       </div>
-      {totalFollowing < 1 && <NotFound />}
+      {totalFollowing < 1 && !fullName && <NotFound message={t('explore')} />}
+      {totalFollowing < 1 && fullName && <NotFound message={t('profile:don’t_have_any_result')} />}
     </>
   );
 };
