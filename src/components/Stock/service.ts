@@ -358,7 +358,7 @@ const useCompaniesRelated = (
 const useShareStockActivity = (options?: IOptions) => {
   const requestShareStock = useRequest(
     (payload: IPayloadShareStock) =>
-      privateRequest(requestCommunity.post, API_PATH.PRIVATE_ACTIVITY_WATCH_LIST_ADD_V2, {
+      privateRequest(requestCommunity.post, API_PATH.PRIVATE_ACTIVITY_WATCH_LIST_ADD, {
         data: payload,
       }),
     {

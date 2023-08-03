@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from 'react';
 
+import { useDebounce } from 'ahooks';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import SearchIcon from './SearchIcon';
 
-const Search = ({ fullName: fullNameParams }: { fullName: string }) => {
-  const [fullName, setFullName] = useState(fullNameParams);
+interface ISearch {
+  onSearchChange: (fullName: string) => void;
+}
+
+const Search = ({ onSearchChange }: ISearch) => {
   const { t } = useTranslation('profile');
-  const { push, query } = useRouter();
-  const { tab } = query;
+  const [fullName, setFullName] = useState('');
+  const debouncedValue = useDebounce(fullName, { wait: 500 });
+
+  const router = useRouter();
+  const { tab } = router.query;
+
+  // useEffect(() => {
+  //   return () => {
+  //     fullName && setFullName('');
+  //   };
+  // }, [tab]);
 
   useEffect(() => {
-    return () => {
-      fullName && setFullName('');
-    };
+    onSearchChange(debouncedValue);
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    fullName && setFullName('');
   }, [tab]);
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-
-        if (fullName) {
-          push({ query: { ...query, fullName } });
-        } else {
-          delete query.fullName;
-          push({ query: { ...query } });
-        }
       }}
     >
       <label className='mb-[20px] flex gap-[8px]  rounded-[8px] border-[1px] border-solid border-neutral_07 px-[8px] py-[10px] '>
