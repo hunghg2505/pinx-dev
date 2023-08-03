@@ -12,7 +12,11 @@
     "ceiling": "Ceiling",
     "ref": "Ref",
     "floor": "Floor",
-    "total_vol": "Total Vol."
+    "total_vol": "Total Vol.",
+    "total_val": "Total Val.",
+    "foreign_buy": "Foreign Buy",
+    "total_room": "Total Room",
+    "foreign_sell": "Foreign Sell"
   },
   "matchings": {
     "time": "Time",
@@ -111,5 +115,11 @@
     "content_post": "{{displayName}} has just {{action}} {{stockCode}} from their following list"
   },
   "less": "Less",
-  "more": "More"
+  "more": "More",
+  "empty_activities": {
+    "title": "No Recent Activity",
+    "description": "Recent activity will show up here, so you can easily view them here later",
+    "text_action_not_follow": "Watch this stock",
+    "text_action_share_act": "Share your activity"
+  }
 }
