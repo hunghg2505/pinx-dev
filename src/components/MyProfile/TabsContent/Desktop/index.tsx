@@ -33,7 +33,7 @@ const Desktop = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
-                  replace({ query: { ...query, tab: key } });
+                  replace({ query: { tab: key } });
                   if (key === 'following') {
                     profileUser.setState((prev: any) => ({ ...prev, followingKey: Date.now() }));
                   }

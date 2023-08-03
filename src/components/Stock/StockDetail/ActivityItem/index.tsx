@@ -64,7 +64,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
             </Link>
 
             <Text type='body-12-regular' className='text-[#999999]'>
-              {dayjs(data.timeString)?.locale(i18n.language)?.fromNow()}
+              {dayjs(data.timeString)?.locale(i18n.language)?.fromNow(true)}
             </Text>
           </div>
 
