@@ -378,7 +378,7 @@ const Editor = (props: IProps, ref?: any) => {
                 className={classNames(
                   ' max-h-[108px] w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
                   {
-                    'mt-[3px]': isFocus,
+                    'tablet:mt-[3px]': isFocus,
                   },
                 )}
               />
@@ -388,9 +388,12 @@ const Editor = (props: IProps, ref?: any) => {
                 width='0'
                 height='0'
                 sizes='100vw'
-                className={classNames(' flex h-[21px]   w-[24px] items-center object-contain', {
-                  hidden: isFocus,
-                })}
+                className={classNames(
+                  ' flex h-[21px] w-[24px]  items-center object-contain tablet-max:hidden',
+                  {
+                    hidden: isFocus,
+                  },
+                )}
               />
             </div>
 
