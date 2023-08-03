@@ -76,7 +76,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
       </Text>
 
       <Text type='body-12-regular' className='ml-auto text-[#999999] tablet:ml-[8px]'>
-        {dayjs(data.timeString)?.locale(i18n.language)?.fromNow()}
+        {dayjs(data.timeString)?.locale(i18n.language)?.fromNow(true)}
       </Text>
 
       <ButtonAction />

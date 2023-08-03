@@ -23,9 +23,7 @@ const NotFound = ({ message }: INotFoundProps) => {
       </div>
       <div className=' flex-0 align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] '>
         <div className='mx-auto my-auto w-fit'>
-          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
-            {t('following_empty')}
-          </p>
+          <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>{message}</p>
           <ModalPeopleYouKnow
             onClose={() => {
               profileUser.reload();
@@ -33,7 +31,7 @@ const NotFound = ({ message }: INotFoundProps) => {
             }}
           >
             <button className='line-[18px] block w-full max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white'>
-              {message}
+              {t('explore')}
             </button>
           </ModalPeopleYouKnow>
         </div>

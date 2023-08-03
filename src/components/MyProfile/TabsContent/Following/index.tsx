@@ -10,7 +10,7 @@ import NotFound from './NotFound';
 import Page from './Page';
 
 const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
-  const { t } = useTranslation(['common', 'profile']);
+  const { t } = useTranslation('profile');
   const [fullName, setFullName] = useState('');
   const [totalFollowing, setTotalFollowing] = useState(total);
   const [state, setState] = useState<{
@@ -52,7 +52,7 @@ const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
         })}
         <div ref={lastElementRef}></div>
       </div>
-      {totalFollowing < 1 && !fullName && <NotFound message={t('explore')} />}
+      {totalFollowing < 1 && !fullName && <NotFound message={t('following_empty')} />}
       {totalFollowing < 1 && fullName && <NotFound message={t('profile:don’t_have_any_result')} />}
     </>
   );
