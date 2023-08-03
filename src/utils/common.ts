@@ -129,7 +129,7 @@ export const formatMessage = (message: string, data: any) => {
       message = message.replaceAll(
         item,
         `
-        <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=hashtag" class="hashtag">${item}</a>
+        <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
         `,
       );
     }
