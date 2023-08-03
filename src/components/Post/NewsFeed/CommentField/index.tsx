@@ -272,10 +272,19 @@ const Editor = (props: IProps, ref?: any) => {
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
+    const hashtags: any = [];
+
     const test = editor?.getJSON()?.content?.map((item: any) => {
       const abcd = item?.content?.map((text: any) => {
         let p = '';
-        if (text.type === 'text') {
+        if (text.type === 'text' && text?.text !== ' ') {
+          const txt = text.text.split(' ');
+          for (const item of txt) {
+            if (item.includes('#')) {
+              hashtags.push(item);
+            }
+          }
+
           p = text.text;
         }
         if (text.type === 'userMention') {
@@ -288,6 +297,12 @@ const Editor = (props: IProps, ref?: any) => {
           stock.push(query);
           p = `%[${text.attrs.label}](${text.attrs.label})`;
         }
+        if (text.type === 'hashTag') {
+          const query = text.attrs.label;
+          hashtags.push(query);
+          p = text.attrs.label;
+        }
+
         if (text.type === 'hardBreak') {
           p = '\n';
         }
@@ -325,6 +340,7 @@ const Editor = (props: IProps, ref?: any) => {
       message,
       tagPeople: formatTagPeople,
       tagStocks: stock,
+      hashtags,
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
@@ -348,8 +364,6 @@ const Editor = (props: IProps, ref?: any) => {
     } else if (statusUser === USERTYPE.VSD) {
       if (idReply === '') {
         useAddComment.run(data);
-      } else {
-        // useReplyComment.run(data);
       }
     } else {
       setPopupStatus({ ...popupStatus, popupEkyc: true });
