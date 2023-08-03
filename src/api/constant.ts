@@ -142,6 +142,9 @@ export const API_PATH = {
   PRIVATE_SEARCH_POST: '/private/mapping/searching/posts',
 
   PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
+
+  PUBLIC_SEARCH_SEO_SUGGEST: '/public/search-seo/suggest-v2',
+  PUBLIC_SEARCH_SEO_DELETE: (code: string) => `/public/search-seo/${code}/delete-v2`,
   PRIVATE_SEARCH_NEWS: '/private/mapping/searching/news',
   PRIVATE_HASHTAG_SUGGEST: '/private/post/hashtag/suggest',
   // ipo
