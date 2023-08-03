@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
@@ -8,7 +8,9 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
+import FormSearch from '@layout/components/MainHeader/FormSearch';
 import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
@@ -16,6 +18,7 @@ import SideBar from '@layout/MainLayout/SideBar';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
+
 
 export const IconCloseMenu = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='23' height='24' viewBox='0 0 23 24' fill='none'>
@@ -83,6 +86,8 @@ const MainHeader = () => {
   const [openProfileMenu] = useAtom(openProfileAtom);
   const [sidebarMobile] = useSidebarMobile();
   const { isRouteSetting } = useRouteSetting();
+  const [isOpenSearch, setIsOpenSearch] = React.useState(false);
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -147,26 +152,37 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between overflow-hidden px-[10px] desktop:h-[84px] desktop:px-[0]'>
-          <div className='flex items-center gap-[16px]'>
-            <CustomLink href={ROUTE_PATH.HOME}>
-              <img
-                src='/static/icons/logo.svg'
-                alt=''
-                className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
-              />
-            </CustomLink>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
+          {isOpenSearch ? (
+            <div className='flex items-center gap-[16px] w-[100%]'>
+              {isMobile && <FormSearch className='w-full' isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch}/>}
+            </div>
+          ) : (
+            <>
+              <div className='flex items-center gap-[16px]'>
+                <CustomLink href={ROUTE_PATH.HOME}>
+                  <img
+                    src='/static/icons/logo.svg'
+                    alt=''
+                    className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
+                  />
+                </CustomLink>
 
-            <MenuMobile />
-          </div>
+                <MenuMobile />
+              </div>
 
-          <div className='flex items-center gap-[12px]'>
-            <SearchInput />
+              <div className='flex items-center gap-[12px]'>
+                <SearchInput
+                  isOpenSearch={isOpenSearch}
+                  setIsOpenSearch={setIsOpenSearch}
+                />
 
-            <Notifications />
+                <Notifications />
 
-            <Profile />
-          </div>
+                <Profile />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

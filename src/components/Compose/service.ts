@@ -8,7 +8,7 @@ export const serviceAddPost = (payload: any) => {
 };
 
 export const serviceUpdatePost = (id: string, payload: any) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_UPDATE_POST_V2(id), {
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_UPDATE_POST(id), {
     data: payload,
   });
 };

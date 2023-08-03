@@ -1,7 +1,8 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { requestCommunity, requestPist } from '@api/request';
+import { requestCommunity, requestPist, privateRequest } from '@api/request';
+import { getAccessToken } from '@store/auth';
 
 export const useGetCompany = (option = {}, size?: number) => {
   const { data, run } = useRequest(
@@ -30,15 +31,24 @@ export const useGetCompany = (option = {}, size?: number) => {
 };
 
 export const useGetPeople = (option = {}, size?: number) => {
-  const { data, run } = useRequest(
+  const { data, run, refresh } = useRequest(
     async (keyword: string, page?: number) => {
+      const isLogin = !!getAccessToken();
       const params = {
         keyword,
         page: page || 1,
         size: size || 14,
       };
+      const payload = {
+        keyword,
+        searchType: 'ALL',
+      };
       if (keyword) {
-        return requestPist.get(API_PATH.PUBLIC_SEARCH_PEOPLE, { params });
+        return isLogin
+          ? privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH_PEOPLE, {
+              data: payload,
+            })
+          : requestPist.get(API_PATH.PUBLIC_SEARCH_PEOPLE, { params });
       }
       return [];
     },
@@ -48,21 +58,30 @@ export const useGetPeople = (option = {}, size?: number) => {
     },
   );
   return {
-    people: data?.data?.list,
+    people: data?.data?.list || data?.list,
     run,
+    refresh,
   };
 };
 
 export const useGetPosts = (option = {}, size?: number) => {
-  const { data, run } = useRequest(
+  const { data, run, refresh } = useRequest(
     async (keyword: string, page?: number) => {
+      const isLogin = !!getAccessToken();
       const params = {
         keyword,
         page: page || 1,
         size: size || 10,
       };
+      const payload = {
+        keyword,
+      };
       if (keyword) {
-        return requestCommunity.get(API_PATH.PUBLIC_SEARCH_POST, { params });
+        return isLogin
+          ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_POST, {
+              data: payload,
+            })
+          : requestCommunity.get(API_PATH.PUBLIC_SEARCH_POST, { params });
       }
       return [];
     },
@@ -74,6 +93,7 @@ export const useGetPosts = (option = {}, size?: number) => {
   return {
     posts: data?.data?.list,
     run,
+    refresh,
   };
 };
 

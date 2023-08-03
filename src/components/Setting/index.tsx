@@ -256,7 +256,7 @@ const Setting = () => {
         {isLogin && (
           <div className='px-4 laptop:hidden'>
             <NegativeMainButton
-              onClick={() => onLogout()}
+              onClick={onHandleLogout}
               className='my-14 flex h-[40px] w-full items-center justify-center'
             >
               <Text type='body-14-semibold'>{t('log_out')}</Text>

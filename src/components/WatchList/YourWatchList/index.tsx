@@ -21,7 +21,7 @@ interface IProps {
   isEdit?: boolean;
   setIsEdit?: any;
   yourWatchListStock?: any;
-  refreshYourWatchList?:any;
+  refreshYourWatchList?: any;
   loadingYourWatchList?: boolean;
   refreshInterest?: any;
   setDataStock?: any;
@@ -49,14 +49,16 @@ const YourWatchList = (props: IProps) => {
     setDataStock(yourWatchListStock);
   }, [isEdit]);
 
-  const handleOnDragEnd = (result:any) => {
-    if (!result.destination) { return; }
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) {
+      return;
+    }
 
     const items = [...dataStock];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setDataStock(items);
-    useSortStock.run(watchlistId,{
+    useSortStock.run(watchlistId, {
       stocks: `${changeArrToString(items)}`,
     });
   };
@@ -64,15 +66,17 @@ const YourWatchList = (props: IProps) => {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const changeArrToString = (data: any) => {
     const tmp = [];
-    for (const item of data){
+    for (const item of data) {
       tmp.push(item.stockCode);
     }
     return tmp.toString();
   };
 
   const handleSort = async () => {
-    let sorted:any = [];
-    sorted = isAz ? [...dataStock].sort((a: any, b: any) => a.stockCode > b.stockCode ? 1 : -1) : [...dataStock].sort((a: any, b: any) => a.stockCode > b.stockCode ? -1 : 1);
+    let sorted: any = [];
+    sorted = isAz
+      ? [...dataStock].sort((a: any, b: any) => (a.stockCode > b.stockCode ? 1 : -1))
+      : [...dataStock].sort((a: any, b: any) => (a.stockCode > b.stockCode ? -1 : 1));
     await setDataStock(sorted);
     useSortStock.run(watchlistId, {
       stocks: `${changeArrToString(sorted)}`,
@@ -80,29 +84,20 @@ const YourWatchList = (props: IProps) => {
     setIsAz(!isAz);
   };
 
-
   const useSortStock = useRequest(
-    (code,payload) => {
-      return privateRequest(requestPist.put, API_PATH.PRIVATE_SORT_STOCK(code),{
+    (code, payload) => {
+      return privateRequest(requestPist.put, API_PATH.PRIVATE_SORT_STOCK(code), {
         data: payload,
       });
     },
     {
       manual: true,
       onSuccess: () => {
-        refreshInterest&&refreshInterest();
-        refreshYourWatchList&&refreshYourWatchList();
-        console.log('Drag Drop Success!');
+        refreshInterest && refreshInterest();
+        refreshYourWatchList && refreshYourWatchList();
       },
-      onError: (e:any) => {
-        console.log('Error!',e.error);
-      }
-    }
+    },
   );
-
-
-
-
 
   return (
     <>
@@ -118,30 +113,32 @@ const YourWatchList = (props: IProps) => {
                   onClick={() => setIsEdit(false)}
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns='http://www.w3.org/2000/svg'
                     width={28}
                     height={28}
-                    viewBox="0 0 28 28"
-                    fill="none"
+                    viewBox='0 0 28 28'
+                    fill='none'
                   >
                     <path
-                      d="M17.5 21L10.5 14L17.5 7"
-                      stroke="#1F6EAC"
+                      d='M17.5 21L10.5 14L17.5 7'
+                      stroke='#1F6EAC'
                       strokeWidth={3}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
                     />
                   </svg>
                 </Text>
               </div>
             </div>
-            <div className='absolute opacity-0 left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
-
-            </div>
+            <div className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] opacity-0'></div>
             <div className='ml-auto flex'>
-              <div className='flex min-h-[28px] items-center cursor-pointer' onClick={handleSort}>
+              <div className='flex min-h-[28px] cursor-pointer items-center' onClick={handleSort}>
                 <img
-                  src={isAz?'/static/icons/iconFilterSortaz.svg':'/static/icons/iconFilterSortza.svg'}
+                  src={
+                    isAz
+                      ? '/static/icons/iconFilterSortaz.svg'
+                      : '/static/icons/iconFilterSortza.svg'
+                  }
                   alt=''
                   className='h-[28px] w-[28px]'
                 />
@@ -150,7 +147,7 @@ const YourWatchList = (props: IProps) => {
           </div>
           <div className='min-h-[1px] desktop:ml-[-24px] desktop:mr-[-24px] desktop:bg-[#EEF5F9]'></div>
         </>
-      ):(
+      ) : (
         <>
           <div className='flex items-center justify-between'>
             <Text type='body-20-bold' color='neutral-1' className='desktop:!text-[28px]'>
@@ -182,7 +179,7 @@ const YourWatchList = (props: IProps) => {
         {isEdit ? (
           <>
             <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="characters">
+              <Droppable droppableId='characters'>
                 {(provided) => (
                   <div
                     className={classNames({
@@ -192,7 +189,7 @@ const YourWatchList = (props: IProps) => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    {dataStock?.map((item: IWatchListItem, index:number) => {
+                    {dataStock?.map((item: IWatchListItem, index: number) => {
                       return (
                         <Draggable key={index} draggableId={`${index}id`} index={index}>
                           {(provided, snapshot) => (
@@ -201,9 +198,9 @@ const YourWatchList = (props: IProps) => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={classNames({
-                                '!bg-[#F0F7FC] !border-[#EFF2F5] ': snapshot.isDragging,
-                                'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px] mb-[16px] ':
-                                isEdit,
+                                '!border-[#EFF2F5] !bg-[#F0F7FC] ': snapshot.isDragging,
+                                'relative mb-[16px] flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px] ':
+                                  isEdit,
                                 'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
                                   !isEdit,
                               })}
@@ -260,7 +257,7 @@ const YourWatchList = (props: IProps) => {
                 className={classNames({
                   'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
                     isEdit,
-                  'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] mt-[16px] first:mt-0':
+                  'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
                     !isEdit,
                 })}
               >

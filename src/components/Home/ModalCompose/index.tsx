@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useDebounceFn } from 'ahooks';
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import Compose from '@components/Compose';
@@ -62,7 +63,9 @@ const ModalCompose = (props: Iprops, ref: any) => {
       <Modal
         visible={visible}
         onClose={onCloseModal}
-        className={styles.modalCompose}
+        className={classNames(styles.modalCompose, {
+          [styles.hidden_sugesstion]: value && visibleConfirm,
+        })}
         destroyOnClose={true}
       >
         <div className='text-center'>

@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { useRequest } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 
-import { IThemeDetail, IUserTheme, useGetCommunity } from '@components/Themes/service';
+import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
 import Text from '@components/UI/Text';
+import useObserver from '@hooks/useObserver';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
@@ -21,32 +23,33 @@ const IconArrow = () => (
 );
 const Community = ({ payload }: { payload: IThemeDetail }) => {
   const { t } = useTranslation('theme');
-  const [page, setPage] = React.useState(1);
-  const [listCommunity, setListCommunity] = React.useState<any>([]);
-  const { community, run } = useGetCommunity(payload?.code, {
-    onSuccess: (res: any) => {
-      setPage(res?.data?.number);
-      setListCommunity([...listCommunity, ...res?.data?.content]);
-    },
+  const themeCode = payload?.code;
+  const { data, loading, mutate, runAsync } = useRequest(async (page: any, code: string) => {
+    if (page === false) {
+      return;
+    }
+
+    return getCommunity(page, code);
   });
-  const totalPages = community?.totalPages || 2;
-  React.useEffect(() => {
-    run();
-  }, [payload?.code]);
 
   React.useEffect(() => {
-    window.addEventListener('scroll', loadMore);
-    return () => {
-      window.removeEventListener('scroll', loadMore);
-    };
-  }, [page]);
-  const loadMore = () => {
-    const heigtBottom = document?.scrollingElement?.scrollHeight || 0;
-    const heightTop = window.innerHeight + document.documentElement?.scrollTop || 0;
-    if (Math.floor(heightTop) === heigtBottom && page < totalPages) {
-      run(page + 1);
+    runAsync(1, themeCode);
+  }, [themeCode]);
+  const service = async () => {
+    if (!data?.page || loading) {
+      return;
+    }
+    const newData: any = await runAsync(data?.page, themeCode);
+    if (newData?.list?.length) {
+      mutate({
+        list: [...data?.list, ...newData?.list],
+        page: newData?.page ? newData?.page + 1 : false,
+        totalElements: newData?.totalElements,
+      });
     }
   };
+  const { refLastElement } = useObserver();
+
   return (
     <div className='mt-[20px] mobile-max:mt-[40px]'>
       <Text type='body-20-semibold' color='cbblack' className='mb-[16px] desktop:hidden'>
@@ -58,13 +61,13 @@ const Community = ({ payload }: { payload: IThemeDetail }) => {
         </Text>
         <div className='ml-[12px] flex h-[34px] w-[76px] flex-row items-center justify-center rounded-[100px]  bg-[#F7F6F8] mobile:hidden desktop:flex'>
           <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-            {community?.totalElements}
+            {data?.totalElements}
           </Text>
         </div>
       </div>
       <div className='flex items-center gap-x-[11px] desktop:hidden'>
-        {listCommunity &&
-          [...listCommunity]?.slice(0, 3)?.map((item: any, index: number) => {
+        {data?.list &&
+          [...data?.list]?.slice(0, 3)?.map((item: any, index: number) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
                 <img
@@ -89,15 +92,30 @@ const Community = ({ payload }: { payload: IThemeDetail }) => {
         <ModalCommunity code={payload?.code}>
           <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
             <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-              {community?.totalElements}
+              {data?.totalElements}
             </Text>
             <IconArrow />
           </div>
         </ModalCommunity>
       </div>
       <div className='grid-cols-2 gap-x-[24px] gap-y-[20px] mobile:hidden desktop:grid'>
-        {listCommunity?.map((item: IUserTheme) => {
-          return <ItemPeople key={item.customerId} data={item} />;
+        {data?.list?.map((item: IUserTheme, idx: number) => {
+          if (idx + 1 === data?.list?.length) {
+            return (
+              <div
+                ref={(node) => refLastElement(node, service)}
+                key={`community-${item?.customerId}`}
+              >
+                <ItemPeople key={item.customerId} data={item} />
+              </div>
+            );
+          }
+
+          return (
+            <div key={`community-${item?.customerId}`}>
+              <ItemPeople key={item.customerId} data={item} />
+            </div>
+          );
         })}
       </div>
     </div>

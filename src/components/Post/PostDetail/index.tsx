@@ -21,6 +21,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
+import styles from './index.module.scss';
 import { IComment, useCommentsOfPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -260,7 +261,12 @@ const PostDetail = () => {
           </div>
           {width < 770 && isLogin && (
             <div className='mobile:block tablet:hidden'>
-              <div className='fixed bottom-0 left-0 z-10 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full'>
+              <div
+                className={classNames(
+                  'fixed bottom-0 left-0 z-10 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full',
+                  styles.comment,
+                )}
+              >
                 <ForwardedRefComponent
                   ref={refRepliesMobile}
                   id={postDetail?.data?.id}

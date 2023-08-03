@@ -65,6 +65,7 @@ const PeopleItem = (props: Iprops) => {
         // setIsFollow(false);
         getUserProfile();
         reload && reload();
+        refreshList && refreshList();
         // refreshList();
       },
       onError: (e: any) => {
