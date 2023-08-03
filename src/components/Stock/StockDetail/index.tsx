@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
@@ -69,17 +69,6 @@ const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
 const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
-
-const settings = {
-  dots: false,
-  // infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  // slidesToScroll: 1,
-  swipeToSlide: true,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
@@ -280,6 +269,16 @@ const StockDetail = () => {
 
     return [];
   };
+
+  // slider product awareness
+  const settings = useMemo(() => {
+    return {
+      dots: false,
+      speed: 500,
+      slidesToShow: isMobile ? 1 : 5,
+      slidesToScroll: 5,
+    };
+  }, [isMobile]);
 
   return (
     <div className='p-[10px] desktop:p-0'>
@@ -482,7 +481,7 @@ const StockDetail = () => {
           <div className='relative'>
             <div
               onClick={() => refSlide.current.slickPrev()}
-              className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+              className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
             >
               <img
                 src='/static/icons/iconGrayPrev.svg'
@@ -492,7 +491,7 @@ const StockDetail = () => {
             </div>
 
             <div className='max-w-[700px] overflow-hidden'>
-              <Slider {...settings} variableWidth ref={refSlide}>
+              <Slider {...settings} ref={refSlide} draggable variableWidth={isMobile}>
                 {stockDetail?.data?.products.map((item, index) => (
                   <div key={index} className='mr-[28px] !w-[112px]'>
                     <img
@@ -511,7 +510,7 @@ const StockDetail = () => {
 
             <div
               onClick={() => refSlide.current.slickNext()}
-              className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+              className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
             >
               <img
                 src='/static/icons/iconGrayNext.svg'
