@@ -115,5 +115,11 @@
     "content_post": "{{displayName}} has just {{action}} {{stockCode}} from their following list"
   },
   "less": "Less",
-  "more": "More"
+  "more": "More",
+  "empty_activities": {
+    "title": "No Recent Activity",
+    "description": "Recent activity will show up here, so you can easily view them here later",
+    "text_action_not_follow": "Watch this stock",
+    "text_action_share_act": "Share your activity"
+  }
 }

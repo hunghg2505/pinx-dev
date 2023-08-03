@@ -117,5 +117,11 @@
     "content_post": "{{displayName}} vừa mới {{action}} {{stockCode}} {{from}} danh sách theo dõi"
   },
   "less": "Thu gọn",
-  "more": "Thêm"
+  "more": "Thêm",
+  "empty_activities": {
+    "title": "Chưa có hoạt động nào",
+    "description": "Bạn có thể theo dõi các hoạt động liên quan tới chủ đề ở đây",
+    "text_action_not_follow": "Theo dõi cổ phiếu này",
+    "text_action_share_act": "Chia sẻ hoạt động đầu tư của bạn"
+  }
 }
