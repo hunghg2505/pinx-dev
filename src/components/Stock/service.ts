@@ -159,18 +159,9 @@ const useFinancialCalendar = (stockCode: string): IResponseStockEvents => {
 };
 
 const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
-  const { data } = useRequest(
-    () => {
-      const isLogin = !!getAccessToken();
-
-      return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_THEME_OF_STOCK(stockCode))
-        : Promise.resolve();
-    },
-    {
-      refreshDeps: [stockCode],
-    },
-  );
+  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_THEME_OF_STOCK(stockCode)), {
+    refreshDeps: [stockCode],
+  });
 
   return {
     stockThemes: data,
