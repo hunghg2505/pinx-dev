@@ -73,9 +73,6 @@ const Editor = (props: IProps, ref?: any) => {
       Mention.extend({
         name: 'userMention',
       }).configure({
-        HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
-        },
         suggestion: {
           ...suggestion,
           char: '@',
