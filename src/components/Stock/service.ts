@@ -14,7 +14,6 @@ import {
   IResponseStockDetailsExtra,
   IResponseStockEvents,
   IResponseStockNews,
-  IResponseStockReviews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
   CompanyRelatedType,
@@ -159,18 +158,9 @@ const useFinancialCalendar = (stockCode: string): IResponseStockEvents => {
 };
 
 const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
-  const { data } = useRequest(
-    () => {
-      const isLogin = !!getAccessToken();
-
-      return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_THEME_OF_STOCK(stockCode))
-        : Promise.resolve();
-    },
-    {
-      refreshDeps: [stockCode],
-    },
-  );
+  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_THEME_OF_STOCK(stockCode)), {
+    refreshDeps: [stockCode],
+  });
 
   return {
     stockThemes: data,
@@ -193,17 +183,23 @@ const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => 
   return { stockDetails: data, refreshStockDetails: refresh };
 };
 
-const useStockReviews = (stockCode: string): IResponseStockReviews => {
-  const { data, refresh } = useRequest(
-    () => requestCommunity.get(API_PATH.PUBLIC_STOCK_REVIEWS(stockCode)),
+const useStockReviews = (stockCode: string, options?: IOptions) => {
+  const { run, refresh, loading } = useRequest(
+    (params?: object) =>
+      requestCommunity.get(API_PATH.PUBLIC_STOCK_REVIEWS(stockCode), {
+        params,
+      }),
     {
       refreshDeps: [stockCode],
+      ...options,
+      manual: true,
     },
   );
 
   return {
-    reviews: data,
+    onGetReviews: run,
     refreshStockReviews: refresh,
+    loading,
   };
 };
 

@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
-
-import { useTranslation } from 'next-i18next';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useStockInvesting } from '@components/Stock/service';
 import { IResponseWatchingInvesting } from '@components/Stock/type';
-import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
-import { useResponsive } from '@hooks/useResponsive';
 
+import SkeletonLoading from '../SkeletonLoading';
 import SubscriberItem from '../SubscriberItem';
 
 interface IInvestingTabProps {
@@ -15,9 +12,8 @@ interface IInvestingTabProps {
 }
 
 const InvestingTab = ({ stockCode }: IInvestingTabProps) => {
-  const { t } = useTranslation(['stock', 'common']);
   const [stockInvesting, setStockInvesting] = useState<IResponseWatchingInvesting>();
-  const { isMobile } = useResponsive();
+  const ref = useRef(null);
 
   const requestGetStockInvesting = useStockInvesting(stockCode, {
     onSuccess: ({ data }: IResponseWatchingInvesting) => {
@@ -31,8 +27,8 @@ const InvestingTab = ({ stockCode }: IInvestingTabProps) => {
     },
   });
 
-  useBottomScroll(() => {
-    if (isMobile && stockInvesting?.data.hasNext && !requestGetStockInvesting.loading) {
+  useBottomScroll(ref, () => {
+    if (stockInvesting?.data.hasNext && !requestGetStockInvesting.loading) {
       requestGetStockInvesting.run(stockInvesting.data.last);
     }
   });
@@ -41,28 +37,23 @@ const InvestingTab = ({ stockCode }: IInvestingTabProps) => {
     requestGetStockInvesting.run();
   }, []);
 
-  const handleViewMore = () => {
-    requestGetStockInvesting.run(stockInvesting?.data.last);
-  };
-
   return (
     <>
-      <div className='mt-[20px] grid grid-cols-1 gap-x-[24px] gap-y-[16px] tablet:grid-cols-2 tablet:gap-y-[20px]'>
+      <div
+        ref={ref}
+        className='mt-[20px] grid grid-cols-1 gap-x-[24px] gap-y-[16px] tablet:grid-cols-2 tablet:gap-y-[20px]'
+      >
         {stockInvesting?.data.list.map((item, index) => (
           <SubscriberItem data={item} key={index} />
         ))}
-      </div>
 
-      {stockInvesting?.data.hasNext && (
-        <Text
-          type='body-14-semibold'
-          className='mt-[24px] hidden cursor-pointer tablet:block'
-          color='primary-2'
-          onClick={handleViewMore}
-        >
-          {t('show_more')}
-        </Text>
-      )}
+        {stockInvesting?.data.hasNext && requestGetStockInvesting.loading && (
+          <>
+            <SkeletonLoading />
+            <SkeletonLoading />
+          </>
+        )}
+      </div>
     </>
   );
 };

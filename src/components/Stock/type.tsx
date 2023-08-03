@@ -267,6 +267,7 @@ export interface IResponseStockDetailsExtra {
 }
 
 export interface IReview {
+  createdDate: string;
   id: string;
   stockCode: string;
   customerId: number;
@@ -292,14 +293,11 @@ export interface IReview {
 }
 
 export interface IResponseStockReviews {
-  reviews?: {
-    data: {
-      list: IReview[];
-      last: string;
-      hasNext: boolean;
-    };
+  data: {
+    list: IReview[];
+    last: string;
+    hasNext: boolean;
   };
-  refreshStockReviews: () => void;
 }
 
 export interface IResponseStockNews {

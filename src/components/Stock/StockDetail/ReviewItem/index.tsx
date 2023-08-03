@@ -66,7 +66,9 @@ const ReviewItem = ({
         </Text>
 
         <Text type='body-12-regular' className='ml-auto uppercase text-[#999999]'>
-          {isLatestReview ? t('rating.latest_review') : dayjs().format('DD/MM/YYYY')}
+          {isLatestReview
+            ? t('rating.latest_review')
+            : dayjs(data.createdDate).format('DD/MM/YYYY')}
         </Text>
       </div>
 
