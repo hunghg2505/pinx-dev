@@ -19,6 +19,7 @@ import {
   // PREFIX_API_UPLOADPHOTO,
   privateRequest,
   requestPist,
+  requestCommunity,
   // requestUploadPhoto,
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
@@ -113,6 +114,47 @@ const Editor = (props: IProps, ref?: any) => {
             });
 
             return data?.data?.companies;
+          },
+        },
+      }),
+      Mention.extend({
+        name: 'hashTag',
+        renderHTML(prop: any) {
+          return [
+            'a',
+            {
+              style: 'font-weight:600;',
+              class: 'hashTag',
+              userkey: prop && prop.node?.attrs.id,
+              'data-username': prop?.node?.attrs?.label,
+              href: `/stock/${prop?.node?.attrs?.label}`,
+            },
+            `${prop?.node?.attrs?.label}`,
+          ];
+        },
+      }).configure({
+        HTMLAttributes: {
+          class: 'hashTag text-[14px] font-semibold leading-[21px]',
+        },
+
+        suggestion: {
+          ...suggestion,
+          pluginKey: new PluginKey('hashTag'),
+          char: '#',
+          items: async ({ query }: { query: string }) => {
+            const payload: any = {
+              keyword: query,
+              page: 0,
+              pageSize: 10,
+            };
+            const data = await privateRequest(
+              requestCommunity.post,
+              API_PATH.PRIVATE_HASHTAG_V2_COMMUNITY,
+              {
+                data: payload,
+              },
+            );
+            return data?.data?.list;
           },
         },
       }),
