@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -7,23 +7,37 @@ import { profileUserContext } from '@components/Profile';
 import { useOtherCustomerFollower } from '@components/ProfileFollow/service';
 
 const Page = ({
-  page = 1,
+  page,
+  fullName,
   setState = () => {},
 }: {
   page?: number;
+  fullName?: string;
   setState?: (totalPages: any) => void;
 }) => {
   const router = useRouter();
   const profileUser = useContext<any>(profileUserContext);
-  const { data, refresh } = useOtherCustomerFollower(String(router?.query?.id), page, {
-    onSuccess: (res: any) => {
-      setState((prev: any) => ({
-        ...prev,
-        totalPages: res?.totalPages,
-        notFound: page === 1 && !res?.data?.length,
-      }));
+  const { data, refresh, run } = useOtherCustomerFollower(
+    String(router?.query?.id),
+    {
+      page,
+      fullName,
     },
-  });
+    {
+      manual: true,
+      onSuccess: (res: any) => {
+        setState((prev: any) => ({
+          ...prev,
+          totalPages: res?.totalPages,
+          notFound: !res?.totalElements,
+        }));
+      },
+    },
+  );
+
+  useEffect(() => {
+    run();
+  }, [page, fullName]);
 
   return (
     <>

@@ -22,9 +22,10 @@ import {
   IPayloadShareStock,
 } from './type';
 
-const useStockDetail = (stockCode: string): IResponseStockDetail => {
+const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
   const { data } = useRequest(() => requestMarket.get(API_PATH.PUBLIC_COMPANY_DETAIL(stockCode)), {
     refreshDeps: [stockCode],
+    ...options,
   });
 
   return {
@@ -93,13 +94,14 @@ const useFollowOrUnfollowStock = (options?: IOptions) => {
   );
 };
 
-const useCompanyTaggingInfo = (stockCode: string): IResponseTaggingInfo => {
+const useCompanyTaggingInfo = (stockCode: string, options?: IOptions): IResponseTaggingInfo => {
   const { data } = useRequest(
     () => {
       return requestMarket.get(API_PATH.PUBLIC_COMPANY_TAGGING_INFO(stockCode));
     },
     {
       refreshDeps: [stockCode],
+      ...options,
     },
   );
 
@@ -358,7 +360,7 @@ const useCompaniesRelated = (
 const useShareStockActivity = (options?: IOptions) => {
   const requestShareStock = useRequest(
     (payload: IPayloadShareStock) =>
-      privateRequest(requestCommunity.post, API_PATH.PRIVATE_ACTIVITY_WATCH_LIST_ADD_V2, {
+      privateRequest(requestCommunity.post, API_PATH.PRIVATE_ACTIVITY_WATCH_LIST_ADD, {
         data: payload,
       }),
     {

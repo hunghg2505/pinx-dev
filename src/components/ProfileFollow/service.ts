@@ -4,34 +4,34 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
-export const useOtherCustomerFollower = (idCustomer: string, page?: number, config?: any) => {
-  const params = {
+export const useOtherCustomerFollower = (idCustomer: string, params: object, config?: any) => {
+  const listParams = {
     idCustomer,
-    page: page || 1,
+    ...params,
     pageSize: 16,
   };
   return useRequest(
     async () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWER, { params })
-        : requestPist.get(API_PATH.PUBLIC_GET_CUSTOMER_FOLLOWER, { params });
+        ? privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWER, { params: listParams })
+        : requestPist.get(API_PATH.PUBLIC_GET_CUSTOMER_FOLLOWER, { params: listParams });
     },
     { ...config },
   );
 };
 
-export const useOtherCustomerFollowing = (idCustomer: string, page?: number, config?: any) => {
-  const params = {
+export const useOtherCustomerFollowing = (idCustomer: string, params: object, config?: any) => {
+  const listParams = {
     idCustomer,
-    page: page || 1,
     pageSize: 16,
+    ...params,
   };
   return useRequest(
     async () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWING, { params })
+        ? privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWING, { params: listParams })
         : requestPist.get(API_PATH.PUBLIC_GET_CUSTOMER_FOLLOWING, { params });
     },
     { ...config },
