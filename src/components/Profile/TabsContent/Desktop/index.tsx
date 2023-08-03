@@ -37,7 +37,7 @@ const Desktop = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
-                  replace({ query: { ...query, tab: key } });
+                  replace({ query: { id: query.id, tab: key } });
                 }}
               />
             </>
