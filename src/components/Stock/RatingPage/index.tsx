@@ -24,7 +24,7 @@ const StockRating = () => {
   const { t } = useTranslation(['stock', 'common']);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [openPopup, setOpenPopup] = useState(false);
-  const [reviews, setReviews] = useState<IResponseStockReviews>();
+  const [reviews, setReviews] = useState<IResponseStockReviews | null>();
   const { userId, isLogin, statusUser } = useUserType();
   const ref = useRef(null);
   const router = useRouter();
@@ -42,6 +42,11 @@ const StockRating = () => {
     },
   });
   const myReview = reviews?.data.list.find((item) => item.customerId === userId);
+
+  const refreshReviews = () => {
+    setReviews(null);
+    refreshStockReviews();
+  };
 
   useBottomScroll(ref, () => {
     if (reviews?.data.hasNext && !loading) {
@@ -119,7 +124,7 @@ const StockRating = () => {
                 data={item}
                 key={index}
                 isLatestReview={index === 0}
-                onEditReviewSuccess={refreshStockReviews}
+                onEditReviewSuccess={refreshReviews}
               />
             ))}
 
@@ -156,7 +161,7 @@ const StockRating = () => {
           }}
           star={myReview?.rateValue || 0}
           onReviewSuccess={() => {
-            refreshStockReviews();
+            refreshReviews();
             setOpenPopup(false);
           }}
           stockCode={stockCode}
