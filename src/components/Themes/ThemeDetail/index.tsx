@@ -29,8 +29,8 @@ const ThemeDetail = () => {
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [popupStatus] = useAtom(popupStatusAtom);
+  const refCommunity: any = useRef(null);
   const refActivities: any = useRef(null);
-
   const [selectTab, setSelectTab] = React.useState<TabsThemeDetailEnum>(
     TabsThemeDetailEnum.Community,
   );
@@ -42,8 +42,8 @@ const ThemeDetail = () => {
   };
   React.useEffect(() => {
     if (!isLogin) {
-      refTheme?.current && refTheme?.current?.setActiveTab(TabsThemeDetailEnum.StockSymbols);
-      setSelectTab(TabsThemeDetailEnum.StockSymbols);
+      refTheme?.current && refTheme?.current?.setActiveTab(TabsThemeDetailEnum.Community);
+      setSelectTab(TabsThemeDetailEnum.Community);
     }
   }, [isLogin]);
   const optionTab = [
@@ -71,7 +71,7 @@ const ThemeDetail = () => {
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsThemeDetailEnum.Community: {
-        return <Community payload={themeDetail} />;
+        return <Community payload={themeDetail} ref={refCommunity} />;
       }
       case TabsThemeDetailEnum.StockSymbols: {
         return <StockSymbols data={themeDetail} />;
@@ -91,7 +91,14 @@ const ThemeDetail = () => {
   const onRefreshActivities = () => {
     refActivities.current && refActivities.current.onRefreshActivities();
   };
-
+  const onRefreshCommunity = () => {
+    if (themeDetail?.isSubsribed) {
+      refCommunity?.current && refCommunity?.current.removeItem();
+    } else {
+      refCommunity?.current && refCommunity?.current.addItem();
+    }
+    refresh();
+  };
   return (
     <>
       {popupStatus.popupSubsribeTheme && (
@@ -117,9 +124,9 @@ const ThemeDetail = () => {
           </Text>
         </div>
 
-        <LandingPageDetailThemes data={themeDetail} refresh={refresh} />
+        <LandingPageDetailThemes data={themeDetail} refresh={onRefreshCommunity} />
         <div className='desktop:hidden'>
-          <Community payload={themeDetail} />
+          <Community payload={themeDetail} ref={refCommunity} />
           <StockSymbols data={themeDetail} />
           <Activities data={themeDetail} ref={refActivities} />
         </div>
@@ -127,7 +134,7 @@ const ThemeDetail = () => {
           <Tabs
             onChange={onChangeTab}
             contenTab={optionTab}
-            defaultTab={TabsThemeDetailEnum.StockSymbols}
+            defaultTab={TabsThemeDetailEnum.Activities}
             currentTab={selectTab}
             ref={refTheme}
           />

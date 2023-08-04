@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  useClickAway,
-  useDebounceFn,
-  useFocusWithin, useRequest
-} from 'ahooks';
+import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
@@ -38,7 +34,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   // Call API
   const { listRecent, refreshSearchRecent, loadingSearchRecent } = useGetSearchRecent();
-  console.log('listRecent',listRecent);
 
   const [query, setQuery] = React.useState(search);
   const [inputFocus, setInputFocus] = React.useState(false);
@@ -48,7 +43,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // Remove value input search when refresh open new page
   React.useEffect(() => {
     setQuery(search);
-  },[search]);
+  }, [search]);
 
   useFocusWithin(ref, {
     onFocus: () => {
@@ -68,16 +63,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const handleSubmit = () => {
     router.push({
       pathname: ROUTE_PATH.SEARCHSEO,
-      query: { keyword: query, tab:'post' },
+      query: { keyword: query, tab: 'post' },
     });
-    form.setFieldValue('search','');
+    form.setFieldValue('search', '');
     setInputFocus(false);
     setShowRecent(false);
     setShowPopup(false);
   };
 
   const removeFormSearch = () => {
-    form.setFieldValue('search','');
+    form.setFieldValue('search', '');
     run();
   };
 
@@ -90,9 +85,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       onSuccess: () => {
         refreshSearchRecent();
       },
-    }
+    },
   );
-  const removeItemRecent = (code:any) => {
+  const removeItemRecent = (code: any) => {
     useRemoveItemRecent.run(code);
   };
 
@@ -100,20 +95,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     () => {
       const value = form.getFieldValue('search');
       setQuery(value);
-      if (value === ''){
+      if (value === '') {
         setShowPopup(false);
         // setInputFocus(false);
-      }else {
+      } else {
         setShowPopup(true);
         setInputFocus(true);
       }
     },
     {
       wait: 300,
-    }
+    },
   );
-
-
 
   return (
     <>
@@ -130,26 +123,30 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       )}
       <div ref={ref} className={classNames(className)}>
         <Form
-          className={classNames('',{
-            'w-full': isMobile
+          className={classNames('', {
+            'w-full': isMobile,
           })}
           form={form}
           onFinish={handleSubmit}
-          onValuesChange={run}>
+          onValuesChange={run}
+        >
           <FormItem name='search'>
             <Input
-              className={classNames('transition-all border duration-300 ease-in-out h-[40px] rounded-[8px] pl-[36px] pr-[12px] outline-none',{
-                'w-[375px] bg-[#F7F6F8] border-[#1F6EAC]': inputFocus && isDesktop,
-                'w-[220px] bg-[#EFF2F5] border-[#EFF2F5]': !inputFocus && isDesktop,
-                'w-full bg-[#F7F6F8] border-[#1F6EAC]': isMobile
-              })}
+              className={classNames(
+                'h-[40px] rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
+                {
+                  'w-[375px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                  'w-[220px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
+                  'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
+                },
+              )}
               placeholder={t('search_uppercase')}
               icon={<IconSearchWhite />}
             />
           </FormItem>
         </Form>
-        <div className='absolute top-[50%] translate-y-[-50%] right-[20px] desktop:right-[10px]'>
-          {isLogin && loadingSearchRecent && <Loading/>}
+        <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px]'>
+          {isLogin && loadingSearchRecent && <Loading />}
         </div>
 
         {/* Khi nhập input show button close clear data */}
@@ -157,7 +154,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           <>
             <button
               onClick={removeFormSearch}
-              className='absolute top-[50%] translate-y-[-50%] right-[10px] desktop:right-[0px] w-[40px] h-[40px] flex items-center justify-center'
+              className='absolute right-[10px] top-[50%] flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
             >
               <img
                 src='/static/icons/iconClose.svg'
@@ -171,18 +168,25 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
         <Fade
           visible={showRecent && listRecent?.length > 0 && isLogin && !valueInput}
-          className={classNames(styles.boxShadown,'absolute z-10 px-[16px] py-[24px] w-full left-0 right-0 top-[calc(100%+0px)] desktop:top-[calc(100%+8px)] bg-white min-h-[144px] max-h-[490px] desktop:rounded-lg flex flex-col gap-y-[12px]')}
+          className={classNames(
+            styles.boxShadown,
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+          )}
         >
-          {listRecent?.length > 0 && <Text type='body-16-semibold' className='text-[#0D0D0D] leading-5'>Recent</Text>}
-          {listRecent?.slice(0,5)?.map((item:any, index:number) => {
+          {listRecent?.length > 0 && (
+            <Text type='body-16-semibold' className='leading-5 text-[#0D0D0D]'>
+              Recent
+            </Text>
+          )}
+          {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
             return (
               <div
                 key={index}
-                className='p-[8px] flex gap-x-[10px] relative hover:bg-[#F7F6F8] cursor-pointer'
+                className='relative flex cursor-pointer gap-x-[10px] p-[8px] hover:bg-[#F7F6F8]'
               >
                 <div className='flex-auto'>{item?.textSearch}</div>
                 <button
-                  className='btn__close absolute top-[50%] translate-y-[-50%] right-[0px] w-[33px] h-[33px] flex items-center justify-center'
+                  className='btn__close absolute right-[0px] top-[50%] flex h-[33px] w-[33px] translate-y-[-50%] items-center justify-center'
                   onClick={() => removeItemRecent(item?.id)}
                 >
                   <img
@@ -197,10 +201,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         </Fade>
         <Fade
           visible={showPopup}
-          className={classNames(styles.boxShadown,'absolute z-10 px-[16px] py-[24px] w-full left-0 right-0 top-[calc(100%+0px)] desktop:top-[calc(100%+8px)] bg-white min-h-[144px] max-h-[490px] desktop:rounded-lg flex flex-col gap-y-[12px]')}
-        >
-
-        </Fade>
+          className={classNames(
+            styles.boxShadown,
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+          )}
+        ></Fade>
       </div>
     </>
   );

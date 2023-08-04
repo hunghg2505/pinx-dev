@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
@@ -21,17 +22,26 @@ const IconArrow = () => (
     />
   </svg>
 );
-const Community = ({ payload }: { payload: IThemeDetail }) => {
+interface IProps {
+  payload: IThemeDetail;
+}
+const Community = React.forwardRef((props: IProps, ref: any) => {
+  const { payload } = props;
   const { t } = useTranslation('theme');
   const themeCode = payload?.code;
+  const { userLoginInfo } = useUserLoginInfo();
   const { data, loading, mutate, runAsync } = useRequest(async (page: any, code: string) => {
     if (page === false) {
       return;
     }
-
     return getCommunity(page, code);
   });
-
+  React.useImperativeHandle(ref, () => {
+    return {
+      removeItem,
+      addItem,
+    };
+  });
   React.useEffect(() => {
     runAsync(1, themeCode);
   }, [themeCode]);
@@ -48,8 +58,32 @@ const Community = ({ payload }: { payload: IThemeDetail }) => {
       });
     }
   };
+  const addItem = () => {
+    const newData = {
+      customerId: userLoginInfo?.id,
+      name: userLoginInfo?.name,
+      displayName: userLoginInfo?.displayName,
+      phoneNumber: userLoginInfo?.phone,
+      avatar: userLoginInfo?.avatar,
+      email: userLoginInfo?.email,
+      isKol: userLoginInfo?.isKol,
+      isFeatureProfile: userLoginInfo?.isFeatureProfile,
+    };
+    mutate({
+      list: [newData, ...data?.list],
+      page: data.page,
+      totalElements: data?.totalElements + 1,
+    });
+  };
+  const removeItem = () => {
+    const newData = [...data?.list]?.filter((item) => item.customerId !== userLoginInfo?.id);
+    mutate({
+      list: newData,
+      page: data.page,
+      totalElements: data?.totalElements - 1,
+    });
+  };
   const { refLastElement } = useObserver();
-
   return (
     <div className='mt-[20px] mobile-max:mt-[40px]'>
       <Text type='body-20-semibold' color='cbblack' className='mb-[16px] desktop:hidden'>
@@ -99,26 +133,27 @@ const Community = ({ payload }: { payload: IThemeDetail }) => {
         </ModalCommunity>
       </div>
       <div className='grid-cols-2 gap-x-[24px] gap-y-[20px] mobile:hidden desktop:grid'>
-        {data?.list?.map((item: IUserTheme, idx: number) => {
-          if (idx + 1 === data?.list?.length) {
+        {data?.list &&
+          [...data?.list]?.map((item: IUserTheme, idx: number) => {
+            if (idx + 1 === data?.list?.length) {
+              return (
+                <div
+                  ref={(node) => refLastElement(node, service)}
+                  key={`community-${item?.customerId}`}
+                >
+                  <ItemPeople key={item.customerId} data={item} />
+                </div>
+              );
+            }
+
             return (
-              <div
-                ref={(node) => refLastElement(node, service)}
-                key={`community-${item?.customerId}`}
-              >
+              <div key={`community-${item?.customerId}`}>
                 <ItemPeople key={item.customerId} data={item} />
               </div>
             );
-          }
-
-          return (
-            <div key={`community-${item?.customerId}`}>
-              <ItemPeople key={item.customerId} data={item} />
-            </div>
-          );
-        })}
+          })}
       </div>
     </div>
   );
-};
-export default Community;
+});
+export default React.memo(Community);

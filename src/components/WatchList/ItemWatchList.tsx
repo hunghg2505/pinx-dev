@@ -27,7 +27,7 @@ const ItemWatchList = ({
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const unit = data?.cl === 'd' || data?.cl === 'f' || isDecrease ? '-' : '+';
+  const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
