@@ -3,19 +3,17 @@ import React from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
-import { useGetStockData } from '@components/Stock/service';
+import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 
 import styles from './index.module.scss';
 
 interface IMovementsTabProps {
-  stockCode: string;
+  stockData?: IStockData;
 }
 
-const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
+const MovementsTab = ({ stockData }: IMovementsTabProps) => {
   const { t } = useTranslation(['stock', 'common']);
-  const { stockData } = useGetStockData(stockCode);
-  console.log('🚀 ~ file: index.tsx:18 ~ MovementsTab ~ stockData:', stockData);
 
   return (
     <>
@@ -31,7 +29,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    20.55
+                    {stockData?.highPrice}
                   </Text>
                 </td>
               </tr>
@@ -43,7 +41,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    19.95
+                    {stockData?.lowPrice}
                   </Text>
                 </td>
               </tr>
@@ -55,7 +53,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    20.2
+                    {stockData?.lastPrice}
                   </Text>
                 </td>
               </tr>
@@ -72,12 +70,12 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
                   <Text type='body-12-semibold' className='text-[#DA314F]'>
-                    20.55
+                    abc
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    88,000
+                    abc
                   </Text>
                 </td>
                 <div className='absolute bottom-0 left-0 h-[3px] w-[90%] border-none bg-[#f5e4e7]'></div>
@@ -85,12 +83,12 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
                   <Text type='body-12-semibold' className='text-[#DA314F]'>
-                    19.95
+                    abc
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    261,500
+                    abc
                   </Text>
                 </td>
                 <div className='absolute bottom-0 left-0 h-[3px] w-[40%] border-none bg-[#f5e4e7]'></div>
@@ -98,12 +96,12 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
                   <Text type='body-12-semibold' className='text-[#DA314F]'>
-                    20.2
+                    abc
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    54,000
+                    abc
                   </Text>
                 </td>
                 <div className='absolute bottom-0 left-0 h-[3px] w-[50%] border-none bg-[#f5e4e7]'></div>
@@ -123,12 +121,12 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    88,000
+                    abc
                   </Text>
                 </td>
                 <td className='pr-[20px] text-right align-middle'>
                   <Text type='body-12-semibold' className='semantic-2-1'>
-                    20.55
+                    abc
                   </Text>
                 </td>
                 <div className='absolute bottom-0 right-0 h-[3px] w-[50%] border-none bg-[#B6DFD1]'></div>
@@ -136,12 +134,12 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    261,500
+                    abc
                   </Text>
                 </td>
                 <td className='pr-[20px] text-right align-middle'>
                   <Text type='body-12-semibold' className='semantic-2-1'>
-                    19.95
+                    abc
                   </Text>
                 </td>
                 <div className='absolute bottom-0 right-0 h-[3px] w-[20%] border-none bg-[#B6DFD1]'></div>
@@ -149,12 +147,12 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    54,000
+                    abc
                   </Text>
                 </td>
                 <td className='pr-[20px] text-right align-middle'>
                   <Text type='body-12-semibold' className='semantic-2-1'>
-                    20.2
+                    abc
                   </Text>
                 </td>
                 <div className='absolute bottom-0 right-0 h-[3px] w-[70%] border-none bg-[#B6DFD1]'></div>
@@ -172,7 +170,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
                 </td>
                 <td className='text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#B349C3]'>
-                    20.55
+                    {stockData?.c}
                   </Text>
                 </td>
               </tr>
@@ -184,7 +182,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
                 </td>
                 <td className='text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#EAA100]'>
-                    19.95
+                    {stockData?.r}
                   </Text>
                 </td>
               </tr>
@@ -196,7 +194,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
                 </td>
                 <td className='text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#08AADD]'>
-                    20.2
+                    {stockData?.f}
                   </Text>
                 </td>
               </tr>
@@ -211,7 +209,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
             {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            10,578,300
+            {stockData?.lastVolume}
           </Text>
         </div>
 
@@ -220,7 +218,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
             {t('movements.total_val')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            10,578,300
+            {stockData?.lastPrice}
           </Text>
         </div>
 
@@ -229,7 +227,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
             {t('movements.foreign_buy')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            10,578,300
+            {stockData?.fBVol}
           </Text>
         </div>
 
@@ -238,7 +236,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
             {t('movements.total_room')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            10,578,300
+            {stockData?.fRoom}
           </Text>
         </div>
 
@@ -247,7 +245,7 @@ const MovementsTab = ({ stockCode }: IMovementsTabProps) => {
             {t('movements.foreign_sell')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            10,578,300
+            {stockData?.fSVolume}
           </Text>
         </div>
       </div>

@@ -371,42 +371,44 @@ export enum FinancialType {
   YEAR = 'YEAR',
 }
 
+export interface IStockData {
+  id: number;
+  flag: string;
+  sym: string;
+  name: string;
+  mc: string;
+  c: number;
+  r: number;
+  f: number;
+  lastPrice: number;
+  lastVolume: number;
+  lot: number;
+  ot: string;
+  changePc: string;
+  avePrice: string;
+  highPrice: string;
+  lowPrice: string;
+  g1: string;
+  g2: string;
+  g3: string;
+  g4: string;
+  g5: string;
+  g6: string;
+  g7: string;
+  mp: string;
+  brd: string;
+  volumeInDay: number;
+  fBVol: string;
+  fBValue: string;
+  fSVol: null;
+  fSVolume: string;
+  fSValue: string;
+  fRoom: string;
+}
+
 export interface IResponseStockData {
   stockData?: {
-    data: {
-      id: number;
-      flag: string;
-      sym: string;
-      name: string;
-      mc: string;
-      c: number;
-      r: number;
-      f: number;
-      lastPrice: number;
-      lastVolume: number;
-      lot: number;
-      ot: string;
-      changePc: string;
-      avePrice: string;
-      highPrice: string;
-      lowPrice: string;
-      g1: string;
-      g2: string;
-      g3: string;
-      g4: string;
-      g5: string;
-      g6: string;
-      g7: string;
-      mp: string;
-      brd: string;
-      volumeInDay: number;
-      fBVol: string;
-      fBValue: string;
-      fSVol: null;
-      fSVolume: string;
-      fSValue: string;
-      fRoom: string;
-    };
+    data: IStockData;
   };
 }
 
@@ -417,15 +419,15 @@ export interface IResponseFinancialIndicator {
         id: number;
         companyId: number;
         yearPeriod: number;
-        termCode: 'N';
-        termName: 'Năm';
-        termNameEN: 'Year';
+        termCode: string;
+        termName: string;
+        termNameEN: string;
         reportTermID: number;
         displayOrdering: number;
-        united: 'HN';
-        auditedStatus: 'KT';
-        periodBegin: '200101';
-        periodEnd: '200112';
+        united: string;
+        auditedStatus: string;
+        periodBegin: string;
+        periodEnd: string;
         totalRow: number;
         businessType: number;
       };
