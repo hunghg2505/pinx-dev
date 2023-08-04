@@ -3,14 +3,14 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 
 import classNames from 'classnames';
 import { atom } from 'jotai';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 import Text from '@components/UI/Text';
 
 export const dataMention: any = atom([]);
 
 export default forwardRef((props: any, ref) => {
-  const router = useRouter();
+  // const router = useRouter();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectItem = (index: any) => {
     const item = props.items[index];
@@ -77,10 +77,10 @@ export default forwardRef((props: any, ref) => {
     <div
       className={classNames(
         'mentionList flex justify-center overflow-hidden rounded-[12px] ',
-        {
-          'mobile-max:bottom-auto mobile-max:left-2/4 mobile-max:right-auto mobile-max:top-[58%] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:-translate-y-2/4 mobile-max:transform':
-            router?.pathname === '/theme/[id]',
-        },
+        // {
+        //   'mobile-max:bottom-auto mobile-max:left-2/4 mobile-max:right-auto mobile-max:top-[58%] mobile-max:w-[calc(100%_-_32px)] mobile-max:-translate-x-1/2 mobile-max:-translate-y-2/4 mobile-max:transform':
+        //     router?.pathname === '/theme/[id]',
+        // },
         {
           'border border-solid border-neutral_07 bg-white ': props.items?.length,
         },
