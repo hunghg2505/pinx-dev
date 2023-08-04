@@ -6,18 +6,23 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 const SearchSeo = () => {
   const searchParams = useSearchParams();
-  const search = searchParams.get('keyword');
+  const keyword = searchParams.get('keyword');
+  const tab = searchParams.get('tab');
+  const type = searchParams.get('type');
   const { replace, query } = useRouter();
+
+  // Error commit git
+  console.log(tab,type);
 
   return (
     <>
       <div className='box-shadow card-style'>
-        <h1>Search result found for {search}</h1>
+        <h1>Search result found for {keyword}</h1>
         <Tabs
           defaultActiveKey="company"
-          activeKey={searchParams.get('type') || 'company'}
+          activeKey={searchParams.get('tab') || 'company'}
           onChange={(key: string) => {
-            replace({ query: { ...query, type: key } });
+            replace({ query: { ...query, tab: key } });
           }}
         >
           <TabPane tab="Company" key="company">

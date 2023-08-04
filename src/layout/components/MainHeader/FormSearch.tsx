@@ -68,7 +68,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const handleSubmit = () => {
     router.push({
       pathname: ROUTE_PATH.SEARCHSEO,
-      query: { keyword: query, type:'company' },
+      query: { keyword: query, tab:'company' },
     });
     form.setFieldValue('search','');
     setInputFocus(false);
