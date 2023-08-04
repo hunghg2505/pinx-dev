@@ -24,6 +24,19 @@ export const SHARE_HOLDER_COLOR = [
   '#999999',
 ];
 
+export const REVENUE_CHART_COLOR = [
+  '#7BB0FF',
+  '#FFA9DD',
+  '#A0E6EE',
+  '#DBA9FF',
+  '#FF7878',
+  '#FF9364',
+  '#FFD655',
+  '#8DED72',
+  '#7DFFE0',
+  '#FC86BC',
+];
+
 export const manualTranslateFinancialIndicator = (key: string) => {
   switch (key) {
     case FinancialAnnualKey.EPS: {

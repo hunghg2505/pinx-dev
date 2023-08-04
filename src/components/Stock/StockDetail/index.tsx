@@ -34,7 +34,7 @@ import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
-import { SHARE_HOLDER_COLOR } from '../const';
+import { REVENUE_CHART_COLOR, SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -608,6 +608,11 @@ const StockDetail = () => {
               <div className='mt-[8px]'>
                 {taggingInfo?.data?.revenues.map((item, index) => (
                   <RevenueItem
+                    color={
+                      REVENUE_CHART_COLOR[
+                        index % ((taggingInfo?.data && taggingInfo?.data?.revenues.length) || 0)
+                      ]
+                    }
                     key={index}
                     value={+item.percentage.toFixed(2)}
                     label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
