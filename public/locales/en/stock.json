@@ -21,7 +21,9 @@
   "matchings": {
     "time": "Time",
     "vol": "Vol",
-    "price": "Price"
+    "price": "Price",
+    "empty_title": "No Data Available Yet",
+    "empty_description": "Recent data will show up here, so you can easily view them here later"
   },
   "intraday": {
     "price": "Price",

@@ -21,7 +21,9 @@
   "matchings": {
     "time": "Thời gian",
     "vol": "Khối lượng",
-    "price": "Giá"
+    "price": "Giá",
+    "empty_title": "Dữ liệu tạm thời không hiển thị",
+    "empty_description": "Thông tin dữ liệu gần nhất sẽ hiển thị tại đây, vui lòng quay lại sau ít phút."
   },
   "intraday": {
     "price": "Giá",
