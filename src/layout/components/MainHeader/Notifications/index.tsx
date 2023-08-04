@@ -192,7 +192,7 @@ const NotificationsMobile = forwardRef((_, ref) => {
         />
       </div>
 
-      <WhiteButton onClick={() => {}} className='w-full flex justify-center mt-4 shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08);]'>
+      <WhiteButton onClick={() => { }} className='w-full flex justify-center mt-4 shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08);]'>
         <img
           src='/static/icons/blue_check_mark.svg'
           alt=''
@@ -236,7 +236,7 @@ const Notifications = () => {
         <Text type='body-20-semibold'>
           {t('notification')}
         </Text>
-        <div className='flex items-center cursor-pointer' onClick={() => {}}>
+        <div className='flex items-center cursor-pointer' onClick={() => { }}>
           <img
             src='/static/icons/blue_check_mark.svg'
             alt=''
