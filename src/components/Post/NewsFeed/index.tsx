@@ -5,7 +5,9 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { getAccessToken } from '@store/auth';
 
+import CommentField from './CommentField';
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
 import { IPost, useCommentsOfPost } from '../service';
@@ -20,12 +22,15 @@ const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
   const { data, pinned = false, onRefreshList, onRemoveData } = props;
 
+  const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
 
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${postData?.id}`);
   };
+
+  const [, setImageCommentMobile] = useState(false);
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postData?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
@@ -78,6 +83,17 @@ const NewsFeed = (props: IProps) => {
           onRefreshPostDetail={onRefreshPostItem}
           pinned={pinned}
         />
+
+        {isLogin && (
+          <div className='mt-4 tablet:block desktop:ml-[64px] '>
+            <CommentField
+              id={postData?.id}
+              refresh={refreshCommentOfPost}
+              refreshTotal={() => {}}
+              setImageCommentMobile={setImageCommentMobile}
+            />
+          </div>
+        )}
 
         {!!countComment && (
           <div className=' [border-top:1px_solid_#EBEBEB] desktop:ml-[64px]'>

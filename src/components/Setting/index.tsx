@@ -35,6 +35,7 @@ interface ISettingItem {
   linkStyle?: boolean;
   hideDivider?: boolean;
   disableClick?: boolean;
+  hoverEffect?: boolean;
 }
 
 const Setting = () => {
@@ -62,12 +63,15 @@ const Setting = () => {
         title: t('language'),
         value: currentLang === 'vi' ? ' Tiếng Việt' : 'English',
         action: () => onTogglePopupLanguage(),
-        hideDivider: !isMobile && !isLogin,
+        hideDivider: true,
+        hoverEffect: true,
       },
       {
         title: t('change_password'),
         path: ROUTE_PATH.SETTING_CHANGE_PASSWORD,
         hidden: !isLogin,
+        hideDivider: true,
+        hoverEffect: true,
       },
       {
         title: t('change_username'),
@@ -75,12 +79,14 @@ const Setting = () => {
         isNew: true,
         hidden: !isLogin,
         hideDivider: !isMobile,
+        hoverEffect: true,
       },
     ];
   }, [currentLang, isMobile, isLogin, t]);
   const onHandleLogout = () => {
     const date = new Date();
     onLogout();
+    console.log('123');
     Logout(date);
   };
   const PINEX_HELP: any = useMemo(() => {
@@ -88,15 +94,16 @@ const Setting = () => {
       {
         title: `${t('version')} 2.1.1`,
         hideArrow: true,
-        hideDivider: !isMobile,
+        hideDivider: true,
         disableClick: true,
       },
       {
         title: t('disclosure'),
         action: () => window.open(TERM_AND_CONDITION_LINK),
-        linkStyle: !isMobile,
-        hideDivider: !isMobile,
+        linkStyle: false,
+        hideDivider: true,
         hideArrow: !isMobile,
+        hoverEffect: true,
       },
       // {
       //   title: 'Guidance',
@@ -114,9 +121,10 @@ const Setting = () => {
             window.open(PHONE_CONTACT_SUPPORT, '_self');
           }
         },
-        linkStyle: !isMobile,
-        hideDivider: !isMobile,
+        linkStyle: false,
+        hideDivider: true,
         hideArrow: !isMobile,
+        hoverEffect: true,
       },
       {
         title: t('log_out'),
@@ -125,6 +133,7 @@ const Setting = () => {
         hideDivider: !isMobile,
         hideArrow: !isMobile,
         hidden: isMobile || !isLogin,
+        hoverEffect: true,
       },
     ];
   }, [isMobile, isLogin]);
@@ -207,7 +216,7 @@ const Setting = () => {
       <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div className='box-shadow card-style relative text-left first-letter:w-full mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+      <div className='box-shadow card-style relative text-left first-letter:w-full mobile-max:mt-[24px] laptop:py-[20px]'>
         {/* <img
           src='/static/icons/back_icon.svg'
           alt=''
@@ -216,42 +225,69 @@ const Setting = () => {
           className='ml-[8px] mt-[18px] h-[28px] w-[28px] cursor-pointer laptop:absolute laptop:left-[10px] laptop:top-[3px] laptop:hidden'
           onClick={onBack}
         /> */}
-        <Text
-          type='body-24-semibold'
-          className='mb-1 mobile:pt-6 laptop-max:ml-4 tablet:!text-[28px] tablet:!font-bold laptop:pt-0 laptop:text-left'
-        >
-          {t('settings')}
-        </Text>
-        <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
-        {SETTINGS.map((item: any, index: number) => renderListItem(item, index))}
+        <div className='laptop:px-[22px] '>
+          <Text
+            type='body-24-semibold'
+            className='mb-1 mobile:pt-6 laptop-max:ml-4 tablet:!text-[28px] tablet:!font-bold laptop:pt-0 laptop:text-left'
+          >
+            {t('settings')}
+          </Text>
+          <div className='ml-[-24px] mt-5 w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
+        </div>
 
-        {isLogin && (
+        {SETTINGS.map((item: any, index: number) => (
+          <div
+            className={classNames('rounded-lg   laptop:px-[22px]', {
+              'hover:bg-neutral_08': item.hoverEffect,
+            })}
+            key={index}
+          >
+            {renderListItem(item, index)}
+          </div>
+        ))}
+
+        <div className='laptop:px-[22px]'>
+          {isLogin && (
+            <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
+          )}
+          {isLogin && (
+            <>
+              <Text
+                type='body-20-semibold'
+                className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'
+              >
+                {t('social')}
+              </Text>
+
+              <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4 laptop:border-none'>
+                <Text type='body-14-regular'>{t('share_watchinglist')}</Text>
+
+                <Switch
+                  defaultChecked={settingsData?.data?.share_watchlist === '1'}
+                  onChange={onChangeShareWatchlist}
+                />
+              </div>
+            </>
+          )}
           <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
-        )}
-        {isLogin && (
-          <>
-            <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
-              {t('social')}
-            </Text>
+        </div>
+        <div className='laptop:px-[22px]'>
+          <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
+            PineX
+          </Text>
+        </div>
 
-            <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4 laptop:border-none'>
-              <Text type='body-14-regular'>{t('share_watchinglist')}</Text>
-
-              <Switch
-                defaultChecked={settingsData?.data?.share_watchlist === '1'}
-                onChange={onChangeShareWatchlist}
-              />
-            </div>
-          </>
-        )}
-
-        <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] mobile:hidden laptop:block' />
-
-        <Text type='body-20-semibold' className='mt-[20px] laptop-max:ml-4 tablet:!text-[16px]'>
-          PineX
-        </Text>
-
-        {PINEX_HELP.map((item: any, index: number) => renderListItem(item, index))}
+        {PINEX_HELP.map((item: any, index: number) => (
+          <div
+            className={classNames('rounded-lg  laptop:px-[22px]', {
+              'hover:bg-neutral_08': item.hoverEffect,
+            })}
+            key={index}
+          >
+            {' '}
+            {renderListItem(item, index)}
+          </div>
+        ))}
 
         {isLogin && (
           <div className='px-4 laptop:hidden'>

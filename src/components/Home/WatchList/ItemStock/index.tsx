@@ -9,13 +9,13 @@ import Text from '@components/UI/Text';
 import { IWatchListItem } from '../../service';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
-  const highest_price = data?.hp || data?.refPrice;
-  const lowest_price = data?.lp || data?.refPrice;
+  const highest_price = data?.refPrice;
+  const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const unit = data?.cl === 'd' || data?.cl === 'f' || isDecrease ? '-' : '+';
+  const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
