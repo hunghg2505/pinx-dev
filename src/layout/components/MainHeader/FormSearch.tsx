@@ -80,15 +80,24 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
   const handleSubmit = () => {
-    router.push({
-      pathname: ROUTE_PATH.SEARCHSEO,
-      query: { keyword: query, tab: 'post' },
-    });
-    form.setFieldValue('search', '');
-    setInputFocus(false);
-    setShowRecent(false);
-    setShowPopup(false);
-    setIsOpenSearch(!isOpenSearch);
+    const value = form.getFieldValue('search');
+    setQuery(value);
+    if (value === '') {
+      setInputFocus(false);
+      setShowRecent(false);
+      setShowPopup(false);
+      setIsOpenSearch(!isOpenSearch);
+    } else {
+      router.push({
+        pathname: ROUTE_PATH.SEARCHSEO,
+        query: { keyword: query, tab: 'post' },
+      });
+      form.setFieldValue('search', '');
+      setInputFocus(false);
+      setShowRecent(false);
+      setShowPopup(false);
+      setIsOpenSearch(!isOpenSearch);
+    }
   };
 
   // Set value when onSubmit Form
@@ -143,11 +152,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     isMobile && form.submit();
   };
 
-  const companies = data?.data?.companyList?.list;
-  const users = data?.data?.customerList?.list;
-  const posts = data?.data?.postList?.list;
-  const news = data?.data?.newsList?.list;
-  const media = data?.data?.listMedia?.list;
+  const companies = data?.data?.companyList?.list || [];
+  const users = data?.data?.customerList?.list || [];
+  const posts = data?.data?.postList?.list || [];
+  const news = data?.data?.newsList?.list || [];
+  const media = data?.data?.listMedia?.list || [];
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;

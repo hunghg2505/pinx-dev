@@ -162,7 +162,7 @@ export const getPostDetail = async (postId: string) => {
 // };
 
 export const usePostDetail = (postId: string, option = {}) => {
-  const { data, loading, refresh } = useRequest(
+  const { data, loading, refresh, run } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
@@ -172,20 +172,26 @@ export const usePostDetail = (postId: string, option = {}) => {
     {
       refreshDeps: [postId],
       ...option,
+      manual: true,
     },
   );
   return {
     postDetail: data,
     loading,
     refresh,
+    run,
   };
 };
 
-const getCommentsOfPostAuth = async (postId: string) => {
-  return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId));
+export const getCommentsOfPostAuth = async (postId: string, params?: any) => {
+  return await privateRequest(
+    requestCommunity.get,
+    API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId),
+    { params },
+  );
 };
-const getCommentsOfPost = (postId: string) => {
-  return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId));
+export const getCommentsOfPost = (postId: string, params?: any) => {
+  return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId), { params });
 };
 export const useCommentsOfPost = (postId: string) => {
   const { data, loading, refresh } = useRequest(
@@ -203,6 +209,22 @@ export const useCommentsOfPost = (postId: string) => {
     refreshCommentOfPost: refresh,
   };
 };
+
+export async function getMoreCommentPost(postId: string, nextId: string): Promise<any> {
+  const params = {
+    limit: 20,
+    last: nextId ?? '',
+  };
+  const isLogin = !!getAccessToken();
+  const r = isLogin
+    ? await getCommentsOfPostAuth(postId, params)
+    : await getCommentsOfPost(postId, params);
+  console.log('r', r);
+  return {
+    list: r?.data?.list,
+    nextId: r?.data?.hasNext ? r?.data?.last : false,
+  };
+}
 
 export const likePost = async (postId: string) => {
   return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));

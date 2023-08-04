@@ -212,7 +212,11 @@ const ItemComment = (props: IProps) => {
             'h-[40px] w-[40px]': !isChildren,
             'h-[36px] w-[36px]': isChildren,
           })}
-          onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
+          onClick={() =>
+            isComment
+              ? router.push(ROUTE_PATH.MY_PROFILE)
+              : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+          }
         />
         {/* bg-[#F6FAFD] */}
         <div

@@ -8,6 +8,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useClickAway, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
 import { RcFile } from 'rc-upload/lib/interface';
@@ -32,7 +33,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 // import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { USERTYPE } from '@utils/constant';
 
-import { isImage, validateHTML } from '../../../../utils/common';
+import { ROUTE_PATH, isImage, validateHTML } from '../../../../utils/common';
 import suggestion from '../../../Editor/Suggestion';
 // import { toBase64 } from '@';
 
@@ -55,6 +56,7 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const { t } = useTranslation();
   const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
+  const router = useRouter();
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   // const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -380,6 +382,7 @@ const Editor = (props: IProps, ref?: any) => {
           height={0}
           sizes='100vw'
           className='mr-[8px] h-[40px] w-[40px] rounded-full object-cover mobile:hidden tablet:block'
+          onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
         />
 
         <div
