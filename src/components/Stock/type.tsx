@@ -366,41 +366,116 @@ export interface IPayloadShareStock {
   stockCode: string;
 }
 
+export enum FinancialType {
+  QUARTER = 'QUARTER',
+  YEAR = 'YEAR',
+}
+
+export interface IStockData {
+  id: number;
+  flag: string;
+  sym: string;
+  name: string;
+  mc: string;
+  c: number;
+  r: number;
+  f: number;
+  lastPrice: number;
+  lastVolume: number;
+  lot: number;
+  ot: string;
+  changePc: string;
+  avePrice: string;
+  highPrice: string;
+  lowPrice: string;
+  g1: string;
+  g2: string;
+  g3: string;
+  g4: string;
+  g5: string;
+  g6: string;
+  g7: string;
+  mp: string;
+  brd: string;
+  volumeInDay: number;
+  fBVol: string;
+  fBValue: string;
+  fSVol: null;
+  fSVolume: string;
+  fSValue: string;
+  fRoom: string;
+}
+
 export interface IResponseStockData {
   stockData?: {
+    data: IStockData;
+  };
+}
+
+export interface IResponseFinancialIndicator {
+  financialIndicator?: {
+    data: {
+      head: {
+        id: number;
+        companyId: number;
+        yearPeriod: number;
+        termCode: string;
+        termName: string;
+        termNameEN: string;
+        reportTermID: number;
+        displayOrdering: number;
+        united: string;
+        auditedStatus: string;
+        periodBegin: string;
+        periodEnd: string;
+        totalRow: number;
+        businessType: number;
+      };
+      content: {
+        eps: number;
+        bvps: number;
+        pe: number;
+        ros: number;
+        roea: number;
+        roaa: number;
+      };
+      previousQuarterContent: {
+        eps: number;
+        bvps: number;
+        pe: number;
+        ros: number;
+        roea: number;
+        roaa: number;
+      };
+      hasBack: boolean;
+    };
+  };
+  onGetFinancialIndicator: (page?: number) => void;
+  loading: boolean;
+}
+
+export enum FinancialAnnualKey {
+  EPS = 'eps',
+  BVPS = 'bvps',
+  PE = 'pe',
+  ROS = 'ros',
+  ROEA = 'roea',
+  ROAA = 'roaa',
+}
+
+export interface IResponseStockTrade {
+  stockTrade?: {
     data: {
       id: number;
-      flag: string;
       sym: string;
-      name: string;
-      mc: string;
-      c: number;
-      r: number;
-      f: number;
+      lastVol: number;
       lastPrice: number;
-      lastVolume: number;
-      lot: number;
-      ot: string;
-      changePc: string;
-      avePrice: string;
-      highPrice: string;
-      lowPrice: string;
-      g1: string;
-      g2: string;
-      g3: string;
-      g4: string;
-      g5: string;
-      g6: string;
-      g7: string;
-      mp: string;
-      brd: string;
-      volumeInDay: number;
-      fBVol: string;
-      fBValue: string;
-      fSVol: null;
-      fSVolume: string;
-      fSValue: string;
-      fRoom: string;
-    };
+      color: null;
+      cl: string;
+      change: string;
+      totalVol: number;
+      board: null;
+      time: string;
+    }[];
   };
 }

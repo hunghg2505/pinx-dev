@@ -123,5 +123,13 @@
     "description": "Bạn có thể theo dõi các hoạt động liên quan tới chủ đề ở đây",
     "text_action_not_follow": "Theo dõi cổ phiếu này",
     "text_action_share_act": "Chia sẻ hoạt động đầu tư của bạn"
+  },
+  "financial_indicator": {
+    "eps_4q": "EPS 4Q",
+    "bvps": "BVPS",
+    "pe": "P/E",
+    "ros": "ROS",
+    "roea": "ROEA",
+    "roaa": "ROAA"
   }
 }

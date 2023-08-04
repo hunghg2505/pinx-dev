@@ -121,5 +121,13 @@
     "description": "Recent activity will show up here, so you can easily view them here later",
     "text_action_not_follow": "Watch this stock",
     "text_action_share_act": "Share your activity"
+  },
+  "financial_indicator": {
+    "eps_4q": "EPS 4Q",
+    "bvps": "BVPS",
+    "pe": "P/E",
+    "ros": "ROS",
+    "roea": "ROEA",
+    "roaa": "ROAA"
   }
 }

@@ -111,6 +111,8 @@ export const API_PATH = {
   PRIVATE_ACTIVITY_WATCH_LIST_ADD: '/private/activity/watchlist/add',
   PRIVATE_ACTIVITY_WATCH_LIST_ADD_V2: '/private/activity/watchlist/addV2',
   PUBLIC_STOCK_DATA: (stockCode: string) => `/public/stock/${stockCode}/data`,
+  PUBLIC_FINANCE_INFO: '/public/finance-info',
+  PUBLIC_STOCK_TRADE: (stockCode: string) => `/public/stock/${stockCode}/trade`,
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

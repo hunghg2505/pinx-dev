@@ -9,13 +9,14 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
+import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -34,7 +35,7 @@ import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
-import { SHARE_HOLDER_COLOR } from '../const';
+import { REVENUE_CHART_COLOR, SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -46,6 +47,7 @@ import {
   useFinancialCalendar,
   useFinancialIndex,
   useFollowOrUnfollowStock,
+  useGetStockData,
   useHoldingRatio,
   useMyListStock,
   useReviewStock,
@@ -56,7 +58,13 @@ import {
   useStockNews,
   useThemesOfStock,
 } from '../service';
-import { CompanyRelatedType, FinancialIndexKey, IFinancialIndex, IResponseMyStocks } from '../type';
+import {
+  CompanyRelatedType,
+  FinancialIndexKey,
+  IFinancialIndex,
+  IResponseMyStocks,
+  IStockData,
+} from '../type';
 
 const MAX_LINE = 4;
 const LINE_HEIGHT = 21;
@@ -84,12 +92,16 @@ const StockDetail = () => {
   const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [dataStock, setDataStock] = useState<IStockData>();
   const refSlide = useRef<any>(null);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
 
   const { stockDetail } = useStockDetail(stockCode, {
+    onSuccess: ({ data }: any) => {
+      requestJoinChannel(data.stockCode);
+    },
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
@@ -117,6 +129,12 @@ const StockDetail = () => {
   const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
     limit: ACTIVITIES_ITEM_LIMIT,
   });
+  useGetStockData(stockCode, {
+    onSuccess: (res) => {
+      setDataStock((prev) => ({ ...prev, ...res.data }));
+      requestJoinChannel(res.data.sym);
+    },
+  });
 
   const totalColumnHighligh = Math.ceil(
     (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
@@ -126,6 +144,14 @@ const StockDetail = () => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
     introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
   }, [stockDetail]);
+
+  useEffect(() => {
+    return () => {
+      if (dataStock) {
+        requestLeaveChannel(dataStock.sym);
+      }
+    };
+  }, []);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -171,6 +197,13 @@ const StockDetail = () => {
   const handleBack = () => {
     router.back();
   };
+
+  socket.on('public', (message: any) => {
+    const data = message.data;
+    if (data?.id === 3220 && data.sym === dataStock?.sym) {
+      setDataStock((prev) => ({ ...prev, ...data }));
+    }
+  });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
     router.push({
@@ -284,6 +317,16 @@ const StockDetail = () => {
       slidesToScroll: PRODUCT_SLIDE_LIMIT,
     };
   }, [stockDetail?.data?.products]);
+
+  const { unit } = useMemo(() => {
+    const highest_price = dataStock?.r;
+    const isDecrease = (dataStock?.lastPrice || 0) < (highest_price || 0);
+    const unit = isDecrease ? '-' : '+';
+
+    return {
+      unit,
+    };
+  }, [dataStock]);
 
   return (
     <div className='p-[10px] desktop:p-0'>
@@ -405,12 +448,20 @@ const StockDetail = () => {
               </div>
             </div>
 
-            <div className='text-right'>
-              <Text type='body-16-medium' className='semantic-2-1'>
-                23,000
-              </Text>
-              <Text type='body-12-regular' className='semantic-2-1'>
-                +2.3 / 0.02%
+            <div
+              className='text-right'
+              style={{
+                color: getStockColor(
+                  dataStock?.lastPrice || 0,
+                  dataStock?.c || 0,
+                  dataStock?.f || 0,
+                  dataStock?.r || 0,
+                ),
+              }}
+            >
+              <Text type='body-16-medium'>{dataStock?.lastPrice.toFixed(2)}</Text>
+              <Text type='body-12-regular'>
+                {`${unit}${dataStock?.ot || 0}`} / {`${unit}${dataStock?.changePc || 0}`}%
               </Text>
             </div>
           </div>
@@ -419,7 +470,7 @@ const StockDetail = () => {
         {/* chart */}
         <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
           <iframe
-            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=1000`}
+            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}`}
             frameBorder='0'
             className='h-[350px] w-full'
           ></iframe>
@@ -428,11 +479,11 @@ const StockDetail = () => {
         {/* tab */}
         <Tabs className={styles.tabs} defaultActiveKey='1'>
           <TabPane tab={t('tab.movements')} tabKey='1'>
-            <MovementsTab stockCode={stockCode} />
+            <MovementsTab stockData={dataStock} />
           </TabPane>
 
           <TabPane tab={t('tab.matchings')} key='2'>
-            <MatchingsTab />
+            <MatchingsTab stockCode={stockCode} />
           </TabPane>
 
           <TabPane tab={t('tab.intraday')} key='3'>
@@ -608,6 +659,11 @@ const StockDetail = () => {
               <div className='mt-[8px]'>
                 {taggingInfo?.data?.revenues.map((item, index) => (
                   <RevenueItem
+                    color={
+                      REVENUE_CHART_COLOR[
+                        index % ((taggingInfo?.data && taggingInfo?.data?.revenues.length) || 0)
+                      ]
+                    }
                     key={index}
                     value={+item.percentage.toFixed(2)}
                     label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
@@ -903,18 +959,18 @@ const StockDetail = () => {
         <div className='tablet:hidden'>
           <Tabs className={styles.financialTab} defaultActiveKey='1'>
             <TabPane tab={t('financial_indicator_quarters')} tabKey='1'>
-              <FinancialQuartersTab />
+              <FinancialQuartersTab stockCode={stockCode} />
             </TabPane>
 
             <TabPane tab={t('financial_indicator_annual')} key='2'>
-              <FinancialAnnualTab />
+              <FinancialAnnualTab stockCode={stockCode} />
             </TabPane>
           </Tabs>
         </div>
 
         <div className='hidden gap-x-[15px] tablet:flex'>
-          <FinancialQuartersTab />
-          <FinancialAnnualTab />
+          <FinancialQuartersTab stockCode={stockCode} />
+          <FinancialAnnualTab stockCode={stockCode} />
         </div>
       </div>
 
