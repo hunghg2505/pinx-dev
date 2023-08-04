@@ -86,7 +86,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const handleSubmit = () => {
     const value = form.getFieldValue('search');
     setQuery(value);
-    if (value === '') {
+    if (value === '' || value === undefined) {
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
@@ -133,11 +133,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     () => {
       const value = form.getFieldValue('search');
       setQuery(value);
-      if (value === '') {
+      if (value === '' || value === undefined) {
         setShowPopup(false);
-        setInputFocus(false);
-        setShowRecent(false);
+        // setInputFocus(false);
+        setShowRecent(true);
       } else {
+        setShowRecent(false);
         setShowPopup(true);
         setInputFocus(true);
         searchPublic({
