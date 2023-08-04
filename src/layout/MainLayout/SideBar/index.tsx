@@ -12,6 +12,7 @@ import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { NavigateSection } from '@utils/dataLayer';
 
 import {
   IconAssets,
@@ -125,7 +126,11 @@ const SideBar = () => {
         className: ` mb-[12px] ${checkPathExist && 'active'}`,
         key: `${menu.id}`,
         label: (
-          <CustomLink href={menu?.path} className='flex items-center gap-[10px] px-[8px] py-[5px] '>
+          <CustomLink
+            href={menu?.path}
+            className='flex items-center gap-[10px] px-[8px] py-[5px] '
+            onClick={() => NavigateSection(menu.label)}
+          >
             {icon}
             <Text
               type='body-16-semibold'

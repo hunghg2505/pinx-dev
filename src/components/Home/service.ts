@@ -388,7 +388,7 @@ export const useGetBgTheme = () => {
 
 // get pin post
 export const useGetPinedPost = (options = {}) => {
-  const { data, loading } = useRequest(
+  const { data, loading, refresh } = useRequest(
     async () => {
       const isLogin = !!getAccessToken();
 
@@ -405,6 +405,7 @@ export const useGetPinedPost = (options = {}) => {
   return {
     pinedPost: data?.data,
     loading,
+    refresh,
   };
 };
 

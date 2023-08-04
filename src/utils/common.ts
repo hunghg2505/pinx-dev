@@ -73,7 +73,6 @@ export const formatMessage = (message: string, data: any) => {
   const listHashTag = data?.hashtags?.map((item: any) => {
     return item;
   });
-  console.log('🚀 ~ file: common.ts:76 ~ listHashTag ~ listHashTag:', listHashTag);
   if (tagPeople) {
     for (const item of tagPeople) {
       const start = item.indexOf('[') + 1;
@@ -126,8 +125,6 @@ export const formatMessage = (message: string, data: any) => {
   if (listHashTag) {
     for (const item of listHashTag) {
       if (message && message.includes(item)) {
-        console.log(item);
-
         const newItem = item.replace('#', '');
         message = message.replaceAll(
           item,
@@ -142,8 +139,6 @@ export const formatMessage = (message: string, data: any) => {
   str?.map((item) => {
     if (item.includes('#')) {
       const newItem = item.replace('#', '');
-      console.log('item', item);
-      console.log('message', message);
       message = message.replaceAll(
         item,
         `
