@@ -462,3 +462,20 @@ export enum FinancialAnnualKey {
   ROEA = 'roea',
   ROAA = 'roaa',
 }
+
+export interface IResponseStockTrade {
+  stockTrade?: {
+    data: {
+      id: number;
+      sym: string;
+      lastVol: number;
+      lastPrice: number;
+      color: null;
+      cl: string;
+      change: string;
+      totalVol: number;
+      board: null;
+      time: string;
+    }[];
+  };
+}

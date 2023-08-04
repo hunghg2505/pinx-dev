@@ -3,11 +3,20 @@ import React, { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
 import PopupMatchedPrice from '@components/Stock/Popup/PopupMatchedPrice';
+import { useGetStockTrade } from '@components/Stock/service';
 import Text from '@components/UI/Text';
 
-const MatchingsTab = () => {
+interface IMatchingsTabProps {
+  stockCode: string;
+}
+
+const LIMIT_STOCK_TRADE = 20;
+
+const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const [openPopup, setOpenPopup] = useState(false);
+
+  const { stockTrade } = useGetStockTrade(stockCode);
 
   return (
     <>
@@ -38,185 +47,64 @@ const MatchingsTab = () => {
         </thead>
 
         <tbody>
-          <tr>
-            <td className='py-[10px] pl-[16px] text-left'>
-              <Text type='body-16-regular' className='text-[#999999]'>
-                14:45:02
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                705,700
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                27.7
-              </Text>
-            </td>
-            <td className='py-[10px] pr-[16px]'>
-              <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                <Text type='body-16-semibold' color='cbwhite'>
-                  0.45
+          {stockTrade?.data.map((item, index) => (
+            <tr key={index}>
+              <td className='py-[10px] pl-[16px] text-left'>
+                <Text type='body-16-regular' className='text-[#999999]'>
+                  {item.time}
                 </Text>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td className='py-[10px] pl-[16px] text-left'>
-              <Text type='body-16-regular' className='text-[#999999]'>
-                14:45:02
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                705,700
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                27.7
-              </Text>
-            </td>
-            <td className='py-[10px] pr-[16px]'>
-              <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                <Text type='body-16-semibold' color='cbwhite'>
-                  0.45
+              </td>
+              <td className='py-[10px]'>
+                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                  {item.totalVol}
                 </Text>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td className='py-[10px] pl-[16px] text-left'>
-              <Text type='body-16-regular' className='text-[#999999]'>
-                14:45:02
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                705,700
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                27.7
-              </Text>
-            </td>
-            <td className='py-[10px] pr-[16px]'>
-              <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                <Text type='body-16-semibold' color='cbwhite'>
-                  0.45
+              </td>
+              <td className='py-[10px]'>
+                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                  {item.lastPrice}
                 </Text>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td className='py-[10px] pl-[16px] text-left'>
-              <Text type='body-16-regular' className='text-[#999999]'>
-                14:45:02
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                705,700
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                27.7
-              </Text>
-            </td>
-            <td className='py-[10px] pr-[16px]'>
-              <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                <Text type='body-16-semibold' color='cbwhite'>
-                  0.45
-                </Text>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td className='py-[10px] pl-[16px] text-left'>
-              <Text type='body-16-regular' className='text-[#999999]'>
-                14:45:02
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                705,700
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                27.7
-              </Text>
-            </td>
-            <td className='py-[10px] pr-[16px]'>
-              <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                <Text type='body-16-semibold' color='cbwhite'>
-                  0.45
-                </Text>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td className='py-[10px] pl-[16px] text-left'>
-              <Text type='body-16-regular' className='text-[#999999]'>
-                14:45:02
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                705,700
-              </Text>
-            </td>
-            <td className='py-[10px]'>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                27.7
-              </Text>
-            </td>
-            <td className='py-[10px] pr-[16px]'>
-              <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                <Text type='body-16-semibold' color='cbwhite'>
-                  0.45
-                </Text>
-              </div>
-            </td>
-          </tr>
+              </td>
+              <td className='py-[10px] pr-[16px]'>
+                <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
+                  <Text type='body-16-semibold' color='cbwhite'>
+                    {item.change}
+                  </Text>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
 
-        <tfoot>
-          <tr>
-            <td colSpan={4} className='pt-[24px]'>
-              <Text
-                onClick={() => {
-                  setOpenPopup(true);
-                }}
-                type='body-14-medium'
-                className='cursor-pointer text-center uppercase text-[#3449D7] tablet:hidden'
-              >
-                {t('common:view_more')}
-              </Text>
-
-              <div className='hidden tablet:block'>
-                <button
+        {stockTrade?.data && stockTrade.data.length >= LIMIT_STOCK_TRADE && (
+          <tfoot>
+            <tr>
+              <td colSpan={4} className='pt-[24px]'>
+                <Text
                   onClick={() => {
                     setOpenPopup(true);
                   }}
-                  className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+                  type='body-14-medium'
+                  className='cursor-pointer text-center uppercase text-[#3449D7] tablet:hidden'
                 >
-                  <Text type='body-14-bold' color='primary-2' className='uppercase'>
-                    {t('common:view_more')}
-                  </Text>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tfoot>
+                  {t('common:view_more')}
+                </Text>
+
+                <div className='hidden tablet:block'>
+                  <button
+                    onClick={() => {
+                      setOpenPopup(true);
+                    }}
+                    className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+                  >
+                    <Text type='body-14-bold' color='primary-2' className='uppercase'>
+                      {t('common:view_more')}
+                    </Text>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        )}
       </table>
 
       <PopupMatchedPrice visible={openPopup} onClose={() => setOpenPopup(false)} />

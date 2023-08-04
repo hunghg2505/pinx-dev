@@ -21,6 +21,7 @@ import {
   IPayloadShareStock,
   IResponseStockData,
   IResponseFinancialIndicator,
+  IResponseStockTrade,
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
@@ -415,6 +416,16 @@ const useFinancialIndicator = ({
   };
 };
 
+const useGetStockTrade = (stockCode: string): IResponseStockTrade => {
+  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_TRADE(stockCode)), {
+    refreshDeps: [stockCode],
+  });
+
+  return {
+    stockTrade: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -437,4 +448,5 @@ export {
   useShareStockActivity,
   useGetStockData,
   useFinancialIndicator,
+  useGetStockTrade,
 };

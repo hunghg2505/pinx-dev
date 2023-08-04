@@ -483,7 +483,7 @@ const StockDetail = () => {
           </TabPane>
 
           <TabPane tab={t('tab.matchings')} key='2'>
-            <MatchingsTab />
+            <MatchingsTab stockCode={stockCode} />
           </TabPane>
 
           <TabPane tab={t('tab.intraday')} key='3'>
