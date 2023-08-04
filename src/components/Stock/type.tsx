@@ -366,6 +366,11 @@ export interface IPayloadShareStock {
   stockCode: string;
 }
 
+export enum FinancialType {
+  QUARTER = 'QUARTER',
+  YEAR = 'YEAR',
+}
+
 export interface IResponseStockData {
   stockData?: {
     data: {
@@ -403,4 +408,55 @@ export interface IResponseStockData {
       fRoom: string;
     };
   };
+}
+
+export interface IResponseFinancialIndicator {
+  financialIndicator?: {
+    data: {
+      head: {
+        id: number;
+        companyId: number;
+        yearPeriod: number;
+        termCode: 'N';
+        termName: 'Năm';
+        termNameEN: 'Year';
+        reportTermID: number;
+        displayOrdering: number;
+        united: 'HN';
+        auditedStatus: 'KT';
+        periodBegin: '200101';
+        periodEnd: '200112';
+        totalRow: number;
+        businessType: number;
+      };
+      content: {
+        eps: number;
+        bvps: number;
+        pe: number;
+        ros: number;
+        roea: number;
+        roaa: number;
+      };
+      previousQuarterContent: {
+        eps: number;
+        bvps: number;
+        pe: number;
+        ros: number;
+        roea: number;
+        roaa: number;
+      };
+      hasBack: boolean;
+    };
+  };
+  onGetFinancialIndicator: (page?: number) => void;
+  loading: boolean;
+}
+
+export enum FinancialAnnualKey {
+  EPS = 'eps',
+  BVPS = 'bvps',
+  PE = 'pe',
+  ROS = 'ros',
+  ROEA = 'roea',
+  ROAA = 'roaa',
 }

@@ -903,18 +903,18 @@ const StockDetail = () => {
         <div className='tablet:hidden'>
           <Tabs className={styles.financialTab} defaultActiveKey='1'>
             <TabPane tab={t('financial_indicator_quarters')} tabKey='1'>
-              <FinancialQuartersTab />
+              <FinancialQuartersTab stockCode={stockCode} />
             </TabPane>
 
             <TabPane tab={t('financial_indicator_annual')} key='2'>
-              <FinancialAnnualTab />
+              <FinancialAnnualTab stockCode={stockCode} />
             </TabPane>
           </Tabs>
         </div>
 
         <div className='hidden gap-x-[15px] tablet:flex'>
-          <FinancialQuartersTab />
-          <FinancialAnnualTab />
+          <FinancialQuartersTab stockCode={stockCode} />
+          <FinancialAnnualTab stockCode={stockCode} />
         </div>
       </div>
 

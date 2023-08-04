@@ -1,4 +1,4 @@
-import { ActivityIconType } from './type';
+import { ActivityIconType, FinancialAnnualKey } from './type';
 
 export const ACTIVITIES_TYPE = [
   {
@@ -23,3 +23,29 @@ export const SHARE_HOLDER_COLOR = [
   '#fbda21',
   '#999999',
 ];
+
+export const manualTranslateFinancialIndicator = (key: string) => {
+  switch (key) {
+    case FinancialAnnualKey.EPS: {
+      return 'financial_indicator.eps_4q';
+    }
+    case FinancialAnnualKey.BVPS: {
+      return 'financial_indicator.bvps';
+    }
+    case FinancialAnnualKey.PE: {
+      return 'financial_indicator.pe';
+    }
+    case FinancialAnnualKey.ROS: {
+      return 'financial_indicator.ros';
+    }
+    case FinancialAnnualKey.ROEA: {
+      return 'financial_indicator.roea';
+    }
+    case FinancialAnnualKey.ROAA: {
+      return 'financial_indicator.roaa';
+    }
+    default: {
+      return '';
+    }
+  }
+};
