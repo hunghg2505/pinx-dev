@@ -84,7 +84,6 @@ const NewFeedItem = (props: IProps) => {
       postDetail?.id,
       router.pathname,
     ]);
-
   const refHover = useRef(null);
 
   const isHovering = useHover(refHover);

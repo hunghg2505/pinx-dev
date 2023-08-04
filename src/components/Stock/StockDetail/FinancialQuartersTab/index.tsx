@@ -38,7 +38,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
       <thead>
         <tr className='h-[78px]'>
           <th className='align-middle'>
-            {financialIndicator?.data && financialIndicator?.data.hasBack && (
+            {financialIndicator?.data && financialIndicator?.data?.hasBack && (
               <img
                 src='/static/icons/back_icon.svg'
                 alt='Previous icon'
@@ -50,13 +50,13 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
           <th className='align-middle'>
             <Text type='body-14-bold' className='mb-[12px] text-[#0D0D0D]'>
               {i18n.language === 'vi'
-                ? financialIndicator?.data.head.termName
-                : financialIndicator?.data.head.termNameEN}
+                ? financialIndicator?.data?.head.termName
+                : financialIndicator?.data?.head.termNameEN}
             </Text>
             <Text type='body-12-medium' color='primary-2'>
-              {dayjs(financialIndicator?.data.head.periodBegin).format('MM/YYYY')}
+              {dayjs(financialIndicator?.data?.head.periodBegin).format('MM/YYYY')}
               {' - '}
-              {dayjs(financialIndicator?.data.head.periodEnd).format('MM/YYYY')}
+              {dayjs(financialIndicator?.data?.head.periodEnd).format('MM/YYYY')}
             </Text>
           </th>
           <th className='text-right align-middle'>
@@ -80,7 +80,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data.content.eps)}
+              {Number(financialIndicator?.data?.content.eps)}
             </Text>
           </td>
 
@@ -90,7 +90,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data.content.bvps)}
+              {Number(financialIndicator?.data?.content.bvps)}
             </Text>
           </td>
 
@@ -100,7 +100,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data.content.pe)}
+              {Number(financialIndicator?.data?.content.pe)}
             </Text>
           </td>
         </tr>
@@ -111,7 +111,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data.content.ros)}
+              {Number(financialIndicator?.data?.content.ros)}
             </Text>
           </td>
 
@@ -121,7 +121,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data.content.roea)}
+              {Number(financialIndicator?.data?.content.roea)}
             </Text>
           </td>
 
@@ -131,7 +131,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data.content.roaa)}
+              {Number(financialIndicator?.data?.content.roaa)}
             </Text>
           </td>
         </tr>

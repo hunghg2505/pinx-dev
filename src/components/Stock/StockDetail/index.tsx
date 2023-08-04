@@ -156,6 +156,7 @@ const StockDetail = () => {
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
       refreshMyStocks();
+      refreshStockDetails();
 
       if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
         const title = isFollowedStock
@@ -459,7 +460,7 @@ const StockDetail = () => {
                 ),
               }}
             >
-              <Text type='body-16-medium'>{dataStock?.lastPrice.toFixed(2)}</Text>
+              <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
               <Text type='body-12-regular'>
                 {`${unit}${dataStock?.ot || 0}`} / {`${unit}${dataStock?.changePc || 0}`}%
               </Text>
@@ -832,7 +833,7 @@ const StockDetail = () => {
             </Text>
 
             <div className='mt-[16px] flex items-center justify-between tablet:justify-start'>
-              <div className='flex gap-x-[10px]'>
+              <Link href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)} className='flex gap-x-[10px]'>
                 {stockDetails?.data.watchingInvestingList
                   .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
                   .map((item, index) => (
@@ -858,7 +859,7 @@ const StockDetail = () => {
                       )}
                     </div>
                   ))}
-              </div>
+              </Link>
 
               <div
                 onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}

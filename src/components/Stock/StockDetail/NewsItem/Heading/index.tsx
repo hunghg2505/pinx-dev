@@ -34,7 +34,7 @@ const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingN
     }
 
     return (
-      <button className='relative ml-[16px] tablet:ml-auto'>
+      <button className='relative ml-[16px]'>
         <img
           src='/static/icons/iconDot.svg'
           alt='Icon dot'

@@ -114,7 +114,7 @@ const FooterSignUp = () => {
       </div>
 
       {/* > tablet */}
-      <div
+      {/* <div
         style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
         className='z-[999] h-full w-full items-center border-t border-solid border-t-[var(--primary-3)] bg-white transition mobile:hidden tablet:flex'
       >
@@ -147,7 +147,7 @@ const FooterSignUp = () => {
             </Text>
           </div>
         </div>
-      </div>
+      </div> */}
     </footer>
   );
 };
