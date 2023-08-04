@@ -1,6 +1,8 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import React, { useEffect, useRef } from 'react';
 
+import { REVENUE_CHART_COLOR } from '@components/Stock/const';
+
 interface IPieChartProps {
   width: number;
   height: number;
@@ -77,20 +79,13 @@ const PieChart = ({ width, height, data }: IPieChartProps) => {
         Z`,
         index,
         percent,
-        color: dynamicColors(),
+        color: REVENUE_CHART_COLOR[index % data.length],
       };
     });
   };
 
   const rad = (deg: number) => {
     return (deg * Math.PI) / 180;
-  };
-
-  const dynamicColors = () => {
-    const r = Math.floor(Math.random() * 255);
-    const g = Math.floor(Math.random() * 255);
-    const b = Math.floor(Math.random() * 255);
-    return 'rgb(' + r + ',' + g + ',' + b + ')';
   };
 
   const percentToDeg = (percent: number) => (percent * 360) / 100;

@@ -9,8 +9,12 @@ import Form from 'rc-field-form';
 
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
+import CompanyItem from '@components/Explore/Search/CompanyItem';
+import NewsItem from '@components/Explore/Search/NewsItem';
+import UserItem from '@components/Explore/Search/UserItem';
+import NewsFeed from '@components/Post/NewsFeed';
 import styles from '@components/SearchSeo/index.module.scss';
-import { useGetSearchRecent } from '@components/SearchSeo/service';
+import { useGetSearchRecent, useSearchPublic } from '@components/SearchSeo/service';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
@@ -33,7 +37,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const valueInput = form.getFieldValue('search');
 
   // Call API
-  const { listRecent, refreshSearchRecent, loadingSearchRecent } = useGetSearchRecent();
+  const { listRecent, runRecent, refreshSearchRecent, loadingSearchRecent } = useGetSearchRecent({
+    onSuccess: () => {
+      console.log('useGetSearchRecent',listRecent);
+    },
+  });
+  const { data, searchPublic, loading, refresh } = useSearchPublic({
+    onSuccess: () => {
+      console.log('useSearchPublic',data);
+    },
+  });
 
   const [query, setQuery] = React.useState(search);
   const [inputFocus, setInputFocus] = React.useState(false);
@@ -49,6 +62,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onFocus: () => {
       setInputFocus(true);
       setShowRecent(true);
+      runRecent();
+      const value = form.getFieldValue('search');
+      setQuery(value);
+      if (value !== '') {
+        // run();
+      }
     },
   });
 
@@ -61,14 +80,29 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
   const handleSubmit = () => {
-    router.push({
-      pathname: ROUTE_PATH.SEARCHSEO,
-      query: { keyword: query, tab: 'post' },
-    });
-    form.setFieldValue('search', '');
-    setInputFocus(false);
-    setShowRecent(false);
-    setShowPopup(false);
+    const value = form.getFieldValue('search');
+    setQuery(value);
+    if (value === '') {
+      setInputFocus(false);
+      setShowRecent(false);
+      setShowPopup(false);
+      setIsOpenSearch(!isOpenSearch);
+    } else {
+      router.push({
+        pathname: ROUTE_PATH.SEARCHSEO,
+        query: { keyword: query, tab: 'post' },
+      });
+      form.setFieldValue('search', '');
+      setInputFocus(false);
+      setShowRecent(false);
+      setShowPopup(false);
+      setIsOpenSearch(!isOpenSearch);
+    }
+  };
+
+  // Set value when onSubmit Form
+  const handleOnchange = () => {
+    setQuery(form.getFieldValue('search'));
   };
 
   const removeFormSearch = () => {
@@ -101,12 +135,36 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       } else {
         setShowPopup(true);
         setInputFocus(true);
+        searchPublic({
+          textSearch: value,
+        });
       }
     },
     {
       wait: 300,
     },
   );
+
+  const onClickRecent = (data: any) => {
+    form.setFieldValue('search', data);
+    setQuery(data);
+    isDesktop && run();
+    isMobile && form.submit();
+  };
+
+  const companies = data?.data?.companyList?.list || [];
+  const users = data?.data?.customerList?.list || [];
+  const posts = data?.data?.postList?.list || [];
+  const news = data?.data?.newsList?.list || [];
+  const media = data?.data?.listMedia?.list || [];
+
+  const companiesL = companies?.length > 0;
+  const usersL = users?.length > 0;
+  const postsL = posts?.length > 0;
+  const newsL = news?.length > 0;
+  const mediaL = media?.length > 0;
+
+  console.log(media,loadingSearchRecent,refresh);
 
   return (
     <>
@@ -129,13 +187,14 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           form={form}
           onFinish={handleSubmit}
           onValuesChange={run}
+          onFieldsChange={handleOnchange}
         >
           <FormItem name='search'>
             <Input
               className={classNames(
                 'h-[40px] rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                 {
-                  'w-[375px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                  'w-[414px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
                   'w-[220px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
                   'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
                 },
@@ -146,11 +205,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           </FormItem>
         </Form>
         <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px]'>
-          {isLogin && loadingSearchRecent && <Loading />}
+          {isLogin && loading && <Loading />}
         </div>
 
         {/* Khi nhập input show button close clear data */}
-        {valueInput && (
+        {!loading && valueInput && (
           <>
             <button
               onClick={removeFormSearch}
@@ -166,6 +225,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         )}
         {/* End Khi nhập input show button close clear data */}
 
+        {/* Show search recent */}
         <Fade
           visible={showRecent && listRecent?.length > 0 && isLogin && !valueInput}
           className={classNames(
@@ -184,7 +244,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                 key={index}
                 className='relative flex cursor-pointer gap-x-[10px] p-[8px] hover:bg-[#F7F6F8]'
               >
-                <div className='flex-auto'>{item?.textSearch}</div>
+                <div
+                  className='flex-auto text-[#1F6EAC]'
+                  onClick={() => onClickRecent(item?.textSearch)}
+                >
+                  {item?.textSearch}
+                </div>
                 <button
                   className='btn__close absolute right-[0px] top-[50%] flex h-[33px] w-[33px] translate-y-[-50%] items-center justify-center'
                   onClick={() => removeItemRecent(item?.id)}
@@ -199,13 +264,71 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             );
           })}
         </Fade>
+
+        {/* Show search result */}
         <Fade
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute overflow-auto left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
-        ></Fade>
+        >
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
+            <>
+              <Text type='body-16-regular' className='leading-5 text-[#999] text-center'>
+                No result found for `{query}`
+              </Text>
+            </>
+          ):(
+            <>
+              {companiesL && (
+                <div className='flex flex-col gap-y-[16px]'>
+                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                    Company
+                  </Text>
+                  {companies?.slice(0, 2)?.map((company: any, index: number) => {
+                    return <CompanyItem key={`company-${index}`} data={company} />;
+                  })}
+                </div>
+              )}
+              {usersL && (
+                <div className='flex flex-col gap-y-[16px]'>
+                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                    People
+                  </Text>
+                  {users?.slice(0, 2)?.map((item: any, index: number) => (
+                    <UserItem data={item} key={index} />
+                  ))}
+                </div>
+              )}
+              {postsL && (
+                <div className='flex flex-col'>
+                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D] mb-[16px]'>
+                    Posts
+                  </Text>
+                  {posts?.slice(0, 2)?.map((post: any) => {
+                    return (
+                      <NewsFeed
+                        key={`explore-search-${post?.id}`}
+                        data={post}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+              {newsL && (
+                <div className='flex flex-col gap-y-[16px]'>
+                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                    News
+                  </Text>
+                  {news?.slice(0, 2)?.map((item: any) => {
+                    return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+                  })}
+                </div>
+              )}
+            </>
+          )}
+        </Fade>
       </div>
     </>
   );

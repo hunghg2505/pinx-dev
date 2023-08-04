@@ -20,4 +20,25 @@
       }
     }
   }
+  [data-tippy-root] {
+    @media screen and (max-width: 768px) {
+      transform: none !important;
+      inset: auto 0 79px 0px !important;
+      width: 100% !important;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    :global {
+      .tippy-box{
+        width: 100%;
+        max-width: 100% !important;
+      }
+      .mentionList {        
+        width: 100% ;
+        & > * {
+          width: 100% !important;
+        }
+      }
+    }
+  }
 }

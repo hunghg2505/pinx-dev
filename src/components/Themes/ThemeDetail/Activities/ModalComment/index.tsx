@@ -4,13 +4,13 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
-import { ForwardedRefComponent } from '@components/Post/PostDetail';
 import { IComment } from '@components/Post/service';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
 import styles from './index.module.scss';
+import { ForwardedRefComponent } from './PostDetail';
 
 interface Iprops {
   children: any;

@@ -20,6 +20,8 @@ import {
   IResponseCompaniesRelated,
   IPayloadShareStock,
   IResponseStockData,
+  IResponseFinancialIndicator,
+  IResponseStockTrade,
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
@@ -380,6 +382,50 @@ const useGetStockData = (stockCode: string, options?: IOptions): IResponseStockD
   };
 };
 
+interface IFinancialParams {
+  params: {
+    stockCode: string;
+    termType: string;
+  };
+  options?: IOptions;
+}
+
+const useFinancialIndicator = ({
+  params,
+  options,
+}: IFinancialParams): IResponseFinancialIndicator => {
+  const { data, run, loading } = useRequest(
+    (page?: number) =>
+      requestMarket.get(API_PATH.PUBLIC_FINANCE_INFO, {
+        params: {
+          ...params,
+          page,
+        },
+      }),
+    {
+      manual: true,
+      refreshDeps: [params.stockCode],
+      ...options,
+    },
+  );
+
+  return {
+    financialIndicator: data,
+    onGetFinancialIndicator: run,
+    loading,
+  };
+};
+
+const useGetStockTrade = (stockCode: string): IResponseStockTrade => {
+  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_TRADE(stockCode)), {
+    refreshDeps: [stockCode],
+  });
+
+  return {
+    stockTrade: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -401,4 +447,6 @@ export {
   useCompaniesRelated,
   useShareStockActivity,
   useGetStockData,
+  useFinancialIndicator,
+  useGetStockTrade,
 };
