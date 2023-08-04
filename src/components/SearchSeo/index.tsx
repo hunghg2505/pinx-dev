@@ -17,18 +17,16 @@ const SearchSeo = () => {
   const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
-  const { data, search, loading, refresh } = useSearchPublic({
+  const { data, searchPublic, loading, refresh } = useSearchPublic({
     onSuccess: () => {
       console.log('useSearchPublic',data);
     },
   });
 
   React.useEffect(() => {
-    search({
+    searchPublic({
       textSearch: keyword,
       type: getType,
-      page: 0,
-      pageSize: 10,
     });
   },[keyword,getType]);
 
