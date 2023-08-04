@@ -9,30 +9,43 @@ interface IOptions {
   onError?: (error: any) => void;
 }
 
-export const useGetSearchRecent = () => {
+export const useGetSearchRecent = (options?: IOptions) => {
   const params = {
     textSearch: '',
     type: '',
     page: 0,
     pageSize: 10,
   };
-  const { data, refresh, loading } = useRequest(() => {
+  const { data, run, refresh, loading } = useRequest(
+    () => {
     const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_SUGGEST, { params })
       : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_SUGGEST,{ params });
-  });
+    },
+    {
+      manual: true,
+      ...options,
+    }
+  );
   return {
     listRecent: data?.data,
+    runRecent: run,
     refreshSearchRecent: refresh,
     loadingSearchRecent: loading,
   };
 };
 
 export const useSearchPublic = (options?: IOptions) => {
+  const initParam = {
+    textSearch: '',
+    type: '',
+    page: 0,
+    pageSize: 10,
+  };
   const { data, run, loading, refresh, mutate } = useRequest(
     (params) => {
-      return requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, { params });
+      return requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, { params:{ ...initParam, ...params } });
     },
     {
       manual: true,
@@ -41,7 +54,7 @@ export const useSearchPublic = (options?: IOptions) => {
   );
   return {
     data,
-    search: run,
+    searchPublic: run,
     loading,
     refresh,
     mutate
