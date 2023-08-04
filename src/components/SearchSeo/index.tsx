@@ -4,38 +4,90 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import CompanyItem from '@components/Explore/Search/CompanyItem';
+import NewsItem from '@components/Explore/Search/NewsItem';
+import UserItem from '@components/Explore/Search/UserItem';
+import NewsFeed from '@components/Post/NewsFeed';
+import { useSearchPublic } from '@components/SearchSeo/service';
+
 const SearchSeo = () => {
   const searchParams = useSearchParams();
-  const keyword = searchParams.get('keyword');
+  const keyword = searchParams.get('keyword') || '';
   const tab = searchParams.get('tab');
-  const type = searchParams.get('type');
+  const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
+  const { data, search, loading, refresh } = useSearchPublic({
+    onSuccess: () => {
+      console.log('useSearchPublic',data);
+    },
+  });
+
+  React.useEffect(() => {
+    search({
+      textSearch: keyword,
+      type: getType,
+      page: 0,
+      pageSize: 10,
+    });
+  },[keyword,getType]);
+
+  const companies = data?.data?.companyList?.list;
+  const users = data?.data?.customerList?.list;
+  const posts = data?.data?.postList?.list;
+  const news = data?.data?.newsList?.list;
+  const media = data?.data?.listMedia?.list;
+
   // Error commit git
-  console.log(tab,type);
+  console.log('keyword',keyword);
+  console.log('tab',tab);
+  console.log('type',getType);
+  console.log(loading,refresh,media);
+
 
   return (
     <>
       <div className='box-shadow card-style'>
         <h1>Search result found for {keyword}</h1>
         <Tabs
-          defaultActiveKey="company"
-          activeKey={searchParams.get('tab') || 'company'}
+          defaultActiveKey="post"
+          activeKey={searchParams.get('tab') || 'post'}
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
         >
           <TabPane tab="Company" key="company">
-            Company
+            <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+              {companies?.map((company: any, index: number) => {
+                return <CompanyItem key={`company-${index}`} data={company} />;
+              })}
+            </div>
           </TabPane>
           <TabPane tab="People" key="people">
-            People
+            <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+              {users?.map((item: any, index: number) => (
+                <UserItem data={item} key={index} />
+              ))}
+            </div>
           </TabPane>
           <TabPane tab="Posts" key="post">
-            Posts
+            <div className='mt-[16px] flex flex-col'>
+              {posts?.map((post: any) => {
+                return (
+                  <NewsFeed
+                    key={`explore-search-${post?.id}`}
+                    data={post}
+                  />
+                );
+              })}
+            </div>
           </TabPane>
           <TabPane tab="News" key="news">
-            News
+            <div className='my-[16px] flex flex-col gap-y-[12px]'>
+              {news?.map((item: any) => {
+                return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+              })}
+            </div>
           </TabPane>
           <TabPane tab="Media" key="media">
             Media
