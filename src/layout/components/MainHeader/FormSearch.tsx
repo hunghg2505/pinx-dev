@@ -56,17 +56,21 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // Remove value input search when refresh open new page
   React.useEffect(() => {
     setQuery(search);
+    runRecent();
   }, [search]);
 
   useFocusWithin(ref, {
     onFocus: () => {
       setInputFocus(true);
       setShowRecent(true);
-      runRecent();
       const value = form.getFieldValue('search');
-      setQuery(value);
-      if (value !== '') {
-        // run();
+      // setQuery(value);
+      if (value === '' || value === undefined) {
+        // toast('Empty || undefined');
+        setShowPopup(false);
+      }else {
+        // toast('Not Empty');
+        setShowPopup(true);
       }
     },
   });
@@ -131,7 +135,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setQuery(value);
       if (value === '') {
         setShowPopup(false);
-        // setInputFocus(false);
+        setInputFocus(false);
+        setShowRecent(false);
       } else {
         setShowPopup(true);
         setInputFocus(true);

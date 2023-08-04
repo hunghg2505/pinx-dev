@@ -55,14 +55,14 @@ const SearchSeo = () => {
           }}
         >
           <TabPane tab="Company" key="company">
-            <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+            <div className='flex flex-col gap-y-[16px]'>
               {companies?.map((company: any, index: number) => {
                 return <CompanyItem key={`company-${index}`} data={company} />;
               })}
             </div>
           </TabPane>
           <TabPane tab="People" key="people">
-            <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
+            <div className='flex flex-col gap-y-[16px]'>
               {users?.map((item: any, index: number) => (
                 <UserItem data={item} key={index} />
               ))}
