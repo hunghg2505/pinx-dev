@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useRef, useState } from 'react';
 
+import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
@@ -14,6 +15,7 @@ import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
+import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
@@ -22,7 +24,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
-import { IComment, useCommentsOfPost, usePostDetail } from '../service';
+import { IComment, IPost, getMoreCommentPost, useCommentsOfPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
   ssr: false,
@@ -64,27 +66,50 @@ const PostDetail = () => {
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
+  const [postData, setPostData] = useState<IPost>();
+  const postID = router.query.id;
   React.useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
 
   // is login
-  const { refresh, postDetail } = usePostDetail(String(router.query.id), {
+  const { refresh, postDetail, run } = usePostDetail(String(postID), {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
+    onSuccess: (res: any) => {
+      setPostData(res.data);
+    },
+  });
+  React.useEffect(() => {
+    run();
+  }, [postID]);
+  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postID));
+  const { data, loading, mutate, runAsync } = useRequest(async (nextId: any) => {
+    if (nextId === false) {
+      return;
+    }
+    return getMoreCommentPost(String(postID), nextId);
   });
 
-  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(router.query.id));
+  const service = async () => {
+    if (!data?.nextId || loading) {
+      return;
+    }
 
+    const newData: any = await runAsync(data?.nextId);
+    if (newData?.list?.length) {
+      mutate({
+        list: [...data?.list, ...newData?.list],
+        nextId: newData?.nextId,
+      });
+    }
+  };
+
+  const { refLastElement } = useObserver();
   const isHaveComment = commentsOfPost?.data?.list?.length > 0;
-  const totalComments = commentsOfPost?.data?.list?.length;
-  const commentChild = commentsOfPost?.data?.list?.reduce(
-    (acc: any, current: any) => acc + current?.totalChildren,
-    0,
-  );
-  const countComment = totalComments + commentChild;
 
+  const countComment = postData?.totalChildren || 0;
   const onGoToBack = () => {
     router.back();
   };
@@ -215,35 +240,67 @@ const PostDetail = () => {
             )}
           >
             {isHaveComment ? (
-              commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
+              data?.list?.map((item: IComment, index: number) => {
                 // const isReply = item.children?.find((i) => {
                 //   return i?.id === showReply;
                 // });
                 const isReply = item.id === showReply;
+                if (index + 1 === data?.list?.length) {
+                  return (
+                    <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>
+                      <div className='mt-[16px]'>
+                        <ItemComment
+                          data={item}
+                          onReplies={onReplies}
+                          refreshTotal={refresh}
+                          refreshCommentOfPOst={refreshCommentOfPost}
+                          width={width}
+                        />
+                        {getSubComment(item.children)}
+                        {(showReply === item?.id || isReply) &&
+                          width > 770 &&
+                          !postDetailStatus.isDoneReplies && (
+                            <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                              <ForwardedRefComponent
+                                ref={refSubReplies}
+                                id={postDetail?.data?.id}
+                                refresh={refreshCommentOfPost}
+                                refreshTotal={refresh}
+                                setImageCommentMobile={setImageCommentMobile}
+                                width={width}
+                              />
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  );
+                }
                 return (
-                  <div className='mt-[16px]' key={index}>
-                    <ItemComment
-                      data={item}
-                      onReplies={onReplies}
-                      refreshTotal={refresh}
-                      refreshCommentOfPOst={refreshCommentOfPost}
-                      width={width}
-                    />
-                    {getSubComment(item.children)}
-                    {(showReply === item?.id || isReply) &&
-                      width > 770 &&
-                      !postDetailStatus.isDoneReplies && (
-                        <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                          <ForwardedRefComponent
-                            ref={refSubReplies}
-                            id={postDetail?.data?.id}
-                            refresh={refreshCommentOfPost}
-                            refreshTotal={refresh}
-                            setImageCommentMobile={setImageCommentMobile}
-                            width={width}
-                          />
-                        </div>
-                      )}
+                  <div key={`comment-${item?.id}`}>
+                    <div className='mt-[16px]'>
+                      <ItemComment
+                        data={item}
+                        onReplies={onReplies}
+                        refreshTotal={refresh}
+                        refreshCommentOfPOst={refreshCommentOfPost}
+                        width={width}
+                      />
+                      {getSubComment(item.children)}
+                      {(showReply === item?.id || isReply) &&
+                        width > 770 &&
+                        !postDetailStatus.isDoneReplies && (
+                          <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+                            <ForwardedRefComponent
+                              ref={refSubReplies}
+                              id={postDetail?.data?.id}
+                              refresh={refreshCommentOfPost}
+                              refreshTotal={refresh}
+                              setImageCommentMobile={setImageCommentMobile}
+                              width={width}
+                            />
+                          </div>
+                        )}
+                    </div>
                   </div>
                 );
               })

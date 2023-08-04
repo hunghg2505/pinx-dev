@@ -6,8 +6,8 @@ import { useGetPinedPost } from '@components/Home/service';
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
 
-const PinPost = ({ refresh, pinPostDataInitial }: any) => {
-  const { pinedPost } = useGetPinedPost();
+const PinPost = ({ pinPostDataInitial }: any) => {
+  const { pinedPost, refresh } = useGetPinedPost();
 
   const data = useMemo(() => {
     if (pinedPost?.length) {
@@ -16,7 +16,6 @@ const PinPost = ({ refresh, pinPostDataInitial }: any) => {
 
     return pinPostDataInitial?.data;
   }, [pinPostDataInitial?.data, pinedPost]);
-
   const onRefresh = () => {
     clearCache('data-pin-post');
     refresh();

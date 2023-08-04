@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -10,7 +10,7 @@ import { getAccessToken } from '@store/auth';
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
-import { IPost, useCommentsOfPost } from '../service';
+import { IPost, useCommentsOfPost, usePostDetail } from '../service';
 
 interface IProps {
   data: IPost;
@@ -24,7 +24,14 @@ const NewsFeed = (props: IProps) => {
 
   const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
-
+  React.useEffect(() => {
+    setPostData(data);
+  }, [data]);
+  const { refresh } = usePostDetail(data?.id, {
+    onSuccess: (res: any) => {
+      setPostData(res?.data);
+    },
+  });
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${postData?.id}`);
@@ -33,13 +40,13 @@ const NewsFeed = (props: IProps) => {
   const [, setImageCommentMobile] = useState(false);
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postData?.id));
-  const totalComments = commentsOfPost?.data?.list?.length;
-  const commentChild = commentsOfPost?.data?.list?.reduce(
-    (acc: any, current: any) => acc + current?.totalChildren,
-    0,
-  );
+  // const totalComments = commentsOfPost?.data?.list?.length;
+  // const commentChild = commentsOfPost?.data?.list?.reduce(
+  //   (acc: any, current: any) => acc + current?.totalChildren,
+  //   0,
+  // );
 
-  const countComment = totalComments + commentChild;
+  const countComment = postData?.totalChildren;
 
   const ViewMore = () => {
     if (countComment > 1) {
@@ -72,14 +79,20 @@ const NewsFeed = (props: IProps) => {
   if (!postData) {
     return <></>;
   }
-
+  const refreshComment = () => {
+    // if (onRefreshList) {
+    //   onRefreshList();
+    // }
+    refresh();
+    refreshCommentOfPost();
+  };
   return (
     <>
       <div className='box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={postData}
-          totalComments={countComment}
+          totalComments={postData?.totalChildren}
           onRefreshPostDetail={onRefreshPostItem}
           pinned={pinned}
         />
@@ -88,7 +101,7 @@ const NewsFeed = (props: IProps) => {
           <div className='mt-4 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
-              refresh={refreshCommentOfPost}
+              refresh={refreshComment}
               refreshTotal={() => {}}
               setImageCommentMobile={setImageCommentMobile}
             />
