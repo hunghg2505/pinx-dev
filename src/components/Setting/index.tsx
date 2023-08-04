@@ -81,6 +81,7 @@ const Setting = () => {
   const onHandleLogout = () => {
     const date = new Date();
     onLogout();
+    console.log('123');
     Logout(date);
   };
   const PINEX_HELP: any = useMemo(() => {
