@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
+import EmptyData from '@components/Stock/EmptyData';
 import PopupMatchedPrice from '@components/Stock/Popup/PopupMatchedPrice';
 import { useGetStockTrade } from '@components/Stock/service';
 import Text from '@components/UI/Text';
@@ -47,32 +48,43 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
         </thead>
 
         <tbody>
-          {stockTrade?.data.map((item, index) => (
-            <tr key={index}>
-              <td className='py-[10px] pl-[16px] text-left'>
-                <Text type='body-16-regular' className='text-[#999999]'>
-                  {item.time}
-                </Text>
-              </td>
-              <td className='py-[10px]'>
-                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  {item.totalVol}
-                </Text>
-              </td>
-              <td className='py-[10px]'>
-                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  {item.lastPrice}
-                </Text>
-              </td>
-              <td className='py-[10px] pr-[16px]'>
-                <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
-                  <Text type='body-16-semibold' color='cbwhite'>
-                    {item.change}
+          {stockTrade?.data && stockTrade?.data.length ? (
+            stockTrade?.data.map((item, index) => (
+              <tr key={index}>
+                <td className='py-[10px] pl-[16px] text-left'>
+                  <Text type='body-16-regular' className='text-[#999999]'>
+                    {item.time}
                   </Text>
-                </div>
+                </td>
+                <td className='py-[10px]'>
+                  <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                    {item.totalVol}
+                  </Text>
+                </td>
+                <td className='py-[10px]'>
+                  <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                    {item.lastPrice}
+                  </Text>
+                </td>
+                <td className='py-[10px] pr-[16px]'>
+                  <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
+                    <Text type='body-16-semibold' color='cbwhite'>
+                      {item.change}
+                    </Text>
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td className='pt-[12px]' colSpan={4}>
+                <EmptyData
+                  title={t('matchings.empty_title')}
+                  description={t('matchings.empty_description')}
+                />
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
 
         {stockTrade?.data && stockTrade.data.length >= LIMIT_STOCK_TRADE && (

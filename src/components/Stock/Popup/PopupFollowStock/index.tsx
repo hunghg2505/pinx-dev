@@ -15,7 +15,7 @@ import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { imageStock } from '@utils/common';
+import { imageStock, validateHTML } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -69,6 +69,17 @@ const PopupFollowStock = ({
   }, [isFollowedStock]);
 
   const onSubmit = ({ shareContent }: { shareContent: string }) => {
+    if (shareContent?.toLowerCase()?.includes('script')) {
+      return toast(() => (
+        <Notification type='error' message={t('common:your_post_should_be_review')} />
+      ));
+    }
+    if (shareContent && validateHTML(shareContent)) {
+      return toast(() => (
+        <Notification type='error' message={t('common:your_post_should_be_review')} />
+      ));
+    }
+
     requestShareStockAct.run({
       stockCode,
       message: shareContent,

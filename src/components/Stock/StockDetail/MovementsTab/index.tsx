@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+import { formatNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -209,7 +210,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {stockData?.lastVolume}
+            {formatNumber(stockData?.volumeInDay || 0)}
           </Text>
         </div>
 
@@ -218,7 +219,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.total_val')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {stockData?.lastPrice}
+            {formatNumber(Number(stockData?.lastPrice) || 0)}
           </Text>
         </div>
 
@@ -227,7 +228,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.foreign_buy')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {stockData?.fBVol}
+            {formatNumber(Number(stockData?.fBVol) || 0)}
           </Text>
         </div>
 
@@ -236,7 +237,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.total_room')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {stockData?.fRoom}
+            {formatNumber(Number(stockData?.fRoom) || 0)}
           </Text>
         </div>
 
@@ -245,7 +246,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.foreign_sell')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {stockData?.fSVolume}
+            {formatNumber(Number(stockData?.fSVolume) || 0)}
           </Text>
         </div>
       </div>

@@ -27,7 +27,7 @@ const useBottomScroll = (ref: RefObject<any>, onBottomScroll: () => void) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [onBottomScroll]);
+  }, [onBottomScroll, ref]);
 
   return isBottom;
 };
