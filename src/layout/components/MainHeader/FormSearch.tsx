@@ -63,6 +63,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setInputFocus(true);
       setShowRecent(true);
       runRecent();
+      const value = form.getFieldValue('search');
+      setQuery(value);
+      if (value !== '') {
+        run();
+      }
     },
   });
 
@@ -83,6 +88,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     setInputFocus(false);
     setShowRecent(false);
     setShowPopup(false);
+    setIsOpenSearch(!isOpenSearch);
   };
 
   // Set value when onSubmit Form
@@ -132,7 +138,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);
-    run();
+    setQuery(data);
+    isDesktop && run();
+    isMobile && form.submit();
   };
 
   const companies = data?.data?.companyList?.list;
@@ -140,6 +148,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const posts = data?.data?.postList?.list;
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list;
+
+  const companiesL = companies?.length > 0;
+  const usersL = users?.length > 0;
+  const postsL = posts?.length > 0;
+  const newsL = news?.length > 0;
+  const mediaL = media?.length > 0;
 
   console.log(media,loadingSearchRecent,refresh);
 
@@ -247,37 +261,59 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute overflow-auto left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
-          <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-            {companies?.slice(0, 2)?.map((company: any, index: number) => {
-              return <CompanyItem key={`company-${index}`} data={company} />;
-            })}
-          </div>
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
+            <>
+              <Text type='body-16-regular' className='leading-5 text-[#999] text-center'>
+                No result found for `{query}`
+              </Text>
+            </>
+          ):(
+            <>
+              <div className='flex flex-col gap-y-[16px]'>
+                <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                  Company
+                </Text>
+                {companies?.slice(0, 2)?.map((company: any, index: number) => {
+                  return <CompanyItem key={`company-${index}`} data={company} />;
+                })}
+              </div>
 
-          <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
-            {users?.slice(0, 2)?.map((item: any, index: number) => (
-              <UserItem data={item} key={index} />
-            ))}
-          </div>
+              <div className='flex flex-col gap-y-[16px]'>
+                <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                  People
+                </Text>
+                {users?.slice(0, 2)?.map((item: any, index: number) => (
+                  <UserItem data={item} key={index} />
+                ))}
+              </div>
 
-          <div className='mt-[16px] flex flex-col'>
-            {posts?.slice(0, 2)?.map((post: any) => {
-              return (
-                <NewsFeed
-                  key={`explore-search-${post?.id}`}
-                  data={post}
-                />
-              );
-            })}
-          </div>
+              <div className='flex flex-col'>
+                <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D] mb-[16px]'>
+                  Posts
+                </Text>
+                {posts?.slice(0, 2)?.map((post: any) => {
+                  return (
+                    <NewsFeed
+                      key={`explore-search-${post?.id}`}
+                      data={post}
+                    />
+                  );
+                })}
+              </div>
 
-          <div className='my-[16px] flex flex-col gap-y-[12px]'>
-            {news?.slice(0, 2)?.map((item: any) => {
-              return <NewsItem key={`new-items-${item?.id}`} data={item} />;
-            })}
-          </div>
+              <div className='flex flex-col gap-y-[16px]'>
+                <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                  News
+                </Text>
+                {news?.slice(0, 2)?.map((item: any) => {
+                  return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+                })}
+              </div>
+            </>
+          )}
         </Fade>
       </div>
     </>
