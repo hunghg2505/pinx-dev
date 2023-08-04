@@ -55,7 +55,7 @@ const PopupReview = ({
   const onSubmit = ({ message }: { message: string }) => {
     requestReviewStock.run({
       rateValue: currentStar,
-      message: message || messageProp,
+      message,
     });
   };
 
