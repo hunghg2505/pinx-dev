@@ -25,7 +25,7 @@ const StockSubscriber = () => {
   return (
     <>
       <Head>
-        <title>{t('subscribe_page_title')}</title>
+        <title>{t('community')}</title>
       </Head>
 
       <div className='p-[10px] desktop:p-0'>
@@ -42,7 +42,7 @@ const StockSubscriber = () => {
             </div>
 
             <Text type='body-20-bold' color='primary-5' className='hidden tablet:block'>
-              {t('subscribe_page_title')}
+              {t('community')}
             </Text>
           </div>
 

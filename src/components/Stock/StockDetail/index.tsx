@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
@@ -17,7 +17,6 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import { PRODUCT_COMPANY_IMAGE } from 'src/constant';
 
 import ActivityItem from './ActivityItem';
 import CalendarItem from './CalendarItem';
@@ -30,10 +29,12 @@ import IntradayTab from './IntradayTab';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
 import NewsItem from './NewsItem';
+import ProductItem from './ProductItem';
 import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
+import { SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -69,17 +70,7 @@ const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
 const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
-
-const settings = {
-  dots: false,
-  // infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  // slidesToScroll: 1,
-  swipeToSlide: true,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
+const PRODUCT_SLIDE_LIMIT = 5;
 
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
@@ -281,6 +272,19 @@ const StockDetail = () => {
     return [];
   };
 
+  // slider product awareness
+  const settings = useMemo(() => {
+    return {
+      dots: false,
+      speed: 500,
+      slidesToShow:
+        stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+          ? 1
+          : PRODUCT_SLIDE_LIMIT,
+      slidesToScroll: PRODUCT_SLIDE_LIMIT,
+    };
+  }, [stockDetail?.data?.products]);
+
   return (
     <div className='p-[10px] desktop:p-0'>
       <PopupConfirmReview
@@ -424,7 +428,7 @@ const StockDetail = () => {
         {/* tab */}
         <Tabs className={styles.tabs} defaultActiveKey='1'>
           <TabPane tab={t('tab.movements')} tabKey='1'>
-            <MovementsTab />
+            <MovementsTab stockCode={stockCode} />
           </TabPane>
 
           <TabPane tab={t('tab.matchings')} key='2'>
@@ -479,47 +483,57 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
           </div>
 
-          <div className='relative'>
-            <div
-              onClick={() => refSlide.current.slickPrev()}
-              className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-            >
-              <img
-                src='/static/icons/iconGrayPrev.svg'
-                alt='Icon prev'
-                className='h-[16px] w-[7px] object-contain'
-              />
+          {isMobile ? (
+            <div className={classNames('overflow-x-auto whitespace-nowrap', styles.noScrollbar)}>
+              {stockDetail?.data?.products.map((item, index) => (
+                <ProductItem className='inline-block' key={index} data={item} />
+              ))}
             </div>
+          ) : (
+            <div className='relative'>
+              {stockDetail?.data?.products.length >= PRODUCT_SLIDE_LIMIT && (
+                <div
+                  onClick={() => refSlide.current.slickPrev()}
+                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                >
+                  <img
+                    src='/static/icons/iconGrayPrev.svg'
+                    alt='Icon prev'
+                    className='h-[16px] w-[7px] object-contain'
+                  />
+                </div>
+              )}
 
-            <div className='max-w-[700px] overflow-hidden'>
-              <Slider {...settings} variableWidth ref={refSlide}>
-                {stockDetail?.data?.products.map((item, index) => (
-                  <div key={index} className='mr-[28px] !w-[112px]'>
-                    <img
-                      src={PRODUCT_COMPANY_IMAGE(item.imageUrl)}
-                      alt={item.name}
-                      className='h-[112px] w-full rounded-[4px] object-cover'
-                    />
+              <div className='max-w-[700px] overflow-hidden'>
+                <Slider
+                  {...settings}
+                  ref={refSlide}
+                  draggable={stockDetail?.data?.products.length >= PRODUCT_SLIDE_LIMIT}
+                  variableWidth={
+                    stockDetail?.data?.products &&
+                    stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+                  }
+                >
+                  {stockDetail?.data?.products.map((item, index) => (
+                    <ProductItem key={index} data={item} />
+                  ))}
+                </Slider>
+              </div>
 
-                    <Text className='mt-[12px] text-center' type='body-12-regular'>
-                      {item.name}
-                    </Text>
-                  </div>
-                ))}
-              </Slider>
+              {stockDetail?.data?.products.length >= PRODUCT_SLIDE_LIMIT && (
+                <div
+                  onClick={() => refSlide.current.slickNext()}
+                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                >
+                  <img
+                    src='/static/icons/iconGrayNext.svg'
+                    alt='Icon next'
+                    className='h-[16px] w-[7px] object-contain'
+                  />
+                </div>
+              )}
             </div>
-
-            <div
-              onClick={() => refSlide.current.slickNext()}
-              className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-            >
-              <img
-                src='/static/icons/iconGrayNext.svg'
-                alt='Icon next'
-                className='h-[16px] w-[7px] object-contain'
-              />
-            </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -905,7 +919,7 @@ const StockDetail = () => {
       </div>
 
       {/* shareholders */}
-      {shareholder?.data && shareholder?.data.length > 0 && (
+      {shareholder?.data && shareholder.data.length > 0 && (
         <div className='box-shadow card-style'>
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
@@ -915,7 +929,18 @@ const StockDetail = () => {
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>
                   <div className='mb-[6px] flex items-center'>
-                    <div className='h-[10px] w-[35px] rounded-full bg-[linear-gradient(180deg,#ABE898_0%,#72CD5F_100%)]'></div>
+                    <div
+                      className='h-[10px] w-[35px] rounded-full'
+                      style={{
+                        backgroundColor:
+                          SHARE_HOLDER_COLOR[
+                            index %
+                              (shareholder?.data && shareholder?.data.length > 0
+                                ? shareholder.data.length
+                                : 0)
+                          ],
+                      }}
+                    ></div>
                     <Text type='body-14-semibold' className='ml-[4px]'>
                       {item.ratio}%
                     </Text>

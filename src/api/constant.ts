@@ -93,6 +93,7 @@ export const API_PATH = {
   PRIVATE_STOCK_EVENTS: (stockCode: string) => `/private/stock/${stockCode}/events`,
   PUBLIC_STOCK_EVENTS: (stockCode: string) => `/public/stock/${stockCode}/events`,
   PRIVATE_THEME_OF_STOCK: (stockCode: string) => `/private/theme/stock-code/${stockCode}`,
+  PUBLIC_THEME_OF_STOCK: (stockCode: string) => `/public/theme/stock-code/${stockCode}`,
   PUBLIC_STOCK_DETAIL_EXTRA: (stockCode: string) => `/public/stock/${stockCode}/details-extra`,
   PRIVATE_STOCK_DETAIL_EXTRA: (stockCode: string) => `/private/stock/${stockCode}/details-extra`,
   PUBLIC_STOCK_REVIEWS: (stockCode: string) => `/public/stock/${stockCode}/reviews`,
@@ -109,6 +110,7 @@ export const API_PATH = {
   PUBLIC_HASHTAG_HIGHLIGHT: '/public/hashtag/highlights',
   PRIVATE_ACTIVITY_WATCH_LIST_ADD: '/private/activity/watchlist/add',
   PRIVATE_ACTIVITY_WATCH_LIST_ADD_V2: '/private/activity/watchlist/addV2',
+  PUBLIC_STOCK_DATA: (stockCode: string) => `/public/stock/${stockCode}/data`,
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

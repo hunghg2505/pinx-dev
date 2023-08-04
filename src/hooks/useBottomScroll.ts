@@ -1,28 +1,21 @@
-import { useEffect } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 
-const isScrollAtBottom = () => {
-  const body = document.body;
-  const html = document.documentElement;
+const useBottomScroll = (ref: RefObject<any>, onBottomScroll: () => void) => {
+  const [isBottom, setIsBottom] = useState(false);
 
-  const documentHeight = Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight,
-  );
+  const isScrollAtBottom = () => {
+    const domRect = ref.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - domRect.bottom;
 
-  return window.scrollY + window.innerHeight > documentHeight - 100;
-};
-
-const useBottomScroll = (onBottomScroll: () => void) => {
-  const isBottom = isScrollAtBottom();
+    return spaceBelow < 500 && spaceBelow >= 0;
+  };
 
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
       const st = window.pageYOffset || document.documentElement.scrollTop;
       if (st > lastScrollTop && isScrollAtBottom()) {
+        setIsBottom(true);
         onBottomScroll();
       }
 

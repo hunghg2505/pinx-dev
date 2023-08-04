@@ -1,6 +1,8 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import React, { useEffect, useRef } from 'react';
 
+import { SHARE_HOLDER_COLOR } from '@components/Stock/const';
+
 interface IDonutChartProps {
   width: number;
   height: number;
@@ -18,15 +20,18 @@ const DonutChart = ({ width, height, data, color: colorProps, strokeWidth }: IDo
     const centerX = width / 2;
     const centerY = height / 2;
     const radius = Math.floor(width / 2 - strokeWidth / 2);
-    const color = colorProps || ['#F6BB42', '#8CC152', '#3BAFDA', '#967ADC', '#DA4453'];
+    const color = colorProps || SHARE_HOLDER_COLOR;
 
     const arr = Donut(centerX, centerY, radius, data);
 
-    for (let i = 0; i <= arr.length; i++) {
+    // eslint-disable-next-line unicorn/no-for-loop
+    for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
       if (svgRef.current) {
         svgRef.current.innerHTML += `<g>
-          <path d="${item?.d}" stroke="${color[i]}" fill="none" stroke-width="${strokeWidth}" />
+          <path d="${item?.d}" stroke="${
+          color[i % arr.length]
+        }" fill="none" stroke-width="${strokeWidth}" />
         </g>`;
       }
     }

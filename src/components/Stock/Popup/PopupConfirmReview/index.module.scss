@@ -1,7 +1,11 @@
 .modalConfirmReview {
+  @apply max-w-[500px];
   :global {
     .rc-dialog-body {
-      @apply h-0 w-0 p-0;
+      @apply bg-white;
+    }
+    .rc-dialog-close {
+      @apply hidden;
     }
   }
 }
