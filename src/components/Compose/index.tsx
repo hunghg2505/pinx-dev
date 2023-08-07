@@ -746,7 +746,7 @@ const Compose = (props: IProps) => {
           className={classNames(
             'relative z-10 min-h-[250px] overflow-y-auto p-4 px-[5px] desktop:min-h-[360px]',
             {
-              'desktop:min-h-[200px]': isShowImageActivities,
+              'desktop:!min-h-[200px]': isShowImageActivities,
             },
           )}
           style={getStyles() as any}
