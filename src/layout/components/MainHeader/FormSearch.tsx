@@ -6,6 +6,7 @@ import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
+// import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
@@ -14,12 +15,18 @@ import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
 import styles from '@components/SearchSeo/index.module.scss';
-import { useGetSearchRecent, useSearchPublic } from '@components/SearchSeo/service';
+import {
+  useCreateSearch,
+  useGetSearchRecent,
+  useSearchPublic,
+} from '@components/SearchSeo/service';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
+// import Notification from '@components/UI/Notification';
+import Skeleton from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
@@ -37,16 +44,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const valueInput = form.getFieldValue('search');
 
   // Call API
-  const { listRecent, runRecent, refreshSearchRecent, loadingSearchRecent } = useGetSearchRecent({
-    onSuccess: () => {
-      console.log('useGetSearchRecent',listRecent);
-    },
-  });
-  const { data, searchPublic, loading, refresh } = useSearchPublic({
-    onSuccess: () => {
-      console.log('useSearchPublic',data);
-    },
-  });
+  const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
+  const { data, searchPublic, loading } = useSearchPublic();
 
   const [query, setQuery] = React.useState(search);
   const [inputFocus, setInputFocus] = React.useState(false);
@@ -61,6 +60,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   useFocusWithin(ref, {
     onFocus: () => {
+      refreshSearchRecent();
       setInputFocus(true);
       setShowRecent(true);
       const value = form.getFieldValue('search');
@@ -68,7 +68,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       if (value === '' || value === undefined) {
         // toast('Empty || undefined');
         setShowPopup(false);
-      }else {
+      } else {
         // toast('Not Empty');
         setShowPopup(true);
       }
@@ -86,23 +86,36 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const handleSubmit = () => {
     const value = form.getFieldValue('search');
     setQuery(value);
+    const payloads = {
+      textSearch: query,
+    };
     if (value === '' || value === undefined) {
-      setInputFocus(false);
-      setShowRecent(false);
+      setInputFocus(true);
+      setShowRecent(true);
       setShowPopup(false);
       setIsOpenSearch(!isOpenSearch);
     } else {
-      router.push({
-        pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'post' },
-      });
-      form.setFieldValue('search', '');
-      setInputFocus(false);
-      setShowRecent(false);
-      setShowPopup(false);
+      requestSearch.run(payloads);
       setIsOpenSearch(!isOpenSearch);
     }
   };
+
+  const requestSearch = useCreateSearch({
+    onSuccess: () => {
+      // toast(() => <Notification type='success' message='success' />);
+      router.push({
+        pathname: ROUTE_PATH.SEARCHSEO,
+        query: { keyword: query, tab: 'company' },
+      });
+      // form.setFieldValue('search', '');
+      setInputFocus(false);
+      setShowRecent(false);
+      setShowPopup(false);
+    },
+    onError: () => {
+      // toast(() => <Notification type='error' message='error rooif' />);
+    },
+  });
 
   // Set value when onSubmit Form
   const handleOnchange = () => {
@@ -154,7 +167,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);
     setQuery(data);
-    isDesktop && run();
+    form.submit();
+    isDesktop && form.submit();
     isMobile && form.submit();
   };
 
@@ -169,8 +183,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
-
-  console.log(media,loadingSearchRecent,refresh);
 
   return (
     <>
@@ -198,10 +210,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           <FormItem name='search'>
             <Input
               className={classNames(
-                'h-[40px] rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
+                'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                 {
-                  'w-[414px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
-                  'w-[220px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
+                  'w-[739px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                  'w-[739px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
                   'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
                 },
               )}
@@ -276,23 +288,28 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute overflow-auto left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
             <>
-              <Text type='body-16-regular' className='leading-5 text-[#999] text-center'>
-                No result found for `{query}`
-              </Text>
+              {loading ? (
+                <Skeleton />
+              ) : (
+                <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
+                  No result found for `{query}`
+                </Text>
+              )}
             </>
-          ):(
+          ) : (
             <>
+              {mediaL && <div>media</div>}
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     Company
                   </Text>
-                  {companies?.slice(0, 2)?.map((company: any, index: number) => {
+                  {companies?.slice(0, 3)?.map((company: any, index: number) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
                   })}
                 </div>
@@ -302,23 +319,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     People
                   </Text>
-                  {users?.slice(0, 2)?.map((item: any, index: number) => (
+                  {users?.slice(0, 3)?.map((item: any, index: number) => (
                     <UserItem data={item} key={index} />
                   ))}
                 </div>
               )}
               {postsL && (
                 <div className='flex flex-col'>
-                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D] mb-[16px]'>
+                  <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
                     Posts
                   </Text>
-                  {posts?.slice(0, 2)?.map((post: any) => {
-                    return (
-                      <NewsFeed
-                        key={`explore-search-${post?.id}`}
-                        data={post}
-                      />
-                    );
+                  {posts?.slice(0, 3)?.map((post: any) => {
+                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
                   })}
                 </div>
               )}
@@ -327,7 +339,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     News
                   </Text>
-                  {news?.slice(0, 2)?.map((item: any) => {
+                  {news?.slice(0, 3)?.map((item: any) => {
                     return <NewsItem key={`new-items-${item?.id}`} data={item} />;
                   })}
                 </div>

@@ -47,17 +47,6 @@ const HomeFeedFilter = dynamic(() => import('@components/Home/HomeNewFeed/ModalF
   ssr: false,
   loading: () => <FilterFake />,
 });
-// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
-//   ssr: false,
-//   loading: () => (
-//     <>
-//       <>
-//         <SkeletonLoading />
-//         <SkeletonLoading />
-//       </>
-//     </>
-//   ),
-// });
 const Trending = dynamic(() => import('../Trending'), {
   ssr: false,
 });
@@ -187,7 +176,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   }, [postDetailStatus.idPostDetail]);
 
   return (
-    <div className='relative px-[10px] mobile:pt-[10px] desktop:pt-0'>
+    <div className='relative mobile:pt-[10px] desktop:pt-0'>
       <div className='relative mobile:block tablet:hidden'>
         {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
           <CustomLink href={ROUTE_PATH.WATCHLIST}>

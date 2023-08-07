@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
@@ -21,15 +23,27 @@ interface IProps {
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
   const { data, pinned = false, onRefreshList, onRemoveData } = props;
-
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
   React.useEffect(() => {
     setPostData(data);
   }, [data]);
+  React.useEffect(() => {
+    const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
+      (item: string) => item === postData?.id,
+    );
+    if (findIndex !== -1) {
+      refresh();
+    }
+  }, []);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
+      setPostDetailStatus({
+        ...postDetailStatus,
+        isAddCommentPostDetail: [],
+      });
     },
   });
   const router = useRouter();
@@ -66,7 +80,7 @@ const NewsFeed = (props: IProps) => {
 
   const onRefreshPostItem = (newData: IPost, isEdit = false) => {
     setPostData(newData);
-
+    refresh();
     if (onRefreshList) {
       onRefreshList();
     }
@@ -86,6 +100,7 @@ const NewsFeed = (props: IProps) => {
     refresh();
     refreshCommentOfPost();
   };
+
   return (
     <>
       <div className='box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
@@ -109,13 +124,13 @@ const NewsFeed = (props: IProps) => {
         )}
 
         {!!countComment && (
-          <div className=' [border-top:1px_solid_#EBEBEB] desktop:ml-[64px]'>
+          <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
               <div className='mt-[22px]'>
                 <ItemComment
                   onNavigate={onNavigate}
                   data={commentsOfPost?.data?.list?.[0]}
-                  refreshCommentOfPOst={refreshCommentOfPost}
+                  refreshCommentOfPOst={refreshComment}
                 />
               </div>
             )}

@@ -148,6 +148,9 @@ export const API_PATH = {
   PUBLIC_SEARCH_NEWS: '/public/mapping/news/search',
 
   // SEARCH_SEO
+  PUBLIC_SEARCH_SEO_CREATE: '/public/search-seo/create-v2',
+  PRIVATE_SEARCH_SEO_CREATE: '/private/search-seo/create-v2',
+
   PUBLIC_SEARCH_SEO_RESULT: '/public/search-seo/search-v2',
   PUBLIC_SEARCH_SEO_SUGGEST: '/public/search-seo/suggest-v2',
   PRIVATE_SEARCH_SEO_SUGGEST: '/private/search-seo/suggest-v2',

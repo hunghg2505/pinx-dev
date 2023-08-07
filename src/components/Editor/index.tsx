@@ -241,6 +241,10 @@ const Editor = (props: IProps, ref?: any) => {
         if (imageComment) {
           onCloseImage();
         }
+        setPostDetailStatus({
+          ...postDetailStatus,
+          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+        });
       },
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
@@ -263,7 +267,10 @@ const Editor = (props: IProps, ref?: any) => {
         refreshTotal();
         refresh();
         setIdReply('');
-        setPostDetailStatus({ ...postDetailStatus, isDoneReplies: true });
+        setPostDetailStatus({
+          ...postDetailStatus,
+          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+        });
         editor?.commands.clearContent();
         if (imageComment) {
           onCloseImage();

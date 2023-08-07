@@ -22,7 +22,6 @@ const ModalEdit = (props: Iprops) => {
   const [value, setValue] = React.useState<any>();
   const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const [visible, setVisible] = useState(false);
-
   const { run } = useDebounceFn(
     (value) => {
       setValue(value);
@@ -89,6 +88,7 @@ const ModalEdit = (props: Iprops) => {
         visible={visibleConfirm}
         className={styles.modalCompose}
         onClose={() => setVisibleConfirm(false)}
+        destroyOnClose={true}
       >
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>
