@@ -212,11 +212,11 @@ const Setting = () => {
     return <></>;
   }
   return (
-    <div className='p-[10px] desktop:p-0'>
+    <div className='desktop:p-0'>
       <PopupLanguage visible={popupLanguageVisible} onToggle={onTogglePopupLanguage} />
       <PopupHotline visible={popupHotlineVisible} onToggle={onTogglePopupHotline} />
 
-      <div className='box-shadow card-style relative text-left first-letter:w-full mobile-max:mt-[24px] laptop:py-[20px]'>
+      <div className='box-shadow card-style relative text-left first-letter:w-full laptop:py-[20px]'>
         {/* <img
           src='/static/icons/back_icon.svg'
           alt=''

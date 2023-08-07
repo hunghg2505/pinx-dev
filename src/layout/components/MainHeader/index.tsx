@@ -171,7 +171,7 @@ const MainHeader = () => {
             </div>
           ) : (
             <>
-              <div className='max-w-[218px] flex-1 flex items-center gap-[16px]'>
+              <div className='max-w-[218px] w-full flex items-center gap-[16px]'>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <img
                     src='/static/icons/logo.svg'
@@ -181,10 +181,13 @@ const MainHeader = () => {
                 </CustomLink>
                 <MenuMobile />
               </div>
-              <div className='w-full flex-1'>
-                <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
-              </div>
-              <div className='max-w-[350px] flex-1 flex items-center justify-end gap-[12px]'>
+              {!isMobile && (
+                <div className='w-full flex-auto'>
+                  <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
+                </div>
+              )}
+              <div className='max-w-[350px] w-full flex items-center justify-end gap-[12px]'>
+                {isMobile && <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />}
                 <Notifications />
                 <Profile />
               </div>

@@ -31,7 +31,7 @@ const MainLayout = ({ children }: any) => {
             <SideBar />
           </div>
 
-          <div className='w-[100%] flex-1 overflow-hidden'>{children}</div>
+          <div className='w-[100%] flex-1 overflow-hidden p-[10px] tablet:p-0'>{children}</div>
 
           <div className=' max-w-[350px] flex-1 mobile:hidden tablet:block' id='right'>
             <ContentRight />

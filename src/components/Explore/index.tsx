@@ -110,7 +110,7 @@ const Explore = () => {
     }
   };
   return (
-    <div className='w-full rounded-[8px] py-[10px] text-left desktop:-mt-[16px] desktop:py-[16px]'>
+    <div className='w-full rounded-[8px] text-left desktop:-mt-[16px] desktop:py-[16px]'>
       <div className='box-shadow mb-[18px] rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
         <Text
           type='body-24-semibold'
