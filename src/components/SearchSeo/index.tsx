@@ -54,7 +54,7 @@ const SearchSeo = () => {
       <div className='box-shadow card-style'>
         <Tabs
           defaultActiveKey='post'
-          activeKey={searchParams.get('tab') || 'post'}
+          activeKey={searchParams.get('tab') || 'company'}
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
