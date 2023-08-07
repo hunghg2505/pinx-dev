@@ -24,7 +24,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
-import { IComment, IPost, getMoreCommentPost, useCommentsOfPost, usePostDetail } from '../service';
+import { IComment, IPost, getMoreCommentPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
   ssr: false,
@@ -84,14 +84,18 @@ const PostDetail = () => {
   React.useEffect(() => {
     run();
   }, [postID]);
-  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postID));
-  const { data, loading, mutate, runAsync } = useRequest(async (nextId: any) => {
+  const {
+    data,
+    loading,
+    mutate,
+    runAsync,
+    refreshAsync: refreshCommentOfPost,
+  } = useRequest(async (nextId: any) => {
     if (nextId === false) {
       return;
     }
     return getMoreCommentPost(String(postID), nextId);
   });
-
   const service = async () => {
     if (!data?.nextId || loading) {
       return;
@@ -107,7 +111,7 @@ const PostDetail = () => {
   };
 
   const { refLastElement } = useObserver();
-  const isHaveComment = commentsOfPost?.data?.list?.length > 0;
+  const isHaveComment = data?.list?.length > 0;
 
   const countComment = postData?.totalChildren || 0;
   const onGoToBack = () => {
