@@ -113,7 +113,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'post' },
+        query: { keyword: query, tab: 'news' },
       });
       form.setFieldValue('search', '');
       setInputFocus(false);
