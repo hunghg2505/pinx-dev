@@ -20,6 +20,7 @@ import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
+import Skeleton from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
@@ -61,6 +62,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   useFocusWithin(ref, {
     onFocus: () => {
+      refreshSearchRecent();
       setInputFocus(true);
       setShowRecent(true);
       const value = form.getFieldValue('search');
@@ -87,8 +89,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     const value = form.getFieldValue('search');
     setQuery(value);
     if (value === '' || value === undefined) {
-      setInputFocus(false);
-      setShowRecent(false);
+      setInputFocus(true);
+      setShowRecent(true);
       setShowPopup(false);
       setIsOpenSearch(!isOpenSearch);
     } else {
@@ -147,14 +149,14 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       }
     },
     {
-      wait: 300,
+      wait: 100,
     },
   );
 
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);
     setQuery(data);
-    isDesktop && run();
+    isDesktop && form.submit();
     isMobile && form.submit();
   };
 
@@ -198,9 +200,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           <FormItem name='search'>
             <Input
               className={classNames(
-                'h-[40px] rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
+                'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                 {
-                  'w-[414px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                  'w-[739px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
                   'w-[220px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
                   'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
                 },
@@ -281,9 +283,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
             <>
-              <Text type='body-16-regular' className='leading-5 text-[#999] text-center'>
-                No result found for `{query}`
-              </Text>
+              {loading ? <Skeleton/> : (
+                <Text type='body-16-regular' className='leading-5 text-[#999] text-center'>
+                  No result found for `{query}`
+                </Text>
+              )}
             </>
           ):(
             <>
