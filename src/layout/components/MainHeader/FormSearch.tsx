@@ -105,9 +105,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'news' },
+        query: { keyword: query, tab: 'company' },
       });
-      form.setFieldValue('search', '');
+      // form.setFieldValue('search', '');
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
@@ -303,6 +303,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             </>
           ) : (
             <>
+              {mediaL && <div>media</div>}
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>

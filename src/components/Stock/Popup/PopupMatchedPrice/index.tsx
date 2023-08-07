@@ -1,23 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useInfiniteScroll } from 'ahooks';
+// import { useInfiniteScroll } from 'ahooks';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
+import { IStockTrade } from '@components/Stock/type';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
+import { formatNumber } from '@utils/common';
 
 import styles from './index.module.scss';
-import { getLoadMoreList } from './service';
+// import { getLoadMoreList } from './service';
 
 interface IPopupMatchedPriceProps {
   visible: boolean;
   onClose: () => void;
+  stockTrade?: {
+    data: IStockTrade[];
+  };
 }
 
 const POPUP_CLASS_NAME = 'popup-matched-price';
 
-const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
+const PopupMatchedPrice = ({ visible, onClose, stockTrade }: IPopupMatchedPriceProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const [popupWidth, setPopupWidth] = useState<number | undefined>();
   const ref = useRef<HTMLTableSectionElement>(null);
@@ -38,10 +43,10 @@ const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
     };
   }, [popupWidth]);
 
-  const { data } = useInfiniteScroll((d) => getLoadMoreList(d?.nextId, 20), {
-    target: ref,
-    isNoMore: (d) => !d?.nextId,
-  });
+  // const { data } = useInfiniteScroll((d) => getLoadMoreList(d?.nextId, 20), {
+  //   target: ref,
+  //   isNoMore: (d) => !d?.nextId,
+  // });
 
   return (
     <Modal
@@ -80,27 +85,30 @@ const PopupMatchedPrice = ({ visible, onClose }: IPopupMatchedPriceProps) => {
         </thead>
 
         <tbody className='block max-h-[calc(70vh-40px-44px)] overflow-auto' ref={ref}>
-          {data?.list?.map((item, index) => (
+          {stockTrade?.data?.map((item, index) => (
             <tr key={index} className='table w-full table-fixed'>
               <td className='py-[10px] pl-[16px] text-left'>
                 <Text type='body-16-regular' className='text-[#999999]'>
-                  {item.displayName}
+                  {item.time}
                 </Text>
               </td>
               <td className='py-[10px]'>
                 <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  705,700
+                  {formatNumber(item.totalVol)}
                 </Text>
               </td>
               <td className='py-[10px]'>
                 <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  27.7
+                  {item.lastPrice}
                 </Text>
               </td>
               <td className='py-[10px] pr-[16px]'>
-                <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
+                <div
+                  className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
+                  style={{ backgroundColor: item.color || '#DA314F' }}
+                >
                   <Text type='body-16-semibold' color='cbwhite'>
-                    0.45
+                    {item.change}
                   </Text>
                 </div>
               </td>

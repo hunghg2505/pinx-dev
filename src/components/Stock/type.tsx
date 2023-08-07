@@ -1,5 +1,11 @@
 import { ICustomerInfo, IPost } from '@components/Post/service';
 
+export enum TabType {
+  MOVEMENTS = 'MOVEMENTS',
+  MATCHINGS = 'MATCHINGS',
+  INTRADAY = 'INTRADAY',
+}
+
 export interface IStock {
   stockType: string;
   changePc: string;
@@ -463,19 +469,21 @@ export enum FinancialAnnualKey {
   ROAA = 'roaa',
 }
 
+export interface IStockTrade {
+  id: number;
+  sym: string;
+  lastVol: number;
+  lastPrice: number;
+  color: null;
+  cl: string;
+  change: string;
+  totalVol: number;
+  board: null;
+  time: string;
+}
+
 export interface IResponseStockTrade {
   stockTrade?: {
-    data: {
-      id: number;
-      sym: string;
-      lastVol: number;
-      lastPrice: number;
-      color: null;
-      cl: string;
-      change: string;
-      totalVol: number;
-      board: null;
-      time: string;
-    }[];
+    data: IStockTrade[];
   };
 }

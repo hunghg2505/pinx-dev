@@ -6,12 +6,13 @@ import EmptyData from '@components/Stock/EmptyData';
 import PopupMatchedPrice from '@components/Stock/Popup/PopupMatchedPrice';
 import { useGetStockTrade } from '@components/Stock/service';
 import Text from '@components/UI/Text';
+import { formatNumber } from '@utils/common';
 
 interface IMatchingsTabProps {
   stockCode: string;
 }
 
-const LIMIT_STOCK_TRADE = 20;
+const LIMIT_STOCK_TRADE = 10;
 
 const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
   const { t } = useTranslation(['stock', 'common']);
@@ -49,7 +50,7 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
 
         <tbody>
           {stockTrade?.data && stockTrade?.data.length ? (
-            stockTrade?.data.map((item, index) => (
+            stockTrade?.data.slice(0, LIMIT_STOCK_TRADE).map((item, index) => (
               <tr key={index}>
                 <td className='py-[10px] pl-[16px] text-left'>
                   <Text type='body-16-regular' className='text-[#999999]'>
@@ -58,7 +59,7 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
                 </td>
                 <td className='py-[10px]'>
                   <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                    {item.totalVol}
+                    {formatNumber(item.totalVol)}
                   </Text>
                 </td>
                 <td className='py-[10px]'>
@@ -67,7 +68,10 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
                   </Text>
                 </td>
                 <td className='py-[10px] pr-[16px]'>
-                  <div className='inline-flex h-[21px] items-center justify-end rounded-[4px] bg-[#DA314F] pl-[15px] pr-[4px]'>
+                  <div
+                    className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
+                    style={{ backgroundColor: item.color || '#DA314F' }}
+                  >
                     <Text type='body-16-semibold' color='cbwhite'>
                       {item.change}
                     </Text>
@@ -90,7 +94,7 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
         {stockTrade?.data && stockTrade.data.length >= LIMIT_STOCK_TRADE && (
           <tfoot>
             <tr>
-              <td colSpan={4} className='pt-[24px]'>
+              <td colSpan={4}>
                 <Text
                   onClick={() => {
                     setOpenPopup(true);
@@ -119,7 +123,11 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
         )}
       </table>
 
-      <PopupMatchedPrice visible={openPopup} onClose={() => setOpenPopup(false)} />
+      <PopupMatchedPrice
+        stockTrade={stockTrade}
+        visible={openPopup}
+        onClose={() => setOpenPopup(false)}
+      />
     </>
   );
 };

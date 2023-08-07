@@ -8,6 +8,7 @@ import CompanyItem from '@components/Explore/Search/CompanyItem';
 import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
+import Empty from '@components/SearchSeo/Empty';
 import { useSearchPublic } from '@components/SearchSeo/service';
 
 const SearchSeo = () => {
@@ -36,6 +37,12 @@ const SearchSeo = () => {
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list;
 
+  const companiesL = companies?.length > 0;
+  const usersL = users?.length > 0;
+  const postsL = posts?.length > 0;
+  const newsL = news?.length > 0;
+  const mediaL = media?.length > 0;
+
   // Error commit git
   console.log('keyword', keyword);
   console.log('tab', tab);
@@ -47,42 +54,72 @@ const SearchSeo = () => {
       <div className='box-shadow card-style'>
         <Tabs
           defaultActiveKey='post'
-          activeKey={searchParams.get('tab') || 'post'}
+          activeKey={searchParams.get('tab') || 'company'}
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
           className={'tabHome'}
         >
           <TabPane tab='Company' key='company'>
-            <div className='flex flex-col gap-y-[16px]'>
-              {companies?.map((company: any, index: number) => {
-                return <CompanyItem key={`company-${index}`} data={company} />;
-              })}
-            </div>
+            {companiesL ? (
+              <div className='flex flex-col gap-y-[16px]'>
+                {companies?.map((company: any, index: number) => {
+                  return <CompanyItem key={`company-${index}`} data={company} />;
+                })}
+              </div>
+            ):(
+              <>
+                <Empty keyword={keyword} />
+              </>
+            )}
           </TabPane>
           <TabPane tab='People' key='people'>
-            <div className='flex flex-col gap-y-[16px]'>
-              {users?.map((item: any, index: number) => (
-                <UserItem data={item} key={index} />
-              ))}
-            </div>
+            {usersL ? (
+              <div className='flex flex-col gap-y-[16px]'>
+                {users?.map((item: any, index: number) => (
+                  <UserItem data={item} key={index} />
+                ))}
+              </div>
+            ):(
+              <>
+                <Empty keyword={keyword} />
+              </>
+            )}
           </TabPane>
           <TabPane tab="Posts" key="post">
-            <div className='flex flex-col'>
-              {posts?.map((post: any) => {
-                return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
-              })}
-            </div>
+            {postsL ? (
+              <div className='flex flex-col'>
+                {posts?.map((post: any) => {
+                  return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
+                })}
+              </div>
+            ):(
+              <>
+                <Empty keyword={keyword} />
+              </>
+            )}
           </TabPane>
           <TabPane tab='News' key='news'>
-            <div className='my-[16px] flex flex-col gap-y-[12px]'>
-              {news?.map((item: any) => {
-                return <NewsItem key={`new-items-${item?.id}`} data={item} />;
-              })}
-            </div>
+            {newsL ? (
+              <div className='my-[16px] flex flex-col gap-y-[12px]'>
+                {news?.map((item: any) => {
+                  return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+                })}
+              </div>
+            ):(
+              <>
+                <Empty keyword={keyword} />
+              </>
+            )}
           </TabPane>
           <TabPane tab='Media' key='media'>
-            Media
+            {mediaL ? (
+              <div>media</div>
+            ):(
+              <>
+                <Empty keyword={keyword} />
+              </>
+            )}
           </TabPane>
         </Tabs>
       </div>

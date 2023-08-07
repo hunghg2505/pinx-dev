@@ -176,7 +176,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   }, [postDetailStatus.idPostDetail]);
 
   return (
-    <div className='relative px-[10px] mobile:pt-[10px] desktop:pt-0'>
+    <div className='relative mobile:pt-[10px] desktop:pt-0'>
       <div className='relative mobile:block tablet:hidden'>
         {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
           <CustomLink href={ROUTE_PATH.WATCHLIST}>
