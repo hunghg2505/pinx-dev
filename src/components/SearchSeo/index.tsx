@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import CompanyItem from '@components/Explore/Search/CompanyItem';
@@ -14,6 +15,7 @@ import styles from '@components/SearchSeo/index.module.scss';
 import { useSearchPublic } from '@components/SearchSeo/service';
 
 const SearchSeo = () => {
+  const { t } = useTranslation(['search-seo','common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
   const tab = searchParams.get('tab');
@@ -65,7 +67,7 @@ const SearchSeo = () => {
             'tabHome',
           )}
         >
-          <TabPane tab='Company' key='company'>
+          <TabPane tab={t('common:searchseo.tab.company')} key='company'>
             {companiesL ? (
               <div className='flex flex-col gap-y-[16px]'>
                 {companies?.map((company: any, index: number) => {
@@ -78,7 +80,7 @@ const SearchSeo = () => {
               </>
             )}
           </TabPane>
-          <TabPane tab='People' key='people'>
+          <TabPane tab={t('common:searchseo.tab.people')} key='people'>
             {usersL ? (
               <div className='flex flex-col gap-y-[16px]'>
                 {users?.map((item: any, index: number) => (
@@ -91,7 +93,7 @@ const SearchSeo = () => {
               </>
             )}
           </TabPane>
-          <TabPane tab="Posts" key="post">
+          <TabPane tab={t('common:searchseo.tab.posts')} key="post">
             {postsL ? (
               <div className='flex flex-col'>
                 {posts?.map((post: any) => {
@@ -104,7 +106,7 @@ const SearchSeo = () => {
               </>
             )}
           </TabPane>
-          <TabPane tab='News' key='news'>
+          <TabPane tab={t('common:searchseo.tab.news')} key='news'>
             {newsL ? (
               <div className='my-[16px] flex flex-col gap-y-[12px]'>
                 {news?.map((item: any) => {
@@ -117,7 +119,7 @@ const SearchSeo = () => {
               </>
             )}
           </TabPane>
-          <TabPane tab='Media' key='media'>
+          <TabPane tab={t('common:searchseo.tab.media')} key='media'>
             {mediaL ? (
               <div>media</div>
             ):(

@@ -24,7 +24,7 @@ SearchBar.getLayout = function getLayout(page: ReactElement) {
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'theme'])),
+      ...(await serverSideTranslations(locale, ['common', 'search-seo'])),
       // Will be passed to the page component as props
     },
   };

@@ -33,7 +33,7 @@ import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['search-seo','common']);
   const { isDesktop, isMobile } = useResponsive();
   const isLogin = !!getAccessToken();
 
@@ -217,7 +217,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
                 },
               )}
-              placeholder={t('search_uppercase')}
+              placeholder={t('common:searchseo.placeholder')}
               icon={<IconSearchWhite />}
             />
           </FormItem>
@@ -253,7 +253,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         >
           {listRecent?.length > 0 && (
             <Text type='body-16-semibold' className='leading-5 text-[#0D0D0D]'>
-              Recent
+              {t('common:searchseo.txtRecent')}
             </Text>
           )}
           {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
@@ -297,7 +297,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                 <Skeleton />
               ) : (
                 <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
-                  No result found for `{query}`
+                  {t('common:searchseo.txtEmpty')} {query}
                 </Text>
               )}
             </>
