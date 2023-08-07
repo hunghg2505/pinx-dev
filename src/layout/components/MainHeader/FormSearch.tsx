@@ -6,7 +6,6 @@ import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
-// import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
@@ -25,8 +24,6 @@ import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
-// import Notification from '@components/UI/Notification';
-import Skeleton from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
@@ -293,13 +290,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
             <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
-                  {t('common:searchseo.txtEmpty')} {query}
-                </Text>
-              )}
+              <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
+                {t('common:searchseo.txtEmpty')} {query}
+              </Text>
             </>
           ) : (
             <>
