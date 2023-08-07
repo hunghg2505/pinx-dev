@@ -307,7 +307,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    Company
+                    {t('common:searchseo.tab.company')}
                   </Text>
                   {companies?.slice(0, 3)?.map((company: any, index: number) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
@@ -317,7 +317,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {usersL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    People
+                    {t('common:searchseo.tab.people')}
                   </Text>
                   {users?.slice(0, 3)?.map((item: any, index: number) => (
                     <UserItem data={item} key={index} />
@@ -327,7 +327,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {postsL && (
                 <div className='flex flex-col'>
                   <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
-                    Posts
+                    {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
                     return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
@@ -337,11 +337,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {newsL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    News
+                    {t('common:searchseo.tab.news')}
                   </Text>
                   {news?.slice(0, 3)?.map((item: any) => {
                     return <NewsItem key={`new-items-${item?.id}`} data={item} />;
                   })}
+                </div>
+              )}
+              {mediaL && (
+                <div className='flex flex-col gap-y-[16px]'>
+                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                    {t('common:searchseo.tab.media')}
+                  </Text>
                 </div>
               )}
             </>
