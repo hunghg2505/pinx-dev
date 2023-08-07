@@ -107,7 +107,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         pathname: ROUTE_PATH.SEARCHSEO,
         query: { keyword: query, tab: 'news' },
       });
-      form.setFieldValue('search', '');
+      // form.setFieldValue('search', '');
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
