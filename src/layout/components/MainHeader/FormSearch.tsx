@@ -6,6 +6,7 @@ import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
+// import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
@@ -14,12 +15,17 @@ import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
 import styles from '@components/SearchSeo/index.module.scss';
-import { useGetSearchRecent, useSearchPublic } from '@components/SearchSeo/service';
+import {
+  useCreateSearch,
+  useGetSearchRecent,
+  useSearchPublic
+} from '@components/SearchSeo/service';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
+// import Notification from '@components/UI/Notification';
 import Skeleton from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
@@ -88,12 +94,23 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const handleSubmit = () => {
     const value = form.getFieldValue('search');
     setQuery(value);
+    const payloads = {
+      textSearch: query,
+    };
     if (value === '' || value === undefined) {
       setInputFocus(true);
       setShowRecent(true);
       setShowPopup(false);
       setIsOpenSearch(!isOpenSearch);
     } else {
+      requestSearch.run(payloads);
+      setIsOpenSearch(!isOpenSearch);
+    }
+  };
+
+  const requestSearch = useCreateSearch({
+    onSuccess: () => {
+      // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
         query: { keyword: query, tab: 'post' },
@@ -102,9 +119,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
-      setIsOpenSearch(!isOpenSearch);
-    }
-  };
+    },
+    onError: () => {
+      // toast(() => <Notification type='error' message='error rooif' />);
+    },
+  });
 
   // Set value when onSubmit Form
   const handleOnchange = () => {

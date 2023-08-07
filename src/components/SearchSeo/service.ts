@@ -36,6 +36,31 @@ export const useGetSearchRecent = (options?: IOptions) => {
   };
 };
 
+export const useCreateSearch = (options?: IOptions) => {
+  const initPayloads = {
+    link: '',
+    postId: [],
+    stockCode: [],
+    themeId: [],
+    typeSearch: 'ALL',
+  };
+  const { run } = useRequest(
+    (textSearch) => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_SEO_CREATE, { data: { ...initPayloads, ...textSearch } })
+        : requestCommunity.post(API_PATH.PUBLIC_SEARCH_SEO_CREATE,{ data: { ...initPayloads, ...textSearch } });
+    },
+    {
+      manual: true,
+      ...options,
+    }
+  );
+  return {
+    run,
+  };
+};
+
 export const useSearchPublic = (options?: IOptions) => {
   const initParam = {
     textSearch: '',
