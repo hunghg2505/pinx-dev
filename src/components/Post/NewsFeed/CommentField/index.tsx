@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState, useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useRef, useEffect } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -178,12 +178,8 @@ const Editor = (props: IProps, ref?: any) => {
 
   // handle focus to expand comment
   const [isFocus, setIsFocus] = useState(false);
+  const [isClickAway, setIsClickAway] = useState(false);
   const editorRef = useRef(null);
-  useClickAway(() => {
-    if (!textComment) {
-      setIsFocus(false);
-    }
-  }, editorRef);
 
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -270,6 +266,26 @@ const Editor = (props: IProps, ref?: any) => {
       },
     },
   );
+
+  useClickAway(() => {
+    setIsClickAway(true);
+  }, messagesEndRef);
+  useEffect(() => {
+    if (!textComment) {
+      if (!editor?.isFocused && isClickAway) {
+        setIsFocus(false);
+      } else if (editor?.isFocused && isClickAway) {
+        editor.commands.blur();
+        setIsFocus(false);
+      } else {
+        setIsFocus(true);
+        editor?.commands.focus();
+      }
+      if (useAddComment.loading) {
+        setIsFocus(true);
+      }
+    }
+  }, [editor?.isFocused, isClickAway, useAddComment.loading]);
 
   const onSend = async () => {
     const users: any = [];
@@ -374,14 +390,14 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
+      <div className=' mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
           alt=''
           width={0}
           height={0}
           sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] rounded-full object-cover mobile:hidden tablet:block'
+          className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
           onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
         />
 
@@ -393,10 +409,6 @@ const Editor = (props: IProps, ref?: any) => {
               'tablet:rounded-[12px]': isFocus,
             },
           )}
-          onClick={() => {
-            setIsFocus(true);
-            editor?.commands.focus();
-          }}
           ref={messagesEndRef}
         >
           <div
@@ -429,13 +441,16 @@ const Editor = (props: IProps, ref?: any) => {
             </div>
             <div
               ref={editorRef}
-              onFocus={() => setIsFocus(true)}
+              onClick={() => {
+                setIsFocus(true);
+                setIsClickAway(false);
+              }}
               className='flex w-full items-center justify-between'
             >
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' max-h-[108px] w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
+                  ' max-h-[108px] w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words  mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
                   {
                     'tablet:mt-[3px]': isFocus,
                   },
@@ -448,7 +463,7 @@ const Editor = (props: IProps, ref?: any) => {
                 height='0'
                 sizes='100vw'
                 className={classNames(
-                  ' flex h-[21px] w-[24px]  items-center object-contain tablet-max:hidden',
+                  ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
                   {
                     hidden: isFocus,
                   },
