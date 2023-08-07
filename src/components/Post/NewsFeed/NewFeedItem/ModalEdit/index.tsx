@@ -22,7 +22,6 @@ const ModalEdit = (props: Iprops) => {
   const [value, setValue] = React.useState<any>();
   const [visibleConfirm, setVisibleConfirm] = React.useState(false);
   const [visible, setVisible] = useState(false);
-
   const { run } = useDebounceFn(
     (value) => {
       setValue(value);

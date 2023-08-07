@@ -23,7 +23,7 @@ import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
 import { UploadImage } from '@components/Compose/UploadImage';
 import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
-import { IPost, getPostDetail } from '@components/Post/service';
+import { IPost, TYPEPOST, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
 import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
@@ -43,6 +43,7 @@ import getSeoDataFromLink, {
 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
+import { ActivityWatchlist } from './ActivityWatchlist';
 import { serviceAddPost, serviceUpdatePost } from './service';
 
 interface IProps {
@@ -75,6 +76,7 @@ const Compose = (props: IProps) => {
 
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   const bgTheme = useAtomValue(postThemeAtom);
+  console.log('🚀 ~ file: index.tsx:79 ~ Compose ~ bgTheme:', bgTheme);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
   const objectMessage = converStringMessageToObject(postDetail?.post?.message);
@@ -82,8 +84,12 @@ const Compose = (props: IProps) => {
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
   const postType = postDetail?.postType || '';
-
-  const isUpdateActivities = isUpdate && postType === 'ActivityTheme';
+  const isShowImageActivities = [
+    TYPEPOST.ActivityTheme,
+    TYPEPOST.ActivityMatchOrder,
+    TYPEPOST.ActivityWatchlist,
+  ].includes(postType);
+  const isUpdateActivities = isUpdate && isShowImageActivities;
 
   // @ts-ignore
   const [metaData, setMetaData] = useState<TMeta | null>(() => {
@@ -739,6 +745,9 @@ const Compose = (props: IProps) => {
           editor={editor}
           className={classNames(
             'relative z-10 min-h-[250px] overflow-y-auto p-4 px-[5px] desktop:min-h-[360px]',
+            {
+              'desktop:min-h-[200px]': isShowImageActivities,
+            },
           )}
           style={getStyles() as any}
         />
@@ -747,17 +756,21 @@ const Compose = (props: IProps) => {
           <ImageTheme themeActiveId={themeActiveId} />
         </Fade>
       </div>
+      {!isShowImageActivities && (
+        <>
+          <ShowImageUploaded />
 
-      <ShowImageUploaded />
+          <ShowMetaTagsUpload />
+        </>
+      )}
 
-      <ShowMetaTagsUpload />
-
-      <Fade visible={hiddenThemeSelected && postType !== 'ActivityTheme'}>
+      <Fade visible={hiddenThemeSelected && !isShowImageActivities}>
         <ListTheme themeActiveId={themeActiveId} onSelectThemeId={onSelectThemeId} />
       </Fade>
 
-      <Fade visible={postType === 'ActivityTheme'}>
-        <ActivityTheme postDetail={postDetail} />
+      <Fade visible={isShowImageActivities}>
+        {postType === TYPEPOST.ActivityTheme && <ActivityTheme postDetail={postDetail} />}
+        {postType === TYPEPOST.ActivityWatchlist && <ActivityWatchlist postDetail={postDetail} />}
       </Fade>
 
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
@@ -784,8 +797,7 @@ const Compose = (props: IProps) => {
           >
             <IconHashTag />
           </div>
-
-          <UploadAndAddLink />
+          {!isShowImageActivities && <UploadAndAddLink />}
         </div>
 
         <div
