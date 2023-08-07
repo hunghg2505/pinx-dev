@@ -45,13 +45,13 @@ const SearchSeo = () => {
   return (
     <>
       <div className='box-shadow card-style'>
-        <h1>Search result found for {keyword}</h1>
         <Tabs
           defaultActiveKey='post'
           activeKey={searchParams.get('tab') || 'post'}
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
+          className={'tabHome'}
         >
           <TabPane tab='Company' key='company'>
             <div className='flex flex-col gap-y-[16px]'>

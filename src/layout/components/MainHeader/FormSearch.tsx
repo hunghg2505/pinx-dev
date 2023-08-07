@@ -160,7 +160,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       }
     },
     {
-      wait: 100,
+      wait: 300,
     },
   );
 
@@ -287,7 +287,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] overflow-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
