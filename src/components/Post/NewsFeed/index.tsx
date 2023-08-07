@@ -124,7 +124,7 @@ const NewsFeed = (props: IProps) => {
         )}
 
         {!!countComment && (
-          <div className=' [border-top:1px_solid_#EBEBEB] desktop:ml-[64px]'>
+          <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
               <div className='mt-[22px]'>
                 <ItemComment
