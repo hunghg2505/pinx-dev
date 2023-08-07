@@ -67,8 +67,8 @@ const SearchSeo = () => {
               ))}
             </div>
           </TabPane>
-          <TabPane tab='Posts' key='post'>
-            <div className='mt-[16px] flex flex-col'>
+          <TabPane tab="Posts" key="post">
+            <div className='flex flex-col'>
               {posts?.map((post: any) => {
                 return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
               })}

@@ -26,16 +26,16 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
         <div className='flex'>
-          {/* <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}> */}
-          <img
-            src={url}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='mr-[10px] h-[48px] w-[48px] rounded-full object-contain'
-          />
-          {/* </Link> */}
+          <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+            <img
+              src={url}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='mr-[10px] h-[48px] w-[48px] rounded-full object-contain'
+            />
+          </Link>
           <div>
             <div className='flex items-center'>
               <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>

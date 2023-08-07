@@ -105,7 +105,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'post' },
+        query: { keyword: query, tab: 'news' },
       });
       form.setFieldValue('search', '');
       setInputFocus(false);
@@ -167,6 +167,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);
     setQuery(data);
+    form.submit();
     isDesktop && form.submit();
     isMobile && form.submit();
   };
@@ -212,7 +213,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                 'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                 {
                   'w-[739px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
-                  'w-[220px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
+                  'w-[739px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
                   'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
                 },
               )}
@@ -307,7 +308,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     Company
                   </Text>
-                  {companies?.slice(0, 2)?.map((company: any, index: number) => {
+                  {companies?.slice(0, 3)?.map((company: any, index: number) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
                   })}
                 </div>
@@ -317,7 +318,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     People
                   </Text>
-                  {users?.slice(0, 2)?.map((item: any, index: number) => (
+                  {users?.slice(0, 3)?.map((item: any, index: number) => (
                     <UserItem data={item} key={index} />
                   ))}
                 </div>
@@ -327,7 +328,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
                     Posts
                   </Text>
-                  {posts?.slice(0, 2)?.map((post: any) => {
+                  {posts?.slice(0, 3)?.map((post: any) => {
                     return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
                   })}
                 </div>
@@ -337,7 +338,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     News
                   </Text>
-                  {news?.slice(0, 2)?.map((item: any) => {
+                  {news?.slice(0, 3)?.map((item: any) => {
                     return <NewsItem key={`new-items-${item?.id}`} data={item} />;
                   })}
                 </div>
