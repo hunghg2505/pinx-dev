@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -9,6 +10,7 @@ import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
 import Empty from '@components/SearchSeo/Empty';
+import styles from '@components/SearchSeo/index.module.scss';
 import { useSearchPublic } from '@components/SearchSeo/service';
 
 const SearchSeo = () => {
@@ -58,7 +60,10 @@ const SearchSeo = () => {
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
-          className={'tabHome'}
+          className={classNames(
+            styles.Tab,
+            'tabHome',
+          )}
         >
           <TabPane tab='Company' key='company'>
             {companiesL ? (
