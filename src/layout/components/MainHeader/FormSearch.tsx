@@ -19,6 +19,7 @@ import {
   useGetSearchRecent,
   useSearchPublic,
 } from '@components/SearchSeo/service';
+import { ExploreButton } from '@components/UI/Button';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
@@ -93,7 +94,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setIsOpenSearch(!isOpenSearch);
     } else {
       requestSearch.run(payloads);
-      setIsOpenSearch(!isOpenSearch);
+      // setIsOpenSearch(!isOpenSearch);
     }
   };
 
@@ -296,7 +297,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             </>
           ) : (
             <>
-              {mediaL && <div>media</div>}
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
@@ -344,9 +344,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   </Text>
                 </div>
               )}
+              <ExploreButton onClick={() => handleSubmit()}>
+                <Text type='body-14-bold' color='primary-2'>
+                  See all results
+                </Text>
+              </ExploreButton>
             </>
           )}
         </Fade>
+        {/* End Show search result */}
       </div>
     </>
   );
