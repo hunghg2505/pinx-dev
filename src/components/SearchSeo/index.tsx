@@ -19,7 +19,7 @@ const SearchSeo = () => {
 
   const { data, searchPublic, loading, refresh } = useSearchPublic({
     onSuccess: () => {
-      console.log('useSearchPublic',data);
+      console.log('useSearchPublic', data);
     },
   });
 
@@ -28,7 +28,7 @@ const SearchSeo = () => {
       textSearch: keyword,
       type: getType,
     });
-  },[keyword,getType]);
+  }, [keyword, getType]);
 
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
@@ -37,57 +37,51 @@ const SearchSeo = () => {
   const media = data?.data?.listMedia?.list;
 
   // Error commit git
-  console.log('keyword',keyword);
-  console.log('tab',tab);
-  console.log('type',getType);
-  console.log(loading,refresh,media);
-
+  console.log('keyword', keyword);
+  console.log('tab', tab);
+  console.log('type', getType);
+  console.log(loading, refresh, media);
 
   return (
     <>
       <div className='box-shadow card-style'>
         <Tabs
-          defaultActiveKey="post"
+          defaultActiveKey='post'
           activeKey={searchParams.get('tab') || 'post'}
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
           className={'tabHome'}
         >
-          <TabPane tab="Company" key="company">
+          <TabPane tab='Company' key='company'>
             <div className='flex flex-col gap-y-[16px]'>
               {companies?.map((company: any, index: number) => {
                 return <CompanyItem key={`company-${index}`} data={company} />;
               })}
             </div>
           </TabPane>
-          <TabPane tab="People" key="people">
+          <TabPane tab='People' key='people'>
             <div className='flex flex-col gap-y-[16px]'>
               {users?.map((item: any, index: number) => (
                 <UserItem data={item} key={index} />
               ))}
             </div>
           </TabPane>
-          <TabPane tab="Posts" key="post">
+          <TabPane tab='Posts' key='post'>
             <div className='mt-[16px] flex flex-col'>
               {posts?.map((post: any) => {
-                return (
-                  <NewsFeed
-                    key={`explore-search-${post?.id}`}
-                    data={post}
-                  />
-                );
+                return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
               })}
             </div>
           </TabPane>
-          <TabPane tab="News" key="news">
+          <TabPane tab='News' key='news'>
             <div className='my-[16px] flex flex-col gap-y-[12px]'>
               {news?.map((item: any) => {
                 return <NewsItem key={`new-items-${item?.id}`} data={item} />;
               })}
             </div>
           </TabPane>
-          <TabPane tab="Media" key="media">
+          <TabPane tab='Media' key='media'>
             Media
           </TabPane>
         </Tabs>
