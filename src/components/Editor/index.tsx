@@ -269,8 +269,7 @@ const Editor = (props: IProps, ref?: any) => {
         setIdReply('');
         setPostDetailStatus({
           ...postDetailStatus,
-          isDoneReplies: true,
-          isAddCommentPostDetail: true,
+          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
         });
         editor?.commands.clearContent();
         if (imageComment) {
