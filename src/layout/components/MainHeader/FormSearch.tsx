@@ -303,6 +303,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             </>
           ) : (
             <>
+              {mediaL && <div>media</div>}
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
