@@ -158,7 +158,7 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto gap-[24px] flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
@@ -171,7 +171,7 @@ const MainHeader = () => {
             </div>
           ) : (
             <>
-              <div className='flex items-center gap-[16px]'>
+              <div className='max-w-[218px] flex-1 flex items-center gap-[16px]'>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <img
                     src='/static/icons/logo.svg'
@@ -179,15 +179,13 @@ const MainHeader = () => {
                     className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
                   />
                 </CustomLink>
-
                 <MenuMobile />
               </div>
-
-              <div className='flex items-center gap-[12px]'>
+              <div className='w-full flex-1'>
                 <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
-
+              </div>
+              <div className='max-w-[350px] flex-1 flex items-center justify-end gap-[12px]'>
                 <Notifications />
-
                 <Profile />
               </div>
             </>

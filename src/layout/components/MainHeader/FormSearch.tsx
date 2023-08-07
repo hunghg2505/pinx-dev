@@ -212,9 +212,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               className={classNames(
                 'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                 {
-                  'w-[739px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
-                  'w-[739px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
-                  'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
+                  'w-full border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                  'w-full border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
+                  'w-full border-[#1F6EAC] bg-[#F7F6F8] ': isMobile,
                 },
               )}
               placeholder={t('common:searchseo.placeholder')}
