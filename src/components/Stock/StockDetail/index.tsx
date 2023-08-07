@@ -64,6 +64,7 @@ import {
   IFinancialIndex,
   IResponseMyStocks,
   IStockData,
+  TabType,
 } from '../type';
 
 const MAX_LINE = 4;
@@ -82,6 +83,7 @@ const PRODUCT_SLIDE_LIMIT = 5;
 
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
+  const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
@@ -478,16 +480,22 @@ const StockDetail = () => {
         </div>
 
         {/* tab */}
-        <Tabs className={styles.tabs} defaultActiveKey='1'>
-          <TabPane tab={t('tab.movements')} tabKey='1'>
+        <Tabs
+          className={styles.tabs}
+          activeKey={currentTab}
+          onChange={(tabKey) => {
+            setCurrentTab(tabKey);
+          }}
+        >
+          <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
             <MovementsTab stockData={dataStock} />
           </TabPane>
 
-          <TabPane tab={t('tab.matchings')} key='2'>
+          <TabPane tab={t('tab.matchings')} key={TabType.MATCHINGS}>
             <MatchingsTab stockCode={stockCode} />
           </TabPane>
 
-          <TabPane tab={t('tab.intraday')} key='3'>
+          <TabPane tab={t('tab.intraday')} key={TabType.INTRADAY}>
             <IntradayTab />
           </TabPane>
         </Tabs>
