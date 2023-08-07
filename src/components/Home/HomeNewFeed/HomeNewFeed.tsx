@@ -47,17 +47,6 @@ const HomeFeedFilter = dynamic(() => import('@components/Home/HomeNewFeed/ModalF
   ssr: false,
   loading: () => <FilterFake />,
 });
-// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
-//   ssr: false,
-//   loading: () => (
-//     <>
-//       <>
-//         <SkeletonLoading />
-//         <SkeletonLoading />
-//       </>
-//     </>
-//   ),
-// });
 const Trending = dynamic(() => import('../Trending'), {
   ssr: false,
 });

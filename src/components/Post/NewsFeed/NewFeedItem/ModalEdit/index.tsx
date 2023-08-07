@@ -89,6 +89,7 @@ const ModalEdit = (props: Iprops) => {
         visible={visibleConfirm}
         className={styles.modalCompose}
         onClose={() => setVisibleConfirm(false)}
+        destroyOnClose={true}
       >
         <div className=''>
           <Text type='body-20-semibold' color='neutral-black'>
