@@ -344,7 +344,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   </Text>
                 </div>
               )}
-              <ExploreButton onClick={() => handleSubmit()}>
+              <ExploreButton className='' onClick={handleSubmit}>
                 <Text type='body-14-bold' color='primary-2'>
                   See all results
                 </Text>
