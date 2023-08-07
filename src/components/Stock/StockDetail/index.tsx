@@ -538,12 +538,16 @@ const StockDetail = () => {
           {isMobile ? (
             <div className={classNames('overflow-x-auto whitespace-nowrap', styles.noScrollbar)}>
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='inline-block' key={index} data={item} />
+                <ProductItem
+                  className='inline-block whitespace-break-spaces'
+                  key={index}
+                  data={item}
+                />
               ))}
             </div>
           ) : (
             <div className='relative'>
-              {stockDetail?.data?.products.length >= PRODUCT_SLIDE_LIMIT && (
+              {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickPrev()}
                   className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
@@ -560,7 +564,7 @@ const StockDetail = () => {
                 <Slider
                   {...settings}
                   ref={refSlide}
-                  draggable={stockDetail?.data?.products.length >= PRODUCT_SLIDE_LIMIT}
+                  draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
                   variableWidth={
                     stockDetail?.data?.products &&
                     stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
@@ -572,7 +576,7 @@ const StockDetail = () => {
                 </Slider>
               </div>
 
-              {stockDetail?.data?.products.length >= PRODUCT_SLIDE_LIMIT && (
+              {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickNext()}
                   className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
@@ -640,23 +644,19 @@ const StockDetail = () => {
           </Text>
 
           <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
-            <div className='flex justify-center'>
+            <div className='flex flex-col items-center'>
               <PieChart
                 width={319}
                 height={296}
                 data={taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || []}
               />
-            </div>
 
-            <div className='mt-[28px] tablet:flex-1'>
-              <Text
-                type='body-10-regular'
-                color='primary-5'
-                className='text-center tablet:text-right'
-              >
+              <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
                 Last updated: The 4th quarter year 2022
               </Text>
+            </div>
 
+            <div className='tablet:flex-1'>
               <div className='mt-[8px]'>
                 {taggingInfo?.data?.revenues.map((item, index) => (
                   <RevenueItem

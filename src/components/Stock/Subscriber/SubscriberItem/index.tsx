@@ -26,9 +26,29 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
 
       <div className='ml-[8px]'>
         <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
-          <Text type='body-14-semibold' className='text-[#474D57]'>
-            {data.displayName}
-          </Text>
+          <div className='flex items-center'>
+            <Text type='body-14-semibold' className='text-[#474D57]'>
+              {data.displayName}
+            </Text>
+
+            {data?.isFeatureProfile && (
+              <img
+                src='/static/icons/iconStarFollow.svg'
+                alt=''
+                width={0}
+                height={0}
+                className='ml-[6px] w-[16px]'
+              />
+            )}
+
+            {data?.isKol && (
+              <img
+                src='/static/icons/iconTickKol.svg'
+                alt=''
+                className='ml-[6px] h-[14px] w-[14px] object-contain'
+              />
+            )}
+          </div>
         </Link>
         <Text type='body-12-regular' color='neutral-5' className='mt-[2px]'>
           {data.totalFollowers} {t('common:followers')}
