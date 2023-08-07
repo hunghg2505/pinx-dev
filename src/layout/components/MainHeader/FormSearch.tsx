@@ -18,7 +18,7 @@ import styles from '@components/SearchSeo/index.module.scss';
 import {
   useCreateSearch,
   useGetSearchRecent,
-  useSearchPublic
+  useSearchPublic,
 } from '@components/SearchSeo/service';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
@@ -44,16 +44,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const valueInput = form.getFieldValue('search');
 
   // Call API
-  const { listRecent, runRecent, refreshSearchRecent, loadingSearchRecent } = useGetSearchRecent({
-    onSuccess: () => {
-      console.log('useGetSearchRecent',listRecent);
-    },
-  });
-  const { data, searchPublic, loading, refresh } = useSearchPublic({
-    onSuccess: () => {
-      console.log('useSearchPublic',data);
-    },
-  });
+  const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
+  const { data, searchPublic, loading } = useSearchPublic();
 
   const [query, setQuery] = React.useState(search);
   const [inputFocus, setInputFocus] = React.useState(false);
@@ -76,7 +68,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       if (value === '' || value === undefined) {
         // toast('Empty || undefined');
         setShowPopup(false);
-      }else {
+      } else {
         // toast('Not Empty');
         setShowPopup(true);
       }
@@ -191,8 +183,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
 
-  console.log(media,loadingSearchRecent,refresh);
-
   return (
     <>
       {isMobile && (
@@ -297,18 +287,20 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute overflow-x-auto left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
             <>
-              {loading ? <Skeleton/> : (
-                <Text type='body-16-regular' className='leading-5 text-[#999] text-center'>
+              {loading ? (
+                <Skeleton />
+              ) : (
+                <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
                   No result found for `{query}`
                 </Text>
               )}
             </>
-          ):(
+          ) : (
             <>
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
@@ -332,16 +324,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               )}
               {postsL && (
                 <div className='flex flex-col'>
-                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D] mb-[16px]'>
+                  <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
                     Posts
                   </Text>
                   {posts?.slice(0, 2)?.map((post: any) => {
-                    return (
-                      <NewsFeed
-                        key={`explore-search-${post?.id}`}
-                        data={post}
-                      />
-                    );
+                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
                   })}
                 </div>
               )}

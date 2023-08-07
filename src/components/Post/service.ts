@@ -219,7 +219,6 @@ export async function getMoreCommentPost(postId: string, nextId: string): Promis
   const r = isLogin
     ? await getCommentsOfPostAuth(postId, params)
     : await getCommentsOfPost(postId, params);
-  console.log('r', r);
   return {
     list: r?.data?.list,
     nextId: r?.data?.hasNext ? r?.data?.last : false,
