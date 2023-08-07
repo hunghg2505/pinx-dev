@@ -108,12 +108,12 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
                   <Text type='body-12-semibold' className='text-[#DA314F]'>
-                    {formatNumber(Number(buy_price_1))}
+                    {formatNumber(Number(sell_price_3))}
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(buy_volume_1))}
+                    {formatNumber(Number(sell_volume_3))}
                   </Text>
                 </td>
                 <div className='absolute bottom-0 left-0 h-[3px] w-[90%] border-none bg-[#f5e4e7]'></div>
@@ -121,12 +121,12 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
                   <Text type='body-12-semibold' className='text-[#DA314F]'>
-                    {formatNumber(Number(buy_price_2))}
+                    {formatNumber(Number(sell_price_2))}
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(buy_volume_2))}
+                    {formatNumber(Number(sell_volume_2))}
                   </Text>
                 </td>
                 <div className='absolute bottom-0 left-0 h-[3px] w-[40%] border-none bg-[#f5e4e7]'></div>
@@ -134,12 +134,12 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[20px] align-middle'>
                   <Text type='body-12-semibold' className='text-[#DA314F]'>
-                    {formatNumber(Number(buy_price_3))}
+                    {formatNumber(Number(sell_price_1))}
                   </Text>
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(buy_volume_3))}
+                    {formatNumber(Number(sell_volume_1))}
                   </Text>
                 </td>
                 <div className='absolute bottom-0 left-0 h-[3px] w-[50%] border-none bg-[#f5e4e7]'></div>
@@ -159,12 +159,12 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(sell_volume_1))}
+                    {formatNumber(Number(buy_volume_1))}
                   </Text>
                 </td>
                 <td className='pr-[20px] text-right align-middle'>
                   <Text type='body-12-semibold' className='semantic-2-1'>
-                    {formatNumber(Number(sell_price_1))}
+                    {formatNumber(Number(buy_price_1))}
                   </Text>
                 </td>
                 <div className='absolute bottom-0 right-0 h-[3px] w-[50%] border-none bg-[#B6DFD1]'></div>
@@ -172,12 +172,12 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(sell_volume_2))}
+                    {formatNumber(Number(buy_volume_2))}
                   </Text>
                 </td>
                 <td className='pr-[20px] text-right align-middle'>
                   <Text type='body-12-semibold' className='semantic-2-1'>
-                    {formatNumber(Number(sell_price_2))}
+                    {formatNumber(Number(buy_price_2))}
                   </Text>
                 </td>
                 <div className='absolute bottom-0 right-0 h-[3px] w-[20%] border-none bg-[#B6DFD1]'></div>
@@ -185,12 +185,12 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
               <tr className='h-[32px]'>
                 <td className='pl-[12px] align-middle'>
                   <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(sell_volume_3))}
+                    {formatNumber(Number(buy_volume_3))}
                   </Text>
                 </td>
                 <td className='pr-[20px] text-right align-middle'>
                   <Text type='body-12-semibold' className='semantic-2-1'>
-                    {formatNumber(Number(sell_price_3))}
+                    {formatNumber(Number(buy_price_3))}
                   </Text>
                 </td>
                 <div className='absolute bottom-0 right-0 h-[3px] w-[70%] border-none bg-[#B6DFD1]'></div>
