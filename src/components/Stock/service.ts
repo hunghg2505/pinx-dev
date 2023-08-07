@@ -13,15 +13,14 @@ import {
   IResponseStockDetail,
   IResponseStockDetailsExtra,
   IResponseStockEvents,
-  IResponseStockNews,
   IResponseTaggingInfo,
   IResponseThemesOfStock,
   CompanyRelatedType,
-  IResponseCompaniesRelated,
   IPayloadShareStock,
   IResponseStockData,
   IResponseFinancialIndicator,
   IResponseStockTrade,
+  IResponseStockNews2,
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
@@ -150,13 +149,24 @@ const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
   };
 };
 
-const useFinancialCalendar = (stockCode: string): IResponseStockEvents => {
-  const { data } = useRequest(() => requestCommunity.get(API_PATH.PUBLIC_STOCK_EVENTS(stockCode)), {
-    refreshDeps: [stockCode],
-  });
+const useFinancialCalendar = (stockCode: string, options?: object): IResponseStockEvents => {
+  const { data, run, loading } = useRequest(
+    (last?: string) =>
+      requestCommunity.get(API_PATH.PUBLIC_STOCK_EVENTS(stockCode), {
+        params: {
+          last,
+        },
+      }),
+    {
+      refreshDeps: [stockCode],
+      ...options,
+    },
+  );
 
   return {
     stockEvents: data,
+    onGetFinancialCalendar: run,
+    loading,
   };
 };
 
@@ -206,23 +216,34 @@ const useStockReviews = (stockCode: string, options?: IOptions) => {
   };
 };
 
-const useStockNews = (stockCode: string): IResponseStockNews => {
-  const { data, refresh } = useRequest(
-    () => {
+const useStockNews = (stockCode: string, options?: any): IResponseStockNews2 => {
+  const { data, refresh, run, loading } = useRequest(
+    (last?: string) => {
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_NEWS(stockCode))
-        : requestCommunity.get(API_PATH.PUBLIC_STOCK_NEWS(stockCode));
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_NEWS(stockCode), {
+            params: {
+              last,
+            },
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_STOCK_NEWS(stockCode), {
+            params: {
+              last,
+            },
+          });
     },
     {
       refreshDeps: [stockCode],
+      ...options,
     },
   );
 
   return {
     stockNews: data,
     refreshStockNews: refresh,
+    onGetStockNews: run,
+    loading,
   };
 };
 
@@ -320,13 +341,9 @@ const useStockInvesting = (stockCode: string, options?: IOptions) => {
   return requestGetStockInvesting;
 };
 
-const useCompaniesRelated = (
-  hashtagId: string,
-  type: CompanyRelatedType,
-  params?: object,
-): IResponseCompaniesRelated => {
-  const { data } = useRequest(
-    () => {
+const useCompaniesRelated = (hashtagId: string, type: CompanyRelatedType, options?: IOptions) => {
+  const { data, run, loading } = useRequest(
+    (params?: object) => {
       let apiPath;
       switch (type) {
         case CompanyRelatedType.INDUSTRY: {
@@ -347,12 +364,16 @@ const useCompaniesRelated = (
       });
     },
     {
+      manual: true,
       refreshDeps: [hashtagId, type],
+      ...options,
     },
   );
 
   return {
     companiesRelated: data,
+    run,
+    loading,
   };
 };
 

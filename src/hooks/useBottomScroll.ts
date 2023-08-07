@@ -4,8 +4,8 @@ const useBottomScroll = (ref: RefObject<any>, onBottomScroll: () => void) => {
   const [isBottom, setIsBottom] = useState(false);
 
   const isScrollAtBottom = () => {
-    const domRect = ref.current.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - domRect.bottom;
+    const domRect = ref.current?.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - domRect?.bottom;
 
     return spaceBelow < 500 && spaceBelow >= 0;
   };

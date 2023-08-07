@@ -1,24 +1,49 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import useBottomScroll from '@hooks/useBottomScroll';
 
 import { useFinancialCalendar } from '../service';
 import CalendarItem from '../StockDetail/CalendarItem';
+import { IResponseStockEvents2 } from '../type';
 
 const FinancialCalendar = () => {
+  const ref = useRef(null);
+  const [stockEvents, setStockEvents] = useState<IResponseStockEvents2>();
   const { t } = useTranslation(['stock', 'common']);
   const router = useRouter();
   const { stockCode }: any = router.query;
 
-  const { stockEvents } = useFinancialCalendar(stockCode);
+  const { onGetFinancialCalendar, loading } = useFinancialCalendar(stockCode, {
+    manual: true,
+    onSuccess: ({ data }: IResponseStockEvents2) => {
+      setStockEvents((prev) => ({
+        data: {
+          hasNext: data.hasNext,
+          last: data.last,
+          list: [...(prev?.data.list || []), ...data.list],
+        },
+      }));
+    },
+  });
 
   const handleBack = () => {
     router.back();
   };
+
+  useBottomScroll(ref, () => {
+    if (stockEvents?.data.hasNext && !loading) {
+      onGetFinancialCalendar(stockEvents.data.last);
+    }
+  });
+
+  useEffect(() => {
+    onGetFinancialCalendar();
+  }, []);
 
   return (
     <>
@@ -44,7 +69,10 @@ const FinancialCalendar = () => {
             </Text>
           </div>
 
-          <div className='grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:mt-[20px] tablet:grid-cols-2'>
+          <div
+            ref={ref}
+            className='grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:mt-[20px] tablet:grid-cols-2'
+          >
             {stockEvents?.data.list.map((item, index) => (
               <CalendarItem key={index} data={item.post} />
             ))}
