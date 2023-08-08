@@ -36,6 +36,7 @@ export const optionTab = [
 ];
 
 const PinexTop20 = () => {
+  const [isClient, setIsClient] = React.useState(false);
   const { t } = useTranslation(['explore', 'theme']);
   const router = useRouter();
   const type: any = router?.query?.type;
@@ -46,6 +47,10 @@ const PinexTop20 = () => {
   const onGoBack = () => {
     router.back();
   };
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const renderContentTab = () => {
     switch (selectTab) {
@@ -88,12 +93,14 @@ const PinexTop20 = () => {
       </div>
 
       <div>
-        <Tabs
-          onChange={onChangeTab}
-          contenTab={optionTab.map((item) => ({ ...item, label: t(item.label) }))}
-          defaultTab={TabsEnum.Profit}
-          currentTab={selectTab}
-        />
+        {isClient && (
+          <Tabs
+            onChange={onChangeTab}
+            contenTab={optionTab.map((item) => ({ ...item, label: t(item.label) }))}
+            defaultTab={TabsEnum.Profit}
+            currentTab={selectTab}
+          />
+        )}
         <div className='mt-[28px]'>{renderContentTab()}</div>
       </div>
     </div>

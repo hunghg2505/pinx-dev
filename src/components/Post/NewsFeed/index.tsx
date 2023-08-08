@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -8,6 +8,8 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { postThemeAtom } from '@store/postTheme/theme';
+import { ClickaPost } from '@utils/dataLayer';
 
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
@@ -31,6 +33,27 @@ const NewsFeed = (props: IProps) => {
   //   setPostData(data);
   // }, [data]);
   const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
+  const bgTheme = useAtomValue(postThemeAtom);
+  const { hashtags, Ticker, Link, themeName, postType } = React.useMemo(() => {
+    const hashtags = postData?.post?.hashtags || [];
+    const Ticker = postData?.post?.tagStocks;
+    const Link = postData?.post?.urlLinks;
+    const themeActive = bgTheme?.find((item) => item.id === postData?.post?.postThemeId);
+    const themeName = themeActive?.name || '';
+    const postType = postData?.post?.postType;
+
+    // const theme;
+    return {
+      hashtags,
+      Ticker,
+      Link,
+      themeName,
+      postType,
+    };
+  }, [postData]);
+  React.useEffect(() => {
+    setPostData(data);
+  }, [data]);
   React.useEffect(() => {
     const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
       (item: string) => item === postData?.id,
@@ -51,6 +74,7 @@ const NewsFeed = (props: IProps) => {
   });
   const router = useRouter();
   const onNavigate = () => {
+    ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
   };
 

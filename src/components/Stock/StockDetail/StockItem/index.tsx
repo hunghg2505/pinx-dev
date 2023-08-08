@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -12,13 +12,25 @@ interface IStockItemProps {
 }
 
 const StockItem = ({ data }: IStockItemProps) => {
+  const { isFloor, isHigh, isDecrease, isIncrease } = useMemo(() => {
+    const highest_price = data?.r;
+    const lowest_price = data?.r;
+    const isFloor = data?.lastPrice === data?.f;
+    const isHigh = data?.lastPrice === data?.c;
+    const isDecrease = data?.lastPrice < highest_price;
+    const isIncrease = data?.lastPrice > lowest_price;
+
+    return {
+      isFloor,
+      isHigh,
+      isDecrease,
+      isIncrease,
+    };
+  }, [data]);
+
   const renderPricePc = () => {
-    if (data.volume) {
-      const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
-      return changePc + '/' + data.changePc + '%';
-    } else {
-      return '-/-%';
-    }
+    const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
+    return changePc + '/' + data.changePc + '%';
   };
 
   return (
@@ -50,12 +62,14 @@ const StockItem = ({ data }: IStockItemProps) => {
 
         <div
           className={classNames('ml-auto text-right text-[#0D0D0D]', {
-            'text-orange': +data.changePc === 0 && +data.changePrice === 0,
-            'text-[#DA314F]': +data.changePc < 0 && +data.changePrice < 0,
-            'text-[#128F63]': +data.changePc > 0 && +data.changePrice > 0,
+            'text-[#08AADD]': isFloor,
+            'text-[#B349C3]': isHigh,
+            'text-[#128F63]': isIncrease,
+            'text-[#DB4444]': isDecrease,
+            'text-[#E6A70A]': Math.ceil(+data?.changePc) === 0,
           })}
         >
-          <Text type='body-16-medium'>{data.volume ? data.lastPrice.toFixed(2) : '-'}</Text>
+          <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
           <Text type='body-12-regular' className='mt-[8px]'>
             {renderPricePc()}
           </Text>
