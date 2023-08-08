@@ -19,10 +19,11 @@ interface IProps {
   pinned?: boolean;
   onRefreshList?: () => void;
   onRemoveData?: () => void;
+  isNewFeedExplore?: boolean;
 }
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false, onRefreshList, onRemoveData } = props;
+  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
@@ -110,9 +111,10 @@ const NewsFeed = (props: IProps) => {
           totalComments={postData?.totalChildren}
           onRefreshPostDetail={onRefreshPostItem}
           pinned={pinned}
+          isNewFeedExplore={isNewFeedExplore}
         />
 
-        {isLogin && (
+        {isLogin && !isNewFeedExplore && (
           <div className='mt-4 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
@@ -123,7 +125,7 @@ const NewsFeed = (props: IProps) => {
           </div>
         )}
 
-        {!!countComment && (
+        {!!countComment && !isNewFeedExplore && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
               <div className='mt-[22px]'>

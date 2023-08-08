@@ -45,9 +45,9 @@ export const UserName = ({ postDetail }: any) => {
     <Text
       type='body-14-semibold'
       color='neutral-1'
-      className='flex w-[5em] flex-1 items-center truncate tablet:text-[16px]'
+      className='flex flex-1 items-center truncate tablet:text-[16px]'
     >
-      <span className='max-w-[160px]'>{name}</span>
+      <span>{name}</span>
 
       {postDetail?.post?.customerInfo?.isKol && (
         <img
