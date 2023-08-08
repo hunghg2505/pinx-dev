@@ -205,6 +205,21 @@ const NotificationsMobile = forwardRef((_, ref) => {
         <NotificationTabs />
       </div>
 
+      <WhiteButton onClick={() => console.log('xxx read all')} className='w-full flex justify-center mt-4 shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08);]'>
+        <img
+          src='/static/icons/blue_check_mark.svg'
+          alt=''
+          className='h-[20px] w-[20px] mr-3'
+          onClick={() => setOpenNotification(false)}
+        />
+        {t('mark_all_as_read')}
+      </WhiteButton>
+
+      <div className='mt-4'>
+        {mockData.map((item) => (
+          <NotificationItem notification={item} key={item.id} />
+        ))}
+      </div>
     </Fade>
   );
 });

@@ -3,7 +3,7 @@ import { ReactElement, ReactNode, useEffect } from 'react';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { useAtom } from 'jotai';
+import { useAtomValue, useAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -13,7 +13,6 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
-
 import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
