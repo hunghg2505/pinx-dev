@@ -60,7 +60,6 @@ const SearchSeo = () => {
   return (
     <>
       <div className='box-shadow card-style'>
-
         <Tabs
           defaultActiveKey='post'
           activeKey={searchParams.get('tab') || 'company'}
