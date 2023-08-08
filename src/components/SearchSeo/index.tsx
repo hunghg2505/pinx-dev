@@ -43,6 +43,7 @@ const SearchSeo = () => {
 
   // map api do trả thiếu id
   const newUsers = users?.map(( item:any ) => ({ ...item, id: item.customerId }));
+  // console.log('newUsers',newUsers);
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
