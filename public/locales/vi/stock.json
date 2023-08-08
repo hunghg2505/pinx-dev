@@ -6,7 +6,7 @@
     "intraday": "Intraday"
   },
   "movements": {
-    "hight": "Cao",
+    "high": "Cao",
     "low": "Thấp",
     "last_price": "Giá HT",
     "ceiling": "Trần",
@@ -133,5 +133,8 @@
     "ros": "ROS",
     "roea": "ROEA",
     "roaa": "ROAA"
-  }
+  },
+  "no_data_yet": "Chưa có dữ liệu",
+  "no_data_desc": "Bạn có quan tâm đến cổ phiếu này? Hãy là người đầu tiên theo dõi hoặc đầu tư vào công ty này",
+  "revenue_last_updated": "Cập nhật lần cuối: Quý {{quarter}} năm {{year}}"
 }
