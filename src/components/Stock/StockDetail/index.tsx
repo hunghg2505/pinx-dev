@@ -206,8 +206,32 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
+    if (!dataStock) {
+      return;
+    }
+
     if (data?.id === 3220 && data.sym === dataStock?.sym) {
       setDataStock((prev) => ({ ...prev, ...data }));
+    }
+
+    // sell
+    if (data.side === 'S' && data.sym === dataStock?.sym) {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g1: data.g1,
+        g2: data.g2,
+        g3: data.g3,
+      }));
+    }
+
+    // buy
+    if (data.side === 'B' && data.sym === dataStock?.sym) {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g4: data.g1,
+        g5: data.g2,
+        g6: data.g3,
+      }));
     }
   });
 
