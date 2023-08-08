@@ -1,6 +1,9 @@
+import React from 'react';
+
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -116,13 +119,14 @@ const ItemInfluence = (props: IProps) => {
             </Text>
           </div>
           {data.avatar && (
-            <img
+            <Image
               src={data.avatar}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
+              alt=""
               className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
+              width={161}
+              height={252}
+              // blurDataURL="data:..." automatically provided
+              // placeholder="blur" // Optional blur-up while loading
             />
           )}
           <div className='bg pointer-events-none absolute bottom-0 left-0 h-full w-full rounded-[15px] bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)]'></div>
