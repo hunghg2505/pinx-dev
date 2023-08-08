@@ -29,7 +29,7 @@ export const GetMoreInfo = (screenName: string, infoGroup: string, infoDetail: s
     });
   } catch {}
 };
-export const Register = (startRegistration: Date, CTALocaiton: string, CTAType: string) => {
+export const RegisterTracking = (startRegistration: Date, CTALocaiton: string, CTAType: string) => {
   try {
     window.dataLayer.push({
       event: 'Register',
