@@ -53,17 +53,17 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
             <>
               <tr>
                 <td className='py-[16px] align-middle'>
-                  <div className='h-[2px] bg-[#3449D7]'></div>
+                  <div className='h-[2px] bg-[#782AF9]'></div>
                 </td>
 
                 <td className='border-x border-solid border-[#ccc] align-middle'>
-                  <div className='h-[2px] bg-[#3449D7]'></div>
+                  <div className='h-[2px] bg-[#782AF9]'></div>
                 </td>
 
                 <td className='align-middle'>
                   <div className='flex items-center'>
-                    <div className='h-[2px] w-1/2 bg-[#3449D7]'></div>
-                    <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#3449D7] px-[4px]'>
+                    <div className='h-[2px] w-1/2 bg-[#782AF9]'></div>
+                    <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#782AF9] px-[4px]'>
                       <Text type='body-12-regular' color='cbwhite'>
                         {stockData?.c}
                       </Text>

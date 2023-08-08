@@ -811,7 +811,7 @@ const StockDetail = () => {
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.avg_score')}
               </Text>
-              <Text type='body-20-medium' color='semantic-2-1'>
+              <Text type='body-20-medium' className='text-[#F1BA09]'>
                 {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
               </Text>
             </div>
