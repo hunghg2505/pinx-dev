@@ -493,3 +493,12 @@ export interface IResponseStockTrade {
     data: IStockTrade[];
   };
 }
+
+export interface IResponseStockIntraday {
+  stockIntraday?: {
+    data: {
+      price: number;
+      total: number;
+    }[];
+  };
+}
