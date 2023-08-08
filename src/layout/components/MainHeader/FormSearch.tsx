@@ -327,7 +327,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
-                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
+                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} />;
                   })}
                 </div>
               )}
