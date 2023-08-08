@@ -1,20 +1,3 @@
-// import React from 'react';
-
-// const Notifications = () => {
-//   return (
-//     <>
-//       <div className=' ta flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
-//         <img
-//           src='/static/icons/iconBell.svg'
-//           alt='Icon notification'
-//           className='h-[23px] w-[23px]'
-//         />
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Notifications;
 /* eslint-disable unicorn/no-useless-spread */
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 
@@ -27,6 +10,7 @@ import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
+import { WhiteButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -46,24 +30,28 @@ const handleRedirect = (url: string) => {
 
 const mockData = [
   {
+    id: 1,
     type: 'comment',
     content: 'Clark Kent has commented on your post',
     time: '31m',
     isRead: true,
   },
   {
+    id: 2,
     type: 'reaction',
     content: 'Clark Kent & 200 people liked your post',
     time: '2 months',
     isRead: true,
   },
   {
+    id: 3,
     type: 'subscribe',
     content: '[Potential Stocks] has a new subscriber',
     time: '1 year',
     isRead: false,
   },
   {
+    id: 4,
     type: 'mention',
     content: 'Robbin Klevar has commented on your post',
     time: '3s',
@@ -109,8 +97,8 @@ const NotificationItem = ({ notification }: { notification: any }) => {
   };
 
   return (
-    <div className='flex justify-between px-[12px] border-solid border-b-[1px] border-[#EBEBEB]'>
-      <div className='flex gap-[10px]'>
+    <div className='flex justify-between p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white]'>
+      <div className='flex gap-[10px] items-center'>
         <img
           src={calcNotificationSymbol()}
           alt=''
@@ -122,7 +110,7 @@ const NotificationItem = ({ notification }: { notification: any }) => {
         </div>
       </div>
 
-      <div className='flex justify-around'>
+      <div className='flex flex-col justify-around'>
         <Text type='body-12-medium' color='neutral-5'>{notification.time}</Text>
         <img
           src='/static/icons/iconClose.svg'
@@ -136,6 +124,7 @@ const NotificationItem = ({ notification }: { notification: any }) => {
 };
 
 const NotificationsMobile = forwardRef((_, ref) => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [openNotification, setOpenNotification] = useAtom(notificationMobileAtom);
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
@@ -148,14 +137,14 @@ const NotificationsMobile = forwardRef((_, ref) => {
   });
 
   useEffect(() => {
-    setOpenProfileMenu(false);
-    setOpenProfileMenu(false);
+    setOpenNotification(false);
   }, [router.pathname]);
 
   const onVisible = useCallback(() => {
     setOpenNotification(!openNotification);
     // @ts-ignore
     setIsShowNavigate(false);
+    setOpenProfileMenu(false);
   }, [openNotification]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
@@ -164,26 +153,43 @@ const NotificationsMobile = forwardRef((_, ref) => {
     <Fade
       visible={openNotification}
       className={classNames(
-        'fixed  left-[100%] z-[9999] w-full overflow-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden overflow-y-auto',
-        // {
-        //   'top-[55px]': isRouteSetting,
-        //   'h-[calc(100vh-56px)]': isRouteSetting,
-        //   'top-[115px]': !isRouteSetting,
-        //   'h-[calc(100vh-115px)]': !isRouteSetting,
-        //   '!left-0': isShowNotificationMobile,
-        // },
+        'fixed left-[100%] z-[9999] w-full bg-[#F8FAFD] pt-[12px] [transition:0.3s] laptop:hidden overflow-y-auto top-0 h-[100vh] px-4',
+        {
+          '!left-0': openNotification,
+        },
       )}
     >
       <div className='flex justify-between'>
-        <Text type='body-20-semibold'>t</Text>
+        <Text type='body-20-semibold'>{t('notification')}</Text>
+        <img
+          src='/static/icons/iconClose.svg'
+          alt=''
+          className='h-[21px] w-[21px]'
+          onClick={() => setOpenNotification(false)}
+        />
       </div>
 
+      <WhiteButton onClick={() => console.log('xxx read all')} className='w-full flex justify-center mt-4 shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08);]'>
+        <img
+          src='/static/icons/blue_check_mark.svg'
+          alt=''
+          className='h-[20px] w-[20px] mr-3'
+          onClick={() => setOpenNotification(false)}
+        />
+        {t('mark_all_as_read')}
+      </WhiteButton>
+
+      <div className='mt-4'>
+        {mockData.map((item) => (
+          <NotificationItem notification={item} key={item.id} />
+        ))}
+      </div>
     </Fade>
   );
 });
 
 
-const Profile = () => {
+const Notifications = () => {
   const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
   const { userLoginInfo } = useUserLoginInfo();
@@ -191,7 +197,7 @@ const Profile = () => {
 
   const notiMobileRef = useRef<any>(null);
 
-  const goToMyProfile = () => {
+  const goToNotification = () => {
     notiMobileRef.current.onVisible && notiMobileRef.current.onVisible();
   };
 
@@ -337,32 +343,36 @@ const Profile = () => {
     </Menu>
   );
 
-  const NotificationsDesktop = () => {
+  const NotificationBadge = () => {
     return (
       <>
-        <div className='items-center mobile:hidden tablet:flex'>
-          <Dropdown
-            trigger={['hover']}
-            animation='slide-up'
-            overlay={<ProfileOverlay />}
-            placement='bottomRight'
-          >
-            <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
-              <img
-                src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
-                alt=''
-                className='h-full w-full overflow-hidden rounded-full object-cover '
-              />
-            </div>
-          </Dropdown>
-        </div>
-
-        <img
-          src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
-          alt=''
-          className='h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:block tablet:hidden'
-          onClick={goToMyProfile}
-        />
+        {isMobile ? (
+          <div className=' ta flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
+            <img
+              src='/static/icons/iconBell.svg'
+              alt='Icon notification'
+              className='h-[23px] w-[23px]'
+              onClick={goToNotification}
+            />
+          </div>
+        ) : (
+          <div className='items-center mobile:hidden tablet:flex'>
+            <Dropdown
+              trigger={['hover']}
+              animation='slide-up'
+              overlay={<ProfileOverlay />}
+              placement='bottomRight'
+            >
+              <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
+                <img
+                  src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
+                  alt=''
+                  className='h-full w-full overflow-hidden rounded-full object-cover '
+                />
+              </div>
+            </Dropdown>
+          </div>
+        )}
       </>
     );
   };
@@ -373,13 +383,10 @@ const Profile = () => {
 
   return (
     <>
-      {isMobile ? (
-        <NotificationsDesktop />
-      ) : (
-        <NotificationsMobile ref={notiMobileRef} />
-      )}
+      <NotificationBadge />
+      <NotificationsMobile ref={notiMobileRef} />
     </>
   );
 };
 
-export default Profile;
+export default Notifications;

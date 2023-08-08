@@ -118,3 +118,8 @@ export const RoundButton = (props: ButtonProps) => {
 export const ExploreButton = (props: ButtonProps) => {
   return <Button {...props} customClassName='w-full rounded-[8px] bg-[#EAF4FB] py-[14px]' />;
 };
+
+// WHITE BG BUTTON TEXT PRIMARY BLUE
+export const WhiteButton = (props: ButtonProps) => {
+  return <Button {...props} customClassName='w-full bg-[white] py-[14px] text-[#1F6EAC] text-center' />;
+}; 

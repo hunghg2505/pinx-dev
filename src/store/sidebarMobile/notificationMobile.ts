@@ -1,3 +1,3 @@
 import { atom } from 'jotai';
 
-export const notificationMobileAtom = atom(false);
+export const notificationMobileAtom = atom(true);
