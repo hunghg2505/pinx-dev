@@ -76,7 +76,7 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
                 <tr key={index}>
                   <td
                     className={classNames(
-                      'px-[6px] py-[8px] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#E6A70A] after:content-[""]',
+                      'px-[6px] py-[8px] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]',
                       {
                         relative: item.price === stockData?.r,
                       },
@@ -92,7 +92,7 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
 
                   <td
                     className={classNames(
-                      'w-3/4 border-x border-solid border-[#ccc] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#E6A70A] after:content-[""]',
+                      'w-3/4 border-x border-solid border-[#ccc] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]',
                       {
                         relative: item.price === stockData?.r,
                       },
@@ -116,8 +116,18 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
                   <td className='align-middle'>
                     {item.price === stockData?.r && (
                       <div className='flex items-center'>
-                        <div className='h-[2px] w-1/2 bg-[#EAA100]'></div>
-                        <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#EAA100] px-[4px]'>
+                        <div
+                          className='h-[2px] w-1/2'
+                          style={{
+                            backgroundColor: getColor(item.price, stockData?.r || 0)?.color,
+                          }}
+                        ></div>
+                        <div
+                          className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] px-[4px]'
+                          style={{
+                            backgroundColor: getColor(item.price, stockData?.r || 0)?.color,
+                          }}
+                        >
                           <Text type='body-12-regular' color='cbwhite'>
                             {stockData?.r}
                           </Text>
