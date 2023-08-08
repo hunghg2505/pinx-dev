@@ -27,15 +27,14 @@ import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem } from 'rc-menu';
 
-import Options from '@components/MenuProfile/Options';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
-import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
+import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
@@ -49,22 +48,26 @@ const mockData = [
   {
     type: 'comment',
     content: 'Clark Kent has commented on your post',
-    time: '31m'
+    time: '31m',
+    isRead: true,
   },
   {
     type: 'reaction',
     content: 'Clark Kent & 200 people liked your post',
-    time: '2 months'
+    time: '2 months',
+    isRead: true,
   },
   {
     type: 'subscribe',
     content: '[Potential Stocks] has a new subscriber',
-    time: '1 year'
+    time: '1 year',
+    isRead: false,
   },
   {
     type: 'mention',
     content: 'Robbin Klevar has commented on your post',
-    time: '3s'
+    time: '3s',
+    isRead: false,
   }
 ];
 
@@ -133,45 +136,48 @@ const NotificationItem = ({ notification }: { notification: any }) => {
 };
 
 const NotificationsMobile = forwardRef((_, ref) => {
-  const [openProfileMenu, setOpenProfileMenu] = useAtom(openProfileAtom);
   const router = useRouter();
+  const [openNotification, setOpenNotification] = useAtom(notificationMobileAtom);
+  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
   const [, setIsShowNavigate] = useSidebarMobile();
-  const { isRouteSetting } = useRouteSetting();
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
-      setOpenProfileMenu(false);
+      setOpenNotification(false);
     });
   });
 
   useEffect(() => {
     setOpenProfileMenu(false);
+    setOpenProfileMenu(false);
   }, [router.pathname]);
 
   const onVisible = useCallback(() => {
-    setOpenProfileMenu(!openProfileMenu);
+    setOpenNotification(!openNotification);
     // @ts-ignore
     setIsShowNavigate(false);
-  }, [openProfileMenu]);
+  }, [openNotification]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
 
   return (
     <Fade
-      visible={openProfileMenu}
+      visible={openNotification}
       className={classNames(
         'fixed  left-[100%] z-[9999] w-full overflow-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden overflow-y-auto',
-        {
-          'top-[55px]': isRouteSetting,
-          'h-[calc(100vh-56px)]': isRouteSetting,
-          'top-[115px]': !isRouteSetting,
-          'h-[calc(100vh-115px)]': !isRouteSetting,
-          '!left-0': openProfileMenu,
-        },
+        // {
+        //   'top-[55px]': isRouteSetting,
+        //   'h-[calc(100vh-56px)]': isRouteSetting,
+        //   'top-[115px]': !isRouteSetting,
+        //   'h-[calc(100vh-115px)]': !isRouteSetting,
+        //   '!left-0': isShowNotificationMobile,
+        // },
       )}
     >
+      <div className='flex justify-between'>
+        <Text type='body-20-semibold'>t</Text>
+      </div>
 
-      <Options />
     </Fade>
   );
 });
