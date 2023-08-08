@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -88,8 +89,13 @@ const PopupReview = ({
 
         <button
           type='submit'
-          disabled={requestReviewStock.loading}
-          className='ml-auto flex h-[48px] min-w-[96px] items-center justify-center rounded-full bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)]'
+          disabled={requestReviewStock.loading || !currentStar}
+          className={classNames(
+            'ml-auto flex h-[48px] min-w-[96px] items-center justify-center rounded-full bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)]',
+            {
+              'opacity-50': !currentStar,
+            },
+          )}
         >
           {requestReviewStock.loading ? (
             <Loading />
