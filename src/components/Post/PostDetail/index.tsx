@@ -48,6 +48,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
       refresh={props.refresh}
       refreshTotal={props.refreshTotal}
       width={props?.width}
+      canExpand={props?.canExpand}
     />
   );
 });
@@ -230,6 +231,7 @@ const PostDetail = () => {
                 refreshTotal={refresh}
                 setImageCommentMobile={setImageCommentMobile}
                 width={width}
+                canExpand={true}
               />
             </div>
           )}

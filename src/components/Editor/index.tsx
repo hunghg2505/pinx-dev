@@ -1,11 +1,11 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import Mention from '@tiptap/extension-mention';
 import Placeholder from '@tiptap/extension-placeholder';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useRequest } from 'ahooks';
+import { useClickAway, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -43,6 +43,7 @@ interface IProps {
   refreshTotal: () => void;
   setImageCommentMobile: (v: boolean) => void;
   width?: number;
+  canExpand?: boolean;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -56,7 +57,7 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { id, refresh, refreshTotal, setImageCommentMobile, width } = props;
+  const { id, refresh, refreshTotal, setImageCommentMobile, width, canExpand } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -288,6 +289,30 @@ const Editor = (props: IProps, ref?: any) => {
     },
   );
 
+  // handle Click to expand comment
+  const [isFocus, setIsFocus] = useState(false);
+  const [isClickAway, setIsClickAway] = useState(false);
+  const editorRef = useRef(null);
+  useClickAway(() => {
+    setIsClickAway(true);
+  }, messagesEndRef);
+  useEffect(() => {
+    if (!textComment) {
+      if (!editor?.isFocused && isClickAway) {
+        setIsFocus(false);
+      } else if (editor?.isFocused && isClickAway) {
+        editor.commands.blur();
+        setIsFocus(false);
+      } else {
+        setIsFocus(true);
+        editor?.commands.focus();
+      }
+      if (useAddComment.loading) {
+        setIsFocus(true);
+      }
+    }
+  }, [editor?.isFocused, isClickAway, useAddComment.loading]);
+
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
@@ -380,6 +405,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
+      {canExpand && <p>In Post Detail</p>}
       <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
@@ -391,10 +417,24 @@ const Editor = (props: IProps, ref?: any) => {
           onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
         />
         <div
-          className='bottom-0 left-0 flex min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static tablet:rounded-[12px]'
+          className={classNames(
+            'bottom-0 left-0 flex min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static  tablet:rounded-[12px]',
+            {
+              'tablet:rounded-full': !isFocus && canExpand,
+              'tablet:rounded-[12px]': isFocus && canExpand,
+            },
+          )}
           ref={messagesEndRef}
         >
-          <div className='flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]'>
+          <div
+            className={classNames(
+              'flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]',
+              {
+                'tablet:pt-[12px]': isFocus && canExpand,
+                'tablet:pt-[10px]': !isFocus && canExpand,
+              },
+            )}
+          >
             <div className='flex flex-row items-center'>
               <Upload
                 accept='.png, .jpeg, .jpg'
@@ -413,12 +453,43 @@ const Editor = (props: IProps, ref?: any) => {
               </Upload>
               <div className='mr-[8px] h-[24px] w-[1px] bg-[#E6E6E6] tablet:hidden'></div>
             </div>
+            <div
+              ref={editorRef}
+              onClick={() => {
+                setIsFocus(true);
+                setIsClickAway(false);
+              }}
+              className='flex w-full items-center justify-between'
+            >
+              <EditorContent
+                editor={editor}
+                className='mt-[3px] max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]'
+              />
 
-            <EditorContent
-              editor={editor}
-              className='mt-[3px] max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]'
-            />
-            <div className='w-full justify-between mobile:hidden tablet:flex'>
+              <img
+                src='/static/icons/iconCamera.svg'
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className={classNames(
+                  ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
+                  {
+                    hidden: isFocus || !canExpand,
+                  },
+                )}
+              />
+            </div>
+
+            <div
+              className={classNames(
+                'w-full justify-between transition-all duration-300 mobile:hidden tablet:flex',
+                {
+                  'h-0 overflow-hidden tablet:opacity-0': !isFocus && canExpand,
+                  'tablet:opacity-1 h-auto ': isFocus && canExpand,
+                },
+              )}
+            >
               <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
                 <img
                   src='/static/icons/iconCamera.svg'
@@ -477,7 +548,7 @@ const Editor = (props: IProps, ref?: any) => {
           </div>
 
           {useAddComment?.loading || useReplyComment?.loading ? (
-            <div className='flex items-center  tablet:hidden'>
+            <div className='flex items-center tablet:hidden'>
               <Loading />
             </div>
           ) : (
