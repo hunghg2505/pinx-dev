@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 import useUnFollowUser from './useUnFollowUser';
 import { followContext } from '..';
@@ -13,9 +14,11 @@ const UnFollow = () => {
   const { isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { run } = useUnFollowUser();
+  const { run: getUserProfile } = useProfileInitial();
   const onUnFollow = () => {
     if (isLogin) {
       run(context?.id);
+      getUserProfile();
     } else {
       setPopupStatus({
         ...popupStatus,
