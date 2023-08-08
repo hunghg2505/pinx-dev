@@ -61,11 +61,31 @@ const ReviewItem = ({
           className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover'
         />
 
-        <Text type='body-14-semibold' className='ml-[12px] text-[#0D0D0D]'>
-          {data.customerInfo.displayName}
-        </Text>
+        <div className='flex items-center'>
+          <Text type='body-14-semibold' className='ml-[12px] text-[#0D0D0D]'>
+            {data.customerInfo.displayName}
+          </Text>
 
-        <Text type='body-12-regular' className='ml-auto uppercase text-[#999999]'>
+          {data?.customerInfo.isFeatureProfile && (
+            <img
+              src='/static/icons/iconStarFollow.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='ml-[6px] w-[16px]'
+            />
+          )}
+
+          {data?.customerInfo.isKol && (
+            <img
+              src='/static/icons/iconTickKol.svg'
+              alt=''
+              className='ml-[6px] h-[14px] w-[14px] object-contain'
+            />
+          )}
+        </div>
+
+        <Text type='body-12-regular' className='ml-auto text-[#999999]'>
           {isLatestReview
             ? t('rating.latest_review')
             : dayjs(data.createdDate).format('DD/MM/YYYY')}

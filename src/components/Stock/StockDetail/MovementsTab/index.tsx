@@ -282,7 +282,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
                   </Text>
                 </td>
                 <td className='text-right align-middle'>
-                  <Text type='body-12-regular' className='text-[#B349C3]'>
+                  <Text type='body-12-regular' className='text-[#782AF9]'>
                     {stockData?.c}
                   </Text>
                 </td>

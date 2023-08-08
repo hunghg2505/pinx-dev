@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 
 import { SHARE_HOLDER_COLOR } from '@components/Stock/const';
 
@@ -99,4 +99,4 @@ const DonutChart = ({ width, height, data, color: colorProps, strokeWidth }: IDo
 
   return <svg ref={svgRef} width={width} height={height} />;
 };
-export default DonutChart;
+export default memo(DonutChart);

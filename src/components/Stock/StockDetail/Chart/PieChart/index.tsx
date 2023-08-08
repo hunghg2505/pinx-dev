@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 
 import { REVENUE_CHART_COLOR } from '@components/Stock/const';
 
@@ -223,4 +223,4 @@ const PieChart = ({ width, height, data }: IPieChartProps) => {
   );
 };
 
-export default PieChart;
+export default memo(PieChart);
