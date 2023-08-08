@@ -246,7 +246,14 @@ const Profile = () => {
           <span>{t('watchlist_and_theme')}</span>
         </Link>
       </MenuItem>
-    </Menu>
+      <MenuItem>
+        <>
+          <button onClick={() => console.log('xxx userLoginInfo', userLoginInfo)}>
+            test
+          </button>
+        </>
+      </MenuItem>
+    </Menu >
   );
 
   const ProfileInfo = () => {
