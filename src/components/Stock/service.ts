@@ -21,6 +21,7 @@ import {
   IResponseFinancialIndicator,
   IResponseStockTrade,
   IResponseStockNews2,
+  IResponseStockIntraday,
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
@@ -447,6 +448,16 @@ const useGetStockTrade = (stockCode: string): IResponseStockTrade => {
   };
 };
 
+const useGetStockIntraday = (stockCode: string): IResponseStockIntraday => {
+  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_INTRADAY(stockCode)), {
+    refreshDeps: [stockCode],
+  });
+
+  return {
+    stockIntraday: data,
+  };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -470,4 +481,5 @@ export {
   useGetStockData,
   useFinancialIndicator,
   useGetStockTrade,
+  useGetStockIntraday,
 };

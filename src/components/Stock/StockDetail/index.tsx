@@ -514,7 +514,7 @@ const StockDetail = () => {
           </TabPane>
 
           <TabPane tab={t('tab.intraday')} key={TabType.INTRADAY}>
-            <IntradayTab />
+            <IntradayTab stockCode={stockCode} stockData={dataStock} />
           </TabPane>
         </Tabs>
       </div>
