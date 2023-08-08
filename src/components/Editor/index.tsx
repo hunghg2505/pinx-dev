@@ -457,6 +457,7 @@ const Editor = (props: IProps, ref?: any) => {
             <div
               ref={editorRef}
               onClick={() => {
+                editor?.commands.focus();
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
