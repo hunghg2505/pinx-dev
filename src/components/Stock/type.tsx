@@ -190,14 +190,18 @@ export interface IResponseHoldingRatio {
 }
 
 export interface IResponseStockEvents {
-  stockEvents?: {
-    data: {
-      list: {
-        post: StockEventPost;
-      }[];
-      last: string;
-      hasNext: boolean;
-    };
+  stockEvents?: IResponseStockEvents2;
+  onGetFinancialCalendar: (last?: string) => void;
+  loading: boolean;
+}
+
+export interface IResponseStockEvents2 {
+  data: {
+    list: {
+      post: StockEventPost;
+    }[];
+    last: string;
+    hasNext: boolean;
   };
 }
 
@@ -307,14 +311,18 @@ export interface IResponseStockReviews {
 }
 
 export interface IResponseStockNews {
-  stockNews?: {
-    data: {
-      list: IPost[];
-      last: string;
-      hasNext: boolean;
-    };
+  data: {
+    list: IPost[];
+    last: string;
+    hasNext: boolean;
   };
+}
+
+export interface IResponseStockNews2 {
+  stockNews: IResponseStockNews;
   refreshStockNews: () => void;
+  onGetStockNews: (last?: string) => void;
+  loading: boolean;
 }
 
 export interface IResponseStockActivities {
@@ -349,15 +357,13 @@ export enum CompanyRelatedType {
 }
 
 export interface IResponseCompaniesRelated {
-  companiesRelated?: {
-    data: {
-      list: IStock[];
-      totalElements: number;
-      totalPages: number;
-      page: number;
-      size: number;
-      hasNext: boolean;
-    };
+  data: {
+    list: IStock[];
+    totalElements: number;
+    totalPages: number;
+    page: number;
+    size: number;
+    hasNext: boolean;
   };
 }
 

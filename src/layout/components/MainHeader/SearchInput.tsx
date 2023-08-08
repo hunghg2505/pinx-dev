@@ -26,7 +26,7 @@ const SearchInput = ({
       </button>
 
       {/* left-1/2 */}
-      {isDesktop && <FormSearch className='absolute left-[612px] top-1/2 translate-x-[-50%] translate-y-[-50%] mr-[32px] ' />}
+      {isDesktop && <FormSearch className='relative' />}
     </>
   );
 };

@@ -1,0 +1,16 @@
+{
+  "tab": {
+    "company": "Company",
+    "people": "People",
+    "posts": "Posts",
+    "news": "News",
+    "media": "Media"
+  },
+  "dropdown": {
+    "txtRecent": "Recent"
+  },
+  "card": {
+    "txtEmpty": "No result found for",
+    "descEmpty": "We are sorry, but the page you are looking for does not exist."
+  }
+}

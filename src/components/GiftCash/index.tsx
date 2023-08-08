@@ -24,7 +24,7 @@ const handleRedirect = (url: string) => {
 const GiftCash = () => {
   const { t } = useTranslation('giftCash');
   return (
-    <div className='px-[10px] py-[10px] desktop:px-[0] desktop:py-[0]'>
+    <div className='desktop:px-[0] desktop:py-[0]'>
       <div className='box-shadow card-style'>
         <div className='relative'>
           <Text

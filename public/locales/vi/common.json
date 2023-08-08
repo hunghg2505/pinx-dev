@@ -222,5 +222,18 @@
   "activity.tooMany.message": "Hết lượt đăng hoạt động trong ngày",
   "watching": "Quan tâm",
   "unwatch": "Bỏ quan tâm",
-  "your_post_should_be_review": "Bạn cần kiểm duyệt nội dung do vi phạm chính sách của Pinetree Securities"
+  "your_post_should_be_review": "Bạn cần kiểm duyệt nội dung do vi phạm chính sách của Pinetree Securities",
+  "searchseo": {
+    "placeholder": "Bạn đang tìm kiếm gì?",
+    "txtRecent": "Gần đây",
+    "txtEmpty": "Không tìm thấy kết quả với từ khoá",
+    "descEmpty": "Rất tiếc, trang bạn tìm kiếm không tồn tại",
+    "tab": {
+      "company": "Công ty",
+      "people": "Người dùng",
+      "posts": "Bài viết",
+      "news": "Tin tức",
+      "media": "Media"
+    }
+  }
 }
