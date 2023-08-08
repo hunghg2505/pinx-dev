@@ -82,6 +82,7 @@ const Post = ({ keyword }: { keyword: any }) => {
                   key={`search-post-item-${post?.id}`}
                   data={post}
                   onRefreshList={refresh}
+                  isNewFeedExplore={true}
                 />
               );
             })}
