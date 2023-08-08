@@ -76,7 +76,6 @@ const Compose = (props: IProps) => {
 
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   const bgTheme = useAtomValue(postThemeAtom);
-  console.log('🚀 ~ file: index.tsx:79 ~ Compose ~ bgTheme:', bgTheme);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
   const objectMessage = converStringMessageToObject(postDetail?.post?.message);

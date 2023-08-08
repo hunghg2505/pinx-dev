@@ -24,7 +24,7 @@ import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
-import { DownloadPineXApp } from '@utils/dataLayer';
+import { DownloadPineXApp, RegisterTracking } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 const handleRedirect = (url: string) => {
@@ -294,6 +294,7 @@ const Profile = () => {
         <CustomLink
           className='  hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
           href={`${ROUTE_PATH.LOGIN}?type=register`}
+          onClick={() => RegisterTracking(new Date(), 'Header', 'button')}
         >
           <Text type='body-14-bold' color='cbwhite'>
             {t('sign_up')}

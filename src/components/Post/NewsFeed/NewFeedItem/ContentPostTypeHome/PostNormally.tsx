@@ -107,7 +107,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
         <div
           id={`post-content-${postDetail.id}`}
           className={classNames('', {
-            'h-[74px] overflow-hidden mobile-max:h-[81px] desktop:h-[84px]': showReadMore,
+            'h-[84px] overflow-hidden mobile-max:h-[81px] desktop:h-[84px]': showReadMore,
             '!line-clamp-none !h-auto': readMore || isPostDetailPath,
           })}
           onClick={(event) => onHandleClick(event)}
