@@ -7,6 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
+import { RegisterTracking } from '@utils/dataLayer';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import styles from './index.module.scss';
@@ -33,6 +34,7 @@ function Auth() {
           type: AUTH_TAB_TYPE.REGISTER,
         },
       });
+      RegisterTracking(new Date(), 'Header', 'button');
     } else {
       router.replace({
         pathname: ROUTE_PATH.LOGIN,
