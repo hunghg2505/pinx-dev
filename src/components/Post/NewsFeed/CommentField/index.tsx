@@ -176,11 +176,6 @@ const Editor = (props: IProps, ref?: any) => {
   });
   const textComment = editor?.getText();
 
-  // handle focus to expand comment
-  const [isFocus, setIsFocus] = useState(false);
-  const [isClickAway, setIsClickAway] = useState(false);
-  const editorRef = useRef(null);
-
   const useUploadImage = useRequest(
     (formData: any) => {
       return request.post(
@@ -267,6 +262,10 @@ const Editor = (props: IProps, ref?: any) => {
     },
   );
 
+  // handle Click to expand comment
+  const [isFocus, setIsFocus] = useState(false);
+  const [isClickAway, setIsClickAway] = useState(false);
+  const editorRef = useRef(null);
   useClickAway(() => {
     setIsClickAway(true);
   }, messagesEndRef);
