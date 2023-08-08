@@ -27,23 +27,25 @@ const NewsFeed = (props: IProps) => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
-  React.useEffect(() => {
-    setPostData(data);
-  }, [data]);
+  // React.useEffect(() => {
+  //   setPostData(data);
+  // }, [data]);
+  const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
   React.useEffect(() => {
     const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
       (item: string) => item === postData?.id,
     );
-    if (findIndex !== -1) {
+    if (findIndex !== -1 || findItemFollow) {
       refresh();
     }
-  }, []);
+  }, [findItemFollow]);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
       setPostDetailStatus({
         ...postDetailStatus,
         isAddCommentPostDetail: [],
+        idCustomerFollow: 0,
       });
     },
   });
@@ -110,6 +112,7 @@ const NewsFeed = (props: IProps) => {
           postDetail={postData}
           totalComments={postData?.totalChildren}
           onRefreshPostDetail={onRefreshPostItem}
+          refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
         />
