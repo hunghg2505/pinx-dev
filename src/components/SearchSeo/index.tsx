@@ -41,6 +41,9 @@ const SearchSeo = () => {
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list;
 
+  // map api do trả thiếu id
+  const newUsers = users?.map(( item:any ) => ({ ...item, id: item.customerId }));
+
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
@@ -83,7 +86,7 @@ const SearchSeo = () => {
           <TabPane tab={t('common:searchseo.tab.people')} key='people'>
             {usersL ? (
               <div className='flex flex-col gap-y-[16px]'>
-                {users?.map((item: any, index: number) => (
+                {newUsers?.map((item: any, index: number) => (
                   <UserItem data={item} key={index} />
                 ))}
               </div>

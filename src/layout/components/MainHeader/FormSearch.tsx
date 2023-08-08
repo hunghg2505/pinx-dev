@@ -43,7 +43,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
-  const { data, searchPublic, loading } = useSearchPublic();
+  const { data, searchPublic, loading, refresh } = useSearchPublic();
 
   const [query, setQuery] = React.useState(search);
   const [inputFocus, setInputFocus] = React.useState(false);
@@ -69,6 +69,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       } else {
         // toast('Not Empty');
         setShowPopup(true);
+        refresh();
       }
     },
   });
@@ -175,6 +176,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
   const media = data?.data?.listMedia?.list || [];
+
+  // map api do trả thiếu id
+  const newUsers = users?.map(( item:any ) => ({ ...item, id: item.customerId }));
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
@@ -312,7 +316,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     {t('common:searchseo.tab.people')}
                   </Text>
-                  {users?.slice(0, 3)?.map((item: any, index: number) => (
+                  {newUsers?.slice(0, 3)?.map((item: any, index: number) => (
                     <UserItem data={item} key={index} />
                   ))}
                 </div>
