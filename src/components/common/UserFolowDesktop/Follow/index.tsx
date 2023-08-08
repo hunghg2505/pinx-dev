@@ -4,7 +4,6 @@ import { useAtom } from 'jotai';
 
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 import useFollowUser from './useFollowUser';
 import { followContext } from '..';
@@ -14,12 +13,10 @@ const Follow = () => {
   const { isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { run } = useFollowUser();
-  const { run: getUserProfile } = useProfileInitial();
 
   const onFollow = () => {
     if (isLogin) {
       run(context?.id);
-      getUserProfile();
     } else {
       setPopupStatus({
         ...popupStatus,
