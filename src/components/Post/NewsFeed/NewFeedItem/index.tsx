@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useHover, useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -44,6 +44,7 @@ interface IProps {
   isExplore?: boolean;
   totalComments: number;
   onNavigate?: () => void;
+  refreshFollow?: () => void;
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
   isNewFeedExplore?: boolean;
@@ -59,6 +60,7 @@ const NewFeedItem = (props: IProps) => {
     totalComments,
     pinned = false,
     isNewFeedExplore = false,
+    refreshFollow,
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -104,6 +106,11 @@ const NewFeedItem = (props: IProps) => {
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
+
+  useEffect(() => {
+    setFollowing(postDetail?.isFollowing);
+    setReported(!!postDetail?.isReport);
+  }, [postDetail]);
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -129,8 +136,10 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(true);
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
   );
@@ -143,8 +152,10 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(false);
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
   );

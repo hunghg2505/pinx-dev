@@ -24,7 +24,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
-import { IComment, IPost, getMoreCommentPost, usePostDetail } from '../service';
+import { IComment, getMoreCommentPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
   ssr: false,
@@ -67,7 +67,7 @@ const PostDetail = () => {
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
-  const [postData, setPostData] = useState<IPost>();
+  const [postData, setPostData] = useState<any>();
   const postID = router.query.id;
   React.useEffect(() => {
     setWidth(window.innerWidth);
@@ -85,6 +85,7 @@ const PostDetail = () => {
   React.useEffect(() => {
     run();
   }, [postID]);
+
   const {
     data,
     loading,
@@ -216,7 +217,7 @@ const PostDetail = () => {
 
           <div className='mobile:px-[0] desktop:px-[20px]'>
             <NewFeedItem
-              postDetail={postDetail?.data}
+              postDetail={postData}
               totalComments={countComment}
               onRefreshPostDetail={refresh}
             />
