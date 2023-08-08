@@ -300,10 +300,12 @@ const Editor = (props: IProps, ref?: any) => {
     if (!textComment) {
       if (!editor?.isFocused && isClickAway) {
         setIsFocus(false);
-      } else if (editor?.isFocused && isClickAway) {
+      }
+      if (editor?.isFocused && isClickAway) {
         editor.commands.blur();
         setIsFocus(false);
-      } else {
+      }
+      if (editor?.isFocused && !isClickAway) {
         setIsFocus(true);
         editor?.commands.focus();
       }

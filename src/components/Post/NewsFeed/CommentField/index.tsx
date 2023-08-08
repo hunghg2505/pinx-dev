@@ -273,10 +273,12 @@ const Editor = (props: IProps, ref?: any) => {
     if (!textComment) {
       if (!editor?.isFocused && isClickAway) {
         setIsFocus(false);
-      } else if (editor?.isFocused && isClickAway) {
+      }
+      if (editor?.isFocused && isClickAway) {
         editor.commands.blur();
         setIsFocus(false);
-      } else {
+      }
+      if (editor?.isFocused && !isClickAway) {
         setIsFocus(true);
         editor?.commands.focus();
       }
@@ -284,7 +286,7 @@ const Editor = (props: IProps, ref?: any) => {
         setIsFocus(true);
       }
     }
-  }, [editor?.isFocused, isClickAway, useAddComment.loading]);
+  }, [editor?.isFocused, useAddComment.loading, isClickAway]);
 
   const onSend = async () => {
     const users: any = [];
@@ -441,6 +443,7 @@ const Editor = (props: IProps, ref?: any) => {
             <div
               ref={editorRef}
               onClick={() => {
+                editor?.commands.focus();
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
