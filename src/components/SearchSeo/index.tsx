@@ -37,7 +37,7 @@ const SearchSeo = () => {
 
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
-  const posts = data?.data?.postList?.list;
+  const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list;
 
@@ -101,7 +101,7 @@ const SearchSeo = () => {
             {postsL ? (
               <div className='flex flex-col'>
                 {posts?.map((post: any) => {
-                  return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
+                  return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} />;
                 })}
               </div>
             ):(
