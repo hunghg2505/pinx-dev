@@ -461,7 +461,7 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full items-center justify-between'
+              className='flex w-full cursor-text items-center justify-between'
             >
               <EditorContent
                 editor={editor}

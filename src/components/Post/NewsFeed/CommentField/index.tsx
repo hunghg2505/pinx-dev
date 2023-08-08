@@ -414,7 +414,7 @@ const Editor = (props: IProps, ref?: any) => {
         >
           <div
             className={classNames(
-              'flex w-full cursor-text tablet:flex-col tablet:items-start tablet:pb-[10px] ',
+              'flex w-full  tablet:flex-col tablet:items-start tablet:pb-[10px] ',
               {
                 'tablet:pt-[12px]': isFocus,
                 'tablet:pt-[10px]': !isFocus,
@@ -447,7 +447,7 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full items-center justify-between'
+              className='flex w-full cursor-text items-center justify-between'
             >
               <EditorContent
                 editor={editor}
@@ -458,19 +458,23 @@ const Editor = (props: IProps, ref?: any) => {
                   },
                 )}
               />
-              <img
-                src='/static/icons/iconCamera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className={classNames(
-                  ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
-                  {
-                    hidden: isFocus,
-                  },
-                )}
-              />
+              <Upload
+                className={classNames({ hidden: isFocus })}
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
+                <img
+                  src='/static/icons/iconCamera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className={classNames(
+                    ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
+                  )}
+                />
+              </Upload>
             </div>
 
             <div
