@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -81,6 +83,7 @@ const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png'
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
 const PRODUCT_SLIDE_LIMIT = 5;
 
+dayjs.extend(quarterOfYear);
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
@@ -203,8 +206,32 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
+    if (!dataStock) {
+      return;
+    }
+
     if (data?.id === 3220 && data.sym === dataStock?.sym) {
       setDataStock((prev) => ({ ...prev, ...data }));
+    }
+
+    // sell
+    if (data.side === 'S' && data.sym === dataStock?.sym) {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g1: data.g1,
+        g2: data.g2,
+        g3: data.g3,
+      }));
+    }
+
+    // buy
+    if (data.side === 'B' && data.sym === dataStock?.sym) {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g4: data.g1,
+        g5: data.g2,
+        g6: data.g3,
+      }));
     }
   });
 
@@ -330,6 +357,21 @@ const StockDetail = () => {
       unit,
     };
   }, [dataStock]);
+
+  const revenueLastUpdated = useMemo(() => {
+    if (taggingInfo?.data?.revenues) {
+      const lastUpdate = Math.max(
+        ...taggingInfo?.data?.revenues.map((item) => new Date(item.updatedAt).getTime()),
+      );
+
+      return {
+        quarter: dayjs(lastUpdate).subtract(3, 'M').quarter(),
+        year: dayjs(lastUpdate).subtract(3, 'M').get('year'),
+      };
+    }
+
+    return null;
+  }, [taggingInfo]);
 
   return (
     <div className='p-[10px] desktop:p-0'>
@@ -496,7 +538,7 @@ const StockDetail = () => {
           </TabPane>
 
           <TabPane tab={t('tab.intraday')} key={TabType.INTRADAY}>
-            <IntradayTab />
+            <IntradayTab stockCode={stockCode} stockData={dataStock} />
           </TabPane>
         </Tabs>
       </div>
@@ -660,7 +702,10 @@ const StockDetail = () => {
               />
 
               <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
-                Last updated: The 4th quarter year 2022
+                {t('revenue_last_updated', {
+                  quarter: revenueLastUpdated?.quarter,
+                  year: revenueLastUpdated?.year,
+                })}
               </Text>
             </div>
 
@@ -762,7 +807,7 @@ const StockDetail = () => {
           />
 
           <div className='flex gap-x-[52px]'>
-            <div>
+            <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.avg_score')}
               </Text>
@@ -771,7 +816,7 @@ const StockDetail = () => {
               </Text>
             </div>
 
-            <div>
+            <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.votes')}
               </Text>
@@ -780,13 +825,13 @@ const StockDetail = () => {
               </Text>
             </div>
 
-            <div>
+            <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.reviews')}
               </Text>
 
               <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                <div className='flex items-center'>
+                <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
                     {stockDetails?.data.details.totalReviews}
                   </Text>

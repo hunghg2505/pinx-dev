@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
+
+import EmptyData from '@components/Stock/EmptyData';
 import { useStockWatching } from '@components/Stock/service';
 import { IResponseWatchingInvesting } from '@components/Stock/type';
 import useBottomScroll from '@hooks/useBottomScroll';
@@ -12,6 +16,7 @@ interface IWatchingTabProps {
 }
 
 const WatchingTab = ({ stockCode }: IWatchingTabProps) => {
+  const { t } = useTranslation('stock');
   const ref = useRef(null);
   const [stockWatching, setStockWatching] = useState<IResponseWatchingInvesting>();
 
@@ -41,7 +46,12 @@ const WatchingTab = ({ stockCode }: IWatchingTabProps) => {
     <>
       <div
         ref={ref}
-        className='mt-[20px] grid grid-cols-1 gap-x-[24px] gap-y-[16px] tablet:grid-cols-2 tablet:gap-y-[20px]'
+        className={classNames(
+          'mt-[20px] grid grid-cols-1 gap-x-[24px] gap-y-[16px] tablet:grid-cols-2 tablet:gap-y-[20px]',
+          {
+            'tablet:!grid-cols-1': !stockWatching?.data.list.length,
+          },
+        )}
       >
         {stockWatching?.data.list.map((item, index) => (
           <SubscriberItem data={item} key={index} />
@@ -52,6 +62,10 @@ const WatchingTab = ({ stockCode }: IWatchingTabProps) => {
             <SkeletonLoading />
             <SkeletonLoading />
           </>
+        )}
+
+        {!stockWatching?.data.list.length && (
+          <EmptyData title={t('no_data_yet')} description={t('no_data_desc')} />
         )}
       </div>
     </>
