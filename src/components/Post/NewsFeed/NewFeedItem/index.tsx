@@ -46,13 +46,21 @@ interface IProps {
   onNavigate?: () => void;
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
+  isNewFeedExplore?: boolean;
 }
 
 const NewFeedItem = (props: IProps) => {
   const { t, i18n } = useTranslation('common');
 
-  const { onNavigate, onRefreshPostDetail, postDetail, totalComments, pinned = false } = props;
-
+  const {
+    onNavigate,
+    onRefreshPostDetail,
+    postDetail,
+    totalComments,
+    pinned = false,
+    isNewFeedExplore = false,
+  } = props;
+  console.log('🚀 ~ file: index.tsx:62 ~ NewFeedItem ~ isNewFeedExplore:', isNewFeedExplore);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin, userId } = useUserType();
@@ -197,7 +205,7 @@ const NewFeedItem = (props: IProps) => {
       const cond3 = isMyPost;
 
       const renderHideButton = () => {
-        if (cond1) {
+        if (cond1 || isNewFeedExplore) {
           return <></>;
         }
 
@@ -390,9 +398,9 @@ const NewFeedItem = (props: IProps) => {
               </Fade>
             </div>
 
-            <div className='flex-1'>
+            <div className='des flex-1 mobile:w-[150px] desktop:w-[300px]'>
               <div className='flex'>
-                <div className='mr-[5px] flex flex-1 items-center'>
+                <div className='mr-[5px] flex w-full flex-1 items-center'>
                   <UserName postDetail={postDetail} />
                 </div>
               </div>
@@ -427,17 +435,18 @@ const NewFeedItem = (props: IProps) => {
           postDetail={postDetail}
           pinned={pinned}
         />
-
-        <div className='mobile:mt-[22px] desktop:mt-[28px]'>
-          <PostActionComment
-            urlPost={`/post/${postId}`}
-            isLike={isLike}
-            idPost={String(postId as string)}
-            totalLikes={postDetail?.totalLikes}
-            totalComments={totalComments}
-            onNavigate={onNavigate}
-          />
-        </div>
+        {!isNewFeedExplore && (
+          <div className='mobile:mt-[22px] desktop:mt-[28px]'>
+            <PostActionComment
+              urlPost={`/post/${postId}`}
+              isLike={isLike}
+              idPost={String(postId as string)}
+              totalLikes={postDetail?.totalLikes}
+              totalComments={totalComments}
+              onNavigate={onNavigate}
+            />
+          </div>
+        )}
       </div>
     </>
   );

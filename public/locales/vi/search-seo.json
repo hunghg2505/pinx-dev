@@ -1,0 +1,16 @@
+{
+  "tab": {
+    "company": "Công ty",
+    "people": "Người dùng",
+    "posts": "Bài viết",
+    "news": "Tin tức",
+    "media": "Media"
+  },
+  "dropdown": {
+    "txtRecent": "Gần đây"
+  },
+  "card": {
+    "txtEmpty": "Không tìm thấy kết quả với từ khoá",
+    "descEmpty": "Rất tiếc, trang bạn tìm kiếm không tồn tại"
+  }
+}

@@ -12,7 +12,7 @@ export const ActivityWatchlist = ({ postDetail }: any) => {
     stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
   }.png`;
   return (
-    <div className='relative w-full rounded-[10px] mobile:h-[204px]  desktop:h-[309px]'>
+    <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
       {postDetail?.post?.bgImage && (
         <img
           src={postDetail?.post?.bgImage}

@@ -116,7 +116,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replaceAll(
           item,
           `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/stock/${name}" className="tagStock">${name}</a>
           `,
         );
       }

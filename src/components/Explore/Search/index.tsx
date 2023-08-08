@@ -257,6 +257,7 @@ const Search = (props: any, ref: any) => {
                           key={`explore-search-${post?.id}`}
                           data={post}
                           onRemoveData={onRemoveData(post?.id)}
+                          isNewFeedExplore={true}
                         />
                       );
                     })}

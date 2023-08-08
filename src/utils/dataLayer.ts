@@ -356,15 +356,11 @@ export const AllowNotification = (App_Notification: string) => {
     });
   } catch {}
 };
-export const DownloadPineXApp = (
-  KYC_Status: string,
-  CTA_Type: string,
-  Register_CTA_Location: string,
-) => {
+export const DownloadPineXApp = (CTA_Type?: string, Register_CTA_Location?: string) => {
   try {
     window.dataLayer.push({
       event: 'Download PineX App',
-      'KYC Status': KYC_Status,
+      'KYC Status': 'Start Activate VSD Account',
       'CTA Type': CTA_Type,
       'Register CTA Location': Register_CTA_Location,
     });

@@ -61,7 +61,7 @@ export const ActivityWatchlist = ({
       )}
 
       <Link href={postDetailUrl}>
-        <div className='relative w-full rounded-[10px] mobile:h-[204px]  desktop:h-[309px]'>
+        <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           {postDetail?.post?.bgImage && (
             <img
               src={postDetail?.post?.bgImage}

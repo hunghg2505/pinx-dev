@@ -2,6 +2,7 @@ import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
+import { DownloadPineXApp } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import styles from './index.module.scss';
@@ -17,12 +18,13 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const handleRedirect = (url: string) => {
+  DownloadPineXApp('CTA in App', 'GiftCash');
   window.open(url, '_blank');
 };
 const GiftCash = () => {
   const { t } = useTranslation('giftCash');
   return (
-    <div className='px-[10px] py-[10px] desktop:px-[0] desktop:py-[0]'>
+    <div className='desktop:px-[0] desktop:py-[0]'>
       <div className='box-shadow card-style'>
         <div className='relative'>
           <Text
@@ -92,7 +94,12 @@ const GiftCash = () => {
             </div>
             <div className='mt-[40px] hidden w-[158px] mobile-max:block'>
               <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
-                <a href='https://onelink.to/cgarrk' target='_blank' rel='noreferrer'>
+                <a
+                  href='https://onelink.to/cgarrk'
+                  target='_blank'
+                  rel='noreferrer'
+                  onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}
+                >
                   <Text type='body-14-bold' color='cbwhite'>
                     {t('giftcash.text.download')}
                   </Text>
@@ -219,7 +226,12 @@ const GiftCash = () => {
           </Slider>
           <div className='mx-auto mt-[36px] w-[158px]'>
             <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
-              <a href='https://onelink.to/cgarrk' target='_blank' rel='noreferrer'>
+              <a
+                href='https://onelink.to/cgarrk'
+                target='_blank'
+                rel='noreferrer'
+                onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}
+              >
                 <Text type='body-14-bold' color='cbwhite'>
                   {t('giftcash.text.download')}
                 </Text>

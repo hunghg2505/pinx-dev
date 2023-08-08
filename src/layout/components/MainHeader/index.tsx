@@ -18,7 +18,7 @@ import SideBar from '@layout/MainLayout/SideBar';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
-
+import { DownloadPineXApp } from '@utils/dataLayer';
 
 export const IconCloseMenu = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='23' height='24' viewBox='0 0 23 24' fill='none'>
@@ -135,14 +135,20 @@ const MainHeader = () => {
                 <Text type='body-14-regular' color='primary-5'>
                   {t('try_full_experience_on')}
                 </Text>
-                <CustomLink href='https://onelink.to/cgarrk'>
+                <CustomLink
+                  href='https://onelink.to/cgarrk'
+                  onClick={() => DownloadPineXApp('CTA in App', 'Header')}
+                >
                   <Text type='body-14-medium' color='primary-5'>
                     {t('mobile_app')}
                   </Text>
                 </CustomLink>
               </div>
             </div>
-            <CustomLink href='https://onelink.to/cgarrk'>
+            <CustomLink
+              href='https://onelink.to/cgarrk'
+              onClick={() => DownloadPineXApp('CTA in App', 'Header')}
+            >
               <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
                 <Text type='body-14-bold' color='neutral-9'>
                   {t('open_app')}
@@ -152,14 +158,20 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto gap-[24px] flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
-            <div className='flex items-center gap-[16px] w-[100%]'>
-              {isMobile && <FormSearch className='w-full' isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch}/>}
+            <div className='flex w-[100%] items-center gap-[16px]'>
+              {isMobile && (
+                <FormSearch
+                  className='w-full'
+                  isOpenSearch={isOpenSearch}
+                  setIsOpenSearch={setIsOpenSearch}
+                />
+              )}
             </div>
           ) : (
             <>
-              <div className='flex items-center gap-[16px]'>
+              <div className='max-w-[218px] w-full flex items-center gap-[16px]'>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <img
                     src='/static/icons/logo.svg'
@@ -167,18 +179,16 @@ const MainHeader = () => {
                     className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
                   />
                 </CustomLink>
-
                 <MenuMobile />
               </div>
-
-              <div className='flex items-center gap-[12px]'>
-                <SearchInput
-                  isOpenSearch={isOpenSearch}
-                  setIsOpenSearch={setIsOpenSearch}
-                />
-
+              {!isMobile && (
+                <div className='w-full flex-auto'>
+                  <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
+                </div>
+              )}
+              <div className='max-w-[350px] w-full flex items-center justify-end gap-[12px]'>
+                {isMobile && <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />}
                 <Notifications />
-
                 <Profile />
               </div>
             </>
