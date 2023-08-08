@@ -405,7 +405,6 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      {canExpand && <p>In Post Detail</p>}
       <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
@@ -413,7 +412,7 @@ const Editor = (props: IProps, ref?: any) => {
           width={0}
           height={0}
           sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] rounded-full object-cover mobile:hidden tablet:block'
+          className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
           onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
         />
         <div
@@ -428,9 +427,9 @@ const Editor = (props: IProps, ref?: any) => {
         >
           <div
             className={classNames(
-              'flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] tablet:pt-[12px]',
+              'flex w-full tablet:flex-col tablet:items-start tablet:pb-[10px] ',
               {
-                'tablet:pt-[12px]': isFocus && canExpand,
+                'tablet:pt-[12px]': isFocus || !canExpand,
                 'tablet:pt-[10px]': !isFocus && canExpand,
               },
             )}
@@ -463,7 +462,12 @@ const Editor = (props: IProps, ref?: any) => {
             >
               <EditorContent
                 editor={editor}
-                className='mt-[3px] max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]'
+                className={classNames(
+                  ' max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]',
+                  {
+                    'mt-[3px]': isFocus || !canExpand,
+                  },
+                )}
               />
 
               <img
