@@ -270,6 +270,7 @@ const Editor = (props: IProps, ref?: any) => {
         setIdReply('');
         setPostDetailStatus({
           ...postDetailStatus,
+          isDoneReplies: true,
           isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
         });
         editor?.commands.clearContent();

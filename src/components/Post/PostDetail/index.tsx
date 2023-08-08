@@ -79,6 +79,10 @@ const PostDetail = () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
     onSuccess: (res: any) => {
+      console.log(
+        '🚀 ~ file: index.tsx:82 ~ const{refresh,postDetail,run}=usePostDetail ~ res:',
+        res,
+      );
       setPostData(res.data);
     },
   });
