@@ -1,24 +1,49 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import useBottomScroll from '@hooks/useBottomScroll';
 
 import { useStockNews } from '../service';
 import NewsItem from '../StockDetail/NewsItem';
+import { IResponseStockNews } from '../type';
 
 const StockNews = () => {
   const { t } = useTranslation(['stock', 'common']);
   const router = useRouter();
   const { stockCode }: any = router.query;
+  const ref = useRef(null);
+  const [stockNews, setStockNews] = useState<IResponseStockNews>();
 
-  const { stockNews, refreshStockNews } = useStockNews(stockCode);
+  const { loading, onGetStockNews, refreshStockNews } = useStockNews(stockCode, {
+    manual: true,
+    onSuccess: ({ data }: IResponseStockNews) => {
+      setStockNews((prev) => ({
+        data: {
+          hasNext: data.hasNext,
+          last: data.last,
+          list: [...(prev?.data.list || []), ...data.list],
+        },
+      }));
+    },
+  });
 
   const handleBack = () => {
     router.back();
   };
+
+  useBottomScroll(ref, () => {
+    if (stockNews?.data.hasNext && !loading) {
+      onGetStockNews(stockNews.data.last);
+    }
+  });
+
+  useEffect(() => {
+    onGetStockNews();
+  }, []);
 
   return (
     <div className='p-[10px] desktop:p-0'>
@@ -39,7 +64,7 @@ const StockNews = () => {
           </Text>
         </div>
 
-        <div>
+        <div ref={ref}>
           {stockNews?.data.list.map((item, index) => (
             <NewsItem
               key={index}

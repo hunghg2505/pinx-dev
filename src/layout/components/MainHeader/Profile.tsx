@@ -24,9 +24,11 @@ import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
+import { DownloadPineXApp } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 const handleRedirect = (url: string) => {
+  DownloadPineXApp('CTA in App', 'MenuProfileMobile');
   window.open(url, '_blank');
 };
 

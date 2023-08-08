@@ -6,7 +6,6 @@ import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
-// import toast from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
@@ -20,20 +19,19 @@ import {
   useGetSearchRecent,
   useSearchPublic,
 } from '@components/SearchSeo/service';
+import { ExploreButton } from '@components/UI/Button';
 import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
-// import Notification from '@components/UI/Notification';
-import Skeleton from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
 import { ROUTE_PATH } from '@utils/common';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['search-seo','common']);
   const { isDesktop, isMobile } = useResponsive();
   const isLogin = !!getAccessToken();
 
@@ -96,7 +94,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setIsOpenSearch(!isOpenSearch);
     } else {
       requestSearch.run(payloads);
-      setIsOpenSearch(!isOpenSearch);
+      // setIsOpenSearch(!isOpenSearch);
     }
   };
 
@@ -212,12 +210,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               className={classNames(
                 'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                 {
-                  'w-[739px] border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
-                  'w-[739px] border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
-                  'w-full border-[#1F6EAC] bg-[#F7F6F8]': isMobile,
+                  'w-full border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                  'w-full border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
+                  'w-full border-[#1F6EAC] bg-[#F7F6F8] ': isMobile,
                 },
               )}
-              placeholder={t('search_uppercase')}
+              placeholder={t('common:searchseo.placeholder')}
               icon={<IconSearchWhite />}
             />
           </FormItem>
@@ -253,7 +251,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         >
           {listRecent?.length > 0 && (
             <Text type='body-16-semibold' className='leading-5 text-[#0D0D0D]'>
-              Recent
+              {t('common:searchseo.txtRecent')}
             </Text>
           )}
           {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
@@ -293,21 +291,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
             <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
-                  No result found for `{query}`
-                </Text>
-              )}
+              <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
+                {t('common:searchseo.txtEmpty')} {query}
+              </Text>
             </>
           ) : (
             <>
-              {mediaL && <div>media</div>}
               {companiesL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    Company
+                    {t('common:searchseo.tab.company')}
                   </Text>
                   {companies?.slice(0, 3)?.map((company: any, index: number) => {
                     return <CompanyItem key={`company-${index}`} data={company} />;
@@ -317,7 +310,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {usersL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    People
+                    {t('common:searchseo.tab.people')}
                   </Text>
                   {users?.slice(0, 3)?.map((item: any, index: number) => (
                     <UserItem data={item} key={index} />
@@ -327,7 +320,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {postsL && (
                 <div className='flex flex-col'>
                   <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
-                    Posts
+                    {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
                     return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
@@ -337,16 +330,29 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               {newsL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    News
+                    {t('common:searchseo.tab.news')}
                   </Text>
                   {news?.slice(0, 3)?.map((item: any) => {
                     return <NewsItem key={`new-items-${item?.id}`} data={item} />;
                   })}
                 </div>
               )}
+              {mediaL && (
+                <div className='flex flex-col gap-y-[16px]'>
+                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                    {t('common:searchseo.tab.media')}
+                  </Text>
+                </div>
+              )}
+              <ExploreButton className='' onClick={handleSubmit}>
+                <Text type='body-14-bold' color='primary-2'>
+                  See all results
+                </Text>
+              </ExploreButton>
             </>
           )}
         </Fade>
+        {/* End Show search result */}
       </div>
     </>
   );

@@ -6,10 +6,12 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import useBottomScroll from '@hooks/useBottomScroll';
 
 import { useCompaniesRelated, useCompanyTaggingInfo } from '../service';
 import StockItem from '../StockDetail/StockItem';
-import { CompanyRelatedType } from '../type';
+import SkeletonLoading from '../Subscriber/SkeletonLoading';
+import { CompanyRelatedType, IResponseCompaniesRelated } from '../type';
 
 const DESC_LINE_HEIGHT = 21;
 const DESC_MAX_LINE = 1;
@@ -20,6 +22,8 @@ const CompanyRelated = () => {
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
   const descRef = useRef<HTMLDivElement | null>(null);
+  const ref = useRef(null);
+  const [companiesRelated, setCompaniesRelated] = useState<IResponseCompaniesRelated>();
 
   const router = useRouter();
   const { stockCode, type, hashtagId }: any = router.query;
@@ -34,14 +38,37 @@ const CompanyRelated = () => {
   if (type === CompanyRelatedType.HIGHLIGHTS) {
     hashtagInfo = taggingInfo?.data?.highlights.find((item) => item.id === hashtagId);
   }
-  const { companiesRelated } = useCompaniesRelated(hashtagId, type, {
-    pageSize: 9999,
+  const requestGetCompanies = useCompaniesRelated(hashtagId, type, {
+    onSuccess: ({ data }: IResponseCompaniesRelated) => {
+      setCompaniesRelated((prev) => ({
+        data: {
+          hasNext: data.hasNext,
+          list: [...(prev?.data.list || []), ...data.list],
+          totalElements: data.totalElements,
+          totalPages: data.totalPages,
+          page: data.page,
+          size: data.size,
+        },
+      }));
+    },
   });
 
   useEffect(() => {
     const introDescHeight = descRef.current?.clientHeight || 0;
     introDescHeight && setShowSeeMore(introDescHeight > DESC_MAX_HEIGHT);
   }, [hashtagInfo]);
+
+  useBottomScroll(ref, () => {
+    if (companiesRelated?.data.hasNext && !requestGetCompanies.loading) {
+      requestGetCompanies.run({
+        page: companiesRelated.data.page + 1,
+      });
+    }
+  });
+
+  useEffect(() => {
+    requestGetCompanies.run();
+  }, []);
 
   const handleBack = () => {
     router.back();
@@ -122,10 +149,17 @@ const CompanyRelated = () => {
               </Text>
             </div>
 
-            <div className='flex flex-col gap-y-[20px]'>
+            <div className='flex flex-col gap-y-[20px]' ref={ref}>
               {companiesRelated?.data.list.map((item, index) => (
                 <StockItem data={item} key={index} />
               ))}
+
+              {companiesRelated?.data.hasNext && requestGetCompanies.loading && (
+                <>
+                  <SkeletonLoading />
+                  <SkeletonLoading />
+                </>
+              )}
             </div>
           </div>
         </div>

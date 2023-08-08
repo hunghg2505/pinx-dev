@@ -223,5 +223,18 @@
   "activity.tooMany.message": "Exceed maximum activities for today",
   "watching": "Watching",
   "unwatch": "Unwatch",
-  "your_post_should_be_review": "Your post should be reviewed due to violation to Pinetree Securities's policy"
+  "your_post_should_be_review": "Your post should be reviewed due to violation to Pinetree Securities's policy",
+  "searchseo": {
+    "placeholder": "Looking for something?",
+    "txtRecent": "Recent",
+    "txtEmpty": "No result found for",
+    "descEmpty": "We are sorry, but the page you are looking for does not exist.",
+    "tab": {
+      "company": "Company",
+      "people": "People",
+      "posts": "Posts",
+      "news": "News",
+      "media": "Media"
+    }
+  }
 }

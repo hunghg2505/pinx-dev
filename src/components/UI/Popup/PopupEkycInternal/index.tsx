@@ -5,9 +5,11 @@ import { useTranslation } from 'next-i18next';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
+import { DownloadPineXApp } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 const handleRedirect = (url: string) => {
+  DownloadPineXApp('CTA in App', 'PopUpEkyc');
   window.open(url, '_blank');
 };
 
@@ -53,6 +55,7 @@ const PopUpEkycInternal = (props: IProps) => {
           <Link
             href='https://onelink.to/cgarrk'
             className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
+            onClick={() => DownloadPineXApp('CTA in App', 'PopUpEkyc')}
           >
             <Text type='body-16-bold' color='cbwhite'>
               {t('ok')}

@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useRef } from 'react';
 
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
@@ -39,6 +39,7 @@ const PopupFollowStock = ({
   const { t } = useTranslation(['stock', 'common']);
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const requestShareStockAct = useShareStockActivity({
     onSuccess: () => {
@@ -87,6 +88,13 @@ const PopupFollowStock = ({
     });
   };
 
+  const handleChangeTextarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '20px';
+      textareaRef.current.style.height = `${e.target.scrollHeight}px`;
+    }
+  };
+
   return (
     <Modal visible={visible} onClose={onClose} className={styles.popupFollowStock}>
       <img
@@ -98,13 +106,13 @@ const PopupFollowStock = ({
         {isFollowedStock ? t('share_stock.i_am_watching') : t('share_stock.i_unwatched')}
       </Text>
       <Form form={form} className='mt-5' onFinish={onSubmit}>
-        <FormItem
-          name='shareContent'
-          className='mb-[20px] flex h-[60px] flex-col items-start justify-start'
-        >
+        <FormItem name='shareContent' className='mb-[20px] flex flex-col items-start justify-start'>
           <textarea
+            ref={textareaRef}
+            spellCheck={false}
             placeholder={t('common:what_do_you_want_to_comment')}
-            className='h-full w-full resize-none text-[16px] outline-none'
+            onInput={handleChangeTextarea}
+            className='h-[20px] w-full resize-none text-[16px] outline-none'
           />
         </FormItem>
 

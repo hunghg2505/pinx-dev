@@ -25,6 +25,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
+import { DownloadPineXApp } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
@@ -39,6 +40,7 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const handleRedirect = (url: string) => {
+  DownloadPineXApp('CTA in App', 'PopUpEkyc');
   window.open(url, '_blank');
 };
 

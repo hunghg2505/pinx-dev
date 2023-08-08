@@ -38,7 +38,7 @@ const MyProfile = () => {
         setState,
       }}
     >
-      <div className=' flex min-h-screen'>
+      <div className='flex min-h-screen desktop:py-[0]'>
         <div className='w-full '>
           <div className='box-shadow rounded-[8px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] mobile:pb-[20px] desktop:p-[16px]'>
             <Header />

@@ -82,7 +82,7 @@ const WatchList = () => {
   }
 
   return (
-    <div className='px-[10px] py-[10px] desktop:px-[0] desktop:py-[0]'>
+    <div className='desktop:px-[0] desktop:py-[0]'>
       <div className='box-shadow card-style flex flex-col gap-y-[32px]'>
         <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
           {!isEdit && isMobile && (

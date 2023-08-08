@@ -9,3 +9,11 @@
     }
   }
 }
+
+.Tab{
+  :global{
+    .rc-tabs-nav-wrap{
+      border-bottom: none !important;
+    }
+  }
+}
