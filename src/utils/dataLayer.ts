@@ -329,11 +329,11 @@ export const GetDepositInfo = () => {
   } catch {}
 };
 export const ClickaPost = (
-  Post_ID: number,
+  Post_ID: string,
   Post_Type: string,
   Hastag: string[],
   Ticker: string[],
-  Link: string,
+  Link: any,
   Theme: string,
 ) => {
   try {

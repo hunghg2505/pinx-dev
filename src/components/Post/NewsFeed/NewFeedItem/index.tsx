@@ -60,7 +60,6 @@ const NewFeedItem = (props: IProps) => {
     pinned = false,
     isNewFeedExplore = false,
   } = props;
-  console.log('🚀 ~ file: index.tsx:62 ~ NewFeedItem ~ isNewFeedExplore:', isNewFeedExplore);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin, userId } = useUserType();
