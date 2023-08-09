@@ -177,7 +177,6 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('hide');
         refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);

@@ -362,7 +362,6 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-
     if (message?.toLowerCase()?.includes('script')) {
       toast(() => (
         <Notification
