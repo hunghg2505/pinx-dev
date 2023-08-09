@@ -296,7 +296,7 @@ const Compose = (props: IProps) => {
                 class: 'hashTag',
                 userkey: prop && prop.node?.attrs.id,
                 'data-username': prop?.node?.attrs?.label,
-                href: `/stock/${prop?.node?.attrs?.label}`,
+                href: 'javascript:void(0)',
               },
               `${prop?.node?.attrs?.label}`,
             ];
