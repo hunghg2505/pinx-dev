@@ -17,20 +17,20 @@ export const getColor = (price: number, ref: number) => {
   if (price === ref) {
     return {
       color: '#EAA100',
-      backgroundColor: '#F1BA09',
+      backgroundColor: '#F4E7CD',
     };
   }
 
   if (price < ref) {
     return {
-      color: '#DB4444',
+      color: '#DA314F',
       backgroundColor: '#F5E4E7',
     };
   }
 
   if (price > ref) {
     return {
-      color: '#1B8653',
+      color: '#128F63',
       backgroundColor: '#B6DFD1',
     };
   }

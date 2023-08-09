@@ -246,7 +246,7 @@ const Profile = () => {
           <span>{t('watchlist_and_theme')}</span>
         </Link>
       </MenuItem>
-    </Menu>
+    </Menu >
   );
 
   const ProfileInfo = () => {

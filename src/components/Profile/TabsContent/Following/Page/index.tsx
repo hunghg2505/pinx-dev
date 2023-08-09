@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import UserFolowDesktop from '@components/common/UserFolowDesktop';
 import { profileUserContext } from '@components/Profile';
 import { useOtherCustomerFollowing } from '@components/ProfileFollow/service';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 const Page = ({
   page,
@@ -17,6 +18,7 @@ const Page = ({
 }) => {
   const router = useRouter();
   const profileUser = useContext<any>(profileUserContext);
+  const { setUserLoginInfo } = useUserLoginInfo();
   const { data, refresh, run } = useOtherCustomerFollowing(
     String(router?.query?.id),
     {
@@ -49,6 +51,18 @@ const Page = ({
               refresh={() => {
                 profileUser.reload();
                 refresh();
+              }}
+              onUnFollow={() => {
+                setUserLoginInfo((prev: any) => ({
+                  ...prev,
+                  totalFollowing: prev.totalFollowing - 1,
+                }));
+              }}
+              onFollow={() => {
+                setUserLoginInfo((prev: any) => ({
+                  ...prev,
+                  totalFollowing: prev.totalFollowing + 1,
+                }));
               }}
             />
           </div>
