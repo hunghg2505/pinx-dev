@@ -113,7 +113,7 @@ const PopupMatchedPrice = ({
                 <div
                   className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
                   style={{
-                    backgroundColor: item.color || getColor(item.lastPrice, stockRefPrice)?.color,
+                    backgroundColor: getColor(item.lastPrice, stockRefPrice)?.color,
                   }}
                 >
                   <Text type='body-16-semibold' color='cbwhite'>
