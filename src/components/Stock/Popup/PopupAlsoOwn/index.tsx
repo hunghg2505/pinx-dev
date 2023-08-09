@@ -59,7 +59,7 @@ const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
               {t('own')}
             </Text>
             <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-              {data?.ownerRatio}%
+              {Number.isInteger(data?.ownerRatio) ? data?.ownerRatio : data?.ownerRatio.toFixed(2)}%
             </Text>
           </div>
         </div>
