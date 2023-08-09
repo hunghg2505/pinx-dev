@@ -1,5 +1,7 @@
 import React from 'react';
 
+import classNames from 'classnames';
+
 import Text from '@components/UI/Text';
 
 interface IEmptyDataProps {
@@ -7,12 +9,19 @@ interface IEmptyDataProps {
   description: string;
   textHasAction?: string;
   onClickTextHasAct?: () => void;
+  titleClassName?: string;
 }
 
-const EmptyData = ({ title, description, textHasAction, onClickTextHasAct }: IEmptyDataProps) => {
+const EmptyData = ({
+  title,
+  description,
+  textHasAction,
+  onClickTextHasAct,
+  titleClassName,
+}: IEmptyDataProps) => {
   return (
     <div className='rounded-[12px] border border-dashed border-[#ccc] bg-[#F7F6F8] px-[36px] py-[28px] text-center'>
-      <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+      <Text type='body-16-semibold' className={classNames('text-[#0D0D0D]', titleClassName)}>
         {title}
       </Text>
 

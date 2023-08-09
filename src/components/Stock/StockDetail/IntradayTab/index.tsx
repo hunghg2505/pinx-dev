@@ -163,6 +163,7 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
             <tr>
               <td className='pt-[12px]' colSpan={4}>
                 <EmptyData
+                  titleClassName='text-[14px]'
                   title={t('matchings.empty_title')}
                   description={t('matchings.empty_description')}
                 />
