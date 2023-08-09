@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
@@ -84,6 +85,7 @@ const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch
 const PRODUCT_SLIDE_LIMIT = 5;
 
 dayjs.extend(quarterOfYear);
+dayjs.extend(minMax);
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
@@ -363,9 +365,11 @@ const StockDetail = () => {
   }, [dataStock]);
 
   const revenueLastUpdated = useMemo(() => {
-    if (taggingInfo?.data?.revenues) {
-      const lastUpdate = Math.max(
-        ...taggingInfo?.data?.revenues.map((item) => new Date(item.updatedAt).getTime()),
+    if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
+      const lastUpdate = dayjs.max(
+        taggingInfo?.data?.revenues
+          .filter((item) => item.updatedAt)
+          .map((item) => dayjs(item.updatedAt)),
       );
 
       return {
