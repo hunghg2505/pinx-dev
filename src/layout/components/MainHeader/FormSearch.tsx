@@ -60,7 +60,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onFocus: () => {
       refreshSearchRecent();
       setInputFocus(true);
-      // setShowRecent(true);
+      setShowRecent(true);
       const value = form.getFieldValue('search');
       // setQuery(value);
       if (value === '' || value === undefined) {
@@ -113,9 +113,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   });
 
   // Set value when onSubmit Form
-  // const handleOnchange = () => {
-  //   setQuery(form.getFieldValue('search'));
-  // };
+  const handleOnchange = () => {
+    setQuery(form.getFieldValue('search'));
+  };
 
   const removeFormSearch = () => {
     form.setFieldValue('search', '');
@@ -198,13 +198,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       )}
       <div ref={ref} className={classNames(className)}>
         <Form
-          className={classNames('hidden', {
+          className={classNames('', {
             'w-full': isMobile,
           })}
           form={form}
-          // onFinish={handleSubmit}
-          // onValuesChange={run}
-          // onFieldsChange={handleOnchange}
+          onFinish={handleSubmit}
+          onValuesChange={run}
+          onFieldsChange={handleOnchange}
         >
           <FormItem name='search'>
             <Input
