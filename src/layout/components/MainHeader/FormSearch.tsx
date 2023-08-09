@@ -198,7 +198,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       )}
       <div ref={ref} className={classNames(className)}>
         <Form
-          className={classNames('', {
+          className={classNames('hidden', {
             'w-full': isMobile,
           })}
           form={form}
