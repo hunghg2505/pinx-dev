@@ -1,13 +1,11 @@
 import classNames from 'classnames';
-// import Link from 'next/link';
-// import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
-// import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-// import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -44,10 +42,10 @@ const InterestItem = (props: IProps) => {
   };
   return (
     <>
-      {/* <Link
+      <Link
         className='absolute inset-x-0 inset-y-0'
         href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
-      /> */}
+      />
       <div className='flex flex-col gap-y-[16px]'>
         <img
           src={url}

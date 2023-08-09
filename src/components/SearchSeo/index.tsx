@@ -20,7 +20,7 @@ const SearchSeo = () => {
   const { t } = useTranslation(['search-seo','common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
-  const tab = searchParams.get('tab');
+  const tab = searchParams.get('tab') || 'company';
   const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
@@ -35,7 +35,7 @@ const SearchSeo = () => {
       textSearch: keyword,
       type: getType,
     });
-  }, [keyword, getType]);
+  }, [keyword, getType, tab]);
 
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
@@ -236,7 +236,7 @@ const SearchSeo = () => {
           </TabPane>
         </Tabs1>
         */}
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs defaultActiveKey={tab} items={items} onChange={onChange} />
       </div>
     </>
   );
