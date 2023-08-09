@@ -210,7 +210,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                         +sell_price_3 === (stockData?.r || 0),
                     })}
                   >
-                    {formatNumber(Number(sell_volume_3) || 0)}
+                    {formatNumber((Number(sell_volume_3) || 0) * 10)}
                   </Text>
                 </td>
                 <div
@@ -256,7 +256,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                         +sell_price_2 === (stockData?.r || 0),
                     })}
                   >
-                    {formatNumber(Number(sell_volume_2) || 0)}
+                    {formatNumber((Number(sell_volume_2) || 0) * 10)}
                   </Text>
                 </td>
                 <div
@@ -302,7 +302,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                         +sell_price_1 === (stockData?.r || 0),
                     })}
                   >
-                    {formatNumber(Number(sell_volume_1) || 0)}
+                    {formatNumber((Number(sell_volume_1) || 0) * 10)}
                   </Text>
                 </td>
                 <div
@@ -338,7 +338,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                         buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 === (stockData?.r || 0),
                     })}
                   >
-                    {formatNumber(Number(buy_volume_1) || 0)}
+                    {formatNumber((Number(buy_volume_1) || 0) * 10)}
                   </Text>
                 </td>
                 <td
@@ -383,7 +383,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                         buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 === (stockData?.r || 0),
                     })}
                   >
-                    {formatNumber(Number(buy_volume_2) || 0)}
+                    {formatNumber((Number(buy_volume_2) || 0) * 10)}
                   </Text>
                 </td>
                 <td
@@ -428,7 +428,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                         buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 === (stockData?.r || 0),
                     })}
                   >
-                    {formatNumber(Number(buy_volume_3) || 0)}
+                    {formatNumber((Number(buy_volume_3) || 0) * 10)}
                   </Text>
                 </td>
                 <td
@@ -511,7 +511,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.lot || 0))}
+            {formatNumber(Number(stockData?.lot || 0) * 10)}
           </Text>
         </div>
 
@@ -520,7 +520,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             {t('movements.total_val')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice))}
+            {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice) * 10)}
           </Text>
         </div>
 
@@ -529,7 +529,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             {t('movements.foreign_buy')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.fBVol) || 0)}
+            {formatNumber((Number(stockData?.fBVol) || 0) * 10)}
           </Text>
         </div>
 
@@ -538,7 +538,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             {t('movements.total_room')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.fRoom) || 0)}
+            {formatNumber((Number(stockData?.fRoom) || 0) * 10)}
           </Text>
         </div>
 
@@ -547,7 +547,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             {t('movements.foreign_sell')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.fSVolume) || 0)}
+            {formatNumber((Number(stockData?.fSVolume) || 0) * 10)}
           </Text>
         </div>
       </div>
