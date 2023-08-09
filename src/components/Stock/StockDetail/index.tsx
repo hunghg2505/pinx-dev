@@ -214,8 +214,12 @@ const StockDetail = () => {
       return;
     }
 
-    if (data?.id === 3220) {
-      setDataStock((prev) => ({ ...prev, ...data }));
+    if (data?.id === 3220 || data?.id === 3250) {
+      const tempData = { ...data };
+      if (data?.id === 3220) {
+        tempData.lot = data.totalVol;
+      }
+      setDataStock((prev) => ({ ...prev, ...tempData }));
     }
 
     // sell
