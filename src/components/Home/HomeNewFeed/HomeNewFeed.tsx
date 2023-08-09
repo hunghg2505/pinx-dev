@@ -166,7 +166,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   };
   React.useEffect(() => {
     const findIndex = dataPosts?.list?.findIndex(
-      (item) => item.id === postDetailStatus?.themeWatchlist?.id,
+      (item) => item?.id === postDetailStatus?.themeWatchlist?.id,
     );
     if (findIndex === -1) {
       onAddNewPost(postDetailStatus?.themeWatchlist);
