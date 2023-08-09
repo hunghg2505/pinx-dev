@@ -125,11 +125,10 @@ const Editor = (props: IProps, ref?: any) => {
           return [
             'a',
             {
-              style: 'font-weight:600;',
               class: 'hashTag',
               userkey: prop && prop.node?.attrs.id,
               'data-username': prop?.node?.attrs?.label,
-              href: `/stock/${prop?.node?.attrs?.label}`,
+              href: 'javascript:void(0)',
             },
             `${prop?.node?.attrs?.label}`,
           ];
@@ -145,7 +144,7 @@ const Editor = (props: IProps, ref?: any) => {
           char: '#',
           items: async ({ query }: { query: string }) => {
             const payload: any = {
-              keyword: query,
+              keyword: `#${query}`,
               page: 0,
               pageSize: 10,
             };
@@ -163,7 +162,7 @@ const Editor = (props: IProps, ref?: any) => {
     ],
     editorProps: {
       attributes: {
-        class: ' focus:outline-none abcd',
+        class: ' focus:outline-none',
       },
     },
   });
@@ -352,7 +351,26 @@ const Editor = (props: IProps, ref?: any) => {
         }
         return p;
       });
-      return abcd?.join('');
+      const dataReduce = abcd?.reduce((acc: any, cur: any, index: any) => {
+        if (cur === '') {
+          const prevIndex = index - 1;
+
+          if (prevIndex >= 0) {
+            const item = acc[prevIndex];
+            if (item) {
+              acc.splice(prevIndex, 1, `${item} `);
+            }
+          }
+          return acc;
+        }
+
+        acc.push(cur);
+
+        return acc;
+      }, []);
+      const dataJoin = dataReduce?.join('');
+      return dataJoin;
+      // return abcd?.join('');
       // console.log('abcd', abcd);
     });
     const tagPeople = await Promise.all(
@@ -379,7 +397,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = test?.flat()?.join(' \n ');
+    const message = test?.flat()?.join('\n');
     const data = {
       message,
       hashtags,
@@ -388,7 +406,6 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-
     if (message?.toLowerCase()?.includes('script')) {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (message && validateHTML(message)) {

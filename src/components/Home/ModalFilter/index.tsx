@@ -29,12 +29,12 @@ export enum FILTER_TYPE {
   NEWS = 'NEWS',
 }
 const ModalFilter = (props: IProps) => {
-  const { t } = useTranslation('home');
+  const { t, i18n } = useTranslation('home');
   const router = useRouter();
   const { run, type } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
-  const { data, refresh } = useGetListFillter();
+  const { data, refresh } = useGetListFillter(i18n?.language);
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
@@ -44,7 +44,7 @@ const ModalFilter = (props: IProps) => {
   }, [type]);
   React.useEffect(() => {
     refresh();
-  }, [router.pathname]);
+  }, [router.pathname, i18n.language, visible]);
   const onVisible = () => {
     setVisible(!visible);
   };

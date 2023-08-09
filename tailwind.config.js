@@ -30,7 +30,7 @@ module.exports = {
       orange: '#EAA100',
     },
     screens: {
-      mobile: '320px',
+      mobile: '280px',
       'mobile-max': { max: '480px' },
       'tablet-max': { max: '768px' },
       'laptop-max': { max: '1024px' },

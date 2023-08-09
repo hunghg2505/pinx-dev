@@ -375,9 +375,11 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='mb-[2px] flex flex-row justify-between'>
+      <div className='relative z-30 mb-[2px] flex flex-row justify-between'>
         <MaybeLink
-          href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ''}
+          href={
+            customerId && !isMyPost ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ROUTE_PATH.MY_PROFILE
+          }
           className='flex w-full flex-1 justify-between'
         >
           <div className='flex flex-1 flex-row items-center'>
@@ -389,7 +391,7 @@ const NewFeedItem = (props: IProps) => {
                   TYPEPOST.ActivityTheme,
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.ActivityMatchOrder,
-                ].includes(postDetail?.post.postType),
+                ].includes(postDetail?.post?.postType),
               })}
             >
               <Avatar postDetail={postDetail} />
@@ -401,7 +403,7 @@ const NewFeedItem = (props: IProps) => {
                     TYPEPOST.ActivityTheme,
                     TYPEPOST.ActivityWatchlist,
                     TYPEPOST.ActivityMatchOrder,
-                  ].includes(postDetail?.post.postType) && isHovering
+                  ].includes(postDetail?.post?.postType) && isHovering
                 }
               >
                 <ItemHoverProfile postDetail={postDetail} name={name} />

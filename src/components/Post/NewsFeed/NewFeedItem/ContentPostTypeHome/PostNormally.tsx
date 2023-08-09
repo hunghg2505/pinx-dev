@@ -85,7 +85,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
           <img
             src={BgThemePost?.bgImage}
             alt=''
-            className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:h-[204px] tablet:rounded-[8px] desktop:h-[300px]'
+            className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:max-h-[300px] mobile:min-h-[204px] tablet:rounded-[8px] desktop:h-[300px]'
           />
           {message && (
             <div>

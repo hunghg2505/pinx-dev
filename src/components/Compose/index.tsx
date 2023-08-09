@@ -222,7 +222,7 @@ const Compose = (props: IProps) => {
                 userkey: prop && prop.node?.attrs?.id,
                 'data-username': prop?.node.attrs?.label,
                 'data-linked-resource-type': 'userinfo',
-                href: `/profile/${prop?.node.attrs?.id}`,
+                href: 'javascript:void(0)',
               },
               `@${prop?.node?.attrs?.label}`,
             ];
@@ -259,7 +259,7 @@ const Compose = (props: IProps) => {
                 userkey: prop && prop.node?.attrs.id,
                 'data-username': prop?.node?.attrs?.label,
                 'data-linked-resource-type': 'userinfo',
-                href: `/stock/${prop?.node?.attrs?.label}`,
+                href: 'javascript:void(0)',
               },
               `%${prop?.node?.attrs?.label}`,
             ];
@@ -292,11 +292,10 @@ const Compose = (props: IProps) => {
             return [
               'a',
               {
-                style: 'font-weight:600;',
                 class: 'hashTag',
                 userkey: prop && prop.node?.attrs.id,
                 'data-username': prop?.node?.attrs?.label,
-                href: `/stock/${prop?.node?.attrs?.label}`,
+                href: 'javascript:void(0)',
               },
               `${prop?.node?.attrs?.label}`,
             ];
@@ -312,7 +311,7 @@ const Compose = (props: IProps) => {
             char: '#',
             items: async ({ query }: { query: string }) => {
               const payload: any = {
-                keyword: query,
+                keyword: `#${query}`,
                 page: 0,
                 pageSize: 10,
               };
@@ -330,7 +329,7 @@ const Compose = (props: IProps) => {
       ],
       editorProps: {
         attributes: {
-          class: 'focus:outline-none h-full',
+          class: 'focus:outline-none h-full composePost',
         },
       },
       // content: `${message || ''}`,

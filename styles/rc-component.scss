@@ -140,6 +140,7 @@
   }
   .hashtag {
     color: #1f6eac !important;
+    font-weight: 400 !important;
   }
   .link {
     color: #3449d7 !important;
@@ -326,6 +327,12 @@
 }
 .ProseMirror{
   word-break: break-word;
+  
+}
+.composePost{
+  max-height: 250px;
+  overflow-y: auto;
+  min-height: 80px;
 }
 .ProseMirror p.is-editor-empty:first-child::before {
   color: #adb5bd;

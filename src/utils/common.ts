@@ -125,11 +125,11 @@ export const formatMessage = (message: string, data: any) => {
   if (listHashTag) {
     for (const item of listHashTag) {
       if (message && message.includes(item)) {
-        const newItem = item.replace('#', '');
-        message = message.replaceAll(
+        // const newItem = item.replace('#', '');
+        message = message.replace(
           item,
           `
-          <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
+          <a href="javascript:void(0)" class="hashtag">${item}</a>
           `,
         );
       }
@@ -137,15 +137,15 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    if (item.includes('#')) {
-      const newItem = item.replace('#', '');
-      message = message.replaceAll(
-        item,
-        `
-        <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
-        `,
-      );
-    }
+    // if (item.includes('#')) {
+    //   // const newItem = item.replace('#', '');
+    //   message = message.replaceAll(
+    //     item,
+    //     `
+    //     <a href="javascript:void(0)" class="hashtag">${item}</a>
+    //     `,
+    //   );
+    // }
     if (item.includes('http') && !item.includes('\n')) {
       message = message.replaceAll(
         item,

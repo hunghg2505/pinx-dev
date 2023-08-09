@@ -19,7 +19,7 @@ export const Avatar = ({ postDetail }: any) => {
         TYPEPOST.PinetreeMorningBrief,
         TYPEPOST.PinetreePost,
         TYPEPOST.PinetreeWeeklyNews,
-      ].includes(postDetail?.post.postType)
+      ].includes(postDetail?.post?.postType)
     ) {
       return '/static/logo/logoPintree.png';
     }
@@ -34,21 +34,21 @@ export const Avatar = ({ postDetail }: any) => {
         TYPEPOST.ActivityTheme,
         TYPEPOST.ActivityWatchlist,
         TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
+      ].includes(postDetail?.post?.postType)
     ) {
       return postDetail?.post?.customerInfo?.avatar;
     }
     if (
       [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
-        postDetail?.post.postType,
+        postDetail?.post?.postType,
       )
     ) {
       return 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
     }
-    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post?.postType)) {
       return '/static/logo/cafef-logo.png';
     }
-  }, [postDetail?.post.postType]);
+  }, [postDetail?.post?.postType]);
 
   if (postDetail?.post?.customerInfo?.avatar === '') {
     return <AvatarDefault name={name} />;
@@ -68,7 +68,7 @@ export const Avatar = ({ postDetail }: any) => {
               TYPEPOST.ActivityTheme,
               TYPEPOST.ActivityWatchlist,
               TYPEPOST.ActivityMatchOrder,
-            ].includes(postDetail?.post.postType),
+            ].includes(postDetail?.post?.postType),
           },
         )}
       />
