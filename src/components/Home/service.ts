@@ -145,15 +145,19 @@ interface IOptionsRequest {
   onSuccess?: (r: any) => void;
   onError?: (e: any) => void;
 }
-export const useGetListFillter = () => {
+export const useGetListFillter = (language: string) => {
   const { data, refresh } = useRequest(
     () => {
-      return requestCommunity.get(API_PATH.FILTER_LIST);
+      return requestCommunity.get(API_PATH.FILTER_LIST, {
+        headers: {
+          'Accept-Language': language,
+        },
+      });
     },
-    {
-      cacheKey: 'data-filter',
-      staleTime: -1,
-    },
+    // {
+    //   cacheKey: 'data-filter',
+    //   staleTime: -1,
+    // },
   );
 
   return {

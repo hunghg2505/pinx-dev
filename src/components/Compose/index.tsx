@@ -329,7 +329,7 @@ const Compose = (props: IProps) => {
       ],
       editorProps: {
         attributes: {
-          class: 'focus:outline-none h-full',
+          class: 'focus:outline-none h-full composePost',
         },
       },
       // content: `${message || ''}`,

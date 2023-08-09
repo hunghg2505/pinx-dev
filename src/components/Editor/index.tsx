@@ -162,7 +162,7 @@ const Editor = (props: IProps, ref?: any) => {
     ],
     editorProps: {
       attributes: {
-        class: ' focus:outline-none abcd',
+        class: ' focus:outline-none',
       },
     },
   });
@@ -354,6 +354,7 @@ const Editor = (props: IProps, ref?: any) => {
       return abcd?.join('');
       // console.log('abcd', abcd);
     });
+    console.log('test', test);
     const tagPeople = await Promise.all(
       users?.map(async (item: string) => {
         const payload: ISearch = {
@@ -387,7 +388,6 @@ const Editor = (props: IProps, ref?: any) => {
       parentId: idReply === '' ? id : idReply,
       urlImages: [imageComment],
     };
-
     if (message?.toLowerCase()?.includes('script')) {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (message && validateHTML(message)) {
