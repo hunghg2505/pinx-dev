@@ -138,11 +138,11 @@ export const formatMessage = (message: string, data: any) => {
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
     if (item.includes('#')) {
-      const newItem = item.replace('#', '');
+      // const newItem = item.replace('#', '');
       message = message.replaceAll(
         item,
         `
-        <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
+        <a href="javascript:void(0)" class="hashtag">${item}</a>
         `,
       );
     }
