@@ -377,7 +377,9 @@ const NewFeedItem = (props: IProps) => {
     <>
       <div className='mb-[2px] flex flex-row justify-between'>
         <MaybeLink
-          href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ''}
+          href={
+            customerId && !isMyPost ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ROUTE_PATH.MY_PROFILE
+          }
           className='flex w-full flex-1 justify-between'
         >
           <div className='flex flex-1 flex-row items-center'>
