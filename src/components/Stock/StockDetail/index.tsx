@@ -723,7 +723,11 @@ const StockDetail = () => {
                       ]
                     }
                     key={index}
-                    value={+item.percentage.toFixed(2)}
+                    value={
+                      Number.isInteger(item.percentage)
+                        ? item.percentage
+                        : +item.percentage.toFixed(2)
+                    }
                     label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
                   />
                 ))}
