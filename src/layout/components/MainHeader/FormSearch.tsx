@@ -60,16 +60,14 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onFocus: () => {
       refreshSearchRecent();
       setInputFocus(true);
-      setShowRecent(true);
+      // setShowRecent(true);
       const value = form.getFieldValue('search');
       // setQuery(value);
       if (value === '' || value === undefined) {
         // toast('Empty || undefined');
         setShowPopup(false);
       } else {
-        // toast('Not Empty');
         setShowPopup(true);
-        refresh();
       }
     },
   });
@@ -82,20 +80,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
-  const handleSubmit = () => {
-    const value = form.getFieldValue('search');
+  const handleSubmit = async () => {
+    const value = await form.getFieldValue('search').trim();
     setQuery(value);
-    const payloads = {
-      textSearch: query,
-    };
     if (value === '' || value === undefined) {
       setInputFocus(true);
       setShowRecent(true);
       setShowPopup(false);
-      setIsOpenSearch(!isOpenSearch);
     } else {
+      const payloads = {
+        textSearch: query.trim(),
+      };
       requestSearch.run(payloads);
-      // setIsOpenSearch(!isOpenSearch);
     }
   };
 
@@ -117,9 +113,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   });
 
   // Set value when onSubmit Form
-  const handleOnchange = () => {
-    setQuery(form.getFieldValue('search'));
-  };
+  // const handleOnchange = () => {
+  //   setQuery(form.getFieldValue('search'));
+  // };
 
   const removeFormSearch = () => {
     form.setFieldValue('search', '');
@@ -153,6 +149,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         setShowRecent(false);
         setShowPopup(true);
         setInputFocus(true);
+        refresh();
         searchPublic({
           textSearch: value,
         });
@@ -163,8 +160,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     },
   );
 
-  const onClickRecent = (data: any) => {
-    form.setFieldValue('search', data);
+  const onClickRecent = async (data: any) => {
+    await form.setFieldValue('search', data);
     setQuery(data);
     form.submit();
     isDesktop && form.submit();
@@ -205,9 +202,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             'w-full': isMobile,
           })}
           form={form}
-          onFinish={handleSubmit}
-          onValuesChange={run}
-          onFieldsChange={handleOnchange}
+          // onFinish={handleSubmit}
+          // onValuesChange={run}
+          // onFieldsChange={handleOnchange}
         >
           <FormItem name='search'>
             <Input
