@@ -35,6 +35,11 @@ export const getColor = (price: number, ref: number) => {
       backgroundColor: '#B6DFD1',
     };
   }
+
+  return {
+    color: '#128F63',
+    backgroundColor: '#B6DFD1',
+  };
 };
 
 const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
