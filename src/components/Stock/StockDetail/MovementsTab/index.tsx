@@ -273,6 +273,14 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                       ? sell_price_3
                       : formatNumber(Number(sell_price_3) || 0)}
                   </Text>
+
+                  <div
+                    className='absolute -bottom-[1px] left-0 h-[3px] border-none'
+                    style={{
+                      width: (+sell_volume_3 / maxVolume) * 100 + '%',
+                      backgroundColor: getColor(+sell_price_3, stockData?.r || 0)?.backgroundColor,
+                    }}
+                  ></div>
                 </td>
                 <td className='pr-[8px] text-right align-middle'>
                   <Text
@@ -290,13 +298,6 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                     {formatNumber((Number(sell_volume_3) || 0) * 10)}
                   </Text>
                 </td>
-                <div
-                  className='absolute bottom-0 left-0 h-[3px] border-none'
-                  style={{
-                    width: (+sell_volume_3 / maxVolume) * 100 + '%',
-                    backgroundColor: getColor(+sell_price_3, stockData?.r || 0)?.backgroundColor,
-                  }}
-                ></div>
               </tr>
 
               <tr className='h-[32px]'>
@@ -319,6 +320,14 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                       ? sell_price_2
                       : formatNumber(Number(sell_price_2) || 0)}
                   </Text>
+
+                  <div
+                    className='absolute -bottom-[1px] left-0 h-[3px] border-none'
+                    style={{
+                      width: (+sell_volume_2 / maxVolume) * 100 + '%',
+                      backgroundColor: getColor(+sell_price_2, stockData?.r || 0)?.backgroundColor,
+                    }}
+                  ></div>
                 </td>
                 <td className='pr-[8px] text-right align-middle'>
                   <Text
@@ -336,13 +345,6 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                     {formatNumber((Number(sell_volume_2) || 0) * 10)}
                   </Text>
                 </td>
-                <div
-                  className='absolute bottom-0 left-0 h-[3px] border-none'
-                  style={{
-                    width: (+sell_volume_2 / maxVolume) * 100 + '%',
-                    backgroundColor: getColor(+sell_price_2, stockData?.r || 0)?.backgroundColor,
-                  }}
-                ></div>
               </tr>
 
               <tr className='h-[32px]'>
@@ -365,6 +367,14 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                       ? sell_price_1
                       : formatNumber(Number(sell_price_1) || 0)}
                   </Text>
+
+                  <div
+                    className='absolute -bottom-[1px] left-0 h-[3px] border-none'
+                    style={{
+                      width: (+sell_volume_1 / maxVolume) * 100 + '%',
+                      backgroundColor: getColor(+sell_price_1, stockData?.r || 0)?.backgroundColor,
+                    }}
+                  ></div>
                 </td>
                 <td className='pr-[8px] text-right align-middle'>
                   <Text
@@ -382,13 +392,6 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                     {formatNumber((Number(sell_volume_1) || 0) * 10)}
                   </Text>
                 </td>
-                <div
-                  className='absolute bottom-0 left-0 h-[3px] border-none'
-                  style={{
-                    width: (+sell_volume_1 / maxVolume) * 100 + '%',
-                    backgroundColor: getColor(+sell_price_1, stockData?.r || 0)?.backgroundColor,
-                  }}
-                ></div>
               </tr>
             </tbody>
           </table>
@@ -437,14 +440,14 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                       ? buy_price_1
                       : formatNumber(Number(buy_price_1) || 0)}
                   </Text>
+                  <div
+                    className='absolute -bottom-[1px] right-0 h-[3px] border-none'
+                    style={{
+                      width: (+buy_volume_1 / maxVolume) * 100 + '%',
+                      backgroundColor: getColor(+buy_price_1, stockData?.r || 0)?.backgroundColor,
+                    }}
+                  ></div>
                 </td>
-                <div
-                  className='absolute bottom-0 right-0 h-[3px] border-none'
-                  style={{
-                    width: (+buy_volume_1 / maxVolume) * 100 + '%',
-                    backgroundColor: getColor(+buy_price_1, stockData?.r || 0)?.backgroundColor,
-                  }}
-                ></div>
               </tr>
 
               <tr className='h-[32px]'>
@@ -482,14 +485,14 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                       ? buy_price_2
                       : formatNumber(Number(buy_price_2) || 0)}
                   </Text>
+                  <div
+                    className='absolute -bottom-[1px] right-0 h-[3px] border-none'
+                    style={{
+                      width: (+buy_volume_2 / maxVolume) * 100 + '%',
+                      backgroundColor: getColor(+buy_price_2, stockData?.r || 0)?.backgroundColor,
+                    }}
+                  ></div>
                 </td>
-                <div
-                  className='absolute bottom-0 right-0 h-[3px] border-none'
-                  style={{
-                    width: (+buy_volume_2 / maxVolume) * 100 + '%',
-                    backgroundColor: getColor(+buy_price_2, stockData?.r || 0)?.backgroundColor,
-                  }}
-                ></div>
               </tr>
 
               <tr className='h-[32px]'>
@@ -527,14 +530,14 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                       ? buy_price_3
                       : formatNumber(Number(buy_price_3) || 0)}
                   </Text>
+                  <div
+                    className='absolute -bottom-[1px] right-0 h-[3px] border-none'
+                    style={{
+                      width: (+buy_volume_3 / maxVolume) * 100 + '%',
+                      backgroundColor: getColor(+buy_price_3, stockData?.r || 0)?.backgroundColor,
+                    }}
+                  ></div>
                 </td>
-                <div
-                  className='absolute bottom-0 right-0 h-[3px] border-none'
-                  style={{
-                    width: (+buy_volume_3 / maxVolume) * 100 + '%',
-                    backgroundColor: getColor(+buy_price_3, stockData?.r || 0)?.backgroundColor,
-                  }}
-                ></div>
               </tr>
             </tbody>
           </table>

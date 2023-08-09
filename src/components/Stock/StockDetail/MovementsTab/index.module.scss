@@ -1,10 +1,14 @@
 .tableRedBorder {
   tr {
-    position: relative;
-
     &:not(:last-child) {
       td {
         border-bottom: 1px solid #ebebeb;
+      }
+    }
+
+    td {
+      &:first-child {
+        @apply relative w-full;
       }
     }
   }
@@ -12,11 +16,15 @@
 
 .tableGreenBorder {
   tr {
-    position: relative;
-
     &:not(:last-child) {
       td {
         border-bottom: 1px solid #ebebeb;
+      }
+    }
+
+    td {
+      &:last-child {
+        @apply relative w-full;
       }
     }
   }
