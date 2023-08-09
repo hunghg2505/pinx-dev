@@ -590,13 +590,9 @@ const StockDetail = () => {
           </div>
 
           {isMobile ? (
-            <div className={classNames('overflow-x-auto whitespace-nowrap', styles.noScrollbar)}>
+            <div className={classNames('flex items-center overflow-x-auto', styles.noScrollbar)}>
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem
-                  className='inline-block whitespace-break-spaces'
-                  key={index}
-                  data={item}
-                />
+                <ProductItem className='min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
