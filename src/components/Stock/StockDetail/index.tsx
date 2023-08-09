@@ -214,8 +214,12 @@ const StockDetail = () => {
       return;
     }
 
-    if (data?.id === 3220) {
-      setDataStock((prev) => ({ ...prev, ...data }));
+    if (data?.id === 3220 || data?.id === 3250) {
+      const tempData = { ...data };
+      if (data?.id === 3220) {
+        tempData.lot = data.totalVol;
+      }
+      setDataStock((prev) => ({ ...prev, ...tempData }));
     }
 
     // sell
@@ -354,13 +358,22 @@ const StockDetail = () => {
     };
   }, [stockDetail?.data?.products]);
 
-  const { unit } = useMemo(() => {
+  const { unit, chartColorFormat } = useMemo(() => {
     const highest_price = dataStock?.r;
     const isDecrease = (dataStock?.lastPrice || 0) < (highest_price || 0);
     const unit = isDecrease ? '-' : '+';
 
+    const chartColor = getStockColor(
+      dataStock?.lastPrice || 0,
+      dataStock?.c || 0,
+      dataStock?.f || 0,
+      dataStock?.r || 0,
+    );
+    const chartColorFormat = chartColor.slice(1);
+
     return {
       unit,
+      chartColorFormat,
     };
   }, [dataStock]);
 
@@ -523,9 +536,10 @@ const StockDetail = () => {
         {/* chart */}
         <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
           <iframe
-            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}`}
+            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}&color=${chartColorFormat}`}
             frameBorder='0'
             className='h-[350px] w-full'
+            key={Date.now()}
           ></iframe>
         </div>
 
@@ -723,8 +737,12 @@ const StockDetail = () => {
                       ]
                     }
                     key={index}
-                    value={+item.percentage.toFixed(2)}
-                    label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
+                    value={
+                      Number.isInteger(item.percentage)
+                        ? item.percentage
+                        : +item.percentage.toFixed(2)
+                    }
+                    label={item.sourceVi}
                   />
                 ))}
               </div>

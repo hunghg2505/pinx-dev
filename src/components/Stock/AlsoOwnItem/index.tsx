@@ -80,7 +80,7 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
 
         <div className='ml-auto flex items-center pl-[8px]'>
           <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-            {data.ownerRatio.toFixed(2)}%
+            {Number.isInteger(data.ownerRatio) ? data.ownerRatio : data.ownerRatio.toFixed(2)}%
           </Text>
 
           <div className='px-[7px]'>
