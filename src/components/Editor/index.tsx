@@ -351,10 +351,28 @@ const Editor = (props: IProps, ref?: any) => {
         }
         return p;
       });
-      return abcd?.join('');
+      const dataReduce = abcd?.reduce((acc: any, cur: any, index: any) => {
+        if (cur === '') {
+          const prevIndex = index - 1;
+
+          if (prevIndex >= 0) {
+            const item = acc[prevIndex];
+            if (item) {
+              acc.splice(prevIndex, 1, `${item} `);
+            }
+          }
+          return acc;
+        }
+
+        acc.push(cur);
+
+        return acc;
+      }, []);
+      const dataJoin = dataReduce?.join('');
+      return dataJoin;
+      // return abcd?.join('');
       // console.log('abcd', abcd);
     });
-    console.log('test', test);
     const tagPeople = await Promise.all(
       users?.map(async (item: string) => {
         const payload: ISearch = {
@@ -379,7 +397,7 @@ const Editor = (props: IProps, ref?: any) => {
         numberFollowers: item?.numberFollowers,
       };
     });
-    const message = test?.flat()?.join(' \n ');
+    const message = test?.flat()?.join('\n');
     const data = {
       message,
       hashtags,

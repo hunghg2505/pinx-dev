@@ -35,7 +35,6 @@ const ModalFilter = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
   const { data, refresh } = useGetListFillter(i18n?.language);
-  console.log('🚀 ~ file: index.tsx:38 ~ ModalFilter ~ data:', data);
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
@@ -45,7 +44,6 @@ const ModalFilter = (props: IProps) => {
   }, [type]);
   React.useEffect(() => {
     refresh();
-    console.log('123');
   }, [router.pathname, i18n.language, visible]);
   const onVisible = () => {
     setVisible(!visible);
@@ -65,7 +63,6 @@ const ModalFilter = (props: IProps) => {
   };
   const renderText = () => {
     const text = data?.data?.find((item: IFilter) => item.filterType === filterType);
-    console.log('🚀 ~ file: index.tsx:67 ~ renderText ~ text:', text);
     if (text) {
       return text.title;
     }
