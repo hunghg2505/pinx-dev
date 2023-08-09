@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
@@ -84,6 +85,7 @@ const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch
 const PRODUCT_SLIDE_LIMIT = 5;
 
 dayjs.extend(quarterOfYear);
+dayjs.extend(minMax);
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
@@ -98,6 +100,7 @@ const StockDetail = () => {
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
+  const [preDataStock, setPreDataStock] = useState<IStockData>();
   const refSlide = useRef<any>(null);
 
   const router = useRouter();
@@ -137,6 +140,7 @@ const StockDetail = () => {
   useGetStockData(stockCode, {
     onSuccess: (res) => {
       setDataStock((prev) => ({ ...prev, ...res.data }));
+      setPreDataStock((prev) => ({ ...prev, ...res.data }));
       requestJoinChannel(res.data.sym);
     },
   });
@@ -206,16 +210,26 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
-    if (!dataStock) {
+    if (!dataStock || data.sym !== dataStock?.sym) {
       return;
     }
 
-    if (data?.id === 3220 && data.sym === dataStock?.sym) {
+    if (data?.id === 3220) {
       setDataStock((prev) => ({ ...prev, ...data }));
     }
 
     // sell
-    if (data.side === 'S' && data.sym === dataStock?.sym) {
+    if (data.side === 'S') {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g4: data.g1,
+        g5: data.g2,
+        g6: data.g3,
+      }));
+    }
+
+    // buy
+    if (data.side === 'B') {
       setDataStock((prev: any) => ({
         ...prev,
         g1: data.g1,
@@ -224,15 +238,7 @@ const StockDetail = () => {
       }));
     }
 
-    // buy
-    if (data.side === 'B' && data.sym === dataStock?.sym) {
-      setDataStock((prev: any) => ({
-        ...prev,
-        g4: data.g1,
-        g5: data.g2,
-        g6: data.g3,
-      }));
-    }
+    setPreDataStock(dataStock);
   });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
@@ -359,9 +365,11 @@ const StockDetail = () => {
   }, [dataStock]);
 
   const revenueLastUpdated = useMemo(() => {
-    if (taggingInfo?.data?.revenues) {
-      const lastUpdate = Math.max(
-        ...taggingInfo?.data?.revenues.map((item) => new Date(item.updatedAt).getTime()),
+    if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
+      const lastUpdate = dayjs.max(
+        taggingInfo?.data?.revenues
+          .filter((item) => item.updatedAt)
+          .map((item) => dayjs(item.updatedAt)),
       );
 
       return {
@@ -530,11 +538,11 @@ const StockDetail = () => {
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
-            <MovementsTab stockData={dataStock} />
+            <MovementsTab stockData={dataStock} preDataStock={preDataStock} />
           </TabPane>
 
           <TabPane tab={t('tab.matchings')} key={TabType.MATCHINGS}>
-            <MatchingsTab stockCode={stockCode} />
+            <MatchingsTab stockCode={stockCode} stockRefPrice={dataStock?.r || 0} />
           </TabPane>
 
           <TabPane tab={t('tab.intraday')} key={TabType.INTRADAY}>
@@ -586,13 +594,9 @@ const StockDetail = () => {
           </div>
 
           {isMobile ? (
-            <div className={classNames('overflow-x-auto whitespace-nowrap', styles.noScrollbar)}>
+            <div className={classNames('flex items-center overflow-x-auto', styles.noScrollbar)}>
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem
-                  className='inline-block whitespace-break-spaces'
-                  key={index}
-                  data={item}
-                />
+                <ProductItem className='min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -1034,7 +1038,7 @@ const StockDetail = () => {
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
           {/* chart */}
-          <div className='mt-[28px] flex justify-between gap-x-[12px] tablet:items-center'>
+          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[24px] tablet:flex-row tablet:items-center'>
             <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>
@@ -1066,12 +1070,14 @@ const StockDetail = () => {
               ))}
             </div>
 
-            <DonutChart
-              strokeWidth={isMobile ? 16 : 27}
-              width={isMobile ? 183 : 318}
-              height={isMobile ? 183 : 318}
-              data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
-            />
+            <div className='mx-auto'>
+              <DonutChart
+                strokeWidth={isMobile ? 16 : 27}
+                width={isMobile ? 183 : 318}
+                height={isMobile ? 183 : 318}
+                data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
+              />
+            </div>
           </div>
         </div>
       )}

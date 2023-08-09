@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
+import { getColor } from '@components/Stock/StockDetail/MovementsTab';
 import { IStockTrade } from '@components/Stock/type';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
@@ -18,11 +19,17 @@ interface IPopupMatchedPriceProps {
   stockTrade?: {
     data: IStockTrade[];
   };
+  stockRefPrice: number;
 }
 
 const POPUP_CLASS_NAME = 'popup-matched-price';
 
-const PopupMatchedPrice = ({ visible, onClose, stockTrade }: IPopupMatchedPriceProps) => {
+const PopupMatchedPrice = ({
+  visible,
+  onClose,
+  stockTrade,
+  stockRefPrice,
+}: IPopupMatchedPriceProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const [popupWidth, setPopupWidth] = useState<number | undefined>();
   const ref = useRef<HTMLTableSectionElement>(null);
@@ -105,7 +112,9 @@ const PopupMatchedPrice = ({ visible, onClose, stockTrade }: IPopupMatchedPriceP
               <td className='py-[10px] pr-[16px]'>
                 <div
                   className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
-                  style={{ backgroundColor: item.color || '#DA314F' }}
+                  style={{
+                    backgroundColor: getColor(item.lastPrice, stockRefPrice)?.color,
+                  }}
                 >
                   <Text type='body-16-semibold' color='cbwhite'>
                     {item.change}
