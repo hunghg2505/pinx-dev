@@ -9,13 +9,15 @@ import { FinancialAnnualKey, FinancialType } from '@components/Stock/type';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 
+const INIT_PAGE = 1;
+
 interface IFinancialAnnualTabProps {
   stockCode: string;
 }
 
 const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
   const { i18n, t } = useTranslation(['stock']);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(INIT_PAGE);
   const [isNextPage, setIsNextPage] = useState(false);
   const { financialIndicator, onGetFinancialIndicator, loading } = useFinancialIndicator({
     params: {
@@ -27,6 +29,13 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
   useEffect(() => {
     !loading && onGetFinancialIndicator(page);
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      setPage(INIT_PAGE);
+      onGetFinancialIndicator(INIT_PAGE);
+    };
+  }, [stockCode]);
 
   const handleBack = () => {
     setIsNextPage(false);

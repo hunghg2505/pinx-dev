@@ -36,11 +36,22 @@ const requestPist = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    // 'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
   },
+});
+requestPist.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
 });
 
 const requestMarket = extend({
@@ -48,12 +59,24 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    // 'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
   },
 });
+requestMarket.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
+});
+
 const requestUploadPhoto = extend({
   prefix: PREFIX_API_UPLOADPHOTO,
   timeout: REQ_TIMEOUT,
@@ -69,12 +92,23 @@ const requestUploadPhoto = extend({
 const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
-  headers: {
-    'Accept-Language': (getLocaleCookie() as string) || 'vi',
-  },
+  // headers: {
+  //   'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  // },
   errorHandler: (error) => {
     redirectlogin(error);
   },
+});
+requestCommunity.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
 });
 
 const tokenManager = new TokenManager({
