@@ -526,6 +526,7 @@ const StockDetail = () => {
             src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}`}
             frameBorder='0'
             className='h-[350px] w-full'
+            key={Date.now()}
           ></iframe>
         </div>
 
@@ -728,7 +729,7 @@ const StockDetail = () => {
                         ? item.percentage
                         : +item.percentage.toFixed(2)
                     }
-                    label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
+                    label={item.sourceVi}
                   />
                 ))}
               </div>
