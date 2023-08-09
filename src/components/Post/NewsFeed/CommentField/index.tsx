@@ -125,7 +125,6 @@ const Editor = (props: IProps, ref?: any) => {
           return [
             'a',
             {
-              style: 'font-weight:600;',
               class: 'hashTag',
               userkey: prop && prop.node?.attrs.id,
               'data-username': prop?.node?.attrs?.label,
