@@ -187,7 +187,7 @@ const MainHeader = () => {
                 </div>
               )}
               <div className='max-w-[350px] w-full flex items-center justify-end gap-[12px]'>
-                {!isMobile && <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />}
+                {isMobile && <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />}
                 <Notifications />
                 <Profile />
               </div>
