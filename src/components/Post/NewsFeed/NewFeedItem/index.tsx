@@ -389,7 +389,7 @@ const NewFeedItem = (props: IProps) => {
                   TYPEPOST.ActivityTheme,
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.ActivityMatchOrder,
-                ].includes(postDetail?.post.postType),
+                ].includes(postDetail?.post?.postType),
               })}
             >
               <Avatar postDetail={postDetail} />
@@ -401,7 +401,7 @@ const NewFeedItem = (props: IProps) => {
                     TYPEPOST.ActivityTheme,
                     TYPEPOST.ActivityWatchlist,
                     TYPEPOST.ActivityMatchOrder,
-                  ].includes(postDetail?.post.postType) && isHovering
+                  ].includes(postDetail?.post?.postType) && isHovering
                 }
               >
                 <ItemHoverProfile postDetail={postDetail} name={name} />

@@ -54,7 +54,7 @@ export const ActivityMatchOrder = ({
             width='0'
             height='0'
             sizes='100vw'
-            className='absolute right-0 top-0 h-full w-full'
+            className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'
           />
           <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
             <img

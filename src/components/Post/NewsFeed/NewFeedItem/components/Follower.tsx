@@ -15,7 +15,7 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
       TYPEPOST.ActivityTheme,
       TYPEPOST.ActivityMatchOrder,
       TYPEPOST.ActivityWatchlist,
-    ].includes(postDetail?.post.postType)
+    ].includes(postDetail?.post?.postType)
   ) {
     return <></>;
   }
