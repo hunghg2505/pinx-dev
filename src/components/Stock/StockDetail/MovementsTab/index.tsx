@@ -11,6 +11,7 @@ import styles from './index.module.scss';
 
 interface IMovementsTabProps {
   stockData?: IStockData;
+  preDataStock?: IStockData;
 }
 
 export const getColor = (price: number, ref: number) => {
@@ -36,7 +37,7 @@ export const getColor = (price: number, ref: number) => {
   }
 };
 
-const MovementsTab = ({ stockData }: IMovementsTabProps) => {
+const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
   const { t } = useTranslation(['stock', 'common']);
 
   const {
@@ -85,6 +86,43 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
       maxVolume,
     };
   }, [stockData]);
+
+  const {
+    pre_buy_price_1,
+    pre_buy_volume_1,
+    pre_buy_price_2,
+    pre_buy_volume_2,
+    pre_buy_price_3,
+    pre_buy_volume_3,
+    pre_sell_price_1,
+    pre_sell_volume_1,
+    pre_sell_price_2,
+    pre_sell_volume_2,
+    pre_sell_price_3,
+    pre_sell_volume_3,
+  } = useMemo(() => {
+    const [pre_buy_price_1, pre_buy_volume_1] = (preDataStock?.g1 || '').split('|');
+    const [pre_buy_price_2, pre_buy_volume_2] = (preDataStock?.g2 || '').split('|');
+    const [pre_buy_price_3, pre_buy_volume_3] = (preDataStock?.g3 || '').split('|');
+    const [pre_sell_price_1, pre_sell_volume_1] = (preDataStock?.g4 || '').split('|');
+    const [pre_sell_price_2, pre_sell_volume_2] = (preDataStock?.g5 || '').split('|');
+    const [pre_sell_price_3, pre_sell_volume_3] = (preDataStock?.g6 || '').split('|');
+
+    return {
+      pre_buy_price_1,
+      pre_buy_volume_1,
+      pre_buy_price_2,
+      pre_buy_volume_2,
+      pre_buy_price_3,
+      pre_buy_volume_3,
+      pre_sell_price_1,
+      pre_sell_volume_1,
+      pre_sell_price_2,
+      pre_sell_volume_2,
+      pre_sell_price_3,
+      pre_sell_volume_3,
+    };
+  }, [preDataStock]);
 
   return (
     <>
@@ -140,14 +178,39 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             <tbody>
               <tr className='h-[32px]'>
                 <td
-                  className='pl-[20px] align-middle'
+                  className='pl-[16px] align-middle'
                   style={{ color: getColor(+sell_price_3, stockData?.r || 0)?.color }}
                 >
-                  <Text type='body-12-semibold'>{formatNumber(Number(sell_price_3) || 0)}</Text>
+                  <Text
+                    type='body-12-semibold'
+                    className={classNames('inline-block px-[4px]', {
+                      [styles.isIncrease]:
+                        sell_price_3 !== pre_sell_price_3 && +sell_price_3 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        sell_price_3 !== pre_sell_price_3 && +sell_price_3 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        sell_price_3 !== pre_sell_price_3 && +sell_price_3 === (stockData?.r || 0),
+                    })}
+                  >
+                    {Number.isNaN(+sell_price_3)
+                      ? sell_price_3
+                      : formatNumber(Number(sell_price_3) || 0)}
+                  </Text>
                 </td>
-                <td className='pr-[12px] text-right align-middle'>
-                  <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(sell_volume_3) || 0)}
+                <td className='pr-[8px] text-right align-middle'>
+                  <Text
+                    type='body-10-regular'
+                    className={classNames('inline-block px-[4px] text-[#474D57]', {
+                      [styles.isIncrease]:
+                        sell_volume_3 !== pre_sell_volume_3 && +sell_price_3 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        sell_volume_3 !== pre_sell_volume_3 && +sell_price_3 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        sell_volume_3 !== pre_sell_volume_3 &&
+                        +sell_price_3 === (stockData?.r || 0),
+                    })}
+                  >
+                    {formatNumber((Number(sell_volume_3) || 0) * 10)}
                   </Text>
                 </td>
                 <div
@@ -158,16 +221,42 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
                   }}
                 ></div>
               </tr>
+
               <tr className='h-[32px]'>
                 <td
-                  className='pl-[20px] align-middle'
+                  className='pl-[16px] align-middle'
                   style={{ color: getColor(+sell_price_2, stockData?.r || 0)?.color }}
                 >
-                  <Text type='body-12-semibold'>{formatNumber(Number(sell_price_2) || 0)}</Text>
+                  <Text
+                    type='body-12-semibold'
+                    className={classNames('inline-block px-[4px]', {
+                      [styles.isIncrease]:
+                        sell_price_2 !== pre_sell_price_2 && +sell_price_2 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        sell_price_2 !== pre_sell_price_2 && +sell_price_2 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        sell_price_2 !== pre_sell_price_2 && +sell_price_2 === (stockData?.r || 0),
+                    })}
+                  >
+                    {Number.isNaN(+sell_price_2)
+                      ? sell_price_2
+                      : formatNumber(Number(sell_price_2) || 0)}
+                  </Text>
                 </td>
-                <td className='pr-[12px] text-right align-middle'>
-                  <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(sell_volume_2) || 0)}
+                <td className='pr-[8px] text-right align-middle'>
+                  <Text
+                    type='body-10-regular'
+                    className={classNames('inline-block px-[4px] text-[#474D57]', {
+                      [styles.isIncrease]:
+                        sell_volume_2 !== pre_sell_volume_2 && +sell_price_2 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        sell_volume_2 !== pre_sell_volume_2 && +sell_price_2 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        sell_volume_2 !== pre_sell_volume_2 &&
+                        +sell_price_2 === (stockData?.r || 0),
+                    })}
+                  >
+                    {formatNumber((Number(sell_volume_2) || 0) * 10)}
                   </Text>
                 </td>
                 <div
@@ -178,16 +267,42 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
                   }}
                 ></div>
               </tr>
+
               <tr className='h-[32px]'>
                 <td
-                  className='pl-[20px] align-middle'
+                  className='pl-[16px] align-middle'
                   style={{ color: getColor(+sell_price_1, stockData?.r || 0)?.color }}
                 >
-                  <Text type='body-12-semibold'>{formatNumber(Number(sell_price_1) || 0)}</Text>
+                  <Text
+                    type='body-12-semibold'
+                    className={classNames('inline-block px-[4px]', {
+                      [styles.isIncrease]:
+                        sell_price_1 !== pre_sell_price_1 && +sell_price_1 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        sell_price_1 !== pre_sell_price_1 && +sell_price_1 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        sell_price_1 !== pre_sell_price_1 && +sell_price_1 === (stockData?.r || 0),
+                    })}
+                  >
+                    {Number.isNaN(+sell_price_1)
+                      ? sell_price_1
+                      : formatNumber(Number(sell_price_1) || 0)}
+                  </Text>
                 </td>
-                <td className='pr-[12px] text-right align-middle'>
-                  <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(sell_volume_1) || 0)}
+                <td className='pr-[8px] text-right align-middle'>
+                  <Text
+                    type='body-10-regular'
+                    className={classNames('inline-block px-[4px] text-[#474D57]', {
+                      [styles.isIncrease]:
+                        sell_volume_1 !== pre_sell_volume_1 && +sell_price_1 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        sell_volume_1 !== pre_sell_volume_1 && +sell_price_1 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        sell_volume_1 !== pre_sell_volume_1 &&
+                        +sell_price_1 === (stockData?.r || 0),
+                    })}
+                  >
+                    {formatNumber((Number(sell_volume_1) || 0) * 10)}
                   </Text>
                 </td>
                 <div
@@ -211,16 +326,40 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
           >
             <tbody>
               <tr className='h-[32px]'>
-                <td className='pl-[12px] align-middle'>
-                  <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(buy_volume_1) || 0)}
+                <td className='pl-[8px] align-middle'>
+                  <Text
+                    type='body-10-regular'
+                    className={classNames('inline-block px-[4px] text-[#474D57]', {
+                      [styles.isIncrease]:
+                        buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 === (stockData?.r || 0),
+                    })}
+                  >
+                    {formatNumber((Number(buy_volume_1) || 0) * 10)}
                   </Text>
                 </td>
                 <td
-                  className='pr-[20px] text-right align-middle'
+                  className='pr-[16px] text-right align-middle'
                   style={{ color: getColor(+buy_price_1, stockData?.r || 0)?.color }}
                 >
-                  <Text type='body-12-semibold'>{formatNumber(Number(buy_price_1) || 0)}</Text>
+                  <Text
+                    type='body-12-semibold'
+                    className={classNames('inline-block px-[4px]', {
+                      [styles.isIncrease]:
+                        buy_price_1 !== pre_buy_price_1 && +buy_price_1 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        buy_price_1 !== pre_buy_price_1 && +buy_price_1 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        buy_price_1 !== pre_buy_price_1 && +buy_price_1 === (stockData?.r || 0),
+                    })}
+                  >
+                    {Number.isNaN(+buy_price_1)
+                      ? buy_price_1
+                      : formatNumber(Number(buy_price_1) || 0)}
+                  </Text>
                 </td>
                 <div
                   className='absolute bottom-0 right-0 h-[3px] border-none'
@@ -230,17 +369,42 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
                   }}
                 ></div>
               </tr>
+
               <tr className='h-[32px]'>
-                <td className='pl-[12px] align-middle'>
-                  <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(buy_volume_2) || 0)}
+                <td className='pl-[8px] align-middle'>
+                  <Text
+                    type='body-10-regular'
+                    className={classNames('inline-block px-[4px] text-[#474D57]', {
+                      [styles.isIncrease]:
+                        buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 === (stockData?.r || 0),
+                    })}
+                  >
+                    {formatNumber((Number(buy_volume_2) || 0) * 10)}
                   </Text>
                 </td>
                 <td
-                  className='pr-[20px] text-right align-middle'
+                  className='pr-[16px] text-right align-middle'
                   style={{ color: getColor(+buy_price_2, stockData?.r || 0)?.color }}
                 >
-                  <Text type='body-12-semibold'>{formatNumber(Number(buy_price_2) || 0)}</Text>
+                  <Text
+                    type='body-12-semibold'
+                    className={classNames('inline-block px-[4px]', {
+                      [styles.isIncrease]:
+                        buy_price_2 !== pre_buy_price_2 && +buy_price_2 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        buy_price_2 !== pre_buy_price_2 && +buy_price_2 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        buy_price_2 !== pre_buy_price_2 && +buy_price_2 === (stockData?.r || 0),
+                    })}
+                  >
+                    {Number.isNaN(+buy_price_2)
+                      ? buy_price_2
+                      : formatNumber(Number(buy_price_2) || 0)}
+                  </Text>
                 </td>
                 <div
                   className='absolute bottom-0 right-0 h-[3px] border-none'
@@ -250,17 +414,42 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
                   }}
                 ></div>
               </tr>
+
               <tr className='h-[32px]'>
-                <td className='pl-[12px] align-middle'>
-                  <Text type='body-10-regular' className='text-[#474D57]'>
-                    {formatNumber(Number(buy_volume_3) || 0)}
+                <td className='pl-[8px] align-middle'>
+                  <Text
+                    type='body-10-regular'
+                    className={classNames('inline-block px-[4px] text-[#474D57]', {
+                      [styles.isIncrease]:
+                        buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 === (stockData?.r || 0),
+                    })}
+                  >
+                    {formatNumber((Number(buy_volume_3) || 0) * 10)}
                   </Text>
                 </td>
                 <td
-                  className='pr-[20px] text-right align-middle'
+                  className='pr-[16px] text-right align-middle'
                   style={{ color: getColor(+buy_price_3, stockData?.r || 0)?.color }}
                 >
-                  <Text type='body-12-semibold'>{formatNumber(Number(buy_price_3) || 0)}</Text>
+                  <Text
+                    type='body-12-semibold'
+                    className={classNames('inline-block px-[4px]', {
+                      [styles.isIncrease]:
+                        buy_price_3 !== pre_buy_price_3 && +buy_price_3 > (stockData?.r || 0),
+                      [styles.isDecrease]:
+                        buy_price_3 !== pre_buy_price_3 && +buy_price_3 < (stockData?.r || 0),
+                      [styles.isEqual]:
+                        buy_price_3 !== pre_buy_price_3 && +buy_price_3 === (stockData?.r || 0),
+                    })}
+                  >
+                    {Number.isNaN(+buy_price_3)
+                      ? buy_price_3
+                      : formatNumber(Number(buy_price_3) || 0)}
+                  </Text>
                 </td>
                 <div
                   className='absolute bottom-0 right-0 h-[3px] border-none'
@@ -322,7 +511,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.total_vol')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.lot || 0))}
+            {formatNumber(Number(stockData?.lot || 0) * 10)}
           </Text>
         </div>
 
@@ -331,7 +520,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.total_val')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice))}
+            {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice) * 10)}
           </Text>
         </div>
 
@@ -340,7 +529,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.foreign_buy')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.fBVol) || 0)}
+            {formatNumber((Number(stockData?.fBVol) || 0) * 10)}
           </Text>
         </div>
 
@@ -349,7 +538,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.total_room')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.fRoom) || 0)}
+            {formatNumber((Number(stockData?.fRoom) || 0) * 10)}
           </Text>
         </div>
 
@@ -358,7 +547,7 @@ const MovementsTab = ({ stockData }: IMovementsTabProps) => {
             {t('movements.foreign_sell')}
           </Text>
           <Text className='mt-[6px] text-[#0D0D0D]' type='body-12-regular'>
-            {formatNumber(Number(stockData?.fSVolume) || 0)}
+            {formatNumber((Number(stockData?.fSVolume) || 0) * 10)}
           </Text>
         </div>
       </div>
