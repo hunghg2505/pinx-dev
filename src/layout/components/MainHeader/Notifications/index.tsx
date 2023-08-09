@@ -4,29 +4,19 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
-import Menu, { Item as MenuItem } from 'rc-menu';
+import Menu from 'rc-menu';
 
 import { WhiteButton } from '@components/UI/Button';
-import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
-import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
-import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
-
-const handleRedirect = (url: string) => {
-  window.open(url, '_blank');
-};
 
 const mockData = [
   {
@@ -65,16 +55,16 @@ const NotificationItem = ({ notification }: { notification: any }) => {
   const calcNotificationSymbol = () => {
     switch (notification.type) {
       case 'comment': {
-        return '/static/icons/notification_comment.svg';
+        return `/static/icons/notification_comment${notification.isRead ? '_disabled' : ''}.svg`;
       }
       case 'reaction': {
-        return '/static/icons/notification_reaction.svg';
+        return `/static/icons/notification_reaction${notification.isRead ? '_disabled' : ''}.svg`;
       }
       case 'subscribe': {
-        return '/static/icons/notification_subscribe.svg';
+        return `/static/icons/notification_subscribe${notification.isRead ? '_disabled' : ''}.svg`;
       }
       case 'mention': {
-        return '/static/icons/notification_mention.svg';
+        return `/static/icons/notification_mention${notification.isRead ? '_disabled' : ''}.svg`;
       }
     }
   };
@@ -97,27 +87,30 @@ const NotificationItem = ({ notification }: { notification: any }) => {
   };
 
   return (
-    <div className='flex justify-between p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white]'>
+    <div className='flex justify-between p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white] hover:bg-[#EBEBEB]'>
       <div className='flex gap-[10px] items-center'>
         <img
           src={calcNotificationSymbol()}
           alt=''
           className='h-[36px] w-[36px]'
         />
-        <div className='flex flex-col'>
+        <div className='flex flex-col w-[80%]'>
           <Text>{calcNotificationTitle()}</Text>
           <Text>{notification.content}</Text>
         </div>
       </div>
 
-      <div className='flex flex-col justify-around'>
-        <Text type='body-12-medium' color='neutral-5'>{notification.time}</Text>
-        <img
-          src='/static/icons/iconClose.svg'
-          alt=''
-          className='h-[12px] w-[12px]'
-          onClick={() => mockData.splice(index, 1)}
-        />
+      <div className='flex flex-col justify-around min-w-[60px]'>
+        <Text type='body-12-medium' color='neutral-5' className='text-right'>{notification.time}</Text>
+        <div className='flex justify-end'
+        >
+          <img
+            src='/static/icons/black_close_icon.svg'
+            alt=''
+            className='h-[12px] w-[12px] cursor-pointer'
+            onClick={() => mockData.splice(index, 1)}
+          />
+        </div>
       </div>
     </div >
   );
@@ -162,7 +155,7 @@ const NotificationsMobile = forwardRef((_, ref) => {
       <div className='flex justify-between'>
         <Text type='body-20-semibold'>{t('notification')}</Text>
         <img
-          src='/static/icons/iconClose.svg'
+          src='/static/icons/black_close_icon.svg'
           alt=''
           className='h-[21px] w-[21px]'
           onClick={() => setOpenNotification(false)}
@@ -174,7 +167,6 @@ const NotificationsMobile = forwardRef((_, ref) => {
           src='/static/icons/blue_check_mark.svg'
           alt=''
           className='h-[20px] w-[20px] mr-3'
-          onClick={() => setOpenNotification(false)}
         />
         {t('mark_all_as_read')}
       </WhiteButton>
@@ -184,6 +176,13 @@ const NotificationsMobile = forwardRef((_, ref) => {
           <NotificationItem notification={item} key={item.id} />
         ))}
       </div>
+
+      <div className='bg-[white] p-[12px]'>
+        <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
+          <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
+          <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
+        </div>
+      </div>
     </Fade>
   );
 });
@@ -192,7 +191,6 @@ const NotificationsMobile = forwardRef((_, ref) => {
 const Notifications = () => {
   const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
-  const { userLoginInfo } = useUserLoginInfo();
   const { isMobile } = useResponsive();
 
   const notiMobileRef = useRef<any>(null);
@@ -201,153 +199,44 @@ const Notifications = () => {
     notiMobileRef.current.onVisible && notiMobileRef.current.onVisible();
   };
 
-  const ProfileOverlay = () => (
-    <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
-      <MenuItem>
-        <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
-          <div className='flex w-full items-center gap-[24px] p-4'>
-            <img
-              src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
-              alt=''
-              className='h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
-            />
-            <div className='flex flex-1 flex-col gap-[6px]'>
-              <div className='flex items-center'>
-                <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
-
-                {userLoginInfo?.isKol && (
-                  <img
-                    src='/static/icons/iconTick.svg'
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='ml-[8px] h-[16px] w-[16px] object-contain'
-                  />
-                )}
-
-                {userLoginInfo?.isFeatureProfile && (
-                  <img
-                    src='/static/icons/iconKol.svg'
-                    alt=''
-                    width={0}
-                    height={0}
-                    sizes='100vw'
-                    className='ml-[2px] h-[20px] w-[20px] object-contain'
-                  />
-                )}
-              </div>
-
-              <div className='mb-[4px] flex items-center justify-between gap-[10px]'>
-                <div className='flex gap-[4px]'>
-                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
-                  <Text type='body-12-regular' className='text-[#474D57]'>
-                    {t('follower')}
-                  </Text>
-                </div>
-
-                <Text type='body-14-regular' className='text-[#808A9D]'>
-                  •
-                </Text>
-
-                <div className='flex gap-[4px]'>
-                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
-                  <Text type='body-12-regular' className='text-[#474D57]'>
-                    {t('following')}
-                  </Text>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CustomLink>
-      </MenuItem>
-
-      <hr className='border-neutral_07' />
-
-      {checkUserType(userLoginInfo?.custStat, userLoginInfo?.acntStat) === USERTYPE.NEW && (
-        <MenuItem>
-          <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
-            <img
-              src='/static/images/book_list.png'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='mr-[7px] h-[103px] w-[164px]'
-            />
-            <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
-              <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
-              <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
-                <img
-                  src='/static/images/googleplay.png'
-                  alt='Download google play'
-                  width={180}
-                  height={52}
-                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
-                />
-
-                <img
-                  src='/static/images/appstore.png'
-                  alt='Download app store'
-                  width={180}
-                  height={52}
-                  className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
-                />
-              </div>
-            </div>
-          </div>
-        </MenuItem>
-      )}
-
-      <MenuItem>
-        <CustomLink
-          href={ROUTE_PATH.PROFILE_VERIFICATION}
-          className='flex items-center justify-between px-[20px] py-4'
-        >
-          <div className='flex items-center'>
-            <img
-              src='/static/icons/icon_profile.svg'
-              className='mr-[10px] h-[16px] w-[15px]'
-              alt='Profile Verification'
-            />
-            <span>{t('profile_verification')}</span>
-          </div>
-          <Text
-            type='body-12-regular'
-            className={classNames('text-[#EAA100]', {
-              '!text-[#128F63]':
-                calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_VERIFIED,
-              '!text-[#F1BA09]':
-                calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_PENDING,
-            })}
-          >
-            {t(`${calcUserStatusText(userLoginInfo.acntStat || '')}`)}
-          </Text>
-        </CustomLink>
-      </MenuItem>
-
-      <hr className='border-neutral_07' />
-
-      <MenuItem>
-        <Link href='/watchlist' className='flex items-center px-[20px] py-4'>
+  const NotificationOverlay = () => (
+    <Menu multiple className='w-[375px] rounded-e-lg border-none bg-white py-[20px] px-5'>
+      <div className='flex justify-between mb-[20px]'>
+        <Text type='body-20-semibold'>
+          {t('notification')}
+        </Text>
+        <div className='flex items-center cursor-pointer' onClick={() => console.log('xxx read all')}>
           <img
-            src='/static/icons/iconTV.svg'
-            className='mr-[10px] h-[14px] w-[15px] object-contain'
-            alt='Watchlist and theme'
+            src='/static/icons/blue_check_mark.svg'
+            alt=''
+            className='h-[20px] w-[20px] mr-3'
           />
-          <span>{t('watchlist_and_theme')}</span>
-        </Link>
-      </MenuItem>
+          <Text type='body-14-semibold' color='primary-2'>
+            {t('mark_all_as_read')}
+          </Text>
+        </div>
+      </div>
+
+      {mockData.map((item) => (
+        <NotificationItem notification={item} key={item.id} />
+      ))}
+
+      <div className='bg-[white] p-[12px]'>
+        <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
+          <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
+          <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
+        </div>
+      </div>
+
     </Menu>
+
   );
 
   const NotificationBadge = () => {
     return (
       <>
         {isMobile ? (
-          <div className=' ta flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
+          <div className='ta flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
             <img
               src='/static/icons/iconBell.svg'
               alt='Icon notification'
@@ -360,14 +249,14 @@ const Notifications = () => {
             <Dropdown
               trigger={['hover']}
               animation='slide-up'
-              overlay={<ProfileOverlay />}
+              overlay={<NotificationOverlay />}
               placement='bottomRight'
             >
-              <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
+              <div className='ta flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
                 <img
-                  src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
-                  alt=''
-                  className='h-full w-full overflow-hidden rounded-full object-cover '
+                  src='/static/icons/iconBell.svg'
+                  alt='Icon notification'
+                  className='h-[23px] w-[23px]'
                 />
               </div>
             </Dropdown>
