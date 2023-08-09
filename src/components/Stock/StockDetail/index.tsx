@@ -98,6 +98,7 @@ const StockDetail = () => {
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
+  const [preDataStock, setPreDataStock] = useState<IStockData>();
   const refSlide = useRef<any>(null);
 
   const router = useRouter();
@@ -137,6 +138,7 @@ const StockDetail = () => {
   useGetStockData(stockCode, {
     onSuccess: (res) => {
       setDataStock((prev) => ({ ...prev, ...res.data }));
+      setPreDataStock((prev) => ({ ...prev, ...res.data }));
       requestJoinChannel(res.data.sym);
     },
   });
@@ -206,16 +208,26 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
-    if (!dataStock) {
+    if (!dataStock || data.sym !== dataStock?.sym) {
       return;
     }
 
-    if (data?.id === 3220 && data.sym === dataStock?.sym) {
+    if (data?.id === 3220) {
       setDataStock((prev) => ({ ...prev, ...data }));
     }
 
     // sell
-    if (data.side === 'S' && data.sym === dataStock?.sym) {
+    if (data.side === 'S') {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g4: data.g1,
+        g5: data.g2,
+        g6: data.g3,
+      }));
+    }
+
+    // buy
+    if (data.side === 'B') {
       setDataStock((prev: any) => ({
         ...prev,
         g1: data.g1,
@@ -224,15 +236,7 @@ const StockDetail = () => {
       }));
     }
 
-    // buy
-    if (data.side === 'B' && data.sym === dataStock?.sym) {
-      setDataStock((prev: any) => ({
-        ...prev,
-        g4: data.g1,
-        g5: data.g2,
-        g6: data.g3,
-      }));
-    }
+    setPreDataStock(dataStock);
   });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
@@ -530,7 +534,7 @@ const StockDetail = () => {
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
-            <MovementsTab stockData={dataStock} />
+            <MovementsTab stockData={dataStock} preDataStock={preDataStock} />
           </TabPane>
 
           <TabPane tab={t('tab.matchings')} key={TabType.MATCHINGS}>
@@ -1034,7 +1038,7 @@ const StockDetail = () => {
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
           {/* chart */}
-          <div className='mt-[28px] flex justify-between gap-x-[12px] tablet:items-center'>
+          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[24px] tablet:flex-row tablet:items-center'>
             <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>
@@ -1066,12 +1070,14 @@ const StockDetail = () => {
               ))}
             </div>
 
-            <DonutChart
-              strokeWidth={isMobile ? 16 : 27}
-              width={isMobile ? 183 : 318}
-              height={isMobile ? 183 : 318}
-              data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
-            />
+            <div className='mx-auto'>
+              <DonutChart
+                strokeWidth={isMobile ? 16 : 27}
+                width={isMobile ? 183 : 318}
+                height={isMobile ? 183 : 318}
+                data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
+              />
+            </div>
           </div>
         </div>
       )}

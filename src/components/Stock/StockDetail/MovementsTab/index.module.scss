@@ -21,3 +21,42 @@
     }
   }
 }
+
+@keyframes isIncrease {
+  to {
+    background-color: #8ecf4a;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+}
+
+.isIncrease {
+  animation-name: isIncrease;
+  animation-duration: 1s;
+}
+
+@keyframes isDecrease {
+  to {
+    background-color: #ff5757;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+}
+
+.isDecrease {
+  animation-name: isDecrease;
+  animation-duration: 1s;
+}
+
+@keyframes isEqual {
+  to {
+    background-color: #eaa100;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+}
+
+.isEqual {
+  animation-name: isEqual;
+  animation-duration: 1s;
+}
