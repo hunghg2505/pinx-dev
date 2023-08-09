@@ -210,7 +210,6 @@ const NotificationsMobile = forwardRef((_, ref) => {
           src='/static/icons/blue_check_mark.svg'
           alt=''
           className='h-[20px] w-[20px] mr-3'
-          onClick={() => setOpenNotification(false)}
         />
         {t('mark_all_as_read')}
       </WhiteButton>
@@ -219,6 +218,13 @@ const NotificationsMobile = forwardRef((_, ref) => {
         {mockData.map((item) => (
           <NotificationItem notification={item} key={item.id} />
         ))}
+      </div>
+
+      <div className='bg-[white] p-[12px]'>
+        <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
+          <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
+          <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
+        </div>
       </div>
     </Fade>
   );
