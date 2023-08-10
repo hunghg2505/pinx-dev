@@ -81,7 +81,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
   const handleSubmit = async () => {
-    const value = await form.getFieldValue('search').trim();
+    const value = await form.getFieldValue('search').replaceAll(/\s/g,'');
     setQuery(value);
     if (value === '' || value === undefined) {
       setInputFocus(true);
