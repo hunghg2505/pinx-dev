@@ -214,29 +214,27 @@ const ItemComment = (props: IProps) => {
       setHeight(commentRef?.current?.parentElement?.clientHeight);
     }
   }, [commentRef?.current?.clientHeight, commentRef?.current?.parentElement?.clientHeight]);
-  // useEffect(() => {
-  //   const element = commentRef?.current;
-  //   if (!element) {
-  //     return;
-  //   }
-  //   const observer = new ResizeObserver(() => {
-  //     if (!isChildren && element.parentElement?.clientHeight) {
-  //       console.log('Change Height 227');
-  //       setHeight(element.parentElement.clientHeight);
-  //     }
-  //   });
-  //   observer.observe(element);
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, []);
+  useEffect(() => {
+    if (!isChildren) {
+      const element = commentRef?.current?.parentElement;
+      if (!element) {
+        return;
+      }
+      const observer = new ResizeObserver(() => {
+        if (element.clientHeight) {
+          setHeight(element.clientHeight);
+        }
+      });
+      observer.observe(element);
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
 
   const minCommentHeight = 95;
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
-      <>
-        {height} {isChildren + ''}
-      </>
       <div className='relative flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
@@ -259,14 +257,14 @@ const ItemComment = (props: IProps) => {
             style={{
               height: `${height - minCommentHeight - 40 - 18 + 13}px`,
             }}
-            className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-orange')}
+            className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-neutral_07')}
           ></div>
         )}
 
         {isChildren && (
           <div>
-            <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-3xl  bg-green'></div>
-            <div className='absolute -left-[26px] -top-[19px] z-30 h-[40px] w-[20px] rounded-bl-full   bg-white'></div>
+            <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
+            <div className='absolute -left-[26px] -top-[19.5px] z-30 h-[40px] w-[20px] rounded-bl-xl   bg-white'></div>
             {isLastChildren && (
               <div
                 style={{
@@ -385,7 +383,7 @@ const ItemComment = (props: IProps) => {
           )}
 
           <div className='action flex gap-x-[12px] tablet:gap-x-[18px]'>
-            <div className='like flex cursor-pointer' onClick={onLike}>
+            <div className='flex cursor-pointer like' onClick={onLike}>
               <Text
                 type='body-13-regular'
                 className={classNames('tablet:!text-[14px]', {
@@ -397,7 +395,7 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
             <div
-              className='comment flex cursor-pointer'
+              className='flex cursor-pointer comment'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
               <Text

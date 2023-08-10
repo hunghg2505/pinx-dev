@@ -73,6 +73,15 @@ const PostDetail = () => {
   React.useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
+  React.useEffect(() => {
+    const handleWindowResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   // is login
   const { refresh, postDetail, run } = usePostDetail(String(postID), {
