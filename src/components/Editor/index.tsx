@@ -517,20 +517,25 @@ const Editor = (props: IProps, ref?: any) => {
                   },
                 )}
               />
-
-              <img
-                src='/static/icons/iconCamera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className={classNames(
-                  ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
-                  {
-                    hidden: isFocus || !canExpand,
-                  },
-                )}
-              />
+              <Upload
+                className={classNames({
+                  hidden: isFocus || !canExpand,
+                })}
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
+                <img
+                  src='/static/icons/iconCamera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className={classNames(
+                    ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
+                  )}
+                />
+              </Upload>
             </div>
 
             <div

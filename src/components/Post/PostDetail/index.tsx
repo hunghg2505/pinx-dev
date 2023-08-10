@@ -276,6 +276,7 @@ const PostDetail = () => {
                           refreshTotal={refresh}
                           refreshCommentOfPOst={refreshCommentOfPost}
                           width={width}
+                          isReply={isReply && !postDetailStatus.isDoneReplies}
                         />
 
                         {getSubComment(item.children)}
@@ -291,7 +292,7 @@ const PostDetail = () => {
                                 refreshTotal={refresh}
                                 setImageCommentMobile={setImageCommentMobile}
                                 width={width}
-                                isReply={isReply}
+                                isReply={isReply && !postDetailStatus.isDoneReplies}
                               />
                             </div>
                           )}
@@ -308,7 +309,7 @@ const PostDetail = () => {
                         refreshTotal={refresh}
                         refreshCommentOfPOst={refreshCommentOfPost}
                         width={width}
-                        isReply={isReply}
+                        isReply={isReply && !postDetailStatus.isDoneReplies}
                       />
 
                       {getSubComment(item.children)}
@@ -324,7 +325,7 @@ const PostDetail = () => {
                               refreshTotal={refresh}
                               setImageCommentMobile={setImageCommentMobile}
                               width={width}
-                              isReply={isReply}
+                              isReply={isReply && !postDetailStatus.isDoneReplies}
                             />
                           </div>
                         )}

@@ -56,7 +56,7 @@ const ItemComment = (props: IProps) => {
     width,
     refreshCommentOfPOst,
     isLastChildren,
-    isReply,
+    isReply = false,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -257,7 +257,7 @@ const ItemComment = (props: IProps) => {
           <>
             <div
               style={{
-                height: `${height - minCommentHeight - 40 - 18 + 13}px`,
+                height: `${height - minCommentHeight - 40 - 20 + 13}px`,
               }}
               className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-neutral_07')}
             ></div>
@@ -266,22 +266,23 @@ const ItemComment = (props: IProps) => {
         {!isChildren && isReply && (
           <div
             style={{
-              height: `${height - 95 - 16}px`,
+              height: `${height - 95 - 40}px`,
             }}
-            className='absolute left-[20px] top-[44px] z-0 hidden  w-[2px] bg-neutral_07 tablet:block'
+            className='abc absolute left-[20px] top-[44px] z-10  hidden  w-[2px] bg-neutral_07 tablet:block'
           ></div>
         )}
 
         {isChildren && (
           <div>
-            <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
-            <div className='absolute -left-[26px] -top-[19.5px] z-30 h-[40px] w-[20px] rounded-bl-xl   bg-white'></div>
-            {isLastChildren && isReply && (
+            <div className='absolute -left-[28px] -top-[18px] z-20 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
+            <div className='absolute -left-[26px] -top-[19.5px] z-20 h-[40px] w-[20px] rounded-bl-xl   bg-white'></div>
+
+            {isLastChildren && (
               <div
                 style={{
                   height: `${height - 4}px`,
                 }}
-                className='absolute -left-[28px] top-0 z-20 w-[2px] bg-orange '
+                className='absolute -left-[28px] top-0 z-0  w-[2px] bg-white'
               ></div>
             )}
           </div>
