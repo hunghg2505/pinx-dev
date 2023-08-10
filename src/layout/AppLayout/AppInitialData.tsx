@@ -51,7 +51,9 @@ const AppInitialData = () => {
       return;
     }
 
-    router.push(router.asPath, router.asPath, { locale });
+    if (getLocaleCookie() && getLocaleCookie() !== router.locale){
+      router.push(router.asPath, router.asPath, { locale });
+    }
   }, []);
 
   useEffect(() => {
