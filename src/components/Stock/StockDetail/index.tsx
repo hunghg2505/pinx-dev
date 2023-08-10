@@ -652,7 +652,7 @@ const StockDetail = () => {
               {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickPrev()}
-                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
                 >
                   <img
                     src='/static/icons/iconGrayPrev.svg'
@@ -681,7 +681,7 @@ const StockDetail = () => {
               {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickNext()}
-                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
                 >
                   <img
                     src='/static/icons/iconGrayNext.svg'

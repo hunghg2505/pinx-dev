@@ -8,6 +8,7 @@ import { useFinancialIndicator } from '@components/Stock/service';
 import { FinancialAnnualKey, FinancialType } from '@components/Stock/type';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
+import { formatStringToNumber } from '@utils/common';
 
 const INIT_PAGE = 1;
 
@@ -110,7 +111,7 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data?.content.eps)}
+              {formatStringToNumber(financialIndicator?.data?.content.eps)}
             </Text>
           </td>
 
@@ -123,7 +124,7 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data?.content.bvps)}
+              {formatStringToNumber(financialIndicator?.data?.content.bvps)}
             </Text>
           </td>
 
@@ -136,7 +137,7 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data?.content.pe)}
+              {formatStringToNumber(financialIndicator?.data?.content.pe)}
             </Text>
           </td>
         </tr>
@@ -150,7 +151,7 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data?.content.ros)}
+              {formatStringToNumber(financialIndicator?.data?.content.ros)}
             </Text>
           </td>
 
@@ -163,7 +164,7 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data?.content.roea)}
+              {formatStringToNumber(financialIndicator?.data?.content.roea)}
             </Text>
           </td>
 
@@ -176,7 +177,7 @@ const FinancialAnnualTab = ({ stockCode }: IFinancialAnnualTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {Number(financialIndicator?.data?.content.roaa)}
+              {formatStringToNumber(financialIndicator?.data?.content.roaa)}
             </Text>
           </td>
         </tr>

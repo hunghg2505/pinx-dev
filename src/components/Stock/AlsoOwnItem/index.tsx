@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 import PopupAlsoOwn from '../Popup/PopupAlsoOwn';
 import { ISubsidiaries } from '../type';
@@ -80,7 +80,10 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
 
         <div className='ml-auto flex items-center pl-[8px]'>
           <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-            {Number.isInteger(data.ownerRatio) ? data.ownerRatio : data.ownerRatio.toFixed(2)}%
+            {Number.isInteger(data.ownerRatio)
+              ? data.ownerRatio
+              : formatStringToNumber(String(data.ownerRatio), true, 2)}
+            %
           </Text>
 
           <div className='px-[7px]'>

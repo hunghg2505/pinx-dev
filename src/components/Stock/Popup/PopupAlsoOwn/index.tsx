@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { ISubsidiaries } from '@components/Stock/type';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
+import { formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -59,7 +60,10 @@ const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
               {t('own')}
             </Text>
             <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-              {Number.isInteger(data?.ownerRatio) ? data?.ownerRatio : data?.ownerRatio.toFixed(2)}%
+              {Number.isInteger(data?.ownerRatio)
+                ? data?.ownerRatio
+                : formatStringToNumber(String(data?.ownerRatio), true, 2)}
+              %
             </Text>
           </div>
         </div>
