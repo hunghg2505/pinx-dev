@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import TokenManager from 'brainless-token-manager';
 import toast from 'react-hot-toast';
 import { extend } from 'umi-request';
@@ -35,17 +34,21 @@ const redirectlogin = (error: any) => {
 const showApiError = (error: any) => {
   if (isDev){
     switch(error?.response?.status) {
+      case 400: {
+        toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right'
+        });
+        break;
+      }
       case 403: {
-        notification.warning({
-          message: `${error?.response?.status}`,
-          description: `${error?.response?.url}`
+        toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right'
         });
         break;
       }
       case 500: {
-        notification.error({
-          message: `${error?.response?.status}`,
-          description: `${error?.response?.url}`
+        toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right'
         });
         break;
       }
@@ -55,11 +58,18 @@ const showApiError = (error: any) => {
     }
   }else {
     switch(error?.response?.status) {
+      case 400: {
+        // eslint-disable-next-line no-console
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
       case 403: {
+        // eslint-disable-next-line no-console
         console.log(`${error?.response?.status} - ${error?.response?.url}`);
         break;
       }
       case 500: {
+        // eslint-disable-next-line no-console
         console.log(`${error?.response?.status} - ${error?.response?.url}`);
         break;
       }
