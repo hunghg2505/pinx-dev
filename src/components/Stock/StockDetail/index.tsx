@@ -19,7 +19,13 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
+import {
+  ROUTE_PATH,
+  formatNumber,
+  formatStringToNumber,
+  getStockColor,
+  imageStock,
+} from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -157,9 +163,7 @@ const StockDetail = () => {
 
   useEffect(() => {
     return () => {
-      if (dataStock) {
-        requestLeaveChannel(dataStock.sym);
-      }
+      requestLeaveChannel(stockCode);
 
       setCurrentTab(TabType.MOVEMENTS);
     };
@@ -213,9 +217,10 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
-    if (!dataStock || data.sym !== dataStock?.sym) {
+    if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
       return;
     }
+    setPreDataStock(dataStock);
 
     if (data?.id === 3220 || data?.id === 3250) {
       const tempData = { ...data };
@@ -244,8 +249,6 @@ const StockDetail = () => {
         g3: data.g3,
       }));
     }
-
-    setPreDataStock(dataStock);
   });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
@@ -562,7 +565,8 @@ const StockDetail = () => {
             >
               <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
               <Text type='body-12-regular'>
-                {`${unit}${dataStock?.ot || 0}`} / {`${unit}${dataStock?.changePc || 0}`}%
+                {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
+                {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
               </Text>
             </div>
           </div>

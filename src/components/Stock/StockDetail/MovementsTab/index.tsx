@@ -203,8 +203,8 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
 
   return (
     <>
-      <div className='flex flex-col flex-wrap gap-y-[12px] tablet:flex-row tablet:gap-x-[15px]'>
-        <div className='flex flex-1'>
+      <div className=''>
+        <div className='flex justify-between'>
           <table className='flex-1'>
             <tbody>
               <tr className='h-[32px]'>
@@ -248,7 +248,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
 
           <table
             className={classNames(
-              'w-[50.4vw] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] tablet:w-[203px]',
+              'w-[55%] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] laptop-max:w-[51.5vw]',
               styles.tableRedBorder,
             )}
           >
@@ -397,10 +397,10 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </table>
         </div>
 
-        <div className='flex flex-1'>
+        <div className='mt-[12px] flex justify-between'>
           <table
             className={classNames(
-              'w-[50.4vw] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] tablet:w-[203px]',
+              'w-[55%] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] laptop-max:w-[51.5vw]',
               styles.tableGreenBorder,
             )}
           >
