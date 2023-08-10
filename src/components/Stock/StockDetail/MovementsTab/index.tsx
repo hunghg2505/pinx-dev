@@ -248,7 +248,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
 
           <table
             className={classNames(
-              'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
+              'w-[50.4vw] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] tablet:w-[203px]',
               styles.tableRedBorder,
             )}
           >
@@ -271,7 +271,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+sell_price_3)
                       ? sell_price_3
-                      : formatNumber(Number(sell_price_3) || 0)}
+                      : formatStringToNumber(sell_price_3, true, 2)}
                   </Text>
 
                   <div
@@ -318,7 +318,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+sell_price_2)
                       ? sell_price_2
-                      : formatNumber(Number(sell_price_2) || 0)}
+                      : formatStringToNumber(sell_price_2, true, 2)}
                   </Text>
 
                   <div
@@ -365,7 +365,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+sell_price_1)
                       ? sell_price_1
-                      : formatNumber(Number(sell_price_1) || 0)}
+                      : formatStringToNumber(sell_price_1, true, 2)}
                   </Text>
 
                   <div
@@ -400,7 +400,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
         <div className='flex flex-1'>
           <table
             className={classNames(
-              'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
+              'w-[50.4vw] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] tablet:w-[203px]',
               styles.tableGreenBorder,
             )}
           >
@@ -438,7 +438,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+buy_price_1)
                       ? buy_price_1
-                      : formatNumber(Number(buy_price_1) || 0)}
+                      : formatStringToNumber(buy_price_1, true, 2)}
                   </Text>
                   <div
                     className='absolute -bottom-[1px] right-0 h-[3px] border-none'
@@ -483,7 +483,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+buy_price_2)
                       ? buy_price_2
-                      : formatNumber(Number(buy_price_2) || 0)}
+                      : formatStringToNumber(buy_price_2, true, 2)}
                   </Text>
                   <div
                     className='absolute -bottom-[1px] right-0 h-[3px] border-none'
@@ -528,7 +528,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+buy_price_3)
                       ? buy_price_3
-                      : formatNumber(Number(buy_price_3) || 0)}
+                      : formatStringToNumber(buy_price_3, true, 2)}
                   </Text>
                   <div
                     className='absolute -bottom-[1px] right-0 h-[3px] border-none'

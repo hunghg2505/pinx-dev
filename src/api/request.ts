@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import TokenManager from 'brainless-token-manager';
 import toast from 'react-hot-toast';
 import { extend } from 'umi-request';
@@ -29,6 +30,44 @@ const redirectlogin = (error: any) => {
   }
 
   throw error?.data || error?.response;
+};
+
+const showApiError = (error: any) => {
+  if (isDev){
+    switch(error?.response?.status) {
+      case 403: {
+        notification.warning({
+          message: `${error?.response?.status}`,
+          description: `${error?.response?.url}`
+        });
+        break;
+      }
+      case 500: {
+        notification.error({
+          message: `${error?.response?.status}`,
+          description: `${error?.response?.url}`
+        });
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }else {
+    switch(error?.response?.status) {
+      case 403: {
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      case 500: {
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
 };
 
 const requestPist = extend({
@@ -96,7 +135,7 @@ const requestCommunity = extend({
   //   'Accept-Language': (getLocaleCookie() as string) || 'vi',
   // },
   errorHandler: (error) => {
-    redirectlogin(error);
+    showApiError(error);
   },
 });
 requestCommunity.interceptors.request.use((url, options) => {
