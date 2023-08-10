@@ -160,8 +160,10 @@ const StockDetail = () => {
       if (dataStock) {
         requestLeaveChannel(dataStock.sym);
       }
+
+      setCurrentTab(TabType.MOVEMENTS);
     };
-  }, []);
+  }, [stockCode]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
