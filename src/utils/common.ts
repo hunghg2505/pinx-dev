@@ -126,7 +126,7 @@ export const formatMessage = (message: string, data: any) => {
     for (const item of listHashTag) {
       if (message && message.includes(item)) {
         // const newItem = item.replace('#', '');
-        message = message.replace(
+        message = message.replaceAll(
           item,
           `
           <a href="javascript:void(0)" class="hashtag">${item}</a>

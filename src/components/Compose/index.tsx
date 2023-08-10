@@ -287,14 +287,14 @@ const Compose = (props: IProps) => {
           },
         }),
         Mention.extend({
-          name: 'hashTag',
+          name: 'hashTagPost',
           renderHTML(prop: any) {
             return [
               'a',
               {
-                class: 'hashTag',
+                class: 'hashTagPost',
                 userkey: prop && prop.node?.attrs.id,
-                'data-username': prop?.node?.attrs?.label,
+                'data-hashTag': prop?.node?.attrs?.label,
                 href: 'javascript:void(0)',
               },
               `${prop?.node?.attrs?.label}`,
@@ -302,16 +302,16 @@ const Compose = (props: IProps) => {
           },
         }).configure({
           HTMLAttributes: {
-            class: 'hashTag text-[14px] font-semibold leading-[21px]',
+            // class: 'hashTag text-[14px] font-semibold leading-[21px]',
           },
 
           suggestion: {
             ...Suggestion,
-            pluginKey: new PluginKey('hashTag'),
+            pluginKey: new PluginKey('hashTagPost'),
             char: '#',
             items: async ({ query }: { query: string }) => {
               const payload: any = {
-                keyword: `#${query}`,
+                keyword: `${query}`,
                 page: 0,
                 pageSize: 10,
               };
@@ -334,7 +334,16 @@ const Compose = (props: IProps) => {
       },
       // content: `${message || ''}`,
       onUpdate({ editor }) {
+        // console.log('🚀 ~ file: index.tsx:346 ~ onUpdate ~ editor:', editor);
+        // console.log(editor?.);
+        // const typeEditor = editor?.getJSON()?.content?.[0]?.content?.[0]?.type;
         const textCompose = editor?.getText();
+        // const numberEditor = editor?.getJSON()?.content?.[0]?.content?.[0]?.attrs?.label?.length;
+        // // const textEditor =
+        // if (typeEditor === 'hashTagPost' && textCompose?.at(numberEditor + 1) !== ' ') {
+        //   editor?.commands?.insertContent(' ');
+        // }
+        // editor?.commands?.
         const length = textCompose?.length;
         if (length > 254) {
           setHiddenThemeSelected(false);
@@ -474,7 +483,7 @@ const Compose = (props: IProps) => {
             if (prevIndex >= 0) {
               const item = acc[prevIndex];
               if (item) {
-                acc.splice(prevIndex, 1, `${item} `);
+                acc.splice(prevIndex, 1, `${item}`);
               }
             }
             return acc;
@@ -484,7 +493,7 @@ const Compose = (props: IProps) => {
 
           return acc;
         }, []);
-        const dataJoin = dataReduce?.join('');
+        const dataJoin = dataReduce?.join(' ');
         return dataJoin;
       });
 
@@ -735,7 +744,41 @@ const Compose = (props: IProps) => {
       </Fade>
     );
   }, [hiddenThemeSelected, themeSelected, metaData, themeActiveId]);
-
+  // const onHandleOnKeyup = (e: any) => {
+  //   // console.log('e', e);
+  //   // console.log('e', e.keyCode);
+  //   if (e.keyCode === 13) {
+  //     // editor?.
+  //     const lastCharacter = e?.key;
+  //     // console.log('🚀 ~ file: index.tsx:346 ~ onUpdate ~ editor:', editor);
+  //     // console.log(editor?.);
+  //     // const typeEditor = editor?.getJSON()?.content?.[0]?.content?.[0]?.type;
+  //     // const textCompose = editor?.getText();
+  //     // const numberEditor = editor?.getJSON()?.content?.[0]?.content?.[0]?.attrs?.label?.length;
+  //     // // const textEditor =
+  //     // if (typeEditor === 'hashTagPost' && textCompose?.at(numberEditor + 1) !== ' ') {
+  //     //   editor?.commands?.insertContent(' ');
+  //     // }
+  //     // const content = editor?.getJSON()?.content;
+  //     editor?.getJSON()?.content?.map((item: any) => {
+  //       item?.content?.map((text: any, index: number) => {
+  //         if (text.type === 'hashTagPost' && index === 0) {
+  //           const txt = text.attrs.label;
+  //           const lastText = txt.at(-1);
+  //           if (lastCharacter === lastText) {
+  //             // editor?.commands?.insertContent(' ');
+  //             editor?.chain().insertContent(' ').enter();
+  //           }
+  //           // if (txt?.at(lengthText + 1) !== ' ') {
+  //           //   console.log('123', txt);
+  //           // }
+  //         }
+  //         return true;
+  //       });
+  //       return true;
+  //     });
+  //   }
+  // };
   return (
     <>
       <div className='relative'>
