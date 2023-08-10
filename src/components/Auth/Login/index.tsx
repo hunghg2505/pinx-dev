@@ -14,6 +14,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
+import { PINETREE_LINK } from '@utils/constant';
 
 import { useLogin } from './service';
 
@@ -110,6 +111,25 @@ const Login = (props: Iprops) => {
               </Text>
             </NextLink>
           </div>
+        )}
+
+        {!isModal && (
+          <a
+            href={PINETREE_LINK}
+            target='_blank'
+            rel='noreferrer'
+            className='!mt-[24px] flex items-center justify-center laptop:!mt-[48px]'
+          >
+            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D]'>
+              {t('a_product_of')}
+            </Text>
+            <img
+              src='/static/images/pinetree_logo.png'
+              alt=''
+              sizes='100vw'
+              className='h-[40px] w-[105px] laptop:h-[55px] laptop:w-[140px]'
+            />
+          </a>
         )}
       </Form>
     </>

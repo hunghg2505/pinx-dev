@@ -62,7 +62,7 @@ const MenuMobile = () => {
       </span>
       <div
         className={classNames(
-          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[100px] pt-[12px] [transition:0.3s] desktop:hidden ',
+          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[30px] pt-[12px] [transition:0.3s] desktop:hidden ',
           {
             'left-[0]': isShowNavigate,
             'top-[55px]': isRouteSetting,
@@ -158,7 +158,7 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto gap-[24px] flex h-[56px] max-w-[1355px] flex-row items-center justify-between px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
@@ -171,7 +171,7 @@ const MainHeader = () => {
             </div>
           ) : (
             <>
-              <div className='max-w-[218px] w-full flex items-center gap-[16px]'>
+              <div className='flex w-full max-w-[218px] items-center gap-[16px]'>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <img
                     src='/static/icons/logo.svg'
@@ -186,8 +186,10 @@ const MainHeader = () => {
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
-              <div className='max-w-[350px] w-full flex items-center justify-end gap-[12px]'>
-                {isMobile && <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />}
+              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px]'>
+                {isMobile && (
+                  <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
+                )}
                 <Notifications />
                 <Profile />
               </div>
