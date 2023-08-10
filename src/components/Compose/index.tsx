@@ -311,7 +311,7 @@ const Compose = (props: IProps) => {
             char: '#',
             items: async ({ query }: { query: string }) => {
               const payload: any = {
-                keyword: `${query}`,
+                keyword: `#${query}`,
                 page: 0,
                 pageSize: 10,
               };
