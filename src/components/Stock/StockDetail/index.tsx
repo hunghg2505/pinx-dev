@@ -1054,7 +1054,7 @@ const StockDetail = () => {
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
           {/* chart */}
-          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[24px] tablet:flex-row tablet:items-center'>
+          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[28px] tablet:flex-row tablet:items-center'>
             <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>

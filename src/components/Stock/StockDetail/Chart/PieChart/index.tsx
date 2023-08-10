@@ -30,7 +30,7 @@ const PieChart = ({ width, height, data }: IPieChartProps) => {
     const arr = Pie(data);
     for (let i = 0; i <= arr.length; i++) {
       const item = arr[i];
-      if (svgRef.current) {
+      if (svgRef.current && item) {
         svgRef.current.innerHTML += `<g>
           <path d="${item?.d}" stroke="none" fill="${item?.color}" />
         </g>`;
