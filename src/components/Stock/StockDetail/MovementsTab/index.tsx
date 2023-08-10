@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { formatNumber } from '@utils/common';
+import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -597,7 +597,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             })}
             type='body-12-regular'
           >
-            {formatNumber(Number(stockData?.lot || 0) * 10)}
+            {formatStringToNumber((Number(stockData?.lot || 0) * 10).toString())}
           </Text>
         </div>
 
@@ -612,7 +612,9 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             })}
             type='body-12-regular'
           >
-            {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000)}
+            {formatStringToNumber(
+              (Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000).toString(),
+            )}
           </Text>
         </div>
 
@@ -627,7 +629,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             })}
             type='body-12-regular'
           >
-            {formatNumber((Number(stockData?.fBVol) || 0) * 10)}
+            {formatStringToNumber(((Number(stockData?.fBVol) || 0) * 10).toString())}
           </Text>
         </div>
 
@@ -642,7 +644,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             })}
             type='body-12-regular'
           >
-            {formatNumber((Number(stockData?.fRoom) || 0) * 10)}
+            {formatStringToNumber(((Number(stockData?.fRoom) || 0) * 10).toString())}
           </Text>
         </div>
 
@@ -657,7 +659,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
             })}
             type='body-12-regular'
           >
-            {formatNumber((Number(stockData?.fSVolume) || 0) * 10)}
+            {formatStringToNumber(((Number(stockData?.fSVolume) || 0) * 10).toString())}
           </Text>
         </div>
       </div>
