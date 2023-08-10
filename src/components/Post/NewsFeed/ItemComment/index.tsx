@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
@@ -38,6 +38,8 @@ interface IProps {
   isChildren?: boolean;
   width?: number;
   refreshCommentOfPOst?: () => void;
+  isLastChildren?: boolean;
+  isReply?: boolean;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -53,13 +55,13 @@ const ItemComment = (props: IProps) => {
     isChildren = false,
     width,
     refreshCommentOfPOst,
+    isLastChildren,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
-
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -199,9 +201,43 @@ const ItemComment = (props: IProps) => {
       });
     }
   };
+  // const [windowSize, setWindowSize] = useState([window.innerWidth]);
+  const commentRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+  useEffect(() => {
+    if (isChildren) {
+      if (!commentRef?.current?.clientHeight) {
+        return;
+      }
+      setHeight(commentRef?.current?.clientHeight);
+    } else if (commentRef?.current?.parentElement?.clientHeight) {
+      setHeight(commentRef?.current?.parentElement?.clientHeight);
+    }
+  }, [commentRef?.current?.clientHeight, commentRef?.current?.parentElement?.clientHeight]);
+  // useEffect(() => {
+  //   const element = commentRef?.current;
+  //   if (!element) {
+  //     return;
+  //   }
+  //   const observer = new ResizeObserver(() => {
+  //     if (!isChildren && element.parentElement?.clientHeight) {
+  //       console.log('Change Height 227');
+  //       setHeight(element.parentElement.clientHeight);
+  //     }
+  //   });
+  //   observer.observe(element);
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, []);
+
+  const minCommentHeight = 95;
   return (
-    <div className='comment mt-[12px]'>
-      <div className='flex flex-row items-start'>
+    <div ref={commentRef} className='comment mt-[12px]'>
+      <>
+        {height} {isChildren + ''}
+      </>
+      <div className='relative flex flex-row items-start'>
         <img
           src={data?.customerInfo?.avatar}
           alt=''
@@ -218,6 +254,30 @@ const ItemComment = (props: IProps) => {
               : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
           }
         />
+        {isPostDetailPath && data?.children.length > 0 && !isChildren && (
+          <div
+            style={{
+              height: `${height - minCommentHeight - 40 - 18 + 13}px`,
+            }}
+            className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-orange')}
+          ></div>
+        )}
+
+        {isChildren && (
+          <div>
+            <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-3xl  bg-green'></div>
+            <div className='absolute -left-[26px] -top-[19px] z-30 h-[40px] w-[20px] rounded-bl-full   bg-white'></div>
+            {isLastChildren && (
+              <div
+                style={{
+                  height: `${height - 4}px`,
+                }}
+                className='absolute -left-[28px] top-0 z-20 w-[2px] bg-white '
+              ></div>
+            )}
+          </div>
+        )}
+
         {/* bg-[#F6FAFD] */}
         <div
           className={classNames('content relative flex-1', {

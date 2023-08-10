@@ -391,7 +391,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className=' mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
+      <div className=' mb-[20px] mobile:block mobile:bg-white  tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
           alt=''
@@ -407,7 +407,7 @@ const Editor = (props: IProps, ref?: any) => {
             'bottom-0 left-0 flex  min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]  mobile:w-full mobile:rounded-[1000px] tablet:static ',
             {
               'tablet:rounded-full': !isFocus,
-              'tablet:rounded-[12px]': isFocus,
+              'tablet:rounded-[12px] ': isFocus,
             },
           )}
           ref={messagesEndRef}
@@ -452,7 +452,7 @@ const Editor = (props: IProps, ref?: any) => {
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' max-h-[108px] w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words  mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
+                  ' max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
                   {
                     'tablet:mt-[3px]': isFocus,
                   },

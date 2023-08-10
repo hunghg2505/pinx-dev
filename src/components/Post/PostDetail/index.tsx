@@ -49,6 +49,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
       refreshTotal={props.refreshTotal}
       width={props?.width}
       canExpand={props?.canExpand}
+      isReply={props.isReply}
     />
   );
 });
@@ -151,6 +152,7 @@ const PostDetail = () => {
               refreshTotal={refresh}
               isChildren={true}
               width={width}
+              isLastChildren={index === payload.length - 1}
             />
           ))}
         </div>
@@ -170,7 +172,10 @@ const PostDetail = () => {
     }
     initUserProfile();
   }, [userType, isReadTerms]);
-
+  // const postRef = useRef<HTMLDivElement>(null);
+  // useEffect(() => {
+  //   console.log('Change Height');
+  // }, [postRef?.current?.clientHeight]);
   return (
     <>
       {popupStatus.popupAccessLinmit && (
@@ -223,7 +228,7 @@ const PostDetail = () => {
           </div>
 
           {isLogin && (
-            <div className='mt-4 px-[16px] mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
+            <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
               <ForwardedRefComponent
                 ref={refRepliesLaptop}
                 id={postDetail?.data?.id}
@@ -262,7 +267,9 @@ const PostDetail = () => {
                           refreshCommentOfPOst={refreshCommentOfPost}
                           width={width}
                         />
+
                         {getSubComment(item.children)}
+
                         {(showReply === item?.id || isReply) &&
                           width > 770 &&
                           !postDetailStatus.isDoneReplies && (
@@ -274,6 +281,7 @@ const PostDetail = () => {
                                 refreshTotal={refresh}
                                 setImageCommentMobile={setImageCommentMobile}
                                 width={width}
+                                isReply={isReply}
                               />
                             </div>
                           )}
@@ -290,8 +298,11 @@ const PostDetail = () => {
                         refreshTotal={refresh}
                         refreshCommentOfPOst={refreshCommentOfPost}
                         width={width}
+                        isReply={isReply}
                       />
+
                       {getSubComment(item.children)}
+
                       {(showReply === item?.id || isReply) &&
                         width > 770 &&
                         !postDetailStatus.isDoneReplies && (
@@ -303,6 +314,7 @@ const PostDetail = () => {
                               refreshTotal={refresh}
                               setImageCommentMobile={setImageCommentMobile}
                               width={width}
+                              isReply={isReply}
                             />
                           </div>
                         )}
@@ -323,10 +335,10 @@ const PostDetail = () => {
             )}
           </div>
           {width < 770 && isLogin && (
-            <div className='mobile:block tablet:hidden'>
+            <div className='block tablet:hidden'>
               <div
                 className={classNames(
-                  'fixed bottom-0 left-0 z-10 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full',
+                  'fixed bottom-0 left-0 z-30 -mb-[4px] border-t border-solid border-t-[var(--primary-3)] bg-white pt-[16px] tablet-max:w-full',
                   styles.comment,
                 )}
               >
