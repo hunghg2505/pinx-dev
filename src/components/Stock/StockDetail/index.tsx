@@ -25,6 +25,7 @@ import { USERTYPE } from '@utils/constant';
 import ActivityItem from './ActivityItem';
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
+import ChartIframe from './ChartIframe';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HighlighItem from './HighlighItem';
@@ -159,8 +160,10 @@ const StockDetail = () => {
       if (dataStock) {
         requestLeaveChannel(dataStock.sym);
       }
+
+      setCurrentTab(TabType.MOVEMENTS);
     };
-  }, []);
+  }, [stockCode]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -535,12 +538,7 @@ const StockDetail = () => {
 
         {/* chart */}
         <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
-          <iframe
-            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}&color=${chartColorFormat}`}
-            frameBorder='0'
-            className='h-[350px] w-full'
-            key={Date.now()}
-          ></iframe>
+          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
         </div>
 
         {/* tab */}
