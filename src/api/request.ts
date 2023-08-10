@@ -53,6 +53,20 @@ const showApiError = (error: any) => {
         break;
       }
     }
+  }else {
+    switch(error?.response?.status) {
+      case 403: {
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      case 500: {
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 };
 
