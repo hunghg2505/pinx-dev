@@ -679,7 +679,7 @@ export const kFormatter = (num: number) => {
     : Math.sign(num) * Math.abs(num);
 };
 
-export const formatStringToNumber = (value: string, isComma = true, minimumFractionDigits = 0) => {
+export const formatStringToNumber = (value: any, isComma = true, minimumFractionDigits = 0) => {
   if (!value) {
     return '0';
   }
