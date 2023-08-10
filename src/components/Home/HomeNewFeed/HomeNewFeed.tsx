@@ -157,6 +157,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   };
 
   const onAddNewPost = (newData: IPost) => {
+    console.log('add-post');
     mutate({
       // @ts-ignore
       list: [newData, ...dataPosts?.list],
@@ -168,15 +169,16 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     const findIndex = dataPosts?.list?.findIndex(
       (item) => item?.id === postDetailStatus?.themeWatchlist?.id,
     );
-    if (findIndex === -1) {
+    if (findIndex === -1 && postDetailStatus?.themeWatchlist) {
       onAddNewPost(postDetailStatus?.themeWatchlist);
     }
   }, [postDetailStatus?.themeWatchlist]);
   React.useEffect(() => {
-    if (postDetailStatus.idPostDetail) {
+    if (postDetailStatus.idPostDetail !== '') {
       const newData =
         dataPosts?.list &&
         [...dataPosts?.list].filter((item) => item.id !== postDetailStatus.idPostDetail);
+      console.log('newData', newData);
       mutate({
         list: newData,
       });

@@ -13,14 +13,15 @@ export default forwardRef((props: any, ref) => {
   // const router = useRouter();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectItem = (index: any) => {
-    const item = props.items[index];
+    const item = props.items?.[index];
     if (item) {
       const isStock = !!item?.stockCode;
-      const isHashTag = !!item.mappingId;
+      const isHashTag = item.isHashtag;
+      // const hashTag = isHashTag && item?.content?.replace('#', '');
       if (isStock) {
         props.command({ id: item.id, label: item.stockCode });
       } else if (isHashTag) {
-        props.command({ id: item.id, label: item.content });
+        props.command({ id: item.id, label: item?.content });
       } else {
         props.command({ id: item.id, label: item.displayName });
       }
@@ -35,9 +36,9 @@ export default forwardRef((props: any, ref) => {
     setSelectedIndex((selectedIndex + 1) % props.items.length);
   };
 
-  const enterHandler = () => {
-    selectItem(selectedIndex);
-  };
+  // const enterHandler = () => {
+  //   selectItem(selectedIndex);
+  // };
 
   useEffect(() => setSelectedIndex(0), [props.items]);
 
@@ -52,10 +53,9 @@ export default forwardRef((props: any, ref) => {
         downHandler();
         return true;
       }
-
       if (event.key === 'Enter') {
-        enterHandler();
-        return true;
+        // enterHandler();
+        return false;
       }
 
       return false;
@@ -63,8 +63,9 @@ export default forwardRef((props: any, ref) => {
   }));
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const renderText = (item: any) => {
+    console.log('🚀 ~ file: MentionList.tsx:66 ~ renderText ~ item:', item);
     const isStock = !!item.stockCode;
-    const isHashTag = !!item.mappingId;
+    const isHashTag = item.isHashtag;
     if (isStock) {
       return item.stockCode;
     }
@@ -73,6 +74,20 @@ export default forwardRef((props: any, ref) => {
     }
     return item.displayName;
   };
+  // const renderImage = (item: any) => {
+  //   const isStock = !!item.stockCode;
+  //   console.log('🚀 ~ file: MentionList.tsx:79 ~ renderImage ~ isStock:', isStock);
+  //   const isHashTag = item.isHashtag;
+  //   if (isHashTag) {
+  //     return <></>;
+  //   }
+  //   // if(!isHashTag){
+  //   //   if(isStock){
+  //   //     if()
+  //   //   }
+  //   // }
+  //   console.log('🚀 ~ file: MentionList.tsx:81 ~ renderImage ~ isHashTag:', isHashTag);
+  // };
   return (
     <div
       className={classNames(
@@ -92,7 +107,7 @@ export default forwardRef((props: any, ref) => {
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
-              const isHashTag = !!item.mappingId;
+              const isHashTag = item.isHashtag;
               let url = '';
               const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
               if (isStock) {

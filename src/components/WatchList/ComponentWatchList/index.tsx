@@ -32,6 +32,7 @@ const ComponentWatchList = (props: IProps) => {
     {
       manual: true,
       onSuccess: (res: any) => {
+        console.log('🚀 ~ file: index.tsx:35 ~ ComponentWatchList ~ res:', res);
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {
@@ -58,7 +59,7 @@ const ComponentWatchList = (props: IProps) => {
 
   const dataFormat = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-    if (findIndex && findIndex !== -1) {
+    if (findIndex !== -1) {
       const data = dataStock[findIndex];
       dataStock[findIndex] = {
         ...data,
@@ -70,14 +71,13 @@ const ComponentWatchList = (props: IProps) => {
     }
 
     return dataStock;
-  }, [dataStock, dataStock, page_size, dataSocket]);
+  }, [dataSocket, dataStock, page_size]);
   socket.on('public', (message: any) => {
     const data = message.data;
     if (data?.id === 3220) {
       setDataSocket(data);
     }
   });
-
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>

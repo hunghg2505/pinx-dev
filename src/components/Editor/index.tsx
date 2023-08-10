@@ -358,7 +358,7 @@ const Editor = (props: IProps, ref?: any) => {
           if (prevIndex >= 0) {
             const item = acc[prevIndex];
             if (item) {
-              acc.splice(prevIndex, 1, `${item} `);
+              acc.splice(prevIndex, 1, `${item}`);
             }
           }
           return acc;
@@ -368,7 +368,7 @@ const Editor = (props: IProps, ref?: any) => {
 
         return acc;
       }, []);
-      const dataJoin = dataReduce?.join('');
+      const dataJoin = dataReduce?.join(' ');
       return dataJoin;
       // return abcd?.join('');
       // console.log('abcd', abcd);
