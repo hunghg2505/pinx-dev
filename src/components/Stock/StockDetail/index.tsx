@@ -380,6 +380,28 @@ const StockDetail = () => {
     };
   }, [dataStock]);
 
+  const isPriceChange = useMemo(() => {
+    if (
+      !dataStock ||
+      !dataStock.lastPrice ||
+      !dataStock.ot ||
+      !dataStock.changePc ||
+      !preDataStock ||
+      !preDataStock.lastPrice ||
+      !preDataStock.ot ||
+      !preDataStock.changePc
+    ) {
+      return;
+    }
+
+    const isChange =
+      dataStock.lastPrice !== preDataStock.lastPrice ||
+      dataStock.ot !== preDataStock.ot ||
+      dataStock.changePc !== preDataStock.changePc;
+
+    return isChange;
+  }, [dataStock, preDataStock]);
+
   const revenueLastUpdated = useMemo(() => {
     if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
       const lastUpdate = dayjs.max(
@@ -518,7 +540,9 @@ const StockDetail = () => {
             </div>
 
             <div
-              className='text-right'
+              className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
+                [styles.isPriceChange]: isPriceChange,
+              })}
               style={{
                 color: getStockColor(
                   dataStock?.lastPrice || 0,
@@ -526,6 +550,14 @@ const StockDetail = () => {
                   dataStock?.f || 0,
                   dataStock?.r || 0,
                 ),
+                backgroundColor: isPriceChange
+                  ? getStockColor(
+                      dataStock?.lastPrice || 0,
+                      dataStock?.c || 0,
+                      dataStock?.f || 0,
+                      dataStock?.r || 0,
+                    )
+                  : 'transparent',
               }}
             >
               <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
