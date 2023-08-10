@@ -675,6 +675,24 @@ export const getStockColor = (
 
 export const kFormatter = (num: number) => {
   return Math.abs(num) > 999
-    ? Math.sign(num) * +(Math.abs(num) / 1000).toFixed(1) + 'K'
+    ? formatStringToNumber((Math.sign(num) * +(Math.abs(num) / 1000).toFixed(1)).toString()) + 'K'
     : Math.sign(num) * Math.abs(num);
+};
+
+export const formatStringToNumber = (value: any, isComma = true, minimumFractionDigits = 0) => {
+  if (!value) {
+    return '0';
+  }
+  if (Number.isNaN(value)) {
+    return value;
+  }
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits,
+  });
+
+  const numString = value.toString();
+
+  const num = numString.includes('.') ? numString.slice(0, numString.indexOf('.') + 3) : numString;
+
+  return formatter.format(+num).replaceAll(',', isComma ? ',' : '.');
 };

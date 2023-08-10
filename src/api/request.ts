@@ -31,16 +31,76 @@ const redirectlogin = (error: any) => {
   throw error?.data || error?.response;
 };
 
+const showApiError = (error: any) => {
+  if (isDev){
+    switch(error?.response?.status) {
+      case 400: {
+        toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right'
+        });
+        break;
+      }
+      case 403: {
+        toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right'
+        });
+        break;
+      }
+      case 500: {
+        toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right'
+        });
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }else {
+    switch(error?.response?.status) {
+      case 400: {
+        // eslint-disable-next-line no-console
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      case 403: {
+        // eslint-disable-next-line no-console
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      case 500: {
+        // eslint-disable-next-line no-console
+        console.log(`${error?.response?.status} - ${error?.response?.url}`);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+};
+
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    // 'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
   },
+});
+requestPist.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
 });
 
 const requestMarket = extend({
@@ -48,12 +108,24 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    // 'Accept-Language': (getLocaleCookie() as string) || 'vi',
   },
   errorHandler: (error) => {
     redirectlogin(error);
   },
 });
+requestMarket.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
+});
+
 const requestUploadPhoto = extend({
   prefix: PREFIX_API_UPLOADPHOTO,
   timeout: REQ_TIMEOUT,
@@ -69,12 +141,23 @@ const requestUploadPhoto = extend({
 const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
-  headers: {
-    'Accept-Language': (getLocaleCookie() as string) || 'vi',
-  },
+  // headers: {
+  //   'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  // },
   errorHandler: (error) => {
-    redirectlogin(error);
+    showApiError(error);
   },
+});
+requestCommunity.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
 });
 
 const tokenManager = new TokenManager({

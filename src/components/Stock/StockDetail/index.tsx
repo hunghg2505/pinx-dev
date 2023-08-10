@@ -19,12 +19,19 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
+import {
+  ROUTE_PATH,
+  formatNumber,
+  formatStringToNumber,
+  getStockColor,
+  imageStock,
+} from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
+import ChartIframe from './ChartIframe';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HighlighItem from './HighlighItem';
@@ -156,11 +163,11 @@ const StockDetail = () => {
 
   useEffect(() => {
     return () => {
-      if (dataStock) {
-        requestLeaveChannel(dataStock.sym);
-      }
+      requestLeaveChannel(stockCode);
+
+      setCurrentTab(TabType.MOVEMENTS);
     };
-  }, []);
+  }, [stockCode]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -210,9 +217,10 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
-    if (!dataStock || data.sym !== dataStock?.sym) {
+    if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
       return;
     }
+    setPreDataStock(dataStock);
 
     if (data?.id === 3220 || data?.id === 3250) {
       const tempData = { ...data };
@@ -241,8 +249,6 @@ const StockDetail = () => {
         g3: data.g3,
       }));
     }
-
-    setPreDataStock(dataStock);
   });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
@@ -376,6 +382,28 @@ const StockDetail = () => {
       chartColorFormat,
     };
   }, [dataStock]);
+
+  const isPriceChange = useMemo(() => {
+    if (
+      !dataStock ||
+      !dataStock.lastPrice ||
+      !dataStock.ot ||
+      !dataStock.changePc ||
+      !preDataStock ||
+      !preDataStock.lastPrice ||
+      !preDataStock.ot ||
+      !preDataStock.changePc
+    ) {
+      return;
+    }
+
+    const isChange =
+      dataStock.lastPrice !== preDataStock.lastPrice ||
+      dataStock.ot !== preDataStock.ot ||
+      dataStock.changePc !== preDataStock.changePc;
+
+    return isChange;
+  }, [dataStock, preDataStock]);
 
   const revenueLastUpdated = useMemo(() => {
     if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
@@ -515,7 +543,9 @@ const StockDetail = () => {
             </div>
 
             <div
-              className='text-right'
+              className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
+                [styles.isPriceChange]: isPriceChange,
+              })}
               style={{
                 color: getStockColor(
                   dataStock?.lastPrice || 0,
@@ -523,11 +553,20 @@ const StockDetail = () => {
                   dataStock?.f || 0,
                   dataStock?.r || 0,
                 ),
+                backgroundColor: isPriceChange
+                  ? getStockColor(
+                      dataStock?.lastPrice || 0,
+                      dataStock?.c || 0,
+                      dataStock?.f || 0,
+                      dataStock?.r || 0,
+                    )
+                  : 'transparent',
               }}
             >
               <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
               <Text type='body-12-regular'>
-                {`${unit}${dataStock?.ot || 0}`} / {`${unit}${dataStock?.changePc || 0}`}%
+                {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
+                {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
               </Text>
             </div>
           </div>
@@ -535,12 +574,7 @@ const StockDetail = () => {
 
         {/* chart */}
         <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
-          <iframe
-            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}&color=${chartColorFormat}`}
-            frameBorder='0'
-            className='h-[350px] w-full'
-            key={Date.now()}
-          ></iframe>
+          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
         </div>
 
         {/* tab */}
@@ -618,7 +652,7 @@ const StockDetail = () => {
               {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickPrev()}
-                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
                 >
                   <img
                     src='/static/icons/iconGrayPrev.svg'
@@ -647,7 +681,7 @@ const StockDetail = () => {
               {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickNext()}
-                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
                 >
                   <img
                     src='/static/icons/iconGrayNext.svg'
@@ -1056,7 +1090,7 @@ const StockDetail = () => {
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
           {/* chart */}
-          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[24px] tablet:flex-row tablet:items-center'>
+          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[28px] tablet:flex-row tablet:items-center'>
             <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>

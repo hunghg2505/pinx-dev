@@ -108,7 +108,7 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
                       ></div>
 
                       <Text type='body-12-semibold' className='z-10 mx-[8px]'>
-                        {kFormatter(item.total)}
+                        {kFormatter(item.total * 10)}
                       </Text>
                     </div>
                   </td>

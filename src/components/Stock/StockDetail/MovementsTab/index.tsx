@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { formatNumber } from '@utils/common';
+import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -37,8 +37,8 @@ export const getColor = (price: number, ref: number) => {
   }
 
   return {
-    color: '#128F63',
-    backgroundColor: '#B6DFD1',
+    color: '#474D57',
+    backgroundColor: '#CCCCCC',
   };
 };
 
@@ -203,8 +203,8 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
 
   return (
     <>
-      <div className='flex flex-col flex-wrap gap-y-[12px] tablet:flex-row tablet:gap-x-[15px]'>
-        <div className='flex flex-1'>
+      <div className=''>
+        <div className='flex justify-between'>
           <table className='flex-1'>
             <tbody>
               <tr className='h-[32px]'>
@@ -248,7 +248,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
 
           <table
             className={classNames(
-              'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
+              'w-[55%] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] laptop-max:w-[51.5vw]',
               styles.tableRedBorder,
             )}
           >
@@ -271,7 +271,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+sell_price_3)
                       ? sell_price_3
-                      : formatNumber(Number(sell_price_3) || 0)}
+                      : formatStringToNumber(sell_price_3, true, 2)}
                   </Text>
 
                   <div
@@ -318,7 +318,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+sell_price_2)
                       ? sell_price_2
-                      : formatNumber(Number(sell_price_2) || 0)}
+                      : formatStringToNumber(sell_price_2, true, 2)}
                   </Text>
 
                   <div
@@ -365,7 +365,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+sell_price_1)
                       ? sell_price_1
-                      : formatNumber(Number(sell_price_1) || 0)}
+                      : formatStringToNumber(sell_price_1, true, 2)}
                   </Text>
 
                   <div
@@ -397,10 +397,10 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </table>
         </div>
 
-        <div className='flex flex-1'>
+        <div className='mt-[12px] flex justify-between'>
           <table
             className={classNames(
-              'w-[203px] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
+              'w-[55%] border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] laptop-max:w-[51.5vw]',
               styles.tableGreenBorder,
             )}
           >
@@ -438,7 +438,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+buy_price_1)
                       ? buy_price_1
-                      : formatNumber(Number(buy_price_1) || 0)}
+                      : formatStringToNumber(buy_price_1, true, 2)}
                   </Text>
                   <div
                     className='absolute -bottom-[1px] right-0 h-[3px] border-none'
@@ -483,7 +483,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+buy_price_2)
                       ? buy_price_2
-                      : formatNumber(Number(buy_price_2) || 0)}
+                      : formatStringToNumber(buy_price_2, true, 2)}
                   </Text>
                   <div
                     className='absolute -bottom-[1px] right-0 h-[3px] border-none'
@@ -528,7 +528,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   >
                     {Number.isNaN(+buy_price_3)
                       ? buy_price_3
-                      : formatNumber(Number(buy_price_3) || 0)}
+                      : formatStringToNumber(buy_price_3, true, 2)}
                   </Text>
                   <div
                     className='absolute -bottom-[1px] right-0 h-[3px] border-none'
@@ -586,134 +586,81 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
       </div>
 
       <div className='mt-[20px] flex flex-wrap'>
-        <div className='w-1/2 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.total_vol')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isTotalVolDecrease,
               [styles.isIncrease]: isTotalVolIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-            >
-              {t('movements.total_vol')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber(Number(stockData?.lot || 0) * 10)}
-            </Text>
-          </div>
+            {formatStringToNumber((Number(stockData?.lot || 0) * 10).toString())}
+          </Text>
         </div>
 
-        <div className='w-1/2 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.total_val')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isTotalVolDecrease,
               [styles.isIncrease]: isTotalVolIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-            >
-              {t('movements.total_val')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice) * 10)}
-            </Text>
-          </div>
+            {formatStringToNumber(
+              (Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000).toString(),
+            )}
+          </Text>
         </div>
 
-        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.foreign_buy')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isFbVolDecrease,
               [styles.isIncrease]: isFbVolIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isFbVolDecrease || isFbVolIncrease,
-              })}
-            >
-              {t('movements.foreign_buy')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isFbVolDecrease || isFbVolIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber((Number(stockData?.fBVol) || 0) * 10)}
-            </Text>
-          </div>
+            {formatStringToNumber(((Number(stockData?.fBVol) || 0) * 10).toString())}
+          </Text>
         </div>
 
-        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.total_room')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isFRoomDecrease,
               [styles.isIncrease]: isFRoomIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isFRoomDecrease || isFRoomIncrease,
-              })}
-            >
-              {t('movements.total_room')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isFRoomDecrease || isFRoomIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber((Number(stockData?.fRoom) || 0) * 10)}
-            </Text>
-          </div>
+            {formatStringToNumber(((Number(stockData?.fRoom) || 0) * 10).toString())}
+          </Text>
         </div>
 
-        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.foreign_sell')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isFsVolumeDecrease,
               [styles.isIncrease]: isFsVolumeIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isFsVolumeDecrease || isFsVolumeIncrease,
-              })}
-            >
-              {t('movements.foreign_sell')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isFsVolumeDecrease || isFsVolumeIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber((Number(stockData?.fSVolume) || 0) * 10)}
-            </Text>
-          </div>
+            {formatStringToNumber(((Number(stockData?.fSVolume) || 0) * 10).toString())}
+          </Text>
         </div>
       </div>
     </>
