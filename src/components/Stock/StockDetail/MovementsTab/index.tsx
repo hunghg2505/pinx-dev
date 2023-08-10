@@ -37,8 +37,8 @@ export const getColor = (price: number, ref: number) => {
   }
 
   return {
-    color: '#128F63',
-    backgroundColor: '#B6DFD1',
+    color: '#474D57',
+    backgroundColor: '#CCCCCC',
   };
 };
 
@@ -586,134 +586,79 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
       </div>
 
       <div className='mt-[20px] flex flex-wrap'>
-        <div className='w-1/2 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.total_vol')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isTotalVolDecrease,
               [styles.isIncrease]: isTotalVolIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-            >
-              {t('movements.total_vol')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber(Number(stockData?.lot || 0) * 10)}
-            </Text>
-          </div>
+            {formatNumber(Number(stockData?.lot || 0) * 10)}
+          </Text>
         </div>
 
-        <div className='w-1/2 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.total_val')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isTotalVolDecrease,
               [styles.isIncrease]: isTotalVolIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-            >
-              {t('movements.total_val')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isTotalVolDecrease || isTotalVolIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice) * 10)}
-            </Text>
-          </div>
+            {formatNumber(Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000)}
+          </Text>
         </div>
 
-        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.foreign_buy')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isFbVolDecrease,
               [styles.isIncrease]: isFbVolIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isFbVolDecrease || isFbVolIncrease,
-              })}
-            >
-              {t('movements.foreign_buy')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isFbVolDecrease || isFbVolIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber((Number(stockData?.fBVol) || 0) * 10)}
-            </Text>
-          </div>
+            {formatNumber((Number(stockData?.fBVol) || 0) * 10)}
+          </Text>
         </div>
 
-        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.total_room')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isFRoomDecrease,
               [styles.isIncrease]: isFRoomIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isFRoomDecrease || isFRoomIncrease,
-              })}
-            >
-              {t('movements.total_room')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isFRoomDecrease || isFRoomIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber((Number(stockData?.fRoom) || 0) * 10)}
-            </Text>
-          </div>
+            {formatNumber((Number(stockData?.fRoom) || 0) * 10)}
+          </Text>
         </div>
 
-        <div className='w-1/3 border border-solid border-[#E6E6E6] py-[4px] text-center tablet:w-1/5'>
-          <div
-            className={classNames('inline-block px-[6px] py-[6px]', {
+        <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+          <Text type='body-12-regular' className='text-[#474D57]'>
+            {t('movements.foreign_sell')}
+          </Text>
+          <Text
+            className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
               [styles.isDecrease]: isFsVolumeDecrease,
               [styles.isIncrease]: isFsVolumeIncrease,
             })}
+            type='body-12-regular'
           >
-            <Text
-              type='body-12-regular'
-              className={classNames('text-[#474D57]', {
-                'text-[inherit]': isFsVolumeDecrease || isFsVolumeIncrease,
-              })}
-            >
-              {t('movements.foreign_sell')}
-            </Text>
-            <Text
-              className={classNames('mt-[6px] text-[#0D0D0D]', {
-                'text-[inherit]': isFsVolumeDecrease || isFsVolumeIncrease,
-              })}
-              type='body-12-regular'
-            >
-              {formatNumber((Number(stockData?.fSVolume) || 0) * 10)}
-            </Text>
-          </div>
+            {formatNumber((Number(stockData?.fSVolume) || 0) * 10)}
+          </Text>
         </div>
       </div>
     </>
