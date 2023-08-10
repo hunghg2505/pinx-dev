@@ -56,6 +56,7 @@ const ItemComment = (props: IProps) => {
     width,
     refreshCommentOfPOst,
     isLastChildren,
+    isReply,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -253,11 +254,21 @@ const ItemComment = (props: IProps) => {
           }
         />
         {isPostDetailPath && data?.children.length > 0 && !isChildren && (
+          <>
+            <div
+              style={{
+                height: `${height - minCommentHeight - 40 - 18 + 13}px`,
+              }}
+              className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-neutral_07')}
+            ></div>
+          </>
+        )}
+        {!isChildren && isReply && (
           <div
             style={{
-              height: `${height - minCommentHeight - 40 - 18 + 13}px`,
+              height: `${height - 95 - 16}px`,
             }}
-            className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-neutral_07')}
+            className='absolute left-[20px] top-[44px] z-0 hidden  w-[2px] bg-neutral_07 tablet:block'
           ></div>
         )}
 
@@ -265,12 +276,12 @@ const ItemComment = (props: IProps) => {
           <div>
             <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
             <div className='absolute -left-[26px] -top-[19.5px] z-30 h-[40px] w-[20px] rounded-bl-xl   bg-white'></div>
-            {isLastChildren && (
+            {isLastChildren && isReply && (
               <div
                 style={{
                   height: `${height - 4}px`,
                 }}
-                className='absolute -left-[28px] top-0 z-20 w-[2px] bg-white '
+                className='absolute -left-[28px] top-0 z-20 w-[2px] bg-orange '
               ></div>
             )}
           </div>
@@ -383,7 +394,7 @@ const ItemComment = (props: IProps) => {
           )}
 
           <div className='action flex gap-x-[12px] tablet:gap-x-[18px]'>
-            <div className='flex cursor-pointer like' onClick={onLike}>
+            <div className='like flex cursor-pointer' onClick={onLike}>
               <Text
                 type='body-13-regular'
                 className={classNames('tablet:!text-[14px]', {
@@ -395,7 +406,7 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
             <div
-              className='flex cursor-pointer comment'
+              className='comment flex cursor-pointer'
               onClick={() => onComment(name, data?.customerId, data?.id)}
             >
               <Text

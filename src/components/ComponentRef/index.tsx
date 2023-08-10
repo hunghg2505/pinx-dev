@@ -8,6 +8,7 @@ const ComponentRef = ({
   setImageCommentMobile,
   width,
   canExpand, // For styling in Post Detail
+  isReply,
 }: {
   forwardedRef?: any;
   id: string;
@@ -16,6 +17,7 @@ const ComponentRef = ({
   setImageCommentMobile: (v: boolean) => void;
   width?: number;
   canExpand?: boolean;
+  isReply?: boolean;
 }) => {
   return (
     <Editor
@@ -26,6 +28,7 @@ const ComponentRef = ({
       refreshTotal={refreshTotal}
       width={width}
       canExpand={canExpand}
+      isReply={isReply}
     />
   );
 };
