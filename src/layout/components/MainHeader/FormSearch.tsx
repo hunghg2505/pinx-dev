@@ -67,9 +67,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         // toast('Empty || undefined');
         setShowPopup(false);
       } else {
-        // toast('Not Empty');
         setShowPopup(true);
-        refresh();
       }
     },
   });
@@ -82,20 +80,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
-  const handleSubmit = () => {
-    const value = form.getFieldValue('search');
+  const handleSubmit = async () => {
+    const value = await form.getFieldValue('search').trim();
     setQuery(value);
-    const payloads = {
-      textSearch: query,
-    };
     if (value === '' || value === undefined) {
       setInputFocus(true);
       setShowRecent(true);
       setShowPopup(false);
-      setIsOpenSearch(!isOpenSearch);
     } else {
+      const payloads = {
+        textSearch: query.trim(),
+      };
       requestSearch.run(payloads);
-      // setIsOpenSearch(!isOpenSearch);
     }
   };
 
@@ -153,6 +149,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         setShowRecent(false);
         setShowPopup(true);
         setInputFocus(true);
+        refresh();
         searchPublic({
           textSearch: value,
         });
@@ -163,8 +160,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     },
   );
 
-  const onClickRecent = (data: any) => {
-    form.setFieldValue('search', data);
+  const onClickRecent = async (data: any) => {
+    await form.setFieldValue('search', data);
     setQuery(data);
     form.submit();
     isDesktop && form.submit();
@@ -327,7 +324,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
-                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} />;
+                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} />;
                   })}
                 </div>
               )}

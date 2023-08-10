@@ -8,13 +8,16 @@ import { useGetStockTrade } from '@components/Stock/service';
 import Text from '@components/UI/Text';
 import { formatNumber } from '@utils/common';
 
+import { getColor } from '../MovementsTab';
+
 interface IMatchingsTabProps {
   stockCode: string;
+  stockRefPrice: number;
 }
 
 const LIMIT_STOCK_TRADE = 10;
 
-const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
+const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -70,7 +73,9 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
                 <td className='py-[10px] pr-[16px]'>
                   <div
                     className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
-                    style={{ backgroundColor: item.color || '#DA314F' }}
+                    style={{
+                      backgroundColor: getColor(item.lastPrice, stockRefPrice)?.color,
+                    }}
                   >
                     <Text type='body-16-semibold' color='cbwhite'>
                       {item.change}
@@ -83,6 +88,7 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
             <tr>
               <td className='pt-[12px]' colSpan={4}>
                 <EmptyData
+                  titleClassName='text-[14px]'
                   title={t('matchings.empty_title')}
                   description={t('matchings.empty_description')}
                 />
@@ -127,6 +133,7 @@ const MatchingsTab = ({ stockCode }: IMatchingsTabProps) => {
         stockTrade={stockTrade}
         visible={openPopup}
         onClose={() => setOpenPopup(false)}
+        stockRefPrice={stockRefPrice}
       />
     </>
   );

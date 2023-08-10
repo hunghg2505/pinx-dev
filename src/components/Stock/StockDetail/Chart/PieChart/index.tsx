@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 
 import { REVENUE_CHART_COLOR } from '@components/Stock/const';
 
@@ -30,7 +30,7 @@ const PieChart = ({ width, height, data }: IPieChartProps) => {
     const arr = Pie(data);
     for (let i = 0; i <= arr.length; i++) {
       const item = arr[i];
-      if (svgRef.current) {
+      if (svgRef.current && item) {
         svgRef.current.innerHTML += `<g>
           <path d="${item?.d}" stroke="none" fill="${item?.color}" />
         </g>`;
@@ -223,4 +223,4 @@ const PieChart = ({ width, height, data }: IPieChartProps) => {
   );
 };
 
-export default PieChart;
+export default memo(PieChart);

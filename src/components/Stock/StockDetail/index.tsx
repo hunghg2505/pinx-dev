@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -22,6 +25,7 @@ import { USERTYPE } from '@utils/constant';
 import ActivityItem from './ActivityItem';
 import CalendarItem from './CalendarItem';
 import { DonutChart, PieChart } from './Chart';
+import ChartIframe from './ChartIframe';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import HighlighItem from './HighlighItem';
@@ -71,7 +75,7 @@ const MAX_LINE = 4;
 const LINE_HEIGHT = 21;
 const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 const STOCK_EVENT_ITEM_LIMIT = 4;
-const WATCHING_INVESTING_ITEM_LIMIT = 5;
+const WATCHING_INVESTING_ITEM_LIMIT = 4;
 const HIGHLIGH_ROW_LIMIT = 3;
 const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
@@ -81,6 +85,8 @@ const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png'
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
 const PRODUCT_SLIDE_LIMIT = 5;
 
+dayjs.extend(quarterOfYear);
+dayjs.extend(minMax);
 const StockDetail = () => {
   const { t, i18n } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
@@ -95,6 +101,7 @@ const StockDetail = () => {
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
+  const [preDataStock, setPreDataStock] = useState<IStockData>();
   const refSlide = useRef<any>(null);
 
   const router = useRouter();
@@ -134,6 +141,7 @@ const StockDetail = () => {
   useGetStockData(stockCode, {
     onSuccess: (res) => {
       setDataStock((prev) => ({ ...prev, ...res.data }));
+      setPreDataStock((prev) => ({ ...prev, ...res.data }));
       requestJoinChannel(res.data.sym);
     },
   });
@@ -152,8 +160,10 @@ const StockDetail = () => {
       if (dataStock) {
         requestLeaveChannel(dataStock.sym);
       }
+
+      setCurrentTab(TabType.MOVEMENTS);
     };
-  }, []);
+  }, [stockCode]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -203,9 +213,39 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
-    if (data?.id === 3220 && data.sym === dataStock?.sym) {
-      setDataStock((prev) => ({ ...prev, ...data }));
+    if (!dataStock || data.sym !== dataStock?.sym) {
+      return;
     }
+
+    if (data?.id === 3220 || data?.id === 3250) {
+      const tempData = { ...data };
+      if (data?.id === 3220) {
+        tempData.lot = data.totalVol;
+      }
+      setDataStock((prev) => ({ ...prev, ...tempData }));
+    }
+
+    // sell
+    if (data.side === 'S') {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g4: data.g1,
+        g5: data.g2,
+        g6: data.g3,
+      }));
+    }
+
+    // buy
+    if (data.side === 'B') {
+      setDataStock((prev: any) => ({
+        ...prev,
+        g1: data.g1,
+        g2: data.g2,
+        g3: data.g3,
+      }));
+    }
+
+    setPreDataStock(dataStock);
   });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
@@ -321,15 +361,41 @@ const StockDetail = () => {
     };
   }, [stockDetail?.data?.products]);
 
-  const { unit } = useMemo(() => {
+  const { unit, chartColorFormat } = useMemo(() => {
     const highest_price = dataStock?.r;
     const isDecrease = (dataStock?.lastPrice || 0) < (highest_price || 0);
     const unit = isDecrease ? '-' : '+';
 
+    const chartColor = getStockColor(
+      dataStock?.lastPrice || 0,
+      dataStock?.c || 0,
+      dataStock?.f || 0,
+      dataStock?.r || 0,
+    );
+    const chartColorFormat = chartColor.slice(1);
+
     return {
       unit,
+      chartColorFormat,
     };
   }, [dataStock]);
+
+  const revenueLastUpdated = useMemo(() => {
+    if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
+      const lastUpdate = dayjs.max(
+        taggingInfo?.data?.revenues
+          .filter((item) => item.updatedAt)
+          .map((item) => dayjs(item.updatedAt)),
+      );
+
+      return {
+        quarter: dayjs(lastUpdate).subtract(3, 'M').quarter(),
+        year: dayjs(lastUpdate).subtract(3, 'M').get('year'),
+      };
+    }
+
+    return null;
+  }, [taggingInfo]);
 
   return (
     <div className='p-[10px] desktop:p-0'>
@@ -402,7 +468,7 @@ const StockDetail = () => {
         </div>
 
         <div className='mt-[12px] flex items-center justify-between'>
-          <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
+          <div className='flex flex-1 flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
             <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
               <img
                 src={imageStock(stockCode)}
@@ -472,11 +538,7 @@ const StockDetail = () => {
 
         {/* chart */}
         <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
-          <iframe
-            src={`https://price.pinetree.vn/chart-index/stock-chart?code=${stockCode}&lang=${i18n.language}&ref=${dataStock?.r}`}
-            frameBorder='0'
-            className='h-[350px] w-full'
-          ></iframe>
+          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
         </div>
 
         {/* tab */}
@@ -488,15 +550,15 @@ const StockDetail = () => {
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
-            <MovementsTab stockData={dataStock} />
+            <MovementsTab stockData={dataStock} preDataStock={preDataStock} />
           </TabPane>
 
           <TabPane tab={t('tab.matchings')} key={TabType.MATCHINGS}>
-            <MatchingsTab stockCode={stockCode} />
+            <MatchingsTab stockCode={stockCode} stockRefPrice={dataStock?.r || 0} />
           </TabPane>
 
           <TabPane tab={t('tab.intraday')} key={TabType.INTRADAY}>
-            <IntradayTab />
+            <IntradayTab stockCode={stockCode} stockData={dataStock} />
           </TabPane>
         </Tabs>
       </div>
@@ -544,13 +606,9 @@ const StockDetail = () => {
           </div>
 
           {isMobile ? (
-            <div className={classNames('overflow-x-auto whitespace-nowrap', styles.noScrollbar)}>
+            <div className={classNames('flex items-center overflow-x-auto', styles.noScrollbar)}>
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem
-                  className='inline-block whitespace-break-spaces'
-                  key={index}
-                  data={item}
-                />
+                <ProductItem className='min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -660,7 +718,10 @@ const StockDetail = () => {
               />
 
               <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
-                Last updated: The 4th quarter year 2022
+                {t('revenue_last_updated', {
+                  quarter: revenueLastUpdated?.quarter,
+                  year: revenueLastUpdated?.year,
+                })}
               </Text>
             </div>
 
@@ -674,8 +735,12 @@ const StockDetail = () => {
                       ]
                     }
                     key={index}
-                    value={+item.percentage.toFixed(2)}
-                    label={i18n.language === 'vi' ? item.sourceVi : item.sourceEn}
+                    value={
+                      Number.isInteger(item.percentage)
+                        ? item.percentage
+                        : +item.percentage.toFixed(2)
+                    }
+                    label={item.sourceVi}
                   />
                 ))}
               </div>
@@ -762,16 +827,16 @@ const StockDetail = () => {
           />
 
           <div className='flex gap-x-[52px]'>
-            <div>
+            <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.avg_score')}
               </Text>
-              <Text type='body-20-medium' color='semantic-2-1'>
+              <Text type='body-20-medium' className='text-[#F1BA09]'>
                 {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
               </Text>
             </div>
 
-            <div>
+            <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.votes')}
               </Text>
@@ -780,13 +845,13 @@ const StockDetail = () => {
               </Text>
             </div>
 
-            <div>
+            <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.reviews')}
               </Text>
 
               <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                <div className='flex items-center'>
+                <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
                     {stockDetails?.data.details.totalReviews}
                   </Text>
@@ -840,7 +905,7 @@ const StockDetail = () => {
               {t('community_description')}
             </Text>
 
-            <div className='mt-[16px] flex items-center justify-between tablet:justify-start'>
+            <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
               <Link href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)} className='flex gap-x-[10px]'>
                 {stockDetails?.data.watchingInvestingList
                   .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
@@ -989,7 +1054,7 @@ const StockDetail = () => {
           <Text type='body-20-bold'>{t('shareholders_title')}</Text>
 
           {/* chart */}
-          <div className='mt-[28px] flex justify-between gap-x-[12px] tablet:items-center'>
+          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[28px] tablet:flex-row tablet:items-center'>
             <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
               {shareholder?.data?.map((item, index) => (
                 <div key={index} className='self-start'>
@@ -1021,12 +1086,14 @@ const StockDetail = () => {
               ))}
             </div>
 
-            <DonutChart
-              strokeWidth={isMobile ? 16 : 27}
-              width={isMobile ? 183 : 318}
-              height={isMobile ? 183 : 318}
-              data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
-            />
+            <div className='mx-auto'>
+              <DonutChart
+                strokeWidth={isMobile ? 16 : 27}
+                width={isMobile ? 183 : 318}
+                height={isMobile ? 183 : 318}
+                data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
+              />
+            </div>
           </div>
         </div>
       )}

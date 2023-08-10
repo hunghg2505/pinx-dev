@@ -32,7 +32,7 @@ const Follow = () => {
         }
         onClick={() => onFollow()}
       >
-      
+
         <svg
           width='33'
           height='24'

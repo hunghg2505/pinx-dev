@@ -1,5 +1,8 @@
+import React from 'react';
+
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -176,14 +179,15 @@ const ThemesItem = (props: IProps) => {
       <div className='mx-auto w-[177px] pr-[16px]'>
         <div className='relative min-h-[252px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           {theme?.url && (
-            <img
+            <Image
               src={theme?.url}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
+              alt=""
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
               onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
+              width={161}
+              height={252}
+              // blurDataURL="data:..." automatically provided
+              // placeholder="blur" // Optional blur-up while loading
             />
           )}
           <Link href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>

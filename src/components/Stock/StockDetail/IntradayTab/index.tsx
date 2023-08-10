@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
+import EmptyData from '@components/Stock/EmptyData';
+import { useGetStockIntraday } from '@components/Stock/service';
+import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+import { kFormatter } from '@utils/common';
 
-const IntradayTab = () => {
+import { getColor } from '../MovementsTab';
+
+const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: IStockData }) => {
   const { t } = useTranslation(['stock', 'common']);
+
+  const { stockIntraday } = useGetStockIntraday(stockCode);
+
+  const maxIntraday = useMemo(() => {
+    if (stockIntraday?.data) {
+      const max = Math.max(...stockIntraday?.data.map((item) => item.total));
+      return max;
+    }
+
+    return 0;
+  }, [stockIntraday]);
 
   return (
     <div>
@@ -31,156 +49,127 @@ const IntradayTab = () => {
         </thead>
 
         <tbody>
-          <tr>
-            <td className='py-[16px] align-middle'>
-              <div className='h-[2px] bg-[#3449D7]'></div>
-            </td>
+          {stockIntraday?.data && stockIntraday.data.length > 0 ? (
+            <>
+              <tr>
+                <td className='py-[16px] align-middle'>
+                  <div className='h-[2px] bg-[#782AF9]'></div>
+                </td>
 
-            <td className='border-x border-solid border-[#ccc] align-middle'>
-              <div className='h-[2px] bg-[#3449D7]'></div>
-            </td>
+                <td className='border-x border-solid border-[#ccc] align-middle'>
+                  <div className='h-[2px] bg-[#782AF9]'></div>
+                </td>
 
-            <td className='align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[2px] w-1/2 bg-[#3449D7]'></div>
-                <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#3449D7] px-[4px]'>
-                  <Text type='body-12-regular' color='cbwhite'>
-                    29.2
-                  </Text>
-                </div>
-              </div>
-            </td>
-          </tr>
+                <td className='align-middle'>
+                  <div className='flex items-center'>
+                    <div className='h-[2px] w-1/2 bg-[#782AF9]'></div>
+                    <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#782AF9] px-[4px]'>
+                      <Text type='body-12-regular' color='cbwhite'>
+                        {stockData?.c}
+                      </Text>
+                    </div>
+                  </div>
+                </td>
+              </tr>
 
-          <tr>
-            <td className='px-[6px] py-[8px] align-middle'>
-              <Text type='body-16-semibold' className='text-right text-[#0D0D0D]'>
-                27.45
-              </Text>
-            </td>
+              {stockIntraday?.data.map((item, index) => (
+                <tr key={index}>
+                  <td
+                    className={classNames(
+                      'px-[6px] py-[8px] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]',
+                      {
+                        relative: item.price === stockData?.r,
+                      },
+                    )}
+                  >
+                    <Text
+                      type='body-16-semibold'
+                      className='relative z-10 text-right text-[#0D0D0D]'
+                    >
+                      {item.price}
+                    </Text>
+                  </td>
 
-            <td className='border-x border-solid border-[#ccc] align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[21px] w-[10px] rounded-br-[4px] rounded-tr-[4px] bg-[var(--semantic-2-1)]'></div>
+                  <td
+                    className={classNames(
+                      'w-3/4 border-x border-solid border-[#ccc] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]',
+                      {
+                        relative: item.price === stockData?.r,
+                      },
+                    )}
+                  >
+                    <div className='flex items-center'>
+                      <div
+                        className='z-10 h-[21px] rounded-br-[4px] rounded-tr-[4px]'
+                        style={{
+                          backgroundColor: getColor(item.price, stockData?.r || 0)?.color,
+                          width: (item.total / maxIntraday) * 100 + '%',
+                        }}
+                      ></div>
 
-                <Text type='body-12-semibold' className='ml-[8px]'>
-                  14.9K
-                </Text>
-              </div>
-            </td>
+                      <Text type='body-12-semibold' className='z-10 mx-[8px]'>
+                        {kFormatter(item.total * 10)}
+                      </Text>
+                    </div>
+                  </td>
 
-            <td></td>
-          </tr>
+                  <td className='align-middle'>
+                    {item.price === stockData?.r && (
+                      <div className='flex items-center'>
+                        <div
+                          className='h-[2px] w-1/2'
+                          style={{
+                            backgroundColor: getColor(item.price, stockData?.r || 0)?.color,
+                          }}
+                        ></div>
+                        <div
+                          className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] px-[4px]'
+                          style={{
+                            backgroundColor: getColor(item.price, stockData?.r || 0)?.color,
+                          }}
+                        >
+                          <Text type='body-12-regular' color='cbwhite'>
+                            {stockData?.r}
+                          </Text>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
 
-          <tr>
-            <td className='relative px-[6px] py-[8px] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#E6A70A] after:content-[""]'>
-              <Text type='body-16-semibold' className='relative z-10 text-right text-[#0D0D0D]'>
-                27.45
-              </Text>
-            </td>
+              <tr>
+                <td className='py-[16px] align-middle'>
+                  <div className='h-[2px] bg-[#5AC4C0]'></div>
+                </td>
 
-            <td className='relative border-x border-solid border-[#ccc] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#E6A70A] after:content-[""]'>
-              <div className='flex items-center'>
-                <div className='z-10 h-[21px] w-[90px] rounded-br-[4px] rounded-tr-[4px] bg-[#EAA100]'></div>
+                <td className='border-x border-solid border-[#ccc] align-middle'>
+                  <div className='h-[2px] bg-[#5AC4C0]'></div>
+                </td>
 
-                <Text type='body-12-semibold' className='z-10 ml-[8px]'>
-                  14.9K
-                </Text>
-              </div>
-            </td>
-
-            <td className='align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[2px] w-1/2 bg-[#EAA100]'></div>
-                <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#EAA100] px-[4px]'>
-                  <Text type='body-12-regular' color='cbwhite'>
-                    25.4
-                  </Text>
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td className='px-[6px] py-[8px] align-middle'>
-              <Text type='body-16-semibold' className='text-right text-[#0D0D0D]'>
-                27.45
-              </Text>
-            </td>
-
-            <td className='border-x border-solid border-[#ccc] align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[21px] w-[120px] rounded-br-[4px] rounded-tr-[4px] bg-[var(--semantic-1)]'></div>
-
-                <Text type='body-12-semibold' className='ml-[8px]'>
-                  14.9K
-                </Text>
-              </div>
-            </td>
-
-            <td></td>
-          </tr>
-
-          <tr>
-            <td className='px-[6px] py-[8px] align-middle'>
-              <Text type='body-16-semibold' className='text-right text-[#0D0D0D]'>
-                27.45
-              </Text>
-            </td>
-
-            <td className='border-x border-solid border-[#ccc] align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[21px] w-[70px] rounded-br-[4px] rounded-tr-[4px] bg-[var(--semantic-1)]'></div>
-
-                <Text type='body-12-semibold' className='ml-[8px]'>
-                  14.9K
-                </Text>
-              </div>
-            </td>
-
-            <td></td>
-          </tr>
-
-          <tr>
-            <td className='px-[6px] py-[8px] align-middle'>
-              <Text type='body-16-semibold' className='text-right text-[#0D0D0D]'>
-                27.45
-              </Text>
-            </td>
-
-            <td className='border-x border-solid border-[#ccc] align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[21px] w-[170px] rounded-br-[4px] rounded-tr-[4px] bg-[var(--semantic-1)]'></div>
-
-                <Text type='body-12-semibold' className='ml-[8px]'>
-                  14.9K
-                </Text>
-              </div>
-            </td>
-
-            <td></td>
-          </tr>
-
-          <tr>
-            <td className='py-[16px] align-middle'>
-              <div className='h-[2px] bg-[#5AC4C0]'></div>
-            </td>
-
-            <td className='border-x border-solid border-[#ccc] align-middle'>
-              <div className='h-[2px] bg-[#5AC4C0]'></div>
-            </td>
-
-            <td className='align-middle'>
-              <div className='flex items-center'>
-                <div className='h-[2px] w-1/2 bg-[#5AC4C0]'></div>
-                <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#5AC4C0] px-[4px]'>
-                  <Text type='body-12-regular' color='cbwhite'>
-                    25.4
-                  </Text>
-                </div>
-              </div>
-            </td>
-          </tr>
+                <td className='align-middle'>
+                  <div className='flex items-center'>
+                    <div className='h-[2px] w-1/2 bg-[#5AC4C0]'></div>
+                    <div className='flex h-[16px] -translate-x-1/4 items-center justify-center rounded-[4px] bg-[#5AC4C0] px-[4px]'>
+                      <Text type='body-12-regular' color='cbwhite'>
+                        {stockData?.f}
+                      </Text>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </>
+          ) : (
+            <tr>
+              <td className='pt-[12px]' colSpan={4}>
+                <EmptyData
+                  titleClassName='text-[14px]'
+                  title={t('matchings.empty_title')}
+                  description={t('matchings.empty_description')}
+                />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

@@ -7,6 +7,7 @@ import Login from '@components/Auth/Login';
 import Register from '@components/Auth/Register/RegisterForm';
 import Modal from '@components/UI/Modal/Modal';
 import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
+import { RegisterTracking } from '@utils/dataLayer';
 import { AUTH_TAB_TYPE } from 'src/constant';
 
 import styles from './index.module.scss';
@@ -27,6 +28,9 @@ const PopupAuth = (props: IProps) => {
 
   const handleChangeTab = (tabKey: string) => {
     setCurTab(tabKey);
+    if (tabKey === AUTH_TAB_TYPE.REGISTER) {
+      RegisterTracking(new Date(), 'popupRegister', 'button');
+    }
   };
 
   return (

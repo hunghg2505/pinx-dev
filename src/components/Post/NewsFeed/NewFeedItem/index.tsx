@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useHover, useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -44,6 +44,7 @@ interface IProps {
   isExplore?: boolean;
   totalComments: number;
   onNavigate?: () => void;
+  refreshFollow?: () => void;
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
   isNewFeedExplore?: boolean;
@@ -59,8 +60,8 @@ const NewFeedItem = (props: IProps) => {
     totalComments,
     pinned = false,
     isNewFeedExplore = false,
+    refreshFollow,
   } = props;
-  console.log('🚀 ~ file: index.tsx:62 ~ NewFeedItem ~ isNewFeedExplore:', isNewFeedExplore);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin, userId } = useUserType();
@@ -105,6 +106,11 @@ const NewFeedItem = (props: IProps) => {
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
+
+  useEffect(() => {
+    setFollowing(postDetail?.isFollowing);
+    setReported(!!postDetail?.isReport);
+  }, [postDetail]);
   // hide post
   const onHidePost = useRequest(
     () => {
@@ -130,8 +136,10 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(true);
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
   );
@@ -144,8 +152,10 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(false);
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
   );
@@ -365,9 +375,11 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='mb-[2px] flex flex-row justify-between'>
+      <div className='relative z-30 mb-[2px] flex flex-row justify-between'>
         <MaybeLink
-          href={customerId ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ''}
+          href={
+            customerId && !isMyPost ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ROUTE_PATH.MY_PROFILE
+          }
           className='flex w-full flex-1 justify-between'
         >
           <div className='flex flex-1 flex-row items-center'>
@@ -379,7 +391,7 @@ const NewFeedItem = (props: IProps) => {
                   TYPEPOST.ActivityTheme,
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.ActivityMatchOrder,
-                ].includes(postDetail?.post.postType),
+                ].includes(postDetail?.post?.postType),
               })}
             >
               <Avatar postDetail={postDetail} />
@@ -391,7 +403,7 @@ const NewFeedItem = (props: IProps) => {
                     TYPEPOST.ActivityTheme,
                     TYPEPOST.ActivityWatchlist,
                     TYPEPOST.ActivityMatchOrder,
-                  ].includes(postDetail?.post.postType) && isHovering
+                  ].includes(postDetail?.post?.postType) && isHovering
                 }
               >
                 <ItemHoverProfile postDetail={postDetail} name={name} />

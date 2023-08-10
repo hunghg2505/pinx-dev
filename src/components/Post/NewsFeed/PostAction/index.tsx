@@ -13,6 +13,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -36,6 +37,7 @@ const PostAction = (props: IPostActionProps) => {
 
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const router = useRouter();
   const [like, setLike] = React.useState(isLike);
   const [totalLike, setTotalLike] = React.useState(totalLikes);
@@ -55,6 +57,7 @@ const PostAction = (props: IPostActionProps) => {
       onSuccess: () => {
         setLike(true);
         setTotalLike(totalLike + 1);
+        setPostDetailStatus({ ...postDetailStatus, idPostLike: idPost });
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -74,6 +77,7 @@ const PostAction = (props: IPostActionProps) => {
       onSuccess: () => {
         setLike(false);
         setTotalLike(totalLike - 1);
+        setPostDetailStatus({ ...postDetailStatus, idPostLike: idPost });
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {

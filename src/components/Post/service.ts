@@ -67,6 +67,7 @@ export interface IPost {
 }
 export interface IContentPost {
   customerId: number;
+  hashtags?: string[];
   customerInfo: ICustomerInfo;
   id: string;
   message: string;

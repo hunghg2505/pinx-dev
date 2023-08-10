@@ -13,6 +13,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { isUnubsribeThemeAtom, popupThemeDataAtom } from '@store/theme';
 import { validateHTML } from '@utils/common';
 
@@ -29,11 +30,13 @@ const PopupSubsribeTheme = (props: IProps) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [popupThemeData] = useAtom(popupThemeDataAtom);
   const [, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [isUnubsribeTheme, setIsUnubsribeTheme] = useAtom(isUnubsribeThemeAtom);
   const [form] = Form.useForm();
 
   const requestShareThemeActivity = useShareThemeActivity({
-    onSuccess: async () => {
+    onSuccess: async (res: any) => {
+      setPostDetailStatus({ ...postDetailStatus, themeWatchlist: res?.data });
       onRefreshActivities && onRefreshActivities();
       toast(() => <Notification type='success' message={t('share_subscribe_theme_success')} />);
       handleClose();

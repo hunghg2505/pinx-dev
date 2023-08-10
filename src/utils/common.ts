@@ -116,7 +116,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replaceAll(
           item,
           `
-          <a href="javascript:void(0)" className="tagStock">${name}</a>
+          <a href="${window.location.origin}/stock/${name}" className="tagStock">${name}</a>
           `,
         );
       }
@@ -125,11 +125,11 @@ export const formatMessage = (message: string, data: any) => {
   if (listHashTag) {
     for (const item of listHashTag) {
       if (message && message.includes(item)) {
-        const newItem = item.replace('#', '');
-        message = message.replaceAll(
+        // const newItem = item.replace('#', '');
+        message = message.replace(
           item,
           `
-          <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
+          <a href="javascript:void(0)" class="hashtag">${item}</a>
           `,
         );
       }
@@ -137,15 +137,15 @@ export const formatMessage = (message: string, data: any) => {
   }
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    if (item.includes('#')) {
-      const newItem = item.replace('#', '');
-      message = message.replaceAll(
-        item,
-        `
-        <a href="${window.location.origin}/search-seo?keyword=${newItem}&type=HASHTAG" class="hashtag">${item}</a>
-        `,
-      );
-    }
+    // if (item.includes('#')) {
+    //   // const newItem = item.replace('#', '');
+    //   message = message.replaceAll(
+    //     item,
+    //     `
+    //     <a href="javascript:void(0)" class="hashtag">${item}</a>
+    //     `,
+    //   );
+    // }
     if (item.includes('http') && !item.includes('\n')) {
       message = message.replaceAll(
         item,
@@ -509,7 +509,6 @@ export const converStringMessageToObject = (message: string) => {
         return b.flat();
       });
       const addSpace = newArray.flat();
-      // console.log('🚀 ~ file: common.ts:481 ~ content:txt?.map ~ addSpace:', addSpace);
       const data = addSpace?.map((check: any) => {
         if (check.includes('@')) {
           const start = check.indexOf('[') + 1;
@@ -672,4 +671,28 @@ export const getStockColor = (
     return '#BB200B';
   }
   return '#1B8653';
+};
+
+export const kFormatter = (num: number) => {
+  return Math.abs(num) > 999
+    ? Math.sign(num) * +(Math.abs(num) / 1000).toFixed(1) + 'K'
+    : Math.sign(num) * Math.abs(num);
+};
+
+export const formatStringToNumber = (value: string, isComma = true, minimumFractionDigits = 0) => {
+  if (!value) {
+    return '0';
+  }
+  if (Number.isNaN(value)) {
+    return value;
+  }
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits,
+  });
+
+  const numString = value.toString();
+
+  const num = numString.includes('.') ? numString.slice(0, numString.indexOf('.') + 3) : numString;
+
+  return formatter.format(+num).replaceAll(',', isComma ? ',' : '.');
 };

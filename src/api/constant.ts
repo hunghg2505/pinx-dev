@@ -113,6 +113,7 @@ export const API_PATH = {
   PUBLIC_STOCK_DATA: (stockCode: string) => `/public/stock/${stockCode}/data`,
   PUBLIC_FINANCE_INFO: '/public/finance-info',
   PUBLIC_STOCK_TRADE: (stockCode: string) => `/public/stock/${stockCode}/trade`,
+  PUBLIC_STOCK_INTRADAY: (stockCode: string) => `/public/stock/${stockCode}/step-price`,
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

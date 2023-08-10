@@ -54,6 +54,9 @@ const ContentPostTypeHome = (props: IProps) => {
     if (postDetail?.postType === TYPEPOST.ActivityTheme) {
       postDetailUrl = ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode);
     }
+    if ([TYPEPOST.ActivityWatchlist, TYPEPOST.ActivityMatchOrder].includes(postDetail?.postType)) {
+      postDetailUrl = ROUTE_PATH.STOCK_DETAIL(postDetail?.post?.stockCode);
+    }
 
     return {
       imageMetaData: metaData?.images?.[0],

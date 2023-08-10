@@ -1,24 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import classNames from 'classnames';
 import Link from 'next/link';
 
 import { IStock } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatNumber, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
 
 interface IStockItemProps {
   data: IStock;
 }
 
 const StockItem = ({ data }: IStockItemProps) => {
+  const color = useMemo(() => {
+    const color = getStockColor(data?.lastPrice, data?.c, data?.f, data?.r);
+
+    return color;
+  }, [data]);
+
   const renderPricePc = () => {
-    if (data.volume) {
-      const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
-      return changePc + '/' + data.changePc + '%';
-    } else {
-      return '-/-%';
-    }
+    const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
+    return changePc + '/' + data.changePc + '%';
   };
 
   return (
@@ -48,14 +49,8 @@ const StockItem = ({ data }: IStockItemProps) => {
           </Text>
         </div>
 
-        <div
-          className={classNames('ml-auto text-right text-[#0D0D0D]', {
-            'text-orange': +data.changePc === 0 && +data.changePrice === 0,
-            'text-[#DA314F]': +data.changePc < 0 && +data.changePrice < 0,
-            'text-[#128F63]': +data.changePc > 0 && +data.changePrice > 0,
-          })}
-        >
-          <Text type='body-16-medium'>{data.volume ? data.lastPrice.toFixed(2) : '-'}</Text>
+        <div className='ml-auto text-right' style={{ color }}>
+          <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
           <Text type='body-12-regular' className='mt-[8px]'>
             {renderPricePc()}
           </Text>

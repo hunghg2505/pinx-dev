@@ -6,7 +6,7 @@
     "intraday": "Intraday"
   },
   "movements": {
-    "hight": "Hight",
+    "high": "High",
     "low": "Low",
     "last_price": "Last price",
     "ceiling": "Ceiling",
@@ -131,5 +131,8 @@
     "ros": "ROS",
     "roea": "ROEA",
     "roaa": "ROAA"
-  }
+  },
+  "no_data_yet": "No data",
+  "no_data_desc": "Are you interested in this stock? Be the first to follow or invest in this company",
+  "revenue_last_updated": "Last updated: The {{quarter}}th quarter year {{year}}"
 }

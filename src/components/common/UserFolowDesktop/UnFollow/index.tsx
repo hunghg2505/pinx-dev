@@ -13,6 +13,7 @@ const UnFollow = () => {
   const { isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { run } = useUnFollowUser();
+
   const onUnFollow = () => {
     if (isLogin) {
       run(context?.id);

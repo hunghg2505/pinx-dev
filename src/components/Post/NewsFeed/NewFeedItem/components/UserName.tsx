@@ -12,7 +12,7 @@ export const UserName = ({ postDetail }: any) => {
         TYPEPOST.PinetreeMorningBrief,
         TYPEPOST.PinetreePost,
         TYPEPOST.PinetreeWeeklyNews,
-      ].includes(postDetail?.post.postType)
+      ].includes(postDetail?.post?.postType)
     ) {
       return 'Pinetree';
     }
@@ -22,21 +22,21 @@ export const UserName = ({ postDetail }: any) => {
         TYPEPOST.ActivityTheme,
         TYPEPOST.ActivityWatchlist,
         TYPEPOST.ActivityMatchOrder,
-      ].includes(postDetail?.post.postType)
+      ].includes(postDetail?.post?.postType)
     ) {
       return postDetail?.post?.customerInfo?.displayName;
     }
     if (
       [TYPEPOST.VietstockLatestNews, TYPEPOST.VietstockNews, TYPEPOST.VietstockStockNews].includes(
-        postDetail?.post.postType,
+        postDetail?.post?.postType,
       )
     ) {
       return 'Vietstock';
     }
-    if ([TYPEPOST.CafeFNews].includes(postDetail?.post.postType)) {
+    if ([TYPEPOST.CafeFNews].includes(postDetail?.post?.postType)) {
       return 'CafeF';
     }
-    if ([TYPEPOST.TNCKNews].includes(postDetail?.post.postType)) {
+    if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
       return 'Tin nhanh chứng khoán';
     }
   }, []);
