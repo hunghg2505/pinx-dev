@@ -439,22 +439,30 @@ const useFinancialIndicator = ({
 };
 
 const useGetStockTrade = (stockCode: string): IResponseStockTrade => {
-  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_TRADE(stockCode)), {
-    refreshDeps: [stockCode],
-  });
+  const { data, loading } = useRequest(
+    () => requestPist.get(API_PATH.PUBLIC_STOCK_TRADE(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
 
   return {
     stockTrade: data,
+    loading,
   };
 };
 
 const useGetStockIntraday = (stockCode: string): IResponseStockIntraday => {
-  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_INTRADAY(stockCode)), {
-    refreshDeps: [stockCode],
-  });
+  const { data, loading } = useRequest(
+    () => requestPist.get(API_PATH.PUBLIC_STOCK_INTRADAY(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
 
   return {
     stockIntraday: data,
+    loading,
   };
 };
 
