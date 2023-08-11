@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useRequest } from 'ahooks';
+import { useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
@@ -46,6 +46,7 @@ const ItemWatchList = ({
       onSuccess: () => {
         refreshInterest && refreshInterest();
         refreshYourWatchList && refreshYourWatchList();
+        clearCache('watchList');
       },
     },
   );

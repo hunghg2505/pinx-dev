@@ -14,6 +14,7 @@ interface IPropsTabMobile {
 }
 
 const TabMobile = ({ selectTab, onChangeTab }: IPropsTabMobile) => {
+  console.log('🚀 ~ file: TabMobile.tsx:17 ~ TabMobile ~ selectTab:', selectTab);
   const { t } = useTranslation();
   const { isLogin } = useAuth();
 

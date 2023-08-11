@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
 
 import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -106,7 +106,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
     }
@@ -157,7 +157,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   };
 
   const onAddNewPost = (newData: IPost) => {
-    console.log('add-post');
     mutate({
       // @ts-ignore
       list: [newData, ...dataPosts?.list],
@@ -178,7 +177,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       const newData =
         dataPosts?.list &&
         [...dataPosts?.list].filter((item) => item.id !== postDetailStatus.idPostDetail);
-      console.log('newData', newData);
       mutate({
         list: newData,
       });
