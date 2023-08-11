@@ -8,7 +8,7 @@ import { useGetStockIntraday } from '@components/Stock/service';
 import { IStockData } from '@components/Stock/type';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { kFormatter } from '@utils/common';
+import { formatStringToNumber, kFormatter } from '@utils/common';
 
 import { getColor } from '../MovementsTab';
 
@@ -90,7 +90,7 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
                         type='body-16-semibold'
                         className='relative z-10 text-right text-[#0D0D0D]'
                       >
-                        {item.price}
+                        {formatStringToNumber(item.price, true, 2)}
                       </Text>
                     </td>
 

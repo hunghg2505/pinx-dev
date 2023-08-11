@@ -8,7 +8,7 @@ import { getColor } from '@components/Stock/StockDetail/MovementsTab';
 import { IStockTrade } from '@components/Stock/type';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { formatNumber } from '@utils/common';
+import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 // import { getLoadMoreList } from './service';
@@ -106,7 +106,7 @@ const PopupMatchedPrice = ({
               </td>
               <td className='py-[10px]'>
                 <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  {item.lastPrice}
+                  {formatStringToNumber(item.lastPrice, true, 2)}
                 </Text>
               </td>
               <td className='py-[10px] pr-[16px]'>
