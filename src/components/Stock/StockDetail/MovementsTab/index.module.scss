@@ -1,4 +1,4 @@
-.tableRedBorder {
+.tableAsk {
   tr {
     &:not(:last-child) {
       td {
@@ -14,7 +14,7 @@
   }
 }
 
-.tableGreenBorder {
+.tableBid {
   tr {
     &:not(:last-child) {
       td {
@@ -25,6 +25,16 @@
     td {
       &:last-child {
         @apply relative w-full;
+      }
+    }
+  }
+}
+
+.tablePrice {
+  tr {
+    &:not(:last-child) {
+      td {
+        border-bottom: 1px solid #ebebeb;
       }
     }
   }
@@ -58,7 +68,7 @@
 
 @keyframes isEqual {
   to {
-    background-color: #eaa100;
+    background-color: #f1ba09;
     border-radius: 4px;
     color: #ffffff;
   }
