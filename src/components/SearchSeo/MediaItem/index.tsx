@@ -236,7 +236,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
           {data?.post?.seoMetadata?.imageSeo?.urlImage && (
             <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
               <img
-                className={classNames('aspect-[345/162] bg-[#12121239] rounded',{
+                className={classNames('aspect-[16/9] bg-[#12121239] rounded',{
                   'object-contain': data?.post?.seoMetadata?.imageSeo?.urlImage,
                   'object-cover': !data?.post?.seoMetadata?.imageSeo?.urlImage,
                 })}
