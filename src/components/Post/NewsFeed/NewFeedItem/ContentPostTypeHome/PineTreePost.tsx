@@ -27,7 +27,7 @@ export const PineTreePost = ({
   isReadMore,
   onReadMore,
   readMore,
-  postDetailUrl,
+  // postDetailUrl,
   postDetail,
   post_url,
   isPostDetailPath,
@@ -92,7 +92,10 @@ export const PineTreePost = ({
         )}
       >
         {postDetail?.post?.headImageUrl && (
-          <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1]  h-full w-full'>
+          <CustomLink
+            href={`/redirecting?url=${post_url}`}
+            className='absolute left-0 top-0 z-[1]  h-full w-full'
+          >
             <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
           </CustomLink>
         )}
@@ -102,7 +105,10 @@ export const PineTreePost = ({
         )}
 
         {!isPostDetailPath && (
-          <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
+          <CustomLink
+            href={`/redirecting?url=${post_url}`}
+            className='absolute bottom-0 left-0 z-[2]  w-full'
+          >
             <div
               className={
                 'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'

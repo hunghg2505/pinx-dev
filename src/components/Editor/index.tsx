@@ -1,10 +1,12 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+import Document from '@tiptap/extension-document';
 import Mention from '@tiptap/extension-mention';
+import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
+import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { useClickAway, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
@@ -70,7 +72,9 @@ const Editor = (props: IProps, ref?: any) => {
   const { userLoginInfo } = useUserLoginInfo();
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
       Placeholder.configure({
         placeholder: t('what_do_you_want_to_comment'),
       }),

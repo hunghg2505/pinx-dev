@@ -1,10 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
+import Document from '@tiptap/extension-document';
 import Mention from '@tiptap/extension-mention';
+import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
+import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { useDeepCompareEffect, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
@@ -29,7 +31,7 @@ import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
-import Text from '@components/UI/Text';
+import TextComponent from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -206,6 +208,7 @@ const Compose = (props: IProps) => {
       },
     },
   );
+
   // const DisableEnter = Extension.create({
   //   addKeyboardShortcuts() {
   //     return {
@@ -272,8 +275,9 @@ const Compose = (props: IProps) => {
   const editor = useEditor(
     {
       extensions: [
-        StarterKit,
-        // DisableEnter,
+        Document,
+        Paragraph,
+        Text,
         Placeholder.configure({
           placeholder: t('common:create_post_placeholder'),
           emptyEditorClass: 'is-editor-empty',
@@ -976,9 +980,9 @@ const Compose = (props: IProps) => {
           ) : (
             <IconSend />
           )}
-          <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
+          <TextComponent type='body-14-medium' color='cbwhite' className='ml-[10px]'>
             {t('post_action')}
-          </Text>
+          </TextComponent>
         </div>
       </div>
     </>
