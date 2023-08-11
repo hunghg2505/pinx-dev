@@ -160,7 +160,7 @@ const MainHeader = () => {
 
         <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
-            <div className='flex w-[100%] items-center gap-[16px] hidden'>
+            <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
                 <FormSearch
                   className='w-full'
@@ -182,13 +182,13 @@ const MainHeader = () => {
                 <MenuMobile />
               </div>
               {!isMobile && (
-                <div className='w-full flex-auto hidden'>
+                <div className='w-full flex-auto'>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
               <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px]'>
                 {isMobile && (
-                  <div className={'hidden'}><SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} /></div>
+                  <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}
                 <Notifications />
                 <Profile />

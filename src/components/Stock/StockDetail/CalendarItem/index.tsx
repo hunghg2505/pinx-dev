@@ -17,7 +17,7 @@ const CalendarItem = ({ data }: ICalendarItemProps) => {
   const active = dayjs().isBefore(data.publishTime);
 
   const handleOpenPdfFile = () => {
-    window.open(data.fileUrl, '_blank');
+    data.fileUrl && window.open(data.fileUrl, '_blank');
   };
 
   return (
