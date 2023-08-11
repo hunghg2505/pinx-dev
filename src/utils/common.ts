@@ -672,9 +672,9 @@ export const getStockColor = (
     return '#F1BA09';
   }
   if (last_price < ref_price) {
-    return '#BB200B';
+    return '#DA314F';
   }
-  return '#1B8653';
+  return '#128F63';
 };
 
 export const kFormatter = (num: number) => {
