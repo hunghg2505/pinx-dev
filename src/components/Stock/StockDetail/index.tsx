@@ -672,10 +672,15 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
           </div>
 
-          {isMobile ? (
-            <div className={classNames('flex items-center overflow-x-auto', styles.noScrollbar)}>
+          {isMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
+            <div
+              className={classNames(
+                'flex items-center gap-x-[14px] overflow-x-auto',
+                styles.noScrollbar,
+              )}
+            >
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='min-w-[112px]' key={index} data={item} />
+                <ProductItem className='mr-0 min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -693,18 +698,19 @@ const StockDetail = () => {
                 </div>
               )}
 
-              <div className='max-w-[700px] overflow-hidden'>
+              <div className='overflow-hidden'>
                 <Slider
                   {...settings}
                   ref={refSlide}
                   draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
-                  variableWidth={
-                    stockDetail?.data?.products &&
-                    stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-                  }
+                  // variableWidth={
+                  //   stockDetail?.data?.products &&
+                  //   stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+                  // }
+                  variableWidth
                 >
                   {stockDetail?.data?.products.map((item, index) => (
-                    <ProductItem key={index} data={item} />
+                    <ProductItem className='mr-[14px]' key={index} data={item} />
                   ))}
                 </Slider>
               </div>
