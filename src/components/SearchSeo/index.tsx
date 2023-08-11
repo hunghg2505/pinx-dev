@@ -12,6 +12,7 @@ import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
 import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
+import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublic } from '@components/SearchSeo/service';
 
 const SearchSeo = () => {
@@ -124,7 +125,14 @@ const SearchSeo = () => {
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
             {(mediaL || imageL) ? (
-              <div>media</div>
+              <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
+                {image?.map((item: any) => {
+                  return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
+                })}
+                {media?.map((item: any) => {
+                  return <MediaItem key={`media-item-${item?.id}`} data={item} />;
+                })}
+              </div>
             ):(
               <>
                 <Empty keyword={keyword} />

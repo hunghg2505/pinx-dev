@@ -9,7 +9,22 @@
     }
   }
 }
-
+.Video{
+  &:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    width: 44px;
+    height: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg width='45' height='44' viewBox='0 0 45 44' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.5' width='44' height='44' rx='22' fill='black' fill-opacity='0.5'/%3E%3Cpath d='M17.5 14.9895C17.5 14.0183 17.5 13.5328 17.7025 13.2651C17.8789 13.0319 18.1485 12.8876 18.4404 12.8702C18.7754 12.8502 19.1795 13.1195 19.9875 13.6582L30.5031 20.6686C31.1708 21.1137 31.5046 21.3363 31.6209 21.6168C31.7227 21.8621 31.7227 22.1377 31.6209 22.383C31.5046 22.6635 31.1708 22.886 30.5031 23.3312L19.9875 30.3415C19.1795 30.8802 18.7754 31.1496 18.4404 31.1296C18.1485 31.1122 17.8789 30.9679 17.7025 30.7347C17.5 30.467 17.5 29.9814 17.5 29.0103V14.9895Z' fill='white'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+}
 .Tab{
   :global{
     .rc-tabs-dropdown {
