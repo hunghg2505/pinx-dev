@@ -134,5 +134,7 @@
   },
   "no_data_yet": "No data",
   "no_data_desc": "Are you interested in this stock? Be the first to follow or invest in this company",
-  "revenue_last_updated": "Last updated: The {{quarter}}th quarter year {{year}}"
+  "revenue_last_updated": "Last updated: The {{quarter}}th quarter year {{year}}",
+  "bid": "Bid",
+  "ask": "Ask"
 }

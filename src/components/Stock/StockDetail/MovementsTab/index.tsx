@@ -227,7 +227,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    {stockData?.highPrice}
+                    {formatStringToNumber(stockData?.highPrice, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -239,7 +239,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    {stockData?.lowPrice}
+                    {formatStringToNumber(stockData?.lowPrice, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -251,7 +251,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[12px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    {stockData?.lastPrice}
+                    {formatStringToNumber(stockData?.lastPrice, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -564,7 +564,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#782AF9]'>
-                    {stockData?.c}
+                    {formatStringToNumber(stockData?.c, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -576,7 +576,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#F1BA09]'>
-                    {stockData?.r}
+                    {formatStringToNumber(stockData?.r, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -588,7 +588,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#08AADD]'>
-                    {stockData?.f}
+                    {formatStringToNumber(stockData?.f, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -609,7 +609,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
               <tr>
                 <th colSpan={2} className='border-b border-solid border-[#ebebeb] py-[10px]'>
                   <Text type='body-14-semibold' color='neutral-darkgray'>
-                    Bid
+                    {t('bid')}
                   </Text>
                 </th>
               </tr>
@@ -763,7 +763,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
               <tr>
                 <th colSpan={2} className='border-b border-solid border-[#ebebeb] py-[10px]'>
                   <Text type='body-14-semibold' color='neutral-darkgray'>
-                    Ask
+                    {t('ask')}
                   </Text>
                 </th>
               </tr>
@@ -925,7 +925,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    {stockData?.highPrice}
+                    {formatStringToNumber(stockData?.highPrice, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -937,7 +937,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    {stockData?.lowPrice}
+                    {formatStringToNumber(stockData?.lowPrice, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -949,7 +949,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#0D0D0D]'>
-                    {stockData?.lastPrice}
+                    {formatStringToNumber(stockData?.lastPrice, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -966,7 +966,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#782AF9]'>
-                    {stockData?.c}
+                    {formatStringToNumber(stockData?.c, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -978,7 +978,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#F1BA09]'>
-                    {stockData?.r}
+                    {formatStringToNumber(stockData?.r, true, 2)}
                   </Text>
                 </td>
               </tr>
@@ -990,7 +990,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
                   <Text type='body-12-regular' className='text-[#08AADD]'>
-                    {stockData?.f}
+                    {formatStringToNumber(stockData?.f, true, 2)}
                   </Text>
                 </td>
               </tr>

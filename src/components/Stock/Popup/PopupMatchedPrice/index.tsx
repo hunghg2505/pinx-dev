@@ -101,7 +101,7 @@ const PopupMatchedPrice = ({
               </td>
               <td className='py-[10px]'>
                 <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  {formatNumber(item.totalVol)}
+                  {formatNumber(item.lastVol * 10)}
                 </Text>
               </td>
               <td className='py-[10px]'>

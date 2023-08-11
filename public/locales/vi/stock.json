@@ -136,5 +136,7 @@
   },
   "no_data_yet": "Chưa có dữ liệu",
   "no_data_desc": "Bạn có quan tâm đến cổ phiếu này? Hãy là người đầu tiên theo dõi hoặc đầu tư vào công ty này",
-  "revenue_last_updated": "Cập nhật lần cuối: Quý {{quarter}} năm {{year}}"
+  "revenue_last_updated": "Cập nhật lần cuối: Quý {{quarter}} năm {{year}}",
+  "bid": "Giá chào mua",
+  "ask": "Giá chào bán"
 }
