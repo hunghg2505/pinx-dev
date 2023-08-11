@@ -53,12 +53,17 @@ const SearchSeo = () => {
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
+  const mediaNull = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0] || item?.post?.metadataList[0]?.url)?.length > 0;
+  const imageNull = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage)?.length > 0;
+
 
   // Error commit git
   console.log('keyword', keyword);
   console.log('tab', tab);
   console.log('type', getType);
   console.log(loading, refresh, media);
+  console.log('mediaNull',mediaNull);
+  console.log('imageNull',imageNull);
 
 
   return (
@@ -124,7 +129,7 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {(mediaL || imageL) ? (
+            {(mediaL && imageL && mediaNull && imageNull) ? (
               <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
                 {image?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
@@ -140,9 +145,6 @@ const SearchSeo = () => {
             )}
           </TabPane>
         </Tabs>
-        {/*
-        <Tabs defaultActiveKey={tab} items={items} onChange={onChange} />
-        */}
       </div>
     </>
   );
