@@ -51,6 +51,7 @@ import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupFollowStock from '../Popup/PopupFollowStock';
 import PopupReview from '../Popup/PopupReview';
+import PopupZoomChart from '../Popup/PopupZoomChart';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
@@ -101,6 +102,7 @@ const StockDetail = () => {
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
+  const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
@@ -422,6 +424,10 @@ const StockDetail = () => {
     return null;
   }, [taggingInfo]);
 
+  const handleOpenPopupZoom = () => {
+    setOpenPopupZoomChart(true);
+  };
+
   return (
     <div className='p-[10px] desktop:p-0'>
       <PopupConfirmReview
@@ -455,6 +461,16 @@ const StockDetail = () => {
         stockCode={stockCode}
         background={isFollowedStock ? STOCK_FOLLOW_BG : STOCK_UN_FOLLOW_BG}
         onRefreshStockActivities={refreshStockActivities}
+      />
+
+      <PopupZoomChart
+        visible={openPopupZoomChart}
+        onClose={() => {
+          setOpenPopupZoomChart(false);
+        }}
+        stockCode={stockCode}
+        refPrice={dataStock?.r}
+        color={chartColorFormat}
       />
 
       <div className='box-shadow card-style'>
@@ -573,8 +589,20 @@ const StockDetail = () => {
         </div>
 
         {/* chart */}
-        <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
+        <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
           <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
+
+          {/* icon maximize */}
+          <div
+            onClick={handleOpenPopupZoom}
+            className='absolute right-[6px] top-[8px] flex cursor-pointer items-center justify-center'
+          >
+            <img
+              src='/static/icons/icon_maximize.svg'
+              alt='Icon maximize'
+              className='h-[18px] w-[18px] object-contain'
+            />
+          </div>
         </div>
 
         {/* tab */}

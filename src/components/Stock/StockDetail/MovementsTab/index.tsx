@@ -17,7 +17,7 @@ interface IMovementsTabProps {
 export const getColor = (price: number, ref: number) => {
   if (price === ref) {
     return {
-      color: '#EAA100',
+      color: '#F1BA09',
       backgroundColor: '#F4E7CD',
     };
   }
@@ -575,7 +575,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   </Text>
                 </td>
                 <td className='text-right align-middle'>
-                  <Text type='body-12-regular' className='text-[#EAA100]'>
+                  <Text type='body-12-regular' className='text-[#F1BA09]'>
                     {stockData?.r}
                   </Text>
                 </td>
@@ -977,7 +977,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
                   </Text>
                 </td>
                 <td className='pr-[10px] text-right align-middle'>
-                  <Text type='body-12-regular' className='text-[#EAA100]'>
+                  <Text type='body-12-regular' className='text-[#F1BA09]'>
                     {stockData?.r}
                   </Text>
                 </td>
