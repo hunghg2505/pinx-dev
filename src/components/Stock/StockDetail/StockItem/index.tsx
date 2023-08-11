@@ -27,7 +27,8 @@ const StockItem = ({ data }: IStockItemProps) => {
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] px-[12px] py-[16px]'>
         <img
           src={imageStock(data.stockCode)}
-          alt='Company logo'
+          // alt='Company logo'
+          alt=''
           className='block h-[36px] w-[36px] rounded-full bg-white object-contain'
         />
 
@@ -49,12 +50,21 @@ const StockItem = ({ data }: IStockItemProps) => {
           </Text>
         </div>
 
-        <div className='ml-auto text-right' style={{ color }}>
-          <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
-          <Text type='body-12-regular' className='mt-[8px]'>
-            {renderPricePc()}
-          </Text>
-        </div>
+        {data.lastPrice ? (
+          <div className='ml-auto text-right' style={{ color }}>
+            <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
+            <Text type='body-12-regular' className='mt-[8px]'>
+              {renderPricePc()}
+            </Text>
+          </div>
+        ) : (
+          <div className='ml-auto text-right'>
+            <Text type='body-16-medium'>-</Text>
+            <Text type='body-12-regular' className='mt-[8px]'>
+              -/-%
+            </Text>
+          </div>
+        )}
       </div>
     </Link>
   );

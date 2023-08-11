@@ -513,7 +513,8 @@ const StockDetail = () => {
             <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
               <img
                 src={imageStock(stockCode)}
-                alt={`Logo ${stockDetail?.data?.name}`}
+                // alt={`Logo ${stockDetail?.data?.name}`}
+                alt=''
                 className='block'
               />
             </div>
@@ -560,33 +561,40 @@ const StockDetail = () => {
               </div>
             )}
 
-            <div
-              className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
-                [styles.isPriceChange]: isPriceChange,
-              })}
-              style={{
-                color: getStockColor(
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-                backgroundColor: isPriceChange
-                  ? getStockColor(
-                      dataStock?.lastPrice || 0,
-                      dataStock?.c || 0,
-                      dataStock?.f || 0,
-                      dataStock?.r || 0,
-                    )
-                  : 'transparent',
-              }}
-            >
-              <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
-              <Text type='body-12-regular'>
-                {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
-                {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
-              </Text>
-            </div>
+            {dataStock?.lastPrice === 0 ? (
+              <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
+                <Text type='body-16-medium'>-</Text>
+                <Text type='body-12-regular'>-/-%</Text>
+              </div>
+            ) : (
+              <div
+                className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
+                  [styles.isPriceChange]: isPriceChange,
+                })}
+                style={{
+                  color: getStockColor(
+                    dataStock?.lastPrice || 0,
+                    dataStock?.c || 0,
+                    dataStock?.f || 0,
+                    dataStock?.r || 0,
+                  ),
+                  backgroundColor: isPriceChange
+                    ? getStockColor(
+                        dataStock?.lastPrice || 0,
+                        dataStock?.c || 0,
+                        dataStock?.f || 0,
+                        dataStock?.r || 0,
+                      )
+                    : 'transparent',
+                }}
+              >
+                <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
+                <Text type='body-12-regular'>
+                  {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
+                  {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
+                </Text>
+              </div>
+            )}
           </div>
         </div>
 
@@ -671,10 +679,15 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
           </div>
 
-          {isMobile ? (
-            <div className={classNames('flex items-center overflow-x-auto', styles.noScrollbar)}>
+          {isMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
+            <div
+              className={classNames(
+                'flex items-center gap-x-[14px] overflow-x-auto',
+                styles.noScrollbar,
+              )}
+            >
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='min-w-[112px]' key={index} data={item} />
+                <ProductItem className='mr-0 min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -692,18 +705,19 @@ const StockDetail = () => {
                 </div>
               )}
 
-              <div className='max-w-[700px] overflow-hidden'>
+              <div className='overflow-hidden'>
                 <Slider
                   {...settings}
                   ref={refSlide}
                   draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
-                  variableWidth={
-                    stockDetail?.data?.products &&
-                    stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-                  }
+                  // variableWidth={
+                  //   stockDetail?.data?.products &&
+                  //   stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+                  // }
+                  variableWidth
                 >
                   {stockDetail?.data?.products.map((item, index) => (
-                    <ProductItem key={index} data={item} />
+                    <ProductItem className='mr-[14px]' key={index} data={item} />
                   ))}
                 </Slider>
               </div>
