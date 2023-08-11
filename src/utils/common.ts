@@ -61,7 +61,7 @@ export const ROUTE_PATH = {
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
 };
 
-export const formatMessage = (message: string, data: any) => {
+export const formatMessage = (message: string, data: any, idCustomer?: any) => {
   const str = message.split(' ');
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
@@ -81,6 +81,10 @@ export const formatMessage = (message: string, data: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
+      const url =
+        Number(idCustomer) === Number(ID)
+          ? `${window.location.origin}/profile/my-profile`
+          : `${window.location.origin}/profile/${ID}`;
       if (message && !message.includes(name)) {
         const newMessage = message.split(' ');
         for (const text of newMessage) {
@@ -91,7 +95,7 @@ export const formatMessage = (message: string, data: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople" data-type="userMention"><span>${name}</span></a>
+              <a href="${url}" className="tagStock tagpeople" data-type="userMention"><span>${name}</span></a>
               `,
             );
           }
@@ -101,7 +105,7 @@ export const formatMessage = (message: string, data: any) => {
         message = message.replace(
           item,
           `
-          <a href="${window.location.origin}/profile/${ID}" className="tagStock tagpeople"><span>${name}</span></a>
+          <a href="${url}" className="tagStock tagpeople"><span>${name}</span></a>
           `,
         );
       }
@@ -501,7 +505,7 @@ export const converStringMessageToObject = (message: string) => {
       const newArray = checkSplit?.map((item: any, index: number) => {
         const b = [];
         if (item.includes('@')) {
-          const a = index === 0 ? [item, ''] : ['', item, ''];
+          const a = index === 0 ? [item, ''] : [item, ''];
           b.push(a);
         } else {
           b.push(item);

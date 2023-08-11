@@ -12,6 +12,7 @@ import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHom
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 // import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
@@ -79,7 +80,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     if (postThemeId) {
       return (
         <div
-          className='theme relative flex w-full  flex-col justify-end rounded-[10px] '
+          className='theme relative flex w-full  flex-col justify-end overflow-hidden rounded-[10px]'
           onClick={(event) => onHandleClick(event)}
         >
           <img
@@ -229,7 +230,12 @@ const MetaContent = ({ metaData }: any) => {
 };
 
 export const PostNormally = ({ postDetail, onComment }: any) => {
-  const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
+  const { userLoginInfo } = useUserLoginInfo();
+  const messagePostFormat = formatMessage(
+    postDetail?.post?.message,
+    postDetail?.post,
+    userLoginInfo?.id,
+  );
   const [inView, setInView] = useState(false);
 
   const { imageMetaData, siteName, videoId } = useMemo(() => {
@@ -240,7 +246,8 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
       message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+        postDetail?.post?.message &&
+        formatMessage(postDetail?.post?.message, postDetail?.post, userLoginInfo?.id),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
       post_url: postDetail?.post.url ?? '',
     };

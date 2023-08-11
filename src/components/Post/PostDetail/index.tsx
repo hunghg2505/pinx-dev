@@ -68,6 +68,7 @@ const PostDetail = () => {
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
   const [postData, setPostData] = useState<any>();
+  console.log('🚀 ~ file: index.tsx:71 ~ PostDetail ~ postData:', postData);
   const postID = router.query.id;
   React.useEffect(() => {
     setWidth(window.innerWidth);

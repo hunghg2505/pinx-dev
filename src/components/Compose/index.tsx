@@ -180,16 +180,20 @@ const Compose = (props: IProps) => {
     {
       manual: true,
       onSuccess: (r: any) => {
-        editor?.commands.clearContent();
-        hidePopup && hidePopup();
-        setMetaData(null);
+        if (r) {
+          editor?.commands.clearContent();
+          hidePopup && hidePopup();
+          setMetaData(null);
 
-        // Refresh when add new post
-        if (refresh && r?.data?.id) {
-          refresh(r?.data);
+          // Refresh when add new post
+          if (refresh && r?.data?.id) {
+            refresh(r?.data);
+          }
+
+          toast(() => <Notification type='success' message={t('post_create_success_msg')} />);
+        } else {
+          toast(() => <Notification type='error' message={t('policy_post')} />);
         }
-
-        toast(() => <Notification type='success' message={t('post_create_success_msg')} />);
       },
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
@@ -202,11 +206,74 @@ const Compose = (props: IProps) => {
       },
     },
   );
+  // const DisableEnter = Extension.create({
+  //   addKeyboardShortcuts() {
+  //     return {
+  //       Enter: () => {
+  //         const content = this.editor?.getJSON()?.content;
+  //         let status = false;
+  //         if (content) {
+  //           for (const item of content) {
+  //             const subContent = item?.content;
+  //             if (subContent) {
+  //               const typeText = subContent?.[0]?.type;
+  //               const contentText = subContent?.[0]?.attrs?.label;
+  //               const typeTextNext = subContent?.[1]?.type;
+  //               const contentTextNext = subContent?.[1]?.attrs?.label;
 
+  //               // this.editor?.chain().
+  //               // if (
+  //               //   typeText === 'hashTagPost' &&
+  //               //   typeTextNext === 'text' &&
+  //               //   contentTextNext === ' '
+  //               // ) {
+  //               //   editor?.commands?.insertContent(' ');
+  //               //   status = false;
+  //               // } else {
+  //               //   status = true;
+  //               // }
+  //               if (typeText === 'hashTagPost') {
+  //                 if (typeTextNext === 'text' && contentTextNext === ' ') {
+  //                   console.log('123');
+  //                   status = false;
+  //                 } else {
+  //                   console.log('456');
+  //                   status = true;
+  //                   editor?.commands?.insertContent(' ');
+  //                 }
+  //               }
+  //               // for (const [index, item] of subContent?.entries()) {
+  //               //   console.log('🚀 ~ file: index.tsx:228 ~ addKeyboardShortcuts ~ index:', index);
+  //               //   console.log('item', item);
+  //               // }
+  //             }
+  //             // item?.content?.forEach((text: any, index: number) => {
+  //             //   if (text.type === 'hashTagPost' && index === 0) {
+  //             //     const txt = text.attrs.label;
+  //             //     const lastText = txt.at(-1);
+  //             //     if (lastCharacter === lastText) {
+  //             //       // editor?.commands?.insertContent(' ');
+  //             //       editor?.chain().insertContent(' ').enter();
+  //             //     }
+  //             //     // if (txt?.at(lengthText + 1) !== ' ') {
+  //             //     //   console.log('123', txt);
+  //             //     // }
+  //             //   }
+  //             //   return true;
+  //             // });
+  //           }
+  //         }
+  //         console.log('status', status);
+  //         return status;
+  //       },
+  //     };
+  //   },
+  // });
   const editor = useEditor(
     {
       extensions: [
         StarterKit,
+        // DisableEnter,
         Placeholder.configure({
           placeholder: t('common:create_post_placeholder'),
           emptyEditorClass: 'is-editor-empty',
@@ -287,12 +354,12 @@ const Compose = (props: IProps) => {
           },
         }),
         Mention.extend({
-          name: 'hashTagPost',
+          name: 'hashTag',
           renderHTML(prop: any) {
             return [
               'a',
               {
-                class: 'hashTagPost',
+                class: 'hashTag',
                 userkey: prop && prop.node?.attrs.id,
                 'data-hashTag': prop?.node?.attrs?.label,
                 href: 'javascript:void(0)',
@@ -307,8 +374,51 @@ const Compose = (props: IProps) => {
 
           suggestion: {
             ...Suggestion,
-            pluginKey: new PluginKey('hashTagPost'),
+            pluginKey: new PluginKey('hashTag'),
             char: '#',
+            // command: ({ editor, range, props }) => {
+            //   // don't add another space characters when there's already one after the caret
+            //   const nodeAfter = editor.view.state.selection.$to.nodeAfter;
+            //   const addSpace = !(
+            //     nodeAfter !== null &&
+            //     nodeAfter.type.name === 'text' &&
+            //     nodeAfter.text?.startsWith(' ')
+            //   );
+            //   const content: any = [
+            //     {
+            //       type: 'hashTagPost',
+            //       attrs: props,
+            //     },
+            //   ];
+
+            //   if (addSpace) {
+            //     content.push({
+            //       type: 'text',
+            //       text: ' ',
+            //     });
+            //   }
+
+            //   editor.chain().focus().insertContentAt(range, content).run();
+            // },
+            // command: ({ editor, range, props }) => {
+            //   editor
+            //     .chain()
+            //     .focus()
+            //     .insertContentAt(range, [
+            //       {
+            //         type: 'hashTagPost',
+            //         attrs: props,
+            //       },
+            //       {
+            //         type: 'text',
+            //         text: ' ',
+            //       },
+            //     ])
+            //     .run();
+            // },
+            allow: ({ editor, range }) => {
+              return editor.can().insertContentAt(range, { type: 'hashTag' });
+            },
             items: async ({ query }: { query: string }) => {
               const payload: any = {
                 keyword: `#${query}`,
@@ -543,7 +653,6 @@ const Compose = (props: IProps) => {
         urlImages: [imageUploadedUrl],
         urlLinks,
       };
-
       if (urlLinks?.length && !metaData?.length) {
         const dataSeo = await getSeoDataFromLink(urlLinks[0]);
 
@@ -748,7 +857,9 @@ const Compose = (props: IProps) => {
   //   // console.log('e', e);
   //   // console.log('e', e.keyCode);
   //   if (e.keyCode === 13) {
-  //     // editor?.
+  //     console.log('123');
+  //     editor?.chain()?.setHardBreak();
+  //     // editor?.commands().enter();
   //     const lastCharacter = e?.key;
   //     // console.log('🚀 ~ file: index.tsx:346 ~ onUpdate ~ editor:', editor);
   //     // console.log(editor?.);
@@ -790,6 +901,7 @@ const Compose = (props: IProps) => {
               'desktop:!min-h-[200px]': isShowImageActivities,
             },
           )}
+          // onKeyUp={(e) => onHandleOnKeyup(e)}
           style={getStyles() as any}
         />
 
