@@ -22,6 +22,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 import { TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { CompleteBasicInfo } from '@utils/dataLayer';
 import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
@@ -117,10 +118,12 @@ const Register = (props: IProps) => {
             break;
           }
         }
+        CompleteBasicInfo('Success', '', '', userRegisterInfo.email || '', userRegisterInfo.phoneNumber || '', userRegisterInfo.phoneNumber || '');
       }
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
+      CompleteBasicInfo('Failed', e.errorCode, e.error, '', '', '');
     },
   });
 
