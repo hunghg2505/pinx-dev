@@ -32,23 +32,23 @@ const redirectlogin = (error: any) => {
 };
 
 const showApiError = (error: any) => {
-  if (isDev){
-    switch(error?.response?.status) {
+  if (isDev) {
+    switch (error?.response?.status) {
       case 400: {
         toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-          position: 'top-right'
+          position: 'top-right',
         });
         break;
       }
       case 403: {
         toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-          position: 'top-right'
+          position: 'top-right',
         });
         break;
       }
       case 500: {
         toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-          position: 'top-right'
+          position: 'top-right',
         });
         break;
       }
@@ -56,8 +56,8 @@ const showApiError = (error: any) => {
         break;
       }
     }
-  }else {
-    switch(error?.response?.status) {
+  } else {
+    switch (error?.response?.status) {
       case 400: {
         // eslint-disable-next-line no-console
         console.log(`${error?.response?.status} - ${error?.response?.url}`);

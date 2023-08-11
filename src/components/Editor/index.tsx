@@ -233,18 +233,22 @@ const Editor = (props: IProps, ref?: any) => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        refreshTotal();
-        refresh();
-        editor?.commands.clearContent();
-        setIdReply('');
-        if (imageComment) {
-          onCloseImage();
+      onSuccess: (r: any) => {
+        if (r) {
+          refreshTotal();
+          refresh();
+          editor?.commands.clearContent();
+          setIdReply('');
+          if (imageComment) {
+            onCloseImage();
+          }
+          setPostDetailStatus({
+            ...postDetailStatus,
+            isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+          });
+        } else {
+          toast(() => <Notification type='error' message={t('policy_post')} />);
         }
-        setPostDetailStatus({
-          ...postDetailStatus,
-          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
-        });
       },
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
@@ -263,18 +267,22 @@ const Editor = (props: IProps, ref?: any) => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        refreshTotal();
-        refresh();
-        setIdReply('');
-        setPostDetailStatus({
-          ...postDetailStatus,
-          isDoneReplies: true,
-          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
-        });
-        editor?.commands.clearContent();
-        if (imageComment) {
-          onCloseImage();
+      onSuccess: (r: any) => {
+        if (r) {
+          refreshTotal();
+          refresh();
+          setIdReply('');
+          setPostDetailStatus({
+            ...postDetailStatus,
+            isDoneReplies: true,
+            isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+          });
+          editor?.commands.clearContent();
+          if (imageComment) {
+            onCloseImage();
+          }
+        } else {
+          toast(() => <Notification type='error' message={t('policy_post')} />);
         }
       },
       onError: (error: any) => {

@@ -25,7 +25,6 @@ const Profile = () => {
       router.replace(ROUTE_PATH.NOT_FOUND);
     },
   });
-
   return (
     <profileUserContext.Provider
       value={{

@@ -240,13 +240,17 @@ const Editor = (props: IProps, ref?: any) => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        refreshTotal();
-        refresh();
-        editor?.commands.clearContent();
-        setIdReply('');
-        if (imageComment) {
-          onCloseImage();
+      onSuccess: (r: any) => {
+        if (r) {
+          refreshTotal();
+          refresh();
+          editor?.commands.clearContent();
+          setIdReply('');
+          if (imageComment) {
+            onCloseImage();
+          }
+        } else {
+          toast(() => <Notification type='error' message={t('policy_post')} />);
         }
       },
       onError: (error: any) => {

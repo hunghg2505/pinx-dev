@@ -32,7 +32,6 @@ const ComponentWatchList = (props: IProps) => {
     {
       manual: true,
       onSuccess: (res: any) => {
-        console.log('🚀 ~ file: index.tsx:35 ~ ComponentWatchList ~ res:', res);
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {

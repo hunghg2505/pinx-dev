@@ -55,7 +55,7 @@ export default forwardRef((props: any, ref) => {
       }
       if (event.key === 'Enter') {
         // enterHandler();
-        return false;
+        return true;
       }
 
       return false;
@@ -63,7 +63,6 @@ export default forwardRef((props: any, ref) => {
   }));
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const renderText = (item: any) => {
-    console.log('🚀 ~ file: MentionList.tsx:66 ~ renderText ~ item:', item);
     const isStock = !!item.stockCode;
     const isHashTag = item.isHashtag;
     if (isStock) {

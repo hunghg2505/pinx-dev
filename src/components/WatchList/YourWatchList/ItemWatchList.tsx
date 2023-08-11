@@ -105,27 +105,32 @@ const ItemWatchList = ({
             type='body-14-semibold'
             className={classNames({
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#DB4444]': isDecrease && !isFloor && data?.lastPrice !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
+              'text-[#E6A70A]': Math.ceil(data?.change) === 0 && data?.lastPrice !== 0,
+              'text-[#474D57]': data?.lastPrice === 0,
             })}
           >
-            {data?.lastPrice?.toFixed(2)}
+            {data?.lastPrice === 0 ? '-' : data?.lastPrice?.toFixed(2)}
           </Text>
           <Text
             type='body-12-medium'
             className={classNames({
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#DB4444]': isDecrease && !isFloor && data?.lastPrice !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && data?.lastPrice !== 0,
+              'text-[#474D57]': data?.lastPrice === 0,
             })}
           >
             {unit}
-            {data?.change} / {unit}
-            {data?.changePc || data?.changePercent}%
+            {data?.change === 0 ? '' : data?.change} / {unit}
+            {Number(data?.changePc) === 0 || data?.changePercent === 0
+              ? ''
+              : data?.changePc || data?.changePercent}
+            %
           </Text>
         </div>
       )}
