@@ -538,25 +538,27 @@ const StockDetail = () => {
           </div>
 
           <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
-            <div className='flex items-center'>
-              <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-                {stockDetails?.data.watchingNo}+
-              </Text>
-
+            {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
               <div className='flex items-center'>
-                {stockDetails?.data.watchingList
-                  .slice(0, 3)
-                  .reverse()
-                  .map((item, index) => (
-                    <img
-                      key={index}
-                      src={item.avatar}
-                      alt='Subscriber user'
-                      className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                    />
-                  ))}
+                <Text type='body-12-regular' className='primary-5 mr-[4px]'>
+                  {stockDetails?.data.watchingNo}+
+                </Text>
+
+                <div className='flex items-center'>
+                  {stockDetails?.data.watchingList
+                    .slice(0, 3)
+                    .reverse()
+                    .map((item, index) => (
+                      <img
+                        key={index}
+                        src={item.avatar}
+                        alt='Subscriber user'
+                        className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
+                      />
+                    ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div
               className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
