@@ -301,6 +301,17 @@ export const getTotalSharePost = (url: string): Promise<IResponseTotalShare> => 
   return request.get(API_URL + url);
 };
 
+export const useGetTotalSharePost = () => {
+  const { data, run } = useRequest((url: string) => getTotalSharePost(url), {
+    manual: true,
+  });
+
+  return {
+    total: data?.shares.all,
+    onGetTotalShare: run,
+  };
+};
+
 // hide comment
 export const requestHideComment = (id: string) => {
   return privateRequest(requestCommunity.delete, API_PATH.PRIVATE_DELETE_COMMENT(id));
