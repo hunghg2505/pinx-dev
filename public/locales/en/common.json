@@ -237,5 +237,6 @@
       "media": "Media"
     }
   },
-  "policy_post": "Your post should be reviewed due to violation to Pinetree Securities's policy."
+  "policy_post": "Your post should be reviewed due to violation to Pinetree Securities's policy.",
+  "a_product_of": "A product of"
 }

@@ -12,6 +12,7 @@ import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { PINETREE_LINK } from '@utils/constant';
 import { NavigateSection } from '@utils/dataLayer';
 
 import {
@@ -146,58 +147,74 @@ const SideBar = () => {
   }, [MENUS, isLogin]);
 
   return (
-    <StickyBox offsetTop={110}>
-      <Menu items={items} className='sidebar-list' />
-      <div className='px-[10px] pt-[25px] [border-top:1px_solid_#ECECEC]'>
-        <Text type='body-12-regular' className='text-[#78909C]'>
-          Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
-        </Text>
-        <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
-          GPKD: <span className='text-[#474D57]'>0101294902</span>
-          <span className='block'>16:14 04/07/2023</span>
-        </Text>
-        <div className='mt-[20px] flex gap-x-[10px]'>
-          <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
+    <StickyBox offsetTop={110} offsetBottom={20}>
+      <div>
+        <Menu items={items} className='sidebar-list' />
+        <div className='px-[10px] pt-[16px]'>
+          <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
             <img
-              src='/static/social/facebook.svg'
+              src='/static/images/pinetree_logo.png'
               alt=''
-              width={0}
-              height={0}
               sizes='100vw'
-              className='h-[32px] w-[32px]'
+              className='mb-[20px] h-[55px] w-[140px]'
             />
-          </CustomLink>
-          <CustomLink href='https://zalo.me/895810815009263150'>
-            <img
-              src='/static/social/zalo.png'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='h-[32px] w-[32px]'
-            />
-          </CustomLink>
-          <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
-            <img
-              src='/static/social/youtube.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='h-[32px] w-[32px]'
-            />
-          </CustomLink>
-          <CustomLink href='https://www.tiktok.com/@pinetree_official'>
-            <img
-              src='/static/social/tik_tok.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='h-[32px] w-[32px]'
-            />
-          </CustomLink>
+          </a>
+          <Text type='body-12-regular' className='text-[#78909C]'>
+            Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
+          </Text>
+          <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
+            GPKD: <span className='text-[#474D57]'>0101294902</span>
+            <span className='block'>16:14 04/07/2023</span>
+          </Text>
+          <div className='mt-[20px] flex gap-x-[10px]'>
+            <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
+              <img
+                src='/static/social/facebook.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </CustomLink>
+            <CustomLink href='https://zalo.me/895810815009263150'>
+              <img
+                src='/static/social/zalo.png'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </CustomLink>
+            <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
+              <img
+                src='/static/social/youtube.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </CustomLink>
+            <CustomLink href='https://www.tiktok.com/@pinetree_official'>
+              <img
+                src='/static/social/tik_tok.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </CustomLink>
+          </div>
         </div>
+        <img
+          src='/static/images/sidebar_banner.png'
+          alt=''
+          sizes='100vw'
+          className='mt-[28px] w-full laptop-max:px-[10px]'
+        />
       </div>
     </StickyBox>
   );

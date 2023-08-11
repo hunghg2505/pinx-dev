@@ -39,7 +39,8 @@ const SearchSeo = () => {
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
-  const media = data?.data?.listMedia?.list;
+  const media = data?.data?.listMedia;
+  const image = data?.data?.listImage;
 
   // map api do trả thiếu id
   const newUsers = users?.map(( item:any ) => ({ ...item, id: item.customerId }));
@@ -50,6 +51,7 @@ const SearchSeo = () => {
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
+  const imageL = image?.length > 0;
 
   // Error commit git
   console.log('keyword', keyword);
@@ -121,7 +123,7 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {mediaL ? (
+            {(mediaL || imageL) ? (
               <div>media</div>
             ):(
               <>
