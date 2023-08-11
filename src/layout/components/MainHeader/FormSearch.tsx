@@ -81,7 +81,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
   const handleSubmit = async () => {
-    const value = await form.getFieldValue('search').replaceAll(/\s/g,'');
+    const value = await form.getFieldValue('search');
     setQuery(value);
     if (value === '' || value === undefined) {
       setInputFocus(true);
@@ -100,7 +100,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'company' },
+        query: { keyword: query, tab: 'media' },
       });
       // form.setFieldValue('search', '');
       setInputFocus(false);
