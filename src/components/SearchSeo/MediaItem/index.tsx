@@ -147,7 +147,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {img && (
-              <>
+              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
                 <div className={classNames('relative',styles.Video)}>
                   <img
                     className='aspect-[345/162] object-contain bg-[#12121239] rounded'
@@ -165,7 +165,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
                   >
                   </div>
                 </Text>
-              </>
+              </div>
             )}
           </>
         );
@@ -174,7 +174,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {data?.post?.metadataList[0]?.images[0] && (
-              <>
+              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
                 <div className={classNames('relative',styles.Video)}>
                   <img
                     className='aspect-[345/162] object-contain bg-[#12121239] rounded'
@@ -192,7 +192,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
                   >
                   </div>
                 </Text>
-              </>
+              </div>
             )}
           </>
         );
@@ -201,7 +201,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {data?.post?.metadataList[0]?.images[0] && (
-              <>
+              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
                 <div className={classNames('relative',styles.Video)}>
                   <img
                     className={classNames('aspect-[345/162] bg-[#12121239] rounded',{
@@ -222,7 +222,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
                   >
                   </div>
                 </Text>
-              </>
+              </div>
             )}
           </>
         );
@@ -257,9 +257,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
           )}
         </>
       ):(
-        <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
-          {renderTypeMedia(data?.post?.metadataList[0]?.siteName)}
-        </div>
+        <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
       )}
     </>
   );
