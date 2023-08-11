@@ -50,12 +50,21 @@ const StockItem = ({ data }: IStockItemProps) => {
           </Text>
         </div>
 
-        <div className='ml-auto text-right' style={{ color }}>
-          <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
-          <Text type='body-12-regular' className='mt-[8px]'>
-            {renderPricePc()}
-          </Text>
-        </div>
+        {data.lastPrice ? (
+          <div className='ml-auto text-right' style={{ color }}>
+            <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
+            <Text type='body-12-regular' className='mt-[8px]'>
+              {renderPricePc()}
+            </Text>
+          </div>
+        ) : (
+          <div className='ml-auto text-right'>
+            <Text type='body-16-medium'>-</Text>
+            <Text type='body-12-regular' className='mt-[8px]'>
+              -/-%
+            </Text>
+          </div>
+        )}
       </div>
     </Link>
   );

@@ -561,33 +561,40 @@ const StockDetail = () => {
               </div>
             )}
 
-            <div
-              className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
-                [styles.isPriceChange]: isPriceChange,
-              })}
-              style={{
-                color: getStockColor(
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-                backgroundColor: isPriceChange
-                  ? getStockColor(
-                      dataStock?.lastPrice || 0,
-                      dataStock?.c || 0,
-                      dataStock?.f || 0,
-                      dataStock?.r || 0,
-                    )
-                  : 'transparent',
-              }}
-            >
-              <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
-              <Text type='body-12-regular'>
-                {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
-                {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
-              </Text>
-            </div>
+            {dataStock?.lastPrice === 0 ? (
+              <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
+                <Text type='body-16-medium'>-</Text>
+                <Text type='body-12-regular'>-/-%</Text>
+              </div>
+            ) : (
+              <div
+                className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
+                  [styles.isPriceChange]: isPriceChange,
+                })}
+                style={{
+                  color: getStockColor(
+                    dataStock?.lastPrice || 0,
+                    dataStock?.c || 0,
+                    dataStock?.f || 0,
+                    dataStock?.r || 0,
+                  ),
+                  backgroundColor: isPriceChange
+                    ? getStockColor(
+                        dataStock?.lastPrice || 0,
+                        dataStock?.c || 0,
+                        dataStock?.f || 0,
+                        dataStock?.r || 0,
+                      )
+                    : 'transparent',
+                }}
+              >
+                <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
+                <Text type='body-12-regular'>
+                  {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
+                  {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
+                </Text>
+              </div>
+            )}
           </div>
         </div>
 
