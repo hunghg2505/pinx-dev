@@ -39,7 +39,8 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
           {data.listed ? (
             <img
               src={imageStock(data.stockCode)}
-              alt={`Logo ${data.name}`}
+              // alt={`Logo ${data.name}`}
+              alt=''
               className='block h-full w-full object-contain'
             />
           ) : (

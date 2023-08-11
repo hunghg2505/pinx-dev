@@ -513,7 +513,8 @@ const StockDetail = () => {
             <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
               <img
                 src={imageStock(stockCode)}
-                alt={`Logo ${stockDetail?.data?.name}`}
+                // alt={`Logo ${stockDetail?.data?.name}`}
+                alt=''
                 className='block'
               />
             </div>

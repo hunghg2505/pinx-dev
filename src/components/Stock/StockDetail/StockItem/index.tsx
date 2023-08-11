@@ -27,7 +27,8 @@ const StockItem = ({ data }: IStockItemProps) => {
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] px-[12px] py-[16px]'>
         <img
           src={imageStock(data.stockCode)}
-          alt='Company logo'
+          // alt='Company logo'
+          alt=''
           className='block h-[36px] w-[36px] rounded-full bg-white object-contain'
         />
 
