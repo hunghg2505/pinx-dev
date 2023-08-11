@@ -85,7 +85,10 @@ export const VietStockNews = ({
         )}
       >
         {postDetail?.post?.headImageUrl && (
-          <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1] h-full  w-full'>
+          <CustomLink
+            href={`/redirecting?url=${post_url}`}
+            className='absolute left-0 top-0 z-[1] h-full  w-full'
+          >
             <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
           </CustomLink>
         )}
@@ -95,7 +98,10 @@ export const VietStockNews = ({
         )}
 
         {!isPostDetailPath && (
-          <CustomLink href={postDetailUrl} className='absolute bottom-0 left-0 z-[2]  w-full'>
+          <CustomLink
+            href={`/redirecting?url=${post_url}`}
+            className='absolute bottom-0 left-0 z-[2]  w-full'
+          >
             <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
               <ListStock listStock={postDetail?.post?.tagStocks} />
             </div>
