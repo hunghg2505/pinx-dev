@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-// import { useInfiniteScroll } from 'ahooks';
+import { useInfiniteScroll } from 'ahooks';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { getColor } from '@components/Stock/StockDetail/MovementsTab';
 import { IStockTrade } from '@components/Stock/type';
+import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
-// import { getLoadMoreList } from './service';
+import { getLoadMoreList } from './service';
 
 interface IPopupMatchedPriceProps {
   visible: boolean;
@@ -50,10 +51,13 @@ const PopupMatchedPrice = ({
     };
   }, [popupWidth]);
 
-  // const { data } = useInfiniteScroll((d) => getLoadMoreList(d?.nextId, 20), {
-  //   target: ref,
-  //   isNoMore: (d) => !d?.nextId,
-  // });
+  const { data, noMore, loadingMore } = useInfiniteScroll(
+    (d) => getLoadMoreList(stockTrade?.data || [], d?.nextId, 30),
+    {
+      target: ref,
+      isNoMore: (d) => !d?.nextId,
+    },
+  );
 
   return (
     <Modal
@@ -92,7 +96,7 @@ const PopupMatchedPrice = ({
         </thead>
 
         <tbody className='block max-h-[calc(70vh-40px-44px)] overflow-auto' ref={ref}>
-          {stockTrade?.data?.map((item, index) => (
+          {data?.list.map((item, index) => (
             <tr key={index} className='table w-full table-fixed'>
               <td className='py-[10px] pl-[16px] text-left'>
                 <Text type='body-16-regular' className='text-[#999999]'>
@@ -123,6 +127,8 @@ const PopupMatchedPrice = ({
               </td>
             </tr>
           ))}
+
+          {!noMore && loadingMore && <Loading className='mx-auto' />}
         </tbody>
       </table>
     </Modal>
