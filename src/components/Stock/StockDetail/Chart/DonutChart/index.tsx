@@ -24,16 +24,20 @@ const DonutChart = ({ width, height, data, color: colorProps, strokeWidth }: IDo
 
     const arr = Donut(centerX, centerY, radius, data);
 
+    let svgHtmlStr = '';
     // eslint-disable-next-line unicorn/no-for-loop
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
-      if (svgRef.current) {
-        svgRef.current.innerHTML += `<g>
-          <path d="${item?.d}" stroke="${
-          color[i % arr.length]
-        }" fill="none" stroke-width="${strokeWidth}" />
-        </g>`;
-      }
+
+      svgHtmlStr += `<g>
+      <path d="${item?.d}" stroke="${
+        color[i % arr.length]
+      }" fill="none" stroke-width="${strokeWidth}" />
+    </g>`;
+    }
+
+    if (svgRef.current) {
+      svgRef.current.innerHTML = svgHtmlStr;
     }
   }, [colorProps, data, height, strokeWidth, width]);
 

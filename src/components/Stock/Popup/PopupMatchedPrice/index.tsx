@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
-// import { useInfiniteScroll } from 'ahooks';
+import { useInfiniteScroll } from 'ahooks';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { getColor } from '@components/Stock/StockDetail/MovementsTab';
 import { IStockTrade } from '@components/Stock/type';
+import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
-// import { getLoadMoreList } from './service';
+import { getLoadMoreList } from './service';
 
 interface IPopupMatchedPriceProps {
   visible: boolean;
@@ -31,29 +32,15 @@ const PopupMatchedPrice = ({
   stockRefPrice,
 }: IPopupMatchedPriceProps) => {
   const { t } = useTranslation(['stock', 'common']);
-  const [popupWidth, setPopupWidth] = useState<number | undefined>();
   const ref = useRef<HTMLTableSectionElement>(null);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const popupElement = document.querySelector(`.${POPUP_CLASS_NAME}`);
-      const popupContentElm = popupElement?.querySelector('.rc-dialog-content');
-      const popupClientWidth = popupContentElm?.clientWidth;
-
-      popupClientWidth !== popupWidth && setPopupWidth(popupClientWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [popupWidth]);
-
-  // const { data } = useInfiniteScroll((d) => getLoadMoreList(d?.nextId, 20), {
-  //   target: ref,
-  //   isNoMore: (d) => !d?.nextId,
-  // });
+  const { data, noMore, loadingMore } = useInfiniteScroll(
+    (d) => getLoadMoreList(stockTrade?.data || [], d?.nextId, 30),
+    {
+      target: ref,
+      isNoMore: (d) => !d?.nextId,
+    },
+  );
 
   return (
     <Modal
@@ -65,8 +52,8 @@ const PopupMatchedPrice = ({
         {t('matched_price')}
       </Text>
 
-      <table className='mt-[20px] text-right' style={{ width: `${popupWidth}px` }}>
-        <thead className='table w-[calc(100%-1em)] table-fixed'>
+      <table className='mt-[20px] text-right'>
+        <thead className='table w-[calc(100%-0.5em)] table-fixed'>
           <tr className='bg-[#EBEBEB] text-right'>
             <th className='py-[5px] pl-[16px] text-left'>
               <Text type='body-12-regular' color='primary-5'>
@@ -92,7 +79,7 @@ const PopupMatchedPrice = ({
         </thead>
 
         <tbody className='block max-h-[calc(70vh-40px-44px)] overflow-auto' ref={ref}>
-          {stockTrade?.data?.map((item, index) => (
+          {data?.list.map((item, index) => (
             <tr key={index} className='table w-full table-fixed'>
               <td className='py-[10px] pl-[16px] text-left'>
                 <Text type='body-16-regular' className='text-[#999999]'>
@@ -123,6 +110,8 @@ const PopupMatchedPrice = ({
               </td>
             </tr>
           ))}
+
+          {!noMore && loadingMore && <Loading className='mx-auto' />}
         </tbody>
       </table>
     </Modal>
