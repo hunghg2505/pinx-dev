@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import { useInfiniteScroll } from 'ahooks';
 import classNames from 'classnames';
@@ -32,24 +32,7 @@ const PopupMatchedPrice = ({
   stockRefPrice,
 }: IPopupMatchedPriceProps) => {
   const { t } = useTranslation(['stock', 'common']);
-  const [popupWidth, setPopupWidth] = useState<number | undefined>();
   const ref = useRef<HTMLTableSectionElement>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const popupElement = document.querySelector(`.${POPUP_CLASS_NAME}`);
-      const popupContentElm = popupElement?.querySelector('.rc-dialog-content');
-      const popupClientWidth = popupContentElm?.clientWidth;
-
-      popupClientWidth !== popupWidth && setPopupWidth(popupClientWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [popupWidth]);
 
   const { data, noMore, loadingMore } = useInfiniteScroll(
     (d) => getLoadMoreList(stockTrade?.data || [], d?.nextId, 30),
@@ -69,8 +52,8 @@ const PopupMatchedPrice = ({
         {t('matched_price')}
       </Text>
 
-      <table className='mt-[20px] text-right' style={{ width: `${popupWidth}px` }}>
-        <thead className='table w-[calc(100%-1em)] table-fixed'>
+      <table className='mt-[20px] text-right'>
+        <thead className='table w-[calc(100%-0.5em)] table-fixed'>
           <tr className='bg-[#EBEBEB] text-right'>
             <th className='py-[5px] pl-[16px] text-left'>
               <Text type='body-12-regular' color='primary-5'>
