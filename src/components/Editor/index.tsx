@@ -1,10 +1,12 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+import Document from '@tiptap/extension-document';
 import Mention from '@tiptap/extension-mention';
+import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
+import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { useClickAway, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
@@ -70,7 +72,9 @@ const Editor = (props: IProps, ref?: any) => {
   const { userLoginInfo } = useUserLoginInfo();
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
       Placeholder.configure({
         placeholder: t('what_do_you_want_to_comment'),
       }),
@@ -233,18 +237,22 @@ const Editor = (props: IProps, ref?: any) => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        refreshTotal();
-        refresh();
-        editor?.commands.clearContent();
-        setIdReply('');
-        if (imageComment) {
-          onCloseImage();
+      onSuccess: (r: any) => {
+        if (r) {
+          refreshTotal();
+          refresh();
+          editor?.commands.clearContent();
+          setIdReply('');
+          if (imageComment) {
+            onCloseImage();
+          }
+          setPostDetailStatus({
+            ...postDetailStatus,
+            isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+          });
+        } else {
+          toast(() => <Notification type='error' message={t('policy_post')} />);
         }
-        setPostDetailStatus({
-          ...postDetailStatus,
-          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
-        });
       },
       onError: (error: any) => {
         if (error?.error === 'VSD account is required') {
@@ -263,18 +271,22 @@ const Editor = (props: IProps, ref?: any) => {
     },
     {
       manual: true,
-      onSuccess: () => {
-        refreshTotal();
-        refresh();
-        setIdReply('');
-        setPostDetailStatus({
-          ...postDetailStatus,
-          isDoneReplies: true,
-          isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
-        });
-        editor?.commands.clearContent();
-        if (imageComment) {
-          onCloseImage();
+      onSuccess: (r: any) => {
+        if (r) {
+          refreshTotal();
+          refresh();
+          setIdReply('');
+          setPostDetailStatus({
+            ...postDetailStatus,
+            isDoneReplies: true,
+            isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+          });
+          editor?.commands.clearContent();
+          if (imageComment) {
+            onCloseImage();
+          }
+        } else {
+          toast(() => <Notification type='error' message={t('policy_post')} />);
         }
       },
       onError: (error: any) => {
@@ -358,7 +370,7 @@ const Editor = (props: IProps, ref?: any) => {
           if (prevIndex >= 0) {
             const item = acc[prevIndex];
             if (item) {
-              acc.splice(prevIndex, 1, `${item} `);
+              acc.splice(prevIndex, 1, `${item}`);
             }
           }
           return acc;
@@ -368,7 +380,7 @@ const Editor = (props: IProps, ref?: any) => {
 
         return acc;
       }, []);
-      const dataJoin = dataReduce?.join('');
+      const dataJoin = dataReduce?.join(' ');
       return dataJoin;
       // return abcd?.join('');
       // console.log('abcd', abcd);

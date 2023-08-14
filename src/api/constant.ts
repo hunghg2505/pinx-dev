@@ -153,6 +153,8 @@ export const API_PATH = {
   PRIVATE_SEARCH_SEO_CREATE: '/private/search-seo/create-v2',
 
   PUBLIC_SEARCH_SEO_RESULT: '/public/search-seo/search-v2',
+  PRIVATE_SEARCH_SEO_RESULT: '/private/search-seo/search-v2',
+
   PUBLIC_SEARCH_SEO_SUGGEST: '/public/search-seo/suggest-v2',
   PRIVATE_SEARCH_SEO_SUGGEST: '/private/search-seo/suggest-v2',
   PUBLIC_SEARCH_SEO_DELETE: (code: string) => `/public/search-seo/${code}/delete-v2`,

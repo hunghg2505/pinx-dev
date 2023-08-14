@@ -196,7 +196,7 @@ export const getCommentsOfPost = (postId: string, params?: any) => {
 };
 export const useCommentsOfPost = (postId: string) => {
   const { data, loading, refresh } = useRequest(
-    () => {
+    async () => {
       const isLogin = !!getAccessToken();
       return isLogin ? getCommentsOfPostAuth(postId) : getCommentsOfPost(postId);
     },

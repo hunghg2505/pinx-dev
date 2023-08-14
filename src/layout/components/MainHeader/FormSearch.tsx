@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -39,6 +39,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const search = searchParams.get('keyword') || '';
   const [form] = Form.useForm();
   const ref = React.useRef(null);
+  const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
   const valueInput = form.getFieldValue('search');
 
   // Call API
@@ -75,14 +76,20 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   useClickAway(() => {
     setInputFocus(false);
     setShowRecent(false);
-    setShowPopup(false);
+    // setShowPopup(false);
   }, ref);
 
-  // const handleParam =  () => setQuery(form.getFieldValue('search'));
+  useClickAway((e: any) => {
+    const main: any = document?.querySelector('main');
+    if (main.contains(e.srcElement)) {
+      setShowPopup(false);
+    }
+  }, searchResultPopupRef);
 
   const handleSubmit = async () => {
-    const value = await form.getFieldValue('search').trim();
+    const value = await form.getFieldValue('search').replaceAll('^ +|(?<=\\d{4} ) | [^ ]+ *$', '');
     setQuery(value);
+    cancel();
     if (value === '' || value === undefined) {
       setInputFocus(true);
       setShowRecent(true);
@@ -100,7 +107,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'company' },
+        query: { keyword: query, tab: 'media' },
       });
       // form.setFieldValue('search', '');
       setInputFocus(false);
@@ -137,9 +144,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     useRemoveItemRecent.run(code);
   };
 
-  const { run } = useDebounceFn(
+  const { run, cancel } = useDebounceFn(
     () => {
-      const value = form.getFieldValue('search');
+      const value = form.getFieldValue('search').replaceAll('^ +|(?<=\\d{4} ) | [^ ]+ *$', '');
       setQuery(value);
       if (value === '' || value === undefined) {
         setShowPopup(false);
@@ -196,98 +203,102 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           </div>
         </>
       )}
-      <div ref={ref} className={classNames(className)}>
-        <Form
-          className={classNames('', {
-            'w-full': isMobile,
-          })}
-          form={form}
-          onFinish={handleSubmit}
-          onValuesChange={run}
-          onFieldsChange={handleOnchange}
-        >
-          <FormItem name='search'>
-            <Input
-              className={classNames(
-                'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
-                {
-                  'w-full border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
-                  'w-full border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
-                  'w-full border-[#1F6EAC] bg-[#F7F6F8] ': isMobile,
-                },
-              )}
-              placeholder={t('common:searchseo.placeholder')}
-              icon={<IconSearchWhite />}
-            />
-          </FormItem>
-        </Form>
-        <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px]'>
-          {isLogin && loading && <Loading />}
-        </div>
-
-        {/* Khi nhập input show button close clear data */}
-        {!loading && valueInput && (
-          <>
-            <button
-              onClick={removeFormSearch}
-              className='absolute right-[10px] top-[50%] flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
-            >
-              <img
-                src='/static/icons/iconClose.svg'
-                alt='Search icon'
-                className='m-auto h-[14px] w-[14px]'
+      <div
+        className={classNames(className)}
+        ref={searchResultPopupRef}
+      >
+        <div ref={ref}>
+          <Form
+            className={classNames('', {
+              'w-full': isMobile,
+            })}
+            form={form}
+            onFinish={handleSubmit}
+            onValuesChange={run}
+            onFieldsChange={handleOnchange}
+          >
+            <FormItem name='search'>
+              <Input
+                className={classNames(
+                  'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
+                  {
+                    'w-full border-[#1F6EAC] bg-[#F7F6F8]': inputFocus && isDesktop,
+                    'w-full border-[#EFF2F5] bg-[#EFF2F5]': !inputFocus && isDesktop,
+                    'w-full border-[#1F6EAC] bg-[#F7F6F8] ': isMobile,
+                  },
+                )}
+                placeholder={t('common:searchseo.placeholder')}
+                icon={<IconSearchWhite />}
               />
-            </button>
-          </>
-        )}
-        {/* End Khi nhập input show button close clear data */}
+            </FormItem>
+          </Form>
+          <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px]'>
+            {isLogin && loading && <Loading />}
+          </div>
 
-        {/* Show search recent */}
-        <Fade
-          visible={showRecent && listRecent?.length > 0 && isLogin && !valueInput}
-          className={classNames(
-            styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
-          )}
-        >
-          {listRecent?.length > 0 && (
-            <Text type='body-16-semibold' className='leading-5 text-[#0D0D0D]'>
-              {t('common:searchseo.txtRecent')}
-            </Text>
-          )}
-          {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
-            return (
-              <div
-                key={index}
-                className='relative flex cursor-pointer gap-x-[10px] p-[8px] hover:bg-[#F7F6F8]'
+          {/* Khi nhập input show button close clear data */}
+          {!loading && valueInput && (
+            <>
+              <button
+                onClick={removeFormSearch}
+                className='absolute right-[10px] top-[50%] flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
               >
-                <div
-                  className='flex-auto text-[#1F6EAC]'
-                  onClick={() => onClickRecent(item?.textSearch)}
-                >
-                  {item?.textSearch}
-                </div>
-                <button
-                  className='btn__close absolute right-[0px] top-[50%] flex h-[33px] w-[33px] translate-y-[-50%] items-center justify-center'
-                  onClick={() => removeItemRecent(item?.id)}
-                >
-                  <img
-                    src='/static/icons/iconClose.svg'
-                    alt='Search icon'
-                    className='m-auto h-[14px] w-[14px]'
-                  />
-                </button>
-              </div>
-            );
-          })}
-        </Fade>
+                <img
+                  src='/static/icons/iconClose.svg'
+                  alt='Search icon'
+                  className='m-auto h-[14px] w-[14px]'
+                />
+              </button>
+            </>
+          )}
+          {/* End Khi nhập input show button close clear data */}
 
+          {/* Show search recent */}
+          <Fade
+            visible={showRecent && listRecent?.length > 0 && isLogin && !valueInput}
+            className={classNames(
+              styles.boxShadown,
+              'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            )}
+          >
+            {listRecent?.length > 0 && (
+              <Text type='body-16-semibold' className='leading-5 text-[#0D0D0D]'>
+                {t('common:searchseo.txtRecent')}
+              </Text>
+            )}
+            {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className='relative flex cursor-pointer gap-x-[10px] p-[8px] hover:bg-[#F7F6F8]'
+                >
+                  <div
+                    className='flex-auto text-[#1F6EAC]'
+                    onClick={() => onClickRecent(item?.textSearch)}
+                  >
+                    {item?.textSearch}
+                  </div>
+                  <button
+                    className='btn__close absolute right-[0px] top-[50%] flex h-[33px] w-[33px] translate-y-[-50%] items-center justify-center'
+                    onClick={() => removeItemRecent(item?.id)}
+                  >
+                    <img
+                      src='/static/icons/iconClose.svg'
+                      alt='Search icon'
+                      className='m-auto h-[14px] w-[14px]'
+                    />
+                  </button>
+                </div>
+              );
+            })}
+          </Fade>
+        </div>
         {/* Show search result */}
         <Fade
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
