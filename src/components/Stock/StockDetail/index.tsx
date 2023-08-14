@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -19,13 +20,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import {
-  ROUTE_PATH,
-  formatNumber,
-  formatStringToNumber,
-  getStockColor,
-  imageStock,
-} from '@utils/common';
+import { ROUTE_PATH, formatNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -43,6 +38,7 @@ import NewsItem from './NewsItem';
 import ProductItem from './ProductItem';
 import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
+import FakeStockHeading from './StockHeading/fakeHeading';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
 import { REVENUE_CHART_COLOR, SHARE_HOLDER_COLOR } from '../const';
@@ -92,10 +88,15 @@ const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png'
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
 const PRODUCT_SLIDE_LIMIT = 5;
 
+const StockHeading = dynamic(() => import('@components/Stock/StockDetail/StockHeading'), {
+  ssr: false,
+  loading: () => <FakeStockHeading />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
-  const { t, i18n } = useTranslation(['stock', 'common']);
+  const { t } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
@@ -366,11 +367,7 @@ const StockDetail = () => {
     };
   }, [stockDetail?.data?.products]);
 
-  const { unit, chartColorFormat } = useMemo(() => {
-    const highest_price = dataStock?.r;
-    const isDecrease = (dataStock?.lastPrice || 0) < (highest_price || 0);
-    const unit = isDecrease ? '-' : '+';
-
+  const { chartColorFormat } = useMemo(() => {
     const chartColor = getStockColor(
       dataStock?.lastPrice || 0,
       dataStock?.c || 0,
@@ -380,32 +377,9 @@ const StockDetail = () => {
     const chartColorFormat = chartColor.slice(1);
 
     return {
-      unit,
       chartColorFormat,
     };
   }, [dataStock]);
-
-  const isPriceChange = useMemo(() => {
-    if (
-      !dataStock ||
-      !dataStock.lastPrice ||
-      !dataStock.ot ||
-      !dataStock.changePc ||
-      !preDataStock ||
-      !preDataStock.lastPrice ||
-      !preDataStock.ot ||
-      !preDataStock.changePc
-    ) {
-      return;
-    }
-
-    const isChange =
-      dataStock.lastPrice !== preDataStock.lastPrice ||
-      dataStock.ot !== preDataStock.ot ||
-      dataStock.changePc !== preDataStock.changePc;
-
-    return isChange;
-  }, [dataStock, preDataStock]);
 
   const revenueLastUpdated = useMemo(() => {
     if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
@@ -508,95 +482,13 @@ const StockDetail = () => {
           </button>
         </div>
 
-        <div className='mt-[12px] flex items-center justify-between'>
-          <div className='flex flex-1 flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
-            <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-              <img
-                src={imageStock(stockCode)}
-                // alt={`Logo ${stockDetail?.data?.name}`}
-                alt=''
-                className='block'
-              />
-            </div>
-
-            <div>
-              <div className='flex items-center'>
-                <Text type='body-24-semibold' className='text-[#0D0D0D]'>
-                  {stockDetail?.data?.stockCode}
-                </Text>
-
-                <button className='ml-[8px] h-[20px] min-w-[48px] cursor-text rounded-[4px] border border-solid border-[var(--neutral-7)] px-[10px]'>
-                  <Text type='body-10-regular' className='text-[#808A9D]'>
-                    {stockDetail?.data?.stockExchange}
-                  </Text>
-                </button>
-              </div>
-
-              <Text type='body-12-regular' className='primary-5'>
-                {i18n.language === 'vi' ? stockDetail?.data?.nameVi : stockDetail?.data?.nameEn}
-              </Text>
-            </div>
-          </div>
-
-          <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
-            {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
-              <div className='flex items-center'>
-                <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-                  {stockDetails?.data.watchingNo}+
-                </Text>
-
-                <div className='flex items-center'>
-                  {stockDetails?.data.watchingList
-                    .slice(0, 3)
-                    .reverse()
-                    .map((item, index) => (
-                      <img
-                        key={index}
-                        src={item.avatar}
-                        alt='Subscriber user'
-                        className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                      />
-                    ))}
-                </div>
-              </div>
-            )}
-
-            {dataStock?.lastPrice === 0 ? (
-              <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
-                <Text type='body-16-medium'>-</Text>
-                <Text type='body-12-regular'>-/-%</Text>
-              </div>
-            ) : (
-              <div
-                className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
-                  [styles.isPriceChange]: isPriceChange,
-                })}
-                style={{
-                  color: getStockColor(
-                    dataStock?.lastPrice || 0,
-                    dataStock?.c || 0,
-                    dataStock?.f || 0,
-                    dataStock?.r || 0,
-                  ),
-                  backgroundColor: isPriceChange
-                    ? getStockColor(
-                        dataStock?.lastPrice || 0,
-                        dataStock?.c || 0,
-                        dataStock?.f || 0,
-                        dataStock?.r || 0,
-                      )
-                    : 'transparent',
-                }}
-              >
-                <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
-                <Text type='body-12-regular'>
-                  {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
-                  {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
-                </Text>
-              </div>
-            )}
-          </div>
-        </div>
+        <StockHeading
+          stockCode={stockCode}
+          stockDetails={stockDetails}
+          stockDetail={stockDetail}
+          dataStock={dataStock}
+          preDataStock={preDataStock}
+        />
 
         {/* chart */}
         <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>

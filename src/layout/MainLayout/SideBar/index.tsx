@@ -12,6 +12,7 @@ import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { PINETREE_LINK } from '@utils/constant';
 import { NavigateSection } from '@utils/dataLayer';
 
 import {
@@ -149,6 +150,13 @@ const SideBar = () => {
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div>
         <Menu items={items} className='sidebar-list' />
+        <img
+          src='/static/images/sidebar_banner.png'
+          alt=''
+          sizes='100vw'
+          className='mt-[16px] w-full laptop-max:px-[10px]'
+        />
+
         <div className='px-[10px] pt-[16px]'>
           {/* <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
             <img
@@ -158,9 +166,12 @@ const SideBar = () => {
               className='mb-[20px] h-[55px] w-[140px]'
             />
           </a> */}
-          <Text type='body-12-regular' className='text-[#78909C]'>
-            Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
-          </Text>
+          <a href={PINETREE_LINK} target='_blank' rel='noopener noreferrer'>
+            <Text type='body-12-regular' className='text-[#78909C]'>
+              Copyright 2023. Công ty CP Chứng Khoán{' '}
+              <span className='text-[#1F6EAC]'>Pinetree</span>
+            </Text>
+          </a>
           <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
             GPKD: <span className='text-[#474D57]'>0101294902</span>
             <span className='block'>16:14 04/07/2023</span>
@@ -208,12 +219,6 @@ const SideBar = () => {
             </CustomLink>
           </div>
         </div>
-        <img
-          src='/static/images/sidebar_banner.png'
-          alt=''
-          sizes='100vw'
-          className='mt-[28px] w-full laptop-max:px-[10px]'
-        />
       </div>
     </StickyBox>
   );

@@ -1,0 +1,15 @@
+@keyframes isPriceChange {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.isPriceChange {
+  animation-name: isPriceChange;
+  animation-duration: 1s;
+  color: #fff !important;
+}

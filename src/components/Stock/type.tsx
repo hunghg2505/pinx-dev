@@ -243,36 +243,38 @@ interface IWatchingInvesting {
   totalFollowers: number;
 }
 
-export interface IResponseStockDetailsExtra {
-  stockDetails?: {
-    data: {
-      details: {
-        id: string;
-        stockCode: string;
-        rate: {
-          rate1: number;
-          rate2: number;
-          rate3: number;
-          rate4: number;
-          rate5: number;
-          totalRates: number;
-          rateAverage: number;
-        };
-        totalReviews: number;
-        totalMentions: number;
-        children: IReview[];
+export interface IStockDetails {
+  data: {
+    details: {
+      id: string;
+      stockCode: string;
+      rate: {
+        rate1: number;
+        rate2: number;
+        rate3: number;
+        rate4: number;
+        rate5: number;
+        totalRates: number;
+        rateAverage: number;
       };
-      customerReview?: {
-        rateValue: number;
-        message: string;
-        customerInfo: ICustomerInfo;
-      };
-      watchingNo: number;
-      watchingInvestingNo: number;
-      watchingList: IWatchingInvesting[];
-      watchingInvestingList: IWatchingInvesting[];
+      totalReviews: number;
+      totalMentions: number;
+      children: IReview[];
     };
+    customerReview?: {
+      rateValue: number;
+      message: string;
+      customerInfo: ICustomerInfo;
+    };
+    watchingNo: number;
+    watchingInvestingNo: number;
+    watchingList: IWatchingInvesting[];
+    watchingInvestingList: IWatchingInvesting[];
   };
+}
+
+export interface IResponseStockDetailsExtra {
+  stockDetails?: IStockDetails;
   refreshStockDetails: () => void;
 }
 
