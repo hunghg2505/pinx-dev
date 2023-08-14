@@ -50,7 +50,7 @@
 
 .isIncrease {
   animation-name: isIncrease;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
 
 @keyframes isDecrease {
@@ -63,7 +63,7 @@
 
 .isDecrease {
   animation-name: isDecrease;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
 
 @keyframes isEqual {
@@ -76,5 +76,5 @@
 
 .isEqual {
   animation-name: isEqual;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
