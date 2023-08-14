@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Modal from '@components/UI/Modal/Modal';
 
@@ -14,6 +14,16 @@ interface IPopupZoomChartProps {
 
 const PopupZoomChart = ({ visible, onClose, mc, oIndex }: IPopupZoomChartProps) => {
   const [value, setValue] = useState(1);
+
+  useEffect(() => {
+    if (visible) {
+      document.body.classList.add('overflow-y-hidden');
+    }
+
+    return () => {
+      document.body.classList.remove('overflow-y-hidden');
+    };
+  }, [visible]);
 
   return (
     <Modal
