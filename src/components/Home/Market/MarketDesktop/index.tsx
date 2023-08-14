@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -6,6 +8,7 @@ import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
 
 import styles from './index.module.scss';
+import PopupZoomChart from './PopupZoomChart';
 
 export const getMarketCodeChart = (marketCode: string) => {
   if (marketCode === '10') {
@@ -26,9 +29,39 @@ export const getMarketCodeChart = (marketCode: string) => {
 
   return '';
 };
+
+export const ChartIframe = ({ mc, oIndex }: { mc: string; oIndex: number }) => {
+  const { i18n } = useTranslation();
+
+  return (
+    <iframe
+      src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
+        mc,
+      )}&type=INDEX&ref=${oIndex}&lang=${i18n.language}`}
+      className='h-[350px] w-full rounded-[8px]'
+    ></iframe>
+  );
+};
+
 const MarketDesktop = () => {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const { dataStockIndex, findIndex } = useStockDesktop();
+  const [chartData, setChartData] = useState<{
+    mc: string;
+    oIndex: number;
+  }>({
+    mc: '',
+    oIndex: 0,
+  });
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const handelOpenPopup = (mc: string, oIndex: number) => {
+    setChartData({
+      mc,
+      oIndex,
+    });
+    setPopupVisible(true);
+  };
 
   if (!dataStockIndex?.length) {
     return (
@@ -109,18 +142,37 @@ const MarketDesktop = () => {
                       </div>
                     </div>
                   </div>
-                  <iframe
-                    src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
-                      item.mc,
-                    )}&type=INDEX&ref=${item.oIndex}&lang=${i18n.language}`}
-                    className='h-[350px] w-full rounded-[8px]'
-                  ></iframe>
+
+                  <div className='relative mt-[12px]'>
+                    {/* icon maximize */}
+                    <div
+                      onClick={() => handelOpenPopup(item.mc, item.oIndex)}
+                      className='absolute right-[6px] top-[8px] flex cursor-pointer items-center justify-center'
+                    >
+                      <img
+                        src='/static/icons/icon_maximize.svg'
+                        alt='Icon maximize'
+                        className='h-[18px] w-[18px] object-contain'
+                      />
+                    </div>
+
+                    <ChartIframe mc={item.mc} oIndex={item.oIndex} />
+                  </div>
                 </div>
               </TabPane>
             );
           })}
         </Tabs>
       </div>
+
+      <PopupZoomChart
+        visible={popupVisible}
+        onClose={() => {
+          setPopupVisible(false);
+        }}
+        mc={chartData?.mc}
+        oIndex={chartData?.oIndex}
+      />
     </>
   );
 };
