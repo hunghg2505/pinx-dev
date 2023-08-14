@@ -497,7 +497,7 @@ const StockDetail = () => {
           {/* icon maximize */}
           <div
             onClick={handleOpenPopupZoom}
-            className='absolute right-[6px] top-[8px] flex cursor-pointer items-center justify-center'
+            className='absolute right-[22px] top-[8px] flex cursor-pointer items-center justify-center'
           >
             <img
               src='/static/icons/icon_maximize.svg'
