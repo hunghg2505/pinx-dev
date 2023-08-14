@@ -181,7 +181,7 @@ const Search = (props: any, ref: any) => {
         <div className='relative'>
           <Fade
             visible={showPopup}
-            className='z-22 absolute left-0 top-[100%] w-full  rounded-[12px] bg-[#ffffff] px-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] '
+            className='z-22 absolute left-0 top-[100%] mt-[10px] w-full  rounded-[12px] bg-[#ffffff] px-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] '
           >
             <div className='mt-[24px]'>
               <Text type='body-20-semibold' color='neutral-1'>
