@@ -57,7 +57,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
 
           <tbody>
             {stockTrade?.data &&
-              stockTrade?.data.length &&
+              stockTrade?.data.length > 0 &&
               stockTrade?.data.slice(0, LIMIT_STOCK_TRADE).map((item, index) => (
                 <tr key={index}>
                   <td className='py-[10px] pl-[16px] text-left'>
@@ -136,12 +136,14 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
         </table>
       )}
 
-      <PopupMatchedPrice
-        stockTrade={stockTrade}
-        visible={openPopup}
-        onClose={() => setOpenPopup(false)}
-        stockRefPrice={stockRefPrice}
-      />
+      {stockTrade?.data && stockTrade.data.length > 0 && (
+        <PopupMatchedPrice
+          stockTrade={stockTrade}
+          visible={openPopup}
+          onClose={() => setOpenPopup(false)}
+          stockRefPrice={stockRefPrice}
+        />
+      )}
     </>
   );
 };

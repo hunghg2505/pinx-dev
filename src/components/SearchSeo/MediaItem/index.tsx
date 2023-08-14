@@ -147,10 +147,10 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {img && (
-              <>
-                <div className={classNames('relative',styles.Video)}>
+              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
+                <div className={classNames('relative', styles.Video, styles.Tiktok)}>
                   <img
-                    className='aspect-[345/162] object-contain bg-[#12121239] rounded'
+                    className='aspect-[16/9] object-contain bg-[#12121239] rounded'
                     src={img || '/static/images/noimage.jpg'}
                     alt="Picture of TikTok"
                     width={345}
@@ -165,7 +165,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
                   >
                   </div>
                 </Text>
-              </>
+              </div>
             )}
           </>
         );
@@ -174,10 +174,10 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {data?.post?.metadataList[0]?.images[0] && (
-              <>
-                <div className={classNames('relative',styles.Video)}>
+              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
+                <div className={classNames('relative', styles.Youtube)}>
                   <img
-                    className='aspect-[345/162] object-contain bg-[#12121239] rounded'
+                    className='aspect-[16/9] object-cover bg-[#12121239] rounded'
                     src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
                     alt="Picture of Youtube"
                     width={345}
@@ -192,7 +192,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
                   >
                   </div>
                 </Text>
-              </>
+              </div>
             )}
           </>
         );
@@ -201,12 +201,12 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {data?.post?.metadataList[0]?.images[0] && (
-              <>
+              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
                 <div className={classNames('relative',styles.Video)}>
                   <img
-                    className={classNames('aspect-[345/162] bg-[#12121239] rounded',{
-                      'object-contain': data?.post?.metadataList[0]?.images[0],
-                      'object-cover': !data?.post?.metadataList[0]?.images[0],
+                    className={classNames('aspect-[16/9] bg-[#12121239] rounded',{
+                      'object-cover': data?.post?.metadataList[0]?.images[0],
+                      'object-cover ': !data?.post?.metadataList[0]?.images[0],
                     })}
                     src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
                     alt="Picture of Orther"
@@ -222,7 +222,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
                   >
                   </div>
                 </Text>
-              </>
+              </div>
             )}
           </>
         );
@@ -236,7 +236,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
           {data?.post?.seoMetadata?.imageSeo?.urlImage && (
             <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
               <img
-                className={classNames('aspect-[345/162] bg-[#12121239] rounded',{
+                className={classNames('aspect-[16/9] bg-[#12121239] rounded',{
                   'object-contain': data?.post?.seoMetadata?.imageSeo?.urlImage,
                   'object-cover': !data?.post?.seoMetadata?.imageSeo?.urlImage,
                 })}
@@ -257,9 +257,7 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
           )}
         </>
       ):(
-        <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
-          {renderTypeMedia(data?.post?.metadataList[0]?.siteName)}
-        </div>
+        <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
       )}
     </>
   );

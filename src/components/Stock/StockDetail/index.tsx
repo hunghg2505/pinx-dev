@@ -358,10 +358,10 @@ const StockDetail = () => {
     return {
       dots: false,
       speed: 500,
-      slidesToShow:
-        stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-          ? 1
-          : PRODUCT_SLIDE_LIMIT,
+      // slidesToShow:
+      //   stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+      //     ? 1
+      //     : PRODUCT_SLIDE_LIMIT,
       slidesToScroll: PRODUCT_SLIDE_LIMIT,
     };
   }, [stockDetail?.data?.products]);
@@ -687,7 +687,7 @@ const StockDetail = () => {
               )}
             >
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='mr-0 min-w-[112px]' key={index} data={item} />
+                <ProductItem className='!mr-0 min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -717,7 +717,7 @@ const StockDetail = () => {
                   variableWidth
                 >
                   {stockDetail?.data?.products.map((item, index) => (
-                    <ProductItem className='mr-[14px]' key={index} data={item} />
+                    <ProductItem className='!mr-[14px]' key={index} data={item} />
                   ))}
                 </Slider>
               </div>

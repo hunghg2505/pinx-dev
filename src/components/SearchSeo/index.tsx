@@ -53,8 +53,11 @@ const SearchSeo = () => {
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
-  const mediaNull = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0] || item?.post?.metadataList[0]?.url)?.length > 0;
-  const imageNull = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage)?.length > 0;
+
+  const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
+  console.log('mediaFilter',mediaFilter);
+  const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
+  console.log('imageFilter',imageFilter);
 
 
   // Error commit git
@@ -62,8 +65,6 @@ const SearchSeo = () => {
   console.log('tab', tab);
   console.log('type', getType);
   console.log(loading, refresh, media);
-  console.log('mediaNull',mediaNull);
-  console.log('imageNull',imageNull);
 
 
   return (
@@ -129,12 +130,12 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {((mediaL && imageL) || mediaNull || imageNull) ? (
+            {(mediaL && imageL) ? (
               <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
-                {image?.map((item: any) => {
+                {imageFilter?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
                 })}
-                {media?.map((item: any) => {
+                {mediaFilter?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} />;
                 })}
               </div>
