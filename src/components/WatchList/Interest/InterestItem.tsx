@@ -22,6 +22,7 @@ const InterestItem = (props: IProps) => {
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
+  const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -57,13 +58,14 @@ const InterestItem = (props: IProps) => {
             type='body-14-semibold'
             className={classNames({
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {data?.lastPrice?.toFixed(2)}
+            {Number(data?.lastPrice) === 0 ? '-' : data?.lastPrice?.toFixed(2)}
           </Text>
           <Text type='body-14-regular' className='text-[#0D0D0D]'>
             {data?.stockCode}
@@ -73,15 +75,16 @@ const InterestItem = (props: IProps) => {
               type='body-12-medium'
               className={classNames('ml-[-14px] mr-[-14px] whitespace-nowrap px-[0px] py-[4px]', {
                 'text-[#128F63]': isIncrease && !isHigh,
-                'text-[#DB4444]': isDecrease && !isFloor,
+                'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
                 'text-[#08AADD]': isFloor,
                 'text-[#B349C3]': isHigh,
-                'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
+                'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+                'text-[#474D57]': Number(data?.lastPrice) === 0,
               })}
             >
-              {unit}
-              {data?.change} / {unit}
-              {data?.changePc || data?.changePercent}%
+              {isChange ? '' : unit}
+              {Number(data?.change) === 0 ? '-' : data?.change} / {isChange ? '' : unit}
+              {isChange ? '-' : data?.changePc || data?.changePercent}%
             </Text>
             {requestSelectStock?.loading ? (
               <div className='absolute inset-x-0 inset-y-0 flex items-center justify-center backdrop-blur-sm'>
