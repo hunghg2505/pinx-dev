@@ -129,7 +129,7 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {((mediaL && imageL) || mediaNull || imageNull) ? (
+            {((mediaL && imageL) || (mediaNull && imageNull)) ? (
               <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
                 {image?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
