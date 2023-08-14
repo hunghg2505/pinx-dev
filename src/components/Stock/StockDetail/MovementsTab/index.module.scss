@@ -1,12 +1,10 @@
-.tableAsk {
-  tr {
+.stockAsk {
+  > div {
     &:not(:last-child) {
-      td {
-        border-bottom: 1px solid #ebebeb;
-      }
+      border-bottom: 1px solid #ebebeb;
     }
 
-    td {
+    > div {
       &:first-child {
         @apply relative w-full;
       }
@@ -14,15 +12,13 @@
   }
 }
 
-.tableBid {
-  tr {
+.stockBid {
+  > div {
     &:not(:last-child) {
-      td {
-        border-bottom: 1px solid #ebebeb;
-      }
+      border-bottom: 1px solid #ebebeb;
     }
 
-    td {
+    > div {
       &:last-child {
         @apply relative w-full;
       }

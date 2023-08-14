@@ -79,32 +79,27 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
   }, [preDataStock]);
 
   return (
-    <table
+    <div
       className={classNames(
-        'border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
-        styles.tableAsk,
+        'overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
         className,
       )}
     >
-      <thead className='hidden bg-primary_blue_light tablet:table-header-group'>
-        <tr>
-          <th colSpan={2} className='border-b border-solid border-[#ebebeb] py-[10px]'>
-            <Text type='body-14-semibold' color='neutral-darkgray'>
-              {t('ask')}
-            </Text>
-          </th>
-        </tr>
-      </thead>
+      <div className='hidden border-b border-solid border-[#ebebeb] bg-primary_blue_light py-[10px] text-center tablet:block'>
+        <Text type='body-14-semibold' color='neutral-darkgray'>
+          {t('ask')}
+        </Text>
+      </div>
 
-      <tbody>
-        <tr className='h-[36px]'>
-          <td
-            className='pl-[6px] align-middle'
+      <div className={styles.stockAsk}>
+        <div className='flex h-[36px] items-center justify-between'>
+          <div
+            className='flex h-full flex-col justify-center pl-[6px]'
             style={{ color: getColor(+sell_price_3, stockData?.r || 0)?.color }}
           >
             <Text
               type='body-12-semibold'
-              className={classNames('inline-block p-[4px]', {
+              className={classNames('inline-block self-start p-[4px]', {
                 [styles.isIncrease]:
                   sell_price_3 !== pre_sell_price_3 && +sell_price_3 > (stockData?.r || 0),
                 [styles.isDecrease]:
@@ -125,8 +120,8 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 backgroundColor: getColor(+sell_price_3, stockData?.r || 0)?.backgroundColor,
               }}
             ></div>
-          </td>
-          <td className='pr-[6px] text-right align-middle'>
+          </div>
+          <div className='pr-[6px] text-right'>
             <Text
               type='body-12-regular'
               className={classNames('inline-block p-[4px] text-[#474D57]', {
@@ -140,17 +135,17 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             >
               {formatNumber((Number(sell_volume_3) || 0) * 10)}
             </Text>
-          </td>
-        </tr>
+          </div>
+        </div>
 
-        <tr className='h-[36px]'>
-          <td
-            className='pl-[6px] align-middle'
+        <div className='flex h-[36px] items-center justify-between'>
+          <div
+            className='flex h-full flex-col justify-center pl-[6px]'
             style={{ color: getColor(+sell_price_2, stockData?.r || 0)?.color }}
           >
             <Text
               type='body-12-semibold'
-              className={classNames('inline-block p-[4px]', {
+              className={classNames('inline-block self-start p-[4px]', {
                 [styles.isIncrease]:
                   sell_price_2 !== pre_sell_price_2 && +sell_price_2 > (stockData?.r || 0),
                 [styles.isDecrease]:
@@ -171,8 +166,8 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 backgroundColor: getColor(+sell_price_2, stockData?.r || 0)?.backgroundColor,
               }}
             ></div>
-          </td>
-          <td className='pr-[6px] text-right align-middle'>
+          </div>
+          <div className='pr-[6px] text-right'>
             <Text
               type='body-12-regular'
               className={classNames('inline-block p-[4px] text-[#474D57]', {
@@ -186,17 +181,17 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             >
               {formatNumber((Number(sell_volume_2) || 0) * 10)}
             </Text>
-          </td>
-        </tr>
+          </div>
+        </div>
 
-        <tr className='h-[36px]'>
-          <td
-            className='pl-[6px] align-middle'
+        <div className='flex h-[36px] items-center justify-between'>
+          <div
+            className='flex h-full flex-col justify-center pl-[6px]'
             style={{ color: getColor(+sell_price_1, stockData?.r || 0)?.color }}
           >
             <Text
               type='body-12-semibold'
-              className={classNames('inline-block p-[4px]', {
+              className={classNames('inline-block self-start p-[4px]', {
                 [styles.isIncrease]:
                   sell_price_1 !== pre_sell_price_1 && +sell_price_1 > (stockData?.r || 0),
                 [styles.isDecrease]:
@@ -217,8 +212,8 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 backgroundColor: getColor(+sell_price_1, stockData?.r || 0)?.backgroundColor,
               }}
             ></div>
-          </td>
-          <td className='pr-[6px] text-right align-middle'>
+          </div>
+          <div className='pr-[6px] text-right'>
             <Text
               type='body-12-regular'
               className={classNames('inline-block p-[4px] text-[#474D57]', {
@@ -232,10 +227,10 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             >
               {formatNumber((Number(sell_volume_1) || 0) * 10)}
             </Text>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -88,29 +88,24 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
   }, [preDataStock]);
 
   return (
-    <table
+    <div
       className={classNames(
-        'border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
-        styles.tableBid,
+        'overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
         className,
       )}
     >
-      <thead className='hidden bg-primary_blue_light tablet:table-header-group'>
-        <tr>
-          <th colSpan={2} className='border-b border-solid border-[#ebebeb] py-[10px]'>
-            <Text type='body-14-semibold' color='neutral-darkgray'>
-              {t('bid')}
-            </Text>
-          </th>
-        </tr>
-      </thead>
+      <div className='hidden border-b border-solid border-[#ebebeb] bg-primary_blue_light py-[10px] text-center tablet:block'>
+        <Text type='body-14-semibold' color='neutral-darkgray'>
+          {t('bid')}
+        </Text>
+      </div>
 
-      <tbody>
-        <tr className='h-[36px]'>
-          <td className='pl-[6px] align-middle'>
+      <div className={styles.stockBid}>
+        <div className='flex h-[36px] items-center justify-between'>
+          <div className='pl-[6px]'>
             <Text
               type='body-12-regular'
-              className={classNames('inline-block p-[4px] text-[#474D57]', {
+              className={classNames('inline-block self-end p-[4px] text-[#474D57]', {
                 [styles.isIncrease]:
                   buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 > (stockData?.r || 0),
                 [styles.isDecrease]:
@@ -121,9 +116,9 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
             >
               {formatNumber((Number(buy_volume_1) || 0) * 10)}
             </Text>
-          </td>
-          <td
-            className='pr-[6px] text-right align-middle'
+          </div>
+          <div
+            className='flex h-full flex-col items-end justify-center pr-[6px]'
             style={{ color: getColor(+buy_price_1, stockData?.r || 0)?.color }}
           >
             <Text
@@ -148,14 +143,14 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
                 backgroundColor: getColor(+buy_price_1, stockData?.r || 0)?.backgroundColor,
               }}
             ></div>
-          </td>
-        </tr>
+          </div>
+        </div>
 
-        <tr className='h-[36px]'>
-          <td className='pl-[6px] align-middle'>
+        <div className='flex h-[36px] items-center justify-between'>
+          <div className='pl-[6px]'>
             <Text
               type='body-12-regular'
-              className={classNames('inline-block p-[4px] text-[#474D57]', {
+              className={classNames('inline-block self-end p-[4px] text-[#474D57]', {
                 [styles.isIncrease]:
                   buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 > (stockData?.r || 0),
                 [styles.isDecrease]:
@@ -166,9 +161,9 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
             >
               {formatNumber((Number(buy_volume_2) || 0) * 10)}
             </Text>
-          </td>
-          <td
-            className='pr-[6px] text-right align-middle'
+          </div>
+          <div
+            className='flex h-full flex-col items-end justify-center pr-[6px]'
             style={{ color: getColor(+buy_price_2, stockData?.r || 0)?.color }}
           >
             <Text
@@ -193,14 +188,14 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
                 backgroundColor: getColor(+buy_price_2, stockData?.r || 0)?.backgroundColor,
               }}
             ></div>
-          </td>
-        </tr>
+          </div>
+        </div>
 
-        <tr className='h-[36px]'>
-          <td className='pl-[6px] align-middle'>
+        <div className='flex h-[36px] items-center justify-between'>
+          <div className='pl-[6px]'>
             <Text
               type='body-12-regular'
-              className={classNames('inline-block p-[4px] text-[#474D57]', {
+              className={classNames('inline-block self-end p-[4px] text-[#474D57]', {
                 [styles.isIncrease]:
                   buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 > (stockData?.r || 0),
                 [styles.isDecrease]:
@@ -211,9 +206,9 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
             >
               {formatNumber((Number(buy_volume_3) || 0) * 10)}
             </Text>
-          </td>
-          <td
-            className='pr-[6px] text-right align-middle'
+          </div>
+          <div
+            className='flex h-full flex-col items-end justify-center pr-[6px]'
             style={{ color: getColor(+buy_price_3, stockData?.r || 0)?.color }}
           >
             <Text
@@ -238,10 +233,10 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
                 backgroundColor: getColor(+buy_price_3, stockData?.r || 0)?.backgroundColor,
               }}
             ></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
