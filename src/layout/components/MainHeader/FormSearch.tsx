@@ -92,6 +92,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const handleSubmit = async () => {
     const value = await form.getFieldValue('search');
     setQuery(value);
+    cancel();
     if (value === '' || value === undefined) {
       setInputFocus(true);
       setShowRecent(true);
@@ -146,7 +147,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     useRemoveItemRecent.run(code);
   };
 
-  const { run } = useDebounceFn(
+  const { run, cancel } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search');
       setQuery(value);
@@ -165,7 +166,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       }
     },
     {
-      wait: 500,
+      wait: 300,
     },
   );
 
