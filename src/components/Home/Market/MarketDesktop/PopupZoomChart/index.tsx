@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Modal from '@components/UI/Modal/Modal';
 
-import { ChartIframe } from '..';
+import MarketChartIframe from '../ChartIframe';
 
 interface IPopupZoomChartProps {
   visible: boolean;
@@ -13,10 +13,19 @@ interface IPopupZoomChartProps {
 }
 
 const PopupZoomChart = ({ visible, onClose, mc, oIndex }: IPopupZoomChartProps) => {
+  const [value, setValue] = useState(1);
+
   return (
-    <Modal visible={visible} onClose={onClose} className='max-w-[90vw]'>
+    <Modal
+      visible={visible}
+      onClose={() => {
+        onClose();
+        setValue((prev) => prev + 1);
+      }}
+      className='max-w-[90vw]'
+    >
       <div className='mt-[28px]'>
-        <ChartIframe mc={mc} oIndex={oIndex} />
+        <MarketChartIframe mc={mc} forceUpdate={value} oIndex={oIndex} />
       </div>
     </Modal>
   );

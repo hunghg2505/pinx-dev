@@ -6,6 +6,7 @@ interface ChartIframeProps {
   stockCode: string;
   refPrice?: number;
   color: string;
+  forceUpdate?: any;
 }
 
 const ChartIframe = ({ stockCode, refPrice, color }: ChartIframeProps) => {

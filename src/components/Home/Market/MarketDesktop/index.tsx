@@ -7,6 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
 
+import MarketChartIframe from './ChartIframe';
 import styles from './index.module.scss';
 import PopupZoomChart from './PopupZoomChart';
 
@@ -28,19 +29,6 @@ export const getMarketCodeChart = (marketCode: string) => {
   }
 
   return '';
-};
-
-export const ChartIframe = ({ mc, oIndex }: { mc: string; oIndex: number }) => {
-  const { i18n } = useTranslation();
-
-  return (
-    <iframe
-      src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
-        mc,
-      )}&type=INDEX&ref=${oIndex}&lang=${i18n.language}`}
-      className='h-[350px] w-full rounded-[8px]'
-    ></iframe>
-  );
 };
 
 const MarketDesktop = () => {
@@ -143,7 +131,7 @@ const MarketDesktop = () => {
                     </div>
                   </div>
 
-                  <div className='relative mt-[12px]'>
+                  <div className='relative mt-[12px] pt-[36px]'>
                     {/* icon maximize */}
                     <div
                       onClick={() => handelOpenPopup(item.mc, item.oIndex)}
@@ -156,7 +144,7 @@ const MarketDesktop = () => {
                       />
                     </div>
 
-                    <ChartIframe mc={item.mc} oIndex={item.oIndex} />
+                    <MarketChartIframe mc={item.mc} oIndex={item.oIndex} />
                   </div>
                 </div>
               </TabPane>
