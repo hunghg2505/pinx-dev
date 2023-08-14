@@ -53,6 +53,9 @@ const showApiError = (error: any) => {
         break;
       }
       default: {
+        toast.success(`${error?.response?.status} \n\n ${error?.response?.url}`, {
+          position: 'top-right',
+        });
         break;
       }
     }

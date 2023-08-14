@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 const LoginHeader = dynamic(() => import('../components/LoginHeader'));
 
@@ -25,14 +27,25 @@ const LoginLayout = ({ children }: any) => {
         </div>
         <main className='flex flex-col laptop:w-[60%]'>
           <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>
-            <img
-              src='/static/images/pinex_logo.png'
-              alt=''
-              width='0'
-              height='0'
-              sizes='50vw'
-              className='!mb-14 !mt-[15vh] h-[72px] w-[72px] mobile:hidden laptop:block'
-            />
+            <CustomLink href={ROUTE_PATH.HOME}>
+              <div className='!mb-14 !mt-[15vh] flex items-center'>
+                <img
+                  src='/static/images/pinex_logo.png'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='50vw'
+                  className='h-[72px] w-[72px] mobile:hidden laptop:block'
+                />
+
+                <img
+                  src='/static/logo/logo-website-pinetree.svg'
+                  alt='Logo pinetree'
+                  className='ml-[16px] hidden h-[44px] laptop:block'
+                />
+              </div>
+            </CustomLink>
+
             <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 laptop:min-w-min laptop:px-0'>
               <div className='sm:max-w-md md:mt-0 xl:p-0 w-full rounded-lg'>{children}</div>
             </div>

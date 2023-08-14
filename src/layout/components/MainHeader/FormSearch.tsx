@@ -76,21 +76,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   useClickAway(() => {
     setInputFocus(false);
     setShowRecent(false);
-    setShowPopup(false);
+    // setShowPopup(false);
   }, ref);
 
   useClickAway((e: any) => {
     const main: any = document?.querySelector('main');
-
     if (main.contains(e.srcElement)) {
       setShowPopup(false);
     }
   }, searchResultPopupRef);
 
-  // const handleParam =  () => setQuery(form.getFieldValue('search'));
-
   const handleSubmit = async () => {
-    const value = await form.getFieldValue('search');
+    const value = await form.getFieldValue('search').replaceAll('^ +|(?<=\\d{4} ) | [^ ]+ *$', '');
     setQuery(value);
     cancel();
     if (value === '' || value === undefined) {
@@ -149,7 +146,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const { run, cancel } = useDebounceFn(
     () => {
-      const value = form.getFieldValue('search');
+      const value = form.getFieldValue('search').replaceAll('^ +|(?<=\\d{4} ) | [^ ]+ *$', '');
       setQuery(value);
       if (value === '' || value === undefined) {
         setShowPopup(false);
