@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useEffect, useRef } from 'react';
 
 import dayjs from 'dayjs';
+import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -15,6 +16,7 @@ import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { imageStock, validateHTML } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -40,9 +42,11 @@ const PopupFollowStock = ({
   const [form] = Form.useForm();
   const { userLoginInfo } = useUserLoginInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
 
   const requestShareStockAct = useShareStockActivity({
-    onSuccess: () => {
+    onSuccess: (res: any) => {
+      setPostDetailStatus({ ...postDetailStatus, themeWatchlist: res?.data });
       toast(() => <Notification type='success' message={t('share_stock.message_success')} />);
       onClose();
       onRefreshStockActivities();

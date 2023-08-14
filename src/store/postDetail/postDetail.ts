@@ -7,6 +7,7 @@ export interface IPostDetailStatus {
   idPostLike?: string;
   idCustomerFollow?: number;
   themeWatchlist: any;
+  stockWatchList: any;
 }
 
 export const initialPostDetailStatus: IPostDetailStatus = {
@@ -16,6 +17,7 @@ export const initialPostDetailStatus: IPostDetailStatus = {
   idPostLike: '',
   idCustomerFollow: 0,
   themeWatchlist: undefined,
+  stockWatchList: undefined,
 };
 
 export const postDetailStatusAtom = atom({
