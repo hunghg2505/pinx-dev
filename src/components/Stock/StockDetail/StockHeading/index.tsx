@@ -146,8 +146,18 @@ const StockHeading = ({
           >
             <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
             <Text type='body-12-regular'>
-              {`${unitOt}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
-              {`${unitChangePc}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
+              {`${unitOt}${formatStringToNumber(
+                String(dataStock?.ot),
+                true,
+                dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
+              )}`}{' '}
+              /{' '}
+              {`${unitChangePc}${formatStringToNumber(
+                String(dataStock?.changePc),
+                true,
+                dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
+              )}`}
+              %
             </Text>
           </div>
         )}
