@@ -742,7 +742,7 @@ const Compose = (props: IProps) => {
         <EditorContent
           editor={editor}
           className={classNames(
-            'relative z-10 min-h-[250px] overflow-y-auto p-4 px-[5px] desktop:min-h-[360px]',
+            'relative z-10 min-h-[250px] overflow-y-auto p-4 px-[5px] galaxy-max:p-2 desktop:min-h-[360px]',
             {
               'desktop:!min-h-[200px]': isShowImageActivities,
             },
@@ -774,23 +774,23 @@ const Compose = (props: IProps) => {
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
 
       <div className='flex justify-between'>
-        <div className='flex gap-x-[6px] desktop:gap-x-[16px]'>
+        <div className='flex gap-x-[6px] galaxy-max:gap-[4px] desktop:gap-x-[16px]'>
           <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9] galaxy-max:h-[32px] galaxy-max:w-[32px]'
             onClick={onAddPeople}
           >
             <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
           </div>
 
           <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9] galaxy-max:h-[32px] galaxy-max:w-[32px]'
             onClick={onAddStock}
           >
             <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
           </div>
 
           <div
-            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
+            className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9] galaxy-max:h-[32px] galaxy-max:w-[32px]'
             onClick={onAddHashTag}
           >
             <IconHashTag />
@@ -800,7 +800,7 @@ const Compose = (props: IProps) => {
 
         <div
           className={classNames(
-            'flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]',
+            'flex h-[38px] w-[93px] cursor-pointer items-center justify-center rounded-[1000px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)] galaxy-max:h-[32px] galaxy-max:w-[32px]',
             {
               'pointer-events-none':
                 requestAddPost?.loading ||
@@ -821,8 +821,9 @@ const Compose = (props: IProps) => {
           ) : (
             <IconSend />
           )}
-          <Text type='body-14-medium' color='cbwhite' className='ml-[10px]'>
+          <Text type='body-14-medium' color='cbwhite' className='ml-[10px] galaxy-max:hidden'>
             {t('post_action')}
+            {/* <IconSend /> */}
           </Text>
         </div>
       </div>

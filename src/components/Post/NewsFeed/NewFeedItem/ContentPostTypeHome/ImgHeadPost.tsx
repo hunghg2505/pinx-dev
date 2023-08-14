@@ -15,8 +15,8 @@ const ImageHeadPost = ({ headImageUrl }: IPropsImageHeadPost) => {
     <>
       <Image
         src={headImageUrl}
-        alt=""
-        className='absolute left-0 top-0 h-full w-full rounded-[9px]'
+        alt=''
+        className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover object-center'
         width={641}
         height={360}
         // blurDataURL="data:..." automatically provided

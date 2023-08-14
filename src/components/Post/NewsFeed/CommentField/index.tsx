@@ -408,7 +408,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className=' mb-[20px] mobile:block mobile:bg-white  tablet:flex tablet:px-0 desktop:mt-[12px]'>
+      <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
           alt=''

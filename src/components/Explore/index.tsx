@@ -124,7 +124,11 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='mb-[16px] galaxy-max:text-[18px]'
+        >
           {t('top_keyword_search')}
         </Text>
 
@@ -265,7 +269,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
+        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px] galaxy-max:text-[18px]'>
           {t('top_watching_stock')}
         </Text>
         <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>

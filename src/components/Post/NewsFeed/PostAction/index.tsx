@@ -160,7 +160,7 @@ const PostAction = (props: IPostActionProps) => {
             color='primary-5'
             className={classNames({ '!text-[#589DC0]': like && isLogin })}
           >
-            {totalLike > 0 ? totalLike : ''} {t('like')}
+            {totalLike > 0 ? totalLike : ''} <span className='galaxy-max:hidden'>{t('like')}</span>
           </Text>
         </div>
         <div
@@ -173,7 +173,8 @@ const PostAction = (props: IPostActionProps) => {
             className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
           <Text type='body-14-medium' color='primary-5'>
-            {totalComments || ''} {t('comment')}
+            <span>{totalComments || ''}</span>{' '}
+            <span className=' galaxy-max:hidden'>{t('comment')}</span>
           </Text>
         </div>
         <ModalShare urlPost={urlPost}>
@@ -183,7 +184,7 @@ const PostAction = (props: IPostActionProps) => {
               alt=''
               className='mr-[8px] h-[20px] w-[20px] object-contain'
             />
-            <Text type='body-14-medium' color='primary-5'>
+            <Text className='galaxy-max:hidden' type='body-14-medium' color='primary-5'>
               {t('share')}
             </Text>
           </div>

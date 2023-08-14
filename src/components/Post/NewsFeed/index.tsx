@@ -149,7 +149,7 @@ const NewsFeed = (props: IProps) => {
         />
 
         {isLogin && !isNewFeedExplore && (
-          <div className='mt-4 tablet:block desktop:ml-[64px] '>
+          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
               refresh={refreshComment}
@@ -162,7 +162,7 @@ const NewsFeed = (props: IProps) => {
         {!!countComment && !isNewFeedExplore && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
-              <div className='mt-[22px]'>
+              <div className='mt-[22px] galaxy-max:mt-[18px]'>
                 <ItemComment
                   onNavigate={onNavigate}
                   data={commentsOfPost?.data?.list?.[0]}
