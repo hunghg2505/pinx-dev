@@ -38,7 +38,7 @@ const Mobile = () => {
           replace({ query: { ...query, tab: key } });
         }}
       >
-        <TabPane tab={t('posts')} key='post' className='px-[10px]'>
+        <TabPane tab={t('posts')} key='post'>
           <Posts />
         </TabPane>
         <TabPane tab={t('watchlist')} key='watchlist'>
@@ -46,12 +46,8 @@ const Mobile = () => {
             <WatchList />
           </div>
         </TabPane>
-        <TabPane
-          className='px-[10px]'
-          tab={<div className='flex justify-center'>{t('assets')}</div>}
-          key='assets'
-        >
-          <div className='pb-[50px] tablet:px-0 tablet:pb-0'>
+        <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
+          <div className='pb-[50px] tablet:pb-0'>
             <Assets />
           </div>
         </TabPane>
