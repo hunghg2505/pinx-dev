@@ -350,14 +350,20 @@ export const requestUnFollowUser = (id: number) => {
   return privateRequest(requestPist.put, API_PATH.PRIVATE_UNFOLLOW_USER + `?idFriend=${id}`);
 };
 export const useGetWatchList = () => {
-  const { data } = useRequest(() => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
-      : new Promise<void>((resolve) => {
-          resolve();
-        });
-  });
+  const { data } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
+        : new Promise<void>((resolve) => {
+            resolve();
+          });
+    },
+    {
+      cacheKey: 'watchList',
+      staleTime: -1,
+    },
+  );
 
   return {
     watchList: data?.data,

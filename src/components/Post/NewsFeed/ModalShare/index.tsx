@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useRequest } from 'ahooks';
 import { useTranslation } from 'next-i18next';
@@ -16,21 +16,19 @@ const SHARE_THIS_SCRIPT_ID = 'share-this-script';
 interface IModalShareProps {
   urlPost: string;
   children?: React.ReactNode;
+  modalShareVisible: boolean;
+  setModalShareVisible: (value: boolean) => void;
 }
 
-const ModalShare = ({ urlPost, children }: IModalShareProps) => {
+const ModalShare = ({
+  urlPost,
+  children,
+  modalShareVisible,
+  setModalShareVisible,
+}: IModalShareProps) => {
   const { t } = useTranslation();
   const [isCopied, setIsCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  const urlFormat = useMemo(() => {
-    if (!window) {
-      return urlPost;
-    }
-
-    return window.location.origin + urlPost;
-  }, [urlPost]);
 
   const requestGetTotalShare = useRequest(getTotalSharePost, {
     manual: true,
@@ -40,7 +38,7 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
     handleAppendShareThisScript();
     handleAppendZaloScript();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [modalShareVisible]);
 
   const handleCopy = () => {
     if (isCopied) {
@@ -48,7 +46,7 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
     }
 
     inputRef.current?.select();
-    navigator.clipboard.writeText(urlFormat);
+    navigator.clipboard.writeText(urlPost);
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
@@ -59,7 +57,7 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
   };
 
   const handleAppendZaloScript = () => {
-    if (!visible) {
+    if (!modalShareVisible) {
       return;
     }
 
@@ -79,7 +77,7 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
   };
 
   const handleAppendShareThisScript = () => {
-    if (!visible) {
+    if (!modalShareVisible) {
       return;
     }
 
@@ -109,18 +107,18 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
   };
 
   const onOpen = () => {
-    setVisible(true);
-    requestGetTotalShare.run(urlFormat);
+    setModalShareVisible(true);
+    requestGetTotalShare.run(urlPost);
   };
 
   return (
     <>
       <span onClick={onOpen}>{children}</span>
       <Modal
-        visible={visible}
+        visible={modalShareVisible}
         onClose={() => {
           setIsCopied(false);
-          setVisible(false);
+          setModalShareVisible(false);
         }}
         className={styles.modalShare}
       >
@@ -132,7 +130,7 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
             <div className='mb-[12px] text-center'>
               <div
                 className='zalo-share-button'
-                data-href={urlFormat}
+                data-href={urlPost}
                 data-oaid={ZALO_OAID}
                 data-layout='4'
                 data-color='blue'
@@ -144,14 +142,14 @@ const ModalShare = ({ urlPost, children }: IModalShareProps) => {
               <Text type='body-14-medium' color='neutral-4' className='mb-[12px]'>
                 {t('or_share_to')}:
               </Text>
-              <div className='sharethis-inline-share-buttons gap-4' data-url={urlFormat}></div>
+              <div className='sharethis-inline-share-buttons gap-4' data-url={urlPost}></div>
             </div>
 
             <div className='field mt-[12px] flex h-[44px] items-center justify-between rounded-[8px]'>
               <input
                 type='text'
                 readOnly
-                value={urlFormat}
+                value={urlPost}
                 className='h-full w-full flex-1 rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
                 ref={inputRef}
               />

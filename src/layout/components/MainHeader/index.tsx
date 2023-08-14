@@ -62,7 +62,7 @@ const MenuMobile = () => {
       </span>
       <div
         className={classNames(
-          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[100px] pt-[12px] [transition:0.3s] desktop:hidden ',
+          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[30px] pt-[12px] [transition:0.3s] desktop:hidden ',
           {
             'left-[0]': isShowNavigate,
             'top-[55px]': isRouteSetting,
@@ -158,7 +158,7 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px]  desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (

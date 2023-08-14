@@ -21,7 +21,7 @@ import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
-import { TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { PINETREE_LINK, TERM_AND_CONDITION_LINK } from '@utils/constant';
 import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
@@ -131,8 +131,8 @@ const Register = (props: IProps) => {
   return (
     <>
       <Form
-        className={classNames('mt-10 mx-auto space-y-6 laptop:w-full ', {
-          'max-w-[475px]': !isModal
+        className={classNames('mx-auto mt-10 space-y-6 laptop:w-full ', {
+          'max-w-[475px]': !isModal,
         })}
         form={form}
         onFinish={onSubmit}
@@ -243,6 +243,25 @@ const Register = (props: IProps) => {
               </Text>
             </Link>
           </div>
+        )}
+
+        {!isModal && (
+          <a
+            href={PINETREE_LINK}
+            target='_blank'
+            rel='noreferrer'
+            className='!mt-[24px] flex items-center justify-center laptop:!mt-[48px]'
+          >
+            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D]'>
+              {t('a_product_of')}
+            </Text>
+            <img
+              src='/static/images/pinetree_logo.png'
+              alt=''
+              sizes='100vw'
+              className='h-[40px] w-[105px] laptop:h-[55px] laptop:w-[140px]'
+            />
+          </a>
         )}
       </Form>
     </>

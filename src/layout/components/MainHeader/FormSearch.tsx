@@ -81,7 +81,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // const handleParam =  () => setQuery(form.getFieldValue('search'));
 
   const handleSubmit = async () => {
-    const value = await form.getFieldValue('search').replaceAll(/\s/g,'');
+    const value = await form.getFieldValue('search');
     setQuery(value);
     if (value === '' || value === undefined) {
       setInputFocus(true);
@@ -100,7 +100,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'company' },
+        query: { keyword: query, tab: 'media' },
       });
       // form.setFieldValue('search', '');
       setInputFocus(false);
@@ -247,7 +247,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           visible={showRecent && listRecent?.length > 0 && isLogin && !valueInput}
           className={classNames(
             styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[12px] bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
           {listRecent?.length > 0 && (
@@ -287,7 +287,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           visible={showPopup}
           className={classNames(
             styles.boxShadown,
-            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] min-h-[144px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
+            'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
           {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (

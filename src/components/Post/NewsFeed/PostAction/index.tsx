@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import { likePost, unlikePost } from '@components/Post/service';
+import { likePost, unlikePost, useGetTotalSharePost } from '@components/Post/service';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -42,11 +42,27 @@ const PostAction = (props: IPostActionProps) => {
   const [like, setLike] = React.useState(isLike);
   const [totalLike, setTotalLike] = React.useState(totalLikes);
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const [urlPostFormat, setUrlPostFormat] = useState('');
+  const [modalShareVisible, setModalShareVisible] = useState(false);
 
   React.useEffect(() => {
     setLike(isLike);
     setTotalLike(totalLikes);
   }, [isLike, totalLikes]);
+
+  useEffect(() => {
+    if (!window) {
+      setUrlPostFormat(urlPost);
+    }
+
+    setUrlPostFormat(window.location.origin + urlPost);
+  }, [urlPost]);
+
+  useEffect(() => {
+    if (!modalShareVisible) {
+      onGetTotalShare(urlPostFormat);
+    }
+  }, [modalShareVisible, urlPostFormat]);
 
   const useLikePost = useRequest(
     () => {
@@ -136,6 +152,8 @@ const PostAction = (props: IPostActionProps) => {
     }
   };
 
+  const { onGetTotalShare, total } = useGetTotalSharePost();
+
   return (
     <>
       <div
@@ -177,7 +195,11 @@ const PostAction = (props: IPostActionProps) => {
             <span className=' galaxy-max:hidden'>{t('comment')}</span>
           </Text>
         </div>
-        <ModalShare urlPost={urlPost}>
+        <ModalShare
+          urlPost={urlPostFormat}
+          modalShareVisible={modalShareVisible}
+          setModalShareVisible={setModalShareVisible}
+        >
           <div className='report flex cursor-pointer flex-row items-center justify-center'>
             <img
               src='/static/icons/iconShare.svg'
@@ -185,7 +207,7 @@ const PostAction = (props: IPostActionProps) => {
               className='mr-[8px] h-[20px] w-[20px] object-contain'
             />
             <Text className='galaxy-max:hidden' type='body-14-medium' color='primary-5'>
-              {t('share')}
+              {total || ''} {t('share')}
             </Text>
           </div>
         </ModalShare>

@@ -19,7 +19,13 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
+import {
+  ROUTE_PATH,
+  formatNumber,
+  formatStringToNumber,
+  getStockColor,
+  imageStock,
+} from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -45,6 +51,7 @@ import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
 import PopupFollowStock from '../Popup/PopupFollowStock';
 import PopupReview from '../Popup/PopupReview';
+import PopupZoomChart from '../Popup/PopupZoomChart';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
@@ -95,6 +102,7 @@ const StockDetail = () => {
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
+  const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
   const { isMobile } = useResponsive();
@@ -157,9 +165,7 @@ const StockDetail = () => {
 
   useEffect(() => {
     return () => {
-      if (dataStock) {
-        requestLeaveChannel(dataStock.sym);
-      }
+      requestLeaveChannel(stockCode);
 
       setCurrentTab(TabType.MOVEMENTS);
     };
@@ -213,9 +219,10 @@ const StockDetail = () => {
 
   socket.on('public', (message: any) => {
     const data = message.data;
-    if (!dataStock || data.sym !== dataStock?.sym) {
+    if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
       return;
     }
+    setPreDataStock(dataStock);
 
     if (data?.id === 3220 || data?.id === 3250) {
       const tempData = { ...data };
@@ -244,8 +251,6 @@ const StockDetail = () => {
         g3: data.g3,
       }));
     }
-
-    setPreDataStock(dataStock);
   });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
@@ -419,6 +424,10 @@ const StockDetail = () => {
     return null;
   }, [taggingInfo]);
 
+  const handleOpenPopupZoom = () => {
+    setOpenPopupZoomChart(true);
+  };
+
   return (
     <div className='p-[10px] desktop:p-0'>
       <PopupConfirmReview
@@ -452,6 +461,16 @@ const StockDetail = () => {
         stockCode={stockCode}
         background={isFollowedStock ? STOCK_FOLLOW_BG : STOCK_UN_FOLLOW_BG}
         onRefreshStockActivities={refreshStockActivities}
+      />
+
+      <PopupZoomChart
+        visible={openPopupZoomChart}
+        onClose={() => {
+          setOpenPopupZoomChart(false);
+        }}
+        stockCode={stockCode}
+        refPrice={dataStock?.r}
+        color={chartColorFormat}
       />
 
       <div className='box-shadow card-style'>
@@ -494,7 +513,8 @@ const StockDetail = () => {
             <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
               <img
                 src={imageStock(stockCode)}
-                alt={`Logo ${stockDetail?.data?.name}`}
+                // alt={`Logo ${stockDetail?.data?.name}`}
+                alt=''
                 className='block'
               />
             </div>
@@ -519,58 +539,80 @@ const StockDetail = () => {
           </div>
 
           <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
-            <div className='flex items-center'>
-              <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-                {stockDetails?.data.watchingNo}+
-              </Text>
-
+            {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
               <div className='flex items-center'>
-                {stockDetails?.data.watchingList
-                  .slice(0, 3)
-                  .reverse()
-                  .map((item, index) => (
-                    <img
-                      key={index}
-                      src={item.avatar}
-                      alt='Subscriber user'
-                      className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                    />
-                  ))}
-              </div>
-            </div>
+                <Text type='body-12-regular' className='primary-5 mr-[4px]'>
+                  {stockDetails?.data.watchingNo}+
+                </Text>
 
-            <div
-              className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
-                [styles.isPriceChange]: isPriceChange,
-              })}
-              style={{
-                color: getStockColor(
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-                backgroundColor: isPriceChange
-                  ? getStockColor(
-                      dataStock?.lastPrice || 0,
-                      dataStock?.c || 0,
-                      dataStock?.f || 0,
-                      dataStock?.r || 0,
-                    )
-                  : 'transparent',
-              }}
-            >
-              <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
-              <Text type='body-12-regular'>
-                {`${unit}${dataStock?.ot || 0}`} / {`${unit}${dataStock?.changePc || 0}`}%
-              </Text>
-            </div>
+                <div className='flex items-center'>
+                  {stockDetails?.data.watchingList
+                    .slice(0, 3)
+                    .reverse()
+                    .map((item, index) => (
+                      <img
+                        key={index}
+                        src={item.avatar}
+                        alt='Subscriber user'
+                        className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
+                      />
+                    ))}
+                </div>
+              </div>
+            )}
+
+            {dataStock?.lastPrice === 0 ? (
+              <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
+                <Text type='body-16-medium'>-</Text>
+                <Text type='body-12-regular'>-/-%</Text>
+              </div>
+            ) : (
+              <div
+                className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
+                  [styles.isPriceChange]: isPriceChange,
+                })}
+                style={{
+                  color: getStockColor(
+                    dataStock?.lastPrice || 0,
+                    dataStock?.c || 0,
+                    dataStock?.f || 0,
+                    dataStock?.r || 0,
+                  ),
+                  backgroundColor: isPriceChange
+                    ? getStockColor(
+                        dataStock?.lastPrice || 0,
+                        dataStock?.c || 0,
+                        dataStock?.f || 0,
+                        dataStock?.r || 0,
+                      )
+                    : 'transparent',
+                }}
+              >
+                <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
+                <Text type='body-12-regular'>
+                  {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
+                  {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
+                </Text>
+              </div>
+            )}
           </div>
         </div>
 
         {/* chart */}
-        <div className='mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
+        <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
           <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
+
+          {/* icon maximize */}
+          <div
+            onClick={handleOpenPopupZoom}
+            className='absolute right-[6px] top-[8px] flex cursor-pointer items-center justify-center'
+          >
+            <img
+              src='/static/icons/icon_maximize.svg'
+              alt='Icon maximize'
+              className='h-[18px] w-[18px] object-contain'
+            />
+          </div>
         </div>
 
         {/* tab */}
@@ -637,10 +679,15 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
           </div>
 
-          {isMobile ? (
-            <div className={classNames('flex items-center overflow-x-auto', styles.noScrollbar)}>
+          {isMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
+            <div
+              className={classNames(
+                'flex items-center gap-x-[14px] overflow-x-auto',
+                styles.noScrollbar,
+              )}
+            >
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='min-w-[112px]' key={index} data={item} />
+                <ProductItem className='mr-0 min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -648,7 +695,7 @@ const StockDetail = () => {
               {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickPrev()}
-                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                  className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
                 >
                   <img
                     src='/static/icons/iconGrayPrev.svg'
@@ -658,18 +705,19 @@ const StockDetail = () => {
                 </div>
               )}
 
-              <div className='max-w-[700px] overflow-hidden'>
+              <div className='overflow-hidden'>
                 <Slider
                   {...settings}
                   ref={refSlide}
                   draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
-                  variableWidth={
-                    stockDetail?.data?.products &&
-                    stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-                  }
+                  // variableWidth={
+                  //   stockDetail?.data?.products &&
+                  //   stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+                  // }
+                  variableWidth
                 >
                   {stockDetail?.data?.products.map((item, index) => (
-                    <ProductItem key={index} data={item} />
+                    <ProductItem className='mr-[14px]' key={index} data={item} />
                   ))}
                 </Slider>
               </div>
@@ -677,7 +725,7 @@ const StockDetail = () => {
               {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
                 <div
                   onClick={() => refSlide.current.slickNext()}
-                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-2/4 translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+                  className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
                 >
                   <img
                     src='/static/icons/iconGrayNext.svg'

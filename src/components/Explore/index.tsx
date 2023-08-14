@@ -37,17 +37,17 @@ const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
 });
 const settings = {
   dots: false,
-  infinite: false,
+  infinite: true,
   speed: 500,
   slidesToShow: 4,
-  slidesToScroll: 1,
-  // swipeToSlide: true,
+  slidesToScroll: 3,
+  swipeToSlide: true,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
       },
     },
     {

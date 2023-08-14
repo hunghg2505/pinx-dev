@@ -196,7 +196,7 @@ export const getCommentsOfPost = (postId: string, params?: any) => {
 };
 export const useCommentsOfPost = (postId: string) => {
   const { data, loading, refresh } = useRequest(
-    () => {
+    async () => {
       const isLogin = !!getAccessToken();
       return isLogin ? getCommentsOfPostAuth(postId) : getCommentsOfPost(postId);
     },
@@ -299,6 +299,17 @@ export const requestHidePost = (id: string) => {
 export const getTotalSharePost = (url: string): Promise<IResponseTotalShare> => {
   const API_URL = 'https://count-server.sharethis.com/v2.0/get_counts?url=';
   return request.get(API_URL + url);
+};
+
+export const useGetTotalSharePost = () => {
+  const { data, run } = useRequest((url: string) => getTotalSharePost(url), {
+    manual: true,
+  });
+
+  return {
+    total: data?.shares.all,
+    onGetTotalShare: run,
+  };
 };
 
 // hide comment

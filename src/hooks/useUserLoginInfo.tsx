@@ -48,7 +48,7 @@ const initialUserLoginInfo: InitUserLoginInfo = {
 const isReadTermsAtom = atomWithStorage('isReadTerms', false);
 const isForceAllowTermAtom = atomWithStorage('forceAllowTerm', false);
 const userTypeAtom = atomWithStorage('userType', '');
-const userLoginInfoAtom = atom({ ...initialUserLoginInfo });
+export const userLoginInfoAtom = atom({ ...initialUserLoginInfo });
 
 export const useUserLoginInfo = () => {
   const [userLoginInfo, setUserLoginInfo] = useAtom(userLoginInfoAtom);

@@ -132,7 +132,7 @@ const ItemComment = (props: IProps) => {
       window.removeEventListener('click', handleClick);
     };
   }, []);
-  const message = data?.message && formatMessage(data?.message, data);
+  const message = data?.message && formatMessage(data?.message, data, userLoginInfo?.id);
   const name = data?.customerInfo?.displayName || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';

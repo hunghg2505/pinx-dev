@@ -13,6 +13,7 @@ import { PostNormally } from '@components/Post/NewsFeed/NewFeedItem/ContentPostT
 import { VietStockNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/VietStockNews';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage } from '@utils/common';
 
@@ -27,6 +28,7 @@ const IMAGE_COMPANY_URL = 'https://static.pinetree.com.vn/upload/images/companie
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
+  const { userLoginInfo } = useUserLoginInfo();
   const { postDetail, onNavigate, pinned, isPostDetailPath } = props;
   const [readMore, setReadMore] = useState(false);
 
@@ -64,7 +66,8 @@ const ContentPostTypeHome = (props: IProps) => {
       url: metaData?.url?.split('/')?.slice(-1),
       urlImages: postDetail?.post?.urlImages,
       message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+        postDetail?.post?.message &&
+        formatMessage(postDetail?.post?.message, postDetail?.post, userLoginInfo?.id),
       urlStock,
       iconPost,
       postDetailUrl,

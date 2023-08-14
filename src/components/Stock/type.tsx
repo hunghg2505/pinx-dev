@@ -492,6 +492,7 @@ export interface IResponseStockTrade {
   stockTrade?: {
     data: IStockTrade[];
   };
+  loading: boolean;
 }
 
 export interface IResponseStockIntraday {
@@ -501,4 +502,5 @@ export interface IResponseStockIntraday {
       total: number;
     }[];
   };
+  loading: boolean;
 }
