@@ -4,7 +4,13 @@ import Link from 'next/link';
 
 import { IStock } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
+import {
+  ROUTE_PATH,
+  formatNumber,
+  formatStringToNumber,
+  getStockColor,
+  imageStock,
+} from '@utils/common';
 
 interface IStockItemProps {
   data: IStock;
@@ -18,8 +24,9 @@ const StockItem = ({ data }: IStockItemProps) => {
   }, [data]);
 
   const renderPricePc = () => {
-    const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
-    return changePc + '/' + data.changePc + '%';
+    const changePc =
+      (+data.changePrice > 0 ? '+' : '') + formatStringToNumber(data.changePrice, true, 2);
+    return changePc + '/' + formatStringToNumber(data.changePc, true, 2) + '%';
   };
 
   return (
