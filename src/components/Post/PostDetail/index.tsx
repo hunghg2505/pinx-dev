@@ -14,6 +14,7 @@ import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 // import SkeletonLoading from '@components/UI/Skeleton';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -68,14 +69,18 @@ const PostDetail = () => {
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const { run: initUserProfile } = useProfileInitial();
   const [postData, setPostData] = useState<any>();
-  console.log('🚀 ~ file: index.tsx:71 ~ PostDetail ~ postData:', postData);
   const postID = router.query.id;
   React.useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
 
   // is login
-  const { refresh, postDetail, run } = usePostDetail(String(postID), {
+  const {
+    refresh,
+    postDetail,
+    run,
+    loading: loadingPostDetail,
+  } = usePostDetail(String(postID), {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
@@ -114,7 +119,7 @@ const PostDetail = () => {
   };
 
   const { refLastElement } = useObserver();
-  const isHaveComment = data?.list?.length > 0;
+  const isHaveComment = postData?.totalChildren > 0;
 
   const countComment = postData?.totalChildren || 0;
   const onGoToBack = () => {
@@ -172,7 +177,9 @@ const PostDetail = () => {
     }
     initUserProfile();
   }, [userType, isReadTerms]);
-
+  if (loadingPostDetail) {
+    return <SkeletonLoading />;
+  }
   return (
     <>
       {popupStatus.popupAccessLinmit && (
