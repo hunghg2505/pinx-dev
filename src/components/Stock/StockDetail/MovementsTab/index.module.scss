@@ -30,16 +30,6 @@
   }
 }
 
-.tablePrice {
-  tr {
-    &:not(:last-child) {
-      td {
-        border-bottom: 1px solid #ebebeb;
-      }
-    }
-  }
-}
-
 @keyframes isIncrease {
   to {
     background-color: #8ecf4a;
@@ -77,4 +67,16 @@
 .isEqual {
   animation-name: isEqual;
   animation-duration: 0.4s;
+}
+
+.tablePrice {
+  tr {
+    &:not(:last-child) {
+      @media (min-width: 768px) {
+        td {
+          border-bottom: 1px solid #ebebeb;
+        }
+      }
+    }
+  }
 }
