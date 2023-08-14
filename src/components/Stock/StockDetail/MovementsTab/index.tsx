@@ -132,84 +132,58 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
   }, [preDataStock]);
 
   const {
-    isTotalVolIncrease,
-    isTotalVolDecrease,
-    isFbVolIncrease,
-    isFbVolDecrease,
-    isFRoomIncrease,
-    isFRoomDecrease,
-    isFsVolumeIncrease,
-    isFsVolumeDecrease,
-    isTotalValIncrease,
-    isTotalValDecrease,
+    isLastPriceGreaterThanRefPrice,
+    isRefPriceGreaterThanLastPrice,
+    isLastPriceEqualRefPrice,
+    isTotalVolChange,
+    isTotalValChange,
+    isFbVolChange,
+    isFRoomChange,
+    isFsVolumeChange,
   } = useMemo(() => {
-    const isTotalVolIncrease =
-      stockData?.lot &&
-      preDataStock?.lot &&
-      stockData?.lot !== preDataStock?.lot &&
-      stockData?.lot > preDataStock?.lot;
+    const isLastPriceGreaterThanRefPrice =
+      stockData?.lastPrice && stockData.r && stockData.lastPrice > stockData.r;
 
-    const isTotalVolDecrease =
-      stockData?.lot &&
-      preDataStock?.lot &&
-      stockData?.lot !== preDataStock?.lot &&
-      stockData?.lot < preDataStock?.lot;
+    const isRefPriceGreaterThanLastPrice =
+      stockData?.lastPrice && stockData.r && stockData.lastPrice < stockData.r;
+
+    const isLastPriceEqualRefPrice =
+      stockData?.lastPrice && stockData.r && stockData.lastPrice === stockData.r;
+
+    const isTotalVolChange =
+      stockData?.lot && preDataStock?.lot && stockData?.lot !== preDataStock?.lot;
 
     const totalVal = (stockData?.lot || 0) * Number(stockData?.avePrice);
     const preTotalVal = (preDataStock?.lot || 0) * Number(preDataStock?.avePrice);
-    const isTotalValIncrease =
-      stockData?.lot && preDataStock?.lot && totalVal !== preTotalVal && totalVal > preTotalVal;
+    const isTotalValChange = stockData?.lot && preDataStock?.lot && totalVal !== preTotalVal;
 
-    const isTotalValDecrease =
-      stockData?.lot && preDataStock?.lot && totalVal !== preTotalVal && totalVal < preTotalVal;
-
-    const isFbVolIncrease =
+    const isFbVolChange =
       stockData?.fBVol &&
       preDataStock?.fBVol &&
       stockData?.fBVol !== preDataStock?.fBVol &&
       stockData?.fBVol > preDataStock?.fBVol;
 
-    const isFbVolDecrease =
-      stockData?.fBVol &&
-      preDataStock?.fBVol &&
-      stockData?.fBVol !== preDataStock?.fBVol &&
-      stockData?.fBVol < preDataStock?.fBVol;
-
-    const isFRoomIncrease =
+    const isFRoomChange =
       stockData?.fRoom &&
       preDataStock?.fRoom &&
       stockData?.fRoom !== preDataStock?.fRoom &&
       stockData?.fRoom > preDataStock?.fRoom;
 
-    const isFRoomDecrease =
-      stockData?.fRoom &&
-      preDataStock?.fRoom &&
-      stockData?.fRoom !== preDataStock?.fRoom &&
-      stockData?.fRoom < preDataStock?.fRoom;
-
-    const isFsVolumeIncrease =
+    const isFsVolumeChange =
       stockData?.fSVolume &&
       preDataStock?.fSVolume &&
       stockData?.fSVolume !== preDataStock?.fSVolume &&
       stockData?.fSVolume > preDataStock?.fSVolume;
 
-    const isFsVolumeDecrease =
-      stockData?.fSVolume &&
-      preDataStock?.fSVolume &&
-      stockData?.fSVolume !== preDataStock?.fSVolume &&
-      stockData?.fSVolume < preDataStock?.fSVolume;
-
     return {
-      isTotalVolIncrease,
-      isTotalVolDecrease,
-      isFbVolIncrease,
-      isFbVolDecrease,
-      isFRoomIncrease,
-      isFRoomDecrease,
-      isFsVolumeIncrease,
-      isFsVolumeDecrease,
-      isTotalValIncrease,
-      isTotalValDecrease,
+      isLastPriceGreaterThanRefPrice,
+      isRefPriceGreaterThanLastPrice,
+      isLastPriceEqualRefPrice,
+      isTotalVolChange,
+      isTotalValChange,
+      isFbVolChange,
+      isFRoomChange,
+      isFsVolumeChange,
     };
   }, [stockData, preDataStock]);
 
@@ -1006,8 +980,9 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </Text>
           <Text
             className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
-              [styles.isDecrease]: isTotalVolDecrease,
-              [styles.isIncrease]: isTotalVolIncrease,
+              [styles.isDecrease]: isTotalVolChange && isRefPriceGreaterThanLastPrice,
+              [styles.isIncrease]: isTotalVolChange && isLastPriceGreaterThanRefPrice,
+              [styles.isInEqual]: isTotalVolChange && isLastPriceEqualRefPrice,
             })}
             type='body-12-regular'
           >
@@ -1021,8 +996,9 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </Text>
           <Text
             className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
-              [styles.isDecrease]: isTotalValDecrease,
-              [styles.isIncrease]: isTotalValIncrease,
+              [styles.isDecrease]: isTotalValChange && isRefPriceGreaterThanLastPrice,
+              [styles.isIncrease]: isTotalValChange && isLastPriceGreaterThanRefPrice,
+              [styles.isInEqual]: isTotalValChange && isLastPriceEqualRefPrice,
             })}
             type='body-12-regular'
           >
@@ -1038,8 +1014,9 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </Text>
           <Text
             className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
-              [styles.isDecrease]: isFbVolDecrease,
-              [styles.isIncrease]: isFbVolIncrease,
+              [styles.isDecrease]: isFbVolChange && isRefPriceGreaterThanLastPrice,
+              [styles.isIncrease]: isFbVolChange && isLastPriceGreaterThanRefPrice,
+              [styles.isInEqual]: isFbVolChange && isLastPriceEqualRefPrice,
             })}
             type='body-12-regular'
           >
@@ -1053,8 +1030,9 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </Text>
           <Text
             className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
-              [styles.isDecrease]: isFRoomDecrease,
-              [styles.isIncrease]: isFRoomIncrease,
+              [styles.isDecrease]: isFRoomChange && isRefPriceGreaterThanLastPrice,
+              [styles.isIncrease]: isFRoomChange && isLastPriceGreaterThanRefPrice,
+              [styles.isInEqual]: isFRoomChange && isLastPriceEqualRefPrice,
             })}
             type='body-12-regular'
           >
@@ -1068,8 +1046,9 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           </Text>
           <Text
             className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {
-              [styles.isDecrease]: isFsVolumeDecrease,
-              [styles.isIncrease]: isFsVolumeIncrease,
+              [styles.isDecrease]: isFsVolumeChange && isRefPriceGreaterThanLastPrice,
+              [styles.isIncrease]: isFsVolumeChange && isLastPriceGreaterThanRefPrice,
+              [styles.isInEqual]: isFsVolumeChange && isLastPriceEqualRefPrice,
             })}
             type='body-12-regular'
           >
