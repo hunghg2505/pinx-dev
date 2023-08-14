@@ -12,7 +12,6 @@ import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
-import { PINETREE_LINK } from '@utils/constant';
 import { NavigateSection } from '@utils/dataLayer';
 
 import {
@@ -151,14 +150,14 @@ const SideBar = () => {
       <div>
         <Menu items={items} className='sidebar-list' />
         <div className='px-[10px] pt-[16px]'>
-          <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
+          {/* <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
               sizes='100vw'
               className='mb-[20px] h-[55px] w-[140px]'
             />
-          </a>
+          </a> */}
           <Text type='body-12-regular' className='text-[#78909C]'>
             Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
           </Text>
