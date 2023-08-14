@@ -25,54 +25,44 @@ const Desktop = () => {
   }
 
   return (
-    <div className='px-[16px] tablet:px-0'>
-      <Tabs
-        defaultActiveKey='1'
-        activeKey={searchParams.get('tab') || 'post'}
-        className='tabHome'
-        renderTabBar={(props: any) => {
-          return (
-            <>
-              <TabBar
-                list={props?.panes}
-                activeKey={props?.activeKey}
-                onChange={(key: string) => {
-                  replace({ query: { id: query.id, tab: key } });
-                }}
-              />
-            </>
-          );
-        }}
-        onChange={(key: string) => {
-          replace({ query: { ...query, tab: key } });
-        }}
-      >
-        <TabPane tab={t('posts')} key='post'>
-          <div className=' tablet:px-0'>
-            <Posts />
-          </div>
-        </TabPane>
-        <TabPane tab={t('watchlist')} key='watchlist'>
-          <div className='px-[16px] tablet:px-0'>
-            <WatchList />
-          </div>
-        </TabPane>
-        <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
-          <Assets />
-        </TabPane>
+    <Tabs
+      defaultActiveKey='1'
+      activeKey={searchParams.get('tab') || 'post'}
+      className='tabHome'
+      renderTabBar={(props: any) => {
+        return (
+          <>
+            <TabBar
+              list={props?.panes}
+              activeKey={props?.activeKey}
+              onChange={(key: string) => {
+                replace({ query: { id: query.id, tab: key } });
+              }}
+            />
+          </>
+        );
+      }}
+      onChange={(key: string) => {
+        replace({ query: { ...query, tab: key } });
+      }}
+    >
+      <TabPane tab={t('posts')} key='post'>
+        <Posts />
+      </TabPane>
+      <TabPane tab={t('watchlist')} key='watchlist'>
+        <WatchList />
+      </TabPane>
+      <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
+        <Assets />
+      </TabPane>
 
-        <TabPane tab={t('following')} key='following'>
-          <div className='px-[16px] tablet:px-0'>
-            <Following key={profileUser?.totalFollowing} />
-          </div>
-        </TabPane>
-        <TabPane tab={t('followers')} key='followers'>
-          <div className='px-[16px] tablet:px-0'>
-            <Follower key={profileUser?.totalFollower} />
-          </div>
-        </TabPane>
-      </Tabs>
-    </div>
+      <TabPane tab={t('following')} key='following'>
+        <Following key={profileUser?.totalFollowing} />
+      </TabPane>
+      <TabPane tab={t('followers')} key='followers'>
+        <Follower key={profileUser?.totalFollower} />
+      </TabPane>
+    </Tabs>
   );
 };
 export default Desktop;

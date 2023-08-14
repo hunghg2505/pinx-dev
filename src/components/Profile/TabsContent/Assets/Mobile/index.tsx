@@ -9,7 +9,7 @@ import { ONE_LINK_DOWNLOAD } from 'src/constant';
 const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
-    <div className='mx-[16px] rounded-[12px] border border-dashed border-primary_light_blue bg-[#F0F7FC] p-[20px] text-center'>
+    <div className='rounded-[12px] border border-dashed border-primary_light_blue bg-[#F0F7FC] p-[20px] text-center'>
       <Text type='body-16-bold' color='primary-5' className='mb-[12px]'>
         {t('asset_desktop')}
       </Text>
