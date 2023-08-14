@@ -172,6 +172,16 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       onAddNewPost(postDetailStatus?.themeWatchlist);
     }
   }, [postDetailStatus?.themeWatchlist]);
+
+  React.useEffect(() => {
+    // after follow stock
+    const findIndex = dataPosts?.list?.findIndex(
+      (item) => item?.id === postDetailStatus?.stockWatchList?.id,
+    );
+    if (findIndex === -1 && postDetailStatus?.stockWatchList) {
+      onAddNewPost(postDetailStatus?.stockWatchList);
+    }
+  }, [postDetailStatus.stockWatchList]);
   React.useEffect(() => {
     if (postDetailStatus.idPostDetail !== '') {
       const newData =

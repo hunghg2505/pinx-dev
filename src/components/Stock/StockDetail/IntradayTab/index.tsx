@@ -79,12 +79,10 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
                 {stockIntraday?.data.map((item, index) => (
                   <tr key={index}>
                     <td
-                      className={classNames(
-                        'px-[6px] py-[8px] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]',
-                        {
-                          relative: item.price === stockData?.r,
-                        },
-                      )}
+                      className={classNames('px-[6px] py-[8px] align-middle', {
+                        'relative after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]':
+                          item.price === stockData?.r,
+                      })}
                     >
                       <Text
                         type='body-16-semibold'
@@ -96,9 +94,10 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
 
                     <td
                       className={classNames(
-                        'w-3/4 border-x border-solid border-[#ccc] align-middle after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]',
+                        'w-3/4 border-x border-solid border-[#ccc] align-middle',
                         {
-                          relative: item.price === stockData?.r,
+                          'relative after:absolute after:left-0 after:right-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2 after:bg-[#EAA100] after:content-[""]':
+                            item.price === stockData?.r,
                         },
                       )}
                     >
