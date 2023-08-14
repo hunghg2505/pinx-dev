@@ -21,7 +21,7 @@ import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
-import { PINETREE_LINK, TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { TERM_AND_CONDITION_LINK } from '@utils/constant';
 import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
@@ -245,7 +245,7 @@ const Register = (props: IProps) => {
           </div>
         )}
 
-        {!isModal && (
+        {/* {!isModal && (
           <a
             href={PINETREE_LINK}
             target='_blank'
@@ -262,7 +262,7 @@ const Register = (props: IProps) => {
               className='h-[40px] w-[105px] laptop:h-[55px] laptop:w-[140px]'
             />
           </a>
-        )}
+        )} */}
       </Form>
     </>
   );
