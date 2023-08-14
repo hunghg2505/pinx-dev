@@ -136,12 +136,14 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
         </table>
       )}
 
-      <PopupMatchedPrice
-        stockTrade={stockTrade}
-        visible={openPopup}
-        onClose={() => setOpenPopup(false)}
-        stockRefPrice={stockRefPrice}
-      />
+      {stockTrade?.data && stockTrade.data.length > 0 && (
+        <PopupMatchedPrice
+          stockTrade={stockTrade}
+          visible={openPopup}
+          onClose={() => setOpenPopup(false)}
+          stockRefPrice={stockRefPrice}
+        />
+      )}
     </>
   );
 };
