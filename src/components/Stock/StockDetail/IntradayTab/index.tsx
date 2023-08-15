@@ -14,7 +14,7 @@ import { getColor } from '../MovementsTab';
 
 const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: IStockData }) => {
   const { t } = useTranslation(['stock', 'common']);
-
+  console.log('intraday');
   const { stockIntraday, loading } = useGetStockIntraday(stockCode);
 
   const maxIntraday = useMemo(() => {

@@ -1,4 +1,5 @@
 import { useRequest } from 'ahooks';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -7,9 +8,11 @@ import request from 'umi-request';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import Notification from '@components/UI/Notification';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
 export const useUpdateUserProfile = () => {
   const { t } = useTranslation('editProfile');
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const router = useRouter();
   const { run, loading } = useRequest(
     async (update) => {
@@ -21,6 +24,7 @@ export const useUpdateUserProfile = () => {
       manual: true,
       onSuccess: () => {
         router.back();
+        setPostDetailStatus({ ...postDetailStatus, isChangeMyProfile: true });
         toast(() => <Notification type='success' message={t('upload_profile_success')} />);
       },
       onError: () => {

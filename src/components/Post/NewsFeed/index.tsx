@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -14,7 +15,7 @@ import { ClickaPost } from '@utils/dataLayer';
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
-import { IPost, useCommentsOfPost, usePostDetail } from '../service';
+import { IPost, usePostDetail } from '../service';
 
 interface IProps {
   data: IPost;
@@ -27,12 +28,14 @@ const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
   const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
   React.useEffect(() => {
     setPostData(data);
   }, [data]);
   const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
+  const isMyPost = postData?.customerId === userLoginInfo?.id;
   const itemLike = postDetailStatus?.idPostLike === postData?.id;
   const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
     (item: string) => item === postData?.id,
@@ -55,15 +58,16 @@ const NewsFeed = (props: IProps) => {
       postType,
     };
   }, [postData]);
-  // React.useEffect(() => {
-  //   setPostData(data);
-  //   console.log('123');
-  // }, [data]);
   React.useEffect(() => {
-    if (findIndex !== -1 || findItemFollow || itemLike) {
+    if (
+      findIndex !== -1 ||
+      findItemFollow ||
+      itemLike ||
+      (postDetailStatus?.isChangeMyProfile && isMyPost)
+    ) {
       refresh();
     }
-  }, [findItemFollow, postDetailStatus?.idPostLike]);
+  }, [findItemFollow, postDetailStatus?.idPostLike, postDetailStatus?.isChangeMyProfile]);
   React.useEffect(() => {
     if (findIndex === -1 && !findItemFollow && !itemLike) {
       setPostData(data);
@@ -76,6 +80,7 @@ const NewsFeed = (props: IProps) => {
         ...postDetailStatus,
         isAddCommentPostDetail: [],
         idCustomerFollow: 0,
+        // isChangeMyProfile: false,
       });
     },
   });
@@ -87,7 +92,7 @@ const NewsFeed = (props: IProps) => {
 
   const [, setImageCommentMobile] = useState(false);
 
-  const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postData?.id));
+  // const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postData?.id));
   // const totalComments = commentsOfPost?.data?.list?.length;
   // const commentChild = commentsOfPost?.data?.list?.reduce(
   //   (acc: any, current: any) => acc + current?.totalChildren,
@@ -132,7 +137,7 @@ const NewsFeed = (props: IProps) => {
     //   onRefreshList();
     // }
     refresh();
-    refreshCommentOfPost();
+    // refreshCommentOfPost();
   };
 
   return (
@@ -165,7 +170,7 @@ const NewsFeed = (props: IProps) => {
               <div className='mt-[22px]'>
                 <ItemComment
                   onNavigate={onNavigate}
-                  data={commentsOfPost?.data?.list?.[0]}
+                  data={postData?.children?.[0]}
                   refreshCommentOfPOst={refreshComment}
                 />
               </div>
