@@ -8,10 +8,12 @@ export interface IPostDetailStatus {
   idCustomerFollow?: number;
   themeWatchlist: any;
   stockWatchList: any;
+  isChangeMyProfile?: boolean;
 }
 
 export const initialPostDetailStatus: IPostDetailStatus = {
   isDoneReplies: false,
+  isChangeMyProfile: false,
   isAddCommentPostDetail: [],
   idPostDetail: '',
   idPostLike: '',

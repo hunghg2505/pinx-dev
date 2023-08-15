@@ -189,8 +189,8 @@ const NewFeedItem = (props: IProps) => {
     // } else {
     //   onRefreshPostDetail(undefined);
     // }
+    setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
     if (router.route === '/post/[id]') {
-      setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
       router.back();
     } else {
       onRefreshPostDetail(undefined);

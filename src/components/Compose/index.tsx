@@ -34,6 +34,7 @@ import Notification from '@components/UI/Notification';
 import TextComponent from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import getSeoDataFromLink, {
   base64ToBlob,
@@ -79,6 +80,7 @@ const Compose = (props: IProps) => {
   const { hidePopup, refresh, onGetData, postDetail, isUpdate = false } = props;
   const bgTheme = useAtomValue(postThemeAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { statusUser } = useUserType();
   const objectMessage = converStringMessageToObject(postDetail?.post?.message);
   const message =
@@ -160,7 +162,10 @@ const Compose = (props: IProps) => {
 
         hidePopup && hidePopup();
         setMetaData(null);
-
+        setPostDetailStatus({
+          ...postDetailStatus,
+          idPostLike: postDetail?.id,
+        });
         toast(() => <Notification type='success' message={t('post_update_success_msg')} />);
       },
       onError: (error: any) => {
@@ -209,69 +214,6 @@ const Compose = (props: IProps) => {
     },
   );
 
-  // const DisableEnter = Extension.create({
-  //   addKeyboardShortcuts() {
-  //     return {
-  //       Enter: () => {
-  //         const content = this.editor?.getJSON()?.content;
-  //         let status = false;
-  //         if (content) {
-  //           for (const item of content) {
-  //             const subContent = item?.content;
-  //             if (subContent) {
-  //               const typeText = subContent?.[0]?.type;
-  //               const contentText = subContent?.[0]?.attrs?.label;
-  //               const typeTextNext = subContent?.[1]?.type;
-  //               const contentTextNext = subContent?.[1]?.attrs?.label;
-
-  //               // this.editor?.chain().
-  //               // if (
-  //               //   typeText === 'hashTagPost' &&
-  //               //   typeTextNext === 'text' &&
-  //               //   contentTextNext === ' '
-  //               // ) {
-  //               //   editor?.commands?.insertContent(' ');
-  //               //   status = false;
-  //               // } else {
-  //               //   status = true;
-  //               // }
-  //               if (typeText === 'hashTagPost') {
-  //                 if (typeTextNext === 'text' && contentTextNext === ' ') {
-  //                   console.log('123');
-  //                   status = false;
-  //                 } else {
-  //                   console.log('456');
-  //                   status = true;
-  //                   editor?.commands?.insertContent(' ');
-  //                 }
-  //               }
-  //               // for (const [index, item] of subContent?.entries()) {
-  //               //   console.log('🚀 ~ file: index.tsx:228 ~ addKeyboardShortcuts ~ index:', index);
-  //               //   console.log('item', item);
-  //               // }
-  //             }
-  //             // item?.content?.forEach((text: any, index: number) => {
-  //             //   if (text.type === 'hashTagPost' && index === 0) {
-  //             //     const txt = text.attrs.label;
-  //             //     const lastText = txt.at(-1);
-  //             //     if (lastCharacter === lastText) {
-  //             //       // editor?.commands?.insertContent(' ');
-  //             //       editor?.chain().insertContent(' ').enter();
-  //             //     }
-  //             //     // if (txt?.at(lengthText + 1) !== ' ') {
-  //             //     //   console.log('123', txt);
-  //             //     // }
-  //             //   }
-  //             //   return true;
-  //             // });
-  //           }
-  //         }
-  //         console.log('status', status);
-  //         return status;
-  //       },
-  //     };
-  //   },
-  // });
   const editor = useEditor(
     {
       extensions: [
@@ -380,49 +322,7 @@ const Compose = (props: IProps) => {
             ...Suggestion,
             pluginKey: new PluginKey('hashTag'),
             char: '#',
-            // command: ({ editor, range, props }) => {
-            //   // don't add another space characters when there's already one after the caret
-            //   const nodeAfter = editor.view.state.selection.$to.nodeAfter;
-            //   const addSpace = !(
-            //     nodeAfter !== null &&
-            //     nodeAfter.type.name === 'text' &&
-            //     nodeAfter.text?.startsWith(' ')
-            //   );
-            //   const content: any = [
-            //     {
-            //       type: 'hashTagPost',
-            //       attrs: props,
-            //     },
-            //   ];
 
-            //   if (addSpace) {
-            //     content.push({
-            //       type: 'text',
-            //       text: ' ',
-            //     });
-            //   }
-
-            //   editor.chain().focus().insertContentAt(range, content).run();
-            // },
-            // command: ({ editor, range, props }) => {
-            //   editor
-            //     .chain()
-            //     .focus()
-            //     .insertContentAt(range, [
-            //       {
-            //         type: 'hashTagPost',
-            //         attrs: props,
-            //       },
-            //       {
-            //         type: 'text',
-            //         text: ' ',
-            //       },
-            //     ])
-            //     .run();
-            // },
-            allow: ({ editor, range }) => {
-              return editor.can().insertContentAt(range, { type: 'hashTag' });
-            },
             items: async ({ query }: { query: string }) => {
               const payload: any = {
                 keyword: `#${query}`,

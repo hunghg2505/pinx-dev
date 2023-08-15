@@ -14,7 +14,6 @@ export async function getOtherPeoplePost(customerId: string, last?: string): Pro
         params,
       })
     : await requestCommunity.get(API_PATH.PUBLIC_GET_USER_POST, { params });
-
   return {
     list: r?.data?.list,
     nextId: r?.data?.hasNext ? r?.data?.last : false,

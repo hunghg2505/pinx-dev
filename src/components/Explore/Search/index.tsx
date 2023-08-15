@@ -39,6 +39,10 @@ const Search = (props: any, ref: any) => {
   useFocusWithin(refInput, {
     onFocus: () => {
       setShowRecent(true);
+      const value = form.getFieldValue('search');
+      if (value) {
+        run();
+      }
     },
   });
 
