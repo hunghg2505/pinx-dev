@@ -3,7 +3,6 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -119,10 +118,10 @@ const ItemInfluence = (props: IProps) => {
             </Text>
           </div>
           {data.avatar && (
-            <Image
+            <img
               src={data.avatar}
-              alt=""
-              className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
+              alt=''
+              className='absolute left-0 top-0 h-[252px] w-[161px] rounded-[15px] object-cover'
               width={161}
               height={252}
               // blurDataURL="data:..." automatically provided

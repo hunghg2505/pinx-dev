@@ -3,7 +3,6 @@ import React from 'react';
 
 import classNames from 'classnames';
 // import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -81,12 +80,10 @@ export const PineTreePost2 = ({
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <Image
+          <img
             src={postDetail?.post?.urlImages?.[0]}
-            alt=""
+            alt=''
             className='absolute left-0 top-0 h-full w-full rounded-[9px]'
-            width={641}
-            height={360}
             // blurDataURL="data:..." automatically provided
             // placeholder="blur" // Optional blur-up while loading
           />
