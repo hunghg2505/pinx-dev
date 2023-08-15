@@ -15,7 +15,7 @@ export const useStockDesktop = () => {
 
   if (findIndex !== -1) {
     const data = dataStockIndex[findIndex];
-    dataStockIndex[findIndex] = { ...dataStock, ...data };
+    dataStockIndex[findIndex] = { ...data, ...dataStock };
   }
 
   return {
