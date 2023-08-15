@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Link from 'next/link';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 import { IWatchListItem } from '../../service';
 
@@ -50,7 +50,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {Number(data?.lastPrice) === 0 ? '-' : data?.lastPrice?.toFixed(2)}
+            {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
           </Text>
           <Text type='body-14-regular' color='primary-5' className={classNames('mt-[8px]')}>
             {data.stockCode}
@@ -68,8 +68,14 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           >
             <Text type='barlow-12-medium'>
               {isChange ? '' : unit}
-              {Number(data?.change) === 0 ? '-' : data?.change} / {isChange ? '' : unit}
-              {isChange ? '-' : data?.changePc || data?.changePercent}%
+              {Number(data?.change) === 0
+                ? '-'
+                : formatStringToNumber(data?.change, true, 2)} / {isChange ? '' : unit}
+              {isChange
+                ? '-'
+                : formatStringToNumber(data?.changePc, true, 2) ||
+                  formatStringToNumber(data?.changePercent, true, 2)}
+              %
             </Text>
           </div>
         </div>
