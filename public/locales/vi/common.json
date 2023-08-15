@@ -25,7 +25,7 @@
   "otp_will_expire_in": "OTP sẽ hết hạn sau",
   "cannot_retrieve_otp": "Không nhận được mã qua SMS?",
   "sign_up_instruction": "Huớng dẫn đăng ký",
-  "please_enter_phone_number": "Vui lòng nhập tên đăng nhập",
+  "please_enter_phone_number": "Vui lòng nhập số điện thoại",
   "please_enter_valid_phone_number": "Vui lòng nhập đúng số điện thoại",
   "please_enter_password": "Vui lòng nhập mật khẩu",
   "username": "Tên đăng nhập",
