@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
@@ -12,12 +13,15 @@ interface Iprops {
 }
 const WatchingStock = (props: Iprops) => {
   const { percen, data, mention = false } = props;
+  const { i18n } = useTranslation();
+
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
     data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
       ? data?.stockCode
       : data?.stockCode?.slice(1, 4)
   }.png`;
+  const nameStock = i18n.language === 'en' ? data?.nameEn : data?.name;
   return (
     <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='relative h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
@@ -48,7 +52,7 @@ const WatchingStock = (props: Iprops) => {
                 </Text>
               </div>
               <Text type='body-12-regular' className='line-clamp-2 max-w-[90%]' color='neutral-3'>
-                {data?.companyName || data?.name}
+                {data?.companyName || nameStock}
               </Text>
             </div>
           </div>
