@@ -59,7 +59,7 @@ const StockItem = ({ data }: IStockItemProps) => {
 
         {data.lastPrice ? (
           <div className='ml-auto text-right' style={{ color }}>
-            <Text type='body-16-medium'>{data.lastPrice.toFixed(2)}</Text>
+            <Text type='body-16-medium'>{formatStringToNumber(data.lastPrice, true, 2)}</Text>
             <Text type='body-12-regular' className='mt-[8px]'>
               {renderPricePc()}
             </Text>

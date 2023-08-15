@@ -144,7 +144,7 @@ const StockHeading = ({
                 : 'transparent',
             }}
           >
-            <Text type='body-16-medium'>{dataStock?.lastPrice?.toFixed(2)}</Text>
+            <Text type='body-16-medium'>{formatStringToNumber(dataStock?.lastPrice, true, 2)}</Text>
             <Text type='body-12-regular'>
               {`${unitOt}${formatStringToNumber(
                 String(dataStock?.ot),

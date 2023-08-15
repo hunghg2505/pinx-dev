@@ -5,7 +5,7 @@ import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -65,7 +65,7 @@ const InterestItem = (props: IProps) => {
               'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {Number(data?.lastPrice) === 0 ? '-' : data?.lastPrice?.toFixed(2)}
+            {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
           </Text>
           <Text type='body-14-regular' className='text-[#0D0D0D]'>
             {data?.stockCode}
@@ -83,8 +83,14 @@ const InterestItem = (props: IProps) => {
               })}
             >
               {isChange ? '' : unit}
-              {Number(data?.change) === 0 ? '-' : data?.change} / {isChange ? '' : unit}
-              {isChange ? '-' : data?.changePc || data?.changePercent}%
+              {Number(data?.change) === 0
+                ? '-'
+                : formatStringToNumber(data?.change, true, 2)} / {isChange ? '' : unit}
+              {isChange
+                ? '-'
+                : formatStringToNumber(data?.changePc, true, 2) ||
+                  formatStringToNumber(data?.changePercent, true, 2)}
+              %
             </Text>
             {requestSelectStock?.loading ? (
               <div className='absolute inset-x-0 inset-y-0 flex items-center justify-center backdrop-blur-sm'>

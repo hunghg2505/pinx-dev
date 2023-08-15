@@ -6,6 +6,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
+import { formatStringToNumber } from '@utils/common';
 
 import MarketChartIframe from './ChartIframe';
 import styles from './index.module.scss';
@@ -93,7 +94,7 @@ const MarketDesktop = () => {
                           [styles.isNoChange]: isNoChange && isChange,
                         })}
                       >
-                        {item?.cIndex}
+                        {formatStringToNumber(item?.cIndex)}
                       </Text>
                       <Text
                         type='body-12-medium'
