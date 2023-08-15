@@ -16,6 +16,7 @@ const PinPost = ({ pinPostDataInitial }: any) => {
 
     return pinPostDataInitial?.data;
   }, [pinPostDataInitial?.data, pinedPost]);
+
   const onRefresh = () => {
     clearCache('data-pin-post');
     refresh();

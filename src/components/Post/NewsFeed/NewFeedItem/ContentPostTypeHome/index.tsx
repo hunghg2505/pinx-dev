@@ -118,7 +118,7 @@ const ContentPostTypeHome = (props: IProps) => {
     if (!ele) {
       return;
     }
-    // console.log(`${postDetail?.postType} - ${ele?.offsetHeight}`);
+
     setHeight(ele?.offsetHeight);
   };
 

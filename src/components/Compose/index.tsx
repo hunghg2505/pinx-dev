@@ -938,14 +938,24 @@ const Compose = (props: IProps) => {
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddPeople}
           >
-            <img src='/static/icons/explore/iconTagPeople.svg' alt='' className='w-[20px]' />
+            <img
+              loading='lazy'
+              src='/static/icons/explore/iconTagPeople.svg'
+              alt=''
+              className='w-[20px]'
+            />
           </div>
 
           <div
             className='flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'
             onClick={onAddStock}
           >
-            <img src='/static/icons/explore/iconTagStock.svg' alt='' className='w-[20px]' />
+            <img
+              loading='lazy'
+              src='/static/icons/explore/iconTagStock.svg'
+              alt=''
+              className='w-[20px]'
+            />
           </div>
 
           <div

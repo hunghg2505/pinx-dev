@@ -31,7 +31,12 @@ const PopupHotline = (props: IProps) => {
           <div className='ml-11 mr-16 flex flex-col justify-center font-[600] '>
             <div className='text-[32px]'>{t('contact_support')}</div>
             <div className='mt-5 flex items-center text-[20px]'>
-              <img src='/static/icons/hotline.svg' alt='' className='mr-3 h-[30px] w-[30px]' />
+              <img
+                loading='lazy'
+                src='/static/icons/hotline.svg'
+                alt=''
+                className='mr-3 h-[30px] w-[30px]'
+              />
               024 62823535
             </div>
           </div>

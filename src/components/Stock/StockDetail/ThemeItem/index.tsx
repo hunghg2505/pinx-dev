@@ -1,8 +1,7 @@
 import React from 'react';
 
-import Link from 'next/link';
-
 import { IStockTheme } from '@components/Stock/type';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -12,7 +11,7 @@ interface IThemeItemProps {
 
 const ThemeItem = ({ data }: IThemeItemProps) => {
   return (
-    <Link href={ROUTE_PATH.THEME_DETAIL(data.code)}>
+    <CustomLink href={ROUTE_PATH.THEME_DETAIL(data.code)}>
       <div className='relative h-[214px] w-[149px] rounded-[12px] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:rounded-[12px] after:bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_100%)] after:content-[""]'>
         <div className='absolute left-[12px] top-[12px] flex h-[18px] w-[18px] items-center justify-center'>
           <img
@@ -51,7 +50,7 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
           </div>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 

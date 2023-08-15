@@ -26,7 +26,12 @@ const Name = ({
         )}
 
         {isFeatureProfile && (
-          <img src='/static/icons/iconStarFollow.svg' alt='star' className='h-[20px] w-[20px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/iconStarFollow.svg'
+            alt='star'
+            className='h-[20px] w-[20px]'
+          />
         )}
       </div>
     </>

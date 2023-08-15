@@ -4,7 +4,6 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
@@ -19,7 +18,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
@@ -98,7 +97,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
 const Profile = () => {
   const { t } = useTranslation('common');
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
   const { userLoginInfo } = useUserLoginInfo();
 
   const menuMobileRef = useRef<any>(null);
@@ -237,16 +236,16 @@ const Profile = () => {
       <hr className='border-neutral_07' />
 
       <MenuItem>
-        <Link href='/watchlist' className='flex items-center px-[20px] py-4'>
+        <CustomLink href='/watchlist' className='flex items-center px-[20px] py-4'>
           <img
             src='/static/icons/iconTV.svg'
             className='mr-[10px] h-[14px] w-[15px] object-contain'
             alt='Watchlist and theme'
           />
           <span>{t('watchlist_and_theme')}</span>
-        </Link>
+        </CustomLink>
       </MenuItem>
-    </Menu >
+    </Menu>
   );
 
   const ProfileInfo = () => {

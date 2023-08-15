@@ -14,7 +14,6 @@ import ModalReport from '@components/Post/NewsFeed/ModalReport';
 import { Avatar } from '@components/Post/NewsFeed/NewFeedItem/components/Avatar';
 import { Follower } from '@components/Post/NewsFeed/NewFeedItem/components/Follower';
 import { UserName } from '@components/Post/NewsFeed/NewFeedItem/components/UserName';
-// import ContentPostTypeDetail from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeDetail';
 import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome';
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -32,9 +31,6 @@ import ItemHoverProfile from './ItemHoverProfile';
 import ModalDelete from './ModalDelete';
 import ModalEdit from './ModalEdit';
 import PostActionComment from '../PostAction';
-
-// import 'dayjs/locale/vi';
-// import 'dayjs/locale/en';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -340,7 +336,12 @@ const NewFeedItem = (props: IProps) => {
       <>
         <div className='flex gap-[6px]'>
           {pinned && (
-            <img src='/static/icons/iconPinned.svg' alt='' className='h-[28px] w-[28px]' />
+            <img
+              loading='lazy'
+              src='/static/icons/iconPinned.svg'
+              alt=''
+              className='h-[28px] w-[28px]'
+            />
           )}
 
           {renderdButton()}

@@ -123,47 +123,47 @@ const formatMessages = (message: string, data: any, idCustomer?: any) => {
   return message;
 };
 
-const MediaItem = ({ data, type }: { data: any, type?: string }) => {
+const MediaItem = ({ data, type }: { data: any; type?: string }) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [img, setImg] = React.useState('');
 
   const router = useRouter();
   React.useEffect(() => {
     getSeoDataFromLink(data?.post?.metadataList[0]?.url).then((res) => {
-      console.log('res',res);
-      console.log('img',res[2]?.content);
       setImg(res[2]?.content);
     });
-  },[img]);
-  console.log('getSeoDataFromLink',img);
+  }, [img]);
 
   const onGoToDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data?.id));
   };
 
   const renderTypeMedia = (param: string) => {
-    switch(param) {
+    switch (param) {
       case 'TikTok': {
         return (
           <>
             {img && (
-              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
+              <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
                 <div className={classNames('relative', styles.Video, styles.Tiktok)}>
                   <img
-                    className='aspect-[16/9] object-contain bg-[#12121239] rounded'
+                    className='aspect-[16/9] rounded bg-[#12121239] object-contain'
                     src={img || '/static/images/noimage.jpg'}
-                    alt="Picture of TikTok"
+                    alt='Picture of TikTok'
                     width={345}
                     height={162}
                   />
                 </div>
-                <Text
-                  type='body-14-semibold' className='text-[#0D0D0D] line-clamp-2 messageFormat'
-                >
+                <Text type='body-14-semibold' className='messageFormat line-clamp-2 text-[#0D0D0D]'>
                   <div
-                    dangerouslySetInnerHTML={{ __html: formatMessages(data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title, data?.post, userLoginInfo?.id) }}
-                  >
-                  </div>
+                    dangerouslySetInnerHTML={{
+                      __html: formatMessages(
+                        data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                        data?.post,
+                        userLoginInfo?.id,
+                      ),
+                    }}
+                  ></div>
                 </Text>
               </div>
             )}
@@ -174,23 +174,26 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {data?.post?.metadataList[0]?.images[0] && (
-              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
+              <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
                 <div className={classNames('relative', styles.Youtube)}>
                   <img
-                    className='aspect-[16/9] object-cover bg-[#12121239] rounded'
+                    className='aspect-[16/9] rounded bg-[#12121239] object-cover'
                     src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
-                    alt="Picture of Youtube"
+                    alt='Picture of Youtube'
                     width={345}
                     height={162}
                   />
                 </div>
-                <Text
-                  type='body-14-semibold' className='text-[#0D0D0D] line-clamp-2 messageFormat'
-                >
+                <Text type='body-14-semibold' className='messageFormat line-clamp-2 text-[#0D0D0D]'>
                   <div
-                    dangerouslySetInnerHTML={{ __html: formatMessages(data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title, data?.post, userLoginInfo?.id) }}
-                  >
-                  </div>
+                    dangerouslySetInnerHTML={{
+                      __html: formatMessages(
+                        data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                        data?.post,
+                        userLoginInfo?.id,
+                      ),
+                    }}
+                  ></div>
                 </Text>
               </div>
             )}
@@ -201,26 +204,29 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
         return (
           <>
             {data?.post?.metadataList[0]?.images[0] && (
-              <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
-                <div className={classNames('relative',styles.Video)}>
+              <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
+                <div className={classNames('relative', styles.Video)}>
                   <img
-                    className={classNames('aspect-[16/9] bg-[#12121239] rounded',{
+                    className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
                       'object-cover': data?.post?.metadataList[0]?.images[0],
                       'object-cover ': !data?.post?.metadataList[0]?.images[0],
                     })}
                     src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
-                    alt="Picture of Orther"
+                    alt='Picture of Orther'
                     width={345}
                     height={162}
                   />
                 </div>
-                <Text
-                  type='body-14-semibold' className='text-[#0D0D0D] line-clamp-2 messageFormat'
-                >
+                <Text type='body-14-semibold' className='messageFormat line-clamp-2 text-[#0D0D0D]'>
                   <div
-                    dangerouslySetInnerHTML={{ __html: formatMessages(data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title, data?.post, userLoginInfo?.id) }}
-                  >
-                  </div>
+                    dangerouslySetInnerHTML={{
+                      __html: formatMessages(
+                        data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                        data?.post,
+                        userLoginInfo?.id,
+                      ),
+                    }}
+                  ></div>
                 </Text>
               </div>
             )}
@@ -234,29 +240,32 @@ const MediaItem = ({ data, type }: { data: any, type?: string }) => {
       {type ? (
         <>
           {data?.post?.seoMetadata?.imageSeo?.urlImage && (
-            <div className='flex flex-col gap-y-[8px] cursor-pointer' onClick={onGoToDetail}>
+            <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
               <img
-                className={classNames('aspect-[16/9] bg-[#12121239] rounded',{
+                className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
                   'object-contain': data?.post?.seoMetadata?.imageSeo?.urlImage,
                   'object-cover': !data?.post?.seoMetadata?.imageSeo?.urlImage,
                 })}
                 src={data?.post?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
-                alt="Picture of the author"
+                alt='Picture of the author'
                 width={345}
                 height={162}
               />
-              <Text
-                type='body-14-semibold' className='text-[#0D0D0D] line-clamp-2 messageFormat'
-              >
+              <Text type='body-14-semibold' className='messageFormat line-clamp-2 text-[#0D0D0D]'>
                 <div
-                  dangerouslySetInnerHTML={{ __html: formatMessages(data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title, data?.post, userLoginInfo?.id) }}
-                >
-                </div>
+                  dangerouslySetInnerHTML={{
+                    __html: formatMessages(
+                      data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                      data?.post,
+                      userLoginInfo?.id,
+                    ),
+                  }}
+                ></div>
               </Text>
             </div>
           )}
         </>
-      ):(
+      ) : (
         <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
       )}
     </>

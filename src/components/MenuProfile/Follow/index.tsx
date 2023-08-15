@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import { ROUTE_PATH } from '@utils/common';
 
 const Follow = ({
@@ -19,7 +19,7 @@ const Follow = ({
     <>
       <div className='flex items-center px-[16px] pb-[12px]'>
         {' '}
-        <Link
+        <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWER}
           className='flex w-[50%] justify-center'
           onClick={() => {
@@ -28,9 +28,9 @@ const Follow = ({
         >
           <b className='mr-[16px]'>{follower ?? 0}</b>
           {t('followers')}
-        </Link>
+        </CustomLink>
         <div className='h-[27px] w-[1px] bg-neutral_07 '></div>
-        <Link
+        <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWING}
           className='flex w-[50%] justify-center'
           onClick={() => {
@@ -39,7 +39,7 @@ const Follow = ({
         >
           <b className='mr-[16px]'>{following ?? 0}</b>
           {t('following')}
-        </Link>
+        </CustomLink>
       </div>
       <hr className='border-neutral_07' />
     </>
