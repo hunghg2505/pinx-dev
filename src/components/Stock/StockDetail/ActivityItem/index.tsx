@@ -132,15 +132,15 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
               </div>
             )}
           </div>
-
-          <div className='mt-[8px] flex gap-x-[38px]'>
-            <ActivitiesAction
-              isLike={data.isLike}
-              idPost={data.id}
-              refresh={refreshStockActivities}
-            />
-          </div>
         </CustomLink>
+
+        <div className='mt-[8px] flex gap-x-[38px]'>
+          <ActivitiesAction
+            isLike={data.isLike}
+            idPost={data.id}
+            refresh={refreshStockActivities}
+          />
+        </div>
       </div>
     </div>
   );
