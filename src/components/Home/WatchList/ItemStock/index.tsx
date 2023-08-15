@@ -1,8 +1,8 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import Link from 'next/link';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
@@ -25,7 +25,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
   }.png`;
 
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='mr-[16px] w-[104px]'>
         <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
           {url && (
@@ -80,7 +80,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default ItemStock;

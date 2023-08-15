@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { DownloadPineXApp } from '@utils/dataLayer';
 
@@ -7,22 +6,29 @@ const HeaderMobile = () => {
   return (
     <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
       <div className='flex flex-row'>
-        <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
+        <img
+          loading='lazy'
+          src='/static/icons/logo.svg'
+          alt=''
+          width='0'
+          height='0'
+          className='w-[35px]'
+        />
         <div className='ml-[8px]'>
           <Text type='body-14-regular' color='primary-5'>
             Try full experience on
           </Text>
-          <Link
+          <CustomLink
             href='https://onelink.to/cgarrk'
             onClick={() => DownloadPineXApp('CTA in App', 'HeaderMobile')}
           >
             <Text type='body-14-medium' color='primary-5'>
               Mobile App
             </Text>
-          </Link>
+          </CustomLink>
         </div>
       </div>
-      <Link
+      <CustomLink
         href='https://onelink.to/cgarrk'
         onClick={() => DownloadPineXApp('CTA in App', 'HeaderMobile')}
       >
@@ -31,7 +37,7 @@ const HeaderMobile = () => {
             Open App
           </Text>
         </div>
-      </Link>
+      </CustomLink>
     </div>
   );
 };

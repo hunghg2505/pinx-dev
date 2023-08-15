@@ -46,6 +46,7 @@ const InterestItem = (props: IProps) => {
       <Link
         className='absolute inset-x-0 inset-y-0'
         href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+        prefetch={false}
       />
       <div className='flex flex-col gap-y-[16px]'>
         <img

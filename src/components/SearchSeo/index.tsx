@@ -16,14 +16,14 @@ import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublic } from '@components/SearchSeo/service';
 
 const SearchSeo = () => {
-  const { t } = useTranslation(['search-seo','common']);
+  const { t } = useTranslation(['search-seo', 'common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
   const tab = searchParams.get('tab') || 'company';
   const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
-  const { data, searchPublic, loading, refresh } = useSearchPublic({
+  const { data, searchPublic } = useSearchPublic({
     onSuccess: () => {
       console.log('useSearchPublic', data);
     },
@@ -44,8 +44,7 @@ const SearchSeo = () => {
   const image = data?.data?.listImage;
 
   // map api do trả thiếu id
-  const newUsers = users?.map(( item:any ) => ({ ...item, id: item.customerId }));
-  // console.log('newUsers',newUsers);
+  const newUsers = users?.map((item: any) => ({ ...item, id: item.customerId }));
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
@@ -54,22 +53,18 @@ const SearchSeo = () => {
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
 
-  const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
-  console.log('mediaFilter',mediaFilter);
-  const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
-  console.log('imageFilter',imageFilter);
-
-
-  // Error commit git
-  console.log('keyword', keyword);
-  console.log('tab', tab);
-  console.log('type', getType);
-  console.log(loading, refresh, media);
-
+  const mediaFilter = media?.filter(
+    (item: any) =>
+      item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+      item?.post?.metadataList[0]?.url?.length > 0,
+  );
+  const imageFilter = image?.filter(
+    (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+  );
 
   return (
     <>
-      <div className={classNames('box-shadow card-style',styles.Tab)}>
+      <div className={classNames('box-shadow card-style', styles.Tab)}>
         <Tabs
           defaultActiveKey='post'
           activeKey={searchParams.get('tab') || 'company'}
@@ -84,7 +79,7 @@ const SearchSeo = () => {
                   return <CompanyItem key={`company-${index}`} data={company} />;
                 })}
               </div>
-            ):(
+            ) : (
               <>
                 <Empty keyword={keyword} />
               </>
@@ -97,20 +92,26 @@ const SearchSeo = () => {
                   <UserItem data={item} key={index} />
                 ))}
               </div>
-            ):(
+            ) : (
               <>
                 <Empty keyword={keyword} />
               </>
             )}
           </TabPane>
-          <TabPane tab={t('common:searchseo.tab.posts')} key="posts">
+          <TabPane tab={t('common:searchseo.tab.posts')} key='posts'>
             {postsL ? (
               <div className='flex flex-col'>
                 {posts?.map((post: any) => {
-                  return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} />;
+                  return (
+                    <NewsFeed
+                      key={`explore-search-${post?.id}`}
+                      data={post}
+                      isNewFeedExplore={true}
+                    />
+                  );
                 })}
               </div>
-            ):(
+            ) : (
               <>
                 <Empty keyword={keyword} />
               </>
@@ -123,15 +124,15 @@ const SearchSeo = () => {
                   return <NewsItem key={`new-items-${item?.id}`} data={item} />;
                 })}
               </div>
-            ):(
+            ) : (
               <>
                 <Empty keyword={keyword} />
               </>
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {(mediaL && imageL) ? (
-              <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
+            {mediaL && imageL ? (
+              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {imageFilter?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
                 })}
@@ -139,7 +140,7 @@ const SearchSeo = () => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} />;
                 })}
               </div>
-            ):(
+            ) : (
               <>
                 <Empty keyword={keyword} />
               </>

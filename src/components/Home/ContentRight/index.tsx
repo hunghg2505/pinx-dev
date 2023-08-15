@@ -12,7 +12,7 @@ import Fade from '@components/UI/Fade';
 import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import { useSuggestPeople } from '../service';
@@ -60,8 +60,7 @@ const ContentRight = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
-
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
 
   const isProfilePath = router?.pathname === ROUTE_PATH.MY_PROFILE;
 

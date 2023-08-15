@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -13,7 +12,7 @@ const IPO = ({ data }: { data: IStockIPO }) => {
       : data?.stockCode?.slice(1, 4)
   }.png`;
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='relative  h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div className='relative z-10 flex h-full items-center justify-between'>
           <div className='flex w-[calc(100%_-_57px)] items-center'>
@@ -44,7 +43,7 @@ const IPO = ({ data }: { data: IStockIPO }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default IPO;

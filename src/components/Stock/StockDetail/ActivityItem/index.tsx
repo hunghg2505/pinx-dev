@@ -1,15 +1,13 @@
-import React from 'react';
-
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import { IPost } from '@components/Post/service';
 import { ACTIVITIES_TYPE } from '@components/Stock/const';
 import { ActivityIconType } from '@components/Stock/type';
 import ActivitiesAction from '@components/Themes/ThemeDetail/Activities/ActivitiesAction';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -40,16 +38,16 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
 
   return (
     <div className='flex'>
-      <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+      <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
         <img
           src={data.post.customerInfo.avatar}
           alt={data.post.customerInfo.displayName}
           className='h-[28px] w-[28px] rounded-full object-cover'
         />
-      </Link>
+      </CustomLink>
 
       <div className='ml-[12px] flex-1'>
-        <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
           <div
             className={classNames(
               'relative rounded-[12px] bg-[#F7F6F8] px-[16px] pb-[16px] pt-[12px]',
@@ -134,7 +132,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
               </div>
             )}
           </div>
-        </Link>
+        </CustomLink>
 
         <div className='mt-[8px] flex gap-x-[38px]'>
           <ActivitiesAction

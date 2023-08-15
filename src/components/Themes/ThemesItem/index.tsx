@@ -1,8 +1,5 @@
-import React from 'react';
-
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -10,11 +7,12 @@ import { toast } from 'react-hot-toast';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH } from '@utils/common';
@@ -81,10 +79,11 @@ const ThemesItem = (props: IProps) => {
   const { t } = useTranslation(['theme', 'common']);
   const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
   const { statusUser } = useUserType();
   const { theme, refresh } = props;
   const router = useRouter();
+
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -187,7 +186,7 @@ const ThemesItem = (props: IProps) => {
               // placeholder="blur" // Optional blur-up while loading
             />
           )}
-          <Link href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
+          <CustomLink href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
             <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)]'>
               <div className='flex h-[80px] flex-col items-center justify-center px-[8px]'>
                 <Text type='body-12-bold' color='primary-5' className='text-center'>
@@ -211,7 +210,7 @@ const ThemesItem = (props: IProps) => {
                 {renderSubcribe()}
               </button>
             </div>
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </>

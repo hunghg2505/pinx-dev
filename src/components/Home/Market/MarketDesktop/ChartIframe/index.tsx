@@ -2,7 +2,25 @@ import React, { memo } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import { getMarketCodeChart } from '..';
+const getMarketCodeChart = (marketCode: string) => {
+  if (marketCode === '10') {
+    return 'VNINDEX';
+  }
+
+  if (marketCode === '02') {
+    return 'HNXINDEX';
+  }
+
+  if (marketCode === '03') {
+    return 'UPCOMINDEX';
+  }
+
+  if (marketCode === '11') {
+    return 'VN30';
+  }
+
+  return '';
+};
 
 interface IMarketChartIframeProps {
   mc: string;

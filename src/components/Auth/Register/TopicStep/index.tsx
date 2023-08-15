@@ -98,7 +98,13 @@ const RegisterCompanyStep = () => {
                 >
                   <div className='absolute right-[4px] top-[-8px] flex h-[24px] w-[24px] flex-row items-center justify-center '>
                     {checkIsSelected(item?.topicCode) && (
-                      <img src='/static/icons/iconSelected.svg' alt='' width='24' height='24' />
+                      <img
+                        loading='lazy'
+                        src='/static/icons/iconSelected.svg'
+                        alt=''
+                        width='24'
+                        height='24'
+                      />
                     )}
                   </div>
                   <Text

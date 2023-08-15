@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 const UserPostingFake = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('home');
 
   return (
     <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>

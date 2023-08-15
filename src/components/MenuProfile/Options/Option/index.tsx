@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Link from 'next/link';
+import CustomLink from '@components/UI/CustomLink';
 
 const Option = ({
   icon,
@@ -14,10 +14,17 @@ const Option = ({
   action?: () => void;
 }) => {
   return (
-    <Link href={link} className='flex items-center px-[28px] py-4' onClick={action}>
-      <img src={icon} className='mr-[16px] h-[24px] w-[24px]' alt={name} width={24} height={24} />
+    <CustomLink href={link} className='flex items-center px-[28px] py-4' onClick={action}>
+      <img
+        loading='lazy'
+        src={icon}
+        className='mr-[16px] h-[24px] w-[24px]'
+        alt={name}
+        width={24}
+        height={24}
+      />
       <span>{name}</span>
-    </Link>
+    </CustomLink>
   );
 };
 export default Option;

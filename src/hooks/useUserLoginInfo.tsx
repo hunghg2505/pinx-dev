@@ -39,10 +39,12 @@ interface InitUserLoginInfo {
   openDate?: string;
   isKol?: boolean;
   isFeatureProfile?: boolean;
+  loading?: boolean;
 }
 
 const initialUserLoginInfo: InitUserLoginInfo = {
   isReadTerms: 'false',
+  loading: true,
 };
 
 const isReadTermsAtom = atomWithStorage('isReadTerms', false);

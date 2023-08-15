@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -138,7 +137,7 @@ export const CafeFNews = ({
 
   return (
     <div className='CafeFNews'>
-      <Link href={postDetailUrl}>
+      <CustomLink href={postDetailUrl}>
         {postDetail?.post.head && (
           <div
             ref={onRef}
@@ -157,7 +156,7 @@ export const CafeFNews = ({
             </Text>
           </div>
         )}
-      </Link>
+      </CustomLink>
 
       {isReadMore && !isPostDetailPath && (
         <Text

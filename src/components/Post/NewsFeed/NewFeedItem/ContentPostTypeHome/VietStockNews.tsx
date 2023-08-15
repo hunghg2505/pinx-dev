@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -143,7 +142,7 @@ export const VietStockNews = ({
 
   return (
     <div className='VietStockNews'>
-      <Link href={postDetailUrl}>
+      <CustomLink href={postDetailUrl}>
         {(postDetail?.post.head || postDetail?.post?.contentText) && (
           <div
             ref={onRef}
@@ -162,7 +161,7 @@ export const VietStockNews = ({
             </Text>
           </div>
         )}
-      </Link>
+      </CustomLink>
       {isReadMore && !isPostDetailPath && (
         <Text
           type='body-14-regular'

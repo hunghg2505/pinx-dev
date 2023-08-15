@@ -21,7 +21,12 @@ const Modal = ({
   destroyOnClose,
 }: IModal) => {
   const closeIcon = closeX || (
-    <img src='/static/icons/iconClose.svg' alt='' className='h-[21px] w-[21px] object-contain' />
+    <img
+      loading='lazy'
+      src='/static/icons/iconClose.svg'
+      alt=''
+      className='h-[21px] w-[21px] object-contain'
+    />
   );
 
   return (

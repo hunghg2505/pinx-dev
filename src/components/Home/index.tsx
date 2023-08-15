@@ -1,10 +1,9 @@
 import React from 'react';
 
-import dynamic from 'next/dynamic';
+import FooterSignUp from '@components/FooterSignup';
+import HomeNewFeed from '@components/Home/HomeNewFeed/HomeNewFeed';
+import PopupHomeNoti from '@components/Home/PopupHomeNoti/PopupHomeNoti';
 
-const PopupHomeNoti = dynamic(() => import('@components/Home/PopupHomeNoti/PopupHomeNoti'));
-const FooterSignUp = dynamic(() => import('@components/FooterSignup'));
-const HomeNewFeed = dynamic(() => import('@components/Home/HomeNewFeed/HomeNewFeed'), { ssr: false });
 const Home = ({ pinPostData }: any) => {
   return (
     <>

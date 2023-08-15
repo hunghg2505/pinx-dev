@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 
-import { Eye, EyeHide } from '../Icon';
+import { Eye } from '@components/UI/Icon/Eye';
+import { EyeHide } from '@components/UI/Icon/EyeHide';
 
 interface InputProps {
   className?: string;

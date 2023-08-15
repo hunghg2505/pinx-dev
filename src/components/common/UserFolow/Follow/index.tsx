@@ -30,7 +30,14 @@ const Folow = () => {
         className={'cursor-pointer rounded-[5px]  bg-primary_bgblue_2  p-[6px] '}
         onClick={() => onFollow()}
       >
-        <img src='/static/icons/iconAdd.svg' alt='' width={0} height={0} className='w-[24px]' />
+        <img
+          loading='lazy'
+          src='/static/icons/iconAdd.svg'
+          alt=''
+          width={0}
+          height={0}
+          className='w-[24px]'
+        />
       </div>
     </>
   );

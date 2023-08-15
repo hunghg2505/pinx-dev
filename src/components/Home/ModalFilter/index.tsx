@@ -66,7 +66,7 @@ const ModalFilter = (props: IProps) => {
     if (text) {
       return text.title;
     }
-    return 'Most recent';
+    return t('most_recent');
   };
   return (
     <>
