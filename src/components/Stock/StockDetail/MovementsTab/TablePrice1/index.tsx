@@ -51,7 +51,7 @@ const TablePrice1 = ({ stockData }: ITablePrice1Props) => {
           </td>
           <td className='pr-[10px] text-right align-middle'>
             <Text type='body-12-regular' className='text-[#0D0D0D]'>
-              {formatStringToNumber(stockData?.lastPrice, true, 2)}
+              {formatStringToNumber(stockData?.lastPrice.toString(), true, 2)}
             </Text>
           </td>
         </tr>
