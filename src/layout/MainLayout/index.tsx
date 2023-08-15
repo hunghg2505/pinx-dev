@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import dynamic from 'next/dynamic';
 
-// import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
+import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
 import MainHeaderFake from '@layout/components/MainHeader/MainHeaderFake';
 import SideBar from '@layout/MainLayout/SideBar';
 
@@ -15,10 +15,10 @@ const ModalPage = dynamic(() => import('@components/ModalPage'), {
   ssr: false,
 });
 
-// const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
-//   ssr: false,
-//   loading: () => <ContentRightFake />,
-// });
+const ContentRight = dynamic(() => import('@components/Home/ContentRight'), {
+  ssr: false,
+  loading: () => <ContentRightFake />,
+});
 
 const MainLayout = ({ children }: any) => {
   return (
@@ -31,7 +31,7 @@ const MainLayout = ({ children }: any) => {
           </div>
           <div className='w-[100%] flex-1 overflow-hidden p-[10px] tablet:p-0'>{children}</div>
           <div className='max-w-[350px] flex-1 mobile:hidden tablet:block' id='right'>
-            {/* <ContentRight /> */}
+            <ContentRight />
           </div>
         </div>
       </div>
