@@ -491,7 +491,7 @@ const StockDetail = () => {
         />
 
         {/* chart */}
-        <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
+        <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px] pt-[36px]'>
           <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
 
           {/* icon maximize */}

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
   const highest_price = data?.refPrice;
@@ -68,7 +68,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {Number(data?.lastPrice) === 0 ? '-' : data?.lastPrice?.toFixed(2)}
+            {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
           </Text>
 
           <Text
@@ -83,8 +83,13 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
             })}
           >
             {isChange ? '' : unit}
-            {Number(data?.change) === 0 ? '-' : data?.change} / {isChange ? '' : unit}
-            {isChange ? '-' : data?.changePc || data?.changePercent}%
+            {Number(data?.change) === 0 ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
+            {isChange ? '' : unit}
+            {isChange
+              ? '-'
+              : formatStringToNumber(data?.changePc, true, 2) ||
+                formatStringToNumber(data?.changePercent, true, 2)}
+            %
           </Text>
         </div>
       </div>
