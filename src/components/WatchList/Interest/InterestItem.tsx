@@ -22,7 +22,7 @@ const InterestItem = (props: IProps) => {
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
+  const isChange = Number(data?.perChange) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -86,11 +86,7 @@ const InterestItem = (props: IProps) => {
               {Number(data?.change) === 0
                 ? '-'
                 : formatStringToNumber(data?.change, true, 2)} / {isChange ? '' : unit}
-              {isChange
-                ? '-'
-                : formatStringToNumber(data?.changePc, true, 2) ||
-                  formatStringToNumber(data?.changePercent, true, 2)}
-              %
+              {isChange ? '-' : formatStringToNumber(data?.perChange, true, 2)}%
             </Text>
             {requestSelectStock?.loading ? (
               <div className='absolute inset-x-0 inset-y-0 flex items-center justify-center backdrop-blur-sm'>

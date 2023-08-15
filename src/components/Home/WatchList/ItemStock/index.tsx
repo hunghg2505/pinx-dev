@@ -73,7 +73,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
                 : formatStringToNumber(data?.change, true, 2)} / {isChange ? '' : unit}
               {isChange
                 ? '-'
-                : formatStringToNumber(data?.changePc, true, 2) ||
+                : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
                   formatStringToNumber(data?.changePercent, true, 2)}
               %
             </Text>

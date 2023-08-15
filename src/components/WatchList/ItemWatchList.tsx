@@ -131,7 +131,7 @@ const ItemWatchList = ({
             {isChange ? '' : unit}
             {isChange
               ? '-'
-              : formatStringToNumber(data?.changePc, true, 2) ||
+              : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
                 formatStringToNumber(data?.changePercent, true, 2)}
             %
           </Text>
