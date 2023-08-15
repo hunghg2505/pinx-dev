@@ -107,6 +107,7 @@ export interface IWatchListItem {
   changePc: string;
   hp: number;
   lp: number;
+  perChange: number;
 }
 export interface INewFeed {
   children: any;

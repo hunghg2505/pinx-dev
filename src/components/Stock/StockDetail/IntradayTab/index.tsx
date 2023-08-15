@@ -88,7 +88,7 @@ const IntradayTab = ({ stockCode, stockData }: { stockCode: string; stockData?: 
                         type='body-16-semibold'
                         className='relative z-10 text-right text-[#0D0D0D]'
                       >
-                        {formatStringToNumber(item.price, true, 2)}
+                        {formatStringToNumber(item.price?.toString(), true, 2)}
                       </Text>
                     </td>
 
