@@ -77,7 +77,7 @@ const MarketDesktop = () => {
             const isDecrease = item?.cIndex < item?.oIndex;
             const isNoChange = item?.cIndex === item?.oIndex;
             const isChange = findIndex === index;
-
+            const valueIndex = item.value / 1000;
             return (
               <TabPane tab={item.displayName} key={index + 1}>
                 <div className='mt-[20px]'>
@@ -118,7 +118,7 @@ const MarketDesktop = () => {
                           {t('val')}
                         </Text>
                         <Text type='body-13-semibold' className='mt-[6px] text-[#263238] '>
-                          {item.value.toLocaleString('en-US')}
+                          {`${valueIndex.toLocaleString('en-US')} Tỷ`}
                         </Text>
                       </div>
                       <div className='text-right'>
