@@ -453,8 +453,9 @@ export const converStringMessageToObject = (message: string) => {
       const checkSplit = item.split(' ')?.reduce((acc: any, cur: any, index: any, array: any) => {
         const isStart = cur.includes('[');
         const isEnd = cur.includes(']');
+        const isHashTag = cur.includes('#');
 
-        if (isStart && !isEnd) {
+        if (isStart && !isEnd && !isHashTag) {
           for (const [i, item] of array.entries()) {
             if (cur === item) {
               continue;
@@ -480,7 +481,9 @@ export const converStringMessageToObject = (message: string) => {
         if (can) {
           const nCur = `${cur}`;
 
-          const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%'));
+          const isSepecial = Boolean(
+            nCur.includes('@') || nCur.includes('%') || nCur.includes('#'),
+          );
 
           if (isSepecial) {
             acc.push(nCur);
@@ -488,7 +491,9 @@ export const converStringMessageToObject = (message: string) => {
             const prevItem = acc.at(-1);
 
             if (prevItem) {
-              const isPrevItemSepecial = Boolean(prevItem.includes('@') || prevItem.includes('%'));
+              const isPrevItemSepecial = Boolean(
+                prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+              );
 
               if (isPrevItemSepecial) {
                 acc.push(nCur);
@@ -504,7 +509,7 @@ export const converStringMessageToObject = (message: string) => {
       }, []);
       const newArray = checkSplit?.map((item: any, index: number) => {
         const b = [];
-        if (item.includes('@')) {
+        if (item.includes('@') || item.includes('#')) {
           const a = index === 0 ? [item, ''] : [item, ''];
           b.push(a);
         } else {
@@ -543,42 +548,50 @@ export const converStringMessageToObject = (message: string) => {
           };
         }
         if (check.includes('#')) {
-          const newArray = check.split(' ');
-          const newArrayHashTag = newArray?.map((item: any) => {
-            const b = [];
-            if (item.includes('#')) {
-              const a = [item, ''];
-              b.push(a);
-            } else {
-              b.push(item);
-            }
-            return b.flat();
-          });
-          const newData = newArrayHashTag?.flat()?.map((itemHashTag: any) => {
-            if (itemHashTag.includes('#')) {
-              return {
-                type: 'hashTag',
-                attrs: {
-                  // eslint-disable-next-line unicorn/no-null
-                  id: null,
-                  label: itemHashTag,
-                },
-              };
-            }
-            if (!itemHashTag.includes('#') && itemHashTag === '') {
-              return {
-                type: 'text',
-                text: ' ',
-              };
-            }
-            return {
-              type: 'text',
-              text: itemHashTag,
-            };
-          });
-          return newData;
+          return {
+            type: 'hashTag',
+            attrs: {
+              // eslint-disable-next-line unicorn/no-null
+              id: null,
+              label: check,
+            },
+          };
+          // const newArray = check.split(' ');
+          // const newArrayHashTag = newArray?.map((item: any) => {
+          //   const b = [];
+          //   if (item.includes('#')) {
+          //     const a = [item, ''];
+          //     b.push(a);
+          //   } else {
+          //     b.push(item);
+          //   }
+          //   return b.flat();
+          // });
+          // const newData = newArrayHashTag?.flat()?.map((itemHashTag: any) => {
+          //   if (itemHashTag.includes('#')) {
+          //     return {
+          //       type: 'hashTag',
+          //       attrs: {
+          //         // eslint-disable-next-line unicorn/no-null
+          //         id: null,
+          //         label: itemHashTag,
+          //       },
+          //     };
+          //   }
+          //   if (!itemHashTag.includes('#') && itemHashTag === '') {
+          //     return {
+          //       type: 'text',
+          //       text: ' ',
+          //     };
+          //   }
+          //   return {
+          //     type: 'text',
+          //     text: itemHashTag,
+          //   };
+          // });
+          // return newData;
         }
-        if (!check.includes('%') && !check.includes('@') && check === '') {
+        if (!check.includes('%') && !check.includes('@') && !check.includes('#') && check === '') {
           return {
             type: 'text',
             text: ' ',
