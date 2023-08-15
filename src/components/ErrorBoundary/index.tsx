@@ -27,7 +27,12 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <div className='flex h-[100vh] flex-col content-center items-center justify-center bg-[#f8f8f8] p-10'>
           <div className='flex flex-col items-center justify-center'>
-            <img src='/static/images/notFound.png' className='h-[191px] w-[246px]' alt='' />
+            <img
+              loading='lazy'
+              src='/static/images/notFound.png'
+              className='h-[191px] w-[246px]'
+              alt=''
+            />
             <Text type='body-22-bold' color='neutral-1' className='mb-[8px]'>
               Sorry.. there was an error
             </Text>

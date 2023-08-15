@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { ILatestSubscribe, ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 interface IProps {
@@ -13,10 +13,12 @@ const ThemeExploreItem = (props: IProps) => {
   const { data } = props;
   const router = useRouter();
   const code = data?.code;
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
+
   const onGotoDetail = () => {
     router.push(ROUTE_PATH.THEME_DETAIL(code));
   };
+
   return (
     <div
       className='relative flex h-[214px] cursor-pointer flex-col justify-end rounded-[12px] bg-[#ffffff] mobile-max:h-[237px]'
@@ -27,7 +29,12 @@ const ThemeExploreItem = (props: IProps) => {
         alt=''
         className='absolute left-[12px] top-[12px] z-10 h-[18px] w-[18px]'
       />
-      <img src={data?.url} alt='' className='absolute left-0 top-0 h-full w-full rounded-[12px]' />
+      <img
+        loading='lazy'
+        src={data?.url}
+        alt=''
+        className='absolute left-0 top-0 h-full w-full rounded-[12px]'
+      />
       <div className='absolute bottom-0 left-0 h-full w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-none rounded-tr-none bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0)_0%,_rgba(0,_0,_0,_0)_61.25%,_rgba(0,_0,_0,_0.8)_100%)]'></div>
       <div className='relative z-10 p-[12px]'>
         <Text type='body-14-bold' color='neutral-9' className='mb-[6px]'>

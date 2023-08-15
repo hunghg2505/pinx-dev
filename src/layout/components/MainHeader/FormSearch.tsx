@@ -27,14 +27,13 @@ import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
-  const { t } = useTranslation(['search-seo','common']);
+  const { t } = useTranslation(['search-seo', 'common']);
   const { isDesktop, isMobile } = useResponsive();
-  const isLogin = !!getAccessToken();
-
+  const { isLogin } = useAuth();
   const searchParams = useSearchParams();
   const search = searchParams.get('keyword') || '';
   const [form] = Form.useForm();
@@ -182,7 +181,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const media = data?.data?.listMedia?.list || [];
 
   // map api do trả thiếu id
-  const newUsers = users?.map(( item:any ) => ({ ...item, id: item.customerId }));
+  const newUsers = users?.map((item: any) => ({ ...item, id: item.customerId }));
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
@@ -203,10 +202,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           </div>
         </>
       )}
-      <div
-        className={classNames(className)}
-        ref={searchResultPopupRef}
-      >
+      <div className={classNames(className)} ref={searchResultPopupRef}>
         <div ref={ref}>
           <Form
             className={classNames('', {
@@ -335,7 +331,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
-                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} />;
+                    return (
+                      <NewsFeed
+                        key={`explore-search-${post?.id}`}
+                        data={post}
+                        isNewFeedExplore={true}
+                      />
+                    );
                   })}
                 </div>
               )}

@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 
-import Link from 'next/link';
-
 import { IStock } from '@components/Stock/type';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import {
   ROUTE_PATH,
@@ -30,7 +29,7 @@ const StockItem = ({ data }: IStockItemProps) => {
   };
 
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] px-[12px] py-[16px]'>
         <img
           src={imageStock(data.stockCode)}
@@ -73,7 +72,7 @@ const StockItem = ({ data }: IStockItemProps) => {
           </div>
         )}
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 

@@ -1,11 +1,13 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Home from '@components/Home';
 import { fetchPinedPostFromServer } from '@components/Home/service';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+
+const Home = dynamic(() => import('@components/Home'));
 
 const HomePage = ({ pinPostData }: any) => {
   return (

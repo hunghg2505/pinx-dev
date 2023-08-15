@@ -160,7 +160,14 @@ const PeopleItem = (props: Iprops) => {
             className='w-[12px]'
           />
         ) : (
-          <img src='/static/icons/iconAdd.svg' alt='' width={0} height={0} className='w-[24px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/iconAdd.svg'
+            alt=''
+            width={0}
+            height={0}
+            className='w-[24px]'
+          />
         )}
       </div>
     </div>

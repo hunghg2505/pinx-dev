@@ -1,12 +1,11 @@
-import Link from 'next/link';
-
 import { ITopWatchingStock } from '@components/Explore/service';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, imageStock } from '@utils/common';
 
 const CompanyItem = ({ data }: { data: ITopWatchingStock }) => {
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex items-center rounded-[15px] bg-[#F7F6F8] py-[10px] pl-[8px] pr-[20px]'>
         <img
           src={imageStock(data?.stockCode)}
@@ -30,7 +29,7 @@ const CompanyItem = ({ data }: { data: ITopWatchingStock }) => {
           </Text>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default CompanyItem;

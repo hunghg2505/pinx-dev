@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -23,7 +23,7 @@ const WatchingStock = (props: Iprops) => {
   }.png`;
   const nameStock = i18n.language === 'en' ? data?.nameEn : data?.name;
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='relative h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div
           className='absolute left-0 top-0 z-[2] h-full rounded-[15px] bg-[#D7EEFF]'
@@ -76,7 +76,7 @@ const WatchingStock = (props: Iprops) => {
           </div>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default WatchingStock;

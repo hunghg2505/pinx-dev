@@ -15,7 +15,7 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
@@ -30,7 +30,8 @@ const Search = (props: any, ref: any) => {
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
+
   const { popular } = useGetPopular();
   const { listRecent, refreshSearchRecent } = useGetSearchRecent();
   const router = useRouter();

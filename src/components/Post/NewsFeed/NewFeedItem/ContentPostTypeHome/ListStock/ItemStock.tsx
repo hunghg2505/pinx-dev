@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -10,7 +9,7 @@ const ItemStock = ({ data }: { data: string }) => {
   }.png`;
 
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data)}>
       <div className='mr-[6px]'>
         <div className='flex h-[32px] flex-row items-center justify-between rounded-[1000px] border-[1px] border-solid border-[rgba(88,157,192,0.24)] bg-[#1F6EAC] pl-[4px] pr-[6px] backdrop-blur-[2px] backdrop-filter'>
           {url && (
@@ -28,7 +27,7 @@ const ItemStock = ({ data }: { data: string }) => {
           </Text>
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default ItemStock;

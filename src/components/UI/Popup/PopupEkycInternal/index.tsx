@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -52,7 +52,7 @@ const PopUpEkycInternal = (props: IProps) => {
               {t('cancel')}
             </Text>
           </div>
-          <Link
+          <CustomLink
             href='https://onelink.to/cgarrk'
             className='flex h-[49px] w-[calc((100%_-_16px)_/_2)] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[linear-gradient(270deg,_#1D6CAB_0%,_#589DC0_100%)]'
             onClick={() => DownloadPineXApp('CTA in App', 'PopUpEkyc')}
@@ -60,7 +60,7 @@ const PopUpEkycInternal = (props: IProps) => {
             <Text type='body-16-bold' color='cbwhite'>
               {t('ok')}
             </Text>
-          </Link>
+          </CustomLink>
         </div>
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
           <img

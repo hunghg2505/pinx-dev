@@ -4,13 +4,13 @@ import React, { useEffect } from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
+import CustomLink from '@components/UI/CustomLink';
 import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 // import Text from '@components/UI/Text';
@@ -237,11 +237,11 @@ const Register = (props: IProps) => {
 
         {!isModal && (
           <div className='mt-9 flex flex-col items-center'>
-            <Link href={ROUTE_PATH.HOME}>
+            <CustomLink href={ROUTE_PATH.HOME}>
               <Text type='body-14-medium' color='primary-1'>
                 {t('skip_forgot_password')}
               </Text>
-            </Link>
+            </CustomLink>
           </div>
         )}
 
