@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -59,11 +58,9 @@ const ItemAddStock = ({
       className='relative flex cursor-pointer items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
     >
       <div className='flex items-center gap-x-[10px]'>
-        <Image
+        <img
           src={imageStock(data?.stockCode)}
           alt=''
-          width={48}
-          height={48}
           className='h-[36px] w-[36px] rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'
         />
         <div className='flex flex-col gap-y-[4px]'>

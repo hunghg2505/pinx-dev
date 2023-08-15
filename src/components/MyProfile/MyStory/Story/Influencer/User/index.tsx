@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 
-import Image from 'next/image';
-
 import { profileUserContext } from '@components/MyProfile';
 
 const User = () => {
@@ -11,7 +9,7 @@ const User = () => {
       <div className='flex justify-center '>
         <h3 className='font-600 mb-[4px] text-[24px]'>{profileUser?.displayName}</h3>
         {profileUser?.isFeatureProfile && (
-          <Image
+          <img
             src='/static/icons/iconStarFollow.svg'
             width={16}
             height={16}
