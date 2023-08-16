@@ -55,9 +55,9 @@ const ComponentWatchList = (props: IProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
+  console.log('🚀 ~ file: index.tsx:59 ~ ComponentWatchList ~ findIndex:', findIndex);
   const dataFormat = useMemo(() => {
-    const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     if (findIndex !== -1) {
       const data = dataStock[findIndex];
       dataStock[findIndex] = {
@@ -68,7 +68,6 @@ const ComponentWatchList = (props: IProps) => {
     if (page_size) {
       return dataStock?.slice(0, page_size);
     }
-
     return dataStock;
   }, [dataSocket, dataStock, page_size]);
   socket.on('public', (message: any) => {
@@ -80,19 +79,27 @@ const ComponentWatchList = (props: IProps) => {
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
-        {dataFormat?.map((item: IWatchListItem, index: number) => (
-          <div
-            key={index}
-            className={classNames({
-              'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
-                isEdit,
-              'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
-                !isEdit,
-            })}
-          >
-            <ItemWatchList data={item} isEdit={isEdit} refresh={useWatchList.refresh} />
-          </div>
-        ))}
+        {dataFormat?.map((item: IWatchListItem, index: number) => {
+          const isChangeStock = dataSocket.sym === item.stockCode;
+          return (
+            <div
+              key={index}
+              className={classNames({
+                'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
+                  isEdit,
+                'flex items-center justify-between rounded-[12px] p-[12px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px] ':
+                  !isEdit,
+              })}
+            >
+              <ItemWatchList
+                data={item}
+                isEdit={isEdit}
+                refresh={useWatchList.refresh}
+                isChangeStock={isChangeStock}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {props?.footer && props?.footer?.(dataFormat)}

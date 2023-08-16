@@ -7,8 +7,9 @@ import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 import { IWatchListItem } from '../../service';
+import style from '../index.module.scss';
 
-const ItemStock = ({ data }: { data: IWatchListItem }) => {
+const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStock: boolean }) => {
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -38,7 +39,6 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               className='h-[40px] w-[40px] rounded-full object-contain'
             />
           )}
-
           <Text
             type='barlow-16-medium'
             className={classNames('mt-[16px]', {
@@ -48,6 +48,13 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isDecrease]:
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                isChangeStock &&
+                !isChange,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -55,7 +62,6 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
           <Text type='body-14-regular' color='primary-5' className={classNames('mt-[8px]')}>
             {data.stockCode}
           </Text>
-
           <div
             className={classNames('mt-[12px]', {
               'text-[#08AADD]': isFloor,
@@ -64,6 +70,13 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isDecrease]:
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                isChangeStock &&
+                !isChange,
             })}
           >
             <Text type='barlow-12-medium'>

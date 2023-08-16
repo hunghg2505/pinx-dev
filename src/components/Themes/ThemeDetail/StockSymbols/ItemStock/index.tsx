@@ -6,15 +6,21 @@ import Link from 'next/link';
 
 import { IStockTheme } from '@components/Themes/service';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
-const ItemStock = ({ data }: { data: IStockTheme }) => {
+import style from './index.module.scss';
+
+const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: boolean }) => {
+  const lastPrice = data?.lastPrice || data?.last_price;
+  const change = data?.change || data?.change_price;
+  const changePc = data?.changePc || data?.change_price_percent;
   const highest_price = data?.ref_price;
   const lowest_price = data?.ref_price;
-  const isFloor = data?.last_price === data?.floor_price;
-  const isHigh = data?.last_price === data?.ceil_price;
-  const isDecrease = data?.last_price < highest_price;
-  const isIncrease = data?.last_price > lowest_price;
+  const isFloor = lastPrice === data?.floor_price;
+  const isHigh = lastPrice === data?.ceil_price;
+  const isDecrease = lastPrice < highest_price;
+  const isIncrease = lastPrice > lowest_price;
+  const isChange = Number(change) === 0 || Number(changePc) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -55,31 +61,43 @@ const ItemStock = ({ data }: { data: IStockTheme }) => {
           <div className='text-right'>
             <Text
               type='body-16-medium'
-              className={classNames('mt-[5px]', {
+              className={classNames('mt-[5px] px-[5px] py-[2px]', {
                 'text-[#128F63]': isIncrease && !isHigh,
-                'text-[#DB4444]': isDecrease && !isFloor,
+                'text-[#DB4444]': isDecrease && !isFloor && Number(lastPrice) !== 0,
                 'text-[#08AADD]': isFloor,
                 'text-[#B349C3]': isHigh,
-                'text-[#E6A70A]  ': Math.ceil(data?.change_price) === 0,
+                'text-[#E6A70A]  ': Math.ceil(Number(change)) === 0 && Number(lastPrice) !== 0,
+                'text-[#474D57]': Number(lastPrice) === 0,
+                [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+                [style.isDecrease]:
+                  isDecrease && !isFloor && Number(lastPrice) !== 0 && isChangeStock && !isChange,
               })}
             >
-              {data?.last_price?.toFixed(2)}
+              {Number(lastPrice) === 0 ? '-' : formatStringToNumber(lastPrice, true, 2)}
             </Text>
 
             <Text
               type='body-12-regular'
-              className={classNames('mt-[5px]', {
+              className={classNames('mt-[5px] px-[5px] py-[2px]', {
                 'text-[#128F63]': isIncrease && !isHigh,
-                'text-[#DB4444]': isDecrease && !isFloor,
+                'text-[#DB4444]': isDecrease && !isFloor && Number(lastPrice) !== 0,
                 'text-[#08AADD]': isFloor,
                 'text-[#B349C3]': isHigh,
-                'text-[#E6A70A]  ': Math.ceil(data?.change_price) === 0,
+                'text-[#E6A70A]  ': Math.ceil(Number(change)) === 0 && Number(lastPrice) !== 0,
+                'text-[#474D57]': Number(lastPrice) === 0,
+                [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+                [style.isDecrease]:
+                  isDecrease && !isFloor && Number(lastPrice) !== 0 && isChangeStock && !isChange,
               })}
             >
-              {Math.ceil(data?.change_price) !== 0 && unit}
-              {Math.ceil(data?.change_price) === 0 ? '-' : data?.change_price} /{' '}
-              {Math.ceil(data?.change_price) !== 0 && unit}
-              {Math.ceil(data?.change_price) === 0 ? '-' : data?.change_price_percent}%
+              {isChange ? '' : unit}
+              {Number(change) === 0 ? '-' : formatStringToNumber(change, true, 2)} /{' '}
+              {isChange ? '' : unit}
+              {isChange
+                ? '-'
+                : (changePc && formatStringToNumber(changePc, true, 2)) ||
+                  formatStringToNumber(changePc, true, 2)}
+              %
             </Text>
           </div>
         </div>

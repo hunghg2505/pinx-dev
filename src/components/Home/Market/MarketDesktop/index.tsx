@@ -118,7 +118,7 @@ const MarketDesktop = () => {
                           {t('val')}
                         </Text>
                         <Text type='body-13-semibold' className='mt-[6px] text-[#263238] '>
-                          {`${valueIndex.toLocaleString('en-US')} Tỷ`}
+                          {`${valueIndex.toLocaleString('en-US')}`} {t('bil')}
                         </Text>
                       </div>
                       <div className='text-right'>

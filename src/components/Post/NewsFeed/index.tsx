@@ -27,15 +27,17 @@ interface IProps {
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
   const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false } = props;
-  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [postDetailStatus] = useAtom(postDetailStatusAtom);
+  // console.log('🚀 ~ file: index.tsx:31 ~ NewsFeed ~ postDetailStatus:', postDetailStatus);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isLogin = !!getAccessToken();
   const [postData, setPostData] = useState(data);
-  React.useEffect(() => {
-    setPostData(data);
-  }, [data]);
+  // React.useEffect(() => {
+  //   setPostData(data);
+  // }, [data]);
   const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
   const isMyPost = postData?.customerId === userLoginInfo?.id;
+  const isMyComment = postData?.children?.[0]?.customerInfo?.customerId === userLoginInfo?.id;
   const itemLike = postDetailStatus?.idPostLike === postData?.id;
   const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
     (item: string) => item === postData?.id,
@@ -63,25 +65,29 @@ const NewsFeed = (props: IProps) => {
       findIndex !== -1 ||
       findItemFollow ||
       itemLike ||
-      (postDetailStatus?.isChangeMyProfile && isMyPost)
+      (postDetailStatus?.isChangeMyProfile && (isMyPost || isMyComment))
     ) {
       refresh();
+      if (onRefreshList && pinned) {
+        onRefreshList();
+      }
     }
   }, [findItemFollow, postDetailStatus?.idPostLike, postDetailStatus?.isChangeMyProfile]);
   React.useEffect(() => {
     if (findIndex === -1 && !findItemFollow && !itemLike) {
       setPostData(data);
     }
-  }, [data]);
+  }, []);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
+      console.log('🚀 ~ file: index.tsx:84 ~ NewsFeed ~ res:', res);
       setPostData(res?.data);
-      setPostDetailStatus({
-        ...postDetailStatus,
-        isAddCommentPostDetail: [],
-        idCustomerFollow: 0,
-        // isChangeMyProfile: false,
-      });
+      // setPostDetailStatus({
+      //   ...postDetailStatus,
+      //   // isAddCommentPostDetail: [],
+      //   idCustomerFollow: 0,
+      //   // isChangeMyProfile: false,
+      // });
     },
   });
   const router = useRouter();
@@ -119,6 +125,7 @@ const NewsFeed = (props: IProps) => {
 
   const onRefreshPostItem = (newData: IPost, isEdit = false) => {
     setPostData(newData);
+    console.log('setPostData');
     refresh();
     if (onRefreshList) {
       onRefreshList();
