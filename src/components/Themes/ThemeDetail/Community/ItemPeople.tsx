@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import { IUserTheme } from '@components/Themes/service';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -21,10 +21,15 @@ const ItemPeople = ({ data }: { data: IUserTheme }) => {
   const { t } = useTranslation('common');
 
   return (
-    <Link href={ROUTE_PATH.PROFILE_DETAIL(data?.customerId)}>
+    <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data?.customerId)}>
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
         <div className='flex items-center'>
-          <img src={data?.avatar} alt='' className='mr-[8px] h-[36px] w-[36px] rounded-full' />
+          <img
+            loading='lazy'
+            src={data?.avatar}
+            alt=''
+            className='mr-[8px] h-[36px] w-[36px] rounded-full'
+          />
           <div>
             <Text type='body-14-semibold' color='neutral-darkgray'>
               {data?.displayName}
@@ -36,7 +41,7 @@ const ItemPeople = ({ data }: { data: IUserTheme }) => {
         </div>
         <IconArrow />
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default ItemPeople;

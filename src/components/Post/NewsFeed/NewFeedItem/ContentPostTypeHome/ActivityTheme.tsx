@@ -2,10 +2,10 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -108,7 +108,7 @@ export const ActivityTheme = ({
         </Fade>
       )}
 
-      <Link href={postDetailUrl}>
+      <CustomLink href={postDetailUrl}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
           <img
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
@@ -144,7 +144,7 @@ export const ActivityTheme = ({
             </div>
           </div>
         </div>
-      </Link>
+      </CustomLink>
       {/* </div> */}
     </>
   );

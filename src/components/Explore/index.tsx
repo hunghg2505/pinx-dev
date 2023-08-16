@@ -13,7 +13,7 @@ import { IPost } from '@components/Post/service';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import IPO from './IPO';
@@ -75,7 +75,7 @@ const Explore = () => {
   const refSlideTheme: any = React.useRef();
   const refSlidePinex: any = React.useRef();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
   const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
   const { run, listNewFeed } = useGetListNewFeed();
@@ -148,14 +148,24 @@ const Explore = () => {
               <Text type='body-14-bold' color='primary-2'>
                 {t('hide')}
               </Text>
-              <img src='/static/icons/explore/iconUp.svg' className='h-[24px] w-[24px]' alt='' />
+              <img
+                loading='lazy'
+                src='/static/icons/explore/iconUp.svg'
+                className='h-[24px] w-[24px]'
+                alt=''
+              />
             </div>
           ) : (
             <div className='flex items-center justify-center'>
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_search')}
               </Text>
-              <img src='/static/icons/explore/iconDown.svg' className='h-[24px] w-[24px]' alt='' />
+              <img
+                loading='lazy'
+                src='/static/icons/explore/iconDown.svg'
+                className='h-[24px] w-[24px]'
+                alt=''
+              />
             </div>
           )}
         </ExploreButton>

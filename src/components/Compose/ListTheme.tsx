@@ -23,7 +23,12 @@ export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, re
           className='min-w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
           onClick={() => setIsShowMore(!isShowMore)}
         >
-          <img src='/static/icons/explore/iconCompose.svg' alt='' className='h-[22px] w-[22px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/explore/iconCompose.svg'
+            alt=''
+            className='h-[22px] w-[22px]'
+          />
         </div>
 
         <Fade visible={isShowMore}>

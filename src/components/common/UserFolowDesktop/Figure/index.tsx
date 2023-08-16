@@ -25,7 +25,12 @@ const Figure = () => {
       }}
     >
       {context?.avatar ? (
-        <img src={context?.avatar} alt='' className='z-[-1] h-full w-full object-cover' />
+        <img
+          loading='lazy'
+          src={context?.avatar}
+          alt=''
+          className='z-[-1] h-full w-full object-cover'
+        />
       ) : (
         <div className='z-[-1] h-full w-full object-cover'>
           <AvatarDefault name={context?.displayName} />

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ONE_LINK_DOWNLOAD } from 'src/constant';
 
@@ -18,13 +18,13 @@ const Mobile = () => {
         {t('install_app')}
       </Text>
 
-      <Link href={ONE_LINK_DOWNLOAD}>
+      <CustomLink href={ONE_LINK_DOWNLOAD}>
         <button className='mx-auto mt-[20px] block h-[38px] rounded-[41px] bg-gradient-to-r from-[#589DC0] to-[#1D6CAB] px-[16px]'>
           <Text type='body-14-bold' color='cbwhite'>
             {t('install')}
           </Text>
         </button>
-      </Link>
+      </CustomLink>
     </div>
   );
 };

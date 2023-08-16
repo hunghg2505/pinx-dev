@@ -13,7 +13,14 @@ const MainHeaderFake = () => {
     <>
       <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
         <div className='flex flex-row'>
-          <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/logo.svg'
+            alt=''
+            width='0'
+            height='0'
+            className='w-[35px]'
+          />
           <div className='ml-[8px]'>
             <Text type='body-14-regular' color='primary-5'>
               {t('try_full_experience_on')}

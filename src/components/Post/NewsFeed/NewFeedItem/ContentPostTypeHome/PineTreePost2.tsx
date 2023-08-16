@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useMount } from 'ahooks';
 import classNames from 'classnames';
 // import dynamic from 'next/dynamic';
 import { useAtomValue } from 'jotai';
@@ -50,6 +51,8 @@ export const PineTreePost2 = ({
   const userDetail = useAtomValue(userLoginInfoAtom);
   const router = useRouter();
 
+  const [showDescription, setShowDescription] = useState(false);
+
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
@@ -73,6 +76,7 @@ export const PineTreePost2 = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
+
   React.useEffect(() => {
     const t = setTimeout(() => {
       const ele = document?.getElementById(`PineTreePost2-${postDetail.id}`);
@@ -86,6 +90,10 @@ export const PineTreePost2 = ({
       clearTimeout(t);
     }, 400);
   }, []);
+
+  useMount(() => {
+    setShowDescription(true);
+  });
 
   const ShowImage = () => {
     if (postDetail?.post?.urlImages?.length > 0) {
@@ -109,22 +117,24 @@ export const PineTreePost2 = ({
     <>
       <div
         className={classNames('PineTreePost2 cursor-pointer')}
-        onClick={(e: any) => onHandleClick(e)}
+        onClick={onHandleClick}
         id={`PineTreePost2-${postDetail.id}`}
       >
-        <Text
-          type='body-14-regular'
-          color='neutral-1'
-          className={classNames('mb-[16px] tablet:!text-[16px]', {
-            'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
-            '!line-clamp-none !h-auto': isPostDetailPath || readMore,
-          })}
-        >
-          <div
-            className='messageFormat messageBody messageBody'
-            dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-          ></div>
-        </Text>
+        {showDescription && (
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
+              'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
+              '!line-clamp-none !h-auto': isPostDetailPath || readMore,
+            })}
+          >
+            <div
+              className='messageFormat messageBody messageBody'
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+            ></div>
+          </Text>
+        )}
       </div>
 
       {!isPostDetailPath && (

@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
@@ -71,7 +71,7 @@ export const ActivityWatchlist = ({
         </Text>
       )}
 
-      <Link href={postDetailUrl}>
+      <CustomLink href={postDetailUrl}>
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           {postDetail?.post?.bgImage && (
             <img
@@ -144,7 +144,7 @@ export const ActivityWatchlist = ({
             </div>
           </div>
         </div>
-      </Link>
+      </CustomLink>
     </div>
   );
 };

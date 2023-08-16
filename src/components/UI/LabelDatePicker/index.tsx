@@ -1,15 +1,20 @@
+/* eslint-disable import/named */
 import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import type { Dayjs } from 'dayjs';
-// eslint-disable-next-line import/named
 import Picker, { PickerProps } from 'rc-picker';
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
 import enUS from 'rc-picker/lib/locale/en_US';
 
-import styles from './index.module.scss';
 import 'rc-picker/assets/index.css';
-import { Calender, PrevIcon, NextIcon, SuperNextIcon, SuperPrevIcon } from '../Icon';
+import { Calender } from '@components/UI/Icon/Calender';
+import { NextIcon } from '@components/UI/Icon/NextIcon';
+import { PrevIcon } from '@components/UI/Icon/PrevIcon';
+import { SuperNextIcon } from '@components/UI/Icon/SuperNextIcon';
+import { SuperPrevIcon } from '@components/UI/Icon/SuperPrevIcon';
+
+import styles from './index.module.scss';
 
 const MyPicker = (props: Omit<PickerProps<Dayjs>, 'locale' | 'generateConfig'>) => (
   // @ts-ignore

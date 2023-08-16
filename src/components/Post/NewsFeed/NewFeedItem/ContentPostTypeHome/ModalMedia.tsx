@@ -22,7 +22,7 @@ const ModalMedia = ({ children, url }: IPropsModalMedia) => {
         closeIcon={<></>}
         className={styles.modalMedia}
       >
-        <img src={url} alt='' />
+        <img loading='lazy' src={url} alt='' />
       </Modal>
     </>
   );

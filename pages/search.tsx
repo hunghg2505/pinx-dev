@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Search from '@components/Search';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+
+const Search = dynamic(() => import('@components/Search'));
 
 const SearchPage = () => {
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import { ROUTE_PATH } from '@utils/common';
 
 const NotFound = () => {
@@ -21,7 +21,7 @@ const NotFound = () => {
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('watch_list_not_found')}
           </p>
-          <Link
+          <CustomLink
             href={ROUTE_PATH.TOP_WATCHING}
             className='
           line-[18px]
@@ -38,7 +38,7 @@ const NotFound = () => {
         '
           >
             {t('explore')}
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </div>

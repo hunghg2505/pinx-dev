@@ -7,9 +7,10 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
-import { FilterFake } from '@components/Home/HomeNewFeed/ModalFilter';
+import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
-import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
+import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
+import UserPosting from '@components/Home/UserPosting/UserPosting';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import SkeletonLoading from '@components/UI/Skeleton';
@@ -32,21 +33,10 @@ import {
   useSuggestPeople,
 } from '../service';
 
-const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
-  ssr: false,
-  loading: () => <UserPostingFake />,
-});
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
 });
-const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
-  ssr: false,
-});
 
-const HomeFeedFilter = dynamic(() => import('@components/Home/HomeNewFeed/ModalFilter'), {
-  ssr: false,
-  loading: () => <FilterFake />,
-});
 const Trending = dynamic(() => import('../Trending'), {
   ssr: false,
 });

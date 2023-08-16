@@ -147,7 +147,14 @@ const ItemPeople = (props: IProps) => {
               className='w-[10px]'
             />
           )} */}
-          <img src='/static/icons/iconPlus.svg' alt='' width='0' height='0' className='w-[10px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/iconPlus.svg'
+            alt=''
+            width='0'
+            height='0'
+            className='w-[10px]'
+          />
         </div>
       </div>
     </>

@@ -1,10 +1,9 @@
 import React from 'react';
 
 import classNames from 'classnames';
-// import { IWatchListItem } from '@components/Home/service';
-import Link from 'next/link';
 
 import { IStockTheme } from '@components/Themes/service';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
@@ -30,7 +29,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: 
   }.png`;
   return (
     <>
-      <Link href={ROUTE_PATH.STOCK_DETAIL(data.stock_code)}>
+      <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stock_code)}>
         <div className='item flex h-[82px] items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px]'>
           <div className='flex w-[65%] items-center'>
             <img
@@ -101,7 +100,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: 
             </Text>
           </div>
         </div>
-      </Link>
+      </CustomLink>
     </>
   );
 };

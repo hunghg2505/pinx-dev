@@ -1,16 +1,18 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import SearchSeo from '@components/SearchSeo';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+
+const SearchSeo = dynamic(() => import('@components/SearchSeo'));
 
 const SearchBar = () => {
   return (
     <>
-      <SEO title={'Search Seo'}/>
-      <SearchSeo/>
+      <SEO title={'Search Seo'} />
+      <SearchSeo />
     </>
   );
 };

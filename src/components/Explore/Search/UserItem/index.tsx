@@ -23,9 +23,10 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 interface Iprops {
   data: ISuggestionPeople;
   reload?: () => void;
+  setShowPopup?: any;
 }
 const UserItem = (props: Iprops) => {
-  const { data, reload } = props;
+  const { data, reload,setShowPopup  } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
@@ -99,7 +100,10 @@ const UserItem = (props: Iprops) => {
     >
       <div
         className='flex cursor-pointer items-center'
-        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
+        onClick={() => {
+          router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id));
+          setShowPopup && setShowPopup(false);
+        }}
       >
         {data?.avatar ? (
           <img
@@ -154,7 +158,14 @@ const UserItem = (props: Iprops) => {
             className='w-[12px]'
           />
         ) : (
-          <img src='/static/icons/iconAdd.svg' alt='' width={0} height={0} className='w-[24px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/iconAdd.svg'
+            alt=''
+            width={0}
+            height={0}
+            className='w-[24px]'
+          />
         )}
       </div>
     </div>

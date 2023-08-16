@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -6,7 +6,6 @@ import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -14,6 +13,7 @@ import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
 import Text from '@components/UI/Text';
@@ -223,18 +223,47 @@ const StockDetail = () => {
     if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
       return;
     }
-    setPreDataStock(dataStock);
 
-    if (data?.id === 3220 || data?.id === 3250) {
-      const tempData = { ...data };
-      if (data?.id === 3220) {
-        tempData.lot = data.totalVol;
-      }
-      setDataStock((prev) => ({ ...prev, ...tempData }));
+    // 3220
+    if (
+      data?.id === 3220 &&
+      (data.lastPrice !== dataStock.lastPrice ||
+        data.changePc !== dataStock.changePc ||
+        dataStock.lot !== data.totalVol ||
+        dataStock.ot !== data.change)
+    ) {
+      setPreDataStock(dataStock);
+      setDataStock((prev: any) => ({
+        ...prev,
+        lastPrice: data.lastPrice,
+        changePc: data.changePc,
+        lot: data.totalVol,
+        ot: data.change,
+      }));
+    }
+
+    // 3250
+    if (
+      data?.id === 3250 &&
+      (data.fBVol !== dataStock.fBVol ||
+        data.fSVolume !== dataStock.fSVolume ||
+        dataStock.fRoom !== data.fRoom)
+    ) {
+      setPreDataStock(dataStock);
+      setDataStock((prev: any) => ({
+        ...prev,
+        fBVol: data.fBVol,
+        fSVolume: data.fSVolume,
+        fRoom: data.fRoom,
+      }));
     }
 
     // sell
-    if (data.side === 'S') {
+    if (
+      data.side === 'S' &&
+      (data.g1 !== dataStock.g4 || data.g2 !== dataStock.g5 || data.g3 !== dataStock.g6)
+    ) {
+      setPreDataStock(dataStock);
       setDataStock((prev: any) => ({
         ...prev,
         g4: data.g1,
@@ -244,7 +273,11 @@ const StockDetail = () => {
     }
 
     // buy
-    if (data.side === 'B') {
+    if (
+      data.side === 'B' &&
+      (data.g1 !== dataStock.g1 || data.g2 !== dataStock.g2 || data.g3 !== dataStock.g3)
+    ) {
+      setPreDataStock(dataStock);
       setDataStock((prev: any) => ({
         ...prev,
         g1: data.g1,
@@ -772,13 +805,13 @@ const StockDetail = () => {
           </div>
 
           {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
-            <Link href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
+            <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
               <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                 <Text type='body-14-bold' color='primary-2'>
                   {t('common:see_more')}
                 </Text>
               </button>
-            </Link>
+            </CustomLink>
           )}
         </div>
       )}
@@ -822,7 +855,7 @@ const StockDetail = () => {
                 {t('rating.reviews')}
               </Text>
 
-              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
                     {stockDetails?.data.details.totalReviews}
@@ -834,7 +867,7 @@ const StockDetail = () => {
                     className='ml-[10px] h-[8px] w-[4px] object-contain'
                   />
                 </div>
-              </Link>
+              </CustomLink>
             </div>
           </div>
         </div>
@@ -849,13 +882,13 @@ const StockDetail = () => {
             />
 
             {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
-              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('rating.see_more')}
                   </Text>
                 </button>
-              </Link>
+              </CustomLink>
             )}
           </>
         ) : (
@@ -878,7 +911,10 @@ const StockDetail = () => {
             </Text>
 
             <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
-              <Link href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)} className='flex gap-x-[10px]'>
+              <CustomLink
+                href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
+                className='flex gap-x-[10px]'
+              >
                 {stockDetails?.data.watchingInvestingList
                   .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
                   .map((item, index) => (
@@ -904,7 +940,7 @@ const StockDetail = () => {
                       )}
                     </div>
                   ))}
-              </Link>
+              </CustomLink>
 
               <div
                 onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
@@ -936,7 +972,7 @@ const StockDetail = () => {
             ))}
 
             {stockNews.data.list.length > NEWS_ITEM_LIMIT && (
-              <Link href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
                 <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('more_news', {
@@ -944,7 +980,7 @@ const StockDetail = () => {
                     })}
                   </Text>
                 </button>
-              </Link>
+              </CustomLink>
             )}
           </>
         </div>
@@ -983,7 +1019,7 @@ const StockDetail = () => {
           </div>
 
           {stockEvents?.data && stockEvents.data.list.length > STOCK_EVENT_ITEM_LIMIT && (
-            <Link href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
+            <CustomLink href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
               <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
                 <Text type='body-14-bold' color='primary-2'>
                   {t('more_events', {
@@ -991,7 +1027,7 @@ const StockDetail = () => {
                   })}
                 </Text>
               </button>
-            </Link>
+            </CustomLink>
           )}
         </div>
       )}

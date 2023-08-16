@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ClickaPost } from '@utils/dataLayer';
@@ -23,14 +23,23 @@ interface IProps {
   onRefreshList?: () => void;
   onRemoveData?: () => void;
   isNewFeedExplore?: boolean;
+  setShowPopup?: any;
 }
+
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false } = props;
+  const {
+    data,
+    pinned = false,
+    onRefreshList,
+    onRemoveData,
+    isNewFeedExplore = false,
+    setShowPopup,
+  } = props;
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   // console.log('🚀 ~ file: index.tsx:31 ~ NewsFeed ~ postDetailStatus:', postDetailStatus);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
   // React.useEffect(() => {
   //   setPostData(data);
@@ -43,6 +52,7 @@ const NewsFeed = (props: IProps) => {
     (item: string) => item === postData?.id,
   );
   const bgTheme = useAtomValue(postThemeAtom);
+
   const { hashtags, Ticker, Link, themeName, postType } = React.useMemo(() => {
     const hashtags = postData?.post?.hashtags || [];
     const Ticker = postData?.post?.tagStocks;
@@ -90,7 +100,9 @@ const NewsFeed = (props: IProps) => {
       // });
     },
   });
+
   const router = useRouter();
+
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
@@ -158,6 +170,7 @@ const NewsFeed = (props: IProps) => {
           refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
+          setShowPopup={setShowPopup}
         />
 
         {isLogin && !isNewFeedExplore && (
