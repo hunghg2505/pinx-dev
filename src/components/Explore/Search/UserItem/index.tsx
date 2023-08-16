@@ -24,9 +24,10 @@ interface Iprops {
   data: ISuggestionPeople;
   reload?: () => void;
   setShowPopup?: any;
+  refreshSearch?: () => void;
 }
 const UserItem = (props: Iprops) => {
-  const { data, reload,setShowPopup  } = props;
+  const { data, reload,setShowPopup, refreshSearch  } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
@@ -48,6 +49,7 @@ const UserItem = (props: Iprops) => {
         getUserProfile();
         setIsFollow(true);
         reload && reload();
+        refreshSearch && refreshSearch();
         // refreshList();
       },
       onError: (e: any) => {
@@ -65,6 +67,7 @@ const UserItem = (props: Iprops) => {
         getUserProfile();
         setIsFollow(false);
         reload && reload();
+        refreshSearch && refreshSearch();
         // refreshList();
       },
       onError: (e: any) => {

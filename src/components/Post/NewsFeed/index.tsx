@@ -24,11 +24,12 @@ interface IProps {
   onRemoveData?: () => void;
   isNewFeedExplore?: boolean;
   setShowPopup?: any;
+  refreshSearch?: () => void;
 }
 
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false, setShowPopup } = props;
+  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false, setShowPopup, refreshSearch } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const { isLogin } = useAuth();
@@ -86,6 +87,7 @@ const NewsFeed = (props: IProps) => {
         idCustomerFollow: 0,
         // isChangeMyProfile: false,
       });
+      refreshSearch && refreshSearch();
     },
   });
 
@@ -94,6 +96,7 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
+    setShowPopup && setShowPopup();
   };
 
   const [, setImageCommentMobile] = useState(false);
@@ -159,7 +162,6 @@ const NewsFeed = (props: IProps) => {
           refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
-          setShowPopup={setShowPopup}
         />
 
         {isLogin && !isNewFeedExplore && (
