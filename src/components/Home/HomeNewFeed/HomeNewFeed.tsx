@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -94,13 +94,13 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     }
   }, []);
 
-  const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
+  // const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
 
-  useLayoutEffect(() => {
-    if (isHaveStockWatchList) {
-      setSelectTab('1');
-    }
-  }, [isHaveStockWatchList]);
+  // useLayoutEffect(() => {
+  //   if (isHaveStockWatchList) {
+  //     setSelectTab('1');
+  //   }
+  // }, [isHaveStockWatchList]);
 
   useEffect(() => {
     if (!!userType && !isReadTerms) {

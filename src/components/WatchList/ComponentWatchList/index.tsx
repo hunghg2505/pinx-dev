@@ -55,9 +55,8 @@ const ComponentWatchList = (props: IProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  console.log('🚀 ~ file: index.tsx:59 ~ ComponentWatchList ~ findIndex:', findIndex);
   const dataFormat = useMemo(() => {
+    const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     if (findIndex !== -1) {
       const data = dataStock[findIndex];
       dataStock[findIndex] = {
@@ -70,12 +69,18 @@ const ComponentWatchList = (props: IProps) => {
     }
     return dataStock;
   }, [dataSocket, dataStock, page_size]);
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 3220) {
-      setDataSocket(data);
-    }
-  });
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setDataSocket(data);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
@@ -83,7 +88,7 @@ const ComponentWatchList = (props: IProps) => {
           const isChangeStock = dataSocket.sym === item.stockCode;
           return (
             <div
-              key={index}
+              key={`${item.stockCode}-${index}`}
               className={classNames({
                 'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
                   isEdit,

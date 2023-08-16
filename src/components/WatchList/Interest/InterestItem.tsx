@@ -64,6 +64,9 @@ const InterestItem = (props: IProps) => {
               'text-[#782AF9]': isHigh,
               'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [styles.isIncrease]: isIncrease && !isHigh && !isChange,
+              [styles.isDecrease]:
+                isDecrease && !isFloor && Number(data?.lastPrice) !== 0 && !isChange,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -81,6 +84,9 @@ const InterestItem = (props: IProps) => {
                 'text-[#782AF9]': isHigh,
                 'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
                 'text-[#474D57]': Number(data?.lastPrice) === 0,
+                [styles.isIncrease]: isIncrease && !isHigh && !isChange,
+                [styles.isDecrease]:
+                  isDecrease && !isFloor && Number(data?.lastPrice) !== 0 && !isChange,
               })}
             >
               {isChange ? '' : unit}

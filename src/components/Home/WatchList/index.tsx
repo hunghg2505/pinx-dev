@@ -63,12 +63,18 @@ const WatchList = () => {
 
   const [dataSocket, setDataSocket] = useState<any>({});
 
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 3220) {
-      setDataSocket(data);
-    }
-  });
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setDataSocket(data);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
 
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
   if (findIndex && findIndex !== -1) {

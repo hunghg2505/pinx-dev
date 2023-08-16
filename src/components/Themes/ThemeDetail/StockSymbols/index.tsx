@@ -32,12 +32,19 @@ const StockSymbols = ({ data }: { data: IThemeDetail }) => {
       }
     };
   }, []);
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 3220) {
-      setDataSocket(data);
-    }
-  });
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setDataSocket(data);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
+
   const findIndex = stockList?.findIndex((item: any) => item.stock_code === dataSocket.sym);
   if (findIndex && findIndex !== -1) {
     const data = stockList[findIndex];

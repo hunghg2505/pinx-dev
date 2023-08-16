@@ -17,14 +17,13 @@ const ItemWatchList = ({
   data,
   isEdit,
   refresh,
-  isChangeStock,
+  isChangeStock = false,
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refresh: () => void;
-  isChangeStock: boolean;
+  isChangeStock?: boolean;
 }) => {
-  console.log('🚀 ~ file: ItemWatchList.tsx:27 ~ isChangeStock:', isChangeStock);
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
@@ -59,7 +58,6 @@ const ItemWatchList = ({
   const onRemove = () => {
     useRemoveStock.run();
   };
-
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>

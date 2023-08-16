@@ -77,24 +77,29 @@ const Market = () => {
       return t(MARKET_STATUS.WO);
     }
   };
-
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 1101) {
-      const [change, changePercent, x, increase, decrease, ref] = data.ot.split('|');
-      const newData = {
-        ...data,
-        change,
-        changePercent,
-        x,
-        increase,
-        decrease,
-        ref,
-      };
-      delete newData.ot;
-      setDataStock(newData);
-    }
-  });
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 1101) {
+        const [change, changePercent, x, increase, decrease, ref] = data.ot.split('|');
+        const newData = {
+          ...data,
+          change,
+          changePercent,
+          x,
+          increase,
+          decrease,
+          ref,
+        };
+        delete newData.ot;
+        setDataStock(newData);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
 
   const findIndex = dataStockIndex?.findIndex((item: any) => item.mc === dataStock.mc);
   if (findIndex !== -1) {
