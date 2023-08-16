@@ -17,11 +17,11 @@ const Follow = ({
   const { t } = useTranslation('common');
   return (
     <>
-      <div className='flex items-center px-[16px] pb-[12px]'>
+      <div className='flex items-center px-[16px] pb-[12px] galaxy-max:justify-evenly'>
         {' '}
         <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWER}
-          className='flex w-[50%] items-center justify-center'
+          className='flex items-center justify-center'
           onClick={() => {
             close();
           }}
@@ -32,13 +32,13 @@ const Follow = ({
         <div className='h-[27px] w-[1px] bg-neutral_07 '></div>
         <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWING}
-          className='flex w-[50%] items-center justify-center'
+          className='flex items-center justify-center'
           onClick={() => {
             close();
           }}
         >
           <b className='mr-[16px]'>{following ?? 0}</b>
-          {t('following')}
+          <span className='galaxy-max:text-[12px]'>{t('following')}</span>
         </CustomLink>
       </div>
       <hr className='border-neutral_07' />

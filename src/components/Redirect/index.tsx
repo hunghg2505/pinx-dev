@@ -84,7 +84,7 @@ const Redirect = () => {
           {t('description.second_line')}
         </Text>
         <div className='flex  mobile:mt-[16px] tablet:mt-[24px] '>
-          <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px]  galaxy-max:py-[6px] tablet:py-[16px]'>
+          <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px]   galaxy-max:py-[6px] tablet:py-[16px]'>
             <img
               src='/static/icons/iconLink-02.svg'
               alt=''
@@ -101,7 +101,7 @@ const Redirect = () => {
             </Text>
           </div>
           <div
-            className='cursor-pointer rounded-bl-none rounded-br-[8px] rounded-tl-none rounded-tr-[8px] bg-[#1F6EAC] px-[24px] mobile:py-[9px]   galaxy-max:basis-1/2  galaxy-max:px-[10px] galaxy-max:py-[8px] tablet:py-[17px]'
+            className='cursor-pointer rounded-bl-none rounded-br-[8px] rounded-tl-none rounded-tr-[8px] bg-[#1F6EAC] px-[24px] mobile:py-[9px]  galaxy-max:basis-1/2  galaxy-max:px-[8px] galaxy-max:py-[8px] tablet:py-[17px]'
             onClick={onContinute}
           >
             <Text

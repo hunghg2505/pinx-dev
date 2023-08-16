@@ -443,7 +443,7 @@ const ItemComment = (props: IProps) => {
                 }
                 alt=''
                 className={classNames(
-                  'mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]',
+                  'mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[6px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]',
                 )}
               />
             </div>
@@ -454,7 +454,7 @@ const ItemComment = (props: IProps) => {
               <img
                 src='/static/icons/iconComment.svg'
                 alt=''
-                className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
+                className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
               />
               <Text
                 type='body-13-regular'
@@ -485,7 +485,7 @@ const ItemComment = (props: IProps) => {
                   <img
                     src='/static/icons/iconFlag.svg'
                     alt=''
-                    className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
+                    className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[6px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
                   />
                 )}
                 <div>
