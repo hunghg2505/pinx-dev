@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
@@ -60,4 +60,4 @@ const TablePrice1 = ({ stockData }: ITablePrice1Props) => {
   );
 };
 
-export default TablePrice1;
+export default memo(TablePrice1);

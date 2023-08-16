@@ -223,18 +223,47 @@ const StockDetail = () => {
     if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
       return;
     }
-    setPreDataStock(dataStock);
 
-    if (data?.id === 3220 || data?.id === 3250) {
-      const tempData = { ...data };
-      if (data?.id === 3220) {
-        tempData.lot = data.totalVol;
-      }
-      setDataStock((prev) => ({ ...prev, ...tempData }));
+    // 3220
+    if (
+      data?.id === 3220 &&
+      (data.lastPrice !== dataStock.lastPrice ||
+        data.changePc !== dataStock.changePc ||
+        dataStock.lot !== data.totalVol ||
+        dataStock.ot !== data.change)
+    ) {
+      setPreDataStock(dataStock);
+      setDataStock((prev: any) => ({
+        ...prev,
+        lastPrice: data.lastPrice,
+        changePc: data.changePc,
+        lot: data.totalVol,
+        ot: data.change,
+      }));
+    }
+
+    // 3250
+    if (
+      data?.id === 3250 &&
+      (data.fBVol !== dataStock.fBVol ||
+        data.fSVolume !== dataStock.fSVolume ||
+        dataStock.fRoom !== data.fRoom)
+    ) {
+      setPreDataStock(dataStock);
+      setDataStock((prev: any) => ({
+        ...prev,
+        fBVol: data.fBVol,
+        fSVolume: data.fSVolume,
+        fRoom: data.fRoom,
+      }));
     }
 
     // sell
-    if (data.side === 'S') {
+    if (
+      data.side === 'S' &&
+      (data.g1 !== dataStock.g4 || data.g2 !== dataStock.g5 || data.g3 !== dataStock.g6)
+    ) {
+      setPreDataStock(dataStock);
       setDataStock((prev: any) => ({
         ...prev,
         g4: data.g1,
@@ -244,7 +273,11 @@ const StockDetail = () => {
     }
 
     // buy
-    if (data.side === 'B') {
+    if (
+      data.side === 'B' &&
+      (data.g1 !== dataStock.g1 || data.g2 !== dataStock.g2 || data.g3 !== dataStock.g3)
+    ) {
+      setPreDataStock(dataStock);
       setDataStock((prev: any) => ({
         ...prev,
         g1: data.g1,

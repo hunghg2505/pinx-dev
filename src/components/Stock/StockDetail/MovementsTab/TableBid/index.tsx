@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+import useToggleClassStock from '@hooks/useToggleClassStock';
 import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import { getColor } from '..';
@@ -105,14 +106,15 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
           <div className='pl-[6px]'>
             <Text
               type='body-12-regular'
-              className={classNames('inline-block self-end p-[4px] text-[#474D57]', {
-                [styles.isIncrease]:
+              className={classNames(
+                'inline-block self-end p-[4px] text-[#474D57]',
+                useToggleClassStock(
                   buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 > (stockData?.r || 0),
-                [styles.isDecrease]:
                   buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 < (stockData?.r || 0),
-                [styles.isEqual]:
                   buy_volume_1 !== pre_buy_volume_1 && +buy_price_1 === (stockData?.r || 0),
-              })}
+                  stockData,
+                ),
+              )}
             >
               {formatNumber((Number(buy_volume_1) || 0) * 10)}
             </Text>
@@ -123,14 +125,15 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
           >
             <Text
               type='body-12-semibold'
-              className={classNames('inline-block p-[4px]', {
-                [styles.isIncrease]:
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock(
                   buy_price_1 !== pre_buy_price_1 && +buy_price_1 > (stockData?.r || 0),
-                [styles.isDecrease]:
                   buy_price_1 !== pre_buy_price_1 && +buy_price_1 < (stockData?.r || 0),
-                [styles.isEqual]:
                   buy_price_1 !== pre_buy_price_1 && +buy_price_1 === (stockData?.r || 0),
-              })}
+                  stockData,
+                ),
+              )}
             >
               {Number.isNaN(+buy_price_1)
                 ? buy_price_1
@@ -150,14 +153,15 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
           <div className='pl-[6px]'>
             <Text
               type='body-12-regular'
-              className={classNames('inline-block self-end p-[4px] text-[#474D57]', {
-                [styles.isIncrease]:
+              className={classNames(
+                'inline-block self-end p-[4px] text-[#474D57]',
+                useToggleClassStock(
                   buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 > (stockData?.r || 0),
-                [styles.isDecrease]:
                   buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 < (stockData?.r || 0),
-                [styles.isEqual]:
                   buy_volume_2 !== pre_buy_volume_2 && +buy_price_2 === (stockData?.r || 0),
-              })}
+                  stockData,
+                ),
+              )}
             >
               {formatNumber((Number(buy_volume_2) || 0) * 10)}
             </Text>
@@ -168,14 +172,15 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
           >
             <Text
               type='body-12-semibold'
-              className={classNames('inline-block p-[4px]', {
-                [styles.isIncrease]:
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock(
                   buy_price_2 !== pre_buy_price_2 && +buy_price_2 > (stockData?.r || 0),
-                [styles.isDecrease]:
                   buy_price_2 !== pre_buy_price_2 && +buy_price_2 < (stockData?.r || 0),
-                [styles.isEqual]:
                   buy_price_2 !== pre_buy_price_2 && +buy_price_2 === (stockData?.r || 0),
-              })}
+                  stockData,
+                ),
+              )}
             >
               {Number.isNaN(+buy_price_2)
                 ? buy_price_2
@@ -195,14 +200,15 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
           <div className='pl-[6px]'>
             <Text
               type='body-12-regular'
-              className={classNames('inline-block self-end p-[4px] text-[#474D57]', {
-                [styles.isIncrease]:
+              className={classNames(
+                'inline-block self-end p-[4px] text-[#474D57]',
+                useToggleClassStock(
                   buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 > (stockData?.r || 0),
-                [styles.isDecrease]:
                   buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 < (stockData?.r || 0),
-                [styles.isEqual]:
                   buy_volume_3 !== pre_buy_volume_3 && +buy_price_3 === (stockData?.r || 0),
-              })}
+                  stockData,
+                ),
+              )}
             >
               {formatNumber((Number(buy_volume_3) || 0) * 10)}
             </Text>
@@ -213,14 +219,15 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
           >
             <Text
               type='body-12-semibold'
-              className={classNames('inline-block p-[4px]', {
-                [styles.isIncrease]:
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock(
                   buy_price_3 !== pre_buy_price_3 && +buy_price_3 > (stockData?.r || 0),
-                [styles.isDecrease]:
                   buy_price_3 !== pre_buy_price_3 && +buy_price_3 < (stockData?.r || 0),
-                [styles.isEqual]:
                   buy_price_3 !== pre_buy_price_3 && +buy_price_3 === (stockData?.r || 0),
-              })}
+                  stockData,
+                ),
+              )}
             >
               {Number.isNaN(+buy_price_3)
                 ? buy_price_3
@@ -240,4 +247,4 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
   );
 };
 
-export default TableBid;
+export default memo(TableBid);
