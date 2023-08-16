@@ -248,7 +248,7 @@ const Editor = (props: IProps, ref?: any) => {
           }
           setPostDetailStatus({
             ...postDetailStatus,
-            isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+            idPostAddComment: id,
           });
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
@@ -279,7 +279,7 @@ const Editor = (props: IProps, ref?: any) => {
           setPostDetailStatus({
             ...postDetailStatus,
             isDoneReplies: true,
-            isAddCommentPostDetail: [...postDetailStatus?.isAddCommentPostDetail, id],
+            idPostAddComment: id,
           });
           editor?.commands.clearContent();
           if (imageComment) {
