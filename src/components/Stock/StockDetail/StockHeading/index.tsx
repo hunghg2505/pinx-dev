@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
@@ -96,7 +96,7 @@ const StockHeading = ({
 
       <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
         {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
-          <div className='flex items-center'>
+          <div className='flex items-center justify-end'>
             <Text type='body-12-regular' className='primary-5 mr-[4px]'>
               {stockDetails?.data.watchingNo}+
             </Text>
@@ -166,4 +166,4 @@ const StockHeading = ({
   );
 };
 
-export default StockHeading;
+export default memo(StockHeading);

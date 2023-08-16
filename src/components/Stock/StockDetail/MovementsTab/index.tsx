@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import dynamic from 'next/dynamic';
 
@@ -120,4 +120,4 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
   );
 };
 
-export default MovementsTab;
+export default memo(MovementsTab);
