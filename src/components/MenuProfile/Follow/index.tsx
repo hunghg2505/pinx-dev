@@ -21,7 +21,7 @@ const Follow = ({
         {' '}
         <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWER}
-          className='flex w-[50%] justify-center'
+          linkClassName='flex w-[50%] justify-center'
           onClick={() => {
             close();
           }}
@@ -32,7 +32,7 @@ const Follow = ({
         <div className='h-[27px] w-[1px] bg-neutral_07 '></div>
         <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWING}
-          className='flex w-[50%] justify-center'
+          linkClassName='flex w-[50%] justify-center'
           onClick={() => {
             close();
           }}

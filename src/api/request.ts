@@ -23,7 +23,7 @@ const redirectlogin = (error: any) => {
   if (getAccessToken() && (error?.response?.status === 401 || error?.response?.status === 403)) {
     localStorage.clear();
     deleteAuthCookies();
-    window.location.href = '/auth/login';
+    window.location.href = '/';
     toast('Session expired');
     return;
   }

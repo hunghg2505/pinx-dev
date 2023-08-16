@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
-import { API_PATH } from '@api/constant';
-import { privateRequest, requestPist } from '@api/request';
 import Text from '@components/UI/Text';
+import { useGetDataStockWatchlistHome, useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
 import ItemStock from './ItemStock';
-import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from '../service';
+import { IWatchListItem } from '../service';
 
 const settings = {
   dots: false,
@@ -29,61 +27,15 @@ const settings = {
 const WatchList = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const [dataStock, setDataStock] = useState<any>([]);
-
-  const useWatchList = useRequest(
-    () => {
-      return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
-    },
-    {
-      manual: true,
-      onSuccess: (res: any) => {
-        setDataStock(res?.data?.[0]?.stocks);
-        const data = res?.data?.[0]?.stocks;
-        if (data) {
-          for (const element of data) {
-            requestJoinChannel(element.stockCode);
-          }
-        }
-      },
-    },
-  );
-
-  useEffect(() => {
-    useWatchList.run();
-    return () => {
-      if (dataStock) {
-        for (const element of dataStock) {
-          requestLeaveChannel(element.stockCode);
-        }
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const [dataSocket, setDataSocket] = useState<any>({});
+  const { dataStockWatchlist, findIndex } = useGetDataStockWatchlistHome();
+  const { closeSocket } = useStockWatchlistHome();
 
   React.useEffect(() => {
-    const getDataSocket = (message: any) => {
-      const data = message.data;
-      if (data?.id === 3220) {
-        setDataSocket(data);
-      }
-    };
-    socket.on('public', getDataSocket);
     return () => {
-      socket.off('public', getDataSocket);
+      closeSocket();
     };
   }, []);
 
-  const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex && findIndex !== -1) {
-    const data = dataStock[findIndex];
-    dataStock[findIndex] = {
-      ...data,
-      ...dataSocket,
-    };
-  }
 
   const onAddStock = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
@@ -91,7 +43,7 @@ const WatchList = () => {
   return (
     <>
       <div className='mt-[22px] h-[179px] max-w-[700px] justify-center overflow-hidden mobile:block  tablet:hidden '>
-        {dataStock?.length > 0 ? (
+        {dataStockWatchlist?.length > 0 ? (
           <div>
             <Slider
               {...settings}
@@ -101,7 +53,7 @@ const WatchList = () => {
               )}
               variableWidth
             >
-              {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
+              {dataStockWatchlist?.slice(0, 5).map((item: IWatchListItem, index: number) => {
                 const isChangeStock = index === findIndex;
                 return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
               })}
