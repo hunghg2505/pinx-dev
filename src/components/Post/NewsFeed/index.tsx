@@ -24,6 +24,7 @@ interface IProps {
   onRemoveData?: () => void;
   isNewFeedExplore?: boolean;
   setShowPopup?: any;
+  refreshSearch?: () => void;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -35,6 +36,7 @@ const NewsFeed = (props: IProps) => {
     onRemoveData,
     isNewFeedExplore = false,
     setShowPopup,
+    refreshSearch,
   } = props;
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -89,7 +91,6 @@ const NewsFeed = (props: IProps) => {
   }, []);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
-      console.log('🚀 ~ file: index.tsx:84 ~ NewsFeed ~ res:', res);
       setPostData(res?.data);
       // setPostDetailStatus({
       //   ...postDetailStatus,
@@ -97,6 +98,7 @@ const NewsFeed = (props: IProps) => {
       //   idCustomerFollow: 0,
       //   // isChangeMyProfile: false,
       // });
+      refreshSearch && refreshSearch();
     },
   });
 
@@ -137,7 +139,6 @@ const NewsFeed = (props: IProps) => {
 
   const onRefreshPostItem = (newData: IPost, isEdit = false) => {
     setPostData(newData);
-    console.log('setPostData');
     refresh();
     if (onRefreshList) {
       onRefreshList();

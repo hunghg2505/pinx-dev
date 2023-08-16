@@ -260,7 +260,7 @@ const ItemComment = (props: IProps) => {
                   />
                 )}
               </div>
-              <button className='relative flex items-center' ref={ref}>
+              <button className='relative flex items-center' ref={ref} aria-label='show popup'>
                 {isComment && (
                   <img
                     src='/static/icons/iconDotHorizontal.svg'
