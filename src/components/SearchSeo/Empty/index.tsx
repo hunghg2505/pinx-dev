@@ -2,10 +2,12 @@ import React from 'react';
 
 import { useTranslation } from 'next-i18next';
 
+import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 
-const Empty = ({ keyword }: { keyword:string }) => {
+const Empty = ({ keyword, loading }: { keyword: string, loading?: boolean }) => {
   const { t } = useTranslation(['search-seo','common']);
+  if (loading) { return <Loading/>; }
   return (
     <div className='flex flex-col gap-y-[24px] items-center text-center'>
       <div></div>

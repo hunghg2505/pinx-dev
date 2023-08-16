@@ -23,7 +23,7 @@ const SearchSeo = () => {
   const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
-  const { data, searchPublic } = useSearchPublic({
+  const { data, searchPublic, loading } = useSearchPublic({
     onSuccess: () => {
       console.log('useSearchPublic', data);
     },
@@ -95,7 +95,7 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} />
+                <Empty keyword={keyword} loading={loading} />
               </>
             )}
           </TabPane>
@@ -108,7 +108,7 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} />
+                <Empty keyword={keyword} loading={loading} />
               </>
             )}
           </TabPane>
@@ -127,7 +127,7 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} />
+                <Empty keyword={keyword} loading={loading} />
               </>
             )}
           </TabPane>
@@ -140,7 +140,7 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} />
+                <Empty keyword={keyword} loading={loading} />
               </>
             )}
           </TabPane>
@@ -156,7 +156,7 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} />
+                <Empty keyword={keyword} loading={loading} />
               </>
             )}
           </TabPane>
