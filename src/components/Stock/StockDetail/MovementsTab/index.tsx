@@ -13,7 +13,7 @@ const TotalPrice = dynamic(() => import('@components/Stock/StockDetail/Movements
 
 const TableAsk = dynamic(() => import('@components/Stock/StockDetail/MovementsTab/TableAsk'), {
   ssr: false,
-  loading: () => <FakeTableAskBid />,
+  loading: () => <FakeTableAskBid isAsk />,
 });
 
 const TableBid = dynamic(() => import('@components/Stock/StockDetail/MovementsTab/TableBid'), {
@@ -73,41 +73,17 @@ export const getColor = (price: number, ref: number) => {
 const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
   return (
     <>
-      <div className='tablet:hidden'>
-        <div className='flex justify-between'>
-          <div className='flex-1'>
-            <TablePrice1 stockData={stockData} />
-          </div>
-
-          <TableAsk
-            className='laptop-max:w-[49vw]'
-            stockData={stockData}
-            preDataStock={preDataStock}
-          />
-        </div>
-
-        <div className='mt-[12px] flex justify-between'>
-          <TableBid
-            className='laptop-max:w-[49vw]'
-            stockData={stockData}
-            preDataStock={preDataStock}
-          />
-
-          <div className='flex-1'>
-            <TablePrice2 stockData={stockData} />
-          </div>
-        </div>
-      </div>
-
-      <div className='hidden tablet:block'>
-        <div className='grid grid-cols-2 gap-x-[16px]'>
-          <TableBid stockData={stockData} preDataStock={preDataStock} />
-
+      <div className='tablet:flex tablet:gap-x-[20px]'>
+        <div className='flex flex-1 flex-col gap-y-[8px] tablet:gap-y-[20px]'>
           <TableAsk stockData={stockData} preDataStock={preDataStock} />
+
+          <TableBid stockData={stockData} preDataStock={preDataStock} />
         </div>
 
-        <div className='mt-[8px] grid grid-cols-2 gap-x-[16px]'>
+        <div className='mt-[8px] flex gap-x-[20px] rounded-[12px] border-solid tablet:mt-0 tablet:w-[220px] tablet:flex-col tablet:justify-between tablet:gap-y-[10px] tablet:border tablet:border-[#EBEBEB]'>
           <TablePrice1 stockData={stockData} />
+
+          <div className='mx-[20px] hidden h-[1px] bg-[#ebebeb] tablet:block'></div>
 
           <TablePrice2 stockData={stockData} />
         </div>
