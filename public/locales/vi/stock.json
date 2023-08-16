@@ -51,7 +51,7 @@
   },
   "rating_page": {
     "description": "Đánh giá cổ phiếu của người dùng PineX",
-    "review": "Review"
+    "review": "Đánh giá"
   },
   "review_form": {
     "title": "Bạn nghĩ sao về cổ phiếu {{stockCode}}?",
