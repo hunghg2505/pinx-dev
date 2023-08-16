@@ -28,12 +28,12 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
             <img
               src={profileUser?.avatar}
               alt='story picture'
-              className='relative  h-full w-full object-cover'
+              className='relative h-full w-full object-cover'
             />
             <div className='absolute left-0 top-0 z-10 flex h-full w-full bg-gradient-to-t from-neutral_black to-[transparent] px-[20px] pb-[12px] pt-[20px]'>
               <div className='mt-auto w-full text-center'>
                 <div className='flex items-center justify-center'>
-                  <Text type='body-24-semibold' color='cbwhite'>
+                  <Text type='body-24-semibold' className='galaxy-max:text-[20px]' color='cbwhite'>
                     {profileUser?.displayName}
                   </Text>
 
@@ -59,15 +59,23 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
                     />
                   )}
                 </div>
-                <Text type='body-14-regular' color='cbwhite'>
+                <Text type='body-14-regular' className='galaxy-max:text-[12px]' color='cbwhite'>
                   {profileUser?.position}
                 </Text>
               </div>
             </div>
           </header>
           <main className='bg-neutral_black px-[16px] pb-[20px] pt-[40px]'>
-            <div className={classNames('h-[210px] w-full overflow-auto', styles.caption)}>
-              <Text type='body-16-regular' className='whitespace-pre-line leading-[21px]'>
+            <div
+              className={classNames(
+                'h-[210px] w-full overflow-auto galaxy-max:h-[180px]',
+                styles.caption,
+              )}
+            >
+              <Text
+                type='body-16-regular'
+                className='whitespace-pre-line leading-[21px] galaxy-max:text-[14px]'
+              >
                 {profileUser?.caption}
               </Text>
 

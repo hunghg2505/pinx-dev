@@ -6,7 +6,7 @@ import { TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { toNonAccentVietnamese } from '@utils/common';
 
-export const Avatar = ({ postDetail }: any) => {
+export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
@@ -61,7 +61,7 @@ export const Avatar = ({ postDetail }: any) => {
         alt='avatar'
         sizes='100vw'
         className={classNames(
-          'mr-2 rounded-full border border-solid border-[#ebebeb] object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]',
+          'mr-2 rounded-full border border-solid border-[#ebebeb] object-contain mobile:h-[44px] mobile:w-[44px]  desktop:h-[56px] desktop:w-[56px]',
           {
             'object-cover': [
               TYPEPOST.POST,
@@ -69,6 +69,9 @@ export const Avatar = ({ postDetail }: any) => {
               TYPEPOST.ActivityWatchlist,
               TYPEPOST.ActivityMatchOrder,
             ].includes(postDetail?.post?.postType),
+          },
+          {
+            'galaxy-max:h-[36px] galaxy-max:w-[36px]': isNewFeedExplore,
           },
         )}
       />

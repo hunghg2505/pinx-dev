@@ -85,6 +85,7 @@ const ItemComment = (props: IProps) => {
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const isHomePath = router.pathname === '/';
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -255,7 +256,6 @@ const ItemComment = (props: IProps) => {
     }
   }, []);
 
-  const minCommentHeight = 95;
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
@@ -265,21 +265,24 @@ const ItemComment = (props: IProps) => {
           width='0'
           height='0'
           sizes='100vw'
-          className={classNames('mr-[8px] cursor-pointer rounded-full object-cover', {
-            'h-[40px] w-[40px]': !isChildren,
-            'h-[36px] w-[36px]': isChildren,
-          })}
+          className={classNames(
+            'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+            {
+              'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
+              'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
+            },
+          )}
           onClick={() =>
             isComment
               ? router.push(ROUTE_PATH.MY_PROFILE)
               : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
           }
         />
-        {isPostDetailPath && data?.children.length > 0 && !isChildren && (
+        {!isHomePath && data?.children.length > 0 && !isChildren && (
           <>
             <div
               style={{
-                height: `${height - minCommentHeight - 40 - 20 + 13}px`,
+                height: `${height - 40 - 20 + 13}px`,
               }}
               className={classNames('absolute left-[20px] top-[44px] z-0 w-[2px] bg-neutral_07')}
             ></div>
@@ -296,15 +299,15 @@ const ItemComment = (props: IProps) => {
 
         {isChildren && (
           <div>
-            <div className='absolute -left-[28px] -top-[18px] z-20 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
-            <div className='absolute -left-[26px] -top-[19.5px] z-20 h-[40px] w-[20px] rounded-bl-xl   bg-white'></div>
+            <div className='absolute -left-[28px] -top-[18px] z-20 h-[40px] w-[17px] rounded-bl-xl  bg-neutral_07'></div>
+            <div className='absolute -left-[26px] -top-[19.5px] z-20 h-[40px] w-[17px] rounded-bl-xl   bg-white'></div>
 
             {isLastChildren && (
               <div
                 style={{
                   height: `${height - 4}px`,
                 }}
-                className='absolute -left-[28px] top-0 z-0  w-[2px] bg-white'
+                className='absolute -left-[30px] top-0 z-0  w-[5px] bg-white'
               ></div>
             )}
           </div>
@@ -397,7 +400,11 @@ const ItemComment = (props: IProps) => {
                   className='mr-[10px] w-[15px] galaxy-max:mr-0'
                 />
 
-                <Text type='body-13-regular' color='primary-1' className='tablet:!text-[14px]'>
+                <Text
+                  type='body-13-regular'
+                  color='primary-1'
+                  className='galaxy-max:text-[12px] tablet:!text-[14px]'
+                >
                   {data?.totalLikes}
                 </Text>
               </div>
@@ -417,7 +424,7 @@ const ItemComment = (props: IProps) => {
             </ModalMedia>
           )}
 
-          <div className='action flex gap-x-[12px] tablet:gap-x-[18px]'>
+          <div className='action flex gap-x-[12px] galaxy-max:gap-[4px] tablet:gap-x-[18px]'>
             <div className='like flex cursor-pointer items-center' onClick={onLike}>
               <Text
                 type='body-13-regular'
@@ -473,12 +480,12 @@ const ItemComment = (props: IProps) => {
             >
               <div className='flex'>
                 {data?.isReport && isLogin ? (
-                  <IconReported className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]' />
+                  <IconReported className='mr-[8px]  hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]' />
                 ) : (
                   <img
                     src='/static/icons/iconFlag.svg'
                     alt=''
-                    className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
+                    className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
                   />
                 )}
                 <div>
@@ -490,7 +497,7 @@ const ItemComment = (props: IProps) => {
             <Text
               type='body-13-regular'
               color='neutral-4'
-              className='select-none !font-light tablet:!text-[14px]'
+              className='select-none !font-light  galaxy-max:ml-[4px] galaxy-max:self-end galaxy-max:text-[10px] tablet:!text-[14px]'
             >
               {dayjs(data?.timeString)?.locale(i18n.language)?.fromNow(true)}
             </Text>

@@ -160,11 +160,15 @@ const Setting = () => {
           )}
         >
           <div className='flex items-center'>
-            <Text type='body-14-regular' color={item.linkStyle ? 'primary-2' : 'cbblack'}>
+            <Text
+              className='galaxy-max:text-[12px]'
+              type='body-14-regular'
+              color={item.linkStyle ? 'primary-2' : 'cbblack'}
+            >
               {item.title}
             </Text>
             {item.isNew && (
-              <div className='ml-[10px] rounded-[4px] bg-[#D87737] px-[6px] py-[3px] text-white'>
+              <div className='ml-[10px]  rounded-[4px] bg-[#D87737] px-[6px] py-[3px] text-white galaxy-max:text-[12px]'>
                 {t('new')}
               </div>
             )}
@@ -259,7 +263,9 @@ const Setting = () => {
               </Text>
 
               <div className='flex cursor-pointer items-center justify-between border-b-[1px] border-solid border-[--neutral-7] py-[14px] laptop-max:px-4 laptop:border-none'>
-                <Text type='body-14-regular'>{t('share_watchinglist')}</Text>
+                <Text className='galaxy-max:text-[12px]' type='body-14-regular'>
+                  {t('share_watchinglist')}
+                </Text>
 
                 <Switch
                   defaultChecked={settingsData?.data?.share_watchlist === '1'}

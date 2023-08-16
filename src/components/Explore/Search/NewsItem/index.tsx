@@ -34,20 +34,24 @@ const NewsItem = ({ data }: { data: any }) => {
     <>
       <div className='flex'>
         <div className='mr-[16px] w-[calc(100%_-_73px)] cursor-pointer' onClick={onGoToDetail}>
-          <div className='flex items-center'>
+          <div className='flex items-center galaxy-max:gap-[4px]'>
             <img
               src={data?.post?.vendorInfo?.logo}
               alt=''
-              className='mr-[8px] h-[24px] w-[24px] rounded-full object-contain'
+              className='mr-[8px] h-[24px] w-[24px] rounded-full object-contain galaxy-max:mr-0 galaxy-max:h-[20px] galaxy-max:w-[20px] '
             />
-            <Text type='body-12-regular' color='primary-5' className='mr-[8px]'>
+            <Text
+              type='body-12-regular'
+              color='primary-5'
+              className='mr-[8px] galaxy-max:mr-0 galaxy-max:text-[10px]'
+            >
               {data?.post?.vendorInfo?.name}
             </Text>
-            <Text type='body-12-regular' color='neutral-gray'>
+            <Text type='body-12-regular' className='galaxy-max:text-[8px]' color='neutral-gray'>
               {data?.timeString && dayjs(data?.timeString)?.locale(i18n.language)?.fromNow()}
             </Text>
           </div>
-          <Text type='body-14-semibold' color='cbblack'>
+          <Text type='body-14-semibold' className='galaxy-max:text-[12px]' color='cbblack'>
             {data?.post?.title}
           </Text>
         </div>

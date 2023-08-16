@@ -68,39 +68,47 @@ const Redirect = () => {
             height={20}
             className='mr-[10px] h-[20px] w-[20px] object-contain'
           />
-          <Text type='body-14-regular' color='neutral-4' className='text-center'>
+          <Text
+            type='body-14-regular'
+            color='neutral-4'
+            className='text-center galaxy-max:text-left galaxy-max:text-[12px]'
+          >
             {t('description.first_line')}
           </Text>
         </div>
         <Text
           type='body-14-regular'
           color='neutral-4'
-          className='text-center mobile:mt-[16px] tablet:mt-[25px]'
+          className='text-center mobile:mt-[16px] galaxy-max:text-[12px] tablet:mt-[25px]'
         >
           {t('description.second_line')}
         </Text>
-        <div className='flex mobile:mt-[16px] tablet:mt-[24px]'>
-          <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px] tablet:py-[16px]'>
+        <div className='flex  mobile:mt-[16px] tablet:mt-[24px] '>
+          <div className='mr-[4px] flex items-center rounded-bl-[8px] rounded-br-none rounded-tl-[8px] rounded-tr-none border-[1px] border-solid border-[#CCC] bg-[#FFF] px-[12px] mobile:py-[9px]  galaxy-max:py-[6px] tablet:py-[16px]'>
             <img
               src='/static/icons/iconLink-02.svg'
               alt=''
               width={0}
               height={0}
-              className='mr-[4px] w-[20px]'
+              className='mr-[4px] w-[20px] galaxy-max:w-[16px]'
             />
             <Text
               type='body-14-regular'
               color='primary-4'
-              className='inline-block overflow-hidden overflow-ellipsis whitespace-nowrap mobile:max-w-[189px] tablet:max-w-[393px] tablet:!text-[16px]'
+              className='inline-block overflow-hidden overflow-ellipsis whitespace-nowrap mobile:max-w-[189px] galaxy-max:max-w-[120px] galaxy-max:text-[12px] tablet:max-w-[393px] tablet:!text-[16px]'
             >
               {url}
             </Text>
           </div>
           <div
-            className='cursor-pointer rounded-bl-none rounded-br-[8px] rounded-tl-none rounded-tr-[8px] bg-[#1F6EAC] px-[24px] mobile:py-[9px] tablet:py-[17px]'
+            className='cursor-pointer rounded-bl-none rounded-br-[8px] rounded-tl-none rounded-tr-[8px] bg-[#1F6EAC] px-[24px] mobile:py-[9px]   galaxy-max:basis-1/2  galaxy-max:px-[10px] galaxy-max:py-[8px] tablet:py-[17px]'
             onClick={onContinute}
           >
-            <Text type='body-14-semibold' color='neutral-9' className='tablet:!text-[16px]'>
+            <Text
+              type='body-14-semibold'
+              color='neutral-9'
+              className='galaxy-max:text-[12px] tablet:!text-[16px]'
+            >
               {t('common:continue2')}
             </Text>
           </div>

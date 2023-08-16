@@ -263,7 +263,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
             </div>
             <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
               <ModalPeopleYouKnow refreshList={refreshList}>
-                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
+                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC] galaxy-max:w-full'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('explore_people')}
                   </Text>

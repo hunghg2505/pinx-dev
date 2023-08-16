@@ -87,7 +87,7 @@ const PopupSubsribeTheme = (props: IProps) => {
           height='0'
           className='mx-auto mb-1 h-[52px] w-[52px] text-center'
         />
-        <Text type='body-24-bold' className='text-center text-[#128F63]'>
+        <Text type='body-24-bold' className='text-center text-[#128F63] galaxy-max:text-[22px]'>
           {isUnubsribeTheme ? t('im_unsubscribing') : t('im_subscribing')}
         </Text>
         <Form
@@ -102,7 +102,7 @@ const PopupSubsribeTheme = (props: IProps) => {
           >
             <textarea
               placeholder={t('what_do_you_want_to_comment')}
-              className='h-full w-full resize-none outline-none'
+              className='h-full w-full resize-none outline-none galaxy-max:text-[12px]'
             />
           </FormItem>
 
@@ -129,7 +129,7 @@ const PopupSubsribeTheme = (props: IProps) => {
             </div>
           </div>
           <MainButton
-            className='mt-5 flex w-full justify-center'
+            className='mt-5 flex w-full justify-center galaxy-max:text-[15px]'
             type='submit'
             disabled={requestShareThemeActivity?.loading}
           >

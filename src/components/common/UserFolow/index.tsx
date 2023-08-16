@@ -22,14 +22,14 @@ const UserFolow = (props: any) => {
             <img
               src={props?.avatar}
               alt=''
-              className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
+              className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:mr-[6px] galaxy-max:h-[40px] galaxy-max:w-[40px]'
               onClick={() => {
                 route.push(ROUTE_PATH.PROFILE_DETAIL(props?.id));
               }}
             />
           ) : (
             <div
-              className='mr-[8px] h-[44px] w-[44px] '
+              className='mr-[8px] h-[44px] w-[44px] galaxy-max:mr-[4px] galaxy-max:h-[40px] galaxy-max:w-[40px] '
               onClick={() => {
                 route.push(ROUTE_PATH.PROFILE_DETAIL(props?.id));
               }}
@@ -46,7 +46,7 @@ const UserFolow = (props: any) => {
               alt=''
               width={0}
               height={0}
-              className='ml-[6px] w-[16px]'
+              className='ml-[6px] w-[16px] galaxy-max:ml-[4px]'
             />
           )}
 
@@ -54,7 +54,7 @@ const UserFolow = (props: any) => {
             <img
               src='/static/icons/iconTickKol.svg'
               alt=''
-              className='ml-[6px] h-[14px] w-[14px] object-contain'
+              className='ml-[6px] h-[14px] w-[14px] object-contain galaxy-max:ml-[4px]'
             />
           )}
         </div>

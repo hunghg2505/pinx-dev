@@ -124,7 +124,7 @@ const MainHeader = () => {
   return (
     <>
       <div
-        className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white transition-all duration-[350ms] ease-in-out desktop:h-[84px] '
+        className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white transition-all duration-[350ms] ease-in-out  desktop:h-[84px]'
         ref={refHeader}
       >
         {!isRouteSetting && (
@@ -158,7 +158,7 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] galaxy-max:gap-[12px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
@@ -186,7 +186,7 @@ const MainHeader = () => {
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
-              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px]'>
+              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[4px]'>
                 {isMobile && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}

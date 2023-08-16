@@ -9,7 +9,7 @@ const HeaderMobile = () => {
       <div className='flex flex-row'>
         <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
         <div className='ml-[8px]'>
-          <Text type='body-14-regular' color='primary-5'>
+          <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>
             Try full experience on
           </Text>
           <Link

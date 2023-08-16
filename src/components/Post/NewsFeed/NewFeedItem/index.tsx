@@ -394,7 +394,7 @@ const NewFeedItem = (props: IProps) => {
                 ].includes(postDetail?.post?.postType),
               })}
             >
-              <Avatar postDetail={postDetail} />
+              <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
 
               <Fade
                 visible={

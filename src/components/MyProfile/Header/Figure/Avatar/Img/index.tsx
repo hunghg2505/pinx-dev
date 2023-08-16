@@ -7,7 +7,7 @@ const Img = ({ avatar }: { avatar: string }) => {
       alt='background cover'
       width={113}
       height={113}
-      className='h-[113px] w-[113px] rounded-full bg-white object-cover p-[5px] tablet:h-[100px] tablet:w-[100px] xdesktop:h-[120px] xdesktop:w-[120px]'
+      className='h-[113px] w-[113px] rounded-full bg-white object-cover p-[5px] galaxy-max:h-[90px] galaxy-max:w-[90px] tablet:h-[100px] tablet:w-[100px] xdesktop:h-[120px] xdesktop:w-[120px]'
     />
   );
 };

@@ -8,7 +8,7 @@ import ItemPeople from '../ItemPeople';
 
 const settings = {
   dots: false,
-  infinite: true,
+  infinite: false,
   speed: 500,
   slidesToShow: 3,
   slidesToScroll: 1,
@@ -16,7 +16,7 @@ const settings = {
     {
       breakpoint: 300,
       settings: {
-        slidesToShow: 1.5,
+        slidesToShow: 2,
         slidesToScroll: 1,
       },
     },

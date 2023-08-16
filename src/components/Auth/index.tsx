@@ -45,10 +45,10 @@ function Auth() {
   return (
     <>
       {curTab === AUTH_TAB_TYPE.REGISTER && (
-        <div>
+        <div className=''>
           <a
             href={REGISTER_INSTRUCTIONS_LINK}
-            className='z-999 fixed right-[14px] top-[23px] flex items-center gap-2'
+            className='fixed right-[14px] top-[23px] z-[999] flex items-center gap-2 '
             target='_blank'
             rel='noreferrer'
           >
@@ -66,7 +66,7 @@ function Auth() {
         </div>
       )}
 
-      <div className='pt-[10px]'>
+      <div className='pt-[10px] '>
         <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
           <TabPane tab={t('login')} key={AUTH_TAB_TYPE.LOGIN}>
             <Login />

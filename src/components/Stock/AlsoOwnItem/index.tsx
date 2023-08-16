@@ -34,8 +34,8 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
 
   return (
     <>
-      <div className='flex cursor-pointer items-center' onClick={handleClickStock}>
-        <div className='flex h-[81px] w-[81px] items-center justify-center'>
+      <div className='flex cursor-pointer items-center ' onClick={handleClickStock}>
+        <div className='flex h-[81px] w-[81px] items-center justify-center galaxy-max:w-[56px] '>
           {data.listed ? (
             <img
               src={imageStock(data.stockCode)}
@@ -47,7 +47,7 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
             <img
               src='/static/images/defaultCompanyLogo.png'
               alt='Default logo'
-              className='block h-[52px] w-[52px] object-contain'
+              className='block h-[52px] w-[52px] object-contain  galaxy-max:h-[48px] galaxy-max:w-[48px]'
             />
           )}
         </div>
@@ -56,31 +56,35 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
           <div className='mb-[4px]'>
             {data.stockCode && data.stockExchange ? (
               <div className='flex items-center'>
-                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                   {data.stockCode}
                 </Text>
 
                 <div className='ml-[4px] flex h-[20px] min-w-[36px] items-center justify-center rounded-[4px] bg-[#F7F6F8] px-[6px]'>
-                  <Text type='body-10-regular' className='text-[#999999]'>
+                  <Text type='body-10-regular' className='text-[#999999] galaxy-max:text-[8px]'>
                     {data.stockExchange}
                   </Text>
                 </div>
               </div>
             ) : (
-              <div className='inline-flex h-[20px] items-center justify-center rounded-[4px] border border-solid border-[#EBEBEB] px-[8px]'>
-                <Text type='body-10-regular' color='primary-5' className='uppercase'>
+              <div className='inline-flex h-[20px] items-center justify-center rounded-[4px] border border-solid border-[#EBEBEB] px-[8px] galaxy-max:px-[4px]'>
+                <Text
+                  type='body-10-regular'
+                  color='primary-5'
+                  className='uppercase galaxy-max:text-[7px]'
+                >
                   {t('unlisted')}
                 </Text>
               </div>
             )}
           </div>
-          <Text type='body-12-regular' className='text-[#999999]'>
+          <Text type='body-12-regular' className='text-[#999999] galaxy-max:text-[10px]'>
             {data.name}
           </Text>
         </div>
 
         <div className='ml-auto flex items-center pl-[8px]'>
-          <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+          <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[12px]'>
             {Number.isInteger(data.ownerRatio)
               ? data.ownerRatio
               : formatStringToNumber(String(data.ownerRatio), true, 2)}

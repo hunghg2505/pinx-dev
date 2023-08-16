@@ -105,15 +105,15 @@ const UserItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
+            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}
 
-        <Text type='body-14-semibold' className='text-[#474D57]'>
+        <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px]'>
           {data?.displayName}
         </Text>
 
@@ -140,7 +140,8 @@ const UserItem = (props: Iprops) => {
       </div>
       <div
         className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
-          'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7]': isFollow,
+          'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]':
+            isFollow,
           'bg-[#D8EBFC]': !isFollow,
         })}
         onClick={() => onFollow(data.id)}

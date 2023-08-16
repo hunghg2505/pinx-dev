@@ -47,16 +47,18 @@ const BasicInfo = ({
             alt='avatar'
             width={52}
             height={52}
-            className='h-[52px] w-[52px] rounded-[50%]'
+            className='h-[52px] w-[52px] rounded-[50%] galaxy-max:flex-none galaxy-max:object-cover'
           />
         ) : (
-          <div className='h-[52px] w-[52px] '>
+          <div className='h-[52px] w-[52px] galaxy-max:flex-none'>
             <AvatarDefault name={userName[0]} />
           </div>
         )}
         <div className='ml-[12px] mr-auto flex-col justify-center'>
           <div className='flex items-center'>
-            <h4 className='text-[20px] font-[500]'>{userName ?? 'No name'}</h4>
+            <h4 className='text-[20px] font-[500] galaxy-max:text-[16px]'>
+              {userName ?? 'No name'}
+            </h4>
 
             {isKol && (
               <img
@@ -82,7 +84,7 @@ const BasicInfo = ({
           </div>
           {status && (
             <span
-              className={classNames('text-[#EAA100]', {
+              className={classNames('text-[#EAA100] galaxy-max:text-[12px]', {
                 '!text-[#128F63]': status === USER_STATUS_VERIFIED,
                 '!text-[#F1BA09]': status === USER_STATUS_PENDING,
               })}

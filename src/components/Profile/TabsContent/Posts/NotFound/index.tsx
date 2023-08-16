@@ -14,7 +14,7 @@ const NotFound = () => {
         className='mx-auto mb-[10px] h-[24px] w-[24px] object-contain'
       />
 
-      <Text type='body-14-regular' color='primary-5' className='text-center'>
+      <Text type='body-14-regular' color='primary-5' className='text-center galaxy-max:text-[12px]'>
         {t('post_notfound')}
       </Text>
     </div>

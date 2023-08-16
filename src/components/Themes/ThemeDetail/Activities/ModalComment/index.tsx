@@ -58,6 +58,7 @@ const ModalComment = (props: Iprops) => {
               refreshCommentOfPOst={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
+              isLastChildren={index === payload.length - 1}
             />
           ))}
         </div>
@@ -89,7 +90,7 @@ const ModalComment = (props: Iprops) => {
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
                 return (
-                  <>
+                  <div key={index}>
                     <ItemComment
                       key={index}
                       data={item}
@@ -98,7 +99,7 @@ const ModalComment = (props: Iprops) => {
                       refreshCommentOfPOst={refreshCommentOfPost}
                     />
                     {getSubComment(item.children)}
-                  </>
+                  </div>
                 );
               })
             ) : (

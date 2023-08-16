@@ -155,10 +155,10 @@ const ModalShare = ({
               />
 
               <button
-                className='h-full min-w-[112px] cursor-pointer rounded-br-[8px] rounded-tr-[8px] bg-[var(--primary-2)] px-[18px] transition-all hover:opacity-80'
+                className='h-full min-w-[112px] cursor-pointer rounded-br-[8px] rounded-tr-[8px] bg-[var(--primary-2)] px-[18px] transition-all hover:opacity-80 galaxy-max:px-[14px]'
                 onClick={handleCopy}
               >
-                <Text type='body-14-medium' color='cbwhite'>
+                <Text type='body-14-medium' className='galaxy-max:text-[12px]' color='cbwhite'>
                   {isCopied ? t('copied') : t('copy_link')}
                 </Text>
               </button>

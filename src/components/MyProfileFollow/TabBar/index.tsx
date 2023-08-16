@@ -13,9 +13,12 @@ const TabBar = ({ tabKey }: { tabKey: string }) => {
   return (
     <>
       <span
-        className={classNames('text-[18px] font-[700] transition duration-300 ease-in-out', {
-          'text-neutral_06': searchParams.get('tab') !== tabKey,
-        })}
+        className={classNames(
+          'text-[18px] font-[700] transition duration-300 ease-in-out galaxy-max:text-[16px]',
+          {
+            'text-neutral_06': searchParams.get('tab') !== tabKey,
+          },
+        )}
         onClick={() => {
           replace({ query: { tab: tabKey } });
         }}

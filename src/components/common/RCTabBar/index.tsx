@@ -10,8 +10,8 @@ export interface ITabBar {
 const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
   return (
     <div role='tablist' className='rc-tabs-nav z-10 mb-[20px]'>
-      <div className='relative border-b border-solid border-primary_blue_light after:absolute after:z-10 after:h-[10px] after:w-full after:bg-white after:[border-top:1px_solid_#EFF2F5] mobile:after:-left-[16px] mobile:after:w-[calc(100%+32px)] desktop:after:-left-[20px] desktop:after:w-[calc(100%+40px)]'>
-        <div className='rc-tabs-nav-list  ml-[-16px] whitespace-nowrap duration-300 ease-in-out tablet:mx-0'>
+      <div className='relative border-b border-solid border-primary_blue_light '>
+        <div className='rc-tabs-nav-list whitespace-nowrap duration-300 ease-in-out galaxy-max:ml-0 tablet:mx-0'>
           {list.map((item) => {
             return (
               <div
@@ -21,7 +21,7 @@ const TabBar = ({ list, onChange, activeKey }: ITabBar) => {
                 }}
                 role='tab'
                 className={classNames(
-                  'rc-tabs-tab  flex-1 border-b-[3px] border-solid border-[transparent] text-center text-[16px] duration-300 ease-in-out tablet:flex-grow-0',
+                  'rc-tabs-tab  flex-1 border-b-[3px] border-solid border-[transparent] text-center text-[16px] duration-300 ease-in-out galaxy-max:text-[14px] tablet:flex-grow-0',
                   {
                     'rc-tabs-tab-active stroke-[#000] font-[600] text-[#000]':
                       activeKey === item.key,

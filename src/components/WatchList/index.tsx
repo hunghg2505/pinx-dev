@@ -1,16 +1,13 @@
 import React, { useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
-import {
-  requestJoinChannel,
-  requestLeaveChannel, socket
-} from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import Themes from '@components/WatchList/Themes';
 // @ts-ignore
 import YourWatchList from '@components/WatchList/YourWatchList';
-import { useResponsive } from '@hooks/useResponsive';
+// import { useResponsive } from '@hooks/useResponsive';
 
 import { useGetInterest, useGetYourWatchList } from './service';
 
@@ -25,25 +22,26 @@ const WatchList = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
 
-  const router = useRouter();
-  const { isMobile } = useResponsive();
-  const onGoBack = () => {
-    router.back();
-  };
+  // const router = useRouter();
+  // const { isMobile } = useResponsive();
+  // const onGoBack = () => {
+  //   router.back();
+  // };
 
   const { interestStock, refreshInterest } = useGetInterest();
-  const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } = useGetYourWatchList({
-    onSuccess: (res) => {
-      setDataStock(res?.data?.[0]?.stocks);
-      setWatchlistId(res?.data?.[0]?.watchlistId);
-      const data = res?.data?.[0]?.stocks;
-      if (data) {
-        for (const element of data) {
-          requestJoinChannel(element.stockCode);
+  const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } =
+    useGetYourWatchList({
+      onSuccess: (res) => {
+        setDataStock(res?.data?.[0]?.stocks);
+        setWatchlistId(res?.data?.[0]?.watchlistId);
+        const data = res?.data?.[0]?.stocks;
+        if (data) {
+          for (const element of data) {
+            requestJoinChannel(element.stockCode);
+          }
         }
-      }
-    },
-  });
+      },
+    });
 
   React.useEffect(() => {
     runYourWatchList();
@@ -85,14 +83,14 @@ const WatchList = () => {
     <div className='desktop:px-[0] desktop:py-[0]'>
       <div className='box-shadow card-style flex flex-col gap-y-[32px]'>
         <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
-          {!isEdit && isMobile && (
+          {/* {!isEdit && isMobile && (
             <img
               src='/static/icons/back_icon.svg'
               alt=''
               className='w-[28px] cursor-pointer'
               onClick={onGoBack}
             />
-          )}
+          )} */}
 
           <YourWatchList
             watchlistId={watchlistId}

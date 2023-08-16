@@ -58,30 +58,30 @@ const ItemWatchList = ({
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
-        <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <Link className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
           <img
             src={url}
             alt=''
-            className='h-[36px] w-[36px] rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'
+            className='h-[36px] w-[36px] rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'
           />
         </Link>
         <div className='flex flex-1 flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
             <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
-              <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+              <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}
               </Text>
             </Link>
             <Text
               type='body-10-regular'
-              className='text-#394251 rounded-[4px] border-[1px] border-solid border-[#EBEBEB] bg-[#fff] px-[7px] py-[2px] leading-[16px]'
+              className='text-#394251 rounded-[4px] border-[1px] border-solid border-[#EBEBEB] bg-[#fff] px-[7px] py-[2px] leading-[16px]  galaxy-max:text-[8px]'
             >
               {data?.stockExchange}
             </Text>
           </div>
           <Text
             type='body-12-regular'
-            className={classNames('line-clamp-2', {
+            className={classNames('line-clamp-2 galaxy-max:text-[10px]', {
               'max-w-[155px] text-[#474D57]': isEdit,
               'max-w-[155px] text-[#999] ': !isEdit,
             })}
@@ -104,7 +104,7 @@ const ItemWatchList = ({
         <div className='flex flex-col items-end gap-y-[5px]'>
           <Text
             type='body-14-semibold'
-            className={classNames({
+            className={classNames('galaxy-max:text-[12px]', {
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DB4444]': isDecrease && !isFloor && data?.lastPrice !== 0,
               'text-[#08AADD]': isFloor,
@@ -117,7 +117,7 @@ const ItemWatchList = ({
           </Text>
           <Text
             type='body-12-medium'
-            className={classNames({
+            className={classNames('galaxy-max:text-[10px]', {
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DB4444]': isDecrease && !isFloor && data?.lastPrice !== 0,
               'text-[#08AADD]': isFloor,

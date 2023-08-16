@@ -21,7 +21,7 @@ const NotFound = ({ type }: { type?: NotfoundMessage }) => {
         alt=''
         className='mx-auto mb-[10px] h-[24px] w-[24px] object-cover'
       />
-      <Text type='body-14-regular' color='primary-5' className='text-center'>
+      <Text type='body-14-regular' color='primary-5' className='text-center galaxy-max:text-[12px]'>
         {type === NotfoundMessage.USER_NOT_LOGIN && t('watchlist_notfound_1')}
         {type === NotfoundMessage.USER_NOT_SHARE_WATCH_LIST && t('watchlist_notfound_2')}
         {type === NotfoundMessage.OTHER_USER_NOT_SHARE_WATCH_LIST && t('watchlist_notfound_3')}

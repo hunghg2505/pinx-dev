@@ -118,19 +118,23 @@ const LandingPageDetailThemes = ({
           className='absolute left-0 top-0 h-full w-full rounded-[16px] object-cover'
         />
         <div className='relative z-10 mt-[-25px] rounded-b-[16px] rounded-br-[16px] bg-gradient-to-t from-[#000000] px-[16px] pb-[16px]'>
-          <Text type='body-20-semibold' color='neutral-9' className='mb-[8px]'>
+          <Text type='body-20-semibold' color='neutral-9' className='mb-[8px] '>
             {data?.name}
           </Text>
-          <Text type='body-14-regular' color='neutral-9' className='mb-[8px]'>
+          <Text
+            type='body-14-regular'
+            color='neutral-9'
+            className='mb-[8px] galaxy-max:text-[12px] galaxy-max:leading-5'
+          >
             {data?.description}
           </Text>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between '>
             <div className='flex'>
               <div className='mr-[43px] mobile-max:mr-[20px]'>
                 <Text type='body-20-medium' color='cbwhite'>
                   {data?.stockList?.length}
                 </Text>
-                <Text type='body-12-medium' color='cbwhite'>
+                <Text type='body-12-medium' className='galaxy-max:text-[10px]' color='cbwhite'>
                   {t('symbols')}
                 </Text>
               </div>
@@ -138,7 +142,7 @@ const LandingPageDetailThemes = ({
                 <Text type='body-20-medium' color='cbwhite'>
                   {data?.totalSubscribe}
                 </Text>
-                <Text type='body-12-medium' color='cbwhite'>
+                <Text type='body-12-medium' className='galaxy-max:text-[10px]' color='cbwhite'>
                   {t('subscribed')}
                 </Text>
               </div>
@@ -153,7 +157,7 @@ const LandingPageDetailThemes = ({
               )}
               onClick={onSubscribe}
             >
-              <div className='mr-[8px]'>
+              <div className='mr-[8px] galaxy-max:mr-0 '>
                 <img
                   src='/static/icons/heartRing.svg'
                   alt=''
@@ -162,7 +166,7 @@ const LandingPageDetailThemes = ({
                   className='w-[18px] cursor-pointer'
                 />
               </div>
-              <Text type='body-14-medium' color='neutral-9'>
+              <Text type='body-14-medium' className='galaxy-max:hidden' color='neutral-9'>
                 {data?.isSubsribed ? t('subscribed') : t('subscribe')}
               </Text>
             </div>

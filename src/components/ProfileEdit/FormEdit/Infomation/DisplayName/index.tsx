@@ -18,10 +18,10 @@ const DisplayName = () => {
             </label>
             <input
               type='text'
-              value={value}              
+              value={value}
               onChange={onChange}
               maxLength={256}
-              className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none'
+              className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none galaxy-max:text-[14px]'
             />
             <hr className='mb-[24px] border-neutral_07' />
           </>

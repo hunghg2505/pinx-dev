@@ -116,7 +116,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className='tablet:!text-[16px]'
+            className=' tablet:!text-[16px]'
             // onClick={onComment}
           >
             <div

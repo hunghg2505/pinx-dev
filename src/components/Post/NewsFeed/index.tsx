@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -137,7 +138,14 @@ const NewsFeed = (props: IProps) => {
 
   return (
     <>
-      <div className='box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div
+        className={classNames(
+          'box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]',
+          {
+            'galaxy-max:p-[10px]': isNewFeedExplore,
+          },
+        )}
+      >
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={postData}

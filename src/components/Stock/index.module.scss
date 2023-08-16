@@ -44,6 +44,10 @@
           text-align: center;
           color: #a6b0c3;
           line-height: 18px;
+
+          @media (max-width: 300px) {
+            font-size: 12px;
+          }
         }
 
         &.rc-tabs-tab-active {
