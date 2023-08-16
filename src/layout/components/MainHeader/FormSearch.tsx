@@ -372,7 +372,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               )}
               <ExploreButton className='' onClick={handleSubmit}>
                 <Text type='body-14-bold' color='primary-2'>
-                  See all results
+                  {t('common:searchseo.txtBtnAll')}
                 </Text>
               </ExploreButton>
             </>
