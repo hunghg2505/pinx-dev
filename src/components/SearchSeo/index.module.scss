@@ -64,6 +64,7 @@
   }
 }
 .Tab{
+  overflow: hidden;
   :global{
     .rc-tabs-dropdown {
       position: absolute;
