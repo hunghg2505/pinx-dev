@@ -177,7 +177,11 @@ const SideBar = () => {
             <span className='block'>16:14 04/07/2023</span>
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
-            <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.facebook.com/chungkhoanpinetree'
+            >
               <img
                 src='/static/social/facebook.svg'
                 alt=''
@@ -186,8 +190,8 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
-            <CustomLink href='https://zalo.me/895810815009263150'>
+            </a>
+            <a target='_blank' rel='noopener noreferrer' href='https://zalo.me/895810815009263150'>
               <img
                 src='/static/social/zalo.png'
                 alt=''
@@ -196,8 +200,12 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
-            <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
+            </a>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.youtube.com/@ChungKhoanPinetree'
+            >
               <img
                 src='/static/social/youtube.svg'
                 alt=''
@@ -206,8 +214,12 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
-            <CustomLink href='https://www.tiktok.com/@pinetree_official'>
+            </a>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.tiktok.com/@pinetree_official'
+            >
               <img
                 src='/static/social/tik_tok.svg'
                 alt=''
@@ -216,7 +228,7 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
+            </a>
           </div>
         </div>
       </div>
