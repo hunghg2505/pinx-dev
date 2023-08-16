@@ -11,6 +11,7 @@ import {
   requestFollowUser,
   requestUnFollowUser,
 } from '@components/Home/service';
+import styles from '@components/Post/NewsFeed/NewFeedItem/index.module.scss';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -98,7 +99,7 @@ const UserItem = (props: Iprops) => {
         {
           '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
             !isMobile && isSearchPage,
-        },
+        }, styles.boxFollow,
       )}
     >
       <div
@@ -146,30 +147,12 @@ const UserItem = (props: Iprops) => {
         )}
       </div>
       <div
-        className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
-          'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7]': isFollow,
-          'bg-[#D8EBFC]': !isFollow,
+        className={classNames('box cursor-pointer rounded-[5px] flex h-[36px] w-[36px] items-center justify-center ', {
+          'bg-[#DEE1E7] follow': isFollow,
+          'bg-[#D8EBFC] unfollow': !isFollow,
         })}
         onClick={() => onFollow(data.id)}
       >
-        {isFollow ? (
-          <img
-            src='/static/icons/iconFollowBlue.svg'
-            alt=''
-            width={0}
-            height={0}
-            className='w-[12px]'
-          />
-        ) : (
-          <img
-            loading='lazy'
-            src='/static/icons/iconAdd.svg'
-            alt=''
-            width={0}
-            height={0}
-            className='w-[24px]'
-          />
-        )}
       </div>
     </div>
   );
