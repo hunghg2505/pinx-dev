@@ -20,6 +20,9 @@ export interface IStockTheme {
   stock_code: string;
   stock_exchange: string;
   stock_name: string;
+  change?: string;
+  changePc?: string;
+  lastPrice: number;
 }
 export interface IThemeDetail {
   bgImage: string;

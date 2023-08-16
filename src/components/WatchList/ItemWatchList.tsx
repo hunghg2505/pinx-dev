@@ -11,14 +11,18 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
+import style from './index.module.scss';
+
 const ItemWatchList = ({
   data,
   isEdit,
   refresh,
+  isChangeStock = false,
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refresh: () => void;
+  isChangeStock?: boolean;
 }) => {
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
@@ -54,7 +58,6 @@ const ItemWatchList = ({
   const onRemove = () => {
     useRemoveStock.run();
   };
-
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
@@ -116,6 +119,13 @@ const ItemWatchList = ({
               'text-[#B349C3]': isHigh,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isDecrease]:
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                isChangeStock &&
+                !isChange,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -129,6 +139,13 @@ const ItemWatchList = ({
               'text-[#B349C3]': isHigh,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isDecrease]:
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                isChangeStock &&
+                !isChange,
             })}
           >
             {isChange ? '' : unit}
