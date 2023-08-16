@@ -14,5 +14,8 @@
   "enter_bio": "Nhập mô tả",
   "pending": "Chờ xác thực",
   "displayname_required": "Tên hiển thị không được bỏ trống",
-  "position_required": "Chức vụ không được bỏ trống"
+  "position_required": "Chức vụ không được bỏ trống",
+  "message": {
+    "display_name_require": "Vui lòng nhập tên hiển thị"
+  }
 }
