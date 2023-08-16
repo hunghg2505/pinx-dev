@@ -4,6 +4,15 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const compiler =
+  process.env.NODE_ENV === 'development'
+    ? {}
+    : {
+        removeConsole: {
+          exclude: ['error'],
+        },
+      };
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // i18n
@@ -15,7 +24,7 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
-
+  compiler,
   // config env
   publicRuntimeConfig: {
     NODE_ENV: process.env.NODE_ENV,
@@ -43,7 +52,7 @@ const nextConfig = {
     if (process.env.NODE_ENV === 'development') return [];
     return [
       {
-        source: '/:all*(svg|jpg|jpeg|png|webp|avif|otf|ttf|woff|woff2)',
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|otf|ttf|woff|woff2|css)',
         locale: false,
         headers: [
           {

@@ -36,7 +36,12 @@ const GiftCash = () => {
           </Text>
         </div>
         <div className='flex flex-col items-center rounded-[12px] bg-[#D8EBFC] px-[58px] py-[32px] mobile-max:px-[16px] tablet:mt-[20px] tablet:rounded-[24px]'>
-          <img src='/static/icons/giftcash/gift.svg' alt='' className=' h-[130px] w-[130px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/giftcash/gift.svg'
+            alt=''
+            className=' h-[130px] w-[130px]'
+          />
           <Text
             type='body-22-bold'
             color='cbblack'

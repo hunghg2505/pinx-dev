@@ -51,7 +51,11 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
   }, [postDetail?.post?.postType]);
 
   if (postDetail?.post?.customerInfo?.avatar === '') {
-    return <AvatarDefault name={name} />;
+    return (
+      <div className='mr-2 object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'>
+        <AvatarDefault name={name} />
+      </div>
+    );
   }
 
   return (

@@ -8,6 +8,7 @@ import { getAccessToken } from '@store/auth';
 export interface ITopWatchingStock {
   companyName: string;
   name: string;
+  nameEn?: string;
   image: string | null;
   stockCode: string;
   stockExchange: string;

@@ -130,7 +130,14 @@ const MainHeader = () => {
         {!isRouteSetting && (
           <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
             <div className='flex flex-row'>
-              <img src='/static/icons/logo.svg' alt='' width='0' height='0' className='w-[35px]' />
+              <img
+                loading='lazy'
+                src='/static/icons/logo.svg'
+                alt=''
+                width='0'
+                height='0'
+                className='w-[35px]'
+              />
               <div className='ml-[8px]'>
                 <Text type={isMobile ? 'body-10-regular' : 'body-14-regular'} color='primary-5'>
                   {t('try_full_experience_on')}
@@ -173,11 +180,19 @@ const MainHeader = () => {
             <>
               <div className='flex w-full max-w-[218px] items-center gap-[16px] '>
                 <CustomLink href={ROUTE_PATH.HOME}>
-                  <img
-                    src='/static/icons/logo.svg'
-                    alt=''
-                    className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
-                  />
+                  <div className='flex items-center'>
+                    <img
+                      src='/static/icons/logo.svg'
+                      alt=''
+                      className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
+                    />
+
+                    <img
+                      src='/static/logo/logo-website-pinetree.svg'
+                      alt='Logo pinetree'
+                      className='ml-[12px] hidden h-[32px] desktop:block'
+                    />
+                  </div>
                 </CustomLink>
                 <MenuMobile />
               </div>

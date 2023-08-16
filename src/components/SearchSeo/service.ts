@@ -70,7 +70,10 @@ export const useSearchPublic = (options?: IOptions) => {
   };
   const { data, run, loading, refresh, mutate } = useRequest(
     (params) => {
-      return requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, { params:{ ...initParam, ...params } });
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestCommunity.get,API_PATH.PRIVATE_SEARCH_SEO_RESULT, { params:{ ...initParam, ...params } })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, { params:{ ...initParam, ...params } });
     },
     {
       manual: true,

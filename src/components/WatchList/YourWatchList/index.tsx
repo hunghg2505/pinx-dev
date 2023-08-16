@@ -232,7 +232,12 @@ const YourWatchList = (props: IProps) => {
               yourWatchListStock={yourWatchListStock}
               isEdit={isEdit}
             >
-              <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+              <img
+                loading='lazy'
+                src='/static/icons/iconAddPlus.svg'
+                alt=''
+                className='h-[28px] w-[29px]'
+              />
               <Text type='body-14-semibold' className='text-[#1F6EAC]'>
                 {t('addTxt')}
               </Text>
@@ -246,7 +251,12 @@ const YourWatchList = (props: IProps) => {
               yourWatchListStock={yourWatchListStock}
               isEdit={isEdit}
             >
-              <img src='/static/icons/iconAddPlus.svg' alt='' className='h-[28px] w-[29px]' />
+              <img
+                loading='lazy'
+                src='/static/icons/iconAddPlus.svg'
+                alt=''
+                className='h-[28px] w-[29px]'
+              />
               <Text type='body-14-semibold' className='text-[#1F6EAC]'>
                 {t('addTxt')}
               </Text>

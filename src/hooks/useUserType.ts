@@ -1,10 +1,10 @@
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { USERTYPE } from '@utils/constant';
 
 import { useUserLoginInfo } from './useUserLoginInfo';
 
 export const useUserType: any = () => {
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
   const { userLoginInfo } = useUserLoginInfo();
   const custStat = userLoginInfo?.custStat;
   const acntStat = userLoginInfo?.acntStat;

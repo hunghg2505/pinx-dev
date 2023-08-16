@@ -7,7 +7,6 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
@@ -19,7 +18,6 @@ import { ENV } from '@utils/env';
 const AppInitialData = () => {
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
-  const { isLogin } = useAuth();
   const router = useRouter();
   usePostThemeInitial();
   const { handleRemoveActionPost } = useHandlActionsPost();
@@ -31,9 +29,7 @@ const AppInitialData = () => {
     initialHomePostData();
     handleRemoveActionPost();
 
-    if (isLogin) {
-      run();
-    }
+    run();
   });
 
   useUpdateEffect(() => {
@@ -51,7 +47,7 @@ const AppInitialData = () => {
       return;
     }
 
-    if (getLocaleCookie() && getLocaleCookie() !== router.locale){
+    if (getLocaleCookie() && getLocaleCookie() !== router.locale) {
       router.push(router.asPath, router.asPath, { locale });
     }
   }, []);

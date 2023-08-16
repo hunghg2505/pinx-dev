@@ -133,7 +133,12 @@ export default forwardRef((props: any, ref) => {
                       width={0}
                       height={0}
                       sizes='100vw'
-                      className='mr-[12px] h-[36px] w-[36px] rounded-full object-contain'
+                      className={classNames(
+                        'mr-[12px] h-[36px] w-[36px] rounded-full object-cover',
+                        {
+                          '!object-contain': isStock,
+                        },
+                      )}
                     />
                   )}
                   <Text

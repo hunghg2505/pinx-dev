@@ -7,6 +7,11 @@
       margin-bottom: 20px;
       padding: 0px 16px;
     }
+
+    .rc-tabs-nav-operations {
+      display: none;
+    }
+
     .rc-tabs-nav-operations-hidden {
       width: 0;
       height: 0;
@@ -106,20 +111,4 @@
 .noScrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-@keyframes isPriceChange {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.isPriceChange {
-  animation-name: isPriceChange;
-  animation-duration: 1s;
-  color: #fff !important;
 }

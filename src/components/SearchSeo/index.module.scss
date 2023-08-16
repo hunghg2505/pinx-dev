@@ -64,6 +64,7 @@
   }
 }
 .Tab{
+  overflow: hidden;
   :global{
     .rc-tabs-dropdown {
       position: absolute;
@@ -172,13 +173,24 @@
     .rc-tabs {
       //border: 1px solid gray;
       font-size: 14px;
-      overflow: hidden;
+      //overflow: hidden;
       row-gap: 11px;
     }
     .rc-tabs-nav {
       display: flex;
       flex: none;
       position: relative;
+      &:after{
+        content: "";
+        border-bottom: 1px solid #E8E8E8;
+        display: flex;
+        bottom: 0px;
+        left: -16px;
+        right: -16px;
+        position: absolute;
+        height: 1px;
+        z-index: 0;
+      }
     }
     .rc-tabs-nav-measure,
     .rc-tabs-nav-wrap {
@@ -262,8 +274,9 @@
       position: relative;
       font-weight: lighter;
       align-items: center;
-      //padding: 0 10px 10px;
       padding-bottom: 6px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
     .rc-tabs-tab-btn,
     .rc-tabs-tab-remove {
@@ -284,6 +297,7 @@
       position: absolute;
       background: #1F6EAC;
       pointer-events: none;
+      z-index: 12;
     }
     .rc-tabs-ink-bar-animated {
       transition: all 0.3s;

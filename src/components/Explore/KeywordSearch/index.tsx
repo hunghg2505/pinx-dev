@@ -33,7 +33,12 @@ const KeywordSearch = (props: Iprops) => {
           <Text type='body-16-regular' color='neutral-1'>
             {data?.numberHit}
           </Text>
-          <img src='/static/icons/explore/iconClick.svg' alt='' className='ml-[4px] w-[17px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/explore/iconClick.svg'
+            alt=''
+            className='ml-[4px] w-[17px]'
+          />
         </div>
       </div>
     </div>

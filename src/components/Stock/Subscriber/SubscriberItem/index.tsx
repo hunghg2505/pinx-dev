@@ -1,9 +1,7 @@
-import React from 'react';
-
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -16,16 +14,19 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
 
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
-      <Link className='galaxy-max:flex-none' href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+      <CustomLink
+        className='galaxy-max:flex-none'
+        href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}
+      >
         <img
           src={data.avatar}
           alt='User avatar'
           className='h-[36px] w-[36px] rounded-full object-cover '
         />
-      </Link>
+      </CustomLink>
 
       <div className='ml-[8px]'>
-        <Link href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
           <div className='flex items-center'>
             <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px]'>
               {data.displayName}
@@ -49,7 +50,7 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
               />
             )}
           </div>
-        </Link>
+        </CustomLink>
         <Text type='body-12-regular' color='neutral-5' className='mt-[2px] galaxy-max:text-[10px]'>
           {data.totalFollowers} {t('common:followers')}
         </Text>

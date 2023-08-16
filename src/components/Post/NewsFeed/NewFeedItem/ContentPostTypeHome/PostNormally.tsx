@@ -13,6 +13,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 // import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
@@ -21,6 +22,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
+  const postDetailStatus = useAtomValue(postDetailStatusAtom);
   const [readMore, setReadMore] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
   const { message } = useMemo(() => {
@@ -53,7 +55,6 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   useEffect(() => {
     const t = setTimeout(() => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
-
       if (ele?.clientHeight) {
         if (window.innerWidth > 768) {
           setShowReadMore(ele?.clientHeight > 84);
@@ -63,7 +64,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       }
       clearTimeout(t);
     }, 400);
-  }, []);
+  }, [postDetailStatus?.idPostLike]);
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
@@ -92,7 +93,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
             <div>
               <Text type='body-16-bold' color='neutral-1'>
                 <div
-                  className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] h-full max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform py-[10px] text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                  className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-h-full max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform py-[10px] text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
                   dangerouslySetInnerHTML={{ __html: messagePostFormat }}
                   style={{ color }}
                 ></div>

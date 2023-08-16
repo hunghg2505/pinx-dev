@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useMount } from 'ahooks';
 import classNames from 'classnames';
 // import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -47,6 +47,8 @@ export const PineTreePost2 = ({
   const [showReadMore, setShowReadMore] = React.useState<boolean>(false);
   const router = useRouter();
 
+  const [showDescription, setShowDescription] = useState(false);
+
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
@@ -63,6 +65,7 @@ export const PineTreePost2 = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
+
   React.useEffect(() => {
     const t = setTimeout(() => {
       const ele = document?.getElementById(`PineTreePost2-${postDetail.id}`);
@@ -77,16 +80,18 @@ export const PineTreePost2 = ({
     }, 400);
   }, []);
 
+  useMount(() => {
+    setShowDescription(true);
+  });
+
   const ShowImage = () => {
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <Image
+          <img
             src={postDetail?.post?.urlImages?.[0]}
-            alt=""
+            alt=''
             className='absolute left-0 top-0 h-full w-full rounded-[9px]'
-            width={641}
-            height={360}
             // blurDataURL="data:..." automatically provided
             // placeholder="blur" // Optional blur-up while loading
           />
@@ -101,22 +106,24 @@ export const PineTreePost2 = ({
     <>
       <div
         className={classNames('PineTreePost2 cursor-pointer')}
-        onClick={(e: any) => onHandleClick(e)}
+        onClick={onHandleClick}
         id={`PineTreePost2-${postDetail.id}`}
       >
-        <Text
-          type='body-14-regular'
-          color='neutral-1'
-          className={classNames('mb-[16px] tablet:!text-[16px]', {
-            'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
-            '!line-clamp-none !h-auto': isPostDetailPath || readMore,
-          })}
-        >
-          <div
-            className='messageFormat messageBody messageBody'
-            dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-          ></div>
-        </Text>
+        {showDescription && (
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className={classNames('mb-[16px] tablet:!text-[16px]', {
+              'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
+              '!line-clamp-none !h-auto': isPostDetailPath || readMore,
+            })}
+          >
+            <div
+              className='messageFormat messageBody messageBody'
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+            ></div>
+          </Text>
+        )}
       </div>
 
       {!isPostDetailPath && (

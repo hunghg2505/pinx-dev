@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 
 export const ActivityMatchOrder = ({
@@ -46,7 +46,7 @@ export const ActivityMatchOrder = ({
         </Text>
       )}
 
-      <Link href={postDetailUrl}>
+      <CustomLink href={postDetailUrl}>
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           <img
             src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
@@ -122,7 +122,7 @@ export const ActivityMatchOrder = ({
             </div>
           </div>
         </div>
-      </Link>
+      </CustomLink>
     </div>
   );
 };

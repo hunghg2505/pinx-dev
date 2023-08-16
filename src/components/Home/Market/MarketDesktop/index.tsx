@@ -1,34 +1,36 @@
+import { useState } from 'react';
+
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
+import { formatStringToNumber } from '@utils/common';
 
+import MarketChartIframe from './ChartIframe';
 import styles from './index.module.scss';
+import PopupZoomChart from './PopupZoomChart';
 
-export const getMarketCodeChart = (marketCode: string) => {
-  if (marketCode === '10') {
-    return 'VNINDEX';
-  }
-
-  if (marketCode === '02') {
-    return 'HNXINDEX';
-  }
-
-  if (marketCode === '03') {
-    return 'UPCOMINDEX';
-  }
-
-  if (marketCode === '11') {
-    return 'VN30';
-  }
-
-  return '';
-};
 const MarketDesktop = () => {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const { dataStockIndex, findIndex } = useStockDesktop();
+  const [chartData, setChartData] = useState<{
+    mc: string;
+    oIndex: number;
+  }>({
+    mc: '',
+    oIndex: 0,
+  });
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const handelOpenPopup = (mc: string, oIndex: number) => {
+    setChartData({
+      mc,
+      oIndex,
+    });
+    setPopupVisible(true);
+  };
 
   if (!dataStockIndex?.length) {
     return (
@@ -36,7 +38,12 @@ const MarketDesktop = () => {
         <div className='mb-[25px]  min-h-[536px] w-full rounded-[8px] bg-[#fff]  px-[20px] py-[30px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <p className='body-16-bold cbblack mb-[25px]'>{t('market')}</p>
 
-          <img src='/static/images/fake-stock.png' className=' w-full object-contain' alt='' />
+          <img
+            loading='lazy'
+            src='/static/images/fake-stock.png'
+            className=' w-full object-contain'
+            alt=''
+          />
         </div>
       </>
     );
@@ -55,7 +62,7 @@ const MarketDesktop = () => {
             const isDecrease = item?.cIndex < item?.oIndex;
             const isNoChange = item?.cIndex === item?.oIndex;
             const isChange = findIndex === index;
-
+            const valueIndex = item.value / 1000;
             return (
               <TabPane tab={item.displayName} key={index + 1}>
                 <div className='mt-[20px]'>
@@ -72,7 +79,7 @@ const MarketDesktop = () => {
                           [styles.isNoChange]: isNoChange && isChange,
                         })}
                       >
-                        {item?.cIndex}
+                        {formatStringToNumber(item?.cIndex)}
                       </Text>
                       <Text
                         type='body-12-medium'
@@ -96,7 +103,7 @@ const MarketDesktop = () => {
                           {t('val')}
                         </Text>
                         <Text type='body-13-semibold' className='mt-[6px] text-[#263238] '>
-                          {item.value.toLocaleString('en-US')}
+                          {`${valueIndex.toLocaleString('en-US')} Tỷ`}
                         </Text>
                       </div>
                       <div className='text-right'>
@@ -109,18 +116,37 @@ const MarketDesktop = () => {
                       </div>
                     </div>
                   </div>
-                  <iframe
-                    src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
-                      item.mc,
-                    )}&type=INDEX&ref=${item.oIndex}&lang=${i18n.language}`}
-                    className='h-[350px] w-full rounded-[8px]'
-                  ></iframe>
+
+                  <div className='relative mt-[12px] pt-[36px]'>
+                    {/* icon maximize */}
+                    <div
+                      onClick={() => handelOpenPopup(item.mc, item.oIndex)}
+                      className='absolute right-[22px] top-[8px] flex cursor-pointer items-center justify-center'
+                    >
+                      <img
+                        src='/static/icons/icon_maximize.svg'
+                        alt='Icon maximize'
+                        className='h-[18px] w-[18px] object-contain'
+                      />
+                    </div>
+
+                    <MarketChartIframe mc={item.mc} oIndex={item.oIndex} />
+                  </div>
                 </div>
               </TabPane>
             );
           })}
         </Tabs>
       </div>
+
+      <PopupZoomChart
+        visible={popupVisible}
+        onClose={() => {
+          setPopupVisible(false);
+        }}
+        mc={chartData?.mc}
+        oIndex={chartData?.oIndex}
+      />
     </>
   );
 };

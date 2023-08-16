@@ -15,7 +15,7 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import CompanyItem from './CompanyItem';
@@ -30,7 +30,8 @@ const Search = (props: any, ref: any) => {
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
+
   const { popular } = useGetPopular();
   const { listRecent, refreshSearchRecent } = useGetSearchRecent();
   const router = useRouter();
@@ -38,6 +39,10 @@ const Search = (props: any, ref: any) => {
   useFocusWithin(refInput, {
     onFocus: () => {
       setShowRecent(true);
+      const value = form.getFieldValue('search');
+      if (value) {
+        run();
+      }
     },
   });
 
@@ -181,7 +186,7 @@ const Search = (props: any, ref: any) => {
         <div className='relative'>
           <Fade
             visible={showPopup}
-            className='z-22 absolute left-0 top-[100%] w-full  rounded-[12px] bg-[#ffffff] px-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] galaxy-max:px-[12px] '
+            className='z-22 absolute left-0 top-[100%] mt-[10px] w-full  rounded-[12px] bg-[#ffffff] px-[16px] [box-shadow:0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)] galaxy-max:px-[12px] '
           >
             <div className='mt-[24px]'>
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>

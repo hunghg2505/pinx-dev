@@ -150,24 +150,38 @@ const SideBar = () => {
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div>
         <Menu items={items} className='sidebar-list' />
+        <img
+          src='/static/images/sidebar_banner.png'
+          alt=''
+          sizes='100vw'
+          className='mt-[16px] w-full laptop-max:px-[10px]'
+        />
+
         <div className='px-[10px] pt-[16px]'>
-          <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
+          {/* <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
               sizes='100vw'
               className='mb-[20px] h-[55px] w-[140px]'
             />
+          </a> */}
+          <a href={PINETREE_LINK} target='_blank' rel='noopener noreferrer'>
+            <Text type='body-12-regular' className='text-[#78909C]'>
+              Copyright 2023. Công ty CP Chứng Khoán{' '}
+              <span className='text-[#1F6EAC]'>Pinetree</span>
+            </Text>
           </a>
-          <Text type='body-12-regular' className='text-[#78909C]'>
-            Copyright 2023. Công ty CP Chứng Khoán <span className='text-[#1F6EAC]'>Pinetree</span>
-          </Text>
           <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
             GPKD: <span className='text-[#474D57]'>0101294902</span>
             <span className='block'>16:14 04/07/2023</span>
           </Text>
           <div className='mt-[20px] flex gap-x-[10px]'>
-            <CustomLink href='https://www.facebook.com/chungkhoanpinetree'>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.facebook.com/chungkhoanpinetree'
+            >
               <img
                 src='/static/social/facebook.svg'
                 alt=''
@@ -176,8 +190,8 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
-            <CustomLink href='https://zalo.me/895810815009263150'>
+            </a>
+            <a target='_blank' rel='noopener noreferrer' href='https://zalo.me/895810815009263150'>
               <img
                 src='/static/social/zalo.png'
                 alt=''
@@ -186,8 +200,12 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
-            <CustomLink href='https://www.youtube.com/@ChungKhoanPinetree'>
+            </a>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.youtube.com/@ChungKhoanPinetree'
+            >
               <img
                 src='/static/social/youtube.svg'
                 alt=''
@@ -196,8 +214,12 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
-            <CustomLink href='https://www.tiktok.com/@pinetree_official'>
+            </a>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.tiktok.com/@pinetree_official'
+            >
               <img
                 src='/static/social/tik_tok.svg'
                 alt=''
@@ -206,15 +228,9 @@ const SideBar = () => {
                 sizes='100vw'
                 className='h-[32px] w-[32px]'
               />
-            </CustomLink>
+            </a>
           </div>
         </div>
-        <img
-          src='/static/images/sidebar_banner.png'
-          alt=''
-          sizes='100vw'
-          className='mt-[28px] w-full laptop-max:px-[10px]'
-        />
       </div>
     </StickyBox>
   );

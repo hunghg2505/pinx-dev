@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 import { followContext } from '..';
@@ -10,15 +12,25 @@ import { followContext } from '..';
 const Figure = () => {
   const context = useContext(followContext);
   const route = useRouter();
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const url =
+    Number(userLoginInfo?.id) === Number(context?.id)
+      ? ROUTE_PATH.MY_PROFILE
+      : ROUTE_PATH.PROFILE_DETAIL(context?.id);
   return (
     <div
-      className='absolute left-0 top-0 h-full w-full'
+      className='absolute left-0 top-0 h-full w-full cursor-pointer'
       onClick={() => {
-        route.push(ROUTE_PATH.PROFILE_DETAIL(context?.id));
+        route.push(url);
       }}
     >
       {context?.avatar ? (
-        <img src={context?.avatar} alt='' className='z-[-1] h-full w-full object-cover' />
+        <img
+          loading='lazy'
+          src={context?.avatar}
+          alt=''
+          className='z-[-1] h-full w-full object-cover'
+        />
       ) : (
         <div className='z-[-1] h-full w-full object-cover'>
           <AvatarDefault name={context?.displayName} />

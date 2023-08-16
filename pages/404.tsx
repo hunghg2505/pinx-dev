@@ -17,7 +17,12 @@ const PageNotFound = () => {
     <>
       <div className='flex h-[100vh] flex-col content-center items-center justify-center bg-[#f8f8f8] p-10'>
         <div className='flex flex-col items-center justify-center'>
-          <img src='/static/images/notFound.png' className='h-[191px] w-[246px]' alt='' />
+          <img
+            loading='lazy'
+            src='/static/images/notFound.png'
+            className='h-[191px] w-[246px]'
+            alt=''
+          />
           <Text className='mb-[8px] mt-[24px] text-[59px] leading-[71px]' color='neutral-1'>
             404
           </Text>

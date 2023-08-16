@@ -1,9 +1,5 @@
-import React from 'react';
-
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -11,11 +7,12 @@ import { toast } from 'react-hot-toast';
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { getAccessToken } from '@store/auth';
+import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH } from '@utils/common';
@@ -82,10 +79,11 @@ const ThemesItem = (props: IProps) => {
   const { t } = useTranslation(['theme', 'common']);
   const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const isLogin = !!getAccessToken();
+  const { isLogin } = useAuth();
   const { statusUser } = useUserType();
   const { theme, refresh } = props;
   const router = useRouter();
+
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -179,18 +177,16 @@ const ThemesItem = (props: IProps) => {
       <div className='mx-auto w-[177px] pr-[16px]'>
         <div className='relative min-h-[252px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           {theme?.url && (
-            <Image
+            <img
               src={theme?.url}
-              alt=""
+              alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
               onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
-              width={161}
-              height={252}
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
             />
           )}
-          <Link href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
+          <CustomLink href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
             <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)]'>
               <div className='flex h-[80px] flex-col items-center justify-center px-[8px]'>
                 <Text type='body-12-bold' color='primary-5' className='text-center'>
@@ -214,7 +210,7 @@ const ThemesItem = (props: IProps) => {
                 {renderSubcribe()}
               </button>
             </div>
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </>

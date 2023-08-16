@@ -1,11 +1,11 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import Link from 'next/link';
 
 import { IWatchListItem } from '@components/Home/service';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 const ItemStock = ({ data }: { data: IWatchListItem }) => {
   const highest_price = data?.refPrice;
@@ -14,6 +14,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
+  const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -26,7 +27,7 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
         <div className='flex'>
-          <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+          <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
             <img
               src={url}
               alt=''
@@ -35,14 +36,14 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               sizes='100vw'
               className='mr-[10px] h-[48px] w-[48px] rounded-full object-contain'
             />
-          </Link>
+          </CustomLink>
           <div>
             <div className='flex items-center'>
-              <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
                 <Text type='body-14-bold' color='cbblack'>
                   {data?.stockCode}
                 </Text>
-              </Link>
+              </CustomLink>
               <Text
                 type='body-12-regular'
                 className='ml-[4px] rounded-[4px] border-[1px] border-solid border-[#DFDFDF] px-[3px] py-[5px] text-[#474D57]'
@@ -60,28 +61,35 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
             type='body-14-semibold'
             className={classNames('mt-[5px]', {
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {data?.lastPrice?.toFixed(2)}
+            {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
           </Text>
 
           <Text
             type='body-12-medium'
             className={classNames('mt-[5px]', {
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor,
+              'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {unit}
-            {data?.change} / {unit}
-            {data?.changePc || data?.changePercent}%
+            {isChange ? '' : unit}
+            {Number(data?.change) === 0 ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
+            {isChange ? '' : unit}
+            {isChange
+              ? '-'
+              : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
+                formatStringToNumber(data?.changePercent, true, 2)}
+            %
           </Text>
         </div>
       </div>

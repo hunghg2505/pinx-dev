@@ -1,10 +1,15 @@
 import React, { useMemo } from 'react';
 
-import Link from 'next/link';
-
 import { IStock } from '@components/Stock/type';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatNumber, getStockColor, imageStock } from '@utils/common';
+import {
+  ROUTE_PATH,
+  formatNumber,
+  formatStringToNumber,
+  getStockColor,
+  imageStock,
+} from '@utils/common';
 
 interface IStockItemProps {
   data: IStock;
@@ -18,12 +23,13 @@ const StockItem = ({ data }: IStockItemProps) => {
   }, [data]);
 
   const renderPricePc = () => {
-    const changePc = (+data.changePrice > 0 ? '+' : '') + (+data.changePrice).toFixed(2);
-    return changePc + '/' + data.changePc + '%';
+    const changePc =
+      (+data.changePrice > 0 ? '+' : '') + formatStringToNumber(data.changePrice, true, 2);
+    return changePc + '/' + formatStringToNumber(data.changePc, true, 2) + '%';
   };
 
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] px-[12px] py-[16px] galaxy-max:px-[8px] galaxy-max:py-[12px]'>
         <img
           src={imageStock(data.stockCode)}
@@ -56,7 +62,7 @@ const StockItem = ({ data }: IStockItemProps) => {
         {data.lastPrice ? (
           <div className='ml-auto text-right' style={{ color }}>
             <Text className='galaxy-max:text-[14px]' type='body-16-medium'>
-              {data.lastPrice.toFixed(2)}
+              {formatStringToNumber(data.lastPrice, true, 2)}
             </Text>
             <Text
               type='body-12-regular'
@@ -76,7 +82,7 @@ const StockItem = ({ data }: IStockItemProps) => {
           </div>
         )}
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 

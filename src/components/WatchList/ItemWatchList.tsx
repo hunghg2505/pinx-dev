@@ -1,15 +1,15 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 const ItemWatchList = ({
   data,
@@ -20,7 +20,6 @@ const ItemWatchList = ({
   isEdit: boolean;
   refresh: () => void;
 }) => {
-  console.log(data?.lastPrice);
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
@@ -28,6 +27,7 @@ const ItemWatchList = ({
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
+  const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -58,20 +58,20 @@ const ItemWatchList = ({
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
-        <Link className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
           <img
             src={url}
             alt=''
             className='h-[36px] w-[36px] rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'
           />
-        </Link>
+        </CustomLink>
         <div className='flex flex-1 flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
-            <Link href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+            <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
               <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}
               </Text>
-            </Link>
+            </CustomLink>
             <Text
               type='body-10-regular'
               className='text-#394251 rounded-[4px] border-[1px] border-solid border-[#EBEBEB] bg-[#fff] px-[7px] py-[2px] leading-[16px]  galaxy-max:text-[8px]'
@@ -92,7 +92,12 @@ const ItemWatchList = ({
       </div>
       {isEdit ? (
         <div className='flex pr-[12px]'>
-          <img src='/static/icons/iconSwitch.svg' alt='' className='h-[21px] w-[20px]' />
+          <img
+            loading='lazy'
+            src='/static/icons/iconSwitch.svg'
+            alt=''
+            className='h-[21px] w-[20px]'
+          />
           <img
             src='/static/icons/iconCloseBlue.svg'
             alt=''
@@ -106,31 +111,33 @@ const ItemWatchList = ({
             type='body-14-semibold'
             className={classNames('galaxy-max:text-[12px]', {
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor && data?.lastPrice !== 0,
+              'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && data?.lastPrice !== 0,
-              'text-[#474D57]': data?.lastPrice === 0,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {data?.lastPrice === 0 ? '-' : data?.lastPrice?.toFixed(2)}
+            {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
           </Text>
           <Text
             type='body-12-medium'
             className={classNames('galaxy-max:text-[10px]', {
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor && data?.lastPrice !== 0,
+              'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && data?.lastPrice !== 0,
-              'text-[#474D57]': data?.lastPrice === 0,
+              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
-            {unit}
-            {data?.change === 0 ? '' : data?.change} / {unit}
-            {Number(data?.changePc) === 0 || data?.changePercent === 0
-              ? ''
-              : data?.changePc || data?.changePercent}
+            {isChange ? '' : unit}
+            {Number(data?.change) === 0 ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
+            {isChange ? '' : unit}
+            {isChange
+              ? '-'
+              : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
+                formatStringToNumber(data?.changePercent, true, 2)}
             %
           </Text>
         </div>

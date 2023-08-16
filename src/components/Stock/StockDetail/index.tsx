@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import { useAtom } from 'jotai';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -13,19 +13,14 @@ import { toast } from 'react-hot-toast';
 import Slider from 'react-slick';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import {
-  ROUTE_PATH,
-  formatNumber,
-  formatStringToNumber,
-  getStockColor,
-  imageStock,
-} from '@utils/common';
+import { ROUTE_PATH, formatNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -43,6 +38,7 @@ import NewsItem from './NewsItem';
 import ProductItem from './ProductItem';
 import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
+import FakeStockHeading from './StockHeading/fakeHeading';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
 import { REVENUE_CHART_COLOR, SHARE_HOLDER_COLOR } from '../const';
@@ -92,10 +88,15 @@ const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png'
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
 const PRODUCT_SLIDE_LIMIT = 5;
 
+const StockHeading = dynamic(() => import('@components/Stock/StockDetail/StockHeading'), {
+  ssr: false,
+  loading: () => <FakeStockHeading />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
-  const { t, i18n } = useTranslation(['stock', 'common']);
+  const { t } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
@@ -222,18 +223,47 @@ const StockDetail = () => {
     if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
       return;
     }
-    setPreDataStock(dataStock);
 
-    if (data?.id === 3220 || data?.id === 3250) {
-      const tempData = { ...data };
-      if (data?.id === 3220) {
-        tempData.lot = data.totalVol;
-      }
-      setDataStock((prev) => ({ ...prev, ...tempData }));
+    // 3220
+    if (
+      data?.id === 3220 &&
+      (data.lastPrice !== dataStock.lastPrice ||
+        data.changePc !== dataStock.changePc ||
+        dataStock.lot !== data.totalVol ||
+        dataStock.ot !== data.change)
+    ) {
+      setPreDataStock(dataStock);
+      setDataStock((prev: any) => ({
+        ...prev,
+        lastPrice: data.lastPrice,
+        changePc: data.changePc,
+        lot: data.totalVol,
+        ot: data.change,
+      }));
+    }
+
+    // 3250
+    if (
+      data?.id === 3250 &&
+      (data.fBVol !== dataStock.fBVol ||
+        data.fSVolume !== dataStock.fSVolume ||
+        dataStock.fRoom !== data.fRoom)
+    ) {
+      setPreDataStock(dataStock);
+      setDataStock((prev: any) => ({
+        ...prev,
+        fBVol: data.fBVol,
+        fSVolume: data.fSVolume,
+        fRoom: data.fRoom,
+      }));
     }
 
     // sell
-    if (data.side === 'S') {
+    if (
+      data.side === 'S' &&
+      (data.g1 !== dataStock.g4 || data.g2 !== dataStock.g5 || data.g3 !== dataStock.g6)
+    ) {
+      setPreDataStock(dataStock);
       setDataStock((prev: any) => ({
         ...prev,
         g4: data.g1,
@@ -243,7 +273,11 @@ const StockDetail = () => {
     }
 
     // buy
-    if (data.side === 'B') {
+    if (
+      data.side === 'B' &&
+      (data.g1 !== dataStock.g1 || data.g2 !== dataStock.g2 || data.g3 !== dataStock.g3)
+    ) {
+      setPreDataStock(dataStock);
       setDataStock((prev: any) => ({
         ...prev,
         g1: data.g1,
@@ -358,19 +392,15 @@ const StockDetail = () => {
     return {
       dots: false,
       speed: 500,
-      slidesToShow:
-        stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-          ? 1
-          : PRODUCT_SLIDE_LIMIT,
+      // slidesToShow:
+      //   stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
+      //     ? 1
+      //     : PRODUCT_SLIDE_LIMIT,
       slidesToScroll: PRODUCT_SLIDE_LIMIT,
     };
   }, [stockDetail?.data?.products]);
 
-  const { unit, chartColorFormat } = useMemo(() => {
-    const highest_price = dataStock?.r;
-    const isDecrease = (dataStock?.lastPrice || 0) < (highest_price || 0);
-    const unit = isDecrease ? '-' : '+';
-
+  const { chartColorFormat } = useMemo(() => {
     const chartColor = getStockColor(
       dataStock?.lastPrice || 0,
       dataStock?.c || 0,
@@ -380,32 +410,9 @@ const StockDetail = () => {
     const chartColorFormat = chartColor.slice(1);
 
     return {
-      unit,
       chartColorFormat,
     };
   }, [dataStock]);
-
-  const isPriceChange = useMemo(() => {
-    if (
-      !dataStock ||
-      !dataStock.lastPrice ||
-      !dataStock.ot ||
-      !dataStock.changePc ||
-      !preDataStock ||
-      !preDataStock.lastPrice ||
-      !preDataStock.ot ||
-      !preDataStock.changePc
-    ) {
-      return;
-    }
-
-    const isChange =
-      dataStock.lastPrice !== preDataStock.lastPrice ||
-      dataStock.ot !== preDataStock.ot ||
-      dataStock.changePc !== preDataStock.changePc;
-
-    return isChange;
-  }, [dataStock, preDataStock]);
 
   const revenueLastUpdated = useMemo(() => {
     if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
@@ -508,106 +515,22 @@ const StockDetail = () => {
           </button>
         </div>
 
-        <div className='mt-[12px] flex items-center justify-between'>
-          <div className='flex flex-1 flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
-            <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-              <img
-                src={imageStock(stockCode)}
-                // alt={`Logo ${stockDetail?.data?.name}`}
-                alt=''
-                className='block'
-              />
-            </div>
-
-            <div>
-              <div className='flex items-center'>
-                <Text type='body-24-semibold' className='text-[#0D0D0D] galaxy-max:text-[22px]'>
-                  {stockDetail?.data?.stockCode}
-                </Text>
-
-                <button className='ml-[8px] h-[20px] min-w-[48px] cursor-text rounded-[4px] border border-solid border-[var(--neutral-7)] px-[10px]'>
-                  <Text type='body-10-regular' className='text-[#808A9D] galaxy-max:text-[8px]'>
-                    {stockDetail?.data?.stockExchange}
-                  </Text>
-                </button>
-              </div>
-
-              <Text type='body-12-regular' className='primary-5 galaxy-max:text-[10px]'>
-                {i18n.language === 'vi' ? stockDetail?.data?.nameVi : stockDetail?.data?.nameEn}
-              </Text>
-            </div>
-          </div>
-
-          <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
-            {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
-              <div className='flex items-center'>
-                <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-                  {stockDetails?.data.watchingNo}+
-                </Text>
-
-                <div className='flex items-center'>
-                  {stockDetails?.data.watchingList
-                    .slice(0, 3)
-                    .reverse()
-                    .map((item, index) => (
-                      <img
-                        key={index}
-                        src={item.avatar}
-                        alt='Subscriber user'
-                        className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                      />
-                    ))}
-                </div>
-              </div>
-            )}
-
-            {dataStock?.lastPrice === 0 ? (
-              <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
-                <Text type='body-16-medium'>-</Text>
-                <Text type='body-12-regular'>-/-%</Text>
-              </div>
-            ) : (
-              <div
-                className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
-                  [styles.isPriceChange]: isPriceChange,
-                })}
-                style={{
-                  color: getStockColor(
-                    dataStock?.lastPrice || 0,
-                    dataStock?.c || 0,
-                    dataStock?.f || 0,
-                    dataStock?.r || 0,
-                  ),
-                  backgroundColor: isPriceChange
-                    ? getStockColor(
-                        dataStock?.lastPrice || 0,
-                        dataStock?.c || 0,
-                        dataStock?.f || 0,
-                        dataStock?.r || 0,
-                      )
-                    : 'transparent',
-                }}
-              >
-                <Text className='galaxy-max:text-[14px]' type='body-16-medium'>
-                  {dataStock?.lastPrice?.toFixed(2)}
-                </Text>
-                <Text className='galaxy-max:text-[10px]' type='body-12-regular'>
-                  {`${unit}${formatStringToNumber(String(dataStock?.ot), true, 2)}`} /{' '}
-                  {`${unit}${formatStringToNumber(String(dataStock?.changePc), true, 2)}`}%
-                </Text>
-              </div>
-            )}
-          </div>
-        </div>
+        <StockHeading
+          stockCode={stockCode}
+          stockDetails={stockDetails}
+          stockDetail={stockDetail}
+          dataStock={dataStock}
+          preDataStock={preDataStock}
+        />
 
         {/* chart */}
-        <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px]'>
+        <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px] pt-[36px]'>
           <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
 
           {/* icon maximize */}
           <div
             onClick={handleOpenPopupZoom}
-            className='absolute right-[6px] top-[8px] flex cursor-pointer items-center justify-center'
+            className='absolute right-[22px] top-[8px] flex cursor-pointer items-center justify-center'
           >
             <img
               src='/static/icons/icon_maximize.svg'
@@ -692,7 +615,7 @@ const StockDetail = () => {
               )}
             >
               {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='mr-0 min-w-[112px]' key={index} data={item} />
+                <ProductItem className='!mr-0 min-w-[112px]' key={index} data={item} />
               ))}
             </div>
           ) : (
@@ -722,7 +645,7 @@ const StockDetail = () => {
                   variableWidth
                 >
                   {stockDetail?.data?.products.map((item, index) => (
-                    <ProductItem className='mr-[14px]' key={index} data={item} />
+                    <ProductItem className='!mr-[14px]' key={index} data={item} />
                   ))}
                 </Slider>
               </div>
@@ -889,13 +812,13 @@ const StockDetail = () => {
           </div>
 
           {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
-            <Link href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
+            <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
               <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                 <Text type='body-14-bold' color='primary-2'>
                   {t('common:see_more')}
                 </Text>
               </button>
-            </Link>
+            </CustomLink>
           )}
         </div>
       )}
@@ -939,7 +862,7 @@ const StockDetail = () => {
                 {t('rating.reviews')}
               </Text>
 
-              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
                     {stockDetails?.data.details.totalReviews}
@@ -951,7 +874,7 @@ const StockDetail = () => {
                     className='ml-[10px] h-[8px] w-[4px] object-contain'
                   />
                 </div>
-              </Link>
+              </CustomLink>
             </div>
           </div>
         </div>
@@ -966,13 +889,13 @@ const StockDetail = () => {
             />
 
             {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
-              <Link href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('rating.see_more')}
                   </Text>
                 </button>
-              </Link>
+              </CustomLink>
             )}
           </>
         ) : (
@@ -995,7 +918,7 @@ const StockDetail = () => {
             </Text>
 
             <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
-              <Link
+              <CustomLink
                 href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
                 className='flex gap-x-[10px] galaxy-max:gap-[6px]'
               >
@@ -1024,7 +947,7 @@ const StockDetail = () => {
                       )}
                     </div>
                   ))}
-              </Link>
+              </CustomLink>
 
               <div
                 onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
@@ -1056,7 +979,7 @@ const StockDetail = () => {
             ))}
 
             {stockNews.data.list.length > NEWS_ITEM_LIMIT && (
-              <Link href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
+              <CustomLink href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
                 <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('more_news', {
@@ -1064,7 +987,7 @@ const StockDetail = () => {
                     })}
                   </Text>
                 </button>
-              </Link>
+              </CustomLink>
             )}
           </>
         </div>
@@ -1103,7 +1026,7 @@ const StockDetail = () => {
           </div>
 
           {stockEvents?.data && stockEvents.data.list.length > STOCK_EVENT_ITEM_LIMIT && (
-            <Link href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
+            <CustomLink href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
               <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
                 <Text type='body-14-bold' color='primary-2'>
                   {t('more_events', {
@@ -1111,7 +1034,7 @@ const StockDetail = () => {
                   })}
                 </Text>
               </button>
-            </Link>
+            </CustomLink>
           )}
         </div>
       )}

@@ -34,7 +34,12 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
         className='cursor-pointer'
       >
         {avatar ? (
-          <img src={avatar} alt='' className='mr-[12px] h-[28px] w-[28px] rounded-full' />
+          <img
+            loading='lazy'
+            src={avatar}
+            alt=''
+            className='mr-[12px] h-[28px] w-[28px] rounded-full'
+          />
         ) : (
           <div className='mr-[12px] h-[28px] w-[28px]'>
             <AvatarDefault name={nameAvatar} />
@@ -69,7 +74,12 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
           </div>
           {data?.totalLikes > 0 && (
             <div className='like absolute -bottom-[12px] right-0 flex  h-[24px] w-[54px] items-center justify-center rounded-[100px] bg-[#F0F7FC] [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
-              <img src='/static/icons/iconLike.svg' alt='' className='mr-[4px] w-[16px]' />
+              <img
+                loading='lazy'
+                src='/static/icons/iconLike.svg'
+                alt=''
+                className='mr-[4px] w-[16px]'
+              />
               <Text type='body-12-regular' color='primary-1'>
                 {data?.totalLikes}
               </Text>

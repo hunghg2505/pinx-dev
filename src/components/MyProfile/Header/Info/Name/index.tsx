@@ -29,6 +29,7 @@ const Name = ({
 
         {isFeatureProfile && (
           <img
+            loading='lazy'
             src='/static/icons/iconStarFollow.svg'
             alt='star'
             className='h-[20px] w-[20px] galaxy-max:h-[14px]  galaxy-max:w-[14px] '

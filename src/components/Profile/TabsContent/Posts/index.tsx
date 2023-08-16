@@ -24,7 +24,6 @@ const Posts = () => {
       refreshDeps: [router.query?.id],
     },
   );
-
   const service = async () => {
     if (!data?.nextId || loading) {
       return;

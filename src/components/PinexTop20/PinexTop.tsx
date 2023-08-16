@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import Link from 'next/link';
 
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, imageStock } from '@utils/common';
 
@@ -14,7 +14,7 @@ const PinexTop = (props: Iprops) => {
   const { number, changePrice = false, data, percent } = props;
 
   return (
-    <Link href={ROUTE_PATH.STOCK_DETAIL(data?.stockCode)}>
+    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data?.stockCode)}>
       <div className='relative rounded-[15px] bg-[#F7F6F8]'>
         <div
           className='absolute h-full rounded-[15px] bg-[#D7EEFF]'
@@ -99,7 +99,7 @@ const PinexTop = (props: Iprops) => {
           )}
         </div>
       </div>
-    </Link>
+    </CustomLink>
   );
 };
 export default PinexTop;

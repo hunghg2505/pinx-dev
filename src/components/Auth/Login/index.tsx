@@ -14,7 +14,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-import { PINETREE_LINK } from '@utils/constant';
+// import { PINETREE_LINK } from '@utils/constant';
 
 import { useLogin } from './service';
 
@@ -113,7 +113,7 @@ const Login = (props: Iprops) => {
           </div>
         )}
 
-        {!isModal && (
+        {/* {!isModal && (
           <a
             href={PINETREE_LINK}
             target='_blank'
@@ -130,7 +130,7 @@ const Login = (props: Iprops) => {
               className='h-[40px] w-[105px] galaxy-max:h-[35px] galaxy-max:w-[90px] laptop:h-[55px] laptop:w-[140px]'
             />
           </a>
-        )}
+        )} */}
       </Form>
     </>
   );
