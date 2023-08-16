@@ -82,20 +82,20 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
   return (
     <div
       className={classNames(
-        'overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6]',
+        'flex items-center overflow-hidden rounded-[12px] border border-solid border-[#EBEBEB]',
         className,
       )}
     >
-      <div className='hidden border-b border-solid border-[#ebebeb] bg-primary_blue_light py-[10px] text-center tablet:block'>
+      <div className='flex w-[100px] items-center justify-center self-stretch border-r border-solid border-[#EBEBEB] text-center uppercase'>
         <Text type='body-14-semibold' color='neutral-darkgray'>
           {t('ask')}
         </Text>
       </div>
 
-      <div className={styles.stockAsk}>
-        <div className='flex h-[36px] items-center justify-between'>
+      <div className={classNames('flex-1', styles.stockAskBid)}>
+        <div className='flex h-[41px] items-center justify-between'>
           <div
-            className='flex h-full flex-col justify-center pl-[6px]'
+            className='flex h-full flex-col justify-center pl-[16px]'
             style={{ color: getColor(+sell_price_3, stockData?.r || 0)?.color }}
           >
             <Text
@@ -123,7 +123,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
               }}
             ></div>
           </div>
-          <div className='pr-[6px] text-right'>
+          <div className='pr-[16px] text-right'>
             <Text
               type='body-12-regular'
               className={classNames(
@@ -141,9 +141,9 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
           </div>
         </div>
 
-        <div className='flex h-[36px] items-center justify-between'>
+        <div className='flex h-[41px] items-center justify-between'>
           <div
-            className='flex h-full flex-col justify-center pl-[6px]'
+            className='flex h-full flex-col justify-center pl-[16px]'
             style={{ color: getColor(+sell_price_2, stockData?.r || 0)?.color }}
           >
             <Text
@@ -171,7 +171,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
               }}
             ></div>
           </div>
-          <div className='pr-[6px] text-right'>
+          <div className='pr-[16px] text-right'>
             <Text
               type='body-12-regular'
               className={classNames(
@@ -189,9 +189,9 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
           </div>
         </div>
 
-        <div className='flex h-[36px] items-center justify-between'>
+        <div className='flex h-[41px] items-center justify-between'>
           <div
-            className='flex h-full flex-col justify-center pl-[6px]'
+            className='flex h-full flex-col justify-center pl-[16px]'
             style={{ color: getColor(+sell_price_1, stockData?.r || 0)?.color }}
           >
             <Text
@@ -219,7 +219,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
               }}
             ></div>
           </div>
-          <div className='pr-[6px] text-right'>
+          <div className='pr-[16px] text-right'>
             <Text
               type='body-12-regular'
               className={classNames(

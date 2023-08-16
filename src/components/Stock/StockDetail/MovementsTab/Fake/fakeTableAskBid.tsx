@@ -1,54 +1,58 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { formatNumber, formatStringToNumber } from '@utils/common';
 
 import styles from '../index.module.scss';
 
-const FakeTableAskBid = () => {
+const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
+  const { t } = useTranslation('stock');
+
   return (
-    <div
-      className={classNames(
-        'border-separate border-spacing-0 overflow-hidden rounded-[12px] border border-solid border-[#E6E6E6] laptop-max:w-[49vw]',
-        styles.stockAsk,
-      )}
-    >
-      <div className={styles.stockAsk}>
-        <div className='flex h-[36px] items-center justify-between'>
-          <div className='pl-[6px]'>
-            <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatStringToNumber(0, true, 2)}
+    <div className='flex items-center overflow-hidden rounded-[12px] border border-solid border-[#EBEBEB]'>
+      <div className='flex w-[100px] items-center justify-center self-stretch border-r border-solid border-[#EBEBEB] text-center uppercase'>
+        <Text type='body-14-semibold' color='neutral-darkgray'>
+          {t(isAsk ? 'ask' : 'bid')}
+        </Text>
+      </div>
+
+      <div className={classNames('flex-1', styles.stockAskBid)}>
+        <div className='flex h-[41px] items-center justify-between'>
+          <div className='flex h-full flex-col justify-center pl-[16px]'>
+            <Text type='body-12-semibold' className='inline-block self-start p-[4px]'>
+              {formatStringToNumber('0', true, 2)}
             </Text>
           </div>
-          <div className='pr-[6px] text-right'>
+          <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
               {formatNumber(0)}
             </Text>
           </div>
         </div>
 
-        <div className='flex h-[36px] items-center justify-between'>
-          <div className='pl-[6px]'>
-            <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatStringToNumber(0, true, 2)}
+        <div className='flex h-[41px] items-center justify-between'>
+          <div className='flex h-full flex-col justify-center pl-[16px]'>
+            <Text type='body-12-semibold' className='inline-block self-start p-[4px]'>
+              {formatStringToNumber('0', true, 2)}
             </Text>
           </div>
-          <div className='pr-[6px] text-right'>
+          <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
               {formatNumber(0)}
             </Text>
           </div>
         </div>
 
-        <div className='flex h-[36px] items-center justify-between'>
-          <div className='pl-[6px]'>
-            <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatStringToNumber(0, true, 2)}
+        <div className='flex h-[41px] items-center justify-between'>
+          <div className='flex h-full flex-col justify-center pl-[16px]'>
+            <Text type='body-12-semibold' className='inline-block self-start p-[4px]'>
+              {formatStringToNumber('0', true, 2)}
             </Text>
           </div>
-          <div className='pr-[6px] text-right'>
+          <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
               {formatNumber(0)}
             </Text>

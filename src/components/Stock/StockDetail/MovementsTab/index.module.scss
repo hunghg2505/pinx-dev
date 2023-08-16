@@ -1,4 +1,4 @@
-.stockAsk {
+.stockAskBid {
   > div {
     &:not(:last-child) {
       border-bottom: 1px solid #ebebeb;
@@ -6,20 +6,6 @@
 
     > div {
       &:first-child {
-        @apply relative w-full;
-      }
-    }
-  }
-}
-
-.stockBid {
-  > div {
-    &:not(:last-child) {
-      border-bottom: 1px solid #ebebeb;
-    }
-
-    > div {
-      &:last-child {
         @apply relative w-full;
       }
     }
@@ -63,16 +49,4 @@
 .isEqual {
   animation-name: isEqual;
   animation-duration: 0.4s;
-}
-
-.tablePrice {
-  tr {
-    &:not(:last-child) {
-      @media (min-width: 768px) {
-        td {
-          border-bottom: 1px solid #ebebeb;
-        }
-      }
-    }
-  }
 }
