@@ -173,7 +173,7 @@ export const usePostDetail = (postId: string, option = {}) => {
     {
       refreshDeps: [postId],
       ...option,
-      manual: true,
+      // manual: true,
     },
   );
   return {
