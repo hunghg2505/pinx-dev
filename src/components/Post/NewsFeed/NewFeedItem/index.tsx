@@ -44,6 +44,7 @@ interface IProps {
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
   isNewFeedExplore?: boolean;
+  setShowPopup?:any;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -57,6 +58,7 @@ const NewFeedItem = (props: IProps) => {
     pinned = false,
     isNewFeedExplore = false,
     refreshFollow,
+    setShowPopup
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -365,7 +367,11 @@ const NewFeedItem = (props: IProps) => {
   }) => {
     if (href) {
       return (
-        <CustomLink className={className} href={href}>
+        <CustomLink
+          onClick={() => {
+            setShowPopup && setShowPopup(false);
+          }}
+          className={className} href={href}>
           {children}
         </CustomLink>
       );
@@ -441,7 +447,11 @@ const NewFeedItem = (props: IProps) => {
         </div>
       </div>
 
-      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
+      <div
+        onClick={() => {
+          setShowPopup && setShowPopup(false);
+        }}
+        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

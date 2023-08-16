@@ -123,7 +123,7 @@ const formatMessages = (message: string, data: any, idCustomer?: any) => {
   return message;
 };
 
-const MediaItem = ({ data, type }: { data: any; type?: string }) => {
+const MediaItem = ({ data, type, setShowPopup }: { data: any, type?: string, setShowPopup?: any }) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [img, setImg] = React.useState('');
 
@@ -136,6 +136,7 @@ const MediaItem = ({ data, type }: { data: any; type?: string }) => {
 
   const onGoToDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data?.id));
+    setShowPopup && setShowPopup(false);
   };
 
   const renderTypeMedia = (param: string) => {

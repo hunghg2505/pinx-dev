@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/router';
@@ -21,7 +22,7 @@ const IconLink = () => (
 
 dayjs.extend(relativeTime);
 
-const NewsItem = ({ data }: { data: any }) => {
+const NewsItem = ({ data, middle, setShowPopup }: { data: any, middle?: boolean, setShowPopup?: any }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const onGoToDetail = () => {
@@ -32,8 +33,16 @@ const NewsItem = ({ data }: { data: any }) => {
 
   return (
     <>
-      <div className='flex'>
-        <div className='mr-[16px] w-[calc(100%_-_73px)] cursor-pointer' onClick={onGoToDetail}>
+      <div className={classNames('flex',{
+        'items-center': middle
+      })}>
+        <div
+          className='mr-[16px] w-[calc(100%_-_73px)] cursor-pointer'
+          onClick={() => {
+            onGoToDetail();
+            setShowPopup && setShowPopup(false);
+          }}
+        >
           <div className='flex items-center'>
             <img
               src={data?.post?.vendorInfo?.logo}

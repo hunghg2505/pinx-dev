@@ -14,6 +14,7 @@ import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
 import styles from '@components/SearchSeo/index.module.scss';
+import MediaItem from '@components/SearchSeo/MediaItem';
 import {
   useCreateSearch,
   useGetSearchRecent,
@@ -86,7 +87,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   }, searchResultPopupRef);
 
   const handleSubmit = async () => {
-    const value = await form.getFieldValue('search').replaceAll('^ +|(?<=\\d{4} ) | [^ ]+ *$', '');
+    const value = await form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
     setQuery(value);
     cancel();
     if (value === '' || value === undefined) {
@@ -145,7 +146,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const { run, cancel } = useDebounceFn(
     () => {
-      const value = form.getFieldValue('search').replaceAll('^ +|(?<=\\d{4} ) | [^ ]+ *$', '');
+      const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
       setQuery(value);
       if (value === '' || value === undefined) {
         setShowPopup(false);
@@ -178,7 +179,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const users = data?.data?.customerList?.list || [];
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
-  const media = data?.data?.listMedia?.list || [];
+  const media = data?.data?.listMedia || [];
+  const image = data?.data?.listImage || [];
 
   // map api do trả thiếu id
   const newUsers = users?.map((item: any) => ({ ...item, id: item.customerId }));
@@ -188,6 +190,14 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
+
+  // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
+  const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
+  console.log('media',media);
+  console.log('mediaFilter',mediaFilter);
+  const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
+  console.log('image',image);
+  console.log('imageFilter',imageFilter);
 
   return (
     <>
@@ -311,7 +321,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.company')}
                   </Text>
                   {companies?.slice(0, 3)?.map((company: any, index: number) => {
-                    return <CompanyItem key={`company-${index}`} data={company} />;
+                    return <CompanyItem key={`company-${index}`} data={company} setShowPopup={setShowPopup} />;
                   })}
                 </div>
               )}
@@ -321,7 +331,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.people')}
                   </Text>
                   {newUsers?.slice(0, 3)?.map((item: any, index: number) => (
-                    <UserItem data={item} key={index} />
+                    <UserItem data={item} key={index} setShowPopup={setShowPopup} />
                   ))}
                 </div>
               )}
@@ -331,13 +341,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
-                    return (
-                      <NewsFeed
-                        key={`explore-search-${post?.id}`}
-                        data={post}
-                        isNewFeedExplore={true}
-                      />
-                    );
+                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} setShowPopup={setShowPopup} />;
                   })}
                 </div>
               )}
@@ -347,15 +351,23 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.news')}
                   </Text>
                   {news?.slice(0, 3)?.map((item: any) => {
-                    return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+                    return <NewsItem key={`new-items-${item?.id}`} data={item} setShowPopup={setShowPopup} />;
                   })}
                 </div>
               )}
-              {mediaL && (
+              {(imageFilter?.length > 0 || mediaFilter?.length > 0) && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     {t('common:searchseo.tab.media')}
                   </Text>
+                  <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
+                    {imageFilter?.slice(0, 3)?.map((item: any) => {
+                      return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' setShowPopup={setShowPopup} />;
+                    })}
+                    {mediaFilter?.slice(0, 3)?.map((item: any) => {
+                      return <MediaItem key={`media-item-${item?.id}`} data={item} setShowPopup={setShowPopup} />;
+                    })}
+                  </div>
                 </div>
               )}
               <ExploreButton className='' onClick={handleSubmit}>

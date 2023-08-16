@@ -23,11 +23,12 @@ interface IProps {
   onRefreshList?: () => void;
   onRemoveData?: () => void;
   isNewFeedExplore?: boolean;
+  setShowPopup?: any;
 }
 
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false } = props;
+  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false, setShowPopup } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const { isLogin } = useAuth();
@@ -109,7 +110,9 @@ const NewsFeed = (props: IProps) => {
   const ViewMore = () => {
     if (countComment > 1) {
       return (
-        <CustomLink href={`/post/${postData?.id}`}>
+        <CustomLink
+          href={`/post/${postData?.id}`}
+        >
           <div className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'>
             <Text type='body-14-medium' color='primary-2'>
               {t('common:view_more')} {countComment - 1} {t('common:comments')}...
@@ -156,6 +159,7 @@ const NewsFeed = (props: IProps) => {
           refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
+          setShowPopup={setShowPopup}
         />
 
         {isLogin && !isNewFeedExplore && (

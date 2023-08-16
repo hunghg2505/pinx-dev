@@ -29,9 +29,15 @@ const SearchSeo = () => {
     },
   });
 
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const removeHashTag = (str: string) => {
+    const regexp = /#(\S)/g;
+    return str.replaceAll(regexp, '$1');
+  };
+
   React.useEffect(() => {
     searchPublic({
-      textSearch: keyword,
+      textSearch: removeHashTag(keyword),
       type: getType,
     });
   }, [keyword, getType, tab]);
@@ -53,14 +59,22 @@ const SearchSeo = () => {
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
 
-  const mediaFilter = media?.filter(
-    (item: any) =>
-      item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-      item?.post?.metadataList[0]?.url?.length > 0,
-  );
-  const imageFilter = image?.filter(
-    (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  );
+
+  // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
+  const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
+  console.log('media',media);
+  console.log('mediaFilter',mediaFilter);
+  const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
+  console.log('image',image);
+  console.log('imageFilter',imageFilter);
+
+
+  // Error commit git
+  console.log('keyword', keyword);
+  console.log('tab', tab);
+  console.log('type', getType);
+  console.log(media,mediaL,imageL);
+
 
   return (
     <>
@@ -121,7 +135,7 @@ const SearchSeo = () => {
             {newsL ? (
               <div className='my-[16px] flex flex-col gap-y-[12px]'>
                 {news?.map((item: any) => {
-                  return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+                  return <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} />;
                 })}
               </div>
             ) : (
@@ -131,8 +145,8 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {mediaL && imageL ? (
-              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
+            {(imageFilter?.length > 0 || mediaFilter?.length > 0) ? (
+              <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
                 {imageFilter?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
                 })}
