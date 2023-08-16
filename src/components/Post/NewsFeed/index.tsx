@@ -37,7 +37,6 @@ const NewsFeed = (props: IProps) => {
     setShowPopup,
   } = props;
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
-  // console.log('🚀 ~ file: index.tsx:31 ~ NewsFeed ~ postDetailStatus:', postDetailStatus);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
@@ -106,6 +105,7 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
+    setShowPopup && setShowPopup();
   };
 
   const [, setImageCommentMobile] = useState(false);
@@ -170,7 +170,6 @@ const NewsFeed = (props: IProps) => {
           refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
-          setShowPopup={setShowPopup}
         />
 
         {isLogin && !isNewFeedExplore && (
