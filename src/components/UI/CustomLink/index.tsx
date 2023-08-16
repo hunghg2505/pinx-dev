@@ -11,11 +11,13 @@ interface ICustomLink {
   ariaLabel?: string;
   target?: string;
   onClick?: () => void;
+  linkClassName?: string;
 }
 
 const CustomLink = ({
   children,
   href,
+  linkClassName = '',
   className = '',
   ariaLabel = '',
   prefetch = false,
@@ -30,6 +32,7 @@ const CustomLink = ({
       aria-label={ariaLabel || 'label'}
       // rel={`noreferrer ${isNoFollow ? 'nofollow' : ''}`}
       target={target}
+      className={linkClassName}
     >
       <div onClick={onClick} className={className}>
         {children}

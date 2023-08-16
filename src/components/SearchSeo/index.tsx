@@ -63,8 +63,6 @@ const SearchSeo = () => {
     (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
   );
 
-  // Error commit git
-
   return (
     <>
       <div className={classNames('box-shadow card-style', styles.Tab)}>

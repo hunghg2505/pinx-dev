@@ -63,9 +63,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setInputFocus(true);
       setShowRecent(true);
       const value = form.getFieldValue('search');
-      // setQuery(value);
       if (value === '' || value === undefined) {
-        // toast('Empty || undefined');
         setShowPopup(false);
       } else {
         setShowPopup(true);
@@ -76,7 +74,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   useClickAway(() => {
     setInputFocus(false);
     setShowRecent(false);
-    // setShowPopup(false);
   }, ref);
 
   useClickAway((e: any) => {
@@ -104,19 +101,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const requestSearch = useCreateSearch({
     onSuccess: () => {
-      // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
         query: { keyword: query, tab: 'media' },
       });
-      // form.setFieldValue('search', '');
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
     },
-    onError: () => {
-      // toast(() => <Notification type='error' message='error rooif' />);
-    },
+    onError: () => {},
   });
 
   // Set value when onSubmit Form
@@ -150,7 +143,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setQuery(value);
       if (value === '' || value === undefined) {
         setShowPopup(false);
-        // setInputFocus(false);
         setShowRecent(true);
       } else {
         setShowRecent(false);
