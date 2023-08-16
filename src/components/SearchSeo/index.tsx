@@ -24,9 +24,7 @@ const SearchSeo = () => {
   const { replace, query } = useRouter();
 
   const { data, searchPublic, loading } = useSearchPublic({
-    onSuccess: () => {
-      console.log('useSearchPublic', data);
-    },
+    onSuccess: () => {},
   });
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
@@ -56,24 +54,10 @@ const SearchSeo = () => {
   const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
-  const mediaL = media?.length > 0;
-  const imageL = image?.length > 0;
-
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
   const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
-  console.log('media',media);
-  console.log('mediaFilter',mediaFilter);
   const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
-  console.log('image',image);
-  console.log('imageFilter',imageFilter);
-
-
-  // Error commit git
-  console.log('keyword', keyword);
-  console.log('tab', tab);
-  console.log('type', getType);
-  console.log(media,mediaL,imageL);
 
 
   return (
