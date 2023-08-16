@@ -127,7 +127,7 @@
 .messageFormat {
   word-break: break-word;
   line-height: 21px;
-  a {
+  .mention {
     font-weight: 600;
     @apply text-[14px] tablet:text-[16px];
     line-height: 21px;
@@ -154,6 +154,7 @@
   }
   .tagStock {
     font-weight: 600 !important;
+    display: inline-block;
   }
   .userName {
     color: #3449d7 !important;

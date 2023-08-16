@@ -1,9 +1,13 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useAtomValue } from 'jotai';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
+import { ROUTE_PATH } from '@utils/common';
 
 export const ActivityMatchOrder = ({
   isReadMore,
@@ -17,9 +21,30 @@ export const ActivityMatchOrder = ({
   pnlRate,
 }: any) => {
   const { t } = useTranslation();
+  const router = useRouter();
+  const userDetail = useAtomValue(userLoginInfoAtom);
+  const onHandleClick = (e: any) => {
+    const textContent = e?.target?.textContent;
+    const classElement = e?.target?.className;
+    const id = e?.target?.id;
+    if (classElement === 'link') {
+      return router.push({
+        pathname: '/redirecting',
+        query: { url: textContent },
+      });
+    }
+    if (classElement === 'people') {
+      const url = userDetail?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      return router.push(url);
+    }
+    if (classElement === 'tagStock') {
+      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+    }
+    return onComment();
+  };
   return (
     <div className='ActivityMatchOrder'>
-      <div className='cursor-pointer' onClick={onComment}>
+      <div className='cursor-pointer' onClick={(e: any) => onHandleClick(e)}>
         <Text
           type='body-14-regular'
           color='neutral-1'

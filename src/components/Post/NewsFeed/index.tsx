@@ -29,16 +29,25 @@ interface IProps {
 
 const NewsFeed = (props: IProps) => {
   const { t } = useTranslation('home');
-  const { data, pinned = false, onRefreshList, onRemoveData, isNewFeedExplore = false, setShowPopup, refreshSearch } = props;
-  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const {
+    data,
+    pinned = false,
+    onRefreshList,
+    onRemoveData,
+    isNewFeedExplore = false,
+    setShowPopup,
+    refreshSearch,
+  } = props;
+  const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
-  React.useEffect(() => {
-    setPostData(data);
-  }, [data]);
+  // React.useEffect(() => {
+  //   setPostData(data);
+  // }, [data]);
   const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
   const isMyPost = postData?.customerId === userLoginInfo?.id;
+  const isMyComment = postData?.children?.[0]?.customerInfo?.customerId === userLoginInfo?.id;
   const itemLike = postDetailStatus?.idPostLike === postData?.id;
   const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
     (item: string) => item === postData?.id,
@@ -67,26 +76,28 @@ const NewsFeed = (props: IProps) => {
       findIndex !== -1 ||
       findItemFollow ||
       itemLike ||
-      (postDetailStatus?.isChangeMyProfile && isMyPost)
+      (postDetailStatus?.isChangeMyProfile && (isMyPost || isMyComment))
     ) {
       refresh();
+      if (onRefreshList && pinned) {
+        onRefreshList();
+      }
     }
   }, [findItemFollow, postDetailStatus?.idPostLike, postDetailStatus?.isChangeMyProfile]);
   React.useEffect(() => {
     if (findIndex === -1 && !findItemFollow && !itemLike) {
       setPostData(data);
     }
-  }, [data]);
-
+  }, []);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
-      setPostDetailStatus({
-        ...postDetailStatus,
-        isAddCommentPostDetail: [],
-        idCustomerFollow: 0,
-        // isChangeMyProfile: false,
-      });
+      // setPostDetailStatus({
+      //   ...postDetailStatus,
+      //   // isAddCommentPostDetail: [],
+      //   idCustomerFollow: 0,
+      //   // isChangeMyProfile: false,
+      // });
       refreshSearch && refreshSearch();
     },
   });
@@ -113,9 +124,7 @@ const NewsFeed = (props: IProps) => {
   const ViewMore = () => {
     if (countComment > 1) {
       return (
-        <CustomLink
-          href={`/post/${postData?.id}`}
-        >
+        <CustomLink href={`/post/${postData?.id}`}>
           <div className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'>
             <Text type='body-14-medium' color='primary-2'>
               {t('common:view_more')} {countComment - 1} {t('common:comments')}...

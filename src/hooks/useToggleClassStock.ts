@@ -26,7 +26,7 @@ const useToggleClassStock = (
 
     const timerId = setTimeout(() => {
       setClassName('');
-    }, 400);
+    }, 500);
 
     return () => {
       clearTimeout(timerId);

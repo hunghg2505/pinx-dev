@@ -79,41 +79,20 @@ body {
   overflow-y: hidden !important;
 }
 
-@keyframes isIncrease {
-  to {
-    background-color: #8ecf4a;
-    border-radius: 4px;
-    color: #ffffff;
-  }
-}
-
 .isIncrease {
-  animation-name: isIncrease;
-  animation-duration: 0.4s;
-}
-
-@keyframes isDecrease {
-  to {
-    background-color: #ff5757;
-    border-radius: 4px;
-    color: #ffffff;
-  }
+  background-color: #8ecf4a;
+  border-radius: 4px;
+  color: #ffffff !important;
 }
 
 .isDecrease {
-  animation-name: isDecrease;
-  animation-duration: 0.4s;
-}
-
-@keyframes isEqual {
-  to {
-    background-color: #f1ba09;
-    border-radius: 4px;
-    color: #ffffff;
-  }
+  background-color: #ff5757;
+  border-radius: 4px;
+  color: #ffffff !important;
 }
 
 .isEqual {
-  animation-name: isEqual;
-  animation-duration: 0.4s;
+  background-color: #f1ba09;
+  border-radius: 4px;
+  color: #ffffff !important;
 }

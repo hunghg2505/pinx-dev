@@ -13,7 +13,6 @@ import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
 import ItemStock from './ItemStock';
-import WatchListDesktop from './WatchListDesktop';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel, socket } from '../service';
 
 const settings = {
@@ -64,12 +63,18 @@ const WatchList = () => {
 
   const [dataSocket, setDataSocket] = useState<any>({});
 
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 3220) {
-      setDataSocket(data);
-    }
-  });
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setDataSocket(data);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
 
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
   if (findIndex && findIndex !== -1) {
@@ -97,7 +102,8 @@ const WatchList = () => {
               variableWidth
             >
               {dataStock?.slice(0, 5).map((item: IWatchListItem, index: number) => {
-                return <ItemStock key={index} data={item} />;
+                const isChangeStock = index === findIndex;
+                return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
               })}
             </Slider>
           </div>
@@ -113,28 +119,6 @@ const WatchList = () => {
               height={0}
               sizes='100vw'
               className='mb-[24px] mt-[48px] h-[38px] w-[38px]'
-            />
-            <Text type='body-14-bold' color='primary-1' className='text-center'>
-              {t('add_favorite_stock')}
-            </Text>
-          </div>
-        )}
-      </div>
-      <div className='mobile:hidden tablet:block'>
-        {dataStock?.length > 0 ? (
-          <WatchListDesktop dataStock={dataStock} />
-        ) : (
-          <div
-            className='mx-[auto] flex h-[68px] w-full cursor-pointer items-center justify-center rounded-[12px] border-[1px] border-dashed border-[#589DC0] bg-[#FFF] [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'
-            onClick={onAddStock}
-          >
-            <img
-              src='/static/icons/iconAddStock.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='mr-[12px] h-[36px] w-[36px]'
             />
             <Text type='body-14-bold' color='primary-1' className='text-center'>
               {t('add_favorite_stock')}
