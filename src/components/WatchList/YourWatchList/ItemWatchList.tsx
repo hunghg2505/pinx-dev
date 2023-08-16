@@ -114,8 +114,8 @@ const ItemWatchList = ({
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
-              'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#782AF9]': isHigh,
+              'text-[#F1BA09]': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
@@ -127,8 +127,8 @@ const ItemWatchList = ({
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#08AADD]': isFloor,
-              'text-[#B349C3]': isHigh,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#782AF9]': isHigh,
+              'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
             })}
           >
