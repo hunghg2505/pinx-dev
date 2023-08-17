@@ -10,6 +10,7 @@ import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
+import ThemeLoading from './Skeleton';
 import { ITheme, useGetTheme } from '../service';
 
 const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
@@ -54,8 +55,20 @@ const ListTheme = () => {
   const { t } = useTranslation();
 
   const { isLogin } = useAuth();
-  const { theme, refresh } = useGetTheme();
+  const { theme, refresh, loading } = useGetTheme();
   const refSlide: any = React.useRef();
+
+  if (loading) {
+    return (
+      <div className='overflow-x-hidden whitespace-nowrap'>
+        <ThemeLoading />
+        <ThemeLoading />
+        <ThemeLoading />
+        <ThemeLoading />
+        <ThemeLoading />
+      </div>
+    );
+  }
 
   return (
     <div>

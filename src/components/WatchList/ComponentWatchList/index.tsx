@@ -13,6 +13,7 @@ import {
   socket,
 } from '@components/Home/service';
 
+import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';
 
 interface IProps {
@@ -83,6 +84,18 @@ const ComponentWatchList = (props: IProps) => {
       socket.off('public', getDataSocket);
     };
   }, []);
+
+  if (useWatchList.loading) {
+    return (
+      <>
+        <StockLoading />
+        <StockLoading />
+        <StockLoading />
+        <StockLoading />
+      </>
+    );
+  }
+
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>

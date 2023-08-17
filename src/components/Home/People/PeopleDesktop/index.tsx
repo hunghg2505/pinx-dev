@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { ISuggestionPeople } from '@components/Home/service';
-import SkeletonLoading from '@components/UI/Skeleton';
 import { getAccessToken } from '@store/auth';
 
 import ItemPeople from './ItemPeople';
+import PeopleDesktopLoading from './Skeleton';
 
 interface IPeopleDesktopProps {
   suggestionPeople: any;
@@ -29,8 +29,9 @@ const PeopleDesktop = ({
   if (!suggestionPeople?.length) {
     return (
       <>
-        <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  '>
-          <SkeletonLoading hiddenImg={false} />
+        <div className='mb-[25px] h-[200px] w-full rounded-[8px] bg-[#fff]  '>
+          <PeopleDesktopLoading />
+          <PeopleDesktopLoading />
         </div>
       </>
     );

@@ -23,7 +23,13 @@ const PinPost = ({ pinPostDataInitial }: any) => {
     refresh();
   };
   if (loading) {
-    return <SkeletonLoading />;
+    return (
+      <>
+        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+      </>
+    );
   }
   return (
     <>

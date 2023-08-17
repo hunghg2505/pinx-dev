@@ -2,6 +2,7 @@ import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 
+import TrendingSkeleton from './Skeleton';
 import { ITrending, useGetTrending } from '../service';
 
 export enum TYPETRENDING {
@@ -10,13 +11,26 @@ export enum TYPETRENDING {
 }
 const Trending = () => {
   const { t } = useTranslation();
-  const { dataTrending } = useGetTrending();
+  const { dataTrending, loading } = useGetTrending();
+
   return (
     <>
       <Text type='body-16-bold' color='neutral-2' className='mb-4'>
         {t('trending')}
       </Text>
       <div className='flex flex-wrap gap-x-[18px] gap-y-[10px]'>
+        {loading && (
+          <>
+            <TrendingSkeleton />
+            <TrendingSkeleton />
+            <TrendingSkeleton />
+            <TrendingSkeleton />
+            <TrendingSkeleton />
+            <TrendingSkeleton />
+            <TrendingSkeleton />
+          </>
+        )}
+
         {dataTrending
           ?.filter((item: ITrending) => item.type !== TYPETRENDING.STOCK)
           ?.slice(0, 5)

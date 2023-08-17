@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 
 import { ISuggestionPeople } from '@components/Home/service';
 
+import PeopleLoading from './Skeleton';
 import ItemPeople from '../ItemPeople';
 
 const settings = {
@@ -27,9 +28,23 @@ const settings = {
 interface IProps {
   data: ISuggestionPeople[];
   refresh: () => void;
+  loading?: boolean;
 }
 const PeopleList = (props: IProps) => {
-  const { data, refresh } = props;
+  const { data, refresh, loading } = props;
+
+  if (loading) {
+    return (
+      <div className='overflow-x-hidden whitespace-nowrap'>
+        <PeopleLoading />
+        <PeopleLoading />
+        <PeopleLoading />
+        <PeopleLoading />
+        <PeopleLoading />
+      </div>
+    );
+  }
+
   return (
     <div className='max-w-[700px]  overflow-hidden '>
       <Slider {...settings} className=''>
