@@ -201,7 +201,7 @@ const MainHeader = () => {
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
-              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[4px]'>
+              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
                 {isMobile && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}

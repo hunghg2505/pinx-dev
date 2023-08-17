@@ -433,7 +433,7 @@ const ItemComment = (props: IProps) => {
             </ModalMedia>
           )}
 
-          <div className='action flex gap-x-[12px] galaxy-max:gap-[4px] tablet:gap-x-[18px]'>
+          <div className='action flex gap-x-[12px] galaxy-max:justify-evenly galaxy-max:gap-[4px] tablet:gap-x-[18px]'>
             <div className='like flex cursor-pointer items-center' onClick={onLike}>
               <Text
                 type='body-13-regular'

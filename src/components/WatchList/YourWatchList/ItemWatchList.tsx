@@ -63,7 +63,7 @@ const ItemWatchList = ({
           'flex items-center gap-x-[10px] galaxy-max:flex-1 galaxy-max:gap-[6px]',
         )}
       >
-        <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <CustomLink linkClassName='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
           <img
             src={url}
             alt=''
