@@ -23,7 +23,10 @@ const InterestItem = (props: IProps) => {
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const isChange = Number(data?.perChange) === 0;
+  const isChange =
+    Number(data?.perChange) === 0 ||
+    Number(data?.changePc) === 0 ||
+    Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
