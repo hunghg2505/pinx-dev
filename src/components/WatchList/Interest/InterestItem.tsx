@@ -5,6 +5,7 @@ import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -29,16 +30,17 @@ const InterestItem = (props: IProps) => {
     Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
+  const url = `${imageCompanyUrl}${data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
       ? data?.stockCode
       : data?.stockCode?.slice(1, 4)
-  }.png`;
+    }.png`;
+  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       refresh && refresh();
       refreshYourWatchList && refreshYourWatchList();
+      getInitDataStockWatchlistHome();
       // toast(() => <Notification type='success' message='Add stock success1' />);
     },
   });
