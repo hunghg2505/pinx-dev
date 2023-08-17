@@ -64,7 +64,7 @@ const ComponentWatchList = (props: IProps) => {
   }, []);
 
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-  if (findIndex && findIndex !== -1) {
+  if (dataStock && findIndex !== -1) {
     const data = dataStock[findIndex];
     dataStock[findIndex] = {
       ...data,
