@@ -14,6 +14,7 @@ import { Button } from '@components/UI/Button';
 import Text from '@components/UI/Text';
 import ModalAddStock from '@components/WatchList/ModalAddStock';
 import ItemWatchList from '@components/WatchList/YourWatchList/ItemWatchList';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 
 interface IProps {
   watchlistId?: number;
@@ -48,6 +49,8 @@ const YourWatchList = (props: IProps) => {
   } = props;
   const { t } = useTranslation('watchlist');
   const [isAz, setIsAz] = React.useState<boolean>(true);
+  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
+
 
   React.useEffect(() => {
     setDataStock(yourWatchListStock);
@@ -99,6 +102,7 @@ const YourWatchList = (props: IProps) => {
       onSuccess: () => {
         refreshInterest && refreshInterest();
         refreshYourWatchList && refreshYourWatchList();
+        getInitDataStockWatchlistHome();
       },
     },
   );

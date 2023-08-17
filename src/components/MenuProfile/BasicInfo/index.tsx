@@ -47,16 +47,16 @@ const BasicInfo = ({
             alt='avatar'
             width={52}
             height={52}
-            className='h-[52px] w-[52px] rounded-[50%] galaxy-max:flex-none galaxy-max:object-cover'
+            className='h-[52px] w-[52px] rounded-[50%] galaxy-max:flex-none galaxy-max:object-cover min-w-[52px]'
           />
         ) : (
-          <div className='h-[52px] w-[52px] galaxy-max:flex-none'>
+          <div className='h-[52px] w-[52px] galaxy-max:flex-none min-w-[52px]'>
             <AvatarDefault name={userName[0]} />
           </div>
         )}
-        <div className='ml-[12px] mr-auto flex-col justify-center'>
+        <div className='ml-[12px] mr-auto flex-col justify-center overflow-hidden'>
           <div className='flex items-center'>
-            <h4 className='text-[20px] font-[500] galaxy-max:text-[16px]'>
+            <h4 className='text-[20px] font-[500] galaxy-max:text-[16px] truncate'>
               {userName ?? 'No name'}
             </h4>
 

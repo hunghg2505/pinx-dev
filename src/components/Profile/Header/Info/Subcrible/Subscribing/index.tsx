@@ -5,12 +5,15 @@ import { useTranslation } from 'next-i18next';
 
 import { requestFollowUser } from '@components/Home/service';
 import { profileUserContext } from '@components/Profile';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 
 const Subscribing = ({ access }: { access: () => void }) => {
   const profileUser = useContext<any>(profileUserContext);
   const { isLogin } = useAuth();
   const { t } = useTranslation('profile');
+  const { setUserLoginInfo } = useUserLoginInfo();
+
   const onFollowUser = useRequest(
     () => {
       return requestFollowUser(profileUser?.id);
@@ -19,6 +22,10 @@ const Subscribing = ({ access }: { access: () => void }) => {
       manual: true,
       onSuccess: () => {
         profileUser?.refresh();
+        setUserLoginInfo(prev => ({
+          ...prev,
+          totalFollowing: prev.totalFollowing && prev.totalFollowing + 1
+        }));
       },
     },
   );
