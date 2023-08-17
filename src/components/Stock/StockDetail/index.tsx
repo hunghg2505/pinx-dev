@@ -106,7 +106,7 @@ const StockDetail = () => {
   const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
   const introDescRef = useRef<HTMLDivElement | null>(null);
-  const { isMobile, isSmallMobile } = useResponsive();
+  const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
@@ -610,7 +610,7 @@ const StockDetail = () => {
             <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
           </div>
 
-          {isSmallMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
+          {isMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
             <div
               className={classNames(
                 'flex items-center gap-x-[14px] overflow-x-auto',
