@@ -9,9 +9,12 @@ export enum TabType {
 export interface IStock {
   stockType: string;
   changePc: string;
+  preChangePc?: string;
   lastPrice: number;
+  preLastPrice?: number;
   marketCapital: number;
   changePrice: string;
+  preChangePrice?: string;
   r: number;
   f: number;
   c: number;

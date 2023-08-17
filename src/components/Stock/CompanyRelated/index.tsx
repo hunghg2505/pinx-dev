@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
 
@@ -50,6 +51,12 @@ const CompanyRelated = () => {
           size: data.size,
         },
       }));
+
+      if (data.hasNext) {
+        for (const stock of data.list) {
+          requestJoinChannel(stock.stockCode);
+        }
+      }
     },
   });
 
@@ -68,7 +75,60 @@ const CompanyRelated = () => {
 
   useEffect(() => {
     requestGetCompanies.run();
+
+    return () => {
+      if (companiesRelated?.data && companiesRelated?.data.list.length > 0) {
+        for (const stock of companiesRelated.data.list) {
+          requestLeaveChannel(stock.stockCode);
+        }
+      }
+    };
   }, []);
+
+  useEffect(() => {
+    socket.on('public', (message: any) => {
+      const data = message.data;
+
+      let listStockCode: string[] = [];
+      if (companiesRelated && companiesRelated.data && companiesRelated.data.list.length > 0) {
+        listStockCode = companiesRelated.data.list.map((item) => item.stockCode);
+      }
+      if (data.id === 3220 && listStockCode.includes(data.sym)) {
+        setCompaniesRelated((prev) => {
+          let findStock: any = prev?.data.list.find((item) => item.stockCode === data.sym);
+
+          if (findStock && prev?.data.list && prev.data.list.length > 0) {
+            findStock = {
+              ...findStock,
+              preLastPrice: findStock.lastPrice,
+              preChangePc: findStock.changePc,
+              preChangePrice: findStock.changePrice,
+              lastPrice: data.lastPrice,
+              changePc: data.changePc,
+              changePrice: data.change,
+            };
+
+            const newData = prev.data.list.map((item) =>
+              item.stockCode === findStock.stockCode ? findStock : item,
+            );
+            return {
+              ...prev,
+              data: {
+                ...prev?.data,
+                list: newData,
+              },
+            };
+          }
+
+          return prev;
+        });
+      }
+    });
+
+    return () => {
+      socket.off('public');
+    };
+  }, [companiesRelated]);
 
   const handleBack = () => {
     router.back();
