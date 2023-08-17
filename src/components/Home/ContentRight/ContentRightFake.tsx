@@ -1,6 +1,8 @@
 import React from 'react';
 
-import SkeletonLoading from '@components/UI/Skeleton';
+import StockLoading from '@components/WatchList/ComponentWatchList/Skeleton';
+
+import TrendingDesktopLoading from '../Trending/TrendingDesktop/Skeleton';
 
 const ContentRightFake = () => {
   return (
@@ -17,10 +19,24 @@ const ContentRightFake = () => {
       </div>
 
       <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px] '>
-        <SkeletonLoading hiddenImg={false} />
+        <div className='mx-[20px]'>
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+        </div>
       </div>
       <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px]'>
-        <SkeletonLoading hiddenImg={false} />
+        <div className='mx-[20px]'>
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+        </div>
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import { IKOL, useGetInfluencer } from '@components/Home/service';
 
 import ItemInfluence from './ItemInfluence';
+import InfluencerLoading from './Skeleton';
 
 const Influencer = () => {
   const settings = {
@@ -41,9 +42,22 @@ const Influencer = () => {
     // autoplay: true,
     // autoplaySpeed: 1000,
   };
-  const { KOL, refresh } = useGetInfluencer();
-  // const ListInfluencer = KOL?.filter((item: IKOL) => item.isFeatureProfile === true);
+  const { KOL, refresh, loading } = useGetInfluencer();
   const refSlide: any = React.useRef();
+
+  if (loading) {
+    return (
+      <div className='overflow-x-hidden whitespace-nowrap'>
+        <InfluencerLoading />
+        <InfluencerLoading />
+        <InfluencerLoading />
+        <InfluencerLoading />
+        <InfluencerLoading />
+      </div>
+    );
+  }
+
+  // const ListInfluencer = KOL?.filter((item: IKOL) => item.isFeatureProfile === true);
   return (
     <div className='peopleInfluence relative w-[100%]'>
       <div

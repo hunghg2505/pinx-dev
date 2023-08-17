@@ -60,7 +60,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { dataStockWatchlist } = useGetDataStockWatchlistHome();
   const isHaveStockWatchList = dataStockWatchlist?.length > 0;
   const [selectTab, setSelectTab] = React.useState<string>('2');
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
 
   const { refLastElement } = useObserver();
 
@@ -251,7 +251,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
           <div>
             <div className='bg-[#ffffff] pl-[16px] pt-[15px] galaxy-max:pl-0'>
-              <PeopleList data={suggestionPeople} refresh={refreshList} />
+              <PeopleList loading={loading} data={suggestionPeople} refresh={refreshList} />
             </div>
             <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
               <ModalPeopleYouKnow refreshList={refreshList}>
@@ -267,7 +267,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       )}
 
       {fourPost?.map((item: IPost) => {
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        return <NewsFeed loading={loadingPosts} key={`home-post-item-${item?.id}`} data={item} />;
       })}
 
       <div className='box-shadow card-style'>
