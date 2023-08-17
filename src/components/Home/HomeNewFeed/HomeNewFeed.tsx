@@ -186,7 +186,11 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         {selectTab === '1' && isHaveStockWatchList && (
           <CustomLink href={ROUTE_PATH.WATCHLIST}>
             <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-              <Text type='body-12-medium' className='tablet:text-[14px]' color='primary-1'>
+              <Text
+                type='body-12-medium'
+                className='galaxy-max:hidden tablet:text-[14px]'
+                color='primary-1'
+              >
                 {t('see_all')}
               </Text>
               <img
@@ -251,12 +255,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
           </div>
 
           <div>
-            <div className='bg-[#ffffff] pl-[16px] pt-[15px]'>
+            <div className='bg-[#ffffff] pl-[16px] pt-[15px] galaxy-max:pl-0'>
               <PeopleList data={suggestionPeople} refresh={refreshList} />
             </div>
             <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
               <ModalPeopleYouKnow refreshList={refreshList}>
-                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC]'>
+                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC] galaxy-max:w-full'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('explore_people')}
                   </Text>

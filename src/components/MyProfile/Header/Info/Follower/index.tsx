@@ -12,7 +12,7 @@ const Follower = ({ totalFollower }: { totalFollower: number }) => {
   }, []);
   return (
     <p
-      className=' cursor-pointer text-[12px] flex'
+      className=' flex cursor-pointer items-center text-[12px]'
       onClick={() => {
         if (state.mobile) {
           router.push(
@@ -23,9 +23,11 @@ const Follower = ({ totalFollower }: { totalFollower: number }) => {
         }
       }}
     >
-      <b className='mr-[8px] text-[14px] font-[600] leading-[18px]'>{totalFollower}</b>
-      <span className='text-[14px] leading-[16px] text-dark_grey tablet:leading-[18px]'>
-        {t('followers')}        
+      <b className='mr-[8px] text-[14px] font-[600] leading-[18px] galaxy-max:mr-[2px] galaxy-max:text-[12px]'>
+        {totalFollower}
+      </b>
+      <span className='text-[14px] leading-[16px] text-dark_grey galaxy-max:text-[10px] tablet:leading-[18px]'>
+        {t('followers')}
       </span>
     </p>
   );

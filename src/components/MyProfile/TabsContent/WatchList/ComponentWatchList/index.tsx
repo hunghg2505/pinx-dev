@@ -74,7 +74,7 @@ const ComponentWatchList = (props: IProps) => {
 
   return (
     <>
-      <div className='mb-[50px] flex flex-col gap-y-[16px] tablet:mb-0 desktop:px-0'>
+      <div className='mb-[50px] flex flex-col gap-y-[16px] px-[10px] galaxy-max:px-0 tablet:mb-0 desktop:px-0'>
         {dataStock?.map((item: IWatchListItem, index: number) => (
           <div
             key={index}

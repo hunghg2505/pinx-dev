@@ -12,7 +12,7 @@ const Profit = () => {
 
   return (
     <div className=''>
-      <Text type='body-14-regular' color='cbblack'>
+      <Text type='body-14-regular' color='cbblack' className='galaxy-max:mb-2'>
         {t('top_20_tab.profit_desc')}
       </Text>
       <Text type='body-12-regular' color='cbblack' className='text-right italic'>

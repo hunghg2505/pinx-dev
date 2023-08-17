@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 
-import HeaderMobile from '@components/common/HeaderMobile';
+// import HeaderMobile from '@components/common/HeaderMobile';
 
 import Back from './Back';
 import Search from './Search';
@@ -17,13 +17,16 @@ const ProfileFollow = () => {
 
   return (
     <>
-      <HeaderMobile />
-      <div className=' relative bg-white'>
+      {/* <HeaderMobile /> */}
+      <div className='relative bg-white '>
         <header className='mb-[24px] flex px-[16px] py-[16px] align-middle text-[16px]'>
           <Back />
         </header>
         <main className='px-[16px]'>
-          <div className='mb-[16px] flex gap-[32px] '>
+          <div
+            className='mb-[16px] flex gap-[32px]
+          galaxy-max:justify-between galaxy-max:gap-0 '
+          >
             <TabBar tabKey='followers' />
             <TabBar tabKey='following' />
           </div>

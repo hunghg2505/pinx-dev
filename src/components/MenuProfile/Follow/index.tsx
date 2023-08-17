@@ -17,7 +17,7 @@ const Follow = ({
   const { t } = useTranslation('common');
   return (
     <>
-      <div className='flex items-center px-[16px] pb-[12px]'>
+      <div className='flex items-center px-[16px] pb-[12px] galaxy-max:justify-evenly'>
         {' '}
         <CustomLink
           href={ROUTE_PATH.MY_PROFILE_FOLLOWER}
@@ -26,8 +26,8 @@ const Follow = ({
             close();
           }}
         >
-          <b className='mr-[16px]'>{follower ?? 0}</b>
-          {t('followers')}
+          <b className='mr-[16px] galaxy-max:mr-[10px]'>{follower ?? 0}</b>
+          <span className='galaxy-max:text-[12px]'>{t('followers')}</span>
         </CustomLink>
         <div className='h-[27px] w-[1px] bg-neutral_07 '></div>
         <CustomLink
@@ -38,7 +38,7 @@ const Follow = ({
           }}
         >
           <b className='mr-[16px]'>{following ?? 0}</b>
-          {t('following')}
+          <span className='galaxy-max:text-[12px]'>{t('following')}</span>
         </CustomLink>
       </div>
       <hr className='border-neutral_07' />

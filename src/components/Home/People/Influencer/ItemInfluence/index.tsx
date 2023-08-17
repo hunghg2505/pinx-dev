@@ -121,7 +121,7 @@ const ItemInfluence = (props: IProps) => {
             <img
               src={data.avatar}
               alt=''
-              className='absolute left-0 top-0 h-[252px] w-[161px] rounded-[15px] object-cover'
+              className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
               width={161}
               height={252}
               // blurDataURL="data:..." automatically provided

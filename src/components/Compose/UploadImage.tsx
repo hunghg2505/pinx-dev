@@ -17,7 +17,7 @@ export const UploadImage = memo(
           customRequest={() => {}}
           className=''
         >
-          <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9]'>
+          <div className='flex h-[38px] w-[38px] items-center justify-center rounded-[1000px] border-[1px] border-solid border-[#B1D5F1] bg-[#EEF5F9] galaxy-max:h-[32px] galaxy-max:w-[32px]'>
             <img
               loading='lazy'
               src='/static/icons/explore/iconImage.svg'

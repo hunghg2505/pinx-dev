@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 
-import HeaderMobile from '@components/common/HeaderMobile';
+// import HeaderMobile from '@components/common/HeaderMobile';
 import ModalPage from '@components/ModalPage';
 
 import Back from './Back';
@@ -19,14 +19,14 @@ const ProfileFollow = () => {
 
   return (
     <>
-      <HeaderMobile />
+      {/* <HeaderMobile /> */}
       <div className='relative bg-white'>
         <ModalPage />
         <header className='mb-[24px] flex px-[16px] py-[16px] align-middle text-[16px]'>
           <Back />
         </header>
         <main className='px-[16px]'>
-          <div className='mb-[20px] flex gap-[32px] '>
+          <div className='mb-[20px] flex gap-[32px] galaxy-max:justify-between  galaxy-max:gap-0 '>
             <TabBar tabKey='followers' />
             <TabBar tabKey='following' />
           </div>

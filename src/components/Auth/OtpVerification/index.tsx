@@ -143,14 +143,14 @@ const OtpVerification = (props: IProps) => {
       )}
       <div className={`${props.isModal ? 'laptop:mt-[36px]' : 'mt-[46px]'}`}>
         <Text
-          className={classNames('text-[24px] font-[700]', {
+          className={classNames('text-[24px] font-[700] galaxy-max:text-[20px]', {
             'laptop:text-center laptop:text-[28px]': props.settingLayout,
           })}
         >
           {t('confirm_phone_number')}
         </Text>
         <Text
-          className={classNames('text-[18px] font-[400]', {
+          className={classNames('text-[18px] font-[400] galaxy-max:text-[16px]', {
             'laptop:text-center laptop:text-[16px]': props.settingLayout,
           })}
           color='neutral-4'

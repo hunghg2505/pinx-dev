@@ -63,7 +63,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className='relative w-full rounded-[8px] bg-white text-left mobile-max:mt-[24px] laptop:px-[22px] laptop:py-[20px]'>
+    <div className='relative w-full rounded-[8px] bg-white py-1 text-left mobile-max:mt-[24px] laptop:px-[22px]  laptop:py-[20px]'>
       <img
         src='/static/icons/back_icon.svg'
         alt=''
@@ -184,7 +184,7 @@ const ChangePassword = () => {
 
         <MainButton
           type='submit'
-          className='fixed bottom-9 w-[calc(100%-32px)] laptop:absolute laptop:bottom-[-56px] laptop:m-auto laptop:w-1/2 laptop:translate-x-1/2'
+          className='fixed bottom-9 w-[calc(100%-32px)]  laptop:absolute laptop:bottom-[-56px] laptop:m-auto laptop:w-1/2 laptop:translate-x-1/2'
         >
           {t('next')}
         </MainButton>

@@ -106,7 +106,7 @@ const ModalReport = (props: IProps) => {
         <Text
           type='body-12-medium'
           color='neutral-3'
-          className='mb-[16px] text-center !leading-[16px]'
+          className='mb-[16px] text-center !leading-[16px] galaxy-max:text-[9px]'
         >
           {t('report_modal_content')} <br />
           {t('welcome_text')}
@@ -154,21 +154,21 @@ const ModalReport = (props: IProps) => {
           <div className='flex w-full gap-x-[13px] pt-[16px]'>
             <div
               onClick={onVisible}
-              className='flex h-[49px] w-full cursor-pointer items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB]'
+              className='flex h-[49px] w-full cursor-pointer items-center justify-center rounded-[8px] border-[1px] border-solid border-[#B1D5F1] bg-[#EAF4FB] galaxy-max:h-[36px]'
             >
-              <Text type='body-16-bold' color='primary-2'>
+              <Text type='body-16-bold' className='galaxy-max:text-[12px]' color='primary-2'>
                 {t('cancel')}
               </Text>
             </div>
             <button
-              className='flex h-[49px] w-full cursor-pointer items-center justify-center  gap-[6px] rounded-[8px] bg-[#1F6EAC]'
+              className='flex h-[49px] w-full cursor-pointer items-center justify-center gap-[6px]  rounded-[8px] bg-[#1F6EAC] galaxy-max:h-[36px]'
               type='submit'
               style={{
                 pointerEvents: requestReport.loading ? 'none' : 'auto',
               }}
             >
               {requestReport.loading && <Loading className='!bg-white' />}
-              <Text type='body-16-bold' color='cbwhite'>
+              <Text type='body-16-bold' className='galaxy-max:text-[12px]' color='cbwhite'>
                 {t('send')}
               </Text>
             </button>

@@ -107,7 +107,7 @@ const ModalFilter = (props: IProps) => {
               return (
                 <div
                   className={classNames(
-                    'mb-[12px] flex cursor-pointer items-center justify-between rounded-[8px] bg-[#F3F2F6] px-[16px] py-[12px]',
+                    'mb-[12px] flex cursor-pointer items-center justify-between rounded-[8px] bg-[#F3F2F6] px-[16px] py-[12px] galaxy-max:last:mb-0',
                     { '!bg-[#589DC0]': isChecked },
                   )}
                   key={index}

@@ -34,7 +34,7 @@ const Profile = () => {
       }}
     >
       <>
-        <div className=' flex '>
+        <div className='flex '>
           <div className='w-full '>
             <div className='box-shadow rounded-[8px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] mobile:pb-[20px] desktop:p-[16px]'>
               <Header />

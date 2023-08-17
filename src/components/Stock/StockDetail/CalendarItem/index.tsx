@@ -25,7 +25,7 @@ const CalendarItem = ({ data }: ICalendarItemProps) => {
       onClick={handleOpenPdfFile}
       className='flex cursor-pointer items-center rounded-[8px] bg-[#F7F6F8] p-[8px]'
     >
-      <div className='flex h-[73px] w-[68px] flex-col rounded-[8px] shadow-[0px_1px_2px_0px_#0000001F]'>
+      <div className='flex h-[73px] w-[68px] flex-col rounded-[8px] shadow-[0px_1px_2px_0px_#0000001F] '>
         <div
           className={classNames(
             'flex h-[21px] items-center justify-center rounded-tl-[8px] rounded-tr-[8px]',
@@ -40,20 +40,23 @@ const CalendarItem = ({ data }: ICalendarItemProps) => {
           </Text>
         </div>
 
-        <div className='flex-1 rounded-bl-[8px] rounded-br-[8px] bg-white text-center'>
-          <Text type='body-24-bold' color='primary-5'>
+        <div className='flex-1 rounded-bl-[8px] rounded-br-[8px] bg-white text-center galaxy-max:pt-1'>
+          <Text type='body-24-bold' className='galaxy-max:text-[22px]' color='primary-5'>
             {dayjs(data.publishTime).get('D') < 10
               ? `0${dayjs(data.publishTime).get('D')}`
               : dayjs(data.publishTime).get('D')}
           </Text>
-          <Text type='body-14-medium' className='text-[#999999]'>
+          <Text type='body-14-medium' className='text-[#999999] galaxy-max:text-[12px]'>
             {dayjs(data.publishTime).get('y')}
           </Text>
         </div>
       </div>
 
       <div className='ml-[16px] flex-1'>
-        <Text type='body-16-semibold' className='!leading-[21px] text-[#0D0D0D]'>
+        <Text
+          type='body-16-semibold'
+          className='!leading-[21px] text-[#0D0D0D] galaxy-max:text-[14px]'
+        >
           {data.note}
         </Text>
 

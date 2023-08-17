@@ -25,7 +25,7 @@ const Subscribing = ({ access }: { access: () => void }) => {
   return (
     <>
       <div
-        className='flex h-[36px] cursor-pointer flex-row items-center justify-center whitespace-nowrap  rounded-[8px] bg-blue_light px-[12px] tablet:flex'
+        className='flex h-[36px] cursor-pointer flex-row items-center justify-center whitespace-nowrap  rounded-[8px] bg-blue_light px-[12px] galaxy-max:h-[32px] galaxy-max:px-[8px] tablet:flex'
         onClick={() => {
           if (isLogin) {
             onFollowUser.run();
@@ -47,7 +47,9 @@ const Subscribing = ({ access }: { access: () => void }) => {
             fill='#1F6EAC'
           />
         </svg>
-        <span className='ml-1 text-[12px] font-[700] text-primary_blue'>{t('follow')}</span>
+        <span className='ml-1 text-[12px] font-[700] text-primary_blue galaxy-max:text-[8px]'>
+          {t('follow')}
+        </span>
       </div>
     </>
   );

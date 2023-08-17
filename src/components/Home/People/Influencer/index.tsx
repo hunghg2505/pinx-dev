@@ -48,7 +48,7 @@ const Influencer = () => {
     <div className='peopleInfluence relative w-[100%]'>
       <div
         onClick={refSlide?.current?.slickPrev}
-        className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+        className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
         <img
           src='/static/icons/iconGrayPrev.svg'
@@ -62,7 +62,7 @@ const Influencer = () => {
             (item: IKOL, index: number) => {
               return (
                 <div key={index} className='mr-[16px]'>
-                  <div className='w-[161px]'>
+                  <div className='w-[161px] '>
                     <ItemInfluence data={item} refresh={refresh} />
                   </div>
                 </div>

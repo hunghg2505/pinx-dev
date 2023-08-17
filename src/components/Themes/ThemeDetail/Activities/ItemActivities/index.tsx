@@ -49,7 +49,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
 
       <div className='w-[calc(100%_-_40px)]'>
         <div
-          className='relative w-full cursor-pointer rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px]'
+          className='relative w-full cursor-pointer rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px] galaxy-max:px-[14px] galaxy-max:py-[10px]'
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
         >
           <div className='flex items-center justify-between'>
@@ -60,7 +60,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
               {dayjs(data?.timeString)?.locale(i18n.language).fromNow(true)}
             </Text>
           </div>
-          <div className='mt-[15px] flex items-center'>
+          <div className='mt-[15px] flex items-center galaxy-max:mt-[12px]'>
             <img
               src={
                 isSubsribed ? '/static/icons/iconHeartActive.svg' : '/static/icons/iconHeart.svg'
@@ -68,7 +68,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
               alt=''
               className='mr-[10px] h-[24px] w-[24px]'
             />
-            <Text type='body-14-regular' color='neutral-black'>
+            <Text type='body-14-regular' className='galaxy-max:text-[12px]' color='neutral-black'>
               {messageBody}
             </Text>
           </div>

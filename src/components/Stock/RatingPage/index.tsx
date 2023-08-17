@@ -91,7 +91,7 @@ const StockRating = () => {
   };
 
   return (
-    <div className='p-[10px] desktop:p-0'>
+    <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
       <div className='box-shadow card-style'>
         <div className='relative mb-[12px] flex h-[44px] items-center justify-center tablet:mb-0 tablet:h-[48px]'>
           <div className='absolute left-0 top-1/2 flex -translate-y-1/2 items-center justify-between'>
@@ -113,7 +113,7 @@ const StockRating = () => {
           <Text type='body-20-semibold' className='tablet:hidden'>
             {t('rating.title')}
           </Text>
-          <Text type='body-14-regular' className='my-[16px]'>
+          <Text type='body-14-regular' className='my-[16px] galaxy-max:text-[12px]'>
             {t('rating_page.description')}
           </Text>
 
