@@ -61,7 +61,7 @@ export const ROUTE_PATH = {
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
 };
 
-export const formatMessage = (message: string, data: any, idCustomer?: any) => {
+export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
@@ -81,10 +81,10 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
-      const url =
-        Number(idCustomer) === Number(ID)
-          ? `${window.location.origin}/profile/my-profile`
-          : `${window.location.origin}/profile/${ID}`;
+      // const url =
+      //   Number(idCustomer) === Number(ID)
+      //     ? `${window.location.origin}/profile/my-profile`
+      //     : `${window.location.origin}/profile/${ID}`;
       if (message && !message.includes(name)) {
         const newMessage = message.split(' ');
         for (const text of newMessage) {
@@ -95,7 +95,7 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
             message = message.replace(
               `@[${nameOld}](${ID})`,
               `
-              <a href="${url}" className="tagStock tagpeople" data-type="userMention"><span>${name}</span></a>
+              <div class="tagStock tagpeople mention" data-type="userMention"><span class="people" id=${ID}>${name}</span></div>
               `,
             );
           }
@@ -105,7 +105,7 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
         message = message.replace(
           item,
           `
-          <a href="${url}" className="tagStock tagpeople"><span>${name}</span></a>
+          <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
           `,
         );
       }
@@ -120,7 +120,7 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
         message = message.replaceAll(
           item,
           `
-          <a href="${window.location.origin}/stock/${name}" className="tagStock">${name}</a>
+          <div class="mention"><span class="tagStock">${name}</span></div>
           `,
         );
       }
@@ -133,7 +133,7 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
         message = message.replaceAll(
           item,
           `
-          <a href="javascript:void(0)" class="hashtag">${item}</a>
+          <div class="mention"><span class="hashtag">${item}</span></div>
           `,
         );
       }
@@ -154,7 +154,7 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
       message = message.replaceAll(
         item,
         `
-        <a href="javascript:void(0)" class="link">${item}</a>
+        <div class="mention"><span class="link">${item}</span></div>
         `,
       );
     }
@@ -165,7 +165,7 @@ export const formatMessage = (message: string, data: any, idCustomer?: any) => {
           message = message.replaceAll(
             item,
             `
-            <a href="javascript:void(0)" class="link">${item}</a>
+            <div class="mention"><span class="link">${item}</span></div>
             `,
           );
         }
@@ -484,12 +484,11 @@ export const converStringMessageToObject = (message: string) => {
           const isSepecial = Boolean(
             nCur.includes('@') || nCur.includes('%') || nCur.includes('#'),
           );
-
           if (isSepecial) {
             acc.push(nCur);
           } else {
-            const prevItem = acc.at(-1);
-
+            // eslint-disable-next-line unicorn/prefer-at
+            const prevItem = acc[acc.length - 1];
             if (prevItem) {
               const isPrevItemSepecial = Boolean(
                 prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),

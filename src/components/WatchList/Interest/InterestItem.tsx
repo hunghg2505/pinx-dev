@@ -59,11 +59,14 @@ const InterestItem = (props: IProps) => {
             type='body-14-semibold'
             className={classNames({
               'text-[#128F63]': isIncrease && !isHigh,
-              'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
-              'text-[#08AADD]': isFloor,
+              'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
+              'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
               'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [styles.isIncrease]: isIncrease && !isHigh && !isChange,
+              [styles.isDecrease]:
+                isDecrease && !isFloor && Number(data?.lastPrice) !== 0 && !isChange,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -76,11 +79,14 @@ const InterestItem = (props: IProps) => {
               type='body-12-medium'
               className={classNames('ml-[-14px] mr-[-14px] whitespace-nowrap px-[0px] py-[4px]', {
                 'text-[#128F63]': isIncrease && !isHigh,
-                'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
-                'text-[#08AADD]': isFloor,
+                'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
+                'text-[#22D1E9]': isFloor,
                 'text-[#782AF9]': isHigh,
                 'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
                 'text-[#474D57]': Number(data?.lastPrice) === 0,
+                [styles.isIncrease]: isIncrease && !isHigh && !isChange,
+                [styles.isDecrease]:
+                  isDecrease && !isFloor && Number(data?.lastPrice) !== 0 && !isChange,
               })}
             >
               {isChange ? '' : unit}

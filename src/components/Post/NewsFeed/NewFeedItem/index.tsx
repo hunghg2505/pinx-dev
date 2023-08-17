@@ -137,6 +137,7 @@ const NewFeedItem = (props: IProps) => {
         refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(true);
+        console.log('onFollowUser');
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
@@ -153,6 +154,7 @@ const NewFeedItem = (props: IProps) => {
         refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(false);
+        console.log('onUnFollowUser');
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },

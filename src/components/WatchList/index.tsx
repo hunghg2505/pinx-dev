@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import Themes from '@components/WatchList/Themes';
-// @ts-ignore
 import YourWatchList from '@components/WatchList/YourWatchList';
 // import { useResponsive } from '@hooks/useResponsive';
 
@@ -67,12 +66,18 @@ const WatchList = () => {
 
     return dataStock;
   }, [dataStock, dataSocket]);
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 3220) {
-      setDataSocket(data);
-    }
-  });
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setDataSocket(data);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
 
   // For Next.js 13, return jsx once the component is mounted
   if (!mounted) {

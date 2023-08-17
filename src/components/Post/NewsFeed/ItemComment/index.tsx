@@ -118,23 +118,23 @@ const ItemComment = (props: IProps) => {
   //     query: { url },
   //   });
   // };
-  React.useEffect(() => {
-    const handleClick = (event: any) => {
-      const textContent = event?.target?.textContent;
-      const classElement = event?.target?.className;
-      if (classElement === 'link') {
-        router.push({
-          pathname: '/redirecting',
-          query: { url: textContent },
-        });
-      }
-    };
-    window.addEventListener('click', handleClick);
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, []);
-  const message = data?.message && formatMessage(data?.message, data, userLoginInfo?.id);
+  // React.useEffect(() => {
+  //   const handleClick = (event: any) => {
+  //     const textContent = event?.target?.textContent;
+  //     const classElement = event?.target?.className;
+  //     if (classElement === 'link') {
+  //       router.push({
+  //         pathname: '/redirecting',
+  //         query: { url: textContent },
+  //       });
+  //     }
+  //   };
+  //   window.addEventListener('click', handleClick);
+  //   return () => {
+  //     window.removeEventListener('click', handleClick);
+  //   };
+  // }, []);
+  const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.displayName || '';
   const isLike = data?.isLike;
   const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
@@ -216,14 +216,22 @@ const ItemComment = (props: IProps) => {
   const onDelete = () => {
     useHideComment.run();
   };
-  const handleClick = (event: any) => {
-    const textContent = event?.target?.textContent;
-    const classElement = event?.target?.className;
+  const handleClick = (e: any) => {
+    const textContent = e?.target?.textContent;
+    const classElement = e?.target?.className;
+    const id = e?.target?.id;
     if (classElement === 'link') {
-      router.push({
+      return router.push({
         pathname: '/redirecting',
         query: { url: textContent },
       });
+    }
+    if (classElement === 'people') {
+      const url = userLoginInfo?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      return router.push(url);
+    }
+    if (classElement === 'tagStock') {
+      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
   };
   // const [windowSize, setWindowSize] = useState([window.innerWidth]);
@@ -348,7 +356,7 @@ const ItemComment = (props: IProps) => {
                   />
                 )}
               </div>
-              <button className='relative flex items-center' ref={ref}>
+              <button className='relative flex items-center' ref={ref} aria-label='show popup'>
                 {isComment && (
                   <img
                     src='/static/icons/iconDotHorizontal.svg'

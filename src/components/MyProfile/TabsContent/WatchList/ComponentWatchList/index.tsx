@@ -50,13 +50,19 @@ const ComponentWatchList = (props: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [dataSocket, setDataSocket] = React.useState<any>({});
+  React.useEffect(() => {
+    const getDataSocket = (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setDataSocket(data);
+      }
+    };
+    socket.on('public', getDataSocket);
+    return () => {
+      socket.off('public', getDataSocket);
+    };
+  }, []);
 
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (data?.id === 3220) {
-      setDataSocket(data);
-    }
-  });
   const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
   if (findIndex && findIndex !== -1) {
     const data = dataStock[findIndex];

@@ -229,6 +229,7 @@
     "txtRecent": "Recent",
     "txtEmpty": "No result found for",
     "descEmpty": "We are sorry, but the page you are looking for does not exist.",
+    "txtBtnAll": "See all result",
     "tab": {
       "company": "Company",
       "people": "People",
@@ -238,5 +239,6 @@
     }
   },
   "policy_post": "Your post should be reviewed due to violation to Pinetree Securities's policy.",
-  "a_product_of": "A product of"
+  "a_product_of": "A product of",
+  "bil": "Bil"
 }

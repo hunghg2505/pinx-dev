@@ -228,6 +228,7 @@
     "txtRecent": "Gần đây",
     "txtEmpty": "Không tìm thấy kết quả với từ khoá",
     "descEmpty": "Rất tiếc, trang bạn tìm kiếm không tồn tại",
+    "txtBtnAll": "Xem tất cả",
     "tab": {
       "company": "Công ty",
       "people": "Người dùng",
@@ -237,5 +238,6 @@
     }
   },
   "policy_post": "Bài viết cần kiểm duyệt nội dung do vi phạm chính sách của Pinetree Securities.",
-  "a_product_of": "Một sản phẩm của"
+  "a_product_of": "Một sản phẩm của",
+  "bil": "Tỷ"
 }

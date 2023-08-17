@@ -12,7 +12,7 @@ import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHom
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 // import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
@@ -23,6 +23,9 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
   const postDetailStatus = useAtomValue(postDetailStatusAtom);
+  const userDetail = useAtomValue(userLoginInfoAtom);
+  // userLoginInfoAtom
+
   const [readMore, setReadMore] = useState(false);
   const bgTheme = useAtomValue(postThemeAtom);
   const { message } = useMemo(() => {
@@ -68,14 +71,21 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
+    const id = e?.target?.id;
     if (classElement === 'link') {
-      router.push({
+      return router.push({
         pathname: '/redirecting',
         query: { url: textContent },
       });
-    } else {
-      onComment();
     }
+    if (classElement === 'people') {
+      const url = userDetail?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      return router.push(url);
+    }
+    if (classElement === 'tagStock') {
+      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+    }
+    return onComment();
   };
   const PostContent = () => {
     if (postThemeId) {
@@ -231,12 +241,7 @@ const MetaContent = ({ metaData }: any) => {
 };
 
 export const PostNormally = ({ postDetail, onComment }: any) => {
-  const { userLoginInfo } = useUserLoginInfo();
-  const messagePostFormat = formatMessage(
-    postDetail?.post?.message,
-    postDetail?.post,
-    userLoginInfo?.id,
-  );
+  const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
   const [inView, setInView] = useState(false);
 
   const { imageMetaData, siteName, videoId } = useMemo(() => {
@@ -247,8 +252,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
       message:
-        postDetail?.post?.message &&
-        formatMessage(postDetail?.post?.message, postDetail?.post, userLoginInfo?.id),
+        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
       post_url: postDetail?.post.url ?? '',
     };
@@ -260,13 +264,6 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
         <InView onChange={setInView} threshold={1}>
           {({ ref }) => (
             <div ref={ref} className='mt-4'>
-              {/* <iframe
-                className='iframe-placeholder h-[345px] w-full'
-                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
-                title='YouTube video player'
-                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                scrolling='no'
-              ></iframe> */}
               <div className='iframe-placeholder h-[345px] w-full'>
                 <ReactPlayer
                   url={`https://www.youtube.com/embed/${videoId}?rel=0`}

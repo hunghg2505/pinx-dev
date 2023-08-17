@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -22,6 +22,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import { FILTER_TYPE } from '../ModalFilter';
@@ -29,14 +30,12 @@ import {
   requestJoinIndex,
   requestLeaveIndex,
   socket,
-  useGetWatchList,
   useSuggestPeople,
 } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
 });
-
 const Trending = dynamic(() => import('../Trending'), {
   ssr: false,
 });
@@ -63,9 +62,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
+  const { dataStockWatchlist } = useGetDataStockWatchlistHome();
+  const isHaveStockWatchList = dataStockWatchlist?.length > 0;
   const [selectTab, setSelectTab] = React.useState<string>('2');
-
-  const { watchList } = useGetWatchList();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
 
   const { refLastElement } = useObserver();
@@ -94,9 +93,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     }
   }, []);
 
-  const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
     }
@@ -185,8 +182,8 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   return (
     <div className='relative desktop:pt-0'>
-      <div className='relative mobile:block tablet:hidden'>
-        {selectTab === '1' && watchList?.[0]?.stocks?.length > 0 && (
+      <div className='relative laptop:hidden'>
+        {selectTab === '1' && isHaveStockWatchList && (
           <CustomLink href={ROUTE_PATH.WATCHLIST}>
             <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
               <Text

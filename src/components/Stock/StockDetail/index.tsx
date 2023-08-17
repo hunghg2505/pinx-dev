@@ -117,9 +117,6 @@ const StockDetail = () => {
   const { stockCode }: any = router.query;
 
   const { stockDetail } = useStockDetail(stockCode, {
-    onSuccess: ({ data }: any) => {
-      requestJoinChannel(data.stockCode);
-    },
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
@@ -151,7 +148,6 @@ const StockDetail = () => {
     onSuccess: (res) => {
       setDataStock((prev) => ({ ...prev, ...res.data }));
       setPreDataStock((prev) => ({ ...prev, ...res.data }));
-      requestJoinChannel(res.data.sym);
     },
   });
 
@@ -165,10 +161,86 @@ const StockDetail = () => {
   }, [stockDetail]);
 
   useEffect(() => {
-    return () => {
-      requestLeaveChannel(stockCode);
+    socket.on('public', (message: any) => {
+      const data = message.data;
+      if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
+        return;
+      }
 
+      // 3220
+      if (
+        data?.id === 3220 &&
+        (data.lastPrice !== dataStock.lastPrice ||
+          data.changePc !== dataStock.changePc ||
+          dataStock.lot !== data.totalVol ||
+          dataStock.ot !== data.change)
+      ) {
+        setPreDataStock(dataStock);
+        setDataStock((prev: any) => ({
+          ...prev,
+          lastPrice: data.lastPrice,
+          changePc: data.changePc,
+          lot: data.totalVol,
+          ot: data.change,
+        }));
+      }
+
+      // 3250
+      if (
+        data?.id === 3250 &&
+        (data.fBVol !== dataStock.fBVol ||
+          data.fSVolume !== dataStock.fSVolume ||
+          dataStock.fRoom !== data.fRoom)
+      ) {
+        setPreDataStock(dataStock);
+        setDataStock((prev: any) => ({
+          ...prev,
+          fBVol: data.fBVol,
+          fSVolume: data.fSVolume,
+          fRoom: data.fRoom,
+        }));
+      }
+
+      // sell
+      if (
+        data.side === 'S' &&
+        (data.g1 !== dataStock.g4 || data.g2 !== dataStock.g5 || data.g3 !== dataStock.g6)
+      ) {
+        setPreDataStock(dataStock);
+        setDataStock((prev: any) => ({
+          ...prev,
+          g4: data.g1,
+          g5: data.g2,
+          g6: data.g3,
+        }));
+      }
+
+      // buy
+      if (
+        data.side === 'B' &&
+        (data.g1 !== dataStock.g1 || data.g2 !== dataStock.g2 || data.g3 !== dataStock.g3)
+      ) {
+        setPreDataStock(dataStock);
+        setDataStock((prev: any) => ({
+          ...prev,
+          g1: data.g1,
+          g2: data.g2,
+          g3: data.g3,
+        }));
+      }
+    });
+
+    return () => {
+      socket.off('public');
+    };
+  }, [stockCode, dataStock]);
+
+  useEffect(() => {
+    requestJoinChannel(stockCode);
+
+    return () => {
       setCurrentTab(TabType.MOVEMENTS);
+      requestLeaveChannel(stockCode);
     };
   }, [stockCode]);
 
@@ -217,75 +289,6 @@ const StockDetail = () => {
   const handleBack = () => {
     router.back();
   };
-
-  socket.on('public', (message: any) => {
-    const data = message.data;
-    if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
-      return;
-    }
-
-    // 3220
-    if (
-      data?.id === 3220 &&
-      (data.lastPrice !== dataStock.lastPrice ||
-        data.changePc !== dataStock.changePc ||
-        dataStock.lot !== data.totalVol ||
-        dataStock.ot !== data.change)
-    ) {
-      setPreDataStock(dataStock);
-      setDataStock((prev: any) => ({
-        ...prev,
-        lastPrice: data.lastPrice,
-        changePc: data.changePc,
-        lot: data.totalVol,
-        ot: data.change,
-      }));
-    }
-
-    // 3250
-    if (
-      data?.id === 3250 &&
-      (data.fBVol !== dataStock.fBVol ||
-        data.fSVolume !== dataStock.fSVolume ||
-        dataStock.fRoom !== data.fRoom)
-    ) {
-      setPreDataStock(dataStock);
-      setDataStock((prev: any) => ({
-        ...prev,
-        fBVol: data.fBVol,
-        fSVolume: data.fSVolume,
-        fRoom: data.fRoom,
-      }));
-    }
-
-    // sell
-    if (
-      data.side === 'S' &&
-      (data.g1 !== dataStock.g4 || data.g2 !== dataStock.g5 || data.g3 !== dataStock.g6)
-    ) {
-      setPreDataStock(dataStock);
-      setDataStock((prev: any) => ({
-        ...prev,
-        g4: data.g1,
-        g5: data.g2,
-        g6: data.g3,
-      }));
-    }
-
-    // buy
-    if (
-      data.side === 'B' &&
-      (data.g1 !== dataStock.g1 || data.g2 !== dataStock.g2 || data.g3 !== dataStock.g3)
-    ) {
-      setPreDataStock(dataStock);
-      setDataStock((prev: any) => ({
-        ...prev,
-        g1: data.g1,
-        g2: data.g2,
-        g3: data.g3,
-      }));
-    }
-  });
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
     router.push({

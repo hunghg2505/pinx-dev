@@ -63,9 +63,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setInputFocus(true);
       setShowRecent(true);
       const value = form.getFieldValue('search');
-      // setQuery(value);
       if (value === '' || value === undefined) {
-        // toast('Empty || undefined');
         setShowPopup(false);
       } else {
         setShowPopup(true);
@@ -76,7 +74,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   useClickAway(() => {
     setInputFocus(false);
     setShowRecent(false);
-    // setShowPopup(false);
   }, ref);
 
   useClickAway((e: any) => {
@@ -104,19 +101,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const requestSearch = useCreateSearch({
     onSuccess: () => {
-      // toast(() => <Notification type='success' message='success' />);
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
         query: { keyword: query, tab: 'media' },
       });
-      // form.setFieldValue('search', '');
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
     },
-    onError: () => {
-      // toast(() => <Notification type='error' message='error rooif' />);
-    },
+    onError: () => {},
   });
 
   // Set value when onSubmit Form
@@ -148,9 +141,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     () => {
       const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
       setQuery(value);
-      if (value === '' || value === undefined) {
+      if (value === '' || value === undefined || value.length < 2) {
         setShowPopup(false);
-        // setInputFocus(false);
         setShowRecent(true);
       } else {
         setShowRecent(false);
@@ -192,12 +184,14 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const mediaL = media?.length > 0;
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
-  console.log('media',media);
-  console.log('mediaFilter',mediaFilter);
-  const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
-  console.log('image',image);
-  console.log('imageFilter',imageFilter);
+  const mediaFilter = media?.filter(
+    (item: any) =>
+      item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+      item?.post?.metadataList[0]?.url?.length > 0,
+  );
+  const imageFilter = image?.filter(
+    (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+  );
 
   return (
     <>
@@ -321,7 +315,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.company')}
                   </Text>
                   {companies?.slice(0, 3)?.map((company: any, index: number) => {
-                    return <CompanyItem key={`company-${index}`} data={company} setShowPopup={setShowPopup} />;
+                    return (
+                      <CompanyItem
+                        key={`company-${index}`}
+                        data={company}
+                        setShowPopup={setShowPopup}
+                      />
+                    );
                   })}
                 </div>
               )}
@@ -331,7 +331,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.people')}
                   </Text>
                   {newUsers?.slice(0, 3)?.map((item: any, index: number) => (
-                    <UserItem data={item} key={index} setShowPopup={setShowPopup} refreshSearch={refresh} />
+                    <UserItem
+                      data={item}
+                      key={index}
+                      setShowPopup={setShowPopup}
+                      refreshSearch={refresh}
+                    />
                   ))}
                 </div>
               )}
@@ -341,7 +346,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.posts')}
                   </Text>
                   {posts?.slice(0, 3)?.map((post: any) => {
-                    return <NewsFeed key={`explore-search-${post?.id}`} data={post} isNewFeedExplore={true} setShowPopup={setShowPopup} refreshSearch={refresh}  />;
+                    return (
+                      <NewsFeed
+                        key={`explore-search-${post?.id}`}
+                        data={post}
+                        isNewFeedExplore={true}
+                        setShowPopup={setShowPopup}
+                        refreshSearch={refresh}
+                      />
+                    );
                   })}
                 </div>
               )}
@@ -351,7 +364,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     {t('common:searchseo.tab.news')}
                   </Text>
                   {news?.slice(0, 3)?.map((item: any) => {
-                    return <NewsItem key={`new-items-${item?.id}`} data={item} setShowPopup={setShowPopup} />;
+                    return (
+                      <NewsItem
+                        key={`new-items-${item?.id}`}
+                        data={item}
+                        setShowPopup={setShowPopup}
+                      />
+                    );
                   })}
                 </div>
               )}
@@ -360,19 +379,32 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     {t('common:searchseo.tab.media')}
                   </Text>
-                  <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
+                  <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                     {imageFilter?.slice(0, 3)?.map((item: any) => {
-                      return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' setShowPopup={setShowPopup} />;
+                      return (
+                        <MediaItem
+                          key={`media-item-${item?.id}`}
+                          data={item}
+                          type='image'
+                          setShowPopup={setShowPopup}
+                        />
+                      );
                     })}
                     {mediaFilter?.slice(0, 3)?.map((item: any) => {
-                      return <MediaItem key={`media-item-${item?.id}`} data={item} setShowPopup={setShowPopup} />;
+                      return (
+                        <MediaItem
+                          key={`media-item-${item?.id}`}
+                          data={item}
+                          setShowPopup={setShowPopup}
+                        />
+                      );
                     })}
                   </div>
                 </div>
               )}
               <ExploreButton className='' onClick={handleSubmit}>
                 <Text type='body-14-bold' color='primary-2'>
-                  See all results
+                  {t('common:searchseo.txtBtnAll')}
                 </Text>
               </ExploreButton>
             </>

@@ -10,14 +10,16 @@ import ItemStock from './ItemStock';
 
 interface IProps {
   dataStock: IWatchListItem[];
+  findIndex: number;
 }
 const WatchListDesktop = (props: IProps) => {
   const router = useRouter();
-  const { dataStock } = props;
+  const { dataStock, findIndex } = props;
   return (
     <>
       {dataStock?.slice(0, 5)?.map((item: IWatchListItem, index: number) => {
-        return <ItemStock key={index} data={item} />;
+        const isChangeStock = findIndex === index;
+        return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
       })}
       <div
         className='mt-[15px] flex h-[40px] w-full cursor-pointer flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'

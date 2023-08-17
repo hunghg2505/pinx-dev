@@ -97,6 +97,7 @@ const PostDetail = () => {
     onSuccess: (res: any) => {
       setPostData(res.data);
     },
+    manual: true,
   });
   React.useEffect(() => {
     run();

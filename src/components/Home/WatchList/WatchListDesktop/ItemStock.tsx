@@ -7,7 +7,9 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
-const ItemStock = ({ data }: { data: IWatchListItem }) => {
+import style from '../index.module.scss';
+
+const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStock: boolean }) => {
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -22,7 +24,6 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
       ? data?.stockCode
       : data?.stockCode?.slice(1, 4)
   }.png`;
-
   return (
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
@@ -66,6 +67,13 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#B349C3]': isHigh,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isDecrease]:
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                isChangeStock &&
+                !isChange,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -80,6 +88,13 @@ const ItemStock = ({ data }: { data: IWatchListItem }) => {
               'text-[#B349C3]': isHigh,
               'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isDecrease]:
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                isChangeStock &&
+                !isChange,
             })}
           >
             {isChange ? '' : unit}
