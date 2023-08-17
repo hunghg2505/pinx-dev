@@ -29,7 +29,7 @@ const NotificationFollowStock = ({ title, onClickShare }: INotificationFollowSto
 
       <button
         onClick={onClickShare}
-        className='px-[16px]galaxy-max:ml-0 ml-[8px] h-[36px] rounded-[8px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] galaxy-max:px-[16px] galaxy-max:py-[10px] galaxy-max:text-[12px]'
+        className='ml-[8px] h-[36px] rounded-[8px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] galaxy-max:ml-0 galaxy-max:px-[16px] galaxy-max:py-[10px] galaxy-max:text-[12px]'
       >
         <Text type='body-14-bold' color='cbwhite' className='whitespace-nowrap'>
           {t('share')}
