@@ -23,9 +23,11 @@ const StockItem = ({ data }: IStockItemProps) => {
   }, [data]);
 
   const renderPricePc = () => {
-    const changePc =
-      (+data.changePrice > 0 ? '+' : '') + formatStringToNumber(data.changePrice, true, 2);
-    return changePc + '/' + formatStringToNumber(data.changePc, true, 2) + '%';
+    const unitChangePrice = +data.changePrice > 0 ? '+' : '';
+    const unitChangePc = +data.changePc > 0 ? '+' : '';
+
+    const changePrice = unitChangePrice + formatStringToNumber(data.changePrice, true, 2);
+    return changePrice + '/' + unitChangePc + formatStringToNumber(data.changePc, true, 2) + '%';
   };
 
   return (
