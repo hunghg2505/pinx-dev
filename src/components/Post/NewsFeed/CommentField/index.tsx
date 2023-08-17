@@ -7,7 +7,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import { useClickAway, useRequest } from 'ahooks';
+import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -295,6 +295,8 @@ const Editor = (props: IProps, ref?: any) => {
     }
   }, [editor?.isFocused, useAddComment.loading, isClickAway]);
 
+  const size = useSize(editorRef);
+
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
@@ -432,7 +434,8 @@ const Editor = (props: IProps, ref?: any) => {
             'bottom-0 left-0 flex  min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]  mobile:w-full mobile:rounded-[1000px] tablet:static ',
             {
               'tablet:rounded-full': !isFocus,
-              'tablet:rounded-[12px] ': isFocus,
+              'tablet:rounded-[12px]': isFocus,
+              'tablet-max:rounded-[12px]': isFocus && size?.height && size?.height > 40,
             },
           )}
           ref={messagesEndRef}
@@ -472,12 +475,12 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full cursor-text items-center justify-between'
+              className='flex w-full cursor-text items-center justify-between py-2'
             >
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
+                  ' tablet-max:no-scrollbar max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
                   {
                     'tablet:mt-[3px]': isFocus,
                   },

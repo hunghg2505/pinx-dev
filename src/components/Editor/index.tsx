@@ -7,7 +7,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import { useClickAway, useRequest } from 'ahooks';
+import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -327,6 +327,7 @@ const Editor = (props: IProps, ref?: any) => {
       }
     }
   }, [editor?.isFocused, isClickAway, useAddComment.loading]);
+  const size = useSize(editorRef);
 
   const onSend = async () => {
     const users: any = [];
@@ -480,6 +481,7 @@ const Editor = (props: IProps, ref?: any) => {
             {
               'tablet:rounded-full': !isFocus && canExpand,
               'tablet:rounded-[12px]': isFocus && canExpand,
+              'tablet-max:rounded-[12px]': isFocus && size?.height && size?.height > 40,
             },
           )}
           ref={messagesEndRef}
@@ -518,12 +520,12 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full cursor-text items-center justify-between'
+              className='flex w-full cursor-text items-center justify-between py-2'
             >
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]',
+                  ' max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px]   galaxy-max:w-full tablet-max:max-h-[80px] tablet:max-w-[500px]',
                   {
                     'mt-[3px]': isFocus || !canExpand,
                   },

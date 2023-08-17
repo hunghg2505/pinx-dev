@@ -86,6 +86,7 @@ const ItemComment = (props: IProps) => {
   const bottomRef: any = useRef(null);
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const isHomePath = router.pathname === '/';
+  const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -278,7 +279,7 @@ const ItemComment = (props: IProps) => {
               : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
           }
         />
-        {!isHomePath && data?.children.length > 0 && !isChildren && (
+        {!isHomePath && !isProfilePath && data?.children.length > 0 && !isChildren && (
           <>
             <div
               style={{
