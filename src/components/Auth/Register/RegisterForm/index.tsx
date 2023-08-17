@@ -252,14 +252,14 @@ const Register = (props: IProps) => {
             rel='noreferrer'
             className='!mt-[24px] flex items-center justify-center laptop:!mt-[48px]'
           >
-            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D]'>
+            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D] galaxy-max:text-[14px]'>
               {t('a_product_of')}
             </Text>
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
               sizes='100vw'
-              className='h-[40px] w-[105px] laptop:h-[55px] laptop:w-[140px]'
+              className='h-[40px] w-[105px] galaxy-max:h-[35px] galaxy-max:w-[90px] laptop:h-[55px] laptop:w-[140px]'
             />
           </a>
         )} */}

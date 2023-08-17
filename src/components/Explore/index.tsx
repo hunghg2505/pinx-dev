@@ -124,7 +124,11 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='mb-[16px] galaxy-max:text-[18px]'
+        >
           {t('top_keyword_search')}
         </Text>
 
@@ -172,7 +176,11 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='mb-[16px] galaxy-max:text-[18px]'
+        >
           {t('people_in_spotlight')}
         </Text>
 
@@ -223,7 +231,11 @@ const Explore = () => {
       )}
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] '>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='mb-[16px] galaxy-max:text-[18px] '
+        >
           {t('themes')}
         </Text>
 
@@ -275,7 +287,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
+        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px] galaxy-max:text-[18px]'>
           {t('top_watching_stock')}
         </Text>
         <Text type='body-14-regular' color='neutral-black' className='mb-[12px]'>
@@ -304,7 +316,7 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px]'>
+        <Text type='body-20-semibold' color='neutral-1' className='mb-[8px] galaxy-max:text-[18px]'>
           {t('top_mention_stock')}
         </Text>
 
@@ -336,7 +348,11 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='mb-[16px] galaxy-max:text-[18px]'
+        >
           {t('pinex_top_20')}
         </Text>
         <div className='relative mb-[16px]'>
@@ -381,7 +397,11 @@ const Explore = () => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+        <Text
+          type='body-20-semibold'
+          color='neutral-1'
+          className='mb-[16px] galaxy-max:text-[18px]'
+        >
           {t('new_ipo')}
         </Text>
 
@@ -395,17 +415,17 @@ const Explore = () => {
           </>
         ) : (
           <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
-            <Text type='body-20-semibold' color='neutral-1'>
+            <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
               {t('new_ipo_stocks')}
             </Text>
-            <Text type='body-14-regular' color='neutral-4'>
+            <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='neutral-4'>
               {t('there_is_no_new_ipo_stocks')}
             </Text>
           </div>
         )}
       </div>
 
-      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px]'>
+      <Text type='body-20-semibold' color='neutral-1' className='mb-[16px] galaxy-max:text-[18px]'>
         {t('trending_on_pinex')}
       </Text>
 

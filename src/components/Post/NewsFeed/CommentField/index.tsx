@@ -7,7 +7,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import { useClickAway, useRequest } from 'ahooks';
+import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -295,6 +295,8 @@ const Editor = (props: IProps, ref?: any) => {
     }
   }, [editor?.isFocused, useAddComment.loading, isClickAway]);
 
+  const size = useSize(editorRef);
+
   const onSend = async () => {
     const users: any = [];
     const stock: any = [];
@@ -416,7 +418,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   return (
     <>
-      <div className=' mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
+      <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
         <img
           src={userLoginInfo?.avatar}
           alt=''
@@ -433,13 +435,14 @@ const Editor = (props: IProps, ref?: any) => {
             {
               'tablet:rounded-full': !isFocus,
               'tablet:rounded-[12px]': isFocus,
+              'tablet-max:rounded-[12px]': isFocus && size?.height && size?.height > 40,
             },
           )}
           ref={messagesEndRef}
         >
           <div
             className={classNames(
-              'flex w-full cursor-text tablet:flex-col tablet:items-start tablet:pb-[10px] ',
+              'flex w-full  tablet:flex-col tablet:items-start tablet:pb-[10px] ',
               {
                 'tablet:pt-[12px]': isFocus,
                 'tablet:pt-[10px]': !isFocus,
@@ -472,30 +475,34 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full items-center justify-between'
+              className='flex w-full cursor-text items-center justify-between py-2'
             >
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' max-h-[108px] w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words  mobile:flex mobile:w-[calc(100%_-_50px)]  mobile:px-[5px]  tablet:max-w-[500px]',
+                  ' tablet-max:no-scrollbar max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
                   {
                     'tablet:mt-[3px]': isFocus,
                   },
                 )}
               />
-              <img
-                src='/static/icons/iconCamera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className={classNames(
-                  ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
-                  {
-                    hidden: isFocus,
-                  },
-                )}
-              />
+              <Upload
+                className={classNames({ hidden: isFocus })}
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
+                <img
+                  src='/static/icons/iconCamera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className={classNames(
+                    ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
+                  )}
+                />
+              </Upload>
             </div>
 
             <div

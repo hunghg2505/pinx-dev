@@ -15,7 +15,7 @@ const HeaderMobile = () => {
           className='w-[35px]'
         />
         <div className='ml-[8px]'>
-          <Text type='body-14-regular' color='primary-5'>
+          <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>
             Try full experience on
           </Text>
           <CustomLink

@@ -58,6 +58,7 @@ const ModalComment = (props: Iprops) => {
               refreshCommentOfPOst={refreshCommentOfPost}
               refreshTotal={refresh}
               isChildren={true}
+              isLastChildren={index === payload.length - 1}
             />
           ))}
         </div>
@@ -77,7 +78,7 @@ const ModalComment = (props: Iprops) => {
           <div className='mb-[20px] mt-[10px] block h-[2px] w-full bg-[#EEF5F9]'></div>
           <div
             className={classNames(
-              'mt-[16px] overflow-y-auto pr-[12px] mobile:h-[calc(100%-100px)] tablet:h-[calc(100%-140px)]',
+              'mt-[16px] overflow-y-auto pr-[12px] mobile:h-[calc(100%-100px)] galaxy-max:pr-[8px] tablet:h-[calc(100%-140px)]',
               {
                 // 'mobile:mb-[79px]': !isImageCommentMobile && isLogin,
                 'mobile:h-[calc(100%-210px)] tablet:h-[calc(100%-250px)]':
@@ -89,7 +90,7 @@ const ModalComment = (props: Iprops) => {
             {isHaveComment ? (
               commentsOfPost?.data?.list?.map((item: IComment, index: number) => {
                 return (
-                  <>
+                  <div key={index}>
                     <ItemComment
                       key={index}
                       data={item}
@@ -98,7 +99,7 @@ const ModalComment = (props: Iprops) => {
                       refreshCommentOfPOst={refreshCommentOfPost}
                     />
                     {getSubComment(item.children)}
-                  </>
+                  </div>
                 );
               })
             ) : (

@@ -278,12 +278,11 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
-  console.log('join');
+  console.log(`join-${stocks}`);
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
 export const requestLeaveChannel = (stocks: string) => {
-  console.log('leavel');
   const message = { action: 'leave', data: stocks };
   if (socket) {
     socket.emit('regs', JSON.stringify(message));

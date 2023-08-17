@@ -2,15 +2,13 @@ import React from 'react';
 
 // import classNames from 'classnames';
 
-import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
-import { PREFIX_API_MARKET } from '@api/request';
 import Text from '@components/UI/Text';
+import { useGetDataStockHome, useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
 
 import styles from './index.module.scss';
-import { socket } from '../service';
 
 const enum MARKET_STATUS {
   P = 'market_status.ato_session',
@@ -27,23 +25,8 @@ const enum MARKET_STATUS {
 
 const Market = () => {
   const { t } = useTranslation('home');
-  const [dataStock, setDataStock] = React.useState<any>([]);
-  const [dataStockIndex, setDataStockIndex] = React.useState<any>([]);
-  const { run } = useRequest(
-    () => {
-      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
-    },
-    {
-      manual: true,
-      onSuccess: (res) => {
-        setDataStockIndex(res?.data);
-      },
-    },
-  );
-  React.useEffect(() => {
-    run();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { dataStockIndex, findIndex } = useGetDataStockHome();
+  const { closeSocket } = useStockMarketHome();
 
   const renderMarketStatus = (type: string) => {
     if (type === 'P') {
@@ -78,37 +61,28 @@ const Market = () => {
     }
   };
   React.useEffect(() => {
-    const getDataSocket = (message: any) => {
-      const data = message.data;
-      if (data?.id === 1101) {
-        const [change, changePercent, x, increase, decrease, ref] = data.ot.split('|');
-        const newData = {
-          ...data,
-          change,
-          changePercent,
-          x,
-          increase,
-          decrease,
-          ref,
-        };
-        delete newData.ot;
-        setDataStock(newData);
-      }
-    };
-    socket.on('public', getDataSocket);
     return () => {
-      socket.off('public', getDataSocket);
+      closeSocket();
     };
   }, []);
 
-  const findIndex = dataStockIndex?.findIndex((item: any) => item.mc === dataStock.mc);
-  if (findIndex !== -1) {
-    const data = dataStockIndex[findIndex];
-    dataStockIndex[findIndex] = { ...data, ...dataStock };
+
+  if (!dataStockIndex?.length) {
+    return <div className='mt-[24px] desktop:px-[16px]'>
+      <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
+        {[1, 2, 3, 4].map(item => (
+          <div
+            key={item}
+            className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
+          />
+        ))}
+      </div>
+    </div>;
   }
+
   return (
     <div className='mt-[24px] desktop:px-[16px]'>
-      <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
+      <div className='grid grid-cols-2 flex-wrap items-center gap-[16px] galaxy-max:gap-[8px]'>
         {dataStockIndex?.map((item: any, index: number) => {
           const [change, changePercent] = item.ot.split('|');
           const isIncrease = item?.cIndex > item?.oIndex;
@@ -120,8 +94,8 @@ const Market = () => {
               key={index}
               className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
             >
-              <div className='item p-[20px] text-left ' key={index}>
-                <Text type='body-20-semibold' color='neutral-1'>
+              <div className='item p-[20px] text-left galaxy-max:p-[12px] ' key={index}>
+                <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
                   {item?.displayName}
                 </Text>
                 <Text type='body-12-regular' color='neutral-4' className='mt-[4px]'>
@@ -129,13 +103,16 @@ const Market = () => {
                 </Text>
                 <Text
                   type='body-24-regular'
-                  className={classNames('mt-[10px] h-[36px] px-[5px] py-[2px]', {
-                    'text-[#128F63]': isIncrease,
-                    'text-[#DB4444]': isDecrease,
-                    'text-[#E6A70A]': isNoChange,
-                    [styles.isDecrease]: isDecrease && isChange,
-                    [styles.isIncrease]: isIncrease && isChange,
-                  })}
+                  className={classNames(
+                    'mt-[10px] h-[36px] px-[5px] py-[2px] galaxy-max:text-[20px]',
+                    {
+                      'text-[#128F63]': isIncrease,
+                      'text-[#DB4444]': isDecrease,
+                      'text-[#E6A70A]': isNoChange,
+                      [styles.isDecrease]: isDecrease && isChange,
+                      [styles.isIncrease]: isIncrease && isChange,
+                    },
+                  )}
                 >
                   {item?.cIndex?.toLocaleString('en-US')}
                 </Text>
@@ -150,7 +127,7 @@ const Market = () => {
                 >
                   <Text
                     type='body-12-medium'
-                    className={classNames('px-[5px] py-[2px]', {
+                    className={classNames('px-[5px] py-[2px] galaxy-max:text-[10px]', {
                       'text-[#128F63]': isIncrease,
                       'text-[#DB4444]': isDecrease,
                       'text-[#E6A70A]': isNoChange,

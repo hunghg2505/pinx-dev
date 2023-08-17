@@ -72,6 +72,7 @@ const PostDetail = () => {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
+    manual: true,
   });
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(router.query.id));

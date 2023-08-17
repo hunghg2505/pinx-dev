@@ -32,7 +32,9 @@ module.exports = {
     screens: {
       mobile: '280px',
       'small-mobile-max': { max: '280px' },
+      'galaxy-max': { max: '300px' },
       'mobile-max': { max: '480px' },
+
       'tablet-max': { max: '768px' },
       'laptop-max': { max: '1024px' },
       'desktop-max': { max: '1355px' },

@@ -13,7 +13,7 @@ const ChangeInPrice = () => {
 
   return (
     <div className=''>
-      <Text type='body-14-regular' color='cbblack'>
+      <Text type='body-14-regular' className='galaxy-max:mb-2' color='cbblack'>
         {t('top_20_tab.change_in_price_1y_desc')}
       </Text>
       <Text type='body-12-regular' color='cbblack' className='text-right italic'>

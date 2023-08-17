@@ -114,7 +114,7 @@ const Profile = () => {
             <img
               src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
               alt=''
-              className='h-[72px] w-[72px] cursor-pointer rounded-full object-cover'
+              className='h-[72px] w-[72px]  cursor-pointer rounded-full object-cover'
             />
             <div className='flex flex-1 flex-col gap-[6px]'>
               <div className='flex items-center'>

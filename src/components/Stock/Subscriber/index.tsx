@@ -28,7 +28,7 @@ const StockSubscriber = () => {
         <title>{t('community')}</title>
       </Head>
 
-      <div className='p-[10px] desktop:p-0'>
+      <div className='p-[10px] galaxy-max:px-0 desktop:p-0'>
         <div className='box-shadow card-style'>
           <div className='relative mb-[12px] flex h-[44px] items-center justify-center tablet:mb-0 tablet:h-[48px]'>
             <div className='absolute left-0 top-1/2 flex -translate-y-1/2 items-center justify-between'>

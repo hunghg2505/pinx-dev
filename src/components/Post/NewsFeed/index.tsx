@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -10,6 +11,7 @@ import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
+import { ROUTE_PATH } from '@utils/common';
 import { ClickaPost } from '@utils/dataLayer';
 
 import CommentField from './CommentField';
@@ -38,20 +40,29 @@ const NewsFeed = (props: IProps) => {
     setShowPopup,
     refreshSearch,
   } = props;
-  const [postDetailStatus] = useAtom(postDetailStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
+  const router = useRouter();
+
+  const isPageMyProfile = router.pathname === ROUTE_PATH.MY_PROFILE;
   // React.useEffect(() => {
   //   setPostData(data);
   // }, [data]);
-  const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
   const isMyPost = postData?.customerId === userLoginInfo?.id;
   const isMyComment = postData?.children?.[0]?.customerInfo?.customerId === userLoginInfo?.id;
-  const itemLike = postDetailStatus?.idPostLike === postData?.id;
-  const findIndex = postDetailStatus?.isAddCommentPostDetail?.findIndex(
-    (item: string) => item === postData?.id,
-  );
+
+  const { findItemFollow, itemLike, idPostAddComment, isChangeMyProfile } = React.useMemo(() => {
+    const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
+    const idPostAddComment = postDetailStatus?.idPostAddComment === postData?.id;
+    const isChangeMyProfile = postDetailStatus?.isChangeMyProfile && (isMyPost || isMyComment);
+    // const findPostAddComment = postDetailStatus?.isAddCommentPostDetail?.findIndex(
+    //   (item: string) => item === postData?.id,
+    // );
+    const itemLike = postDetailStatus?.idPostLike === postData?.id;
+    return { findItemFollow, itemLike, idPostAddComment, isChangeMyProfile };
+  }, [postDetailStatus?.idCustomerFollow, postDetailStatus?.idPostAddComment]);
   const bgTheme = useAtomValue(postThemeAtom);
 
   const { hashtags, Ticker, Link, themeName, postType } = React.useMemo(() => {
@@ -72,37 +83,34 @@ const NewsFeed = (props: IProps) => {
     };
   }, [postData]);
   React.useEffect(() => {
-    if (
-      findIndex !== -1 ||
-      findItemFollow ||
-      itemLike ||
-      (postDetailStatus?.isChangeMyProfile && (isMyPost || isMyComment))
-    ) {
+    if (findItemFollow || isChangeMyProfile || idPostAddComment) {
       refresh();
       if (onRefreshList && pinned) {
         onRefreshList();
       }
     }
-  }, [findItemFollow, postDetailStatus?.idPostLike, postDetailStatus?.isChangeMyProfile]);
+  }, [findItemFollow, postDetailStatus?.idPostLike, isChangeMyProfile, idPostAddComment]);
   React.useEffect(() => {
-    if (findIndex === -1 && !findItemFollow && !itemLike) {
+    if (!idPostAddComment && !findItemFollow && !itemLike && !postDetailStatus?.isChangeMyProfile) {
       setPostData(data);
     }
   }, []);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
-      // setPostDetailStatus({
-      //   ...postDetailStatus,
-      //   // isAddCommentPostDetail: [],
-      //   idCustomerFollow: 0,
-      //   // isChangeMyProfile: false,
-      // });
+      if (!isPageMyProfile) {
+        setPostDetailStatus({
+          ...postDetailStatus,
+          // isAddCommentPostDetail: [],
+          idPostAddComment: '',
+          isChangeMyProfile: false,
+        });
+      }
+
       refreshSearch && refreshSearch();
     },
+    manual: true,
   });
-
-  const router = useRouter();
 
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
@@ -162,7 +170,14 @@ const NewsFeed = (props: IProps) => {
 
   return (
     <>
-      <div className='box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div
+        className={classNames(
+          'box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]',
+          {
+            'galaxy-max:p-[10px]': isNewFeedExplore,
+          },
+        )}
+      >
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={postData}
@@ -174,7 +189,7 @@ const NewsFeed = (props: IProps) => {
         />
 
         {isLogin && !isNewFeedExplore && (
-          <div className='mt-4 tablet:block desktop:ml-[64px] '>
+          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
               refresh={refreshComment}
@@ -187,7 +202,7 @@ const NewsFeed = (props: IProps) => {
         {!!countComment && !isNewFeedExplore && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
-              <div className='mt-[22px]'>
+              <div className='mt-[22px] galaxy-max:mt-[18px]'>
                 <ItemComment
                   onNavigate={onNavigate}
                   data={postData?.children?.[0]}

@@ -124,7 +124,7 @@ const MainHeader = () => {
   return (
     <>
       <div
-        className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white transition-all duration-[350ms] ease-in-out desktop:h-[84px] '
+        className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white transition-all duration-[350ms] ease-in-out  desktop:h-[84px]'
         ref={refHeader}
       >
         {!isRouteSetting && (
@@ -139,7 +139,7 @@ const MainHeader = () => {
                 className='w-[35px]'
               />
               <div className='ml-[8px]'>
-                <Text type='body-14-regular' color='primary-5'>
+                <Text type={isMobile ? 'body-10-regular' : 'body-14-regular'} color='primary-5'>
                   {t('try_full_experience_on')}
                 </Text>
                 <CustomLink
@@ -165,7 +165,7 @@ const MainHeader = () => {
           </div>
         )}
 
-        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] desktop:h-[84px] desktop:px-[0]'>
+        <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] galaxy-max:gap-[12px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
@@ -178,7 +178,7 @@ const MainHeader = () => {
             </div>
           ) : (
             <>
-              <div className='flex w-full max-w-[218px] items-center gap-[16px]'>
+              <div className='flex w-full max-w-[218px] items-center gap-[16px] '>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <div className='flex items-center'>
                     <img
@@ -197,11 +197,11 @@ const MainHeader = () => {
                 <MenuMobile />
               </div>
               {!isMobile && (
-                <div className='w-full flex-auto'>
+                <div className='w-full flex-auto '>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
-              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px]'>
+              <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
                 {isMobile && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}

@@ -13,6 +13,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
 // import { PINETREE_LINK } from '@utils/constant';
 
@@ -30,6 +31,7 @@ const Login = (props: Iprops) => {
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm } = useUserLoginInfo();
+  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -49,6 +51,7 @@ const Login = (props: Iprops) => {
         setUserLoginInfo(res?.data);
         setForceAllowTerm(res?.data.forceAllow);
         setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));
+        getInitDataStockWatchlistHome();
         if (res?.data.isReadTerms === 'true') {
           setIsReadTerms(true);
         }
@@ -120,14 +123,14 @@ const Login = (props: Iprops) => {
             rel='noreferrer'
             className='!mt-[24px] flex items-center justify-center laptop:!mt-[48px]'
           >
-            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D]'>
+            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D] galaxy-max:text-[14px]'>
               {t('a_product_of')}
             </Text>
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
               sizes='100vw'
-              className='h-[40px] w-[105px] laptop:h-[55px] laptop:w-[140px]'
+              className='h-[40px] w-[105px] galaxy-max:h-[35px] galaxy-max:w-[90px] laptop:h-[55px] laptop:w-[140px]'
             />
           </a>
         )} */}

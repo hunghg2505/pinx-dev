@@ -79,7 +79,7 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
         className='tablet:hidden'
       />
 
-      <div className='flex gap-x-[40px] py-[12px] tablet:items-center'>
+      <div className='flex gap-x-[40px] py-[12px] galaxy-max:gap-[24px] tablet:items-center'>
         <div className='flex-1'>
           <HeadingNewsItem
             isReport={data.isReport}
@@ -87,7 +87,11 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
             data={data}
             className='hidden tablet:mb-[4px] tablet:flex'
           />
-          <Text type='body-14-semibold' className='flex-1 cursor-pointer' onClick={goToPostDetail}>
+          <Text
+            type='body-14-semibold'
+            className='flex-1 cursor-pointer galaxy-max:text-[12px]'
+            onClick={goToPostDetail}
+          >
             {data.post.title}
           </Text>
         </div>

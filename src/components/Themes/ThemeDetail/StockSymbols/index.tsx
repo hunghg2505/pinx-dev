@@ -46,7 +46,7 @@ const StockSymbols = ({ data }: { data: IThemeDetail }) => {
   }, []);
 
   const findIndex = stockList?.findIndex((item: any) => item.stock_code === dataSocket.sym);
-  if (findIndex && findIndex !== -1) {
+  if (stockList && findIndex !== -1) {
     const data = stockList[findIndex];
     stockList[findIndex] = {
       ...data,

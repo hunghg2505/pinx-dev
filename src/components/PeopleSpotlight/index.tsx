@@ -39,7 +39,7 @@ const PeopleSpotlight = () => {
           <Text type='body-14-regular'>{t('people_in_spotlight_desc')}</Text>
         </div>
 
-        <div className='grid grid-cols-2 gap-[16px] tablet:grid-cols-3 desktop:grid-cols-4 '>
+        <div className='grid grid-cols-2 gap-[16px] galaxy-max:grid-cols-1 galaxy-max:gap-[20px] galaxy-max:px-3 tablet:grid-cols-3 desktop:grid-cols-4 '>
           {KOL?.slice(0, 20).map((item: IKOL, index: number) => {
             return <ItemInfluence data={item} refresh={refresh} key={index} />;
           })}

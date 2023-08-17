@@ -13,7 +13,7 @@ interface IProductItemProps {
 
 const ProductItem = ({ data, className }: IProductItemProps) => {
   return (
-    <div className={classNames('mr-[28px] !w-[112px]', className)}>
+    <div className={classNames('mr-[28px] !w-[112px] galaxy-max:mr-[16px]', className)}>
       <img
         src={PRODUCT_COMPANY_IMAGE(data.imageUrl)}
         alt={data.name}

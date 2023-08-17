@@ -91,7 +91,7 @@ const PopupReview = ({
           type='submit'
           disabled={requestReviewStock.loading || !currentStar}
           className={classNames(
-            'ml-auto flex h-[48px] min-w-[96px] items-center justify-center rounded-full bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)]',
+            'ml-auto flex h-[48px] min-w-[96px] items-center justify-center rounded-full bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] galaxy-max:h-[36px] galaxy-max:min-w-[64px]',
             {
               'opacity-50': !currentStar,
             },
@@ -103,7 +103,7 @@ const PopupReview = ({
             <img
               src='/static/icons/iconWhiteSend.svg'
               alt='Icon send'
-              className='m-auto block h-[24px] w-[24px] object-contain'
+              className='m-auto block h-[24px] w-[24px] object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
             />
           )}
         </button>

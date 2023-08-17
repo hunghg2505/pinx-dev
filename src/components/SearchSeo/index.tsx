@@ -23,9 +23,7 @@ const SearchSeo = () => {
   const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
-  const { data, searchPublic, loading } = useSearchPublic({
-    onSuccess: () => {},
-  });
+  const { data, searchPublic, loading } = useSearchPublic();
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const removeHashTag = (str: string) => {
@@ -56,9 +54,14 @@ const SearchSeo = () => {
   const newsL = news?.length > 0;
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  const mediaFilter = media?.filter((item: any) => item?.post?.metadataList[0]?.images[0]?.length > 0 || item?.post?.metadataList[0]?.url?.length > 0);
-  const imageFilter = image?.filter((item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0);
-
+  const mediaFilter = media?.filter(
+    (item: any) =>
+      item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+      item?.post?.metadataList[0]?.url?.length > 0,
+  );
+  const imageFilter = image?.filter(
+    (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+  );
 
   return (
     <>
@@ -129,8 +132,8 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {(imageFilter?.length > 0 || mediaFilter?.length > 0) ? (
-              <div className='grid grid-cols-1 tablet:grid-cols-2 gap-[16px]'>
+            {imageFilter?.length > 0 || mediaFilter?.length > 0 ? (
+              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {imageFilter?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
                 })}

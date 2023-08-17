@@ -5,14 +5,9 @@ import { useDebounceFn } from 'ahooks';
 export const useResponsive = () => {
   // screen resolutions
   const [state, setState] = useState({
-    isSmallMobile: !!(
-      typeof window !== 'undefined' &&
-      window.innerWidth >= 280 &&
-      window.innerWidth <= 1024
-    ),
     isMobile: !!(
       typeof window !== 'undefined' &&
-      window.innerWidth >= 320 &&
+      window.innerWidth >= 280 &&
       window.innerWidth <= 1024
     ),
     isDesktop: !!(typeof window !== 'undefined' && window.innerWidth > 1024),
@@ -34,11 +29,10 @@ export const useResponsive = () => {
 
   // update the state on window resize
   const onResizeHandler = () => {
-    const isSmallMobile = window.innerWidth >= 280 && window.innerWidth <= 1024;
-    const isMobile = window.innerWidth >= 320 && window.innerWidth <= 1024;
+    const isMobile = window.innerWidth >= 280 && window.innerWidth <= 1024;
     const isDesktop = window.innerWidth > 1024;
 
-    setState({ isMobile, isDesktop, isSmallMobile });
+    setState({ isMobile, isDesktop });
   };
 
   // debounce the resize call

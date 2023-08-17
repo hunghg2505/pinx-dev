@@ -12,6 +12,8 @@ import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
+import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { TOAST_LIMIT } from '@utils/constant';
 import { ENV } from '@utils/env';
 
@@ -24,10 +26,14 @@ const AppInitialData = () => {
   const { initialHomePostData } = usePostHomePage();
   const { userLoginInfo } = useUserLoginInfo();
   useStockDesktopInitial();
+  const { getInitDataStockMarketHome } = useStockMarketHome();
+  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   useMount(() => {
     initialHomePostData();
     handleRemoveActionPost();
+    getInitDataStockMarketHome();
+    getInitDataStockWatchlistHome();
 
     run();
   });

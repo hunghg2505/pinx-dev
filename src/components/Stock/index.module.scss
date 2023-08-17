@@ -1,4 +1,4 @@
-$small-mobile: 280px;
+$small-mobile: 300px;
 
 .tabs {
   :global {
@@ -56,8 +56,8 @@ $small-mobile: 280px;
           color: #a6b0c3;
           line-height: 18px;
 
-          @media (max-width: $small-mobile) {
-            @apply text-[12px];
+          @media (max-width: 300px) {
+            font-size: 12px;
           }
         }
 

@@ -21,7 +21,7 @@ const ThemeExploreItem = (props: IProps) => {
 
   return (
     <div
-      className='relative flex h-[214px] cursor-pointer flex-col justify-end rounded-[12px] bg-[#ffffff] mobile-max:h-[237px]'
+      className='relative flex h-[214px] cursor-pointer flex-col justify-end rounded-[12px] bg-[#ffffff]  mobile-max:h-[237px]'
       onClick={onGotoDetail}
     >
       <img
@@ -33,7 +33,7 @@ const ThemeExploreItem = (props: IProps) => {
         loading='lazy'
         src={data?.url}
         alt=''
-        className='absolute left-0 top-0 h-full w-full rounded-[12px]'
+        className='absolute left-0 top-0 h-full w-full rounded-[12px] object-cover object-center'
       />
       <div className='absolute bottom-0 left-0 h-full w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-none rounded-tr-none bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0)_0%,_rgba(0,_0,_0,_0)_61.25%,_rgba(0,_0,_0,_0.8)_100%)]'></div>
       <div className='relative z-10 p-[12px]'>

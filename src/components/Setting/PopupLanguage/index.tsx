@@ -44,8 +44,10 @@ const PopupLanguage = (props: IProps) => {
     <>
       <Modal visible={visible} onClose={handleClose}>
         <div className='border-b-[1px] border-solid border-[--neutral-8] pb-4'>
-          <Text type='body-24-bold'>{t('language')}</Text>
-          <Text type='body-14-regular' color='primary-5'>
+          <Text className='galaxy-max:mb-1 galaxy-max:text-[22px]' type='body-24-bold'>
+            {t('language')}
+          </Text>
+          <Text type='body-14-regular' className='galaxy-max:text-[12px]' color='primary-5'>
             {t('select_language')}
           </Text>
         </div>

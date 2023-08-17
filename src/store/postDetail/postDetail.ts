@@ -3,6 +3,7 @@ import { atom } from 'jotai';
 export interface IPostDetailStatus {
   isDoneReplies: boolean;
   isAddCommentPostDetail?: any;
+  idPostAddComment?: string;
   idPostDetail?: string;
   idPostLike?: string;
   idCustomerFollow?: number;
@@ -15,6 +16,7 @@ export const initialPostDetailStatus: IPostDetailStatus = {
   isDoneReplies: false,
   isChangeMyProfile: false,
   isAddCommentPostDetail: [],
+  idPostAddComment: '',
   idPostDetail: '',
   idPostLike: '',
   idCustomerFollow: 0,

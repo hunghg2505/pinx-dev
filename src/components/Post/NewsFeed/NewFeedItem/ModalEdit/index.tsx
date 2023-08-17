@@ -99,19 +99,19 @@ const ModalEdit = (props: Iprops) => {
           </Text>
           <div className='mt-[32px] flex items-center justify-between gap-x-[12px]'>
             <div
-              className='flex h-[52px] w-[180px] flex-1 cursor-pointer flex-row items-center justify-center rounded-[8px] border border-solid border-[var(--primary-6)] bg-primary_blue_light'
+              className='flex h-[52px] w-[180px] flex-1 cursor-pointer flex-row items-center justify-center rounded-[8px] border border-solid border-[var(--primary-6)] bg-primary_blue_light galaxy-max:h-[44px] '
               onClick={onCancel}
             >
-              <Text type='body-16-bold' className='text-primary_blue'>
+              <Text type='body-16-bold' className='text-primary_blue galaxy-max:text-[14px]'>
                 {t('cancel')}
               </Text>
             </div>
 
             <div
-              className='flex h-[52px] w-[180px] flex-1 cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#1F6EAC]'
+              className='flex h-[52px] w-[180px] flex-1 cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#1F6EAC] galaxy-max:h-[44px]'
               onClick={onOk}
             >
-              <Text type='body-16-bold' color='cbwhite'>
+              <Text type='body-16-bold' className='galaxy-max:text-[14px]' color='cbwhite'>
                 {t('ok')}
               </Text>
             </div>

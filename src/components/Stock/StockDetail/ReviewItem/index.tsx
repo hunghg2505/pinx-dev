@@ -62,7 +62,10 @@ const ReviewItem = ({
         />
 
         <div className='flex items-center'>
-          <Text type='body-14-semibold' className='ml-[12px] text-[#0D0D0D]'>
+          <Text
+            type='body-14-semibold'
+            className='ml-[12px] text-[#0D0D0D] galaxy-max:ml-[6px] galaxy-max:text-[12px]'
+          >
             {data.customerInfo.displayName}
           </Text>
 
@@ -72,7 +75,7 @@ const ReviewItem = ({
               alt=''
               width={0}
               height={0}
-              className='ml-[6px] w-[16px]'
+              className='ml-[6px] w-[16px] galaxy-max:ml-[2px]'
             />
           )}
 
@@ -80,12 +83,12 @@ const ReviewItem = ({
             <img
               src='/static/icons/iconTickKol.svg'
               alt=''
-              className='ml-[6px] h-[14px] w-[14px] object-contain'
+              className='ml-[6px] h-[14px] w-[14px] object-contain galaxy-max:ml-[2px]'
             />
           )}
         </div>
 
-        <Text type='body-12-regular' className='ml-auto text-[#999999]'>
+        <Text type='body-12-regular' className='ml-auto   text-[#999999] galaxy-max:text-[10px]'>
           {isLatestReview
             ? t('rating.latest_review')
             : dayjs(data.createdDate).format('DD/MM/YYYY')}
@@ -93,7 +96,7 @@ const ReviewItem = ({
       </div>
 
       <div
-        className={classNames('relative rounded-[12px] px-[16px] py-[12px]', {
+        className={classNames('relative rounded-[12px] px-[16px] py-[12px] galaxy-max:mb-4', {
           'bg-[#F7F6F8]': !isMyReview,
           'bg-[#F0F7FC]': isMyReview,
         })}

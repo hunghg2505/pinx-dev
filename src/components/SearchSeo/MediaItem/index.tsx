@@ -243,7 +243,7 @@ const MediaItem = ({ data, type, setShowPopup }: { data: any, type?: string, set
           {data?.post?.seoMetadata?.imageSeo?.urlImage && (
             <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
               <img
-                className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
+                className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
                   'object-contain': data?.post?.seoMetadata?.imageSeo?.urlImage,
                   'object-cover': !data?.post?.seoMetadata?.imageSeo?.urlImage,
                 })}

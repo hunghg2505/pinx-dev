@@ -13,7 +13,7 @@ import Position from './Position';
 const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
-    <div className='relative flex w-full grid-flow-col items-center gap-2 pl-[16px] pr-[16px] pt-[20px] tablet:pl-[132px] tablet:pr-0 tablet:pt-[14px] xdesktop:mt-[0] xdesktop:pl-[168px] '>
+    <div className='relative flex w-full grid-flow-col items-center gap-2 pl-[16px] pr-[16px] pt-[20px] galaxy-max:pt-[14px] tablet:pl-[132px] tablet:pr-0 tablet:pt-[14px] xdesktop:mt-[0] xdesktop:pl-[168px]'>
       <div className='flex-auto'>
         <div className='mb-[8px] flex items-center justify-between tablet:mb-[4px]'>
           <Name

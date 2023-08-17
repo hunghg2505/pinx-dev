@@ -55,19 +55,21 @@ const ComponentWatchList = (props: IProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const dataFormat = useMemo(() => {
+  const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-    if (findIndex !== -1) {
+    let isChangeStockPrice = false;
+    if (dataStock && findIndex !== -1) {
       const data = dataStock[findIndex];
+      isChangeStockPrice = data?.lastPrice !== dataSocket?.lastPrice;
       dataStock[findIndex] = {
         ...data,
         ...dataSocket,
       };
     }
     if (page_size) {
-      return dataStock?.slice(0, page_size);
+      dataStock?.slice(0, page_size);
     }
-    return dataStock;
+    return { dataFormat: dataStock, isChangeStockPrice, findIndex };
   }, [dataSocket, dataStock, page_size]);
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
@@ -85,7 +87,7 @@ const ComponentWatchList = (props: IProps) => {
     <>
       <div className='flex flex-col gap-y-[16px]'>
         {dataFormat?.map((item: IWatchListItem, index: number) => {
-          const isChangeStock = dataSocket.sym === item.stockCode;
+          const isChangeStock = isChangeStockPrice && findIndex === index;
           return (
             <div
               key={`${item.stockCode}-${index}`}

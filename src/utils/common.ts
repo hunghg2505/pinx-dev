@@ -484,12 +484,11 @@ export const converStringMessageToObject = (message: string) => {
           const isSepecial = Boolean(
             nCur.includes('@') || nCur.includes('%') || nCur.includes('#'),
           );
-
           if (isSepecial) {
             acc.push(nCur);
           } else {
-            const prevItem = acc.at(-1);
-
+            // eslint-disable-next-line unicorn/prefer-at
+            const prevItem = acc[acc.length - 1];
             if (prevItem) {
               const isPrevItemSepecial = Boolean(
                 prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),

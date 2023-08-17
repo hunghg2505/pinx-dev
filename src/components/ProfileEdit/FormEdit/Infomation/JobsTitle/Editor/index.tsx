@@ -34,7 +34,7 @@ const Editor = ({ value, onChange }: { value: any; onChange: (value: any) => voi
   return (
     <EditorContent
       editor={editor}
-      className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none'
+      className='line-[21px] mb-[12px] w-full py-2 text-[16px] text-neutral_black outline-none galaxy-max:text-[14px]'
     />
   );
 };

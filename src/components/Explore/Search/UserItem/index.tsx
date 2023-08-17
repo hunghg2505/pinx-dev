@@ -28,7 +28,7 @@ interface Iprops {
   refreshSearch?: () => void;
 }
 const UserItem = (props: Iprops) => {
-  const { data, reload,setShowPopup, refreshSearch  } = props;
+  const { data, reload, setShowPopup, refreshSearch } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
@@ -99,7 +99,8 @@ const UserItem = (props: Iprops) => {
         {
           '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
             !isMobile && isSearchPage,
-        }, styles.boxFollow,
+        },
+        styles.boxFollow,
       )}
     >
       <div
@@ -113,15 +114,15 @@ const UserItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
+            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}
 
-        <Text type='body-14-semibold' className='text-[#474D57]'>
+        <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px]'>
           {data?.displayName}
         </Text>
 
@@ -147,13 +148,15 @@ const UserItem = (props: Iprops) => {
         )}
       </div>
       <div
-        className={classNames('box cursor-pointer rounded-[5px] flex h-[36px] w-[36px] items-center justify-center ', {
-          'bg-[#DEE1E7] follow': isFollow,
-          'bg-[#D8EBFC] unfollow': !isFollow,
-        })}
+        className={classNames(
+          'box flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-[5px] ',
+          {
+            'follow bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]': isFollow,
+            'unfollow bg-[#D8EBFC]': !isFollow,
+          },
+        )}
         onClick={() => onFollow(data.id)}
-      >
-      </div>
+      ></div>
     </div>
   );
 };
