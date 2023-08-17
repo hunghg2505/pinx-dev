@@ -30,7 +30,7 @@ export default {
               return [200, 0];
             }
             // [x,y]
-            return [200, -(component.element.firstChild.offsetHeight + 17)];
+            return [200, -(component.element.firstChild.offsetHeight + 30)];
           },
         });
       },

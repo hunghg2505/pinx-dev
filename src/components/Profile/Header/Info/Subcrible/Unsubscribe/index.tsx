@@ -17,7 +17,7 @@ const Unsubscribe = () => {
     {
       manual: true,
       onSuccess: () => {
-        profileUser?.reload();
+        profileUser?.refresh();
       },
     },
   );

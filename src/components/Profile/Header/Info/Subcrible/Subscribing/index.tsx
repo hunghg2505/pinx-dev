@@ -18,7 +18,7 @@ const Subscribing = ({ access }: { access: () => void }) => {
     {
       manual: true,
       onSuccess: () => {
-        profileUser?.reload();
+        profileUser?.refresh();
       },
     },
   );
