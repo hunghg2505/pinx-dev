@@ -13,9 +13,10 @@ interface IProps {
   data: IWatchListItem;
   refresh?: () => void;
   refreshYourWatchList?: () => void;
+  isChangeColor?: boolean;
 }
 const InterestItem = (props: IProps) => {
-  const { data, refresh, refreshYourWatchList } = props;
+  const { data, refresh, refreshYourWatchList, isChangeColor } = props;
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -57,16 +58,20 @@ const InterestItem = (props: IProps) => {
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text
             type='body-14-semibold'
-            className={classNames({
+            className={classNames('px-[5px] py-[2px]', {
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
               'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
-              [styles.isIncrease]: isIncrease && !isHigh && !isChange,
+              [styles.isIncrease]: isIncrease && !isHigh && !isChange && isChangeColor,
               [styles.isDecrease]:
-                isDecrease && !isFloor && Number(data?.lastPrice) !== 0 && !isChange,
+                isDecrease &&
+                !isFloor &&
+                Number(data?.lastPrice) !== 0 &&
+                !isChange &&
+                isChangeColor,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -77,16 +82,20 @@ const InterestItem = (props: IProps) => {
           <div>
             <Text
               type='body-12-medium'
-              className={classNames('ml-[-14px] mr-[-14px] whitespace-nowrap px-[0px] py-[4px]', {
+              className={classNames('ml-[-14px] mr-[-14px] whitespace-nowrap px-[5px] py-[2px]', {
                 'text-[#128F63]': isIncrease && !isHigh,
                 'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
                 'text-[#22D1E9]': isFloor,
                 'text-[#782AF9]': isHigh,
                 'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
                 'text-[#474D57]': Number(data?.lastPrice) === 0,
-                [styles.isIncrease]: isIncrease && !isHigh && !isChange,
+                [styles.isIncrease]: isIncrease && !isHigh && !isChange && isChangeColor,
                 [styles.isDecrease]:
-                  isDecrease && !isFloor && Number(data?.lastPrice) !== 0 && !isChange,
+                  isDecrease &&
+                  !isFloor &&
+                  Number(data?.lastPrice) !== 0 &&
+                  !isChange &&
+                  isChangeColor,
               })}
             >
               {isChange ? '' : unit}

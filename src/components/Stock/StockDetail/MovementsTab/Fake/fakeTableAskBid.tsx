@@ -13,8 +13,12 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
 
   return (
     <div className='flex items-center overflow-hidden rounded-[12px] border border-solid border-[#EBEBEB]'>
-      <div className='flex w-[100px] items-center justify-center self-stretch border-r border-solid border-[#EBEBEB] text-center uppercase'>
-        <Text type='body-14-semibold' color='neutral-darkgray'>
+      <div className='flex w-[100px] items-center justify-center self-stretch border-r border-solid border-[#EBEBEB] text-center small-mobile-max:w-[50px]'>
+        <Text
+          type='body-14-semibold'
+          color='neutral-darkgray'
+          className='small-mobile-max:text-[12px]'
+        >
           {t(isAsk ? 'ask' : 'bid')}
         </Text>
       </div>

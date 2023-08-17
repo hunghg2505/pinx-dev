@@ -55,7 +55,7 @@ const PopupMatchedPrice = ({
       <table className='mt-[20px] text-right'>
         <thead className='table w-[calc(100%-0.5em)] table-fixed'>
           <tr className='bg-[#EBEBEB] text-right'>
-            <th className='py-[5px] pl-[16px] text-left'>
+            <th className='py-[5px] pl-[16px] text-left small-mobile-max:pl-[4px]'>
               <Text type='body-12-regular' color='primary-5'>
                 {t('matchings.time')}
               </Text>
@@ -70,7 +70,7 @@ const PopupMatchedPrice = ({
                 {t('matchings.price')}
               </Text>
             </th>
-            <th className='py-[5px] pr-[16px]'>
+            <th className='py-[5px] pr-[16px] small-mobile-max:pr-[4px]'>
               <Text type='body-12-regular' color='primary-5'>
                 +/-
               </Text>
@@ -81,7 +81,7 @@ const PopupMatchedPrice = ({
         <tbody className='block max-h-[calc(70vh-40px-44px)] overflow-auto' ref={ref}>
           {data?.list.map((item, index) => (
             <tr key={index} className='table w-full table-fixed'>
-              <td className='py-[10px] pl-[16px] text-left'>
+              <td className='py-[10px] pl-[16px] text-left small-mobile-max:pl-[4px]'>
                 <Text type='body-16-regular' className='text-[#999999]'>
                   {item.time}
                 </Text>
@@ -96,7 +96,7 @@ const PopupMatchedPrice = ({
                   {formatStringToNumber(item.lastPrice, true, 2)}
                 </Text>
               </td>
-              <td className='py-[10px] pr-[16px]'>
+              <td className='py-[10px] pr-[16px] small-mobile-max:pr-[4px]'>
                 <div
                   className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
                   style={{

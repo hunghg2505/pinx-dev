@@ -13,11 +13,11 @@ const FakeTablePrice2 = () => {
       <tbody>
         <tr className='h-[41px]'>
           <td className='align-middle'>
-            <Text type='body-12-regular' className='pl-[20px] text-[#474D57]'>
+            <Text type='body-12-regular' className='pl-[20px] text-[#474D57] small-mobile-max:pl-0'>
               {t('movements.ceiling')}
             </Text>
           </td>
-          <td className='pr-[20px] text-right align-middle'>
+          <td className='pr-[20px] text-right align-middle small-mobile-max:pr-0'>
             <Text type='body-12-regular' className='text-[#782AF9]'>
               {formatStringToNumber('0', true, 2)}
             </Text>
@@ -25,11 +25,11 @@ const FakeTablePrice2 = () => {
         </tr>
         <tr className='h-[41px]'>
           <td className='align-middle'>
-            <Text type='body-12-regular' className='pl-[20px] text-[#474D57]'>
+            <Text type='body-12-regular' className='pl-[20px] text-[#474D57] small-mobile-max:pl-0'>
               {t('movements.ref')}
             </Text>
           </td>
-          <td className='pr-[20px] text-right align-middle'>
+          <td className='pr-[20px] text-right align-middle small-mobile-max:pr-0'>
             <Text type='body-12-regular' className='text-[#F1BA09]'>
               {formatStringToNumber('0', true, 2)}
             </Text>
@@ -37,11 +37,11 @@ const FakeTablePrice2 = () => {
         </tr>
         <tr className='h-[41px]'>
           <td className='align-middle'>
-            <Text type='body-12-regular' className='pl-[20px] text-[#474D57]'>
+            <Text type='body-12-regular' className='pl-[20px] text-[#474D57] small-mobile-max:pl-0'>
               {t('movements.floor')}
             </Text>
           </td>
-          <td className='pr-[20px] text-right align-middle'>
+          <td className='pr-[20px] text-right align-middle small-mobile-max:pr-0'>
             <Text type='body-12-regular' className='text-[#22D1E9]'>
               {formatStringToNumber('0', true, 2)}
             </Text>
