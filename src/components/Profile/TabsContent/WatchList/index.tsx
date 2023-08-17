@@ -18,32 +18,6 @@ const WatchList = () => {
   const { watchList } = useCheckWatchList(Number(router?.query?.id));
   const { isLogin } = useAuth();
 
-  // return (
-  //   <>
-  //     {(!isShareWatchList || !isUserShareWatchList || !watchList || watchList?.length === 0) && (
-  //   <NotFound
-  //     type={(() => {
-  //       if (isShareWatchList && isUserShareWatchList && watchList?.length === 0) {
-  //         return 1;
-  //       } else if (isShareWatchList === '0') {
-  //         return 2;
-  //       } else if (!isUserShareWatchList) {
-  //         return 3;
-  //       } else if (isLogin) {
-  //         return 1;
-  //       } else {
-  //         return 4;
-  //       }
-  //     })()}
-  //   />
-  // )}
-  //     {(!!isShareWatchList || !!isUserShareWatchList || !!watchList) && (
-  //       <ComponentWatchList watchList={watchList} />
-  //     )}
-  //     <NotLogin />
-  //   </>
-  // );
-
   if (isLogin) {
     if (
       isShareWatchList &&

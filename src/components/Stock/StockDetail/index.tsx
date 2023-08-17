@@ -20,6 +20,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH, formatNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -109,6 +110,7 @@ const StockDetail = () => {
   const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
   const refSlide = useRef<any>(null);
@@ -248,7 +250,7 @@ const StockDetail = () => {
     onSuccess: () => {
       refreshMyStocks();
       refreshStockDetails();
-
+      setPostDetailStatus({ ...postDetailStatus, isChangeStockWatchList: true });
       if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
         const title = isFollowedStock
           ? t('tell_people_reason_unwatched', {

@@ -130,7 +130,13 @@ const SideBar = () => {
           <CustomLink
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
-            onClick={() => NavigateSection(menu.label)}
+            onClick={() => {
+              // if (menu?.path === ROUTE_PATH.HOME) {
+              //   router.push(ROUTE_PATH.HOME);
+              //   router.reload();
+              // }
+              NavigateSection(menu.label);
+            }}
           >
             {icon}
             <Text

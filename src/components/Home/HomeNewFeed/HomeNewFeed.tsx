@@ -26,12 +26,7 @@ import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import { FILTER_TYPE } from '../ModalFilter';
-import {
-  requestJoinIndex,
-  requestLeaveIndex,
-  socket,
-  useSuggestPeople,
-} from '../service';
+import { requestJoinIndex, requestLeaveIndex, socket, useSuggestPeople } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -70,6 +65,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { refLastElement } = useObserver();
 
   const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
+  console.log('🚀 ~ file: HomeNewFeed.tsx:73 ~ HomeNewFeed ~ dataPosts:', dataPosts);
 
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {

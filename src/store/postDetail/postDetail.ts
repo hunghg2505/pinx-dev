@@ -10,6 +10,7 @@ export interface IPostDetailStatus {
   themeWatchlist: any;
   stockWatchList: any;
   isChangeMyProfile?: boolean;
+  isChangeStockWatchList?: boolean;
 }
 
 export const initialPostDetailStatus: IPostDetailStatus = {
@@ -22,6 +23,7 @@ export const initialPostDetailStatus: IPostDetailStatus = {
   idCustomerFollow: 0,
   themeWatchlist: undefined,
   stockWatchList: undefined,
+  isChangeStockWatchList: false,
 };
 
 export const postDetailStatusAtom = atom({
