@@ -31,6 +31,7 @@ module.exports = {
     },
     screens: {
       mobile: '280px',
+      'small-mobile-max': { max: '280px' },
       'galaxy-max': { max: '300px' },
       'mobile-max': { max: '480px' },
 

@@ -73,7 +73,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
   const { t } = useTranslation(['stock', 'common']);
   return (
     <div className='flex flex-wrap'>
-      <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+      <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.total_vol')}
         </Text>
@@ -93,7 +93,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
         </Text>
       </div>
 
-      <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+      <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.total_val')}
         </Text>
@@ -115,7 +115,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
         </Text>
       </div>
 
-      <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+      <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.foreign_buy')}
         </Text>
@@ -135,7 +135,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
         </Text>
       </div>
 
-      <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+      <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.total_room')}
         </Text>
@@ -155,7 +155,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
         </Text>
       </div>
 
-      <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center tablet:w-1/5'>
+      <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.foreign_sell')}
         </Text>

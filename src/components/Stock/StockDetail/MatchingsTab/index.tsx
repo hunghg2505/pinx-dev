@@ -32,7 +32,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
         <table className='w-full text-right'>
           <thead>
             <tr className='bg-[#EBEBEB] text-right'>
-              <th className='py-[5px] pl-[16px] text-left'>
+              <th className='py-[5px] pl-[16px] text-left small-mobile-max:pl-[4px]'>
                 <Text type='body-12-regular' color='primary-5'>
                   {t('matchings.time')}
                 </Text>
@@ -47,7 +47,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
                   {t('matchings.price')}
                 </Text>
               </th>
-              <th className='py-[5px] pr-[16px]'>
+              <th className='py-[5px] pr-[16px] small-mobile-max:pr-[4px]'>
                 <Text type='body-12-regular' color='primary-5'>
                   +/-
                 </Text>
@@ -60,7 +60,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
               stockTrade?.data.length > 0 &&
               stockTrade?.data.slice(0, LIMIT_STOCK_TRADE).map((item, index) => (
                 <tr key={index}>
-                  <td className='py-[10px] pl-[16px] text-left'>
+                  <td className='py-[10px] pl-[16px] text-left small-mobile-max:pl-[4px]'>
                     <Text type='body-16-regular' className='text-[#999999]'>
                       {item.time}
                     </Text>
@@ -75,7 +75,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
                       {formatStringToNumber(item.lastPrice, true, 2)}
                     </Text>
                   </td>
-                  <td className='py-[10px] pr-[16px]'>
+                  <td className='py-[10px] pr-[16px] small-mobile-max:pr-[4px]'>
                     <div
                       className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
                       style={{
