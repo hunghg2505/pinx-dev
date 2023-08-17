@@ -42,6 +42,7 @@ export const useStockWatchlistHome = () => {
         if (data) {
           for (const element of data) {
             requestJoinChannel(element.stockCode);
+            console.log('join');
           }
         }
       },

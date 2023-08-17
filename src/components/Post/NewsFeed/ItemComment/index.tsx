@@ -227,7 +227,10 @@ const ItemComment = (props: IProps) => {
       });
     }
     if (classElement === 'people') {
-      const url = userLoginInfo?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url =
+        Number(userLoginInfo?.id) === Number(id)
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
@@ -386,7 +389,7 @@ const ItemComment = (props: IProps) => {
               </button>
             </div>
             <div
-              className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
+              className='box-border cursor-pointer rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
               onClick={(event) => handleClick(event)}
             >
               <Text type='body-16-regular' className='text-[#0D0D0D] galaxy-max:text-[14px]'>

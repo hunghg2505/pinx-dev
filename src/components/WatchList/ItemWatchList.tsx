@@ -112,7 +112,7 @@ const ItemWatchList = ({
         <div className='flex flex-col items-end gap-y-[5px]'>
           <Text
             type='body-14-semibold'
-            className={classNames('galaxy-max:text-[12px]', {
+            className={classNames('px-[5px] py-[2px] galaxy-max:text-[12px]', {
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
@@ -132,7 +132,7 @@ const ItemWatchList = ({
           </Text>
           <Text
             type='body-12-medium'
-            className={classNames('galaxy-max:text-[10px]', {
+            className={classNames('px-[5px] py-[2px] galaxy-max:text-[10px]', {
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,

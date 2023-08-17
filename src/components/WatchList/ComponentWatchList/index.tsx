@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -12,6 +13,7 @@ import {
   requestLeaveChannel,
   socket,
 } from '@components/Home/service';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
 import ItemWatchList from '../ItemWatchList';
 
@@ -25,6 +27,12 @@ const ComponentWatchList = (props: IProps) => {
   const { isEdit = false, page_size, optionsRequest = {} } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  React.useEffect(() => {
+    if (postDetailStatus?.isChangeStockWatchList) {
+      useWatchList.run();
+    }
+  }, [postDetailStatus?.isChangeStockWatchList]);
   const useWatchList = useRequest(
     () => {
       return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
@@ -32,6 +40,7 @@ const ComponentWatchList = (props: IProps) => {
     {
       manual: true,
       onSuccess: (res: any) => {
+        setPostDetailStatus({ ...postDetailStatus, isChangeStockWatchList: false });
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {
@@ -46,6 +55,7 @@ const ComponentWatchList = (props: IProps) => {
 
   React.useEffect(() => {
     useWatchList.run();
+
     return () => {
       if (dataStock) {
         for (const element of dataStock) {
