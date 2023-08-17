@@ -19,6 +19,7 @@ const WatchList = () => {
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [watchlistId, setWatchlistId] = React.useState<number>();
   const [dataStock, setDataStock] = React.useState<any>([]);
+  const [dataInterest, setDataInterest] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
 
   const router = useRouter();
@@ -27,7 +28,18 @@ const WatchList = () => {
     router.back();
   };
 
-  const { interestStock, refreshInterest } = useGetInterest();
+  const { interestStock, refreshInterest, getInterest } = useGetInterest({
+    manual: true,
+    onSuccess: (res: any) => {
+      const data = res?.data;
+      setDataInterest(data);
+      if (data) {
+        for (const element of data) {
+          requestJoinChannel(element.stockCode);
+        }
+      }
+    },
+  });
   const { yourWatchListStock, runYourWatchList, refreshYourWatchList, loadingYourWatchList } =
     useGetYourWatchList({
       onSuccess: (res) => {
@@ -44,6 +56,7 @@ const WatchList = () => {
 
   React.useEffect(() => {
     runYourWatchList();
+    getInterest();
     setMounted(true);
     return () => {
       if (dataStock) {
@@ -51,25 +64,33 @@ const WatchList = () => {
           requestLeaveChannel(element.stockCode);
         }
       }
+      if (dataInterest) {
+        for (const element of dataInterest) {
+          requestLeaveChannel(element.stockCode);
+        }
+      }
     };
   }, []);
 
-  const dataFormat = useMemo(() => {
+  const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
-    if (findIndex && findIndex !== -1) {
+    let isChangeStockPrice = false;
+    if (dataStock && findIndex !== -1) {
       const data = dataStock[findIndex];
+      isChangeStockPrice = data?.lastPrice !== dataSocket?.lastPrice;
       dataStock[findIndex] = {
         ...data,
         ...dataSocket,
       };
     }
 
-    return dataStock;
+    return { dataFormat: dataStock, isChangeStockPrice, findIndex };
   }, [dataStock, dataSocket]);
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
+        console.log('data', data);
         setDataSocket(data);
       }
     };
@@ -107,6 +128,8 @@ const WatchList = () => {
             loadingYourWatchList={loadingYourWatchList}
             refreshInterest={refreshInterest}
             setDataStock={setDataStock}
+            isChangeStockPrice={isChangeStockPrice}
+            findIndex={findIndex}
           />
         </div>
         <Interest

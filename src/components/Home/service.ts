@@ -278,6 +278,7 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
+  console.log(`join-${stocks}`);
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };

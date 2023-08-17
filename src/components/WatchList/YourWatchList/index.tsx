@@ -25,6 +25,8 @@ interface IProps {
   loadingYourWatchList?: boolean;
   refreshInterest?: any;
   setDataStock?: any;
+  findIndex?: number;
+  isChangeStockPrice?: boolean;
 }
 
 const Empty = dynamic(() => import('@components/UI/Empty'), {
@@ -41,6 +43,8 @@ const YourWatchList = (props: IProps) => {
     refreshYourWatchList,
     refreshInterest,
     setDataStock,
+    findIndex,
+    isChangeStockPrice,
   } = props;
   const { t } = useTranslation('watchlist');
   const [isAz, setIsAz] = React.useState<boolean>(true);
@@ -98,7 +102,7 @@ const YourWatchList = (props: IProps) => {
       },
     },
   );
-
+  console.log('dataStock', dataStock);
   return (
     <>
       {/* Top header */}
@@ -261,23 +265,27 @@ const YourWatchList = (props: IProps) => {
                 {t('addTxt')}
               </Text>
             </ModalAddStock>
-            {dataStock?.map((item: IWatchListItem, index: number) => (
-              <div
-                key={index}
-                className={classNames({
-                  'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
-                    isEdit,
-                  'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
-                    !isEdit,
-                })}
-              >
-                <ItemWatchList
-                  data={item}
-                  isEdit={isEdit}
-                  refreshYourWatchList={refreshYourWatchList}
-                />
-              </div>
-            ))}
+            {dataStock?.map((item: IWatchListItem, index: number) => {
+              const isChangeColor = isChangeStockPrice && findIndex === index;
+              return (
+                <div
+                  key={index}
+                  className={classNames({
+                    'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
+                      isEdit,
+                    'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
+                      !isEdit,
+                  })}
+                >
+                  <ItemWatchList
+                    data={item}
+                    isEdit={isEdit}
+                    refreshYourWatchList={refreshYourWatchList}
+                    isChangeColor={isChangeColor}
+                  />
+                </div>
+              );
+            })}
           </>
         )}
       </div>

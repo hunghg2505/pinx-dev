@@ -8,13 +8,19 @@ interface IOptionsRequest {
   onError?: (e: any) => void;
 }
 
-export const useGetInterest = () => {
-  const { data, refresh } = useRequest(() => {
-    return privateRequest(requestPist.get, API_PATH.PRIVATE_SUGGESTED_STOCK);
-  });
+export const useGetInterest = (option = {}) => {
+  const { data, refresh, run } = useRequest(
+    () => {
+      return privateRequest(requestPist.get, API_PATH.PRIVATE_SUGGESTED_STOCK);
+    },
+    {
+      ...option,
+    },
+  );
   return {
     interestStock: data?.data,
     refreshInterest: refresh,
+    getInterest: run,
   };
 };
 
@@ -26,7 +32,7 @@ export const useGetYourWatchList = (options?: IOptionsRequest) => {
     {
       ...options,
       manual: true,
-    }
+    },
   );
   return {
     yourWatchListStock: data?.data?.[0]?.stocks,

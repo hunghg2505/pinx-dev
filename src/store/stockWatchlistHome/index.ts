@@ -15,7 +15,7 @@ export const useGetDataStockWatchlistHome = () => {
   const findIndex = dataStockWatchlist?.findIndex(
     (item: any) => item.stockCode === dataStockWatchlistSocket.sym,
   );
-  if (findIndex && findIndex !== -1) {
+  if (dataStockWatchlist && findIndex !== -1) {
     const data = dataStockWatchlist[findIndex];
     dataStockWatchlist[findIndex] = {
       ...data,
