@@ -150,12 +150,14 @@ const SideBar = () => {
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div>
         <Menu items={items} className='sidebar-list' />
-        <img
-          src='/static/images/sidebar_banner.png'
-          alt=''
-          sizes='100vw'
-          className='mt-[16px] w-full laptop-max:px-[10px]'
-        />
+        <a href={PINETREE_LINK} target='_blank' rel='noopener noreferrer'>
+          <img
+            src='/static/images/sidebar_banner.png'
+            alt=''
+            sizes='100vw'
+            className='mt-[16px] w-full laptop-max:px-[10px]'
+          />
+        </a>
 
         <div className='px-[10px] pt-[16px]'>
           {/* <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
