@@ -86,8 +86,12 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
         className,
       )}
     >
-      <div className='flex w-[100px] items-center justify-center self-stretch border-r border-solid border-[#EBEBEB] text-center'>
-        <Text type='body-14-semibold' color='neutral-darkgray'>
+      <div className='flex w-[100px] items-center justify-center self-stretch border-r border-solid border-[#EBEBEB] text-center small-mobile-max:w-[50px]'>
+        <Text
+          type='body-14-semibold'
+          color='neutral-darkgray'
+          className='small-mobile-max:text-[12px]'
+        >
           {t('ask')}
         </Text>
       </div>
