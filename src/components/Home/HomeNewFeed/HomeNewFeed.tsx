@@ -65,7 +65,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { refLastElement } = useObserver();
 
   const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
-  console.log('🚀 ~ file: HomeNewFeed.tsx:73 ~ HomeNewFeed ~ dataPosts:', dataPosts);
 
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {

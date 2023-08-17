@@ -1,3 +1,5 @@
+import React from 'react';
+
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
@@ -5,14 +7,14 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
+import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 export const ActivityMatchOrder = ({
   isReadMore,
-  onReadMore,
-  readMore,
+  // onReadMore,
   postDetailUrl,
   postDetail,
   urlStock,
@@ -22,6 +24,9 @@ export const ActivityMatchOrder = ({
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const [readMore, setReadMore] = React.useState(false);
+  const [showReadMore, setShowReadMore] = React.useState<boolean>(false);
   const userDetail = useAtomValue(userLoginInfoAtom);
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
@@ -45,9 +50,30 @@ export const ActivityMatchOrder = ({
     }
     return onComment();
   };
+  const onReadMore = () => {
+    setReadMore(!readMore);
+  };
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      const ele = document?.getElementById(`activityOrder-${postDetail.id}`);
+
+      if (ele?.clientHeight) {
+        if (window.innerWidth > 768) {
+          setShowReadMore(ele?.clientHeight > 84);
+        } else {
+          setShowReadMore(ele?.clientHeight > 84);
+        }
+      }
+      clearTimeout(t);
+    }, 400);
+  }, []);
   return (
-    <div className='ActivityMatchOrder'>
-      <div className='cursor-pointer' onClick={(e: any) => onHandleClick(e)}>
+    <>
+      <div
+        className='ActivityMatchOrder cursor-pointer'
+        onClick={(e: any) => onHandleClick(e)}
+        id={`activityOrder-${postDetail.id}`}
+      >
         <Text
           type='body-14-regular'
           color='neutral-1'
@@ -63,17 +89,18 @@ export const ActivityMatchOrder = ({
           ></div>
         </Text>
       </div>
-      {isReadMore && (
-        <Text
-          type='body-14-regular'
-          color='neutral-3'
-          className='cursor-pointer'
-          onClick={onReadMore}
-        >
-          {readMore ? t('see_less') : t('see_more')}
-        </Text>
+      {!isPostDetailPath && (
+        <Fade visible={showReadMore}>
+          <Text
+            type='body-14-regular'
+            color='neutral-3'
+            className='cursor-pointer'
+            onClick={onReadMore}
+          >
+            {readMore ? t('see_less') : t('see_more')}
+          </Text>
+        </Fade>
       )}
-
       <CustomLink href={postDetailUrl}>
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           <img
@@ -151,6 +178,6 @@ export const ActivityMatchOrder = ({
           </div>
         </div>
       </CustomLink>
-    </div>
+    </>
   );
 };

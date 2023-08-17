@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -7,10 +7,13 @@ import { IPost, useCommentsOfPost } from '@components/Post/service';
 
 interface IProps {
   data: IPost;
+  refreshTrendingOnPinex: () => void;
 }
-const TrendingOnnPinex = ({ data }: IProps) => {
+const TrendingOnnPinex = ({ data, refreshTrendingOnPinex }: IProps) => {
   const [dataPost, setdataPost] = useState(data);
-
+  React.useEffect(() => {
+    setdataPost(data);
+  }, [data]);
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${dataPost?.id}`);
@@ -35,6 +38,7 @@ const TrendingOnnPinex = ({ data }: IProps) => {
         totalComments={countComment}
         onRefreshPostDetail={onRefreshPostDetail}
         isExplore={true}
+        refreshTrendingOnPinex={refreshTrendingOnPinex}
       />
     </div>
   );

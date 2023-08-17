@@ -78,7 +78,7 @@ const Explore = () => {
   const { isLogin } = useAuth();
   const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
-  const { run, listNewFeed } = useGetListNewFeed();
+  const { run, listNewFeed, refresh: refreshTrendingOnPinex } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
   const { listMention } = useGetTopMentionStock();
@@ -433,7 +433,13 @@ const Explore = () => {
         <div className='absolute -top-[2px] left-0 h-[5px] w-full mobile:hidden tablet:block'></div>
         <div className='-mt-[4px]'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
-            return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
+            return (
+              <TrendingOnnPinex
+                key={`list-trending-${item.id}`}
+                data={item}
+                refreshTrendingOnPinex={refreshTrendingOnPinex}
+              />
+            );
           })}
         </div>
         {/* <div className='-mt-[4px] block mobile-max:hidden'>
