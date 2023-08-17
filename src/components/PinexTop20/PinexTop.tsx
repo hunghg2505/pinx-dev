@@ -21,11 +21,11 @@ const PinexTop = (props: Iprops) => {
           style={{ width: `${percent}%` }}
         ></div>
 
-        <div className='relative flex items-center justify-between px-[16px] py-[10px]'>
+        <div className='relative flex  items-center justify-between px-[16px] py-[10px]'>
           <div className='flex items-center'>
             <div
               className={classNames(
-                'mr-[16px] flex h-[24px] w-[24px] flex-row items-center justify-center rounded-full',
+                'mr-[16px] flex h-[24px] w-[24px] flex-row items-center justify-center rounded-full galaxy-max:mr-[4px]',
               )}
             >
               <Text type='body-14-medium' className={classNames('h-[15x] text-[#0D0D0D]')}>
@@ -39,11 +39,15 @@ const PinexTop = (props: Iprops) => {
             />
             <div>
               <div className='flex'>
-                <Text type='body-16-semibold' color='neutral-1' className='mr-[4px]'>
+                <Text
+                  type='body-16-semibold'
+                  color='neutral-1'
+                  className='mr-[4px] galaxy-max:text-[14px]'
+                >
                   {data?.stockCode}
                 </Text>
                 <div className='flex h-[20px] w-[57px] flex-row items-center justify-center rounded-[4px] border-[1px] border-solid border-[#E6E6E6] bg-[#FFF]'>
-                  <Text type='body-12-regular' color='neutral-4'>
+                  <Text type='body-12-regular' className='text-[12px]' color='neutral-4'>
                     {data?.stockExchange}
                   </Text>
                 </div>
@@ -51,14 +55,32 @@ const PinexTop = (props: Iprops) => {
               <Text
                 type='body-12-regular'
                 color='neutral-3'
-                className='line-clamp-2 mobile-max:max-w-[120px]'
+                className='mb-3 line-clamp-2 mobile-max:max-w-[120px]'
               >
                 {data?.name}
               </Text>
+              {changePrice ? (
+                <div className='hidden items-center galaxy-max:flex'>
+                  <Text type='body-16-regular' color='semantic-2-1'>
+                    {new Intl.NumberFormat().format(data?.percentChange)}%
+                  </Text>
+                  <img
+                    src='/static/icons/explore/iconChange.svg'
+                    alt=''
+                    className='ml-[4px] h-[16px] w-[16px]'
+                  />
+                </div>
+              ) : (
+                <Text type='body-16-regular' className='hidden galaxy-max:block' color='neutral-1'>
+                  {new Intl.NumberFormat().format(
+                    data?.profit || data?.revenue || data?.marketCapital || data?.price,
+                  )}
+                </Text>
+              )}
             </div>
           </div>
           {changePrice ? (
-            <div className='flex items-center'>
+            <div className='flex items-center galaxy-max:hidden'>
               <Text type='body-16-regular' color='semantic-2-1'>
                 {new Intl.NumberFormat().format(data?.percentChange)}%
               </Text>
@@ -69,7 +91,7 @@ const PinexTop = (props: Iprops) => {
               />
             </div>
           ) : (
-            <Text type='body-16-regular' color='neutral-1'>
+            <Text type='body-16-regular' className='galaxy-max:hidden' color='neutral-1'>
               {new Intl.NumberFormat().format(
                 data?.profit || data?.revenue || data?.marketCapital || data?.price,
               )}

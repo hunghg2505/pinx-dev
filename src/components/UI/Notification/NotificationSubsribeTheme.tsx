@@ -15,7 +15,7 @@ import Text from '../Text';
 interface IProps {
   theme: ITheme;
   isUnsubscribe?: boolean;
-  toastId?: string
+  toastId?: string;
 }
 
 const NotificationSubsribeTheme = (props: IProps) => {
@@ -34,20 +34,26 @@ const NotificationSubsribeTheme = (props: IProps) => {
   };
 
   return (
-    <div className='flex w-full max-w-sm items-center'>
+    <div className='flex w-full max-w-sm items-center galaxy-max:flex-col galaxy-max:gap-[12px]'>
       <img
         src='/static/icons/speaker.svg'
         alt='Icon speaker'
         className='h-[40px] w-[40px] object-contain'
       />
 
-      <Text type='body-14-regular' color='primary-5' className='ml-[12px]'>
-        {t('tell_people_the_reason_you')} {isUnsubscribe ? t('unsubscribe_lowercase') : t('subscribe_lowercase')}  {t('for')} {theme?.name}
+      <Text
+        type='body-14-regular'
+        color='primary-5'
+        className='ml-[12px] galaxy-max:ml-0 galaxy-max:text-[12px]'
+      >
+        {t('tell_people_the_reason_you')}{' '}
+        {isUnsubscribe ? t('unsubscribe_lowercase') : t('subscribe_lowercase')} {t('for')}{' '}
+        {theme?.name}
       </Text>
 
       <MainButton
         onClick={onShare}
-        className='px-[20px] ml-3 whitespace-nowrap'
+        className='ml-3 whitespace-nowrap px-[20px] galaxy-max:ml-0 galaxy-max:px-[16px] galaxy-max:py-[10px] galaxy-max:text-[12px]'
       >
         {t('share')}
       </MainButton>

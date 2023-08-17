@@ -110,10 +110,10 @@ const PeopleItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover'
+            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[40px] galaxy-max:w-[40px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[40px] galaxy-max:w-[40px]'>
             <AvatarDefault name={name} />
           </div>
         )}
@@ -146,7 +146,8 @@ const PeopleItem = (props: Iprops) => {
 
       <div
         className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
-          'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7]': isFollow,
+          'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]':
+            isFollow,
           'bg-[#D8EBFC]': !isFollow,
         })}
         onClick={() => onFollow(data.id)}

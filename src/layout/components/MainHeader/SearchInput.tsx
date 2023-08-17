@@ -16,7 +16,7 @@ const SearchInput = ({
     <>
       <button
         onClick={() => setIsOpenSearch(!isOpenSearch)}
-        className='mr-[0] flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block tablet:hidden desktop:mr-[12px]'
+        className='mr-[0] flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block  tablet:hidden desktop:mr-[12px]'
       >
         <img
           src='/static/icons/search-gray.svg'

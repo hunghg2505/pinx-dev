@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -169,7 +170,14 @@ const NewsFeed = (props: IProps) => {
 
   return (
     <>
-      <div className='box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]'>
+      <div
+        className={classNames(
+          'box-shadow mb-5 rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-white p-[12px] desktop:p-[16px]',
+          {
+            'galaxy-max:p-[10px]': isNewFeedExplore,
+          },
+        )}
+      >
         <NewFeedItem
           onNavigate={onNavigate}
           postDetail={postData}
@@ -181,7 +189,7 @@ const NewsFeed = (props: IProps) => {
         />
 
         {isLogin && !isNewFeedExplore && (
-          <div className='mt-4 tablet:block desktop:ml-[64px] '>
+          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
               refresh={refreshComment}
@@ -194,7 +202,7 @@ const NewsFeed = (props: IProps) => {
         {!!countComment && !isNewFeedExplore && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
-              <div className='mt-[22px]'>
+              <div className='mt-[22px] galaxy-max:mt-[18px]'>
                 <ItemComment
                   onNavigate={onNavigate}
                   data={postData?.children?.[0]}

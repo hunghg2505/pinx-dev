@@ -34,7 +34,7 @@ const Rating = ({ star = 0, disabled, onChange, className, wrapClassName }: IRat
   }, [className, disabled, onChange, star]);
 
   return (
-    <div className={classNames('flex items-center gap-x-[12px]', wrapClassName)}>
+    <div className={classNames('flex items-center gap-x-[12px] ', wrapClassName)}>
       {rating.map((item, index) => (
         <div key={index}>{item}</div>
       ))}

@@ -42,7 +42,11 @@ const GiftCash = () => {
             alt=''
             className=' h-[130px] w-[130px]'
           />
-          <Text type='body-22-bold' color='cbblack' className='text-center mobile-max:w-full'>
+          <Text
+            type='body-22-bold'
+            color='cbblack'
+            className='text-center galaxy-max:text-[20px] mobile-max:w-full'
+          >
             {t('giftcash.desc')}
           </Text>
           <div className='mt-[24px] flex w-full items-center justify-between mobile-max:flex-col'>

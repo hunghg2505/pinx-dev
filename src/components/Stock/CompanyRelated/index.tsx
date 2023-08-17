@@ -80,7 +80,7 @@ const CompanyRelated = () => {
         <title>{t('company_related_title')}</title>
       </Head>
 
-      <div className='p-[10px] desktop:p-0'>
+      <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
         <div className='box-shadow card-style'>
           <div className='relative mb-[12px] flex h-[44px] items-center justify-center tablet:mb-0 tablet:h-[48px]'>
             <div className='absolute left-0 top-1/2 flex -translate-y-1/2 items-center justify-between'>
@@ -139,12 +139,12 @@ const CompanyRelated = () => {
               </div>
             </div>
 
-            <div className='mb-[32px] mt-[52px] flex items-center justify-between border-b border-solid border-b-[#EBEBEB] pb-[16px]'>
-              <Text type='body-14-semibold' className='text-[#0D0D0D]'>
+            <div className='mb-[32px] mt-[52px] flex items-center justify-between border-b border-solid border-b-[#EBEBEB] pb-[16px] galaxy-max:mt-[36px] galaxy-max:items-baseline'>
+              <Text type='body-14-semibold' className='text-[#0D0D0D] galaxy-max:text-[12px]'>
                 {t('company_related_total')}: {companiesRelated?.data.totalElements}
               </Text>
 
-              <Text type='body-14-regular' color='primary-5'>
+              <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>
                 {t('company_related_by_market_cap')}
               </Text>
             </div>

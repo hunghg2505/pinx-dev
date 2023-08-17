@@ -41,7 +41,7 @@ const WatchingStock = (props: Iprops) => {
             />
             <div className='w-full'>
               <div className='flex items-center'>
-                <Text type='body-16-semibold' color='neutral-1'>
+                <Text type='body-16-semibold' className='galaxy-max:text-[14px]' color='neutral-1'>
                   {data?.stockCode}
                 </Text>
                 <Text
@@ -51,7 +51,11 @@ const WatchingStock = (props: Iprops) => {
                   {data?.stockExchange}
                 </Text>
               </div>
-              <Text type='body-12-regular' className='line-clamp-2 max-w-[90%]' color='neutral-3'>
+              <Text
+                type='body-12-regular'
+                className='line-clamp-2 max-w-[90%]  galaxy-max:text-[10px]'
+                color='neutral-3'
+              >
                 {data?.companyName || nameStock}
               </Text>
             </div>

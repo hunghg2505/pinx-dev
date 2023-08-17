@@ -32,7 +32,7 @@ const Themes = () => {
         </Text>
       </div>
 
-      <div className='grid grid-cols-2 gap-[16px] tablet:grid-cols-3 desktop:grid-cols-4'>
+      <div className='grid grid-cols-2 gap-[16px] galaxy-max:grid-cols-1 tablet:grid-cols-3 desktop:grid-cols-4'>
         {theme?.map((theme: ITheme, index: number) => {
           return (
             <div key={index}>

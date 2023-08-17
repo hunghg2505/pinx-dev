@@ -7,7 +7,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
 import { EditorContent, useEditor } from '@tiptap/react';
-import { useClickAway, useRequest } from 'ahooks';
+import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -46,6 +46,7 @@ interface IProps {
   setImageCommentMobile: (v: boolean) => void;
   width?: number;
   canExpand?: boolean;
+  isReply?: boolean;
 }
 
 const beforeUpload = (file: RcFile) => {
@@ -59,7 +60,7 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { id, refresh, refreshTotal, setImageCommentMobile, width, canExpand } = props;
+  const { id, refresh, refreshTotal, setImageCommentMobile, width, canExpand, isReply } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -326,6 +327,7 @@ const Editor = (props: IProps, ref?: any) => {
       }
     }
   }, [editor?.isFocused, isClickAway, useAddComment.loading]);
+  const size = useSize(editorRef);
 
   const onSend = async () => {
     const users: any = [];
@@ -434,10 +436,23 @@ const Editor = (props: IProps, ref?: any) => {
       setPopupStatus({ ...popupStatus, popupEkyc: true });
     }
   };
+  const elementRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+  useEffect(() => {
+    if (!elementRef?.current?.clientHeight) {
+      return;
+    }
+    if (elementRef.current?.clientHeight) {
+      setHeight(elementRef.current.clientHeight);
+    }
+  }, [elementRef?.current?.clientHeight]);
 
   return (
     <>
-      <div className='mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'>
+      <div
+        ref={elementRef}
+        className='relative mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'
+      >
         <img
           src={userLoginInfo?.avatar}
           alt=''
@@ -447,12 +462,26 @@ const Editor = (props: IProps, ref?: any) => {
           className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
           onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
         />
+        {isReply && (
+          <div>
+            <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
+            <div className='absolute -left-[26px] -top-[19.5px] z-30 h-[40px] w-[20px] rounded-bl-xl   bg-white'></div>
+            <div
+              style={{
+                height: `${height}px`,
+              }}
+              className='absolute -left-[28px] top-0 z-20 w-[2px] bg-white '
+            ></div>
+          </div>
+        )}
+
         <div
           className={classNames(
             'bottom-0 left-0 flex min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static  tablet:rounded-[12px]',
             {
               'tablet:rounded-full': !isFocus && canExpand,
               'tablet:rounded-[12px]': isFocus && canExpand,
+              'tablet-max:rounded-[12px]': isFocus && size?.height && size?.height > 40,
             },
           )}
           ref={messagesEndRef}
@@ -491,31 +520,36 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full items-center justify-between'
+              className='flex w-full cursor-text items-center justify-between py-2'
             >
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet:max-w-[500px]',
+                  ' max-h-[108px] w-full flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px]   galaxy-max:w-full tablet-max:max-h-[80px] tablet:max-w-[500px]',
                   {
                     'mt-[3px]': isFocus || !canExpand,
                   },
                 )}
               />
-
-              <img
-                src='/static/icons/iconCamera.svg'
-                alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
-                className={classNames(
-                  ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
-                  {
-                    hidden: isFocus || !canExpand,
-                  },
-                )}
-              />
+              <Upload
+                className={classNames({
+                  hidden: isFocus || !canExpand,
+                })}
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
+                <img
+                  src='/static/icons/iconCamera.svg'
+                  alt=''
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  className={classNames(
+                    ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
+                  )}
+                />
+              </Upload>
             </div>
 
             <div

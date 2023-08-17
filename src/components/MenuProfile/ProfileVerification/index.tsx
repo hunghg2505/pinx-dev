@@ -139,7 +139,7 @@ const ProfileVerification = () => {
       <div className='ml-[-24px] mt-[20px] w-[calc(100%+48px)] border-b-[1px] border-solid border-[#EEF5F9] laptop-max:hidden' />
 
       <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
-        <div className='relative mr-3'>
+        <div className='relative mr-3 flex-none'>
           <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
             <img
               src={userLoginInfo?.avatar}
@@ -147,7 +147,7 @@ const ProfileVerification = () => {
               width={0}
               height={0}
               sizes='100vw'
-              className='h-[52px] w-[52px] rounded-full mobile:block'
+              className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'
             />
             <img
               src='/static/icons/icon_plus.svg'
@@ -160,9 +160,11 @@ const ProfileVerification = () => {
           </Upload>
         </div>
 
-        <div className='flex flex-col'>
-          <div className='mb-[2px] flex items-center'>
-            <Text type='body-20-semibold'>{userLoginInfo?.displayName}</Text>
+        <div className=''>
+          <div className='mb-[2px] flex items-center galaxy-max:mb-2'>
+            <Text type='body-20-semibold' className='galaxy-max:text-[16px]'>
+              {userLoginInfo?.displayName}
+            </Text>
 
             {userLoginInfo?.isKol && (
               <img
@@ -186,18 +188,21 @@ const ProfileVerification = () => {
               />
             )}
           </div>
-          <div className='flex items-center text-[#999999]'>
-            <img
-              src='/static/icons/icon_phone.svg'
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='mr-[6px] h-[15px] w-[15px]'
-            />
-            {userLoginInfo.phone}
+          <div className='flex items-center text-[#999999] galaxy-max:flex-col galaxy-max:items-start galaxy-max:gap-[2px]'>
+            <div className='flex gap-1'>
+              <img
+                src='/static/icons/icon_phone.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='mr-[6px] h-[15px] w-[15px]'
+              />
+              <span>{userLoginInfo.phone}</span>
+            </div>
+
             <span
-              className={classNames('ml-2 text-[#EAA100]', {
+              className={classNames('ml-2 text-[#EAA100] galaxy-max:ml-0', {
                 '!text-[#128F63]':
                   calcUserStatusText(userLoginInfo.acntStat || '') === USER_STATUS_VERIFIED,
                 '!text-[#F1BA09]':

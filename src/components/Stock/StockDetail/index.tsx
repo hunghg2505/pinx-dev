@@ -439,7 +439,7 @@ const StockDetail = () => {
   };
 
   return (
-    <div className='p-[10px] desktop:p-0'>
+    <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {
@@ -580,7 +580,10 @@ const StockDetail = () => {
               })}
             >
               <div ref={introDescRef} className='leading-[inherit]'>
-                <Text type='body-14-regular' className='whitespace-pre-line !leading-[inherit]'>
+                <Text
+                  type='body-14-regular'
+                  className='whitespace-pre-line !leading-[inherit] galaxy-max:text-[12px]'
+                >
                   {stockDetail?.data?.introduction}
                 </Text>
               </div>
@@ -591,7 +594,7 @@ const StockDetail = () => {
                 onClick={() => setIsSeeMore((prev) => !prev)}
                 className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
               >
-                <Text type='body-12-semibold' color='primary-2'>
+                <Text type='body-12-semibold' className='galaxy-max:text-[10px]' color='primary-2'>
                   {isSeeMore ? t('less') : t('more') + '...'}
                 </Text>
               </button>
@@ -719,11 +722,15 @@ const StockDetail = () => {
 
           <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
             <div className='flex flex-col items-center'>
-              <PieChart
-                width={319}
-                height={296}
-                data={taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || []}
-              />
+              <div className='galaxy-max:scale-[0.7]'>
+                <PieChart
+                  width={319}
+                  height={296}
+                  data={
+                    taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || []
+                  }
+                />
+              </div>
 
               <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
                 {t('revenue_last_updated', {
@@ -824,7 +831,7 @@ const StockDetail = () => {
         <Text type='body-20-semibold' className='mb-[16px]'>
           {t('rating.title')}
         </Text>
-        <Text type='body-14-regular' className='mb-[12px]'>
+        <Text type='body-14-regular' className='mb-[12px] galaxy-max:text-[12px]'>
           {t('rating.description')}
         </Text>
 
@@ -834,7 +841,7 @@ const StockDetail = () => {
             onChange={(star) => checkUserTypeReview(() => handleRating(star))}
           />
 
-          <div className='flex gap-x-[52px]'>
+          <div className='flex gap-x-[52px] galaxy-max:gap-[32px]'>
             <div className='text-center'>
               <Text type='body-12-regular' className='mb-[4px] text-[#0D0D0D]'>
                 {t('rating.avg_score')}
@@ -909,14 +916,14 @@ const StockDetail = () => {
         stockDetails?.data.watchingInvestingList.length > 0 && (
           <div className='box-shadow card-style'>
             <Text type='body-20-semibold'>{t('community')}</Text>
-            <Text type='body-14-regular' className='mt-[16px]'>
+            <Text type='body-14-regular' className='mt-[16px] galaxy-max:text-[12px]'>
               {t('community_description')}
             </Text>
 
             <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
               <CustomLink
                 href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
-                className='flex gap-x-[10px]'
+                className='flex gap-x-[10px] galaxy-max:gap-[6px]'
               >
                 {stockDetails?.data.watchingInvestingList
                   .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
@@ -925,20 +932,20 @@ const StockDetail = () => {
                       <img
                         src={item.avatar}
                         alt='Avatar'
-                        className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover'
+                        className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
                       />
 
                       {item.isInvesting ? (
                         <img
                           src='/static/icons/iconTree.svg'
                           alt='Icon tree'
-                          className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+                          className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
                         />
                       ) : (
                         <img
                           src='/static/icons/iconHeartActive.svg'
                           alt='Icon tree'
-                          className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain'
+                          className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
                         />
                       )}
                     </div>
@@ -947,7 +954,7 @@ const StockDetail = () => {
 
               <div
                 onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
-                className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px]'
+                className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
               >
                 <Text type='body-14-regular' className='text-[#0D0D0D]'>
                   {stockDetails?.data.watchingInvestingNo}
@@ -1011,7 +1018,7 @@ const StockDetail = () => {
             {t('financial_calendar_title')}
           </Text>
 
-          <Text type='body-14-regular' className='mb-[12px]'>
+          <Text type='body-14-regular' className='mb-[12px] galaxy-max:text-[12px]'>
             {t('financial_calendar_desc')}
           </Text>
 

@@ -403,7 +403,7 @@ const NewFeedItem = (props: IProps) => {
                 ].includes(postDetail?.post?.postType),
               })}
             >
-              <Avatar postDetail={postDetail} />
+              <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
 
               <Fade
                 visible={
@@ -425,7 +425,11 @@ const NewFeedItem = (props: IProps) => {
                   <UserName postDetail={postDetail} />
                 </div>
               </div>
-              <Text type='body-12-regular' color='neutral-4' className='mt-[2px] font-[300]'>
+              <Text
+                type='body-12-regular'
+                color='neutral-4'
+                className='mt-[2px] font-[300] galaxy-max:text-[10px]'
+              >
                 {postDetail?.timeString &&
                   dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
                     .locale(i18n.language)

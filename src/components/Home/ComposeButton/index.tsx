@@ -32,12 +32,12 @@ const ComposeButton = () => {
 
   return (
     <div
-      className={classNames('fixed right-[10px] z-[100] h-[44px]', {
+      className={classNames('fixed right-[10px] z-[100] h-[44px] galaxy-max:h-[40px]', {
         'bottom-[10px]': isLogin,
         'bottom-[60px]': !isLogin,
       })}
     >
-      <button className='flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] tablet:hidden desktop:hidden'>
+      <button className='flex h-full min-w-[130px] items-center rounded-[23px] bg-[linear-gradient(247.96deg,#1D6CAB_14.41%,#589DC0_85.59%)] px-[16px] galaxy-max:min-w-[120px] galaxy-max:px-[14px]  tablet:hidden desktop:hidden'>
         <img
           src='/static/icons/iconPen.svg'
           alt='Icon pen'
