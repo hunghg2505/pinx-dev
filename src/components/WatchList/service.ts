@@ -9,7 +9,7 @@ interface IOptionsRequest {
 }
 
 export const useGetInterest = (option = {}) => {
-  const { data, refresh, run } = useRequest(
+  const { data, refresh, run, loading } = useRequest(
     () => {
       return privateRequest(requestPist.get, API_PATH.PRIVATE_SUGGESTED_STOCK);
     },
@@ -21,6 +21,7 @@ export const useGetInterest = (option = {}) => {
     interestStock: data?.data,
     refreshInterest: refresh,
     getInterest: run,
+    loading,
   };
 };
 
