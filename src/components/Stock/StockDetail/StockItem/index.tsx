@@ -59,7 +59,7 @@ const StockItem = ({ data }: IStockItemProps) => {
     return (
       unit +
       formatStringToNumber(changePrice, true, 2) +
-      '/' +
+      ' / ' +
       unit +
       formatStringToNumber(changePc, true, 2) +
       '%'
@@ -98,24 +98,28 @@ const StockItem = ({ data }: IStockItemProps) => {
         </div>
 
         <div className='ml-auto text-right' style={{ color: data.lastPrice ? color : '' }}>
-          <Text
-            className={classNames(
-              'p-[4px] galaxy-max:text-[14px]',
-              useToggleClassStock2(isChange, data.lastPrice, data.c, data.f, data.r),
-            )}
-            type='body-16-medium'
-          >
-            {data.lastPrice ? formatStringToNumber(data.lastPrice, true, 2) : '-'}
-          </Text>
-          <Text
-            type='body-12-regular'
-            className={classNames(
-              'mt-[2px] p-[4px] galaxy-max:mt-[4px] galaxy-max:text-[10px]',
-              useToggleClassStock2(isChange, data.lastPrice, data.c, data.f, data.r),
-            )}
-          >
-            {data.lastPrice ? renderPricePc() : '-/-%'}
-          </Text>
+          <div>
+            <Text
+              className={classNames(
+                'inline-block p-[4px] galaxy-max:text-[14px]',
+                useToggleClassStock2(isChange, data.lastPrice, data.c, data.f, data.r),
+              )}
+              type='body-16-medium'
+            >
+              {data.lastPrice ? formatStringToNumber(data.lastPrice, true, 2) : '-'}
+            </Text>
+          </div>
+          <div>
+            <Text
+              type='body-12-regular'
+              className={classNames(
+                'mt-[2px] inline-block p-[4px] galaxy-max:mt-[4px] galaxy-max:text-[10px]',
+                useToggleClassStock2(isChange, data.lastPrice, data.c, data.f, data.r),
+              )}
+            >
+              {data.lastPrice ? renderPricePc() : '- / -%'}
+            </Text>
+          </div>
         </div>
       </div>
     </CustomLink>

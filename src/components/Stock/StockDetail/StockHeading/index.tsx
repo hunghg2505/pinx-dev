@@ -130,49 +130,53 @@ const StockHeading = ({
                 : '',
           }}
         >
-          <Text
-            type='body-16-medium'
-            className={classNames(
-              'p-[4px]',
-              useToggleClassStock2(
-                !!isPriceChange,
-                dataStock?.lastPrice || 0,
-                dataStock?.c || 0,
-                dataStock?.f || 0,
-                dataStock?.r || 0,
-              ),
-            )}
-          >
-            {!dataStock?.lastPrice || dataStock.lastPrice === 0
-              ? '-'
-              : formatStringToNumber(dataStock?.lastPrice, true, 2)}
-          </Text>
-          <Text
-            type='body-12-regular'
-            className={classNames(
-              'p-[4px]',
-              useToggleClassStock2(
-                !!isPriceChange,
-                dataStock?.lastPrice || 0,
-                dataStock?.c || 0,
-                dataStock?.f || 0,
-                dataStock?.r || 0,
-              ),
-            )}
-          >
-            {!dataStock?.lastPrice || dataStock.lastPrice === 0
-              ? '-/-'
-              : `${unitOt}${formatStringToNumber(
-                  String(dataStock?.ot),
-                  true,
-                  dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
-                )}/${unitChangePc}${formatStringToNumber(
-                  String(dataStock?.changePc),
-                  true,
-                  dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
-                )}`}
-            %
-          </Text>
+          <div>
+            <Text
+              type='body-16-medium'
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock2(
+                  !!isPriceChange,
+                  dataStock?.lastPrice || 0,
+                  dataStock?.c || 0,
+                  dataStock?.f || 0,
+                  dataStock?.r || 0,
+                ),
+              )}
+            >
+              {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                ? '-'
+                : formatStringToNumber(dataStock?.lastPrice, true, 2)}
+            </Text>
+          </div>
+          <div>
+            <Text
+              type='body-12-regular'
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock2(
+                  !!isPriceChange,
+                  dataStock?.lastPrice || 0,
+                  dataStock?.c || 0,
+                  dataStock?.f || 0,
+                  dataStock?.r || 0,
+                ),
+              )}
+            >
+              {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                ? '- / -'
+                : `${unitOt}${formatStringToNumber(
+                    String(dataStock?.ot),
+                    true,
+                    dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
+                  )} / ${unitChangePc}${formatStringToNumber(
+                    String(dataStock?.changePc),
+                    true,
+                    dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
+                  )}`}
+              %
+            </Text>
+          </div>
         </div>
       </div>
     </div>

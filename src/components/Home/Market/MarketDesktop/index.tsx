@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
 import { formatStringToNumber } from '@utils/common';
@@ -38,12 +39,10 @@ const MarketDesktop = () => {
         <div className='mb-[25px]  min-h-[536px] w-full rounded-[8px] bg-[#fff]  px-[20px] py-[30px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
           <p className='body-16-bold cbblack mb-[25px]'>{t('market')}</p>
 
-          <img
-            loading='lazy'
-            src='/static/images/fake-stock.png'
-            className=' w-full object-contain'
-            alt=''
-          />
+          <Skeleton rows={3} wrapClassName='!flex-row gap-x-[12px] mb-[20px]' className='!w-full' />
+          <Skeleton rows={3} wrapClassName='!flex-row gap-x-[12px] mb-[40px]' className='!w-full' />
+
+          <Skeleton height={350} className='!w-full' />
         </div>
       </>
     );

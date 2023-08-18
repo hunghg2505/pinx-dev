@@ -17,7 +17,7 @@ const FakeStockHeading = () => {
             -
           </Text>
           <Text type='body-12-regular' className='p-[4px]'>
-            -/-%
+            - / -%
           </Text>
         </div>
       </div>
