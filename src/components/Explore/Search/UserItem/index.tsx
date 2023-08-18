@@ -117,12 +117,12 @@ const UserItem = (props: Iprops) => {
             className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px] min-w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}
 
-        <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px]'>
+        <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px] break-all'>
           {data?.displayName}
         </Text>
 
