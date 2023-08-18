@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import { IWatchListItem, socket } from '@components/Home/service';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 
@@ -17,6 +18,7 @@ interface IProps {
   interestStock?: any;
   refreshInterest?: () => void;
   refreshYourWatchList?: () => void;
+  loading?: boolean;
 }
 const settings = {
   dots: false,
@@ -32,7 +34,7 @@ const Empty = dynamic(() => import('@components/UI/Empty'), {
 
 const Interest = (props: IProps) => {
   const [dataSocket, setDataSocket] = React.useState<any>({});
-  const { isEdit = false, interestStock, refreshInterest, refreshYourWatchList } = props;
+  const { isEdit = false, interestStock, refreshInterest, refreshYourWatchList, loading } = props;
   const { t } = useTranslation('watchlist');
   const { isDesktop, isMobile } = useResponsive();
 
@@ -62,6 +64,27 @@ const Interest = (props: IProps) => {
 
     return { dataFormat: interestStock, isChangeStockPrice, findIndex };
   }, [interestStock, dataSocket]);
+
+  if (!isEdit && loading) {
+    return (
+      <div>
+        <Text type='body-20-bold' className='text-[#0D0D0D]'>
+          {t('titleInterest')}
+        </Text>
+
+        <div className='mt-[16px] flex overflow-x-hidden'>
+          <Skeleton
+            width={112}
+            height={172}
+            rows={10}
+            wrapClassName='!flex-row gap-x-[16px]'
+            className='!rounded-[12px]'
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {!isEdit && (
