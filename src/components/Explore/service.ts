@@ -28,7 +28,7 @@ interface IOptions {
 }
 
 export const useGetKeyWordsTop = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     const params = {
       limit: 20,
       days: 7,
@@ -40,6 +40,7 @@ export const useGetKeyWordsTop = () => {
   });
   return {
     keyWords: data?.data,
+    loading,
   };
 };
 export const useGetTopWatchingStock = () => {

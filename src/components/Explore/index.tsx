@@ -12,6 +12,7 @@ import { optionTab } from '@components/PinexTop20';
 import { IPost } from '@components/Post/service';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -77,7 +78,7 @@ const Explore = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { isLogin } = useAuth();
   const { theme, refresh: refreshTheme } = useGetTheme();
-  const { keyWords } = useGetKeyWordsTop();
+  const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
   const { run, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
@@ -133,46 +134,56 @@ const Explore = () => {
         </Text>
 
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {listKeyWords?.map((item: any, index: number) => {
-            return (
-              <div
-                onClick={() => onClickKeyword(item.keyword)}
-                key={index}
-                className='cursor-pointer'
-              >
-                <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} data={item} />
-              </div>
-            );
-          })}
+          {loadingKeywords ? (
+            <Skeleton
+              className='!h-[51px] !w-full !rounded-[15px]'
+              rows={5}
+              wrapClassName='!gap-y-[16px]'
+            />
+          ) : (
+            listKeyWords?.map((item: any, index: number) => {
+              return (
+                <div
+                  onClick={() => onClickKeyword(item.keyword)}
+                  key={index}
+                  className='cursor-pointer'
+                >
+                  <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} data={item} />
+                </div>
+              );
+            })
+          )}
         </div>
 
-        <ExploreButton onClick={onShowMoreKeyWords}>
-          {isShowMoreKeyword ? (
-            <div className='flex items-center justify-center'>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('hide')}
-              </Text>
-              <img
-                loading='lazy'
-                src='/static/icons/explore/iconUp.svg'
-                className='h-[24px] w-[24px]'
-                alt=''
-              />
-            </div>
-          ) : (
-            <div className='flex items-center justify-center'>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('explore_top_search')}
-              </Text>
-              <img
-                loading='lazy'
-                src='/static/icons/explore/iconDown.svg'
-                className='h-[24px] w-[24px]'
-                alt=''
-              />
-            </div>
-          )}
-        </ExploreButton>
+        {!loadingKeywords && (
+          <ExploreButton onClick={onShowMoreKeyWords}>
+            {isShowMoreKeyword ? (
+              <div className='flex items-center justify-center'>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('hide')}
+                </Text>
+                <img
+                  loading='lazy'
+                  src='/static/icons/explore/iconUp.svg'
+                  className='h-[24px] w-[24px]'
+                  alt=''
+                />
+              </div>
+            ) : (
+              <div className='flex items-center justify-center'>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('explore_top_search')}
+                </Text>
+                <img
+                  loading='lazy'
+                  src='/static/icons/explore/iconDown.svg'
+                  className='h-[24px] w-[24px]'
+                  alt=''
+                />
+              </div>
+            )}
+          </ExploreButton>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
