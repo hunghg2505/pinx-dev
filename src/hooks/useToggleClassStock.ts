@@ -48,7 +48,7 @@ export const useToggleClassStock2 = (
 
   useEffect(() => {
     let cln = '';
-    if (lastPrice !== 0) {
+    if (lastPrice !== 0 && isChange) {
       switch (lastPrice) {
         case ceilPrice: {
           cln = 'purpleColor';
