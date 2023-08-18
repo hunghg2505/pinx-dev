@@ -29,6 +29,8 @@ const ContentRightFake = () => {
 
       <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px] '>
         <div className='mx-[20px]'>
+          <Skeleton className='mb-[25px]' round />
+
           <StockLoading />
           <StockLoading />
           <StockLoading />
@@ -39,6 +41,8 @@ const ContentRightFake = () => {
       </div>
       <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px]'>
         <div className='mx-[20px]'>
+          <Skeleton className='mb-[25px]' round />
+
           <TrendingDesktopLoading />
           <TrendingDesktopLoading />
           <TrendingDesktopLoading />

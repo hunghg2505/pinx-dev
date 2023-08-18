@@ -11,6 +11,7 @@ import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import { Button } from '@components/UI/Button';
 // @ts-ignore
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import ModalAddStock from '@components/WatchList/ModalAddStock';
 import ItemWatchList from '@components/WatchList/YourWatchList/ItemWatchList';
@@ -45,10 +46,10 @@ const YourWatchList = (props: IProps) => {
     setDataStock,
     findIndex,
     isChangeStockPrice,
+    loadingYourWatchList,
   } = props;
   const { t } = useTranslation('watchlist');
   const [isAz, setIsAz] = React.useState<boolean>(true);
-
 
   React.useEffect(() => {
     setDataStock(yourWatchListStock);
@@ -249,43 +250,210 @@ const YourWatchList = (props: IProps) => {
           </>
         ) : (
           <>
-            <ModalAddStock
-              refreshYourWatchList={refreshYourWatchList}
-              dataStock={dataStock}
-              yourWatchListStock={yourWatchListStock}
-              isEdit={isEdit}
-            >
-              <img
-                loading='lazy'
-                src='/static/icons/iconAddPlus.svg'
-                alt=''
-                className='h-[28px] w-[29px]'
-              />
-              <Text type='body-14-semibold' className='text-[#1F6EAC]'>
-                {t('addTxt')}
-              </Text>
-            </ModalAddStock>
-            {dataStock?.map((item: IWatchListItem, index: number) => {
-              const isChangeColor = isChangeStockPrice && findIndex === index;
-              return (
-                <div
-                  key={index}
-                  className={classNames({
-                    'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
-                      isEdit,
-                    'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 galaxy-max:gap-[8px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
-                      !isEdit,
-                  })}
-                >
-                  <ItemWatchList
-                    data={item}
-                    isEdit={isEdit}
-                    refreshYourWatchList={refreshYourWatchList}
-                    isChangeColor={isChangeColor}
-                  />
+            {!loadingYourWatchList && (
+              <ModalAddStock
+                refreshYourWatchList={refreshYourWatchList}
+                dataStock={dataStock}
+                yourWatchListStock={yourWatchListStock}
+                isEdit={isEdit}
+              >
+                <img
+                  loading='lazy'
+                  src='/static/icons/iconAddPlus.svg'
+                  alt=''
+                  className='h-[28px] w-[29px]'
+                />
+                <Text type='body-14-semibold' className='text-[#1F6EAC]'>
+                  {t('addTxt')}
+                </Text>
+              </ModalAddStock>
+            )}
+
+            {loadingYourWatchList ? (
+              <div>
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
                 </div>
-              );
-            })}
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-between border-b border-solid border-[#EBEBEB] py-[10px]'>
+                  <div className='flex items-center'>
+                    <Skeleton avatar width={48} height={48} />
+
+                    <div className='ml-[10px] flex flex-col gap-y-[8px]'>
+                      <Skeleton height={15} round width={100} />
+                      <Skeleton height={15} round width={115} />
+                    </div>
+                  </div>
+
+                  <div className='flex flex-col gap-y-[8px]'>
+                    <Skeleton height={15} round width={100} wrapClassName='items-end' />
+                    <Skeleton height={15} round width={115} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              dataStock?.map((item: IWatchListItem, index: number) => {
+                const isChangeColor = isChangeStockPrice && findIndex === index;
+                return (
+                  <div
+                    key={index}
+                    className={classNames({
+                      'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
+                        isEdit,
+                      'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 galaxy-max:gap-[8px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
+                        !isEdit,
+                    })}
+                  >
+                    <ItemWatchList
+                      data={item}
+                      isEdit={isEdit}
+                      refreshYourWatchList={refreshYourWatchList}
+                      isChangeColor={isChangeColor}
+                    />
+                  </div>
+                );
+              })
+            )}
           </>
         )}
       </div>
