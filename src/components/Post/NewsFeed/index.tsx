@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
-import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -18,6 +17,7 @@ import { ClickaPost } from '@utils/dataLayer';
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
+import NewsFeedSkeleton from './NewsFeedSkeleton';
 import { IPost, usePostDetail } from '../service';
 
 interface IProps {
@@ -174,9 +174,9 @@ const NewsFeed = (props: IProps) => {
   if (loading) {
     return (
       <>
-        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
-        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
-        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+        <NewsFeedSkeleton />
+        <NewsFeedSkeleton />
+        <NewsFeedSkeleton />
       </>
     );
   }

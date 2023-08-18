@@ -11,9 +11,9 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import UserPosting from '@components/Home/UserPosting/UserPosting';
+import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
-import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -25,7 +25,13 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import { FILTER_TYPE } from '../ModalFilter';
-import { requestJoinIndex, requestLeaveIndex, socket, useSuggestPeople, useGetWatchList } from '../service';
+import {
+  requestJoinIndex,
+  requestLeaveIndex,
+  socket,
+  useSuggestPeople,
+  useGetWatchList,
+} from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -292,9 +298,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       {loadingPosts && (
         <div className='mt-[10px]'>
-          <SkeletonLoading />
-          <SkeletonLoading />
-          <SkeletonLoading />
+          <NewsFeedSkeleton />
+          <NewsFeedSkeleton />
+          <NewsFeedSkeleton />
         </div>
       )}
     </div>
