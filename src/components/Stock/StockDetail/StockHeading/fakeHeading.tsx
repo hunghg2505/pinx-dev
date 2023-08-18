@@ -12,9 +12,13 @@ const FakeStockHeading = () => {
       </div>
 
       <div className='flex flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[24px]'>
-        <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
-          <Text type='body-16-medium'>-</Text>
-          <Text type='body-12-regular'>-/-%</Text>
+        <div className='rounded-[4px] py-[6px] text-right'>
+          <Text type='body-16-medium' className='p-[4px]'>
+            -
+          </Text>
+          <Text type='body-12-regular' className='p-[4px]'>
+            -/-%
+          </Text>
         </div>
       </div>
     </div>

@@ -49,7 +49,11 @@ const MainHeaderFake = () => {
 
       <div className='flex h-[56px] items-center border-b-[1px] border-solid border-[#EBEBEB] bg-white px-[10px] desktop:h-[84px] desktop:px-0'>
         <div className='mx-auto flex w-[100%]  max-w-[1355px] items-center justify-between gap-[32px]'>
-          <div className='h-[40px] w-[40px] rounded-[12px] bg-[#2b77b0] desktop:h-[52px] desktop:w-[52px]'></div>
+          <img
+            src='/static/icons/logo.svg'
+            alt=''
+            className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
+          />
 
           <div className='flex items-center gap-[12px]'>
             <div className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'></div>
