@@ -75,7 +75,13 @@ const Explore = () => {
   const refClick: any = React.useRef(null);
   const refSlideTheme: any = React.useRef();
   const refSlidePinex: any = React.useRef();
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  const {
+    suggestionPeople,
+    getSuggestFriend,
+    refreshList,
+    loading: loadingSuggestionPeople,
+  } = useSuggestPeople();
+
   const { isLogin } = useAuth();
   const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
@@ -92,10 +98,13 @@ const Explore = () => {
 
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
+  }, []);
+
+  React.useEffect(() => {
     if (isLogin) {
       getSuggestFriend();
     }
-  }, []);
+  }, [isLogin]);
 
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
@@ -208,38 +217,50 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      {suggestionPeople && (
-        <div className='box-shadow card-style tablet:hidden'>
-          <>
-            <div className='mr-[16px] flex flex-row items-center'>
-              <img
-                src='/static/icons/iconPeople.svg'
-                alt=''
-                width={20}
-                height={20}
-                className='mr-[8px] h-[20px] w-[20px] object-contain'
-              />
-              <Text type='body-16-bold' color='neutral-2'>
-                {t('people_you_may_know')}
-              </Text>
-            </div>
+      <div className='box-shadow card-style tablet:hidden'>
+        <>
+          <div className='mr-[16px] flex flex-row items-center'>
+            <img
+              src='/static/icons/iconPeople.svg'
+              alt=''
+              width={20}
+              height={20}
+              className='mr-[8px] h-[20px] w-[20px] object-contain'
+            />
+            <Text type='body-16-bold' color='neutral-2'>
+              {t('people_you_may_know')}
+            </Text>
+          </div>
 
-            <div className='block'>
-              <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-                <PeopleList data={suggestionPeople} refresh={refreshList} />
-              </div>
-              <ModalPeopleYouKnow refreshList={refreshList}>
-                <ExploreButton>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('explore_people')}
-                  </Text>
-                </ExploreButton>
-              </ModalPeopleYouKnow>
-              <div className='mb-[18px] block w-full'></div>
+          {loadingSuggestionPeople ? (
+            <div className='mt-[15px] flex overflow-x-hidden'>
+              <Skeleton
+                width={94}
+                height={156}
+                className='mr-[16px] !rounded-[15px]'
+                rows={4}
+                wrapClassName='!flex-row'
+              />
             </div>
-          </>
-        </div>
-      )}
+          ) : (
+            suggestionPeople && (
+              <div className='block'>
+                <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
+                  <PeopleList data={suggestionPeople} refresh={refreshList} />
+                </div>
+                <ModalPeopleYouKnow refreshList={refreshList}>
+                  <ExploreButton>
+                    <Text type='body-14-bold' color='primary-2'>
+                      {t('explore_people')}
+                    </Text>
+                  </ExploreButton>
+                </ModalPeopleYouKnow>
+                <div className='mb-[18px] block w-full'></div>
+              </div>
+            )
+          )}
+        </>
+      </div>
 
       <div className='box-shadow card-style'>
         <Text
@@ -251,7 +272,7 @@ const Explore = () => {
         </Text>
 
         {loadingThemes ? (
-          <div className='flex'>
+          <div className='flex overflow-x-hidden'>
             <Skeleton
               rows={4}
               active={false}
