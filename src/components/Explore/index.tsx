@@ -147,7 +147,7 @@ const Explore = () => {
             <Skeleton
               className='!h-[51px] !w-full !rounded-[15px]'
               rows={5}
-              wrapClassName='!gap-y-[16px]'
+              wrapClassName='!gap-y-[12px]'
             />
           ) : (
             listKeyWords?.map((item: any, index: number) => {
@@ -344,7 +344,7 @@ const Explore = () => {
             <Skeleton
               className='!h-[51px] !w-full !rounded-[15px]'
               rows={5}
-              wrapClassName='!gap-y-[16px]'
+              wrapClassName='!gap-y-[12px]'
             />
           ) : (
             listStock &&
@@ -385,7 +385,7 @@ const Explore = () => {
             <Skeleton
               className='!h-[51px] !w-full !rounded-[15px]'
               rows={5}
-              wrapClassName='!gap-y-[16px]'
+              wrapClassName='!gap-y-[12px]'
             />
           ) : (
             listMention &&
