@@ -125,20 +125,20 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
             'h-[84px] overflow-hidden mobile-max:h-[81px] desktop:h-[84px]': showReadMore,
             '!line-clamp-none !h-auto': readMore || isPostDetailPath,
           })}
-          onClick={(event) => onHandleClick(event)}
         >
-          <Text
-            type='body-14-regular'
-            color='neutral-1'
-            className=' tablet:!text-[16px]'
-            // onClick={onComment}
-          >
-            <div
-              className='desc messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-            ></div>
-          </Text>
-
+          <div onClick={(event) => onHandleClick(event)}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className=' tablet:!text-[16px]'
+              // onClick={onComment}
+            >
+              <div
+                className='desc messageFormat messageBody'
+                dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+              ></div>
+            </Text>
+          </div>
           {!message?.includes(urlLink) && urlLink !== '' && (
             <CustomLink href={`/redirecting?url=${urlLink}`}>
               <div className='messageFormat messageBody'>

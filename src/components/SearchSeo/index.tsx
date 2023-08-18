@@ -122,7 +122,7 @@ const SearchSeo = () => {
             {newsL ? (
               <div className='my-[16px] flex flex-col gap-y-[12px]'>
                 {news?.map((item: any) => {
-                  return <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} />;
+                  return <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} showComment />;
                 })}
               </div>
             ) : (

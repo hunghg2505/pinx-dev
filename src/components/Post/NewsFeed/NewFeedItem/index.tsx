@@ -67,7 +67,6 @@ const NewFeedItem = (props: IProps) => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
-
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
@@ -465,7 +464,7 @@ const NewFeedItem = (props: IProps) => {
 
       <div
         onClick={() => {
-          setShowPopup && setShowPopup(false);
+          setShowPopup && setShowPopup();
         }}
         className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
       >

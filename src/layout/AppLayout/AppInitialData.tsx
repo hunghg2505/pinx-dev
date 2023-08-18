@@ -34,7 +34,7 @@ const AppInitialData = () => {
     initialHomePostData();
     handleRemoveActionPost();
     getInitDataStockMarketHome();
-    getInitDataStockWatchlistHome();
+    // getInitDataStockWatchlistHome();
     run();
   });
 

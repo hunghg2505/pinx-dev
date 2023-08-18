@@ -3,16 +3,31 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'));
 
-const PostDetailPage = () => {
+const PostDetailPage = ({ postDetail }: any) => {
+  const seoMetadata = postDetail?.post?.seoMetadata;
   return (
     <>
-      <SEO title={'Pinex Detail'} />
+      <SEO
+        title={seoMetadata?.title}
+        description={seoMetadata?.metaDescription}
+        openGraph={{
+          images: {
+            url: seoMetadata?.imageSeo?.urlImage || '/static/logo/logoSeo.png',
+          },
+        }}
+        twitterGraph={{
+          images: {
+            url: seoMetadata?.imageSeo?.urlImage || '/static/logo/logoSeo.png',
+          },
+        }}
+      />
       <PostDetail />
     </>
   );
@@ -25,10 +40,14 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getServerSideProps({ locale }: any) {
+export async function getServerSideProps({ locale, params }: any) {
+  const id = params?.id;
+  // const cookies = getCookie('accessToken', { req, res });
+  const postDetail = await fetchPostDetailFromServer(id);
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
+      postDetail,
       // Will be passed to the page component as props
     },
   };
