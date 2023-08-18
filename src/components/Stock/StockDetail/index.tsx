@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -288,9 +288,9 @@ const StockDetail = () => {
     },
   });
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     router.back();
-  };
+  }, [router]);
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
     router.push({
