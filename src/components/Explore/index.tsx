@@ -12,6 +12,7 @@ import { optionTab } from '@components/PinexTop20';
 import { IPost } from '@components/Post/service';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -74,14 +75,25 @@ const Explore = () => {
   const refClick: any = React.useRef(null);
   const refSlideTheme: any = React.useRef();
   const refSlidePinex: any = React.useRef();
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  const {
+    suggestionPeople,
+    getSuggestFriend,
+    refreshList,
+    loading: loadingSuggestionPeople,
+  } = useSuggestPeople();
+
   const { isLogin } = useAuth();
-  const { theme, refresh: refreshTheme } = useGetTheme();
-  const { keyWords } = useGetKeyWordsTop();
-  const { run, listNewFeed, refresh: refreshTrendingOnPinex } = useGetListNewFeed();
-  const { listStock } = useGetTopWatchingStock();
-  const { stockIPO } = useGetAllIPO();
-  const { listMention } = useGetTopMentionStock();
+  const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
+  const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
+  const {
+    run,
+    listNewFeed,
+    loading: loadingTrendingOnPinex,
+    refresh: refreshTrendingOnPinex,
+  } = useGetListNewFeed();
+  const { listStock, loading: loadingTopWatchingStock } = useGetTopWatchingStock();
+  const { stockIPO, loading: loadingIPO } = useGetAllIPO();
+  const { listMention, loading: loadingTopMentionStock } = useGetTopMentionStock();
 
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
@@ -91,10 +103,13 @@ const Explore = () => {
 
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
+  }, []);
+
+  React.useEffect(() => {
     if (isLogin) {
       getSuggestFriend();
     }
-  }, []);
+  }, [isLogin]);
 
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
@@ -133,46 +148,56 @@ const Explore = () => {
         </Text>
 
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {listKeyWords?.map((item: any, index: number) => {
-            return (
-              <div
-                onClick={() => onClickKeyword(item.keyword)}
-                key={index}
-                className='cursor-pointer'
-              >
-                <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} data={item} />
-              </div>
-            );
-          })}
+          {loadingKeywords ? (
+            <Skeleton
+              className='!h-[51px] !w-full !rounded-[15px]'
+              rows={5}
+              wrapClassName='!gap-y-[12px]'
+            />
+          ) : (
+            listKeyWords?.map((item: any, index: number) => {
+              return (
+                <div
+                  onClick={() => onClickKeyword(item.keyword)}
+                  key={index}
+                  className='cursor-pointer'
+                >
+                  <KeywordSearch percen={(item?.numberHit / maxKeyWords) * 100} data={item} />
+                </div>
+              );
+            })
+          )}
         </div>
 
-        <ExploreButton onClick={onShowMoreKeyWords}>
-          {isShowMoreKeyword ? (
-            <div className='flex items-center justify-center'>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('hide')}
-              </Text>
-              <img
-                loading='lazy'
-                src='/static/icons/explore/iconUp.svg'
-                className='h-[24px] w-[24px]'
-                alt=''
-              />
-            </div>
-          ) : (
-            <div className='flex items-center justify-center'>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('explore_top_search')}
-              </Text>
-              <img
-                loading='lazy'
-                src='/static/icons/explore/iconDown.svg'
-                className='h-[24px] w-[24px]'
-                alt=''
-              />
-            </div>
-          )}
-        </ExploreButton>
+        {!loadingKeywords && (
+          <ExploreButton onClick={onShowMoreKeyWords}>
+            {isShowMoreKeyword ? (
+              <div className='flex items-center justify-center'>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('hide')}
+                </Text>
+                <img
+                  loading='lazy'
+                  src='/static/icons/explore/iconUp.svg'
+                  className='h-[24px] w-[24px]'
+                  alt=''
+                />
+              </div>
+            ) : (
+              <div className='flex items-center justify-center'>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('explore_top_search')}
+                </Text>
+                <img
+                  loading='lazy'
+                  src='/static/icons/explore/iconDown.svg'
+                  className='h-[24px] w-[24px]'
+                  alt=''
+                />
+              </div>
+            )}
+          </ExploreButton>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
@@ -197,38 +222,50 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      {suggestionPeople && (
-        <div className='box-shadow card-style tablet:hidden'>
-          <>
-            <div className='mr-[16px] flex flex-row items-center'>
-              <img
-                src='/static/icons/iconPeople.svg'
-                alt=''
-                width={20}
-                height={20}
-                className='mr-[8px] h-[20px] w-[20px] object-contain'
-              />
-              <Text type='body-16-bold' color='neutral-2'>
-                {t('people_you_may_know')}
-              </Text>
-            </div>
+      <div className='box-shadow card-style tablet:hidden'>
+        <>
+          <div className='mr-[16px] flex flex-row items-center'>
+            <img
+              src='/static/icons/iconPeople.svg'
+              alt=''
+              width={20}
+              height={20}
+              className='mr-[8px] h-[20px] w-[20px] object-contain'
+            />
+            <Text type='body-16-bold' color='neutral-2'>
+              {t('people_you_may_know')}
+            </Text>
+          </div>
 
-            <div className='block'>
-              <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-                <PeopleList data={suggestionPeople} refresh={refreshList} />
-              </div>
-              <ModalPeopleYouKnow refreshList={refreshList}>
-                <ExploreButton>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('explore_people')}
-                  </Text>
-                </ExploreButton>
-              </ModalPeopleYouKnow>
-              <div className='mb-[18px] block w-full'></div>
+          {loadingSuggestionPeople ? (
+            <div className='mt-[15px] flex overflow-x-hidden'>
+              <Skeleton
+                width={94}
+                height={156}
+                className='mr-[16px] !rounded-[15px]'
+                rows={4}
+                wrapClassName='!flex-row'
+              />
             </div>
-          </>
-        </div>
-      )}
+          ) : (
+            suggestionPeople && (
+              <div className='block'>
+                <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
+                  <PeopleList data={suggestionPeople} refresh={refreshList} />
+                </div>
+                <ModalPeopleYouKnow refreshList={refreshList}>
+                  <ExploreButton>
+                    <Text type='body-14-bold' color='primary-2'>
+                      {t('explore_people')}
+                    </Text>
+                  </ExploreButton>
+                </ModalPeopleYouKnow>
+                <div className='mb-[18px] block w-full'></div>
+              </div>
+            )
+          )}
+        </>
+      </div>
 
       <div className='box-shadow card-style'>
         <Text
@@ -239,51 +276,65 @@ const Explore = () => {
           {t('themes')}
         </Text>
 
-        <div className='relative mb-[16px]'>
-          <div
-            onClick={refSlideTheme?.current?.slickPrev}
-            className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayPrev.svg'
-              alt='Icon prev'
-              className='h-[16px] w-[7px] object-contain'
+        {loadingThemes ? (
+          <div className='flex overflow-x-hidden'>
+            <Skeleton
+              rows={4}
+              active={false}
+              wrapClassName='!flex-row gap-x-[16px]'
+              width={161}
+              height={252}
+              className='!rounded-[10px]'
             />
           </div>
+        ) : (
+          <>
+            <div className='relative mb-[16px]'>
+              <div
+                onClick={refSlideTheme?.current?.slickPrev}
+                className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+              >
+                <img
+                  src='/static/icons/iconGrayPrev.svg'
+                  alt='Icon prev'
+                  className='h-[16px] w-[7px] object-contain'
+                />
+              </div>
 
-          <div className='slideTheme max-w-[700px] overflow-hidden'>
-            <Slider {...settings} variableWidth ref={refSlideTheme}>
-              {theme?.map((theme: ITheme, index: number) => {
-                return (
-                  <div key={index}>
-                    <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
-                      <ThemesItem refresh={refreshTheme} theme={theme} />
-                    </div>
-                  </div>
-                );
-              })}
-            </Slider>
-          </div>
+              <div className='slideTheme max-w-[700px] overflow-hidden'>
+                <Slider {...settings} variableWidth ref={refSlideTheme}>
+                  {theme?.map((theme: ITheme, index: number) => {
+                    return (
+                      <div key={index}>
+                        <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
+                          <ThemesItem refresh={refreshTheme} theme={theme} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Slider>
+              </div>
 
-          <div
-            onClick={refSlideTheme?.current?.slickNext}
-            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayNext.svg'
-              alt='Icon next'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
-        </div>
-
-        <CustomLink href={ROUTE_PATH.THEME}>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_themes')}
-            </Text>
-          </ExploreButton>
-        </CustomLink>
+              <div
+                onClick={refSlideTheme?.current?.slickNext}
+                className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+              >
+                <img
+                  src='/static/icons/iconGrayNext.svg'
+                  alt='Icon next'
+                  className='h-[16px] w-[7px] object-contain'
+                />
+              </div>
+            </div>
+            <CustomLink href={ROUTE_PATH.THEME}>
+              <ExploreButton>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('explore_themes')}
+                </Text>
+              </ExploreButton>
+            </CustomLink>
+          </>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
@@ -294,7 +345,14 @@ const Explore = () => {
           {t('top_watching_stock_pinex')}
         </Text>
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {listStock &&
+          {loadingTopWatchingStock ? (
+            <Skeleton
+              className='!h-[51px] !w-full !rounded-[15px]'
+              rows={5}
+              wrapClassName='!gap-y-[12px]'
+            />
+          ) : (
+            listStock &&
             [...listStock]?.slice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
               return (
                 <WatchingStock
@@ -303,16 +361,19 @@ const Explore = () => {
                   data={item}
                 />
               );
-            })}
+            })
+          )}
         </div>
 
-        <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_top_watching_stock')}
-            </Text>
-          </ExploreButton>
-        </CustomLink>
+        {!loadingTopWatchingStock && (
+          <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
+            <ExploreButton>
+              <Text type='body-14-bold' color='primary-2'>
+                {t('explore_top_watching_stock')}
+              </Text>
+            </ExploreButton>
+          </CustomLink>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
@@ -325,7 +386,14 @@ const Explore = () => {
         </Text>
 
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {listMention &&
+          {loadingTopMentionStock ? (
+            <Skeleton
+              className='!h-[51px] !w-full !rounded-[15px]'
+              rows={5}
+              wrapClassName='!gap-y-[12px]'
+            />
+          ) : (
+            listMention &&
             [...listMention]?.splice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
               return (
                 <WatchingStock
@@ -335,16 +403,19 @@ const Explore = () => {
                   mention
                 />
               );
-            })}
+            })
+          )}
         </div>
 
-        <CustomLink href={ROUTE_PATH.TOPMENTION}>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_top_mention_stock')}
-            </Text>
-          </ExploreButton>
-        </CustomLink>
+        {!loadingTopMentionStock && (
+          <CustomLink href={ROUTE_PATH.TOPMENTION}>
+            <ExploreButton>
+              <Text type='body-14-bold' color='primary-2'>
+                {t('explore_top_mention_stock')}
+              </Text>
+            </ExploreButton>
+          </CustomLink>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
@@ -405,14 +476,18 @@ const Explore = () => {
           {t('new_ipo')}
         </Text>
 
-        {stockIPO?.length > 0 ? (
-          <>
-            <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-              {stockIPO?.map((ipo: IStockIPO, index: number) => {
-                return <IPO data={ipo} key={index} />;
-              })}
-            </div>
-          </>
+        {loadingIPO && (
+          <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+            <Skeleton className='!h-[51px] !w-full !rounded-[15px]' rows={5} />
+          </div>
+        )}
+
+        {!loadingIPO && stockIPO && stockIPO?.length > 0 ? (
+          <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+            {stockIPO?.map((ipo: IStockIPO, index: number) => {
+              return <IPO data={ipo} key={index} />;
+            })}
+          </div>
         ) : (
           <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
             <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
@@ -432,15 +507,70 @@ const Explore = () => {
       <div className='relative flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full mobile:hidden tablet:block'></div>
         <div className='-mt-[4px]'>
-          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
-            return (
-              <TrendingOnnPinex
-                key={`list-trending-${item.id}`}
-                data={item}
-                refreshTrendingOnPinex={refreshTrendingOnPinex}
-              />
-            );
-          })}
+          {loadingTrendingOnPinex ? (
+            <>
+              <div className='card-style box-shadow'>
+                <div className='flex items-center'>
+                  <Skeleton
+                    avatar
+                    className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]'
+                  />
+
+                  <Skeleton height={10} rows={2} wrapClassName='ml-[4px]' />
+                </div>
+
+                <div className='mt-[14px] desktop:ml-[60px] desktop:mt-0'>
+                  <Skeleton rows={4} className='!w-full' height={15} />
+
+                  <Skeleton className='mt-[12px] !w-full !rounded-[9px]' height={240} />
+                </div>
+              </div>
+
+              <div className='card-style box-shadow'>
+                <div className='flex items-center'>
+                  <Skeleton
+                    avatar
+                    className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]'
+                  />
+
+                  <Skeleton height={10} rows={2} wrapClassName='ml-[4px]' />
+                </div>
+
+                <div className='mt-[14px] desktop:ml-[60px] desktop:mt-0'>
+                  <Skeleton rows={4} className='!w-full' height={15} />
+
+                  <Skeleton className='mt-[12px] !w-full !rounded-[9px]' height={240} />
+                </div>
+              </div>
+
+              <div className='card-style box-shadow'>
+                <div className='flex items-center'>
+                  <Skeleton
+                    avatar
+                    className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]'
+                  />
+
+                  <Skeleton height={10} rows={2} wrapClassName='ml-[4px]' />
+                </div>
+
+                <div className='mt-[14px] desktop:ml-[60px] desktop:mt-0'>
+                  <Skeleton rows={4} className='!w-full' height={15} />
+
+                  <Skeleton className='mt-[12px] !w-full !rounded-[9px]' height={240} />
+                </div>
+              </div>
+            </>
+          ) : (
+            listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
+              return (
+                <TrendingOnnPinex
+                  refreshTrendingOnPinex={refreshTrendingOnPinex}
+                  key={`list-trending-${item.id}`}
+                  data={item}
+                />
+              );
+            })
+          )}
         </div>
         {/* <div className='-mt-[4px] block mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
@@ -449,13 +579,15 @@ const Explore = () => {
         </div> */}
       </div>
 
-      <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
-        <ExploreButton>
-          <Text type='body-14-bold' color='primary-2'>
-            {t('explore_hot_topics')}
-          </Text>
-        </ExploreButton>
-      </CustomLink>
+      {!loadingTrendingOnPinex && (
+        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
+          <ExploreButton>
+            <Text type='body-14-bold' color='primary-2'>
+              {t('explore_hot_topics')}
+            </Text>
+          </ExploreButton>
+        </CustomLink>
+      )}
     </div>
   );
 };
