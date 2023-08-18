@@ -169,7 +169,9 @@ const Explore = () => {
           )}
         </div>
 
-        {!loadingKeywords && (
+        {loadingKeywords ? (
+          <Skeleton className='!h-[52px] !w-full !rounded-[8px]' />
+        ) : (
           <ExploreButton onClick={onShowMoreKeyWords}>
             {isShowMoreKeyword ? (
               <div className='flex items-center justify-center'>
@@ -238,15 +240,19 @@ const Explore = () => {
           </div>
 
           {loadingSuggestionPeople ? (
-            <div className='mt-[15px] flex overflow-x-hidden'>
-              <Skeleton
-                width={94}
-                height={156}
-                className='mr-[16px] !rounded-[15px]'
-                rows={4}
-                wrapClassName='!flex-row'
-              />
-            </div>
+            <>
+              <div className='mt-[15px] flex overflow-x-hidden'>
+                <Skeleton
+                  width={94}
+                  height={156}
+                  className='mr-[16px] !rounded-[15px]'
+                  rows={4}
+                  wrapClassName='!flex-row'
+                />
+              </div>
+
+              <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
+            </>
           ) : (
             suggestionPeople && (
               <div className='block'>
@@ -277,16 +283,19 @@ const Explore = () => {
         </Text>
 
         {loadingThemes ? (
-          <div className='flex overflow-x-hidden'>
-            <Skeleton
-              rows={4}
-              active={false}
-              wrapClassName='!flex-row gap-x-[16px]'
-              width={161}
-              height={252}
-              className='!rounded-[10px]'
-            />
-          </div>
+          <>
+            <div className='flex overflow-x-hidden'>
+              <Skeleton
+                rows={4}
+                wrapClassName='!flex-row gap-x-[16px]'
+                width={161}
+                height={252}
+                className='!rounded-[10px]'
+              />
+            </div>
+
+            <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
+          </>
         ) : (
           <>
             <div className='relative mb-[16px]'>
@@ -365,7 +374,9 @@ const Explore = () => {
           )}
         </div>
 
-        {!loadingTopWatchingStock && (
+        {loadingTopWatchingStock ? (
+          <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
+        ) : (
           <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
             <ExploreButton>
               <Text type='body-14-bold' color='primary-2'>
@@ -407,7 +418,9 @@ const Explore = () => {
           )}
         </div>
 
-        {!loadingTopMentionStock && (
+        {loadingTopMentionStock ? (
+          <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
+        ) : (
           <CustomLink href={ROUTE_PATH.TOPMENTION}>
             <ExploreButton>
               <Text type='body-14-bold' color='primary-2'>

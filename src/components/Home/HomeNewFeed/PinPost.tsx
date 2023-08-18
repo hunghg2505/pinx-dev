@@ -4,8 +4,8 @@ import { clearCache } from 'ahooks';
 
 import { useGetPinedPost } from '@components/Home/service';
 import NewsFeed from '@components/Post/NewsFeed';
+import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
-import SkeletonLoading from '@components/UI/Skeleton';
 
 const PinPost = ({ pinPostDataInitial }: any) => {
   const { pinedPost, refresh, loading } = useGetPinedPost();
@@ -24,9 +24,9 @@ const PinPost = ({ pinPostDataInitial }: any) => {
   if (loading) {
     return (
       <>
-        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
-        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
-        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+        <NewsFeedSkeleton />
+        <NewsFeedSkeleton />
+        <NewsFeedSkeleton />
       </>
     );
   }
