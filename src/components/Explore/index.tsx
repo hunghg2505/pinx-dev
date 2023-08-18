@@ -85,7 +85,7 @@ const Explore = () => {
   const { isLogin } = useAuth();
   const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
-  const { run, listNewFeed } = useGetListNewFeed();
+  const { run, listNewFeed, loading: loadingTrendingOnPinex } = useGetListNewFeed();
   const { listStock, loading: loadingTopWatchingStock } = useGetTopWatchingStock();
   const { stockIPO, loading: loadingIPO } = useGetAllIPO();
   const { listMention, loading: loadingTopMentionStock } = useGetTopMentionStock();
@@ -502,9 +502,64 @@ const Explore = () => {
       <div className='relative flex flex-col gap-y-[16px] mobile-max:mt-[16px]'>
         <div className='absolute -top-[2px] left-0 h-[5px] w-full mobile:hidden tablet:block'></div>
         <div className='-mt-[4px]'>
-          {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
-            return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
-          })}
+          {loadingTrendingOnPinex ? (
+            <>
+              <div className='card-style box-shadow'>
+                <div className='flex items-center'>
+                  <Skeleton
+                    avatar
+                    className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]'
+                  />
+
+                  <Skeleton height={10} rows={2} wrapClassName='ml-[4px]' />
+                </div>
+
+                <div className='mt-[14px] desktop:ml-[60px] desktop:mt-0'>
+                  <Skeleton rows={4} className='!w-full' height={15} />
+
+                  <Skeleton className='mt-[12px] !w-full !rounded-[9px]' height={240} />
+                </div>
+              </div>
+
+              <div className='card-style box-shadow'>
+                <div className='flex items-center'>
+                  <Skeleton
+                    avatar
+                    className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]'
+                  />
+
+                  <Skeleton height={10} rows={2} wrapClassName='ml-[4px]' />
+                </div>
+
+                <div className='mt-[14px] desktop:ml-[60px] desktop:mt-0'>
+                  <Skeleton rows={4} className='!w-full' height={15} />
+
+                  <Skeleton className='mt-[12px] !w-full !rounded-[9px]' height={240} />
+                </div>
+              </div>
+
+              <div className='card-style box-shadow'>
+                <div className='flex items-center'>
+                  <Skeleton
+                    avatar
+                    className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]'
+                  />
+
+                  <Skeleton height={10} rows={2} wrapClassName='ml-[4px]' />
+                </div>
+
+                <div className='mt-[14px] desktop:ml-[60px] desktop:mt-0'>
+                  <Skeleton rows={4} className='!w-full' height={15} />
+
+                  <Skeleton className='mt-[12px] !w-full !rounded-[9px]' height={240} />
+                </div>
+              </div>
+            </>
+          ) : (
+            listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
+              return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
+            })
+          )}
         </div>
         {/* <div className='-mt-[4px] block mobile-max:hidden'>
           {listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
@@ -513,13 +568,15 @@ const Explore = () => {
         </div> */}
       </div>
 
-      <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
-        <ExploreButton>
-          <Text type='body-14-bold' color='primary-2'>
-            {t('explore_hot_topics')}
-          </Text>
-        </ExploreButton>
-      </CustomLink>
+      {!loadingTrendingOnPinex && (
+        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
+          <ExploreButton>
+            <Text type='body-14-bold' color='primary-2'>
+              {t('explore_hot_topics')}
+            </Text>
+          </ExploreButton>
+        </CustomLink>
+      )}
     </div>
   );
 };
