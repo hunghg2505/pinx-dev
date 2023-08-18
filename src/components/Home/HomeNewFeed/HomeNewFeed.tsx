@@ -58,6 +58,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { dataStockWatchlist } = useGetDataStockWatchlistHome();
+
   const isHaveStockWatchList = dataStockWatchlist?.length > 0;
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
