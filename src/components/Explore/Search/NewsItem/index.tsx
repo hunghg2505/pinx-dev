@@ -29,10 +29,12 @@ const NewsItem = ({
   data,
   middle,
   setShowPopup,
+  showComment,
 }: {
   data: any;
   middle?: boolean;
   setShowPopup?: any;
+  showComment?: boolean
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -90,13 +92,13 @@ const NewsItem = ({
           </div>
         </CustomLink>
       </div>
-      <PostAction
+      {showComment && <PostAction
         idPost={data.id}
         urlPost={'/post/' + data.id}
         isLike={data.isLike}
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}
-      />
+      />}
     </>
   );
 };

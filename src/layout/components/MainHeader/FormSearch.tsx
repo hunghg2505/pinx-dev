@@ -372,6 +372,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         key={`new-items-${item?.id}`}
                         data={item}
                         setShowPopup={setShowPopup}
+                        showComment
                       />
                     );
                   })}
