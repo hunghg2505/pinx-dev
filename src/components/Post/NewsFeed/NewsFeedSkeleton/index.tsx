@@ -2,9 +2,15 @@ import React from 'react';
 
 import { Skeleton } from '@components/UI/Skeleton';
 
-const NewsFeedSkeleton = () => {
+interface INewsFeedSkeletonProps {
+  showBtnBack?: boolean;
+}
+
+const NewsFeedSkeleton = ({ showBtnBack }: INewsFeedSkeletonProps) => {
   return (
     <div className='card-style box-shadow'>
+      {showBtnBack && <Skeleton wrapClassName='mb-[16px]' width={45} height={36} />}
+
       <div className='flex items-center'>
         <Skeleton avatar className='!h-[44px] !w-[44px] tablet:!h-[56px] tablet:!w-[56px]' />
 
