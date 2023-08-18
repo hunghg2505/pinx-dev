@@ -99,13 +99,15 @@ const ContentRight = () => {
               refreshList={refreshList}
               getSuggestFriend={getSuggestFriend}
             />
-            <ModalPeopleYouKnow refreshList={refreshList}>
-              <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('view_more')}
-                </Text>
-              </div>
-            </ModalPeopleYouKnow>
+            {suggestionPeople?.length && (
+              <ModalPeopleYouKnow refreshList={refreshList}>
+                <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
+                  <Text type='body-14-bold' color='primary-2'>
+                    {t('view_more')}
+                  </Text>
+                </div>
+              </ModalPeopleYouKnow>
+            )}
           </div>
         </Fade>
       </div>

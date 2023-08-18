@@ -12,7 +12,7 @@ export const serviceGetUserProfile = async () => {
 };
 
 export const useProfileInitial = (option = {}) => {
-  const { userLoginInfo, setUserLoginInfo } = useUserLoginInfo();
+  const { setUserLoginInfo } = useUserLoginInfo();
 
   const { run } = useRequest(
     async () => {
@@ -26,20 +26,23 @@ export const useProfileInitial = (option = {}) => {
     {
       onSuccess: (res: any) => {
         if (!res) {
-          setUserLoginInfo({
-            ...userLoginInfo,
+          setUserLoginInfo((prev: any) => ({
+            ...prev,
             loading: false,
-          });
+          }));
           return;
         }
-
-        setUserLoginInfo({ ...userLoginInfo, ...res?.data, loading: false });
+        setUserLoginInfo((prev: any) => ({
+          ...prev,
+          ...res?.data,
+          loading: false,
+        }));
       },
       onError: () => {
-        setUserLoginInfo({
-          ...userLoginInfo,
+        setUserLoginInfo((prev: any) => ({
+          ...prev,
           loading: false,
-        });
+        }));
       },
       manual: true,
       ...option,

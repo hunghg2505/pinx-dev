@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
 
@@ -25,7 +24,6 @@ const RegisterCompanyStep = () => {
   const [selected, setSelected] = useState<any[]>([]);
   const [myListStock, setMyListStock] = useState<string[]>([]);
   const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
-  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
@@ -52,7 +50,6 @@ const RegisterCompanyStep = () => {
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       router.push(ROUTE_PATH.REGISTER_THEME);
-      getInitDataStockWatchlistHome();
     },
   });
 

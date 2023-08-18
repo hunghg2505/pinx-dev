@@ -13,7 +13,6 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
 // import { PINETREE_LINK } from '@utils/constant';
 
@@ -31,7 +30,6 @@ const Login = (props: Iprops) => {
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm } = useUserLoginInfo();
-  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -51,7 +49,6 @@ const Login = (props: Iprops) => {
         setUserLoginInfo(res?.data);
         setForceAllowTerm(res?.data.forceAllow);
         setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));
-        getInitDataStockWatchlistHome();
         if (res?.data.isReadTerms === 'true') {
           setIsReadTerms(true);
         }

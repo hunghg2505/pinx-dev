@@ -13,7 +13,8 @@ import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
 import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
-// import { useStockWatchlistHome } from '@store/stockWatchlistHome';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome';
+import { ROUTE_PATH } from '@utils/common';
 import { TOAST_LIMIT } from '@utils/constant';
 import { ENV } from '@utils/env';
 
@@ -27,7 +28,8 @@ const AppInitialData = () => {
   const { userLoginInfo } = useUserLoginInfo();
   useStockDesktopInitial();
   const { getInitDataStockMarketHome } = useStockMarketHome();
-  // const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
+  const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
+
   useMount(() => {
     initialHomePostData();
     handleRemoveActionPost();
@@ -63,6 +65,12 @@ const AppInitialData = () => {
       toast.dismiss(t.id);
     } // Dismiss – Use toast.remove(t.id) for no exit animation
   }, [toasts]);
+
+  useEffect(() => {
+    if (router.pathname === ROUTE_PATH.HOME) {
+      getInitDataStockWatchlistHome();
+    }
+  }, [router.pathname]);
 
   return (
     <>

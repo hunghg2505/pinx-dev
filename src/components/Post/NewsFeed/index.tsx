@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
@@ -27,6 +28,7 @@ interface IProps {
   isNewFeedExplore?: boolean;
   setShowPopup?: any;
   refreshSearch?: () => void;
+  loading?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -39,6 +41,7 @@ const NewsFeed = (props: IProps) => {
     isNewFeedExplore = false,
     setShowPopup,
     refreshSearch,
+    loading,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -168,6 +171,16 @@ const NewsFeed = (props: IProps) => {
     refresh();
     // refreshCommentOfPost();
   };
+
+  if (loading) {
+    return (
+      <>
+        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+        <SkeletonLoading className='card-style box-shadow rounded-[12px] bg-white p-[20px]' />
+      </>
+    );
+  }
 
   return (
     <>

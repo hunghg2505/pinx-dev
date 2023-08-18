@@ -5,10 +5,13 @@ import { useTranslation } from 'next-i18next';
 
 import { requestUnFollowUser } from '@components/Home/service';
 import { profileUserContext } from '@components/Profile';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 const Unsubscribe = () => {
   const profileUser = useContext<any>(profileUserContext);
   const { t } = useTranslation('profile');
+  const { setUserLoginInfo } = useUserLoginInfo();
+
   // un follow user
   const onUnFollowUser = useRequest(
     () => {
@@ -18,6 +21,10 @@ const Unsubscribe = () => {
       manual: true,
       onSuccess: () => {
         profileUser?.refresh();
+        setUserLoginInfo(prev => ({
+          ...prev,
+          totalFollowing: prev.totalFollowing && prev.totalFollowing - 1
+        }));
       },
     },
   );
