@@ -87,7 +87,7 @@ const Explore = () => {
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
   const { run, listNewFeed } = useGetListNewFeed();
   const { listStock, loading: loadingTopWatchingStock } = useGetTopWatchingStock();
-  const { stockIPO } = useGetAllIPO();
+  const { stockIPO, loading: loadingIPO } = useGetAllIPO();
   const { listMention, loading: loadingTopMentionStock } = useGetTopMentionStock();
 
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
@@ -471,14 +471,18 @@ const Explore = () => {
           {t('new_ipo')}
         </Text>
 
-        {stockIPO?.length > 0 ? (
-          <>
-            <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-              {stockIPO?.map((ipo: IStockIPO, index: number) => {
-                return <IPO data={ipo} key={index} />;
-              })}
-            </div>
-          </>
+        {loadingIPO && (
+          <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+            <Skeleton className='!h-[51px] !w-full !rounded-[15px]' rows={5} />
+          </div>
+        )}
+
+        {!loadingIPO && stockIPO && stockIPO?.length > 0 ? (
+          <div className='mb-[16px] flex flex-col gap-y-[12px]'>
+            {stockIPO?.map((ipo: IStockIPO, index: number) => {
+              return <IPO data={ipo} key={index} />;
+            })}
+          </div>
         ) : (
           <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
             <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>

@@ -72,11 +72,12 @@ export const useGetAllIPO = () => {
   const params = {
     day: 1,
   };
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestPist.get(API_PATH.PUBLIC_GET_ALL_STOCK_IPO, { params });
   });
   return {
     stockIPO: data?.data,
+    loading,
   };
 };
 export const useGetSearchRecent = () => {
