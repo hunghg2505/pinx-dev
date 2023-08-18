@@ -32,6 +32,7 @@ const PeopleDesktop = ({
         <div className='mb-[25px] h-[200px] w-full rounded-[8px] bg-[#fff]  '>
           <PeopleDesktopLoading />
           <PeopleDesktopLoading />
+          <PeopleDesktopLoading />
         </div>
       </>
     );
