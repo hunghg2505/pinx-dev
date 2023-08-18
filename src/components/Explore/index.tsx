@@ -86,9 +86,9 @@ const Explore = () => {
   const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
   const { run, listNewFeed } = useGetListNewFeed();
-  const { listStock } = useGetTopWatchingStock();
+  const { listStock, loading: loadingTopWatchingStock } = useGetTopWatchingStock();
   const { stockIPO } = useGetAllIPO();
-  const { listMention } = useGetTopMentionStock();
+  const { listMention, loading: loadingTopMentionStock } = useGetTopMentionStock();
 
   const listKeyWords = isShowMoreKeyword ? keyWords : keyWords?.slice(0, 5);
   const maxKeyWords = keyWords && Math.max(...keyWords?.map((item: any) => item.numberHit));
@@ -340,7 +340,14 @@ const Explore = () => {
           {t('top_watching_stock_pinex')}
         </Text>
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {listStock &&
+          {loadingTopWatchingStock ? (
+            <Skeleton
+              className='!h-[51px] !w-full !rounded-[15px]'
+              rows={5}
+              wrapClassName='!gap-y-[16px]'
+            />
+          ) : (
+            listStock &&
             [...listStock]?.slice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
               return (
                 <WatchingStock
@@ -349,16 +356,19 @@ const Explore = () => {
                   data={item}
                 />
               );
-            })}
+            })
+          )}
         </div>
 
-        <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_top_watching_stock')}
-            </Text>
-          </ExploreButton>
-        </CustomLink>
+        {!loadingTopWatchingStock && (
+          <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
+            <ExploreButton>
+              <Text type='body-14-bold' color='primary-2'>
+                {t('explore_top_watching_stock')}
+              </Text>
+            </ExploreButton>
+          </CustomLink>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
@@ -371,7 +381,14 @@ const Explore = () => {
         </Text>
 
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {listMention &&
+          {loadingTopMentionStock ? (
+            <Skeleton
+              className='!h-[51px] !w-full !rounded-[15px]'
+              rows={5}
+              wrapClassName='!gap-y-[16px]'
+            />
+          ) : (
+            listMention &&
             [...listMention]?.splice(0, 5)?.map((item: ITopWatchingStock, index: number) => {
               return (
                 <WatchingStock
@@ -381,16 +398,19 @@ const Explore = () => {
                   mention
                 />
               );
-            })}
+            })
+          )}
         </div>
 
-        <CustomLink href={ROUTE_PATH.TOPMENTION}>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_top_mention_stock')}
-            </Text>
-          </ExploreButton>
-        </CustomLink>
+        {!loadingTopMentionStock && (
+          <CustomLink href={ROUTE_PATH.TOPMENTION}>
+            <ExploreButton>
+              <Text type='body-14-bold' color='primary-2'>
+                {t('explore_top_mention_stock')}
+              </Text>
+            </ExploreButton>
+          </CustomLink>
+        )}
       </div>
 
       <div className='box-shadow card-style'>

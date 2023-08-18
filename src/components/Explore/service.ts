@@ -47,22 +47,24 @@ export const useGetTopWatchingStock = () => {
   const params = {
     size: 20,
   };
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestPist.get(API_PATH.PUBLIC_TOP_WATCHING, { params });
   });
   return {
     listStock: data?.data?.list,
+    loading,
   };
 };
 export const useGetTopMentionStock = () => {
   const params = {
     size: 20,
   };
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestCommunity.get(API_PATH.PUBLIC_TOP_MENTION, { params });
   });
   return {
     listMention: data?.data?.list,
+    loading,
   };
 };
 
