@@ -44,7 +44,8 @@ interface IProps {
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
   isNewFeedExplore?: boolean;
-  setShowPopup?:any;
+  setShowPopup?: any;
+  refreshTrendingOnPinex?: () => void;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -58,7 +59,9 @@ const NewFeedItem = (props: IProps) => {
     pinned = false,
     isNewFeedExplore = false,
     refreshFollow,
-    setShowPopup
+    setShowPopup,
+    refreshTrendingOnPinex,
+    isExplore,
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -107,6 +110,7 @@ const NewFeedItem = (props: IProps) => {
 
   useEffect(() => {
     setFollowing(postDetail?.isFollowing);
+
     setReported(!!postDetail?.isReport);
   }, [postDetail]);
   // hide post
@@ -137,7 +141,9 @@ const NewFeedItem = (props: IProps) => {
         refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(true);
-        console.log('onFollowUser');
+        if (refreshTrendingOnPinex && isExplore) {
+          refreshTrendingOnPinex();
+        }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
@@ -154,7 +160,9 @@ const NewFeedItem = (props: IProps) => {
         refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(false);
-        console.log('onUnFollowUser');
+        if (refreshTrendingOnPinex && isExplore) {
+          refreshTrendingOnPinex();
+        }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
@@ -373,7 +381,9 @@ const NewFeedItem = (props: IProps) => {
           onClick={() => {
             setShowPopup && setShowPopup(false);
           }}
-          className={className} href={href}>
+          className={className}
+          href={href}
+        >
           {children}
         </CustomLink>
       );
@@ -457,7 +467,8 @@ const NewFeedItem = (props: IProps) => {
         onClick={() => {
           setShowPopup && setShowPopup(false);
         }}
-        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
+        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
+      >
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

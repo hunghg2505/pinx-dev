@@ -227,7 +227,10 @@ const ItemComment = (props: IProps) => {
       });
     }
     if (classElement === 'people') {
-      const url = userLoginInfo?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url =
+        Number(userLoginInfo?.id) === Number(id)
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
@@ -331,8 +334,8 @@ const ItemComment = (props: IProps) => {
         >
           <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative flex items-center'>
-                <Text type='body-14-semibold' color='neutral-1'>
+              <div className='relative flex items-center overflow-hidden laptop:max-w-[300px] mobile:max-w-[150px]'>
+                <Text type='body-14-semibold' color='neutral-1' className='truncate'>
                   {data?.customerInfo?.displayName}
                 </Text>
                 {data?.customerInfo?.isFeatureProfile && (
@@ -386,7 +389,7 @@ const ItemComment = (props: IProps) => {
               </button>
             </div>
             <div
-              className='box-border rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
+              className='box-border cursor-pointer rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
               onClick={(event) => handleClick(event)}
             >
               <Text type='body-16-regular' className='text-[#0D0D0D] galaxy-max:text-[14px]'>

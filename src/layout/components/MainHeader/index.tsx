@@ -197,7 +197,7 @@ const MainHeader = () => {
                 <MenuMobile />
               </div>
               {!isMobile && (
-                <div className='w-full flex-auto '>
+                <div className='w-full flex-auto'>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}

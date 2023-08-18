@@ -196,8 +196,6 @@ const ContentPostTypeHome = (props: IProps) => {
     return (
       <ActivityMatchOrder
         isReadMore={isReadMore}
-        onReadMore={onReadMore}
-        readMore={readMore}
         postDetailUrl={postDetailUrl}
         postDetail={postDetail}
         urlStock={urlStock}

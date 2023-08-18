@@ -64,7 +64,10 @@ export const PineTreePost2 = ({
       });
     }
     if (classElement === 'people') {
-      const url = userDetail?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url =
+        Number(userDetail?.id) === Number(id)
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {

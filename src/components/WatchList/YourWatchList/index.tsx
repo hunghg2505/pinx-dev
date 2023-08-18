@@ -49,6 +49,7 @@ const YourWatchList = (props: IProps) => {
   const { t } = useTranslation('watchlist');
   const [isAz, setIsAz] = React.useState<boolean>(true);
 
+
   React.useEffect(() => {
     setDataStock(yourWatchListStock);
   }, [isEdit]);

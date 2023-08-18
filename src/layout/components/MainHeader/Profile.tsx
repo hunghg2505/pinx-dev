@@ -114,11 +114,11 @@ const Profile = () => {
             <img
               src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
               alt=''
-              className='h-[72px] w-[72px]  cursor-pointer rounded-full object-cover'
+              className='h-[72px] w-[72px]  cursor-pointer rounded-full object-cover min-w-[72px]'
             />
-            <div className='flex flex-1 flex-col gap-[6px]'>
+            <div className='flex flex-1 flex-col gap-[6px] overflow-hidden'>
               <div className='flex items-center'>
-                <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+                <Text type='body-16-semibold' className='truncate'>{userLoginInfo?.displayName}</Text>
 
                 {userLoginInfo?.isKol && (
                   <img

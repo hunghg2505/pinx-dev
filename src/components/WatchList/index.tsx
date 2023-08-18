@@ -90,7 +90,6 @@ const WatchList = () => {
     const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
-        console.log('data', data);
         setDataSocket(data);
       }
     };

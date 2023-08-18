@@ -85,7 +85,12 @@ const Explore = () => {
   const { isLogin } = useAuth();
   const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
-  const { run, listNewFeed, loading: loadingTrendingOnPinex } = useGetListNewFeed();
+  const {
+    run,
+    listNewFeed,
+    loading: loadingTrendingOnPinex,
+    refresh: refreshTrendingOnPinex,
+  } = useGetListNewFeed();
   const { listStock, loading: loadingTopWatchingStock } = useGetTopWatchingStock();
   const { stockIPO, loading: loadingIPO } = useGetAllIPO();
   const { listMention, loading: loadingTopMentionStock } = useGetTopMentionStock();
@@ -557,7 +562,13 @@ const Explore = () => {
             </>
           ) : (
             listNewFeed?.list?.slice(0, 3)?.map((item: IPost) => {
-              return <TrendingOnnPinex key={`list-trending-${item.id}`} data={item} />;
+              return (
+                <TrendingOnnPinex
+                  refreshTrendingOnPinex={refreshTrendingOnPinex}
+                  key={`list-trending-${item.id}`}
+                  data={item}
+                />
+              );
             })
           )}
         </div>

@@ -162,6 +162,7 @@ const Compose = (props: IProps) => {
 
         hidePopup && hidePopup();
         setMetaData(null);
+        console.log('update post');
         setPostDetailStatus({
           ...postDetailStatus,
           idPostLike: postDetail?.id,

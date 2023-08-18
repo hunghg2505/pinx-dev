@@ -22,11 +22,10 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import { FILTER_TYPE } from '../ModalFilter';
-import { requestJoinIndex, requestLeaveIndex, socket, useSuggestPeople } from '../service';
+import { requestJoinIndex, requestLeaveIndex, socket, useSuggestPeople, useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -57,15 +56,14 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
-  const { dataStockWatchlist } = useGetDataStockWatchlistHome();
-  const isHaveStockWatchList = dataStockWatchlist?.length > 0;
+  const { watchList } = useGetWatchList();
+  const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
   const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
 
   const { refLastElement } = useObserver();
 
   const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
-
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],

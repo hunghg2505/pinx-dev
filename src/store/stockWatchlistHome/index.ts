@@ -3,7 +3,7 @@ import { atom, useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
-import { requestJoinChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 
 const atomStockWatchlist = atom<any>([]);
 const atomStockWatchlistSocket = atom<any>([]);
@@ -27,7 +27,7 @@ export const useGetDataStockWatchlistHome = () => {
 };
 
 export const useStockWatchlistHome = () => {
-  const [, setDataStockWatchlist] = useAtom(atomStockWatchlist);
+  const [dataStockWatchlist, setDataStockWatchlist] = useAtom(atomStockWatchlist);
   const [, setDataStockWatchlistSocket] = useAtom(atomStockWatchlistSocket);
 
   const { run } = useRequest(
@@ -61,6 +61,11 @@ export const useStockWatchlistHome = () => {
   };
 
   const closeSocket = () => {
+    if (dataStockWatchlist) {
+      for (const element of dataStockWatchlist) {
+        requestLeaveChannel(element.stockCode);
+      }
+    }
     socket.off('public', getDataSocket);
   };
 

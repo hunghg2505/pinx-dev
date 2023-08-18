@@ -30,16 +30,16 @@ const ItemHoverProfile = (props: IProps) => {
         {profileOtherUser?.avatar ? (
           <img
             src={profileOtherUser?.avatar}
-            className='mr-[10px] h-[72px] w-[72px] rounded-full object-cover'
+            className='mr-[10px] h-[72px] w-[72px] rounded-full object-cover min-w-[72px]'
             alt=''
           />
         ) : (
-          <div className='h-[72px] w-[72px]'>
+          <div className='h-[72px] w-[72px] min-w-[72px]'>
             <AvatarDefault name={name} />
           </div>
         )}
-        <div className='my-[4px] w-full flex-1'>
-          <Text type='body-16-semibold' color='neutral-1' className='mb-[6px]'>
+        <div className='my-[4px] w-full flex-1 overflow-hidden'>
+          <Text type='body-16-semibold' color='neutral-1' className='mb-[6px] truncate'>
             {profileOtherUser?.displayName}
           </Text>
           {/* <div className='flex'>
