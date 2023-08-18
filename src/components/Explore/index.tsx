@@ -77,7 +77,7 @@ const Explore = () => {
   const refSlidePinex: any = React.useRef();
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
   const { isLogin } = useAuth();
-  const { theme, refresh: refreshTheme } = useGetTheme();
+  const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
   const { run, listNewFeed } = useGetListNewFeed();
   const { listStock } = useGetTopWatchingStock();
@@ -250,51 +250,65 @@ const Explore = () => {
           {t('themes')}
         </Text>
 
-        <div className='relative mb-[16px]'>
-          <div
-            onClick={refSlideTheme?.current?.slickPrev}
-            className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayPrev.svg'
-              alt='Icon prev'
-              className='h-[16px] w-[7px] object-contain'
+        {loadingThemes ? (
+          <div className='flex'>
+            <Skeleton
+              rows={4}
+              active={false}
+              wrapClassName='!flex-row gap-x-[16px]'
+              width={161}
+              height={252}
+              className='!rounded-[10px]'
             />
           </div>
+        ) : (
+          <>
+            <div className='relative mb-[16px]'>
+              <div
+                onClick={refSlideTheme?.current?.slickPrev}
+                className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+              >
+                <img
+                  src='/static/icons/iconGrayPrev.svg'
+                  alt='Icon prev'
+                  className='h-[16px] w-[7px] object-contain'
+                />
+              </div>
 
-          <div className='slideTheme max-w-[700px] overflow-hidden'>
-            <Slider {...settings} variableWidth ref={refSlideTheme}>
-              {theme?.map((theme: ITheme, index: number) => {
-                return (
-                  <div key={index}>
-                    <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
-                      <ThemesItem refresh={refreshTheme} theme={theme} />
-                    </div>
-                  </div>
-                );
-              })}
-            </Slider>
-          </div>
+              <div className='slideTheme max-w-[700px] overflow-hidden'>
+                <Slider {...settings} variableWidth ref={refSlideTheme}>
+                  {theme?.map((theme: ITheme, index: number) => {
+                    return (
+                      <div key={index}>
+                        <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
+                          <ThemesItem refresh={refreshTheme} theme={theme} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </Slider>
+              </div>
 
-          <div
-            onClick={refSlideTheme?.current?.slickNext}
-            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayNext.svg'
-              alt='Icon next'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
-        </div>
-
-        <CustomLink href={ROUTE_PATH.THEME}>
-          <ExploreButton>
-            <Text type='body-14-bold' color='primary-2'>
-              {t('explore_themes')}
-            </Text>
-          </ExploreButton>
-        </CustomLink>
+              <div
+                onClick={refSlideTheme?.current?.slickNext}
+                className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+              >
+                <img
+                  src='/static/icons/iconGrayNext.svg'
+                  alt='Icon next'
+                  className='h-[16px] w-[7px] object-contain'
+                />
+              </div>
+            </div>
+            <CustomLink href={ROUTE_PATH.THEME}>
+              <ExploreButton>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('explore_themes')}
+                </Text>
+              </ExploreButton>
+            </CustomLink>
+          </>
+        )}
       </div>
 
       <div className='box-shadow card-style'>
