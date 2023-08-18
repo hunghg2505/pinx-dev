@@ -441,7 +441,7 @@ const StockDetail = () => {
   };
 
   return (
-    <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
+    <div>
       <PopupConfirmReview
         visible={openPopupConfirmReview}
         onClose={() => {

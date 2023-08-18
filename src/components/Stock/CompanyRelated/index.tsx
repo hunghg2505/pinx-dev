@@ -140,7 +140,7 @@ const CompanyRelated = () => {
         <title>{t('company_related_title')}</title>
       </Head>
 
-      <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
+      <div>
         <div className='box-shadow card-style'>
           <div className='relative mb-[12px] flex h-[44px] items-center justify-center tablet:mb-0 tablet:h-[48px]'>
             <div className='absolute left-0 top-1/2 flex -translate-y-1/2 items-center justify-between'>
