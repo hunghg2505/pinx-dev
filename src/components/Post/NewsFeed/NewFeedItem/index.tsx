@@ -465,7 +465,7 @@ const NewFeedItem = (props: IProps) => {
 
       <div
         onClick={() => {
-          setShowPopup && setShowPopup(false);
+          setShowPopup && setShowPopup();
         }}
         className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
       >
