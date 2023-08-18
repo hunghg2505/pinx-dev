@@ -123,3 +123,10 @@ body {
   @extend .purpleColor;
   background-color: #128f63;
 }
+
+// skeleton animation
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
