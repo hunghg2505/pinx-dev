@@ -106,6 +106,7 @@ const NewsFeed = (props: IProps) => {
           ...postDetailStatus,
           // isAddCommentPostDetail: [],
           idPostAddComment: '',
+          idCustomerFollow: 0,
           isChangeMyProfile: false,
         });
       }

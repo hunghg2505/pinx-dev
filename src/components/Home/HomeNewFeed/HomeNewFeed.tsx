@@ -25,7 +25,13 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import { FILTER_TYPE } from '../ModalFilter';
-import { requestJoinIndex, requestLeaveIndex, socket, useSuggestPeople, useGetWatchList } from '../service';
+import {
+  requestJoinIndex,
+  requestLeaveIndex,
+  socket,
+  useSuggestPeople,
+  useGetWatchList,
+} from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,

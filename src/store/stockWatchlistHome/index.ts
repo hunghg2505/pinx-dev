@@ -11,7 +11,6 @@ const atomStockWatchlistSocket = atom<any>([]);
 export const useGetDataStockWatchlistHome = () => {
   const [dataStockWatchlist] = useAtom(atomStockWatchlist);
   const [dataStockWatchlistSocket] = useAtom(atomStockWatchlistSocket);
-
   const findIndex = dataStockWatchlist?.findIndex(
     (item: any) => item.stockCode === dataStockWatchlistSocket.sym,
   );

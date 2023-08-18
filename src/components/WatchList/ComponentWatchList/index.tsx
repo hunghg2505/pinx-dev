@@ -66,6 +66,7 @@ const ComponentWatchList = (props: IProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     let isChangeStockPrice = false;
@@ -80,6 +81,7 @@ const ComponentWatchList = (props: IProps) => {
     if (page_size) {
       dataStock?.slice(0, page_size);
     }
+
     return { dataFormat: dataStock, isChangeStockPrice, findIndex };
   }, [dataSocket, dataStock, page_size]);
   React.useEffect(() => {
@@ -111,6 +113,7 @@ const ComponentWatchList = (props: IProps) => {
       <div className='flex flex-col gap-y-[16px]'>
         {dataFormat?.map((item: IWatchListItem, index: number) => {
           const isChangeStock = isChangeStockPrice && findIndex === index;
+
           return (
             <div
               key={`${item.stockCode}-${index}`}
