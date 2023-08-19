@@ -153,9 +153,22 @@ const StockDetail = () => {
     },
   });
 
-  const totalColumnHighligh = Math.ceil(
-    (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
-  );
+  const { totalColumnHighligh, revenueChartData, shareholderChartData } = useMemo(() => {
+    const totalColumnHighligh = Math.ceil(
+      (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
+    );
+
+    const revenueChartData =
+      taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || [];
+    const shareholderChartData =
+      shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || [];
+
+    return {
+      totalColumnHighligh,
+      revenueChartData,
+      shareholderChartData,
+    };
+  }, [taggingInfo]);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
@@ -725,13 +738,7 @@ const StockDetail = () => {
           <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
             <div className='flex flex-col items-center'>
               <div className='galaxy-max:scale-[0.7]'>
-                <PieChart
-                  width={319}
-                  height={296}
-                  data={
-                    taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || []
-                  }
-                />
+                <PieChart width={319} height={296} data={revenueChartData} />
               </div>
 
               <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
@@ -1111,7 +1118,7 @@ const StockDetail = () => {
                 strokeWidth={isMobile ? 16 : 27}
                 width={isMobile ? 183 : 318}
                 height={isMobile ? 183 : 318}
-                data={shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || []}
+                data={shareholderChartData}
               />
             </div>
           </div>
