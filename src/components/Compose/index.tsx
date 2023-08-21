@@ -446,6 +446,7 @@ const Compose = (props: IProps) => {
       }
 
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
+      console.log('🚀 ~ file: index.tsx:449 ~ onAddPost ~ url:', url);
 
       const urlLinks = [];
 
@@ -561,9 +562,9 @@ const Compose = (props: IProps) => {
         urlImages: [imageUploadedUrl],
         urlLinks,
       };
-
       if (urlLinks?.length && !metaData?.length) {
         const dataSeo = await getSeoDataFromLink(urlLinks[0]);
+        console.log('🚀 ~ file: index.tsx:568 ~ onAddPost ~ dataSeo:', dataSeo);
 
         if (dataSeo?.length) {
           data.metadata = [JSON.stringify(dataSeo)];
@@ -606,7 +607,7 @@ const Compose = (props: IProps) => {
           <Notification type='error' message={t('message_account_pending_to_close')} />
         ));
       }
-
+      console.log('data', data);
       if (statusUser === USERTYPE.VSD || isCanCompose) {
         if (!editor?.getText()) {
           return toast(() => <Notification type='error' message={t('err_add_post')} />);
