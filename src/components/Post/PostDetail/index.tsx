@@ -13,8 +13,6 @@ import PopupAuth from '@components/UI/Popup/PopupAuth';
 import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
 import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
-// import SkeletonLoading from '@components/UI/Skeleton';
-import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -25,6 +23,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
+import NewsFeedSkeleton from '../NewsFeed/NewsFeedSkeleton';
 import { IComment, getMoreCommentPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -195,7 +194,7 @@ const PostDetail = () => {
     initUserProfile();
   }, [userType, isReadTerms]);
   if (loadingPostDetail) {
-    return <SkeletonLoading />;
+    return <NewsFeedSkeleton showBtnBack />;
   }
   return (
     <>
@@ -217,7 +216,7 @@ const PostDetail = () => {
           onClose={onCloseModal}
         />
       )}
-      <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
+      <div>
         <div className='card-style rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0]'>
           <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
             <Text

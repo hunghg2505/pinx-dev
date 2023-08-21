@@ -93,6 +93,7 @@ const UserItem = (props: Iprops) => {
       });
     }
   };
+
   const name =
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
   return (
@@ -117,10 +118,10 @@ const UserItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
+            className='mr-[8px] h-[44px] w-[44px] min-w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] min-w-[36px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}

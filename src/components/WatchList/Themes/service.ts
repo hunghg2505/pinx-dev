@@ -5,7 +5,7 @@ import { privateRequest, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 export const useGetTheme = () => {
-  const { data, refresh } = useRequest(() => {
+  const { data, refresh, loading } = useRequest(() => {
     const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_THEME_SUBSCRIBED)
@@ -14,5 +14,6 @@ export const useGetTheme = () => {
   return {
     theme: data?.data,
     refresh,
+    loading,
   };
 };

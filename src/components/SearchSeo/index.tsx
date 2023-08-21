@@ -14,29 +14,23 @@ import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublic } from '@components/SearchSeo/service';
+import { removeHashTag } from '@utils/removeHashTag';
 
 const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
-  const tab = searchParams.get('tab') || 'company';
   const getType = searchParams.get('type') || '';
   const { replace, query } = useRouter();
 
   const { data, searchPublic, loading } = useSearchPublic();
-
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const removeHashTag = (str: string) => {
-    const regexp = /#(\S)/g;
-    return str.replaceAll(regexp, '$1');
-  };
 
   React.useEffect(() => {
     searchPublic({
       textSearch: removeHashTag(keyword),
       type: getType,
     });
-  }, [keyword, getType, tab]);
+  }, [keyword]);
 
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
@@ -107,7 +101,8 @@ const SearchSeo = () => {
                     <NewsFeed
                       key={`explore-search-${post?.id}`}
                       data={post}
-                      isNewFeedExplore={true}
+                      isNewFeedExplore={false}
+                      hiddenComment={true}
                     />
                   );
                 })}
@@ -122,7 +117,7 @@ const SearchSeo = () => {
             {newsL ? (
               <div className='my-[16px] flex flex-col gap-y-[12px]'>
                 {news?.map((item: any) => {
-                  return <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} />;
+                  return <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} showComment />;
                 })}
               </div>
             ) : (

@@ -16,17 +16,7 @@ const Options = () => {
       {isLogin && (
         <>
           <hr className='border-neutral_07' />
-          <Option
-            link={{
-              pathname: ROUTE_PATH.WATCHLIST,
-              query: {
-                from_profile_menu: 1,
-              },
-            }}
-            name={t('watchlist_and_theme')}
-            icon='/static/icons/Lotus.svg'
-          />
-          <hr className='border-neutral_07' />
+
           <Option
             link={{
               pathname: ROUTE_PATH.PROFILE_VERIFICATION,
@@ -36,6 +26,19 @@ const Options = () => {
             }}
             name={t('profile_verification')}
             icon='/static/icons/Profile icon.svg'
+          />
+
+          <hr className='border-neutral_07' />
+
+          <Option
+            link={{
+              pathname: ROUTE_PATH.WATCHLIST,
+              query: {
+                from_profile_menu: 1,
+              },
+            }}
+            name={t('watchlist_and_theme')}
+            icon='/static/icons/Lotus.svg'
           />
         </>
       )}

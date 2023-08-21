@@ -17,7 +17,7 @@ const CompanyItem = ({ data, setShowPopup }: { data: ITopWatchingStock; setShowP
       <img
         src={imageStock(data?.stockCode)}
         alt=''
-        className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain galaxy-max:h-[32px] galaxy-max:w-[32px] galaxy-max:flex-none'
+        className='mr-[10px] h-[36px] w-[36px] min-w-[36px] rounded-full bg-[#ffffff] object-contain galaxy-max:h-[32px] galaxy-max:w-[32px] galaxy-max:flex-none'
       />
       <div className='w-full'>
         <div className='flex items-center'>

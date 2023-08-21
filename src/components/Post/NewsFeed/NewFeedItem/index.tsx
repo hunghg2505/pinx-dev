@@ -103,6 +103,18 @@ const NewFeedItem = (props: IProps) => {
 
   const [isReported, setReported] = useState(!!postDetail?.isReport);
 
+  const urlTitle = useMemo(() => {
+    let url = '';
+    if (postDetail.customerId) {
+      url =
+        isLogin && postDetail.customerId === userId
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(customerId);
+    }
+
+    return url;
+  }, [postDetail, isLogin]);
+
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
@@ -393,13 +405,12 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='relative z-30 mb-[2px] flex flex-row justify-between'>
-        <MaybeLink
-          href={
-            customerId && !isMyPost ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ROUTE_PATH.MY_PROFILE
-          }
-          className='flex w-full flex-1 justify-between'
-        >
+      <div
+        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between', {
+          'z-50': isHovering,
+        })}
+      >
+        <MaybeLink href={urlTitle} className='flex w-full flex-1 justify-between'>
           <div className='flex flex-1 flex-row items-center'>
             <div
               ref={refHover}
@@ -464,7 +475,7 @@ const NewFeedItem = (props: IProps) => {
 
       <div
         onClick={() => {
-          setShowPopup && setShowPopup(false);
+          setShowPopup && setShowPopup();
         }}
         className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
       >

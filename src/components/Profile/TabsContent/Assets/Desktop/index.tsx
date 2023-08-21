@@ -21,20 +21,20 @@ const Desktop = () => {
 
       <div className='flex flex-wrap justify-center gap-[20px]'>
         <img
-          src='/static/images/googleplay.png'
+          src='/static/images/google-play.png'
           height={180}
           width={52}
           alt="Don't have any result"
-          className='h-[62px] w-[215px] object-contain '
+          className='h-[62px] w-[215px] cursor-pointer object-contain'
           onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
         />
 
         <img
-          src='/static/images/appstore.png'
+          src='/static/images/app-store.png'
           height={180}
           width={52}
           alt="Don't have any result"
-          className='h-[62px] w-[215px] object-contain '
+          className='h-[62px] w-[215px] cursor-pointer object-contain'
           onClick={() => window.open(APP_STORE_DOWNLOAD)}
         />
       </div>

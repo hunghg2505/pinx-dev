@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import PeopleList from '@components/Home/People/PeopleList';
 import { useSuggestPeople } from '@components/Home/service';
 import { ExploreButton } from '@components/UI/Button';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
@@ -13,14 +14,28 @@ import ModalPeopleYouKnow from '../ModalPeopleYouKnow';
 const SuggestionPeople = () => {
   const { t } = useTranslation(['theme', 'explore']);
   const isLogin = !!getAccessToken();
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
   React.useEffect(() => {
     if (isLogin) {
       getSuggestFriend();
     }
   }, []);
-  if (!suggestionPeople) {
-    return <></>;
+  if (loading) {
+    return (
+      <>
+        <div className='mt-[15px] flex overflow-x-hidden'>
+          <Skeleton
+            width={94}
+            height={156}
+            className='mr-[16px] !rounded-[15px]'
+            rows={4}
+            wrapClassName='!flex-row'
+          />
+        </div>
+
+        <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
+      </>
+    );
   }
   return (
     <div className='box-shadow card-style tablet:hidden'>

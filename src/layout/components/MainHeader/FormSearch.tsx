@@ -6,6 +6,7 @@ import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
@@ -26,10 +27,12 @@ import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Loading from '@components/UI/Loading';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { removeHashTag } from '@utils/removeHashTag';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -59,6 +62,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   useFocusWithin(ref, {
     onFocus: () => {
+      refresh();
       refreshSearchRecent();
       setInputFocus(true);
       setShowRecent(true);
@@ -103,13 +107,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onSuccess: () => {
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'media' },
+        query: { keyword: query, tab: 'company' },
       });
       setInputFocus(false);
       setShowRecent(false);
       setShowPopup(false);
     },
-    onError: () => {},
+    onError: (e: any) => { toast(() => <Notification type='error' message={e?.error} />); },
   });
 
   // Set value when onSubmit Form
@@ -150,7 +154,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         setInputFocus(true);
         refresh();
         searchPublic({
-          textSearch: value,
+          textSearch: removeHashTag(value),
         });
       }
     },
@@ -350,7 +354,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       <NewsFeed
                         key={`explore-search-${post?.id}`}
                         data={post}
-                        isNewFeedExplore={true}
+                        isNewFeedExplore={false}
+                        hiddenComment={true}
                         setShowPopup={setShowPopup}
                         refreshSearch={refresh}
                       />
@@ -369,6 +374,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         key={`new-items-${item?.id}`}
                         data={item}
                         setShowPopup={setShowPopup}
+                        showComment
                       />
                     );
                   })}
