@@ -27,7 +27,7 @@ import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
 import CalendarItem from './CalendarItem';
-import { DonutChart, PieChart } from './Chart';
+import { DonutChart } from './Chart';
 import ChartIframe from './ChartIframe';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
@@ -40,12 +40,12 @@ import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
 import NewsItem from './NewsItem';
 import StockProductSkeleton from './Products/skeleton';
-import RevenueItem from './RevenueItem';
+import StockRevenueSkeleton from './Revenue/skeleton';
 import ReviewItem from './ReviewItem';
 import FakeStockHeading from './StockHeading/fakeHeading';
 import ThemeItem from './ThemeItem';
 import AlsoOwnItem from '../AlsoOwnItem';
-import { REVENUE_CHART_COLOR, SHARE_HOLDER_COLOR } from '../const';
+import { SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -106,6 +106,11 @@ const StockProducts = dynamic(() => import('@components/Stock/StockDetail/Produc
 const StockMainBusiness = dynamic(() => import('@components/Stock/StockDetail/MainBusiness'), {
   ssr: false,
   loading: () => <MainBusinessSkeleton />,
+});
+
+const StockRevenue = dynamic(() => import('@components/Stock/StockDetail/Revenue'), {
+  ssr: false,
+  loading: () => <StockRevenueSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -169,19 +174,16 @@ const StockDetail = () => {
     },
   });
 
-  const { totalColumnHighligh, revenueChartData, shareholderChartData } = useMemo(() => {
+  const { totalColumnHighligh, shareholderChartData } = useMemo(() => {
     const totalColumnHighligh = Math.ceil(
       (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
     );
 
-    const revenueChartData =
-      taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || [];
     const shareholderChartData =
       shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || [];
 
     return {
       totalColumnHighligh,
-      revenueChartData,
       shareholderChartData,
     };
   }, [taggingInfo, shareholder]);
@@ -430,23 +432,6 @@ const StockDetail = () => {
     };
   }, [dataStock]);
 
-  const revenueLastUpdated = useMemo(() => {
-    if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
-      const lastUpdate = dayjs.max(
-        taggingInfo?.data?.revenues
-          .filter((item) => item.updatedAt)
-          .map((item) => dayjs(item.updatedAt)),
-      );
-
-      return {
-        quarter: dayjs(lastUpdate).subtract(3, 'M').quarter(),
-        year: dayjs(lastUpdate).subtract(3, 'M').get('year'),
-      };
-    }
-
-    return null;
-  }, [taggingInfo]);
-
   const handleOpenPopupZoom = () => {
     setOpenPopupZoomChart(true);
   };
@@ -588,88 +573,7 @@ const StockDetail = () => {
       <StockMainBusiness stockCode={stockCode} taggingInfo={taggingInfo} />
 
       {/* revenue */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('revenue_sources')}
-          </Text>
-
-          {loadingTaggingInfo && (
-            <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
-              <div className='flex flex-col items-center'>
-                <div className='galaxy-max:scale-[0.7]'>
-                  <Skeleton width={319} round height={319} />
-                </div>
-
-                <Skeleton className='mt-[28px]' round />
-              </div>
-
-              <div className='tablet:flex-1'>
-                <div className='mt-[8px]'>
-                  {[...new Array(6)].map((_, index) => (
-                    <div
-                      key={index}
-                      className='flex items-center border-solid border-[var(--neutral-7)] py-[16px] [&:not(:last-child)]:border-b'
-                    >
-                      <Skeleton avatar width={20} height={20} />
-
-                      <Skeleton
-                        height={15}
-                        className='!w-full'
-                        wrapClassName='!w-full mx-[10px]'
-                        round
-                      />
-
-                      <Skeleton height={15} round width={80} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {!loadingTaggingInfo &&
-            taggingInfo?.data?.revenues &&
-            taggingInfo?.data?.revenues.length > 0 && (
-              <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
-                <div className='flex flex-col items-center'>
-                  <div className='galaxy-max:scale-[0.7]'>
-                    <PieChart width={319} height={296} data={revenueChartData} />
-                  </div>
-
-                  <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
-                    {t('revenue_last_updated', {
-                      quarter: revenueLastUpdated?.quarter,
-                      year: revenueLastUpdated?.year,
-                    })}
-                  </Text>
-                </div>
-
-                <div className='tablet:flex-1'>
-                  <div className='mt-[8px]'>
-                    {taggingInfo?.data?.revenues.map((item, index) => (
-                      <RevenueItem
-                        color={
-                          REVENUE_CHART_COLOR[
-                            index % ((taggingInfo?.data && taggingInfo?.data?.revenues.length) || 0)
-                          ]
-                        }
-                        key={index}
-                        value={
-                          Number.isInteger(item.percentage)
-                            ? item.percentage
-                            : +item.percentage.toFixed(2)
-                        }
-                        label={item.sourceVi}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-        </div>
-      )}
+      <StockRevenue taggingInfo={taggingInfo} />
 
       {/* highlights */}
       {(loadingTaggingInfo ||
