@@ -30,6 +30,7 @@ import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
 import CalendarItem from './CalendarItem';
 import { DonutChart } from './Chart';
 import ChartIframe from './ChartIframe';
+import StockCommunitySkeleton from './Community/skeleton';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import StockHighlightsSkeleton from './Highlights/skeleton';
@@ -78,7 +79,6 @@ import {
 } from '../type';
 
 const STOCK_EVENT_ITEM_LIMIT = 4;
-const WATCHING_INVESTING_ITEM_LIMIT = 4;
 const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
@@ -120,6 +120,11 @@ const StockAlsoOwn = dynamic(() => import('@components/Stock/StockDetail/AlsoOwn
   loading: () => <StockAlsoOwnSkeleton />,
 });
 
+const StockCommunity = dynamic(() => import('@components/Stock/StockDetail/Community'), {
+  ssr: false,
+  loading: () => <StockCommunitySkeleton />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
@@ -158,11 +163,7 @@ const StockDetail = () => {
   const { holdingRatio, loading: loadingHoldingRatio } = useHoldingRatio(stockCode);
   const { stockEvents, loading: loadingStockEvents } = useFinancialCalendar(stockCode);
   const { stockThemes, loading: loadingTheme } = useThemesOfStock(stockCode);
-  const {
-    stockDetails,
-    refreshStockDetails,
-    loading: loadingStockDetails,
-  } = useStockDetailsExtra(stockCode);
+  const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
       if (e.errorCode === 'error.company.not.found') {
@@ -660,79 +661,7 @@ const StockDetail = () => {
       </div>
 
       {/* community */}
-      {(loadingStockDetails ||
-        (stockDetails?.data.watchingInvestingList &&
-          stockDetails?.data.watchingInvestingList.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold'>{t('community')}</Text>
-          <Text type='body-14-regular' className='mt-[16px] galaxy-max:text-[12px]'>
-            {t('community_description')}
-          </Text>
-
-          <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
-            {loadingStockDetails ? (
-              <>
-                <Skeleton
-                  rows={4}
-                  wrapClassName='!flex-row !gap-x-[10px] mr-[16px]'
-                  width={40}
-                  height={40}
-                  avatar
-                />
-
-                <Skeleton round height={34} />
-              </>
-            ) : (
-              <>
-                <CustomLink
-                  href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
-                  className='flex gap-x-[10px] galaxy-max:gap-[6px]'
-                >
-                  {stockDetails?.data.watchingInvestingList
-                    .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
-                    .map((item, index) => (
-                      <div className='relative' key={index}>
-                        <img
-                          src={item.avatar}
-                          alt='Avatar'
-                          className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
-                        />
-
-                        {item.isInvesting ? (
-                          <img
-                            src='/static/icons/iconTree.svg'
-                            alt='Icon tree'
-                            className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
-                          />
-                        ) : (
-                          <img
-                            src='/static/icons/iconHeartActive.svg'
-                            alt='Icon tree'
-                            className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
-                          />
-                        )}
-                      </div>
-                    ))}
-                </CustomLink>
-
-                <div
-                  onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
-                  className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
-                >
-                  <Text type='body-14-regular' className='text-[#0D0D0D]'>
-                    {stockDetails?.data.watchingInvestingNo}
-                  </Text>
-                  <img
-                    src='/static/icons/iconBlackRight.svg'
-                    alt='Icon right'
-                    className='ml-[10px] h-[8px] w-[4px]'
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <StockCommunity stockDetails={stockDetails} stockCode={stockCode} />
 
       {/* recent news */}
       {(loadingStockNews || (stockNews?.data.list && stockNews.data.list.length > 0)) && (
