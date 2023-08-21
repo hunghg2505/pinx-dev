@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
@@ -111,4 +111,4 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
   );
 };
 
-export default NewsItem;
+export default memo(NewsItem);

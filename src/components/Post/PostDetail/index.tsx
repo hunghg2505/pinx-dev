@@ -211,7 +211,7 @@ const PostDetail = () => {
           onClose={onCloseModal}
         />
       )}
-      <div className='p-[10px] galaxy-max:p-0 desktop:p-0'>
+      <div>
         <div className='card-style rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0]'>
           <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
             <Text
