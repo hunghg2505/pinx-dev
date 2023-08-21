@@ -58,7 +58,12 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
             )}
           >
             <div className='flex items-center justify-between'>
-              <Text type='body-14-semibold'>{data.post.customerInfo.displayName}</Text>
+              <Text
+                type='body-14-semibold'
+                className='max-w-[150px] truncate galaxy-max:max-w-[80px] laptop:max-w-[300px]'
+              >
+                {data.post.customerInfo.displayName}
+              </Text>
 
               <Text type='body-12-regular' className='text-[#999999]'>
                 {dayjs(data.timeString)?.locale(i18n.language)?.fromNow(true)}

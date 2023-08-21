@@ -4,14 +4,44 @@ import dynamic from 'next/dynamic';
 // import { useRouter } from 'next/router';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { Skeleton } from '@components/UI/Skeleton';
 import Themes from '@components/WatchList/Themes';
-import YourWatchList from '@components/WatchList/YourWatchList';
 // import { useResponsive } from '@hooks/useResponsive';
 
 import { useGetInterest, useGetYourWatchList } from './service';
+import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';
+
+const YourWatchList = dynamic(() => import('@components/WatchList/YourWatchList'), {
+  ssr: false,
+  loading: () => (
+    <div>
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+    </div>
+  ),
+});
 
 const Interest = dynamic(() => import('@components/WatchList/Interest'), {
   ssr: false,
+  loading: () => (
+    <div className='mt-[16px] flex overflow-x-hidden'>
+      <Skeleton
+        width={112}
+        height={172}
+        rows={10}
+        wrapClassName='!flex-row gap-x-[16px]'
+        className='!rounded-[12px]'
+      />
+    </div>
+  ),
 });
 
 const WatchList = () => {
@@ -28,7 +58,7 @@ const WatchList = () => {
   //   router.back();
   // };
 
-  const { interestStock, refreshInterest, getInterest, loading } = useGetInterest({
+  const { interestStock, refreshInterest, getInterest } = useGetInterest({
     manual: true,
     onSuccess: (res: any) => {
       const data = res?.data;
@@ -136,7 +166,6 @@ const WatchList = () => {
           interestStock={interestStock}
           refreshInterest={refreshInterest}
           refreshYourWatchList={refreshYourWatchList}
-          loading={loading}
         />
         <Themes isEdit={isEdit} />
       </div>

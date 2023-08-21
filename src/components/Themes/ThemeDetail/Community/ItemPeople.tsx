@@ -31,12 +31,12 @@ const ItemPeople = ({ data }: { data: IUserTheme }) => {
             loading='lazy'
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[36px] w-[36px] rounded-full'
+            className='mr-[8px] h-[36px] w-[36px] rounded-full object-cover'
           />
           <div>
             <Text
               type='body-14-semibold'
-              className='truncate galaxy-max:max-w-[140px]'
+              className='max-w-[100px] truncate galaxy-max:max-w-[140px] laptop:max-w-[180px]'
               color='neutral-darkgray'
             >
               {data?.displayName}

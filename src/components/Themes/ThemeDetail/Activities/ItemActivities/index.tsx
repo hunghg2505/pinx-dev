@@ -56,7 +56,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
           <div className='flex items-center justify-between'>
             <Text
               type='body-14-semibold'
-              className='truncate galaxy-max:max-w-[120px]'
+              className='max-w-[150px] truncate galaxy-max:max-w-[120px] laptop:max-w-[300px]'
               color='neutral-black'
             >
               {data?.post?.customerInfo?.displayName}
