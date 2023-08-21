@@ -17,7 +17,6 @@ import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -27,7 +26,6 @@ import { USERTYPE } from '@utils/constant';
 import ActivityItem from './ActivityItem';
 import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
 import StockCalendarSkeleton from './Calendar/skeleton';
-import { DonutChart } from './Chart';
 import ChartIframe from './ChartIframe';
 import StockCommunitySkeleton from './Community/skeleton';
 import FinancialAnnualTab from './FinancialAnnualTab';
@@ -43,9 +41,9 @@ import StockNewsSkeleton from './News/skeleton';
 import StockProductSkeleton from './Products/skeleton';
 import StockRevenueSkeleton from './Revenue/skeleton';
 import ReviewItem from './ReviewItem';
+import StockShareholdersSkeleton from './Shareholders/skeleton';
 import FakeStockHeading from './StockHeading/fakeHeading';
 import StockThemesSkeleton from './Themes/skeleton';
-import { SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -61,7 +59,6 @@ import {
   useHoldingRatio,
   useMyListStock,
   useReviewStock,
-  useShareholder,
   useStockActivities,
   useStockDetail,
   useStockDetailsExtra,
@@ -134,6 +131,11 @@ const StockCalendar = dynamic(() => import('@components/Stock/StockDetail/Calend
   loading: () => <StockCalendarSkeleton />,
 });
 
+const StockShareholders = dynamic(() => import('@components/Stock/StockDetail/Shareholders'), {
+  ssr: false,
+  loading: () => <StockShareholdersSkeleton />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
@@ -146,7 +148,6 @@ const StockDetail = () => {
   const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
 
-  const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -161,7 +162,6 @@ const StockDetail = () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
   });
-  const { shareholder, loading: loadingShareHolder } = useShareholder(stockCode);
   const { refreshMyStocks } = useMyListStock({
     onSuccess: (res: null | IResponseMyStocks) => {
       const isFollowed = !!(res && res.data[0].stocks.some((item) => item.stockCode === stockCode));
@@ -188,15 +188,6 @@ const StockDetail = () => {
       setPreDataStock((prev) => ({ ...prev, ...res.data }));
     },
   });
-
-  const { shareholderChartData } = useMemo(() => {
-    const shareholderChartData =
-      shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || [];
-
-    return {
-      shareholderChartData,
-    };
-  }, [shareholder]);
 
   useEffect(() => {
     socket.on('public', (message: any) => {
@@ -704,73 +695,7 @@ const StockDetail = () => {
       </div>
 
       {/* shareholders */}
-      {(loadingShareHolder || (shareholder?.data && shareholder.data.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-bold'>{t('shareholders_title')}</Text>
-
-          {/* chart */}
-          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[28px] tablet:flex-row tablet:items-center'>
-            {loadingShareHolder ? (
-              <>
-                <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
-                  {[...new Array(6)].map((_, index) => (
-                    <div className='self-start' key={index}>
-                      <Skeleton height={15} round width={80} />
-                      <Skeleton height={15} width={130} wrapClassName='mt-[8px]' round />
-                    </div>
-                  ))}
-                </div>
-
-                <div className='mx-auto'>
-                  <Skeleton width={183} height={183} round />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
-                  {shareholder?.data?.map((item, index) => (
-                    <div key={index} className='self-start'>
-                      <div className='mb-[6px] flex items-center'>
-                        <div
-                          className='h-[10px] w-[35px] rounded-full'
-                          style={{
-                            backgroundColor:
-                              SHARE_HOLDER_COLOR[
-                                index %
-                                  (shareholder?.data && shareholder?.data.length > 0
-                                    ? shareholder.data.length
-                                    : 0)
-                              ],
-                          }}
-                        ></div>
-                        <Text type='body-14-semibold' className='ml-[4px]'>
-                          {item.ratio}%
-                        </Text>
-                      </div>
-
-                      <Text type='body-12-regular' className='!leading-[16px] text-[#808A9D]'>
-                        {item.name}
-                      </Text>
-                      <Text type='body-12-regular' color='primary-5' className='!leading-[16px]'>
-                        {formatNumber(item.value)}
-                      </Text>
-                    </div>
-                  ))}
-                </div>
-
-                <div className='mx-auto'>
-                  <DonutChart
-                    strokeWidth={isMobile ? 16 : 27}
-                    width={isMobile ? 183 : 318}
-                    height={isMobile ? 183 : 318}
-                    data={shareholderChartData}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <StockShareholders stockCode={stockCode} />
 
       {/* holding ratio */}
       {(loadingHoldingRatio || (holdingRatio?.data && holdingRatio?.data.length > 0)) && (
