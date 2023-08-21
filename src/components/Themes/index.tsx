@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { ITheme, useGetTheme } from '@components/Home/service';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 const ThemeExploreItem = dynamic(() => import('./ThemeExploreItem'));
@@ -13,7 +14,7 @@ const Themes = () => {
   const onGoBack = () => {
     router.back();
   };
-  const { theme } = useGetTheme();
+  const { theme, loading } = useGetTheme();
   return (
     <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
       <div className='relative mb-[16px] mt-[12px] h-[40px] text-center tablet:mt-0'>
@@ -33,15 +34,32 @@ const Themes = () => {
       </div>
 
       <div className='grid grid-cols-2 gap-[16px] galaxy-max:grid-cols-1 tablet:grid-cols-3 desktop:grid-cols-4'>
-        {theme?.map((theme: ITheme, index: number) => {
-          return (
-            <div key={index}>
-              <div className='mobile-max:mr-[0px] mobile-max:w-full'>
-                <ThemeExploreItem data={theme} />
+        {loading ? (
+          <>
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+            <Skeleton height={214} className='!w-full !rounded-[15px]' />
+          </>
+        ) : (
+          theme?.map((theme: ITheme, index: number) => {
+            return (
+              <div key={index}>
+                <div className='mobile-max:mr-[0px] mobile-max:w-full'>
+                  <ThemeExploreItem data={theme} />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

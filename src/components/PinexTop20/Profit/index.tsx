@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next';
 
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 import PinexTop from '../PinexTop';
@@ -7,7 +8,7 @@ import { IProfit, useGetTopProfit } from '../service';
 
 const Profit = () => {
   const { t } = useTranslation('explore');
-  const { profit } = useGetTopProfit();
+  const { profit, loading } = useGetTopProfit();
   const maxProfit = profit && Math.max(...profit.map((item: IProfit) => item.profit));
 
   return (
@@ -19,16 +20,25 @@ const Profit = () => {
         {t('top_20_tab.profit_unit')}
       </Text>
       <div className='mt-[16px] flex flex-col gap-y-[16px]'>
-        {profit?.map((profit: IProfit, index: number) => {
-          return (
-            <PinexTop
-              percent={((profit.profit || 0) / maxProfit) * 100}
-              number={index + 1}
-              key={`profit-${index}`}
-              data={profit}
-            />
-          );
-        })}
+        {loading ? (
+          <Skeleton
+            height={68}
+            rows={10}
+            wrapClassName='!gap-y-[16px]'
+            className='!w-full !rounded-[15px]'
+          />
+        ) : (
+          profit?.map((profit: IProfit, index: number) => {
+            return (
+              <PinexTop
+                percent={((profit.profit || 0) / maxProfit) * 100}
+                number={index + 1}
+                key={`profit-${index}`}
+                data={profit}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next';
 
 import ItemInfluence from '@components/Home/People/Influencer/ItemInfluence';
 import { IKOL, useGetInfluencer } from '@components/Home/service';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 const PeopleSpotlight = () => {
@@ -11,7 +12,7 @@ const PeopleSpotlight = () => {
   const onGoBack = () => {
     router.back();
   };
-  const { KOL, refresh } = useGetInfluencer();
+  const { KOL, refresh, loading } = useGetInfluencer();
   return (
     <>
       <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
@@ -40,9 +41,28 @@ const PeopleSpotlight = () => {
         </div>
 
         <div className='grid grid-cols-2 gap-[16px] galaxy-max:grid-cols-1 galaxy-max:gap-[20px] galaxy-max:px-3 tablet:grid-cols-3 desktop:grid-cols-4 '>
-          {KOL?.slice(0, 20).map((item: IKOL, index: number) => {
-            return <ItemInfluence data={item} refresh={refresh} key={`PeopleSpotlight-${index}`} />;
-          })}
+          {loading ? (
+            <>
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+              <Skeleton height={252} className='!w-full !rounded-[15px]' />
+            </>
+          ) : (
+            KOL?.slice(0, 20).map((item: IKOL, index: number) => {
+              return (
+                <ItemInfluence data={item} refresh={refresh} key={`PeopleSpotlight-${index}`} />
+              );
+            })
+          )}
         </div>
       </div>
     </>
