@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { IUserTheme } from '@components/Themes/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH } from '@utils/common';
 
 const IconArrow = () => (
@@ -19,9 +20,11 @@ const IconArrow = () => (
 
 const ItemPeople = ({ data }: { data: IUserTheme }) => {
   const { t } = useTranslation('common');
-
+  const { userId } = useUserType();
+  const isMyPost = Number(data?.customerId) === Number(userId);
+  const urlProfile = isMyPost ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(data?.customerId);
   return (
-    <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data?.customerId)}>
+    <CustomLink href={urlProfile}>
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
         <div className='flex items-center'>
           <img
