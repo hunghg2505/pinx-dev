@@ -26,7 +26,7 @@ import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
 import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
-import CalendarItem from './CalendarItem';
+import StockCalendarSkeleton from './Calendar/skeleton';
 import { DonutChart } from './Chart';
 import ChartIframe from './ChartIframe';
 import StockCommunitySkeleton from './Community/skeleton';
@@ -55,7 +55,6 @@ import PopupZoomChart from '../Popup/PopupZoomChart';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
-  useFinancialCalendar,
   useFinancialIndex,
   useFollowOrUnfollowStock,
   useGetStockData,
@@ -75,7 +74,6 @@ import {
   TabType,
 } from '../type';
 
-const STOCK_EVENT_ITEM_LIMIT = 4;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
 const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
@@ -131,6 +129,11 @@ const StockThemes = dynamic(() => import('@components/Stock/StockDetail/Themes')
   loading: () => <StockThemesSkeleton />,
 });
 
+const StockCalendar = dynamic(() => import('@components/Stock/StockDetail/Calendar'), {
+  ssr: false,
+  loading: () => <StockCalendarSkeleton />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
@@ -167,7 +170,6 @@ const StockDetail = () => {
   });
   const { financialIndex, loading: loadingFinancialIndex } = useFinancialIndex(stockCode);
   const { holdingRatio, loading: loadingHoldingRatio } = useHoldingRatio(stockCode);
-  const { stockEvents, loading: loadingStockEvents } = useFinancialCalendar(stockCode);
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
@@ -675,44 +677,7 @@ const StockDetail = () => {
       <StockThemes stockCode={stockCode} />
 
       {/* calendar */}
-      {(loadingStockEvents || (stockEvents?.data.list && stockEvents?.data.list.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('financial_calendar_title')}
-          </Text>
-
-          <Text type='body-14-regular' className='mb-[12px] galaxy-max:text-[12px]'>
-            {t('financial_calendar_desc')}
-          </Text>
-
-          <div className='grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:grid-cols-2'>
-            {loadingStockEvents
-              ? [...new Array(4)].map((_, index) => (
-                  <Skeleton
-                    key={index}
-                    height={89}
-                    wrapClassName='w-full'
-                    className='!w-full !rounded-[8px]'
-                  />
-                ))
-              : stockEvents?.data.list
-                  .slice(0, STOCK_EVENT_ITEM_LIMIT)
-                  .map((item, index) => <CalendarItem key={index} data={item.post} />)}
-          </div>
-
-          {stockEvents?.data && stockEvents.data.list.length > STOCK_EVENT_ITEM_LIMIT && (
-            <CustomLink href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
-              <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('more_events', {
-                    stockCode: stockDetail?.data?.stockCode,
-                  })}
-                </Text>
-              </button>
-            </CustomLink>
-          )}
-        </div>
-      )}
+      <StockCalendar stockCode={stockCode} />
 
       {/* financial */}
       <div className='box-shadow card-style'>
