@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/no-useless-spread */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
@@ -45,7 +44,7 @@ import StockProductSkeleton from './Products/skeleton';
 import StockRevenueSkeleton from './Revenue/skeleton';
 import ReviewItem from './ReviewItem';
 import FakeStockHeading from './StockHeading/fakeHeading';
-import ThemeItem from './ThemeItem';
+import StockThemesSkeleton from './Themes/skeleton';
 import { SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
@@ -67,7 +66,6 @@ import {
   useStockActivities,
   useStockDetail,
   useStockDetailsExtra,
-  useThemesOfStock,
 } from '../service';
 import {
   FinancialIndexKey,
@@ -128,6 +126,11 @@ const StockNews = dynamic(() => import('@components/Stock/StockDetail/News'), {
   loading: () => <StockNewsSkeleton />,
 });
 
+const StockThemes = dynamic(() => import('@components/Stock/StockDetail/Themes'), {
+  ssr: false,
+  loading: () => <StockThemesSkeleton />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
@@ -165,7 +168,6 @@ const StockDetail = () => {
   const { financialIndex, loading: loadingFinancialIndex } = useFinancialIndex(stockCode);
   const { holdingRatio, loading: loadingHoldingRatio } = useHoldingRatio(stockCode);
   const { stockEvents, loading: loadingStockEvents } = useFinancialCalendar(stockCode);
-  const { stockThemes, loading: loadingTheme } = useThemesOfStock(stockCode);
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
@@ -670,27 +672,7 @@ const StockDetail = () => {
       <StockNews stockCode={stockCode} />
 
       {/* featured in themes */}
-      {(loadingTheme || (stockThemes && stockThemes.data.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[16px]'>
-            <Text type='body-20-semibold'>{t('featured_in_themes')}</Text>
-          </div>
-
-          <div className={classNames('flex gap-x-[12px] overflow-x-auto', styles.noScrollbar)}>
-            {loadingTheme ? (
-              <Skeleton
-                width={149}
-                height={214}
-                rows={10}
-                wrapClassName='!flex-row gap-x-[12px]'
-                className='!rounded-[12px]'
-              />
-            ) : (
-              stockThemes?.data.map((item, index) => <ThemeItem key={index} data={item} />)
-            )}
-          </div>
-        </div>
-      )}
+      <StockThemes stockCode={stockCode} />
 
       {/* calendar */}
       {(loadingStockEvents || (stockEvents?.data.list && stockEvents?.data.list.length > 0)) && (
