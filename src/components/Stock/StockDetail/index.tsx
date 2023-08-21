@@ -15,12 +15,11 @@ import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Hom
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
-import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH, formatNumber, getStockColor } from '@utils/common';
+import { ROUTE_PATH, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -29,10 +28,10 @@ import StockCalendarSkeleton from './Calendar/skeleton';
 import ChartIframe from './ChartIframe';
 import StockCommunitySkeleton from './Community/skeleton';
 import FinancialAnnualTab from './FinancialAnnualTab';
+import StockFinancialIndexSkeleton from './FinancialIndex/skeleton';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import StockHighlightsSkeleton from './Highlights/skeleton';
 import StockHoldingRatioSkeleton from './HoldingRatio/skeleton';
-import HoldingRatioItem from './HoldingRatioItem';
 import IntradayTab from './IntradayTab';
 import IntroSkeleton from './Intro/skeleton';
 import MainBusinessSkeleton from './MainBusiness/skeleton';
@@ -54,7 +53,6 @@ import PopupZoomChart from '../Popup/PopupZoomChart';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
-  useFinancialIndex,
   useFollowOrUnfollowStock,
   useGetStockData,
   useMyListStock,
@@ -63,13 +61,7 @@ import {
   useStockDetail,
   useStockDetailsExtra,
 } from '../service';
-import {
-  FinancialIndexKey,
-  IFinancialIndex,
-  IResponseMyStocks,
-  IStockData,
-  TabType,
-} from '../type';
+import { IResponseMyStocks, IStockData, TabType } from '../type';
 
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
@@ -141,18 +133,21 @@ const StockHoldingRatio = dynamic(() => import('@components/Stock/StockDetail/Ho
   loading: () => <StockHoldingRatioSkeleton />,
 });
 
+const StockFinancialIndex = dynamic(() => import('@components/Stock/StockDetail/FinancialIndex'), {
+  ssr: false,
+  loading: () => <StockFinancialIndexSkeleton />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
   const { t } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
-
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
   const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
-
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -173,7 +168,6 @@ const StockDetail = () => {
       setIsFollowedStock(isFollowed);
     },
   });
-  const { financialIndex, loading: loadingFinancialIndex } = useFinancialIndex(stockCode);
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
@@ -369,49 +363,6 @@ const StockDetail = () => {
   const handleReviewSuccess = () => {
     refreshStockDetails();
     setOpenPopupReview(false);
-  };
-
-  const manualTranslate = (value: string) => {
-    switch (value) {
-      case FinancialIndexKey.marketCap: {
-        return t('financial_index.market_cap');
-      }
-      case FinancialIndexKey.volume: {
-        return t('financial_index.volume');
-      }
-      case FinancialIndexKey.pe: {
-        return t('financial_index.p/e');
-      }
-      case FinancialIndexKey.roe: {
-        return t('financial_index.roe');
-      }
-      default: {
-        return '';
-      }
-    }
-  };
-
-  const convertFinancialIndexData = (data?: IFinancialIndex) => {
-    if (data) {
-      const onlyKeys = new Set([
-        FinancialIndexKey.marketCap,
-        FinancialIndexKey.volume,
-        FinancialIndexKey.pe,
-        FinancialIndexKey.roe,
-      ]);
-
-      const arr = Object.keys(data);
-      arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
-
-      return arr
-        .filter((item) => onlyKeys.has(item))
-        .map((item) => ({
-          label: manualTranslate(item),
-          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
-        }));
-    }
-
-    return [];
   };
 
   const { chartColorFormat } = useMemo(() => {
@@ -704,31 +655,7 @@ const StockDetail = () => {
       {/* holding ratio */}
       <StockHoldingRatio stockCode={stockCode} />
 
-      {(loadingFinancialIndex || financialIndex?.data) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold'>{t('financial_index_title')}</Text>
-
-          {loadingFinancialIndex ? (
-            <div className='mt-[16px]'>
-              {[...new Array(4)].map((_, index) => (
-                <div
-                  className='flex items-center justify-between border-solid border-[#E6E6E6] py-[12px] [&:not(:last-child)]:border-b'
-                  key={index}
-                >
-                  <Skeleton />
-                  <Skeleton width={50} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
-              {convertFinancialIndexData(financialIndex?.data).map((item, index) => (
-                <HoldingRatioItem key={index} label={item.label} value={item.value} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <StockFinancialIndex stockCode={stockCode} />
 
       {/* activities */}
       <div className='box-shadow card-style'>
