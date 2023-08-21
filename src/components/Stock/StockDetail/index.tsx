@@ -31,6 +31,7 @@ import StockCommunitySkeleton from './Community/skeleton';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
 import StockHighlightsSkeleton from './Highlights/skeleton';
+import StockHoldingRatioSkeleton from './HoldingRatio/skeleton';
 import HoldingRatioItem from './HoldingRatioItem';
 import IntradayTab from './IntradayTab';
 import IntroSkeleton from './Intro/skeleton';
@@ -56,7 +57,6 @@ import {
   useFinancialIndex,
   useFollowOrUnfollowStock,
   useGetStockData,
-  useHoldingRatio,
   useMyListStock,
   useReviewStock,
   useStockActivities,
@@ -136,6 +136,11 @@ const StockShareholders = dynamic(() => import('@components/Stock/StockDetail/Sh
   loading: () => <StockShareholdersSkeleton />,
 });
 
+const StockHoldingRatio = dynamic(() => import('@components/Stock/StockDetail/HoldingRatio'), {
+  ssr: false,
+  loading: () => <StockHoldingRatioSkeleton />,
+});
+
 dayjs.extend(quarterOfYear);
 dayjs.extend(minMax);
 const StockDetail = () => {
@@ -169,7 +174,6 @@ const StockDetail = () => {
     },
   });
   const { financialIndex, loading: loadingFinancialIndex } = useFinancialIndex(stockCode);
-  const { holdingRatio, loading: loadingHoldingRatio } = useHoldingRatio(stockCode);
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
@@ -698,31 +702,7 @@ const StockDetail = () => {
       <StockShareholders stockCode={stockCode} />
 
       {/* holding ratio */}
-      {(loadingHoldingRatio || (holdingRatio?.data && holdingRatio?.data.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold'>{t('holding_ratio_title')}</Text>
-
-          {loadingHoldingRatio ? (
-            <div className='mt-[16px]'>
-              {[...new Array(6)].map((_, index) => (
-                <div
-                  className='flex items-center justify-between border-solid border-[#E6E6E6] py-[12px] [&:not(:last-child)]:border-b'
-                  key={index}
-                >
-                  <Skeleton />
-                  <Skeleton width={50} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
-              {holdingRatio?.data.map((item, index) => (
-                <HoldingRatioItem key={index} label={item.name} value={`${item.rate}%`} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <StockHoldingRatio stockCode={stockCode} />
 
       {(loadingFinancialIndex || financialIndex?.data) && (
         <div className='box-shadow card-style'>
