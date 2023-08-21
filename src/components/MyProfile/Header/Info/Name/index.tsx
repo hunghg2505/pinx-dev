@@ -12,7 +12,7 @@ const Name = ({
   return (
     <>
       <div className='flex items-center gap-[8px] '>
-        <h3 className='max-w-[300px] truncate text-[20px] font-[600] galaxy-max:max-w-[200px]  galaxy-max:text-[14px]'>
+        <h3 className='max-w-[300px] truncate text-[20px] font-[600] galaxy-max:max-w-[180px]  galaxy-max:text-[14px]'>
           {displayName}
         </h3>
 
