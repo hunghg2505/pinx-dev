@@ -34,7 +34,11 @@ const ItemPeople = ({ data }: { data: IUserTheme }) => {
             className='mr-[8px] h-[36px] w-[36px] rounded-full'
           />
           <div>
-            <Text type='body-14-semibold' color='neutral-darkgray'>
+            <Text
+              type='body-14-semibold'
+              className='truncate galaxy-max:max-w-[140px]'
+              color='neutral-darkgray'
+            >
               {data?.displayName}
             </Text>
             <Text type='body-12-regular' color='neutral-5'>
