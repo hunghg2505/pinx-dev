@@ -33,7 +33,11 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
             <div className='absolute left-0 top-0 z-10 flex h-full w-full bg-gradient-to-t from-neutral_black to-[transparent] px-[20px] pb-[12px] pt-[20px]'>
               <div className='mt-auto w-full text-center'>
                 <div className='flex items-center justify-center'>
-                  <Text type='body-24-semibold' className='galaxy-max:text-[20px]' color='cbwhite'>
+                  <Text
+                    type='body-24-semibold'
+                    className='max-w-[150px] truncate galaxy-max:text-[20px] laptop:max-w-[200px]'
+                    color='cbwhite'
+                  >
                     {profileUser?.displayName}
                   </Text>
 
