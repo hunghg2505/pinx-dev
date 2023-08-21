@@ -4,28 +4,12 @@ import { useRequest } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 
 import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
-import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
-
-const SkeletonLoading = () => {
-  return (
-    <div className='flex flex-row items-center rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
-      <Skeleton avatar width={36} height={36} />
-
-      <div className='ml-[8px] flex flex-col gap-y-[4px]'>
-        <Skeleton height={14} round />
-        <Skeleton height={14} round width={50} />
-      </div>
-
-      <Skeleton wrapClassName='ml-auto' width={28} height={28} round />
-    </div>
-  );
-};
 
 const IconArrow = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='17' height='16' viewBox='0 0 17 16' fill='none'>
@@ -40,10 +24,9 @@ const IconArrow = () => (
 );
 interface IProps {
   payload: IThemeDetail;
-  loading?: boolean;
 }
 const Community = React.forwardRef((props: IProps, ref: any) => {
-  const { payload, loading: loadingThemeDetail } = props;
+  const { payload } = props;
   const { t } = useTranslation('theme');
   const themeCode = payload?.code;
   const { userLoginInfo } = useUserLoginInfo();
@@ -111,22 +94,13 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
           {t('community_description')}
         </Text>
         <div className='ml-[12px] flex h-[34px] w-[76px] flex-row items-center justify-center rounded-[100px]  bg-[#F7F6F8] mobile:hidden desktop:flex'>
-          {loadingThemeDetail ? (
-            <Skeleton height={34} width={80} round />
-          ) : (
-            <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-              {data?.totalElements}
-            </Text>
-          )}
+          <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
+            {data?.totalElements}
+          </Text>
         </div>
       </div>
       <div className='flex items-center gap-x-[11px] desktop:hidden'>
-        {loadingThemeDetail ? (
-          <>
-            <Skeleton avatar rows={3} wrapClassName='!flex-row gap-x-[11px]' />
-          </>
-        ) : (
-          data?.list &&
+        {data?.list &&
           [...data?.list]?.slice(0, 3)?.map((item: any, index: number) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
@@ -148,39 +122,18 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
                 </div>
               </div>
             );
-          })
-        )}
+          })}
         <ModalCommunity code={payload?.code}>
-          {loadingThemeDetail ? (
-            <Skeleton height={34} width={80} round />
-          ) : (
-            <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
-              <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-                {data?.totalElements}
-              </Text>
-              <IconArrow />
-            </div>
-          )}
+          <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
+            <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
+              {data?.totalElements}
+            </Text>
+            <IconArrow />
+          </div>
         </ModalCommunity>
       </div>
       <div className='grid-cols-2 gap-x-[24px] gap-y-[20px] mobile:hidden desktop:grid'>
-        {loadingThemeDetail ? (
-          <>
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-          </>
-        ) : (
-          data?.list &&
+        {data?.list &&
           [...data?.list]?.map((item: IUserTheme, idx: number) => {
             if (idx + 1 === data?.list?.length) {
               return (
@@ -198,8 +151,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
                 <ItemPeople key={item.customerId} data={item} />
               </div>
             );
-          })
-        )}
+          })}
       </div>
     </div>
   );

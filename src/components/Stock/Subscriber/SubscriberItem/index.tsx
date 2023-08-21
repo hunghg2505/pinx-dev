@@ -28,7 +28,10 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
       <div className='ml-[8px]'>
         <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
           <div className='flex items-center'>
-            <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px]'>
+            <Text
+              type='body-14-semibold'
+              className='max-w-[100px] truncate text-[#474D57] galaxy-max:text-[12px] laptop:max-w-[150px]'
+            >
               {data.displayName}
             </Text>
 

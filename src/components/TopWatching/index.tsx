@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next';
 
 import { ITopWatchingStock, useGetTopWatchingStock } from '@components/Explore/service';
 import WatchingStock from '@components/Explore/WatchingStock';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 const TopWatching = () => {
@@ -11,7 +12,7 @@ const TopWatching = () => {
   const onGoBack = () => {
     router.back();
   };
-  const { listStock } = useGetTopWatchingStock();
+  const { listStock, loading } = useGetTopWatchingStock();
   const maxTopWatchStock = listStock && Math.max(...listStock?.map((item: any) => item.totalCount));
   return (
     <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
@@ -31,15 +32,26 @@ const TopWatching = () => {
         {t('top.watching.desc')}
       </Text>
       <div className='mt-[16px] flex flex-col flex-wrap gap-x-[14px] gap-y-[20px]'>
-        {listStock?.map((item: ITopWatchingStock, index: number) => {
-          return (
-            <WatchingStock
-              percen={(item.totalCount / maxTopWatchStock) * 100}
-              key={`stock-${index}`}
-              data={item}
+        {loading ? (
+          <>
+            <Skeleton
+              rows={10}
+              className='!w-full !rounded-[15px]'
+              wrapClassName='!gap-y-[20px]'
+              height={60}
             />
-          );
-        })}
+          </>
+        ) : (
+          listStock?.map((item: ITopWatchingStock, index: number) => {
+            return (
+              <WatchingStock
+                percen={(item.totalCount / maxTopWatchStock) * 100}
+                key={`stock-${index}`}
+                data={item}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

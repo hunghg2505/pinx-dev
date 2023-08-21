@@ -64,7 +64,7 @@ const ReviewItem = ({
         <div className='flex items-center'>
           <Text
             type='body-14-semibold'
-            className='ml-[12px] truncate text-[#0D0D0D]  galaxy-max:ml-[6px] galaxy-max:max-w-[110px] galaxy-max:text-[12px]'
+            className='ml-[12px] max-w-[150px] truncate text-[#0D0D0D] galaxy-max:ml-[6px] galaxy-max:max-w-[110px] galaxy-max:text-[12px] laptop:max-w-[300px]'
           >
             {data.customerInfo.displayName}
           </Text>

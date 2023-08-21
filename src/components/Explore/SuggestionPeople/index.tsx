@@ -37,6 +37,11 @@ const SuggestionPeople = () => {
       </>
     );
   }
+
+  if (!suggestionPeople) {
+    return <></>;
+  }
+
   return (
     <div className='box-shadow card-style tablet:hidden'>
       <>

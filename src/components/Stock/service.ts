@@ -25,18 +25,22 @@ import {
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
-  const { data } = useRequest(() => requestMarket.get(API_PATH.PUBLIC_COMPANY_DETAIL(stockCode)), {
-    refreshDeps: [stockCode],
-    ...options,
-  });
+  const { data, loading } = useRequest(
+    () => requestMarket.get(API_PATH.PUBLIC_COMPANY_DETAIL(stockCode)),
+    {
+      refreshDeps: [stockCode],
+      ...options,
+    },
+  );
 
   return {
     stockDetail: data,
+    loading,
   };
 };
 
 const useShareholder = (stockCode: string): IResponseShareholder => {
-  const { data } = useRequest(
+  const { data, loading } = useRequest(
     () =>
       requestMarket.get(API_PATH.PUBLIC_COMPANY_SHAREHOLDER, {
         params: {
@@ -50,6 +54,7 @@ const useShareholder = (stockCode: string): IResponseShareholder => {
 
   return {
     shareholder: data,
+    loading,
   };
 };
 
@@ -97,7 +102,7 @@ const useFollowOrUnfollowStock = (options?: IOptions) => {
 };
 
 const useCompanyTaggingInfo = (stockCode: string, options?: IOptions): IResponseTaggingInfo => {
-  const { data } = useRequest(
+  const { data, loading } = useRequest(
     () => {
       return requestMarket.get(API_PATH.PUBLIC_COMPANY_TAGGING_INFO(stockCode));
     },
@@ -109,11 +114,12 @@ const useCompanyTaggingInfo = (stockCode: string, options?: IOptions): IResponse
 
   return {
     taggingInfo: data,
+    loading,
   };
 };
 
 const useFinancialIndex = (stockCode: string, options?: IOptions): IResponseFinancialIndex => {
-  const { data } = useRequest(
+  const { data, loading } = useRequest(
     () => {
       return requestMarket.get(API_PATH.PUBLIC_FINANCIAL_INDEX, {
         params: {
@@ -129,11 +135,12 @@ const useFinancialIndex = (stockCode: string, options?: IOptions): IResponseFina
 
   return {
     financialIndex: data,
+    loading,
   };
 };
 
 const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
-  const { data } = useRequest(
+  const { data, loading } = useRequest(
     () =>
       requestMarket.get(API_PATH.PUBLIC_COMPANY_OWNERSHIP, {
         params: {
@@ -147,6 +154,7 @@ const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
 
   return {
     holdingRatio: data,
+    loading,
   };
 };
 
@@ -172,17 +180,21 @@ const useFinancialCalendar = (stockCode: string, options?: object): IResponseSto
 };
 
 const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
-  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_THEME_OF_STOCK(stockCode)), {
-    refreshDeps: [stockCode],
-  });
+  const { data, loading } = useRequest(
+    () => requestPist.get(API_PATH.PUBLIC_THEME_OF_STOCK(stockCode)),
+    {
+      refreshDeps: [stockCode],
+    },
+  );
 
   return {
     stockThemes: data,
+    loading,
   };
 };
 
 const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => {
-  const { data, refresh } = useRequest(
+  const { data, refresh, loading } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
@@ -194,7 +206,7 @@ const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => 
     },
   );
 
-  return { stockDetails: data, refreshStockDetails: refresh };
+  return { stockDetails: data, refreshStockDetails: refresh, loading };
 };
 
 const useStockReviews = (stockCode: string, options?: IOptions) => {
