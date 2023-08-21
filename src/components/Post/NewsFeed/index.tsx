@@ -29,6 +29,7 @@ interface IProps {
   setShowPopup?: any;
   refreshSearch?: () => void;
   loading?: boolean;
+  hiddenComment?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -42,6 +43,7 @@ const NewsFeed = (props: IProps) => {
     setShowPopup,
     refreshSearch,
     loading,
+    hiddenComment,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -202,7 +204,7 @@ const NewsFeed = (props: IProps) => {
           isNewFeedExplore={isNewFeedExplore}
         />
 
-        {isLogin && !isNewFeedExplore && (
+        {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
@@ -213,7 +215,7 @@ const NewsFeed = (props: IProps) => {
           </div>
         )}
 
-        {!!countComment && !isNewFeedExplore && (
+        {!!countComment && !isNewFeedExplore && !hiddenComment && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
               <div className='mt-[22px] galaxy-max:mt-[18px]'>
