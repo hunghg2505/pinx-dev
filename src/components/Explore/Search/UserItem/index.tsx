@@ -99,7 +99,7 @@ const UserItem = (props: Iprops) => {
   return (
     <div
       className={classNames(
-        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
+        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px] galaxy-max:px-[8px] galaxy-max:py-[7px]',
         {
           '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
             !isMobile && isSearchPage,
@@ -118,42 +118,41 @@ const UserItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] min-w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
+            className='mr-[8px] h-[44px] w-[44px] min-w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px] galaxy-max:min-w-[36px]'
           />
         ) : (
           <div className='mr-[8px] h-[44px] w-[44px] min-w-[36px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}
-        <div className='mobile:max-w-[150px] desktop:max-w-[300px]'>
+        <div className='flex mobile:max-w-[130px]  galaxy-max:w-[120px] desktop:max-w-[300px]'>
           <Text
             type='body-14-semibold'
-            className='flex  flex-1 overflow-hidden text-[#474D57] galaxy-max:text-[12px]'
+            className='flex  overflow-hidden text-[#474D57] galaxy-max:text-[12px]'
           >
             <span className='truncate'>{data?.displayName}</span>
           </Text>
+          {data?.isFeatureProfile && (
+            <img
+              src='/static/icons/iconKol.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[20px] w-[20px]'
+            />
+          )}
+          {data?.isKol && (
+            <img
+              src='/static/icons/iconTick.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='ml-[8px] h-[16px] w-[16px]'
+            />
+          )}
         </div>
-
-        {data?.isFeatureProfile && (
-          <img
-            src='/static/icons/iconKol.svg'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='h-[20px] w-[20px]'
-          />
-        )}
-        {data?.isKol && (
-          <img
-            src='/static/icons/iconTick.svg'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='ml-[8px] h-[16px] w-[16px]'
-          />
-        )}
       </div>
       {!isMyProfile && (
         <div
