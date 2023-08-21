@@ -35,6 +35,7 @@ import HighlighItem from './HighlighItem';
 import HoldingRatioItem from './HoldingRatioItem';
 import IntradayTab from './IntradayTab';
 import IntroSkeleton from './Intro/skeleton';
+import MainBusinessSkeleton from './MainBusiness/skeleton';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
 import NewsItem from './NewsItem';
@@ -100,6 +101,11 @@ const Intro = dynamic(() => import('@components/Stock/StockDetail/Intro'), {
 const StockProducts = dynamic(() => import('@components/Stock/StockDetail/Products'), {
   ssr: false,
   loading: () => <StockProductSkeleton />,
+});
+
+const StockMainBusiness = dynamic(() => import('@components/Stock/StockDetail/MainBusiness'), {
+  ssr: false,
+  loading: () => <MainBusinessSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -579,68 +585,7 @@ const StockDetail = () => {
       <StockProducts stockDetail={stockDetail} />
 
       {/* main business */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.industries && taggingInfo?.data?.industries.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[4px]'>
-            <Text type='body-20-semibold'>{t('main_business')}</Text>
-          </div>
-
-          {loadingTaggingInfo && (
-            <div>
-              {[...new Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className='flex border-[var(--neutral-7)] py-[12px] [&:not(:last-child)]:border-b [&:not(:last-child)]:border-solid'
-                >
-                  <Skeleton width={24} height={24} />
-
-                  <Skeleton round wrapClassName='ml-[8px]' />
-
-                  <Skeleton width={20} height={20} wrapClassName='ml-auto' />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {!loadingTaggingInfo &&
-            taggingInfo?.data?.industries &&
-            taggingInfo?.data?.industries.length > 0 &&
-            taggingInfo?.data?.industries.map((item, index) => (
-              <div
-                className='flex cursor-pointer items-center border-solid border-[var(--neutral-7)] py-[12px] [&:not(:last-child)]:border-b'
-                key={index}
-                onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item.id)}
-              >
-                {index === 0 ? (
-                  <img
-                    src='/static/icons/crown.svg'
-                    alt='Crown'
-                    className='h-[24px] w-[24px] object-contain'
-                  />
-                ) : (
-                  <div className='flex h-[24px] w-[24px] items-center justify-center rounded-[2px] border border-solid border-[var(--primary-5)]'>
-                    <Text type='body-10-regular' color='primary-5'>
-                      {index + 1}
-                    </Text>
-                  </div>
-                )}
-
-                <Text type='body-14-regular' className='ml-[8px] text-[#0D0D0D]'>
-                  {item.tagName}
-                </Text>
-
-                <div className='ml-auto px-[6px]'>
-                  <img
-                    src='/static/icons/iconBlackRight.svg'
-                    alt='Icon right'
-                    className='h-[12px] w-[8px] object-contain'
-                  />
-                </div>
-              </div>
-            ))}
-        </div>
-      )}
+      <StockMainBusiness stockCode={stockCode} taggingInfo={taggingInfo} />
 
       {/* revenue */}
       {(loadingTaggingInfo ||

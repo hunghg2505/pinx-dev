@@ -145,18 +145,20 @@ export interface ISubsidiaries {
   listed: false;
 }
 
+export interface ITaggingInfo {
+  companyId: string;
+  stockCode: string;
+  name: string;
+  products: IProduct[];
+  highlights: IHashtag[];
+  revenues: IRevenue[];
+  industries: IHashtag[];
+  subsidiaries: ISubsidiaries[];
+}
+
 export interface IResponseTaggingInfo {
   taggingInfo?: {
-    data?: {
-      companyId: string;
-      stockCode: string;
-      name: string;
-      products: IProduct[];
-      highlights: IHashtag[];
-      revenues: IRevenue[];
-      industries: IHashtag[];
-      subsidiaries: ISubsidiaries[];
-    };
+    data?: ITaggingInfo;
   };
   loading: boolean;
 }
