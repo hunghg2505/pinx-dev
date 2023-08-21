@@ -270,7 +270,7 @@ const PostDetail = () => {
               },
             )}
           >
-            {isHaveComment ? (
+            {isHaveComment &&
               data?.list?.map((item: IComment, index: number) => {
                 // const isReply = item.children?.find((i) => {
                 //   return i?.id === showReply;
@@ -342,8 +342,8 @@ const PostDetail = () => {
                     </div>
                   </div>
                 );
-              })
-            ) : (
+              })}
+            {!isHaveComment && postData && (
               <>
                 <Text
                   type='body-14-regular'

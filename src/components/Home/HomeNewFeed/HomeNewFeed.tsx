@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
@@ -17,21 +16,15 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
+import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
-import {
-  requestJoinIndex,
-  requestLeaveIndex,
-  socket,
-  useSuggestPeople,
-  useGetWatchList,
-} from '../service';
+import { requestJoinIndex, requestLeaveIndex, socket, useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -42,9 +35,7 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
-const PeopleList = dynamic(() => import('../People/PeopleList'), {
-  ssr: false,
-});
+
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
@@ -65,10 +56,8 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
-  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
 
   const { refLastElement } = useObserver();
-
   const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
@@ -83,14 +72,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
   }, [filterType]);
-
-  useEffect(() => {
-    const isLogin = !!getAccessToken();
-
-    if (isLogin) {
-      getSuggestFriend();
-    }
-  }, []);
 
   useEffect(() => {
     if (isHaveStockWatchList) {
@@ -237,38 +218,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
           </div>
         </CustomLink>
       </div>
-
-      {suggestionPeople && (
-        <div className='box-shadow card-style tablet:hidden'>
-          <div className='mr-[16px] flex flex-row items-center'>
-            <img
-              src='/static/icons/iconPeople.svg'
-              alt=''
-              width={20}
-              height={20}
-              className='mr-[8px] h-[20px] w-[20px] object-contain'
-            />
-            <Text type='body-16-bold' color='neutral-2'>
-              {t('People_you_may_know')}
-            </Text>
-          </div>
-
-          <div>
-            <div className='bg-[#ffffff] pl-[16px] pt-[15px] galaxy-max:pl-0'>
-              <PeopleList loading={loading} data={suggestionPeople} refresh={refreshList} />
-            </div>
-            <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
-              <ModalPeopleYouKnow refreshList={refreshList}>
-                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC] galaxy-max:w-full'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('explore_people')}
-                  </Text>
-                </button>
-              </ModalPeopleYouKnow>
-            </div>
-          </div>
-        </div>
-      )}
+      <SuggestionPeople />
 
       {fourPost?.map((item: IPost) => {
         return <NewsFeed loading={loadingPosts} key={`home-post-item-${item?.id}`} data={item} />;

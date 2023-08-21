@@ -105,9 +105,9 @@ const NewFeedItem = (props: IProps) => {
 
   const urlTitle = useMemo(() => {
     let url = '';
-    if (postDetail.customerId) {
+    if (postDetail?.customerId) {
       url =
-        isLogin && postDetail.customerId === userId
+        isLogin && postDetail?.customerId === userId
           ? ROUTE_PATH.MY_PROFILE
           : ROUTE_PATH.PROFILE_DETAIL(customerId);
     }
