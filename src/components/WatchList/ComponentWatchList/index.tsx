@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -12,7 +13,9 @@ import {
   requestLeaveChannel,
   socket,
 } from '@components/Home/service';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
+import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';
 
 interface IProps {
@@ -25,6 +28,12 @@ const ComponentWatchList = (props: IProps) => {
   const { isEdit = false, page_size, optionsRequest = {} } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  React.useEffect(() => {
+    if (postDetailStatus?.isChangeStockWatchList) {
+      useWatchList.run();
+    }
+  }, [postDetailStatus?.isChangeStockWatchList]);
   const useWatchList = useRequest(
     () => {
       return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
@@ -32,6 +41,7 @@ const ComponentWatchList = (props: IProps) => {
     {
       manual: true,
       onSuccess: (res: any) => {
+        setPostDetailStatus({ ...postDetailStatus, isChangeStockWatchList: false });
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {
@@ -46,6 +56,7 @@ const ComponentWatchList = (props: IProps) => {
 
   React.useEffect(() => {
     useWatchList.run();
+
     return () => {
       if (dataStock) {
         for (const element of dataStock) {
@@ -55,6 +66,7 @@ const ComponentWatchList = (props: IProps) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     let isChangeStockPrice = false;
@@ -69,6 +81,7 @@ const ComponentWatchList = (props: IProps) => {
     if (page_size) {
       dataStock?.slice(0, page_size);
     }
+
     return { dataFormat: dataStock, isChangeStockPrice, findIndex };
   }, [dataSocket, dataStock, page_size]);
   React.useEffect(() => {
@@ -83,11 +96,24 @@ const ComponentWatchList = (props: IProps) => {
       socket.off('public', getDataSocket);
     };
   }, []);
+
+  if (useWatchList.loading) {
+    return (
+      <>
+        <StockLoading />
+        <StockLoading />
+        <StockLoading />
+        <StockLoading />
+      </>
+    );
+  }
+
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
         {dataFormat?.map((item: IWatchListItem, index: number) => {
           const isChangeStock = isChangeStockPrice && findIndex === index;
+
           return (
             <div
               key={`${item.stockCode}-${index}`}

@@ -2,7 +2,7 @@ import { useRequest } from 'ahooks';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity } from '@api/request';
+import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 export interface ICustomerInfo {
@@ -330,4 +330,16 @@ export const useDeletePost = (option = {}) => {
   return {
     run,
   };
+};
+
+export const fetchPostDetailFromServer = async (id: string) => {
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}/${API_PATH.PUCLIC_MAPPING_POST_DETAIL(id)}`).then(
+      (data: any) => data.json(),
+    );
+  } catch {
+    return {
+      data: [],
+    };
+  }
 };

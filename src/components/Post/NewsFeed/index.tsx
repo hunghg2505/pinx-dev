@@ -17,6 +17,7 @@ import { ClickaPost } from '@utils/dataLayer';
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
+import NewsFeedSkeleton from './NewsFeedSkeleton';
 import { IPost, usePostDetail } from '../service';
 
 interface IProps {
@@ -27,6 +28,8 @@ interface IProps {
   isNewFeedExplore?: boolean;
   setShowPopup?: any;
   refreshSearch?: () => void;
+  loading?: boolean;
+  hiddenComment?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -39,6 +42,8 @@ const NewsFeed = (props: IProps) => {
     isNewFeedExplore = false,
     setShowPopup,
     refreshSearch,
+    loading,
+    hiddenComment,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -103,6 +108,7 @@ const NewsFeed = (props: IProps) => {
           ...postDetailStatus,
           // isAddCommentPostDetail: [],
           idPostAddComment: '',
+          idCustomerFollow: 0,
           isChangeMyProfile: false,
         });
       }
@@ -168,6 +174,16 @@ const NewsFeed = (props: IProps) => {
     // refreshCommentOfPost();
   };
 
+  if (loading) {
+    return (
+      <>
+        <NewsFeedSkeleton />
+        <NewsFeedSkeleton />
+        <NewsFeedSkeleton />
+      </>
+    );
+  }
+
   return (
     <>
       <div
@@ -188,7 +204,7 @@ const NewsFeed = (props: IProps) => {
           isNewFeedExplore={isNewFeedExplore}
         />
 
-        {isLogin && !isNewFeedExplore && (
+        {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
             <CommentField
               id={postData?.id}
@@ -199,7 +215,7 @@ const NewsFeed = (props: IProps) => {
           </div>
         )}
 
-        {!!countComment && !isNewFeedExplore && (
+        {!!countComment && !isNewFeedExplore && !hiddenComment && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
               <div className='mt-[22px] galaxy-max:mt-[18px]'>

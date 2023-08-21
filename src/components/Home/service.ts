@@ -261,7 +261,7 @@ export const useGetTrending = (options = {}) => {
 };
 
 export const useGetInfluencer = () => {
-  const { data, refresh } = useRequest(() => {
+  const { data, refresh, loading } = useRequest(() => {
     const isLogin = !!getAccessToken();
 
     return isLogin
@@ -271,6 +271,7 @@ export const useGetInfluencer = () => {
   return {
     KOL: data?.data?.list || data?.data,
     refresh,
+    loading,
   };
 };
 export const socket = io(ENV.URL_SOCKET, {
@@ -278,7 +279,6 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
-  console.log(`join-${stocks}`);
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
@@ -316,7 +316,7 @@ export const useSuggestPeople = (options = {}) => {
 };
 
 export const useGetTheme = () => {
-  const { data, refresh } = useRequest(() => {
+  const { data, refresh, loading } = useRequest(() => {
     const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
@@ -325,6 +325,7 @@ export const useGetTheme = () => {
   return {
     theme: data?.data,
     refresh,
+    loading,
   };
 };
 // get stock market

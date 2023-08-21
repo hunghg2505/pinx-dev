@@ -79,7 +79,10 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       });
     }
     if (classElement === 'people') {
-      const url = userDetail?.id === id ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url =
+        Number(userDetail?.id) === Number(id)
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
@@ -122,20 +125,20 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
             'h-[84px] overflow-hidden mobile-max:h-[81px] desktop:h-[84px]': showReadMore,
             '!line-clamp-none !h-auto': readMore || isPostDetailPath,
           })}
-          onClick={(event) => onHandleClick(event)}
         >
-          <Text
-            type='body-14-regular'
-            color='neutral-1'
-            className=' tablet:!text-[16px]'
-            // onClick={onComment}
-          >
-            <div
-              className='desc messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-            ></div>
-          </Text>
-
+          <div onClick={(event) => onHandleClick(event)}>
+            <Text
+              type='body-14-regular'
+              color='neutral-1'
+              className=' tablet:!text-[16px]'
+              // onClick={onComment}
+            >
+              <div
+                className='desc messageFormat messageBody'
+                dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+              ></div>
+            </Text>
+          </div>
           {!message?.includes(urlLink) && urlLink !== '' && (
             <CustomLink href={`/redirecting?url=${urlLink}`}>
               <div className='messageFormat messageBody'>

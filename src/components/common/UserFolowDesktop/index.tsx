@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 
 import Figure from './Figure';
@@ -11,7 +12,9 @@ export const followContext = createContext<any>(undefined);
 
 const UserFolowDesktop = (props: any) => {
   const { isLogin } = useAuth();
+  const { userLoginInfo } = useUserLoginInfo();
   const [state, setState] = useState(props);
+  const isMyProfile = userLoginInfo?.id === state.id;
   return (
     <followContext.Provider
       value={{
@@ -21,11 +24,15 @@ const UserFolowDesktop = (props: any) => {
         setState,
       }}
     >
-      <div className='shadow-[0px_4px_13px_0px_rgba(88, 157, 192, 0.30)] relative overflow-hidden rounded-[12px] pt-[156%] ease-in-out duration-300'>
+      <div className='shadow-[0px_4px_13px_0px_rgba(88, 157, 192, 0.30)] relative overflow-hidden rounded-[12px] pt-[156%] duration-300 ease-in-out'>
         <Figure />
         <Caption />
-        {!isLogin && <UnFollow />}
-        {isLogin && state?.isFollowed ? <UnFollow /> : <Follow />}
+        {!isMyProfile && (
+          <>
+            {!isLogin && <UnFollow />}
+            {isLogin && state?.isFollowed ? <UnFollow /> : <Follow />}
+          </>
+        )}
       </div>
     </followContext.Provider>
   );

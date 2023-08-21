@@ -44,7 +44,8 @@ interface IProps {
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
   isNewFeedExplore?: boolean;
-  setShowPopup?:any;
+  setShowPopup?: any;
+  refreshTrendingOnPinex?: () => void;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -58,13 +59,14 @@ const NewFeedItem = (props: IProps) => {
     pinned = false,
     isNewFeedExplore = false,
     refreshFollow,
-    setShowPopup
+    setShowPopup,
+    refreshTrendingOnPinex,
+    isExplore,
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
-
   const name =
     postDetail?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(postDetail?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
@@ -101,12 +103,25 @@ const NewFeedItem = (props: IProps) => {
 
   const [isReported, setReported] = useState(!!postDetail?.isReport);
 
+  const urlTitle = useMemo(() => {
+    let url = '';
+    if (postDetail.customerId) {
+      url =
+        isLogin && postDetail.customerId === userId
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(customerId);
+    }
+
+    return url;
+  }, [postDetail, isLogin]);
+
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
 
   useEffect(() => {
     setFollowing(postDetail?.isFollowing);
+
     setReported(!!postDetail?.isReport);
   }, [postDetail]);
   // hide post
@@ -137,7 +152,9 @@ const NewFeedItem = (props: IProps) => {
         refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(true);
-        console.log('onFollowUser');
+        if (refreshTrendingOnPinex && isExplore) {
+          refreshTrendingOnPinex();
+        }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
@@ -154,7 +171,9 @@ const NewFeedItem = (props: IProps) => {
         refreshFollow && refreshFollow();
         getUserProfile();
         setFollowing(false);
-        console.log('onUnFollowUser');
+        if (refreshTrendingOnPinex && isExplore) {
+          refreshTrendingOnPinex();
+        }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
     },
@@ -373,7 +392,9 @@ const NewFeedItem = (props: IProps) => {
           onClick={() => {
             setShowPopup && setShowPopup(false);
           }}
-          className={className} href={href}>
+          className={className}
+          href={href}
+        >
           {children}
         </CustomLink>
       );
@@ -384,13 +405,12 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='relative z-30 mb-[2px] flex flex-row justify-between'>
-        <MaybeLink
-          href={
-            customerId && !isMyPost ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ROUTE_PATH.MY_PROFILE
-          }
-          className='flex w-full flex-1 justify-between'
-        >
+      <div
+        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between', {
+          'z-50': isHovering,
+        })}
+      >
+        <MaybeLink href={urlTitle} className='flex w-full flex-1 justify-between'>
           <div className='flex flex-1 flex-row items-center'>
             <div
               ref={refHover}
@@ -455,9 +475,10 @@ const NewFeedItem = (props: IProps) => {
 
       <div
         onClick={() => {
-          setShowPopup && setShowPopup(false);
+          setShowPopup && setShowPopup();
         }}
-        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
+        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
+      >
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

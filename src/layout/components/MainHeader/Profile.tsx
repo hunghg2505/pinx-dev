@@ -13,6 +13,7 @@ import Back from '@components/MenuProfile/Back';
 import BasicInfo from '@components/MenuProfile/BasicInfo';
 import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
+import { MainButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -24,7 +25,7 @@ import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD, ONE_LINK_DOWNLOAD } from 'src/constant';
 
 const handleRedirect = (url: string) => {
   DownloadPineXApp('CTA in App', 'MenuProfileMobile');
@@ -32,6 +33,7 @@ const handleRedirect = (url: string) => {
 };
 
 const MenuProfileMobile = forwardRef((_, ref) => {
+  const { t } = useTranslation('common');
   const { userLoginInfo } = useUserLoginInfo();
   const [openProfileMenu, setOpenProfileMenu] = useAtom(openProfileAtom);
   const router = useRouter();
@@ -83,12 +85,28 @@ const MenuProfileMobile = forwardRef((_, ref) => {
         isKol={userLoginInfo?.isKol}
         isFeatureProfile={userLoginInfo?.isFeatureProfile}
       />
-
       <Follow
         follower={userLoginInfo?.totalFollower || 0}
         following={userLoginInfo?.totalFollowing || 0}
         close={close}
       />
+
+      {checkUserType(userLoginInfo?.custStat, userLoginInfo?.acntStat) === USERTYPE.NEW && (
+        <div className='my-[20px] px-[16px]'>
+          <div className='width-full rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
+            <img
+              src={'/static/images/shopinext-update_account.png'}
+              height={150}
+              width={150}
+              alt={t('upgrade_account')}
+              className='mx-auto mb-[12px] h-[150px] w-[150px] object-contain'
+            />
+            <MainButton className='px-12' onClick={() => handleRedirect(ONE_LINK_DOWNLOAD)}>
+              {t('upgrade_account')}
+            </MainButton>
+          </div>
+        </div>
+      )}
 
       <Options />
     </Fade>
@@ -114,11 +132,13 @@ const Profile = () => {
             <img
               src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
               alt=''
-              className='h-[72px] w-[72px]  cursor-pointer rounded-full object-cover'
+              className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'
             />
-            <div className='flex flex-1 flex-col gap-[6px]'>
+            <div className='flex flex-1 flex-col gap-[6px] overflow-hidden'>
               <div className='flex items-center'>
-                <Text type='body-16-semibold'>{userLoginInfo?.displayName}</Text>
+                <Text type='body-16-semibold' className='truncate'>
+                  {userLoginInfo?.displayName}
+                </Text>
 
                 {userLoginInfo?.isKol && (
                   <img

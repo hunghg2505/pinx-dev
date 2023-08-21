@@ -130,7 +130,13 @@ const SideBar = () => {
           <CustomLink
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
-            onClick={() => NavigateSection(menu.label)}
+            onClick={() => {
+              // if (menu?.path === ROUTE_PATH.HOME) {
+              //   router.push(ROUTE_PATH.HOME);
+              //   router.reload();
+              // }
+              NavigateSection(menu.label);
+            }}
           >
             {icon}
             <Text
@@ -150,7 +156,7 @@ const SideBar = () => {
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div>
         <Menu items={items} className='sidebar-list' />
-        <a href={PINETREE_LINK} target='_blank' rel='noopener noreferrer'>
+        <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
           <img
             src='/static/images/sidebar_banner.png'
             alt=''

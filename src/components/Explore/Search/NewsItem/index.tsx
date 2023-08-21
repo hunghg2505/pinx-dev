@@ -1,9 +1,12 @@
+import React from 'react';
+
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import PostAction from '@components/Post/NewsFeed/PostAction';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
@@ -26,10 +29,12 @@ const NewsItem = ({
   data,
   middle,
   setShowPopup,
+  showComment,
 }: {
   data: any;
   middle?: boolean;
   setShowPopup?: any;
+  showComment?: boolean
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -87,6 +92,13 @@ const NewsItem = ({
           </div>
         </CustomLink>
       </div>
+      {showComment && <PostAction
+        idPost={data.id}
+        urlPost={'/post/' + data.id}
+        isLike={data.isLike}
+        totalLikes={data.totalLikes}
+        totalComments={data.totalChildren}
+      />}
     </>
   );
 };

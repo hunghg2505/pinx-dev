@@ -36,7 +36,6 @@ const WatchList = () => {
     };
   }, []);
 
-
   const onAddStock = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
   };

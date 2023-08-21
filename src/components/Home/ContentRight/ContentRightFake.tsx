@@ -1,26 +1,57 @@
 import React from 'react';
 
-import SkeletonLoading from '@components/UI/Skeleton';
+import { Skeleton } from '@components/UI/Skeleton';
+import StockLoading from '@components/WatchList/ComponentWatchList/Skeleton';
+
+import TrendingDesktopLoading from '../Trending/TrendingDesktop/Skeleton';
 
 const ContentRightFake = () => {
   return (
     <>
       <div className='mb-[25px] min-h-[536px] w-full rounded-[8px] bg-[#fff]  px-[20px] py-[30px] '>
-        <p className='body-16-bold cbblack mb-[25px]'>Market</p>
+        <Skeleton className='mb-[25px]' round />
 
-        <img
-          loading='lazy'
-          src='/static/images/fake-stock.png'
-          className='w-full object-contain'
-          alt=''
+        <Skeleton
+          rows={3}
+          wrapClassName='!flex-row gap-x-[12px] mb-[20px]'
+          className='!w-full'
+          round
         />
+        <Skeleton
+          round
+          rows={3}
+          wrapClassName='!flex-row gap-x-[12px] mb-[40px]'
+          className='!w-full'
+        />
+
+        <Skeleton height={350} className='!w-full !rounded-[9px]' />
       </div>
 
       <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px] '>
-        <SkeletonLoading hiddenImg={false} />
+        <div className='mx-[20px]'>
+          <Skeleton className='mb-[25px]' round />
+
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+          <StockLoading />
+        </div>
       </div>
       <div className='mb-[25px] h-[496px] w-full rounded-[8px] bg-[#fff]  px-[30x] py-[20px]'>
-        <SkeletonLoading hiddenImg={false} />
+        <div className='mx-[20px]'>
+          <Skeleton className='mb-[25px]' round />
+
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+          <TrendingDesktopLoading />
+        </div>
       </div>
     </>
   );

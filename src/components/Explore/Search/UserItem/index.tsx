@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -31,10 +31,16 @@ const UserItem = (props: Iprops) => {
   const { data, reload, setShowPopup, refreshSearch } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isLogin } = useUserType();
+  const { isLogin, userId } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
   const { run: getUserProfile } = useProfileInitial();
+
+  const isMyAccount = useMemo(() => {
+    const isMyAcc = data.id === userId;
+
+    return isMyAcc;
+  }, [data, userId]);
 
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   React.useEffect(() => {
@@ -90,6 +96,7 @@ const UserItem = (props: Iprops) => {
       });
     }
   };
+
   const name =
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
   return (
@@ -114,15 +121,15 @@ const UserItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
+            className='mr-[8px] h-[44px] w-[44px] min-w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] min-w-[36px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}
 
-        <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px]'>
+        <Text type='body-14-semibold' className='break-all text-[#474D57] galaxy-max:text-[12px]'>
           {data?.displayName}
         </Text>
 
@@ -147,16 +154,19 @@ const UserItem = (props: Iprops) => {
           />
         )}
       </div>
-      <div
-        className={classNames(
-          'box flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-[5px] ',
-          {
-            'follow bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]': isFollow,
-            'unfollow bg-[#D8EBFC]': !isFollow,
-          },
-        )}
-        onClick={() => onFollow(data.id)}
-      ></div>
+
+      {!isMyAccount && (
+        <div
+          className={classNames(
+            'box flex h-[36px] w-[36px] min-w-[36px] cursor-pointer items-center justify-center rounded-[5px]',
+            {
+              'follow bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]': isFollow,
+              'unfollow bg-[#D8EBFC]': !isFollow,
+            },
+          )}
+          onClick={() => onFollow(data.id)}
+        ></div>
+      )}
     </div>
   );
 };

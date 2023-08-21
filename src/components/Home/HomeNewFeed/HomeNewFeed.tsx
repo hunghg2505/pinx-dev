@@ -11,9 +11,9 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import UserPosting from '@components/Home/UserPosting/UserPosting';
+import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
-import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -22,7 +22,6 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import { FILTER_TYPE } from '../ModalFilter';
@@ -31,6 +30,7 @@ import {
   requestLeaveIndex,
   socket,
   useSuggestPeople,
+  useGetWatchList,
 } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
@@ -62,15 +62,14 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
-  const { dataStockWatchlist } = useGetDataStockWatchlistHome();
-  const isHaveStockWatchList = dataStockWatchlist?.length > 0;
+  const { watchList } = useGetWatchList();
+  const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
 
   const { refLastElement } = useObserver();
 
   const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
-
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -256,7 +255,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
           <div>
             <div className='bg-[#ffffff] pl-[16px] pt-[15px] galaxy-max:pl-0'>
-              <PeopleList data={suggestionPeople} refresh={refreshList} />
+              <PeopleList loading={loading} data={suggestionPeople} refresh={refreshList} />
             </div>
             <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
               <ModalPeopleYouKnow refreshList={refreshList}>
@@ -272,7 +271,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       )}
 
       {fourPost?.map((item: IPost) => {
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        return <NewsFeed loading={loadingPosts} key={`home-post-item-${item?.id}`} data={item} />;
       })}
 
       <div className='box-shadow card-style'>
@@ -299,9 +298,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       {loadingPosts && (
         <div className='mt-[10px]'>
-          <SkeletonLoading />
-          <SkeletonLoading />
-          <SkeletonLoading />
+          <NewsFeedSkeleton />
+          <NewsFeedSkeleton />
+          <NewsFeedSkeleton />
         </div>
       )}
     </div>

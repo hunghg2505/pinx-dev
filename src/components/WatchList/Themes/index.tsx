@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Slider from 'react-slick';
 
 import { ITheme } from '@components/Home/service';
+import { Skeleton } from '@components/UI/Skeleton';
 
 import styles from './index.module.scss';
 import { useGetTheme } from './service';
@@ -23,7 +24,16 @@ const settings = {
 };
 const Themes = (props: IProps) => {
   const { isEdit = false } = props;
-  const { theme } = useGetTheme();
+  const { theme, loading } = useGetTheme();
+
+  if (loading) {
+    return (
+      <div>
+        <Skeleton className='!h-[500px] !w-full !rounded-[16px]' />
+      </div>
+    );
+  }
+
   return (
     <>
       {!isEdit && (

@@ -277,6 +277,9 @@
       padding-bottom: 6px;
       padding-left: 10px;
       padding-right: 10px;
+      &:focus{
+        outline: none !important;
+      }
     }
     .rc-tabs-tab-btn,
     .rc-tabs-tab-remove {

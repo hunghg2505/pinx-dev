@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -31,11 +31,17 @@ const PeopleItem = (props: Iprops) => {
   const { run: getUserProfile } = useProfileInitial();
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isLogin } = useUserType();
+  const { isLogin, userId } = useUserType();
   // const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const isFollow = data?.isFollowed;
   const { isMobile } = useResponsive();
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
+
+  const isMyAccount = useMemo(() => {
+    const isMyAcc = data.id === userId;
+
+    return isMyAcc;
+  }, [data, userId]);
 
   const useFollowUser = useRequest(
     (id: number) => {
@@ -144,33 +150,35 @@ const PeopleItem = (props: Iprops) => {
         )}
       </div>
 
-      <div
-        className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
-          'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]':
-            isFollow,
-          'bg-[#D8EBFC]': !isFollow,
-        })}
-        onClick={() => onFollow(data.id)}
-      >
-        {isFollow ? (
-          <img
-            src='/static/icons/iconFollowBlue.svg'
-            alt=''
-            width={0}
-            height={0}
-            className='w-[12px]'
-          />
-        ) : (
-          <img
-            loading='lazy'
-            src='/static/icons/iconAdd.svg'
-            alt=''
-            width={0}
-            height={0}
-            className='w-[24px]'
-          />
-        )}
-      </div>
+      {!isMyAccount && (
+        <div
+          className={classNames('cursor-pointer rounded-[5px]  p-[6px]', {
+            'flex h-[36px] w-[36px] flex-row items-center justify-center bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]':
+              isFollow,
+            'bg-[#D8EBFC]': !isFollow,
+          })}
+          onClick={() => onFollow(data.id)}
+        >
+          {isFollow ? (
+            <img
+              src='/static/icons/iconFollowBlue.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='w-[12px]'
+            />
+          ) : (
+            <img
+              loading='lazy'
+              src='/static/icons/iconAdd.svg'
+              alt=''
+              width={0}
+              height={0}
+              className='w-[24px]'
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

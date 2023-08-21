@@ -167,10 +167,10 @@ const MainHeader = () => {
 
         <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] galaxy-max:gap-[12px] desktop:h-[84px] desktop:px-[0]'>
           {isOpenSearch ? (
-            <div className='flex w-[100%] items-center gap-[16px] hidden'>
+            <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
                 <FormSearch
-                  className='w-full'
+                  className='w-full hidden'
                   isOpenSearch={isOpenSearch}
                   setIsOpenSearch={setIsOpenSearch}
                 />

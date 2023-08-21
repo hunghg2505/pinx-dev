@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -12,8 +13,10 @@ import UnFollow from './UnFollow';
 
 export const followContext = createContext<any>(undefined);
 const UserFolow = (props: any) => {
+  const { userLoginInfo } = useUserLoginInfo();
   const route = useRouter();
   const { isLogin } = useAuth();
+  const isMyProfile = userLoginInfo?.id === props.id;
   return (
     <followContext.Provider value={{ ...props }}>
       <div className='flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]'>
@@ -37,7 +40,10 @@ const UserFolow = (props: any) => {
               <AvatarDefault name={props?.displayName} />
             </div>
           )}
-          <Text type='body-14-semibold' className='text-[#474D57]'>
+          <Text
+            type='body-14-semibold'
+            className='line-clamp-1 max-w-[250px] overflow-hidden text-[#474D57]'
+          >
             {props?.displayName}
           </Text>
           {props?.isFeatureProfile && (
@@ -58,7 +64,9 @@ const UserFolow = (props: any) => {
             />
           )}
         </div>
-        {isLogin ? <>{props?.isFollowed ? <UnFollow /> : <Follow />}</> : <Follow />}
+        {!isMyProfile && (
+          <>{isLogin ? <>{props?.isFollowed ? <UnFollow /> : <Follow />}</> : <Follow />}</>
+        )}
       </div>
     </followContext.Provider>
   );

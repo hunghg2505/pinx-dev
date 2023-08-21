@@ -475,7 +475,7 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full cursor-text items-center justify-between tablet-max:py-2'
+              className='flex w-full cursor-text items-center justify-between galaxy-max:py-2'
             >
               <EditorContent
                 editor={editor}

@@ -28,7 +28,7 @@ const WatchList = () => {
   //   router.back();
   // };
 
-  const { interestStock, refreshInterest, getInterest } = useGetInterest({
+  const { interestStock, refreshInterest, getInterest, loading } = useGetInterest({
     manual: true,
     onSuccess: (res: any) => {
       const data = res?.data;
@@ -90,7 +90,6 @@ const WatchList = () => {
     const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
-        console.log('data', data);
         setDataSocket(data);
       }
     };
@@ -137,6 +136,7 @@ const WatchList = () => {
           interestStock={interestStock}
           refreshInterest={refreshInterest}
           refreshYourWatchList={refreshYourWatchList}
+          loading={loading}
         />
         <Themes isEdit={isEdit} />
       </div>

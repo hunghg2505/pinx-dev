@@ -5,9 +5,8 @@ import { useTranslation } from 'next-i18next';
 
 import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
 import { formatStringToNumber, getStockColor, imageStock } from '@utils/common';
-
-import styles from './index.module.scss';
 
 interface StockHeadingProps {
   stockCode: string;
@@ -117,50 +116,68 @@ const StockHeading = ({
           </div>
         )}
 
-        {!dataStock?.lastPrice || dataStock.lastPrice === 0 ? (
-          <div className='rounded-[4px] px-[4px] py-[6px] text-right'>
-            <Text type='body-16-medium'>-</Text>
-            <Text type='body-12-regular'>-/-%</Text>
-          </div>
-        ) : (
-          <div
-            className={classNames('rounded-[4px] px-[4px] py-[6px] text-right', {
-              [styles.isPriceChange]: isPriceChange,
-            })}
-            style={{
-              color: getStockColor(
-                dataStock?.lastPrice || 0,
-                dataStock?.c || 0,
-                dataStock?.f || 0,
-                dataStock?.r || 0,
-              ),
-              backgroundColor: isPriceChange
+        <div
+          className={classNames('rounded-[4px] py-[6px] text-right')}
+          style={{
+            color:
+              dataStock?.lastPrice && dataStock?.lastPrice !== 0
                 ? getStockColor(
                     dataStock?.lastPrice || 0,
                     dataStock?.c || 0,
                     dataStock?.f || 0,
                     dataStock?.r || 0,
                   )
-                : 'transparent',
-            }}
-          >
-            <Text type='body-16-medium'>{formatStringToNumber(dataStock?.lastPrice, true, 2)}</Text>
-            <Text type='body-12-regular'>
-              {`${unitOt}${formatStringToNumber(
-                String(dataStock?.ot),
-                true,
-                dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
-              )}`}{' '}
-              /{' '}
-              {`${unitChangePc}${formatStringToNumber(
-                String(dataStock?.changePc),
-                true,
-                dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
-              )}`}
+                : '',
+          }}
+        >
+          <div>
+            <Text
+              type='body-16-medium'
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock2(
+                  !!isPriceChange,
+                  dataStock?.lastPrice || 0,
+                  dataStock?.c || 0,
+                  dataStock?.f || 0,
+                  dataStock?.r || 0,
+                ),
+              )}
+            >
+              {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                ? '-'
+                : formatStringToNumber(dataStock?.lastPrice, true, 2)}
+            </Text>
+          </div>
+          <div>
+            <Text
+              type='body-12-regular'
+              className={classNames(
+                'inline-block p-[4px]',
+                useToggleClassStock2(
+                  !!isPriceChange,
+                  dataStock?.lastPrice || 0,
+                  dataStock?.c || 0,
+                  dataStock?.f || 0,
+                  dataStock?.r || 0,
+                ),
+              )}
+            >
+              {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                ? '- / -'
+                : `${unitOt}${formatStringToNumber(
+                    String(dataStock?.ot),
+                    true,
+                    dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
+                  )} / ${unitChangePc}${formatStringToNumber(
+                    String(dataStock?.changePc),
+                    true,
+                    dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
+                  )}`}
               %
             </Text>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

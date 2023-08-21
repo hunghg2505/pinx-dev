@@ -96,3 +96,37 @@ body {
   border-radius: 4px;
   color: #ffffff !important;
 }
+
+// stock color
+.purpleColor {
+  background-color: #782af9;
+  border-radius: 4px;
+  color: #fff !important;
+}
+
+.blueColor {
+  @extend .purpleColor;
+  background-color: #22d1e9;
+}
+
+.orangeColor {
+  @extend .purpleColor;
+  background-color: #f1ba09;
+}
+
+.redColor {
+  @extend .purpleColor;
+  background-color: #da314f;
+}
+
+.greenColor {
+  @extend .purpleColor;
+  background-color: #66C660
+}
+
+// skeleton animation
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
