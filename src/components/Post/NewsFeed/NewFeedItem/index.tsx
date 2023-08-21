@@ -418,52 +418,48 @@ const NewFeedItem = (props: IProps) => {
           'z-50': isHovering,
         })}
       >
-        <MaybeLink href={urlTitle} className='flex w-full flex-1 justify-between'>
-          <div className='flex flex-1 flex-row items-center'>
-            <div
-              ref={refHover}
-              className={classNames('relative flex-none', {
-                [styles.avatar]: [
+        <MaybeLink href={urlTitle} className='flex flex-1 flex-row items-center'>
+          <div
+            ref={refHover}
+            className={classNames('relative flex-none', {
+              [styles.avatar]: [
+                TYPEPOST.POST,
+                TYPEPOST.ActivityTheme,
+                TYPEPOST.ActivityWatchlist,
+                TYPEPOST.ActivityMatchOrder,
+              ].includes(postDetail?.post?.postType),
+            })}
+          >
+            <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
+
+            <Fade
+              visible={
+                [
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.ActivityMatchOrder,
-                ].includes(postDetail?.post?.postType),
-              })}
+                ].includes(postDetail?.post?.postType) && isHovering
+              }
             >
-              <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
+              <ItemHoverProfile postDetail={postDetail} name={name} />
+            </Fade>
+          </div>
 
-              <Fade
-                visible={
-                  [
-                    TYPEPOST.POST,
-                    TYPEPOST.ActivityTheme,
-                    TYPEPOST.ActivityWatchlist,
-                    TYPEPOST.ActivityMatchOrder,
-                  ].includes(postDetail?.post?.postType) && isHovering
-                }
-              >
-                <ItemHoverProfile postDetail={postDetail} name={name} />
-              </Fade>
+          <div className='des flex-1 mobile:w-[250px] galaxy-max:w-[120px] xdesktop:w-[590px] desktop:w-[480px] laptop:w-[550px]'>
+            <div className='mr-[5px] flex w-full flex-1 items-center'>
+              <UserName postDetail={postDetail} />
             </div>
-
-            <div className='des flex-1 mobile:w-[150px] galaxy-max:w-[120px] desktop:w-[300px]'>
-              <div className='flex'>
-                <div className='mr-[5px] flex w-full flex-1 items-center'>
-                  <UserName postDetail={postDetail} />
-                </div>
-              </div>
-              <Text
-                type='body-12-regular'
-                color='neutral-4'
-                className='mt-[2px] font-[300] galaxy-max:text-[10px]'
-              >
-                {postDetail?.timeString &&
-                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
-                    .locale(i18n.language)
-                    .fromNow(true)}
-              </Text>
-            </div>
+            <Text
+              type='body-12-regular'
+              color='neutral-4'
+              className='mt-[2px] font-[300] galaxy-max:text-[10px]'
+            >
+              {postDetail?.timeString &&
+                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
+                  .locale(i18n.language)
+                  .fromNow(true)}
+            </Text>
           </div>
         </MaybeLink>
 
