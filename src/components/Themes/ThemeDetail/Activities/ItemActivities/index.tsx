@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 import ActivitiesAction from '../ActivitiesAction';
@@ -17,6 +18,9 @@ export enum ActionPostEnum {
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
   const { t, i18n } = useTranslation('theme');
+  const { userId } = useUserType();
+  const isMyPost = Number(data?.customerId) === Number(userId);
+  const urlProfile = isMyPost ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(data?.customerId);
   const messageBody =
     data?.post?.action === ActionPostEnum.SUBSCRIBE ? t('desc.subscribe') : t('desc.unsubscribe');
   const router = useRouter();
@@ -29,10 +33,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
     toNonAccentVietnamese(data?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
   return (
     <div className='flex'>
-      <div
-        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
-        className='cursor-pointer'
-      >
+      <div onClick={() => router.push(urlProfile)} className='cursor-pointer'>
         {avatar ? (
           <img
             loading='lazy'

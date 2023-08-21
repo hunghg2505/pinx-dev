@@ -1,6 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useState, useRef, useEffect } from 'react';
 
 import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
 import Mention from '@tiptap/extension-mention';
 import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -29,8 +30,7 @@ import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment } from '@components/Post/service';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useUserType } from '@hooks/useUserType';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 // import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { USERTYPE } from '@utils/constant';
@@ -61,6 +61,7 @@ const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
   // const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
@@ -68,13 +69,28 @@ const Editor = (props: IProps, ref?: any) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
-  const { statusUser } = useUserType();
-  const { userLoginInfo } = useUserLoginInfo();
+  // const { statusUser } = useUserType();
+  // const { userLoginInfo } = useUserLoginInfo();
+  const statusUser = userLoginInfo?.statusUser;
+  const AppHardBreak = HardBreak.extend({
+    addKeyboardShortcuts() {
+      return {
+        'Shift-Enter': () => {
+          return this.editor.commands.setHardBreak();
+        },
+        Enter: ({ editor }) => {
+          onSend(editor, statusUser);
+          return true;
+        },
+      };
+    },
+  });
   const editor = useEditor({
     extensions: [
       Document,
       Paragraph,
       Text,
+      AppHardBreak,
       Placeholder.configure({
         placeholder: t('what_do_you_want_to_comment'),
       }),
@@ -159,7 +175,7 @@ const Editor = (props: IProps, ref?: any) => {
                 data: payload,
               },
             );
-            return data?.data?.list;
+            return data?.data?.hashtags;
           },
         },
       }),
@@ -297,7 +313,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   const size = useSize(editorRef);
 
-  const onSend = async () => {
+  const onSend = async (editor: any, statusUser: any) => {
     const users: any = [];
     const stock: any = [];
     const hashtags: any = [];
@@ -539,7 +555,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'pointer-events-none opacity-40': !textComment,
                     'pointer-events-auto opacity-100': textComment,
                   })}
-                  onClick={onSend}
+                  onClick={() => onSend(editor, statusUser)}
                 />
               )}
             </div>
@@ -586,7 +602,7 @@ const Editor = (props: IProps, ref?: any) => {
                 'pointer-events-none opacity-40': !textComment,
                 'pointer-events-auto opacity-100': textComment,
               })}
-              onClick={onSend}
+              onClick={() => onSend(editor, statusUser)}
             />
           )}
         </div>

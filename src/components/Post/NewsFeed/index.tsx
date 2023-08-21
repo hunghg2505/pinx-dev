@@ -126,7 +126,12 @@ const NewsFeed = (props: IProps) => {
 
   const [, setImageCommentMobile] = useState(false);
 
-  // const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(String(postData?.id));
+  // const { commentsOfPost, refreshCommentOfPost, getDataComment } = useCommentsOfPost(
+  //   String(postData?.id),
+  //   {
+  //     manual: true,
+  //   },
+  // );
   // const totalComments = commentsOfPost?.data?.list?.length;
   // const commentChild = commentsOfPost?.data?.list?.reduce(
   //   (acc: any, current: any) => acc + current?.totalChildren,

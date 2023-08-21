@@ -9,6 +9,7 @@ import { privateRequest, requestPist } from '@api/request';
 import { IThemeDetail } from '@components/Themes/service';
 import Notification from '@components/UI/Notification';
 import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -19,9 +20,11 @@ import { USERTYPE } from '@utils/constant';
 const LandingPageDetailThemes = ({
   data,
   refresh,
+  loading,
 }: {
   data: IThemeDetail;
   refresh: () => void;
+  loading?: boolean;
 }) => {
   const { t } = useTranslation('theme');
   const code = data?.code;
@@ -99,6 +102,10 @@ const LandingPageDetailThemes = ({
       });
     }
   };
+
+  if (loading) {
+    return <Skeleton className='!w-full !rounded-[16px]' height={467} />;
+  }
 
   return (
     <>

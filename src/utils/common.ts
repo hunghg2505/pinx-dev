@@ -444,7 +444,9 @@ export const getQueryFromUrl = () => {
     return {};
   }
 };
-export const converStringMessageToObject = (message: string) => {
+export const converStringMessageToObject = (message: string, data: any) => {
+  const listStock = data?.tagStocks;
+  console.log('🚀 ~ file: common.ts:449 ~ converStringMessageToObject ~ listStock:', listStock);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -537,13 +539,19 @@ export const converStringMessageToObject = (message: string) => {
           const start = check.indexOf('[') + 1;
           const end = check.indexOf(']');
           const name = check.slice(start, end);
+          if (listStock?.includes(name)) {
+            return {
+              type: 'stockMention',
+              attrs: {
+                // eslint-disable-next-line unicorn/no-null
+                id: null,
+                label: name,
+              },
+            };
+          }
           return {
-            type: 'stockMention',
-            attrs: {
-              // eslint-disable-next-line unicorn/no-null
-              id: null,
-              label: name,
-            },
+            type: 'text',
+            text: check,
           };
         }
         if (check.includes('#')) {
@@ -596,7 +604,6 @@ export const converStringMessageToObject = (message: string) => {
             text: ' ',
           };
         }
-
         return {
           type: 'text',
           text: check,
