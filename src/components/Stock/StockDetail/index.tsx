@@ -174,7 +174,7 @@ const StockDetail = () => {
       revenueChartData,
       shareholderChartData,
     };
-  }, [taggingInfo]);
+  }, [taggingInfo, shareholder]);
 
   useEffect(() => {
     const introDescHeight = introDescRef.current?.clientHeight || 0;
