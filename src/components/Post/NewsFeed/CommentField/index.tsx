@@ -64,7 +64,7 @@ const Editor = (props: IProps, ref?: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [profileSetting] = useAtom(profileSettingAtom);
-  const isCanCompose = profileSetting?.ignore_vsd_validator.includes(userLoginInfo.cif);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   // const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
