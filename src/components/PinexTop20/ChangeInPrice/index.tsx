@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next';
 
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 import PinexTop from '../PinexTop';
@@ -7,7 +8,7 @@ import { IProfit, useGetTopChangePrice } from '../service';
 
 const ChangeInPrice = () => {
   const { t } = useTranslation('explore');
-  const { changePriceInY } = useGetTopChangePrice();
+  const { changePriceInY, loading } = useGetTopChangePrice();
   const maxChangePriceInY =
     changePriceInY && Math.max(...changePriceInY.map((item: IProfit) => item.percentChange));
 
@@ -20,17 +21,26 @@ const ChangeInPrice = () => {
         {t('top_20_tab.change_in_price_1y_unit')}
       </Text>
       <div className='mt-[16px] flex flex-col gap-y-[16px]'>
-        {changePriceInY?.map((changePriceInY: IProfit, index: number) => {
-          return (
-            <PinexTop
-              percent={((changePriceInY.percentChange || 0) / maxChangePriceInY) * 100}
-              number={index + 1}
-              key={`profit-${index}`}
-              data={changePriceInY}
-              changePrice
-            />
-          );
-        })}
+        {loading ? (
+          <Skeleton
+            height={68}
+            rows={10}
+            wrapClassName='!gap-y-[16px]'
+            className='!w-full !rounded-[15px]'
+          />
+        ) : (
+          changePriceInY?.map((changePriceInY: IProfit, index: number) => {
+            return (
+              <PinexTop
+                percent={((changePriceInY.percentChange || 0) / maxChangePriceInY) * 100}
+                number={index + 1}
+                key={`profit-${index}`}
+                data={changePriceInY}
+                changePrice
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next';
 
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 import PinexTop from '../PinexTop';
@@ -7,7 +8,7 @@ import { IProfit, useGetTopMarketCap } from '../service';
 
 const MarketCap = () => {
   const { t } = useTranslation('explore');
-  const { marketCap } = useGetTopMarketCap();
+  const { marketCap, loading } = useGetTopMarketCap();
   const maxRevenue = marketCap && Math.max(...marketCap.map((item: IProfit) => item.marketCapital));
 
   return (
@@ -19,16 +20,25 @@ const MarketCap = () => {
         {t('top_20_tab.market_cap_unit')}
       </Text>
       <div className='mt-[16px] flex flex-col gap-y-[16px]'>
-        {marketCap?.map((marketCap: IProfit, index: number) => {
-          return (
-            <PinexTop
-              percent={((marketCap.marketCapital || 0) / maxRevenue) * 100}
-              number={index + 1}
-              key={`profit-${index}`}
-              data={marketCap}
-            />
-          );
-        })}
+        {loading ? (
+          <Skeleton
+            height={68}
+            rows={10}
+            wrapClassName='!gap-y-[16px]'
+            className='!w-full !rounded-[15px]'
+          />
+        ) : (
+          marketCap?.map((marketCap: IProfit, index: number) => {
+            return (
+              <PinexTop
+                percent={((marketCap.marketCapital || 0) / maxRevenue) * 100}
+                number={index + 1}
+                key={`profit-${index}`}
+                data={marketCap}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

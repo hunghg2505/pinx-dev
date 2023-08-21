@@ -4,32 +4,11 @@ import { useTranslation } from 'next-i18next';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import { IStockTheme, IThemeDetail } from '@components/Themes/service';
-import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 import ItemStock from './ItemStock';
 
-const SkeletonLoading = () => {
-  return (
-    <div className='flex h-[82px] items-center justify-between rounded-[12px] border border-solid border-[#F7F6F8] px-[12px]'>
-      <div className='flex items-center'>
-        <Skeleton avatar width={36} height={36} />
-
-        <div className='ml-[10px] flex flex-col gap-y-[8px]'>
-          <Skeleton height={15} round width={100} />
-          <Skeleton height={15} round width={115} />
-        </div>
-      </div>
-
-      <div className='flex flex-col gap-y-[8px]'>
-        <Skeleton height={15} round width={100} wrapClassName='items-end' />
-        <Skeleton height={15} round width={115} />
-      </div>
-    </div>
-  );
-};
-
-const StockSymbols = ({ data, loading }: { data: IThemeDetail; loading?: boolean }) => {
+const StockSymbols = ({ data }: { data: IThemeDetail }) => {
   const { t } = useTranslation('theme');
   const stockList = React.useMemo(() => {
     if (data?.stockList) {
@@ -84,21 +63,10 @@ const StockSymbols = ({ data, loading }: { data: IThemeDetail; loading?: boolean
         {t('tab.stock_symbols')}
       </Text>
       <div className='flex flex-col gap-y-[16px] desktop:mt-[26px]'>
-        {loading ? (
-          <>
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-            <SkeletonLoading />
-          </>
-        ) : (
-          stockList?.map((item: IStockTheme, index: number) => {
-            const isChangeStock = findIndex === index;
-            return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
-          })
-        )}
+        {stockList?.map((item: IStockTheme, index: number) => {
+          const isChangeStock = findIndex === index;
+          return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
+        })}
       </div>
     </>
   );

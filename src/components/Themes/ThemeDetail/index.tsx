@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import PopupSubsribeTheme from '@components/UI/Popup/PopupSubscribeTheme';
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -25,8 +25,7 @@ const LandingPageDetailThemes = dynamic(() => import('./LandingPage'), {
 const ThemeDetail = () => {
   const { t } = useTranslation('theme');
   const router = useRouter();
-  const { isLogin } = useAuth();
-
+  const isLogin = !!getAccessToken();
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [popupStatus] = useAtom(popupStatusAtom);
@@ -62,7 +61,7 @@ const ThemeDetail = () => {
     },
     // eslint-disable-next-line array-callback-return
   ];
-  const { themeDetail, refresh, loading } = useGetThemeDetail(id, {
+  const { themeDetail, refresh } = useGetThemeDetail(id, {
     onError: (err: any) => {
       if (err.errorCode === 'error.theme.notfound') {
         router.push(ROUTE_PATH.NOT_FOUND);
@@ -72,13 +71,13 @@ const ThemeDetail = () => {
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsThemeDetailEnum.Community: {
-        return <Community loading={loading} payload={themeDetail} ref={refCommunity} />;
+        return <Community payload={themeDetail} ref={refCommunity} />;
       }
       case TabsThemeDetailEnum.StockSymbols: {
-        return <StockSymbols loading={loading} data={themeDetail} />;
+        return <StockSymbols data={themeDetail} />;
       }
       case TabsThemeDetailEnum.Activities: {
-        return <Activities loading={loading} data={themeDetail} ref={refActivities} />;
+        return <Activities data={themeDetail} ref={refActivities} />;
       }
       default: {
         break;
@@ -121,15 +120,11 @@ const ThemeDetail = () => {
           </Text>
         </div>
 
-        <LandingPageDetailThemes
-          data={themeDetail}
-          loading={loading}
-          refresh={onRefreshCommunity}
-        />
+        <LandingPageDetailThemes data={themeDetail} refresh={onRefreshCommunity} />
         <div className='desktop:hidden'>
-          <Community loading={loading} payload={themeDetail} ref={refCommunity} />
-          <StockSymbols data={themeDetail} loading={loading} />
-          <Activities data={themeDetail} loading={loading} ref={refActivities} />
+          <Community payload={themeDetail} ref={refCommunity} />
+          <StockSymbols data={themeDetail} />
+          <Activities data={themeDetail} ref={refActivities} />
         </div>
         <div className='mt-[20px] mobile:hidden desktop:block'>
           <Tabs

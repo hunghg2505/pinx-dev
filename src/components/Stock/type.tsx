@@ -73,6 +73,7 @@ export interface IResponseStockDetail {
   stockDetail?: {
     data?: IStock;
   };
+  loading: boolean;
 }
 
 export interface IProduct {
@@ -88,6 +89,7 @@ export interface IResponseShareholder {
       value: number;
     }[];
   };
+  loading: boolean;
 }
 
 export interface IOptions {
@@ -156,12 +158,14 @@ export interface IResponseTaggingInfo {
       subsidiaries: ISubsidiaries[];
     };
   };
+  loading: boolean;
 }
 
 export interface IResponseFinancialIndex {
   financialIndex?: {
     data?: IFinancialIndex;
   };
+  loading: boolean;
 }
 
 export enum FinancialIndexKey {
@@ -190,6 +194,7 @@ export interface IResponseHoldingRatio {
       shares: number;
     }[];
   };
+  loading: boolean;
 }
 
 export interface IResponseStockEvents {
@@ -230,6 +235,7 @@ export interface IResponseThemesOfStock {
   stockThemes: {
     data: IStockTheme[];
   };
+  loading: boolean;
 }
 
 interface IWatchingInvesting {
@@ -279,6 +285,7 @@ export interface IStockDetails {
 export interface IResponseStockDetailsExtra {
   stockDetails?: IStockDetails;
   refreshStockDetails: () => void;
+  loading: boolean;
 }
 
 export interface IReview {
