@@ -81,10 +81,6 @@ export const formatMessage = (message: string, data: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
-      // const url =
-      //   Number(idCustomer) === Number(ID)
-      //     ? `${window.location.origin}/profile/my-profile`
-      //     : `${window.location.origin}/profile/${ID}`;
       if (message && !message.includes(name)) {
         const newMessage = message.split(' ');
         for (const text of newMessage) {
@@ -446,7 +442,6 @@ export const getQueryFromUrl = () => {
 };
 export const converStringMessageToObject = (message: string, data: any) => {
   const listStock = data?.tagStocks;
-  console.log('🚀 ~ file: common.ts:449 ~ converStringMessageToObject ~ listStock:', listStock);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -657,7 +652,7 @@ export default async function getSeoDataFromLink(url: string) {
       }
       summary.push(tempsum);
     }
-
+    console.log('summary', summary);
     return summary;
   } catch (error: any) {
     console.log('ERROR FETCHING META LINK', error);

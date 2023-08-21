@@ -48,9 +48,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-
   socket.on('connect', requestJoinIndex);
-
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { watchList } = useGetWatchList();
@@ -71,7 +69,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     const query: any = getQueryFromUrl();
 
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
-  }, [filterType]);
+  }, [filterType, postDetailStatus?.isRefreshHome]);
 
   useEffect(() => {
     if (isHaveStockWatchList) {

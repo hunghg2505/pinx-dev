@@ -30,6 +30,7 @@ export const usePostHomePage = () => {
     {
       manual: true,
       onSuccess: (r: any) => {
+        console.log('r', r);
         setDataPosts(r);
       },
     },

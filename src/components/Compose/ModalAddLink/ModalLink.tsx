@@ -45,6 +45,7 @@ const ModalLink = (props: IProps) => {
 
   const onSubmit = async (values: any) => {
     const data = await getSeoDataFromLink(values?.search.trim());
+    console.log('🚀 ~ file: ModalLink.tsx:48 ~ onSubmit ~ data:', data);
 
     setVisible(!visible);
 

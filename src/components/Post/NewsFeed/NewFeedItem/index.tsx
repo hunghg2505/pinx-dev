@@ -8,6 +8,7 @@ import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -18,6 +19,7 @@ import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPo
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserType } from '@hooks/useUserType';
@@ -157,6 +159,9 @@ const NewFeedItem = (props: IProps) => {
         }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
+      onError: (err: any) => {
+        toast(() => <Notification type='error' message={err.error} />);
+      },
     },
   );
 
@@ -175,6 +180,9 @@ const NewFeedItem = (props: IProps) => {
           refreshTrendingOnPinex();
         }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
+      },
+      onError: (err: any) => {
+        toast(() => <Notification type='error' message={err.error} />);
       },
     },
   );
@@ -414,7 +422,7 @@ const NewFeedItem = (props: IProps) => {
           <div className='flex flex-1 flex-row items-center'>
             <div
               ref={refHover}
-              className={classNames('relative', {
+              className={classNames('relative flex-none', {
                 [styles.avatar]: [
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
@@ -439,7 +447,7 @@ const NewFeedItem = (props: IProps) => {
               </Fade>
             </div>
 
-            <div className='des flex-1 mobile:w-[150px] desktop:w-[300px]'>
+            <div className='des flex-1 mobile:w-[150px] galaxy-max:w-[120px] desktop:w-[300px]'>
               <div className='flex'>
                 <div className='mr-[5px] flex w-full flex-1 items-center'>
                   <UserName postDetail={postDetail} />
