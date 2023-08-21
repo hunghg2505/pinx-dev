@@ -26,6 +26,7 @@ import { ROUTE_PATH, formatNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
+import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
 import CalendarItem from './CalendarItem';
 import { DonutChart } from './Chart';
 import ChartIframe from './ChartIframe';
@@ -44,7 +45,6 @@ import StockRevenueSkeleton from './Revenue/skeleton';
 import ReviewItem from './ReviewItem';
 import FakeStockHeading from './StockHeading/fakeHeading';
 import ThemeItem from './ThemeItem';
-import AlsoOwnItem from '../AlsoOwnItem';
 import { SHARE_HOLDER_COLOR } from '../const';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
@@ -79,7 +79,6 @@ import {
 
 const STOCK_EVENT_ITEM_LIMIT = 4;
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
-const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
@@ -114,6 +113,11 @@ const StockRevenue = dynamic(() => import('@components/Stock/StockDetail/Revenue
 const StockHighlights = dynamic(() => import('@components/Stock/StockDetail/Highlights'), {
   ssr: false,
   loading: () => <StockHighlightsSkeleton />,
+});
+
+const StockAlsoOwn = dynamic(() => import('@components/Stock/StockDetail/AlsoOwn'), {
+  ssr: false,
+  loading: () => <StockAlsoOwnSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -159,7 +163,7 @@ const StockDetail = () => {
     refreshStockDetails,
     loading: loadingStockDetails,
   } = useStockDetailsExtra(stockCode);
-  const { taggingInfo, loading: loadingTaggingInfo } = useCompanyTaggingInfo(stockCode, {
+  const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
       if (e.errorCode === 'error.company.not.found') {
         router.push(ROUTE_PATH.NOT_FOUND);
@@ -568,45 +572,7 @@ const StockDetail = () => {
       <StockHighlights taggingInfo={taggingInfo} stockCode={stockCode} />
 
       {/* also own */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.subsidiaries && taggingInfo.data.subsidiaries.length > 0)) && (
-        <div className='card-style box-shadow mb-[28px]'>
-          <Text type='body-20-semibold' className='mb-[8px]'>
-            {t('also_own')}
-          </Text>
-
-          <div className='flex flex-col gap-y-[12px]'>
-            {loadingTaggingInfo &&
-              [...new Array(2)].map((_, index) => (
-                <div key={index} className='flex items-center'>
-                  <Skeleton width={81} height={81} />
-
-                  <div className='mx-[10px] flex flex-col gap-y-[12px]'>
-                    <Skeleton round width={50} />
-                    <Skeleton round width={100} />
-                  </div>
-
-                  <Skeleton round width={50} wrapClassName='ml-auto' />
-                </div>
-              ))}
-
-            {taggingInfo?.data?.subsidiaries.slice(0, ALSO_ITEM_LIMIT).map((item, index) => (
-              <AlsoOwnItem data={item} key={index} />
-            ))}
-          </div>
-
-          {taggingInfo?.data?.subsidiaries &&
-            taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
-              <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
-                <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('common:see_more')}
-                  </Text>
-                </button>
-              </CustomLink>
-            )}
-        </div>
-      )}
+      <StockAlsoOwn taggingInfo={taggingInfo} stockCode={stockCode} />
 
       {/* rating */}
       <div className='box-shadow card-style'>
