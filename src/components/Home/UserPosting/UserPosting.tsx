@@ -11,10 +11,11 @@ import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
 import Notification from '@components/UI/Notification';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -25,7 +26,9 @@ const UserPosting = ({ onAddNewPost }: any) => {
   const { t } = useTranslation(['home']);
 
   const router = useRouter();
-  const { userLoginInfo } = useUserLoginInfo();
+  const [profileSetting] = useAtom(profileSettingAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const refModal: any = useRef();
   const refModalUnVerify = useRef<IBaseModal>(null);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -34,9 +37,9 @@ const UserPosting = ({ onAddNewPost }: any) => {
 
   const onShowModal = async () => {
     if (isLogin) {
-      if (statusUser === USERTYPE.VSD) {
+      if (statusUser === USERTYPE.VSD || isCanCompose) {
         refModal?.current?.onVisible();
-      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE && !isCanCompose) {
         toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else {
         setPopupStatus({
