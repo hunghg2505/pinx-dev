@@ -31,7 +31,7 @@ import { DonutChart } from './Chart';
 import ChartIframe from './ChartIframe';
 import FinancialAnnualTab from './FinancialAnnualTab';
 import FinancialQuartersTab from './FinancialQuartersTab';
-import HighlighItem from './HighlighItem';
+import StockHighlightsSkeleton from './Highlights/skeleton';
 import HoldingRatioItem from './HoldingRatioItem';
 import IntradayTab from './IntradayTab';
 import IntroSkeleton from './Intro/skeleton';
@@ -70,7 +70,6 @@ import {
   useThemesOfStock,
 } from '../service';
 import {
-  CompanyRelatedType,
   FinancialIndexKey,
   IFinancialIndex,
   IResponseMyStocks,
@@ -80,7 +79,6 @@ import {
 
 const STOCK_EVENT_ITEM_LIMIT = 4;
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
-const HIGHLIGH_ROW_LIMIT = 3;
 const ALSO_ITEM_LIMIT = 2;
 const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
@@ -111,6 +109,11 @@ const StockMainBusiness = dynamic(() => import('@components/Stock/StockDetail/Ma
 const StockRevenue = dynamic(() => import('@components/Stock/StockDetail/Revenue'), {
   ssr: false,
   loading: () => <StockRevenueSkeleton />,
+});
+
+const StockHighlights = dynamic(() => import('@components/Stock/StockDetail/Highlights'), {
+  ssr: false,
+  loading: () => <StockHighlightsSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -174,19 +177,14 @@ const StockDetail = () => {
     },
   });
 
-  const { totalColumnHighligh, shareholderChartData } = useMemo(() => {
-    const totalColumnHighligh = Math.ceil(
-      (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
-    );
-
+  const { shareholderChartData } = useMemo(() => {
     const shareholderChartData =
       shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || [];
 
     return {
-      totalColumnHighligh,
       shareholderChartData,
     };
-  }, [taggingInfo, shareholder]);
+  }, [shareholder]);
 
   useEffect(() => {
     socket.on('public', (message: any) => {
@@ -317,15 +315,6 @@ const StockDetail = () => {
   const handleBack = useCallback(() => {
     router.back();
   }, [router]);
-
-  const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
-    router.push({
-      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
-      query: {
-        type,
-      },
-    });
-  };
 
   // follow or unfollow stock
   const handleFollowOrUnfollowStock = () => {
@@ -576,50 +565,7 @@ const StockDetail = () => {
       <StockRevenue taggingInfo={taggingInfo} />
 
       {/* highlights */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.highlights && taggingInfo?.data?.highlights.length > 0)) && (
-        <div className='box-shadow card-style pb-[28px]'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('highlights')}
-          </Text>
-
-          {loadingTaggingInfo && (
-            <div className='flex flex-wrap gap-[12px]'>
-              {[...new Array(12)].map((_, index) => (
-                <Skeleton round wrapClassName='!inline-block' key={index} />
-              ))}
-            </div>
-          )}
-
-          {taggingInfo?.data?.highlights && taggingInfo.data.highlights.length > 6 && isMobile ? (
-            <div className={classNames('flex gap-x-[12px] overflow-x-auto', styles.noScrollbar)}>
-              {Array.from({ length: totalColumnHighligh }, (_, index) => index).map((_, index) => (
-                <div key={index} className='flex flex-col gap-y-[12px]'>
-                  {taggingInfo?.data?.highlights
-                    .slice(index * HIGHLIGH_ROW_LIMIT, HIGHLIGH_ROW_LIMIT * (index + 1))
-                    .map((highlight, highlighIndex) => (
-                      <HighlighItem
-                        onGoToCompaniesRelatedPage={goToListCompanyPage}
-                        data={highlight}
-                        key={highlighIndex}
-                      />
-                    ))}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className='flex flex-wrap gap-[12px]'>
-              {taggingInfo?.data?.highlights.map((item, index) => (
-                <HighlighItem
-                  onGoToCompaniesRelatedPage={goToListCompanyPage}
-                  data={item}
-                  key={index}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <StockHighlights taggingInfo={taggingInfo} stockCode={stockCode} />
 
       {/* also own */}
       {(loadingTaggingInfo ||
