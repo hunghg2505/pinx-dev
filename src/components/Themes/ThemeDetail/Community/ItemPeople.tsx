@@ -31,7 +31,7 @@ const ItemPeople = ({ data }: { data: IUserTheme }) => {
             loading='lazy'
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[36px] w-[36px] rounded-full'
+            className='mr-[8px] h-[36px] w-[36px] rounded-full object-cover'
           />
           <div>
             <Text type='body-14-semibold' color='neutral-darkgray'>
