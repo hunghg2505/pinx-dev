@@ -40,7 +40,7 @@ import IntroSkeleton from './Intro/skeleton';
 import MainBusinessSkeleton from './MainBusiness/skeleton';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
-import NewsItem from './NewsItem';
+import StockNewsSkeleton from './News/skeleton';
 import StockProductSkeleton from './Products/skeleton';
 import StockRevenueSkeleton from './Revenue/skeleton';
 import ReviewItem from './ReviewItem';
@@ -67,7 +67,6 @@ import {
   useStockActivities,
   useStockDetail,
   useStockDetailsExtra,
-  useStockNews,
   useThemesOfStock,
 } from '../service';
 import {
@@ -79,7 +78,6 @@ import {
 } from '../type';
 
 const STOCK_EVENT_ITEM_LIMIT = 4;
-const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
 const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
@@ -123,6 +121,11 @@ const StockAlsoOwn = dynamic(() => import('@components/Stock/StockDetail/AlsoOwn
 const StockCommunity = dynamic(() => import('@components/Stock/StockDetail/Community'), {
   ssr: false,
   loading: () => <StockCommunitySkeleton />,
+});
+
+const StockNews = dynamic(() => import('@components/Stock/StockDetail/News'), {
+  ssr: false,
+  loading: () => <StockNewsSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -171,7 +174,7 @@ const StockDetail = () => {
       }
     },
   });
-  const { stockNews, refreshStockNews, loading: loadingStockNews } = useStockNews(stockCode);
+
   const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
     limit: ACTIVITIES_ITEM_LIMIT,
   });
@@ -664,51 +667,7 @@ const StockDetail = () => {
       <StockCommunity stockDetails={stockDetails} stockCode={stockCode} />
 
       {/* recent news */}
-      {(loadingStockNews || (stockNews?.data.list && stockNews.data.list.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[4px]'>
-            <Text type='body-20-semibold'>{t('recent_news')}</Text>
-          </div>
-
-          {loadingStockNews && (
-            <div>
-              {[...new Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className='flex items-center gap-x-[12px] border-solid border-[#EBEBEB] py-[12px] [&:not(:last-child)]:border-b'
-                >
-                  <div className='flex-1'>
-                    <div className='mb-[12px] flex items-center gap-x-[8px]'>
-                      <Skeleton width={24} height={24} round />
-                      <Skeleton round height={12} />
-                    </div>
-
-                    <Skeleton height={12} rows={2} className='!w-full' wrapClassName='w-full' />
-                  </div>
-
-                  <Skeleton width={73} height={73} className='!rounded-[12px]' />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {stockNews?.data?.list.slice(0, NEWS_ITEM_LIMIT).map((item, index) => (
-            <NewsItem key={index} data={item} onRefreshNews={refreshStockNews} />
-          ))}
-
-          {stockNews?.data?.list.length > NEWS_ITEM_LIMIT && (
-            <CustomLink href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
-              <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('more_news', {
-                    stockCode: stockDetail?.data?.stockCode,
-                  })}
-                </Text>
-              </button>
-            </CustomLink>
-          )}
-        </div>
-      )}
+      <StockNews stockCode={stockCode} />
 
       {/* featured in themes */}
       {(loadingTheme || (stockThemes && stockThemes.data.length > 0)) && (
