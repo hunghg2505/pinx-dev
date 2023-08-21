@@ -6,19 +6,16 @@ import Slider from 'react-slick';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter';
 import Influencer from '@components/Home/People/Influencer';
-import PeopleList from '@components/Home/People/PeopleList';
-import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@components/Home/service';
+import { ITheme, useGetListNewFeed, useGetTheme } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
 import { IPost } from '@components/Post/service';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
-import ModalPeopleYouKnow from './ModalPeopleYouKnow';
 import PinexTop from './PinexTop';
 import Search from './Search';
 import {
@@ -29,6 +26,7 @@ import {
   useGetTopMentionStock,
   useGetTopWatchingStock,
 } from './service';
+import SuggestionPeople from './SuggestionPeople';
 import TrendingOnnPinex from './TrendingOnPinex/inndex';
 import WatchingStock from './WatchingStock';
 
@@ -74,8 +72,7 @@ const Explore = () => {
   const refClick: any = React.useRef(null);
   const refSlideTheme: any = React.useRef();
   const refSlidePinex: any = React.useRef();
-  const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople();
-  const { isLogin } = useAuth();
+
   const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords } = useGetKeyWordsTop();
   const { run, listNewFeed, refresh: refreshTrendingOnPinex } = useGetListNewFeed();
@@ -91,9 +88,6 @@ const Explore = () => {
 
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
-    if (isLogin) {
-      getSuggestFriend();
-    }
   }, []);
 
   const onShowMoreKeyWords = () => {
@@ -109,6 +103,7 @@ const Explore = () => {
       refClick?.current?.onKeyDown(value);
     }
   };
+  console.log('123');
   return (
     <div className='w-full rounded-[8px] text-left desktop:-mt-[16px] desktop:py-[16px]'>
       <div className='box-shadow mb-[18px] rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
@@ -197,38 +192,7 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      {suggestionPeople && (
-        <div className='box-shadow card-style tablet:hidden'>
-          <>
-            <div className='mr-[16px] flex flex-row items-center'>
-              <img
-                src='/static/icons/iconPeople.svg'
-                alt=''
-                width={20}
-                height={20}
-                className='mr-[8px] h-[20px] w-[20px] object-contain'
-              />
-              <Text type='body-16-bold' color='neutral-2'>
-                {t('people_you_may_know')}
-              </Text>
-            </div>
-
-            <div className='block'>
-              <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-                <PeopleList data={suggestionPeople} refresh={refreshList} />
-              </div>
-              <ModalPeopleYouKnow refreshList={refreshList}>
-                <ExploreButton>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('explore_people')}
-                  </Text>
-                </ExploreButton>
-              </ModalPeopleYouKnow>
-              <div className='mb-[18px] block w-full'></div>
-            </div>
-          </>
-        </div>
-      )}
+      <SuggestionPeople />
 
       <div className='box-shadow card-style'>
         <Text

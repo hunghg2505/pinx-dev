@@ -12,6 +12,7 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'));
 
 const PostDetailPage = ({ postDetail }: any) => {
   const seoMetadata = postDetail?.post?.seoMetadata;
+
   return (
     <>
       <SEO
@@ -47,7 +48,7 @@ export async function getServerSideProps({ locale, params }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
-      postDetail,
+      postDetail: postDetail?.data,
       // Will be passed to the page component as props
     },
   };

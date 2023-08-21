@@ -1,11 +1,15 @@
+import { useAtom } from 'jotai';
+
 import { useAuth } from '@store/auth/useAuth';
 import { USERTYPE } from '@utils/constant';
 
-import { useUserLoginInfo } from './useUserLoginInfo';
+import { userLoginInfoAtom } from './useUserLoginInfo';
 
 export const useUserType: any = () => {
   const { isLogin } = useAuth();
-  const { userLoginInfo } = useUserLoginInfo();
+  // const { userLoginInfo } = useUserLoginInfo();
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+
   const custStat = userLoginInfo?.custStat;
   const acntStat = userLoginInfo?.acntStat;
   const userId = userLoginInfo?.id;

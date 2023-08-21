@@ -46,7 +46,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
               'text-[#B349C3]': isHigh,
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#E6A70A]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
               [style.isDecrease]:
@@ -68,7 +68,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
               'text-[#B349C3]': isHigh,
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DB4444]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
-              'text-[#E6A70A]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#E6A70A]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
               [style.isDecrease]:

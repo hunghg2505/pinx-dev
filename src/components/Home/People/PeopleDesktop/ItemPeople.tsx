@@ -91,7 +91,7 @@ const ItemPeople = (props: IProps) => {
         )}
         <div>
           <div className='flex items-center'>
-            <Text type='body-14-semibold' color='cbblack'>
+            <Text type='body-14-semibold' color='cbblack' className='truncate'>
               {data.displayName}
             </Text>
             {data.isFeatureProfile && (

@@ -194,20 +194,22 @@ export const getCommentsOfPostAuth = async (postId: string, params?: any) => {
 export const getCommentsOfPost = (postId: string, params?: any) => {
   return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId), { params });
 };
-export const useCommentsOfPost = (postId: string) => {
-  const { data, loading, refresh } = useRequest(
+export const useCommentsOfPost = (postId: string, option = {}) => {
+  const { data, loading, refresh, run } = useRequest(
     async () => {
       const isLogin = !!getAccessToken();
       return isLogin ? getCommentsOfPostAuth(postId) : getCommentsOfPost(postId);
     },
     {
       refreshDeps: [postId],
+      ...option,
     },
   );
   return {
     commentsOfPost: data,
     loading,
     refreshCommentOfPost: refresh,
+    getDataComment: run,
   };
 };
 

@@ -130,9 +130,14 @@ const PostDetail = () => {
   };
 
   const { refLastElement } = useObserver();
-  const isHaveComment = postData?.totalChildren > 0;
+  const isHaveComment = data?.list?.length > 0;
 
-  const countComment = postData?.totalChildren || 0;
+  const totalComments = data?.list?.length;
+  const commentChild = data?.list?.reduce(
+    (acc: any, current: any) => acc + current?.totalChildren,
+    0,
+  );
+  const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
     router.back();
   };
@@ -166,7 +171,7 @@ const PostDetail = () => {
               key={index}
               onReplies={onReplies}
               refreshCommentOfPOst={refreshCommentOfPost}
-              refreshTotal={refresh}
+              // refreshTotal={refresh}
               isChildren={true}
               width={width}
               isLastChildren={index === payload.length - 1}
@@ -279,7 +284,7 @@ const PostDetail = () => {
                         <ItemComment
                           data={item}
                           onReplies={onReplies}
-                          refreshTotal={refresh}
+                          // refreshTotal={refresh}
                           refreshCommentOfPOst={refreshCommentOfPost}
                           width={width}
                           isReply={isReply && !postDetailStatus.isDoneReplies}
@@ -312,7 +317,7 @@ const PostDetail = () => {
                       <ItemComment
                         data={item}
                         onReplies={onReplies}
-                        refreshTotal={refresh}
+                        // refreshTotal={refresh}
                         refreshCommentOfPOst={refreshCommentOfPost}
                         width={width}
                         isReply={isReply && !postDetailStatus.isDoneReplies}
