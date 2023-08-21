@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 import { toast } from 'react-hot-toast';
-import Slider from 'react-slick';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -35,10 +34,11 @@ import FinancialQuartersTab from './FinancialQuartersTab';
 import HighlighItem from './HighlighItem';
 import HoldingRatioItem from './HoldingRatioItem';
 import IntradayTab from './IntradayTab';
+import IntroSkeleton from './Intro/skeleton';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
 import NewsItem from './NewsItem';
-import ProductItem from './ProductItem';
+import StockProductSkeleton from './Products/skeleton';
 import RevenueItem from './RevenueItem';
 import ReviewItem from './ReviewItem';
 import FakeStockHeading from './StockHeading/fakeHeading';
@@ -77,9 +77,6 @@ import {
   TabType,
 } from '../type';
 
-const MAX_LINE = 4;
-const LINE_HEIGHT = 21;
-const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
 const STOCK_EVENT_ITEM_LIMIT = 4;
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
 const HIGHLIGH_ROW_LIMIT = 3;
@@ -89,11 +86,20 @@ const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
 const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
-const PRODUCT_SLIDE_LIMIT = 5;
 
 const StockHeading = dynamic(() => import('@components/Stock/StockDetail/StockHeading'), {
   ssr: false,
   loading: () => <FakeStockHeading />,
+});
+
+const Intro = dynamic(() => import('@components/Stock/StockDetail/Intro'), {
+  ssr: false,
+  loading: () => <IntroSkeleton />,
+});
+
+const StockProducts = dynamic(() => import('@components/Stock/StockDetail/Products'), {
+  ssr: false,
+  loading: () => <StockProductSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -101,26 +107,24 @@ dayjs.extend(minMax);
 const StockDetail = () => {
   const { t } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
-  const [showSeeMore, setShowSeeMore] = useState(false);
-  const [isSeeMore, setIsSeeMore] = useState(false);
+
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
   const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
-  const introDescRef = useRef<HTMLDivElement | null>(null);
+
   const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
-  const refSlide = useRef<any>(null);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
 
-  const { stockDetail, loading: loadingStockDetail } = useStockDetail(stockCode, {
+  const { stockDetail } = useStockDetail(stockCode, {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
@@ -175,11 +179,6 @@ const StockDetail = () => {
       shareholderChartData,
     };
   }, [taggingInfo, shareholder]);
-
-  useEffect(() => {
-    const introDescHeight = introDescRef.current?.clientHeight || 0;
-    introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
-  }, [stockDetail]);
 
   useEffect(() => {
     socket.on('public', (message: any) => {
@@ -411,19 +410,6 @@ const StockDetail = () => {
     return [];
   };
 
-  // slider product awareness
-  const settings = useMemo(() => {
-    return {
-      dots: false,
-      speed: 500,
-      // slidesToShow:
-      //   stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-      //     ? 1
-      //     : PRODUCT_SLIDE_LIMIT,
-      slidesToScroll: PRODUCT_SLIDE_LIMIT,
-    };
-  }, [stockDetail?.data?.products]);
-
   const { chartColorFormat } = useMemo(() => {
     const chartColor = getStockColor(
       dataStock?.lastPrice || 0,
@@ -587,131 +573,10 @@ const StockDetail = () => {
       </div>
 
       {/* intro */}
-      {(loadingStockDetail || stockDetail?.data?.introduction) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('intro')}
-          </Text>
-
-          {loadingStockDetail ? (
-            <Skeleton rows={6} height={15} className='!w-full' />
-          ) : (
-            <div>
-              <div
-                style={{ lineHeight: `${LINE_HEIGHT}px`, maxHeight: `${MAX_HEIGHT}px` }}
-                className={classNames('overflow-hidden', {
-                  '!max-h-max': isSeeMore,
-                })}
-              >
-                <div ref={introDescRef} className='leading-[inherit]'>
-                  <Text
-                    type='body-14-regular'
-                    className='whitespace-pre-line !leading-[inherit] galaxy-max:text-[12px]'
-                  >
-                    {stockDetail?.data?.introduction}
-                  </Text>
-                </div>
-              </div>
-
-              {showSeeMore && (
-                <button
-                  onClick={() => setIsSeeMore((prev) => !prev)}
-                  className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
-                >
-                  <Text
-                    type='body-12-semibold'
-                    className='galaxy-max:text-[10px]'
-                    color='primary-2'
-                  >
-                    {isSeeMore ? t('less') : t('more') + '...'}
-                  </Text>
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+      <Intro stockDetail={stockDetail} />
 
       {/* brand awareness */}
-      {(loadingStockDetail ||
-        (stockDetail?.data?.products && stockDetail?.data?.products.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[16px]'>
-            <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
-          </div>
-
-          {loadingStockDetail && (
-            <div className='flex gap-x-[14px] overflow-x-hidden'>
-              {[...new Array(10)].map((_, index) => (
-                <div key={index}>
-                  <Skeleton width={112} height={112} className='!rounded-[24px]' />
-                  <Skeleton className='mt-[12px] !w-full' round />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {stockDetail?.data?.products &&
-            stockDetail?.data?.products.length > 0 &&
-            (isMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
-              <div
-                className={classNames(
-                  'flex items-center gap-x-[14px] overflow-x-auto',
-                  styles.noScrollbar,
-                )}
-              >
-                {stockDetail?.data?.products.map((item, index) => (
-                  <ProductItem className='!mr-0 min-w-[112px]' key={index} data={item} />
-                ))}
-              </div>
-            ) : (
-              <div className='relative'>
-                {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
-                  <div
-                    onClick={() => refSlide.current.slickPrev()}
-                    className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-                  >
-                    <img
-                      src='/static/icons/iconGrayPrev.svg'
-                      alt='Icon prev'
-                      className='h-[16px] w-[7px] object-contain'
-                    />
-                  </div>
-                )}
-
-                <div className='overflow-hidden'>
-                  <Slider
-                    {...settings}
-                    ref={refSlide}
-                    draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
-                    // variableWidth={
-                    //   stockDetail?.data?.products &&
-                    //   stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-                    // }
-                    variableWidth
-                  >
-                    {stockDetail?.data?.products.map((item, index) => (
-                      <ProductItem className='!mr-[14px]' key={index} data={item} />
-                    ))}
-                  </Slider>
-                </div>
-
-                {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
-                  <div
-                    onClick={() => refSlide.current.slickNext()}
-                    className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-                  >
-                    <img
-                      src='/static/icons/iconGrayNext.svg'
-                      alt='Icon next'
-                      className='h-[16px] w-[7px] object-contain'
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-        </div>
-      )}
+      <StockProducts stockDetail={stockDetail} />
 
       {/* main business */}
       {(loadingTaggingInfo ||
