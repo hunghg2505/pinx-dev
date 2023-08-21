@@ -82,7 +82,7 @@ const Compose = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { statusUser } = useUserType();
-  const objectMessage = converStringMessageToObject(postDetail?.post?.message);
+  const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -162,7 +162,6 @@ const Compose = (props: IProps) => {
 
         hidePopup && hidePopup();
         setMetaData(null);
-        console.log('update post');
         setPostDetailStatus({
           ...postDetailStatus,
           idPostLike: postDetail?.id,
@@ -295,7 +294,6 @@ const Compose = (props: IProps) => {
               const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
                 data: payload,
               });
-
               return data?.data?.companies;
             },
           },
@@ -337,7 +335,7 @@ const Compose = (props: IProps) => {
                   data: payload,
                 },
               );
-              return data?.data?.list;
+              return data?.data?.hashtags;
             },
           },
         }),
@@ -558,6 +556,7 @@ const Compose = (props: IProps) => {
         urlImages: [imageUploadedUrl],
         urlLinks,
       };
+      console.log('data', data);
       if (urlLinks?.length && !metaData?.length) {
         const dataSeo = await getSeoDataFromLink(urlLinks[0]);
 

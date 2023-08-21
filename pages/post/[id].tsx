@@ -3,15 +3,19 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
 
-const PostDetail = dynamic(() => import('@components/Post/PostDetail'));
+const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
+  loading: () => <NewsFeedSkeleton showBtnBack />,
+});
 
 const PostDetailPage = ({ postDetail }: any) => {
   const seoMetadata = postDetail?.post?.seoMetadata;
+
   return (
     <>
       <SEO
@@ -47,7 +51,7 @@ export async function getServerSideProps({ locale, params }: any) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
-      postDetail,
+      postDetail: postDetail?.data,
       // Will be passed to the page component as props
     },
   };

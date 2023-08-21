@@ -30,10 +30,11 @@ const InterestItem = (props: IProps) => {
     Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
+  const url = `${imageCompanyUrl}${
+    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
       ? data?.stockCode
       : data?.stockCode?.slice(1, 4)
-    }.png`;
+  }.png`;
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const requestSelectStock = useSelectStock({
@@ -68,7 +69,7 @@ const InterestItem = (props: IProps) => {
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
-              'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#F1BA09]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [styles.isIncrease]: isIncrease && !isHigh && !isChange && isChangeColor,
               [styles.isDecrease]:
@@ -92,7 +93,7 @@ const InterestItem = (props: IProps) => {
                 'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
                 'text-[#22D1E9]': isFloor,
                 'text-[#782AF9]': isHigh,
-                'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+                'text-[#F1BA09]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
                 'text-[#474D57]': Number(data?.lastPrice) === 0,
                 [styles.isIncrease]: isIncrease && !isHigh && !isChange && isChangeColor,
                 [styles.isDecrease]:

@@ -32,6 +32,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { removeHashTag } from '@utils/removeHashTag';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -106,7 +107,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onSuccess: () => {
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'media' },
+        query: { keyword: query, tab: 'company' },
       });
       setInputFocus(false);
       setShowRecent(false);
@@ -153,7 +154,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         setInputFocus(true);
         refresh();
         searchPublic({
-          textSearch: value,
+          textSearch: removeHashTag(value),
         });
       }
     },
@@ -353,7 +354,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       <NewsFeed
                         key={`explore-search-${post?.id}`}
                         data={post}
-                        isNewFeedExplore={true}
+                        isNewFeedExplore={false}
+                        hiddenComment={true}
                         setShowPopup={setShowPopup}
                         refreshSearch={refresh}
                       />

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -81,9 +83,12 @@ const ThemesItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useAuth();
   const { statusUser } = useUserType();
-  const { theme, refresh } = props;
+  const { theme } = props;
   const router = useRouter();
-
+  const [isSubsribed, setIsSubsribed] = React.useState(theme?.isSubsribed);
+  React.useEffect(() => {
+    setIsSubsribed(theme?.isSubsribed);
+  }, [theme?.isSubsribed]);
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -103,7 +108,8 @@ const ThemesItem = (props: IProps) => {
           });
           setPopupThemeData(theme);
         }
-        refresh && refresh();
+        setIsSubsribed(!isSubsribed);
+        // refresh && refresh();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -129,7 +135,8 @@ const ThemesItem = (props: IProps) => {
           });
           setPopupThemeData(theme);
         }
-        refresh && refresh();
+        setIsSubsribed(!isSubsribed);
+        // refresh && refresh();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -140,7 +147,7 @@ const ThemesItem = (props: IProps) => {
     e.preventDefault();
 
     if (isLogin) {
-      if (theme?.isSubsribed) {
+      if (isSubsribed) {
         useUnSubcribe.run(theme.code);
       } else {
         useSubcribe.run(theme.code);
@@ -153,7 +160,7 @@ const ThemesItem = (props: IProps) => {
     }
   };
   const renderSubcribe = () => {
-    if (theme?.isSubsribed) {
+    if (isSubsribed) {
       return (
         <>
           <IconChecked />

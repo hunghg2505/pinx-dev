@@ -25,6 +25,7 @@ const ItemWatchList = ({
   isChangeStock?: boolean;
 }) => {
   const { i18n } = useTranslation();
+
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -117,7 +118,7 @@ const ItemWatchList = ({
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
-              'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#F1BA09] ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
               [style.isDecrease]:
@@ -137,7 +138,7 @@ const ItemWatchList = ({
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
-              'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#F1BA09]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
               [style.isDecrease]:
