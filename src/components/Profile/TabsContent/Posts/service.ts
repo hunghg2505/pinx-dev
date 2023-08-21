@@ -6,7 +6,7 @@ export async function getOtherPeoplePost(customerId: string, last?: string): Pro
   const isLogin = !!getAccessToken();
   const params = {
     customerId,
-    limit: 10,
+    limit: 3,
     last,
   };
   const r = isLogin

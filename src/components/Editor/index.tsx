@@ -81,7 +81,7 @@ const Editor = (props: IProps, ref?: any) => {
           return this.editor.commands.setHardBreak();
         },
         Enter: ({ editor }) => {
-          onSend(editor);
+          onSend(editor, statusUser);
           return true;
         },
       };
@@ -347,7 +347,7 @@ const Editor = (props: IProps, ref?: any) => {
   }, [editor?.isFocused, isClickAway, useAddComment.loading]);
   const size = useSize(editorRef);
 
-  const onSend = async (editor: any) => {
+  const onSend = async (editor: any, statusUser: any) => {
     const users: any = [];
     const stock: any = [];
     const hashtags: any = [];
@@ -604,7 +604,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'pointer-events-none opacity-40': !textComment,
                     'pointer-events-auto opacity-100': textComment,
                   })}
-                  onClick={() => onSend(editor)}
+                  onClick={() => onSend(editor, statusUser)}
                 />
               )}
             </div>
@@ -651,7 +651,7 @@ const Editor = (props: IProps, ref?: any) => {
                 'pointer-events-none opacity-40': !textComment,
                 'pointer-events-auto opacity-100': textComment,
               })}
-              onClick={() => onSend(editor)}
+              onClick={() => onSend(editor, statusUser)}
             />
           )}
         </div>

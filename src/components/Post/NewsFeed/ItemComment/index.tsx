@@ -112,28 +112,6 @@ const ItemComment = (props: IProps) => {
   useClickAway(() => {
     showDelete && setShowDelete(false);
   }, ref);
-  // const onRedirect = (url: string) => {
-  //   router.push({
-  //     pathname: '/redirecting',
-  //     query: { url },
-  //   });
-  // };
-  // React.useEffect(() => {
-  //   const handleClick = (event: any) => {
-  //     const textContent = event?.target?.textContent;
-  //     const classElement = event?.target?.className;
-  //     if (classElement === 'link') {
-  //       router.push({
-  //         pathname: '/redirecting',
-  //         query: { url: textContent },
-  //       });
-  //     }
-  //   };
-  //   window.addEventListener('click', handleClick);
-  //   return () => {
-  //     window.removeEventListener('click', handleClick);
-  //   };
-  // }, []);
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.displayName || '';
   const isLike = data?.isLike;
@@ -334,7 +312,7 @@ const ItemComment = (props: IProps) => {
         >
           <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
             <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative flex items-center overflow-hidden laptop:max-w-[300px] mobile:max-w-[150px]'>
+              <div className='relative flex items-center overflow-hidden mobile:max-w-[150px] laptop:max-w-[300px]'>
                 <Text type='body-14-semibold' color='neutral-1' className='truncate'>
                   {data?.customerInfo?.displayName}
                 </Text>
