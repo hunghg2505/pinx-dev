@@ -47,7 +47,7 @@ export interface IUserTheme {
   phoneNumber: string;
 }
 export const useGetThemeDetail = (code: any, option = {}) => {
-  const { data, refresh } = useRequest(
+  const { data, refresh, loading } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
@@ -61,6 +61,7 @@ export const useGetThemeDetail = (code: any, option = {}) => {
   return {
     themeDetail: data?.data,
     refresh,
+    loading,
   };
 };
 
@@ -154,7 +155,7 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
     themeCode: code,
     limit: limit || 10,
   };
-  const { data, run, refresh } = useRequest(
+  const { data, run, refresh, loading } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
 
@@ -172,6 +173,7 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
     activities: data?.data?.list,
     run,
     refresh,
+    loading,
   };
 };
 
