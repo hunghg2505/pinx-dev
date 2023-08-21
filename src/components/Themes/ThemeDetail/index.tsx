@@ -62,7 +62,7 @@ const ThemeDetail = () => {
     },
     // eslint-disable-next-line array-callback-return
   ];
-  const { themeDetail, refresh } = useGetThemeDetail(id, {
+  const { themeDetail, refresh, loading } = useGetThemeDetail(id, {
     onError: (err: any) => {
       if (err.errorCode === 'error.theme.notfound') {
         router.push(ROUTE_PATH.NOT_FOUND);
@@ -72,13 +72,13 @@ const ThemeDetail = () => {
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsThemeDetailEnum.Community: {
-        return <Community payload={themeDetail} ref={refCommunity} />;
+        return <Community loading={loading} payload={themeDetail} ref={refCommunity} />;
       }
       case TabsThemeDetailEnum.StockSymbols: {
-        return <StockSymbols data={themeDetail} />;
+        return <StockSymbols loading={loading} data={themeDetail} />;
       }
       case TabsThemeDetailEnum.Activities: {
-        return <Activities data={themeDetail} ref={refActivities} />;
+        return <Activities loading={loading} data={themeDetail} ref={refActivities} />;
       }
       default: {
         break;
@@ -121,11 +121,15 @@ const ThemeDetail = () => {
           </Text>
         </div>
 
-        <LandingPageDetailThemes data={themeDetail} refresh={onRefreshCommunity} />
+        <LandingPageDetailThemes
+          data={themeDetail}
+          loading={loading}
+          refresh={onRefreshCommunity}
+        />
         <div className='desktop:hidden'>
-          <Community payload={themeDetail} ref={refCommunity} />
-          <StockSymbols data={themeDetail} />
-          <Activities data={themeDetail} ref={refActivities} />
+          <Community loading={loading} payload={themeDetail} ref={refCommunity} />
+          <StockSymbols data={themeDetail} loading={loading} />
+          <Activities data={themeDetail} loading={loading} ref={refActivities} />
         </div>
         <div className='mt-[20px] mobile:hidden desktop:block'>
           <Tabs
