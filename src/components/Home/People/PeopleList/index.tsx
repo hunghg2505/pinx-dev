@@ -46,7 +46,7 @@ const PeopleList = (props: IProps) => {
   }
 
   return (
-    <div className='max-w-[700px]  overflow-hidden '>
+    <div className='ml-[12px] max-w-[700px] overflow-hidden  '>
       <Slider {...settings} className=''>
         {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
           return (

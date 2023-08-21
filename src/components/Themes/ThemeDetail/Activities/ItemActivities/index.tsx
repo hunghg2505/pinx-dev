@@ -53,7 +53,11 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
         >
           <div className='flex items-center justify-between'>
-            <Text type='body-14-semibold' color='neutral-black'>
+            <Text
+              type='body-14-semibold'
+              className='truncate galaxy-max:max-w-[120px]'
+              color='neutral-black'
+            >
               {data?.post?.customerInfo?.displayName}
             </Text>
             <Text type='body-12-regular' color='neutral-gray'>

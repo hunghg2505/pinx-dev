@@ -414,7 +414,7 @@ const NewFeedItem = (props: IProps) => {
           <div className='flex flex-1 flex-row items-center'>
             <div
               ref={refHover}
-              className={classNames('relative', {
+              className={classNames('relative flex-none', {
                 [styles.avatar]: [
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
@@ -439,7 +439,7 @@ const NewFeedItem = (props: IProps) => {
               </Fade>
             </div>
 
-            <div className='des flex-1 mobile:w-[150px] desktop:w-[300px]'>
+            <div className='des flex-1 mobile:w-[150px] galaxy-max:w-[120px] desktop:w-[300px]'>
               <div className='flex'>
                 <div className='mr-[5px] flex w-full flex-1 items-center'>
                   <UserName postDetail={postDetail} />
