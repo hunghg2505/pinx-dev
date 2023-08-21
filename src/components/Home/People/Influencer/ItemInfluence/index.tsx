@@ -24,10 +24,12 @@ const ItemInfluence = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  const { data, refresh } = props;
+  const { data } = props;
   const { run: getUserProfile } = useProfileInitial();
-
-  const isFollow = data?.isFollowed;
+  const [isFollow, setIsFollow] = React.useState(data?.isFollowed);
+  React.useEffect(() => {
+    setIsFollow(data?.isFollowed);
+  }, [data?.isFollowed]);
   const useFollowUser = useRequest(
     () => {
       return requestFollowUser(data.id);
@@ -35,7 +37,8 @@ const ItemInfluence = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        setIsFollow(!isFollow);
+        // refresh();
         getUserProfile();
       },
       onError: (e: any) => {
@@ -50,7 +53,8 @@ const ItemInfluence = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refresh();
+        // refresh();
+        setIsFollow(!isFollow);
         getUserProfile();
       },
     },

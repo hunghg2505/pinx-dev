@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -16,6 +16,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
@@ -31,17 +32,13 @@ const UserItem = (props: Iprops) => {
   const { data, reload, setShowPopup, refreshSearch } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isLogin, userId } = useUserType();
+  const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
   const { run: getUserProfile } = useProfileInitial();
-
-  const isMyAccount = useMemo(() => {
-    const isMyAcc = data.id === userId;
-
-    return isMyAcc;
-  }, [data, userId]);
-
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const isMyProfile = userLoginInfo?.id === Number(data?.id);
+  const urlProfile = isMyProfile ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(data?.id);
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   React.useEffect(() => {
     setIsFollow(data?.isFollowed);
@@ -113,7 +110,7 @@ const UserItem = (props: Iprops) => {
       <div
         className='flex cursor-pointer items-center'
         onClick={() => {
-          router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id));
+          router.push(urlProfile);
           setShowPopup && setShowPopup(false);
         }}
       >
@@ -128,10 +125,14 @@ const UserItem = (props: Iprops) => {
             <AvatarDefault name={name} />
           </div>
         )}
-
-        <Text type='body-14-semibold' className='break-all text-[#474D57] galaxy-max:text-[12px]'>
-          {data?.displayName}
-        </Text>
+        <div className='mobile:w-[150px] desktop:w-[300px]'>
+          <Text
+            type='body-14-semibold'
+            className='flex  flex-1 overflow-hidden text-[#474D57] galaxy-max:text-[12px]'
+          >
+            <span className='truncate'>{data?.displayName}</span>
+          </Text>
+        </div>
 
         {data?.isFeatureProfile && (
           <img
@@ -154,11 +155,10 @@ const UserItem = (props: Iprops) => {
           />
         )}
       </div>
-
-      {!isMyAccount && (
+      {!isMyProfile && (
         <div
           className={classNames(
-            'box flex h-[36px] w-[36px] min-w-[36px] cursor-pointer items-center justify-center rounded-[5px]',
+            'box flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-[5px] ',
             {
               'follow bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]': isFollow,
               'unfollow bg-[#D8EBFC]': !isFollow,
