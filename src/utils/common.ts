@@ -446,7 +446,6 @@ export const getQueryFromUrl = () => {
 };
 export const converStringMessageToObject = (message: string, data: any) => {
   const listStock = data?.tagStocks;
-  console.log('🚀 ~ file: common.ts:449 ~ converStringMessageToObject ~ listStock:', listStock);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {

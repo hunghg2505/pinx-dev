@@ -11,6 +11,7 @@ import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
 import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome';
@@ -23,6 +24,7 @@ const AppInitialData = () => {
   const { run } = useProfileInitial();
   const router = useRouter();
   usePostThemeInitial();
+  useProfileSettingInitial();
   const { handleRemoveActionPost } = useHandlActionsPost();
   const { initialHomePostData } = usePostHomePage();
   const { userLoginInfo } = useUserLoginInfo();

@@ -125,7 +125,7 @@ const UserItem = (props: Iprops) => {
             <AvatarDefault name={name} />
           </div>
         )}
-        <div className='mobile:w-[150px] desktop:w-[300px]'>
+        <div className='mobile:max-w-[150px] desktop:max-w-[300px]'>
           <Text
             type='body-14-semibold'
             className='flex  flex-1 overflow-hidden text-[#474D57] galaxy-max:text-[12px]'

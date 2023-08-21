@@ -33,6 +33,7 @@ import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
@@ -65,6 +66,8 @@ const Editor = (props: IProps, ref?: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const [profileSetting] = useAtom(profileSettingAtom);
+  const isCanCompose = profileSetting?.ignore_vsd_validator.includes(userLoginInfo.cif);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -78,7 +81,7 @@ const Editor = (props: IProps, ref?: any) => {
           return this.editor.commands.setHardBreak();
         },
         Enter: ({ editor }) => {
-          onSend(editor, statusUser);
+          onSend(editor);
           return true;
         },
       };
@@ -344,7 +347,7 @@ const Editor = (props: IProps, ref?: any) => {
   }, [editor?.isFocused, isClickAway, useAddComment.loading]);
   const size = useSize(editorRef);
 
-  const onSend = async (editor: any, statusUser: any) => {
+  const onSend = async (editor: any) => {
     const users: any = [];
     const stock: any = [];
     const hashtags: any = [];
@@ -439,9 +442,9 @@ const Editor = (props: IProps, ref?: any) => {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (message && validateHTML(message)) {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
-    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE && !isCanCompose) {
       toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
-    } else if (statusUser === USERTYPE.VSD) {
+    } else if (statusUser === USERTYPE.VSD || isCanCompose) {
       if (idReply === '') {
         useAddComment.run(data);
       } else {
@@ -601,7 +604,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'pointer-events-none opacity-40': !textComment,
                     'pointer-events-auto opacity-100': textComment,
                   })}
-                  onClick={() => onSend(editor, statusUser)}
+                  onClick={() => onSend(editor)}
                 />
               )}
             </div>
@@ -648,7 +651,7 @@ const Editor = (props: IProps, ref?: any) => {
                 'pointer-events-none opacity-40': !textComment,
                 'pointer-events-auto opacity-100': textComment,
               })}
-              onClick={() => onSend(editor, statusUser)}
+              onClick={() => onSend(editor)}
             />
           )}
         </div>
