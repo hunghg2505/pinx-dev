@@ -55,6 +55,7 @@ const Search = (props: any, ref: any) => {
       refreshSearchRecent();
     },
   });
+  console.log('🚀 ~ file: index.tsx:58 ~ Search ~ data:', data);
 
   const { run } = useDebounceFn(
     () => {
@@ -90,6 +91,7 @@ const Search = (props: any, ref: any) => {
   const companies = data?.data?.companies;
   const news = data?.data?.news;
   const posts = data?.data?.posts;
+  console.log('🚀 ~ file: index.tsx:94 ~ Search ~ posts:', posts);
   const users = data?.data?.users;
 
   const onRemoveData = (postId: any) => () => {

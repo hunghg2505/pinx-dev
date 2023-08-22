@@ -50,7 +50,7 @@ const NewsFeed = (props: IProps) => {
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
-
+  console.log('data', data);
   const isPageMyProfile = router.pathname === ROUTE_PATH.MY_PROFILE;
   // React.useEffect(() => {
   //   setPostData(data);
@@ -99,7 +99,7 @@ const NewsFeed = (props: IProps) => {
     if (!idPostAddComment && !findItemFollow && !itemLike && !postDetailStatus?.isChangeMyProfile) {
       setPostData(data);
     }
-  }, []);
+  }, [data]);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);

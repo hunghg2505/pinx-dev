@@ -446,7 +446,7 @@ const NewFeedItem = (props: IProps) => {
             </Fade>
           </div>
 
-          <div className='des flex-1 mobile:w-[250px] galaxy-max:w-[120px] xdesktop:w-[590px] desktop:w-[480px] laptop:w-[550px]'>
+          <div className='des flex-1 mobile:w-[250px] galaxy-max:w-[120px] desktop:w-[450px] '>
             <div className='mr-[5px] flex w-full flex-1 items-center'>
               <UserName postDetail={postDetail} />
             </div>

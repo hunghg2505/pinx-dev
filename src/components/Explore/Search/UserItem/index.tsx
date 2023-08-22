@@ -19,6 +19,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
@@ -32,6 +33,7 @@ const UserItem = (props: Iprops) => {
   const { data, reload, setShowPopup, refreshSearch } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
@@ -54,6 +56,7 @@ const UserItem = (props: Iprops) => {
         setIsFollow(true);
         reload && reload();
         refreshSearch && refreshSearch();
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: data?.id });
         // refreshList();
       },
       onError: (e: any) => {
@@ -72,6 +75,7 @@ const UserItem = (props: Iprops) => {
         setIsFollow(false);
         reload && reload();
         refreshSearch && refreshSearch();
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: data?.id });
         // refreshList();
       },
       onError: (e: any) => {
