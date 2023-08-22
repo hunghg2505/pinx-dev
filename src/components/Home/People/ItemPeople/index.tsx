@@ -13,7 +13,7 @@ import {
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatNumber } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -128,7 +128,7 @@ const ItemPeople = (props: IProps) => {
           </div>
 
           <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
-            <p>{data?.numberFollowers}</p>
+            <p>{formatNumber(data?.numberFollowers, false)}</p>
             <p>{t('followers')}</p>
           </Text>
         </div>

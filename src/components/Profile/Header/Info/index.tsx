@@ -6,8 +6,7 @@ import Joined from '@components/MyProfile/Header/Info/Joined';
 import Name from '@components/MyProfile/Header/Info/Name';
 import Position from '@components/MyProfile/Header/Info/Position';
 import { profileUserContext } from '@components/Profile';
-
-// import Post from './Post';
+import { formatNumber } from '@utils/common';
 
 import Subcrible from './Subcrible';
 
@@ -31,9 +30,9 @@ const Info = () => {
           <div className='galaxy-max:flex-1'>
             <div className='flex gap-[15px] galaxy-max:flex-1 galaxy-max:gap-[6px] xdesktop:gap-[8px]'>
               {/* <Post /> */}
-              <Follower totalFollower={profileUser?.totalFollower} />
+              <Follower totalFollower={formatNumber(profileUser?.totalFollower, false)} />
               <span className='text-[#808A9D]'>&bull;</span>
-              <Following totalFollowing={profileUser?.totalFollowing} />
+              <Following totalFollowing={formatNumber(profileUser?.totalFollowing, false)} />
             </div>
 
             <div className='mt-[8px] flex justify-start text-[10px] tablet:hidden'>
