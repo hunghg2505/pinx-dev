@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
@@ -11,40 +10,40 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 import { toast } from 'react-hot-toast';
-import Slider from 'react-slick';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
-import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH, formatNumber, getStockColor } from '@utils/common';
+import { ROUTE_PATH, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
-import CalendarItem from './CalendarItem';
-import { DonutChart, PieChart } from './Chart';
+import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
+import StockCalendarSkeleton from './Calendar/skeleton';
 import ChartIframe from './ChartIframe';
+import StockCommunitySkeleton from './Community/skeleton';
 import FinancialAnnualTab from './FinancialAnnualTab';
+import StockFinancialIndexSkeleton from './FinancialIndex/skeleton';
 import FinancialQuartersTab from './FinancialQuartersTab';
-import HighlighItem from './HighlighItem';
-import HoldingRatioItem from './HoldingRatioItem';
+import StockHighlightsSkeleton from './Highlights/skeleton';
+import StockHoldingRatioSkeleton from './HoldingRatio/skeleton';
 import IntradayTab from './IntradayTab';
+import IntroSkeleton from './Intro/skeleton';
+import MainBusinessSkeleton from './MainBusiness/skeleton';
 import MatchingsTab from './MatchingsTab';
 import MovementsTab from './MovementsTab';
-import NewsItem from './NewsItem';
-import ProductItem from './ProductItem';
-import RevenueItem from './RevenueItem';
+import StockNewsSkeleton from './News/skeleton';
+import StockProductSkeleton from './Products/skeleton';
+import StockRevenueSkeleton from './Revenue/skeleton';
 import ReviewItem from './ReviewItem';
+import StockShareholdersSkeleton from './Shareholders/skeleton';
 import FakeStockHeading from './StockHeading/fakeHeading';
-import ThemeItem from './ThemeItem';
-import AlsoOwnItem from '../AlsoOwnItem';
-import { REVENUE_CHART_COLOR, SHARE_HOLDER_COLOR } from '../const';
+import StockThemesSkeleton from './Themes/skeleton';
 import EmptyData from '../EmptyData';
 import styles from '../index.module.scss';
 import PopupConfirmReview from '../Popup/PopupConfirmReview';
@@ -54,46 +53,89 @@ import PopupZoomChart from '../Popup/PopupZoomChart';
 import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
-  useFinancialCalendar,
-  useFinancialIndex,
   useFollowOrUnfollowStock,
   useGetStockData,
-  useHoldingRatio,
   useMyListStock,
   useReviewStock,
-  useShareholder,
   useStockActivities,
   useStockDetail,
   useStockDetailsExtra,
-  useStockNews,
-  useThemesOfStock,
 } from '../service';
-import {
-  CompanyRelatedType,
-  FinancialIndexKey,
-  IFinancialIndex,
-  IResponseMyStocks,
-  IStockData,
-  TabType,
-} from '../type';
+import { IResponseMyStocks, IStockData, TabType } from '../type';
 
-const MAX_LINE = 4;
-const LINE_HEIGHT = 21;
-const MAX_HEIGHT = MAX_LINE * LINE_HEIGHT;
-const STOCK_EVENT_ITEM_LIMIT = 4;
-const WATCHING_INVESTING_ITEM_LIMIT = 4;
-const HIGHLIGH_ROW_LIMIT = 3;
-const ALSO_ITEM_LIMIT = 2;
-const NEWS_ITEM_LIMIT = 3;
 const ACTIVITIES_ITEM_LIMIT = 5;
 const STOCK_REVIEW_LIMIT = 1;
 const STOCK_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/watch.png';
 const STOCK_UN_FOLLOW_BG = 'https://static.pinetree.com.vn/upload/images/unwatch.png';
-const PRODUCT_SLIDE_LIMIT = 5;
 
 const StockHeading = dynamic(() => import('@components/Stock/StockDetail/StockHeading'), {
   ssr: false,
   loading: () => <FakeStockHeading />,
+});
+
+const Intro = dynamic(() => import('@components/Stock/StockDetail/Intro'), {
+  ssr: false,
+  loading: () => <IntroSkeleton />,
+});
+
+const StockProducts = dynamic(() => import('@components/Stock/StockDetail/Products'), {
+  ssr: false,
+  loading: () => <StockProductSkeleton />,
+});
+
+const StockMainBusiness = dynamic(() => import('@components/Stock/StockDetail/MainBusiness'), {
+  ssr: false,
+  loading: () => <MainBusinessSkeleton />,
+});
+
+const StockRevenue = dynamic(() => import('@components/Stock/StockDetail/Revenue'), {
+  ssr: false,
+  loading: () => <StockRevenueSkeleton />,
+});
+
+const StockHighlights = dynamic(() => import('@components/Stock/StockDetail/Highlights'), {
+  ssr: false,
+  loading: () => <StockHighlightsSkeleton />,
+});
+
+const StockAlsoOwn = dynamic(() => import('@components/Stock/StockDetail/AlsoOwn'), {
+  ssr: false,
+  loading: () => <StockAlsoOwnSkeleton />,
+});
+
+const StockCommunity = dynamic(() => import('@components/Stock/StockDetail/Community'), {
+  ssr: false,
+  loading: () => <StockCommunitySkeleton />,
+});
+
+const StockNews = dynamic(() => import('@components/Stock/StockDetail/News'), {
+  ssr: false,
+  loading: () => <StockNewsSkeleton />,
+});
+
+const StockThemes = dynamic(() => import('@components/Stock/StockDetail/Themes'), {
+  ssr: false,
+  loading: () => <StockThemesSkeleton />,
+});
+
+const StockCalendar = dynamic(() => import('@components/Stock/StockDetail/Calendar'), {
+  ssr: false,
+  loading: () => <StockCalendarSkeleton />,
+});
+
+const StockShareholders = dynamic(() => import('@components/Stock/StockDetail/Shareholders'), {
+  ssr: false,
+  loading: () => <StockShareholdersSkeleton />,
+});
+
+const StockHoldingRatio = dynamic(() => import('@components/Stock/StockDetail/HoldingRatio'), {
+  ssr: false,
+  loading: () => <StockHoldingRatioSkeleton />,
+});
+
+const StockFinancialIndex = dynamic(() => import('@components/Stock/StockDetail/FinancialIndex'), {
+  ssr: false,
+  loading: () => <StockFinancialIndexSkeleton />,
 });
 
 dayjs.extend(quarterOfYear);
@@ -101,54 +143,40 @@ dayjs.extend(minMax);
 const StockDetail = () => {
   const { t } = useTranslation(['stock', 'common']);
   const [currentTab, setCurrentTab] = useState<string>(TabType.MOVEMENTS);
-  const [showSeeMore, setShowSeeMore] = useState(false);
-  const [isSeeMore, setIsSeeMore] = useState(false);
   const [openPopupConfirmReview, setOpenPopupConfirmReview] = useState(false);
   const [openPopupReview, setOpenPopupReview] = useState(false);
   const [openPopupFollowStock, setOpenPopupFollowStock] = useState(false);
   const [openPopupZoomChart, setOpenPopupZoomChart] = useState(false);
   const [isFollowedStock, setIsFollowedStock] = useState(false);
-  const introDescRef = useRef<HTMLDivElement | null>(null);
-  const { isMobile } = useResponsive();
   const { isLogin, statusUser, userId } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
-  const refSlide = useRef<any>(null);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
 
-  const { stockDetail, loading: loadingStockDetail } = useStockDetail(stockCode, {
+  const { stockDetail } = useStockDetail(stockCode, {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
   });
-  const { shareholder, loading: loadingShareHolder } = useShareholder(stockCode);
   const { refreshMyStocks } = useMyListStock({
     onSuccess: (res: null | IResponseMyStocks) => {
       const isFollowed = !!(res && res.data[0].stocks.some((item) => item.stockCode === stockCode));
       setIsFollowedStock(isFollowed);
     },
   });
-  const { financialIndex, loading: loadingFinancialIndex } = useFinancialIndex(stockCode);
-  const { holdingRatio, loading: loadingHoldingRatio } = useHoldingRatio(stockCode);
-  const { stockEvents, loading: loadingStockEvents } = useFinancialCalendar(stockCode);
-  const { stockThemes, loading: loadingTheme } = useThemesOfStock(stockCode);
-  const {
-    stockDetails,
-    refreshStockDetails,
-    loading: loadingStockDetails,
-  } = useStockDetailsExtra(stockCode);
-  const { taggingInfo, loading: loadingTaggingInfo } = useCompanyTaggingInfo(stockCode, {
+  const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
+  const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
       if (e.errorCode === 'error.company.not.found') {
         router.push(ROUTE_PATH.NOT_FOUND);
       }
     },
   });
-  const { stockNews, refreshStockNews, loading: loadingStockNews } = useStockNews(stockCode);
+
   const { stockActivities, refreshStockActivities } = useStockActivities(stockCode, {
     limit: ACTIVITIES_ITEM_LIMIT,
   });
@@ -158,28 +186,6 @@ const StockDetail = () => {
       setPreDataStock((prev) => ({ ...prev, ...res.data }));
     },
   });
-
-  const { totalColumnHighligh, revenueChartData, shareholderChartData } = useMemo(() => {
-    const totalColumnHighligh = Math.ceil(
-      (taggingInfo?.data?.highlights.length || 0) / HIGHLIGH_ROW_LIMIT,
-    );
-
-    const revenueChartData =
-      taggingInfo?.data?.revenues.map((item) => ({ value: item.percentage })) || [];
-    const shareholderChartData =
-      shareholder?.data?.map((item) => ({ ...item, value: item.ratio })) || [];
-
-    return {
-      totalColumnHighligh,
-      revenueChartData,
-      shareholderChartData,
-    };
-  }, [taggingInfo, shareholder]);
-
-  useEffect(() => {
-    const introDescHeight = introDescRef.current?.clientHeight || 0;
-    introDescHeight && setShowSeeMore(introDescHeight > MAX_HEIGHT);
-  }, [stockDetail]);
 
   useEffect(() => {
     socket.on('public', (message: any) => {
@@ -311,15 +317,6 @@ const StockDetail = () => {
     router.back();
   }, [router]);
 
-  const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
-    router.push({
-      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
-      query: {
-        type,
-      },
-    });
-  };
-
   // follow or unfollow stock
   const handleFollowOrUnfollowStock = () => {
     if (isLogin) {
@@ -368,62 +365,6 @@ const StockDetail = () => {
     setOpenPopupReview(false);
   };
 
-  const manualTranslate = (value: string) => {
-    switch (value) {
-      case FinancialIndexKey.marketCap: {
-        return t('financial_index.market_cap');
-      }
-      case FinancialIndexKey.volume: {
-        return t('financial_index.volume');
-      }
-      case FinancialIndexKey.pe: {
-        return t('financial_index.p/e');
-      }
-      case FinancialIndexKey.roe: {
-        return t('financial_index.roe');
-      }
-      default: {
-        return '';
-      }
-    }
-  };
-
-  const convertFinancialIndexData = (data?: IFinancialIndex) => {
-    if (data) {
-      const onlyKeys = new Set([
-        FinancialIndexKey.marketCap,
-        FinancialIndexKey.volume,
-        FinancialIndexKey.pe,
-        FinancialIndexKey.roe,
-      ]);
-
-      const arr = Object.keys(data);
-      arr.push(arr.splice(arr.indexOf(FinancialIndexKey.roe), 1)[0]);
-
-      return arr
-        .filter((item) => onlyKeys.has(item))
-        .map((item) => ({
-          label: manualTranslate(item),
-          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
-        }));
-    }
-
-    return [];
-  };
-
-  // slider product awareness
-  const settings = useMemo(() => {
-    return {
-      dots: false,
-      speed: 500,
-      // slidesToShow:
-      //   stockDetail?.data?.products && stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-      //     ? 1
-      //     : PRODUCT_SLIDE_LIMIT,
-      slidesToScroll: PRODUCT_SLIDE_LIMIT,
-    };
-  }, [stockDetail?.data?.products]);
-
   const { chartColorFormat } = useMemo(() => {
     const chartColor = getStockColor(
       dataStock?.lastPrice || 0,
@@ -437,23 +378,6 @@ const StockDetail = () => {
       chartColorFormat,
     };
   }, [dataStock]);
-
-  const revenueLastUpdated = useMemo(() => {
-    if (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0) {
-      const lastUpdate = dayjs.max(
-        taggingInfo?.data?.revenues
-          .filter((item) => item.updatedAt)
-          .map((item) => dayjs(item.updatedAt)),
-      );
-
-      return {
-        quarter: dayjs(lastUpdate).subtract(3, 'M').quarter(),
-        year: dayjs(lastUpdate).subtract(3, 'M').get('year'),
-      };
-    }
-
-    return null;
-  }, [taggingInfo]);
 
   const handleOpenPopupZoom = () => {
     setOpenPopupZoomChart(true);
@@ -587,366 +511,22 @@ const StockDetail = () => {
       </div>
 
       {/* intro */}
-      {(loadingStockDetail || stockDetail?.data?.introduction) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('intro')}
-          </Text>
-
-          {loadingStockDetail ? (
-            <Skeleton rows={6} height={15} className='!w-full' />
-          ) : (
-            <div>
-              <div
-                style={{ lineHeight: `${LINE_HEIGHT}px`, maxHeight: `${MAX_HEIGHT}px` }}
-                className={classNames('overflow-hidden', {
-                  '!max-h-max': isSeeMore,
-                })}
-              >
-                <div ref={introDescRef} className='leading-[inherit]'>
-                  <Text
-                    type='body-14-regular'
-                    className='whitespace-pre-line !leading-[inherit] galaxy-max:text-[12px]'
-                  >
-                    {stockDetail?.data?.introduction}
-                  </Text>
-                </div>
-              </div>
-
-              {showSeeMore && (
-                <button
-                  onClick={() => setIsSeeMore((prev) => !prev)}
-                  className='mt-[4px] h-[24px] min-w-[65px] rounded-full bg-[#EEF5F9] px-[12px]'
-                >
-                  <Text
-                    type='body-12-semibold'
-                    className='galaxy-max:text-[10px]'
-                    color='primary-2'
-                  >
-                    {isSeeMore ? t('less') : t('more') + '...'}
-                  </Text>
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+      <Intro stockDetail={stockDetail} />
 
       {/* brand awareness */}
-      {(loadingStockDetail ||
-        (stockDetail?.data?.products && stockDetail?.data?.products.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[16px]'>
-            <Text type='body-20-semibold'>{t('brand_awareness')}</Text>
-          </div>
-
-          {loadingStockDetail && (
-            <div className='flex gap-x-[14px] overflow-x-hidden'>
-              {[...new Array(10)].map((_, index) => (
-                <div key={index}>
-                  <Skeleton width={112} height={112} className='!rounded-[24px]' />
-                  <Skeleton className='mt-[12px] !w-full' round />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {stockDetail?.data?.products &&
-            stockDetail?.data?.products.length > 0 &&
-            (isMobile || stockDetail?.data?.products.length <= PRODUCT_SLIDE_LIMIT ? (
-              <div
-                className={classNames(
-                  'flex items-center gap-x-[14px] overflow-x-auto',
-                  styles.noScrollbar,
-                )}
-              >
-                {stockDetail?.data?.products.map((item, index) => (
-                  <ProductItem className='!mr-0 min-w-[112px]' key={index} data={item} />
-                ))}
-              </div>
-            ) : (
-              <div className='relative'>
-                {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
-                  <div
-                    onClick={() => refSlide.current.slickPrev()}
-                    className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-                  >
-                    <img
-                      src='/static/icons/iconGrayPrev.svg'
-                      alt='Icon prev'
-                      className='h-[16px] w-[7px] object-contain'
-                    />
-                  </div>
-                )}
-
-                <div className='overflow-hidden'>
-                  <Slider
-                    {...settings}
-                    ref={refSlide}
-                    draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
-                    // variableWidth={
-                    //   stockDetail?.data?.products &&
-                    //   stockDetail?.data?.products.length < PRODUCT_SLIDE_LIMIT
-                    // }
-                    variableWidth
-                  >
-                    {stockDetail?.data?.products.map((item, index) => (
-                      <ProductItem className='!mr-[14px]' key={index} data={item} />
-                    ))}
-                  </Slider>
-                </div>
-
-                {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
-                  <div
-                    onClick={() => refSlide.current.slickNext()}
-                    className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-                  >
-                    <img
-                      src='/static/icons/iconGrayNext.svg'
-                      alt='Icon next'
-                      className='h-[16px] w-[7px] object-contain'
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-        </div>
-      )}
+      <StockProducts stockDetail={stockDetail} />
 
       {/* main business */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.industries && taggingInfo?.data?.industries.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[4px]'>
-            <Text type='body-20-semibold'>{t('main_business')}</Text>
-          </div>
-
-          {loadingTaggingInfo && (
-            <div>
-              {[...new Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className='flex border-[var(--neutral-7)] py-[12px] [&:not(:last-child)]:border-b [&:not(:last-child)]:border-solid'
-                >
-                  <Skeleton width={24} height={24} />
-
-                  <Skeleton round wrapClassName='ml-[8px]' />
-
-                  <Skeleton width={20} height={20} wrapClassName='ml-auto' />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {!loadingTaggingInfo &&
-            taggingInfo?.data?.industries &&
-            taggingInfo?.data?.industries.length > 0 &&
-            taggingInfo?.data?.industries.map((item, index) => (
-              <div
-                className='flex cursor-pointer items-center border-solid border-[var(--neutral-7)] py-[12px] [&:not(:last-child)]:border-b'
-                key={index}
-                onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item.id)}
-              >
-                {index === 0 ? (
-                  <img
-                    src='/static/icons/crown.svg'
-                    alt='Crown'
-                    className='h-[24px] w-[24px] object-contain'
-                  />
-                ) : (
-                  <div className='flex h-[24px] w-[24px] items-center justify-center rounded-[2px] border border-solid border-[var(--primary-5)]'>
-                    <Text type='body-10-regular' color='primary-5'>
-                      {index + 1}
-                    </Text>
-                  </div>
-                )}
-
-                <Text type='body-14-regular' className='ml-[8px] text-[#0D0D0D]'>
-                  {item.tagName}
-                </Text>
-
-                <div className='ml-auto px-[6px]'>
-                  <img
-                    src='/static/icons/iconBlackRight.svg'
-                    alt='Icon right'
-                    className='h-[12px] w-[8px] object-contain'
-                  />
-                </div>
-              </div>
-            ))}
-        </div>
-      )}
+      <StockMainBusiness stockCode={stockCode} taggingInfo={taggingInfo} />
 
       {/* revenue */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.revenues && taggingInfo?.data?.revenues.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('revenue_sources')}
-          </Text>
-
-          {loadingTaggingInfo && (
-            <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
-              <div className='flex flex-col items-center'>
-                <div className='galaxy-max:scale-[0.7]'>
-                  <Skeleton width={319} round height={319} />
-                </div>
-
-                <Skeleton className='mt-[28px]' round />
-              </div>
-
-              <div className='tablet:flex-1'>
-                <div className='mt-[8px]'>
-                  {[...new Array(6)].map((_, index) => (
-                    <div
-                      key={index}
-                      className='flex items-center border-solid border-[var(--neutral-7)] py-[16px] [&:not(:last-child)]:border-b'
-                    >
-                      <Skeleton avatar width={20} height={20} />
-
-                      <Skeleton
-                        height={15}
-                        className='!w-full'
-                        wrapClassName='!w-full mx-[10px]'
-                        round
-                      />
-
-                      <Skeleton height={15} round width={80} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {!loadingTaggingInfo &&
-            taggingInfo?.data?.revenues &&
-            taggingInfo?.data?.revenues.length > 0 && (
-              <div className='tablet:flex tablet:items-center tablet:justify-between tablet:gap-x-[63px]'>
-                <div className='flex flex-col items-center'>
-                  <div className='galaxy-max:scale-[0.7]'>
-                    <PieChart width={319} height={296} data={revenueChartData} />
-                  </div>
-
-                  <Text type='body-10-regular' color='primary-5' className='mt-[28px] text-center'>
-                    {t('revenue_last_updated', {
-                      quarter: revenueLastUpdated?.quarter,
-                      year: revenueLastUpdated?.year,
-                    })}
-                  </Text>
-                </div>
-
-                <div className='tablet:flex-1'>
-                  <div className='mt-[8px]'>
-                    {taggingInfo?.data?.revenues.map((item, index) => (
-                      <RevenueItem
-                        color={
-                          REVENUE_CHART_COLOR[
-                            index % ((taggingInfo?.data && taggingInfo?.data?.revenues.length) || 0)
-                          ]
-                        }
-                        key={index}
-                        value={
-                          Number.isInteger(item.percentage)
-                            ? item.percentage
-                            : +item.percentage.toFixed(2)
-                        }
-                        label={item.sourceVi}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-        </div>
-      )}
+      <StockRevenue taggingInfo={taggingInfo} />
 
       {/* highlights */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.highlights && taggingInfo?.data?.highlights.length > 0)) && (
-        <div className='box-shadow card-style pb-[28px]'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('highlights')}
-          </Text>
-
-          {loadingTaggingInfo && (
-            <div className='flex flex-wrap gap-[12px]'>
-              {[...new Array(12)].map((_, index) => (
-                <Skeleton round wrapClassName='!inline-block' key={index} />
-              ))}
-            </div>
-          )}
-
-          {taggingInfo?.data?.highlights && taggingInfo.data.highlights.length > 6 && isMobile ? (
-            <div className={classNames('flex gap-x-[12px] overflow-x-auto', styles.noScrollbar)}>
-              {Array.from({ length: totalColumnHighligh }, (_, index) => index).map((_, index) => (
-                <div key={index} className='flex flex-col gap-y-[12px]'>
-                  {taggingInfo?.data?.highlights
-                    .slice(index * HIGHLIGH_ROW_LIMIT, HIGHLIGH_ROW_LIMIT * (index + 1))
-                    .map((highlight, highlighIndex) => (
-                      <HighlighItem
-                        onGoToCompaniesRelatedPage={goToListCompanyPage}
-                        data={highlight}
-                        key={highlighIndex}
-                      />
-                    ))}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className='flex flex-wrap gap-[12px]'>
-              {taggingInfo?.data?.highlights.map((item, index) => (
-                <HighlighItem
-                  onGoToCompaniesRelatedPage={goToListCompanyPage}
-                  data={item}
-                  key={index}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <StockHighlights taggingInfo={taggingInfo} stockCode={stockCode} />
 
       {/* also own */}
-      {(loadingTaggingInfo ||
-        (taggingInfo?.data?.subsidiaries && taggingInfo.data.subsidiaries.length > 0)) && (
-        <div className='card-style box-shadow mb-[28px]'>
-          <Text type='body-20-semibold' className='mb-[8px]'>
-            {t('also_own')}
-          </Text>
-
-          <div className='flex flex-col gap-y-[12px]'>
-            {loadingTaggingInfo &&
-              [...new Array(2)].map((_, index) => (
-                <div key={index} className='flex items-center'>
-                  <Skeleton width={81} height={81} />
-
-                  <div className='mx-[10px] flex flex-col gap-y-[12px]'>
-                    <Skeleton round width={50} />
-                    <Skeleton round width={100} />
-                  </div>
-
-                  <Skeleton round width={50} wrapClassName='ml-auto' />
-                </div>
-              ))}
-
-            {taggingInfo?.data?.subsidiaries.slice(0, ALSO_ITEM_LIMIT).map((item, index) => (
-              <AlsoOwnItem data={item} key={index} />
-            ))}
-          </div>
-
-          {taggingInfo?.data?.subsidiaries &&
-            taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
-              <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
-                <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('common:see_more')}
-                  </Text>
-                </button>
-              </CustomLink>
-            )}
-        </div>
-      )}
+      <StockAlsoOwn taggingInfo={taggingInfo} stockCode={stockCode} />
 
       {/* rating */}
       <div className='box-shadow card-style'>
@@ -1034,189 +614,16 @@ const StockDetail = () => {
       </div>
 
       {/* community */}
-      {(loadingStockDetails ||
-        (stockDetails?.data.watchingInvestingList &&
-          stockDetails?.data.watchingInvestingList.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold'>{t('community')}</Text>
-          <Text type='body-14-regular' className='mt-[16px] galaxy-max:text-[12px]'>
-            {t('community_description')}
-          </Text>
-
-          <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
-            {loadingStockDetails ? (
-              <>
-                <Skeleton
-                  rows={4}
-                  wrapClassName='!flex-row !gap-x-[10px] mr-[16px]'
-                  width={40}
-                  height={40}
-                  avatar
-                />
-
-                <Skeleton round height={34} />
-              </>
-            ) : (
-              <>
-                <CustomLink
-                  href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
-                  className='flex gap-x-[10px] galaxy-max:gap-[6px]'
-                >
-                  {stockDetails?.data.watchingInvestingList
-                    .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
-                    .map((item, index) => (
-                      <div className='relative' key={index}>
-                        <img
-                          src={item.avatar}
-                          alt='Avatar'
-                          className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
-                        />
-
-                        {item.isInvesting ? (
-                          <img
-                            src='/static/icons/iconTree.svg'
-                            alt='Icon tree'
-                            className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
-                          />
-                        ) : (
-                          <img
-                            src='/static/icons/iconHeartActive.svg'
-                            alt='Icon tree'
-                            className='absolute bottom-0 left-1/2 h-[24px] w-[24px] -translate-x-1/2 translate-y-1/2 object-contain galaxy-max:h-[20px] galaxy-max:w-[20px]'
-                          />
-                        )}
-                      </div>
-                    ))}
-                </CustomLink>
-
-                <div
-                  onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
-                  className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
-                >
-                  <Text type='body-14-regular' className='text-[#0D0D0D]'>
-                    {stockDetails?.data.watchingInvestingNo}
-                  </Text>
-                  <img
-                    src='/static/icons/iconBlackRight.svg'
-                    alt='Icon right'
-                    className='ml-[10px] h-[8px] w-[4px]'
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <StockCommunity stockDetails={stockDetails} stockCode={stockCode} />
 
       {/* recent news */}
-      {(loadingStockNews || (stockNews?.data.list && stockNews.data.list.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[4px]'>
-            <Text type='body-20-semibold'>{t('recent_news')}</Text>
-          </div>
-
-          {loadingStockNews && (
-            <div>
-              {[...new Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className='flex items-center gap-x-[12px] border-solid border-[#EBEBEB] py-[12px] [&:not(:last-child)]:border-b'
-                >
-                  <div className='flex-1'>
-                    <div className='mb-[12px] flex items-center gap-x-[8px]'>
-                      <Skeleton width={24} height={24} round />
-                      <Skeleton round height={12} />
-                    </div>
-
-                    <Skeleton height={12} rows={2} className='!w-full' wrapClassName='w-full' />
-                  </div>
-
-                  <Skeleton width={73} height={73} className='!rounded-[12px]' />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {stockNews?.data?.list.slice(0, NEWS_ITEM_LIMIT).map((item, index) => (
-            <NewsItem key={index} data={item} onRefreshNews={refreshStockNews} />
-          ))}
-
-          {stockNews?.data?.list.length > NEWS_ITEM_LIMIT && (
-            <CustomLink href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
-              <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('more_news', {
-                    stockCode: stockDetail?.data?.stockCode,
-                  })}
-                </Text>
-              </button>
-            </CustomLink>
-          )}
-        </div>
-      )}
+      <StockNews stockCode={stockCode} />
 
       {/* featured in themes */}
-      {(loadingTheme || (stockThemes && stockThemes.data.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <div className='mb-[16px]'>
-            <Text type='body-20-semibold'>{t('featured_in_themes')}</Text>
-          </div>
-
-          <div className={classNames('flex gap-x-[12px] overflow-x-auto', styles.noScrollbar)}>
-            {loadingTheme ? (
-              <Skeleton
-                width={149}
-                height={214}
-                rows={10}
-                wrapClassName='!flex-row gap-x-[12px]'
-                className='!rounded-[12px]'
-              />
-            ) : (
-              stockThemes?.data.map((item, index) => <ThemeItem key={index} data={item} />)
-            )}
-          </div>
-        </div>
-      )}
+      <StockThemes stockCode={stockCode} />
 
       {/* calendar */}
-      {(loadingStockEvents || (stockEvents?.data.list && stockEvents?.data.list.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold' className='mb-[16px]'>
-            {t('financial_calendar_title')}
-          </Text>
-
-          <Text type='body-14-regular' className='mb-[12px] galaxy-max:text-[12px]'>
-            {t('financial_calendar_desc')}
-          </Text>
-
-          <div className='grid grid-cols-1 gap-x-[15px] gap-y-[12px] tablet:grid-cols-2'>
-            {loadingStockEvents
-              ? [...new Array(4)].map((_, index) => (
-                  <Skeleton
-                    key={index}
-                    height={89}
-                    wrapClassName='w-full'
-                    className='!w-full !rounded-[8px]'
-                  />
-                ))
-              : stockEvents?.data.list
-                  .slice(0, STOCK_EVENT_ITEM_LIMIT)
-                  .map((item, index) => <CalendarItem key={index} data={item.post} />)}
-          </div>
-
-          {stockEvents?.data && stockEvents.data.list.length > STOCK_EVENT_ITEM_LIMIT && (
-            <CustomLink href={ROUTE_PATH.STOCK_EVENT(stockCode)}>
-              <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('more_events', {
-                    stockCode: stockDetail?.data?.stockCode,
-                  })}
-                </Text>
-              </button>
-            </CustomLink>
-          )}
-        </div>
-      )}
+      <StockCalendar stockCode={stockCode} />
 
       {/* financial */}
       <div className='box-shadow card-style'>
@@ -1243,126 +650,12 @@ const StockDetail = () => {
       </div>
 
       {/* shareholders */}
-      {(loadingShareHolder || (shareholder?.data && shareholder.data.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-bold'>{t('shareholders_title')}</Text>
-
-          {/* chart */}
-          <div className='mt-[28px] flex flex-col-reverse justify-between gap-x-[12px] gap-y-[28px] tablet:flex-row tablet:items-center'>
-            {loadingShareHolder ? (
-              <>
-                <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
-                  {[...new Array(6)].map((_, index) => (
-                    <div className='self-start' key={index}>
-                      <Skeleton height={15} round width={80} />
-                      <Skeleton height={15} width={130} wrapClassName='mt-[8px]' round />
-                    </div>
-                  ))}
-                </div>
-
-                <div className='mx-auto'>
-                  <Skeleton width={183} height={183} round />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className='grid flex-1 grid-cols-1 gap-x-[12px] gap-y-[24px] self-start tablet:grid-cols-2 tablet:self-center'>
-                  {shareholder?.data?.map((item, index) => (
-                    <div key={index} className='self-start'>
-                      <div className='mb-[6px] flex items-center'>
-                        <div
-                          className='h-[10px] w-[35px] rounded-full'
-                          style={{
-                            backgroundColor:
-                              SHARE_HOLDER_COLOR[
-                                index %
-                                  (shareholder?.data && shareholder?.data.length > 0
-                                    ? shareholder.data.length
-                                    : 0)
-                              ],
-                          }}
-                        ></div>
-                        <Text type='body-14-semibold' className='ml-[4px]'>
-                          {item.ratio}%
-                        </Text>
-                      </div>
-
-                      <Text type='body-12-regular' className='!leading-[16px] text-[#808A9D]'>
-                        {item.name}
-                      </Text>
-                      <Text type='body-12-regular' color='primary-5' className='!leading-[16px]'>
-                        {formatNumber(item.value)}
-                      </Text>
-                    </div>
-                  ))}
-                </div>
-
-                <div className='mx-auto'>
-                  <DonutChart
-                    strokeWidth={isMobile ? 16 : 27}
-                    width={isMobile ? 183 : 318}
-                    height={isMobile ? 183 : 318}
-                    data={shareholderChartData}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <StockShareholders stockCode={stockCode} />
 
       {/* holding ratio */}
-      {(loadingHoldingRatio || (holdingRatio?.data && holdingRatio?.data.length > 0)) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold'>{t('holding_ratio_title')}</Text>
+      <StockHoldingRatio stockCode={stockCode} />
 
-          {loadingHoldingRatio ? (
-            <div className='mt-[16px]'>
-              {[...new Array(6)].map((_, index) => (
-                <div
-                  className='flex items-center justify-between border-solid border-[#E6E6E6] py-[12px] [&:not(:last-child)]:border-b'
-                  key={index}
-                >
-                  <Skeleton />
-                  <Skeleton width={50} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
-              {holdingRatio?.data.map((item, index) => (
-                <HoldingRatioItem key={index} label={item.name} value={`${item.rate}%`} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {(loadingFinancialIndex || financialIndex?.data) && (
-        <div className='box-shadow card-style'>
-          <Text type='body-20-semibold'>{t('financial_index_title')}</Text>
-
-          {loadingFinancialIndex ? (
-            <div className='mt-[16px]'>
-              {[...new Array(4)].map((_, index) => (
-                <div
-                  className='flex items-center justify-between border-solid border-[#E6E6E6] py-[12px] [&:not(:last-child)]:border-b'
-                  key={index}
-                >
-                  <Skeleton />
-                  <Skeleton width={50} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className='mt-[16px] rounded-[12px] bg-[#F7F6F8]'>
-              {convertFinancialIndexData(financialIndex?.data).map((item, index) => (
-                <HoldingRatioItem key={index} label={item.label} value={item.value} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <StockFinancialIndex stockCode={stockCode} />
 
       {/* activities */}
       <div className='box-shadow card-style'>

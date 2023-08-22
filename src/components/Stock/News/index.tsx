@@ -18,7 +18,7 @@ const StockNews = () => {
   const ref = useRef(null);
   const [stockNews, setStockNews] = useState<IResponseStockNews>();
 
-  const { loading, onGetStockNews, refreshStockNews } = useStockNews(stockCode, {
+  const { loading, onGetStockNews } = useStockNews(stockCode, {
     manual: true,
     onSuccess: ({ data }: IResponseStockNews) => {
       setStockNews((prev) => ({
@@ -72,7 +72,6 @@ const StockNews = () => {
               className={classNames({
                 'border-none': index === stockNews.data.list?.length - 1,
               })}
-              onRefreshNews={refreshStockNews}
             />
           ))}
         </div>

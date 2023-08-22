@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -13,19 +13,18 @@ import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 interface IHeadingNewsItemProps {
   className?: string;
   data: IPost;
-  isReport: boolean;
-  onRefreshNews: () => void;
 }
 
 dayjs.extend(relativeTime);
 
-const HeadingNewsItem = ({ className, data, isReport, onRefreshNews }: IHeadingNewsItemProps) => {
+const HeadingNewsItem = ({ className, data }: IHeadingNewsItemProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const { i18n } = useTranslation();
+  const [isReport, setIsReport] = useState(data.isReport);
   const { refButtonList } = useHandlActionsPost();
 
   const handleReportPostSuccess = () => {
-    onRefreshNews();
+    setIsReport(true);
   };
 
   const ButtonAction = () => {
