@@ -10,7 +10,7 @@ const REQ_TIMEOUT = 25 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
 export interface IOptions {
-  onSuccess?: (r: any) => void;
+  onSuccess?: (r: any, params: any) => void;
   onError?: (e: any) => void;
 }
 

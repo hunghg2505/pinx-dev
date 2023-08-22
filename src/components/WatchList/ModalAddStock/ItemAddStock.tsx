@@ -12,6 +12,7 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { imageStock } from '@utils/common';
+import { AddTicker, RemoveTicker } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 
@@ -19,16 +20,27 @@ const ItemAddStock = ({
   data,
   refreshYourWatchList,
   like,
+  totalStock,
 }: {
   data: any;
   refreshYourWatchList?: () => void;
   like?: boolean;
+  totalStock: number;
 }) => {
   const { i18n } = useTranslation();
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       // toast(() => <Notification type='success' message='Add stock success' />);
       refreshYourWatchList && refreshYourWatchList();
+
+      // gtm
+      AddTicker(
+        data?.stockCode,
+        'Stock',
+        'Modal add stock to watchlist',
+        'Default',
+        totalStock + 1,
+      );
     },
   });
   const useRemoveStock = useRequest(
@@ -40,6 +52,15 @@ const ItemAddStock = ({
       onSuccess: () => {
         refreshYourWatchList && refreshYourWatchList();
         // toast(() => <Notification type='success' message='Remove stock success' />);
+
+        // gtm
+        RemoveTicker(
+          data?.stockCode,
+          'Stock',
+          'Modal add stock to watchlist',
+          'Default',
+          totalStock && totalStock - 1,
+        );
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e.error} />);
