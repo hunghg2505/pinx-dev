@@ -36,19 +36,29 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       {openGraph?.locale && (
         <meta key='og:locale' property='og:locale' content={openGraph?.locale} />
       )}
-      <meta property='og:image:width' content='1200' />
-      <meta property='og:image:height' content='600' />
+
       <meta property='og:type' content={openGraph?.type ?? config.openGraph.type} />
       <meta property='og:url' content={siteUrl || ''} />
       <meta property='og:title' content={title || config.title} />
       <meta property='og:description' content={description || config.description} />
-      <meta property='og:image' content={openGraph?.images?.url || ''} />
-
+      <meta
+        property='og:image'
+        content={
+          openGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.webp'
+        }
+      />
+      <meta property='og:image:width' content='1200' />
+      <meta property='og:image:height' content='630' />
       <meta property='twitter:card' content='summary_large_image' />
       <meta property='twitter:url' content={siteUrl || ''} />
       <meta property='twitter:title' content={title || config.title} />
       <meta property='twitter:description' content={description || config.description} />
-      <meta property='twitter:image' content={twitterGraph?.images?.url || ''} />
+      <meta
+        property='twitter:image'
+        content={
+          twitterGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.webp'
+        }
+      />
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
     </Head>
