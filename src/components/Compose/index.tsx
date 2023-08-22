@@ -86,7 +86,8 @@ const Compose = (props: IProps) => {
   const { statusUser } = useUserType();
   const [profileSetting] = useAtom(profileSettingAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
-  const isCanCompose = profileSetting?.ignore_vsd_validator.includes(userLoginInfo.cif);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
+  console.log('🚀 ~ file: index.tsx:90 ~ Compose ~ isCanCompose:', isCanCompose);
   const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
@@ -420,7 +421,7 @@ const Compose = (props: IProps) => {
 
   const onAddPost = async () => {
     try {
-      if (statusUser === USERTYPE.NEW) {
+      if (statusUser === USERTYPE.NEW && !isCanCompose) {
         hidePopup && hidePopup();
         setPopupStatus({
           ...popupStatus,
@@ -609,6 +610,7 @@ const Compose = (props: IProps) => {
       }
       console.log('data', data);
       if (statusUser === USERTYPE.VSD || isCanCompose) {
+        console.log('123-456');
         if (!editor?.getText()) {
           return toast(() => <Notification type='error' message={t('err_add_post')} />);
         }
@@ -616,7 +618,7 @@ const Compose = (props: IProps) => {
         if (isUpdate) {
           return requestUpdatePost.run(data);
         }
-        requestAddPost.run(data);
+        return requestAddPost.run(data);
       }
     } catch (error) {
       console.log(error);
