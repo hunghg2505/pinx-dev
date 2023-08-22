@@ -18,7 +18,7 @@ interface IStockNewsProps {
 
 const StockNews = ({ stockCode }: IStockNewsProps) => {
   const { t } = useTranslation(['stock', 'common']);
-  const { stockNews, refreshStockNews, loading } = useStockNews(stockCode);
+  const { stockNews, loading } = useStockNews(stockCode);
 
   if (loading) {
     return <StockNewsSkeleton />;
@@ -35,7 +35,7 @@ const StockNews = ({ stockCode }: IStockNewsProps) => {
       </div>
 
       {stockNews?.data?.list.slice(0, NEWS_ITEM_LIMIT).map((item, index) => (
-        <NewsItem key={index} data={item} onRefreshNews={refreshStockNews} />
+        <NewsItem key={index} data={item} />
       ))}
 
       {stockNews?.data?.list.length > NEWS_ITEM_LIMIT && (
