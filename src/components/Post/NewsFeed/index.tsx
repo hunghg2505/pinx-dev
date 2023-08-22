@@ -179,13 +179,7 @@ const NewsFeed = (props: IProps) => {
   };
 
   if (loading) {
-    return (
-      <>
-        <NewsFeedSkeleton />
-        <NewsFeedSkeleton />
-        <NewsFeedSkeleton />
-      </>
-    );
+    return <NewsFeedSkeleton />;
   }
 
   return (
