@@ -22,7 +22,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
-import { ROUTE_PATH, calcUserStatusText, checkUserType } from '@utils/common';
+import { ROUTE_PATH, calcUserStatusText, checkUserType, formatNumber } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD, ONE_LINK_DOWNLOAD } from 'src/constant';
@@ -165,7 +165,9 @@ const Profile = () => {
 
               <div className='mb-[4px] flex items-center justify-between gap-[10px]'>
                 <div className='flex gap-[4px]'>
-                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollower}</Text>
+                  <Text type='body-12-semibold'>
+                    {formatNumber(userLoginInfo?.totalFollower, false)}
+                  </Text>
                   <Text type='body-12-regular' className='text-[#474D57]'>
                     {t('follower')}
                   </Text>
@@ -176,7 +178,9 @@ const Profile = () => {
                 </Text>
 
                 <div className='flex gap-[4px]'>
-                  <Text type='body-12-semibold'>{userLoginInfo?.totalFollowing}</Text>
+                  <Text type='body-12-semibold'>
+                    {formatNumber(userLoginInfo?.totalFollowing, false)}
+                  </Text>
                   <Text type='body-12-regular' className='text-[#474D57]'>
                     {t('following')}
                   </Text>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-const Follower = ({ totalFollower }: { totalFollower: number }) => {
+const Follower = ({ totalFollower }: { totalFollower: number | string }) => {
   const { t } = useTranslation('profile');
   const router = useRouter();
   const [state, setState] = useState({ mobile: false });

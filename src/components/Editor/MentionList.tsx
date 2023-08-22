@@ -144,7 +144,7 @@ export default forwardRef((props: any, ref) => {
                   )}
                   <Text
                     type='body-14-medium'
-                    className='text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
+                    className='max-w-[180px] truncate text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
                   >
                     {renderText(item)}
                   </Text>
