@@ -68,7 +68,6 @@ const Editor = (props: IProps, ref?: any) => {
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [profileSetting] = useAtom(profileSettingAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
-  console.log('🚀 ~ file: index.tsx:71 ~ Editor ~ isCanCompose:', isCanCompose);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
@@ -81,10 +80,10 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        Enter: ({ editor }) => {
-          onSend(editor, statusUser);
-          return true;
-        },
+        // Enter: ({ editor }) => {
+        //   onSend(editor, statusUser);
+        //   return true;
+        // },
       };
     },
   });

@@ -72,9 +72,8 @@ const Influencer = () => {
       </div>
       <div className='max-w-[700px]'>
         <Slider {...settings} variableWidth ref={refSlide} draggable={true}>
-          {[...KOL]
-            ?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true)
-            .map((item: IKOL, index: number) => {
+          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
+            (item: IKOL, index: number) => {
               return (
                 <div key={`ItemInfluence-${index}`} className='mr-[16px]'>
                   <div className='w-[161px] '>
@@ -82,7 +81,8 @@ const Influencer = () => {
                   </div>
                 </div>
               );
-            })}
+            },
+          )}
         </Slider>
       </div>
       <div

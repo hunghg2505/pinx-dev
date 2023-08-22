@@ -597,6 +597,8 @@ const Compose = (props: IProps) => {
       if (!hiddenThemeSelected) {
         data.postThemeId = '';
       }
+      console.log('123', validateHTML(message));
+      console.log(message?.toLowerCase()?.includes('script'));
       if (message?.toLowerCase()?.includes('script')) {
         return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }

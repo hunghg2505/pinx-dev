@@ -81,10 +81,10 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        Enter: ({ editor }) => {
-          onSend(editor, statusUser);
-          return true;
-        },
+        // Enter: ({ editor }) => {
+        //   onSend(editor, statusUser);
+        //   return true;
+        // },
       };
     },
   });

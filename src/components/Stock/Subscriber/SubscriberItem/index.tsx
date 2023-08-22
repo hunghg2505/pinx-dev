@@ -1,8 +1,10 @@
+import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 interface ISubscriberItemProps {
@@ -11,13 +13,14 @@ interface ISubscriberItemProps {
 
 const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   const { t } = useTranslation(['stock', 'commmon']);
-
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const url =
+    data?.customerId === userLoginInfo?.id
+      ? ROUTE_PATH.MY_PROFILE
+      : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
-      <CustomLink
-        className='galaxy-max:flex-none'
-        href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}
-      >
+      <CustomLink className='galaxy-max:flex-none' href={url}>
         <img
           src={data.avatar}
           alt='User avatar'
@@ -26,7 +29,7 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
       </CustomLink>
 
       <div className='ml-[8px]'>
-        <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <CustomLink href={url}>
           <div className='flex items-center'>
             <Text
               type='body-14-semibold'

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Text from '../Text';
 
-const AlphabetToColor = {
+const AlphabetToColor: any = {
   A: '#290ea3',
   B: '#c6f46e',
   C: '#ac82c1',
@@ -29,89 +29,6 @@ const AlphabetToColor = {
   Y: '#cbcf13',
   Z: '#54af78',
 };
-const renderColor = (str: string) => {
-  switch (str) {
-    case 'A': {
-      return AlphabetToColor.A;
-    }
-    case 'B': {
-      return AlphabetToColor.B;
-    }
-    case 'C': {
-      return AlphabetToColor.C;
-    }
-    case 'D': {
-      return AlphabetToColor.D;
-    }
-    case 'E': {
-      return AlphabetToColor.E;
-    }
-    case 'F': {
-      return AlphabetToColor.F;
-    }
-    case 'G': {
-      return AlphabetToColor.G;
-    }
-
-    case 'I': {
-      return AlphabetToColor.I;
-    }
-    case 'J': {
-      return AlphabetToColor.J;
-    }
-    case 'K': {
-      return AlphabetToColor.K;
-    }
-    case 'L': {
-      return AlphabetToColor.L;
-    }
-    case 'M': {
-      return AlphabetToColor.M;
-    }
-    case 'N': {
-      return AlphabetToColor.N;
-    }
-    case 'O': {
-      return AlphabetToColor.O;
-    }
-    case 'P': {
-      return AlphabetToColor.P;
-    }
-    case 'Q': {
-      return AlphabetToColor.Q;
-    }
-    case 'R': {
-      return AlphabetToColor.R;
-    }
-    case 'S': {
-      return AlphabetToColor.S;
-    }
-    case 'T': {
-      return AlphabetToColor.T;
-    }
-    case 'U': {
-      return AlphabetToColor.U;
-    }
-    case 'V': {
-      return AlphabetToColor.V;
-    }
-    case 'W': {
-      return AlphabetToColor.W;
-    }
-    case 'X': {
-      return AlphabetToColor.X;
-    }
-    case 'Y': {
-      return AlphabetToColor.Y;
-    }
-    case 'Z': {
-      return AlphabetToColor.Z;
-    }
-    default: {
-      return AlphabetToColor.Z;
-    }
-  }
-};
 interface IProps {
   name: string;
 }
@@ -120,7 +37,7 @@ const AvatarDefault = (props: IProps) => {
   return (
     <div
       className='mr-2 flex h-full w-full items-center justify-center rounded-full object-contain'
-      style={{ backgroundColor: renderColor(name) }}
+      style={{ backgroundColor: AlphabetToColor[name] }}
     >
       <Text type='body-24-regular' color='cbwhite'>
         {name}
