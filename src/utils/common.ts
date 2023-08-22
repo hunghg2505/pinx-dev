@@ -262,8 +262,11 @@ export function toNonAccentVietnamese(str: any) {
   return str;
 }
 
-export const formatNumber = (value: number) => {
-  return value.toLocaleString('en-US');
+export const formatNumber = (value?: number, isComma = true) => {
+  if (!value) {
+    return 0;
+  }
+  return value.toString().replaceAll(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, isComma ? ',' : '.');
 };
 
 export const getMonthName = (monthNumber: number, localeParam = 'en-US') => {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Text from '@components/UI/Text';
+import { formatNumber } from '@utils/common';
 
 interface Iprops {
   percen: number;
@@ -31,7 +32,7 @@ const KeywordSearch = (props: Iprops) => {
         </Text>
         <div className='flex items-center'>
           <Text type='body-16-regular' color='neutral-1'>
-            {data?.numberHit}
+            {formatNumber(data?.numberHit, false)}
           </Text>
           <img
             loading='lazy'

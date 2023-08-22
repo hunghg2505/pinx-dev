@@ -8,6 +8,7 @@ import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
+import { formatNumber } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -30,7 +31,7 @@ const ItemHoverProfile = (props: IProps) => {
         {profileOtherUser?.avatar ? (
           <img
             src={profileOtherUser?.avatar}
-            className='mr-[10px] h-[72px] w-[72px] rounded-full object-cover min-w-[72px]'
+            className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'
             alt=''
           />
         ) : (
@@ -55,7 +56,9 @@ const ItemHoverProfile = (props: IProps) => {
 
           <div className='flex items-center justify-between gap-[8px]'>
             <div className='flex gap-[4px]'>
-              <Text type='body-12-semibold'>{profileOtherUser?.totalFollower}</Text>
+              <Text type='body-12-semibold'>
+                {formatNumber(profileOtherUser?.totalFollower, false)}
+              </Text>
               <Text type='body-12-regular' className='text-[#474D57]'>
                 {t('follower')}
               </Text>
@@ -66,7 +69,9 @@ const ItemHoverProfile = (props: IProps) => {
             </Text>
 
             <div className='flex gap-[4px]'>
-              <Text type='body-12-semibold'>{profileOtherUser?.totalFollowing}</Text>
+              <Text type='body-12-semibold'>
+                {formatNumber(profileOtherUser?.totalFollowing, false)}
+              </Text>
               <Text type='body-12-regular' className='text-[#474D57]'>
                 {t('following')}
               </Text>
