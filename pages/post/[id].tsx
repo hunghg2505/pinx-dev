@@ -13,7 +13,7 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
 });
 
-const PostDetailPage = ({ postDetail, host }: any) => {
+const PostDetailPage = ({ postDetail, host, id }: any) => {
   const seoMetadata = postDetail?.post?.seoMetadata;
 
   return (
@@ -21,7 +21,7 @@ const PostDetailPage = ({ postDetail, host }: any) => {
       <SEO
         title={seoMetadata?.title}
         description={seoMetadata?.metaDescription}
-        siteUrl={host}
+        siteUrl={`${host}/post/${id}`}
         openGraph={{
           images: {
             url: seoMetadata?.imageSeo?.urlImage,
@@ -47,14 +47,16 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
 
 export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
-  // const cookies = getCookie('accessToken', { req, res });
   const postDetail = await fetchPostDetailFromServer(id);
-  const host = req.headers.referer;
+  const url = req.headers.referer;
+  const arr = url.split('/');
+  const host = `${arr[0]}//${arr[2]}`;
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
       postDetail: postDetail?.data,
       host,
+      id,
       // Will be passed to the page component as props
     },
   };
