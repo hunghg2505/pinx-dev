@@ -21,7 +21,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import { AddTicker, RemoveTicker } from '@utils/dataLayer';
+import { AddTicker, AnalyzeTicker, RemoveTicker } from '@utils/dataLayer';
 
 import ActivityItem from './ActivityItem';
 import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
@@ -391,6 +391,11 @@ const StockDetail = () => {
     setOpenPopupZoomChart(true);
   };
 
+  // gtm
+  const handleAnalyze = (infoType: string) => {
+    AnalyzeTicker(stockCode, infoType, 'General');
+  };
+
   return (
     <div>
       <PopupConfirmReview
@@ -502,6 +507,9 @@ const StockDetail = () => {
           activeKey={currentTab}
           onChange={(tabKey) => {
             setCurrentTab(tabKey);
+
+            // gtm
+            AnalyzeTicker(stockCode, tabKey, 'price');
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
@@ -603,7 +611,10 @@ const StockDetail = () => {
 
             {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
               <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                <button
+                  onClick={() => handleAnalyze('Stock rating')}
+                  className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+                >
                   <Text type='body-14-bold' color='primary-2'>
                     {t('rating.see_more')}
                   </Text>
@@ -622,16 +633,20 @@ const StockDetail = () => {
       </div>
 
       {/* community */}
-      <StockCommunity stockDetails={stockDetails} stockCode={stockCode} />
+      <StockCommunity
+        handleAnalyze={handleAnalyze}
+        stockDetails={stockDetails}
+        stockCode={stockCode}
+      />
 
       {/* recent news */}
-      <StockNews stockCode={stockCode} />
+      <StockNews handleAnalyze={handleAnalyze} stockCode={stockCode} />
 
       {/* featured in themes */}
       <StockThemes stockCode={stockCode} />
 
       {/* calendar */}
-      <StockCalendar stockCode={stockCode} />
+      <StockCalendar handleAnalyze={handleAnalyze} stockCode={stockCode} />
 
       {/* financial */}
       <div className='box-shadow card-style'>

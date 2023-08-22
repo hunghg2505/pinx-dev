@@ -8,6 +8,7 @@ import { CompanyRelatedType, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { ROUTE_PATH } from '@utils/common';
+import { AnalyzeTicker } from '@utils/dataLayer';
 
 import styles from '../../index.module.scss';
 import HighlighItem from '../HighlighItem';
@@ -37,6 +38,9 @@ const StockHighlights = ({ taggingInfo, stockCode }: IStockHighlightsProps) => {
   }, [taggingInfo]);
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
+    // gtm
+    AnalyzeTicker(stockCode, 'Stock highlights', 'General');
+
     router.push({
       pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
       query: {
