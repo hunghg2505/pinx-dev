@@ -45,6 +45,7 @@ const UserItem = (props: Iprops) => {
   React.useEffect(() => {
     setIsFollow(data?.isFollowed);
   }, [data?.isFollowed]);
+
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);
