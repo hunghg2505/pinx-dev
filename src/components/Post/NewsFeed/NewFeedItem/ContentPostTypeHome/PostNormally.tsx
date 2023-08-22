@@ -22,6 +22,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
   const userDetail = useAtomValue(userLoginInfoAtom);
+  const messageDefault = postDetail?.post?.message;
   // userLoginInfoAtom
 
   const [readMore, setReadMore] = useState(false);
@@ -65,7 +66,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       }
       clearTimeout(t);
     }, 400);
-  }, []);
+  }, [messageDefault]);
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
