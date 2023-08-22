@@ -23,16 +23,12 @@ const PostDetailPage = ({ postDetail }: any) => {
         description={seoMetadata?.metaDescription}
         openGraph={{
           images: {
-            url:
-              seoMetadata?.imageSeo?.urlImage ||
-              'https://pinex-sit.agiletech.vn/static/logo/logoSeo.png',
+            url: seoMetadata?.imageSeo?.urlImage,
           },
         }}
         twitterGraph={{
           images: {
-            url:
-              seoMetadata?.imageSeo?.urlImage ||
-              'https://pinex-sit.agiletech.vn/static/logo/logoSeo.png',
+            url: seoMetadata?.imageSeo?.urlImage,
           },
         }}
       />
