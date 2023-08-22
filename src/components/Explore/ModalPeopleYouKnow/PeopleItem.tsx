@@ -124,7 +124,10 @@ const PeopleItem = (props: Iprops) => {
           </div>
         )}
 
-        <Text type='body-14-semibold' className='text-[#474D57]'>
+        <Text
+          type='body-14-semibold'
+          className='max-w-[120px] truncate text-[#474D57] galaxy-max:max-w-[100px] tablet:max-w-[300px]'
+        >
           {data?.displayName}
         </Text>
 
