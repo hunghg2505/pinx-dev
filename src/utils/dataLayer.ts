@@ -133,7 +133,7 @@ export const RemoveTicker = (
   Ticker_Type: string,
   Button_Location: string,
   Watchlist_Name: string,
-  Number_of_Ticker_in_Watchlist: number,
+  Number_of_Ticker_in_Watchlist: number | string,
 ) => {
   try {
     window.dataLayer.push({
@@ -152,7 +152,7 @@ export const AddTicker = (
   Ticker_Type: string,
   Button_Location: string,
   Watchlist_Name: string,
-  Number_of_Ticker: number,
+  Number_of_Ticker: number | string,
 ) => {
   try {
     window.dataLayer.push({

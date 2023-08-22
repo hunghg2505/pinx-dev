@@ -21,6 +21,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
+import { AddTicker, RemoveTicker } from '@utils/dataLayer';
 
 import ActivityItem from './ActivityItem';
 import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
@@ -302,6 +303,13 @@ const StockDetail = () => {
             },
           },
         );
+      }
+
+      // gtm
+      if (isFollowedStock) {
+        RemoveTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+      } else {
+        AddTicker(stockCode, 'Stock', 'Stock detail page', '', '');
       }
     },
   });
