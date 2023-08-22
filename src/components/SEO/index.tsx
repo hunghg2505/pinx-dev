@@ -47,8 +47,8 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
           openGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.webp'
         }
       />
-      <meta property='og:image:width' content='1200' />
-      <meta property='og:image:height' content='630' />
+      {/* <meta property='og:image:width' content='1200' /> */}
+      {/* <meta property='og:image:height' content='630' /> */}
       <meta property='twitter:card' content='summary_large_image' />
       <meta property='twitter:url' content={siteUrl || ''} />
       <meta property='twitter:title' content={title || config.title} />
