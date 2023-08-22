@@ -27,7 +27,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
 
   return (
     <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
-      <div className='mr-[16px] w-[104px]'>
+      <div className='mr-[16px] w-[120px]'>
         <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
           {url && (
             <img
