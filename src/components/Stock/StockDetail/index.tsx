@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
@@ -153,7 +153,6 @@ const StockDetail = () => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
-  const timerConnectSocketRef = useRef<any>(null);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -189,14 +188,8 @@ const StockDetail = () => {
   });
 
   useEffect(() => {
-    socket.on('disconnect', () => {
-      timerConnectSocketRef.current = setTimeout(() => {
-        requestJoinChannel(stockCode);
-      }, 1000);
-    });
-
     socket.on('connect', () => {
-      timerConnectSocketRef.current && clearInterval(timerConnectSocketRef.current);
+      requestJoinChannel(stockCode);
     });
 
     socket.on('public', (message: any) => {
@@ -270,14 +263,11 @@ const StockDetail = () => {
 
     return () => {
       socket.off('public');
-      socket.off('disconnect');
       socket.off('connect');
     };
   }, [stockCode, dataStock]);
 
   useEffect(() => {
-    requestJoinChannel(stockCode);
-
     return () => {
       setCurrentTab(TabType.MOVEMENTS);
       requestLeaveChannel(stockCode);
