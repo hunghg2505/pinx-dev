@@ -30,9 +30,9 @@ const Info = () => {
           <div className='galaxy-max:flex-1'>
             <div className='flex gap-[15px] galaxy-max:flex-1 galaxy-max:gap-[6px] xdesktop:gap-[8px]'>
               {/* <Post /> */}
-              <Follower totalFollower={formatNumber(profileUser?.totalFollower, false)} />
+              <Follower totalFollower={formatNumber(profileUser?.totalFollower)} />
               <span className='text-[#808A9D]'>&bull;</span>
-              <Following totalFollowing={formatNumber(profileUser?.totalFollowing, false)} />
+              <Following totalFollowing={formatNumber(profileUser?.totalFollowing)} />
             </div>
 
             <div className='mt-[8px] flex justify-start text-[10px] tablet:hidden'>

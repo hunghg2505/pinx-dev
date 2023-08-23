@@ -32,7 +32,7 @@ const KeywordSearch = (props: Iprops) => {
         </Text>
         <div className='flex items-center'>
           <Text type='body-16-regular' color='neutral-1'>
-            {formatNumber(data?.numberHit, false)}
+            {formatNumber(data?.numberHit)}
           </Text>
           <img
             loading='lazy'
