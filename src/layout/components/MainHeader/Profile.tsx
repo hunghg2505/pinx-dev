@@ -165,9 +165,7 @@ const Profile = () => {
 
               <div className='mb-[4px] flex items-center justify-between gap-[10px]'>
                 <div className='flex gap-[4px]'>
-                  <Text type='body-12-semibold'>
-                    {formatNumber(userLoginInfo?.totalFollower, false)}
-                  </Text>
+                  <Text type='body-12-semibold'>{formatNumber(userLoginInfo?.totalFollower)}</Text>
                   <Text type='body-12-regular' className='text-[#474D57]'>
                     {t('follower')}
                   </Text>
@@ -178,9 +176,7 @@ const Profile = () => {
                 </Text>
 
                 <div className='flex gap-[4px]'>
-                  <Text type='body-12-semibold'>
-                    {formatNumber(userLoginInfo?.totalFollowing, false)}
-                  </Text>
+                  <Text type='body-12-semibold'>{formatNumber(userLoginInfo?.totalFollowing)}</Text>
                   <Text type='body-12-regular' className='text-[#474D57]'>
                     {t('following')}
                   </Text>
