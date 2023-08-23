@@ -49,8 +49,11 @@ export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
   const postDetail = await fetchPostDetailFromServer(id);
   const url = req.headers.referer;
-  const arr = url.split('/');
-  const host = `${arr[0]}//${arr[2]}`;
+  let host;
+  if (url) {
+    const arr = url?.split('/');
+    host = `${arr[0]}//${arr[2]}`;
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
