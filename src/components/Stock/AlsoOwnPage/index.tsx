@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import { formatNumber } from '@utils/common';
 
 import AlsoOwnItem from '../AlsoOwnItem';
 import { useCompanyTaggingInfo } from '../service';
@@ -39,7 +40,7 @@ const AlsoOwn = () => {
             </div>
 
             <Text type='body-14-semibold' className='text-[#0D0D0D]'>
-              {t('total')}: {taggingInfo?.data?.subsidiaries.length}
+              {t('total')}: {formatNumber(taggingInfo?.data?.subsidiaries.length)}
             </Text>
           </div>
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { IStockDetails } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatNumber } from '@utils/common';
 
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
 
@@ -70,7 +70,7 @@ const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
           className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
         >
           <Text type='body-14-regular' className='text-[#0D0D0D]'>
-            {stockDetails?.data.watchingInvestingNo}
+            {formatNumber(stockDetails?.data.watchingInvestingNo)}
           </Text>
           <img
             src='/static/icons/iconBlackRight.svg'
