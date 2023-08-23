@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     });
 
     timerRef.current = setInterval(() => {
-      console.log('Is socket connected', socket.connected, dayjs().format('HH:mm:ss'));
+      // console.log('Is socket connected', socket.connected, dayjs().format('HH:mm:ss'));
     }, 1000);
 
     return () => {

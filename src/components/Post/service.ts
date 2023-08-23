@@ -212,7 +212,20 @@ export const useCommentsOfPost = (postId: string, option = {}) => {
     getDataComment: run,
   };
 };
-
+export const useCommentOfComment = (commentId: string) => {
+  const { data, loading, refresh } = useRequest(async () => {
+    const isLogin = !!getAccessToken();
+    return isLogin
+      ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_COMMENT_OF_COMMENT(commentId))
+      : requestCommunity.get(API_PATH.PUBLIC_COMMENT_OF_COMMENT(commentId));
+  });
+  console.log('data-list', data?.data?.list);
+  return {
+    data: data?.data?.list,
+    loading,
+    refreshCommentOfComment: refresh,
+  };
+};
 export async function getMoreCommentPost(postId: string, nextId: string): Promise<any> {
   const params = {
     limit: 20,

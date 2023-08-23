@@ -41,6 +41,7 @@ export const API_PATH = {
   PRIVATE_UPDATE_POST: (id: string) => `/private/mapping/${id}/update`,
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
+  PUBLIC_COMMENT_OF_COMMENT: (comment_Id: string) => `/public/comment/${comment_Id}/children`,
   PRIVATE_DETAIL_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/details`,
   PRIVATE_EDIT_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/edit`,
   PRIVATE_LIKE_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/like`,

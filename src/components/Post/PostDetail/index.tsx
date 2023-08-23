@@ -22,6 +22,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
+import CommentOfComment from './CommentOfComment';
 import styles from './index.module.scss';
 // import NewsFeedSkeleton from '../NewsFeed/NewsFeedSkeleton';
 import { IComment, getMoreCommentPost, usePostDetail } from '../service';
@@ -155,26 +156,26 @@ const PostDetail = () => {
     }
   };
 
-  const getSubComment = (payload: IComment[]) => {
-    if (payload.length > 0) {
-      return (
-        <div className='sub-comment ml-[48px]'>
-          {payload?.map((comment: IComment, index: number) => (
-            <ItemComment
-              data={comment}
-              key={index}
-              onReplies={onReplies}
-              refreshCommentOfPOst={refreshCommentOfPost}
-              refreshTotal={refresh}
-              isChildren={true}
-              width={width}
-              isLastChildren={index === payload.length - 1}
-            />
-          ))}
-        </div>
-      );
-    }
-  };
+  // const getSubComment = (payload: IComment[]) => {
+  //   if (payload.length > 0) {
+  //     return (
+  //       <div className='sub-comment ml-[48px]'>
+  //         {payload?.map((comment: IComment, index: number) => (
+  //           <ItemComment
+  //             data={comment}
+  //             key={index}
+  //             onReplies={onReplies}
+  //             refreshCommentOfPOst={refreshCommentOfPost}
+  //             refreshTotal={refresh}
+  //             isChildren={true}
+  //             width={width}
+  //             isLastChildren={index === payload.length - 1}
+  //           />
+  //         ))}
+  //       </div>
+  //     );
+  //   }
+  // };
 
   const onCloseModal = () => {
     setPopupStatus(initialPopupStatus);
@@ -284,7 +285,19 @@ const PostDetail = () => {
                           isReply={isReply && !postDetailStatus.isDoneReplies}
                         />
 
-                        {getSubComment(item.children)}
+                        {/* {getSubComment(item.children)} */}
+
+                        {item.children?.length > 0 && (
+                          <CommentOfComment
+                            id={item.id}
+                            onReplies={onReplies}
+                            width={width}
+                            refresh={refresh}
+                            idPost={postDetail?.data?.id}
+                            refSubReplies={refSubReplies}
+                            setImageCommentMobile={setImageCommentMobile}
+                          />
+                        )}
 
                         {(showReply === item?.id || isReply) &&
                           width > 770 &&
@@ -317,7 +330,18 @@ const PostDetail = () => {
                         isReply={isReply && !postDetailStatus.isDoneReplies}
                       />
 
-                      {getSubComment(item.children)}
+                      {/* {getSubComment(item.children)} */}
+                      {item.children?.length > 0 && (
+                        <CommentOfComment
+                          id={item.id}
+                          onReplies={onReplies}
+                          width={width}
+                          refresh={refresh}
+                          idPost={postDetail?.data?.id}
+                          refSubReplies={refSubReplies}
+                          setImageCommentMobile={setImageCommentMobile}
+                        />
+                      )}
 
                       {(showReply === item?.id || isReply) &&
                         width > 770 &&
