@@ -127,7 +127,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
         <ModalCommunity code={payload?.code}>
           <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
             <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-              {formatNumber(payload?.totalSubscribe)}
+              {formatNumber(data?.totalElements)}
             </Text>
             <IconArrow />
           </div>
