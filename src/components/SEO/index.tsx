@@ -43,9 +43,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta property='og:description' content={description || config.description} />
       <meta
         property='og:image'
-        content={
-          openGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.jpg'
-        }
+        content={openGraph?.images?.url || 'https://pinex.vn/static/logo/logo_seo.jpg'}
       />
       {/* <meta property='og:image:width' content='1200' /> */}
       {/* <meta property='og:image:height' content='630' /> */}
@@ -55,9 +53,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta property='twitter:description' content={description || config.description} />
       <meta
         property='twitter:image'
-        content={
-          twitterGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.jpg'
-        }
+        content={twitterGraph?.images?.url || 'https://pinex.vn/static/logo/logo_seo.jpg'}
       />
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
