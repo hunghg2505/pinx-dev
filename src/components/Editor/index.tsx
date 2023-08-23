@@ -61,7 +61,7 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { id, refresh, setImageCommentMobile, width, canExpand, isReply } = props;
+  const { id, refresh, setImageCommentMobile, width, canExpand, isReply, refreshTotal } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -258,7 +258,7 @@ const Editor = (props: IProps, ref?: any) => {
       manual: true,
       onSuccess: (r: any) => {
         if (r) {
-          // refreshTotal();
+          refreshTotal();
           refresh();
           editor?.commands.clearContent();
           setIdReply('');
@@ -292,7 +292,7 @@ const Editor = (props: IProps, ref?: any) => {
       manual: true,
       onSuccess: (r: any) => {
         if (r) {
-          // refreshTotal();
+          refreshTotal();
           refresh();
           setIdReply('');
           setPostDetailStatus({
