@@ -170,7 +170,7 @@ export const ModifyWatchlist = (
   Ticker_Removed: string[],
   Watchlist_Name: string,
   Watchlist_Ticker: string[],
-  Number_of_Ticker: string,
+  Number_of_Ticker: number,
 ) => {
   try {
     window.dataLayer.push({

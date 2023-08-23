@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { ModifyWatchlist } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 import {
@@ -48,8 +49,16 @@ const RegisterCompanyStep = () => {
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
   const requestSelectStock = useSelectStock({
-    onSuccess: () => {
+    onSuccess: (_, params) => {
       router.push(ROUTE_PATH.REGISTER_THEME);
+
+      // gtm
+      const unselectedStock = myListStock.filter((item) => !selected.includes(item));
+      const stockHasAdd = params
+        .toString()
+        .split(',')
+        .filter((item: string) => !myListStock.includes(item));
+      ModifyWatchlist(stockHasAdd, unselectedStock, 'Default', myListStock, myListStock?.length);
     },
   });
 
@@ -124,10 +133,11 @@ const RegisterCompanyStep = () => {
             {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
             <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-                const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                  ? item.stockCode
-                  : item.stockCode?.slice(1, 4)
-                  }.png`;
+                const urlImageCompany = `${
+                  item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
+                    ? item.stockCode
+                    : item.stockCode?.slice(1, 4)
+                }.png`;
                 return (
                   <div
                     className={classNames('relative h-[67px] w-[67px]', styles.companyCard)}
