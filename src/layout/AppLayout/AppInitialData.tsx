@@ -22,9 +22,9 @@ import { ENV } from '@utils/env';
 const AppInitialData = () => {
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
+  const { requestProfleSetting } = useProfileSettingInitial();
   const router = useRouter();
   usePostThemeInitial();
-  useProfileSettingInitial();
   const { handleRemoveActionPost } = useHandlActionsPost();
   const { initialHomePostData } = usePostHomePage();
   const { userLoginInfo } = useUserLoginInfo();
@@ -36,6 +36,7 @@ const AppInitialData = () => {
     initialHomePostData();
     handleRemoveActionPost();
     getInitDataStockMarketHome();
+    requestProfleSetting();
     // getInitDataStockWatchlistHome();
     run();
   });

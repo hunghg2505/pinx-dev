@@ -13,7 +13,6 @@ import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
-import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -50,13 +49,11 @@ const Search = (props: any, ref: any) => {
     setShowRecent(false);
   }, refInput);
 
-  const { search, data, loading, mutate } = useSearchPublic({
+  const { search, data, mutate, refresh } = useSearchPublic({
     onSuccess: () => {
       refreshSearchRecent();
     },
   });
-  console.log('🚀 ~ file: index.tsx:58 ~ Search ~ data:', data);
-
   const { run } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search');
@@ -91,7 +88,6 @@ const Search = (props: any, ref: any) => {
   const companies = data?.data?.companies;
   const news = data?.data?.news;
   const posts = data?.data?.posts;
-  console.log('🚀 ~ file: index.tsx:94 ~ Search ~ posts:', posts);
   const users = data?.data?.users;
 
   const onRemoveData = (postId: any) => () => {
@@ -194,7 +190,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>
                 {t('company')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {companies?.length > 0 ? (
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
@@ -224,7 +220,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>
                 {t('people')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {users?.length > 0 ? (
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
@@ -254,7 +250,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>
                 {t('posts')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {posts?.length > 0 ? (
                 <>
                   <div className='mt-[16px] flex flex-col'>
@@ -265,6 +261,7 @@ const Search = (props: any, ref: any) => {
                           data={post}
                           onRemoveData={onRemoveData(post?.id)}
                           isNewFeedExplore={true}
+                          refreshSearch={refresh}
                         />
                       );
                     })}
@@ -291,7 +288,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' color='neutral-1'>
                 {t('news')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {news?.length > 0 ? (
                 <>
                   <div className='my-[16px] flex flex-col gap-y-[12px]'>

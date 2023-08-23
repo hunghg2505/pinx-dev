@@ -8,7 +8,7 @@ import { profileSettingAtom } from './profileSetting';
 export const useProfileSettingInitial = () => {
   const [, setProfileSetting] = useAtom(profileSettingAtom);
 
-  const requestProfleSetting = useRequest(
+  const { run: requestProfleSetting } = useRequest(
     async () => {
       return privateRequest(requestCommunity.get, '/private/configuration/settings');
     },
@@ -19,7 +19,6 @@ export const useProfileSettingInitial = () => {
           ignore_vsd_validator: res?.data?.ignore_vsd_validator,
         }));
       },
-      onError: () => {},
     },
   );
   return {
