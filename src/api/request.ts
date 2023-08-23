@@ -31,58 +31,6 @@ const redirectlogin = (error: any) => {
   throw error?.data || error?.response;
 };
 
-// const showApiError = (error: any) => {
-//   if (isDev) {
-//     switch (error?.response?.status) {
-//       case 400: {
-//         toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-//           position: 'top-right',
-//         });
-//         break;
-//       }
-//       case 403: {
-//         toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-//           position: 'top-right',
-//         });
-//         break;
-//       }
-//       case 500: {
-//         toast.error(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-//           position: 'top-right',
-//         });
-//         break;
-//       }
-//       default: {
-//         toast.success(`${error?.response?.status} \n\n ${error?.response?.url}`, {
-//           position: 'top-right',
-//         });
-//         break;
-//       }
-//     }
-//   } else {
-//     switch (error?.response?.status) {
-//       case 400: {
-//         // eslint-disable-next-line no-console
-//         console.log(`${error?.response?.status} - ${error?.response?.url}`);
-//         break;
-//       }
-//       case 403: {
-//         // eslint-disable-next-line no-console
-//         console.log(`${error?.response?.status} - ${error?.response?.url}`);
-//         break;
-//       }
-//       case 500: {
-//         // eslint-disable-next-line no-console
-//         console.log(`${error?.response?.status} - ${error?.response?.url}`);
-//         break;
-//       }
-//       default: {
-//         break;
-//       }
-//     }
-//   }
-// };
-
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,

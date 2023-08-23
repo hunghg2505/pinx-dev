@@ -55,7 +55,6 @@ const AppInitialData = () => {
       router.push(router.asPath, router.asPath, { locale: 'vi' });
       return;
     }
-
     if (getLocaleCookie() && getLocaleCookie() !== router.locale) {
       router.push(router.asPath, router.asPath, { locale });
     }
