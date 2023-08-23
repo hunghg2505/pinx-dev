@@ -2,8 +2,9 @@
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect, useRef } from 'react';
 
+import dayjs from 'dayjs';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -14,6 +15,7 @@ import { appWithTranslation } from 'next-i18next';
 import 'dayjs/locale/vi';
 import 'dayjs/locale/en';
 import ErrorBoundary from '@components/ErrorBoundary';
+import { socket } from '@components/Home/service';
 import AppLayout from '@layout/AppLayout';
 
 import nextI18nConfig from '../next-i18next.config';
@@ -42,6 +44,23 @@ const BarlowFont = Barlow({
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
+  const timerRef = useRef<any>(null);
+
+  useEffect(() => {
+    socket.on('disconnect', () => {
+      console.log('Socket disconnect at', dayjs().format('DD/MM/YYYY HH:mm:ss'));
+      console.log('Status socket connect', socket.connected);
+    });
+
+    timerRef.current = setInterval(() => {
+      console.log('Is socket connected', socket.connected, dayjs().format('HH:mm:ss'));
+    }, 1000);
+
+    return () => {
+      socket.off('disconnect');
+      clearInterval(timerRef.current);
+    };
+  }, []);
 
   return (
     <>
