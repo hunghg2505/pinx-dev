@@ -56,7 +56,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [selectTab, setSelectTab] = React.useState<string>('2');
 
   const { refLastElement } = useObserver();
-  const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
+  const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -69,8 +69,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     const query: any = getQueryFromUrl();
 
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
-  }, [filterType, postDetailStatus?.isRefreshHome]);
-
+  }, [filterType]);
+  React.useEffect(() => {
+    if (postDetailStatus?.isRefreshHome) {
+      initialHomePostData();
+    }
+  }, [postDetailStatus?.isRefreshHome]);
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');

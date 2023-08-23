@@ -165,7 +165,7 @@ const PostDetail = () => {
               key={index}
               onReplies={onReplies}
               refreshCommentOfPOst={refreshCommentOfPost}
-              // refreshTotal={refresh}
+              refreshTotal={refresh}
               isChildren={true}
               width={width}
               isLastChildren={index === payload.length - 1}
