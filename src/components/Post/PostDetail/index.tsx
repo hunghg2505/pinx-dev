@@ -23,7 +23,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
-import NewsFeedSkeleton from '../NewsFeed/NewsFeedSkeleton';
+// import NewsFeedSkeleton from '../NewsFeed/NewsFeedSkeleton';
 import { IComment, getMoreCommentPost, usePostDetail } from '../service';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -84,12 +84,7 @@ const PostDetail = () => {
   }, []);
 
   // is login
-  const {
-    refresh,
-    postDetail,
-    run,
-    loading: loadingPostDetail,
-  } = usePostDetail(String(postID), {
+  const { refresh, postDetail, run } = usePostDetail(String(postID), {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
@@ -131,12 +126,12 @@ const PostDetail = () => {
   const { refLastElement } = useObserver();
   const isHaveComment = data?.list?.length > 0;
 
-  const totalComments = data?.list?.length;
-  const commentChild = data?.list?.reduce(
-    (acc: any, current: any) => acc + current?.totalChildren,
-    0,
-  );
-  const countComment = commentChild + totalComments || 0;
+  // const totalComments = data?.list?.length;
+  // const commentChild = data?.list?.reduce(
+  //   (acc: any, current: any) => acc + current?.totalChildren,
+  //   0,
+  // );
+  // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
     router.back();
   };
@@ -193,9 +188,9 @@ const PostDetail = () => {
     }
     initUserProfile();
   }, [userType, isReadTerms]);
-  if (loadingPostDetail) {
-    return <NewsFeedSkeleton showBtnBack />;
-  }
+  // if (loadingPostDetail) {
+  //   return <NewsFeedSkeleton showBtnBack />;
+  // }
   return (
     <>
       {popupStatus.popupAccessLinmit && (
@@ -242,7 +237,7 @@ const PostDetail = () => {
           <div className='mobile:px-[0] desktop:px-[20px]'>
             <NewFeedItem
               postDetail={postData}
-              totalComments={countComment}
+              totalComments={postData?.totalChildren}
               onRefreshPostDetail={refresh}
             />
           </div>
@@ -283,7 +278,7 @@ const PostDetail = () => {
                         <ItemComment
                           data={item}
                           onReplies={onReplies}
-                          // refreshTotal={refresh}
+                          refreshTotal={refresh}
                           refreshCommentOfPOst={refreshCommentOfPost}
                           width={width}
                           isReply={isReply && !postDetailStatus.isDoneReplies}
@@ -316,7 +311,7 @@ const PostDetail = () => {
                       <ItemComment
                         data={item}
                         onReplies={onReplies}
-                        // refreshTotal={refresh}
+                        refreshTotal={refresh}
                         refreshCommentOfPOst={refreshCommentOfPost}
                         width={width}
                         isReply={isReply && !postDetailStatus.isDoneReplies}
