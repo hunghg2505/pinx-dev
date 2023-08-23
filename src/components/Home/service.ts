@@ -305,6 +305,7 @@ export const useSuggestPeople = (options = {}) => {
     {
       manual: true,
       ...options,
+      loadingDelay: 300,
     },
   );
   return {

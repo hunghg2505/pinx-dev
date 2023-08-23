@@ -1,29 +1,58 @@
 import React, { useContext } from 'react';
 
-import { useAtom } from 'jotai';
+import { useRequest } from 'ahooks';
+// import { useAtom } from 'jotai';
+import { toast } from 'react-hot-toast';
 
-import { useUserType } from '@hooks/useUserType';
-import { popupStatusAtom } from '@store/popup/popup';
+import { requestUnFollowUser } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
+// import { useUserType } from '@hooks/useUserType';
+// import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 
-import useUnFollowUser from './useUnFollowUser';
+// import useUnFollowUser from './useUnFollowUser';
 import { followContext } from '..';
 
 const UnFollow = () => {
   const context = useContext<any>(followContext);
-  const { isLogin } = useUserType();
-  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { run } = useUnFollowUser();
+  // const { isLogin } = useUserType();
+  // const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  // const { run } = useUnFollowUser();
+
+  // const onUnFollow = () => {
+  //   if (isLogin) {
+  //     run(context?.id);
+  //   } else {
+  //     setPopupStatus({
+  //       ...popupStatus,
+  //       popupAccessLinmit: true,
+  //     });
+  //   }
+  // };
+
+  const { run: getUserProfile } = useProfileInitial();
+
+  const useUnFollowUser = useRequest(
+    () => {
+      return requestUnFollowUser(context?.id);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        getUserProfile();
+        context.refresh && context.refresh();
+        // setIsFollow(true);
+      },
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e?.error} />);
+      },
+    },
+  );
 
   const onUnFollow = () => {
-    if (isLogin) {
-      run(context?.id);
-    } else {
-      setPopupStatus({
-        ...popupStatus,
-        popupAccessLinmit: true,
-      });
-    }
+    useUnFollowUser.run();
   };
+
   return (
     <>
       <div
