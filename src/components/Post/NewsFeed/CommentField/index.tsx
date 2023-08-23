@@ -101,7 +101,7 @@ const Editor = (props: IProps, ref?: any) => {
         name: 'userMention',
       }).configure({
         HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
+          class: 'userMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
           ...suggestion,
@@ -499,9 +499,9 @@ const Editor = (props: IProps, ref?: any) => {
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' tablet-max:no-scrollbar max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
+                  ' tablet-max:no-scrollbar my-[4px] max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
                   {
-                    'tablet:mt-[3px]': isFocus,
+                    // 'tablet:mt-[3px]': isFocus,
                   },
                 )}
               />
