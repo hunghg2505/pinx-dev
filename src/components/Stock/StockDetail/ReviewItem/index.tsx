@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import PopupReview from '@components/Stock/Popup/PopupReview';
 import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 
 const MSG_LINE_HEIGHT = 21;
@@ -55,11 +56,17 @@ const ReviewItem = ({
       />
 
       <div className='mb-[4px] flex items-center'>
-        <img
-          src={data.customerInfo.avatar}
-          alt='Reviewer avatar'
-          className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'
-        />
+        {data.customerInfo.avatar ? (
+          <img
+            src={data.customerInfo.avatar}
+            alt='Reviewer avatar'
+            className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'
+          />
+        ) : (
+          <div className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'>
+            <AvatarDefault nameClassName='text-[12px]' name={data.customerInfo.displayName} />
+          </div>
+        )}
 
         <div className='flex items-center'>
           <Text

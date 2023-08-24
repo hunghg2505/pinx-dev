@@ -19,7 +19,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH, formatStringToNumber, getStockColor, formatNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ActivityItem from './ActivityItem';
@@ -563,7 +563,7 @@ const StockDetail = () => {
                 {t('rating.votes')}
               </Text>
               <Text type='body-20-medium' className='text-[#0D0D0D]'>
-                {formatNumber(stockDetails?.data.details.rate.totalRates)}
+                {formatStringToNumber(stockDetails?.data.details.rate.totalRates)}
               </Text>
             </div>
 
@@ -575,7 +575,7 @@ const StockDetail = () => {
               <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
-                    {formatNumber(stockDetails?.data.details.totalReviews)}
+                    {formatStringToNumber(stockDetails?.data.details.totalReviews)}
                   </Text>
 
                   <img

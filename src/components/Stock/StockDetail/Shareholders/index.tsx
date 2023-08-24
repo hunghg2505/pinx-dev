@@ -6,7 +6,7 @@ import { SHARE_HOLDER_COLOR } from '@components/Stock/const';
 import { useShareholder } from '@components/Stock/service';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
-import { formatNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import StockShareholdersSkeleton from './skeleton';
 import { DonutChart } from '../Chart';
@@ -69,7 +69,7 @@ const StockShareholders = ({ stockCode }: IStockShareholdersProps) => {
                 {item.name}
               </Text>
               <Text type='body-12-regular' color='primary-5' className='!leading-[16px]'>
-                {formatNumber(item.value)}
+                {formatStringToNumber(item.value)}
               </Text>
             </div>
           ))}

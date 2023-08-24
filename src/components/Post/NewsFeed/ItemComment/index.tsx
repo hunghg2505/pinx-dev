@@ -17,6 +17,7 @@ import {
   requestLikeComment,
   requestUnLikeComment,
 } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -249,25 +250,44 @@ const ItemComment = (props: IProps) => {
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
-        <img
-          src={data?.customerInfo?.avatar}
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className={classNames(
-            'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
-            {
-              'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
-              'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
-            },
-          )}
-          onClick={() =>
-            isComment
-              ? router.push(ROUTE_PATH.MY_PROFILE)
-              : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
-          }
-        />
+        {data?.customerInfo?.avatar ? (
+          <img
+            src={data?.customerInfo?.avatar}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className={classNames(
+              'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+              {
+                'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
+                'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
+              },
+            )}
+            onClick={() =>
+              isComment
+                ? router.push(ROUTE_PATH.MY_PROFILE)
+                : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+            }
+          />
+        ) : (
+          <div
+            className={classNames(
+              'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+              {
+                'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
+                'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
+              },
+            )}
+            onClick={() =>
+              isComment
+                ? router.push(ROUTE_PATH.MY_PROFILE)
+                : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+            }
+          >
+            <AvatarDefault name={data?.customerInfo?.displayName} />
+          </div>
+        )}
         {!isHomePath && !isProfilePath && data?.children.length > 0 && !isChildren && (
           <>
             <div
