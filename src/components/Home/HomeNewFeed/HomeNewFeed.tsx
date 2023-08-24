@@ -204,7 +204,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('people_in_spotlight')}
         </Text>
 
@@ -227,7 +232,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       })}
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('economy_in_the_themes')}
         </Text>
         <ListTheme />

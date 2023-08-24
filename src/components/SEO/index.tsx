@@ -36,7 +36,10 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       {openGraph?.locale && (
         <meta key='og:locale' property='og:locale' content={openGraph?.locale} />
       )}
-
+      <meta
+        name='robots'
+        content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+      ></meta>
       <meta property='og:type' content={openGraph?.type ?? config.openGraph.type} />
       <meta property='og:url' content={siteUrl || ''} />
       <meta property='og:title' content={title || config.title} />
@@ -57,6 +60,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       />
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
+      <link rel='canonical' href='https://pinetree.vn/%22%3E' />
     </Head>
   );
 };

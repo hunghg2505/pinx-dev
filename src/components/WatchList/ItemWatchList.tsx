@@ -62,7 +62,7 @@ const ItemWatchList = ({
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
-        <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <CustomLink linkClassName='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
           <img
             src={url}
             alt=''

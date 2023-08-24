@@ -141,12 +141,12 @@ const Search = (props: any, ref: any) => {
                   <Text type='body-14-semibold' color='neutral-black'>
                     {t('common:recent')}
                   </Text>
-                  <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px]'>
+                  <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px] galaxy-max:break-all'>
                     {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
                       return (
                         <div
                           key={index}
-                          className='cursor-pointer rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px]'
+                          className='cursor-pointer rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px] galaxy-max:rounded-[12px]'
                           onClick={() => onClickRecent(item?.keyword)}
                         >
                           <Text type='body-14-regular' color='primary-2'>
