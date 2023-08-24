@@ -1,7 +1,4 @@
-import { useAtom } from 'jotai';
-
-import { ForwardedRefComponent } from '@components/Themes/ThemeDetail/Activities/ModalComment/PostDetail';
-import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import React from 'react';
 
 import ItemComment from '../NewsFeed/ItemComment';
 import { IComment, useCommentOfComment } from '../service';
@@ -11,19 +8,32 @@ interface IProps {
   onReplies: any;
   width: number;
   refresh: () => void;
-  idPost?: string;
+  idPost: string;
   refSubReplies: any;
   setImageCommentMobile: any;
+  isReply?: boolean;
 }
-const CommentOfComment = (props: IProps) => {
-  const { id, onReplies, width, refresh, idPost, refSubReplies, setImageCommentMobile } = props;
+const CommentOfComment = (props: IProps, ref: any) => {
+  const { id, onReplies, width, refresh, idPost } = props;
   const { data, refreshCommentOfComment } = useCommentOfComment(id);
-  const [postDetailStatus] = useAtom(postDetailStatusAtom);
+  console.log('id', id);
+  React.useImperativeHandle(ref, () => {
+    return {
+      refreshCommentOfComment: (showReply: string) => {
+        console.log(
+          '🚀 ~ file: CommentOfComment.tsx:23 ~ React.useImperativeHandle ~ showReply:',
+          showReply,
+        );
+        // run(showReply);
+      },
+    };
+  });
   return (
     <>
       <div className='sub-comment ml-[48px]'>
         {data?.map((comment: IComment, index: number) => (
           <ItemComment
+            idPost={idPost}
             key={comment.id}
             data={comment}
             onReplies={onReplies}
@@ -35,20 +45,20 @@ const CommentOfComment = (props: IProps) => {
           />
         ))}
       </div>
-      {width > 770 && !postDetailStatus.isDoneReplies && (
+      {/* {isReply && width > 770 && !postDetailStatus.isDoneReplies && (
         <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
           <ForwardedRefComponent
             ref={refSubReplies}
             id={idPost}
-            refresh={refreshCommentOfComment}
+            refresh={refreshComment}
             refreshTotal={refresh}
             setImageCommentMobile={setImageCommentMobile}
             width={width}
             isReply={true}
           />
         </div>
-      )}
+      )} */}
     </>
   );
 };
-export default CommentOfComment;
+export default React.forwardRef(CommentOfComment);

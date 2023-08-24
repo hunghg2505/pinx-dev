@@ -22,6 +22,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -56,6 +57,7 @@ interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
+  idPost?: string;
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
@@ -79,6 +81,7 @@ const ItemComment = (props: IProps) => {
     refreshCommentOfPOst,
     isLastChildren,
     isReply = false,
+    idPost,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -87,6 +90,7 @@ const ItemComment = (props: IProps) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const isHomePath = router.pathname === '/';
   const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -185,6 +189,9 @@ const ItemComment = (props: IProps) => {
         refreshCommentOfPOst && refreshCommentOfPOst();
         refreshTotal && refreshTotal();
         setShowDelete(false);
+        if (idPost) {
+          setPostDetailStatus({ ...postDetailStatus, idPostHideComment: idPost });
+        }
       },
     },
   );

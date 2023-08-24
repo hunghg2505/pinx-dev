@@ -60,6 +60,7 @@ const PostDetail = () => {
   const refSubReplies: any = useRef();
   const refRepliesLaptop: any = useRef();
   const refRepliesMobile: any = useRef();
+  const refCommentofComment: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
@@ -96,6 +97,7 @@ const PostDetail = () => {
   });
   React.useEffect(() => {
     run();
+    runAsync('');
   }, [postID]);
 
   const {
@@ -103,13 +105,18 @@ const PostDetail = () => {
     loading,
     mutate,
     runAsync,
-    refreshAsync: refreshCommentOfPost,
-  } = useRequest(async (nextId: any) => {
-    if (nextId === false) {
-      return;
-    }
-    return getMoreCommentPost(String(postID), nextId);
-  });
+    refresh: refreshCommentOfPost,
+  } = useRequest(
+    async (nextId: any) => {
+      if (nextId === false) {
+        return;
+      }
+      return getMoreCommentPost(String(postID), nextId);
+    },
+    {
+      manual: true,
+    },
+  );
   const service = async () => {
     if (!data?.nextId || loading) {
       return;
@@ -192,6 +199,12 @@ const PostDetail = () => {
   // if (loadingPostDetail) {
   //   return <NewsFeedSkeleton showBtnBack />;
   // }
+  const refreshCommentOfComment = (idcomment: string) => {
+    console.log('🚀 ~ file: index.tsx:203 ~ refreshCommentOfComment ~ idcomment:', idcomment);
+    refreshCommentOfPost();
+    refCommentofComment?.current &&
+      refCommentofComment?.current?.refreshCommentOfComment(showReply);
+  };
   return (
     <>
       {popupStatus.popupAccessLinmit && (
@@ -280,15 +293,17 @@ const PostDetail = () => {
                           data={item}
                           onReplies={onReplies}
                           refreshTotal={refresh}
-                          refreshCommentOfPOst={refreshCommentOfPost}
+                          refreshCommentOfPOst={() => refreshCommentOfComment(item?.id)}
                           width={width}
                           isReply={isReply && !postDetailStatus.isDoneReplies}
+                          idPost={String(postID)}
                         />
 
                         {/* {getSubComment(item.children)} */}
 
                         {item.children?.length > 0 && (
                           <CommentOfComment
+                            ref={refCommentofComment}
                             id={item.id}
                             onReplies={onReplies}
                             width={width}
@@ -296,6 +311,7 @@ const PostDetail = () => {
                             idPost={postDetail?.data?.id}
                             refSubReplies={refSubReplies}
                             setImageCommentMobile={setImageCommentMobile}
+                            isReply={isReply}
                           />
                         )}
 
@@ -306,7 +322,7 @@ const PostDetail = () => {
                               <ForwardedRefComponent
                                 ref={refSubReplies}
                                 id={postDetail?.data?.id}
-                                refresh={refreshCommentOfPost}
+                                refresh={() => refreshCommentOfComment(item?.id)}
                                 refreshTotal={refresh}
                                 setImageCommentMobile={setImageCommentMobile}
                                 width={width}
@@ -328,11 +344,13 @@ const PostDetail = () => {
                         refreshCommentOfPOst={refreshCommentOfPost}
                         width={width}
                         isReply={isReply && !postDetailStatus.isDoneReplies}
+                        idPost={String(postID)}
                       />
 
                       {/* {getSubComment(item.children)} */}
                       {item.children?.length > 0 && (
                         <CommentOfComment
+                          ref={refCommentofComment}
                           id={item.id}
                           onReplies={onReplies}
                           width={width}
@@ -350,7 +368,7 @@ const PostDetail = () => {
                             <ForwardedRefComponent
                               ref={refSubReplies}
                               id={postDetail?.data?.id}
-                              refresh={refreshCommentOfPost}
+                              refresh={() => refreshCommentOfComment(item?.id)}
                               refreshTotal={refresh}
                               setImageCommentMobile={setImageCommentMobile}
                               width={width}
@@ -385,7 +403,7 @@ const PostDetail = () => {
                 <ForwardedRefComponent
                   ref={refRepliesMobile}
                   id={postDetail?.data?.id}
-                  refresh={refreshCommentOfPost}
+                  refresh={refreshCommentOfComment}
                   refreshTotal={refresh}
                   setImageCommentMobile={setImageCommentMobile}
                   width={width}

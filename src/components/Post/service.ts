@@ -213,16 +213,17 @@ export const useCommentsOfPost = (postId: string, option = {}) => {
   };
 };
 export const useCommentOfComment = (commentId: string) => {
-  const { data, loading, refresh } = useRequest(async () => {
+  const { data, loading, refresh, run, mutate } = useRequest(async () => {
     const isLogin = !!getAccessToken();
     return isLogin
       ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_COMMENT_OF_COMMENT(commentId))
       : requestCommunity.get(API_PATH.PUBLIC_COMMENT_OF_COMMENT(commentId));
   });
-  console.log('data-list', data?.data?.list);
   return {
     data: data?.data?.list,
     loading,
+    run,
+    mutate,
     refreshCommentOfComment: refresh,
   };
 };
