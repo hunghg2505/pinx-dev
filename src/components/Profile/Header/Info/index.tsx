@@ -14,8 +14,8 @@ const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
     <div className='relative flex w-full grid-flow-col items-center gap-2 pl-[16px] pr-[16px] pt-[20px]   galaxy-max:pt-[14px] tablet:pl-[132px] tablet:pr-0 tablet:pt-[14px] xdesktop:mt-[0] xdesktop:pl-[168px]'>
-      <div className='flex-auto'>
-        <div className='mb-[4px] flex items-center justify-between'>
+      <div className='flex-1 overflow-x-hidden'>
+        <div className='mb-[4px] flex items-center justify-between gap-x-[24px]'>
           <Name
             displayName={profileUser.displayName}
             isKol={profileUser.isKol}

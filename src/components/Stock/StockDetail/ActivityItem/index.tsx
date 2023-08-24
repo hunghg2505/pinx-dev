@@ -7,6 +7,7 @@ import { IPost } from '@components/Post/service';
 import { ACTIVITIES_TYPE } from '@components/Stock/const';
 import { ActivityIconType } from '@components/Stock/type';
 import ActivitiesAction from '@components/Themes/ThemeDetail/Activities/ActivitiesAction';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
@@ -39,11 +40,17 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
   return (
     <div className='flex'>
       <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
-        <img
-          src={data.post.customerInfo.avatar}
-          alt={data.post.customerInfo.displayName}
-          className='h-[28px] w-[28px] rounded-full object-cover'
-        />
+        {data.post.customerInfo.avatar ? (
+          <img
+            src={data.post.customerInfo.avatar}
+            alt={data.post.customerInfo.displayName}
+            className='h-[28px] w-[28px] rounded-full object-cover'
+          />
+        ) : (
+          <div className='h-[28px] w-[28px] rounded-full object-cover'>
+            <AvatarDefault nameClassName='text-[14px]' name={data.post.customerInfo.displayName} />
+          </div>
+        )}
       </CustomLink>
 
       <div className='ml-[12px] flex-1'>

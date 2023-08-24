@@ -2,6 +2,7 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -21,11 +22,17 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <CustomLink className='galaxy-max:flex-none' href={url}>
-        <img
-          src={data.avatar}
-          alt='User avatar'
-          className='h-[36px] w-[36px] rounded-full object-cover '
-        />
+        {data.avatar ? (
+          <img
+            src={data.avatar}
+            alt='User avatar'
+            className='h-[36px] w-[36px] rounded-full object-cover'
+          />
+        ) : (
+          <div className='h-[36px] w-[36px] rounded-full object-cover'>
+            <AvatarDefault nameClassName='text-[16px]' name={data.displayName} />
+          </div>
+        )}
       </CustomLink>
 
       <div className='ml-[8px]'>

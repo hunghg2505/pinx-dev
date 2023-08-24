@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { IStockDetails } from '@components/Stock/type';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatNumber } from '@utils/common';
@@ -42,11 +43,17 @@ const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
             .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
             .map((item, index) => (
               <div className='relative' key={index}>
-                <img
-                  src={item.avatar}
-                  alt='Avatar'
-                  className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
-                />
+                {item.avatar ? (
+                  <img
+                    src={item.avatar}
+                    alt='Avatar'
+                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
+                  />
+                ) : (
+                  <div className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'>
+                    <AvatarDefault nameClassName='text-[16px]' name={item.displayName} />
+                  </div>
+                )}
 
                 {item.isInvesting ? (
                   <img
