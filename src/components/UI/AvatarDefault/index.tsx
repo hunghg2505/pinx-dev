@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 
+import classNames from 'classnames';
+
 import Text from '../Text';
 
 const AlphabetToColor: any = {
@@ -32,14 +34,15 @@ const AlphabetToColor: any = {
 };
 interface IProps {
   name?: string;
+  nameClassName?: string;
 }
 const AvatarDefault = (props: IProps) => {
-  const { name } = props;
+  const { name, nameClassName } = props;
 
   const nameFormat = useMemo(() => {
     let firstCharName = 'Z';
-    if (name) {
-      firstCharName = name.slice(0, 1);
+    if (name && Number.isNaN(name)) {
+      firstCharName = name.slice(0, 1).toUpperCase();
     }
 
     return firstCharName;
@@ -50,7 +53,7 @@ const AvatarDefault = (props: IProps) => {
       className='mr-2 flex h-full w-full items-center justify-center rounded-full object-contain'
       style={{ backgroundColor: AlphabetToColor[nameFormat] }}
     >
-      <Text type='body-24-regular' color='cbwhite'>
+      <Text type='body-24-regular' color='cbwhite' className={classNames(nameClassName)}>
         {nameFormat}
       </Text>
     </div>
