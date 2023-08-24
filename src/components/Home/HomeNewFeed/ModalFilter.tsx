@@ -36,6 +36,7 @@ const HomeFeedFilter = (props: IPropsModalFilter) => {
     <>
       <div className='flex items-center  filter mobile:py-[12px] desktop:mb-[20px]'>
         <Text
+          element='h2'
           type='body-16-bold'
           color='neutral-2'
           className='mr-[12px] mobile:text-[20px] desktop:!text-[24px]'
