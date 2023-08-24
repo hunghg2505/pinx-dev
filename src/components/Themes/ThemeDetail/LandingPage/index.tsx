@@ -13,6 +13,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { isUnubsribeThemeAtom, popupThemeDataAtom } from '@store/theme';
+import { formatNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 // import PopupComponent from '@utils/PopupComponent';
 
@@ -132,7 +133,7 @@ const LandingPageDetailThemes = ({
             <div className='flex'>
               <div className='mr-[43px] mobile-max:mr-[20px]'>
                 <Text type='body-20-medium' color='cbwhite'>
-                  {data?.stockList?.length}
+                  {formatNumber(data?.stockList?.length)}
                 </Text>
                 <Text type='body-12-medium' className='galaxy-max:text-[10px]' color='cbwhite'>
                   {t('symbols')}
@@ -140,7 +141,7 @@ const LandingPageDetailThemes = ({
               </div>
               <div>
                 <Text type='body-20-medium' color='cbwhite'>
-                  {data?.totalSubscribe}
+                  {formatNumber(data?.totalSubscribe)}
                 </Text>
                 <Text type='body-12-medium' className='galaxy-max:text-[10px]' color='cbwhite'>
                   {t('subscribed')}
