@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 
-import { ROUTE_PATH } from '@utils/common';
+import Text from '@components/UI/Text';
 
 const Name = ({
   displayName,
@@ -14,30 +13,12 @@ const Name = ({
   isKol: boolean;
   isFeatureProfile: boolean;
 }) => {
-  const router = useRouter();
-
-  const { isMyProfilePath } = useMemo(() => {
-    const isMyProfilePath = router.pathname === ROUTE_PATH.MY_PROFILE;
-
-    return {
-      isMyProfilePath,
-    };
-  }, [router]);
-
   return (
     <>
-      <div className='flex items-center gap-[8px] '>
-        <h3
-          className={classNames(
-            'truncate text-[20px] font-[600] galaxy-max:text-[14px] tablet:w-[300px]',
-            {
-              'mobile:w-[120px]': !isMyProfilePath,
-              'mobile:w-[220px] galaxy-max:w-[160px]': isMyProfilePath,
-            },
-          )}
-        >
+      <div className={classNames('flex flex-1 items-center gap-[8px] truncate')}>
+        <Text type='body-20-semibold' className='truncate galaxy-max:text-[14px]'>
           {displayName}
-        </h3>
+        </Text>
 
         {isKol && (
           <img
