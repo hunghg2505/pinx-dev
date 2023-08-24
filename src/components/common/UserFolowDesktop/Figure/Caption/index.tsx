@@ -30,7 +30,7 @@ const Caption = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='ml-[8px] h-[16px] w-[16px]'
+                className='h-[16px] w-[16px]'
               />
             )}
           </div>
