@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import useToggleClassStock from '@hooks/useToggleClassStock';
-import { formatNumber, formatStringToNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import { getColor } from '..';
 import styles from '../index.module.scss';
@@ -140,7 +140,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 ),
               )}
             >
-              {formatNumber((Number(sell_volume_3) || 0) * 10)}
+              {formatStringToNumber((Number(sell_volume_3) || 0) * 10)}
             </Text>
           </div>
         </div>
@@ -188,7 +188,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 ),
               )}
             >
-              {formatNumber((Number(sell_volume_2) || 0) * 10)}
+              {formatStringToNumber((Number(sell_volume_2) || 0) * 10)}
             </Text>
           </div>
         </div>
@@ -236,7 +236,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 ),
               )}
             >
-              {formatNumber((Number(sell_volume_1) || 0) * 10)}
+              {formatStringToNumber((Number(sell_volume_1) || 0) * 10)}
             </Text>
           </div>
         </div>

@@ -7,7 +7,7 @@ import PopupMatchedPrice from '@components/Stock/Popup/PopupMatchedPrice';
 import { useGetStockTrade } from '@components/Stock/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { formatNumber, formatStringToNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import { getColor } from '../MovementsTab';
 
@@ -67,7 +67,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
                   </td>
                   <td className='py-[10px]'>
                     <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                      {formatNumber(item.lastVol * 10)}
+                      {formatStringToNumber(item.lastVol * 10)}
                     </Text>
                   </td>
                   <td className='py-[10px]'>

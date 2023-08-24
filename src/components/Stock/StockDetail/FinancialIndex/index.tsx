@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { useFinancialIndex } from '@components/Stock/service';
 import { FinancialIndexKey, IFinancialIndex } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { formatNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import StockFinancialIndexSkeleton from './skeleton';
 import HoldingRatioItem from '../HoldingRatioItem';
@@ -55,7 +55,7 @@ const StockFinancialIndex = ({ stockCode }: IStockFinancialIndexProps) => {
         .filter((item) => onlyKeys.has(item))
         .map((item) => ({
           label: manualTranslate(item),
-          value: formatNumber(data[item as keyof IFinancialIndex] || 0).toString(),
+          value: formatStringToNumber(data[item as keyof IFinancialIndex] || 0).toString(),
         }));
     }
 

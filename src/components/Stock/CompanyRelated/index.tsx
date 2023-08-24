@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
-import { formatNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import { useCompaniesRelated, useCompanyTaggingInfo } from '../service';
 import StockItem from '../StockDetail/StockItem';
@@ -202,7 +202,8 @@ const CompanyRelated = () => {
 
             <div className='mb-[32px] mt-[52px] flex items-center justify-between border-b border-solid border-b-[#EBEBEB] pb-[16px] galaxy-max:mt-[36px] galaxy-max:items-baseline'>
               <Text type='body-14-semibold' className='text-[#0D0D0D] galaxy-max:text-[12px]'>
-                {t('company_related_total')}: {formatNumber(companiesRelated?.data.totalElements)}
+                {t('company_related_total')}:{' '}
+                {formatStringToNumber(companiesRelated?.data.totalElements)}
               </Text>
 
               <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>

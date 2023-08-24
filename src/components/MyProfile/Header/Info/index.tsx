@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { profileUserContext } from '@components/MyProfile';
-import { formatNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import EditDeskTop from './EditDeskTop';
 import Follower from './Follower';
@@ -30,9 +30,9 @@ const Info = () => {
         <div className='mb-[5px] flex items-center justify-between'>
           <div>
             <div className='flex gap-[8px] xdesktop:gap-[8px]'>
-              <Follower totalFollower={formatNumber(profileUser?.totalFollower)} />
+              <Follower totalFollower={formatStringToNumber(profileUser?.totalFollower)} />
               <span className='text-[#808A9D]'>&bull;</span>
-              <Following totalFollowing={formatNumber(profileUser?.totalFollowing)} />
+              <Following totalFollowing={formatStringToNumber(profileUser?.totalFollowing)} />
             </div>
 
             <div className='mt-[8px] flex justify-start tablet:hidden'>
