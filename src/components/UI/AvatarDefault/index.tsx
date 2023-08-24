@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import Text from '../Text';
 
@@ -10,6 +10,7 @@ const AlphabetToColor: any = {
   E: '#c15c0b',
   F: '#911371',
   G: '#9987bd',
+  H: '#00A261',
   I: '#f26e0f',
   J: '#716e40',
   K: '#db4da2',
@@ -30,17 +31,27 @@ const AlphabetToColor: any = {
   Z: '#54af78',
 };
 interface IProps {
-  name: string;
+  name?: string;
 }
 const AvatarDefault = (props: IProps) => {
   const { name } = props;
+
+  const nameFormat = useMemo(() => {
+    let firstCharName = 'Z';
+    if (name) {
+      firstCharName = name.slice(0, 1);
+    }
+
+    return firstCharName;
+  }, [name]);
+
   return (
     <div
       className='mr-2 flex h-full w-full items-center justify-center rounded-full object-contain'
-      style={{ backgroundColor: AlphabetToColor[name] }}
+      style={{ backgroundColor: AlphabetToColor[nameFormat] }}
     >
       <Text type='body-24-regular' color='cbwhite'>
-        {name}
+        {nameFormat}
       </Text>
     </div>
   );
