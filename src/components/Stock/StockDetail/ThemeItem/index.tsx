@@ -3,7 +3,7 @@ import React from 'react';
 import { IStockTheme } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface IThemeItemProps {
   data: IStockTheme;
@@ -45,7 +45,7 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
             </div>
 
             <Text type='body-12-medium' color='cbwhite' className='ml-[6px]'>
-              {formatNumber(data.totalSubscribe)}+
+              {formatStringToNumber(data.totalSubscribe)}+
             </Text>
           </div>
         </div>

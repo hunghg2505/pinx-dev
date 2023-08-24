@@ -7,7 +7,7 @@ import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
-import { formatNumber, formatStringToNumber, getStockColor, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockColor, imageStock } from '@utils/common';
 
 interface StockHeadingProps {
   stockCode: string;
@@ -98,7 +98,7 @@ const StockHeading = ({
         {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
           <div className='flex items-center justify-end'>
             <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-              {formatNumber(stockDetails?.data.watchingNo)}+
+              {formatStringToNumber(stockDetails?.data.watchingNo)}+
             </Text>
 
             <div className='flex items-center'>

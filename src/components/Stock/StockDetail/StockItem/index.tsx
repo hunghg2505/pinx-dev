@@ -6,13 +6,7 @@ import { IStock } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
-import {
-  ROUTE_PATH,
-  formatNumber,
-  formatStringToNumber,
-  getStockColor,
-  imageStock,
-} from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, getStockColor, imageStock } from '@utils/common';
 
 interface IStockItemProps {
   data: IStock;
@@ -93,7 +87,7 @@ const StockItem = ({ data }: IStockItemProps) => {
             type='body-12-regular'
             className='mt-[8px] text-[#808A9D] galaxy-max:mt-[2px] galaxy-max:text-[9px]'
           >
-            Cap: {formatNumber(data.marketCapital || 0)}
+            Cap: {formatStringToNumber(data.marketCapital || 0)}
           </Text>
         </div>
 

@@ -6,7 +6,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, formatNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface ISubscriberItemProps {
   data: ICustomerInfo;
@@ -65,7 +65,7 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
           </div>
         </CustomLink>
         <Text type='body-12-regular' color='neutral-5' className='mt-[2px] galaxy-max:text-[10px]'>
-          {formatNumber(data.totalFollowers)} {t('common:followers')}
+          {formatStringToNumber(data.totalFollowers)} {t('common:followers')}
         </Text>
       </div>
 
