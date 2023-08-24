@@ -53,7 +53,7 @@ const CompanyRelated = () => {
         },
       }));
 
-      if (data.hasNext) {
+      if (data?.list.length > 0) {
         for (const stock of data.list) {
           requestJoinChannel(stock.stockCode);
         }
