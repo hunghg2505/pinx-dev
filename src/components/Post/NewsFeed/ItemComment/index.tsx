@@ -215,6 +215,10 @@ const ItemComment = (props: IProps) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
   };
   // const [windowSize, setWindowSize] = useState([window.innerWidth]);
   const commentRef = useRef<HTMLDivElement>(null);

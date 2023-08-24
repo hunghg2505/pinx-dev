@@ -49,6 +49,10 @@ export const ActivityTheme = ({
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
     return onComment();
   };
   const onReadMore = () => {
@@ -93,7 +97,7 @@ export const ActivityTheme = ({
           })}
         >
           <div
-            className='messageFormat messageBody messageBody'
+            className='messageFormat messageBody'
             dangerouslySetInnerHTML={{ __html: messagePostFormat }}
           ></div>
         </Text>

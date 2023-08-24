@@ -64,7 +64,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     }, 400);
   }, [messageDefault]);
   const onHandleClick = (e: any) => {
-    const textContent = e?.target?.textContent;
+    const textContent = e?.target?.textContent as string;
     const classElement = e?.target?.className;
     const id = e?.target?.id;
     if (classElement === 'link') {
@@ -82,6 +82,10 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     }
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+    }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
     }
     return onComment();
   };
