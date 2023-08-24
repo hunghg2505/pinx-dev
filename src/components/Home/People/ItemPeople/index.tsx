@@ -99,7 +99,7 @@ const ItemPeople = (props: IProps) => {
               <AvatarDefault name={data?.displayName} />
             </div>
           )}
-          <div className='relative mb-[3px] flex items-center'>
+          <div className='relative mb-[3px] flex min-h-[20px] items-center'>
             <Text
               type='body-12-semibold'
               color='neutral-3'
