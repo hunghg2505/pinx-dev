@@ -268,6 +268,8 @@ const StockDetail = () => {
   }, [stockCode, dataStock]);
 
   useEffect(() => {
+    requestJoinChannel(stockCode);
+
     return () => {
       setCurrentTab(TabType.MOVEMENTS);
       requestLeaveChannel(stockCode);
