@@ -389,10 +389,12 @@ const NewFeedItem = (props: IProps) => {
     children,
     href,
     className,
+    linkClassName,
   }: {
     children: ReactNode;
     href: string;
     className?: string;
+    linkClassName?: string;
   }) => {
     if (href) {
       return (
@@ -402,6 +404,7 @@ const NewFeedItem = (props: IProps) => {
           }}
           className={className}
           href={href}
+          linkClassName={linkClassName}
         >
           {children}
         </CustomLink>
@@ -414,11 +417,15 @@ const NewFeedItem = (props: IProps) => {
   return (
     <>
       <div
-        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between', {
+        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between gap-x-[12px]', {
           'z-50': isHovering,
         })}
       >
-        <MaybeLink href={urlTitle} className='flex flex-1 flex-row items-center'>
+        <MaybeLink
+          linkClassName='flex-1'
+          href={urlTitle}
+          className='flex flex-1 flex-row items-center'
+        >
           <div
             ref={refHover}
             className={classNames('relative flex-none', {
