@@ -194,6 +194,9 @@ const MainHeader = () => {
                     />
                   </div>
                 </CustomLink>
+                <Text className='hidden' element='h1'>
+                  Cộng đồng đầu tư chứng khoán PineX
+                </Text>
                 <MenuMobile />
               </div>
               {!isMobile && (

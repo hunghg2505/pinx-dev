@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
 import { useRequest } from 'ahooks';
-// import { useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { toast } from 'react-hot-toast';
 
 import { requestUnFollowUser } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
-// import { useUserType } from '@hooks/useUserType';
-// import { popupStatusAtom } from '@store/popup/popup';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 // import useUnFollowUser from './useUnFollowUser';
@@ -15,8 +15,8 @@ import { followContext } from '..';
 
 const UnFollow = () => {
   const context = useContext<any>(followContext);
-  // const { isLogin } = useUserType();
-  // const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isLogin } = useUserType();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   // const { run } = useUnFollowUser();
 
   // const onUnFollow = () => {
@@ -31,7 +31,6 @@ const UnFollow = () => {
   // };
 
   const { run: getUserProfile } = useProfileInitial();
-
   const useUnFollowUser = useRequest(
     () => {
       return requestUnFollowUser(context?.id);
@@ -50,7 +49,14 @@ const UnFollow = () => {
   );
 
   const onUnFollow = () => {
-    useUnFollowUser.run();
+    if (isLogin) {
+      useUnFollowUser.run();
+    } else {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+    }
   };
 
   return (

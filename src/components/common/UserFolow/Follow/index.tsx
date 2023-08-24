@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 
-// import { useAtom } from 'jotai';
-
 import { useRequest } from 'ahooks';
+import { useAtom } from 'jotai';
 import { toast } from 'react-hot-toast';
 
 import { requestFollowUser } from '@components/Home/service';
 import Notification from '@components/UI/Notification';
-// import { useUserType } from '@hooks/useUserType';
-// import { popupStatusAtom } from '@store/popup/popup';
+import { useUserType } from '@hooks/useUserType';
+import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 // import useFollowUser from './useFollowUser';
@@ -16,8 +15,8 @@ import { followContext } from '..';
 
 const Folow = () => {
   const context = useContext<any>(followContext);
-  // const { isLogin } = useUserType();
-  // const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { isLogin } = useUserType();
+  const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   // // const { run } = useFollowUser();
 
   // const onFollow = () => {
@@ -50,7 +49,14 @@ const Folow = () => {
     },
   );
   const onFollow = () => {
-    useFollowUser.run();
+    if (isLogin) {
+      useFollowUser.run();
+    } else {
+      setPopupStatus({
+        ...popupStatus,
+        popupAccessLinmit: true,
+      });
+    }
   };
   return (
     <>
