@@ -64,7 +64,7 @@ const ItemWatchList = ({
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
         <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
           <div className='flex h-[36px] w-[36px] items-center justify-center rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
-            <img src={url} alt='' className='block rounded-full' />
+            <img src={url} alt='' className='block' />
           </div>
         </CustomLink>
         <div className='flex flex-1 flex-col gap-y-[4px]'>

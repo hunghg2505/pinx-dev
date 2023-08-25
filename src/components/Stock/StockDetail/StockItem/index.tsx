@@ -68,7 +68,7 @@ const StockItem = ({ data }: IStockItemProps) => {
             src={imageStock(data.stockCode)}
             // alt='Company logo'
             alt=''
-            className='block rounded-full'
+            className='block'
           />
         </div>
 
