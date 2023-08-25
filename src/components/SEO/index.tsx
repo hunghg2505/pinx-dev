@@ -47,7 +47,8 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta
         property='og:image'
         content={
-          openGraph?.images?.url || 'https://file1.jobkorea.co.kr/banner/share/share_img_01.png'
+          openGraph?.images?.url ||
+          'https://cdn.discordapp.com/attachments/1121731449570209832/1144486020780404847/Frame_48800.jpg'
         }
       />
       {/* <meta property='og:image:width' content='1200' /> */}
@@ -59,7 +60,8 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta
         property='twitter:image'
         content={
-          twitterGraph?.images?.url || 'https://file1.jobkorea.co.kr/banner/share/share_img_01.png'
+          twitterGraph?.images?.url ||
+          'https://cdn.discordapp.com/attachments/1121731449570209832/1144486020780404847/Frame_48800.jpg'
         }
       />
       <meta name='twitter:site' content='@pinex' />
