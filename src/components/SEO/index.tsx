@@ -47,7 +47,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta
         property='og:image'
         content={
-          openGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.jpg'
+          openGraph?.images?.url || 'https://file1.jobkorea.co.kr/banner/share/share_img_01.png'
         }
       />
       {/* <meta property='og:image:width' content='1200' /> */}
@@ -59,7 +59,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta
         property='twitter:image'
         content={
-          twitterGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo.jpg'
+          twitterGraph?.images?.url || 'https://file1.jobkorea.co.kr/banner/share/share_img_01.png'
         }
       />
       <meta name='twitter:site' content='@pinex' />
