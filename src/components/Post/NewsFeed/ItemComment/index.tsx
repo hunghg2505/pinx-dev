@@ -305,7 +305,7 @@ const ItemComment = (props: IProps) => {
             <AvatarDefault name={data?.customerInfo?.displayName} />
           </div>
         )}
-        {!isHomePath && !isProfilePath && data?.children.length > 0 && !isChildren && (
+        {!isHomePath && !isProfilePath && totalChildren > 0 && !isChildren && (
           <>
             <div
               style={{

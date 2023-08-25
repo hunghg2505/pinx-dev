@@ -15,7 +15,6 @@ interface IProps {
   // onReplies: (value: string, customerId: number, id: string) => void;
   setImageCommentMobile: (v: boolean) => void;
   refresh: () => void;
-  isReply: boolean;
   postID: string;
   onRemoveComment?: (v: any) => void;
   onRepliesMobile?: (value: string, customerId: number, id: string) => void;
@@ -27,7 +26,6 @@ const CommentPost = (props: IProps, ref: any) => {
     width,
     // onReplies,
     refresh,
-    isReply,
     postID,
     setImageCommentMobile,
     onRepliesMobile,
@@ -63,7 +61,7 @@ const CommentPost = (props: IProps, ref: any) => {
   const onGetTotalComment = (data: number) => {
     setTotalChildren(data);
   };
-
+  const isReply = showReply === item.id;
   return (
     <>
       <ItemComment
