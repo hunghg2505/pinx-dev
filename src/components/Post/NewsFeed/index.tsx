@@ -94,7 +94,9 @@ const NewsFeed = (props: IProps) => {
       postDetailStatus?.idPostHideComment
     ) {
       refresh();
+      console.log('refresh', refresh);
       if (onRefreshList && pinned) {
+        console.log('pinned', pinned);
         onRefreshList();
       }
     }
@@ -120,6 +122,7 @@ const NewsFeed = (props: IProps) => {
     onSuccess: (res: any) => {
       setPostData(res?.data);
       if (!isPageMyProfile) {
+        console.log('123');
         setPostDetailStatus({
           ...postDetailStatus,
           // isAddCommentPostDetail: [],
