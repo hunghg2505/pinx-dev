@@ -23,6 +23,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -57,12 +58,15 @@ interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
+  idPost?: string;
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
   refreshCommentOfPOst?: () => void;
   isLastChildren?: boolean;
   isReply?: boolean;
+  totalChildren?: number;
+  onRemoveComment?: (v: any) => void;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -74,12 +78,15 @@ const ItemComment = (props: IProps) => {
     onNavigate,
     data,
     onReplies,
-    refreshTotal,
+    // refreshTotal,
     isChildren = false,
     width,
     refreshCommentOfPOst,
     isLastChildren,
     isReply = false,
+    idPost,
+    totalChildren = 0,
+    onRemoveComment,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -88,6 +95,7 @@ const ItemComment = (props: IProps) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const isHomePath = router.pathname === '/';
   const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -183,9 +191,13 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        onRemoveComment && onRemoveComment(data?.id);
         refreshCommentOfPOst && refreshCommentOfPOst();
-        refreshTotal && refreshTotal();
+        // refreshTotal && refreshTotal();
         setShowDelete(false);
+        if (idPost) {
+          setPostDetailStatus({ ...postDetailStatus, idPostHideComment: idPost });
+        }
       },
     },
   );
@@ -476,7 +488,7 @@ const ItemComment = (props: IProps) => {
                 color='neutral-4'
                 className='mr-[3px] tablet:!text-[14px]'
               >
-                {data?.children?.length > 0 ? data?.children?.length : ''}
+                {totalChildren > 0 ? totalChildren : ''}
               </Text>
 
               <Text

@@ -56,11 +56,9 @@ const InterestItem = (props: IProps) => {
         prefetch={false}
       />
       <div className='flex flex-col gap-y-[16px]'>
-        <img
-          src={url}
-          alt=''
-          className='m-auto h-[40px] w-[40px] rounded-full bg-white object-contain'
-        />
+        <div className='m-auto flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full bg-white object-contain'>
+          <img src={url} alt='' className='block' />
+        </div>
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text
             type='body-14-semibold'

@@ -597,8 +597,6 @@ const Compose = (props: IProps) => {
       if (!hiddenThemeSelected) {
         data.postThemeId = '';
       }
-      console.log('123', validateHTML(message));
-      console.log(message?.toLowerCase()?.includes('script'));
       if (message?.toLowerCase()?.includes('script')) {
         return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
@@ -610,9 +608,7 @@ const Compose = (props: IProps) => {
           <Notification type='error' message={t('message_account_pending_to_close')} />
         ));
       }
-      console.log('data', data);
       if (statusUser === USERTYPE.VSD || isCanCompose) {
-        console.log('123-456');
         if (!editor?.getText()) {
           return toast(() => <Notification type='error' message={t('err_add_post')} />);
         }

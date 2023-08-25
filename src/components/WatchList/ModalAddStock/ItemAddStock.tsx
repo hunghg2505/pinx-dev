@@ -58,11 +58,9 @@ const ItemAddStock = ({
       className='relative flex cursor-pointer items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]'
     >
       <div className='flex items-center gap-x-[10px]'>
-        <img
-          src={imageStock(data?.stockCode)}
-          alt=''
-          className='h-[36px] w-[36px] rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'
-        />
+        <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'>
+          <img src={imageStock(data?.stockCode)} alt='' className='block' />
+        </div>
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
             <Text type='body-16-semibold' className='text-[#0D0D0D]'>

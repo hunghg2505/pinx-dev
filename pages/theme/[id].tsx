@@ -13,7 +13,7 @@ const ThemeDetail = dynamic(() => import('@components/Themes/ThemeDetail'), {
 const PostDetailPage = () => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
+      <SEO title='Cộng đồng đầu tư chứng khoán PineX' />
       <ThemeDetail />
     </>
   );
