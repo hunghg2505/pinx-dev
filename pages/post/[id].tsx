@@ -13,12 +13,12 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
 });
 
-const PostDetailPage = ({ id }: any) => {
+const PostDetailPage = ({ id, host }: any) => {
   // const seoMetadata = postDetail?.post?.seoMetadata;
 
   return (
     <>
-      <SEO siteUrl={`https://pinex.vn/post/${id}`} />
+      <SEO siteUrl={`${host}/post/${id}`} />
       <PostDetail />
     </>
   );
@@ -31,20 +31,20 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getServerSideProps({ locale, params }: any) {
+export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
   // const postDetail = await fetchPostDetailFromServer(id);
-  // const url = req.headers.referer;
-  // let host;
-  // if (url) {
-  //   const arr = url?.split('/');
-  //   host = `${arr[0]}//${arr[2]}`;
-  // }
+  const url = req.headers.referer;
+  let host = '';
+  if (url) {
+    const arr = url?.split('/');
+    host = `${arr[0]}//${arr[2]}`;
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
       // postDetail: postDetail?.data,
-      // host,
+      host,
       id,
       // Will be passed to the page component as props
     },

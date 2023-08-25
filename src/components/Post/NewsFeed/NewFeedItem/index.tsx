@@ -389,10 +389,12 @@ const NewFeedItem = (props: IProps) => {
     children,
     href,
     className,
+    linkClassName,
   }: {
     children: ReactNode;
     href: string;
     className?: string;
+    linkClassName?: string;
   }) => {
     if (href) {
       return (
@@ -402,6 +404,7 @@ const NewFeedItem = (props: IProps) => {
           }}
           className={className}
           href={href}
+          linkClassName={linkClassName}
         >
           {children}
         </CustomLink>
@@ -414,11 +417,15 @@ const NewFeedItem = (props: IProps) => {
   return (
     <>
       <div
-        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between', {
+        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between gap-x-[12px]', {
           'z-50': isHovering,
         })}
       >
-        <MaybeLink href={urlTitle} className='flex flex-1 flex-row items-center'>
+        <MaybeLink
+          linkClassName='flex-1'
+          href={urlTitle}
+          className='flex flex-1 flex-row items-center'
+        >
           <div
             ref={refHover}
             className={classNames('relative flex-none', {
@@ -446,7 +453,7 @@ const NewFeedItem = (props: IProps) => {
             </Fade>
           </div>
 
-          <div className='des flex-1 mobile:w-[250px] galaxy-max:w-[120px] laptop:w-[280px] xdesktop:w-[350px]'>
+          <div className='des flex-1 mobile:w-[120px] galaxy-max:w-[120px] tablet:w-[220px] laptop:w-[280px] xdesktop:w-[350px]'>
             <div className='mr-[5px] flex w-full flex-1 items-center'>
               <UserName postDetail={postDetail} />
             </div>

@@ -28,6 +28,7 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -485,15 +486,25 @@ const Editor = (props: IProps, ref?: any) => {
         ref={elementRef}
         className='relative mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'
       >
-        <img
-          src={userLoginInfo?.avatar}
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
-          onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
-        />
+        {userLoginInfo?.avatar ? (
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          />
+        ) : (
+          <div
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          >
+            <AvatarDefault name={userLoginInfo?.displayName} />
+          </div>
+        )}
+
         {isReply && (
           <div>
             <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>

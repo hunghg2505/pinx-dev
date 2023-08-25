@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
-import { formatNumber, formatStringToNumber, getStockColor, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockColor, imageStock } from '@utils/common';
 
 interface StockHeadingProps {
   stockCode: string;
@@ -65,7 +66,7 @@ const StockHeading = ({
   return (
     <div className='mt-[12px] flex items-center justify-between'>
       <div className='flex flex-1 flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
-        <div className='flex h-[44px] w-[44px] items-center rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
+        <div className='flex h-[44px] w-[44px] items-center overflow-hidden rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
           <img
             src={imageStock(stockCode)}
             // alt={`Logo ${stockDetail?.data?.name}`}
@@ -97,21 +98,30 @@ const StockHeading = ({
         {stockDetails?.data && stockDetails?.data.watchingNo > 0 && (
           <div className='flex items-center justify-end'>
             <Text type='body-12-regular' className='primary-5 mr-[4px]'>
-              {formatNumber(stockDetails?.data.watchingNo)}+
+              {formatStringToNumber(stockDetails?.data.watchingNo)}+
             </Text>
 
             <div className='flex items-center'>
               {stockDetails?.data.watchingList
                 .slice(0, 3)
                 .reverse()
-                .map((item, index) => (
-                  <img
-                    key={index}
-                    src={item.avatar}
-                    alt='Subscriber user'
-                    className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
-                  />
-                ))}
+                .map((item, index) =>
+                  item.avatar ? (
+                    <img
+                      key={index}
+                      src={item.avatar}
+                      alt='Subscriber user'
+                      className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
+                    />
+                  ) : (
+                    <div
+                      key={index}
+                      className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
+                    >
+                      <AvatarDefault nameClassName='text-[12px]' name={item?.displayName} />
+                    </div>
+                  ),
+                )}
             </div>
           </div>
         )}

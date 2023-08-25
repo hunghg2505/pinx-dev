@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { formatNumber, formatStringToNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import styles from '../index.module.scss';
 
@@ -32,7 +32,7 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
           </div>
           <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatNumber(0)}
+              {formatStringToNumber(0)}
             </Text>
           </div>
         </div>
@@ -45,7 +45,7 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
           </div>
           <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatNumber(0)}
+              {formatStringToNumber(0)}
             </Text>
           </div>
         </div>
@@ -58,7 +58,7 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
           </div>
           <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatNumber(0)}
+              {formatStringToNumber(0)}
             </Text>
           </div>
         </div>

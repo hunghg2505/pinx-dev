@@ -61,7 +61,7 @@ const MarketDesktop = () => {
   return (
     <>
       <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-        <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
+        <Text element='h2' type='body-16-bold' color='cbblack' className='mb-[25px]'>
           {t('market')}
         </Text>
         <Tabs defaultActiveKey='1' className='tabHomePc'>

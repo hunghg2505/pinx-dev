@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
@@ -204,7 +205,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('people_in_spotlight')}
         </Text>
 
@@ -227,26 +233,33 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       })}
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('economy_in_the_themes')}
         </Text>
         <ListTheme />
       </div>
 
-      {postsNext?.map((item: IPost, idx: number) => {
-        if (idx === postsNext?.length - 1) {
-          return (
-            <div
-              key={`home-post-item-${item?.id}`}
-              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-            >
-              <NewsFeed data={item} />
-            </div>
-          );
-        }
+      <LazyLoadComponent>
+        {postsNext?.map((item: IPost, idx: number) => {
+          if (idx === postsNext?.length - 1) {
+            return (
+              <div
+                key={`home-post-item-${item?.id}`}
+                ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+              >
+                <NewsFeed data={item} />
+              </div>
+            );
+          }
 
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
-      })}
+          return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        })}
+      </LazyLoadComponent>
 
       {loadingPosts && (
         <div className='mt-[10px]'>

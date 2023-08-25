@@ -14,11 +14,9 @@ const CompanyItem = ({ data, setShowPopup }: { data: ITopWatchingStock; setShowP
       }}
       className='flex cursor-pointer items-center rounded-[15px] bg-[#F7F6F8] py-[10px] pl-[8px] pr-[20px]'
     >
-      <img
-        src={imageStock(data?.stockCode)}
-        alt=''
-        className='mr-[10px] h-[36px] w-[36px] min-w-[36px] rounded-full bg-[#ffffff] object-contain galaxy-max:h-[32px] galaxy-max:w-[32px] galaxy-max:flex-none'
-      />
+      <div className='mr-[10px] flex h-[36px] w-[36px] min-w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] galaxy-max:h-[32px] galaxy-max:w-[32px] galaxy-max:flex-none'>
+        <img src={imageStock(data?.stockCode)} alt='' className='block' />
+      </div>
       <div className='w-full'>
         <div className='flex items-center'>
           <Text type='body-16-semibold' className='galaxy-max:text-[14px]' color='neutral-1'>
