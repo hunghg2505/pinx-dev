@@ -1,8 +1,5 @@
-import { useRouter } from 'next/router';
-
 import { ITrending, useGetTrending } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
 
 import TrendingDesktopLoading from './Skeleton';
 
@@ -11,8 +8,6 @@ const TrendingDesktop = () => {
     staleTime: -1,
     cacheKey: 'data-trending',
   });
-
-  const router = useRouter();
 
   if (loading) {
     return (
@@ -41,12 +36,7 @@ const TrendingDesktop = () => {
                   {index < 8 ? `0${index + 1}` : `${index + 1}`}
                 </Text>
               </div>
-              <Text
-                onClick={() => router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${item.keyword}`)}
-                type='body-14-regular'
-                color='primary-2'
-                className='cursor-pointer'
-              >
+              <Text type='body-14-regular' color='primary-2'>
                 #{item.keyword}
               </Text>
             </div>
