@@ -19,6 +19,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -153,6 +154,7 @@ const StockDetail = () => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -188,10 +190,6 @@ const StockDetail = () => {
   });
 
   useEffect(() => {
-    socket.on('connect', () => {
-      requestJoinChannel(stockCode);
-    });
-
     socket.on('public', (message: any) => {
       const data = message.data;
       if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
@@ -263,16 +261,44 @@ const StockDetail = () => {
 
     return () => {
       socket.off('public');
-      socket.off('connect');
     };
   }, [stockCode, dataStock]);
 
+  const handleLeaveChanel = () => {
+    requestLeaveChannel(stockCode);
+    setStockSocket((prev) =>
+      prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
+    );
+  };
+
   useEffect(() => {
     requestJoinChannel(stockCode);
+    setStockSocket((prev) => [
+      ...prev,
+      {
+        location: StockSocketLocation.STOCK_DETAIL_PAGE,
+        stocks: [stockCode],
+      },
+    ]);
 
     return () => {
       setCurrentTab(TabType.MOVEMENTS);
-      requestLeaveChannel(stockCode);
+
+      const stockOfOtherLocation = stockSocket.filter(
+        (item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE,
+      );
+      if (stockOfOtherLocation.length > 0) {
+        let isStockExits = false;
+        for (const item of stockOfOtherLocation) {
+          isStockExits = item.stocks.includes(stockCode);
+        }
+
+        if (!isStockExits) {
+          handleLeaveChanel();
+        }
+      } else {
+        handleLeaveChanel();
+      }
     };
   }, [stockCode]);
 

@@ -2,8 +2,9 @@
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 
+import { useAtomValue } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -14,7 +15,9 @@ import { appWithTranslation } from 'next-i18next';
 import 'dayjs/locale/vi';
 import 'dayjs/locale/en';
 import ErrorBoundary from '@components/ErrorBoundary';
+import { requestJoinChannel, socket } from '@components/Home/service';
 import AppLayout from '@layout/AppLayout';
+import { stockSocketAtom } from '@store/stockStocket';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -42,6 +45,23 @@ const BarlowFont = Barlow({
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
+  const stockSocket = useAtomValue(stockSocketAtom);
+  console.log('ABC APP', stockSocket);
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      const listStockCodes = [];
+      for (const item of stockSocket) {
+        listStockCodes.push(...item.stocks);
+      }
+      console.log('ABC Socket connect', listStockCodes);
+      requestJoinChannel(listStockCodes.toString());
+    });
+
+    return () => {
+      socket.off('connect');
+    };
+  }, [stockSocket]);
 
   return (
     <>
