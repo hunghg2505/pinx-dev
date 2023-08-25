@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
@@ -243,20 +244,22 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         <ListTheme />
       </div>
 
-      {postsNext?.map((item: IPost, idx: number) => {
-        if (idx === postsNext?.length - 1) {
-          return (
-            <div
-              key={`home-post-item-${item?.id}`}
-              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-            >
-              <NewsFeed data={item} />
-            </div>
-          );
-        }
+      <LazyLoadComponent>
+        {postsNext?.map((item: IPost, idx: number) => {
+          if (idx === postsNext?.length - 1) {
+            return (
+              <div
+                key={`home-post-item-${item?.id}`}
+                ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+              >
+                <NewsFeed data={item} />
+              </div>
+            );
+          }
 
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
-      })}
+          return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        })}
+      </LazyLoadComponent>
 
       {loadingPosts && (
         <div className='mt-[10px]'>
