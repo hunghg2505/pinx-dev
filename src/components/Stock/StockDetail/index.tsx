@@ -264,13 +264,6 @@ const StockDetail = () => {
     };
   }, [stockCode, dataStock]);
 
-  const handleLeaveChanel = () => {
-    requestLeaveChannel(stockCode);
-    setStockSocket((prev) =>
-      prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
-    );
-  };
-
   useEffect(() => {
     requestJoinChannel(stockCode);
     setStockSocket((prev) => [
@@ -294,11 +287,15 @@ const StockDetail = () => {
         }
 
         if (!isStockExits) {
-          handleLeaveChanel();
+          requestLeaveChannel(stockCode);
         }
       } else {
-        handleLeaveChanel();
+        requestLeaveChannel(stockCode);
       }
+
+      setStockSocket((prev) =>
+        prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
+      );
     };
   }, [stockCode]);
 
