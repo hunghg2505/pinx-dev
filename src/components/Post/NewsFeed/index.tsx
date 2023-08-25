@@ -87,15 +87,32 @@ const NewsFeed = (props: IProps) => {
     };
   }, [postData]);
   React.useEffect(() => {
-    if (findItemFollow || isChangeMyProfile || idPostAddComment) {
+    if (
+      findItemFollow ||
+      isChangeMyProfile ||
+      idPostAddComment ||
+      postDetailStatus?.idPostHideComment
+    ) {
       refresh();
       if (onRefreshList && pinned) {
         onRefreshList();
       }
     }
-  }, [findItemFollow, postDetailStatus?.idPostLike, isChangeMyProfile, idPostAddComment]);
+  }, [
+    findItemFollow,
+    postDetailStatus?.idPostLike,
+    isChangeMyProfile,
+    idPostAddComment,
+    postDetailStatus?.idPostHideComment,
+  ]);
   React.useEffect(() => {
-    if (!idPostAddComment && !findItemFollow && !itemLike && !postDetailStatus?.isChangeMyProfile) {
+    if (
+      !idPostAddComment &&
+      !findItemFollow &&
+      !itemLike &&
+      !postDetailStatus?.isChangeMyProfile &&
+      !postDetailStatus?.idPostHideComment
+    ) {
       setPostData(data);
     }
   }, [data]);
@@ -107,6 +124,7 @@ const NewsFeed = (props: IProps) => {
           ...postDetailStatus,
           // isAddCommentPostDetail: [],
           idPostAddComment: '',
+          idPostHideComment: '',
           idCustomerFollow: 0,
           isChangeMyProfile: false,
         });
@@ -220,6 +238,7 @@ const NewsFeed = (props: IProps) => {
                 <ItemComment
                   onNavigate={onNavigate}
                   data={postData?.children?.[0]}
+                  idPost={postData?.id}
                   refreshCommentOfPOst={refreshComment}
                 />
               </div>
