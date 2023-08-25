@@ -61,7 +61,7 @@ const CommentPost = (props: IProps, ref: any) => {
   const onGetTotalComment = (data: number) => {
     setTotalChildren(data);
   };
-
+  // const isReply = showReply === item.id;
   return (
     <>
       <ItemComment

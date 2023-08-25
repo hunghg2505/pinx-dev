@@ -42,7 +42,7 @@ const UserFolow = (props: any) => {
           )}
           <Text
             type='body-14-semibold'
-            className='line-clamp-1 max-w-[250px] overflow-hidden truncate text-[#474D57] galaxy-max:max-w-[120px]'
+            className='line-clamp-1 max-w-[250px] text-[#474D57] galaxy-max:line-clamp-none galaxy-max:max-w-[120px] galaxy-max:truncate'
           >
             {props?.displayName}
           </Text>

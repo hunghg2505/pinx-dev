@@ -192,6 +192,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     {
       ...options,
       manual: true,
+      loadingDelay: 300,
     },
   );
   return {

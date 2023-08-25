@@ -10,6 +10,7 @@ import ActivitiesAction from '@components/Themes/ThemeDetail/Activities/Activiti
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 interface IActivityItemProps {
@@ -36,10 +37,15 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
     icon = activityFound.icon;
     content = t(activityFound.label);
   }
+  const { userLoginInfo } = useUserLoginInfo();
+  const href =
+    userLoginInfo?.id === data.customerId
+      ? ROUTE_PATH.MY_PROFILE
+      : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
 
   return (
     <div className='flex'>
-      <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+      <CustomLink href={href}>
         {data.post.customerInfo.avatar ? (
           <img
             src={data.post.customerInfo.avatar}
