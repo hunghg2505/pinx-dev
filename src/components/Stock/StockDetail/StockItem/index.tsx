@@ -63,7 +63,7 @@ const StockItem = ({ data }: IStockItemProps) => {
   return (
     <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] py-[16px] pl-[12px] pr-[8px] galaxy-max:px-[8px] galaxy-max:py-[12px]'>
-        <div className='flex h-[36px] w-[36px] items-center justify-center rounded-full bg-white object-contain galaxy-max:h-[32px] galaxy-max:w-[32px]'>
+        <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[32px] galaxy-max:w-[32px]'>
           <img
             src={imageStock(data.stockCode)}
             // alt='Company logo'
