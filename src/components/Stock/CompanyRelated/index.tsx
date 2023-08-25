@@ -52,12 +52,6 @@ const CompanyRelated = () => {
           size: data.size,
         },
       }));
-
-      if (data?.list.length > 0) {
-        for (const stock of data.list) {
-          requestJoinChannel(stock.stockCode);
-        }
-      }
     },
   });
 
@@ -76,17 +70,14 @@ const CompanyRelated = () => {
 
   useEffect(() => {
     requestGetCompanies.run();
-
-    return () => {
-      if (companiesRelated?.data && companiesRelated?.data.list.length > 0) {
-        for (const stock of companiesRelated.data.list) {
-          requestLeaveChannel(stock.stockCode);
-        }
-      }
-    };
   }, []);
 
   useEffect(() => {
+    if (companiesRelated?.data && companiesRelated?.data?.list.length > 0) {
+      const listStockCodes = companiesRelated.data?.list.map((item) => item.stockCode);
+      requestJoinChannel(listStockCodes.toString());
+    }
+
     socket.on('public', (message: any) => {
       const data = message.data;
 
@@ -128,6 +119,11 @@ const CompanyRelated = () => {
 
     return () => {
       socket.off('public');
+
+      if (companiesRelated?.data && companiesRelated?.data.list.length > 0) {
+        const listStockCodes = companiesRelated?.data.list.map((item) => item.stockCode);
+        requestLeaveChannel(listStockCodes.toString());
+      }
     };
   }, [companiesRelated]);
 
