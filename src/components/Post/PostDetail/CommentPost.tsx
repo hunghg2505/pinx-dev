@@ -16,7 +16,7 @@ interface IProps {
   setImageCommentMobile: (v: boolean) => void;
   refresh: () => void;
   postID: string;
-  onRemoveComment?: (v: any) => void;
+  onRemoveComment?: (v: any, totalComment: number) => void;
   onRepliesMobile?: (value: string, customerId: number, id: string) => void;
 }
 
@@ -62,6 +62,14 @@ const CommentPost = (props: IProps, ref: any) => {
     setTotalChildren(data);
   };
   // const isReply = showReply === item.id;
+  const onHandleRemove = (v: any) => {
+    console.log('123', v);
+    console.log('totalChildren', totalChildren);
+    onRemoveComment && onRemoveComment(v, totalChildren + 1);
+  };
+  const onHandleRemoveReply = () => {
+    onRemoveComment && onRemoveComment(undefined, 1);
+  };
   return (
     <>
       <ItemComment
@@ -73,7 +81,7 @@ const CommentPost = (props: IProps, ref: any) => {
         isReply={!postDetailStatus.isDoneReplies}
         idPost={postID}
         totalChildren={totalChildren}
-        onRemoveComment={onRemoveComment}
+        onRemoveComment={onHandleRemove}
       />
 
       {/* {item.children?.length > 0 && ( */}
@@ -86,6 +94,7 @@ const CommentPost = (props: IProps, ref: any) => {
         idPost={postID}
         refSubReplies={refSubReplies}
         totalComment={onGetTotalComment}
+        onRemoveComment={onHandleRemoveReply}
       />
       {/* )} */}
 
