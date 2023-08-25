@@ -13,7 +13,7 @@ export interface IPostDetailStatus {
   isChangeStockWatchList?: boolean;
   isRefreshHome?: boolean;
   idPostHideComment?: string;
-  refreshCommentofComment?: (id: string) => void;
+  idCommentReplie?: string;
 }
 
 export const initialPostDetailStatus: IPostDetailStatus = {
@@ -29,7 +29,7 @@ export const initialPostDetailStatus: IPostDetailStatus = {
   stockWatchList: undefined,
   isChangeStockWatchList: false,
   isRefreshHome: false,
-  refreshCommentofComment: () => {},
+  idCommentReplie: '',
 };
 
 export const postDetailStatusAtom = atom({

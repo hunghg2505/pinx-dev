@@ -288,8 +288,6 @@ const PostDetail = () => {
                 // const isReply = item.children?.find((i) => {
                 //   return i?.id === showReply;
                 // });
-
-                // const isReply = item.id === showReply;
                 if (index + 1 === data?.list?.length) {
                   return (
                     <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>

@@ -87,7 +87,6 @@ const Compose = (props: IProps) => {
   const [profileSetting] = useAtom(profileSettingAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
-  console.log('🚀 ~ file: index.tsx:90 ~ Compose ~ isCanCompose:', isCanCompose);
   const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
@@ -447,7 +446,6 @@ const Compose = (props: IProps) => {
       }
 
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
-      console.log('🚀 ~ file: index.tsx:449 ~ onAddPost ~ url:', url);
 
       const urlLinks = [];
 

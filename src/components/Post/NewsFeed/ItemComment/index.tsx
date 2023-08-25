@@ -96,6 +96,17 @@ const ItemComment = (props: IProps) => {
   const isHomePath = router.pathname === '/';
   const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [isLike, setIsLike] = React.useState<boolean>(data?.isLike);
+  const [totalLikes, setTotalLikes] = React.useState<number>(0);
+  React.useEffect(() => {
+    setIsLike(data?.isLike);
+    setTotalLikes(data?.totalLikes);
+  }, [data]);
+
+  const message = data?.message && formatMessage(data?.message, data);
+  const name = data?.customerInfo?.displayName || '';
+  const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
+  const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -121,11 +132,6 @@ const ItemComment = (props: IProps) => {
   useClickAway(() => {
     showDelete && setShowDelete(false);
   }, ref);
-  const message = data?.message && formatMessage(data?.message, data);
-  const name = data?.customerInfo?.displayName || '';
-  const isLike = data?.isLike;
-  const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
-  const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
 
   const useLike = useRequest(
     () => {
@@ -134,7 +140,10 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refreshCommentOfPOst && refreshCommentOfPOst();
+        console.log('123');
+        setIsLike(true);
+        setTotalLikes(totalLikes + 1);
+        // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -153,7 +162,9 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refreshCommentOfPOst && refreshCommentOfPOst();
+        setIsLike(false);
+        setTotalLikes(totalLikes - 1);
+        // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -417,7 +428,7 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
 
-            {data?.totalLikes > 0 && (
+            {totalLikes > 0 && (
               <div className='absolute bottom-0 right-[10px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6] galaxy-max:h-[20px]  galaxy-max:w-[44px] galaxy-max:gap-1'>
                 <img
                   src='/static/icons/iconLike.svg'
@@ -432,7 +443,7 @@ const ItemComment = (props: IProps) => {
                   color='primary-1'
                   className='galaxy-max:text-[12px] tablet:!text-[14px]'
                 >
-                  {data?.totalLikes}
+                  {totalLikes}
                 </Text>
               </div>
             )}
@@ -456,17 +467,15 @@ const ItemComment = (props: IProps) => {
               <Text
                 type='body-13-regular'
                 className={classNames('galaxy-max:hidden tablet:!text-[14px]', {
-                  'text-[#589DC0]': data?.isLike && isLogin,
-                  'text-[#808080]': !data?.isLike || !isLogin,
+                  'text-[#589DC0]': isLike && isLogin,
+                  'text-[#808080]': !isLike || !isLogin,
                 })}
               >
                 {t('like')}
               </Text>
               <img
                 src={
-                  data?.isLike && isLogin
-                    ? '/static/icons/iconLike.svg'
-                    : '/static/icons/iconUnLike.svg'
+                  isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
                 }
                 alt=''
                 className={classNames(
