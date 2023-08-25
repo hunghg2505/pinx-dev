@@ -10,7 +10,6 @@ interface IProps {
   refresh: () => void;
   idPost: string;
   refSubReplies: any;
-  isReply?: boolean;
   totalComment?: (v: number) => void;
 }
 const CommentOfComment = (props: IProps, ref: any) => {

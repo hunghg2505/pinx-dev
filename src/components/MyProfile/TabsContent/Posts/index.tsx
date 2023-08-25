@@ -15,7 +15,6 @@ const Posts = () => {
 
     return getMyPost(nextId);
   });
-
   const service = async () => {
     if (!data?.nextId || loading) {
       return;
@@ -52,14 +51,14 @@ const Posts = () => {
           if (idx + 1 === data?.list?.length) {
             return (
               <div ref={(node) => refLastElement(node, service)} key={`my-post-${item?.id}`}>
-                <NewsFeed data={item} onRemoveData={refresh} />
+                <NewsFeed data={item} />
               </div>
             );
           }
 
           return (
             <div key={`my-post-${item?.id}`}>
-              <NewsFeed data={item} onRemoveData={refresh} />
+              <NewsFeed data={item} />
             </div>
           );
         })}

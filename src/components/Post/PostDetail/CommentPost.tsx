@@ -35,10 +35,10 @@ const CommentPost = (props: IProps, ref: any) => {
   const refSubReplies: any = React.useRef();
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [totalChildren, setTotalChildren] = React.useState<number>(item.totalChildren);
-  const [showReply, setShowReply] = React.useState('');
+  const [, setShowReply] = React.useState('');
   const onReplies = async (value: string, customerId: number, id: string) => {
     //   refSubReplies?.current?.onReply();
-    setPostDetailStatus({ ...postDetailStatus, isDoneReplies: false });
+    setPostDetailStatus({ ...postDetailStatus, isDoneReplies: false, idCommentReplie: id });
     setShowReply(id);
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -61,7 +61,7 @@ const CommentPost = (props: IProps, ref: any) => {
   const onGetTotalComment = (data: number) => {
     setTotalChildren(data);
   };
-  const isReply = showReply === item.id;
+  // const isReply = showReply === item.id;
   return (
     <>
       <ItemComment
@@ -70,7 +70,7 @@ const CommentPost = (props: IProps, ref: any) => {
         refreshTotal={refresh}
         refreshCommentOfPOst={refreshCommentOfComment}
         width={width}
-        isReply={isReply && !postDetailStatus.isDoneReplies}
+        isReply={!postDetailStatus.isDoneReplies}
         idPost={postID}
         totalChildren={totalChildren}
         onRemoveComment={onRemoveComment}
@@ -85,24 +85,25 @@ const CommentPost = (props: IProps, ref: any) => {
         refresh={refresh}
         idPost={postID}
         refSubReplies={refSubReplies}
-        isReply={isReply}
         totalComment={onGetTotalComment}
       />
       {/* )} */}
 
-      {(showReply === item?.id || isReply) && width > 770 && !postDetailStatus.isDoneReplies && (
-        <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-          <ForwardedRefComponent
-            ref={refSubReplies}
-            id={postID}
-            refresh={refreshCommentOfComment}
-            refreshTotal={refresh}
-            setImageCommentMobile={setImageCommentMobile}
-            width={width}
-            isReply={isReply && !postDetailStatus.isDoneReplies}
-          />
-        </div>
-      )}
+      {postDetailStatus.idCommentReplie === item?.id &&
+        width > 770 &&
+        !postDetailStatus.isDoneReplies && (
+          <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
+            <ForwardedRefComponent
+              ref={refSubReplies}
+              id={postID}
+              refresh={refreshCommentOfComment}
+              refreshTotal={refresh}
+              setImageCommentMobile={setImageCommentMobile}
+              width={width}
+              isReply={!postDetailStatus.isDoneReplies}
+            />
+          </div>
+        )}
     </>
   );
 };
