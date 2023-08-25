@@ -54,8 +54,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       for (const item of stockSocket) {
         listStockCodes.push(...item.stocks);
       }
-      console.log('ABC Socket connect', listStockCodes);
-      requestJoinChannel(listStockCodes.toString());
+      const uniqueStockCodes: string[] = [];
+      for (const code of listStockCodes) {
+        if (!uniqueStockCodes.includes(code)) {
+          uniqueStockCodes.push(code);
+        }
+      }
+      console.log('ABC Socket connect', uniqueStockCodes);
+      requestJoinChannel(uniqueStockCodes.toString());
     });
 
     return () => {
