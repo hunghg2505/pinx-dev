@@ -47,8 +47,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta
         property='og:image'
         content={
-          openGraph?.images?.url ||
-          'https://cdn.discordapp.com/attachments/1121731449570209832/1144486020780404847/Frame_48800.jpg'
+          openGraph?.images?.url || 'https://pinex-sit.agiletech.vn/static/logo/logo_seo_square.jpg'
         }
       />
       {/* <meta property='og:image:width' content='1200' /> */}
@@ -61,7 +60,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
         property='twitter:image'
         content={
           twitterGraph?.images?.url ||
-          'https://cdn.discordapp.com/attachments/1121731449570209832/1144486020780404847/Frame_48800.jpg'
+          'https://pinex-sit.agiletech.vn/static/logo/logo_seo_square.jpg'
         }
       />
       <meta name='twitter:site' content='@pinex' />
