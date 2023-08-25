@@ -68,7 +68,7 @@ const PostDetail = () => {
   const router = useRouter();
   const { isLogin } = useAuth();
   const [width, setWidth] = React.useState<number>(0);
-  const [showReply, setShowReply]: any = useState('');
+  const [, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
   const { run: initUserProfile } = useProfileInitial();
@@ -288,7 +288,6 @@ const PostDetail = () => {
                 // const isReply = item.children?.find((i) => {
                 //   return i?.id === showReply;
                 // });
-                const isReply = item.id === showReply;
                 if (index + 1 === data?.list?.length) {
                   return (
                     <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>
@@ -304,7 +303,6 @@ const PostDetail = () => {
                           width={width}
                           setImageCommentMobile={setImageCommentMobile}
                           refresh={refresh}
-                          isReply={isReply}
                           postID={String(postID)}
                           onRepliesMobile={(value: string, customerId: number, id: string) =>
                             onReplies(value, customerId, id)
@@ -329,7 +327,6 @@ const PostDetail = () => {
                         width={width}
                         setImageCommentMobile={setImageCommentMobile}
                         refresh={refresh}
-                        isReply={isReply}
                         postID={String(postID)}
                         onRepliesMobile={(value: string, customerId: number, id: string) =>
                           onReplies(value, customerId, id)
