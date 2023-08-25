@@ -13,7 +13,7 @@ const StockDetail = dynamic(() => import('@components/Stock/StockDetail'), {
 const StockDetailPage = () => {
   return (
     <>
-      <SEO title='Stock Detail'></SEO>
+      <SEO title='Cộng đồng đầu tư chứng khoán PineX'></SEO>
       <StockDetail />
     </>
   );
