@@ -96,7 +96,7 @@ const CommentPost = (props: IProps, ref: any) => {
         <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
           <ForwardedRefComponent
             ref={refSubReplies}
-            // id={postDetail?.data?.id}
+            id={postID}
             refresh={refreshCommentOfComment}
             refreshTotal={refresh}
             setImageCommentMobile={setImageCommentMobile}

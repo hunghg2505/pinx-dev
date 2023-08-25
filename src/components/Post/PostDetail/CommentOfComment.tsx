@@ -34,19 +34,22 @@ const CommentOfComment = (props: IProps, ref: any) => {
   return (
     <>
       <div className='sub-comment ml-[48px]'>
-        {data?.map((comment: IComment, index: number) => (
-          <ItemComment
-            idPost={idPost}
-            key={`subComment-${comment.id}`}
-            data={comment}
-            onReplies={onReplies}
-            refreshCommentOfPOst={refreshCommentOfComment}
-            refreshTotal={refresh}
-            isChildren={true}
-            width={width}
-            isLastChildren={index === data.length - 1}
-          />
-        ))}
+        {data &&
+          [...data]
+            .reverse()
+            ?.map((comment: IComment, index: number) => (
+              <ItemComment
+                idPost={idPost}
+                key={`subComment-${comment.id}`}
+                data={comment}
+                onReplies={onReplies}
+                refreshCommentOfPOst={refreshCommentOfComment}
+                refreshTotal={refresh}
+                isChildren={true}
+                width={width}
+                isLastChildren={index === data.length - 1}
+              />
+            ))}
       </div>
     </>
   );
