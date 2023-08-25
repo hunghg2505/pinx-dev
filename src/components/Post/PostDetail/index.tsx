@@ -201,13 +201,15 @@ const PostDetail = () => {
       });
     }
   };
-  const onRemove = (v: any) => {
-    const newData = data?.list && [...data?.list].filter((item) => item.id !== v);
-    mutate({
-      list: newData,
-      nextId: data?.nextId,
-    });
-    setTotalCommentOfPost(totalCommentOfPost - 1);
+  const onRemove = (v: any, totalComment: number) => {
+    if (v) {
+      const newData = data?.list && [...data?.list].filter((item) => item.id !== v);
+      mutate({
+        list: newData,
+        nextId: data?.nextId,
+      });
+    }
+    setTotalCommentOfPost(totalCommentOfPost - totalComment);
   };
   return (
     <>

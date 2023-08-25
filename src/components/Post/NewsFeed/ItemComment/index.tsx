@@ -143,6 +143,10 @@ const ItemComment = (props: IProps) => {
         console.log('123');
         setIsLike(true);
         setTotalLikes(totalLikes + 1);
+        setPostDetailStatus({
+          ...postDetailStatus,
+          idPostAddComment: idPost,
+        });
         // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
@@ -164,6 +168,10 @@ const ItemComment = (props: IProps) => {
       onSuccess: () => {
         setIsLike(false);
         setTotalLikes(totalLikes - 1);
+        setPostDetailStatus({
+          ...postDetailStatus,
+          idPostAddComment: idPost,
+        });
         // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
