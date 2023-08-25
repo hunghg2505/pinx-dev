@@ -42,9 +42,11 @@ import { ROUTE_PATH, isImage, validateHTML } from '../../utils/common';
 
 interface IProps {
   id: string;
-  refresh: () => void;
+  refresh?: () => void;
   refreshTotal: () => void;
+  refreshCommentOfComment?: (v: any) => void;
   setImageCommentMobile: (v: boolean) => void;
+  onAddComment?: (v: any) => void;
   width?: number;
   canExpand?: boolean;
   isReply?: boolean;
@@ -61,7 +63,17 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { id, refresh, setImageCommentMobile, width, canExpand, isReply, refreshTotal } = props;
+  const {
+    id,
+    refresh,
+    setImageCommentMobile,
+    width,
+    canExpand,
+    isReply,
+    refreshTotal,
+    refreshCommentOfComment,
+    onAddComment,
+  } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -258,8 +270,9 @@ const Editor = (props: IProps, ref?: any) => {
       manual: true,
       onSuccess: (r: any) => {
         if (r) {
+          onAddComment && onAddComment(r);
           refreshTotal();
-          refresh();
+          refresh && refresh();
           editor?.commands.clearContent();
           setIdReply('');
           if (imageComment) {
@@ -293,7 +306,8 @@ const Editor = (props: IProps, ref?: any) => {
       onSuccess: (r: any) => {
         if (r) {
           refreshTotal();
-          refresh();
+          refresh && refresh();
+          refreshCommentOfComment && refreshCommentOfComment(idReply);
           setIdReply('');
           setPostDetailStatus({
             ...postDetailStatus,

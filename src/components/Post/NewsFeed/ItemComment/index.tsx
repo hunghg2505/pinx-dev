@@ -64,6 +64,8 @@ interface IProps {
   refreshCommentOfPOst?: () => void;
   isLastChildren?: boolean;
   isReply?: boolean;
+  totalChildren?: number;
+  onRemoveComment?: (v: any) => void;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -75,13 +77,15 @@ const ItemComment = (props: IProps) => {
     onNavigate,
     data,
     onReplies,
-    refreshTotal,
+    // refreshTotal,
     isChildren = false,
     width,
     refreshCommentOfPOst,
     isLastChildren,
     isReply = false,
     idPost,
+    totalChildren = 0,
+    onRemoveComment,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -186,8 +190,9 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        onRemoveComment && onRemoveComment(data?.id);
         refreshCommentOfPOst && refreshCommentOfPOst();
-        refreshTotal && refreshTotal();
+        // refreshTotal && refreshTotal();
         setShowDelete(false);
         if (idPost) {
           setPostDetailStatus({ ...postDetailStatus, idPostHideComment: idPost });
@@ -458,7 +463,7 @@ const ItemComment = (props: IProps) => {
                 color='neutral-4'
                 className='mr-[3px] tablet:!text-[14px]'
               >
-                {data?.children?.length > 0 ? data?.children?.length : ''}
+                {totalChildren > 0 ? totalChildren : ''}
               </Text>
 
               <Text

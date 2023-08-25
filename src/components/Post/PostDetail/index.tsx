@@ -22,7 +22,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
-import CommentOfComment from './CommentOfComment';
+import CommentPost from './CommentPost';
 import styles from './index.module.scss';
 // import NewsFeedSkeleton from '../NewsFeed/NewsFeedSkeleton';
 import { IComment, getMoreCommentPost, usePostDetail } from '../service';
@@ -30,9 +30,7 @@ import { IComment, getMoreCommentPost, usePostDetail } from '../service';
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
   ssr: false,
 });
-const ItemComment = dynamic(import('../NewsFeed/ItemComment'), {
-  ssr: false,
-});
+
 const NewFeedItem = dynamic(import('../NewsFeed/NewFeedItem'), {
   ssr: false,
 });
@@ -47,10 +45,12 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
       forwardedRef={ref}
       id={props.id}
       refresh={props.refresh}
+      refreshCommentOfComment={props?.refreshCommentOfComment}
       refreshTotal={props.refreshTotal}
       width={props?.width}
       canExpand={props?.canExpand}
       isReply={props.isReply}
+      onAddComment={props?.onAddComment}
     />
   );
 });
@@ -60,7 +60,8 @@ const PostDetail = () => {
   const refSubReplies: any = useRef();
   const refRepliesLaptop: any = useRef();
   const refRepliesMobile: any = useRef();
-  const refCommentofComment: any = useRef();
+  const refListComment: any = useRef([]);
+  // const refCommentofComment: any = useRef();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
@@ -69,6 +70,7 @@ const PostDetail = () => {
   const [width, setWidth] = React.useState<number>(0);
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
+  const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
   const { run: initUserProfile } = useProfileInitial();
   const [postData, setPostData] = useState<any>();
   const postID = router.query.id;
@@ -91,6 +93,7 @@ const PostDetail = () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
     onSuccess: (res: any) => {
+      setTotalCommentOfPost(res.data.totalChildren);
       setPostData(res.data);
     },
     manual: true,
@@ -105,7 +108,7 @@ const PostDetail = () => {
     loading,
     mutate,
     runAsync,
-    refresh: refreshCommentOfPost,
+    // refresh: refreshCommentOfPost,
   } = useRequest(
     async (nextId: any) => {
       if (nextId === false) {
@@ -145,7 +148,6 @@ const PostDetail = () => {
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {
-    //   refSubReplies?.current?.onReply();
     setPostDetailStatus({ ...postDetailStatus, isDoneReplies: false });
     setShowReply(id);
     await new Promise((resolve) => {
@@ -163,27 +165,6 @@ const PostDetail = () => {
     }
   };
 
-  // const getSubComment = (payload: IComment[]) => {
-  //   if (payload.length > 0) {
-  //     return (
-  //       <div className='sub-comment ml-[48px]'>
-  //         {payload?.map((comment: IComment, index: number) => (
-  //           <ItemComment
-  //             data={comment}
-  //             key={index}
-  //             onReplies={onReplies}
-  //             refreshCommentOfPOst={refreshCommentOfPost}
-  //             refreshTotal={refresh}
-  //             isChildren={true}
-  //             width={width}
-  //             isLastChildren={index === payload.length - 1}
-  //           />
-  //         ))}
-  //       </div>
-  //     );
-  //   }
-  // };
-
   const onCloseModal = () => {
     setPopupStatus(initialPopupStatus);
   };
@@ -199,11 +180,34 @@ const PostDetail = () => {
   // if (loadingPostDetail) {
   //   return <NewsFeedSkeleton showBtnBack />;
   // }
-  const refreshCommentOfComment = (idcomment: string) => {
-    console.log('🚀 ~ file: index.tsx:203 ~ refreshCommentOfComment ~ idcomment:', idcomment);
-    refreshCommentOfPost();
-    refCommentofComment?.current &&
-      refCommentofComment?.current?.refreshCommentOfComment(showReply);
+
+  const refreshCommentOfComment = (id: string) => {
+    const listData = refListComment?.current;
+    const findItem = listData?.find((item: any) => item.id === id);
+    if (findItem) {
+      findItem.refreshCommentOfComment();
+    }
+  };
+  const refreshTotal = () => {
+    // refreshCommentOfPost();
+    refresh();
+  };
+  const onAddComment = (newData: any) => {
+    if (data) {
+      setTotalCommentOfPost(totalCommentOfPost + 1);
+      mutate({
+        list: [newData.data, ...data?.list],
+        nextId: data?.nextId,
+      });
+    }
+  };
+  const onRemove = (v: any) => {
+    const newData = data?.list && [...data?.list].filter((item) => item.id !== v);
+    mutate({
+      list: newData,
+      nextId: data?.nextId,
+    });
+    setTotalCommentOfPost(totalCommentOfPost - 1);
   };
   return (
     <>
@@ -251,7 +255,7 @@ const PostDetail = () => {
           <div className='mobile:px-[0] desktop:px-[20px]'>
             <NewFeedItem
               postDetail={postData}
-              totalComments={postData?.totalChildren}
+              totalComments={totalCommentOfPost}
               onRefreshPostDetail={refresh}
             />
           </div>
@@ -261,11 +265,11 @@ const PostDetail = () => {
               <ForwardedRefComponent
                 ref={refRepliesLaptop}
                 id={postDetail?.data?.id}
-                refresh={refreshCommentOfPost}
                 refreshTotal={refresh}
                 setImageCommentMobile={setImageCommentMobile}
                 width={width}
                 canExpand={true}
+                onAddComment={onAddComment}
               />
             </div>
           )}
@@ -289,47 +293,24 @@ const PostDetail = () => {
                   return (
                     <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>
                       <div className='mt-[16px]'>
-                        <ItemComment
-                          data={item}
-                          onReplies={onReplies}
-                          refreshTotal={refresh}
-                          refreshCommentOfPOst={() => refreshCommentOfComment(item?.id)}
+                        <CommentPost
+                          ref={(val: any) => {
+                            refListComment.current.push({
+                              id: item?.id,
+                              ...val,
+                            });
+                          }}
+                          item={item}
                           width={width}
-                          isReply={isReply && !postDetailStatus.isDoneReplies}
-                          idPost={String(postID)}
+                          setImageCommentMobile={setImageCommentMobile}
+                          refresh={refresh}
+                          isReply={isReply}
+                          postID={String(postID)}
+                          onRepliesMobile={(value: string, customerId: number, id: string) =>
+                            onReplies(value, customerId, id)
+                          }
+                          onRemoveComment={onRemove}
                         />
-
-                        {/* {getSubComment(item.children)} */}
-
-                        {item.children?.length > 0 && (
-                          <CommentOfComment
-                            ref={refCommentofComment}
-                            id={item.id}
-                            onReplies={onReplies}
-                            width={width}
-                            refresh={refresh}
-                            idPost={postDetail?.data?.id}
-                            refSubReplies={refSubReplies}
-                            setImageCommentMobile={setImageCommentMobile}
-                            isReply={isReply}
-                          />
-                        )}
-
-                        {(showReply === item?.id || isReply) &&
-                          width > 770 &&
-                          !postDetailStatus.isDoneReplies && (
-                            <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                              <ForwardedRefComponent
-                                ref={refSubReplies}
-                                id={postDetail?.data?.id}
-                                refresh={() => refreshCommentOfComment(item?.id)}
-                                refreshTotal={refresh}
-                                setImageCommentMobile={setImageCommentMobile}
-                                width={width}
-                                isReply={isReply && !postDetailStatus.isDoneReplies}
-                              />
-                            </div>
-                          )}
                       </div>
                     </div>
                   );
@@ -337,49 +318,29 @@ const PostDetail = () => {
                 return (
                   <div key={`comment-${item?.id}`}>
                     <div className='mt-[16px]'>
-                      <ItemComment
-                        data={item}
-                        onReplies={onReplies}
-                        refreshTotal={refresh}
-                        refreshCommentOfPOst={refreshCommentOfPost}
+                      <CommentPost
+                        ref={(val: any) => {
+                          refListComment.current.push({
+                            id: item?.id,
+                            ...val,
+                          });
+                        }}
+                        item={item}
                         width={width}
-                        isReply={isReply && !postDetailStatus.isDoneReplies}
-                        idPost={String(postID)}
+                        setImageCommentMobile={setImageCommentMobile}
+                        refresh={refresh}
+                        isReply={isReply}
+                        postID={String(postID)}
+                        onRepliesMobile={(value: string, customerId: number, id: string) =>
+                          onReplies(value, customerId, id)
+                        }
+                        onRemoveComment={onRemove}
                       />
-
-                      {/* {getSubComment(item.children)} */}
-                      {item.children?.length > 0 && (
-                        <CommentOfComment
-                          ref={refCommentofComment}
-                          id={item.id}
-                          onReplies={onReplies}
-                          width={width}
-                          refresh={refresh}
-                          idPost={postDetail?.data?.id}
-                          refSubReplies={refSubReplies}
-                          setImageCommentMobile={setImageCommentMobile}
-                        />
-                      )}
-
-                      {(showReply === item?.id || isReply) &&
-                        width > 770 &&
-                        !postDetailStatus.isDoneReplies && (
-                          <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-                            <ForwardedRefComponent
-                              ref={refSubReplies}
-                              id={postDetail?.data?.id}
-                              refresh={() => refreshCommentOfComment(item?.id)}
-                              refreshTotal={refresh}
-                              setImageCommentMobile={setImageCommentMobile}
-                              width={width}
-                              isReply={isReply && !postDetailStatus.isDoneReplies}
-                            />
-                          </div>
-                        )}
                     </div>
                   </div>
                 );
               })}
+
             {!isHaveComment && postData && (
               <>
                 <Text
@@ -403,10 +364,11 @@ const PostDetail = () => {
                 <ForwardedRefComponent
                   ref={refRepliesMobile}
                   id={postDetail?.data?.id}
-                  refresh={refreshCommentOfComment}
-                  refreshTotal={refresh}
+                  refreshCommentOfComment={refreshCommentOfComment}
+                  refreshTotal={refreshTotal}
                   setImageCommentMobile={setImageCommentMobile}
                   width={width}
+                  onAddComment={onAddComment}
                 />
               </div>
             </div>

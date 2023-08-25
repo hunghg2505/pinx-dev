@@ -113,7 +113,6 @@ const NewsFeed = (props: IProps) => {
       !postDetailStatus?.isChangeMyProfile &&
       !postDetailStatus?.idPostHideComment
     ) {
-      console.log('123');
       setPostData(data);
     }
   }, [data]);

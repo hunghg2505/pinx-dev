@@ -10,31 +10,34 @@ interface IProps {
   refresh: () => void;
   idPost: string;
   refSubReplies: any;
-  setImageCommentMobile: any;
   isReply?: boolean;
+  totalComment?: (v: number) => void;
 }
 const CommentOfComment = (props: IProps, ref: any) => {
-  const { id, onReplies, width, refresh, idPost } = props;
-  const { data, refreshCommentOfComment } = useCommentOfComment(id);
-  console.log('id', id);
-  React.useImperativeHandle(ref, () => {
-    return {
-      refreshCommentOfComment: (showReply: string) => {
-        console.log(
-          '🚀 ~ file: CommentOfComment.tsx:23 ~ React.useImperativeHandle ~ showReply:',
-          showReply,
-        );
-        // run(showReply);
-      },
-    };
+  const { id, onReplies, width, refresh, idPost, totalComment } = props;
+  const { data, refreshCommentOfComment, run } = useCommentOfComment({
+    onSuccess: (r: any) => {
+      totalComment && totalComment(r?.data?.list?.length);
+    },
+    manual: true,
   });
+  React.useEffect(() => {
+    run(id);
+  }, [id]);
+
+  const onRefresh = () => run(id);
+
+  React.useImperativeHandle(ref, () => ({ onRefresh }));
+  if (data?.length < 1) {
+    return <></>;
+  }
   return (
     <>
       <div className='sub-comment ml-[48px]'>
         {data?.map((comment: IComment, index: number) => (
           <ItemComment
             idPost={idPost}
-            key={comment.id}
+            key={`subComment-${comment.id}`}
             data={comment}
             onReplies={onReplies}
             refreshCommentOfPOst={refreshCommentOfComment}
@@ -45,19 +48,6 @@ const CommentOfComment = (props: IProps, ref: any) => {
           />
         ))}
       </div>
-      {/* {isReply && width > 770 && !postDetailStatus.isDoneReplies && (
-        <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-          <ForwardedRefComponent
-            ref={refSubReplies}
-            id={idPost}
-            refresh={refreshComment}
-            refreshTotal={refresh}
-            setImageCommentMobile={setImageCommentMobile}
-            width={width}
-            isReply={true}
-          />
-        </div>
-      )} */}
     </>
   );
 };
