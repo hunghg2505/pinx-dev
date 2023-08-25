@@ -265,7 +265,6 @@ const StockDetail = () => {
   }, [stockCode, dataStock]);
 
   useEffect(() => {
-    requestJoinChannel(stockCode);
     setStockSocket((prev) => [
       ...prev,
       {
@@ -277,6 +276,16 @@ const StockDetail = () => {
     return () => {
       setCurrentTab(TabType.MOVEMENTS);
 
+      setStockSocket((prev) =>
+        prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
+      );
+    };
+  }, [stockCode]);
+
+  useEffect(() => {
+    requestJoinChannel(stockCode);
+
+    return () => {
       const stockOfOtherLocation = stockSocket.filter(
         (item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE,
       );
@@ -292,12 +301,8 @@ const StockDetail = () => {
       } else {
         requestLeaveChannel(stockCode);
       }
-
-      setStockSocket((prev) =>
-        prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
-      );
     };
-  }, [stockCode]);
+  }, [stockSocket]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
