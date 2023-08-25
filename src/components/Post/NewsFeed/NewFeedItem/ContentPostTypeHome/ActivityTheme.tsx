@@ -34,10 +34,11 @@ export const ActivityTheme = ({
     const classElement = e?.target?.className;
     const id = e?.target?.id;
     if (classElement === 'link') {
-      return router.push({
-        pathname: '/redirecting',
-        query: { url: textContent },
-      });
+      // return router.push({
+      //   pathname: '/redirecting',
+      //   query: { url: textContent },
+      // });
+      return window.open(textContent);
     }
     if (classElement === 'people') {
       const url =
