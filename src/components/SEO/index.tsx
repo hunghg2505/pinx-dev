@@ -65,7 +65,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       />
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
-      <link rel='canonical' href='https://pinetree.vn/%22%3E' />
+      <link rel='canonical' href='https://pinex.vn/' />
     </Head>
   );
 };
