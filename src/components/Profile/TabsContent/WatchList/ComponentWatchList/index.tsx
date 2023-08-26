@@ -1,26 +1,58 @@
 import React from 'react';
 
+import { useUnmount } from 'ahooks';
+import { useAtom } from 'jotai';
+
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 
 const ComponentWatchList = ({ watchList }: { watchList: any }) => {
   const [dataSocket, setDataSocket] = React.useState<any>({});
   const [dataStock, setDataStock] = React.useState<any>([]);
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
+
   React.useEffect(() => {
     setDataStock(watchList);
     if (watchList) {
+      const listStockCodes: string[] = [];
       for (const element of watchList) {
         requestJoinChannel(element.stockCode);
+        listStockCodes.push(element.stockCode);
+      }
+
+      const findStock = stockSocket.find(
+        (item) => item.location === StockSocketLocation.WATCH_LIST_USER_DETAIL_PAGE,
+      );
+      if (!findStock) {
+        setStockSocket((prev) => [
+          ...prev,
+          {
+            location: StockSocketLocation.WATCH_LIST_USER_DETAIL_PAGE,
+            stocks: listStockCodes,
+          },
+        ]);
       }
     }
-    return () => {
-      if (watchList) {
-        for (const element of watchList) {
-          requestLeaveChannel(element.stockCode);
-        }
-      }
-    };
   }, [watchList]);
+
+  useUnmount(() => {
+    if (dataStock) {
+      const listStockCodes = dataStock.map((item: any) => item.stockCode);
+      const stockNotJoinSocketChannel = listStockCodes.filter((item: any) => {
+        return stockSocket.some((v) => !v.stocks.includes(item));
+      });
+
+      if (stockNotJoinSocketChannel.length > 0) {
+        requestLeaveChannel(stockNotJoinSocketChannel.toString());
+      }
+    }
+
+    setStockSocket((prev) =>
+      prev.filter((item) => item.location !== StockSocketLocation.WATCH_LIST_USER_DETAIL_PAGE),
+    );
+  });
+
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
