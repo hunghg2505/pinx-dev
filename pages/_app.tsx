@@ -15,7 +15,7 @@ import { appWithTranslation } from 'next-i18next';
 import 'dayjs/locale/vi';
 import 'dayjs/locale/en';
 import ErrorBoundary from '@components/ErrorBoundary';
-import { requestJoinChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestJoinIndex, socket } from '@components/Home/service';
 import AppLayout from '@layout/AppLayout';
 import { stockSocketAtom } from '@store/stockStocket';
 
@@ -61,7 +61,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         }
       }
       console.log('ABC Socket connect', uniqueStockCodes);
-      requestJoinChannel(uniqueStockCodes.toString());
+      if (uniqueStockCodes.length > 0) {
+        requestJoinChannel(uniqueStockCodes.toString());
+      }
+
+      // join index
+      requestJoinIndex();
     });
 
     return () => {
