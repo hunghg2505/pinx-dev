@@ -46,7 +46,7 @@ const BarlowFont = Barlow({
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
   const stockSocket = useAtomValue(stockSocketAtom);
-  console.log('ABC APP', stockSocket);
+  // console.log('ABC APP', stockSocket);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -60,7 +60,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           uniqueStockCodes.push(code);
         }
       }
-      console.log('ABC Socket connect', uniqueStockCodes);
+      // console.log('ABC Socket connect', uniqueStockCodes);
       if (uniqueStockCodes.length > 0) {
         requestJoinChannel(uniqueStockCodes.toString());
       }
