@@ -91,7 +91,8 @@ const NewsFeed = (props: IProps) => {
       findItemFollow ||
       isChangeMyProfile ||
       idPostAddComment ||
-      postDetailStatus?.idPostHideComment
+      postDetailStatus?.idPostHideComment ||
+      itemLike
     ) {
       refresh();
       if (onRefreshList && pinned) {
@@ -181,6 +182,7 @@ const NewsFeed = (props: IProps) => {
     }
 
     if (!isEdit && onRemoveData) {
+      console.log('456');
       onRemoveData();
     }
   };

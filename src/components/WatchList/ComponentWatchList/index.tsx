@@ -90,7 +90,7 @@ const ComponentWatchList = (props: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
+  const { dataFormat, findIndex, isChangeStockPrice } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     let isChangeStockPrice = false;
     if (dataStock && findIndex !== -1) {
@@ -105,12 +105,14 @@ const ComponentWatchList = (props: IProps) => {
       dataStock?.slice(0, page_size);
     }
 
-    return { dataFormat: dataStock, isChangeStockPrice, findIndex };
+    return { dataFormat: dataStock, findIndex, isChangeStockPrice };
   }, [dataSocket, dataStock, page_size]);
+
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
+        // console.log('data', data);
         setDataSocket(data);
       }
     };
