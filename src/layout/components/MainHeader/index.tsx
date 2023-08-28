@@ -170,7 +170,7 @@ const MainHeader = () => {
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
                 <FormSearch
-                  className='w-full hidden'
+                  className='w-full'
                   isOpenSearch={isOpenSearch}
                   setIsOpenSearch={setIsOpenSearch}
                 />
@@ -197,13 +197,13 @@ const MainHeader = () => {
                 <MenuMobile />
               </div>
               {!isMobile && (
-                <div className='w-full flex-auto hidden'>
+                <div className='w-full flex-auto'>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
               <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
                 {isMobile && (
-                  <div className='hidden'><SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} /></div>
+                  <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}
                 <Notifications />
                 <Profile />
