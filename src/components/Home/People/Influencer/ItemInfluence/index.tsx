@@ -19,7 +19,7 @@ import styles from './index.module.scss';
 interface IProps {
   data: IKOL;
   refresh: () => void;
-  refreshList: () => void;
+  refreshList?: () => void;
 }
 const ItemInfluence = (props: IProps) => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const ItemInfluence = (props: IProps) => {
       onSuccess: () => {
         setIsFollow(!isFollow);
         // refresh();
-        refreshList();
+        refreshList && refreshList();
         getUserProfile();
       },
       onError: (e: any) => {
@@ -57,7 +57,7 @@ const ItemInfluence = (props: IProps) => {
       onSuccess: () => {
         // refresh();
         setIsFollow(!isFollow);
-        refreshList();
+        refreshList && refreshList();
         getUserProfile();
       },
     },
