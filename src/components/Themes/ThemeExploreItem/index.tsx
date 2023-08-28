@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 
 import { ILatestSubscribe, ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface IProps {
   data: ITheme;
@@ -13,7 +12,6 @@ const ThemeExploreItem = (props: IProps) => {
   const { data } = props;
   const router = useRouter();
   const code = data?.code;
-  const { isLogin } = useAuth();
 
   const onGotoDetail = () => {
     router.push(ROUTE_PATH.THEME_DETAIL(code));
@@ -40,27 +38,25 @@ const ThemeExploreItem = (props: IProps) => {
         <Text type='body-14-bold' color='neutral-9' className='mb-[6px]'>
           {data?.name}
         </Text>
-        {isLogin && (
-          <div className='flex items-center'>
-            <div className='listAvatar mr-[7px] flex items-center'>
-              {data?.latestSubscribe?.map((item: ILatestSubscribe, index: number) => {
-                return (
-                  <img
-                    src={item.avatar}
-                    alt=''
-                    className={classNames(' h-[20px] w-[20px] rounded-full', {
-                      '-ml-[5px]': index > 0,
-                    })}
-                    key={index}
-                  />
-                );
-              })}
-            </div>
-            <Text type='body-12-medium' color='neutral-9'>
-              {data?.totalSubscribe > 0 ? `${data?.totalSubscribe}+` : ''}
-            </Text>
+        <div className='flex items-center'>
+          <div className='listAvatar mr-[7px] flex items-center'>
+            {data?.latestSubscribe?.map((item: ILatestSubscribe, index: number) => {
+              return (
+                <img
+                  src={item.avatar}
+                  alt=''
+                  className={classNames(' h-[20px] w-[20px] rounded-full', {
+                    '-ml-[5px]': index > 0,
+                  })}
+                  key={index}
+                />
+              );
+            })}
           </div>
-        )}
+          <Text type='body-12-medium' color='neutral-9'>
+            {data?.totalSubscribe > 0 ? `${formatStringToNumber(data?.totalSubscribe)}+` : ''}
+          </Text>
+        </div>
       </div>
     </div>
   );
