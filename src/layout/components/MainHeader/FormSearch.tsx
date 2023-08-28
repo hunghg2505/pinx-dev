@@ -57,6 +57,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // Remove value input search when refresh open new page
   React.useEffect(() => {
     setQuery(search);
+    form.setFieldValue('search', search);
     runRecent();
   }, [search]);
 
@@ -113,7 +114,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setShowRecent(false);
       setShowPopup(false);
     },
-    onError: (e: any) => { toast(() => <Notification type='error' message={e?.error} />); },
+    onError: (e: any) => {
+      toast(() => <Notification type='error' message={e?.error} />);
+    },
   });
 
   // Set value when onSubmit Form

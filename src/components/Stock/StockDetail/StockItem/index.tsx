@@ -6,13 +6,7 @@ import { IStock } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
-import {
-  ROUTE_PATH,
-  formatNumber,
-  formatStringToNumber,
-  getStockColor,
-  imageStock,
-} from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, getStockColor, imageStock } from '@utils/common';
 
 interface IStockItemProps {
   data: IStock;
@@ -69,12 +63,14 @@ const StockItem = ({ data }: IStockItemProps) => {
   return (
     <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] py-[16px] pl-[12px] pr-[8px] galaxy-max:px-[8px] galaxy-max:py-[12px]'>
-        <img
-          src={imageStock(data.stockCode)}
-          // alt='Company logo'
-          alt=''
-          className='block h-[36px] w-[36px] rounded-full bg-white object-contain galaxy-max:h-[32px] galaxy-max:w-[32px]'
-        />
+        <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[32px] galaxy-max:w-[32px]'>
+          <img
+            src={imageStock(data.stockCode)}
+            // alt='Company logo'
+            alt=''
+            className='block'
+          />
+        </div>
 
         <div className='ml-[10px] '>
           <div className='flex items-center'>
@@ -93,7 +89,7 @@ const StockItem = ({ data }: IStockItemProps) => {
             type='body-12-regular'
             className='mt-[8px] text-[#808A9D] galaxy-max:mt-[2px] galaxy-max:text-[9px]'
           >
-            Cap: {formatNumber(data.marketCapital || 0)}
+            Cap: {formatStringToNumber(data.marketCapital || 0)}
           </Text>
         </div>
 

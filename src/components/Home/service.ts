@@ -192,6 +192,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     {
       ...options,
       manual: true,
+      loadingDelay: 300,
     },
   );
   return {
@@ -279,11 +280,13 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
+  console.log('join', stocks);
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
 export const requestLeaveChannel = (stocks: string) => {
   const message = { action: 'leave', data: stocks };
+  console.log('leave', stocks);
   if (socket) {
     socket.emit('regs', JSON.stringify(message));
   }
@@ -305,6 +308,7 @@ export const useSuggestPeople = (options = {}) => {
     {
       manual: true,
       ...options,
+      loadingDelay: 300,
     },
   );
   return {

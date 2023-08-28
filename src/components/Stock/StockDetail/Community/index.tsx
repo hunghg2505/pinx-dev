@@ -3,9 +3,10 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 import { IStockDetails } from '@components/Stock/type';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
 
@@ -42,11 +43,17 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
             .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
             .map((item, index) => (
               <div className='relative' key={index}>
-                <img
-                  src={item.avatar}
-                  alt='Avatar'
-                  className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
-                />
+                {item.avatar ? (
+                  <img
+                    src={item.avatar}
+                    alt='Avatar'
+                    className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
+                  />
+                ) : (
+                  <div className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'>
+                    <AvatarDefault nameClassName='text-[16px]' name={item.displayName} />
+                  </div>
+                )}
 
                 {item.isInvesting ? (
                   <img
@@ -71,7 +78,7 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
           className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
         >
           <Text type='body-14-regular' className='text-[#0D0D0D]'>
-            {stockDetails?.data.watchingInvestingNo}
+            {formatStringToNumber(stockDetails?.data.watchingInvestingNo)}
           </Text>
           <img
             src='/static/icons/iconBlackRight.svg'

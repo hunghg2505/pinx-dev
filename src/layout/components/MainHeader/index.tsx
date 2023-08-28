@@ -11,7 +11,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import FormSearch from '@layout/components/MainHeader/FormSearch';
-import Notifications from '@layout/components/MainHeader/Notifications';
+// import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import SideBar from '@layout/MainLayout/SideBar';
@@ -170,7 +170,7 @@ const MainHeader = () => {
             <div className='flex w-[100%] items-center gap-[16px]'>
               {isMobile && (
                 <FormSearch
-                  className='w-full hidden'
+                  className='hidden w-full'
                   isOpenSearch={isOpenSearch}
                   setIsOpenSearch={setIsOpenSearch}
                 />
@@ -194,18 +194,23 @@ const MainHeader = () => {
                     />
                   </div>
                 </CustomLink>
+                <Text className='hidden' element='h1'>
+                  Cộng đồng đầu tư chứng khoán PineX
+                </Text>
                 <MenuMobile />
               </div>
               {!isMobile && (
-                <div className='w-full flex-auto hidden'>
+                <div className='hidden w-full flex-auto '>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
               <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
                 {isMobile && (
-                  <div className='hidden'><SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} /></div>
+                  <div className='hidden'>
+                    <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
+                  </div>
                 )}
-                <Notifications />
+                {/* <Notifications /> */}
                 <Profile />
               </div>
             </>

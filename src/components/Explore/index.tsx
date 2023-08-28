@@ -109,7 +109,6 @@ const Explore = () => {
       refClick?.current?.onKeyDown(value);
     }
   };
-  console.log('123');
   return (
     <div className='w-full rounded-[8px] text-left desktop:-mt-[16px] desktop:py-[16px]'>
       <div className='box-shadow mb-[18px] rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
@@ -430,7 +429,7 @@ const Explore = () => {
 
         {loadingIPO && (
           <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-            <Skeleton className='!h-[51px] !w-full !rounded-[15px]' rows={5} />
+            <Skeleton className='!h-[51px] !w-full !rounded-[15px]' rows={1} />
           </div>
         )}
 
@@ -441,14 +440,16 @@ const Explore = () => {
             })}
           </div>
         ) : (
-          <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
-            <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
-              {t('new_ipo_stocks')}
-            </Text>
-            <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='neutral-4'>
-              {t('there_is_no_new_ipo_stocks')}
-            </Text>
-          </div>
+          !loadingIPO && (
+            <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
+              <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
+                {t('new_ipo_stocks')}
+              </Text>
+              <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='neutral-4'>
+                {t('there_is_no_new_ipo_stocks')}
+              </Text>
+            </div>
+          )
         )}
       </div>
 

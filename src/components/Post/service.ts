@@ -2,7 +2,12 @@ import { useRequest } from 'ahooks';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity } from '@api/request';
+import {
+  PREFIX_API_COMMUNITY,
+  // PREFIX_API_IP_COMMUNITY,
+  privateRequest,
+  requestCommunity,
+} from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 export interface ICustomerInfo {
@@ -212,7 +217,27 @@ export const useCommentsOfPost = (postId: string, option = {}) => {
     getDataComment: run,
   };
 };
-
+export const useCommentOfComment = (option = {}) => {
+  const { data, loading, refresh, run, mutate } = useRequest(
+    async (commentId: string) => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_COMMENT_OF_COMMENT(commentId))
+        : requestCommunity.get(API_PATH.PUBLIC_COMMENT_OF_COMMENT(commentId));
+    },
+    {
+      // manual: true,
+      ...option,
+    },
+  );
+  return {
+    data: data?.data?.list,
+    loading,
+    run,
+    mutate,
+    refreshCommentOfComment: refresh,
+  };
+};
 export async function getMoreCommentPost(postId: string, nextId: string): Promise<any> {
   const params = {
     limit: 20,
@@ -335,6 +360,7 @@ export const useDeletePost = (option = {}) => {
 };
 
 export const fetchPostDetailFromServer = async (id: string) => {
+  // PREFIX_API_IP_COMMUNITY
   try {
     return fetch(`${PREFIX_API_COMMUNITY}/${API_PATH.PUCLIC_MAPPING_POST_DETAIL(id)}`).then(
       (data: any) => data.json(),

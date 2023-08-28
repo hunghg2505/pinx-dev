@@ -9,19 +9,24 @@ const ComponentRef = ({
   width,
   canExpand, // For styling in Post Detail
   isReply,
+  refreshCommentOfComment,
+  onAddComment,
 }: {
   forwardedRef?: any;
   id: string;
-  refresh: () => void;
+  refresh?: () => void;
   refreshTotal: () => void;
   setImageCommentMobile: (v: boolean) => void;
   width?: number;
   canExpand?: boolean;
   isReply?: boolean;
+  refreshCommentOfComment?: (v: any) => void;
+  onAddComment?: (v: any) => void;
 }) => {
   return (
     <Editor
       setImageCommentMobile={setImageCommentMobile}
+      onAddComment={onAddComment}
       ref={forwardedRef}
       id={id}
       refresh={refresh}
@@ -29,6 +34,7 @@ const ComponentRef = ({
       width={width}
       canExpand={canExpand}
       isReply={isReply}
+      refreshCommentOfComment={refreshCommentOfComment}
     />
   );
 };

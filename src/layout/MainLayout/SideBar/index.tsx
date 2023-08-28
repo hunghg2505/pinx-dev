@@ -134,7 +134,7 @@ const SideBar = () => {
             onClick={() => {
               setPostDetailStatus({
                 ...postDetailStatus,
-                isRefreshHome: !postDetailStatus?.isRefreshHome,
+                isRefreshHome: true,
               });
               return NavigateSection(menu.label);
             }}

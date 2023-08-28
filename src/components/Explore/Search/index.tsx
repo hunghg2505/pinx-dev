@@ -13,7 +13,6 @@ import Fade from '@components/UI/Fade';
 import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
-import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -50,12 +49,11 @@ const Search = (props: any, ref: any) => {
     setShowRecent(false);
   }, refInput);
 
-  const { search, data, loading, mutate } = useSearchPublic({
+  const { search, data, mutate, refresh } = useSearchPublic({
     onSuccess: () => {
       refreshSearchRecent();
     },
   });
-
   const { run } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search');
@@ -143,12 +141,12 @@ const Search = (props: any, ref: any) => {
                   <Text type='body-14-semibold' color='neutral-black'>
                     {t('common:recent')}
                   </Text>
-                  <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px]'>
+                  <div className='mb-[20px] mt-[12px] flex flex-row flex-wrap gap-[16px] galaxy-max:break-all'>
                     {listRecent?.slice(0, 5)?.map((item: any, index: number) => {
                       return (
                         <div
                           key={index}
-                          className='cursor-pointer rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px]'
+                          className='cursor-pointer rounded-[1000px] bg-[#EEF5F9] px-[12px] py-[4px] galaxy-max:rounded-[12px]'
                           onClick={() => onClickRecent(item?.keyword)}
                         >
                           <Text type='body-14-regular' color='primary-2'>
@@ -192,7 +190,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>
                 {t('company')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {companies?.length > 0 ? (
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
@@ -222,7 +220,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>
                 {t('people')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {users?.length > 0 ? (
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
@@ -252,7 +250,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' className='galaxy-max:text-[18px]' color='neutral-1'>
                 {t('posts')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {posts?.length > 0 ? (
                 <>
                   <div className='mt-[16px] flex flex-col'>
@@ -263,6 +261,7 @@ const Search = (props: any, ref: any) => {
                           data={post}
                           onRemoveData={onRemoveData(post?.id)}
                           isNewFeedExplore={true}
+                          refreshSearch={refresh}
                         />
                       );
                     })}
@@ -289,7 +288,7 @@ const Search = (props: any, ref: any) => {
               <Text type='body-20-semibold' color='neutral-1'>
                 {t('news')}
               </Text>
-              {loading && <Loading />}
+              {/* {loading && <Loading />} */}
               {news?.length > 0 ? (
                 <>
                   <div className='my-[16px] flex flex-col gap-y-[12px]'>

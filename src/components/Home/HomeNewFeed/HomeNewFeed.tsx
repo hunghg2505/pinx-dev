@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
@@ -24,7 +25,7 @@ import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
-import { requestJoinIndex, requestLeaveIndex, socket, useGetWatchList } from '../service';
+import { useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -48,7 +49,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-  socket.on('connect', requestJoinIndex);
+  // socket.on('connect', requestJoinIndex);
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { watchList } = useGetWatchList();
@@ -56,7 +57,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [selectTab, setSelectTab] = React.useState<string>('2');
 
   const { refLastElement } = useObserver();
-  const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
+  const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -69,8 +70,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
     const query: any = getQueryFromUrl();
 
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
-  }, [filterType, postDetailStatus?.isRefreshHome]);
-
+  }, [filterType]);
+  React.useEffect(() => {
+    if (postDetailStatus?.isRefreshHome) {
+      initialHomePostData();
+    }
+  }, [postDetailStatus?.isRefreshHome]);
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
@@ -113,12 +118,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const onChangeTab = (key: string) => {
     setSelectTab(key);
-    if (key === '1') {
-      requestLeaveIndex();
-    }
-    if (key === '2') {
-      requestJoinIndex();
-    }
+    // if (key === '1') {
+    //   requestLeaveIndex();
+    // }
+    // if (key === '2') {
+    //   requestJoinIndex();
+    // }
   };
 
   const onAddNewPost = (newData: IPost) => {
@@ -157,7 +162,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       });
     }
   }, [postDetailStatus.idPostDetail]);
-
   return (
     <div className='relative desktop:pt-0'>
       <div className='relative laptop:hidden'>
@@ -200,7 +204,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('people_in_spotlight')}
         </Text>
 
@@ -223,26 +232,33 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       })}
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('economy_in_the_themes')}
         </Text>
         <ListTheme />
       </div>
 
-      {postsNext?.map((item: IPost, idx: number) => {
-        if (idx === postsNext?.length - 1) {
-          return (
-            <div
-              key={`home-post-item-${item?.id}`}
-              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-            >
-              <NewsFeed data={item} />
-            </div>
-          );
-        }
+      <LazyLoadComponent>
+        {postsNext?.map((item: IPost, idx: number) => {
+          if (idx === postsNext?.length - 1) {
+            return (
+              <div
+                key={`home-post-item-${item?.id}`}
+                ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+              >
+                <NewsFeed data={item} />
+              </div>
+            );
+          }
 
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
-      })}
+          return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        })}
+      </LazyLoadComponent>
 
       {loadingPosts && (
         <div className='mt-[10px]'>

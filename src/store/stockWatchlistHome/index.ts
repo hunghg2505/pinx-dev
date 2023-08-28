@@ -65,11 +65,16 @@ export const useStockWatchlistHome = () => {
         requestLeaveChannel(element.stockCode);
       }
     }
+    removePublicEventListener();
+  };
+
+  const removePublicEventListener = () => {
     socket.off('public', getDataSocket);
   };
 
   return {
     getInitDataStockWatchlistHome,
     closeSocket,
+    removePublicEventListener,
   };
 };

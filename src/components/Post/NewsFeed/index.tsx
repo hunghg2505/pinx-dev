@@ -50,7 +50,6 @@ const NewsFeed = (props: IProps) => {
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
-
   const isPageMyProfile = router.pathname === ROUTE_PATH.MY_PROFILE;
   // React.useEffect(() => {
   //   setPostData(data);
@@ -88,18 +87,36 @@ const NewsFeed = (props: IProps) => {
     };
   }, [postData]);
   React.useEffect(() => {
-    if (findItemFollow || isChangeMyProfile || idPostAddComment) {
+    if (
+      findItemFollow ||
+      isChangeMyProfile ||
+      idPostAddComment ||
+      postDetailStatus?.idPostHideComment ||
+      itemLike
+    ) {
       refresh();
       if (onRefreshList && pinned) {
         onRefreshList();
       }
     }
-  }, [findItemFollow, postDetailStatus?.idPostLike, isChangeMyProfile, idPostAddComment]);
+  }, [
+    findItemFollow,
+    postDetailStatus?.idPostLike,
+    isChangeMyProfile,
+    idPostAddComment,
+    postDetailStatus?.idPostHideComment,
+  ]);
   React.useEffect(() => {
-    if (!idPostAddComment && !findItemFollow && !itemLike && !postDetailStatus?.isChangeMyProfile) {
+    if (
+      !idPostAddComment &&
+      !findItemFollow &&
+      !itemLike &&
+      !postDetailStatus?.isChangeMyProfile &&
+      !postDetailStatus?.idPostHideComment
+    ) {
       setPostData(data);
     }
-  }, []);
+  }, [data]);
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
@@ -108,6 +125,7 @@ const NewsFeed = (props: IProps) => {
           ...postDetailStatus,
           // isAddCommentPostDetail: [],
           idPostAddComment: '',
+          idPostHideComment: '',
           idCustomerFollow: 0,
           isChangeMyProfile: false,
         });
@@ -164,6 +182,7 @@ const NewsFeed = (props: IProps) => {
     }
 
     if (!isEdit && onRemoveData) {
+      console.log('456');
       onRemoveData();
     }
   };
@@ -180,13 +199,7 @@ const NewsFeed = (props: IProps) => {
   };
 
   if (loading) {
-    return (
-      <>
-        <NewsFeedSkeleton />
-        <NewsFeedSkeleton />
-        <NewsFeedSkeleton />
-      </>
-    );
+    return <NewsFeedSkeleton />;
   }
 
   return (
@@ -227,6 +240,7 @@ const NewsFeed = (props: IProps) => {
                 <ItemComment
                   onNavigate={onNavigate}
                   data={postData?.children?.[0]}
+                  idPost={postData?.id}
                   refreshCommentOfPOst={refreshComment}
                 />
               </div>

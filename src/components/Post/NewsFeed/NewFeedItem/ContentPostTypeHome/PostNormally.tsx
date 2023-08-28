@@ -22,6 +22,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
   const userDetail = useAtomValue(userLoginInfoAtom);
+  const messageDefault = postDetail?.post?.message;
   // userLoginInfoAtom
 
   const [readMore, setReadMore] = useState(false);
@@ -54,27 +55,26 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   }, [postDetail, bgTheme]);
 
   useEffect(() => {
+    setShowReadMore(false);
     const t = setTimeout(() => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
       if (ele?.clientHeight) {
-        if (window.innerWidth > 768) {
-          setShowReadMore(ele?.clientHeight > 84);
-        } else {
-          setShowReadMore(ele?.clientHeight > 84);
-        }
+        setShowReadMore(ele?.clientHeight > 84);
       }
       clearTimeout(t);
     }, 400);
-  }, []);
+  }, [messageDefault]);
+
   const onHandleClick = (e: any) => {
-    const textContent = e?.target?.textContent;
+    const textContent = e?.target?.textContent as string;
     const classElement = e?.target?.className;
     const id = e?.target?.id;
     if (classElement === 'link') {
-      return router.push({
-        pathname: '/redirecting',
-        query: { url: textContent },
-      });
+      return window.open(textContent);
+      // return router.push({
+      //   pathname: '/redirecting',
+      //   query: { url: textContent },
+      // });
     }
     if (classElement === 'people') {
       const url =
@@ -86,6 +86,10 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
+    // if (classElement === 'hashtag') {
+    //   const text = textContent.slice(1);
+    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    // }
     return onComment();
   };
   const PostContent = () => {
@@ -138,7 +142,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
             </Text>
           </div>
           {!message?.includes(urlLink) && urlLink !== '' && (
-            <CustomLink href={`/redirecting?url=${urlLink}`}>
+            <CustomLink target='_blank' href={`${urlLink}`}>
               <div className='messageFormat messageBody'>
                 <span className='link'>{urlLink}</span>
               </div>
@@ -197,7 +201,7 @@ const MetaContent = ({ metaData }: any) => {
   const { url, imageUrl, title, description } = data;
 
   return (
-    <CustomLink href={`/redirecting?url=${url}`} className='mt-4 block'>
+    <CustomLink target='_blank' href={`${url}`} className='mt-4 block'>
       <div className='relative '>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (

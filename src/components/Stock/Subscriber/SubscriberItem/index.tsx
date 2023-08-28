@@ -1,9 +1,12 @@
+import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface ISubscriberItemProps {
   data: ICustomerInfo;
@@ -11,22 +14,29 @@ interface ISubscriberItemProps {
 
 const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   const { t } = useTranslation(['stock', 'commmon']);
-
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const url =
+    data?.customerId === userLoginInfo?.id
+      ? ROUTE_PATH.MY_PROFILE
+      : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
-      <CustomLink
-        className='galaxy-max:flex-none'
-        href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}
-      >
-        <img
-          src={data.avatar}
-          alt='User avatar'
-          className='h-[36px] w-[36px] rounded-full object-cover '
-        />
+      <CustomLink className='galaxy-max:flex-none' href={url}>
+        {data.avatar ? (
+          <img
+            src={data.avatar}
+            alt='User avatar'
+            className='h-[36px] w-[36px] rounded-full object-cover'
+          />
+        ) : (
+          <div className='h-[36px] w-[36px] rounded-full object-cover'>
+            <AvatarDefault nameClassName='text-[16px]' name={data.displayName} />
+          </div>
+        )}
       </CustomLink>
 
       <div className='ml-[8px]'>
-        <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <CustomLink href={url}>
           <div className='flex items-center'>
             <Text
               type='body-14-semibold'
@@ -55,7 +65,7 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
           </div>
         </CustomLink>
         <Text type='body-12-regular' color='neutral-5' className='mt-[2px] galaxy-max:text-[10px]'>
-          {data.totalFollowers} {t('common:followers')}
+          {formatStringToNumber(data.totalFollowers)} {t('common:followers')}
         </Text>
       </div>
 

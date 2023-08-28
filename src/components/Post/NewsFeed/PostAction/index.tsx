@@ -206,8 +206,8 @@ const PostAction = (props: IPostActionProps) => {
               alt=''
               className='mr-[8px] h-[20px] w-[20px] object-contain'
             />
-            <Text className='galaxy-max:hidden' type='body-14-medium' color='primary-5'>
-              {total || ''} {t('share')}
+            <Text type='body-14-medium' color='primary-5'>
+              {total || ''} <span className='galaxy-max:hidden'>{t('share')}</span>
             </Text>
           </div>
         </ModalShare>

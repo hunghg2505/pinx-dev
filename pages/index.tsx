@@ -12,7 +12,10 @@ const Home = dynamic(() => import('@components/Home'));
 const HomePage = ({ pinPostData }: any) => {
   return (
     <>
-      <SEO title={'Pinex'} />
+      <SEO
+        title='Cộng đồng đầu tư chứng khoán PineX'
+        description='Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư'
+      />
       <Home pinPostData={pinPostData} />
     </>
   );

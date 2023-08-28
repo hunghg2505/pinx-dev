@@ -4,6 +4,7 @@ import { atom, useAtom } from 'jotai';
 import { FILTER_TYPE } from '@components/Home/ModalFilter';
 import { serviceGetNewFeed } from '@components/Home/service';
 import { IPost } from '@components/Post/service';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { getQueryFromUrl } from '@utils/common';
 
 const postHomePage = atom<{ list?: IPost[]; nextId?: string; type?: string }>({
@@ -14,11 +15,12 @@ const postHomePage = atom<{ list?: IPost[]; nextId?: string; type?: string }>({
 
 export const usePostHomePage = () => {
   const [dataPosts, setDataPosts] = useAtom(postHomePage);
-
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const {
     loading: loadingPosts,
     run,
     runAsync,
+    refresh,
   } = useRequest(
     async (nextId: any, type) => {
       if (nextId === false) {
@@ -31,6 +33,7 @@ export const usePostHomePage = () => {
       manual: true,
       onSuccess: (r: any) => {
         setDataPosts(r);
+        setPostDetailStatus({ ...postDetailStatus, isRefreshHome: false });
       },
     },
   );
@@ -46,6 +49,7 @@ export const usePostHomePage = () => {
     loadingPosts,
     dataPosts,
     run,
+    refresh,
     runAsync,
     mutate: setDataPosts,
   };

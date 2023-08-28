@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -19,7 +19,9 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH, getStockColor } from '@utils/common';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { stockWLComponentAtom } from '@store/stockWLComponent';
+import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import { AddTicker, AnalyzeTicker, RemoveTicker } from '@utils/dataLayer';
 
@@ -154,6 +156,8 @@ const StockDetail = () => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
+  const setStockWLComponent = useSetAtom(stockWLComponentAtom);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -189,8 +193,12 @@ const StockDetail = () => {
   });
 
   useEffect(() => {
-    socket.on('public', (message: any) => {
+    const getDataSocket = (message: any) => {
       const data = message.data;
+      if (data?.id === 3220) {
+        setStockWLComponent(data);
+      }
+
       if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
         return;
       }
@@ -256,21 +264,54 @@ const StockDetail = () => {
           g3: data.g3,
         }));
       }
-    });
+    };
+
+    socket.on('public', getDataSocket);
 
     return () => {
-      socket.off('public');
+      socket.off('public', getDataSocket);
     };
   }, [stockCode, dataStock]);
+
+  useEffect(() => {
+    setStockSocket((prev) => [
+      ...prev,
+      {
+        location: StockSocketLocation.STOCK_DETAIL_PAGE,
+        stocks: [stockCode],
+      },
+    ]);
+
+    return () => {
+      setCurrentTab(TabType.MOVEMENTS);
+
+      setStockSocket((prev) =>
+        prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
+      );
+    };
+  }, [stockCode]);
 
   useEffect(() => {
     requestJoinChannel(stockCode);
 
     return () => {
-      setCurrentTab(TabType.MOVEMENTS);
-      requestLeaveChannel(stockCode);
+      const stockOfOtherLocation = stockSocket.filter(
+        (item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE,
+      );
+      if (stockOfOtherLocation.length > 0) {
+        let isStockExits = false;
+        for (const item of stockOfOtherLocation) {
+          isStockExits = item.stocks.includes(stockCode);
+        }
+
+        if (!isStockExits) {
+          requestLeaveChannel(stockCode);
+        }
+      } else {
+        requestLeaveChannel(stockCode);
+      }
     };
-  }, [stockCode]);
+  }, [stockSocket]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
@@ -565,7 +606,7 @@ const StockDetail = () => {
                 {t('rating.avg_score')}
               </Text>
               <Text type='body-20-medium' className='text-[#F1BA09]'>
-                {stockDetails?.data.details.rate.rateAverage.toFixed(2)}
+                {formatStringToNumber(stockDetails?.data.details.rate.rateAverage, true, 2)}
               </Text>
             </div>
 
@@ -574,7 +615,7 @@ const StockDetail = () => {
                 {t('rating.votes')}
               </Text>
               <Text type='body-20-medium' className='text-[#0D0D0D]'>
-                {stockDetails?.data.details.rate.totalRates}
+                {formatStringToNumber(stockDetails?.data.details.rate.totalRates)}
               </Text>
             </div>
 
@@ -586,7 +627,7 @@ const StockDetail = () => {
               <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
-                    {stockDetails?.data.details.totalReviews}
+                    {formatStringToNumber(stockDetails?.data.details.totalReviews)}
                   </Text>
 
                   <img

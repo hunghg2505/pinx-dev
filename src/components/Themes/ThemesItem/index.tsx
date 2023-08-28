@@ -17,7 +17,7 @@ import { useUserType } from '@hooks/useUserType';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 interface IProps {
@@ -202,7 +202,7 @@ const ThemesItem = (props: IProps) => {
                 {theme.totalSubscribe !== 0 && (
                   <>
                     <Text type='body-12-bold' color='neutral-4' className='my-[6px] text-center'>
-                      {theme.totalSubscribe}
+                      {formatStringToNumber(theme.totalSubscribe)}
                     </Text>
                     <Text type='body-12-bold' color='neutral-4' className='text-center'>
                       {t('common:subscribers')}

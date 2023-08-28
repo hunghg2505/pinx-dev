@@ -58,10 +58,11 @@ export const PineTreePost2 = ({
     const classElement = e?.target?.className;
     const id = e?.target?.id;
     if (classElement === 'link') {
-      return router.push({
-        pathname: '/redirecting',
-        query: { url: textContent },
-      });
+      return window.open(textContent);
+      // return router.push({
+      //   pathname: '/redirecting',
+      //   query: { url: textContent },
+      // });
     }
     if (classElement === 'people') {
       const url =
@@ -133,7 +134,7 @@ export const PineTreePost2 = ({
             })}
           >
             <div
-              className='messageFormat messageBody messageBody'
+              className='messageFormat messageBody'
               dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>

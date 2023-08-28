@@ -1,12 +1,14 @@
 import React, { useMemo } from 'react';
 
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useRouter } from 'next/router';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
-import Themes from '@components/WatchList/Themes';
 // import { useResponsive } from '@hooks/useResponsive';
+import Themes from '@components/WatchList/Themes';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 
 import { useGetInterest, useGetYourWatchList } from './service';
 import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';
@@ -51,6 +53,7 @@ const WatchList = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataInterest, setDataInterest] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
 
   // const router = useRouter();
   // const { isMobile } = useResponsive();
@@ -64,8 +67,28 @@ const WatchList = () => {
       const data = res?.data;
       setDataInterest(data);
       if (data) {
+        const listStockCodes: string[] = [];
         for (const element of data) {
           requestJoinChannel(element.stockCode);
+          listStockCodes.push(element.stockCode);
+        }
+
+        const findStockSocket = stockSocket.find(
+          (item) => item.location === StockSocketLocation.WL_PAGE_INTEREST_COMPONENT,
+        );
+
+        const dataStockSocket = {
+          location: StockSocketLocation.WL_PAGE_INTEREST_COMPONENT,
+          stocks: listStockCodes,
+        };
+        if (findStockSocket) {
+          setStockSocket((prev) =>
+            prev.map((item) =>
+              item.location === findStockSocket.location ? dataStockSocket : item,
+            ),
+          );
+        } else {
+          setStockSocket((prev) => [...prev, dataStockSocket]);
         }
       }
     },
@@ -77,8 +100,28 @@ const WatchList = () => {
         setWatchlistId(res?.data?.[0]?.watchlistId);
         const data = res?.data?.[0]?.stocks;
         if (data) {
+          const listStockCodes: string[] = [];
           for (const element of data) {
             requestJoinChannel(element.stockCode);
+            listStockCodes.push(element.stockCode);
+          }
+
+          const findStockSocket = stockSocket.find(
+            (item) => item.location === StockSocketLocation.WL_PAGE_WL_COMPONENT,
+          );
+
+          const dataStockSocket = {
+            location: StockSocketLocation.WL_PAGE_WL_COMPONENT,
+            stocks: listStockCodes,
+          };
+          if (findStockSocket) {
+            setStockSocket((prev) =>
+              prev.map((item) =>
+                item.location === findStockSocket.location ? dataStockSocket : item,
+              ),
+            );
+          } else {
+            setStockSocket((prev) => [...prev, dataStockSocket]);
           }
         }
       },
@@ -99,6 +142,16 @@ const WatchList = () => {
           requestLeaveChannel(element.stockCode);
         }
       }
+
+      setStockSocket((prev) =>
+        prev.filter(
+          (item) =>
+            ![
+              StockSocketLocation.WL_PAGE_INTEREST_COMPONENT,
+              StockSocketLocation.WL_PAGE_WL_COMPONENT,
+            ].includes(item.location),
+        ),
+      );
     };
   }, []);
 

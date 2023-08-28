@@ -13,6 +13,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
 // import { PINETREE_LINK } from '@utils/constant';
 
@@ -25,6 +26,7 @@ interface Iprops {
 const Login = (props: Iprops) => {
   const { t } = useTranslation('common');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const { requestProfleSetting } = useProfileSettingInitial();
   const { isModal } = props;
   const router = useRouter();
   const [form] = Form.useForm();
@@ -46,6 +48,7 @@ const Login = (props: Iprops) => {
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
+        requestProfleSetting();
         setUserLoginInfo(res?.data);
         setForceAllowTerm(res?.data.forceAllow);
         setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));

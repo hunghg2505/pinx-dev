@@ -14,6 +14,7 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { CreateLoginName } from '@utils/dataLayer';
 import { REG_USERNAME } from '@utils/reg';
 
 import { useCreateUsername } from './service';
@@ -31,7 +32,7 @@ const CreateUsername = (props: IProps) => {
   const { userRegisterInfo, setUserRegisterInfo } = useUserRegisterInfo();
 
   const requestCreateUsername = useCreateUsername({
-    onSuccess: (res: any) => {
+    onSuccess: (res: any, params: any) => {
       if (res?.data.token) {
         setUserRegisterInfo({
           ...userRegisterInfo,
@@ -56,10 +57,12 @@ const CreateUsername = (props: IProps) => {
             break;
           }
         }
+        CreateLoginName('Success', params[0].username, '', '');
       }
     },
-    onError(e) {
+    onError(e, params: any) {
       toast(() => <Notification type='error' message={e?.error} />);
+      CreateLoginName('Failed', params[0].username, e.errorCode, e.error);
     },
   });
 

@@ -28,6 +28,7 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -81,10 +82,10 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        Enter: ({ editor }) => {
-          onSend(editor, statusUser);
-          return true;
-        },
+        // Enter: ({ editor }) => {
+        //   onSend(editor, statusUser);
+        //   return true;
+        // },
       };
     },
   });
@@ -101,7 +102,7 @@ const Editor = (props: IProps, ref?: any) => {
         name: 'userMention',
       }).configure({
         HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
+          class: 'userMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
           ...suggestion,
@@ -438,15 +439,24 @@ const Editor = (props: IProps, ref?: any) => {
   return (
     <>
       <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
-        <img
-          src={userLoginInfo?.avatar}
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
-          onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
-        />
+        {userLoginInfo?.avatar ? (
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          />
+        ) : (
+          <div
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          >
+            <AvatarDefault name={userLoginInfo?.displayName} />
+          </div>
+        )}
 
         <div
           className={classNames(
@@ -499,9 +509,9 @@ const Editor = (props: IProps, ref?: any) => {
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' tablet-max:no-scrollbar max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
+                  ' tablet-max:no-scrollbar my-[4px] max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
                   {
-                    'tablet:mt-[3px]': isFocus,
+                    // 'tablet:mt-[3px]': isFocus,
                   },
                 )}
               />

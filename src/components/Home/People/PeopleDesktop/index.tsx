@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { useAtom } from 'jotai';
+
 import { ISuggestionPeople } from '@components/Home/service';
 import { getAccessToken } from '@store/auth';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
 import ItemPeople from './ItemPeople';
 import PeopleDesktopLoading from './Skeleton';
@@ -17,6 +20,7 @@ const PeopleDesktop = ({
   getSuggestFriend,
   refreshList,
 }: IPeopleDesktopProps) => {
+  const [postDetailStatus] = useAtom(postDetailStatusAtom);
   React.useEffect(() => {
     const isLogin = !!getAccessToken();
 
@@ -24,7 +28,7 @@ const PeopleDesktop = ({
       getSuggestFriend();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [postDetailStatus?.idCustomerFollow]);
 
   if (!suggestionPeople?.length) {
     return (

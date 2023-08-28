@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { useRequest } from 'ahooks';
+import { useRequest, useUnmount } from 'ahooks';
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -12,6 +13,7 @@ import {
   socket,
 } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 
 import NotFound from '../NotFound';
 
@@ -19,6 +21,7 @@ interface IProps {
   isEdit?: boolean;
 }
 const ComponentWatchList = (props: IProps) => {
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
   const { isEdit = false } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
   const useWatchList = useRequest(
@@ -31,8 +34,23 @@ const ComponentWatchList = (props: IProps) => {
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {
+          const listStockCodes: string[] = [];
           for (const element of data) {
             requestJoinChannel(element.stockCode);
+            listStockCodes.push(element.stockCode);
+          }
+
+          const findStock = stockSocket.find(
+            (item) => item.location === StockSocketLocation.WATCH_LIST_PROFILE_PAGE,
+          );
+          if (!findStock) {
+            setStockSocket((prev) => [
+              ...prev,
+              {
+                location: StockSocketLocation.WATCH_LIST_PROFILE_PAGE,
+                stocks: listStockCodes,
+              },
+            ]);
           }
         }
       },
@@ -40,15 +58,25 @@ const ComponentWatchList = (props: IProps) => {
   );
   React.useEffect(() => {
     useWatchList.run();
-    return () => {
-      if (dataStock) {
-        for (const element of dataStock) {
-          requestLeaveChannel(element.stockCode);
-        }
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useUnmount(() => {
+    if (dataStock) {
+      const listStockCodes = dataStock.map((item: any) => item.stockCode);
+      const stockNotJoinSocketChannel = listStockCodes.filter((item: any) => {
+        return stockSocket.some((v) => !v.stocks.includes(item));
+      });
+
+      if (stockNotJoinSocketChannel.length > 0) {
+        requestLeaveChannel(stockNotJoinSocketChannel.toString());
+      }
+    }
+
+    setStockSocket((prev) =>
+      prev.filter((item) => item.location !== StockSocketLocation.WATCH_LIST_PROFILE_PAGE),
+    );
+  });
+
   const [dataSocket, setDataSocket] = React.useState<any>({});
   React.useEffect(() => {
     const getDataSocket = (message: any) => {

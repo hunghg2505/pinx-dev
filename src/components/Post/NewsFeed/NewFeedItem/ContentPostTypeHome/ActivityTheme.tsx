@@ -34,10 +34,11 @@ export const ActivityTheme = ({
     const classElement = e?.target?.className;
     const id = e?.target?.id;
     if (classElement === 'link') {
-      return router.push({
-        pathname: '/redirecting',
-        query: { url: textContent },
-      });
+      // return router.push({
+      //   pathname: '/redirecting',
+      //   query: { url: textContent },
+      // });
+      return window.open(textContent);
     }
     if (classElement === 'people') {
       const url =
@@ -49,6 +50,10 @@ export const ActivityTheme = ({
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
+    // if (classElement === 'hashtag') {
+    //   const text = textContent.slice(1);
+    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    // }
     return onComment();
   };
   const onReadMore = () => {
@@ -93,7 +98,7 @@ export const ActivityTheme = ({
           })}
         >
           <div
-            className='messageFormat messageBody messageBody'
+            className='messageFormat messageBody'
             dangerouslySetInnerHTML={{ __html: messagePostFormat }}
           ></div>
         </Text>

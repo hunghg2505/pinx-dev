@@ -10,6 +10,8 @@ import ModalComposeMobile from '@components/Compose/ModalComposeMobile';
 import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
+import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
@@ -67,7 +69,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
     <>
       <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
         <div className='flex items-center'>
-          {userLoginInfo?.avatar && (
+          {userLoginInfo?.avatar ? (
             <img
               src={userLoginInfo?.avatar}
               alt=''
@@ -79,7 +81,15 @@ const UserPosting = ({ onAddNewPost }: any) => {
               sizes='100vw'
               className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
             />
+          ) : (
+            <CustomLink
+              href={ROUTE_PATH.MY_PROFILE}
+              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
+            >
+              <AvatarDefault name={userLoginInfo?.displayName} />
+            </CustomLink>
           )}
+
           <input
             type='text'
             onClick={onShowModal}

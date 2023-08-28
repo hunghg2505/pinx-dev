@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import { IKOL, useGetInfluencer } from '@components/Home/service';
 
 import ItemInfluence from './ItemInfluence';
-import InfluencerLoading from './Skeleton';
+// import InfluencerLoading from './Skeleton';
 
 const Influencer = () => {
   const settings = {
@@ -42,20 +42,20 @@ const Influencer = () => {
     // autoplay: true,
     // autoplaySpeed: 1000,
   };
-  const { KOL, refresh, loading } = useGetInfluencer();
+  const { KOL, refresh } = useGetInfluencer();
   const refSlide: any = React.useRef();
 
-  if (loading) {
-    return (
-      <div className='overflow-x-hidden whitespace-nowrap'>
-        <InfluencerLoading />
-        <InfluencerLoading />
-        <InfluencerLoading />
-        <InfluencerLoading />
-        <InfluencerLoading />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className='overflow-x-hidden whitespace-nowrap'>
+  //       <InfluencerLoading />
+  //       <InfluencerLoading />
+  //       <InfluencerLoading />
+  //       <InfluencerLoading />
+  //       <InfluencerLoading />
+  //     </div>
+  //   );
+  // }
 
   // const ListInfluencer = KOL?.filter((item: IKOL) => item.isFeatureProfile === true);
   return (
@@ -72,9 +72,8 @@ const Influencer = () => {
       </div>
       <div className='max-w-[700px]'>
         <Slider {...settings} variableWidth ref={refSlide} draggable={true}>
-          {[...KOL]
-            ?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true)
-            .map((item: IKOL, index: number) => {
+          {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
+            (item: IKOL, index: number) => {
               return (
                 <div key={`ItemInfluence-${index}`} className='mr-[16px]'>
                   <div className='w-[161px] '>
@@ -82,7 +81,8 @@ const Influencer = () => {
                   </div>
                 </div>
               );
-            })}
+            },
+          )}
         </Slider>
       </div>
       <div
