@@ -70,7 +70,7 @@ interface TextProps {
   state?: null | 'disable';
   className?: string;
   onClick?: () => void;
-  element?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+  element?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
 const Text: React.FC<TextProps> = ({

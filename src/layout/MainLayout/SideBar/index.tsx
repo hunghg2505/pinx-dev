@@ -113,6 +113,7 @@ const SideBar = () => {
             >
               {icon}
               <Text
+                element='h3'
                 type='body-16-semibold'
                 color='neutral-3'
                 className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}
@@ -141,6 +142,7 @@ const SideBar = () => {
           >
             {icon}
             <Text
+              element='h3'
               type='body-16-semibold'
               color='neutral-3'
               className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}
