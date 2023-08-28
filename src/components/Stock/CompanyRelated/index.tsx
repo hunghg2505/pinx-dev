@@ -111,7 +111,7 @@ const CompanyRelated = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('public', (message: any) => {
+    const getDataSocket = (message: any) => {
       const data = message.data;
 
       let listStockCode: string[] = [];
@@ -148,10 +148,12 @@ const CompanyRelated = () => {
           return prev;
         });
       }
-    });
+    };
+
+    socket.on('public', getDataSocket);
 
     return () => {
-      socket.off('public');
+      socket.off('public', getDataSocket);
     };
   }, [companiesRelated]);
 
