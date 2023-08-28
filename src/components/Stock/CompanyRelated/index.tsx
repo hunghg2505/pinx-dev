@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useUnmount } from 'ahooks';
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -11,6 +11,7 @@ import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Hom
 import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
 import { stockSocketAtom, StockSocketLocation } from '@store/stockStocket';
+import { stockWLComponentAtom } from '@store/stockWLComponent';
 import { formatStringToNumber } from '@utils/common';
 
 import { useCompaniesRelated, useCompanyTaggingInfo } from '../service';
@@ -30,6 +31,7 @@ const CompanyRelated = () => {
   const ref = useRef(null);
   const [companiesRelated, setCompaniesRelated] = useState<IResponseCompaniesRelated>();
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
+  const setStockWLComponent = useSetAtom(stockWLComponentAtom);
 
   const router = useRouter();
   const { stockCode, type, hashtagId }: any = router.query;
@@ -113,6 +115,9 @@ const CompanyRelated = () => {
   useEffect(() => {
     socket.on('public', (message: any) => {
       const data = message.data;
+      if (data?.id === 3220) {
+        setStockWLComponent(data);
+      }
 
       let listStockCode: string[] = [];
       if (companiesRelated && companiesRelated.data && companiesRelated.data.list.length > 0) {
