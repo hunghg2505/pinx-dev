@@ -41,6 +41,7 @@ export const API_PATH = {
   PRIVATE_UPDATE_POST: (id: string) => `/private/mapping/${id}/update`,
   // comment
   PRIVATE_COMMENT_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/comments`,
+  PUBLIC_COMMENT_OF_COMMENT: (comment_Id: string) => `/public/comment/${comment_Id}/children`,
   PRIVATE_DETAIL_OF_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/details`,
   PRIVATE_EDIT_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/edit`,
   PRIVATE_LIKE_COMMENT: (comment_Id: string) => `/private/comment/${comment_Id}/like`,
@@ -108,7 +109,7 @@ export const API_PATH = {
   PUBLIC_STOCK_INVESTING: (stockCode: string) => `/public/stock/${stockCode}/investing-customers`,
   PUBLIC_HASHTAG_INDUSTRY: '/public/hashtag/industry',
   PUBLIC_HASHTAG_HIGHLIGHT: '/public/hashtag/highlights',
-  PRIVATE_ACTIVITY_WATCH_LIST_ADD: '/private/activity/watchlist/add',
+  PRIVATE_ACTIVITY_WATCH_LIST_ADD: '/private/activity/watchlist/addV2',
   PRIVATE_ACTIVITY_WATCH_LIST_ADD_V2: '/private/activity/watchlist/addV2',
   PUBLIC_STOCK_DATA: (stockCode: string) => `/public/stock/${stockCode}/data`,
   PUBLIC_FINANCE_INFO: '/public/finance-info',
@@ -129,7 +130,7 @@ export const API_PATH = {
   // theme
   PRIVATE_THEMES: '/private/themes',
   PRIVATE_THEME_SUBSCRIBE: (themes: string) => `/private/theme/subscribe?themeCodes=${themes}`,
-  PRIVATE_SHARE_THEME_ACTIVITY: '/private/activity/theme/add',
+  PRIVATE_SHARE_THEME_ACTIVITY: '/private/activity/theme/addV2',
   // topic
   PRIVATE_TOPIC_ALL: (limit?: number) =>
     limit ? `/private/topic/all?limit=${limit}` : '/private/topic/all',

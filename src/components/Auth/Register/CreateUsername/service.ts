@@ -6,8 +6,8 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { getRegisterToken } from '@store/auth';
 
 interface IOptionsRequest {
-  onSuccess?: (r: any) => void;
-  onError?: (e: any) => void;
+  onSuccess?: (r: any, params?: any) => void;
+  onError?: (e: any, params?: any) => void;
 }
 
 interface IBodySubmitUsername {

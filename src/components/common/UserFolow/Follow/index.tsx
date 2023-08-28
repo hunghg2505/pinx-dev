@@ -1,22 +1,56 @@
 import React, { useContext } from 'react';
 
+import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import { toast } from 'react-hot-toast';
 
+import { requestFollowUser } from '@components/Home/service';
+import Notification from '@components/UI/Notification';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { useProfileInitial } from '@store/profile/useProfileInitial';
 
-import useFollowUser from './useFollowUser';
+// import useFollowUser from './useFollowUser';
 import { followContext } from '..';
 
 const Folow = () => {
   const context = useContext<any>(followContext);
   const { isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { run } = useFollowUser();
+  // // const { run } = useFollowUser();
 
+  // const onFollow = () => {
+  //   if (isLogin) {
+  //     run(context?.id);
+  //   } else {
+  //     setPopupStatus({
+  //       ...popupStatus,
+  //       popupAccessLinmit: true,
+  //     });
+  //   }
+  // };
+
+  const { run: getUserProfile } = useProfileInitial();
+
+  const useFollowUser = useRequest(
+    () => {
+      return requestFollowUser(context?.id);
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        getUserProfile();
+        context.refresh && context.refresh();
+        // setIsFollow(true);
+      },
+      onError: (e: any) => {
+        toast(() => <Notification type='error' message={e?.error} />);
+      },
+    },
+  );
   const onFollow = () => {
     if (isLogin) {
-      run(context?.id);
+      useFollowUser.run();
     } else {
       setPopupStatus({
         ...popupStatus,
@@ -28,7 +62,7 @@ const Folow = () => {
     <>
       <div
         className={'cursor-pointer rounded-[5px]  bg-primary_bgblue_2  p-[6px] '}
-        onClick={() => onFollow()}
+        onClick={onFollow}
       >
         <img
           loading='lazy'

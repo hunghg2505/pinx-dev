@@ -16,12 +16,12 @@ export default forwardRef((props: any, ref) => {
     const item = props.items?.[index];
     if (item) {
       const isStock = !!item?.stockCode;
-      const isHashTag = item.isHashtag;
+      const isHashTag = typeof item === 'string' && item.includes('#');
       // const hashTag = isHashTag && item?.content?.replace('#', '');
       if (isStock) {
         props.command({ id: item.id, label: item.stockCode });
       } else if (isHashTag) {
-        props.command({ id: item.id, label: item?.content });
+        props.command({ id: null, label: item });
       } else {
         props.command({ id: item.id, label: item.displayName });
       }
@@ -64,12 +64,13 @@ export default forwardRef((props: any, ref) => {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const renderText = (item: any) => {
     const isStock = !!item.stockCode;
-    const isHashTag = item.isHashtag;
+    const isHashTag = typeof item === 'string' && item.includes('#');
     if (isStock) {
       return item.stockCode;
     }
     if (isHashTag) {
-      return item.content;
+      console.log('item', item);
+      return item;
     }
     return item.displayName;
   };
@@ -106,7 +107,7 @@ export default forwardRef((props: any, ref) => {
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
-              const isHashTag = item.isHashtag;
+              const isHashTag = typeof item === 'string' && item.includes('#');
               let url = '';
               const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
               if (isStock) {
@@ -143,7 +144,7 @@ export default forwardRef((props: any, ref) => {
                   )}
                   <Text
                     type='body-14-medium'
-                    className='text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
+                    className='max-w-[180px] truncate text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
                   >
                     {renderText(item)}
                   </Text>

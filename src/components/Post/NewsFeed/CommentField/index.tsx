@@ -1,6 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useState, useRef, useEffect } from 'react';
 
 import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
 import Mention from '@tiptap/extension-mention';
 import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -27,12 +28,13 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useUserType } from '@hooks/useUserType';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 // import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
 import { ROUTE_PATH, isImage, validateHTML } from '../../../../utils/common';
@@ -61,6 +63,9 @@ const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const [profileSetting] = useAtom(profileSettingAtom);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   // const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
@@ -68,13 +73,28 @@ const Editor = (props: IProps, ref?: any) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
-  const { statusUser } = useUserType();
-  const { userLoginInfo } = useUserLoginInfo();
+  // const { statusUser } = useUserType();
+  // const { userLoginInfo } = useUserLoginInfo();
+  const statusUser = userLoginInfo?.statusUser;
+  const AppHardBreak = HardBreak.extend({
+    addKeyboardShortcuts() {
+      return {
+        'Shift-Enter': () => {
+          return this.editor.commands.setHardBreak();
+        },
+        // Enter: ({ editor }) => {
+        //   onSend(editor, statusUser);
+        //   return true;
+        // },
+      };
+    },
+  });
   const editor = useEditor({
     extensions: [
       Document,
       Paragraph,
       Text,
+      AppHardBreak,
       Placeholder.configure({
         placeholder: t('what_do_you_want_to_comment'),
       }),
@@ -82,7 +102,7 @@ const Editor = (props: IProps, ref?: any) => {
         name: 'userMention',
       }).configure({
         HTMLAttributes: {
-          class: '!whitespace-nowrap userMention text-[14px] font-semibold leading-[18px]',
+          class: 'userMention text-[14px] font-semibold leading-[18px]',
         },
         suggestion: {
           ...suggestion,
@@ -159,7 +179,7 @@ const Editor = (props: IProps, ref?: any) => {
                 data: payload,
               },
             );
-            return data?.data?.list;
+            return data?.data?.hashtags;
           },
         },
       }),
@@ -297,7 +317,7 @@ const Editor = (props: IProps, ref?: any) => {
 
   const size = useSize(editorRef);
 
-  const onSend = async () => {
+  const onSend = async (editor: any, statusUser: any) => {
     const users: any = [];
     const stock: any = [];
     const hashtags: any = [];
@@ -405,9 +425,9 @@ const Editor = (props: IProps, ref?: any) => {
           message='Your post should be reviewed due to violation to Pinetree Securities&#39;s policy'
         />
       ));
-    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE && !isCanCompose) {
       toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
-    } else if (statusUser === USERTYPE.VSD) {
+    } else if (statusUser === USERTYPE.VSD || isCanCompose) {
       if (idReply === '') {
         useAddComment.run(data);
       }
@@ -419,15 +439,24 @@ const Editor = (props: IProps, ref?: any) => {
   return (
     <>
       <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
-        <img
-          src={userLoginInfo?.avatar}
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
-          onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
-        />
+        {userLoginInfo?.avatar ? (
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          />
+        ) : (
+          <div
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          >
+            <AvatarDefault name={userLoginInfo?.displayName} />
+          </div>
+        )}
 
         <div
           className={classNames(
@@ -480,9 +509,9 @@ const Editor = (props: IProps, ref?: any) => {
               <EditorContent
                 editor={editor}
                 className={classNames(
-                  ' tablet-max:no-scrollbar max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
+                  ' tablet-max:no-scrollbar my-[4px] max-h-[108px]  w-full flex-1 flex-col items-start justify-start overflow-y-auto break-words mobile:flex mobile:w-[calc(100%_-_50px)] mobile:px-[5px] tablet-max:max-h-[80px]  tablet:max-w-[500px]',
                   {
-                    'tablet:mt-[3px]': isFocus,
+                    // 'tablet:mt-[3px]': isFocus,
                   },
                 )}
               />
@@ -539,7 +568,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'pointer-events-none opacity-40': !textComment,
                     'pointer-events-auto opacity-100': textComment,
                   })}
-                  onClick={onSend}
+                  onClick={() => onSend(editor, statusUser)}
                 />
               )}
             </div>
@@ -586,7 +615,7 @@ const Editor = (props: IProps, ref?: any) => {
                 'pointer-events-none opacity-40': !textComment,
                 'pointer-events-auto opacity-100': textComment,
               })}
-              onClick={onSend}
+              onClick={() => onSend(editor, statusUser)}
             />
           )}
         </div>

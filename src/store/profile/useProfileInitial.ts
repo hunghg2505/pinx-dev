@@ -4,6 +4,7 @@ import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
+import { USERTYPE } from '@utils/constant';
 
 export const serviceGetUserProfile = async () => {
   const requestProfile = await privateRequest(requestPist.get, API_PATH.USER_PROFILE);
@@ -32,9 +33,22 @@ export const useProfileInitial = (option = {}) => {
           }));
           return;
         }
+        const custStat = res?.data?.custStat;
+        const acntStat = res?.data?.acntStat;
+        let statusUser: string;
+        if (custStat === USERTYPE.NEW) {
+          statusUser = USERTYPE.NEW;
+        } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.VSD_REJECTED) {
+          statusUser = USERTYPE.EKYC;
+        } else if (custStat === USERTYPE.PRO && acntStat === USERTYPE.PENDING_TO_CLOSE) {
+          statusUser = USERTYPE.PENDING_TO_CLOSE;
+        } else {
+          statusUser = USERTYPE.VSD;
+        }
         setUserLoginInfo((prev: any) => ({
           ...prev,
           ...res?.data,
+          statusUser,
           loading: false,
         }));
       },

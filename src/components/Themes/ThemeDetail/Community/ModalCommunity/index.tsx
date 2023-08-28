@@ -76,14 +76,14 @@ const ModalCommunity = (props: Iprops) => {
                     key={`ModalCommunity-${item?.customerId}`}
                     className='mb-[12px] w-full'
                   >
-                    <ItemPeople key={item.customerId} data={item} />
+                    <ItemPeople isModal key={item.customerId} data={item} />
                   </div>
                 );
               }
 
               return (
                 <div key={`ModalCommunity-${item?.customerId}`} className='mb-[12px] w-full'>
-                  <ItemPeople key={item.customerId} data={item} />
+                  <ItemPeople isModal key={item.customerId} data={item} />
                 </div>
               );
             })}

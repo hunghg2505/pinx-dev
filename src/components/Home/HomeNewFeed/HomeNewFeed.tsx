@@ -5,8 +5,8 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
-import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
@@ -17,21 +17,15 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
+import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
-import {
-  requestJoinIndex,
-  requestLeaveIndex,
-  socket,
-  useSuggestPeople,
-  useGetWatchList,
-} from '../service';
+import { useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -42,9 +36,7 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
-const PeopleList = dynamic(() => import('../People/PeopleList'), {
-  ssr: false,
-});
+
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
@@ -57,19 +49,15 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-
-  socket.on('connect', requestJoinIndex);
-
+  // socket.on('connect', requestJoinIndex);
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
-  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
 
   const { refLastElement } = useObserver();
-
-  const { loadingPosts, dataPosts, run, runAsync, mutate } = usePostHomePage();
+  const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -83,15 +71,11 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
   }, [filterType]);
-
-  useEffect(() => {
-    const isLogin = !!getAccessToken();
-
-    if (isLogin) {
-      getSuggestFriend();
+  React.useEffect(() => {
+    if (postDetailStatus?.isRefreshHome) {
+      initialHomePostData();
     }
-  }, []);
-
+  }, [postDetailStatus?.isRefreshHome]);
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
@@ -134,12 +118,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const onChangeTab = (key: string) => {
     setSelectTab(key);
-    if (key === '1') {
-      requestLeaveIndex();
-    }
-    if (key === '2') {
-      requestJoinIndex();
-    }
+    // if (key === '1') {
+    //   requestLeaveIndex();
+    // }
+    // if (key === '2') {
+    //   requestJoinIndex();
+    // }
   };
 
   const onAddNewPost = (newData: IPost) => {
@@ -178,7 +162,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       });
     }
   }, [postDetailStatus.idPostDetail]);
-
   return (
     <div className='relative desktop:pt-0'>
       <div className='relative laptop:hidden'>
@@ -221,7 +204,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       </div>
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('people_in_spotlight')}
         </Text>
 
@@ -237,64 +225,40 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
           </div>
         </CustomLink>
       </div>
-
-      {suggestionPeople && (
-        <div className='box-shadow card-style tablet:hidden'>
-          <div className='mr-[16px] flex flex-row items-center'>
-            <img
-              src='/static/icons/iconPeople.svg'
-              alt=''
-              width={20}
-              height={20}
-              className='mr-[8px] h-[20px] w-[20px] object-contain'
-            />
-            <Text type='body-16-bold' color='neutral-2'>
-              {t('People_you_may_know')}
-            </Text>
-          </div>
-
-          <div>
-            <div className='bg-[#ffffff] pl-[16px] pt-[15px] galaxy-max:pl-0'>
-              <PeopleList loading={loading} data={suggestionPeople} refresh={refreshList} />
-            </div>
-            <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
-              <ModalPeopleYouKnow refreshList={refreshList}>
-                <button className='mx-[auto] h-[45px] w-[calc(100%_-_32px)] rounded-[8px] bg-[#F0F7FC] galaxy-max:w-full'>
-                  <Text type='body-14-bold' color='primary-2'>
-                    {t('explore_people')}
-                  </Text>
-                </button>
-              </ModalPeopleYouKnow>
-            </div>
-          </div>
-        </div>
-      )}
+      <SuggestionPeople />
 
       {fourPost?.map((item: IPost) => {
         return <NewsFeed loading={loadingPosts} key={`home-post-item-${item?.id}`} data={item} />;
       })}
 
       <div className='box-shadow card-style'>
-        <Text type='body-16-semibold' color='neutral-2' className='mb-[14px] tablet:text-[20px]'>
+        <Text
+          element='h2'
+          type='body-16-semibold'
+          color='neutral-2'
+          className='mb-[14px] tablet:text-[20px]'
+        >
           {t('economy_in_the_themes')}
         </Text>
         <ListTheme />
       </div>
 
-      {postsNext?.map((item: IPost, idx: number) => {
-        if (idx === postsNext?.length - 1) {
-          return (
-            <div
-              key={`home-post-item-${item?.id}`}
-              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-            >
-              <NewsFeed data={item} />
-            </div>
-          );
-        }
+      <LazyLoadComponent>
+        {postsNext?.map((item: IPost, idx: number) => {
+          if (idx === postsNext?.length - 1) {
+            return (
+              <div
+                key={`home-post-item-${item?.id}`}
+                ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+              >
+                <NewsFeed data={item} />
+              </div>
+            );
+          }
 
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
-      })}
+          return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        })}
+      </LazyLoadComponent>
 
       {loadingPosts && (
         <div className='mt-[10px]'>

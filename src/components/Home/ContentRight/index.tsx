@@ -73,7 +73,7 @@ const ContentRight = () => {
 
         <Fade visible={isLogin && !isPageWatchList}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-            <Text type='body-16-bold' color='cbblack' className='mb-4'>
+            <Text element='h2' type='body-16-bold' color='cbblack' className='mb-4'>
               {t('user_watchlist')}
             </Text>
             <WatchList />
@@ -82,7 +82,7 @@ const ContentRight = () => {
 
         <Fade visible={!isProfilePath}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-            <Text type='body-16-bold' color='cbblack' className='mb-[15px]'>
+            <Text element='h5' type='body-16-bold' color='cbblack' className='mb-[15px]'>
               {t('trending')}
             </Text>
             <TrendingDesktop />
@@ -91,7 +91,7 @@ const ContentRight = () => {
 
         <Fade visible={isLogin && !isProfilePath}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-            <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
+            <Text element='h6' type='body-16-bold' color='cbblack' className='mb-[25px]'>
               {t('people_you_may_know')}
             </Text>
             <PeopleDesktop

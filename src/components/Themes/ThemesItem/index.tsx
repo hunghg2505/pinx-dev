@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -15,7 +17,7 @@ import { useUserType } from '@hooks/useUserType';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 interface IProps {
@@ -83,7 +85,10 @@ const ThemesItem = (props: IProps) => {
   const { statusUser } = useUserType();
   const { theme, refresh } = props;
   const router = useRouter();
-
+  const [isSubsribed, setIsSubsribed] = React.useState(theme?.isSubsribed);
+  React.useEffect(() => {
+    setIsSubsribed(theme?.isSubsribed);
+  }, [theme?.isSubsribed]);
   const useSubcribe = useRequest(
     (code: string) => {
       return privateRequest(
@@ -103,6 +108,7 @@ const ThemesItem = (props: IProps) => {
           });
           setPopupThemeData(theme);
         }
+        setIsSubsribed(!isSubsribed);
         refresh && refresh();
       },
       onError: (e: any) => {
@@ -129,6 +135,7 @@ const ThemesItem = (props: IProps) => {
           });
           setPopupThemeData(theme);
         }
+        setIsSubsribed(!isSubsribed);
         refresh && refresh();
       },
       onError: (e: any) => {
@@ -140,7 +147,7 @@ const ThemesItem = (props: IProps) => {
     e.preventDefault();
 
     if (isLogin) {
-      if (theme?.isSubsribed) {
+      if (isSubsribed) {
         useUnSubcribe.run(theme.code);
       } else {
         useSubcribe.run(theme.code);
@@ -153,7 +160,7 @@ const ThemesItem = (props: IProps) => {
     }
   };
   const renderSubcribe = () => {
-    if (theme?.isSubsribed) {
+    if (isSubsribed) {
       return (
         <>
           <IconChecked />
@@ -195,7 +202,7 @@ const ThemesItem = (props: IProps) => {
                 {theme.totalSubscribe !== 0 && (
                   <>
                     <Text type='body-12-bold' color='neutral-4' className='my-[6px] text-center'>
-                      {theme.totalSubscribe}
+                      {formatStringToNumber(theme.totalSubscribe)}
                     </Text>
                     <Text type='body-12-bold' color='neutral-4' className='text-center'>
                       {t('common:subscribers')}

@@ -11,6 +11,9 @@ export interface IPostDetailStatus {
   stockWatchList: any;
   isChangeMyProfile?: boolean;
   isChangeStockWatchList?: boolean;
+  isRefreshHome?: boolean;
+  idPostHideComment?: string;
+  idCommentReplie?: string;
 }
 
 export const initialPostDetailStatus: IPostDetailStatus = {
@@ -20,10 +23,13 @@ export const initialPostDetailStatus: IPostDetailStatus = {
   idPostAddComment: '',
   idPostDetail: '',
   idPostLike: '',
+  idPostHideComment: '',
   idCustomerFollow: 0,
   themeWatchlist: undefined,
   stockWatchList: undefined,
   isChangeStockWatchList: false,
+  isRefreshHome: false,
+  idCommentReplie: '',
 };
 
 export const postDetailStatusAtom = atom({

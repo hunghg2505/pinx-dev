@@ -46,7 +46,7 @@ export const VietStockNews = ({
         <div
           className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
-          <CustomLink href={`/redirecting?url=${post_url}`}>
+          <CustomLink target='_blank' href={`${post_url}`}>
             <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'>
               <div className='scale-[0.6]'>
                 <IconLink />
@@ -55,7 +55,7 @@ export const VietStockNews = ({
           </CustomLink>
 
           <div className=' flex w-full flex-1 flex-col items-start justify-center gap-y-[10px] px-[8px] py-[8px] [border-left:1px_solid_#CCC] tablet:px-[12px]'>
-            <CustomLink href={`/redirecting?url=${post_url}`}>
+            <CustomLink target='_blank' href={`${post_url}`}>
               <Text
                 type='body-14-bold'
                 color='cbblack'
@@ -85,7 +85,8 @@ export const VietStockNews = ({
       >
         {postDetail?.post?.headImageUrl && (
           <CustomLink
-            href={`/redirecting?url=${post_url}`}
+            target='_blank'
+            href={`${post_url}`}
             className='absolute left-0 top-0 z-[1] h-full  w-full'
           >
             <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
@@ -98,7 +99,8 @@ export const VietStockNews = ({
 
         {!isPostDetailPath && (
           <CustomLink
-            href={`/redirecting?url=${post_url}`}
+            target='_blank'
+            href={`${post_url}`}
             className='absolute bottom-0 left-0 z-[2]  w-full'
           >
             <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
@@ -118,7 +120,8 @@ export const VietStockNews = ({
         )}
 
         <CustomLink
-          href={`/redirecting?url=${post_url}`}
+          target='_blank'
+          href={`${post_url}`}
           className={classNames(
             'absolute z-[3] flex h-[36px] w-[36px] cursor-pointer flex-row items-center justify-center rounded-[1000px] bg-[rgba(255,_255,_255,_0.45)]',
             {
@@ -175,7 +178,7 @@ export const VietStockNews = ({
 
       {isPostDetailPath && (
         <div className='mb-[6px] text-right '>
-          <CustomLink href={`/redirecting?url=${post_url}`}>
+          <CustomLink target='_blank' href={`${post_url}`}>
             <div
               className={classNames('inline-flex items-center', {
                 'mb-[8px]': !!postDetail?.post?.headImageUrl,

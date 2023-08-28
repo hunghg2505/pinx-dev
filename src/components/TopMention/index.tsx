@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { ITopWatchingStock, useGetTopMentionStock } from '@components/Explore/service';
 import WatchingStock from '@components/Explore/WatchingStock';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 
 const TopMention = () => {
@@ -13,7 +14,7 @@ const TopMention = () => {
   const onGoBack = () => {
     router.back();
   };
-  const { listMention } = useGetTopMentionStock();
+  const { listMention, loading } = useGetTopMentionStock();
   const maxTopMentionStock =
     listMention && Math.max(...listMention?.map((item: any) => item.totalCount));
   return (
@@ -34,16 +35,25 @@ const TopMention = () => {
         {t('top.mention.desc')}
       </Text>
       <div className='mt-[16px] flex flex-col flex-wrap gap-x-[14px] gap-y-[20px]'>
-        {listMention?.map((item: ITopWatchingStock, index: number) => {
-          return (
-            <WatchingStock
-              percen={(item.totalCount / maxTopMentionStock) * 100}
-              key={`stock-${index}`}
-              data={item}
-              mention
-            />
-          );
-        })}
+        {loading ? (
+          <Skeleton
+            rows={10}
+            className='!w-full !rounded-[15px]'
+            wrapClassName='!gap-y-[20px]'
+            height={60}
+          />
+        ) : (
+          listMention?.map((item: ITopWatchingStock, index: number) => {
+            return (
+              <WatchingStock
+                percen={(item.totalCount / maxTopMentionStock) * 100}
+                key={`stock-${index}`}
+                data={item}
+                mention
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

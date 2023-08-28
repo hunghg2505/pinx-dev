@@ -160,9 +160,9 @@ const ProfileVerification = () => {
           </Upload>
         </div>
 
-        <div className=''>
+        <div className='overflow-hidden'>
           <div className='mb-[2px] flex items-center galaxy-max:mb-2'>
-            <Text type='body-20-semibold' className='galaxy-max:text-[16px]'>
+            <Text type='body-20-semibold' className='galaxy-max:text-[16px] truncate'>
               {userLoginInfo?.displayName}
             </Text>
 

@@ -10,10 +10,11 @@ import {
   requestFollowUser,
   // requestUnFollowUser,
 } from '@components/Home/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -35,7 +36,6 @@ const ItemPeople = (props: IProps) => {
   const { data, refresh } = props;
   const router = useRouter();
   // const [isFollow, setIsFollow] = React.useState(false);
-  const image = data.avatar.includes('http');
   const { run: getUserProfile } = useProfileInitial();
 
   const useFollowUser = useRequest(
@@ -85,19 +85,21 @@ const ItemPeople = (props: IProps) => {
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
           className='flex flex-col items-center justify-center'
         >
-          <img
-            src={
-              image
-                ? data?.avatar
-                : 'https://static.pinetree.com.vn/upload/images/pist/profile/Tran_Doan_Tien.jpg'
-            }
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
-          />
-          <div className='relative mb-[3px] flex items-center'>
+          {data?.avatar ? (
+            <img
+              src={data?.avatar}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
+            />
+          ) : (
+            <div className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'>
+              <AvatarDefault name={data?.displayName} />
+            </div>
+          )}
+          <div className='relative mb-[3px] flex min-h-[20px] items-center'>
             <Text
               type='body-12-semibold'
               color='neutral-3'
@@ -128,7 +130,7 @@ const ItemPeople = (props: IProps) => {
           </div>
 
           <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
-            <p>{data?.numberFollowers}</p>
+            <p>{formatStringToNumber(data?.numberFollowers)}</p>
             <p>{t('followers')}</p>
           </Text>
         </div>

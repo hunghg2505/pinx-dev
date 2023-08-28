@@ -9,7 +9,7 @@ import { IStockTrade } from '@components/Stock/type';
 import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { formatNumber, formatStringToNumber } from '@utils/common';
+import { formatStringToNumber } from '@utils/common';
 
 import styles from './index.module.scss';
 import { getLoadMoreList } from './service';
@@ -82,28 +82,28 @@ const PopupMatchedPrice = ({
           {data?.list.map((item, index) => (
             <tr key={index} className='table w-full table-fixed'>
               <td className='py-[10px] pl-[16px] text-left small-mobile-max:pl-[4px]'>
-                <Text type='body-16-regular' className='text-[#999999]'>
+                <Text type='body-16-regular' className='text-[#999999] galaxy-max:text-[14px]'>
                   {item.time}
                 </Text>
               </td>
               <td className='py-[10px]'>
-                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                  {formatNumber(item.lastVol * 10)}
+                <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
+                  {formatStringToNumber(item.lastVol * 10)}
                 </Text>
               </td>
               <td className='py-[10px]'>
-                <Text type='body-16-semibold' className='text-[#0D0D0D]'>
+                <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                   {formatStringToNumber(item.lastPrice, true, 2)}
                 </Text>
               </td>
               <td className='py-[10px] pr-[16px] small-mobile-max:pr-[4px]'>
                 <div
-                  className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px]'
+                  className='inline-flex h-[21px] items-center justify-end rounded-[4px] pl-[15px] pr-[4px] galaxy-max:pl-[8px]'
                   style={{
                     backgroundColor: getColor(item.lastPrice, stockRefPrice)?.color,
                   }}
                 >
-                  <Text type='body-16-semibold' color='cbwhite'>
+                  <Text type='body-16-semibold' className='galaxy-max:text-[14px]' color='cbwhite'>
                     {item.change}
                   </Text>
                 </div>

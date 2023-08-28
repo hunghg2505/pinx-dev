@@ -63,6 +63,61 @@ export const ROUTE_PATH = {
 
 export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
+  const ignore: any = [];
+  const checkSplit = message.split(' ')?.reduce((acc: any, cur: any, index: any, array: any) => {
+    const isStart = cur.includes('[');
+    const isEnd = cur.includes(']');
+    const isHashTag = cur.includes('#');
+
+    if (isStart && !isEnd && !isHashTag) {
+      for (const [i, item] of array.entries()) {
+        if (cur === item) {
+          continue;
+        }
+        if (i <= index) {
+          continue;
+        }
+
+        ignore.push(i);
+
+        cur = cur?.concat(` ${item}`);
+
+        const isEndItem = item.includes(']');
+
+        if (isEndItem) {
+          break;
+        }
+      }
+    }
+
+    const can = !ignore.includes(index);
+
+    if (can) {
+      const nCur = `${cur}`;
+
+      const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%') || nCur.includes('#'));
+      if (isSepecial) {
+        acc.push(nCur);
+      } else {
+        // eslint-disable-next-line unicorn/prefer-at
+        const prevItem = acc[acc.length - 1];
+        if (prevItem) {
+          const isPrevItemSepecial = Boolean(
+            prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+          );
+
+          if (isPrevItemSepecial) {
+            acc.push(nCur);
+          } else {
+            acc[acc.length - 1] = `${prevItem} ${nCur}`;
+          }
+        } else {
+          acc.push(nCur);
+        }
+      }
+    }
+    return acc;
+  }, []);
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
@@ -81,13 +136,8 @@ export const formatMessage = (message: string, data: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
-      // const url =
-      //   Number(idCustomer) === Number(ID)
-      //     ? `${window.location.origin}/profile/my-profile`
-      //     : `${window.location.origin}/profile/${ID}`;
-      if (message && !message.includes(name)) {
-        const newMessage = message.split(' ');
-        for (const text of newMessage) {
+      if (message) {
+        for (const text of checkSplit) {
           if (text.includes(ID)) {
             const startName = text.indexOf('@[') + 2;
             const endName = text.indexOf(']');
@@ -101,14 +151,14 @@ export const formatMessage = (message: string, data: any) => {
           }
         }
       }
-      if (message && message.includes(name)) {
-        message = message.replace(
-          item,
-          `
-          <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
-          `,
-        );
-      }
+      // if (message && message.includes(name)) {
+      //   message = message.replace(
+      //     item,
+      //     `
+      //     <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
+      //     `,
+      //   );
+      // }
     }
   }
   if (listStock) {
@@ -265,10 +315,6 @@ export function toNonAccentVietnamese(str: any) {
   str = str.replaceAll(/[\u02C6\u0306\u031B]/g, ''); // Â, Ê, Ă, Ơ, Ư
   return str;
 }
-
-export const formatNumber = (value: number) => {
-  return value.toLocaleString('en-US');
-};
 
 export const getMonthName = (monthNumber: number, localeParam = 'en-US') => {
   const locale = localeParam === 'vi' ? 'vi-VN' : localeParam;
@@ -444,7 +490,8 @@ export const getQueryFromUrl = () => {
     return {};
   }
 };
-export const converStringMessageToObject = (message: string) => {
+export const converStringMessageToObject = (message: string, data: any) => {
+  const listStock = data?.tagStocks;
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -482,7 +529,7 @@ export const converStringMessageToObject = (message: string) => {
           const nCur = `${cur}`;
 
           const isSepecial = Boolean(
-            nCur.includes('@') || nCur.includes('%') || nCur.includes('#'),
+            nCur.charAt(0) === '@' || nCur.charAt(0) === '%' || nCur.charAt(0) === '#',
           );
           if (isSepecial) {
             acc.push(nCur);
@@ -491,7 +538,9 @@ export const converStringMessageToObject = (message: string) => {
             const prevItem = acc[acc.length - 1];
             if (prevItem) {
               const isPrevItemSepecial = Boolean(
-                prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+                prevItem.charAt(0) === '@' ||
+                  prevItem.charAt(0) === '%' ||
+                  prevItem.charAt(0) === '#',
               );
 
               if (isPrevItemSepecial) {
@@ -533,17 +582,23 @@ export const converStringMessageToObject = (message: string) => {
             },
           };
         }
-        if (check.includes('%')) {
+        if (check.includes('%') && check.charAt(0) === '%') {
           const start = check.indexOf('[') + 1;
           const end = check.indexOf(']');
           const name = check.slice(start, end);
+          if (listStock?.includes(name)) {
+            return {
+              type: 'stockMention',
+              attrs: {
+                // eslint-disable-next-line unicorn/no-null
+                id: null,
+                label: name,
+              },
+            };
+          }
           return {
-            type: 'stockMention',
-            attrs: {
-              // eslint-disable-next-line unicorn/no-null
-              id: null,
-              label: name,
-            },
+            type: 'text',
+            text: check,
           };
         }
         if (check.includes('#')) {
@@ -596,7 +651,6 @@ export const converStringMessageToObject = (message: string) => {
             text: ' ',
           };
         }
-
         return {
           type: 'text',
           text: check,
@@ -650,7 +704,6 @@ export default async function getSeoDataFromLink(url: string) {
       }
       summary.push(tempsum);
     }
-
     return summary;
   } catch (error: any) {
     console.log('ERROR FETCHING META LINK', error);

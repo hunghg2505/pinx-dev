@@ -6,8 +6,7 @@ import Joined from '@components/MyProfile/Header/Info/Joined';
 import Name from '@components/MyProfile/Header/Info/Name';
 import Position from '@components/MyProfile/Header/Info/Position';
 import { profileUserContext } from '@components/Profile';
-
-// import Post from './Post';
+import { formatStringToNumber } from '@utils/common';
 
 import Subcrible from './Subcrible';
 
@@ -15,8 +14,8 @@ const Info = () => {
   const profileUser = useContext<any>(profileUserContext);
   return (
     <div className='relative flex w-full grid-flow-col items-center gap-2 pl-[16px] pr-[16px] pt-[20px]   galaxy-max:pt-[14px] tablet:pl-[132px] tablet:pr-0 tablet:pt-[14px] xdesktop:mt-[0] xdesktop:pl-[168px]'>
-      <div className='flex-auto'>
-        <div className='mb-[4px] flex items-center justify-between'>
+      <div className='flex-1 overflow-x-hidden'>
+        <div className='mb-[4px] flex items-center justify-between gap-x-[24px]'>
           <Name
             displayName={profileUser.displayName}
             isKol={profileUser.isKol}
@@ -31,9 +30,9 @@ const Info = () => {
           <div className='galaxy-max:flex-1'>
             <div className='flex gap-[15px] galaxy-max:flex-1 galaxy-max:gap-[6px] xdesktop:gap-[8px]'>
               {/* <Post /> */}
-              <Follower totalFollower={profileUser?.totalFollower} />
+              <Follower totalFollower={formatStringToNumber(profileUser?.totalFollower)} />
               <span className='text-[#808A9D]'>&bull;</span>
-              <Following totalFollowing={profileUser?.totalFollowing} />
+              <Following totalFollowing={formatStringToNumber(profileUser?.totalFollowing)} />
             </div>
 
             <div className='mt-[8px] flex justify-start text-[10px] tablet:hidden'>

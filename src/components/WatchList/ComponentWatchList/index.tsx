@@ -14,6 +14,7 @@ import {
   socket,
 } from '@components/Home/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 
 import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';
@@ -29,6 +30,8 @@ const ComponentWatchList = (props: IProps) => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
+
   React.useEffect(() => {
     if (postDetailStatus?.isChangeStockWatchList) {
       useWatchList.run();
@@ -45,9 +48,28 @@ const ComponentWatchList = (props: IProps) => {
         setDataStock(res?.data?.[0]?.stocks);
         const data = res?.data?.[0]?.stocks;
         if (data) {
+          const listStockCodes: string[] = [];
           for (const element of data) {
             requestJoinChannel(element.stockCode);
+            listStockCodes.push(element.stockCode);
           }
+
+          const findStockSocket = stockSocket.find(
+            (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
+          );
+          let tempStockSocket = [...stockSocket];
+          const dataStockSocket = {
+            location: StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
+            stocks: listStockCodes,
+          };
+          if (findStockSocket) {
+            tempStockSocket = tempStockSocket.map((item) =>
+              item.location === findStockSocket.location ? dataStockSocket : item,
+            );
+          } else {
+            tempStockSocket.push(dataStockSocket);
+          }
+          setStockSocket(tempStockSocket);
         }
       },
       ...optionsRequest,
@@ -67,7 +89,7 @@ const ComponentWatchList = (props: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
+  const { dataFormat, findIndex, isChangeStockPrice } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     let isChangeStockPrice = false;
     if (dataStock && findIndex !== -1) {
@@ -81,9 +103,10 @@ const ComponentWatchList = (props: IProps) => {
     if (page_size) {
       dataStock?.slice(0, page_size);
     }
-
-    return { dataFormat: dataStock, isChangeStockPrice, findIndex };
+    // setDataStock(dataStock);
+    return { dataFormat: dataStock, findIndex, isChangeStockPrice };
   }, [dataSocket, dataStock, page_size]);
+
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
@@ -111,9 +134,8 @@ const ComponentWatchList = (props: IProps) => {
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
-        {dataFormat?.map((item: IWatchListItem, index: number) => {
+        {dataStock?.map((item: IWatchListItem, index: number) => {
           const isChangeStock = isChangeStockPrice && findIndex === index;
-
           return (
             <div
               key={`${item.stockCode}-${index}`}

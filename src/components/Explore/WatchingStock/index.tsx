@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 import { ITopWatchingStock } from '../service';
 
@@ -62,7 +62,7 @@ const WatchingStock = (props: Iprops) => {
           </div>
           <div className='flex items-center'>
             <Text type='body-16-regular' color='neutral-1'>
-              {data?.totalCount}
+              {formatStringToNumber(data?.totalCount)}
             </Text>
             {mention ? (
               <img

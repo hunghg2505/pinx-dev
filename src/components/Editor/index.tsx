@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
 import Mention from '@tiptap/extension-mention';
 import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -27,12 +28,13 @@ import {
 } from '@api/request';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useUserType } from '@hooks/useUserType';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
@@ -41,9 +43,11 @@ import { ROUTE_PATH, isImage, validateHTML } from '../../utils/common';
 
 interface IProps {
   id: string;
-  refresh: () => void;
+  refresh?: () => void;
   refreshTotal: () => void;
+  refreshCommentOfComment?: (v: any) => void;
   setImageCommentMobile: (v: boolean) => void;
+  onAddComment?: (v: any) => void;
   width?: number;
   canExpand?: boolean;
   isReply?: boolean;
@@ -60,22 +64,49 @@ const beforeUpload = (file: RcFile) => {
 const Editor = (props: IProps, ref?: any) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { id, refresh, refreshTotal, setImageCommentMobile, width, canExpand, isReply } = props;
+  const {
+    id,
+    refresh,
+    setImageCommentMobile,
+    width,
+    canExpand,
+    isReply,
+    refreshTotal,
+    refreshCommentOfComment,
+    onAddComment,
+  } = props;
   const [imageComment, setImageComment] = useState('');
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const [profileSetting] = useAtom(profileSettingAtom);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
-  const { statusUser } = useUserType();
-  const { userLoginInfo } = useUserLoginInfo();
+  const statusUser = userLoginInfo?.statusUser;
+  const AppHardBreak = HardBreak.extend({
+    addKeyboardShortcuts() {
+      return {
+        'Shift-Enter': () => {
+          return this.editor.commands.setHardBreak();
+        },
+        // Enter: ({ editor }) => {
+        //   onSend(editor, statusUser);
+        //   return true;
+        // },
+      };
+    },
+  });
+
   const editor = useEditor({
     extensions: [
       Document,
       Paragraph,
       Text,
+      AppHardBreak,
       Placeholder.configure({
         placeholder: t('what_do_you_want_to_comment'),
       }),
@@ -160,7 +191,7 @@ const Editor = (props: IProps, ref?: any) => {
                 data: payload,
               },
             );
-            return data?.data?.list;
+            return data?.data?.hashtags;
           },
         },
       }),
@@ -240,8 +271,9 @@ const Editor = (props: IProps, ref?: any) => {
       manual: true,
       onSuccess: (r: any) => {
         if (r) {
+          onAddComment && onAddComment(r);
           refreshTotal();
-          refresh();
+          refresh && refresh();
           editor?.commands.clearContent();
           setIdReply('');
           if (imageComment) {
@@ -275,7 +307,8 @@ const Editor = (props: IProps, ref?: any) => {
       onSuccess: (r: any) => {
         if (r) {
           refreshTotal();
-          refresh();
+          refresh && refresh();
+          refreshCommentOfComment && refreshCommentOfComment(idReply);
           setIdReply('');
           setPostDetailStatus({
             ...postDetailStatus,
@@ -329,7 +362,7 @@ const Editor = (props: IProps, ref?: any) => {
   }, [editor?.isFocused, isClickAway, useAddComment.loading]);
   const size = useSize(editorRef);
 
-  const onSend = async () => {
+  const onSend = async (editor: any, statusUser: any) => {
     const users: any = [];
     const stock: any = [];
     const hashtags: any = [];
@@ -424,9 +457,9 @@ const Editor = (props: IProps, ref?: any) => {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
     } else if (message && validateHTML(message)) {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
-    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+    } else if (statusUser === USERTYPE.PENDING_TO_CLOSE && !isCanCompose) {
       toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
-    } else if (statusUser === USERTYPE.VSD) {
+    } else if (statusUser === USERTYPE.VSD || isCanCompose) {
       if (idReply === '') {
         useAddComment.run(data);
       } else {
@@ -453,15 +486,25 @@ const Editor = (props: IProps, ref?: any) => {
         ref={elementRef}
         className='relative mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'
       >
-        <img
-          src={userLoginInfo?.avatar}
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
-          onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
-        />
+        {userLoginInfo?.avatar ? (
+          <img
+            src={userLoginInfo?.avatar}
+            alt=''
+            width={0}
+            height={0}
+            sizes='100vw'
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          />
+        ) : (
+          <div
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
+          >
+            <AvatarDefault name={userLoginInfo?.displayName} />
+          </div>
+        )}
+
         {isReply && (
           <div>
             <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
@@ -586,7 +629,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'pointer-events-none opacity-40': !textComment,
                     'pointer-events-auto opacity-100': textComment,
                   })}
-                  onClick={onSend}
+                  onClick={() => onSend(editor, statusUser)}
                 />
               )}
             </div>
@@ -633,7 +676,7 @@ const Editor = (props: IProps, ref?: any) => {
                 'pointer-events-none opacity-40': !textComment,
                 'pointer-events-auto opacity-100': textComment,
               })}
-              onClick={onSend}
+              onClick={() => onSend(editor, statusUser)}
             />
           )}
         </div>

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import { requestJoinIndex, requestLeaveIndex } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
@@ -33,6 +34,14 @@ const MarketDesktop = () => {
     setPopupVisible(true);
   };
 
+  useEffect(() => {
+    requestJoinIndex();
+
+    return () => {
+      requestLeaveIndex();
+    };
+  }, []);
+
   if (!dataStockIndex?.length) {
     return (
       <>
@@ -61,7 +70,7 @@ const MarketDesktop = () => {
   return (
     <>
       <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-        <Text type='body-16-bold' color='cbblack' className='mb-[25px]'>
+        <Text element='h4' type='body-16-bold' color='cbblack' className='mb-[25px]'>
           {t('market')}
         </Text>
         <Tabs defaultActiveKey='1' className='tabHomePc'>

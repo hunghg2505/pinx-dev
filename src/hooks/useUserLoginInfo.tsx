@@ -40,6 +40,7 @@ interface InitUserLoginInfo {
   isKol?: boolean;
   isFeatureProfile?: boolean;
   loading?: boolean;
+  statusUser?: string;
 }
 
 const initialUserLoginInfo: InitUserLoginInfo = {

@@ -32,10 +32,12 @@ import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import TextComponent from '@components/UI/Text';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
+import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import getSeoDataFromLink, {
   base64ToBlob,
   converStringMessageToObject,
@@ -82,7 +84,10 @@ const Compose = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { statusUser } = useUserType();
-  const objectMessage = converStringMessageToObject(postDetail?.post?.message);
+  const [profileSetting] = useAtom(profileSettingAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
+  const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
   const message =
     postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
 
@@ -162,7 +167,6 @@ const Compose = (props: IProps) => {
 
         hidePopup && hidePopup();
         setMetaData(null);
-        console.log('update post');
         setPostDetailStatus({
           ...postDetailStatus,
           idPostLike: postDetail?.id,
@@ -295,7 +299,6 @@ const Compose = (props: IProps) => {
               const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
                 data: payload,
               });
-
               return data?.data?.companies;
             },
           },
@@ -337,7 +340,7 @@ const Compose = (props: IProps) => {
                   data: payload,
                 },
               );
-              return data?.data?.list;
+              return data?.data?.hashtags;
             },
           },
         }),
@@ -417,7 +420,7 @@ const Compose = (props: IProps) => {
 
   const onAddPost = async () => {
     try {
-      if (statusUser === USERTYPE.NEW) {
+      if (statusUser === USERTYPE.NEW && !isCanCompose) {
         hidePopup && hidePopup();
         setPopupStatus({
           ...popupStatus,
@@ -560,6 +563,7 @@ const Compose = (props: IProps) => {
       };
       if (urlLinks?.length && !metaData?.length) {
         const dataSeo = await getSeoDataFromLink(urlLinks[0]);
+        console.log('🚀 ~ file: index.tsx:568 ~ onAddPost ~ dataSeo:', dataSeo);
 
         if (dataSeo?.length) {
           data.metadata = [JSON.stringify(dataSeo)];
@@ -597,13 +601,12 @@ const Compose = (props: IProps) => {
       if (message && validateHTML(message)) {
         return toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
       }
-      if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      if (statusUser === USERTYPE.PENDING_TO_CLOSE && !isCanCompose) {
         return toast(() => (
           <Notification type='error' message={t('message_account_pending_to_close')} />
         ));
       }
-
-      if (statusUser === USERTYPE.VSD) {
+      if (statusUser === USERTYPE.VSD || isCanCompose) {
         if (!editor?.getText()) {
           return toast(() => <Notification type='error' message={t('err_add_post')} />);
         }
@@ -611,7 +614,7 @@ const Compose = (props: IProps) => {
         if (isUpdate) {
           return requestUpdatePost.run(data);
         }
-        requestAddPost.run(data);
+        return requestAddPost.run(data);
       }
     } catch (error) {
       console.log(error);

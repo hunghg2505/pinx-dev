@@ -16,8 +16,10 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
@@ -31,15 +33,19 @@ const UserItem = (props: Iprops) => {
   const { data, reload, setShowPopup, refreshSearch } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
   const { run: getUserProfile } = useProfileInitial();
-
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const isMyProfile = userLoginInfo?.id === Number(data?.id);
+  const urlProfile = isMyProfile ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(data?.id);
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   React.useEffect(() => {
     setIsFollow(data?.isFollowed);
   }, [data?.isFollowed]);
+
   const useFollowUser = useRequest(
     (id: number) => {
       return requestFollowUser(id);
@@ -51,6 +57,7 @@ const UserItem = (props: Iprops) => {
         setIsFollow(true);
         reload && reload();
         refreshSearch && refreshSearch();
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: data?.id });
         // refreshList();
       },
       onError: (e: any) => {
@@ -69,6 +76,7 @@ const UserItem = (props: Iprops) => {
         setIsFollow(false);
         reload && reload();
         refreshSearch && refreshSearch();
+        setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: data?.id });
         // refreshList();
       },
       onError: (e: any) => {
@@ -90,12 +98,13 @@ const UserItem = (props: Iprops) => {
       });
     }
   };
+
   const name =
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
   return (
     <div
       className={classNames(
-        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
+        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px] galaxy-max:px-[8px] galaxy-max:py-[7px]',
         {
           '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
             !isMobile && isSearchPage,
@@ -106,7 +115,7 @@ const UserItem = (props: Iprops) => {
       <div
         className='flex cursor-pointer items-center'
         onClick={() => {
-          router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id));
+          router.push(urlProfile);
           setShowPopup && setShowPopup(false);
         }}
       >
@@ -114,49 +123,54 @@ const UserItem = (props: Iprops) => {
           <img
             src={data?.avatar}
             alt=''
-            className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px] min-w-[44px]'
+            className='mr-[8px] h-[44px] w-[44px] min-w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px] galaxy-max:min-w-[36px]'
           />
         ) : (
-          <div className='mr-[8px] h-[44px] w-[44px] galaxy-max:h-[36px] galaxy-max:w-[36px] min-w-[36px]'>
+          <div className='mr-[8px] h-[44px] w-[44px] min-w-[36px] galaxy-max:h-[36px] galaxy-max:w-[36px]'>
             <AvatarDefault name={name} />
           </div>
         )}
-
-        <Text type='body-14-semibold' className='text-[#474D57] galaxy-max:text-[12px] break-all'>
-          {data?.displayName}
-        </Text>
-
-        {data?.isFeatureProfile && (
-          <img
-            src='/static/icons/iconKol.svg'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='h-[20px] w-[20px]'
-          />
-        )}
-        {data?.isKol && (
-          <img
-            src='/static/icons/iconTick.svg'
-            alt=''
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='ml-[8px] h-[16px] w-[16px]'
-          />
-        )}
+        <div className='flex mobile:max-w-[130px]  galaxy-max:w-[120px] desktop:max-w-[300px]'>
+          <Text
+            type='body-14-semibold'
+            className='flex  overflow-hidden text-[#474D57] galaxy-max:text-[12px]'
+          >
+            <span className='truncate'>{data?.displayName}</span>
+          </Text>
+          {data?.isFeatureProfile && (
+            <img
+              src='/static/icons/iconKol.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='h-[20px] w-[20px]'
+            />
+          )}
+          {data?.isKol && (
+            <img
+              src='/static/icons/iconTick.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='ml-[8px] h-[16px] w-[16px]'
+            />
+          )}
+        </div>
       </div>
-      <div
-        className={classNames(
-          'box flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-[5px] min-w-[36px]',
-          {
-            'follow bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]': isFollow,
-            'unfollow bg-[#D8EBFC]': !isFollow,
-          },
-        )}
-        onClick={() => onFollow(data.id)}
-      ></div>
+      {!isMyProfile && (
+        <div
+          className={classNames(
+            'box flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-[5px] ',
+            {
+              'follow bg-[#DEE1E7] galaxy-max:h-[32px] galaxy-max:w-[32px]': isFollow,
+              'unfollow bg-[#D8EBFC]': !isFollow,
+            },
+          )}
+          onClick={() => onFollow(data.id)}
+        ></div>
+      )}
     </div>
   );
 };

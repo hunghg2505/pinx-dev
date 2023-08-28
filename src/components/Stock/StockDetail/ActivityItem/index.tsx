@@ -7,8 +7,10 @@ import { IPost } from '@components/Post/service';
 import { ACTIVITIES_TYPE } from '@components/Stock/const';
 import { ActivityIconType } from '@components/Stock/type';
 import ActivitiesAction from '@components/Themes/ThemeDetail/Activities/ActivitiesAction';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 interface IActivityItemProps {
@@ -35,15 +37,26 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
     icon = activityFound.icon;
     content = t(activityFound.label);
   }
+  const { userLoginInfo } = useUserLoginInfo();
+  const href =
+    userLoginInfo?.id === data.customerId
+      ? ROUTE_PATH.MY_PROFILE
+      : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
 
   return (
     <div className='flex'>
-      <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
-        <img
-          src={data.post.customerInfo.avatar}
-          alt={data.post.customerInfo.displayName}
-          className='h-[28px] w-[28px] rounded-full object-cover'
-        />
+      <CustomLink href={href}>
+        {data.post.customerInfo.avatar ? (
+          <img
+            src={data.post.customerInfo.avatar}
+            alt={data.post.customerInfo.displayName}
+            className='h-[28px] w-[28px] rounded-full object-cover'
+          />
+        ) : (
+          <div className='h-[28px] w-[28px] rounded-full object-cover'>
+            <AvatarDefault nameClassName='text-[14px]' name={data.post.customerInfo.displayName} />
+          </div>
+        )}
       </CustomLink>
 
       <div className='ml-[12px] flex-1'>
@@ -58,7 +71,12 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
             )}
           >
             <div className='flex items-center justify-between'>
-              <Text type='body-14-semibold'>{data.post.customerInfo.displayName}</Text>
+              <Text
+                type='body-14-semibold'
+                className='max-w-[150px] truncate galaxy-max:max-w-[80px] laptop:max-w-[300px]'
+              >
+                {data.post.customerInfo.displayName}
+              </Text>
 
               <Text type='body-12-regular' className='text-[#999999]'>
                 {dayjs(data.timeString)?.locale(i18n.language)?.fromNow(true)}

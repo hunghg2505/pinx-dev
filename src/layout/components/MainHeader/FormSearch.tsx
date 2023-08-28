@@ -115,7 +115,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setShowRecent(false);
       setShowPopup(false);
     },
-    onError: (e: any) => { toast(() => <Notification type='error' message={e?.error} />); },
+    onError: (e: any) => {
+      toast(() => <Notification type='error' message={e?.error} />);
+    },
   });
 
   // Set value when onSubmit Form

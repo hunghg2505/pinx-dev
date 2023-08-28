@@ -33,7 +33,7 @@ const ItemWatchList = ({
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
+  const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -68,11 +68,9 @@ const ItemWatchList = ({
         )}
       >
         <CustomLink linkClassName='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
-          <img
-            src={url}
-            alt=''
-            className='h-[36px] w-[36px] rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'
-          />
+          <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
+            <img src={url} alt='' className='block' />
+          </div>
         </CustomLink>
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
@@ -123,7 +121,7 @@ const ItemWatchList = ({
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
-              'text-[#F1BA09]': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#F1BA09]': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [styles.isIncrease]: isIncrease && !isHigh && !isChange && isChangeColor,
               [styles.isDecrease]:
@@ -143,7 +141,7 @@ const ItemWatchList = ({
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,
               'text-[#782AF9]': isHigh,
-              'text-[#F1BA09]  ': Math.ceil(data?.change) === 0 && Number(data?.lastPrice) !== 0,
+              'text-[#F1BA09]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
               [styles.isIncrease]: isIncrease && !isHigh && !isChange && isChangeColor,
               [styles.isDecrease]:

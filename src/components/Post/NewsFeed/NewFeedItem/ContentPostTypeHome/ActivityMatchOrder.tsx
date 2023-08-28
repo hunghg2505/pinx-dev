@@ -48,6 +48,10 @@ export const ActivityMatchOrder = ({
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
+    // if (classElement === 'hashtag') {
+    //   const text = textContent.slice(1);
+    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    // }
     return onComment();
   };
   const onReadMore = () => {

@@ -18,43 +18,48 @@ const params = {
   top: 20,
 };
 export const useGetTopProfit = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestMarket.get(API_PATH.PUBLIC_TOP_PROFIT, { params });
   });
   return {
     profit: data?.data,
+    loading,
   };
 };
 export const useGetTopRevenue = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestMarket.get(API_PATH.PUBLIC_TOP_REVENUE, { params });
   });
   return {
     revenue: data?.data,
+    loading,
   };
 };
 export const useGetTopMarketCap = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestMarket.get(API_PATH.PUBLIC_TOP_MARKET_CAPITALIZATION, { params });
   });
   return {
     marketCap: data?.data,
+    loading,
   };
 };
 export const useGetTopPrice = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestMarket.get(API_PATH.PUBLIC_TOP_PRICE, { params });
   });
   return {
     price: data?.data,
+    loading,
   };
 };
 export const useGetTopChangePrice = () => {
-  const { data } = useRequest(() => {
+  const { data, loading } = useRequest(() => {
     return requestMarket.get(API_PATH.PUBLIC_TOP_CHANGE_PRICE, { params });
   });
   return {
     changePriceInY: data?.data,
+    loading,
   };
 };
 export const useGetConfig = () => {

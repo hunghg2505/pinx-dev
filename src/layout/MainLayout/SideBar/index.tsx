@@ -11,6 +11,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
 import { NavigateSection } from '@utils/dataLayer';
@@ -35,7 +36,7 @@ const SideBar = () => {
   const router = useRouter();
   const { isLogin } = useAuth();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const MENUS = [
     {
       id: 1,
@@ -112,6 +113,7 @@ const SideBar = () => {
             >
               {icon}
               <Text
+                element='h3'
                 type='body-16-semibold'
                 color='neutral-3'
                 className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}
@@ -131,15 +133,16 @@ const SideBar = () => {
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
-              // if (menu?.path === ROUTE_PATH.HOME) {
-              //   router.push(ROUTE_PATH.HOME);
-              //   router.reload();
-              // }
-              NavigateSection(menu.label);
+              setPostDetailStatus({
+                ...postDetailStatus,
+                isRefreshHome: true,
+              });
+              return NavigateSection(menu.label);
             }}
           >
             {icon}
             <Text
+              element='h3'
               type='body-16-semibold'
               color='neutral-3'
               className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}

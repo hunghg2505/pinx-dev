@@ -11,6 +11,7 @@ import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
 import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome';
@@ -21,6 +22,7 @@ import { ENV } from '@utils/env';
 const AppInitialData = () => {
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
+  const { requestProfleSetting } = useProfileSettingInitial();
   const router = useRouter();
   usePostThemeInitial();
   const { handleRemoveActionPost } = useHandlActionsPost();
@@ -34,6 +36,7 @@ const AppInitialData = () => {
     initialHomePostData();
     handleRemoveActionPost();
     getInitDataStockMarketHome();
+    requestProfleSetting();
     // getInitDataStockWatchlistHome();
     run();
   });
@@ -52,7 +55,6 @@ const AppInitialData = () => {
       router.push(router.asPath, router.asPath, { locale: 'vi' });
       return;
     }
-
     if (getLocaleCookie() && getLocaleCookie() !== router.locale) {
       router.push(router.asPath, router.asPath, { locale });
     }

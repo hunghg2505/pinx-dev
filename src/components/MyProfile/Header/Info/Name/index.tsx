@@ -1,5 +1,9 @@
 import React from 'react';
 
+import classNames from 'classnames';
+
+import Text from '@components/UI/Text';
+
 const Name = ({
   displayName,
   isKol,
@@ -11,10 +15,10 @@ const Name = ({
 }) => {
   return (
     <>
-      <div className='flex items-center gap-[8px] '>
-        <h3 className='max-w-[300px] truncate text-[20px] font-[600]  galaxy-max:text-[14px]'>
+      <div className={classNames('flex flex-1 items-center gap-[8px] truncate')}>
+        <Text type='body-20-semibold' className='truncate galaxy-max:text-[14px]'>
           {displayName}
-        </h3>
+        </Text>
 
         {isKol && (
           <img

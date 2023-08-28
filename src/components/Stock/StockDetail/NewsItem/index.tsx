@@ -14,10 +14,9 @@ import HeadingNewsItem from './Heading';
 interface INewsItemProps {
   className?: string;
   data: IPost;
-  onRefreshNews: () => void;
 }
 
-const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
+const NewsItem = ({ className, data }: INewsItemProps) => {
   const router = useRouter();
 
   const handleOpenLink = () => {
@@ -72,21 +71,11 @@ const NewsItem = ({ className, data, onRefreshNews }: INewsItemProps) => {
     <div
       className={classNames('border-b border-solid border-[var(--neutral-7)] pt-[12px]', className)}
     >
-      <HeadingNewsItem
-        isReport={data.isReport}
-        onRefreshNews={onRefreshNews}
-        data={data}
-        className='tablet:hidden'
-      />
+      <HeadingNewsItem data={data} className='tablet:hidden' />
 
       <div className='flex gap-x-[40px] py-[12px] galaxy-max:gap-[24px] tablet:items-center'>
         <div className='flex-1'>
-          <HeadingNewsItem
-            isReport={data.isReport}
-            onRefreshNews={onRefreshNews}
-            data={data}
-            className='hidden tablet:mb-[4px] tablet:flex'
-          />
+          <HeadingNewsItem data={data} className='hidden tablet:mb-[4px] tablet:flex' />
           <Text
             type='body-14-semibold'
             className='flex-1 cursor-pointer galaxy-max:text-[12px]'

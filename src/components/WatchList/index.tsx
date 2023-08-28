@@ -1,17 +1,49 @@
 import React, { useMemo } from 'react';
 
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useRouter } from 'next/router';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
-import Themes from '@components/WatchList/Themes';
-import YourWatchList from '@components/WatchList/YourWatchList';
+import { Skeleton } from '@components/UI/Skeleton';
 // import { useResponsive } from '@hooks/useResponsive';
+import Themes from '@components/WatchList/Themes';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 
 import { useGetInterest, useGetYourWatchList } from './service';
+import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';
+
+const YourWatchList = dynamic(() => import('@components/WatchList/YourWatchList'), {
+  ssr: false,
+  loading: () => (
+    <div>
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+      <WatchListSkeletonLoading />
+    </div>
+  ),
+});
 
 const Interest = dynamic(() => import('@components/WatchList/Interest'), {
   ssr: false,
+  loading: () => (
+    <div className='mt-[16px] flex overflow-x-hidden'>
+      <Skeleton
+        width={112}
+        height={172}
+        rows={10}
+        wrapClassName='!flex-row gap-x-[16px]'
+        className='!rounded-[12px]'
+      />
+    </div>
+  ),
 });
 
 const WatchList = () => {
@@ -21,6 +53,7 @@ const WatchList = () => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataInterest, setDataInterest] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
 
   // const router = useRouter();
   // const { isMobile } = useResponsive();
@@ -28,14 +61,34 @@ const WatchList = () => {
   //   router.back();
   // };
 
-  const { interestStock, refreshInterest, getInterest, loading } = useGetInterest({
+  const { interestStock, refreshInterest, getInterest } = useGetInterest({
     manual: true,
     onSuccess: (res: any) => {
       const data = res?.data;
       setDataInterest(data);
       if (data) {
+        const listStockCodes: string[] = [];
         for (const element of data) {
           requestJoinChannel(element.stockCode);
+          listStockCodes.push(element.stockCode);
+        }
+
+        const findStockSocket = stockSocket.find(
+          (item) => item.location === StockSocketLocation.WL_PAGE_INTEREST_COMPONENT,
+        );
+
+        const dataStockSocket = {
+          location: StockSocketLocation.WL_PAGE_INTEREST_COMPONENT,
+          stocks: listStockCodes,
+        };
+        if (findStockSocket) {
+          setStockSocket((prev) =>
+            prev.map((item) =>
+              item.location === findStockSocket.location ? dataStockSocket : item,
+            ),
+          );
+        } else {
+          setStockSocket((prev) => [...prev, dataStockSocket]);
         }
       }
     },
@@ -47,8 +100,28 @@ const WatchList = () => {
         setWatchlistId(res?.data?.[0]?.watchlistId);
         const data = res?.data?.[0]?.stocks;
         if (data) {
+          const listStockCodes: string[] = [];
           for (const element of data) {
             requestJoinChannel(element.stockCode);
+            listStockCodes.push(element.stockCode);
+          }
+
+          const findStockSocket = stockSocket.find(
+            (item) => item.location === StockSocketLocation.WL_PAGE_WL_COMPONENT,
+          );
+
+          const dataStockSocket = {
+            location: StockSocketLocation.WL_PAGE_WL_COMPONENT,
+            stocks: listStockCodes,
+          };
+          if (findStockSocket) {
+            setStockSocket((prev) =>
+              prev.map((item) =>
+                item.location === findStockSocket.location ? dataStockSocket : item,
+              ),
+            );
+          } else {
+            setStockSocket((prev) => [...prev, dataStockSocket]);
           }
         }
       },
@@ -69,9 +142,18 @@ const WatchList = () => {
           requestLeaveChannel(element.stockCode);
         }
       }
+
+      setStockSocket((prev) =>
+        prev.filter(
+          (item) =>
+            ![
+              StockSocketLocation.WL_PAGE_INTEREST_COMPONENT,
+              StockSocketLocation.WL_PAGE_WL_COMPONENT,
+            ].includes(item.location),
+        ),
+      );
     };
   }, []);
-
   const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     let isChangeStockPrice = false;
@@ -136,7 +218,6 @@ const WatchList = () => {
           interestStock={interestStock}
           refreshInterest={refreshInterest}
           refreshYourWatchList={refreshYourWatchList}
-          loading={loading}
         />
         <Themes isEdit={isEdit} />
       </div>

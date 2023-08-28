@@ -17,11 +17,13 @@ import {
   requestLikeComment,
   requestUnLikeComment,
 } from '@components/Post/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { formatMessage, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -56,12 +58,15 @@ interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
   data: IComment;
+  idPost?: string;
   refreshTotal?: () => void;
   isChildren?: boolean;
   width?: number;
   refreshCommentOfPOst?: () => void;
   isLastChildren?: boolean;
   isReply?: boolean;
+  totalChildren?: number;
+  onRemoveComment?: (v: any) => void;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -73,12 +78,15 @@ const ItemComment = (props: IProps) => {
     onNavigate,
     data,
     onReplies,
-    refreshTotal,
+    // refreshTotal,
     isChildren = false,
     width,
     refreshCommentOfPOst,
     isLastChildren,
     isReply = false,
+    idPost,
+    totalChildren = 0,
+    onRemoveComment,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -87,6 +95,21 @@ const ItemComment = (props: IProps) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const isHomePath = router.pathname === '/';
   const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [isLike, setIsLike] = React.useState<boolean>(data?.isLike);
+  const [isReport, setIsReport] = React.useState<boolean>(data?.isReport);
+  const [totalReport, setTotalReport] = React.useState<number>(0);
+  const [totalLikes, setTotalLikes] = React.useState<number>(0);
+  React.useEffect(() => {
+    setIsLike(data?.isLike);
+    setTotalLikes(data?.totalLikes);
+    setIsReport(data?.isReport);
+    setTotalReport(data?.totalReports);
+  }, [data]);
+
+  const message = data?.message && formatMessage(data?.message, data);
+  const name = data?.customerInfo?.displayName || '';
+  const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
     if (isLogin) {
@@ -112,33 +135,6 @@ const ItemComment = (props: IProps) => {
   useClickAway(() => {
     showDelete && setShowDelete(false);
   }, ref);
-  // const onRedirect = (url: string) => {
-  //   router.push({
-  //     pathname: '/redirecting',
-  //     query: { url },
-  //   });
-  // };
-  // React.useEffect(() => {
-  //   const handleClick = (event: any) => {
-  //     const textContent = event?.target?.textContent;
-  //     const classElement = event?.target?.className;
-  //     if (classElement === 'link') {
-  //       router.push({
-  //         pathname: '/redirecting',
-  //         query: { url: textContent },
-  //       });
-  //     }
-  //   };
-  //   window.addEventListener('click', handleClick);
-  //   return () => {
-  //     window.removeEventListener('click', handleClick);
-  //   };
-  // }, []);
-  const message = data?.message && formatMessage(data?.message, data);
-  const name = data?.customerInfo?.displayName || '';
-  const isLike = data?.isLike;
-  const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
-  const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
 
   const useLike = useRequest(
     () => {
@@ -147,7 +143,16 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refreshCommentOfPOst && refreshCommentOfPOst();
+        setIsLike(true);
+        setTotalLikes(totalLikes + 1);
+        if (!isHomePath) {
+          setPostDetailStatus({
+            ...postDetailStatus,
+            idPostAddComment: idPost,
+          });
+        }
+
+        // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -166,7 +171,16 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        refreshCommentOfPOst && refreshCommentOfPOst();
+        setIsLike(false);
+        setTotalLikes(totalLikes - 1);
+        if (!isHomePath) {
+          setPostDetailStatus({
+            ...postDetailStatus,
+            idPostAddComment: idPost,
+          });
+        }
+
+        // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {
@@ -204,9 +218,13 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
+        onRemoveComment && onRemoveComment(data?.id);
         refreshCommentOfPOst && refreshCommentOfPOst();
-        refreshTotal && refreshTotal();
+        // refreshTotal && refreshTotal();
         setShowDelete(false);
+        if (idPost && !isHomePath) {
+          setPostDetailStatus({ ...postDetailStatus, idPostHideComment: idPost });
+        }
       },
     },
   );
@@ -221,10 +239,11 @@ const ItemComment = (props: IProps) => {
     const classElement = e?.target?.className;
     const id = e?.target?.id;
     if (classElement === 'link') {
-      return router.push({
-        pathname: '/redirecting',
-        query: { url: textContent },
-      });
+      // return router.push({
+      //   pathname: '/redirecting',
+      //   query: { url: textContent },
+      // });
+      window.open(textContent);
     }
     if (classElement === 'people') {
       const url =
@@ -236,6 +255,10 @@ const ItemComment = (props: IProps) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
+    // if (classElement === 'hashtag') {
+    //   const text = textContent.slice(1);
+    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    // }
   };
   // const [windowSize, setWindowSize] = useState([window.innerWidth]);
   const commentRef = useRef<HTMLDivElement>(null);
@@ -267,30 +290,51 @@ const ItemComment = (props: IProps) => {
       };
     }
   }, []);
-
+  const addTotalReport = () => {
+    setTotalReport(totalReport + 1);
+  };
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
-        <img
-          src={data?.customerInfo?.avatar}
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className={classNames(
-            'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
-            {
-              'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
-              'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
-            },
-          )}
-          onClick={() =>
-            isComment
-              ? router.push(ROUTE_PATH.MY_PROFILE)
-              : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
-          }
-        />
-        {!isHomePath && !isProfilePath && data?.children.length > 0 && !isChildren && (
+        {data?.customerInfo?.avatar ? (
+          <img
+            src={data?.customerInfo?.avatar}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className={classNames(
+              'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+              {
+                'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
+                'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
+              },
+            )}
+            onClick={() =>
+              isComment
+                ? router.push(ROUTE_PATH.MY_PROFILE)
+                : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+            }
+          />
+        ) : (
+          <div
+            className={classNames(
+              'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+              {
+                'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
+                'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
+              },
+            )}
+            onClick={() =>
+              isComment
+                ? router.push(ROUTE_PATH.MY_PROFILE)
+                : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+            }
+          >
+            <AvatarDefault name={data?.customerInfo?.displayName} />
+          </div>
+        )}
+        {!isHomePath && !isProfilePath && totalChildren > 0 && !isChildren && (
           <>
             <div
               style={{
@@ -333,8 +377,15 @@ const ItemComment = (props: IProps) => {
           })}
         >
           <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
-            <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative flex items-center overflow-hidden laptop:max-w-[300px] mobile:max-w-[150px]'>
+            <div className='flex w-full flex-row items-center justify-between gap-x-[12px] px-[16px]'>
+              <div
+                onClick={() =>
+                  isComment
+                    ? router.push(ROUTE_PATH.MY_PROFILE)
+                    : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+                }
+                className='relative flex cursor-pointer items-center overflow-hidden truncate'
+              >
                 <Text type='body-14-semibold' color='neutral-1' className='truncate'>
                   {data?.customerInfo?.displayName}
                 </Text>
@@ -402,7 +453,7 @@ const ItemComment = (props: IProps) => {
               </Text>
             </div>
 
-            {data?.totalLikes > 0 && (
+            {totalLikes > 0 && (
               <div className='absolute bottom-0 right-[10px] flex h-[24px] w-[54px] translate-y-1/2 flex-row items-center justify-center rounded-[100px] bg-[#F3F2F6] galaxy-max:h-[20px]  galaxy-max:w-[44px] galaxy-max:gap-1'>
                 <img
                   src='/static/icons/iconLike.svg'
@@ -417,7 +468,7 @@ const ItemComment = (props: IProps) => {
                   color='primary-1'
                   className='galaxy-max:text-[12px] tablet:!text-[14px]'
                 >
-                  {data?.totalLikes}
+                  {totalLikes}
                 </Text>
               </div>
             )}
@@ -441,17 +492,15 @@ const ItemComment = (props: IProps) => {
               <Text
                 type='body-13-regular'
                 className={classNames('galaxy-max:hidden tablet:!text-[14px]', {
-                  'text-[#589DC0]': data?.isLike && isLogin,
-                  'text-[#808080]': !data?.isLike || !isLogin,
+                  'text-[#589DC0]': isLike && isLogin,
+                  'text-[#808080]': !isLike || !isLogin,
                 })}
               >
                 {t('like')}
               </Text>
               <img
                 src={
-                  data?.isLike && isLogin
-                    ? '/static/icons/iconLike.svg'
-                    : '/static/icons/iconUnLike.svg'
+                  isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
                 }
                 alt=''
                 className={classNames(
@@ -473,7 +522,7 @@ const ItemComment = (props: IProps) => {
                 color='neutral-4'
                 className='mr-[3px] tablet:!text-[14px]'
               >
-                {data?.children?.length > 0 ? data?.children?.length : ''}
+                {totalChildren > 0 ? totalChildren : ''}
               </Text>
 
               <Text
@@ -486,12 +535,14 @@ const ItemComment = (props: IProps) => {
             </div>
 
             <ModalReportComment
-              isReported={data?.isReport}
+              isReported={isReport}
               postID={data?.id}
               refreshCommentOfPOst={refreshCommentOfPOst}
+              setIsReport={setIsReport}
+              setTotalReport={addTotalReport}
             >
               <div className='flex'>
-                {data?.isReport && isLogin ? (
+                {isReport && isLogin ? (
                   <IconReported className='mr-[8px]  hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]' />
                 ) : (
                   <img
@@ -501,7 +552,8 @@ const ItemComment = (props: IProps) => {
                   />
                 )}
                 <div>
-                  {numberReport} <span className='galaxy-max:hidden'>{t('report')}</span>
+                  {totalReport > 0 ? totalReport : ''}
+                  <span className='pl-[2px] galaxy-max:hidden'>{t('report')}</span>
                 </div>{' '}
               </div>
             </ModalReportComment>

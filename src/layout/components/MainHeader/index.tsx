@@ -11,7 +11,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import FormSearch from '@layout/components/MainHeader/FormSearch';
-import Notifications from '@layout/components/MainHeader/Notifications';
+// import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import SideBar from '@layout/MainLayout/SideBar';
@@ -194,6 +194,9 @@ const MainHeader = () => {
                     />
                   </div>
                 </CustomLink>
+                <Text className='hidden' element='h1'>
+                  Cộng đồng đầu tư chứng khoán PineX
+                </Text>
                 <MenuMobile />
               </div>
               {!isMobile && (
@@ -205,7 +208,7 @@ const MainHeader = () => {
                 {isMobile && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}
-                <Notifications />
+                {/* <Notifications /> */}
                 <Profile />
               </div>
             </>

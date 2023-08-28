@@ -6,20 +6,17 @@ import Slider from 'react-slick';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter';
 import Influencer from '@components/Home/People/Influencer';
-import PeopleList from '@components/Home/People/PeopleList';
-import { ITheme, useGetListNewFeed, useGetTheme, useSuggestPeople } from '@components/Home/service';
+import { ITheme, useGetListNewFeed, useGetTheme } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
 import { IPost } from '@components/Post/service';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
-import ModalPeopleYouKnow from './ModalPeopleYouKnow';
 import PinexTop from './PinexTop';
 import Search from './Search';
 import {
@@ -30,6 +27,7 @@ import {
   useGetTopMentionStock,
   useGetTopWatchingStock,
 } from './service';
+import SuggestionPeople from './SuggestionPeople';
 import TrendingOnnPinex from './TrendingOnPinex/inndex';
 import WatchingStock from './WatchingStock';
 
@@ -75,15 +73,8 @@ const Explore = () => {
   const refClick: any = React.useRef(null);
   const refSlideTheme: any = React.useRef();
   const refSlidePinex: any = React.useRef();
-  const {
-    suggestionPeople,
-    getSuggestFriend,
-    refreshList,
-    loading: loadingSuggestionPeople,
-  } = useSuggestPeople();
 
-  const { isLogin } = useAuth();
-  const { theme, refresh: refreshTheme, loading: loadingThemes } = useGetTheme();
+  const { theme, refresh: refreshTheme } = useGetTheme();
   const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
   const {
     run,
@@ -104,12 +95,6 @@ const Explore = () => {
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
   }, []);
-
-  React.useEffect(() => {
-    if (isLogin) {
-      getSuggestFriend();
-    }
-  }, [isLogin]);
 
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
@@ -224,54 +209,7 @@ const Explore = () => {
         </CustomLink>
       </div>
 
-      <div className='box-shadow card-style tablet:hidden'>
-        <>
-          <div className='mr-[16px] flex flex-row items-center'>
-            <img
-              src='/static/icons/iconPeople.svg'
-              alt=''
-              width={20}
-              height={20}
-              className='mr-[8px] h-[20px] w-[20px] object-contain'
-            />
-            <Text type='body-16-bold' color='neutral-2'>
-              {t('people_you_may_know')}
-            </Text>
-          </div>
-
-          {loadingSuggestionPeople ? (
-            <>
-              <div className='mt-[15px] flex overflow-x-hidden'>
-                <Skeleton
-                  width={94}
-                  height={156}
-                  className='mr-[16px] !rounded-[15px]'
-                  rows={4}
-                  wrapClassName='!flex-row'
-                />
-              </div>
-
-              <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
-            </>
-          ) : (
-            suggestionPeople && (
-              <div className='block'>
-                <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-                  <PeopleList data={suggestionPeople} refresh={refreshList} />
-                </div>
-                <ModalPeopleYouKnow refreshList={refreshList}>
-                  <ExploreButton>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('explore_people')}
-                    </Text>
-                  </ExploreButton>
-                </ModalPeopleYouKnow>
-                <div className='mb-[18px] block w-full'></div>
-              </div>
-            )
-          )}
-        </>
-      </div>
+      <SuggestionPeople />
 
       <div className='box-shadow card-style'>
         <Text
@@ -282,7 +220,7 @@ const Explore = () => {
           {t('themes')}
         </Text>
 
-        {loadingThemes ? (
+        {/* {loadingThemes ? (
           <>
             <div className='flex overflow-x-hidden'>
               <Skeleton
@@ -297,53 +235,53 @@ const Explore = () => {
             <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
           </>
         ) : (
-          <>
-            <div className='relative mb-[16px]'>
-              <div
-                onClick={refSlideTheme?.current?.slickPrev}
-                className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-              >
-                <img
-                  src='/static/icons/iconGrayPrev.svg'
-                  alt='Icon prev'
-                  className='h-[16px] w-[7px] object-contain'
-                />
-              </div>
+          <> */}
+        <div className='relative mb-[16px]'>
+          <div
+            onClick={refSlideTheme?.current?.slickPrev}
+            className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          >
+            <img
+              src='/static/icons/iconGrayPrev.svg'
+              alt='Icon prev'
+              className='h-[16px] w-[7px] object-contain'
+            />
+          </div>
 
-              <div className='slideTheme max-w-[700px] overflow-hidden'>
-                <Slider {...settings} variableWidth ref={refSlideTheme}>
-                  {theme?.map((theme: ITheme, index: number) => {
-                    return (
-                      <div key={index}>
-                        <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
-                          <ThemesItem refresh={refreshTheme} theme={theme} />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </Slider>
-              </div>
+          <div className='slideTheme max-w-[700px] overflow-hidden'>
+            <Slider {...settings} variableWidth ref={refSlideTheme}>
+              {theme?.map((theme: ITheme, index: number) => {
+                return (
+                  <div key={index}>
+                    <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
+                      <ThemesItem refresh={refreshTheme} theme={theme} />
+                    </div>
+                  </div>
+                );
+              })}
+            </Slider>
+          </div>
 
-              <div
-                onClick={refSlideTheme?.current?.slickNext}
-                className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-              >
-                <img
-                  src='/static/icons/iconGrayNext.svg'
-                  alt='Icon next'
-                  className='h-[16px] w-[7px] object-contain'
-                />
-              </div>
-            </div>
-            <CustomLink href={ROUTE_PATH.THEME}>
-              <ExploreButton>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('explore_themes')}
-                </Text>
-              </ExploreButton>
-            </CustomLink>
-          </>
-        )}
+          <div
+            onClick={refSlideTheme?.current?.slickNext}
+            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
+          >
+            <img
+              src='/static/icons/iconGrayNext.svg'
+              alt='Icon next'
+              className='h-[16px] w-[7px] object-contain'
+            />
+          </div>
+        </div>
+        <CustomLink href={ROUTE_PATH.THEME}>
+          <ExploreButton>
+            <Text type='body-14-bold' color='primary-2'>
+              {t('explore_themes')}
+            </Text>
+          </ExploreButton>
+        </CustomLink>
+        {/* </>
+        )} */}
       </div>
 
       <div className='box-shadow card-style'>
@@ -491,7 +429,7 @@ const Explore = () => {
 
         {loadingIPO && (
           <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-            <Skeleton className='!h-[51px] !w-full !rounded-[15px]' rows={5} />
+            <Skeleton className='!h-[51px] !w-full !rounded-[15px]' rows={1} />
           </div>
         )}
 
@@ -502,14 +440,16 @@ const Explore = () => {
             })}
           </div>
         ) : (
-          <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
-            <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
-              {t('new_ipo_stocks')}
-            </Text>
-            <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='neutral-4'>
-              {t('there_is_no_new_ipo_stocks')}
-            </Text>
-          </div>
+          !loadingIPO && (
+            <div className='rounded-[12px] border-[1px] border-dashed border-[#CCC] bg-neutral_08 px-[20px] py-[28px] text-center'>
+              <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
+                {t('new_ipo_stocks')}
+              </Text>
+              <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='neutral-4'>
+                {t('there_is_no_new_ipo_stocks')}
+              </Text>
+            </div>
+          )
         )}
       </div>
 

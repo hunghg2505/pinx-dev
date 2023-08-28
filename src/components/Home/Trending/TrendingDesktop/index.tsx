@@ -31,12 +31,12 @@ const TrendingDesktop = () => {
               className='item flex items-center py-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none'
               key={index}
             >
-              <div className='mr-[10px] flex h-[36px] w-[36px] flex-row items-center justify-center rounded-full border-[1px] border-solid border-[#F0F7FC]'>
+              <div className='mr-[10px] flex h-[36px] w-[36px] flex-none flex-row items-center justify-center rounded-full border-[1px] border-solid border-[#F0F7FC]'>
                 <Text type='body-12-bold' color='primary-2'>
                   {index < 8 ? `0${index + 1}` : `${index + 1}`}
                 </Text>
               </div>
-              <Text type='body-14-regular' color='primary-2'>
+              <Text type='body-14-regular' color='primary-2' className='flex-1'>
                 #{item.keyword}
               </Text>
             </div>

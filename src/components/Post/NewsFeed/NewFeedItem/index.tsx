@@ -8,6 +8,7 @@ import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
 import { requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -18,6 +19,7 @@ import ContentPostTypeHome from '@components/Post/NewsFeed/NewFeedItem/ContentPo
 import { IPost, TYPEPOST, requestHidePost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
+import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserType } from '@hooks/useUserType';
@@ -103,6 +105,18 @@ const NewFeedItem = (props: IProps) => {
 
   const [isReported, setReported] = useState(!!postDetail?.isReport);
 
+  const urlTitle = useMemo(() => {
+    let url = '';
+    if (postDetail?.customerId) {
+      url =
+        isLogin && postDetail?.customerId === userId
+          ? ROUTE_PATH.MY_PROFILE
+          : ROUTE_PATH.PROFILE_DETAIL(customerId);
+    }
+
+    return url;
+  }, [postDetail, isLogin]);
+
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
@@ -145,6 +159,9 @@ const NewFeedItem = (props: IProps) => {
         }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
       },
+      onError: (err: any) => {
+        toast(() => <Notification type='error' message={err.error} />);
+      },
     },
   );
 
@@ -163,6 +180,9 @@ const NewFeedItem = (props: IProps) => {
           refreshTrendingOnPinex();
         }
         setPostDetailStatus({ ...postDetailStatus, idCustomerFollow: postDetail?.customerId });
+      },
+      onError: (err: any) => {
+        toast(() => <Notification type='error' message={err.error} />);
       },
     },
   );
@@ -369,10 +389,12 @@ const NewFeedItem = (props: IProps) => {
     children,
     href,
     className,
+    linkClassName,
   }: {
     children: ReactNode;
     href: string;
     className?: string;
+    linkClassName?: string;
   }) => {
     if (href) {
       return (
@@ -382,6 +404,7 @@ const NewFeedItem = (props: IProps) => {
           }}
           className={className}
           href={href}
+          linkClassName={linkClassName}
         >
           {children}
         </CustomLink>
@@ -393,62 +416,61 @@ const NewFeedItem = (props: IProps) => {
 
   return (
     <>
-      <div className='relative z-30 mb-[2px] flex flex-row justify-between'>
+      <div
+        className={classNames('relative z-30 mb-[2px] flex flex-row justify-between gap-x-[12px]', {
+          'z-50': isHovering,
+        })}
+      >
         <MaybeLink
-          href={
-            customerId && !isMyPost ? ROUTE_PATH.PROFILE_DETAIL(customerId) : ROUTE_PATH.MY_PROFILE
-          }
-          className='flex w-full flex-1 justify-between'
+          linkClassName='flex-1'
+          href={urlTitle}
+          className='flex flex-1 flex-row items-center'
         >
-          <div className='flex flex-1 flex-row items-center'>
-            <div
-              ref={refHover}
-              className={classNames('relative', {
-                [styles.avatar]: [
+          <div
+            ref={refHover}
+            className={classNames('relative flex-none', {
+              [styles.avatar]: [
+                TYPEPOST.POST,
+                TYPEPOST.ActivityTheme,
+                TYPEPOST.ActivityWatchlist,
+                TYPEPOST.ActivityMatchOrder,
+              ].includes(postDetail?.post?.postType),
+            })}
+          >
+            <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
+
+            <Fade
+              visible={
+                [
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.ActivityMatchOrder,
-                ].includes(postDetail?.post?.postType),
-              })}
+                ].includes(postDetail?.post?.postType) && isHovering
+              }
             >
-              <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
+              <ItemHoverProfile postDetail={postDetail} name={name} />
+            </Fade>
+          </div>
 
-              <Fade
-                visible={
-                  [
-                    TYPEPOST.POST,
-                    TYPEPOST.ActivityTheme,
-                    TYPEPOST.ActivityWatchlist,
-                    TYPEPOST.ActivityMatchOrder,
-                  ].includes(postDetail?.post?.postType) && isHovering
-                }
-              >
-                <ItemHoverProfile postDetail={postDetail} name={name} />
-              </Fade>
+          <div className='des flex-1 mobile:w-[120px] galaxy-max:w-[100px] tablet:w-[220px] laptop:w-[280px] xdesktop:w-[350px]'>
+            <div className='mr-[5px] flex w-full flex-1 items-center'>
+              <UserName postDetail={postDetail} />
             </div>
-
-            <div className='des flex-1 mobile:w-[150px] desktop:w-[300px]'>
-              <div className='flex'>
-                <div className='mr-[5px] flex w-full flex-1 items-center'>
-                  <UserName postDetail={postDetail} />
-                </div>
-              </div>
-              <Text
-                type='body-12-regular'
-                color='neutral-4'
-                className='mt-[2px] font-[300] galaxy-max:text-[10px]'
-              >
-                {postDetail?.timeString &&
-                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
-                    .locale(i18n.language)
-                    .fromNow(true)}
-              </Text>
-            </div>
+            <Text
+              type='body-12-regular'
+              color='neutral-4'
+              className='mt-[2px] font-[300] galaxy-max:text-[10px]'
+            >
+              {postDetail?.timeString &&
+                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
+                  .locale(i18n.language)
+                  .fromNow(true)}
+            </Text>
           </div>
         </MaybeLink>
 
-        <div className='flex items-center gap-[6px]'>
+        <div className='flex items-center gap-[6px] galaxy-max:max-w-[49px]'>
           {!isMyProfileOrUserDetailPath && (
             <Follower
               postDetail={postDetail}

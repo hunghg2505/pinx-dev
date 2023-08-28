@@ -10,11 +10,14 @@ import ModalComposeMobile from '@components/Compose/ModalComposeMobile';
 import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
+import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
+import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -25,7 +28,9 @@ const UserPosting = ({ onAddNewPost }: any) => {
   const { t } = useTranslation(['home']);
 
   const router = useRouter();
-  const { userLoginInfo } = useUserLoginInfo();
+  const [profileSetting] = useAtom(profileSettingAtom);
+  const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const refModal: any = useRef();
   const refModalUnVerify = useRef<IBaseModal>(null);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -34,9 +39,9 @@ const UserPosting = ({ onAddNewPost }: any) => {
 
   const onShowModal = async () => {
     if (isLogin) {
-      if (statusUser === USERTYPE.VSD) {
+      if (statusUser === USERTYPE.VSD || isCanCompose) {
         refModal?.current?.onVisible();
-      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
+      } else if (statusUser === USERTYPE.PENDING_TO_CLOSE && !isCanCompose) {
         toast(() => <Notification type='error' message={t('message_account_pending_to_close')} />);
       } else {
         setPopupStatus({
@@ -64,7 +69,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
     <>
       <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
         <div className='flex items-center'>
-          {userLoginInfo?.avatar && (
+          {userLoginInfo?.avatar ? (
             <img
               src={userLoginInfo?.avatar}
               alt=''
@@ -76,7 +81,15 @@ const UserPosting = ({ onAddNewPost }: any) => {
               sizes='100vw'
               className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
             />
+          ) : (
+            <CustomLink
+              href={ROUTE_PATH.MY_PROFILE}
+              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
+            >
+              <AvatarDefault name={userLoginInfo?.displayName} />
+            </CustomLink>
           )}
+
           <input
             type='text'
             onClick={onShowModal}

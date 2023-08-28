@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import PopupSubsribeTheme from '@components/UI/Popup/PopupSubscribeTheme';
 import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -25,8 +25,7 @@ const LandingPageDetailThemes = dynamic(() => import('./LandingPage'), {
 const ThemeDetail = () => {
   const { t } = useTranslation('theme');
   const router = useRouter();
-  const { isLogin } = useAuth();
-
+  const isLogin = !!getAccessToken();
   const refTheme: any = React.useRef();
   const id = router.query.id || '';
   const [popupStatus] = useAtom(popupStatusAtom);
