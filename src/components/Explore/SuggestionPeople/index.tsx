@@ -22,7 +22,7 @@ const SuggestionPeople = () => {
   }, []);
   if (loading) {
     return (
-      <>
+      <div className='box-shadow card-style tablet:hidden'>
         <div className='mt-[15px] flex overflow-x-hidden'>
           <Skeleton
             width={94}
@@ -34,7 +34,7 @@ const SuggestionPeople = () => {
         </div>
 
         <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
-      </>
+      </div>
     );
   }
 
