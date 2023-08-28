@@ -154,7 +154,6 @@ const WatchList = () => {
       );
     };
   }, []);
-
   const { dataFormat, isChangeStockPrice, findIndex } = useMemo(() => {
     const findIndex = dataStock?.findIndex((item: any) => item.stockCode === dataSocket.sym);
     let isChangeStockPrice = false;
