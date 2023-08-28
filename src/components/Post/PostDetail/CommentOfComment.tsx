@@ -11,9 +11,10 @@ interface IProps {
   idPost: string;
   refSubReplies: any;
   totalComment?: (v: number) => void;
+  onRemoveComment?: any;
 }
 const CommentOfComment = (props: IProps, ref: any) => {
-  const { id, onReplies, width, refresh, idPost, totalComment } = props;
+  const { id, onReplies, width, refresh, idPost, totalComment, onRemoveComment } = props;
   const { data, refreshCommentOfComment, run } = useCommentOfComment({
     onSuccess: (r: any) => {
       totalComment && totalComment(r?.data?.list?.length);
@@ -47,6 +48,7 @@ const CommentOfComment = (props: IProps, ref: any) => {
                 isChildren={true}
                 width={width}
                 isLastChildren={index === data.length - 1}
+                onRemoveComment={onRemoveComment}
               />
             ))}
       </div>

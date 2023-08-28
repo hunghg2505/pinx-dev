@@ -25,14 +25,13 @@ const ItemWatchList = ({
   isChangeStock?: boolean;
 }) => {
   const { i18n } = useTranslation();
-
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
+  const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${

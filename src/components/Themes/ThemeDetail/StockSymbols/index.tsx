@@ -1,15 +1,20 @@
 import React from 'react';
 
+import { useUnmount } from 'ahooks';
+import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
 import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
 import { IStockTheme, IThemeDetail } from '@components/Themes/service';
 import Text from '@components/UI/Text';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 
 import ItemStock from './ItemStock';
 
 const StockSymbols = ({ data }: { data: IThemeDetail }) => {
   const { t } = useTranslation('theme');
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
+
   const stockList = React.useMemo(() => {
     if (data?.stockList) {
       return [...data?.stockList];
@@ -20,18 +25,43 @@ const StockSymbols = ({ data }: { data: IThemeDetail }) => {
   const [dataSocket, setDataSocket] = React.useState<any>({});
   React.useEffect(() => {
     if (stockList) {
+      const listStockCodes: string[] = [];
       for (const element of stockList) {
         requestJoinChannel(element.stock_code);
+        listStockCodes.push(element.stock_code);
+      }
+
+      const findStock = stockSocket.find(
+        (item) => item.location === StockSocketLocation.STOCK_THEME_DETAIL_PAGE,
+      );
+      const dataStock = {
+        location: StockSocketLocation.STOCK_THEME_DETAIL_PAGE,
+        stocks: listStockCodes,
+      };
+      if (findStock) {
+        setStockSocket((prev) =>
+          prev.map((item) => (item.location === findStock.location ? dataStock : item)),
+        );
+      } else {
+        setStockSocket((prev) => [...prev, dataStock]);
       }
     }
-    return () => {
-      if (stockList) {
-        for (const element of stockList) {
-          requestLeaveChannel(element.stock_code);
-        }
-      }
-    };
-  }, []);
+  }, [stockList]);
+
+  useUnmount(() => {
+    if (stockList) {
+      const listStockCodes = stockList.map((item) => item.stock_code);
+      const stockNotJoinSocketChannel = listStockCodes.filter((item) => {
+        return stockSocket.some((v) => !v.stocks.includes(item));
+      });
+
+      requestLeaveChannel(stockNotJoinSocketChannel.toString());
+      setStockSocket((prev) =>
+        prev.filter((item) => item.location !== StockSocketLocation.STOCK_THEME_DETAIL_PAGE),
+      );
+    }
+  });
+
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;

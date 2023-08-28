@@ -55,6 +55,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   }, [postDetail, bgTheme]);
 
   useEffect(() => {
+    setShowReadMore(false);
     const t = setTimeout(() => {
       const ele = document?.getElementById(`post-content-${postDetail.id}`);
       if (ele?.clientHeight) {

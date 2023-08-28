@@ -25,7 +25,7 @@ import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 
 import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
-import { requestJoinIndex, requestLeaveIndex, socket, useGetWatchList } from '../service';
+import { useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -49,7 +49,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-  socket.on('connect', requestJoinIndex);
+  // socket.on('connect', requestJoinIndex);
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { watchList } = useGetWatchList();
@@ -118,12 +118,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   const onChangeTab = (key: string) => {
     setSelectTab(key);
-    if (key === '1') {
-      requestLeaveIndex();
-    }
-    if (key === '2') {
-      requestJoinIndex();
-    }
+    // if (key === '1') {
+    //   requestLeaveIndex();
+    // }
+    // if (key === '2') {
+    //   requestJoinIndex();
+    // }
   };
 
   const onAddNewPost = (newData: IPost) => {
@@ -162,7 +162,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       });
     }
   }, [postDetailStatus.idPostDetail]);
-
   return (
     <div className='relative desktop:pt-0'>
       <div className='relative laptop:hidden'>
