@@ -15,7 +15,6 @@ import {
 } from '@components/Home/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { stockWLComponentAtom } from '@store/stockWLComponent';
 
 import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';
@@ -29,7 +28,7 @@ interface IProps {
 const ComponentWatchList = (props: IProps) => {
   const { isEdit = false, page_size, optionsRequest = {} } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
-  const [dataSocket, setDataSocket] = useAtom(stockWLComponentAtom);
+  const [dataSocket, setDataSocket] = React.useState<any>({});
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
 
