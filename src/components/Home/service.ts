@@ -320,12 +320,15 @@ export const useSuggestPeople = (options = {}) => {
 };
 
 export const useGetTheme = () => {
-  const { data, refresh, loading } = useRequest(() => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
-      : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
-  });
+  const { data, refresh, loading } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
+        : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
+    },
+    { loadingDelay: 300 },
+  );
   return {
     theme: data?.data,
     refresh,
