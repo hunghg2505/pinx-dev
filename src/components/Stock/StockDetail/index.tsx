@@ -192,7 +192,7 @@ const StockDetail = () => {
   });
 
   useEffect(() => {
-    socket.on('public', (message: any) => {
+    const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
         setStockWLComponent(data);
@@ -263,10 +263,12 @@ const StockDetail = () => {
           g3: data.g3,
         }));
       }
-    });
+    };
+
+    socket.on('public', getDataSocket);
 
     return () => {
-      socket.off('public');
+      socket.off('public', getDataSocket);
     };
   }, [stockCode, dataStock]);
 
