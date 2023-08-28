@@ -28,11 +28,11 @@ const WatchList = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { dataStockWatchlist, findIndex } = useGetDataStockWatchlistHome();
-  const { closeSocket } = useStockWatchlistHome();
+  const { removePublicEventListener } = useStockWatchlistHome();
 
   React.useEffect(() => {
     return () => {
-      closeSocket();
+      removePublicEventListener();
     };
   }, []);
 

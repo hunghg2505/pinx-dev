@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
+import { requestJoinIndex, requestLeaveIndex } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
@@ -32,6 +33,14 @@ const MarketDesktop = () => {
     });
     setPopupVisible(true);
   };
+
+  useEffect(() => {
+    requestJoinIndex();
+
+    return () => {
+      requestLeaveIndex();
+    };
+  }, []);
 
   if (!dataStockIndex?.length) {
     return (

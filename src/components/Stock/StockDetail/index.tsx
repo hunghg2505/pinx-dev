@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -19,6 +19,8 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { stockWLComponentAtom } from '@store/stockWLComponent';
 import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -153,6 +155,8 @@ const StockDetail = () => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
+  const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
+  const setStockWLComponent = useSetAtom(stockWLComponentAtom);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -188,12 +192,12 @@ const StockDetail = () => {
   });
 
   useEffect(() => {
-    socket.on('connect', () => {
-      requestJoinChannel(stockCode);
-    });
-
     socket.on('public', (message: any) => {
       const data = message.data;
+      if (data?.id === 3220) {
+        setStockWLComponent(data);
+      }
+
       if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
         return;
       }
@@ -263,18 +267,48 @@ const StockDetail = () => {
 
     return () => {
       socket.off('public');
-      socket.off('connect');
     };
   }, [stockCode, dataStock]);
+
+  useEffect(() => {
+    setStockSocket((prev) => [
+      ...prev,
+      {
+        location: StockSocketLocation.STOCK_DETAIL_PAGE,
+        stocks: [stockCode],
+      },
+    ]);
+
+    return () => {
+      setCurrentTab(TabType.MOVEMENTS);
+
+      setStockSocket((prev) =>
+        prev.filter((item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE),
+      );
+    };
+  }, [stockCode]);
 
   useEffect(() => {
     requestJoinChannel(stockCode);
 
     return () => {
-      setCurrentTab(TabType.MOVEMENTS);
-      requestLeaveChannel(stockCode);
+      const stockOfOtherLocation = stockSocket.filter(
+        (item) => item.location !== StockSocketLocation.STOCK_DETAIL_PAGE,
+      );
+      if (stockOfOtherLocation.length > 0) {
+        let isStockExits = false;
+        for (const item of stockOfOtherLocation) {
+          isStockExits = item.stocks.includes(stockCode);
+        }
+
+        if (!isStockExits) {
+          requestLeaveChannel(stockCode);
+        }
+      } else {
+        requestLeaveChannel(stockCode);
+      }
     };
-  }, [stockCode]);
+  }, [stockSocket]);
 
   const requestFollowOrUnfollowStock = useFollowOrUnfollowStock({
     onSuccess: () => {
