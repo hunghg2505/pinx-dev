@@ -238,7 +238,7 @@ const MediaItem = ({ data, type, setShowPopup }: { data: any, type?: string, set
   };
   return (
     <>
-      {type ? (
+      {(type === 'image') ? (
         <>
           {data?.post?.seoMetadata?.imageSeo?.urlImage && (
             <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
