@@ -61,7 +61,7 @@ const CommentPost = (props: IProps, ref: any) => {
   const onGetTotalComment = (data: number) => {
     setTotalChildren(data);
   };
-  // const isReply = showReply === item.id;
+  const isReply = postDetailStatus.idCommentReplie === item.id;
   return (
     <>
       <ItemComment
@@ -70,7 +70,7 @@ const CommentPost = (props: IProps, ref: any) => {
         refreshTotal={refresh}
         refreshCommentOfPOst={refreshCommentOfComment}
         width={width}
-        isReply={!postDetailStatus.isDoneReplies}
+        isReply={isReply && !postDetailStatus.isDoneReplies}
         idPost={postID}
         totalChildren={totalChildren}
         onRemoveComment={onRemoveComment}
