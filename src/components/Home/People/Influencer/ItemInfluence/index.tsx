@@ -19,12 +19,13 @@ import styles from './index.module.scss';
 interface IProps {
   data: IKOL;
   refresh: () => void;
+  refreshList: () => void;
 }
 const ItemInfluence = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  const { data } = props;
+  const { data, refreshList } = props;
   const { run: getUserProfile } = useProfileInitial();
   const [isFollow, setIsFollow] = React.useState(data?.isFollowed);
   React.useEffect(() => {
@@ -39,6 +40,7 @@ const ItemInfluence = (props: IProps) => {
       onSuccess: () => {
         setIsFollow(!isFollow);
         // refresh();
+        refreshList();
         getUserProfile();
       },
       onError: (e: any) => {
@@ -55,6 +57,7 @@ const ItemInfluence = (props: IProps) => {
       onSuccess: () => {
         // refresh();
         setIsFollow(!isFollow);
+        refreshList();
         getUserProfile();
       },
     },

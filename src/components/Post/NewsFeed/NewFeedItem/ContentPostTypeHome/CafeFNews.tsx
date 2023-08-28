@@ -46,7 +46,7 @@ export const CafeFNews = ({
         <div
           className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
-          <CustomLink href={`/redirecting?url=${post_url}`}>
+          <CustomLink target='_blank' href={`${post_url}`}>
             <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'>
               <div className='scale-[0.6]'>
                 <IconLink />
@@ -55,7 +55,7 @@ export const CafeFNews = ({
           </CustomLink>
 
           <div className=' flex w-full flex-1 flex-col items-start justify-center gap-y-[10px] px-[8px] py-[8px] [border-left:1px_solid_#CCC] tablet:px-[12px]'>
-            <CustomLink href={`/redirecting?url=${post_url}`}>
+            <CustomLink target='_blank' href={`${post_url}`}>
               <Text type='body-14-bold' color='cbblack' className='line-clamp-2 tablet:text-[16px]'>
                 {postDetail?.post?.title}
               </Text>

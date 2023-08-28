@@ -453,7 +453,7 @@ const NewFeedItem = (props: IProps) => {
             </Fade>
           </div>
 
-          <div className='des flex-1 mobile:w-[120px] galaxy-max:w-[120px] tablet:w-[220px] laptop:w-[280px] xdesktop:w-[350px]'>
+          <div className='des flex-1 mobile:w-[120px] galaxy-max:w-[100px] tablet:w-[220px] laptop:w-[280px] xdesktop:w-[350px]'>
             <div className='mr-[5px] flex w-full flex-1 items-center'>
               <UserName postDetail={postDetail} />
             </div>
@@ -470,7 +470,7 @@ const NewFeedItem = (props: IProps) => {
           </div>
         </MaybeLink>
 
-        <div className='flex items-center gap-[6px]'>
+        <div className='flex items-center gap-[6px] galaxy-max:max-w-[49px]'>
           {!isMyProfileOrUserDetailPath && (
             <Follower
               postDetail={postDetail}

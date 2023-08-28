@@ -57,7 +57,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // Remove value input search when refresh open new page
   React.useEffect(() => {
     setQuery(search);
-    form.setFieldValue('search', search);
     runRecent();
   }, [search]);
 
