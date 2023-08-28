@@ -36,7 +36,7 @@ const TrendingDesktop = () => {
                   {index < 8 ? `0${index + 1}` : `${index + 1}`}
                 </Text>
               </div>
-              <Text type='body-14-regular' color='primary-2'>
+              <Text type='body-14-regular' color='primary-2' className='flex-1'>
                 #{item.keyword}
               </Text>
             </div>

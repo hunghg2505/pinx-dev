@@ -113,7 +113,7 @@ const CompanyRelated = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('public', (message: any) => {
+    const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
         setStockWLComponent(data);
@@ -153,10 +153,12 @@ const CompanyRelated = () => {
           return prev;
         });
       }
-    });
+    };
+
+    socket.on('public', getDataSocket);
 
     return () => {
-      socket.off('public');
+      socket.off('public', getDataSocket);
     };
   }, [companiesRelated]);
 
