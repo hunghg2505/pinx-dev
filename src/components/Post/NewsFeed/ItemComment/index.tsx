@@ -97,15 +97,18 @@ const ItemComment = (props: IProps) => {
   const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [isLike, setIsLike] = React.useState<boolean>(data?.isLike);
+  const [isReport, setIsReport] = React.useState<boolean>(data?.isReport);
+  const [totalReport, setTotalReport] = React.useState<number>(0);
   const [totalLikes, setTotalLikes] = React.useState<number>(0);
   React.useEffect(() => {
     setIsLike(data?.isLike);
     setTotalLikes(data?.totalLikes);
+    setIsReport(data?.isReport);
+    setTotalReport(data?.totalReports);
   }, [data]);
 
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.displayName || '';
-  const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
   const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
@@ -140,7 +143,6 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('123');
         setIsLike(true);
         setTotalLikes(totalLikes + 1);
         if (!isHomePath) {
@@ -288,7 +290,9 @@ const ItemComment = (props: IProps) => {
       };
     }
   }, []);
-
+  const addTotalReport = () => {
+    setTotalReport(totalReport + 1);
+  };
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
@@ -524,12 +528,14 @@ const ItemComment = (props: IProps) => {
             </div>
 
             <ModalReportComment
-              isReported={data?.isReport}
+              isReported={isReport}
               postID={data?.id}
               refreshCommentOfPOst={refreshCommentOfPOst}
+              setIsReport={setIsReport}
+              setTotalReport={addTotalReport}
             >
               <div className='flex'>
-                {data?.isReport && isLogin ? (
+                {isReport && isLogin ? (
                   <IconReported className='mr-[8px]  hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]' />
                 ) : (
                   <img
@@ -539,7 +545,8 @@ const ItemComment = (props: IProps) => {
                   />
                 )}
                 <div>
-                  {numberReport} <span className='galaxy-max:hidden'>{t('report')}</span>
+                  {totalReport > 0 ? totalReport : ''}
+                  <span className='pl-[2px] galaxy-max:hidden'>{t('report')}</span>
                 </div>{' '}
               </div>
             </ModalReportComment>
