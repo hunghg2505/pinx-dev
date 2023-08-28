@@ -63,6 +63,61 @@ export const ROUTE_PATH = {
 
 export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
+  const ignore: any = [];
+  const checkSplit = message.split(' ')?.reduce((acc: any, cur: any, index: any, array: any) => {
+    const isStart = cur.includes('[');
+    const isEnd = cur.includes(']');
+    const isHashTag = cur.includes('#');
+
+    if (isStart && !isEnd && !isHashTag) {
+      for (const [i, item] of array.entries()) {
+        if (cur === item) {
+          continue;
+        }
+        if (i <= index) {
+          continue;
+        }
+
+        ignore.push(i);
+
+        cur = cur?.concat(` ${item}`);
+
+        const isEndItem = item.includes(']');
+
+        if (isEndItem) {
+          break;
+        }
+      }
+    }
+
+    const can = !ignore.includes(index);
+
+    if (can) {
+      const nCur = `${cur}`;
+
+      const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%') || nCur.includes('#'));
+      if (isSepecial) {
+        acc.push(nCur);
+      } else {
+        // eslint-disable-next-line unicorn/prefer-at
+        const prevItem = acc[acc.length - 1];
+        if (prevItem) {
+          const isPrevItemSepecial = Boolean(
+            prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+          );
+
+          if (isPrevItemSepecial) {
+            acc.push(nCur);
+          } else {
+            acc[acc.length - 1] = `${prevItem} ${nCur}`;
+          }
+        } else {
+          acc.push(nCur);
+        }
+      }
+    }
+    return acc;
+  }, []);
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;
@@ -81,9 +136,8 @@ export const formatMessage = (message: string, data: any) => {
       const startId = item.indexOf('(') + 1;
       const endId = item.indexOf(')');
       const ID = item.slice(startId, endId);
-      if (message && !message.includes(name)) {
-        const newMessage = message.split(' ');
-        for (const text of newMessage) {
+      if (message) {
+        for (const text of checkSplit) {
           if (text.includes(ID)) {
             const startName = text.indexOf('@[') + 2;
             const endName = text.indexOf(']');
@@ -97,14 +151,14 @@ export const formatMessage = (message: string, data: any) => {
           }
         }
       }
-      if (message && message.includes(name)) {
-        message = message.replace(
-          item,
-          `
-          <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
-          `,
-        );
-      }
+      // if (message && message.includes(name)) {
+      //   message = message.replace(
+      //     item,
+      //     `
+      //     <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
+      //     `,
+      //   );
+      // }
     }
   }
   if (listStock) {
@@ -510,6 +564,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
         return b.flat();
       });
       const addSpace = newArray.flat();
+      console.log('🚀 ~ file: common.ts:567 ~ content:txt?.map ~ addSpace:', addSpace);
       const data = addSpace?.map((check: any) => {
         if (check.includes('@')) {
           const start = check.indexOf('[') + 1;
@@ -526,7 +581,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
             },
           };
         }
-        if (check.includes('%')) {
+        if (check.includes('%') && check.charAt(0) === '%') {
           const start = check.indexOf('[') + 1;
           const end = check.indexOf(']');
           const name = check.slice(start, end);

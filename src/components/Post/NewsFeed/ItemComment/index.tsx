@@ -143,10 +143,13 @@ const ItemComment = (props: IProps) => {
         console.log('123');
         setIsLike(true);
         setTotalLikes(totalLikes + 1);
-        setPostDetailStatus({
-          ...postDetailStatus,
-          idPostAddComment: idPost,
-        });
+        if (!isHomePath) {
+          setPostDetailStatus({
+            ...postDetailStatus,
+            idPostAddComment: idPost,
+          });
+        }
+
         // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
@@ -168,10 +171,13 @@ const ItemComment = (props: IProps) => {
       onSuccess: () => {
         setIsLike(false);
         setTotalLikes(totalLikes - 1);
-        setPostDetailStatus({
-          ...postDetailStatus,
-          idPostAddComment: idPost,
-        });
+        if (!isHomePath) {
+          setPostDetailStatus({
+            ...postDetailStatus,
+            idPostAddComment: idPost,
+          });
+        }
+
         // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
@@ -214,7 +220,7 @@ const ItemComment = (props: IProps) => {
         refreshCommentOfPOst && refreshCommentOfPOst();
         // refreshTotal && refreshTotal();
         setShowDelete(false);
-        if (idPost) {
+        if (idPost && !isHomePath) {
           setPostDetailStatus({ ...postDetailStatus, idPostHideComment: idPost });
         }
       },

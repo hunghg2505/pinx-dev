@@ -162,7 +162,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       });
     }
   }, [postDetailStatus.idPostDetail]);
-
   return (
     <div className='relative desktop:pt-0'>
       <div className='relative laptop:hidden'>
