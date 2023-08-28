@@ -97,6 +97,7 @@ const ModalComment = (props: Iprops) => {
                       onReplies={onReplies}
                       refreshTotal={refresh}
                       refreshCommentOfPOst={refreshCommentOfPost}
+                      totalChildren={item.totalChildren}
                     />
                     {getSubComment(item.children)}
                   </div>
