@@ -4,12 +4,13 @@ import '../styles/tailwind.css';
 
 import { ReactElement, ReactNode, useEffect } from 'react';
 
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { Barlow, Inter } from 'next/font/google';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { appWithTranslation } from 'next-i18next';
 
 import 'dayjs/locale/vi';
@@ -18,6 +19,7 @@ import ErrorBoundary from '@components/ErrorBoundary';
 import { requestJoinChannel, requestJoinIndex, socket } from '@components/Home/service';
 import AppLayout from '@layout/AppLayout';
 import { stockSocketAtom } from '@store/stockStocket';
+import { stockWLComponentAtom } from '@store/stockWLComponent';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -46,6 +48,8 @@ const BarlowFont = Barlow({
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
   const stockSocket = useAtomValue(stockSocketAtom);
+  const setStockWLComponent = useSetAtom(stockWLComponentAtom);
+  const router = useRouter();
   // console.log('ABC APP', stockSocket);
 
   useEffect(() => {
@@ -73,6 +77,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       socket.off('connect');
     };
   }, [stockSocket]);
+
+  useEffect(() => {
+    socket.on('public', (message: any) => {
+      const data = message.data;
+      if (data?.id === 3220) {
+        setStockWLComponent(data);
+      }
+    });
+
+    return () => {
+      socket.off('public');
+    };
+  }, [router]);
 
   return (
     <>
