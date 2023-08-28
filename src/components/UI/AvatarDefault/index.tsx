@@ -41,7 +41,7 @@ const AvatarDefault = (props: IProps) => {
 
   const nameFormat = useMemo(() => {
     let firstCharName = 'Z';
-    if (name && Number.isNaN(name)) {
+    if (name && Number.isNaN(name) && name.slice(0, 1)) {
       firstCharName = name.slice(0, 1).toUpperCase();
     }
 
