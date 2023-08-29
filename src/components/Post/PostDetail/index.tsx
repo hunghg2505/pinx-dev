@@ -147,9 +147,9 @@ const PostDetail = () => {
   // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
     if (prevLink) {
-      router.back();
-    } else {
       router.push(ROUTE_PATH.HOME);
+    } else {
+      router.back();
     }
   };
 
