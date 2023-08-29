@@ -10,11 +10,20 @@ import MainLayout from '@layout/MainLayout';
 const Home = dynamic(() => import('@components/Home'));
 
 const HomePage = ({ pinPostData }: any) => {
+  const schema = {
+    '@context': 'https://schema.org/',
+    '@type': 'WebPage',
+    name: 'PineX - Cộng đồng đầu tư chứng khoán',
+    url: 'https://pinex.vn/',
+    description:
+      'Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư',
+  };
   return (
     <>
       <SEO
         title='Cộng đồng đầu tư chứng khoán PineX'
         description='Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư'
+        schema={schema}
       />
       <Home pinPostData={pinPostData} />
     </>

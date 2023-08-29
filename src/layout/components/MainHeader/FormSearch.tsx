@@ -60,6 +60,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   React.useEffect(() => {
     setQuery(search);
     runRecent();
+    form.setFieldsValue({
+      search,
+    });
   }, [search]);
 
   useFocusWithin(ref, {
@@ -73,6 +76,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       } else {
         setShowPopup(true);
         refresh();
+        run();
       }
     },
   });
@@ -149,7 +153,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     () => {
       const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
       setQuery(value);
-      if (value === '' || value === undefined || value.length < 2) {
+      if (value === '' || value === undefined) {
         setShowPopup(false);
         setShowRecent(true);
       } else {
@@ -179,24 +183,20 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const users = data?.data?.customerList?.list || [];
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
-  const media = data?.data?.listMedia?.map(
-    (item: any) => {
-      return {
-        type: 'media',
-        timeString: item.timeString,
-        ...item,
-      };
-    }
-  );
-  const image = data?.data?.listImage?.map(
-    (item: any) => {
-      return {
-        type: 'image',
-        timeString: item.timeString,
-        ...item,
-      };
-    }
-  );
+  const media = data?.data?.listMedia?.map((item: any) => {
+    return {
+      type: 'media',
+      timeString: item.timeString,
+      ...item,
+    };
+  });
+  const image = data?.data?.listImage?.map((item: any) => {
+    return {
+      type: 'image',
+      timeString: item.timeString,
+      ...item,
+    };
+  });
   let newMedia = [];
 
   // map api do trả thiếu id
@@ -216,9 +216,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   let fillterMediaSort = [];
 
-  if (mediaL || imageL){
+  if (mediaL || imageL) {
     newMedia = [...media, ...image];
-    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) => (dayjs(a).isBefore(dayjs(b)) ? 1 : -1));
+    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
+      dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
+    );
     console.log('media', media);
     console.log('image', image);
     console.log('newMedia', newMedia);
@@ -233,7 +235,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
     // );
   }
-  console.log('fillterMediaSort',fillterMediaSort);
+  // console.log('fillterMediaSort', fillterMediaSort);
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
   // const mediaFilter = media?.filter(
@@ -259,7 +261,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         </>
       )}
       <div className={classNames(className)} ref={searchResultPopupRef}>
-        <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px] z-10'>
+        <div className='absolute right-[20px] top-[50%] z-10 translate-y-[-50%] desktop:right-[10px]'>
           {isLogin && loading && <Loading />}
         </div>
 
@@ -268,7 +270,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           <>
             <button
               onClick={removeFormSearch}
-              className='absolute z-10 right-[10px] top-[50%] flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
+              className='absolute right-[10px] top-[50%] z-10 flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
             >
               <img
                 src='/static/icons/iconClose.svg'
@@ -407,6 +409,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         hiddenComment={true}
                         setShowPopup={setShowPopup}
                         refreshSearch={refresh}
+                        isSearchSeoBox={true}
                       />
                     );
                   })}
@@ -429,7 +432,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   })}
                 </div>
               )}
-              {(fillterMediaSort?.length > 0) && (
+              {fillterMediaSort?.length > 0 && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     {t('common:searchseo.tab.media')}

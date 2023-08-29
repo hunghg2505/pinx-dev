@@ -123,7 +123,7 @@ export const ActivityTheme = ({
             alt=''
             className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'
           />
-          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
+          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
             <div className='flex flex-col items-center justify-center'>
               {iconPost && (
                 <img

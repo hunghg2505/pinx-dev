@@ -6,7 +6,7 @@ import { deleteAuthCookies, getAccessToken } from '@store/auth';
 import { getLocaleCookie } from '@store/locale';
 import { ENV } from 'src/utils/env';
 
-const REQ_TIMEOUT = 25 * 1000;
+const REQ_TIMEOUT = 60 * 1000;
 export const isDev = ENV.NODE_ENV === 'development';
 
 export interface IOptions {

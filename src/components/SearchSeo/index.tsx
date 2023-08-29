@@ -36,25 +36,22 @@ const SearchSeo = () => {
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
+  // console.log('🚀 ~ file: index.tsx:39 ~ SearchSeo ~ posts:', posts);
   const news = data?.data?.newsList?.list;
-  const media = data?.data?.listMedia?.map(
-    (item: any) => {
-      return {
-        type: 'media',
-        timeString: item.timeString,
-        ...item,
-      };
-    }
-  );
-  const image = data?.data?.listImage?.map(
-    (item: any) => {
-      return {
-        type: 'image',
-        timeString: item.timeString,
-        ...item,
-      };
-    }
-  );
+  const media = data?.data?.listMedia?.map((item: any) => {
+    return {
+      type: 'media',
+      timeString: item.timeString,
+      ...item,
+    };
+  });
+  const image = data?.data?.listImage?.map((item: any) => {
+    return {
+      type: 'image',
+      timeString: item.timeString,
+      ...item,
+    };
+  });
   let newMedia = [];
 
   // map api do trả thiếu id
@@ -74,13 +71,15 @@ const SearchSeo = () => {
 
   let fillterMediaSort = [];
 
-  if (mediaL || imageL){
+  if (mediaL || imageL) {
     newMedia = [...media, ...image];
-    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) => (dayjs(a).isBefore(dayjs(b)) ? 1 : -1));
-    console.log('media', media);
-    console.log('image', image);
-    console.log('newMedia', newMedia);
-    console.log('newMediaSort', newMediaSort);
+    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
+      dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
+    );
+    // console.log('media', media);
+    // console.log('image', image);
+    // console.log('newMedia', newMedia);
+    // console.log('newMediaSort', newMediaSort);
     fillterMediaSort = newMediaSort;
     // fillterMediaSort = newMediaSort.filter(
     //   (item) =>
@@ -91,7 +90,7 @@ const SearchSeo = () => {
     //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
     // );
   }
-  console.log('fillterMediaSort',fillterMediaSort);
+  // console.log('fillterMediaSort', fillterMediaSort);
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
   // const mediaFilter = media?.filter(
@@ -163,7 +162,9 @@ const SearchSeo = () => {
             {newsL ? (
               <div className='my-[16px] flex flex-col gap-y-[12px]'>
                 {news?.map((item: any) => {
-                  return <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} showComment />;
+                  return (
+                    <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} showComment />
+                  );
                 })}
               </div>
             ) : (
@@ -184,7 +185,7 @@ const SearchSeo = () => {
                 <Empty keyword={keyword} loading={loading} />
               </>
             )}
-          {/*
+            {/*
           {imageFilter?.length > 0 || mediaFilter?.length > 0 ? (
               <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {imageFilter?.map((item: any) => {

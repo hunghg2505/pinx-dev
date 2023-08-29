@@ -24,7 +24,7 @@ const UserFolowDesktop = (props: any) => {
         setState,
       }}
     >
-      <div className='shadow-[0px_4px_13px_0px_rgba(88, 157, 192, 0.30)] relative overflow-hidden rounded-[12px] pt-[156%] duration-300 ease-in-out'>
+      <div className='shadow-[0px_4px_13px_0px_rgba(88, 157, 192, 0.30)] relative select-none overflow-hidden rounded-[12px] pt-[156%] duration-300 ease-in-out'>
         <Figure />
         <Caption />
         {!isMyProfile && (
