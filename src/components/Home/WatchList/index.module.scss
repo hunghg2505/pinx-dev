@@ -3,18 +3,20 @@
     background-color: #66C660;
     border-radius: 100px;
     color: #ffffff;
+    padding: 2px 5px;
   }
 }
 .isIncrease {
   animation-name: isIncrease;
   animation-duration: 0.5s;
-  color: red;
+  // color: red;
 }
 @keyframes isDecrease {
   to {
     background-color: #db4444;
     border-radius: 100px;
     color: #ffffff;
+    padding: 2px 5px;
   }
 }
 .isDecrease {
