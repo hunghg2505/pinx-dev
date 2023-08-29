@@ -14,15 +14,17 @@ export const useGetDataStockWatchlistHome = () => {
   const findIndex = dataStockWatchlist?.findIndex(
     (item: any) => item.stockCode === dataStockWatchlistSocket.sym,
   );
+  let isChangeStockPrice = false;
   if (dataStockWatchlist && findIndex !== -1) {
     const data = dataStockWatchlist[findIndex];
+    isChangeStockPrice = data?.lastPrice !== dataStockWatchlistSocket?.lastPrice;
     dataStockWatchlist[findIndex] = {
       ...data,
       ...dataStockWatchlistSocket,
     };
   }
 
-  return { dataStockWatchlist, findIndex };
+  return { dataStockWatchlist, findIndex, isChangeStockPrice };
 };
 
 export const useStockWatchlistHome = () => {
