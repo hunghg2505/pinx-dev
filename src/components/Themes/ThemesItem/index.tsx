@@ -83,7 +83,7 @@ const ThemesItem = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useAuth();
   const { statusUser } = useUserType();
-  const { theme } = props;
+  const { theme, refresh } = props;
   const router = useRouter();
   const [isSubsribed, setIsSubsribed] = React.useState(theme?.isSubsribed);
   React.useEffect(() => {
@@ -109,7 +109,7 @@ const ThemesItem = (props: IProps) => {
           setPopupThemeData(theme);
         }
         setIsSubsribed(!isSubsribed);
-        // refresh && refresh();
+        refresh && refresh();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -136,7 +136,7 @@ const ThemesItem = (props: IProps) => {
           setPopupThemeData(theme);
         }
         setIsSubsribed(!isSubsribed);
-        // refresh && refresh();
+        refresh && refresh();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);

@@ -103,7 +103,7 @@ const ComponentWatchList = (props: IProps) => {
     if (page_size) {
       dataStock?.slice(0, page_size);
     }
-
+    // setDataStock(dataStock);
     return { dataFormat: dataStock, findIndex, isChangeStockPrice };
   }, [dataSocket, dataStock, page_size]);
 
@@ -111,7 +111,6 @@ const ComponentWatchList = (props: IProps) => {
     const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
-        // console.log('data', data);
         setDataSocket(data);
       }
     };
@@ -135,9 +134,8 @@ const ComponentWatchList = (props: IProps) => {
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
-        {dataFormat?.map((item: IWatchListItem, index: number) => {
+        {dataStock?.map((item: IWatchListItem, index: number) => {
           const isChangeStock = isChangeStockPrice && findIndex === index;
-
           return (
             <div
               key={`${item.stockCode}-${index}`}

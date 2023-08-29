@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'next-i18next';
@@ -42,6 +43,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const search = searchParams.get('keyword') || '';
   const [form] = Form.useForm();
   const ref = React.useRef(null);
+  const refForm = React.useRef(null);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
   const valueInput = form.getFieldValue('search');
 
@@ -57,13 +59,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // Remove value input search when refresh open new page
   React.useEffect(() => {
     setQuery(search);
-    form.setFieldValue('search', search);
     runRecent();
   }, [search]);
 
   useFocusWithin(ref, {
     onFocus: () => {
-      refresh();
       refreshSearchRecent();
       setInputFocus(true);
       setShowRecent(true);
@@ -72,6 +72,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         setShowPopup(false);
       } else {
         setShowPopup(true);
+        refresh();
       }
     },
   });
@@ -178,27 +179,71 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const users = data?.data?.customerList?.list || [];
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
-  const media = data?.data?.listMedia || [];
-  const image = data?.data?.listImage || [];
+  const media = data?.data?.listMedia?.map(
+    (item: any) => {
+      return {
+        type: 'media',
+        timeString: item.timeString,
+        ...item,
+      };
+    }
+  );
+  const image = data?.data?.listImage?.map(
+    (item: any) => {
+      return {
+        type: 'image',
+        timeString: item.timeString,
+        ...item,
+      };
+    }
+  );
+  let newMedia = [];
 
   // map api do trả thiếu id
-  const newUsers = users?.map((item: any) => ({ ...item, id: item.customerId }));
+  const newUsers = users?.map((item: any) => {
+    return {
+      id: item.customerId,
+      ...item,
+    };
+  });
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
+  const imageL = image?.length > 0;
+
+  let fillterMediaSort = [];
+
+  if (mediaL || imageL){
+    newMedia = [...media, ...image];
+    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) => (dayjs(a).isBefore(dayjs(b)) ? 1 : -1));
+    console.log('media', media);
+    console.log('image', image);
+    console.log('newMedia', newMedia);
+    console.log('newMediaSort', newMediaSort);
+    fillterMediaSort = newMediaSort;
+    // fillterMediaSort = newMediaSort.filter(
+    //   (item) =>
+    //     // mediaFilter
+    //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+    //     item?.post?.metadataList[0]?.url?.length > 0 ||
+    //     // imageFilter
+    //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+    // );
+  }
+  console.log('fillterMediaSort',fillterMediaSort);
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  const mediaFilter = media?.filter(
-    (item: any) =>
-      item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-      item?.post?.metadataList[0]?.url?.length > 0,
-  );
-  const imageFilter = image?.filter(
-    (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  );
+  // const mediaFilter = media?.filter(
+  //   (item: any) =>
+  //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+  //     item?.post?.metadataList[0]?.url?.length > 0,
+  // );
+  // const imageFilter = image?.filter(
+  //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+  // );
 
   return (
     <>
@@ -214,8 +259,29 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         </>
       )}
       <div className={classNames(className)} ref={searchResultPopupRef}>
+        <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px] z-10'>
+          {isLogin && loading && <Loading />}
+        </div>
+
+        {/* Khi nhập input show button close clear data */}
+        {!loading && valueInput && (
+          <>
+            <button
+              onClick={removeFormSearch}
+              className='absolute z-10 right-[10px] top-[50%] flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
+            >
+              <img
+                src='/static/icons/iconClose.svg'
+                alt='Search icon'
+                className='m-auto h-[14px] w-[14px]'
+              />
+            </button>
+          </>
+        )}
+        {/* End Khi nhập input show button close clear data */}
         <div ref={ref}>
           <Form
+            ref={refForm}
             className={classNames('', {
               'w-full': isMobile,
             })}
@@ -239,26 +305,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
               />
             </FormItem>
           </Form>
-          <div className='absolute right-[20px] top-[50%] translate-y-[-50%] desktop:right-[10px]'>
-            {isLogin && loading && <Loading />}
-          </div>
-
-          {/* Khi nhập input show button close clear data */}
-          {!loading && valueInput && (
-            <>
-              <button
-                onClick={removeFormSearch}
-                className='absolute right-[10px] top-[50%] flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
-              >
-                <img
-                  src='/static/icons/iconClose.svg'
-                  alt='Search icon'
-                  className='m-auto h-[14px] w-[14px]'
-                />
-              </button>
-            </>
-          )}
-          {/* End Khi nhập input show button close clear data */}
 
           {/* Show search recent */}
           <Fade
@@ -383,27 +429,18 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   })}
                 </div>
               )}
-              {(imageFilter?.length > 0 || mediaFilter?.length > 0) && (
+              {(fillterMediaSort?.length > 0) && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
                     {t('common:searchseo.tab.media')}
                   </Text>
                   <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
-                    {imageFilter?.slice(0, 3)?.map((item: any) => {
+                    {fillterMediaSort?.slice(0, 4)?.map((item: any) => {
                       return (
                         <MediaItem
                           key={`media-item-${item?.id}`}
                           data={item}
-                          type='image'
-                          setShowPopup={setShowPopup}
-                        />
-                      );
-                    })}
-                    {mediaFilter?.slice(0, 3)?.map((item: any) => {
-                      return (
-                        <MediaItem
-                          key={`media-item-${item?.id}`}
-                          data={item}
+                          type={item?.type}
                           setShowPopup={setShowPopup}
                         />
                       );

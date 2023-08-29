@@ -26,11 +26,13 @@ interface IProps {
   isReported?: boolean;
   refresh?: () => void;
   refreshCommentOfPOst?: () => void;
+  setIsReport?: any;
+  setTotalReport?: any;
 }
 const ModalReportComment = (props: IProps) => {
   const { t } = useTranslation();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { children, postID, isReported, refresh, refreshCommentOfPOst } = props;
+  const { children, postID, isReported, setIsReport, setTotalReport } = props;
   const { statusUser, isLogin } = useUserType();
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
@@ -63,8 +65,10 @@ const ModalReportComment = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         onVisible();
-        refresh && refresh();
-        refreshCommentOfPOst && refreshCommentOfPOst();
+        setIsReport(true);
+        setTotalReport && setTotalReport();
+        // refresh && refresh();
+        // refreshCommentOfPOst && refreshCommentOfPOst();
       },
       onError: (err: any) => {
         if (err?.error === 'VSD account is required') {

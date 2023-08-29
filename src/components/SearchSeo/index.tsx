@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -36,26 +37,71 @@ const SearchSeo = () => {
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
-  const media = data?.data?.listMedia;
-  const image = data?.data?.listImage;
+  const media = data?.data?.listMedia?.map(
+    (item: any) => {
+      return {
+        type: 'media',
+        timeString: item.timeString,
+        ...item,
+      };
+    }
+  );
+  const image = data?.data?.listImage?.map(
+    (item: any) => {
+      return {
+        type: 'image',
+        timeString: item.timeString,
+        ...item,
+      };
+    }
+  );
+  let newMedia = [];
 
   // map api do trả thiếu id
-  const newUsers = users?.map((item: any) => ({ ...item, id: item.customerId }));
+  const newUsers = users?.map((item: any) => {
+    return {
+      id: item.customerId,
+      ...item,
+    };
+  });
 
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
+  const mediaL = media?.length > 0;
+  const imageL = image?.length > 0;
+
+  let fillterMediaSort = [];
+
+  if (mediaL || imageL){
+    newMedia = [...media, ...image];
+    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) => (dayjs(a).isBefore(dayjs(b)) ? 1 : -1));
+    console.log('media', media);
+    console.log('image', image);
+    console.log('newMedia', newMedia);
+    console.log('newMediaSort', newMediaSort);
+    fillterMediaSort = newMediaSort;
+    // fillterMediaSort = newMediaSort.filter(
+    //   (item) =>
+    //     // mediaFilter
+    //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+    //     item?.post?.metadataList[0]?.url?.length > 0 ||
+    //     // imageFilter
+    //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+    // );
+  }
+  console.log('fillterMediaSort',fillterMediaSort);
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  const mediaFilter = media?.filter(
-    (item: any) =>
-      item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-      item?.post?.metadataList[0]?.url?.length > 0,
-  );
-  const imageFilter = image?.filter(
-    (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  );
+  // const mediaFilter = media?.filter(
+  //   (item: any) =>
+  //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
+  //     item?.post?.metadataList[0]?.url?.length > 0,
+  // );
+  // const imageFilter = image?.filter(
+  //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
+  // );
 
   return (
     <>
@@ -127,10 +173,22 @@ const SearchSeo = () => {
             )}
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {imageFilter?.length > 0 || mediaFilter?.length > 0 ? (
+            {fillterMediaSort?.length > 0 ? (
+              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
+                {fillterMediaSort?.map((item: any) => {
+                  return <MediaItem key={`media-item-${item?.id}`} data={item} type={item?.type} />;
+                })}
+              </div>
+            ) : (
+              <>
+                <Empty keyword={keyword} loading={loading} />
+              </>
+            )}
+          {/*
+          {imageFilter?.length > 0 || mediaFilter?.length > 0 ? (
               <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {imageFilter?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} type='image' />;
+                  return <MediaItem key={`media-item-${item?.id}`} data={item} />;
                 })}
                 {mediaFilter?.map((item: any) => {
                   return <MediaItem key={`media-item-${item?.id}`} data={item} />;
@@ -141,6 +199,7 @@ const SearchSeo = () => {
                 <Empty keyword={keyword} loading={loading} />
               </>
             )}
+          */}
           </TabPane>
         </Tabs>
       </div>

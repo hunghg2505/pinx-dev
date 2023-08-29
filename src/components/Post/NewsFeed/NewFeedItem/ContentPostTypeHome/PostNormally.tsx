@@ -63,7 +63,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       }
       clearTimeout(t);
     }, 400);
-  }, [messageDefault]);
+  }, [messageDefault, postThemeId]);
 
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent as string;
@@ -86,10 +86,10 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
-    // if (classElement === 'hashtag') {
-    //   const text = textContent.slice(1);
-    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
-    // }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
     return onComment();
   };
   const PostContent = () => {
