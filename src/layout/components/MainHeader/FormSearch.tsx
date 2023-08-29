@@ -383,6 +383,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         key={`company-${index}`}
                         data={company}
                         setShowPopup={setShowPopup}
+                        isSearchSeo
                       />
                     );
                   })}
