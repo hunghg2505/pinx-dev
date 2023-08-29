@@ -77,7 +77,7 @@ const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
           className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
         >
           <Text type='body-14-regular' className='text-[#0D0D0D]'>
-            {formatStringToNumber(stockDetails?.data.watchingInvestingNo)}
+            {formatStringToNumber(stockDetails?.data.watchingInvestingNo) || 0}
           </Text>
           <img
             src='/static/icons/iconBlackRight.svg'

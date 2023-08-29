@@ -585,7 +585,7 @@ const StockDetail = () => {
                 {t('rating.avg_score')}
               </Text>
               <Text type='body-20-medium' className='text-[#F1BA09]'>
-                {formatStringToNumber(stockDetails?.data.details.rate.rateAverage, true, 2)}
+                {formatStringToNumber(stockDetails?.data.details.rate.rateAverage, true, 2) || 0}
               </Text>
             </div>
 
@@ -594,7 +594,7 @@ const StockDetail = () => {
                 {t('rating.votes')}
               </Text>
               <Text type='body-20-medium' className='text-[#0D0D0D]'>
-                {formatStringToNumber(stockDetails?.data.details.rate.totalRates)}
+                {formatStringToNumber(stockDetails?.data.details.rate.totalRates) || 0}
               </Text>
             </div>
 
@@ -606,7 +606,7 @@ const StockDetail = () => {
               <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
                 <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
-                    {formatStringToNumber(stockDetails?.data.details.totalReviews)}
+                    {formatStringToNumber(stockDetails?.data.details.totalReviews) || 0}
                   </Text>
 
                   <img

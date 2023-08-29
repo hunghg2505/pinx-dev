@@ -62,7 +62,7 @@ const WatchingStock = (props: Iprops) => {
           </div>
           <div className='flex items-center'>
             <Text type='body-16-regular' color='neutral-1'>
-              {formatStringToNumber(data?.totalCount)}
+              {formatStringToNumber(data?.totalCount) || 0}
             </Text>
             {mention ? (
               <img

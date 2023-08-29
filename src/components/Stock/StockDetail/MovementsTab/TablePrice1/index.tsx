@@ -24,7 +24,7 @@ const TablePrice1 = ({ stockData }: ITablePrice1Props) => {
           </td>
           <td className='pr-[20px] text-right align-middle small-mobile-max:pr-0'>
             <Text type='body-12-regular' className='text-[#0D0D0D]'>
-              {formatStringToNumber(stockData?.highPrice, true, 2)}
+              {formatStringToNumber(stockData?.highPrice, true, 2) || 0}
             </Text>
           </td>
         </tr>
@@ -36,7 +36,7 @@ const TablePrice1 = ({ stockData }: ITablePrice1Props) => {
           </td>
           <td className='pr-[20px] text-right align-middle small-mobile-max:pr-0'>
             <Text type='body-12-regular' className='text-[#0D0D0D]'>
-              {formatStringToNumber(stockData?.lowPrice, true, 2)}
+              {formatStringToNumber(stockData?.lowPrice, true, 2) || 0}
             </Text>
           </td>
         </tr>
@@ -48,7 +48,7 @@ const TablePrice1 = ({ stockData }: ITablePrice1Props) => {
           </td>
           <td className='pr-[20px] text-right align-middle small-mobile-max:pr-0'>
             <Text type='body-12-regular' className='text-[#0D0D0D]'>
-              {formatStringToNumber(stockData?.lastPrice.toString(), true, 2)}
+              {formatStringToNumber(stockData?.lastPrice.toString(), true, 2) || 0}
             </Text>
           </td>
         </tr>
