@@ -15,7 +15,7 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useSuggestPeople } from '../service';
+import { useGetInfluencer, useSuggestPeople } from '../service';
 
 const WatchList = () => {
   const { t } = useTranslation('common');
@@ -57,6 +57,8 @@ const ContentRight = () => {
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
   });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
+
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
@@ -98,6 +100,7 @@ const ContentRight = () => {
               suggestionPeople={suggestionPeople}
               refreshList={refreshList}
               getSuggestFriend={getSuggestFriend}
+              refresh={refresh}
             />
             {suggestionPeople?.length && (
               <ModalPeopleYouKnow refreshList={refreshList}>

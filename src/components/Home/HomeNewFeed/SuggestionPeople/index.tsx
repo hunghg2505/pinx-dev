@@ -4,13 +4,17 @@ import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
 import PeopleList from '@components/Home/People/PeopleList';
-import { useSuggestPeople } from '@components/Home/service';
+import { useGetInfluencer, useSuggestPeople } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 
 const SuggestionPeople = () => {
   const { t } = useTranslation('home');
-  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople({
+    cacheKey: 'data-suggestionPeople',
+  });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
+
   React.useEffect(() => {
     const isLogin = !!getAccessToken();
 
@@ -37,7 +41,12 @@ const SuggestionPeople = () => {
 
           <div>
             <div className='bg-[#ffffff] pl-[16px] pt-[15px] galaxy-max:pl-0'>
-              <PeopleList loading={loading} data={suggestionPeople} refresh={refreshList} />
+              <PeopleList
+                refresh={refresh}
+                loading={loading}
+                data={suggestionPeople}
+                refreshList={refreshList}
+              />
             </div>
             <div className='bg-[#ffffff] pb-[10px] pt-[15px] text-center'>
               <ModalPeopleYouKnow refreshList={refreshList}>
