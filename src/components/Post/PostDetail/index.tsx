@@ -68,7 +68,7 @@ const PostDetail = () => {
   const router = useRouter();
   const { isLogin } = useAuth();
   const [width, setWidth] = React.useState<number>(0);
-  const [prevLink, setPrevLink] = React.useState('');
+  // const [prevLink, setPrevLink] = React.useState('');
   const [, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
@@ -77,7 +77,7 @@ const PostDetail = () => {
   const postID = router.query.id;
   React.useEffect(() => {
     setWidth(window.innerWidth);
-    setPrevLink(document?.referrer);
+    // setPrevLink(document?.referrer);
   }, []);
   React.useEffect(() => {
     const handleWindowResize = () => {
@@ -146,11 +146,7 @@ const PostDetail = () => {
   // );
   // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
-    if (prevLink) {
-      router.push(ROUTE_PATH.HOME);
-    } else {
-      router.back();
-    }
+    router.back();
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {
