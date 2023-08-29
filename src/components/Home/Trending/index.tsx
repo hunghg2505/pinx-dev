@@ -1,6 +1,8 @@
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
 
 import TrendingSkeleton from './Skeleton';
 import { ITrending, useGetTrending } from '../service';
@@ -12,7 +14,7 @@ export enum TYPETRENDING {
 const Trending = () => {
   const { t } = useTranslation();
   const { dataTrending, loading } = useGetTrending();
-
+  const router = useRouter();
   return (
     <>
       <Text type='body-16-bold' color='neutral-2' className='mb-4'>
@@ -40,7 +42,12 @@ const Trending = () => {
                 className='inline-block rounded-[100px] border-[1px] border-solid border-[#C8E2F4] px-[10px] py-[6px]'
                 key={index}
               >
-                <Text type='body-14-medium' color='primary-2'>
+                <Text
+                  onClick={() => router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${item.keyword}`)}
+                  type='body-14-medium'
+                  className='cursor-pointer'
+                  color='primary-2'
+                >
                   #{item.keyword}
                 </Text>
               </div>
