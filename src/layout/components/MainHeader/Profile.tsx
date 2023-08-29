@@ -62,7 +62,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
     <Fade
       visible={openProfileMenu}
       className={classNames(
-        'fixed  left-[100%] z-[9999] w-full overflow-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden',
+        'fixed  left-[100%] z-[9999] w-full overflow-y-auto overflow-x-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden',
         {
           'top-[55px]': isRouteSetting,
           'h-[calc(100vh-56px)]': isRouteSetting,
