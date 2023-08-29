@@ -36,7 +36,7 @@ const SearchSeo = () => {
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
-  console.log('🚀 ~ file: index.tsx:39 ~ SearchSeo ~ posts:', posts);
+  // console.log('🚀 ~ file: index.tsx:39 ~ SearchSeo ~ posts:', posts);
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.map((item: any) => {
     return {
@@ -76,6 +76,10 @@ const SearchSeo = () => {
     const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
       dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
     );
+    // console.log('media', media);
+    // console.log('image', image);
+    // console.log('newMedia', newMedia);
+    // console.log('newMediaSort', newMediaSort);
     fillterMediaSort = newMediaSort;
     // fillterMediaSort = newMediaSort.filter(
     //   (item) =>
@@ -86,6 +90,7 @@ const SearchSeo = () => {
     //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
     // );
   }
+  // console.log('fillterMediaSort', fillterMediaSort);
 
   // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
   // const mediaFilter = media?.filter(

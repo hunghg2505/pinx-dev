@@ -123,15 +123,25 @@ const formatMessages = (message: string, data: any, idCustomer?: any) => {
   return message;
 };
 
-const MediaItem = ({ data, type, setShowPopup }: { data: any, type?: string, setShowPopup?: any }) => {
+const MediaItem = ({
+  data,
+  type,
+  setShowPopup,
+}: {
+  data: any;
+  type?: string;
+  setShowPopup?: any;
+}) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [img, setImg] = React.useState('');
 
   const router = useRouter();
   React.useEffect(() => {
-    getSeoDataFromLink(data?.post?.metadataList[0]?.url).then((res) => {
-      setImg(res[2]?.content);
-    });
+    if (data?.post?.metadataList?.length > 0) {
+      getSeoDataFromLink(data?.post?.metadataList[0]?.url).then((res) => {
+        setImg(res[2]?.content);
+      });
+    }
   }, [img]);
 
   const onGoToDetail = () => {
@@ -238,16 +248,16 @@ const MediaItem = ({ data, type, setShowPopup }: { data: any, type?: string, set
   };
   return (
     <>
-      {(type === 'image') ? (
+      {type === 'image' ? (
         <>
-          {data?.post?.seoMetadata?.imageSeo?.urlImage && (
+          {data?.seoMetadata?.imageSeo?.urlImage && (
             <div className='flex cursor-pointer flex-col gap-y-[8px]' onClick={onGoToDetail}>
               <img
                 className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
-                  'object-contain': data?.post?.seoMetadata?.imageSeo?.urlImage,
-                  'object-cover': !data?.post?.seoMetadata?.imageSeo?.urlImage,
+                  '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
+                  '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,
                 })}
-                src={data?.post?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
+                src={data?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
                 alt='Picture of the author'
                 width={345}
                 height={162}
@@ -256,8 +266,8 @@ const MediaItem = ({ data, type, setShowPopup }: { data: any, type?: string, set
                 <div
                   dangerouslySetInnerHTML={{
                     __html: formatMessages(
-                      data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                      data?.post,
+                      data?.seoMetadata?.title || data?.metadataList[0]?.title,
+                      data,
                       userLoginInfo?.id,
                     ),
                   }}

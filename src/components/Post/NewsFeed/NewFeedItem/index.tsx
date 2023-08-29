@@ -48,6 +48,7 @@ interface IProps {
   isNewFeedExplore?: boolean;
   setShowPopup?: any;
   refreshTrendingOnPinex?: () => void;
+  isSearchSeoBox?: boolean;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -64,6 +65,7 @@ const NewFeedItem = (props: IProps) => {
     setShowPopup,
     refreshTrendingOnPinex,
     isExplore,
+    isSearchSeoBox,
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -235,7 +237,9 @@ const NewFeedItem = (props: IProps) => {
         pinned ||
         router.pathname === ROUTE_PATH.EXPLORE ||
         router.pathname === '/profile/[id]' ||
-        router.pathname === '/profile/my-profile';
+        router.pathname === '/profile/my-profile' ||
+        router.pathname === '/search-seo' ||
+        isSearchSeoBox;
 
       const cond2 = !isReported && !isMyPost;
 

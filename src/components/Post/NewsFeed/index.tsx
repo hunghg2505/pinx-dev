@@ -30,6 +30,7 @@ interface IProps {
   refreshSearch?: () => void;
   loading?: boolean;
   hiddenComment?: boolean;
+  isSearchSeoBox?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -44,6 +45,7 @@ const NewsFeed = (props: IProps) => {
     refreshSearch,
     loading,
     hiddenComment,
+    isSearchSeoBox,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -219,6 +221,7 @@ const NewsFeed = (props: IProps) => {
           refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
+          isSearchSeoBox={isSearchSeoBox}
         />
 
         {isLogin && !isNewFeedExplore && !hiddenComment && (
