@@ -114,6 +114,7 @@ const SearchSeo = () => {
           onChange={(key: string) => {
             replace({ query: { ...query, tab: key } });
           }}
+          animated={false}
         >
           <TabPane tab={t('common:searchseo.tab.company')} key='company'>
             {companiesL ? (

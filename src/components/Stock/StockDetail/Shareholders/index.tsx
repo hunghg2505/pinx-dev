@@ -69,7 +69,7 @@ const StockShareholders = ({ stockCode }: IStockShareholdersProps) => {
                 {item.name}
               </Text>
               <Text type='body-12-regular' color='primary-5' className='!leading-[16px]'>
-                {formatStringToNumber(item.value)}
+                {formatStringToNumber(item.value) || 0}
               </Text>
             </div>
           ))}

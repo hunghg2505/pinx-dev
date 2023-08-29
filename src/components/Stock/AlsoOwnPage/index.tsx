@@ -40,7 +40,7 @@ const AlsoOwn = () => {
             </div>
 
             <Text type='body-14-semibold' className='text-[#0D0D0D]'>
-              {t('total')}: {formatStringToNumber(taggingInfo?.data?.subsidiaries.length)}
+              {t('total')}: {formatStringToNumber(taggingInfo?.data?.subsidiaries.length) || 0}
             </Text>
           </div>
 

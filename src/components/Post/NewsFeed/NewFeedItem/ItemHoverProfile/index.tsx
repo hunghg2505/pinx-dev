@@ -57,7 +57,7 @@ const ItemHoverProfile = (props: IProps) => {
           <div className='flex items-center justify-between gap-[8px]'>
             <div className='flex gap-[4px]'>
               <Text type='body-12-semibold'>
-                {formatStringToNumber(profileOtherUser?.totalFollower)}
+                {formatStringToNumber(profileOtherUser?.totalFollower) || 0}
               </Text>
               <Text type='body-12-regular' className='text-[#474D57]'>
                 {t('follower')}
@@ -70,7 +70,7 @@ const ItemHoverProfile = (props: IProps) => {
 
             <div className='flex gap-[4px]'>
               <Text type='body-12-semibold'>
-                {formatStringToNumber(profileOtherUser?.totalFollowing)}
+                {formatStringToNumber(profileOtherUser?.totalFollowing) || 0}
               </Text>
               <Text type='body-12-regular' className='text-[#474D57]'>
                 {t('following')}

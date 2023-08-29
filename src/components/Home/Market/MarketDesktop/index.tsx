@@ -97,7 +97,7 @@ const MarketDesktop = () => {
                           [styles.isNoChange]: isNoChange && isChange,
                         })}
                       >
-                        {formatStringToNumber(item?.cIndex)}
+                        {formatStringToNumber(item?.cIndex) || 0}
                       </Text>
                       <Text
                         type='body-12-medium'

@@ -97,7 +97,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
         </Text>
         <div className='ml-[12px] flex h-[34px] w-[76px] flex-row items-center justify-center rounded-[100px]  bg-[#F7F6F8] mobile:hidden desktop:flex'>
           <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-            {formatStringToNumber(data?.totalElements)}
+            {formatStringToNumber(data?.totalElements) || 0}
           </Text>
         </div>
       </div>
@@ -134,7 +134,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
         <ModalCommunity code={payload?.code}>
           <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
             <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-              {formatStringToNumber(data?.totalElements)}
+              {formatStringToNumber(data?.totalElements) || 0}
             </Text>
             <IconArrow />
           </div>

@@ -132,7 +132,7 @@ const ItemPeople = (props: IProps) => {
           </div>
 
           <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
-            <p>{formatStringToNumber(data?.numberFollowers)}</p>
+            <p>{formatStringToNumber(data?.numberFollowers) || 0}</p>
             <p>{t('followers')}</p>
           </Text>
         </div>

@@ -89,7 +89,7 @@ const StockItem = ({ data }: IStockItemProps) => {
             type='body-12-regular'
             className='mt-[8px] text-[#808A9D] galaxy-max:mt-[2px] galaxy-max:text-[9px]'
           >
-            Cap: {formatStringToNumber(data.marketCapital || 0)}
+            Cap: {formatStringToNumber(data.marketCapital || 0) || 0}
           </Text>
         </div>
 

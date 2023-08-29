@@ -62,7 +62,7 @@ const PinexTop = (props: Iprops) => {
               {changePrice ? (
                 <div className='hidden items-center galaxy-max:flex'>
                   <Text type='body-16-regular' color='semantic-2-1'>
-                    {formatStringToNumber(data?.percentChange)}%
+                    {formatStringToNumber(data?.percentChange) || 0}%
                   </Text>
                   <img
                     src='/static/icons/explore/iconChange.svg'
@@ -74,7 +74,7 @@ const PinexTop = (props: Iprops) => {
                 <Text type='body-16-regular' className='hidden galaxy-max:block' color='neutral-1'>
                   {formatStringToNumber(
                     data?.profit || data?.revenue || data?.marketCapital || data?.price,
-                  )}
+                  ) || 0}
                 </Text>
               )}
             </div>
@@ -82,7 +82,7 @@ const PinexTop = (props: Iprops) => {
           {changePrice ? (
             <div className='flex items-center galaxy-max:hidden'>
               <Text type='body-16-regular' color='semantic-2-1'>
-                {formatStringToNumber(data?.percentChange)}%
+                {formatStringToNumber(data?.percentChange) || 0}%
               </Text>
               <img
                 src='/static/icons/explore/iconChange.svg'
@@ -94,7 +94,7 @@ const PinexTop = (props: Iprops) => {
             <Text type='body-16-regular' className='galaxy-max:hidden' color='neutral-1'>
               {formatStringToNumber(
                 data?.profit || data?.revenue || data?.marketCapital || data?.price,
-              )}
+              ) || 0}
             </Text>
           )}
         </div>

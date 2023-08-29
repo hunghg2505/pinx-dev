@@ -116,7 +116,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             >
               {Number.isNaN(+sell_price_3)
                 ? sell_price_3
-                : formatStringToNumber(sell_price_3, true, 2)}
+                : formatStringToNumber(sell_price_3, true, 2) || 0}
             </Text>
 
             <div
@@ -140,7 +140,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 ),
               )}
             >
-              {formatStringToNumber((Number(sell_volume_3) || 0) * 10)}
+              {formatStringToNumber((Number(sell_volume_3) || 0) * 10) || 0}
             </Text>
           </div>
         </div>
@@ -164,7 +164,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             >
               {Number.isNaN(+sell_price_2)
                 ? sell_price_2
-                : formatStringToNumber(sell_price_2, true, 2)}
+                : formatStringToNumber(sell_price_2, true, 2) || 0}
             </Text>
 
             <div
@@ -188,7 +188,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 ),
               )}
             >
-              {formatStringToNumber((Number(sell_volume_2) || 0) * 10)}
+              {formatStringToNumber((Number(sell_volume_2) || 0) * 10) || 0}
             </Text>
           </div>
         </div>
@@ -212,7 +212,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             >
               {Number.isNaN(+sell_price_1)
                 ? sell_price_1
-                : formatStringToNumber(sell_price_1, true, 2)}
+                : formatStringToNumber(sell_price_1, true, 2) || 0}
             </Text>
 
             <div
@@ -236,7 +236,7 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
                 ),
               )}
             >
-              {formatStringToNumber((Number(sell_volume_1) || 0) * 10)}
+              {formatStringToNumber((Number(sell_volume_1) || 0) * 10) || 0}
             </Text>
           </div>
         </div>
