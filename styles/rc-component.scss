@@ -165,6 +165,15 @@
     line-height: 21px;
   }
 }
+
+.messageFormat2 {
+  @extend .messageFormat;
+  .link,
+  .mention {
+    @apply text-[14px];
+  }
+}
+
 .tagStock {
   font-weight: 600 !important;
   line-height: 21px;
@@ -335,11 +344,10 @@
 .rc-picker-month-btn:hover {
   filter: invert(37%) sepia(17%) saturate(3633%) hue-rotate(175deg) brightness(91%) contrast(87%);
 }
-.ProseMirror{
+.ProseMirror {
   word-break: break-word;
-  
 }
-.composePost{
+.composePost {
   max-height: 250px;
   overflow-y: auto;
   min-height: 80px;
