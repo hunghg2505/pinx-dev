@@ -94,7 +94,8 @@ const ComponentWatchList = (props: IProps) => {
     let isChangeStockPrice = false;
     if (dataStock && findIndex !== -1) {
       const data = dataStock[findIndex];
-      isChangeStockPrice = data?.lastPrice !== dataSocket?.lastPrice;
+      isChangeStockPrice =
+        data?.lastPrice !== dataSocket?.lastPrice && data?.time !== dataSocket?.time;
       dataStock[findIndex] = {
         ...data,
         ...dataSocket,
@@ -106,7 +107,6 @@ const ComponentWatchList = (props: IProps) => {
     // setDataStock(dataStock);
     return { dataFormat: dataStock, findIndex, isChangeStockPrice };
   }, [dataSocket, dataStock, page_size]);
-
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;

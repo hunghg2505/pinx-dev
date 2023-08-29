@@ -750,7 +750,7 @@ export const kFormatter = (num: number) => {
 
 export const formatStringToNumber = (value: any, isComma = true, minimumFractionDigits = 0) => {
   if (!value) {
-    return '0';
+    return '';
   }
   if (Number.isNaN(value)) {
     return value;

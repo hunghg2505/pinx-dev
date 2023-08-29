@@ -6,6 +6,7 @@ import config from 'src/configs/seo_meta.json';
 
 interface Props {
   title?: string;
+  schema?: any;
   description?: string;
   robots?: string;
   siteUrl?: string;
@@ -25,7 +26,7 @@ interface Props {
   };
 }
 
-const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }) => {
+const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph, schema }) => {
   return (
     <Head>
       <title>{title || config.title}</title>
@@ -66,6 +67,12 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph }
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
       <link rel='canonical' href='https://pinex.vn/' />
+      {schema && (
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      )}
     </Head>
   );
 };

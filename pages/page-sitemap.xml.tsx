@@ -5,10 +5,10 @@ function generateSiteMap() {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <!--We manually set the two URLs we know already-->
       <url>
-        <loc>https://pinex-sit.agiletech.vn</loc>
+        <loc>https://pinex.vn</loc>
       </url>
       <url>
-        <loc>https://pinex-sit.agiletech.vn/en</loc>
+        <loc>https://pinex.vn/en</loc>
       </url>
       ${[
         'explore',
@@ -24,9 +24,9 @@ function generateSiteMap() {
       ]
         .map(
           (e) => `<url>
-          <loc>https://pinex-sit.agiletech.vn/${e}</loc>
+          <loc>https://pinex.vn/${e}</loc>
         </url><url>
-          <loc>https://pinex-sit.agiletech.vn/en/${e}</loc>
+          <loc>https://pinex.vn/en/${e}</loc>
         </url>`,
         )
         .join('')}

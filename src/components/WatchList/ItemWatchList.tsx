@@ -32,6 +32,7 @@ const ItemWatchList = ({
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
   const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
+  const isNoChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -146,10 +147,10 @@ const ItemWatchList = ({
                 !isChange,
             })}
           >
-            {isChange ? '' : unit}
+            {isNoChange ? '' : unit}
             {Number(data?.change) === 0 ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
-            {isChange ? '' : unit}
-            {isChange
+            {isNoChange ? '' : unit}
+            {isNoChange
               ? '-'
               : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
                 formatStringToNumber(data?.changePercent, true, 2)}
