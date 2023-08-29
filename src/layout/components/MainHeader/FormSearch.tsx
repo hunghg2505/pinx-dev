@@ -153,7 +153,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     () => {
       const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
       setQuery(value);
-      if (value === '' || value === undefined || value.length < 2) {
+      if (value === '' || value === undefined) {
         setShowPopup(false);
         setShowRecent(true);
       } else {

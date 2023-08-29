@@ -137,11 +137,9 @@ const MediaItem = ({
 
   const router = useRouter();
   React.useEffect(() => {
-    if (data?.post?.metadataList?.length > 0) {
-      getSeoDataFromLink(data?.post?.metadataList[0]?.url).then((res) => {
-        setImg(res[2]?.content);
-      });
-    }
+    getSeoDataFromLink(data?.post?.metadataList?.[0]?.url).then((res) => {
+      setImg(res?.[2]?.content);
+    });
   }, [img]);
 
   const onGoToDetail = () => {
