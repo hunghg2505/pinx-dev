@@ -41,7 +41,8 @@ const AvatarDefault = (props: IProps) => {
 
   const nameFormat = useMemo(() => {
     let firstCharName = 'Z';
-    if (name && Number.isNaN(name) && name.slice(0, 1)) {
+    // eslint-disable-next-line unicorn/prefer-number-properties
+    if (name && isNaN(+name.slice(0, 1))) {
       firstCharName = name.slice(0, 1).toUpperCase();
     }
 
