@@ -291,6 +291,12 @@ const ItemComment = (props: IProps) => {
     }
   }, []);
   const addTotalReport = () => {
+    if (!isHomePath) {
+      setPostDetailStatus({
+        ...postDetailStatus,
+        idPostAddComment: idPost,
+      });
+    }
     setTotalReport(totalReport + 1);
   };
   return (

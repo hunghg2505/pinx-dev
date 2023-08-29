@@ -41,7 +41,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
           )}
           <Text
             type='barlow-16-medium'
-            className={classNames('mt-[16px]', {
+            className={classNames('mt-[16px] px-[5px] py-[2px]', {
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
               'text-[#128F63]': isIncrease && !isHigh,
@@ -63,7 +63,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
             {data.stockCode}
           </Text>
           <div
-            className={classNames('mt-[12px]', {
+            className={classNames('mt-[12px] px-[5px] py-[2px]', {
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
               'text-[#128F63]': isIncrease && !isHigh,
@@ -81,9 +81,8 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
           >
             <Text type='barlow-12-medium'>
               {isChange ? '' : unit}
-              {Number(data?.change) === 0
-                ? '-'
-                : formatStringToNumber(data?.change, true, 2)} / {isChange ? '' : unit}
+              {isChange ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
+              {isChange ? '' : unit}
               {isChange
                 ? '-'
                 : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||

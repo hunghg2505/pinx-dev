@@ -105,7 +105,9 @@ const NewsItem = ({
             {data?.post?.title}
           </Text>
         </div>
-        <CustomLink href={`/redirecting?url=${url}`}>{renderThumbnail()}</CustomLink>
+        <CustomLink target='_blank' href={`${url}`}>
+          {renderThumbnail()}
+        </CustomLink>
       </div>
       {showComment && (
         <PostAction

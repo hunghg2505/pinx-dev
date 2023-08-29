@@ -4,14 +4,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const compiler =
-  process.env.NODE_ENV === 'development'
-    ? {}
-    : {
-        removeConsole: {
-          exclude: ['error'],
-        },
-      };
+// const compiler =
+//   process.env.NODE_ENV === 'development'
+//     ? {}
+//     : {
+//         removeConsole: {
+//           exclude: ['error'],
+//         },
+//       };
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -24,7 +24,7 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
-  compiler,
+  // compiler,
   // config env
   publicRuntimeConfig: {
     NODE_ENV: process.env.NODE_ENV,

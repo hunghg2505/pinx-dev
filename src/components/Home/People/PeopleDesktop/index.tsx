@@ -13,12 +13,14 @@ interface IPeopleDesktopProps {
   suggestionPeople: any;
   getSuggestFriend: () => void;
   refreshList: () => void;
+  refresh: () => void;
 }
 
 const PeopleDesktop = ({
   suggestionPeople,
   getSuggestFriend,
   refreshList,
+  refresh,
 }: IPeopleDesktopProps) => {
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   React.useEffect(() => {
@@ -45,7 +47,7 @@ const PeopleDesktop = ({
   return (
     <>
       {suggestionPeople?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
-        return <ItemPeople data={item} key={index} refreshList={refreshList} />;
+        return <ItemPeople data={item} key={index} refreshList={refreshList} refresh={refresh} />;
       })}
     </>
   );

@@ -93,13 +93,8 @@ const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: 
               })}
             >
               {isChange ? '' : unit}
-              {Number(change) === 0 ? '-' : formatStringToNumber(change, true, 2)} /{' '}
-              {isChange ? '' : unit}
-              {isChange
-                ? '-'
-                : (changePc && formatStringToNumber(changePc, true, 2)) ||
-                  formatStringToNumber(changePc, true, 2)}
-              %
+              {isChange ? '-' : formatStringToNumber(change, true, 2)} / {isChange ? '' : unit}
+              {isChange ? '-' : changePc && formatStringToNumber(changePc, true, 2)}%
             </Text>
           </div>
         </div>

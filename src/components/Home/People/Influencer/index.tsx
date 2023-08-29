@@ -42,7 +42,7 @@ const Influencer = () => {
     // autoplay: true,
     // autoplaySpeed: 1000,
   };
-  const { KOL, refresh } = useGetInfluencer();
+  const { KOL, refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
   const { refreshList } = useSuggestPeople({
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
