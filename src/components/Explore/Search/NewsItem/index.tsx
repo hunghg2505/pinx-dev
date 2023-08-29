@@ -79,7 +79,7 @@ const NewsItem = ({
             {data?.post?.title}
           </Text>
         </div>
-        <CustomLink href={`/redirecting?url=${url}`}>
+        <CustomLink target='_blank' href={`${url}`}>
           <div className='relative cursor-pointer'>
             <img
               src={data?.post?.thumbImageUrl}

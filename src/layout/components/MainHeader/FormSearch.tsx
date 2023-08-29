@@ -15,6 +15,7 @@ import CompanyItem from '@components/Explore/Search/CompanyItem';
 import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
+import { TYPEPOST } from '@components/Post/service';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
 import {
@@ -190,13 +191,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       ...item,
     };
   });
-  const image = data?.data?.listImage?.map((item: any) => {
-    return {
-      type: 'image',
-      timeString: item.timeString,
-      ...item,
-    };
-  });
+  const image = data?.data?.listImage
+    ?.filter((item: any) => item.postType === TYPEPOST.POST)
+    ?.map((item: any) => {
+      return {
+        type: 'image',
+        timeString: item.timeString,
+        ...item,
+      };
+    });
   let newMedia = [];
 
   // map api do trả thiếu id

@@ -20,10 +20,11 @@ import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 interface IProps {
   data: ISuggestionPeople;
   refreshList?: () => void;
+  refresh?: () => void;
 }
 const ItemPeople = (props: IProps) => {
   const { t } = useTranslation('common');
-  const { data, refreshList } = props;
+  const { data, refreshList, refresh } = props;
   const isFollow = data?.isFollowed;
   const router = useRouter();
   const { run: getUserProfile } = useProfileInitial();
@@ -38,6 +39,7 @@ const ItemPeople = (props: IProps) => {
         // setIsFollow(true);
         getUserProfile();
         refreshList && refreshList();
+        refresh && refresh();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);
@@ -53,6 +55,7 @@ const ItemPeople = (props: IProps) => {
       onSuccess: () => {
         getUserProfile();
         refreshList && refreshList();
+        refresh && refresh();
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e?.error} />);

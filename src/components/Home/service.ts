@@ -192,7 +192,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     {
       ...options,
       manual: true,
-      loadingDelay: 300,
+      loadingDelay: 500,
     },
   );
   return {
@@ -261,14 +261,19 @@ export const useGetTrending = (options = {}) => {
   };
 };
 
-export const useGetInfluencer = () => {
-  const { data, refresh, loading } = useRequest(() => {
-    const isLogin = !!getAccessToken();
+export const useGetInfluencer = (options = {}) => {
+  const { data, refresh, loading } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
 
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
-      : requestPist.get(API_PATH.KOL);
-  });
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
+        : requestPist.get(API_PATH.KOL);
+    },
+    {
+      ...options,
+    },
+  );
   return {
     KOL: data?.data?.list || data?.data,
     refresh,
