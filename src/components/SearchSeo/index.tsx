@@ -119,7 +119,7 @@ const SearchSeo = () => {
             {companiesL ? (
               <div className='flex flex-col gap-y-[16px]'>
                 {companies?.map((company: any, index: number) => {
-                  return <CompanyItem key={`company-${index}`} data={company} />;
+                  return <CompanyItem isSearchSeo key={`company-${index}`} data={company} />;
                 })}
               </div>
             ) : (

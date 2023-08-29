@@ -8,10 +8,11 @@ import { useTranslation } from 'next-i18next';
 
 import PostAction from '@components/Post/NewsFeed/PostAction';
 import CustomLink from '@components/UI/CustomLink';
+import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
-const IconLink = () => (
+const IconLink2 = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'>
     <rect width='30' height='30' rx='15' fill='white' fillOpacity='0.45' />
     <path
@@ -30,11 +31,13 @@ const NewsItem = ({
   middle,
   setShowPopup,
   showComment,
+  onNavigate,
 }: {
   data: any;
   middle?: boolean;
   setShowPopup?: any;
   showComment?: boolean;
+  onNavigate?: () => void;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -43,6 +46,29 @@ const NewsItem = ({
   };
 
   const url = data?.post?.url;
+
+  const renderThumbnail = () => {
+    return data?.post?.thumbImageUrl ? (
+      <div className='relative cursor-pointer'>
+        <img
+          src={data?.post?.thumbImageUrl}
+          alt=''
+          className='h-[73px] w-[73px] rounded-[12px] object-cover'
+        />
+        <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
+          <IconLink2 />
+        </div>
+      </div>
+    ) : (
+      <div className='relative cursor-pointer'>
+        <div className='h-[73px] w-[73px] rounded-[12px] border border-solid border-[#ccc] bg-[#EFF2F5] object-cover'></div>
+
+        <div className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full'>
+          <IconLink />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -80,16 +106,7 @@ const NewsItem = ({
           </Text>
         </div>
         <CustomLink target='_blank' href={`${url}`}>
-          <div className='relative cursor-pointer'>
-            <img
-              src={data?.post?.thumbImageUrl}
-              alt=''
-              className='h-[73px] w-[73px] rounded-[12px] object-cover'
-            />
-            <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
-              <IconLink />
-            </div>
-          </div>
+          {renderThumbnail()}
         </CustomLink>
       </div>
       {showComment && (
@@ -99,6 +116,7 @@ const NewsItem = ({
           isLike={data.isLike}
           totalLikes={data.totalLikes}
           totalComments={data.totalChildren}
+          onNavigate={onNavigate}
         />
       )}
     </>

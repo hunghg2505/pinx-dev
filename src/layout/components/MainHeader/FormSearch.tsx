@@ -3,8 +3,8 @@ import React, { useRef } from 'react';
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -47,6 +47,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const refForm = React.useRef(null);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
   const valueInput = form.getFieldValue('search');
+  const router = useRouter();
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
@@ -250,6 +251,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
   // );
 
+  const goToPostDetail = (idPost: string) => {
+    router.push(ROUTE_PATH.POST_DETAIL(idPost));
+  };
+
   return (
     <>
       {isMobile && (
@@ -359,7 +364,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
-          {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL ? (
             <>
               <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
                 {t('common:searchseo.txtEmpty')} {query}
@@ -378,6 +383,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         key={`company-${index}`}
                         data={company}
                         setShowPopup={setShowPopup}
+                        isSearchSeo
                       />
                     );
                   })}
@@ -430,6 +436,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         data={item}
                         setShowPopup={setShowPopup}
                         showComment
+                        onNavigate={() => goToPostDetail(item?.id)}
                       />
                     );
                   })}
