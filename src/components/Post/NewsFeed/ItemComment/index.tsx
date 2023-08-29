@@ -255,10 +255,10 @@ const ItemComment = (props: IProps) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
-    // if (classElement === 'hashtag') {
-    //   const text = textContent.slice(1);
-    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
-    // }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
   };
   // const [windowSize, setWindowSize] = useState([window.innerWidth]);
   const commentRef = useRef<HTMLDivElement>(null);
@@ -377,8 +377,15 @@ const ItemComment = (props: IProps) => {
           })}
         >
           <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
-            <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative flex items-center overflow-hidden mobile:max-w-[150px] laptop:max-w-[300px]'>
+            <div className='flex w-full flex-row items-center justify-between gap-x-[12px] px-[16px]'>
+              <div
+                onClick={() =>
+                  isComment
+                    ? router.push(ROUTE_PATH.MY_PROFILE)
+                    : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+                }
+                className='relative flex cursor-pointer items-center overflow-hidden truncate'
+              >
                 <Text type='body-14-semibold' color='neutral-1' className='truncate'>
                   {data?.customerInfo?.displayName}
                 </Text>

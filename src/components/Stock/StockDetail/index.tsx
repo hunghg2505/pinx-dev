@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -20,7 +20,6 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { stockWLComponentAtom } from '@store/stockWLComponent';
 import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
@@ -156,7 +155,6 @@ const StockDetail = () => {
   const [dataStock, setDataStock] = useState<IStockData>();
   const [preDataStock, setPreDataStock] = useState<IStockData>();
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
-  const setStockWLComponent = useSetAtom(stockWLComponentAtom);
 
   const router = useRouter();
   const { stockCode }: any = router.query;
@@ -194,9 +192,6 @@ const StockDetail = () => {
   useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
-      if (data?.id === 3220) {
-        setStockWLComponent(data);
-      }
 
       if (!dataStock || !stockCode || (data.sym !== stockCode && stockCode !== data.symbol)) {
         return;

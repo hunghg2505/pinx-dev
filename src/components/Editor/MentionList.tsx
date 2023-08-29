@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-nested-ternary */
 /* eslint-disable react/display-name */
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
@@ -5,6 +6,7 @@ import classNames from 'classnames';
 import { atom } from 'jotai';
 // import { useRouter } from 'next/router';
 
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 
 export const dataMention: any = atom([]);
@@ -127,21 +129,32 @@ export default forwardRef((props: any, ref) => {
                   key={index}
                   onClick={() => selectItem(index)}
                 >
-                  {!isHashTag && (
-                    <img
-                      src={isStock ? url : item.avatar}
-                      alt=''
-                      width={0}
-                      height={0}
-                      sizes='100vw'
-                      className={classNames(
-                        'mr-[12px] h-[36px] w-[36px] rounded-full object-cover',
-                        {
-                          '!object-contain': isStock,
-                        },
-                      )}
-                    />
-                  )}
+                  {!isHashTag &&
+                    (isStock ? (
+                      <div className='mr-[12px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full object-contain'>
+                        <img
+                          src={url}
+                          alt=''
+                          width={0}
+                          height={0}
+                          sizes='100vw'
+                          className='block'
+                        />
+                      </div>
+                    ) : item.avatar ? (
+                      <img
+                        src={item.avatar}
+                        alt=''
+                        width={0}
+                        height={0}
+                        sizes='100vw'
+                        className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
+                      />
+                    ) : (
+                      <div className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'>
+                        <AvatarDefault nameClassName='text-[16px]' name={item?.displayName} />
+                      </div>
+                    ))}
                   <Text
                     type='body-14-medium'
                     className='max-w-[180px] truncate text-[#0D0D0D] tablet:!text-[16px] tablet:!font-semibold'
