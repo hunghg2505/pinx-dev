@@ -359,7 +359,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
-          {!companiesL && !usersL && !postsL && !newsL && !mediaL ? (
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL ? (
             <>
               <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
                 {t('common:searchseo.txtEmpty')} {query}
