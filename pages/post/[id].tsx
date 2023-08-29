@@ -14,14 +14,12 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
 });
 
 const PostDetailPage = ({ id, host, url }: any) => {
-  console.log('🚀 ~ file: [id].tsx:17 ~ PostDetailPage ~ url:', url);
-
   // const seoMetadata = postDetail?.post?.seoMetadata;
 
   return (
     <>
       <SEO siteUrl={`${host}/post/${id}`} />
-      <PostDetail />
+      <PostDetail url={url} />
     </>
   );
 };

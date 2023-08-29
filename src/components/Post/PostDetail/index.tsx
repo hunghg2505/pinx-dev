@@ -55,7 +55,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
   );
 });
 
-const PostDetail = () => {
+const PostDetail = ({ url }: any) => {
   const { t } = useTranslation();
   const refSubReplies: any = useRef();
   const refRepliesLaptop: any = useRef();
@@ -68,7 +68,6 @@ const PostDetail = () => {
   const router = useRouter();
   const { isLogin } = useAuth();
   const [width, setWidth] = React.useState<number>(0);
-  // const [prevLink, setPrevLink] = React.useState('');
   const [, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
@@ -77,7 +76,6 @@ const PostDetail = () => {
   const postID = router.query.id;
   React.useEffect(() => {
     setWidth(window.innerWidth);
-    // setPrevLink(document?.referrer);
   }, []);
   React.useEffect(() => {
     const handleWindowResize = () => {
@@ -146,7 +144,7 @@ const PostDetail = () => {
   // );
   // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
-    router.back();
+    router.push(url);
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {
