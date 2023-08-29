@@ -60,6 +60,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   React.useEffect(() => {
     setQuery(search);
     runRecent();
+    form.setFieldsValue({
+      search,
+    });
   }, [search]);
 
   useFocusWithin(ref, {
@@ -73,6 +76,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       } else {
         setShowPopup(true);
         refresh();
+        run();
       }
     },
   });
