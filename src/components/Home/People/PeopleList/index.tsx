@@ -27,11 +27,12 @@ const settings = {
 };
 interface IProps {
   data: ISuggestionPeople[];
-  refresh: () => void;
+  refreshList: () => void;
   loading?: boolean;
+  refresh: () => void;
 }
 const PeopleList = (props: IProps) => {
-  const { data, refresh } = props;
+  const { data, refreshList, refresh } = props;
 
   // if (loading) {
   //   return (
@@ -51,7 +52,7 @@ const PeopleList = (props: IProps) => {
         {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
           return (
             <div key={`people-list-${item.id}`}>
-              <ItemPeople data={item} refresh={refresh} />
+              <ItemPeople refresh={refresh} data={item} refreshList={refreshList} />
             </div>
           );
         })}

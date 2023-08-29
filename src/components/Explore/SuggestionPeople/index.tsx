@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 import PeopleList from '@components/Home/People/PeopleList';
-import { useSuggestPeople } from '@components/Home/service';
+import { useGetInfluencer, useSuggestPeople } from '@components/Home/service';
 import { ExploreButton } from '@components/UI/Button';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
@@ -14,7 +14,11 @@ import ModalPeopleYouKnow from '../ModalPeopleYouKnow';
 const SuggestionPeople = () => {
   const { t } = useTranslation(['theme', 'explore']);
   const isLogin = !!getAccessToken();
-  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople();
+  const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople({
+    // staleTime: -1,
+    cacheKey: 'data-suggestionPeople',
+  });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
   React.useEffect(() => {
     if (isLogin) {
       getSuggestFriend();
@@ -60,7 +64,7 @@ const SuggestionPeople = () => {
 
         <div className='block'>
           <div className='mb-[16px] bg-[#ffffff] pt-[15px]'>
-            <PeopleList data={suggestionPeople} refresh={refreshList} />
+            <PeopleList refresh={refresh} data={suggestionPeople} refreshList={refreshList} />
           </div>
           <ModalPeopleYouKnow refreshList={refreshList}>
             <ExploreButton>
