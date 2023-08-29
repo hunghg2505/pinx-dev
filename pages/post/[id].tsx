@@ -13,7 +13,9 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
 });
 
-const PostDetailPage = ({ id, host }: any) => {
+const PostDetailPage = ({ id, host, url }: any) => {
+  console.log('🚀 ~ file: [id].tsx:17 ~ PostDetailPage ~ url:', url);
+
   // const seoMetadata = postDetail?.post?.seoMetadata;
 
   return (
@@ -46,6 +48,7 @@ export async function getServerSideProps({ locale, params, req }: any) {
       // postDetail: postDetail?.data,
       host,
       id,
+      url,
       // Will be passed to the page component as props
     },
   };
