@@ -144,11 +144,9 @@ const PostDetail = () => {
   // );
   // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
-    router.back();
-    // console.log('router', router);
-    // if (router.back) {
-    //   // router.back();
-    // }
+    console.log('router', router);
+    // console.log('router', router.back);
+    // router.back();
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {
