@@ -3,8 +3,8 @@ import React, { useRef } from 'react';
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import { router } from 'next/client';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -47,6 +47,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const refForm = React.useRef(null);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
   const valueInput = form.getFieldValue('search');
+  const router = useRouter();
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
@@ -250,6 +251,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
   // );
 
+  const goToPostDetail = (idPost: string) => {
+    router.push(ROUTE_PATH.POST_DETAIL(idPost));
+  };
+
   return (
     <>
       {isMobile && (
@@ -430,6 +435,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         data={item}
                         setShowPopup={setShowPopup}
                         showComment
+                        onNavigate={() => goToPostDetail(item?.id)}
                       />
                     );
                   })}

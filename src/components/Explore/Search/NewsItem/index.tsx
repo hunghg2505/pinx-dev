@@ -30,11 +30,13 @@ const NewsItem = ({
   middle,
   setShowPopup,
   showComment,
+  onNavigate,
 }: {
   data: any;
   middle?: boolean;
   setShowPopup?: any;
   showComment?: boolean;
+  onNavigate?: () => void;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -99,6 +101,7 @@ const NewsItem = ({
           isLike={data.isLike}
           totalLikes={data.totalLikes}
           totalComments={data.totalChildren}
+          onNavigate={onNavigate}
         />
       )}
     </>
