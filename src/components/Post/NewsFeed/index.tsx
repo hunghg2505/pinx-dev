@@ -184,7 +184,6 @@ const NewsFeed = (props: IProps) => {
     }
 
     if (!isEdit && onRemoveData) {
-      console.log('456');
       onRemoveData();
     }
   };
@@ -226,7 +225,7 @@ const NewsFeed = (props: IProps) => {
         />
 
         {isLogin && !isNewFeedExplore && !hiddenComment && (
-          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
+          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>
             <CommentField
               id={postData?.id}
               refresh={refreshComment}
