@@ -11,6 +11,7 @@ import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 import { ClickaPost } from '@utils/dataLayer';
 
@@ -26,7 +27,6 @@ interface IProps {
   onRefreshList?: () => void;
   onRemoveData?: () => void;
   isNewFeedExplore?: boolean;
-  setShowPopup?: any;
   refreshSearch?: () => void;
   loading?: boolean;
   hiddenComment?: boolean;
@@ -41,7 +41,6 @@ const NewsFeed = (props: IProps) => {
     onRefreshList,
     onRemoveData,
     isNewFeedExplore = false,
-    setShowPopup,
     refreshSearch,
     loading,
     hiddenComment,
@@ -49,6 +48,7 @@ const NewsFeed = (props: IProps) => {
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
@@ -141,7 +141,7 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
-    setShowPopup && setShowPopup();
+    setSearchSeo(false);
   };
 
   const [, setImageCommentMobile] = useState(false);

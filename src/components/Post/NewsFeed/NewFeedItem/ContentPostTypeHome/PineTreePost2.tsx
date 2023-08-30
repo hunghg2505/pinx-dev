@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
 // import dynamic from 'next/dynamic';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -12,6 +12,7 @@ import { useTranslation } from 'next-i18next';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 
 import ModalMedia from './ModalMedia';
@@ -49,6 +50,7 @@ export const PineTreePost2 = ({
   const [readMore, setReadMore] = React.useState(false);
   const [showReadMore, setShowReadMore] = React.useState<boolean>(false);
   const userDetail = useAtomValue(userLoginInfoAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const router = useRouter();
 
   const [showDescription, setShowDescription] = useState(false);
@@ -57,6 +59,7 @@ export const PineTreePost2 = ({
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
     const id = e?.target?.id;
+    setSearchSeo(false);
     if (classElement === 'link') {
       return window.open(textContent);
       // return router.push({
@@ -73,6 +76,10 @@ export const PineTreePost2 = ({
     }
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+    }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
     }
     return onComment();
   };
