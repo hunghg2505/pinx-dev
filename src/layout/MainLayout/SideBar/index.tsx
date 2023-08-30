@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
@@ -12,9 +12,10 @@ import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
-import { NavigateSection } from '@utils/dataLayer';
+import { ViewWatchlist } from '@utils/dataLayer';
 
 import {
   IconAssets,
@@ -37,6 +38,7 @@ const SideBar = () => {
   const { isLogin } = useAuth();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const watchList = useAtomValue(stockSocketAtom);
   const MENUS = [
     {
       id: 1,
@@ -140,7 +142,21 @@ const SideBar = () => {
                 });
               }
 
-              return NavigateSection(menu.label);
+              // tracking event view watch list
+              if (menu.path === ROUTE_PATH.WATCHLIST) {
+                const listStockCodes =
+                  watchList.find(
+                    (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
+                  )?.stocks || [];
+
+                ViewWatchlist(
+                  'Default',
+                  'Normal WL',
+                  listStockCodes,
+                  listStockCodes.length,
+                  'Left sidebar layout',
+                );
+              }
             }}
           >
             {icon}

@@ -22,6 +22,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
+import { ViewWatchlist } from '@utils/dataLayer';
 
 import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
@@ -162,11 +163,20 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       });
     }
   }, [postDetailStatus.idPostDetail]);
+
+  const handleTracking = () => {
+    const stockCodes = isHaveStockWatchList
+      ? watchList?.[0]?.stocks?.map((item: any) => item.stockCode)
+      : [];
+
+    ViewWatchlist('Default', 'Normal WL', stockCodes, stockCodes.length, 'Home screen');
+  };
+
   return (
     <div className='relative desktop:pt-0'>
       <div className='relative laptop:hidden'>
         {selectTab === '1' && isHaveStockWatchList && (
-          <CustomLink href={ROUTE_PATH.WATCHLIST}>
+          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
             <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
               <Text
                 type='body-12-medium'

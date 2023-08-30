@@ -3,7 +3,7 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 
 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
@@ -22,9 +22,10 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, calcUserStatusText, checkUserType, formatStringToNumber } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
-import { DownloadPineXApp, RegisterTracking } from '@utils/dataLayer';
+import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD, ONE_LINK_DOWNLOAD } from 'src/constant';
 
 const handleRedirect = (url: string) => {
@@ -117,11 +118,27 @@ const Profile = () => {
   const { t } = useTranslation('common');
   const { isLogin } = useAuth();
   const { userLoginInfo } = useUserLoginInfo();
+  const watchList = useAtomValue(stockSocketAtom);
 
   const menuMobileRef = useRef<any>(null);
 
   const goToMyProfile = () => {
     menuMobileRef.current.onVisible && menuMobileRef.current.onVisible();
+  };
+
+  // tracking event view watch list
+  const handleTracking = () => {
+    const listStockCodes =
+      watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
+        ?.stocks || [];
+
+    ViewWatchlist(
+      'Default',
+      'Normal WL',
+      listStockCodes,
+      listStockCodes.length,
+      'Dropdown menu profile',
+    );
   };
 
   const ProfileOverlay = () => (
@@ -260,7 +277,11 @@ const Profile = () => {
       <hr className='border-neutral_07' />
 
       <MenuItem>
-        <CustomLink href='/watchlist' className='flex items-center px-[20px] py-4'>
+        <CustomLink
+          href={ROUTE_PATH.WATCHLIST}
+          onClick={handleTracking}
+          className='flex items-center px-[20px] py-4'
+        >
           <img
             src='/static/icons/iconTV.svg'
             className='mr-[10px] h-[14px] w-[15px] object-contain'
