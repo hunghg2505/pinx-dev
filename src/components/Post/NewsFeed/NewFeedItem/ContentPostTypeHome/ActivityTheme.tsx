@@ -119,7 +119,7 @@ export const ActivityTheme = ({
         </Fade>
       )}
 
-      <CustomLink href={postDetailUrl}>
+      <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
           <img
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}

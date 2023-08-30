@@ -94,13 +94,17 @@ const Editor = (props: IProps, ref?: any) => {
           return this.editor.commands.setHardBreak();
         },
         // Enter: ({ editor }) => {
-        //   onSend(editor, statusUser);
+        //   onHandleSendComment(editor);
+        //   // onSend(editor, statusUser);
         //   return true;
         // },
       };
     },
   });
-
+  // const onHandleSendComment = ({ editor }: any) => {
+  //   console.log('🚀 ~ file: index.tsx:105 ~ onHandleSendComment ~ editor:', editor);
+  //   console.log('statusUser', statusUser);
+  // };
   const editor = useEditor({
     extensions: [
       Document,

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
+import { useClickAway, useDebounceFn, useFocusWithin, useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
@@ -118,6 +118,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         pathname: ROUTE_PATH.SEARCHSEO,
         query: { keyword: value, tab: 'company' },
       });
+      clearCache('data-pin-post');
       setInputFocus(false);
       setShowRecent(false);
       setSearchSeo(false);
@@ -159,6 +160,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         setSearchSeo(true);
         setInputFocus(true);
         refresh();
+        clearCache('search-seo');
         searchPublic({
           textSearch: removeHashTag(value),
         });
