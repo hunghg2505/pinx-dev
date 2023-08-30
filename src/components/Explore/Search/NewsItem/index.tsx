@@ -116,7 +116,10 @@ const NewsItem = ({
           isLike={data.isLike}
           totalLikes={data.totalLikes}
           totalComments={data.totalChildren}
-          onNavigate={onNavigate}
+          onNavigate={() => {
+            onNavigate && onNavigate();
+            setShowPopup && setShowPopup(false);
+          }}
         />
       )}
     </>
