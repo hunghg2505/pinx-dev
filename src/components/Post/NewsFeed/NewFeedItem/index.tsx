@@ -26,6 +26,7 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
@@ -46,7 +47,6 @@ interface IProps {
   onRefreshPostDetail: (data: any, isEdit?: boolean) => void;
   pinned?: boolean;
   isNewFeedExplore?: boolean;
-  setShowPopup?: any;
   refreshTrendingOnPinex?: () => void;
   isSearchSeoBox?: boolean;
 }
@@ -62,13 +62,13 @@ const NewFeedItem = (props: IProps) => {
     pinned = false,
     isNewFeedExplore = false,
     refreshFollow,
-    setShowPopup,
     refreshTrendingOnPinex,
     isExplore,
     isSearchSeoBox,
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const { isLogin, userId } = useUserType();
   const router = useRouter();
   const name =
@@ -402,14 +402,7 @@ const NewFeedItem = (props: IProps) => {
   }) => {
     if (href) {
       return (
-        <CustomLink
-          onClick={() => {
-            setShowPopup && setShowPopup(false);
-          }}
-          className={className}
-          href={href}
-          linkClassName={linkClassName}
-        >
+        <CustomLink className={className} href={href} linkClassName={linkClassName}>
           {children}
         </CustomLink>
       );
@@ -425,54 +418,56 @@ const NewFeedItem = (props: IProps) => {
           'z-50': isHovering,
         })}
       >
-        <MaybeLink
-          linkClassName='flex-1'
-          href={urlTitle}
-          className='flex flex-1 flex-row items-center'
-        >
-          <div
-            ref={refHover}
-            className={classNames('relative flex-none', {
-              [styles.avatar]: [
-                TYPEPOST.POST,
-                TYPEPOST.ActivityTheme,
-                TYPEPOST.ActivityWatchlist,
-                TYPEPOST.ActivityMatchOrder,
-              ].includes(postDetail?.post?.postType),
-            })}
+        <div onClick={() => setSearchSeo(false)}>
+          <MaybeLink
+            linkClassName='flex-1'
+            href={urlTitle}
+            className='flex flex-1 flex-row items-center'
           >
-            <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
-
-            <Fade
-              visible={
-                [
+            <div
+              ref={refHover}
+              className={classNames('relative flex-none', {
+                [styles.avatar]: [
                   TYPEPOST.POST,
                   TYPEPOST.ActivityTheme,
                   TYPEPOST.ActivityWatchlist,
                   TYPEPOST.ActivityMatchOrder,
-                ].includes(postDetail?.post?.postType) && isHovering
-              }
+                ].includes(postDetail?.post?.postType),
+              })}
             >
-              <ItemHoverProfile postDetail={postDetail} name={name} />
-            </Fade>
-          </div>
+              <Avatar postDetail={postDetail} isNewFeedExplore={isNewFeedExplore} />
 
-          <div className='des flex-1 mobile:w-[120px] galaxy-max:w-[100px] tablet:w-[220px] laptop:w-[280px] xdesktop:w-[350px]'>
-            <div className='mr-[5px] flex w-full flex-1 items-center'>
-              <UserName postDetail={postDetail} />
+              <Fade
+                visible={
+                  [
+                    TYPEPOST.POST,
+                    TYPEPOST.ActivityTheme,
+                    TYPEPOST.ActivityWatchlist,
+                    TYPEPOST.ActivityMatchOrder,
+                  ].includes(postDetail?.post?.postType) && isHovering
+                }
+              >
+                <ItemHoverProfile postDetail={postDetail} name={name} />
+              </Fade>
             </div>
-            <Text
-              type='body-12-regular'
-              color='neutral-4'
-              className='mt-[2px] font-[300] galaxy-max:text-[10px]'
-            >
-              {postDetail?.timeString &&
-                dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
-                  .locale(i18n.language)
-                  .fromNow(true)}
-            </Text>
-          </div>
-        </MaybeLink>
+
+            <div className='des flex-1 mobile:w-[120px] galaxy-max:w-[100px] tablet:w-[220px] laptop:w-[280px] xdesktop:w-[350px]'>
+              <div className='mr-[5px] flex w-full flex-1 items-center'>
+                <UserName postDetail={postDetail} />
+              </div>
+              <Text
+                type='body-12-regular'
+                color='neutral-4'
+                className='mt-[2px] font-[300] galaxy-max:text-[10px]'
+              >
+                {postDetail?.timeString &&
+                  dayjs(postDetail?.timeString, 'YYYY-MM-DD HH:MM:ss')
+                    .locale(i18n.language)
+                    .fromNow(true)}
+              </Text>
+            </div>
+          </MaybeLink>
+        </div>
 
         <div className='flex items-center gap-[6px] galaxy-max:max-w-[49px]'>
           {!isMyProfileOrUserDetailPath && (
@@ -488,12 +483,7 @@ const NewFeedItem = (props: IProps) => {
         </div>
       </div>
 
-      <div
-        onClick={() => {
-          setShowPopup && setShowPopup();
-        }}
-        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
-      >
+      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

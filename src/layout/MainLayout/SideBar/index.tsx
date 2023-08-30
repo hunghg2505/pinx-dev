@@ -133,10 +133,13 @@ const SideBar = () => {
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
-              setPostDetailStatus({
-                ...postDetailStatus,
-                isRefreshHome: true,
-              });
+              if (menu.path === ROUTE_PATH.HOME) {
+                setPostDetailStatus({
+                  ...postDetailStatus,
+                  isRefreshHome: true,
+                });
+              }
+
               return NavigateSection(menu.label);
             }}
           >

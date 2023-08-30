@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useAtom } from 'jotai';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -33,6 +34,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 import { removeHashTag } from '@utils/removeHashTag';
 
@@ -53,14 +55,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
   const { data, searchPublic, loading, refresh } = useSearchPublic();
 
-  const [query, setQuery] = React.useState(search);
   const [inputFocus, setInputFocus] = React.useState(false);
-  const [showPopup, setShowPopup] = React.useState(false);
+  const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
   const [showRecent, setShowRecent] = React.useState(false);
 
   // Remove value input search when refresh open new page
   React.useEffect(() => {
-    setQuery(search);
     runRecent();
     form.setFieldsValue({
       search,
@@ -74,9 +74,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       setShowRecent(true);
       const value = form.getFieldValue('search');
       if (value === '' || value === undefined) {
-        setShowPopup(false);
+        setSearchSeo(false);
       } else {
-        setShowPopup(true);
+        setSearchSeo(true);
         refresh();
         run();
       }
@@ -91,21 +91,21 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   useClickAway((e: any) => {
     const main: any = document?.querySelector('main');
     if (main.contains(e.srcElement)) {
-      setShowPopup(false);
+      // setSearchSeo(false);
     }
   }, searchResultPopupRef);
 
-  const handleSubmit = async () => {
-    const value = await form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
-    setQuery(value);
+  const handleSubmit = () => {
+    const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
+    // setQuery(value);
     cancel();
     if (value === '' || value === undefined) {
       setInputFocus(true);
       setShowRecent(true);
-      setShowPopup(false);
+      setSearchSeo(false);
     } else {
       const payloads = {
-        textSearch: query.trim(),
+        textSearch: value,
       };
       requestSearch.run(payloads);
     }
@@ -113,23 +113,19 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const requestSearch = useCreateSearch({
     onSuccess: () => {
+      const value = form.getFieldValue('search');
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: query, tab: 'company' },
+        query: { keyword: value, tab: 'company' },
       });
       setInputFocus(false);
       setShowRecent(false);
-      setShowPopup(false);
+      setSearchSeo(false);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
     },
   });
-
-  // Set value when onSubmit Form
-  const handleOnchange = () => {
-    setQuery(form.getFieldValue('search'));
-  };
 
   const removeFormSearch = () => {
     form.setFieldValue('search', '');
@@ -154,13 +150,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const { run, cancel } = useDebounceFn(
     () => {
       const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
-      setQuery(value);
+      // setQuery(value);
       if (value === '' || value === undefined) {
-        setShowPopup(false);
+        setSearchSeo(false);
         setShowRecent(true);
       } else {
         setShowRecent(false);
-        setShowPopup(true);
+        setSearchSeo(true);
         setInputFocus(true);
         refresh();
         searchPublic({
@@ -173,12 +169,12 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     },
   );
 
-  const onClickRecent = async (data: any) => {
-    await form.setFieldValue('search', data);
-    setQuery(data);
+  const onClickRecent = (data: any) => {
+    form.setFieldValue('search', data);
+    // setQuery(data);
     form.submit();
-    isDesktop && form.submit();
-    isMobile && form.submit();
+    // isDesktop && form.submit();
+    // isMobile && form.submit();
   };
 
   const companies = data?.data?.companyList?.list || [];
@@ -225,10 +221,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
       dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
     );
-    console.log('media', media);
-    console.log('image', image);
-    console.log('newMedia', newMedia);
-    console.log('newMediaSort', newMediaSort);
     fillterMediaSort = newMediaSort;
     // fillterMediaSort = newMediaSort.filter(
     //   (item) =>
@@ -298,7 +290,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             form={form}
             onFinish={handleSubmit}
             onValuesChange={run}
-            onFieldsChange={handleOnchange}
+            // onFieldsChange={handleOnchange}
           >
             <FormItem name='search'>
               <Input
@@ -358,7 +350,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         </div>
         {/* Show search result */}
         <Fade
-          visible={showPopup}
+          visible={searchSeo}
           className={classNames(
             styles.boxShadown,
             'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
@@ -367,7 +359,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL ? (
             <>
               <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
-                {t('common:searchseo.txtEmpty')} {query}
+                {t('common:searchseo.txtEmpty')} {form.getFieldValue('search')}
               </Text>
             </>
           ) : (
@@ -382,7 +374,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       <CompanyItem
                         key={`company-${index}`}
                         data={company}
-                        setShowPopup={setShowPopup}
+                        // setShowPopup={setSearchSeo}
                         isSearchSeo
                       />
                     );
@@ -398,7 +390,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                     <UserItem
                       data={item}
                       key={index}
-                      setShowPopup={setShowPopup}
+                      // setShowPopup={setSearchSeo}
                       refreshSearch={refresh}
                     />
                   ))}
@@ -416,7 +408,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                         data={post}
                         isNewFeedExplore={false}
                         hiddenComment={true}
-                        setShowPopup={setShowPopup}
+                        // setShowPopup={setSearchSeo}
                         refreshSearch={refresh}
                         isSearchSeoBox={true}
                       />
@@ -434,7 +426,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       <NewsItem
                         key={`new-items-${item?.id}`}
                         data={item}
-                        setShowPopup={setShowPopup}
+                        // setShowPopup={setSearchSeo}
                         showComment
                         onNavigate={() => goToPostDetail(item?.id)}
                       />
@@ -454,7 +446,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                           key={`media-item-${item?.id}`}
                           data={item}
                           type={item?.type}
-                          setShowPopup={setShowPopup}
+                          // setShowPopup={setSearchSeo}
                         />
                       );
                     })}

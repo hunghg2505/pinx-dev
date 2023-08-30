@@ -84,8 +84,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
         <link rel='shortcut icon' href='/static/favicon.svg' />
-        <link rel='alternate' href='https://pinetree.vn/' hrefLang='vi' />
-        <link rel='alternate' href='https://pinetree.vn/en' hrefLang='en' />
+        <link rel='alternate' href='https://pinex.vn/' hrefLang='vi' />
+        <link rel='alternate' href='https://pinex.vn/en' hrefLang='en' />
         <meta
           name='viewport'
           content='width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no,user-scalable=no'

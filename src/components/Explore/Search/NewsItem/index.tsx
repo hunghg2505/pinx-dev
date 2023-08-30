@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -10,6 +11,7 @@ import PostAction from '@components/Post/NewsFeed/PostAction';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 
 const IconLink2 = () => (
@@ -29,18 +31,17 @@ dayjs.extend(relativeTime);
 const NewsItem = ({
   data,
   middle,
-  setShowPopup,
   showComment,
   onNavigate,
 }: {
   data: any;
   middle?: boolean;
-  setShowPopup?: any;
   showComment?: boolean;
   onNavigate?: () => void;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const onGoToDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data?.id));
   };
@@ -80,8 +81,8 @@ const NewsItem = ({
         <div
           className='mr-[16px] w-[calc(100%_-_73px)] cursor-pointer'
           onClick={() => {
+            setSearchSeo(false);
             onGoToDetail();
-            setShowPopup && setShowPopup(false);
           }}
         >
           <div className='flex items-center galaxy-max:gap-[4px]'>
