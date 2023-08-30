@@ -91,11 +91,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   useClickAway((e: any) => {
     const main: any = document?.querySelector('main');
     if (main.contains(e.srcElement)) {
-      // setSearchSeo(false);
+      setSearchSeo(false);
     }
   }, searchResultPopupRef);
 
-  const handleSubmit = async (key = 'company') => {
+  const handleSubmit = async () => {
     const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
     // setQuery(value);
     cancel();
@@ -107,21 +107,21 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       const payloads = {
         textSearch: value,
       };
-      await requestSearch.run(payloads);
-      router.push({
-        pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: value, tab: key },
-      });
+      requestSearch.run(payloads);
+      // router.push({
+      //   pathname: ROUTE_PATH.SEARCHSEO,
+      //   query: { keyword: value, tab: key },
+      // });
     }
   };
 
   const requestSearch = useCreateSearch({
     onSuccess: () => {
-      // const value = form.getFieldValue('search');
-      // router.push({
-      //   pathname: ROUTE_PATH.SEARCHSEO,
-      //   query: { keyword: value, tab: 'company' },
-      // });
+      const value = form.getFieldValue('search');
+      router.push({
+        pathname: ROUTE_PATH.SEARCHSEO,
+        query: { keyword: value, tab: 'company' },
+      });
       clearCache('data-pin-post');
       setInputFocus(false);
       setShowRecent(false);
@@ -228,31 +228,19 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
     );
     fillterMediaSort = newMediaSort;
-    // fillterMediaSort = newMediaSort.filter(
-    //   (item) =>
-    //     // mediaFilter
-    //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-    //     item?.post?.metadataList[0]?.url?.length > 0 ||
-    //     // imageFilter
-    //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-    // );
   }
-  // console.log('fillterMediaSort', fillterMediaSort);
-
-  // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  // const mediaFilter = media?.filter(
-  //   (item: any) =>
-  //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-  //     item?.post?.metadataList[0]?.url?.length > 0,
-  // );
-  // const imageFilter = image?.filter(
-  //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  // );
 
   const goToPostDetail = (idPost: string) => {
     router.push(ROUTE_PATH.POST_DETAIL(idPost));
   };
-
+  const onSeeMore = (tab: string) => {
+    setSearchSeo(false);
+    const value = form.getFieldValue('search');
+    router.push({
+      pathname: ROUTE_PATH.SEARCHSEO,
+      query: { keyword: value, tab },
+    });
+  };
   return (
     <>
       {isMobile && (
@@ -387,13 +375,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       );
                     })}
                   </div>
-                  <ExploreButton className='' onClick={() => handleSubmit('company')}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('common:searchseo.txtBtnAll')}
-                    </Text>
-                  </ExploreButton>
+                  {companies?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('company')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
                 </>
               )}
+
               {usersL && (
                 <>
                   <div className='flex flex-col gap-y-[16px]'>
@@ -409,13 +400,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       />
                     ))}
                   </div>
-                  <ExploreButton className='' onClick={() => handleSubmit('people')}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('common:searchseo.txtBtnAll')}
-                    </Text>
-                  </ExploreButton>
+                  {users?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('people')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
                 </>
               )}
+
               {postsL && (
                 <>
                   <div className='flex flex-col'>
@@ -436,13 +430,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       );
                     })}
                   </div>
-                  <ExploreButton className='' onClick={() => handleSubmit('posts')}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('common:searchseo.txtBtnAll')}
-                    </Text>
-                  </ExploreButton>
+                  {posts?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('posts')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
                 </>
               )}
+
               {newsL && (
                 <>
                   <div className='flex flex-col gap-y-[16px]'>
@@ -461,13 +458,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       );
                     })}
                   </div>
-                  <ExploreButton className='' onClick={() => handleSubmit('news')}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('common:searchseo.txtBtnAll')}
-                    </Text>
-                  </ExploreButton>
+                  {news?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('news')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
                 </>
               )}
+
               {fillterMediaSort?.length > 0 && (
                 <>
                   <div className='flex flex-col gap-y-[16px]'>
@@ -487,11 +487,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       })}
                     </div>
                   </div>
-                  <ExploreButton className='' onClick={() => handleSubmit('media')}>
-                    <Text type='body-14-bold' color='primary-2'>
-                      {t('common:searchseo.txtBtnAll')}
-                    </Text>
-                  </ExploreButton>
+                  {fillterMediaSort?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('media')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
                 </>
               )}
             </>
