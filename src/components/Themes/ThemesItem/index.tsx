@@ -202,7 +202,7 @@ const ThemesItem = (props: IProps) => {
                 {theme.totalSubscribe !== 0 && (
                   <>
                     <Text type='body-12-bold' color='neutral-4' className='my-[6px] text-center'>
-                      {formatStringToNumber(theme.totalSubscribe)}
+                      {formatStringToNumber(theme.totalSubscribe) || 0}
                     </Text>
                     <Text type='body-12-bold' color='neutral-4' className='text-center'>
                       {t('common:subscribers')}

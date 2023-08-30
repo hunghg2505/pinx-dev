@@ -125,7 +125,7 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
             >
               {Number.isNaN(+buy_price_1)
                 ? buy_price_1
-                : formatStringToNumber(buy_price_1, true, 2)}
+                : formatStringToNumber(buy_price_1, true, 2) || 0}
             </Text>
             <div
               className='absolute -bottom-[1px] left-0 h-[3px] border-none'
@@ -149,7 +149,7 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
                 ),
               )}
             >
-              {formatStringToNumber((Number(buy_volume_1) || 0) * 10)}
+              {formatStringToNumber((Number(buy_volume_1) || 0) * 10) || 0}
             </Text>
           </div>
         </div>
@@ -173,7 +173,7 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
             >
               {Number.isNaN(+buy_price_2)
                 ? buy_price_2
-                : formatStringToNumber(buy_price_2, true, 2)}
+                : formatStringToNumber(buy_price_2, true, 2) || 0}
             </Text>
             <div
               className='absolute -bottom-[1px] left-0 h-[3px] border-none'
@@ -197,7 +197,7 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
                 ),
               )}
             >
-              {formatStringToNumber((Number(buy_volume_2) || 0) * 10)}
+              {formatStringToNumber((Number(buy_volume_2) || 0) * 10) || 0}
             </Text>
           </div>
         </div>
@@ -221,7 +221,7 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
             >
               {Number.isNaN(+buy_price_3)
                 ? buy_price_3
-                : formatStringToNumber(buy_price_3, true, 2)}
+                : formatStringToNumber(buy_price_3, true, 2) || 0}
             </Text>
             <div
               className='absolute -bottom-[1px] left-0 h-[3px] border-none'
@@ -245,7 +245,7 @@ const TableBid = ({ stockData, preDataStock, className }: ITableBidProps) => {
                 ),
               )}
             >
-              {formatStringToNumber((Number(buy_volume_3) || 0) * 10)}
+              {formatStringToNumber((Number(buy_volume_3) || 0) * 10) || 0}
             </Text>
           </div>
         </div>

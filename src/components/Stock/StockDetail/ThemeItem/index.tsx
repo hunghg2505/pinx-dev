@@ -44,9 +44,11 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
               ))}
             </div>
 
-            <Text type='body-12-medium' color='cbwhite' className='ml-[6px]'>
-              {formatStringToNumber(data.totalSubscribe)}+
-            </Text>
+            {data.totalSubscribe > 0 && (
+              <Text type='body-12-medium' color='cbwhite' className='ml-[6px]'>
+                {formatStringToNumber(data.totalSubscribe)}+
+              </Text>
+            )}
           </div>
         </div>
       </div>

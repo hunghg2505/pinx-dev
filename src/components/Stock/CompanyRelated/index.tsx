@@ -240,7 +240,7 @@ const CompanyRelated = () => {
             <div className='mb-[32px] mt-[52px] flex items-center justify-between border-b border-solid border-b-[#EBEBEB] pb-[16px] galaxy-max:mt-[36px] galaxy-max:items-baseline'>
               <Text type='body-14-semibold' className='text-[#0D0D0D] galaxy-max:text-[12px]'>
                 {t('company_related_total')}:{' '}
-                {formatStringToNumber(companiesRelated?.data.totalElements)}
+                {formatStringToNumber(companiesRelated?.data.totalElements) || 0}
               </Text>
 
               <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>

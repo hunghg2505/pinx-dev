@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { formatStringToNumber } from '@utils/common';
 
 const FakeTotalPrice = () => {
   const { t } = useTranslation(['stock', 'common']);
@@ -18,7 +17,7 @@ const FakeTotalPrice = () => {
           className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {})}
           type='body-12-regular'
         >
-          {formatStringToNumber(0)}
+          0
         </Text>
       </div>
 
@@ -30,7 +29,7 @@ const FakeTotalPrice = () => {
           className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {})}
           type='body-12-regular'
         >
-          {formatStringToNumber(0)}
+          0
         </Text>
       </div>
 
@@ -42,7 +41,7 @@ const FakeTotalPrice = () => {
           className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {})}
           type='body-12-regular'
         >
-          {formatStringToNumber(0)}
+          0
         </Text>
       </div>
 
@@ -54,7 +53,7 @@ const FakeTotalPrice = () => {
           className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {})}
           type='body-12-regular'
         >
-          {formatStringToNumber(0)}
+          0
         </Text>
       </div>
 
@@ -66,7 +65,7 @@ const FakeTotalPrice = () => {
           className={classNames('mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]', {})}
           type='body-12-regular'
         >
-          {formatStringToNumber(0)}
+          0
         </Text>
       </div>
     </div>
