@@ -381,6 +381,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   })}
                 </div>
               )}
+              <ExploreButton className='' onClick={handleSubmit}>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('common:searchseo.txtBtnAll')}
+                </Text>
+              </ExploreButton>
               {usersL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
@@ -396,6 +401,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   ))}
                 </div>
               )}
+              <ExploreButton className='' onClick={handleSubmit}>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('common:searchseo.txtBtnAll')}
+                </Text>
+              </ExploreButton>
               {postsL && (
                 <div className='flex flex-col'>
                   <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
@@ -416,6 +426,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   })}
                 </div>
               )}
+              <ExploreButton className='' onClick={handleSubmit}>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('common:searchseo.txtBtnAll')}
+                </Text>
+              </ExploreButton>
               {newsL && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
@@ -434,6 +449,11 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   })}
                 </div>
               )}
+              <ExploreButton className='' onClick={handleSubmit}>
+                <Text type='body-14-bold' color='primary-2'>
+                  {t('common:searchseo.txtBtnAll')}
+                </Text>
+              </ExploreButton>
               {fillterMediaSort?.length > 0 && (
                 <div className='flex flex-col gap-y-[16px]'>
                   <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
