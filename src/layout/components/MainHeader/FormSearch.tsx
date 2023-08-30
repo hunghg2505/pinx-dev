@@ -95,7 +95,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     }
   }, searchResultPopupRef);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
     // setQuery(value);
     cancel();
@@ -108,6 +108,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         textSearch: value,
       };
       requestSearch.run(payloads);
+      // router.push({
+      //   pathname: ROUTE_PATH.SEARCHSEO,
+      //   query: { keyword: value, tab: key },
+      // });
     }
   };
 
