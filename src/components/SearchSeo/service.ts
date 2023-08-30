@@ -18,15 +18,15 @@ export const useGetSearchRecent = (options?: IOptions) => {
   };
   const { data, run, refresh, loading } = useRequest(
     () => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_SUGGEST, { params })
-      : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_SUGGEST,{ params });
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_SUGGEST, { params })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_SUGGEST, { params });
     },
     {
       manual: true,
       ...options,
-    }
+    },
   );
   return {
     listRecent: data?.data,
@@ -48,13 +48,17 @@ export const useCreateSearch = (options?: IOptions) => {
     (textSearch) => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_SEO_CREATE, { data: { ...initPayloads, ...textSearch } })
-        : requestCommunity.post(API_PATH.PUBLIC_SEARCH_SEO_CREATE,{ data: { ...initPayloads, ...textSearch } });
+        ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_SEO_CREATE, {
+            data: { ...initPayloads, ...textSearch },
+          })
+        : requestCommunity.post(API_PATH.PUBLIC_SEARCH_SEO_CREATE, {
+            data: { ...initPayloads, ...textSearch },
+          });
     },
     {
       manual: true,
       ...options,
-    }
+    },
   );
   return {
     run,
@@ -72,19 +76,25 @@ export const useSearchPublic = (options?: IOptions) => {
     (params) => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestCommunity.get,API_PATH.PRIVATE_SEARCH_SEO_RESULT, { params:{ ...initParam, ...params } })
-        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, { params:{ ...initParam, ...params } });
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_RESULT, {
+            params: { ...initParam, ...params },
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, {
+            params: { ...initParam, ...params },
+          });
     },
     {
       manual: true,
+      cacheKey: 'search-seo',
+      staleTime: -1,
       ...options,
-    }
+    },
   );
   return {
     data,
     searchPublic: run,
     loading,
     refresh,
-    mutate
+    mutate,
   };
 };
