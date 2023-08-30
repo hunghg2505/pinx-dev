@@ -16,6 +16,7 @@ import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublic } from '@components/SearchSeo/service';
+import { ROUTE_PATH } from '@utils/common';
 import { removeHashTag } from '@utils/removeHashTag';
 
 const SearchSeo = () => {
@@ -23,7 +24,7 @@ const SearchSeo = () => {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
   const getType = searchParams.get('type') || '';
-  const { replace, query } = useRouter();
+  const { replace, query, push } = useRouter();
 
   const { data, searchPublic, loading } = useSearchPublic();
 
@@ -33,6 +34,10 @@ const SearchSeo = () => {
       type: getType,
     });
   }, [keyword]);
+
+  const navigateToPostDetail = (postId: string) => {
+    push(ROUTE_PATH.POST_DETAIL(postId));
+  };
 
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
@@ -167,7 +172,13 @@ const SearchSeo = () => {
               <div className='my-[16px] flex flex-col gap-y-[12px]'>
                 {news?.map((item: any) => {
                   return (
-                    <NewsItem key={`new-items-${item?.id}`} middle={true} data={item} showComment />
+                    <NewsItem
+                      onNavigate={() => navigateToPostDetail(item?.id)}
+                      key={`new-items-${item?.id}`}
+                      middle={true}
+                      data={item}
+                      showComment
+                    />
                   );
                 })}
               </div>
