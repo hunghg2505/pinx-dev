@@ -1,5 +1,28 @@
 declare const window: any;
 
+export const LoginTracking = (
+  loginStatus: string,
+  cif: string,
+  kycStatus: string,
+  username: string,
+  time: Date,
+  loginId: string,
+) => {
+  try {
+    window.dataLayer.push({
+      event: 'Login',
+      'Login Status': loginStatus,
+      CIF: cif,
+      'KYC Status': kycStatus,
+      Username: username,
+      'Time of Last Visit': time,
+      'Login ID': loginId,
+      $name: cif,
+      'Login Method': 'Password',
+    });
+  } catch {}
+};
+
 export const Logout = (time: Date) => {
   try {
     window.dataLayer.push({
@@ -80,7 +103,6 @@ export const CreateLoginName = (
 };
 export const ConfirmPhoneNumber = (
   SubmitStatus: string,
-  RegistrationPlatform: string,
   errMessage: string,
   errCode: string,
   phoneVerified: string,
@@ -89,7 +111,6 @@ export const ConfirmPhoneNumber = (
   name: string,
   phone: string,
   Username: string,
-  AcquisitionSource: string,
 ) => {
   try {
     window.dataLayer.push({
@@ -98,14 +119,13 @@ export const ConfirmPhoneNumber = (
       'Submit Status': SubmitStatus,
       'Error Message': errMessage,
       'Error Code': errCode,
-      'Registration Platform': RegistrationPlatform,
+      'Registration Platform': 'PineX Website',
       'Phone Verified': phoneVerified,
       'Start Registration Date': RegistrationDate,
       $email: email,
       $name: name,
       $phone: phone,
       Username,
-      'Acquisition Source': AcquisitionSource,
     });
   } catch {}
 };
