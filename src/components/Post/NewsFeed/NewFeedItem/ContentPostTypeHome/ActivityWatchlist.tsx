@@ -82,7 +82,7 @@ export const ActivityWatchlist = ({
         </Text>
       )}
 
-      <CustomLink href={postDetailUrl}>
+      <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           {postDetail?.post?.bgImage && (
             <img
@@ -95,7 +95,7 @@ export const ActivityWatchlist = ({
             />
           )}
 
-          <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
+          <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
             <img
               src={urlStock || '/static/icons/logoStock.svg'}
               alt=''
