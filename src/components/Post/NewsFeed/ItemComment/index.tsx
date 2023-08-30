@@ -88,6 +88,8 @@ const ItemComment = (props: IProps) => {
     totalChildren = 0,
     onRemoveComment,
   } = props;
+  console.log('data', data);
+  console.log('totalChildren', totalChildren);
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);

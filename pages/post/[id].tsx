@@ -13,13 +13,13 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
 });
 
-const PostDetailPage = ({ id, host, url }: any) => {
+const PostDetailPage = ({ id, host }: any) => {
   // const seoMetadata = postDetail?.post?.seoMetadata;
 
   return (
     <>
       <SEO siteUrl={`${host}/post/${id}`} />
-      <PostDetail url={url} />
+      <PostDetail />
     </>
   );
 };
@@ -34,7 +34,7 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
 export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
   // const postDetail = await fetchPostDetailFromServer(id);
-  const url = req.headers.referer;
+  const url = req?.headers?.referer;
   let host = '';
   if (url) {
     const arr = url?.split('/');
@@ -46,7 +46,6 @@ export async function getServerSideProps({ locale, params, req }: any) {
       // postDetail: postDetail?.data,
       host,
       id,
-      url,
       // Will be passed to the page component as props
     },
   };
