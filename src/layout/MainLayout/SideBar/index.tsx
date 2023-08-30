@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
 import StickyBox from 'react-sticky-box';
 
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
@@ -71,7 +72,7 @@ const SideBar = () => {
     },
     {
       id: 5,
-      path: ROUTE_PATH.ASSET,
+      path: ROUTE_PATH.ASSET(ProfileTabKey.ASSETS),
       icon: <IconAssets />,
       iconActive: <IconAssetsActive />,
       label: t('assets'),

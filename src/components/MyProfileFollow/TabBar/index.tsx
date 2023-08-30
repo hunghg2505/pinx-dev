@@ -1,14 +1,20 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-const TabBar = ({ tabKey }: { tabKey: string }) => {
+import { ROUTE_PATH } from '@utils/common';
+
+interface ITabBarProps {
+  tabKey: string;
+  onTabChange: (v: string) => void;
+  activeTab: string;
+  setFullName: (v: string) => void;
+  tab: string;
+}
+
+const TabBar = ({ tabKey, onTabChange, activeTab, setFullName, tab }: ITabBarProps) => {
   const { t } = useTranslation('profile');
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
 
   return (
     <>
@@ -16,11 +22,13 @@ const TabBar = ({ tabKey }: { tabKey: string }) => {
         className={classNames(
           'text-[18px] font-[700] transition duration-300 ease-in-out galaxy-max:text-[16px]',
           {
-            'text-neutral_06': searchParams.get('tab') !== tabKey,
+            'text-neutral_06': activeTab !== tabKey,
           },
         )}
         onClick={() => {
-          replace({ query: { tab: tabKey } });
+          onTabChange(tabKey);
+          setFullName('');
+          tab && window.history.replaceState('', '', ROUTE_PATH.MY_PROFILE_FOLLOW);
         }}
       >
         {t(tabKey)}

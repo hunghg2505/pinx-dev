@@ -50,10 +50,11 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  MY_PROFILE_FOLLOW: '/profile/my-profile/follow',
   MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
   MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
   EDIT_MY_PROFILE: '/profile/my-profile/edit',
-  ASSET: '/profile/my-profile?tab=assets',
+  ASSET: (assetsTab: string) => `/profile/my-profile?tab=${assetsTab}`,
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/watchlist',

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
+
 const Following = ({ totalFollowing }: { totalFollowing: number | string }) => {
   const { t } = useTranslation('profile');
 
@@ -17,10 +19,12 @@ const Following = ({ totalFollowing }: { totalFollowing: number | string }) => {
       onClick={() => {
         if (state.mobile) {
           router.push(
-            `${router.route.replace('[id]', String(router?.query?.id))}/follow?tab=following`,
+            `${router.route.replace('[id]', String(router?.query?.id))}/follow?tab=${
+              ProfileTabKey.FOLLOWING
+            }`,
           );
         } else {
-          router.replace({ query: { ...router.query, tab: 'following' } });
+          router.replace({ query: { ...router.query, tab: ProfileTabKey.FOLLOWING } });
         }
       }}
     >
