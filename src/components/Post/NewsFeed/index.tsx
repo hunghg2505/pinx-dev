@@ -11,6 +11,7 @@ import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 import { ClickaPost } from '@utils/dataLayer';
 
@@ -26,10 +27,10 @@ interface IProps {
   onRefreshList?: () => void;
   onRemoveData?: () => void;
   isNewFeedExplore?: boolean;
-  setShowPopup?: any;
   refreshSearch?: () => void;
   loading?: boolean;
   hiddenComment?: boolean;
+  isSearchSeoBox?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -40,13 +41,14 @@ const NewsFeed = (props: IProps) => {
     onRefreshList,
     onRemoveData,
     isNewFeedExplore = false,
-    setShowPopup,
     refreshSearch,
     loading,
     hiddenComment,
+    isSearchSeoBox,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const { isLogin } = useAuth();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
@@ -139,7 +141,7 @@ const NewsFeed = (props: IProps) => {
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
-    setShowPopup && setShowPopup();
+    setSearchSeo(false);
   };
 
   const [, setImageCommentMobile] = useState(false);
@@ -182,7 +184,6 @@ const NewsFeed = (props: IProps) => {
     }
 
     if (!isEdit && onRemoveData) {
-      console.log('456');
       onRemoveData();
     }
   };
@@ -220,10 +221,11 @@ const NewsFeed = (props: IProps) => {
           refreshFollow={refresh}
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
+          isSearchSeoBox={isSearchSeoBox}
         />
 
         {isLogin && !isNewFeedExplore && !hiddenComment && (
-          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px] '>
+          <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>
             <CommentField
               id={postData?.id}
               refresh={refreshComment}

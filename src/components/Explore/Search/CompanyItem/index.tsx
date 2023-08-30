@@ -1,16 +1,27 @@
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { ITopWatchingStock } from '@components/Explore/service';
 import Text from '@components/UI/Text';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, imageStock } from '@utils/common';
 
-const CompanyItem = ({ data, setShowPopup }: { data: ITopWatchingStock; setShowPopup?: any }) => {
+const CompanyItem = ({
+  data,
+  isSearchSeo = false,
+}: {
+  data: ITopWatchingStock;
+  isSearchSeo?: boolean;
+}) => {
   const router = useRouter();
+  const { i18n } = useTranslation();
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   return (
     <div
       onClick={() => {
         router.push(ROUTE_PATH.STOCK_DETAIL(data.stockCode));
-        setShowPopup && setShowPopup(false);
+        setSearchSeo(false);
       }}
       className='flex cursor-pointer items-center rounded-[15px] bg-[#F7F6F8] py-[10px] pl-[8px] pr-[20px]'
     >
@@ -34,7 +45,7 @@ const CompanyItem = ({ data, setShowPopup }: { data: ITopWatchingStock; setShowP
           className='line-clamp-2 max-w-[90%] galaxy-max:text-[10px]'
           color='neutral-3'
         >
-          {data?.name}
+          {i18n.language === 'en' && isSearchSeo ? data?.nameEn : data?.name}
         </Text>
       </div>
     </div>

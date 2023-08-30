@@ -192,7 +192,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
     {
       ...options,
       manual: true,
-      loadingDelay: 300,
+      loadingDelay: 500,
     },
   );
   return {
@@ -261,14 +261,19 @@ export const useGetTrending = (options = {}) => {
   };
 };
 
-export const useGetInfluencer = () => {
-  const { data, refresh, loading } = useRequest(() => {
-    const isLogin = !!getAccessToken();
+export const useGetInfluencer = (options = {}) => {
+  const { data, refresh, loading } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
 
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
-      : requestPist.get(API_PATH.KOL);
-  });
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
+        : requestPist.get(API_PATH.KOL);
+    },
+    {
+      ...options,
+    },
+  );
   return {
     KOL: data?.data?.list || data?.data,
     refresh,
@@ -280,13 +285,11 @@ export const socket = io(ENV.URL_SOCKET, {
 });
 
 export const requestJoinChannel = (stocks: string) => {
-  console.log('join', stocks);
   const message = { action: 'join', data: stocks };
   socket.emit('regs', JSON.stringify(message));
 };
 export const requestLeaveChannel = (stocks: string) => {
   const message = { action: 'leave', data: stocks };
-  console.log('leave', stocks);
   if (socket) {
     socket.emit('regs', JSON.stringify(message));
   }
@@ -320,12 +323,15 @@ export const useSuggestPeople = (options = {}) => {
 };
 
 export const useGetTheme = () => {
-  const { data, refresh, loading } = useRequest(() => {
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
-      : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
-  });
+  const { data, refresh, loading } = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
+        : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
+    },
+    { loadingDelay: 300 },
+  );
   return {
     theme: data?.data,
     refresh,

@@ -27,7 +27,7 @@ const settings = {
 const WatchList = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { dataStockWatchlist, findIndex } = useGetDataStockWatchlistHome();
+  const { dataStockWatchlist, findIndex, isChangeStockPrice } = useGetDataStockWatchlistHome();
   const { removePublicEventListener } = useStockWatchlistHome();
 
   React.useEffect(() => {
@@ -53,7 +53,7 @@ const WatchList = () => {
               variableWidth
             >
               {dataStockWatchlist?.slice(0, 5).map((item: IWatchListItem, index: number) => {
-                const isChangeStock = index === findIndex;
+                const isChangeStock = isChangeStockPrice && index === findIndex;
                 return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
               })}
             </Slider>

@@ -55,7 +55,7 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
   );
 });
 
-const PostDetail = () => {
+const PostDetail = ({ url }: any) => {
   const { t } = useTranslation();
   const refSubReplies: any = useRef();
   const refRepliesLaptop: any = useRef();
@@ -144,7 +144,11 @@ const PostDetail = () => {
   // );
   // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
-    router.back();
+    if (url) {
+      router.push(url);
+    } else {
+      router.push(ROUTE_PATH.HOME);
+    }
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {

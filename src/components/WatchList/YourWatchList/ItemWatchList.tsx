@@ -165,8 +165,7 @@ const ItemWatchList = ({
             })}
           >
             {isChange ? '' : unit}
-            {Number(data?.change) === 0 ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
-            {isChange ? '' : unit}
+            {isChange ? '-' : formatStringToNumber(data?.change, true, 2)} / {isChange ? '' : unit}
             {isChange
               ? '-'
               : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||

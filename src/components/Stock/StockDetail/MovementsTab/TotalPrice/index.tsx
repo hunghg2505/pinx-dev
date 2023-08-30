@@ -89,7 +89,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
           )}
           type='body-12-regular'
         >
-          {formatStringToNumber((Number(stockData?.lot || 0) * 10).toString())}
+          {formatStringToNumber((Number(stockData?.lot || 0) * 10).toString()) || 0}
         </Text>
       </div>
 
@@ -111,7 +111,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
         >
           {formatStringToNumber(
             (Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000).toString(),
-          )}
+          ) || 0}
         </Text>
       </div>
 
@@ -131,7 +131,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
           )}
           type='body-12-regular'
         >
-          {formatStringToNumber(((Number(stockData?.fBVol) || 0) * 10).toString())}
+          {formatStringToNumber(((Number(stockData?.fBVol) || 0) * 10).toString()) || 0}
         </Text>
       </div>
 
@@ -151,7 +151,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
           )}
           type='body-12-regular'
         >
-          {formatStringToNumber(((Number(stockData?.fRoom) || 0) * 10).toString())}
+          {formatStringToNumber(((Number(stockData?.fRoom) || 0) * 10).toString()) || 0}
         </Text>
       </div>
 
@@ -171,7 +171,7 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
           )}
           type='body-12-regular'
         >
-          {formatStringToNumber(((Number(stockData?.fSVolume) || 0) * 10).toString())}
+          {formatStringToNumber(((Number(stockData?.fSVolume) || 0) * 10).toString()) || 0}
         </Text>
       </div>
     </div>

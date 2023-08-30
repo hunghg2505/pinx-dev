@@ -32,7 +32,7 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
           </div>
           <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatStringToNumber(0)}
+              0
             </Text>
           </div>
         </div>
@@ -45,7 +45,7 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
           </div>
           <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatStringToNumber(0)}
+              0
             </Text>
           </div>
         </div>
@@ -58,7 +58,7 @@ const FakeTableAskBid = ({ isAsk = false }: { isAsk?: boolean }) => {
           </div>
           <div className='pr-[16px] text-right'>
             <Text type='body-12-regular' className='inline-block p-[4px] text-[#474D57]'>
-              {formatStringToNumber(0)}
+              0
             </Text>
           </div>
         </div>

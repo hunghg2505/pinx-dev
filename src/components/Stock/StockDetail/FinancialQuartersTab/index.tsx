@@ -110,7 +110,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {formatStringToNumber(financialIndicator?.data?.content.eps)}
+              {formatStringToNumber(financialIndicator?.data?.content.eps) || 0}
             </Text>
           </td>
 
@@ -123,7 +123,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {formatStringToNumber(financialIndicator?.data?.content.bvps)}
+              {formatStringToNumber(financialIndicator?.data?.content.bvps) || 0}
             </Text>
           </td>
 
@@ -136,7 +136,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {formatStringToNumber(financialIndicator?.data?.content.pe)}
+              {formatStringToNumber(financialIndicator?.data?.content.pe) || 0}
             </Text>
           </td>
         </tr>
@@ -150,7 +150,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {formatStringToNumber(financialIndicator?.data?.content.ros)}
+              {formatStringToNumber(financialIndicator?.data?.content.ros) || 0}
             </Text>
           </td>
 
@@ -163,7 +163,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {formatStringToNumber(financialIndicator?.data?.content.roea)}
+              {formatStringToNumber(financialIndicator?.data?.content.roea) || 0}
             </Text>
           </td>
 
@@ -176,7 +176,7 @@ const FinancialQuartersTab = ({ stockCode }: IFinancialQuartersTabProps) => {
             </Text>
 
             <Text type='body-16-regular' className='mt-[5px] text-[#0D0D0D]'>
-              {formatStringToNumber(financialIndicator?.data?.content.roaa)}
+              {formatStringToNumber(financialIndicator?.data?.content.roaa) || 0}
             </Text>
           </td>
         </tr>

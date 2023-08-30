@@ -31,7 +31,8 @@ const ItemWatchList = ({
   const isHigh = data?.lastPrice === data?.ceilPrice;
   const isDecrease = data?.lastPrice < highest_price;
   const isIncrease = data?.lastPrice > lowest_price;
-  const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
+  // const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
+  const isNoChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
   const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
   const url = `${imageCompanyUrl}${
@@ -117,13 +118,13 @@ const ItemWatchList = ({
               'text-[#782AF9]': isHigh,
               'text-[#F1BA09] ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
-              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isNoChange,
               [style.isDecrease]:
                 isDecrease &&
                 !isFloor &&
                 Number(data?.lastPrice) !== 0 &&
                 isChangeStock &&
-                !isChange,
+                !isNoChange,
             })}
           >
             {Number(data?.lastPrice) === 0 ? '-' : formatStringToNumber(data?.lastPrice, true, 2)}
@@ -137,19 +138,19 @@ const ItemWatchList = ({
               'text-[#782AF9]': isHigh,
               'text-[#F1BA09]  ': Number(data?.change) === 0 && Number(data?.lastPrice) !== 0,
               'text-[#474D57]': Number(data?.lastPrice) === 0,
-              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isChange,
+              [style.isIncrease]: isIncrease && !isHigh && isChangeStock && !isNoChange,
               [style.isDecrease]:
                 isDecrease &&
                 !isFloor &&
                 Number(data?.lastPrice) !== 0 &&
                 isChangeStock &&
-                !isChange,
+                !isNoChange,
             })}
           >
-            {isChange ? '' : unit}
-            {Number(data?.change) === 0 ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
-            {isChange ? '' : unit}
-            {isChange
+            {isNoChange ? '' : unit}
+            {isNoChange ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
+            {isNoChange ? '' : unit}
+            {isNoChange
               ? '-'
               : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
                 formatStringToNumber(data?.changePercent, true, 2)}

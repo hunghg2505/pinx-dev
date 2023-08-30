@@ -68,12 +68,12 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
                   </td>
                   <td className='py-[10px]'>
                     <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                      {formatStringToNumber(item.lastVol * 10)}
+                      {formatStringToNumber(item.lastVol * 10) || 0}
                     </Text>
                   </td>
                   <td className='py-[10px]'>
                     <Text type='body-16-semibold' className='text-[#0D0D0D]'>
-                      {formatStringToNumber(item.lastPrice, true, 2)}
+                      {formatStringToNumber(item.lastPrice, true, 2) || 0}
                     </Text>
                   </td>
                   <td className='py-[10px] pr-[16px] small-mobile-max:pr-[4px]'>

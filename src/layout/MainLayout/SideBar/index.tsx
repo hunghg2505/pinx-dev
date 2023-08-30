@@ -113,6 +113,7 @@ const SideBar = () => {
             >
               {icon}
               <Text
+                element='h3'
                 type='body-16-semibold'
                 color='neutral-3'
                 className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}
@@ -132,15 +133,19 @@ const SideBar = () => {
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
-              setPostDetailStatus({
-                ...postDetailStatus,
-                isRefreshHome: true,
-              });
+              if (menu.path === ROUTE_PATH.HOME) {
+                setPostDetailStatus({
+                  ...postDetailStatus,
+                  isRefreshHome: true,
+                });
+              }
+
               return NavigateSection(menu.label);
             }}
           >
             {icon}
             <Text
+              element='h3'
               type='body-16-semibold'
               color='neutral-3'
               className={classNames({ '!text-[var(--primary-2)]': checkPathExist })}

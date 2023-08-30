@@ -529,7 +529,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
           const nCur = `${cur}`;
 
           const isSepecial = Boolean(
-            nCur.includes('@') || nCur.includes('%') || nCur.includes('#'),
+            nCur.charAt(0) === '@' || nCur.charAt(0) === '%' || nCur.charAt(0) === '#',
           );
           if (isSepecial) {
             acc.push(nCur);
@@ -538,7 +538,9 @@ export const converStringMessageToObject = (message: string, data: any) => {
             const prevItem = acc[acc.length - 1];
             if (prevItem) {
               const isPrevItemSepecial = Boolean(
-                prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+                prevItem.charAt(0) === '@' ||
+                  prevItem.charAt(0) === '%' ||
+                  prevItem.charAt(0) === '#',
               );
 
               if (isPrevItemSepecial) {
@@ -564,7 +566,6 @@ export const converStringMessageToObject = (message: string, data: any) => {
         return b.flat();
       });
       const addSpace = newArray.flat();
-      console.log('🚀 ~ file: common.ts:567 ~ content:txt?.map ~ addSpace:', addSpace);
       const data = addSpace?.map((check: any) => {
         if (check.includes('@')) {
           const start = check.indexOf('[') + 1;
@@ -703,7 +704,6 @@ export default async function getSeoDataFromLink(url: string) {
       }
       summary.push(tempsum);
     }
-    console.log('summary', summary);
     return summary;
   } catch (error: any) {
     console.log('ERROR FETCHING META LINK', error);
@@ -750,7 +750,7 @@ export const kFormatter = (num: number) => {
 
 export const formatStringToNumber = (value: any, isComma = true, minimumFractionDigits = 0) => {
   if (!value) {
-    return '0';
+    return '';
   }
   if (Number.isNaN(value)) {
     return value;

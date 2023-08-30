@@ -87,7 +87,7 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
           <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[12px]'>
             {Number.isInteger(data.ownerRatio)
               ? data.ownerRatio
-              : formatStringToNumber(String(data.ownerRatio), true, 2)}
+              : formatStringToNumber(String(data.ownerRatio), true, 2) || 0}
             %
           </Text>
 

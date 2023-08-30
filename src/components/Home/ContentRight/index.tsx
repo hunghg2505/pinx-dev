@@ -15,7 +15,7 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-import { useSuggestPeople } from '../service';
+import { useGetInfluencer, useSuggestPeople } from '../service';
 
 const WatchList = () => {
   const { t } = useTranslation('common');
@@ -57,6 +57,8 @@ const ContentRight = () => {
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
   });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
+
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
@@ -82,7 +84,7 @@ const ContentRight = () => {
 
         <Fade visible={!isProfilePath}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-            <Text element='h2' type='body-16-bold' color='cbblack' className='mb-[15px]'>
+            <Text element='h5' type='body-16-bold' color='cbblack' className='mb-[15px]'>
               {t('trending')}
             </Text>
             <TrendingDesktop />
@@ -91,13 +93,14 @@ const ContentRight = () => {
 
         <Fade visible={isLogin && !isProfilePath}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-            <Text element='h2' type='body-16-bold' color='cbblack' className='mb-[25px]'>
+            <Text element='h6' type='body-16-bold' color='cbblack' className='mb-[25px]'>
               {t('people_you_may_know')}
             </Text>
             <PeopleDesktop
               suggestionPeople={suggestionPeople}
               refreshList={refreshList}
               getSuggestFriend={getSuggestFriend}
+              refresh={refresh}
             />
             {suggestionPeople?.length && (
               <ModalPeopleYouKnow refreshList={refreshList}>

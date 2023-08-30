@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 
 import classNames from 'classnames';
 
+import { toNonAccentVietnamese } from '@utils/common';
+
 import Text from '../Text';
 
 const AlphabetToColor: any = {
@@ -41,8 +43,10 @@ const AvatarDefault = (props: IProps) => {
 
   const nameFormat = useMemo(() => {
     let firstCharName = 'Z';
-    if (name && Number.isNaN(name)) {
-      firstCharName = name.slice(0, 1).toUpperCase();
+
+    // eslint-disable-next-line unicorn/prefer-number-properties
+    if (name && isNaN(+name.slice(0, 1))) {
+      firstCharName = toNonAccentVietnamese(name.slice(0, 1)).toUpperCase();
     }
 
     return firstCharName;

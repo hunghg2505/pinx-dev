@@ -112,7 +112,6 @@ const Search = (props: any, ref: any) => {
 
   useClickAway((e: any) => {
     const main: any = document?.querySelector('main');
-
     if (main.contains(e.srcElement)) {
       setShowPopup(false);
     }

@@ -48,6 +48,7 @@ const PopupFollowStock = ({
     onSuccess: (res: any) => {
       setPostDetailStatus({ ...postDetailStatus, themeWatchlist: res?.data });
       toast(() => <Notification type='success' message={t('share_stock.message_success')} />);
+      setTimeout(() => toast.dismiss(), 4000); // handle toast not disappear on mobile
       onClose();
       onRefreshStockActivities();
     },

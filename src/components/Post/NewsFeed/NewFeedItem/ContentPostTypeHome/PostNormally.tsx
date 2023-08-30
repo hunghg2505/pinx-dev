@@ -2,7 +2,7 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
@@ -14,6 +14,7 @@ import Text from '@components/UI/Text';
 // import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { postThemeAtom } from '@store/postTheme/theme';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
 const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
@@ -22,6 +23,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
   const userDetail = useAtomValue(userLoginInfoAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const messageDefault = postDetail?.post?.message;
   // userLoginInfoAtom
 
@@ -63,12 +65,13 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       }
       clearTimeout(t);
     }, 400);
-  }, [messageDefault]);
+  }, [messageDefault, postThemeId]);
 
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent as string;
     const classElement = e?.target?.className;
     const id = e?.target?.id;
+    setSearchSeo(false);
     if (classElement === 'link') {
       return window.open(textContent);
       // return router.push({
@@ -86,10 +89,10 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
-    // if (classElement === 'hashtag') {
-    //   const text = textContent.slice(1);
-    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
-    // }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
     return onComment();
   };
   const PostContent = () => {

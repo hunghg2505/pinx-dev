@@ -18,6 +18,7 @@ import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
+  refreshList?: () => void;
   refresh?: () => void;
 }
 // const IconFollowBlue = () => (
@@ -33,7 +34,7 @@ interface IProps {
 // );
 const ItemPeople = (props: IProps) => {
   const { t } = useTranslation();
-  const { data, refresh } = props;
+  const { data, refreshList, refresh } = props;
   const router = useRouter();
   // const [isFollow, setIsFollow] = React.useState(false);
   const { run: getUserProfile } = useProfileInitial();
@@ -46,6 +47,7 @@ const ItemPeople = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         getUserProfile();
+        refreshList && refreshList();
         refresh && refresh();
         // setIsFollow(true);
       },
@@ -130,7 +132,7 @@ const ItemPeople = (props: IProps) => {
           </div>
 
           <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
-            <p>{formatStringToNumber(data?.numberFollowers)}</p>
+            <p>{formatStringToNumber(data?.numberFollowers) || 0}</p>
             <p>{t('followers')}</p>
           </Text>
         </div>

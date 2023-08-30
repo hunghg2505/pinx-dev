@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 interface Iprops {
   number: number;
@@ -62,7 +62,7 @@ const PinexTop = (props: Iprops) => {
               {changePrice ? (
                 <div className='hidden items-center galaxy-max:flex'>
                   <Text type='body-16-regular' color='semantic-2-1'>
-                    {new Intl.NumberFormat().format(data?.percentChange)}%
+                    {formatStringToNumber(data?.percentChange) || 0}%
                   </Text>
                   <img
                     src='/static/icons/explore/iconChange.svg'
@@ -72,9 +72,9 @@ const PinexTop = (props: Iprops) => {
                 </div>
               ) : (
                 <Text type='body-16-regular' className='hidden galaxy-max:block' color='neutral-1'>
-                  {new Intl.NumberFormat().format(
+                  {formatStringToNumber(
                     data?.profit || data?.revenue || data?.marketCapital || data?.price,
-                  )}
+                  ) || 0}
                 </Text>
               )}
             </div>
@@ -82,7 +82,7 @@ const PinexTop = (props: Iprops) => {
           {changePrice ? (
             <div className='flex items-center galaxy-max:hidden'>
               <Text type='body-16-regular' color='semantic-2-1'>
-                {new Intl.NumberFormat().format(data?.percentChange)}%
+                {formatStringToNumber(data?.percentChange) || 0}%
               </Text>
               <img
                 src='/static/icons/explore/iconChange.svg'
@@ -92,9 +92,9 @@ const PinexTop = (props: Iprops) => {
             </div>
           ) : (
             <Text type='body-16-regular' className='galaxy-max:hidden' color='neutral-1'>
-              {new Intl.NumberFormat().format(
+              {formatStringToNumber(
                 data?.profit || data?.revenue || data?.marketCapital || data?.price,
-              )}
+              ) || 0}
             </Text>
           )}
         </div>

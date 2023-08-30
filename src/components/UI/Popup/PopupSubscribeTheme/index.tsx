@@ -39,6 +39,7 @@ const PopupSubsribeTheme = (props: IProps) => {
       setPostDetailStatus({ ...postDetailStatus, themeWatchlist: res?.data });
       onRefreshActivities && onRefreshActivities();
       toast(() => <Notification type='success' message={t('share_subscribe_theme_success')} />);
+      setTimeout(() => toast.dismiss(), 4000); // handle toast not disappear on mobile
       handleClose();
     },
     onError(e: any) {
@@ -76,7 +77,6 @@ const PopupSubsribeTheme = (props: IProps) => {
       requestShareThemeActivity.run(payload);
     }
   };
-
   return (
     <>
       <Modal visible={visible} onClose={handleClose}>

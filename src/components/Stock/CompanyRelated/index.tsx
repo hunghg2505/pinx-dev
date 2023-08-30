@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useUnmount } from 'ahooks';
 import classNames from 'classnames';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -11,7 +11,6 @@ import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Hom
 import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
 import { stockSocketAtom, StockSocketLocation } from '@store/stockStocket';
-import { stockWLComponentAtom } from '@store/stockWLComponent';
 import { formatStringToNumber } from '@utils/common';
 
 import { useCompaniesRelated, useCompanyTaggingInfo } from '../service';
@@ -31,7 +30,6 @@ const CompanyRelated = () => {
   const ref = useRef(null);
   const [companiesRelated, setCompaniesRelated] = useState<IResponseCompaniesRelated>();
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
-  const setStockWLComponent = useSetAtom(stockWLComponentAtom);
 
   const router = useRouter();
   const { stockCode, type, hashtagId }: any = router.query;
@@ -115,9 +113,6 @@ const CompanyRelated = () => {
   useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
-      if (data?.id === 3220) {
-        setStockWLComponent(data);
-      }
 
       let listStockCode: string[] = [];
       if (companiesRelated && companiesRelated.data && companiesRelated.data.list.length > 0) {
@@ -245,7 +240,7 @@ const CompanyRelated = () => {
             <div className='mb-[32px] mt-[52px] flex items-center justify-between border-b border-solid border-b-[#EBEBEB] pb-[16px] galaxy-max:mt-[36px] galaxy-max:items-baseline'>
               <Text type='body-14-semibold' className='text-[#0D0D0D] galaxy-max:text-[12px]'>
                 {t('company_related_total')}:{' '}
-                {formatStringToNumber(companiesRelated?.data.totalElements)}
+                {formatStringToNumber(companiesRelated?.data.totalElements) || 0}
               </Text>
 
               <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>

@@ -133,7 +133,7 @@ const LandingPageDetailThemes = ({
             <div className='flex'>
               <div className='mr-[43px] mobile-max:mr-[20px]'>
                 <Text type='body-20-medium' color='cbwhite'>
-                  {formatStringToNumber(data?.stockList?.length)}
+                  {formatStringToNumber(data?.stockList?.length) || 0}
                 </Text>
                 <Text type='body-12-medium' className='galaxy-max:text-[10px]' color='cbwhite'>
                   {t('symbols')}
@@ -141,7 +141,7 @@ const LandingPageDetailThemes = ({
               </div>
               <div>
                 <Text type='body-20-medium' color='cbwhite'>
-                  {formatStringToNumber(data?.totalSubscribe)}
+                  {formatStringToNumber(data?.totalSubscribe) || 0}
                 </Text>
                 <Text type='body-12-medium' className='galaxy-max:text-[10px]' color='cbwhite'>
                   {t('subscribed')}

@@ -1,12 +1,13 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 
 export const ActivityWatchlist = ({
@@ -23,10 +24,12 @@ export const ActivityWatchlist = ({
   const { t } = useTranslation();
   const router = useRouter();
   const userDetail = useAtomValue(userLoginInfoAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
     const id = e?.target?.id;
+    setSearchSeo(false);
     if (classElement === 'link') {
       // return router.push({
       //   pathname: '/redirecting',
@@ -44,10 +47,10 @@ export const ActivityWatchlist = ({
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
-    // if (classElement === 'hashtag') {
-    //   const text = textContent.slice(1);
-    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
-    // }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
     return onComment();
   };
   return (

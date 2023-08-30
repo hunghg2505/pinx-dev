@@ -15,7 +15,6 @@ import {
 } from '@components/Home/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { stockWLComponentAtom } from '@store/stockWLComponent';
 
 import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';
@@ -29,7 +28,7 @@ interface IProps {
 const ComponentWatchList = (props: IProps) => {
   const { isEdit = false, page_size, optionsRequest = {} } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
-  const [dataSocket, setDataSocket] = useAtom(stockWLComponentAtom);
+  const [dataSocket, setDataSocket] = React.useState<any>({});
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
 
@@ -95,7 +94,8 @@ const ComponentWatchList = (props: IProps) => {
     let isChangeStockPrice = false;
     if (dataStock && findIndex !== -1) {
       const data = dataStock[findIndex];
-      isChangeStockPrice = data?.lastPrice !== dataSocket?.lastPrice;
+      isChangeStockPrice =
+        data?.lastPrice !== dataSocket?.lastPrice && data?.time !== dataSocket?.time;
       dataStock[findIndex] = {
         ...data,
         ...dataSocket,
@@ -104,15 +104,13 @@ const ComponentWatchList = (props: IProps) => {
     if (page_size) {
       dataStock?.slice(0, page_size);
     }
-
+    // setDataStock(dataStock);
     return { dataFormat: dataStock, findIndex, isChangeStockPrice };
   }, [dataSocket, dataStock, page_size]);
-
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
       const data = message.data;
       if (data?.id === 3220) {
-        // console.log('data', data);
         setDataSocket(data);
       }
     };
@@ -136,9 +134,8 @@ const ComponentWatchList = (props: IProps) => {
   return (
     <>
       <div className='flex flex-col gap-y-[16px]'>
-        {dataFormat?.map((item: IWatchListItem, index: number) => {
+        {dataStock?.map((item: IWatchListItem, index: number) => {
           const isChangeStock = isChangeStockPrice && findIndex === index;
-
           return (
             <div
               key={`${item.stockCode}-${index}`}

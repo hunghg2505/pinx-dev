@@ -16,15 +16,10 @@ const IPO = ({ data }: { data: IStockIPO }) => {
       <div className='relative  h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div className='relative z-10 flex h-full items-center justify-between'>
           <div className='flex w-[calc(100%_-_57px)] items-center'>
-            <img
-              src={url}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain'
-            />
-            <div className='w-full'>
+            <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
+              <img src={url} alt='' width='0' height='0' sizes='100vw' className='block' />
+            </div>
+            <div className='w-full flex-1'>
               <div className='flex items-center'>
                 <Text type='body-16-semibold' color='neutral-1'>
                   {data?.stockCode}

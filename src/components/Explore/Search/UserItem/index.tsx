@@ -21,19 +21,20 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
   data: ISuggestionPeople;
   reload?: () => void;
-  setShowPopup?: any;
   refreshSearch?: () => void;
 }
 const UserItem = (props: Iprops) => {
-  const { data, reload, setShowPopup, refreshSearch } = props;
+  const { data, reload, refreshSearch } = props;
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const { isLogin } = useUserType();
   const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const { isMobile } = useResponsive();
@@ -116,7 +117,7 @@ const UserItem = (props: Iprops) => {
         className='flex cursor-pointer items-center'
         onClick={() => {
           router.push(urlProfile);
-          setShowPopup && setShowPopup(false);
+          setSearchSeo(false);
         }}
       >
         {data?.avatar ? (

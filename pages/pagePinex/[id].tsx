@@ -7,6 +7,7 @@ import { fetchPostDetailFromServer } from '@components/Post/service';
 
 const pagePinex = ({ postDetail }: any) => {
   console.log('postDetail', postDetail);
+
   return (
     <>
       <Image

@@ -55,7 +55,7 @@ const StockFinancialIndex = ({ stockCode }: IStockFinancialIndexProps) => {
         .filter((item) => onlyKeys.has(item))
         .map((item) => ({
           label: manualTranslate(item),
-          value: formatStringToNumber(data[item as keyof IFinancialIndex] || 0).toString(),
+          value: formatStringToNumber(data[item as keyof IFinancialIndex] || 0).toString() || 0,
         }));
     }
 

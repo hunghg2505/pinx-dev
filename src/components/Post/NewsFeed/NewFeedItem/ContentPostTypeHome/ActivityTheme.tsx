@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -9,6 +9,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 
 export const ActivityTheme = ({
@@ -28,11 +29,13 @@ export const ActivityTheme = ({
   const [readMore, setReadMore] = React.useState(false);
   const [showReadMore, setShowReadMore] = React.useState<boolean>(false);
   const userDetail = useAtomValue(userLoginInfoAtom);
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   // const isReadMore = height > 85;
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
     const classElement = e?.target?.className;
     const id = e?.target?.id;
+    setSearchSeo(false);
     if (classElement === 'link') {
       // return router.push({
       //   pathname: '/redirecting',
@@ -50,10 +53,10 @@ export const ActivityTheme = ({
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
-    // if (classElement === 'hashtag') {
-    //   const text = textContent.slice(1);
-    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
-    // }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
     return onComment();
   };
   const onReadMore = () => {
@@ -123,7 +126,7 @@ export const ActivityTheme = ({
             alt=''
             className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'
           />
-          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] backdrop-blur-[3.4px] backdrop-filter mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
+          <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
             <div className='flex flex-col items-center justify-center'>
               {iconPost && (
                 <img

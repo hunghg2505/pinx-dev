@@ -3,15 +3,18 @@ import React from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import PostAction from '@components/Post/NewsFeed/PostAction';
 import CustomLink from '@components/UI/CustomLink';
+import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
+import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 
-const IconLink = () => (
+const IconLink2 = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'>
     <rect width='30' height='30' rx='15' fill='white' fillOpacity='0.45' />
     <path
@@ -28,21 +31,45 @@ dayjs.extend(relativeTime);
 const NewsItem = ({
   data,
   middle,
-  setShowPopup,
   showComment,
+  onNavigate,
 }: {
   data: any;
   middle?: boolean;
-  setShowPopup?: any;
-  showComment?: boolean
+  showComment?: boolean;
+  onNavigate?: () => void;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
+  const [, setSearchSeo] = useAtom(searchSeoAtom);
   const onGoToDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data?.id));
   };
 
   const url = data?.post?.url;
+
+  const renderThumbnail = () => {
+    return data?.post?.thumbImageUrl ? (
+      <div className='relative cursor-pointer'>
+        <img
+          src={data?.post?.thumbImageUrl}
+          alt=''
+          className='h-[73px] w-[73px] rounded-[12px] object-cover'
+        />
+        <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
+          <IconLink2 />
+        </div>
+      </div>
+    ) : (
+      <div className='relative cursor-pointer'>
+        <div className='h-[73px] w-[73px] rounded-[12px] border border-solid border-[#ccc] bg-[#EFF2F5] object-cover'></div>
+
+        <div className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full'>
+          <IconLink />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -54,8 +81,8 @@ const NewsItem = ({
         <div
           className='mr-[16px] w-[calc(100%_-_73px)] cursor-pointer'
           onClick={() => {
+            setSearchSeo(false);
             onGoToDetail();
-            setShowPopup && setShowPopup(false);
           }}
         >
           <div className='flex items-center galaxy-max:gap-[4px]'>
@@ -79,26 +106,23 @@ const NewsItem = ({
             {data?.post?.title}
           </Text>
         </div>
-        <CustomLink href={`/redirecting?url=${url}`}>
-          <div className='relative cursor-pointer'>
-            <img
-              src={data?.post?.thumbImageUrl}
-              alt=''
-              className='h-[73px] w-[73px] rounded-[12px] object-cover'
-            />
-            <div className='absolute left-2/4 top-2/4 -translate-x-1/2 -translate-y-1/2 transform'>
-              <IconLink />
-            </div>
-          </div>
+        <CustomLink target='_blank' href={`${url}`}>
+          {renderThumbnail()}
         </CustomLink>
       </div>
-      {showComment && <PostAction
-        idPost={data.id}
-        urlPost={'/post/' + data.id}
-        isLike={data.isLike}
-        totalLikes={data.totalLikes}
-        totalComments={data.totalChildren}
-      />}
+      {showComment && (
+        <PostAction
+          idPost={data.id}
+          urlPost={'/post/' + data.id}
+          isLike={data.isLike}
+          totalLikes={data.totalLikes}
+          totalComments={data.totalChildren}
+          onNavigate={() => {
+            onNavigate && onNavigate();
+            setShowPopup && setShowPopup(false);
+          }}
+        />
+      )}
     </>
   );
 };

@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 
 import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -96,7 +97,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
         </Text>
         <div className='ml-[12px] flex h-[34px] w-[76px] flex-row items-center justify-center rounded-[100px]  bg-[#F7F6F8] mobile:hidden desktop:flex'>
           <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-            {formatStringToNumber(data?.totalElements)}
+            {formatStringToNumber(data?.totalElements) || 0}
           </Text>
         </div>
       </div>
@@ -105,13 +106,19 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
           [...data?.list]?.slice(0, 3)?.map((item: any, index: number) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
-                <img
-                  src={item.avatar}
-                  alt=''
-                  width='0'
-                  height='0'
-                  className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
-                />
+                {item.avatar ? (
+                  <img
+                    src={item.avatar}
+                    alt=''
+                    width='0'
+                    height='0'
+                    className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
+                  />
+                ) : (
+                  <div className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'>
+                    <AvatarDefault nameClassName='text-[16px]' name={item?.displayName} />
+                  </div>
+                )}
                 <div className='mt-[-10px] flex h-[24px] w-[24px] content-center items-center justify-center rounded-full bg-[#FFFFFF] shadow'>
                   <img
                     src='/static/icons/heart-red.svg'
@@ -127,7 +134,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
         <ModalCommunity code={payload?.code}>
           <div className='flex h-[34px] w-[87px] flex-row items-center justify-center rounded-[100px] bg-[#F7F6F8]'>
             <Text type='body-14-regular' color='neutral-black' className='mr-[4px]'>
-              {formatStringToNumber(data?.totalElements)}
+              {formatStringToNumber(data?.totalElements) || 0}
             </Text>
             <IconArrow />
           </div>

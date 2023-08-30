@@ -97,15 +97,18 @@ const ItemComment = (props: IProps) => {
   const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [isLike, setIsLike] = React.useState<boolean>(data?.isLike);
+  const [isReport, setIsReport] = React.useState<boolean>(data?.isReport);
+  const [totalReport, setTotalReport] = React.useState<number>(0);
   const [totalLikes, setTotalLikes] = React.useState<number>(0);
   React.useEffect(() => {
     setIsLike(data?.isLike);
     setTotalLikes(data?.totalLikes);
+    setIsReport(data?.isReport);
+    setTotalReport(data?.totalReports);
   }, [data]);
 
   const message = data?.message && formatMessage(data?.message, data);
   const name = data?.customerInfo?.displayName || '';
-  const numberReport = data?.reports?.length > 0 ? data?.reports.length : '';
   const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const onComment = (value: string, customerId: number, id: string) => {
     const idComment = isChildren ? data?.parentId : id;
@@ -140,7 +143,6 @@ const ItemComment = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        console.log('123');
         setIsLike(true);
         setTotalLikes(totalLikes + 1);
         if (!isHomePath) {
@@ -253,10 +255,10 @@ const ItemComment = (props: IProps) => {
     if (classElement === 'tagStock') {
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
-    // if (classElement === 'hashtag') {
-    //   const text = textContent.slice(1);
-    //   return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
-    // }
+    if (classElement === 'hashtag') {
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+    }
   };
   // const [windowSize, setWindowSize] = useState([window.innerWidth]);
   const commentRef = useRef<HTMLDivElement>(null);
@@ -288,7 +290,15 @@ const ItemComment = (props: IProps) => {
       };
     }
   }, []);
-
+  const addTotalReport = () => {
+    if (!isHomePath) {
+      setPostDetailStatus({
+        ...postDetailStatus,
+        idPostAddComment: idPost,
+      });
+    }
+    setTotalReport(totalReport + 1);
+  };
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
@@ -373,8 +383,15 @@ const ItemComment = (props: IProps) => {
           })}
         >
           <div className='relative mb-[8px] flex-1 rounded-[12px] bg-[#F3F2F6] pt-[12px]'>
-            <div className='flex w-full flex-row items-center justify-between px-[16px]'>
-              <div className='relative flex items-center overflow-hidden mobile:max-w-[150px] laptop:max-w-[300px]'>
+            <div className='flex w-full flex-row items-center justify-between gap-x-[12px] px-[16px]'>
+              <div
+                onClick={() =>
+                  isComment
+                    ? router.push(ROUTE_PATH.MY_PROFILE)
+                    : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+                }
+                className='relative flex cursor-pointer items-center overflow-hidden truncate'
+              >
                 <Text type='body-14-semibold' color='neutral-1' className='truncate'>
                   {data?.customerInfo?.displayName}
                 </Text>
@@ -524,12 +541,14 @@ const ItemComment = (props: IProps) => {
             </div>
 
             <ModalReportComment
-              isReported={data?.isReport}
+              isReported={isReport}
               postID={data?.id}
               refreshCommentOfPOst={refreshCommentOfPOst}
+              setIsReport={setIsReport}
+              setTotalReport={addTotalReport}
             >
               <div className='flex'>
-                {data?.isReport && isLogin ? (
+                {isReport && isLogin ? (
                   <IconReported className='mr-[8px]  hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]' />
                 ) : (
                   <img
@@ -539,7 +558,8 @@ const ItemComment = (props: IProps) => {
                   />
                 )}
                 <div>
-                  {numberReport} <span className='galaxy-max:hidden'>{t('report')}</span>
+                  {totalReport > 0 ? totalReport : ''}
+                  <span className='pl-[2px] galaxy-max:hidden'>{t('report')}</span>
                 </div>{' '}
               </div>
             </ModalReportComment>
