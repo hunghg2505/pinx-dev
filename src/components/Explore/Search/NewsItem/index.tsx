@@ -119,7 +119,7 @@ const NewsItem = ({
           totalComments={data.totalChildren}
           onNavigate={() => {
             onNavigate && onNavigate();
-            setShowPopup && setShowPopup(false);
+            setSearchSeo(false);
           }}
         />
       )}
