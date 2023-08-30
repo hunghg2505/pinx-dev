@@ -34,7 +34,7 @@ function Auth() {
           type: AUTH_TAB_TYPE.REGISTER,
         },
       });
-      RegisterTracking(new Date(), 'Header', 'button');
+      RegisterTracking(new Date(), 'Header', 'CTA');
     } else {
       router.replace({
         pathname: ROUTE_PATH.LOGIN,

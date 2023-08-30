@@ -7,6 +7,7 @@ import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { RegisterTracking } from '@utils/dataLayer';
 
 const SCREEN_MOBILE_WIDTH = 768;
 const FooterSignUp = () => {
@@ -57,6 +58,8 @@ const FooterSignUp = () => {
   }, [footerHeight]);
 
   const redirectToSignUp = () => {
+    const date = new Date();
+    RegisterTracking(date, 'Footer', 'CTA');
     router.push({
       pathname: ROUTE_PATH.LOGIN,
       query: {

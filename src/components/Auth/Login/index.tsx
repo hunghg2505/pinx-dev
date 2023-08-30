@@ -15,9 +15,10 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-// import { PINETREE_LINK } from '@utils/constant';
+import { LoginTracking } from '@utils/dataLayer';
 
 import { useLogin } from './service';
+// import { PINETREE_LINK } from '@utils/constant';
 
 interface Iprops {
   isModal?: boolean;
@@ -32,6 +33,7 @@ const Login = (props: Iprops) => {
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm } = useUserLoginInfo();
+  const date = new Date();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -43,16 +45,18 @@ const Login = (props: Iprops) => {
   const requestLogin = useLogin({
     onSuccess: (res: any) => {
       if (res?.data.token) {
+        const loginData = res?.data;
         onLogin({
-          token: res?.data.token,
+          token: loginData.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
+        LoginTracking('Login', loginData.cif, loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified', loginData.username, date, '');
         requestProfleSetting();
-        setUserLoginInfo(res?.data);
-        setForceAllowTerm(res?.data.forceAllow);
-        setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));
-        if (res?.data.isReadTerms === 'true') {
+        setUserLoginInfo(loginData);
+        setForceAllowTerm(loginData.forceAllow);
+        setUserType(checkUserType(loginData?.custStat, loginData?.acntStat));
+        if (loginData.isReadTerms === 'true') {
           setIsReadTerms(true);
         }
         if (isModal) {
@@ -68,6 +72,7 @@ const Login = (props: Iprops) => {
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
+      LoginTracking('Failed', '', '', '', date, '');
     },
   });
 
