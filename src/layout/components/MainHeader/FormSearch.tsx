@@ -95,7 +95,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     }
   }, searchResultPopupRef);
 
-  const handleSubmit = () => {
+  const handleSubmit = async (key = 'company') => {
     const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
     // setQuery(value);
     cancel();
@@ -107,17 +107,21 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       const payloads = {
         textSearch: value,
       };
-      requestSearch.run(payloads);
+      await requestSearch.run(payloads);
+      router.push({
+        pathname: ROUTE_PATH.SEARCHSEO,
+        query: { keyword: value, tab: key },
+      });
     }
   };
 
   const requestSearch = useCreateSearch({
     onSuccess: () => {
-      const value = form.getFieldValue('search');
-      router.push({
-        pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: value, tab: 'company' },
-      });
+      // const value = form.getFieldValue('search');
+      // router.push({
+      //   pathname: ROUTE_PATH.SEARCHSEO,
+      //   query: { keyword: value, tab: 'company' },
+      // });
       clearCache('data-pin-post');
       setInputFocus(false);
       setShowRecent(false);
@@ -383,7 +387,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       );
                     })}
                   </div>
-                  <ExploreButton className='' onClick={handleSubmit}>
+                  <ExploreButton className='' onClick={() => handleSubmit('company')}>
                     <Text type='body-14-bold' color='primary-2'>
                       {t('common:searchseo.txtBtnAll')}
                     </Text>
@@ -405,7 +409,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       />
                     ))}
                   </div>
-                  <ExploreButton className='' onClick={handleSubmit}>
+                  <ExploreButton className='' onClick={() => handleSubmit('people')}>
                     <Text type='body-14-bold' color='primary-2'>
                       {t('common:searchseo.txtBtnAll')}
                     </Text>
@@ -432,7 +436,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       );
                     })}
                   </div>
-                  <ExploreButton className='' onClick={handleSubmit}>
+                  <ExploreButton className='' onClick={() => handleSubmit('posts')}>
                     <Text type='body-14-bold' color='primary-2'>
                       {t('common:searchseo.txtBtnAll')}
                     </Text>
@@ -457,7 +461,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       );
                     })}
                   </div>
-                  <ExploreButton className='' onClick={handleSubmit}>
+                  <ExploreButton className='' onClick={() => handleSubmit('news')}>
                     <Text type='body-14-bold' color='primary-2'>
                       {t('common:searchseo.txtBtnAll')}
                     </Text>
@@ -483,7 +487,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                       })}
                     </div>
                   </div>
-                  <ExploreButton className='' onClick={handleSubmit}>
+                  <ExploreButton className='' onClick={() => handleSubmit('media')}>
                     <Text type='body-14-bold' color='primary-2'>
                       {t('common:searchseo.txtBtnAll')}
                     </Text>
