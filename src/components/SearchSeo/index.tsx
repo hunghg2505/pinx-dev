@@ -39,7 +39,7 @@ const SearchSeo = () => {
   });
   React.useEffect(() => {
     clearCache('search-seo-page');
-    if (keyword && getType) {
+    if (keyword) {
       searchPublicPage({
         textSearch: removeHashTag(keyword),
         type: getType,

@@ -32,11 +32,10 @@ const PinexTop = (props: Iprops) => {
                 {number}
               </Text>
             </div>
-            <img
-              src={imageStock(data?.stockCode)}
-              className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain'
-              alt=''
-            />
+
+            <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
+              <img src={imageStock(data?.stockCode)} className='block' alt='' />
+            </div>
             <div>
               <div className='flex'>
                 <Text
