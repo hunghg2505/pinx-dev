@@ -14,7 +14,7 @@ import { VietStockNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPost
 import { IPost, TYPEPOST } from '@components/Post/service';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessage, imageStock } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -22,8 +22,6 @@ interface IProps {
   pinned?: boolean;
   isPostDetailPath: boolean;
 }
-
-const IMAGE_COMPANY_URL = 'https://static.pinetree.com.vn/upload/images/companies/';
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
@@ -41,10 +39,6 @@ const ContentPostTypeHome = (props: IProps) => {
     const metaData = postDetail?.post?.metadataList?.[0];
 
     const stockCode = postDetail.post?.stockCode;
-
-    const urlStock = `${IMAGE_COMPANY_URL}${
-      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
 
     const iconPost =
       postDetail?.post.action === 'SUBSCRIBE'
@@ -65,7 +59,7 @@ const ContentPostTypeHome = (props: IProps) => {
       urlImages: postDetail?.post?.urlImages,
       message:
         postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
-      urlStock,
+      urlStock: imageStock(stockCode),
       iconPost,
       postDetailUrl,
       post_url: postDetail?.post.url ?? '',

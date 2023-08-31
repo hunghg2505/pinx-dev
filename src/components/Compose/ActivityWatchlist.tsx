@@ -25,14 +25,16 @@ export const ActivityWatchlist = ({ postDetail }: any) => {
       )}
 
       <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
-        <img
-          src={urlStock || '/static/icons/logoStock.svg'}
-          alt=''
-          width='0'
-          height='0'
-          sizes='100vw'
-          className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain tablet:-top-[24px] tablet:h-[48px] tablet:w-[48px]'
-        />
+        <div className='absolute -top-[14px] left-2/4 mr-[6px] flex h-[36px] w-[36px] -translate-x-1/2 transform items-center justify-center overflow-hidden rounded-full object-contain tablet:-top-[24px] tablet:h-[48px] tablet:w-[48px]'>
+          <img
+            src={urlStock || '/static/icons/logoStock.svg'}
+            alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
+            className='block'
+          />
+        </div>
         <div className='mt-[26px] flex flex-col items-center justify-center tablet:mt-[36px]'>
           <Text
             type='body-16-bold'

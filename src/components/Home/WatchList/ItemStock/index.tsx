@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 import { IWatchListItem } from '../../service';
 import style from '../index.module.scss';
@@ -18,27 +18,21 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
   const isIncrease = data?.lastPrice > lowest_price;
   const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
 
   return (
     <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
       <div className='mr-[16px] w-[120px]'>
         <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
-          {url && (
+          <div className='flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full object-contain'>
             <img
-              src={url}
+              src={imageStock(data?.stockCode)}
               alt=''
               width={0}
               height={0}
               sizes='100vw'
-              className='h-[40px] w-[40px] rounded-full object-contain'
+              className='block'
             />
-          )}
+          </div>
           <Text
             type='barlow-16-medium'
             className={classNames('mt-[16px] px-[5px] py-[2px]', {

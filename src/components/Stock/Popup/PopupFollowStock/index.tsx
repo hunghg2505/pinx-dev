@@ -129,11 +129,9 @@ const PopupFollowStock = ({
           />
 
           <div className='absolute bottom-[8px] left-[20px] h-[168px] w-[120px] rounded-[8px] bg-[rgba(255,255,255,0.28)] text-center'>
-            <img
-              src={imageStock(stockCode)}
-              alt='Stock logo'
-              className='absolute left-1/2 h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white object-contain'
-            />
+            <div className='absolute left-1/2 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-full bg-white object-contain'>
+              <img src={imageStock(stockCode)} alt='' className='block' />
+            </div>
 
             <div className='mt-[26px] flex flex-col items-center'>
               <Text type='body-16-bold' color='cbblack'>
