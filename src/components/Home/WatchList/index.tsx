@@ -1,28 +1,14 @@
 import React from 'react';
 
-import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
 import { useGetDataStockWatchlistHome, useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH } from '@utils/common';
 
-import styles from './index.module.scss';
 import ItemStock from './ItemStock';
 import { IWatchListItem } from '../service';
-
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  arrows: false,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 
 const WatchList = () => {
   const { t } = useTranslation();
@@ -41,22 +27,13 @@ const WatchList = () => {
   };
   return (
     <>
-      <div className='mt-[22px] h-[179px] max-w-[700px] justify-center overflow-hidden mobile:block  tablet:hidden '>
+      <div className='mt-[22px] h-[179px] justify-center overflow-hidden mobile:block tablet:hidden'>
         {dataStockWatchlist?.length > 0 ? (
-          <div>
-            <Slider
-              {...settings}
-              className={classNames(
-                'mx-[auto] my-[0] flex w-[calc(100%_-_32px)]',
-                styles.watchListSlick,
-              )}
-              variableWidth
-            >
-              {dataStockWatchlist?.slice(0, 5).map((item: IWatchListItem, index: number) => {
-                const isChangeStock = isChangeStockPrice && index === findIndex;
-                return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
-              })}
-            </Slider>
+          <div className='no-scrollbar flex overflow-x-auto'>
+            {dataStockWatchlist?.slice(0, 5).map((item: IWatchListItem, index: number) => {
+              const isChangeStock = isChangeStockPrice && index === findIndex;
+              return <ItemStock key={index} data={item} isChangeStock={isChangeStock} />;
+            })}
           </div>
         ) : (
           <div
