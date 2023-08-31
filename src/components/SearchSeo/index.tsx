@@ -17,6 +17,7 @@ import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublicPage } from '@components/SearchSeo/service';
+import Loading from '@components/UI/Loading';
 import { ROUTE_PATH } from '@utils/common';
 import { removeHashTag } from '@utils/removeHashTag';
 
@@ -96,7 +97,6 @@ const SearchSeo = () => {
 
     fillterMediaSort = newMediaSort;
   }
-
   return (
     <>
       <div className={classNames('box-shadow card-style', styles.Tab)}>
@@ -117,7 +117,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -130,7 +136,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -150,7 +162,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -171,7 +189,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -184,25 +208,15 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
-            {/*
-          {imageFilter?.length > 0 || mediaFilter?.length > 0 ? (
-              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
-                {imageFilter?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} />;
-                })}
-                {mediaFilter?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} />;
-                })}
-              </div>
-            ) : (
-              <>
-                <Empty keyword={keyword} loading={loading} />
-              </>
-            )}
-          */}
           </TabPane>
         </Tabs>
       </div>

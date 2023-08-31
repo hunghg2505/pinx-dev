@@ -52,8 +52,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const router = useRouter();
 
   const [checkRouter, setCheckRouter] = React.useState(router.pathname || '');
-  console.log('currentRouter', router.pathname);
-  console.log('checkRouter', checkRouter);
 
   React.useEffect(() => {
     if (router.pathname !== checkRouter) {

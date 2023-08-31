@@ -73,7 +73,6 @@ const ItemComment = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const { statusUser, isLogin } = useUserType();
-  console.log('🚀 ~ file: index.tsx:76 ~ ItemComment ~ statusUser:', statusUser);
   const [showDelete, setShowDelete] = React.useState(false);
   const {
     onNavigate,
@@ -89,8 +88,6 @@ const ItemComment = (props: IProps) => {
     totalChildren = 0,
     onRemoveComment,
   } = props;
-  console.log('data', data);
-  console.log('totalChildren', totalChildren);
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
