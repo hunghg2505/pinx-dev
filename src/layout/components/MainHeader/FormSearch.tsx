@@ -51,6 +51,17 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const valueInput = form.getFieldValue('search');
   const router = useRouter();
 
+  const [checkRouter, setCheckRouter] = React.useState( router.pathname || '');
+  console.log('currentRouter', router.pathname);
+  console.log('checkRouter', checkRouter);
+
+  React.useEffect(() => {
+    if (router.pathname !== checkRouter){
+      setCheckRouter(router.pathname);
+      setSearchSeo(false);
+    }
+  },[router.pathname]);
+
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
   const { data, searchPublic, loading, refresh } = useSearchPublic();
