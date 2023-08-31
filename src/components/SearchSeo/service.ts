@@ -92,7 +92,40 @@ export const useSearchPublic = (options?: IOptions) => {
   );
   return {
     data,
-    searchPublic: run,
+    run,
+    loading,
+    refresh,
+    mutate,
+  };
+};
+export const useSearchPublicPage = (options?: IOptions) => {
+  const initParam = {
+    textSearch: '',
+    type: '',
+    page: 0,
+    pageSize: 10,
+  };
+  const { data, run, loading, refresh, mutate } = useRequest(
+    (params) => {
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_RESULT, {
+            params: { ...initParam, ...params },
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_RESULT, {
+            params: { ...initParam, ...params },
+          });
+    },
+    {
+      manual: true,
+      cacheKey: 'search-seo-page',
+      staleTime: -1,
+      ...options,
+    },
+  );
+  return {
+    data,
+    run,
     loading,
     refresh,
     mutate,

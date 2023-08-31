@@ -73,6 +73,7 @@ const ItemComment = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const router = useRouter();
   const { statusUser, isLogin } = useUserType();
+  console.log('🚀 ~ file: index.tsx:76 ~ ItemComment ~ statusUser:', statusUser);
   const [showDelete, setShowDelete] = React.useState(false);
   const {
     onNavigate,

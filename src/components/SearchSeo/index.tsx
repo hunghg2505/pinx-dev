@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { clearCache } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
@@ -15,7 +16,7 @@ import { TYPEPOST } from '@components/Post/service';
 import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
-import { useSearchPublic } from '@components/SearchSeo/service';
+import { useSearchPublicPage } from '@components/SearchSeo/service';
 import { ROUTE_PATH } from '@utils/common';
 import { removeHashTag } from '@utils/removeHashTag';
 
@@ -23,16 +24,25 @@ const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
-  const getType = searchParams.get('type') || '';
+  const getType = searchParams.get('tab') || '';
   const { replace, query, push } = useRouter();
 
-  const { data, searchPublic, loading } = useSearchPublic();
-
+  const {
+    data,
+    run: searchPublicPage,
+    loading,
+  } = useSearchPublicPage({
+    onSuccess: () => {
+      clearCache('search-seo-page');
+    },
+  });
   React.useEffect(() => {
-    searchPublic({
-      textSearch: removeHashTag(keyword),
-      type: getType,
-    });
+    if (keyword && getType) {
+      searchPublicPage({
+        textSearch: removeHashTag(keyword),
+        type: getType,
+      });
+    }
   }, [keyword]);
 
   const navigateToPostDetail = (postId: string) => {
@@ -42,7 +52,6 @@ const SearchSeo = () => {
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
-  // console.log('🚀 ~ file: index.tsx:39 ~ SearchSeo ~ posts:', posts);
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.map((item: any) => {
     return {
@@ -84,31 +93,9 @@ const SearchSeo = () => {
     const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
       dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
     );
-    // console.log('media', media);
-    // console.log('image', image);
-    // console.log('newMedia', newMedia);
-    // console.log('newMediaSort', newMediaSort);
-    fillterMediaSort = newMediaSort;
-    // fillterMediaSort = newMediaSort.filter(
-    //   (item) =>
-    //     // mediaFilter
-    //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-    //     item?.post?.metadataList[0]?.url?.length > 0 ||
-    //     // imageFilter
-    //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-    // );
-  }
-  // console.log('fillterMediaSort', fillterMediaSort);
 
-  // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  // const mediaFilter = media?.filter(
-  //   (item: any) =>
-  //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-  //     item?.post?.metadataList[0]?.url?.length > 0,
-  // );
-  // const imageFilter = image?.filter(
-  //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  // );
+    fillterMediaSort = newMediaSort;
+  }
 
   return (
     <>
