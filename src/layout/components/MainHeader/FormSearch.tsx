@@ -36,7 +36,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { removeHashTag } from '@utils/removeHashTag';
+import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -176,7 +176,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         refresh();
         clearCache('search-seo');
         searchPublic({
-          textSearch: removeHashTag(value),
+          textSearch: removeSpecialCharacter(value),
         });
       }
     },
