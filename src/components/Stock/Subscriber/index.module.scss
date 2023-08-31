@@ -27,6 +27,7 @@ $screen-tablet-width: 769px;
           font-size: 18px;
         }
         .rc-tabs-tab-btn {
+          outline: none;
           @media (min-width: $screen-tablet-width) {
             font-size: 16px;
             font-weight: 400;

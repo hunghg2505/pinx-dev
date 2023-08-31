@@ -333,7 +333,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   className='relative flex cursor-pointer gap-x-[10px] p-[8px] hover:bg-[#F7F6F8]'
                 >
                   <div
-                    className='flex-auto text-[#1F6EAC]'
+                    className='mr-[32px] flex-auto text-[#1F6EAC]'
                     onClick={() => onClickRecent(item?.textSearch)}
                   >
                     {item?.textSearch}
