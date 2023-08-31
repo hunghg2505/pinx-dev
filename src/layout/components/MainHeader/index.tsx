@@ -88,6 +88,8 @@ const MainHeader = () => {
   const { isRouteSetting } = useRouteSetting();
   const [isOpenSearch, setIsOpenSearch] = React.useState(false);
   const { isMobile } = useResponsive();
+  const router = useRouter();
+  const isRouteExplore = router.pathname === ROUTE_PATH.EXPLORE;
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -199,13 +201,13 @@ const MainHeader = () => {
                 </Text>
                 <MenuMobile />
               </div>
-              {!isMobile && (
+              {!isMobile && !isRouteExplore && (
                 <div className='w-full flex-auto'>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
               <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
-                {isMobile && (
+                {isMobile && !isRouteExplore && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 )}
                 {/* <Notifications /> */}
