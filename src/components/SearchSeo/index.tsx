@@ -38,6 +38,7 @@ const SearchSeo = () => {
     },
   });
   React.useEffect(() => {
+    clearCache('search-seo-page');
     if (keyword && getType) {
       searchPublicPage({
         textSearch: removeHashTag(keyword),
@@ -70,7 +71,6 @@ const SearchSeo = () => {
         ...item,
       };
     });
-  let newMedia = [];
 
   // map api do trả thiếu id
   const newUsers = users?.map((item: any) => {
@@ -86,7 +86,7 @@ const SearchSeo = () => {
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
-
+  let newMedia = [];
   let fillterMediaSort = [];
 
   if (mediaL || imageL) {
@@ -97,6 +97,7 @@ const SearchSeo = () => {
 
     fillterMediaSort = newMediaSort;
   }
+  console.log('fillterMediaSort', fillterMediaSort);
   return (
     <>
       <div className={classNames('box-shadow card-style', styles.Tab)}>
