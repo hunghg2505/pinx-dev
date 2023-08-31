@@ -66,7 +66,8 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
-  const [showRecent, setShowRecent] = React.useState(false);
+  // const [showRecent, setShowRecent] = React.useState(false);
+  const [showRecent] = React.useState(false);
 
   // Remove value input search when refresh open new page
   React.useEffect(() => {
@@ -80,7 +81,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onFocus: () => {
       refreshSearchRecent();
       setInputFocus(true);
-      setShowRecent(true);
+      // setShowRecent(true);
       const value = form.getFieldValue('search');
       if (value === '' || value === undefined) {
         setSearchSeo(false);
@@ -94,7 +95,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   useClickAway(() => {
     setInputFocus(false);
-    setShowRecent(false);
+    // setShowRecent(false);
   }, ref);
 
   useClickAway((e: any) => {
@@ -110,7 +111,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     cancel();
     if (value === '' || value === undefined) {
       setInputFocus(true);
-      setShowRecent(true);
+      // setShowRecent(true);
       setSearchSeo(false);
     } else {
       const payloads = {
@@ -133,7 +134,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       });
       clearCache('data-pin-post');
       setInputFocus(false);
-      setShowRecent(false);
+      // setShowRecent(false);
       setSearchSeo(false);
     },
     onError: (e: any) => {
@@ -167,9 +168,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // setQuery(value);
       if (value === '' || value === undefined) {
         setSearchSeo(false);
-        setShowRecent(true);
+        // setShowRecent(true);
       } else {
-        setShowRecent(false);
+        // setShowRecent(false);
         setSearchSeo(true);
         setInputFocus(true);
         refresh();
