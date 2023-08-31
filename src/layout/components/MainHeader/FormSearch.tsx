@@ -53,7 +53,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
-  const { data, searchPublic, loading, refresh } = useSearchPublic();
+  const { data, run: searchPublic, loading, refresh } = useSearchPublic();
 
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
@@ -241,6 +241,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       query: { keyword: value, tab },
     });
   };
+  const refreshSearch = () => {
+    clearCache('search-seo');
+    refresh();
+  };
   return (
     <>
       {isMobile && (
@@ -424,7 +428,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                           isNewFeedExplore={false}
                           hiddenComment={true}
                           // setShowPopup={setSearchSeo}
-                          refreshSearch={refresh}
+                          refreshSearch={refreshSearch}
                           isSearchSeoBox={true}
                         />
                       );

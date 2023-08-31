@@ -6,7 +6,7 @@ import { privateRequest, requestCommunity } from '@api/request';
 import { profileSettingAtom } from './profileSetting';
 
 export const useProfileSettingInitial = () => {
-  const [, setProfileSetting] = useAtom(profileSettingAtom);
+  const [profileSetting, setProfileSetting] = useAtom(profileSettingAtom);
 
   const { run: requestProfleSetting } = useRequest(
     async () => {
@@ -14,10 +14,10 @@ export const useProfileSettingInitial = () => {
     },
     {
       onSuccess: (res) => {
-        setProfileSetting((prev: any) => ({
-          ...prev,
+        setProfileSetting({
+          ...profileSetting,
           ignore_vsd_validator: res?.data?.ignore_vsd_validator,
-        }));
+        });
       },
     },
   );
