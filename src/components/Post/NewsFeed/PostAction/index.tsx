@@ -29,11 +29,21 @@ interface IPostActionProps {
   totalComments: number;
   urlPost: string;
   className?: string;
+  isForceNavigate?: boolean;
 }
 
 const PostAction = (props: IPostActionProps) => {
   const { t } = useTranslation('common');
-  const { isLike, idPost, onNavigate, totalLikes, totalComments, urlPost, className } = props;
+  const {
+    isLike,
+    idPost,
+    onNavigate,
+    totalLikes,
+    totalComments,
+    urlPost,
+    className,
+    isForceNavigate,
+  } = props;
 
   const { statusUser, isLogin } = useUserType();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -128,7 +138,7 @@ const PostAction = (props: IPostActionProps) => {
   };
 
   const handleComment = () => {
-    if (isPostDetailPath) {
+    if (isPostDetailPath && !isForceNavigate) {
       if (isLogin) {
         if (statusUser === USERTYPE.PENDING_TO_CLOSE) {
           toast(() => (
