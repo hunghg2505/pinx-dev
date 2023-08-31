@@ -33,11 +33,13 @@ const NewsItem = ({
   middle,
   showComment,
   onNavigate,
+  isForceNavigate,
 }: {
   data: any;
   middle?: boolean;
   showComment?: boolean;
   onNavigate?: () => void;
+  isForceNavigate?: boolean;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -121,6 +123,7 @@ const NewsItem = ({
             onNavigate && onNavigate();
             setSearchSeo(false);
           }}
+          isForceNavigate={isForceNavigate}
         />
       )}
     </>

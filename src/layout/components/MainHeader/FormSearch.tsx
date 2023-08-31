@@ -472,6 +472,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                           // setShowPopup={setSearchSeo}
                           showComment
                           onNavigate={() => goToPostDetail(item?.id)}
+                          isForceNavigate
                         />
                       );
                     })}

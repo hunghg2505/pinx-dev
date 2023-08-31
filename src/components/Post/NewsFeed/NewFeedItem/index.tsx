@@ -499,6 +499,7 @@ const NewFeedItem = (props: IProps) => {
               totalLikes={postDetail?.totalLikes}
               totalComments={totalComments}
               onNavigate={onNavigate}
+              isForceNavigate={isSearchSeoBox}
             />
           </div>
         )}
