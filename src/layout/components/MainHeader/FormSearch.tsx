@@ -51,16 +51,16 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const valueInput = form.getFieldValue('search');
   const router = useRouter();
 
-  const [checkRouter, setCheckRouter] = React.useState( router.pathname || '');
+  const [checkRouter, setCheckRouter] = React.useState(router.pathname || '');
   console.log('currentRouter', router.pathname);
   console.log('checkRouter', checkRouter);
 
   React.useEffect(() => {
-    if (router.pathname !== checkRouter){
+    if (router.pathname !== checkRouter) {
       setCheckRouter(router.pathname);
       setSearchSeo(false);
     }
-  },[router.pathname]);
+  }, [router.pathname]);
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
@@ -267,7 +267,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       )}
       <div className={classNames(className)} ref={searchResultPopupRef}>
         <div className='absolute right-[20px] top-[50%] z-10 translate-y-[-50%] desktop:right-[10px]'>
-          {isLogin && loading && <Loading />}
+          {isLogin && loading && (companiesL || usersL || postsL || newsL || mediaL || imageL) && (
+            <Loading />
+          )}
         </div>
 
         {/* Khi nhập input show button close clear data */}
@@ -361,7 +363,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
-          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL ? (
+          {loading && !companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL && (
+            <Loading className='mx-auto' />
+          )}
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL && !loading ? (
             <>
               <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
                 {t('common:searchseo.txtEmpty')} {form.getFieldValue('search')}
