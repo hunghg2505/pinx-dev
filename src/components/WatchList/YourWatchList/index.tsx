@@ -27,6 +27,7 @@ interface IProps {
   setDataStock?: any;
   findIndex?: number;
   isChangeStockPrice?: boolean;
+  onTrackingEventViewTickerInfo?: (stockCode: string, location: string) => void;
 }
 
 const Empty = dynamic(() => import('@components/UI/Empty'), {
@@ -45,6 +46,7 @@ const YourWatchList = (props: IProps) => {
     setDataStock,
     findIndex,
     isChangeStockPrice,
+    onTrackingEventViewTickerInfo,
   } = props;
   const { t } = useTranslation('watchlist');
   const [isAz, setIsAz] = React.useState<boolean>(true);
@@ -214,6 +216,7 @@ const YourWatchList = (props: IProps) => {
                                 isEdit={isEdit}
                                 refreshYourWatchList={refreshYourWatchList}
                                 refreshInterest={refreshInterest}
+                                onTrackingEventViewTickerInfo={onTrackingEventViewTickerInfo}
                               />
                             </div>
                           )}
@@ -283,6 +286,7 @@ const YourWatchList = (props: IProps) => {
                     isEdit={isEdit}
                     refreshYourWatchList={refreshYourWatchList}
                     isChangeColor={isChangeColor}
+                    onTrackingEventViewTickerInfo={onTrackingEventViewTickerInfo}
                   />
                 </div>
               );

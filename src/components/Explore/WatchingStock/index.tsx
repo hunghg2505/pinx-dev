@@ -2,7 +2,7 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 import { ITopWatchingStock } from '../service';
 
@@ -10,20 +10,18 @@ interface Iprops {
   percen: number;
   data: ITopWatchingStock;
   mention?: boolean;
+  onTrackingViewTickerInfo?: () => void;
 }
 const WatchingStock = (props: Iprops) => {
-  const { percen, data, mention = false } = props;
+  const { percen, data, mention = false, onTrackingViewTickerInfo } = props;
   const { i18n } = useTranslation();
 
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
   const nameStock = i18n.language === 'en' ? data?.nameEn : data?.name;
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink
+      onClick={() => onTrackingViewTickerInfo && onTrackingViewTickerInfo()}
+      href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+    >
       <div className='relative h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div
           className='absolute left-0 top-0 z-[2] h-full rounded-[15px] bg-[#D7EEFF]'
@@ -32,7 +30,7 @@ const WatchingStock = (props: Iprops) => {
         <div className='relative z-10 flex h-full items-center justify-between'>
           <div className='flex w-[calc(100%_-_57px)] items-center'>
             <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
-              <img src={url} alt='' className='block' />
+              <img src={imageStock(data?.stockCode)} alt='' className='block' />
             </div>
             <div className='w-full flex-1'>
               <div className='flex items-center'>

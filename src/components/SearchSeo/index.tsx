@@ -19,7 +19,13 @@ import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublicPage } from '@components/SearchSeo/service';
 import Loading from '@components/UI/Loading';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Search seo screen', 'Company tab', 'Stock');
+};
 
 const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -113,7 +119,16 @@ const SearchSeo = () => {
             {companiesL ? (
               <div className='flex flex-col gap-y-[16px]'>
                 {companies?.map((company: any, index: number) => {
-                  return <CompanyItem isSearchSeo key={`company-${index}`} data={company} />;
+                  return (
+                    <CompanyItem
+                      onTrackingEventViewStockInfo={() => {
+                        handleTrackingViewTickerInfo(company?.stockCode);
+                      }}
+                      isSearchSeo
+                      key={`company-${index}`}
+                      data={company}
+                    />
+                  );
                 })}
               </div>
             ) : (

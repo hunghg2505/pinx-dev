@@ -14,12 +14,19 @@ import {
 } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import NotFound from '../NotFound';
+
+// tracking event view ticker info
+const handleTrackingViewStockInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'My profile screen', 'Watch list tab', 'Stock');
+};
 
 interface IProps {
   isEdit?: boolean;
 }
+
 const ComponentWatchList = (props: IProps) => {
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
   const { isEdit = false } = props;
@@ -126,6 +133,7 @@ const ComponentWatchList = (props: IProps) => {
                 isEdit={isEdit}
                 refresh={useWatchList.refresh}
                 isChangeStock={isChangeStock}
+                handleTrackingViewStockInfo={handleTrackingViewStockInfo}
               />
             </div>
           );

@@ -10,9 +10,11 @@ import { ROUTE_PATH, imageStock } from '@utils/common';
 const CompanyItem = ({
   data,
   isSearchSeo = false,
+  onTrackingEventViewStockInfo,
 }: {
   data: ITopWatchingStock;
   isSearchSeo?: boolean;
+  onTrackingEventViewStockInfo?: (stockCode: string) => void;
 }) => {
   const router = useRouter();
   const { i18n } = useTranslation();
@@ -22,6 +24,7 @@ const CompanyItem = ({
       onClick={() => {
         router.push(ROUTE_PATH.STOCK_DETAIL(data.stockCode));
         setSearchSeo(false);
+        onTrackingEventViewStockInfo && onTrackingEventViewStockInfo(data?.stockCode);
       }}
       className='flex cursor-pointer items-center rounded-[15px] bg-[#F7F6F8] py-[10px] pl-[8px] pr-[20px]'
     >

@@ -5,9 +5,14 @@ import classNames from 'classnames';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import { IWatchListItem } from '../../service';
 import style from '../index.module.scss';
+
+const handleTrackingViewTickerInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', 'Watch list mobile', 'Stock');
+};
 
 const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStock: boolean }) => {
   const highest_price = data?.refPrice;
@@ -20,7 +25,10 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
   const unit = isDecrease ? '-' : '+';
 
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink
+      onClick={() => handleTrackingViewTickerInfo(data?.stockCode)}
+      href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+    >
       <div className='mr-[16px] w-[120px]'>
         <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
           <div className='flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full object-contain'>

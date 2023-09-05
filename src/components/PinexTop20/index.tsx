@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import Tabs, { TabsEnum } from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import ChangeInPrice from './ChangeInPrice';
 import MarketCap from './MarketCap';
@@ -35,6 +36,11 @@ export const optionTab = [
   },
 ];
 
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
+  ViewTickerInfo(stockCode, 'Pinex top 20 screen', location, 'Stock');
+};
+
 const PinexTop20 = () => {
   const [isClient, setIsClient] = React.useState(false);
   const { t } = useTranslation(['explore', 'theme']);
@@ -55,19 +61,19 @@ const PinexTop20 = () => {
   const renderContentTab = () => {
     switch (selectTab) {
       case TabsEnum.Profit: {
-        return <Profit />;
+        return <Profit onTrackingViewTickerInfo={handleTrackingViewTickerInfo} />;
       }
       case TabsEnum.Revenue: {
-        return <Revenue />;
+        return <Revenue onTrackingViewTickerInfo={handleTrackingViewTickerInfo} />;
       }
       case TabsEnum.MarketCapitalization: {
-        return <MarketCap />;
+        return <MarketCap onTrackingViewTickerInfo={handleTrackingViewTickerInfo} />;
       }
       case TabsEnum.ChangeInPrice1Y: {
-        return <ChangeInPrice />;
+        return <ChangeInPrice onTrackingViewTickerInfo={handleTrackingViewTickerInfo} />;
       }
       case TabsEnum.Price: {
-        return <Price />;
+        return <Price onTrackingViewTickerInfo={handleTrackingViewTickerInfo} />;
       }
       default: {
         break;

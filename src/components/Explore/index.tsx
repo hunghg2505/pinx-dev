@@ -14,7 +14,7 @@ import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList } from '@utils/dataLayer';
+import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
@@ -71,6 +71,11 @@ const settings = {
 
 const handleTrackingViewListStock = (presetName: string) => {
   ViewStockList(presetName, '', 'Basic category', 'Explore screen');
+};
+
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
+  ViewTickerInfo(stockCode, 'Explore screen', location, 'Stock');
 };
 
 const Explore = () => {
@@ -313,6 +318,9 @@ const Explore = () => {
                   percen={(item.totalCount / maxTopWatchStock) * 100}
                   key={`stock-${index}`}
                   data={item}
+                  onTrackingViewTickerInfo={() =>
+                    handleTrackingViewTickerInfo(item?.stockCode, 'Top watching stock')
+                  }
                 />
               );
             })
@@ -357,6 +365,9 @@ const Explore = () => {
                   key={`stock-${index}`}
                   data={item}
                   mention
+                  onTrackingViewTickerInfo={() =>
+                    handleTrackingViewTickerInfo(item?.stockCode, 'Top mention stock')
+                  }
                 />
               );
             })
@@ -448,7 +459,15 @@ const Explore = () => {
         {!loadingIPO && stockIPO && stockIPO?.length > 0 ? (
           <div className='mb-[16px] flex flex-col gap-y-[12px]'>
             {stockIPO?.map((ipo: IStockIPO, index: number) => {
-              return <IPO data={ipo} key={index} />;
+              return (
+                <IPO
+                  onTrackingViewTickerInfo={() =>
+                    handleTrackingViewTickerInfo(ipo?.stockCode, 'New IPO')
+                  }
+                  data={ipo}
+                  key={index}
+                />
+              );
             })}
           </div>
         ) : (

@@ -16,9 +16,14 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useAuth } from '@store/auth/useAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewWatchlist } from '@utils/dataLayer';
+import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
 import { useGetInfluencer, useSuggestPeople } from '../service';
+
+// tracking event view ticker info
+const handleTrackingViewStockInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
+};
 
 const WatchList = () => {
   const { t } = useTranslation('common');
@@ -44,6 +49,7 @@ const WatchList = () => {
       <ComponentWatchList
         isEdit={false}
         page_size={5}
+        handleTrackingViewStockInfo={handleTrackingViewStockInfo}
         footer={(list) => {
           if (list?.length) {
             return (
