@@ -8,8 +8,14 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import ActivitiesAction from '../ActivitiesAction';
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Modal comment theme activities', 'Comment', 'Stock');
+};
 
 dayjs.extend(relativeTime);
 export enum ActionPostEnum {
@@ -92,7 +98,12 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
           )}
         </div>
         <div className='mt-[8px]'>
-          <ActivitiesAction isLike={isLike} idPost={idPost} refresh={refresh} />
+          <ActivitiesAction
+            onTrackingViewTickerInfo={handleTrackingViewTicker}
+            isLike={isLike}
+            idPost={idPost}
+            refresh={refresh}
+          />
         </div>
       </div>
     </div>
