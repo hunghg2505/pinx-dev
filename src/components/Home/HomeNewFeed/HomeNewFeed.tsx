@@ -21,7 +21,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
-import { ViewWatchlist } from '@utils/dataLayer';
+import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
 import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
@@ -40,6 +40,15 @@ const Influencer = dynamic(() => import('../People/Influencer'), {
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', 'News feed', 'Stock');
+};
+
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', 'Comment', 'Stock');
+};
 
 const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { t } = useTranslation('home');
@@ -208,9 +217,17 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
-      <PinPost pinPostDataInitial={pinPostDataInitial} />
+      <PinPost
+        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+        pinPostDataInitial={pinPostDataInitial}
+      />
 
-      <NewsFeed key={`home-post-item-${firstPost?.id}`} data={firstPost as any} />
+      <NewsFeed
+        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+        onTrackingViewTicker={handleTrackingViewTicker}
+        key={`home-post-item-${firstPost?.id}`}
+        data={firstPost as any}
+      />
 
       <div className='box-shadow card-style tablet:hidden'>
         <div className='pb-[13px] pt-[10px] '>
@@ -243,7 +260,15 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       <SuggestionPeople />
 
       {fourPost?.map((item: IPost) => {
-        return <NewsFeed loading={loadingPosts} key={`home-post-item-${item?.id}`} data={item} />;
+        return (
+          <NewsFeed
+            onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+            onTrackingViewTicker={handleTrackingViewTicker}
+            loading={loadingPosts}
+            key={`home-post-item-${item?.id}`}
+            data={item}
+          />
+        );
       })}
 
       <div className='box-shadow card-style'>
@@ -265,12 +290,23 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               key={`home-post-item-${item?.id}`}
               ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
             >
-              <NewsFeed data={item} />
+              <NewsFeed
+                onTrackingViewTicker={handleTrackingViewTicker}
+                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                data={item}
+              />
             </div>
           );
         }
 
-        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+        return (
+          <NewsFeed
+            onTrackingViewTicker={handleTrackingViewTicker}
+            onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+            key={`home-post-item-${item?.id}`}
+            data={item}
+          />
+        );
       })}
 
       {loadingPosts && (

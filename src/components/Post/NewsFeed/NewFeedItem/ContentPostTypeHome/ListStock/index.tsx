@@ -13,12 +13,18 @@ const settings = {
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
-const ListStock = ({ listStock }: { listStock: string[] }) => {
+const ListStock = ({
+  listStock,
+  onTrackingViewTicker,
+}: {
+  listStock: string[];
+  onTrackingViewTicker?: (stockCode: string) => void;
+}) => {
   return (
     <div className=' max-w-[700px] '>
       <Slider {...settings} className='slidePostAdmin' variableWidth>
         {listStock?.map((item: string, index: number) => {
-          return <ItemStock key={index} data={item} />;
+          return <ItemStock onTrackingViewTicker={onTrackingViewTicker} key={index} data={item} />;
         })}
       </Slider>
     </div>

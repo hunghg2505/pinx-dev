@@ -31,6 +31,8 @@ interface IProps {
   loading?: boolean;
   hiddenComment?: boolean;
   isSearchSeoBox?: boolean;
+  onTrackingViewTicker?: (stockCode: string) => void;
+  onTrackingViewTickerCmt?: (stockCode: string) => void;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -45,6 +47,8 @@ const NewsFeed = (props: IProps) => {
     loading,
     hiddenComment,
     isSearchSeoBox,
+    onTrackingViewTicker,
+    onTrackingViewTickerCmt,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -211,8 +215,8 @@ const NewsFeed = (props: IProps) => {
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
           isSearchSeoBox={isSearchSeoBox}
+          onTrackingViewTicker={onTrackingViewTicker}
         />
-
         {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>
             <CommentField
@@ -223,7 +227,6 @@ const NewsFeed = (props: IProps) => {
             />
           </div>
         )}
-
         {!!countComment && !isNewFeedExplore && !hiddenComment && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
@@ -234,6 +237,7 @@ const NewsFeed = (props: IProps) => {
                   idPost={postData?.id}
                   refreshCommentOfPOst={refreshComment}
                   totalChildren={postData?.children?.[0]?.totalChildren}
+                  onTrackingViewTicker={onTrackingViewTickerCmt}
                 />
               </div>
             )}

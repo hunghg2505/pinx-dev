@@ -67,6 +67,7 @@ interface IProps {
   isReply?: boolean;
   totalChildren?: number;
   onRemoveComment?: (v: any) => void;
+  onTrackingViewTicker?: (stockCode: string) => void;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -87,6 +88,7 @@ const ItemComment = (props: IProps) => {
     idPost,
     totalChildren = 0,
     onRemoveComment,
+    onTrackingViewTicker,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -253,6 +255,7 @@ const ItemComment = (props: IProps) => {
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {

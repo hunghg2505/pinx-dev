@@ -4,8 +4,18 @@ import { getMyPost } from '@components/MyProfile/TabsContent/Posts/service';
 import NewsFeed from '@components/Post/NewsFeed';
 import SkeletonLoading from '@components/UI/Skeleton';
 import useObserver from '@hooks/useObserver';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import NotFound from './NotFound';
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'My profile screen', 'Post', 'Stock');
+};
+
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'My profile screen', 'Comment', 'Stock');
+};
 
 const Posts = () => {
   const { data, loading, mutate, runAsync, refresh } = useRequest(async (nextId: any) => {
@@ -51,14 +61,22 @@ const Posts = () => {
           if (idx + 1 === data?.list?.length) {
             return (
               <div ref={(node) => refLastElement(node, service)} key={`my-post-${item?.id}`}>
-                <NewsFeed data={item} />
+                <NewsFeed
+                  onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                  onTrackingViewTicker={handleTrackingViewTicker}
+                  data={item}
+                />
               </div>
             );
           }
 
           return (
             <div key={`my-post-${item?.id}`}>
-              <NewsFeed data={item} />
+              <NewsFeed
+                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                onTrackingViewTicker={handleTrackingViewTicker}
+                data={item}
+              />
             </div>
           );
         })}

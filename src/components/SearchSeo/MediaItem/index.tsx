@@ -127,10 +127,12 @@ const MediaItem = ({
   data,
   type,
   setShowPopup,
+  onTrackingViewTicker,
 }: {
   data: any;
   type?: string;
   setShowPopup?: any;
+  onTrackingViewTicker?: (stockCode: string) => void;
 }) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [img, setImg] = React.useState('');
@@ -166,6 +168,7 @@ const MediaItem = ({
       return onNavigate(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return onNavigate(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {

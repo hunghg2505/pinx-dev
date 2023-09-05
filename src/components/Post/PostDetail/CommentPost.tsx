@@ -18,6 +18,7 @@ interface IProps {
   postID: string;
   onRemoveComment?: (v: any, totalComment: number) => void;
   onRepliesMobile?: (value: string, customerId: number, id: string) => void;
+  onTrackingViewTickerCmt?: (stockCode: string) => void;
 }
 
 const CommentPost = (props: IProps, ref: any) => {
@@ -30,6 +31,7 @@ const CommentPost = (props: IProps, ref: any) => {
     setImageCommentMobile,
     onRepliesMobile,
     onRemoveComment,
+    onTrackingViewTickerCmt,
   } = props;
   const refCommentofComment: any = React.useRef();
   const refSubReplies: any = React.useRef();
@@ -82,6 +84,7 @@ const CommentPost = (props: IProps, ref: any) => {
         idPost={postID}
         totalChildren={totalChildren}
         onRemoveComment={onHandleRemove}
+        onTrackingViewTicker={onTrackingViewTickerCmt}
       />
 
       {/* {item.children?.length > 0 && ( */}
@@ -95,6 +98,7 @@ const CommentPost = (props: IProps, ref: any) => {
         refSubReplies={refSubReplies}
         totalComment={onGetTotalComment}
         onRemoveComment={onHandleRemoveReply}
+        onTrackingViewTicker={onTrackingViewTickerCmt}
       />
       {/* )} */}
 

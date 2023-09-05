@@ -23,8 +23,8 @@ import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 // tracking event view ticker info
-const handleTrackingViewTickerInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Search seo screen', 'Company tab', 'Stock');
+const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Search seo screen', locationDetail, 'Stock');
 };
 
 const SearchSeo = () => {
@@ -122,7 +122,7 @@ const SearchSeo = () => {
                   return (
                     <CompanyItem
                       onTrackingEventViewStockInfo={() => {
-                        handleTrackingViewTickerInfo(company?.stockCode);
+                        handleTrackingViewTickerInfo(company?.stockCode, 'Company tab');
                       }}
                       isSearchSeo
                       key={`company-${index}`}
@@ -172,6 +172,9 @@ const SearchSeo = () => {
                       data={post}
                       isNewFeedExplore={false}
                       hiddenComment={true}
+                      onTrackingViewTicker={(stockCode) =>
+                        handleTrackingViewTickerInfo(stockCode, 'Posts tab')
+                      }
                     />
                   );
                 })}
@@ -219,7 +222,16 @@ const SearchSeo = () => {
             {fillterMediaSort?.length > 0 ? (
               <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {fillterMediaSort?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} type={item?.type} />;
+                  return (
+                    <MediaItem
+                      onTrackingViewTicker={(stockCode) =>
+                        handleTrackingViewTickerInfo(stockCode, 'Media tab')
+                      }
+                      key={`media-item-${item?.id}`}
+                      data={item}
+                      type={item?.type}
+                    />
+                  );
                 })}
               </div>
             ) : (
