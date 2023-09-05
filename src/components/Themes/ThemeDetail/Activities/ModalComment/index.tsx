@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
@@ -25,6 +26,7 @@ const ModalComment = (props: Iprops) => {
   const { children, commentsOfPost, refreshCommentOfPost, id, refresh, onTrackingViewTickerInfo } =
     props;
   const { t } = useTranslation('common');
+  const router = useRouter();
   const isLogin = !!getAccessToken();
 
   const refSubReplies: any = React.useRef();
@@ -47,6 +49,10 @@ const ModalComment = (props: Iprops) => {
       refSubReplies?.current?.onComment(value, customerId, id);
     }
   };
+
+  useEffect(() => {
+    visible && onVisible();
+  }, [router]);
 
   const getSubComment = (payload: IComment[]) => {
     if (payload.length > 0) {
