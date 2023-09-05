@@ -16,11 +16,16 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewStockList } from '@utils/dataLayer';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
 import UserItem from './UserItem';
 import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
+
+const handleTrackingViewListStock = () => {
+  ViewStockList('List company', '', 'Research explore', 'Explore screen');
+};
 
 const Search = (props: any, ref: any) => {
   const { t } = useTranslation('theme');
@@ -198,7 +203,12 @@ const Search = (props: any, ref: any) => {
                     })}
                   </div>
                   {companies?.length > 5 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.STOCK);
+                        handleTrackingViewListStock();
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('show_more')}
                       </Text>

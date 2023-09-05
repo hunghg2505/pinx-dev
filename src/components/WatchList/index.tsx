@@ -218,6 +218,7 @@ const WatchList = () => {
           interestStock={interestStock}
           refreshInterest={refreshInterest}
           refreshYourWatchList={refreshYourWatchList}
+          totalStock={yourWatchListStock?.length || 0}
         />
         <Themes isEdit={isEdit} />
       </div>

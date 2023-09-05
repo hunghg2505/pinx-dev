@@ -209,6 +209,7 @@ const YourWatchList = (props: IProps) => {
                               })}
                             >
                               <ItemWatchList
+                                totalStock={yourWatchListStock?.length || 0}
                                 data={item}
                                 isEdit={isEdit}
                                 refreshYourWatchList={refreshYourWatchList}
@@ -277,6 +278,7 @@ const YourWatchList = (props: IProps) => {
                   })}
                 >
                   <ItemWatchList
+                    totalStock={yourWatchListStock?.length || 0}
                     data={item}
                     isEdit={isEdit}
                     refreshYourWatchList={refreshYourWatchList}

@@ -7,6 +7,7 @@ import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { AddTicker } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 
@@ -15,9 +16,10 @@ interface IProps {
   refresh?: () => void;
   refreshYourWatchList?: () => void;
   isChangeColor?: boolean;
+  totalStock: number;
 }
 const InterestItem = (props: IProps) => {
-  const { data, refresh, refreshYourWatchList, isChangeColor } = props;
+  const { data, refresh, refreshYourWatchList, isChangeColor, totalStock } = props;
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -30,11 +32,20 @@ const InterestItem = (props: IProps) => {
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const requestSelectStock = useSelectStock({
-    onSuccess: () => {
+    onSuccess: (_, params: [string]) => {
       refresh && refresh();
       refreshYourWatchList && refreshYourWatchList();
       getInitDataStockWatchlistHome();
       // toast(() => <Notification type='success' message='Add stock success1' />);
+
+      // gtm
+      AddTicker(
+        params.length > 0 ? params[0] : '',
+        'Stock',
+        'Watchlist',
+        'Default',
+        totalStock + 1,
+      );
     },
   });
   const onAddStock = () => {

@@ -14,6 +14,7 @@ import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewStockList } from '@utils/dataLayer';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
@@ -67,6 +68,11 @@ const settings = {
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
+
+const handleTrackingViewListStock = (presetName: string) => {
+  ViewStockList(presetName, '', 'Basic category', 'Explore screen');
+};
+
 const Explore = () => {
   const { t } = useTranslation(['theme', 'explore']);
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
@@ -109,6 +115,7 @@ const Explore = () => {
       refClick?.current?.onKeyDown(value);
     }
   };
+
   return (
     <div className='w-full rounded-[8px] text-left desktop:-mt-[16px] desktop:py-[16px]'>
       <div className='box-shadow mb-[18px] rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
@@ -316,7 +323,7 @@ const Explore = () => {
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
           <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
-            <ExploreButton>
+            <ExploreButton onClick={() => handleTrackingViewListStock('Top watching stock')}>
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_watching_stock')}
               </Text>
@@ -360,7 +367,7 @@ const Explore = () => {
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
           <CustomLink href={ROUTE_PATH.TOPMENTION}>
-            <ExploreButton>
+            <ExploreButton onClick={() => handleTrackingViewListStock('Top mention stock')}>
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_mention_stock')}
               </Text>
@@ -392,7 +399,12 @@ const Explore = () => {
           <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
             <Slider {...settings} variableWidth ref={refSlidePinex}>
               {optionTab?.map((item: any) => (
-                <PinexTop label={t(`explore:${item.label}`)} value={item.value} key={item.value} />
+                <PinexTop
+                  onClick={() => handleTrackingViewListStock('Top 20 pinex')}
+                  label={t(`explore:${item.label}`)}
+                  value={item.value}
+                  key={item.value}
+                />
               ))}
             </Slider>
           </div>
@@ -410,7 +422,7 @@ const Explore = () => {
         </div>
 
         <CustomLink href={ROUTE_PATH.PINEX_TOP_20}>
-          <ExploreButton>
+          <ExploreButton onClick={() => handleTrackingViewListStock('Top 20 pinex')}>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_more')}
             </Text>

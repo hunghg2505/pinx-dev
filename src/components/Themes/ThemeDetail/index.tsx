@@ -11,8 +11,8 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewStockList } from '@utils/dataLayer';
 
-// import Community from './Community';
 import Activities from './Activities';
 import Community from './Community';
 import StockSymbols from './StockSymbols';
@@ -36,6 +36,11 @@ const ThemeDetail = () => {
   );
   const onChangeTab = (value: TabsThemeDetailEnum) => {
     setSelectTab(value);
+
+    // tracking event view stock list
+    if (value === TabsThemeDetailEnum.StockSymbols) {
+      ViewStockList('Stock symbols', '', 'Stock symbols of theme', 'Theme screen');
+    }
   };
   const onGoBack = () => {
     router.back();

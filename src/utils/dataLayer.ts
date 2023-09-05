@@ -153,7 +153,7 @@ export const RemoveTicker = (
   Ticker_Type: string,
   Button_Location: string,
   Watchlist_Name: string,
-  Number_of_Ticker_in_Watchlist: number,
+  Number_of_Ticker_in_Watchlist: number | string,
 ) => {
   try {
     window.dataLayer.push({
@@ -172,7 +172,7 @@ export const AddTicker = (
   Ticker_Type: string,
   Button_Location: string,
   Watchlist_Name: string,
-  Number_of_Ticker: number,
+  Number_of_Ticker: number | string,
 ) => {
   try {
     window.dataLayer.push({
@@ -190,7 +190,7 @@ export const ModifyWatchlist = (
   Ticker_Removed: string[],
   Watchlist_Name: string,
   Watchlist_Ticker: string[],
-  Number_of_Ticker: string,
+  Number_of_Ticker: number,
 ) => {
   try {
     window.dataLayer.push({
@@ -310,8 +310,8 @@ export const Search = (
   Search_Term: string,
   Ticker: string,
   Number_of_Result: number,
-  Filter: string[],
   Search_Bar_Location: string,
+  Filter?: string[],
 ) => {
   try {
     window.dataLayer.push({
