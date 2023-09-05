@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useMount, useUpdateEffect } from 'ahooks';
 import { useRouter } from 'next/router';
@@ -15,7 +15,7 @@ import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSet
 import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
 import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from '@utils/constant';
 import { ENV } from '@utils/env';
 
@@ -73,6 +73,27 @@ const AppInitialData = () => {
       getInitDataStockWatchlistHome();
     }
   }, [router.pathname]);
+
+  const storeInSession = React.useCallback(() => {
+    const storage = globalThis?.sessionStorage;
+    if (!storage) {
+      return;
+    }
+
+    const prevPath: string = storage.getItem('currentPath') || '';
+    storage.setItem('prevPath', prevPath);
+    storage.setItem('currentPath', globalThis.location.pathname);
+
+    for (const k of Object.keys(router.query).filter((k) => k.match(/^utm_*/))) {
+      const tmp = router.query[k] || '';
+      const value: string = Array.isArray(tmp) ? tmp[0] : tmp;
+      storeQueryToSession(storage, k, value);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    storeInSession();
+  }, [storeInSession]);
 
   return (
     <>

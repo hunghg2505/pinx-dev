@@ -144,13 +144,16 @@ const PostDetail = () => {
   // );
   // const countComment = commentChild + totalComments || 0;
   const onGoToBack = () => {
-    // console.log('url', url);
-    // if (url) {
-    //   router.push(url);
-    // } else {
-    //   router.push(ROUTE_PATH.HOME);
-    // }
-    router.back();
+    // console.log()
+    const storage = globalThis?.sessionStorage;
+    if (storage?.prevPath === '') {
+      router.push(ROUTE_PATH.HOME);
+    } else {
+      router.push(storage?.prevPath);
+    }
+    // console.log('🚀 ~ file: index.tsx:149 ~ onGoToBack ~ storage:', storage);
+    // router.back();
+    // router.
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {

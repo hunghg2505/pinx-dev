@@ -493,6 +493,7 @@ export const getQueryFromUrl = () => {
 export const converStringMessageToObject = (message: string, data: any) => {
   const listStock = data?.tagStocks;
   const listUserId = data?.tagPeople?.map((item: any) => item.customerId);
+  console.log('🚀 ~ file: common.ts:496 ~ converStringMessageToObject ~ listUserId:', listUserId);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -575,7 +576,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
           const startId = check.indexOf('(') + 1;
           const endId = check.indexOf(')');
           const ID = check.slice(startId, endId);
-          if (listUserId?.includes(ID)) {
+          if (listUserId?.includes(Number(ID))) {
             return {
               type: 'userMention',
               attrs: {
@@ -772,3 +773,12 @@ export const formatStringToNumber = (value: any, isComma = true, minimumFraction
 
   return formatter.format(+num).replaceAll(',', isComma ? ',' : '.');
 };
+export function storeQueryToSession(storage: Storage, key: string, value: string) {
+  if (!value) {
+    return;
+  }
+  const existing = storage.getItem(key);
+  if (!existing) {
+    storage.setItem(key, value);
+  }
+}

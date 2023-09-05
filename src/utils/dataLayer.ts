@@ -310,8 +310,8 @@ export const Search = (
   Search_Term: string,
   Ticker: string,
   Number_of_Result: number,
-  Filter: string[],
   Search_Bar_Location: string,
+  Filter?: string[],
 ) => {
   try {
     window.dataLayer.push({
