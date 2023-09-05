@@ -7,6 +7,12 @@ import { ITopWatchingStock, useGetTopMentionStock } from '@components/Explore/se
 import WatchingStock from '@components/Explore/WatchingStock';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
+import { ViewTickerInfo } from '@utils/dataLayer';
+
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Top mention stock screen', 'Top mention stock', 'Stock');
+};
 
 const TopMention = () => {
   const { t } = useTranslation('common');
@@ -50,6 +56,7 @@ const TopMention = () => {
                 key={`stock-${index}`}
                 data={item}
                 mention
+                onTrackingViewTickerInfo={() => handleTrackingViewTickerInfo(item?.stockCode)}
               />
             );
           })

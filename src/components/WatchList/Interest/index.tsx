@@ -18,6 +18,7 @@ interface IProps {
   refreshInterest?: () => void;
   refreshYourWatchList?: () => void;
   totalStock: number;
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
 }
 const settings = {
   dots: false,
@@ -39,6 +40,7 @@ const Interest = (props: IProps) => {
     refreshInterest,
     refreshYourWatchList,
     totalStock,
+    onTrackingViewTickerInfo,
   } = props;
   const { t } = useTranslation('watchlist');
   const { isDesktop, isMobile } = useResponsive();
@@ -92,6 +94,7 @@ const Interest = (props: IProps) => {
                     className='relative min-h-[172px] w-[112px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px] first:ml-[16px] desktop:first:ml-[24px]'
                   >
                     <InterestItem
+                      onTrackingViewTickerInfo={onTrackingViewTickerInfo}
                       totalStock={totalStock}
                       data={item}
                       refresh={refreshInterest}
@@ -114,6 +117,7 @@ const Interest = (props: IProps) => {
                       className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
                     >
                       <InterestItem
+                        onTrackingViewTickerInfo={onTrackingViewTickerInfo}
                         totalStock={totalStock}
                         data={item}
                         refresh={refreshInterest}

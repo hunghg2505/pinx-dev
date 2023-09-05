@@ -9,12 +9,18 @@ interface Iprops {
   changePrice?: boolean;
   data: any;
   percent: number;
+  onTrackingViewTickerInfo?: () => void;
 }
 const PinexTop = (props: Iprops) => {
-  const { number, changePrice = false, data, percent } = props;
+  const { number, changePrice = false, data, percent, onTrackingViewTickerInfo } = props;
 
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data?.stockCode)}>
+    <CustomLink
+      onClick={() => {
+        onTrackingViewTickerInfo && onTrackingViewTickerInfo();
+      }}
+      href={ROUTE_PATH.STOCK_DETAIL(data?.stockCode)}
+    >
       <div className='relative rounded-[15px] bg-[#F7F6F8]'>
         <div
           className='absolute h-full rounded-[15px] bg-[#D7EEFF]'

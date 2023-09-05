@@ -6,7 +6,11 @@ import Text from '@components/UI/Text';
 import PinexTop from '../PinexTop';
 import { IProfit, useGetTopChangePrice } from '../service';
 
-const ChangeInPrice = () => {
+interface IChangeInPriceProps {
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
+}
+
+const ChangeInPrice = ({ onTrackingViewTickerInfo }: IChangeInPriceProps) => {
   const { t } = useTranslation('explore');
   const { changePriceInY, loading } = useGetTopChangePrice();
   const maxChangePriceInY =
@@ -37,6 +41,10 @@ const ChangeInPrice = () => {
                 key={`profit-${index}`}
                 data={changePriceInY}
                 changePrice
+                onTrackingViewTickerInfo={() => {
+                  onTrackingViewTickerInfo &&
+                    onTrackingViewTickerInfo(changePriceInY?.stockCode, 'Change in price 1Y tab');
+                }}
               />
             );
           })

@@ -9,6 +9,7 @@ import { Skeleton } from '@components/UI/Skeleton';
 // import { useResponsive } from '@hooks/useResponsive';
 import Themes from '@components/WatchList/Themes';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import { useGetInterest, useGetYourWatchList } from './service';
 import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';
@@ -45,6 +46,11 @@ const Interest = dynamic(() => import('@components/WatchList/Interest'), {
     </div>
   ),
 });
+
+// tracking e view stock info
+const handleTrackingViewStockInfo = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Watch list screen', locationDetail, 'Stock');
+};
 
 const WatchList = () => {
   const [mounted, setMounted] = React.useState(false);
@@ -211,6 +217,7 @@ const WatchList = () => {
             setDataStock={setDataStock}
             isChangeStockPrice={isChangeStockPrice}
             findIndex={findIndex}
+            onTrackingEventViewTickerInfo={handleTrackingViewStockInfo}
           />
         </div>
         <Interest
@@ -219,6 +226,7 @@ const WatchList = () => {
           refreshInterest={refreshInterest}
           refreshYourWatchList={refreshYourWatchList}
           totalStock={yourWatchListStock?.length || 0}
+          onTrackingViewTickerInfo={handleTrackingViewStockInfo}
         />
         <Themes isEdit={isEdit} />
       </div>

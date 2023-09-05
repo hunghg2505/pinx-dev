@@ -36,11 +36,16 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList } from '@utils/dataLayer';
+import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 const handleTrackingViewStockList = () => {
   ViewStockList('List company', '', 'Search seo', 'Header in layout');
+};
+
+// tracking event view ticker info
+const handleTrackingViewStockInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Search seo box', 'List company', 'Stock');
 };
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
@@ -395,6 +400,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                           data={company}
                           // setShowPopup={setSearchSeo}
                           isSearchSeo
+                          onTrackingEventViewStockInfo={handleTrackingViewStockInfo}
                         />
                       );
                     })}

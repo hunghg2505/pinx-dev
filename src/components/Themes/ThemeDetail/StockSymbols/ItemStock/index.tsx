@@ -6,8 +6,14 @@ import { IStockTheme } from '@components/Themes/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import style from './index.module.scss';
+
+// tracking event view stock info
+const handleTrackingViewTickerInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Theme detail screen', 'Stock symbols tab', 'Stock');
+};
 
 const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: boolean }) => {
   const lastPrice = data?.lastPrice || data?.last_price;
@@ -24,7 +30,10 @@ const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: 
 
   return (
     <>
-      <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stock_code)}>
+      <CustomLink
+        onClick={() => handleTrackingViewTickerInfo(data?.stock_code)}
+        href={ROUTE_PATH.STOCK_DETAIL(data.stock_code)}
+      >
         <div className='item flex h-[82px] items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px]'>
           <div className='flex w-[65%] items-center galaxy-max:flex-none'>
             <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain galaxy-max:flex-none'>
