@@ -33,7 +33,7 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
-// import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
@@ -66,7 +66,7 @@ const Editor = (props: IProps, ref?: any) => {
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [profileSetting] = useAtom(profileSettingAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
-  // const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
 
@@ -273,6 +273,10 @@ const Editor = (props: IProps, ref?: any) => {
           if (imageComment) {
             onCloseImage();
           }
+          setPostDetailStatus({
+            ...postDetailStatus,
+            idPostAddComment: id,
+          });
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }

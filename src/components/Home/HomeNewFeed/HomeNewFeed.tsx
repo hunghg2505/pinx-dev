@@ -5,7 +5,6 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
@@ -65,7 +64,13 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
-
+  useEffect(() => {
+    const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+      window.scrollTo(0, Number.parseInt(scrollPosition, 10));
+      globalThis?.sessionStorage.removeItem('scrollPosition');
+    }
+  }, []);
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
 
@@ -243,22 +248,20 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         <ListTheme />
       </div>
 
-      <LazyLoadComponent>
-        {postsNext?.map((item: IPost, idx: number) => {
-          if (idx === postsNext?.length - 1) {
-            return (
-              <div
-                key={`home-post-item-${item?.id}`}
-                ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-              >
-                <NewsFeed data={item} />
-              </div>
-            );
-          }
+      {postsNext?.map((item: IPost, idx: number) => {
+        if (idx === postsNext?.length - 1) {
+          return (
+            <div
+              key={`home-post-item-${item?.id}`}
+              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+            >
+              <NewsFeed data={item} />
+            </div>
+          );
+        }
 
-          return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
-        })}
-      </LazyLoadComponent>
+        return <NewsFeed key={`home-post-item-${item?.id}`} data={item} />;
+      })}
 
       {loadingPosts && (
         <div className='mt-[10px]'>
