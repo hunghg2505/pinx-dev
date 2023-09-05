@@ -9,7 +9,7 @@ import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 import style from './index.module.scss';
 
@@ -34,12 +34,6 @@ const ItemWatchList = ({
   // const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
   const isNoChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
 
   const useRemoveStock = useRequest(
     () => {
@@ -64,7 +58,7 @@ const ItemWatchList = ({
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
         <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
-            <img src={url} alt='' className='block' />
+            <img src={imageStock(data?.stockCode)} alt='' className='block' />
           </div>
         </CustomLink>
         <div className='flex flex-1 flex-col gap-y-[4px]'>

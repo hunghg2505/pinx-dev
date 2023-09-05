@@ -73,9 +73,9 @@ const ItemPeople = (props: IProps) => {
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
 
   return (
-    <div className='item mb-[26px] flex items-center justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
+    <div className='item mb-[26px] flex items-center justify-between gap-x-[12px] pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
       <div
-        className='flex cursor-pointer'
+        className='flex flex-1 cursor-pointer overflow-hidden'
         onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
       >
         {data?.avatar ? (
@@ -92,8 +92,8 @@ const ItemPeople = (props: IProps) => {
             <AvatarDefault name={name} />
           </div>
         )}
-        <div>
-          <div className='flex items-center'>
+        <div className='flex-1 overflow-hidden'>
+          <div className='flex items-center overflow-hidden truncate'>
             <Text type='body-14-semibold' color='cbblack' className='truncate'>
               {data.displayName}
             </Text>

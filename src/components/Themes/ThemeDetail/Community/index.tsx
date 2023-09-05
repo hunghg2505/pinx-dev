@@ -38,6 +38,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
     }
     return getCommunity(page, code);
   });
+
   React.useImperativeHandle(ref, () => {
     return {
       removeItem,
@@ -71,19 +72,31 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
       isKol: userLoginInfo?.isKol,
       isFeatureProfile: userLoginInfo?.isFeatureProfile,
     };
-    mutate({
-      list: [newData, ...data?.list],
-      page: data.page,
-      totalElements: data?.totalElements + 1,
-    });
+
+    const isExists =
+      data?.list &&
+      data.list.length > 0 &&
+      data?.list?.some((item: any) => item?.customerId === newData.customerId);
+
+    if (!isExists) {
+      mutate({
+        list: [newData, ...data?.list],
+        page: data.page,
+        totalElements: data?.totalElements + 1,
+      });
+    }
   };
   const removeItem = () => {
+    const isExists = [...data?.list]?.some((item) => item.customerId === userLoginInfo?.id);
     const newData = [...data?.list]?.filter((item) => item.customerId !== userLoginInfo?.id);
-    mutate({
-      list: newData,
-      page: data.page,
-      totalElements: data?.totalElements - 1,
-    });
+
+    if (isExists) {
+      mutate({
+        list: newData,
+        page: data.page,
+        totalElements: data?.totalElements - 1,
+      });
+    }
   };
   const { refLastElement } = useObserver();
   return (

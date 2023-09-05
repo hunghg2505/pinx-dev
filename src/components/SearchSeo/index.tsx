@@ -19,7 +19,7 @@ import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublicPage } from '@components/SearchSeo/service';
 import Loading from '@components/UI/Loading';
 import { ROUTE_PATH } from '@utils/common';
-import { removeHashTag } from '@utils/removeHashTag';
+import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -39,9 +39,9 @@ const SearchSeo = () => {
   });
   React.useEffect(() => {
     clearCache('search-seo-page');
-    if (keyword && getType) {
+    if (keyword) {
       searchPublicPage({
-        textSearch: removeHashTag(keyword),
+        textSearch: removeSpecialCharacter(keyword),
         type: getType,
       });
     }

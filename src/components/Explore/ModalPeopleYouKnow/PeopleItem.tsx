@@ -104,14 +104,17 @@ const PeopleItem = (props: Iprops) => {
   return (
     <div
       className={classNames(
-        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
+        'relative flex items-center justify-between gap-x-[12px] rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
         {
           '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
             !isMobile && isSearchPage,
         },
       )}
     >
-      <div className='flex cursor-pointer items-center' onClick={handleNavigateToUserDetail}>
+      <div
+        className='flex flex-1 cursor-pointer items-center overflow-hidden'
+        onClick={handleNavigateToUserDetail}
+      >
         {data?.avatar ? (
           <img
             src={data?.avatar}
@@ -124,10 +127,7 @@ const PeopleItem = (props: Iprops) => {
           </div>
         )}
 
-        <Text
-          type='body-14-semibold'
-          className='max-w-[120px] truncate text-[#474D57] galaxy-max:max-w-[100px] tablet:max-w-[300px]'
-        >
+        <Text type='body-14-semibold' className='truncate text-[#474D57]'>
           {data?.displayName}
         </Text>
 
