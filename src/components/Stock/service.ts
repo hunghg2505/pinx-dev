@@ -198,8 +198,8 @@ const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => 
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_DETAIL_EXTRA(stockCode))
-        : requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA(stockCode));
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_DETAIL_EXTRA_V2(stockCode))
+        : requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode));
     },
     {
       refreshDeps: [stockCode],
@@ -290,7 +290,7 @@ const useStockActivities = (
 const useReviewStock = (stockCode: string, options?: IOptions) => {
   return useRequest(
     (data: { rateValue: number; message?: string }) =>
-      privateRequest(requestCommunity.post, API_PATH.PRIVATE_STOCK_REVIEW(stockCode), {
+      privateRequest(requestCommunity.post, API_PATH.PRIVATE_STOCK_REVIEW_V2(stockCode), {
         data,
       }),
     {
