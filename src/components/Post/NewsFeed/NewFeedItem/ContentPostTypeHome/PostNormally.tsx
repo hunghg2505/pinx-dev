@@ -74,10 +74,6 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     setSearchSeo(false);
     if (classElement === 'link') {
       return window.open(textContent);
-      // return router.push({
-      //   pathname: '/redirecting',
-      //   query: { url: textContent },
-      // });
     }
     if (classElement === 'people') {
       const url =

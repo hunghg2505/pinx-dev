@@ -12,6 +12,7 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { Search } from '@utils/dataLayer';
 
 import { useGetCompany } from '../service';
 
@@ -26,6 +27,7 @@ const Company = ({ keyword }: { keyword: any }) => {
       const newPage = page + 1;
       setPage(newPage);
       setListCompany([...listComapany, ...res?.data?.list]);
+      Search('stock', keyword, res?.data?.totalElements, 'page-search');
     },
   });
   React.useEffect(() => {
