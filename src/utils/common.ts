@@ -493,7 +493,6 @@ export const getQueryFromUrl = () => {
 export const converStringMessageToObject = (message: string, data: any) => {
   const listStock = data?.tagStocks;
   const listUserId = data?.tagPeople?.map((item: any) => item.customerId);
-  console.log('🚀 ~ file: common.ts:496 ~ converStringMessageToObject ~ listUserId:', listUserId);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -529,19 +528,37 @@ export const converStringMessageToObject = (message: string, data: any) => {
 
         if (can) {
           const nCur = `${cur}`;
-
+          const startId = nCur.includes('(') && nCur.indexOf('(') + 1;
+          const endId = nCur.includes(')') && nCur.indexOf(')');
+          let ID = '';
+          if (startId && endId) {
+            ID = nCur.slice(startId, endId);
+          }
+          const isStock = listStock?.includes(ID);
+          const isPeopelTag = listUserId?.includes(Number(ID));
           const isSepecial = Boolean(
-            nCur.charAt(0) === '@' || nCur.charAt(0) === '%' || nCur.charAt(0) === '#',
+            (nCur.charAt(0) === '@' && isPeopelTag) ||
+              (nCur.charAt(0) === '%' && isStock) ||
+              nCur.charAt(0) === '#',
           );
+
           if (isSepecial) {
             acc.push(nCur);
           } else {
             // eslint-disable-next-line unicorn/prefer-at
             const prevItem = acc[acc.length - 1];
             if (prevItem) {
+              const startId = prevItem.includes('(') && prevItem.indexOf('(') + 1;
+              const endId = prevItem.includes(')') && prevItem.indexOf(')');
+              let ID = '';
+              if (startId && endId) {
+                ID = prevItem.slice(startId, endId);
+              }
+              const isStock = listStock?.includes(ID);
+              const isPeopelTag = listUserId?.includes(Number(ID));
               const isPrevItemSepecial = Boolean(
-                prevItem.charAt(0) === '@' ||
-                  prevItem.charAt(0) === '%' ||
+                (prevItem.charAt(0) === '@' && isPeopelTag) ||
+                  (prevItem.charAt(0) === '%' && isStock) ||
                   prevItem.charAt(0) === '#',
               );
 
