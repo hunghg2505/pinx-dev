@@ -5,6 +5,12 @@ import { clearCache } from 'ahooks';
 import { useGetPinedPost } from '@components/Home/service';
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
+import { ViewTickerInfo } from '@utils/dataLayer';
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', 'Pin post', 'Stock');
+};
 
 const PinPost = ({ pinPostDataInitial }: any) => {
   const { pinedPost, refresh, loading } = useGetPinedPost();
@@ -31,6 +37,7 @@ const PinPost = ({ pinPostDataInitial }: any) => {
             pinned={true}
             onRefreshList={onRefresh}
             loading={loading}
+            onTrackingViewTicker={handleTrackingViewTicker}
           />
         );
       })}

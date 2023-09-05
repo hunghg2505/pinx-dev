@@ -22,6 +22,7 @@ export const ActivityMatchOrder = ({
   onComment,
   messagePostFormat,
   pnlRate,
+  onTrackingViewTicker,
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -49,6 +50,7 @@ export const ActivityMatchOrder = ({
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {

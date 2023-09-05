@@ -21,6 +21,7 @@ import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import CommentPost from './CommentPost';
 import styles from './index.module.scss';
@@ -54,6 +55,11 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
     />
   );
 });
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Post detail screen', 'News feed', 'Stock');
+};
 
 const PostDetail = () => {
   const { t } = useTranslation();
@@ -268,6 +274,7 @@ const PostDetail = () => {
               postDetail={postData}
               totalComments={totalCommentOfPost}
               onRefreshPostDetail={refresh}
+              onTrackingViewTicker={handleTrackingViewTicker}
             />
           </div>
 

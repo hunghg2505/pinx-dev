@@ -20,6 +20,7 @@ export const ActivityWatchlist = ({
   urlStock,
   onComment,
   messagePostFormat,
+  onTrackingViewTicker,
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -45,6 +46,7 @@ export const ActivityWatchlist = ({
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
@@ -82,7 +84,13 @@ export const ActivityWatchlist = ({
         </Text>
       )}
 
-      <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
+      <CustomLink
+        href={postDetailUrl}
+        onClick={() => {
+          setSearchSeo(false);
+          onTrackingViewTicker && onTrackingViewTicker(postDetail?.post.stockCode);
+        }}
+      >
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           {postDetail?.post?.bgImage && (
             <img

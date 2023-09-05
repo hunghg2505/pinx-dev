@@ -45,6 +45,7 @@ export const PineTreePost2 = ({
   isPostDetailPath,
   messagePostFormat,
   onComment,
+  onTrackingViewTicker,
 }: any) => {
   const { t } = useTranslation();
   const [readMore, setReadMore] = React.useState(false);
@@ -75,6 +76,7 @@ export const PineTreePost2 = ({
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {

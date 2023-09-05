@@ -5,8 +5,14 @@ import NewsFeed from '@components/Post/NewsFeed';
 import { getOtherPeoplePost } from '@components/Profile/TabsContent/Posts/service';
 import SkeletonLoading from '@components/UI/Skeleton';
 import useObserver from '@hooks/useObserver';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import NotFound from './NotFound';
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'User detail screen', 'Post', 'Stock');
+};
 
 const Posts = () => {
   const router = useRouter();
@@ -63,14 +69,22 @@ const Posts = () => {
                 ref={(node) => refLastElement(node, service)}
                 key={`other-people-post-${item?.id}`}
               >
-                <NewsFeed data={item} onRemoveData={refresh} />
+                <NewsFeed
+                  onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode)}
+                  data={item}
+                  onRemoveData={refresh}
+                />
               </div>
             );
           }
 
           return (
             <div key={`other-people-post-${item?.id}`}>
-              <NewsFeed data={item} onRemoveData={refresh} />
+              <NewsFeed
+                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode)}
+                data={item}
+                onRemoveData={refresh}
+              />
             </div>
           );
         })}

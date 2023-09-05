@@ -22,6 +22,7 @@ export const ActivityTheme = ({
   postDetail,
   iconPost,
   messagePostFormat,
+  onTrackingViewTicker,
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -51,6 +52,7 @@ export const ActivityTheme = ({
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {

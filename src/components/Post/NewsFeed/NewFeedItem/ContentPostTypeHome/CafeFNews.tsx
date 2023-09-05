@@ -37,6 +37,7 @@ export const CafeFNews = ({
   post_url,
   pinned,
   isPostDetailPath,
+  onTrackingViewTicker,
 }: any) => {
   const { t } = useTranslation();
 
@@ -62,7 +63,10 @@ export const CafeFNews = ({
             </CustomLink>
 
             <div className='w-full overflow-hidden'>
-              <ListStock listStock={postDetail?.post?.tagStocks} />
+              <ListStock
+                onTrackingViewTicker={onTrackingViewTicker}
+                listStock={postDetail?.post?.tagStocks}
+              />
             </div>
           </div>
         </div>

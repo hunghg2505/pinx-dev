@@ -16,7 +16,7 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList } from '@utils/dataLayer';
+import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
@@ -25,6 +25,11 @@ import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
 
 const handleTrackingViewListStock = () => {
   ViewStockList('List company', '', 'Research explore', 'Explore screen');
+};
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Search explore box', locationDetail, 'Stock');
 };
 
 const Search = (props: any, ref: any) => {
@@ -199,7 +204,15 @@ const Search = (props: any, ref: any) => {
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
                     {[...companies]?.slice(0, 5)?.map((company: any, index: number) => {
-                      return <CompanyItem key={`company-${index}`} data={company} />;
+                      return (
+                        <CompanyItem
+                          onTrackingEventViewStockInfo={(stockCode) => {
+                            handleTrackingViewTicker(stockCode, 'List company');
+                          }}
+                          key={`company-${index}`}
+                          data={company}
+                        />
+                      );
                     })}
                   </div>
                   {companies?.length > 5 && (
@@ -271,6 +284,9 @@ const Search = (props: any, ref: any) => {
                           onRemoveData={onRemoveData(post?.id)}
                           isNewFeedExplore={true}
                           refreshSearch={refresh}
+                          onTrackingViewTicker={(stockCode) => {
+                            handleTrackingViewTicker(stockCode, 'Post');
+                          }}
                         />
                       );
                     })}
