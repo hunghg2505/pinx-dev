@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 import style from '../index.module.scss';
 
@@ -18,25 +18,22 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
   const isIncrease = data?.lastPrice > lowest_price;
   const isChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
+
   return (
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
         <div className='flex'>
           <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
-            <img
-              src={url}
-              alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='mr-[10px] h-[48px] w-[48px] rounded-full object-contain'
-            />
+            <div className='mr-[10px] flex h-[48px] w-[48px] items-center justify-center overflow-hidden rounded-full object-contain'>
+              <img
+                src={imageStock(data?.stockCode)}
+                alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='block'
+              />
+            </div>
           </CustomLink>
           <div>
             <div className='flex items-center'>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { clearCache } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
@@ -15,24 +16,35 @@ import { TYPEPOST } from '@components/Post/service';
 import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
-import { useSearchPublic } from '@components/SearchSeo/service';
+import { useSearchPublicPage } from '@components/SearchSeo/service';
+import Loading from '@components/UI/Loading';
 import { ROUTE_PATH } from '@utils/common';
-import { removeHashTag } from '@utils/removeHashTag';
+import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
-  const getType = searchParams.get('type') || '';
+  const getType = searchParams.get('tab') || '';
   const { replace, query, push } = useRouter();
 
-  const { data, searchPublic, loading } = useSearchPublic();
-
+  const {
+    data,
+    run: searchPublicPage,
+    loading,
+  } = useSearchPublicPage({
+    onSuccess: () => {
+      clearCache('search-seo-page');
+    },
+  });
   React.useEffect(() => {
-    searchPublic({
-      textSearch: removeHashTag(keyword),
-      type: getType,
-    });
+    clearCache('search-seo-page');
+    if (keyword) {
+      searchPublicPage({
+        textSearch: removeSpecialCharacter(keyword),
+        type: getType,
+      });
+    }
   }, [keyword]);
 
   const navigateToPostDetail = (postId: string) => {
@@ -42,7 +54,6 @@ const SearchSeo = () => {
   const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
-  // console.log('🚀 ~ file: index.tsx:39 ~ SearchSeo ~ posts:', posts);
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.map((item: any) => {
     return {
@@ -60,7 +71,6 @@ const SearchSeo = () => {
         ...item,
       };
     });
-  let newMedia = [];
 
   // map api do trả thiếu id
   const newUsers = users?.map((item: any) => {
@@ -76,7 +86,7 @@ const SearchSeo = () => {
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
-
+  let newMedia = [];
   let fillterMediaSort = [];
 
   if (mediaL || imageL) {
@@ -84,32 +94,10 @@ const SearchSeo = () => {
     const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
       dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
     );
-    // console.log('media', media);
-    // console.log('image', image);
-    // console.log('newMedia', newMedia);
-    // console.log('newMediaSort', newMediaSort);
+
     fillterMediaSort = newMediaSort;
-    // fillterMediaSort = newMediaSort.filter(
-    //   (item) =>
-    //     // mediaFilter
-    //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-    //     item?.post?.metadataList[0]?.url?.length > 0 ||
-    //     // imageFilter
-    //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-    // );
   }
-  // console.log('fillterMediaSort', fillterMediaSort);
-
-  // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  // const mediaFilter = media?.filter(
-  //   (item: any) =>
-  //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-  //     item?.post?.metadataList[0]?.url?.length > 0,
-  // );
-  // const imageFilter = image?.filter(
-  //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  // );
-
+  console.log('fillterMediaSort', fillterMediaSort);
   return (
     <>
       <div className={classNames('box-shadow card-style', styles.Tab)}>
@@ -130,7 +118,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -143,7 +137,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -163,7 +163,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -184,7 +190,13 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
           </TabPane>
@@ -197,25 +209,15 @@ const SearchSeo = () => {
               </div>
             ) : (
               <>
-                <Empty keyword={keyword} loading={loading} />
+                {data ? (
+                  <Empty keyword={keyword} loading={loading} />
+                ) : (
+                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
+                    <Loading />
+                  </div>
+                )}
               </>
             )}
-            {/*
-          {imageFilter?.length > 0 || mediaFilter?.length > 0 ? (
-              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
-                {imageFilter?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} />;
-                })}
-                {mediaFilter?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} />;
-                })}
-              </div>
-            ) : (
-              <>
-                <Empty keyword={keyword} loading={loading} />
-              </>
-            )}
-          */}
           </TabPane>
         </Tabs>
       </div>

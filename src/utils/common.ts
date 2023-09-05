@@ -492,6 +492,7 @@ export const getQueryFromUrl = () => {
 };
 export const converStringMessageToObject = (message: string, data: any) => {
   const listStock = data?.tagStocks;
+  const listUserId = data?.tagPeople?.map((item: any) => item.customerId);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -574,12 +575,18 @@ export const converStringMessageToObject = (message: string, data: any) => {
           const startId = check.indexOf('(') + 1;
           const endId = check.indexOf(')');
           const ID = check.slice(startId, endId);
+          if (listUserId?.includes(ID)) {
+            return {
+              type: 'userMention',
+              attrs: {
+                id: ID,
+                label: `${name}`,
+              },
+            };
+          }
           return {
-            type: 'userMention',
-            attrs: {
-              id: ID,
-              label: `${name}`,
-            },
+            type: 'text',
+            text: check,
           };
         }
         if (check.includes('%') && check.charAt(0) === '%') {

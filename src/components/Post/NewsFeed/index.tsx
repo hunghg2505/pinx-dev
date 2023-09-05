@@ -244,6 +244,7 @@ const NewsFeed = (props: IProps) => {
                   data={postData?.children?.[0]}
                   idPost={postData?.id}
                   refreshCommentOfPOst={refreshComment}
+                  totalChildren={postData?.children?.[0]?.totalChildren}
                 />
               </div>
             )}

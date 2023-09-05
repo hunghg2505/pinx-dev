@@ -1,13 +1,13 @@
 /* eslint-disable unicorn/no-useless-spread */
 import React, { useMemo, useRef } from 'react';
 
-import { useResponsive } from 'ahooks';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import { IStock } from '@components/Stock/type';
 import Text from '@components/UI/Text';
+import { useResponsive } from '@hooks/useResponsive';
 
 import styles from '../../index.module.scss';
 import ProductItem from '../ProductItem';

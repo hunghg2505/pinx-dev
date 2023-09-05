@@ -6,7 +6,7 @@ import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 import { AddTicker } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
@@ -28,12 +28,7 @@ const InterestItem = (props: IProps) => {
   const isIncrease = data?.lastPrice > lowest_price;
   const isChange = Number(data?.changePc) === 0 || Number(data?.perChange) === 0;
   const unit = isDecrease ? '-' : '+';
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
+
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const requestSelectStock = useSelectStock({
@@ -65,7 +60,7 @@ const InterestItem = (props: IProps) => {
       />
       <div className='flex flex-col gap-y-[16px]'>
         <div className='m-auto flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full bg-white object-contain'>
-          <img src={url} alt='' className='block' />
+          <img src={imageStock(data?.stockCode)} alt='' className='block' />
         </div>
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text

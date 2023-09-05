@@ -11,6 +11,7 @@ import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
+import { ConfirmPhoneNumber } from '@utils/dataLayer';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
@@ -28,10 +29,11 @@ const Register = (props: IProps) => {
 
   const requestRegisterOtp = useRegisterOtp({
     onSuccess: (res: any) => {
-      setUserLoginInfo(res?.data);
-      if (res?.data?.token) {
+      const resData = res?.data;
+      setUserLoginInfo(resData);
+      if (resData?.token) {
         onLogin({
-          token: res?.data.token,
+          token: resData.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
@@ -43,12 +45,14 @@ const Register = (props: IProps) => {
         });
       }
       router.push(ROUTE_PATH.REGISTER_COMPANY);
-      setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));
+      setUserType(checkUserType(resData?.custStat, resData?.acntStat));
       setIsReadTerms(true);
       deleteRegisterCookies();
+      ConfirmPhoneNumber('Success', '', '', 'Verified', new Date(), resData.email, resData.cif, resData.phone, resData.username);
     },
     onError: (e) => {
       toast(() => <Notification type='error' message={e?.error} />);
+      ConfirmPhoneNumber('Failed', e.errorCode, e.error, 'Not Verified', new Date(), '', '', '', '');
     },
   });
 

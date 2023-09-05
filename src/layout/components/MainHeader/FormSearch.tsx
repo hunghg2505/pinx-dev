@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import { useClickAway, useDebounceFn, useFocusWithin, useRequest } from 'ahooks';
+import { useClickAway, useDebounceFn, useFocusWithin, useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
@@ -36,7 +36,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useAuth } from '@store/auth/useAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { removeHashTag } from '@utils/removeHashTag';
+import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -51,13 +51,23 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const valueInput = form.getFieldValue('search');
   const router = useRouter();
 
+  const [checkRouter, setCheckRouter] = React.useState(router.pathname || '');
+
+  React.useEffect(() => {
+    if (router.pathname !== checkRouter) {
+      setCheckRouter(router.pathname);
+      setSearchSeo(false);
+    }
+  }, [router.pathname]);
+
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
-  const { data, searchPublic, loading, refresh } = useSearchPublic();
+  const { data, run: searchPublic, loading, refresh } = useSearchPublic();
 
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
-  const [showRecent, setShowRecent] = React.useState(false);
+  // const [showRecent, setShowRecent] = React.useState(false);
+  const [showRecent] = React.useState(false);
 
   // Remove value input search when refresh open new page
   React.useEffect(() => {
@@ -71,7 +81,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
     onFocus: () => {
       refreshSearchRecent();
       setInputFocus(true);
-      setShowRecent(true);
+      // setShowRecent(true);
       const value = form.getFieldValue('search');
       if (value === '' || value === undefined) {
         setSearchSeo(false);
@@ -85,29 +95,33 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
 
   useClickAway(() => {
     setInputFocus(false);
-    setShowRecent(false);
+    // setShowRecent(false);
   }, ref);
 
   useClickAway((e: any) => {
     const main: any = document?.querySelector('main');
     if (main.contains(e.srcElement)) {
-      // setSearchSeo(false);
+      setSearchSeo(false);
     }
   }, searchResultPopupRef);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
     // setQuery(value);
     cancel();
     if (value === '' || value === undefined) {
       setInputFocus(true);
-      setShowRecent(true);
+      // setShowRecent(true);
       setSearchSeo(false);
     } else {
       const payloads = {
         textSearch: value,
       };
       requestSearch.run(payloads);
+      // router.push({
+      //   pathname: ROUTE_PATH.SEARCHSEO,
+      //   query: { keyword: value, tab: key },
+      // });
     }
   };
 
@@ -118,8 +132,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         pathname: ROUTE_PATH.SEARCHSEO,
         query: { keyword: value, tab: 'company' },
       });
+      clearCache('data-pin-post');
       setInputFocus(false);
-      setShowRecent(false);
+      // setShowRecent(false);
       setSearchSeo(false);
     },
     onError: (e: any) => {
@@ -153,14 +168,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       // setQuery(value);
       if (value === '' || value === undefined) {
         setSearchSeo(false);
-        setShowRecent(true);
+        // setShowRecent(true);
       } else {
-        setShowRecent(false);
+        // setShowRecent(false);
         setSearchSeo(true);
         setInputFocus(true);
         refresh();
+        clearCache('search-seo');
         searchPublic({
-          textSearch: removeHashTag(value),
+          textSearch: removeSpecialCharacter(value),
         });
       }
     },
@@ -222,31 +238,23 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
     );
     fillterMediaSort = newMediaSort;
-    // fillterMediaSort = newMediaSort.filter(
-    //   (item) =>
-    //     // mediaFilter
-    //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-    //     item?.post?.metadataList[0]?.url?.length > 0 ||
-    //     // imageFilter
-    //     item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-    // );
   }
-  // console.log('fillterMediaSort', fillterMediaSort);
-
-  // Lọc loại bỏ data ko có hình ảnh (Yêu cầu của BA)
-  // const mediaFilter = media?.filter(
-  //   (item: any) =>
-  //     item?.post?.metadataList[0]?.images[0]?.length > 0 ||
-  //     item?.post?.metadataList[0]?.url?.length > 0,
-  // );
-  // const imageFilter = image?.filter(
-  //   (item: any) => item?.post?.seoMetadata?.imageSeo?.urlImage?.length > 0,
-  // );
 
   const goToPostDetail = (idPost: string) => {
     router.push(ROUTE_PATH.POST_DETAIL(idPost));
   };
-
+  const onSeeMore = (tab: string) => {
+    setSearchSeo(false);
+    const value = form.getFieldValue('search');
+    router.push({
+      pathname: ROUTE_PATH.SEARCHSEO,
+      query: { keyword: value, tab },
+    });
+  };
+  const refreshSearch = () => {
+    clearCache('search-seo');
+    refresh();
+  };
   return (
     <>
       {isMobile && (
@@ -262,7 +270,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       )}
       <div className={classNames(className)} ref={searchResultPopupRef}>
         <div className='absolute right-[20px] top-[50%] z-10 translate-y-[-50%] desktop:right-[10px]'>
-          {isLogin && loading && <Loading />}
+          {isLogin && loading && (companiesL || usersL || postsL || newsL || mediaL || imageL) && (
+            <Loading />
+          )}
         </div>
 
         {/* Khi nhập input show button close clear data */}
@@ -328,7 +338,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                   className='relative flex cursor-pointer gap-x-[10px] p-[8px] hover:bg-[#F7F6F8]'
                 >
                   <div
-                    className='flex-auto text-[#1F6EAC]'
+                    className='mr-[32px] flex-auto text-[#1F6EAC]'
                     onClick={() => onClickRecent(item?.textSearch)}
                   >
                     {item?.textSearch}
@@ -356,7 +366,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
-          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL ? (
+          {loading && !companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL && (
+            <Loading className='mx-auto' />
+          )}
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL && !loading ? (
             <>
               <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
                 {t('common:searchseo.txtEmpty')} {form.getFieldValue('search')}
@@ -365,119 +378,144 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
           ) : (
             <>
               {companiesL && (
-                <div className='flex flex-col gap-y-[16px]'>
-                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    {t('common:searchseo.tab.company')}
-                  </Text>
-                  {companies?.slice(0, 3)?.map((company: any, index: number) => {
-                    return (
-                      <CompanyItem
-                        key={`company-${index}`}
-                        data={company}
-                        // setShowPopup={setSearchSeo}
-                        isSearchSeo
-                      />
-                    );
-                  })}
-                </div>
-              )}
-              <ExploreButton className='' onClick={handleSubmit}>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('common:searchseo.txtBtnAll')}
-                </Text>
-              </ExploreButton>
-              {usersL && (
-                <div className='flex flex-col gap-y-[16px]'>
-                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    {t('common:searchseo.tab.people')}
-                  </Text>
-                  {newUsers?.slice(0, 3)?.map((item: any, index: number) => (
-                    <UserItem
-                      data={item}
-                      key={index}
-                      // setShowPopup={setSearchSeo}
-                      refreshSearch={refresh}
-                    />
-                  ))}
-                </div>
-              )}
-              <ExploreButton className='' onClick={handleSubmit}>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('common:searchseo.txtBtnAll')}
-                </Text>
-              </ExploreButton>
-              {postsL && (
-                <div className='flex flex-col'>
-                  <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
-                    {t('common:searchseo.tab.posts')}
-                  </Text>
-                  {posts?.slice(0, 3)?.map((post: any) => {
-                    return (
-                      <NewsFeed
-                        key={`explore-search-${post?.id}`}
-                        data={post}
-                        isNewFeedExplore={false}
-                        hiddenComment={true}
-                        // setShowPopup={setSearchSeo}
-                        refreshSearch={refresh}
-                        isSearchSeoBox={true}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-              <ExploreButton className='' onClick={handleSubmit}>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('common:searchseo.txtBtnAll')}
-                </Text>
-              </ExploreButton>
-              {newsL && (
-                <div className='flex flex-col gap-y-[16px]'>
-                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    {t('common:searchseo.tab.news')}
-                  </Text>
-                  {news?.slice(0, 3)?.map((item: any) => {
-                    return (
-                      <NewsItem
-                        key={`new-items-${item?.id}`}
-                        data={item}
-                        // setShowPopup={setSearchSeo}
-                        showComment
-                        onNavigate={() => goToPostDetail(item?.id)}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-              <ExploreButton className='' onClick={handleSubmit}>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('common:searchseo.txtBtnAll')}
-                </Text>
-              </ExploreButton>
-              {fillterMediaSort?.length > 0 && (
-                <div className='flex flex-col gap-y-[16px]'>
-                  <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
-                    {t('common:searchseo.tab.media')}
-                  </Text>
-                  <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
-                    {fillterMediaSort?.slice(0, 4)?.map((item: any) => {
+                <>
+                  <div className='flex flex-col gap-y-[16px]'>
+                    <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                      {t('common:searchseo.tab.company')}
+                    </Text>
+                    {companies?.slice(0, 3)?.map((company: any, index: number) => {
                       return (
-                        <MediaItem
-                          key={`media-item-${item?.id}`}
-                          data={item}
-                          type={item?.type}
+                        <CompanyItem
+                          key={`company-${index}`}
+                          data={company}
                           // setShowPopup={setSearchSeo}
+                          isSearchSeo
                         />
                       );
                     })}
                   </div>
-                </div>
+                  {companies?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('company')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
               )}
-              <ExploreButton className='' onClick={handleSubmit}>
-                <Text type='body-14-bold' color='primary-2'>
-                  {t('common:searchseo.txtBtnAll')}
-                </Text>
-              </ExploreButton>
+
+              {usersL && (
+                <>
+                  <div className='flex flex-col gap-y-[16px]'>
+                    <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                      {t('common:searchseo.tab.people')}
+                    </Text>
+                    {newUsers?.slice(0, 3)?.map((item: any, index: number) => (
+                      <UserItem
+                        data={item}
+                        key={index}
+                        // setShowPopup={setSearchSeo}
+                        refreshSearch={refresh}
+                      />
+                    ))}
+                  </div>
+                  {users?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('people')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              )}
+
+              {postsL && (
+                <>
+                  <div className='flex flex-col'>
+                    <Text type='body-20-semibold' className='mb-[16px] leading-7 text-[#0D0D0D]'>
+                      {t('common:searchseo.tab.posts')}
+                    </Text>
+                    {posts?.slice(0, 3)?.map((post: any) => {
+                      return (
+                        <NewsFeed
+                          key={`explore-search-${post?.id}`}
+                          data={post}
+                          isNewFeedExplore={false}
+                          hiddenComment={true}
+                          // setShowPopup={setSearchSeo}
+                          refreshSearch={refreshSearch}
+                          isSearchSeoBox={true}
+                        />
+                      );
+                    })}
+                  </div>
+                  {posts?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('posts')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              )}
+
+              {newsL && (
+                <>
+                  <div className='flex flex-col gap-y-[16px]'>
+                    <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                      {t('common:searchseo.tab.news')}
+                    </Text>
+                    {news?.slice(0, 3)?.map((item: any) => {
+                      return (
+                        <NewsItem
+                          key={`new-items-${item?.id}`}
+                          data={item}
+                          // setShowPopup={setSearchSeo}
+                          showComment
+                          onNavigate={() => goToPostDetail(item?.id)}
+                          isForceNavigate
+                        />
+                      );
+                    })}
+                  </div>
+                  {news?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('news')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              )}
+
+              {fillterMediaSort?.length > 0 && (
+                <>
+                  <div className='flex flex-col gap-y-[16px]'>
+                    <Text type='body-20-semibold' className='leading-7 text-[#0D0D0D]'>
+                      {t('common:searchseo.tab.media')}
+                    </Text>
+                    <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
+                      {fillterMediaSort?.slice(0, 4)?.map((item: any) => {
+                        return (
+                          <MediaItem
+                            key={`media-item-${item?.id}`}
+                            data={item}
+                            type={item?.type}
+                            // setShowPopup={setSearchSeo}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {fillterMediaSort?.length > 3 && (
+                    <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('media')}>
+                      <Text type='body-14-bold' color='primary-2'>
+                        {t('common:searchseo.txtBtnAll')}
+                      </Text>
+                    </ExploreButton>
+                  )}
+                </>
+              )}
             </>
           )}
         </Fade>

@@ -26,7 +26,13 @@ export default {
           interactive: true,
           trigger: 'manual',
           offset: () => {
-            if (props.editor.options.element.getBoundingClientRect().y - window.scrollY - 300 > 0) {
+            // if (props.editor.options.element.getBoundingClientRect().x < 370) {
+            //   return [200, 0];
+            // }
+            if (
+              props.editor.options.element.getBoundingClientRect().y - window.scrollY - 300 > 0 ||
+              props.editor.options.element.getBoundingClientRect().x < 370
+            ) {
               return [200, 0];
             }
             // [x,y]
