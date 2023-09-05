@@ -47,6 +47,10 @@ const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'Home screen', 'News feed', 'Stock');
 };
 
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', 'Comment', 'Stock');
+};
+
 const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const { t } = useTranslation('home');
   const router = useRouter();
@@ -208,9 +212,13 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
-      <PinPost pinPostDataInitial={pinPostDataInitial} />
+      <PinPost
+        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+        pinPostDataInitial={pinPostDataInitial}
+      />
 
       <NewsFeed
+        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
         onTrackingViewTicker={handleTrackingViewTicker}
         key={`home-post-item-${firstPost?.id}`}
         data={firstPost as any}
@@ -249,6 +257,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       {fourPost?.map((item: IPost) => {
         return (
           <NewsFeed
+            onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
             onTrackingViewTicker={handleTrackingViewTicker}
             loading={loadingPosts}
             key={`home-post-item-${item?.id}`}
@@ -277,13 +286,18 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
                 key={`home-post-item-${item?.id}`}
                 ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
               >
-                <NewsFeed onTrackingViewTicker={handleTrackingViewTicker} data={item} />
+                <NewsFeed
+                  onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                  onTrackingViewTicker={handleTrackingViewTicker}
+                  data={item}
+                />
               </div>
             );
           }
 
           return (
             <NewsFeed
+              onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
               onTrackingViewTicker={handleTrackingViewTicker}
               key={`home-post-item-${item?.id}`}
               data={item}

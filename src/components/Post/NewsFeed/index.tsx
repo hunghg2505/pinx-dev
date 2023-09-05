@@ -32,6 +32,7 @@ interface IProps {
   hiddenComment?: boolean;
   isSearchSeoBox?: boolean;
   onTrackingViewTicker?: (stockCode: string) => void;
+  onTrackingViewTickerCmt?: (stockCode: string) => void;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -47,6 +48,7 @@ const NewsFeed = (props: IProps) => {
     hiddenComment,
     isSearchSeoBox,
     onTrackingViewTicker,
+    onTrackingViewTickerCmt,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -246,6 +248,7 @@ const NewsFeed = (props: IProps) => {
                   idPost={postData?.id}
                   refreshCommentOfPOst={refreshComment}
                   totalChildren={postData?.children?.[0]?.totalChildren}
+                  onTrackingViewTicker={onTrackingViewTickerCmt}
                 />
               </div>
             )}

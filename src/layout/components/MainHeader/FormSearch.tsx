@@ -524,6 +524,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                             data={item}
                             type={item?.type}
                             // setShowPopup={setSearchSeo}
+                            onTrackingViewTicker={(stockCode) =>
+                              handleTrackingViewStockInfo(stockCode, 'Media')
+                            }
                           />
                         );
                       })}

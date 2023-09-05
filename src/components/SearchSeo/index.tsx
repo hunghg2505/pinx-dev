@@ -222,7 +222,16 @@ const SearchSeo = () => {
             {fillterMediaSort?.length > 0 ? (
               <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {fillterMediaSort?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} type={item?.type} />;
+                  return (
+                    <MediaItem
+                      onTrackingViewTicker={(stockCode) =>
+                        handleTrackingViewTickerInfo(stockCode, 'Media tab')
+                      }
+                      key={`media-item-${item?.id}`}
+                      data={item}
+                      type={item?.type}
+                    />
+                  );
                 })}
               </div>
             ) : (

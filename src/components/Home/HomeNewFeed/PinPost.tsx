@@ -12,7 +12,7 @@ const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'Home screen', 'Pin post', 'Stock');
 };
 
-const PinPost = ({ pinPostDataInitial }: any) => {
+const PinPost = ({ pinPostDataInitial, onTrackingViewTickerCmt }: any) => {
   const { pinedPost, refresh, loading } = useGetPinedPost();
 
   const data = useMemo(() => {
@@ -38,6 +38,7 @@ const PinPost = ({ pinPostDataInitial }: any) => {
             onRefreshList={onRefresh}
             loading={loading}
             onTrackingViewTicker={handleTrackingViewTicker}
+            onTrackingViewTickerCmt={onTrackingViewTickerCmt}
           />
         );
       })}

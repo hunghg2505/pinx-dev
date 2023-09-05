@@ -12,9 +12,19 @@ interface IProps {
   refSubReplies: any;
   totalComment?: (v: number) => void;
   onRemoveComment?: any;
+  onTrackingViewTicker?: (stockCode: string) => void;
 }
 const CommentOfComment = (props: IProps, ref: any) => {
-  const { id, onReplies, width, refresh, idPost, totalComment, onRemoveComment } = props;
+  const {
+    id,
+    onReplies,
+    width,
+    refresh,
+    idPost,
+    totalComment,
+    onRemoveComment,
+    onTrackingViewTicker,
+  } = props;
   const { data, refreshCommentOfComment, run } = useCommentOfComment({
     onSuccess: (r: any) => {
       totalComment && totalComment(r?.data?.list?.length);
@@ -49,6 +59,7 @@ const CommentOfComment = (props: IProps, ref: any) => {
                 width={width}
                 isLastChildren={index === data.length - 1}
                 onRemoveComment={onRemoveComment}
+                onTrackingViewTicker={onTrackingViewTicker}
               />
             ))}
       </div>

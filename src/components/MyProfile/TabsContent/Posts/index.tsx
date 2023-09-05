@@ -13,6 +13,10 @@ const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'My profile screen', 'Post', 'Stock');
 };
 
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'My profile screen', 'Comment', 'Stock');
+};
+
 const Posts = () => {
   const { data, loading, mutate, runAsync, refresh } = useRequest(async (nextId: any) => {
     if (nextId === false) {
@@ -58,7 +62,8 @@ const Posts = () => {
             return (
               <div ref={(node) => refLastElement(node, service)} key={`my-post-${item?.id}`}>
                 <NewsFeed
-                  onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode)}
+                  onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                  onTrackingViewTicker={handleTrackingViewTicker}
                   data={item}
                 />
               </div>
@@ -68,7 +73,8 @@ const Posts = () => {
           return (
             <div key={`my-post-${item?.id}`}>
               <NewsFeed
-                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode)}
+                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                onTrackingViewTicker={handleTrackingViewTicker}
                 data={item}
               />
             </div>

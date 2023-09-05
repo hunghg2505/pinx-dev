@@ -61,6 +61,10 @@ const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'Post detail screen', 'News feed', 'Stock');
 };
 
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Post detail screen', 'Comment', 'Stock');
+};
+
 const PostDetail = () => {
   const { t } = useTranslation();
   const refSubReplies: any = useRef();
@@ -311,6 +315,7 @@ const PostDetail = () => {
                     <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>
                       <div className='mt-[16px]'>
                         <CommentPost
+                          onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
                           ref={(val: any) => {
                             refListComment.current.push({
                               id: item?.id,
@@ -335,6 +340,7 @@ const PostDetail = () => {
                   <div key={`comment-${item?.id}`}>
                     <div className='mt-[16px]'>
                       <CommentPost
+                        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
                         ref={(val: any) => {
                           refListComment.current.push({
                             id: item?.id,

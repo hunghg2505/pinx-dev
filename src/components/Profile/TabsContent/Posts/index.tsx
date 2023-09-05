@@ -14,6 +14,10 @@ const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'User detail screen', 'Post', 'Stock');
 };
 
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'User detail screen', 'Comment', 'Stock');
+};
+
 const Posts = () => {
   const router = useRouter();
 
@@ -70,7 +74,8 @@ const Posts = () => {
                 key={`other-people-post-${item?.id}`}
               >
                 <NewsFeed
-                  onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode)}
+                  onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                  onTrackingViewTicker={handleTrackingViewTicker}
                   data={item}
                   onRemoveData={refresh}
                 />
@@ -81,7 +86,8 @@ const Posts = () => {
           return (
             <div key={`other-people-post-${item?.id}`}>
               <NewsFeed
-                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode)}
+                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                onTrackingViewTicker={handleTrackingViewTicker}
                 data={item}
                 onRemoveData={refresh}
               />
