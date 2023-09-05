@@ -14,9 +14,10 @@ const NEWS_ITEM_LIMIT = 3;
 
 interface IStockNewsProps {
   stockCode: string;
+  handleAnalyze: (infoType: string) => void;
 }
 
-const StockNews = ({ stockCode }: IStockNewsProps) => {
+const StockNews = ({ stockCode, handleAnalyze }: IStockNewsProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const { stockNews, loading } = useStockNews(stockCode);
 
@@ -39,7 +40,10 @@ const StockNews = ({ stockCode }: IStockNewsProps) => {
       ))}
 
       {stockNews?.data?.list.length > NEWS_ITEM_LIMIT && (
-        <CustomLink href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
+        <CustomLink
+          onClick={() => handleAnalyze('Stock news')}
+          href={ROUTE_PATH.STOCK_NEWS(stockCode)}
+        >
           <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
             <Text type='body-14-bold' color='primary-2'>
               {t('more_news', {

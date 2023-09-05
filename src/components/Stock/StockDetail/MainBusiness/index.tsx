@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { CompanyRelatedType, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { AnalyzeTicker, ViewStockList } from '@utils/dataLayer';
 
 interface IMainBusinessProps {
   taggingInfo?: {
@@ -19,6 +20,12 @@ const MainBusiness = ({ taggingInfo, stockCode }: IMainBusinessProps) => {
   const router = useRouter();
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
+    // gtm
+    AnalyzeTicker(stockCode, 'Stock related', 'General');
+
+    // tracking view stock list
+    ViewStockList('Company related', '', 'Main business', 'Ticker info');
+
     router.push({
       pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
       query: {

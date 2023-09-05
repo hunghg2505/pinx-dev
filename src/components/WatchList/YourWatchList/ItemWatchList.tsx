@@ -10,6 +10,7 @@ import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { RemoveTicker } from '@utils/dataLayer';
 
 import styles from '../index.module.scss';
 
@@ -19,12 +20,14 @@ const ItemWatchList = ({
   refreshYourWatchList,
   refreshInterest,
   isChangeColor,
+  totalStock,
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refreshYourWatchList: any;
   refreshInterest?: any;
   isChangeColor?: boolean;
+  totalStock: number;
 }) => {
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
@@ -52,6 +55,15 @@ const ItemWatchList = ({
         refreshInterest && refreshInterest();
         refreshYourWatchList && refreshYourWatchList();
         clearCache('watchList');
+
+        // gtm
+        RemoveTicker(
+          data?.stockCode,
+          'Stock',
+          'Watchlist',
+          'Default',
+          totalStock && totalStock - 1,
+        );
       },
     },
   );
