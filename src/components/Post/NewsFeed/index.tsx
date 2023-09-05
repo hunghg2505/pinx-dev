@@ -142,21 +142,10 @@ const NewsFeed = (props: IProps) => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
     setSearchSeo(false);
+    globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
   };
 
   const [, setImageCommentMobile] = useState(false);
-
-  // const { commentsOfPost, refreshCommentOfPost, getDataComment } = useCommentsOfPost(
-  //   String(postData?.id),
-  //   {
-  //     manual: true,
-  //   },
-  // );
-  // const totalComments = commentsOfPost?.data?.list?.length;
-  // const commentChild = commentsOfPost?.data?.list?.reduce(
-  //   (acc: any, current: any) => acc + current?.totalChildren,
-  //   0,
-  // );
 
   const countComment = postData?.totalChildren;
 

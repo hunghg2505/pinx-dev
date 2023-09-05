@@ -148,6 +148,8 @@ const PostDetail = () => {
     const storage = globalThis?.sessionStorage;
     if (storage?.prevPath === '') {
       router.push(ROUTE_PATH.HOME);
+    } else if (storage?.prevPath === storage?.currentPath) {
+      router.back();
     } else {
       router.push(storage?.prevPath);
     }
