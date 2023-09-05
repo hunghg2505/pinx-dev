@@ -146,7 +146,7 @@ const PostDetail = () => {
   const onGoToBack = () => {
     // console.log()
     const storage = globalThis?.sessionStorage;
-    if (storage?.prevPath === '/') {
+    if (storage?.prevPath === '') {
       router.push(ROUTE_PATH.HOME);
     } else {
       router.push(storage?.prevPath);
