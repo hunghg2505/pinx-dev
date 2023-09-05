@@ -7,6 +7,7 @@ import { ITaggingInfo } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { AnalyzeTicker } from '@utils/dataLayer';
 
 const ALSO_ITEM_LIMIT = 2;
 
@@ -19,6 +20,11 @@ interface IStockAlsoOwnProps {
 
 const StockAlsoOwn = ({ taggingInfo, stockCode }: IStockAlsoOwnProps) => {
   const { t } = useTranslation(['stock', 'common']);
+
+  // gtm
+  const handleAnalyze = () => {
+    AnalyzeTicker(stockCode, 'Stock also own', 'General');
+  };
 
   if (!taggingInfo?.data?.subsidiaries || taggingInfo.data.subsidiaries.length === 0) {
     return <></>;
@@ -38,7 +44,10 @@ const StockAlsoOwn = ({ taggingInfo, stockCode }: IStockAlsoOwnProps) => {
 
       {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
         <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
-          <button className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+          <button
+            onClick={handleAnalyze}
+            className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+          >
             <Text type='body-14-bold' color='primary-2'>
               {t('common:see_more')}
             </Text>

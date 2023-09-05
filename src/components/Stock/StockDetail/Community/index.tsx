@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { IStockDetails } from '@components/Stock/type';
@@ -14,11 +13,11 @@ const WATCHING_INVESTING_ITEM_LIMIT = 4;
 interface IStockCommunityProps {
   stockDetails?: IStockDetails;
   stockCode: string;
+  handleAnalyze: (infoType: string) => void;
 }
 
-const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
+const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommunityProps) => {
   const { t } = useTranslation(['stock', 'common']);
-  const router = useRouter();
 
   if (
     !stockDetails?.data.watchingInvestingList ||
@@ -37,6 +36,7 @@ const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
       <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
         <CustomLink
           href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
+          onClick={() => handleAnalyze('Stock community')}
           className='flex gap-x-[10px] galaxy-max:gap-[6px]'
         >
           {stockDetails?.data.watchingInvestingList
@@ -72,8 +72,9 @@ const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
             ))}
         </CustomLink>
 
-        <div
-          onClick={() => router.push(ROUTE_PATH.STOCK_SUBSCRIBER(stockCode))}
+        <CustomLink
+          href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
+          onClick={() => handleAnalyze('Stock community')}
           className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
         >
           <Text type='body-14-regular' className='text-[#0D0D0D]'>
@@ -84,7 +85,7 @@ const StockCommunity = ({ stockDetails, stockCode }: IStockCommunityProps) => {
             alt='Icon right'
             className='ml-[10px] h-[8px] w-[4px]'
           />
-        </div>
+        </CustomLink>
       </div>
     </div>
   );

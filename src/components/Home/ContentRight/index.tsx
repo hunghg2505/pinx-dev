@@ -1,3 +1,4 @@
+import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import StickyBox from 'react-sticky-box';
@@ -13,22 +14,46 @@ import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useAuth } from '@store/auth/useAuth';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
+// tracking event view ticker info
+const handleTrackingViewStockInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
+};
+
 const WatchList = () => {
   const { t } = useTranslation('common');
+  const watchList = useAtomValue(stockSocketAtom);
+
+  // tracking event view watch list
+  const handleTracking = () => {
+    const listStockCodes =
+      watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
+        ?.stocks || [];
+
+    ViewWatchlist(
+      'Default',
+      'Normal WL',
+      listStockCodes,
+      listStockCodes.length,
+      'Right sidebar layout',
+    );
+  };
 
   return (
     <div className='rounded-[8px] bg-white '>
       <ComponentWatchList
         isEdit={false}
         page_size={5}
+        handleTrackingViewStockInfo={handleTrackingViewStockInfo}
         footer={(list) => {
           if (list?.length) {
             return (
-              <CustomLink href={ROUTE_PATH.WATCHLIST}>
+              <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
                 <Button className='mt-4 h-[40px] w-full rounded-[5px] bg-[#F0F7FC]'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('view_more')}

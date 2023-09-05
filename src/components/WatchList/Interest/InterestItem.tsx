@@ -7,6 +7,7 @@ import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { AddTicker } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 
@@ -15,9 +16,18 @@ interface IProps {
   refresh?: () => void;
   refreshYourWatchList?: () => void;
   isChangeColor?: boolean;
+  totalStock: number;
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
 }
 const InterestItem = (props: IProps) => {
-  const { data, refresh, refreshYourWatchList, isChangeColor } = props;
+  const {
+    data,
+    refresh,
+    refreshYourWatchList,
+    isChangeColor,
+    totalStock,
+    onTrackingViewTickerInfo,
+  } = props;
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -30,11 +40,20 @@ const InterestItem = (props: IProps) => {
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const requestSelectStock = useSelectStock({
-    onSuccess: () => {
+    onSuccess: (_, params: [string]) => {
       refresh && refresh();
       refreshYourWatchList && refreshYourWatchList();
       getInitDataStockWatchlistHome();
       // toast(() => <Notification type='success' message='Add stock success1' />);
+
+      // gtm
+      AddTicker(
+        params.length > 0 ? params[0] : '',
+        'Stock',
+        'Watchlist',
+        'Default',
+        totalStock + 1,
+      );
     },
   });
   const onAddStock = () => {
@@ -46,6 +65,9 @@ const InterestItem = (props: IProps) => {
         className='absolute inset-x-0 inset-y-0'
         href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
         prefetch={false}
+        onClick={() => {
+          onTrackingViewTickerInfo && onTrackingViewTickerInfo(data?.stockCode, 'You may interest');
+        }}
       />
       <div className='flex flex-col gap-y-[16px]'>
         <div className='m-auto flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full bg-white object-contain'>

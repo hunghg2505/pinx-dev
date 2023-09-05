@@ -5,6 +5,12 @@ import { ITopWatchingStock, useGetTopWatchingStock } from '@components/Explore/s
 import WatchingStock from '@components/Explore/WatchingStock';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
+import { ViewTickerInfo } from '@utils/dataLayer';
+
+// tracking event view stock info
+const handleTrackingViewTickerInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Top watching stock screen', 'Top watching stock', 'Stock');
+};
 
 const TopWatching = () => {
   const { t } = useTranslation('common');
@@ -48,6 +54,7 @@ const TopWatching = () => {
                 percen={(item.totalCount / maxTopWatchStock) * 100}
                 key={`stock-${index}`}
                 data={item}
+                onTrackingViewTickerInfo={() => handleTrackingViewTickerInfo(item?.stockCode)}
               />
             );
           })

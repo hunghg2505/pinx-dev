@@ -110,6 +110,7 @@ const ModalAddStock = ({
                     refreshYourWatchList={refreshYourWatchList}
                     data={item}
                     like={checkHeart(item)}
+                    totalStock={yourWatchListStock?.length || 0}
                   />
                 </>
               ))}

@@ -89,7 +89,7 @@ const MainHeader = () => {
   const [isOpenSearch, setIsOpenSearch] = React.useState(false);
   const { isMobile } = useResponsive();
   const router = useRouter();
-  const isRouteExplore = router.pathname === ROUTE_PATH.EXPLORE;
+  const isRouteExplore = [ROUTE_PATH.EXPLORE, ROUTE_PATH.SEARCH].includes(router.pathname);
 
   useEffect(() => {
     let lastScrollTop = 0;

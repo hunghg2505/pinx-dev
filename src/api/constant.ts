@@ -96,13 +96,17 @@ export const API_PATH = {
   PRIVATE_THEME_OF_STOCK: (stockCode: string) => `/private/theme/stock-code/${stockCode}`,
   PUBLIC_THEME_OF_STOCK: (stockCode: string) => `/public/theme/stock-code/${stockCode}`,
   PUBLIC_STOCK_DETAIL_EXTRA: (stockCode: string) => `/public/stock/${stockCode}/details-extra`,
+  PUBLIC_STOCK_DETAIL_EXTRA_V2: (stockCode: string) => `/public/stock/${stockCode}/details-extraV2`,
   PRIVATE_STOCK_DETAIL_EXTRA: (stockCode: string) => `/private/stock/${stockCode}/details-extra`,
+  PRIVATE_STOCK_DETAIL_EXTRA_V2: (stockCode: string) =>
+    `/private/stock/${stockCode}/details-extraV2`,
   PUBLIC_STOCK_REVIEWS: (stockCode: string) => `/public/stock/${stockCode}/reviews`,
   PUBLIC_STOCK_NEWS: (stockCode: string) => `/public/stock/${stockCode}/news`,
   PRIVATE_STOCK_NEWS: (stockCode: string) => `/private/stock/${stockCode}/news`,
   PUBLIC_STOCK_ACTIVITIES: (stockCode: string) => `/public/stock/${stockCode}/activities`,
   PRIVATE_STOCK_ACTIVITIES: (stockCode: string) => `/private/stock/${stockCode}/activities`,
   PRIVATE_STOCK_REVIEW: (stockCode: string) => `/private/stock/${stockCode}/review`,
+  PRIVATE_STOCK_REVIEW_V2: (stockCode: string) => `/private/stock/${stockCode}/reviewV2`,
   PUBLIC_STOCK_WATCHING_INVESTING: (stockCode: string) =>
     `/public/stock/${stockCode}/watching-investing-customers`,
   PUBLIC_STOCK_WATCHING: (stockCode: string) => `/public/stock/${stockCode}/watching-customers`,

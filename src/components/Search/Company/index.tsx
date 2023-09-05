@@ -12,9 +12,14 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { Search } from '@utils/dataLayer';
+import { ViewTickerInfo, Search } from '@utils/dataLayer';
 
 import { useGetCompany } from '../service';
+
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Search company screen', 'Search company', 'Stock');
+};
 
 const Company = ({ keyword }: { keyword: any }) => {
   const { t } = useTranslation('common');
@@ -79,7 +84,15 @@ const Company = ({ keyword }: { keyword: any }) => {
         {company?.length > 0 ? (
           <div className='mt-[20px] flex flex-col gap-y-[20px]'>
             {company?.map((company: any, index: number) => {
-              return <CompanyItem key={`company-${index}`} data={company} />;
+              return (
+                <CompanyItem
+                  onTrackingEventViewStockInfo={() =>
+                    handleTrackingViewTickerInfo(company?.stockCode)
+                  }
+                  key={`company-${index}`}
+                  data={company}
+                />
+              );
             })}
           </div>
         ) : (

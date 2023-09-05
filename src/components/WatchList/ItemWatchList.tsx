@@ -18,11 +18,13 @@ const ItemWatchList = ({
   isEdit,
   refresh,
   isChangeStock = false,
+  handleTrackingViewStockInfo,
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refresh: () => void;
   isChangeStock?: boolean;
+  handleTrackingViewStockInfo?: (stockCode: string) => void;
 }) => {
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
@@ -56,14 +58,25 @@ const ItemWatchList = ({
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
-        <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <CustomLink
+          onClick={() => {
+            handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
+          }}
+          className='flex-none'
+          href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+        >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
             <img src={imageStock(data?.stockCode)} alt='' className='block' />
           </div>
         </CustomLink>
         <div className='flex flex-1 flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
-            <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+            <CustomLink
+              onClick={() => {
+                handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
+              }}
+              href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+            >
               <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}
               </Text>

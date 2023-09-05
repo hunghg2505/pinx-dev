@@ -7,6 +7,7 @@ import { ROUTE_PATH } from '@utils/common';
 interface Iprops {
   label: string;
   value: string;
+  onClick?: () => void;
 }
 const newObject: any = {
   Profit: 'https://static.pinetree.com.vn/upload/images/pist/theme/top20_profit.png',
@@ -18,13 +19,14 @@ const newObject: any = {
     'https://static.pinetree.com.vn/upload/images/pist/theme/top20_change_in_price_1Y.png',
 };
 const PinexTop = (props: Iprops) => {
-  const { label, value } = props;
+  const { label, value, onClick } = props;
   const router = useRouter();
   const onHandleClick = () => {
     router.push({
       pathname: ROUTE_PATH.PINEX_TOP_20,
       query: { type: value },
     });
+    onClick && onClick();
   };
   return (
     <div className='mr-[16px] w-[156px] cursor-pointer' onClick={onHandleClick}>

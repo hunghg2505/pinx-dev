@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, imageStock } from '@utils/common';
+import { ModifyWatchlist } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 import {
@@ -47,8 +48,16 @@ const RegisterCompanyStep = () => {
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
   const requestSelectStock = useSelectStock({
-    onSuccess: () => {
+    onSuccess: (_, params) => {
       router.push(ROUTE_PATH.REGISTER_THEME);
+
+      // gtm
+      const unselectedStock = myListStock.filter((item) => !selected.includes(item));
+      const stockHasAdd = params
+        .toString()
+        .split(',')
+        .filter((item: string) => !myListStock.includes(item));
+      ModifyWatchlist(stockHasAdd, unselectedStock, 'Default', myListStock, myListStock?.length);
     },
   });
 

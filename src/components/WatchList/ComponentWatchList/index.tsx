@@ -24,9 +24,10 @@ interface IProps {
   page_size?: number;
   footer?: (list: any) => void;
   optionsRequest?: any;
+  handleTrackingViewStockInfo?: (stockCode: string) => void;
 }
 const ComponentWatchList = (props: IProps) => {
-  const { isEdit = false, page_size, optionsRequest = {} } = props;
+  const { isEdit = false, page_size, optionsRequest = {}, handleTrackingViewStockInfo } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -151,6 +152,7 @@ const ComponentWatchList = (props: IProps) => {
                 isEdit={isEdit}
                 refresh={useWatchList.refresh}
                 isChangeStock={isChangeStock}
+                handleTrackingViewStockInfo={handleTrackingViewStockInfo}
               />
             </div>
           );

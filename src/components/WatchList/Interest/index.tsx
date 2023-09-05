@@ -17,6 +17,8 @@ interface IProps {
   interestStock?: any;
   refreshInterest?: () => void;
   refreshYourWatchList?: () => void;
+  totalStock: number;
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
 }
 const settings = {
   dots: false,
@@ -32,7 +34,14 @@ const Empty = dynamic(() => import('@components/UI/Empty'), {
 
 const Interest = (props: IProps) => {
   const [dataSocket, setDataSocket] = React.useState<any>({});
-  const { isEdit = false, interestStock, refreshInterest, refreshYourWatchList } = props;
+  const {
+    isEdit = false,
+    interestStock,
+    refreshInterest,
+    refreshYourWatchList,
+    totalStock,
+    onTrackingViewTickerInfo,
+  } = props;
   const { t } = useTranslation('watchlist');
   const { isDesktop, isMobile } = useResponsive();
 
@@ -85,6 +94,8 @@ const Interest = (props: IProps) => {
                     className='relative min-h-[172px] w-[112px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px] first:ml-[16px] desktop:first:ml-[24px]'
                   >
                     <InterestItem
+                      onTrackingViewTickerInfo={onTrackingViewTickerInfo}
+                      totalStock={totalStock}
                       data={item}
                       refresh={refreshInterest}
                       refreshYourWatchList={refreshYourWatchList}
@@ -106,6 +117,8 @@ const Interest = (props: IProps) => {
                       className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
                     >
                       <InterestItem
+                        onTrackingViewTickerInfo={onTrackingViewTickerInfo}
+                        totalStock={totalStock}
                         data={item}
                         refresh={refreshInterest}
                         refreshYourWatchList={refreshYourWatchList}
