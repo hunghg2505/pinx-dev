@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
@@ -20,7 +20,7 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import { AddTicker, AnalyzeTicker, RemoveTicker } from '@utils/dataLayer';
 
@@ -409,20 +409,6 @@ const StockDetail = () => {
     setOpenPopupReview(false);
   };
 
-  const { chartColorFormat } = useMemo(() => {
-    const chartColor = getStockColor(
-      dataStock?.lastPrice || 0,
-      dataStock?.c || 0,
-      dataStock?.f || 0,
-      dataStock?.r || 0,
-    );
-    const chartColorFormat = chartColor.slice(1);
-
-    return {
-      chartColorFormat,
-    };
-  }, [dataStock]);
-
   const handleOpenPopupZoom = () => {
     setOpenPopupZoomChart(true);
   };
@@ -474,7 +460,6 @@ const StockDetail = () => {
         }}
         stockCode={stockCode}
         refPrice={dataStock?.r}
-        color={chartColorFormat}
       />
 
       <div className='box-shadow card-style'>
@@ -522,7 +507,7 @@ const StockDetail = () => {
 
         {/* chart */}
         <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px] pt-[36px]'>
-          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
+          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} />
 
           {/* icon maximize */}
           <div
