@@ -8,7 +8,7 @@ import { atom } from 'jotai';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { isUrlValid } from '@utils/common';
+import { isUrlValid, replaceImageError } from '@utils/common';
 
 export const dataMention: any = atom([]);
 
@@ -149,7 +149,8 @@ export default forwardRef((props: any, ref) => {
                         width={0}
                         height={0}
                         sizes='100vw'
-                        className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'
+                        onError={replaceImageError}
+                        className='mr-[12px] h-[36px] w-[36px] rounded-full border border-solid border-[#ebebeb] object-cover'
                       />
                     ) : (
                       <div className='mr-[12px] h-[36px] w-[36px] rounded-full object-cover'>

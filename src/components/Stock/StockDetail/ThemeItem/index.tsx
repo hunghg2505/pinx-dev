@@ -3,7 +3,7 @@ import React from 'react';
 import { IStockTheme } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, replaceImageError } from '@utils/common';
 
 interface IThemeItemProps {
   data: IStockTheme;
@@ -39,6 +39,7 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
                   key={index}
                   src={item.avatar}
                   alt='Avatar user'
+                  onError={replaceImageError}
                   className='h-[20px] w-[20px] rounded-full border border-solid border-[#F8FAFD33] object-cover [&:not(:first-child)]:-ml-[5px]'
                 />
               ))}

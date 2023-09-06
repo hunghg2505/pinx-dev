@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { ILatestSubscribe, ITheme } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, replaceImageError } from '@utils/common';
 
 interface IProps {
   data: ITheme;
@@ -44,6 +44,7 @@ const ThemeExploreItem = (props: IProps) => {
               return (
                 <img
                   src={item.avatar}
+                  onError={replaceImageError}
                   alt=''
                   className={classNames(' h-[20px] w-[20px] rounded-full', {
                     '-ml-[5px]': index > 0,

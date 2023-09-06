@@ -6,7 +6,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 
 const IconArrow = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='24' viewBox='0 0 25 24' fill='none'>
@@ -34,7 +34,8 @@ const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) 
               loading='lazy'
               src={data?.avatar}
               alt=''
-              className='mr-[8px] h-[36px] w-[36px] rounded-full object-cover'
+              onError={replaceImageError}
+              className='mr-[8px] h-[36px] w-[36px] rounded-full border border-solid border-[#ebebeb] object-cover'
             />
           ) : (
             <div className='mr-[8px] h-[36px] w-[36px] rounded-full object-cover'>

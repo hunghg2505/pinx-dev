@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
+import { BaseSyntheticEvent } from 'react';
+
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
@@ -808,4 +810,10 @@ export const isUrlValid = (url?: string) => {
   }
 
   return isValid;
+};
+
+// replace image error
+export const replaceImageError = ({ currentTarget }: BaseSyntheticEvent) => {
+  currentTarget.removeEventListener('error', null);
+  currentTarget.src = '/static/images/white-background.jpeg';
 };

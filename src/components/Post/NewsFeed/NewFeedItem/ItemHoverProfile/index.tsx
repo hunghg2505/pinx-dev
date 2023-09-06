@@ -8,7 +8,7 @@ import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { formatStringToNumber, isUrlValid } from '@utils/common';
+import { formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -31,8 +31,9 @@ const ItemHoverProfile = (props: IProps) => {
         {isUrlValid(profileOtherUser?.avatar) ? (
           <img
             src={profileOtherUser?.avatar}
-            className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'
+            className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full border border-solid border-[#ebebeb] object-cover'
             alt=''
+            onError={replaceImageError}
           />
         ) : (
           <div className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'>

@@ -18,7 +18,7 @@ import { useUserType } from '@hooks/useUserType';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ComposeButton from '../ComposeButton';
@@ -79,7 +79,8 @@ const UserPosting = ({ onAddNewPost }: any) => {
                 router.push(ROUTE_PATH.MY_PROFILE);
               }}
               sizes='100vw'
-              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
+              onError={replaceImageError}
+              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover'
             />
           ) : (
             <CustomLink

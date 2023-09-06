@@ -24,7 +24,13 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { isImage, ROUTE_PATH, calcUserStatusText, isUrlValid } from '@utils/common';
+import {
+  isImage,
+  ROUTE_PATH,
+  calcUserStatusText,
+  isUrlValid,
+  replaceImageError,
+} from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
@@ -149,7 +155,8 @@ const ProfileVerification = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'
+                onError={replaceImageError}
+                className='h-[52px] w-[52px] rounded-full border border-solid border-[#ebebeb] mobile:block galaxy-max:object-cover'
               />
             ) : (
               <div className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'>

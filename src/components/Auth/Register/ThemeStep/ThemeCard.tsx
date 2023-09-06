@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { isUrlValid } from '@utils/common';
+import { isUrlValid, replaceImageError } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -49,6 +49,7 @@ const ThemeCard = (props: IThemeCardProps) => {
                   <img
                     src={user.avatar}
                     alt=''
+                    onError={replaceImageError}
                     width='20'
                     height='20'
                     className='h-[20px] w-[20px] rounded-full'

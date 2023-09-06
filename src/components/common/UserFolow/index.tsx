@@ -6,7 +6,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 
 import Follow from './Follow';
 import UnFollow from './UnFollow';
@@ -20,10 +20,11 @@ const UserFolow = (props: any) => {
   return (
     <followContext.Provider value={{ ...props }}>
       <div className='flex items-center justify-between gap-x-[12px] rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]'>
-        <div className='flex items-center overflow-hidden'>
+        <div className='flex flex-1 items-center overflow-hidden'>
           {isUrlValid(props?.avatar) ? (
             <img
               src={props?.avatar}
+              onError={replaceImageError}
               alt=''
               className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:mr-[6px] galaxy-max:h-[40px] galaxy-max:w-[40px]'
               onClick={() => {
@@ -40,7 +41,6 @@ const UserFolow = (props: any) => {
               <AvatarDefault name={props?.displayName} />
             </div>
           )}
-
           <div className='flex flex-1 items-center overflow-hidden'>
             <Text type='body-14-semibold' className='truncate text-[#474D57]'>
               {props?.displayName}
