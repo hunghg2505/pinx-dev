@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useMount } from 'ahooks';
+import { useMount, useUpdateEffect } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -10,11 +10,13 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
+// import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import FormSearch from '@layout/components/MainHeader/FormSearch';
 // import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import SideBar from '@layout/MainLayout/SideBar';
+import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
@@ -88,6 +90,7 @@ const MainHeader = () => {
   const { isRouteSetting } = useRouteSetting();
   const [isOpenSearch, setIsOpenSearch] = React.useState(false);
   const { isMobile } = useResponsive();
+  const token = getAccessToken();
   const router = useRouter();
   const isRouteExplore = [ROUTE_PATH.EXPLORE, ROUTE_PATH.SEARCH].includes(router.pathname);
 
@@ -122,7 +125,9 @@ const MainHeader = () => {
       document.removeEventListener('touchmove', onScroll);
     };
   });
-
+  useUpdateEffect(() => {
+    router.reload();
+  }, [token]);
   return (
     <>
       <div
