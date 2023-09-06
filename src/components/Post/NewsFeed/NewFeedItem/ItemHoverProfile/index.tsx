@@ -8,7 +8,7 @@ import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { formatStringToNumber } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -28,14 +28,14 @@ const ItemHoverProfile = (props: IProps) => {
       )}
     >
       <div className='flex items-center'>
-        {profileOtherUser?.avatar ? (
+        {isUrlValid(profileOtherUser?.avatar) ? (
           <img
             src={profileOtherUser?.avatar}
             className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'
             alt=''
           />
         ) : (
-          <div className='h-[72px] w-[72px] min-w-[72px]'>
+          <div className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'>
             <AvatarDefault name={name} />
           </div>
         )}

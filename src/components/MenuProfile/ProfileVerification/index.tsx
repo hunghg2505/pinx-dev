@@ -13,6 +13,7 @@ import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
+import AvatarDefault from '@components/UI/AvatarDefault';
 import { ErrorMainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
@@ -23,7 +24,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { isImage, ROUTE_PATH, calcUserStatusText } from '@utils/common';
+import { isImage, ROUTE_PATH, calcUserStatusText, isUrlValid } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
@@ -141,14 +142,20 @@ const ProfileVerification = () => {
       <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
         <div className='relative mr-3 flex-none'>
           <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
-            <img
-              src={userLoginInfo?.avatar}
-              alt=''
-              width={0}
-              height={0}
-              sizes='100vw'
-              className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'
-            />
+            {isUrlValid(userLoginInfo?.avatar) ? (
+              <img
+                src={userLoginInfo?.avatar}
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'
+              />
+            ) : (
+              <div className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'>
+                <AvatarDefault name={userLoginInfo?.displayName} />
+              </div>
+            )}
             <img
               src='/static/icons/icon_plus.svg'
               alt=''
@@ -162,7 +169,7 @@ const ProfileVerification = () => {
 
         <div className='overflow-hidden'>
           <div className='mb-[2px] flex items-center galaxy-max:mb-2'>
-            <Text type='body-20-semibold' className='galaxy-max:text-[16px] truncate'>
+            <Text type='body-20-semibold' className='truncate galaxy-max:text-[16px]'>
               {userLoginInfo?.displayName}
             </Text>
 

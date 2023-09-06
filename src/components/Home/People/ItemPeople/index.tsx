@@ -14,7 +14,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -87,7 +87,7 @@ const ItemPeople = (props: IProps) => {
           onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
           className='flex flex-col items-center justify-center'
         >
-          {data?.avatar ? (
+          {isUrlValid(data?.avatar) ? (
             <img
               src={data?.avatar}
               alt=''
@@ -98,7 +98,7 @@ const ItemPeople = (props: IProps) => {
             />
           ) : (
             <div className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'>
-              <AvatarDefault name={data?.displayName} />
+              <AvatarDefault nameClassName='text-[14px]' name={data?.displayName} />
             </div>
           )}
           <div className='relative mb-[3px] flex min-h-[20px] items-center'>
@@ -130,7 +130,6 @@ const ItemPeople = (props: IProps) => {
               />
             )}
           </div>
-
           <Text type='body-12-medium' className='mb-[9px] text-center' color='neutral-4'>
             <p>{formatStringToNumber(data?.numberFollowers) || 0}</p>
             <p>{t('followers')}</p>

@@ -18,7 +18,7 @@ import { useUserType } from '@hooks/useUserType';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ComposeButton from '../ComposeButton';
@@ -69,7 +69,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
     <>
       <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
         <div className='flex items-center'>
-          {userLoginInfo?.avatar ? (
+          {isUrlValid(userLoginInfo?.avatar) ? (
             <img
               src={userLoginInfo?.avatar}
               alt=''
@@ -89,7 +89,6 @@ const UserPosting = ({ onAddNewPost }: any) => {
               <AvatarDefault name={userLoginInfo?.displayName} />
             </CustomLink>
           )}
-
           <input
             type='text'
             onClick={onShowModal}

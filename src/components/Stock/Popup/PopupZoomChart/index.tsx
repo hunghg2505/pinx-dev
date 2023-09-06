@@ -9,10 +9,9 @@ interface IPopupZoomChartProps {
   closeIcon?: JSX.Element | null;
   stockCode: string;
   refPrice?: number;
-  color: string;
 }
 
-const PopupZoomChart = ({ visible, onClose, stockCode, refPrice, color }: IPopupZoomChartProps) => {
+const PopupZoomChart = ({ visible, onClose, stockCode, refPrice }: IPopupZoomChartProps) => {
   const [value, setValue] = useState(1);
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const PopupZoomChart = ({ visible, onClose, stockCode, refPrice, color }: IPopup
       className='max-w-[90vw]'
     >
       <div className='mt-[28px]'>
-        <ChartIframe stockCode={stockCode} forceUpdate={value} refPrice={refPrice} color={color} />
+        <ChartIframe stockCode={stockCode} forceUpdate={value} refPrice={refPrice} />
       </div>
     </Modal>
   );

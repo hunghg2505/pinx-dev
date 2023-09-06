@@ -37,9 +37,10 @@ const AlphabetToColor: any = {
 interface IProps {
   name?: string;
   nameClassName?: string;
+  className?: string;
 }
 const AvatarDefault = (props: IProps) => {
-  const { name, nameClassName } = props;
+  const { name, nameClassName, className } = props;
 
   const nameFormat = useMemo(() => {
     let firstCharName = 'Z';
@@ -54,7 +55,10 @@ const AvatarDefault = (props: IProps) => {
 
   return (
     <div
-      className='mr-2 flex h-full w-full items-center justify-center rounded-full object-contain'
+      className={classNames(
+        'mr-2 flex h-full w-full items-center justify-center rounded-full object-contain',
+        className,
+      )}
       style={{ backgroundColor: AlphabetToColor[nameFormat] }}
     >
       <Text type='body-24-regular' color='cbwhite' className={classNames(nameClassName)}>

@@ -6,7 +6,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 const IconArrow = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='24' viewBox='0 0 25 24' fill='none'>
@@ -29,7 +29,7 @@ const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) 
     <CustomLink href={urlProfile}>
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
         <div className='flex items-center'>
-          {data?.avatar ? (
+          {isUrlValid(data?.avatar) ? (
             <img
               loading='lazy'
               src={data?.avatar}
@@ -41,7 +41,6 @@ const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) 
               <AvatarDefault nameClassName='text-[16px]' name={data?.displayName} />
             </div>
           )}
-
           <div>
             <Text
               type='body-14-semibold'
