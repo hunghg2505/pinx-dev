@@ -55,10 +55,10 @@ const Login = (props: Iprops) => {
         requestProfleSetting();
         setUserLoginInfo(loginData);
         setForceAllowTerm(loginData.forceAllow);
-        setUserType(checkUserType(loginData?.custStat, loginData?.acntStat));
         if (loginData.isReadTerms === 'true') {
           setIsReadTerms(true);
         }
+        setUserType(checkUserType(loginData?.custStat, loginData?.acntStat));
         if (isModal) {
           setPopupStatus({
             ...popupStatus,

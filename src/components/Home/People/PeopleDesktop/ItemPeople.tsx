@@ -15,7 +15,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -78,7 +78,7 @@ const ItemPeople = (props: IProps) => {
         className='flex flex-1 cursor-pointer overflow-hidden'
         onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
       >
-        {data?.avatar ? (
+        {isUrlValid(data?.avatar) ? (
           <img
             src={data?.avatar}
             alt=''

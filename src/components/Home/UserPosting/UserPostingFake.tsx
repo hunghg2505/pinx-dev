@@ -8,14 +8,7 @@ const UserPostingFake = () => {
   return (
     <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
       <div className='flex items-center'>
-        <img
-          src='/static/images/img-blur.png'
-          alt=''
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
-        />
+        <div className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover' />
         <input
           type='text'
           readOnly

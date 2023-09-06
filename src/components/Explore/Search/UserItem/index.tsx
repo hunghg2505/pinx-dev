@@ -22,7 +22,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
   data: ISuggestionPeople;
@@ -120,7 +120,7 @@ const UserItem = (props: Iprops) => {
           setSearchSeo(false);
         }}
       >
-        {data?.avatar ? (
+        {isUrlValid(data?.avatar) ? (
           <img
             src={data?.avatar}
             alt=''

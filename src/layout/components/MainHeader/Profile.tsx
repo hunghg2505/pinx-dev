@@ -13,6 +13,7 @@ import Back from '@components/MenuProfile/Back';
 import BasicInfo from '@components/MenuProfile/BasicInfo';
 import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import { MainButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
@@ -23,7 +24,13 @@ import { useAuth } from '@store/auth/useAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH, calcUserStatusText, checkUserType, formatStringToNumber } from '@utils/common';
+import {
+  ROUTE_PATH,
+  calcUserStatusText,
+  checkUserType,
+  formatStringToNumber,
+  isUrlValid,
+} from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD, ONE_LINK_DOWNLOAD } from 'src/constant';
@@ -80,7 +87,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
       />
       <BasicInfo
         userName={userLoginInfo?.displayName || 'Anonymous User'}
-        avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
+        avatar={userLoginInfo?.avatar || ''}
         status={calcUserStatusText(userLoginInfo.acntStat || '')}
         close={close}
         isKol={userLoginInfo?.isKol}
@@ -146,11 +153,17 @@ const Profile = () => {
       <MenuItem>
         <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
           <div className='flex w-full items-center gap-[24px] p-4'>
-            <img
-              src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
-              alt=''
-              className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'
-            />
+            {isUrlValid(userLoginInfo?.avatar) ? (
+              <img
+                src={userLoginInfo?.avatar}
+                alt=''
+                className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'
+              />
+            ) : (
+              <div className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'>
+                <AvatarDefault className='!m-0' name={userLoginInfo?.displayName} />
+              </div>
+            )}
             <div className='flex flex-1 flex-col gap-[6px] overflow-hidden'>
               <div className='flex items-center'>
                 <Text type='body-16-semibold' className='truncate'>

@@ -18,10 +18,12 @@ interface Iprops {
   refreshCommentOfPost: () => void;
   id: string;
   refresh: () => void;
+  onTrackingViewTickerInfo?: (stockCode: string) => void;
 }
 
 const ModalComment = (props: Iprops) => {
-  const { children, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
+  const { children, commentsOfPost, refreshCommentOfPost, id, refresh, onTrackingViewTickerInfo } =
+    props;
   const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
 
@@ -52,6 +54,7 @@ const ModalComment = (props: Iprops) => {
         <div className='sub-comment ml-[48px]'>
           {payload?.map((comment: IComment, index: number) => (
             <ItemComment
+              onTrackingViewTicker={onTrackingViewTickerInfo}
               data={comment}
               key={index}
               onReplies={onReplies}
@@ -92,12 +95,14 @@ const ModalComment = (props: Iprops) => {
                 return (
                   <div key={index}>
                     <ItemComment
+                      onTrackingViewTicker={onTrackingViewTickerInfo}
                       key={index}
                       data={item}
                       onReplies={onReplies}
                       refreshTotal={refresh}
                       refreshCommentOfPOst={refreshCommentOfPost}
                       totalChildren={item.totalChildren}
+                      onCloseModalComment={onVisible}
                     />
                     {getSubComment(item.children)}
                   </div>

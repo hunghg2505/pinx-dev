@@ -21,6 +21,7 @@ import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import CommentPost from './CommentPost';
 import styles from './index.module.scss';
@@ -54,6 +55,11 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
     />
   );
 });
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Post detail screen', locationDetail, 'Stock');
+};
 
 const PostDetail = () => {
   const { t } = useTranslation();
@@ -265,6 +271,7 @@ const PostDetail = () => {
               postDetail={postData}
               totalComments={totalCommentOfPost}
               onRefreshPostDetail={refresh}
+              onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
             />
           </div>
 
@@ -301,6 +308,9 @@ const PostDetail = () => {
                     <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>
                       <div className='mt-[16px]'>
                         <CommentPost
+                          onTrackingViewTickerCmt={(stockCode) =>
+                            handleTrackingViewTicker(stockCode, 'Comment')
+                          }
                           ref={(val: any) => {
                             refListComment.current.push({
                               id: item?.id,
@@ -325,6 +335,9 @@ const PostDetail = () => {
                   <div key={`comment-${item?.id}`}>
                     <div className='mt-[16px]'>
                       <CommentPost
+                        onTrackingViewTickerCmt={(stockCode) =>
+                          handleTrackingViewTicker(stockCode, 'Comment')
+                        }
                         ref={(val: any) => {
                           refListComment.current.push({
                             id: item?.id,

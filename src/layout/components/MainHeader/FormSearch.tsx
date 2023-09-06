@@ -44,8 +44,8 @@ const handleTrackingViewStockList = () => {
 };
 
 // tracking event view ticker info
-const handleTrackingViewStockInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Search seo box', 'List company', 'Stock');
+const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
+  ViewTickerInfo(stockCode, 'Search seo box', location, 'Stock');
 };
 
 const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
@@ -402,7 +402,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                           data={company}
                           // setShowPopup={setSearchSeo}
                           isSearchSeo
-                          onTrackingEventViewStockInfo={handleTrackingViewStockInfo}
+                          onTrackingEventViewStockInfo={(stockCode) =>
+                            handleTrackingViewStockInfo(stockCode, 'List company')
+                          }
                         />
                       );
                     })}
@@ -464,6 +466,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                           // setShowPopup={setSearchSeo}
                           refreshSearch={refreshSearch}
                           isSearchSeoBox={true}
+                          onTrackingViewTicker={(stockCode) =>
+                            handleTrackingViewStockInfo(stockCode, 'Post')
+                          }
                         />
                       );
                     })}
@@ -521,6 +526,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
                             data={item}
                             type={item?.type}
                             // setShowPopup={setSearchSeo}
+                            onTrackingViewTicker={(stockCode) =>
+                              handleTrackingViewStockInfo(stockCode, 'Media')
+                            }
                           />
                         );
                       })}

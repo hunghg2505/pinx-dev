@@ -21,11 +21,12 @@ interface IProps {
   onNavigate?: () => void;
   pinned?: boolean;
   isPostDetailPath: boolean;
+  onTrackingViewTicker?: (stockCode: string) => void;
 }
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
-  const { postDetail, onNavigate, pinned, isPostDetailPath } = props;
+  const { postDetail, onNavigate, pinned, isPostDetailPath, onTrackingViewTicker } = props;
   const [readMore, setReadMore] = useState(false);
 
   const [height, setHeight] = useState<number>(0);
@@ -125,6 +126,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail={postDetail}
         iconPost={iconPost}
         messagePostFormat={messagePostFormat}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -166,6 +168,7 @@ const ContentPostTypeHome = (props: IProps) => {
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
         messagePostFormat={messagePostFormat}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -182,6 +185,7 @@ const ContentPostTypeHome = (props: IProps) => {
         urlStock={urlStock}
         onComment={onComment}
         messagePostFormat={messagePostFormat}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -196,6 +200,7 @@ const ContentPostTypeHome = (props: IProps) => {
         onComment={onComment}
         messagePostFormat={messagePostFormat}
         pnlRate={pnlRate}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -219,6 +224,7 @@ const ContentPostTypeHome = (props: IProps) => {
         post_url={post_url}
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -235,6 +241,7 @@ const ContentPostTypeHome = (props: IProps) => {
         post_url={post_url}
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -247,6 +254,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail={postDetail}
         onComment={onComment}
         height={height}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }

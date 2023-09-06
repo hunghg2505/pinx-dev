@@ -18,7 +18,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
   data: ISuggestionPeople;
@@ -115,7 +115,7 @@ const PeopleItem = (props: Iprops) => {
         className='flex flex-1 cursor-pointer items-center overflow-hidden'
         onClick={handleNavigateToUserDetail}
       >
-        {data?.avatar ? (
+        {isUrlValid(data?.avatar) ? (
           <img
             src={data?.avatar}
             alt=''

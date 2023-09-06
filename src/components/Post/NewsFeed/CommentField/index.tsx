@@ -37,7 +37,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
-import { ROUTE_PATH, isImage, validateHTML } from '../../../../utils/common';
+import { ROUTE_PATH, isImage, isUrlValid, validateHTML } from '../../../../utils/common';
 import suggestion from '../../../Editor/Suggestion';
 // import { toBase64 } from '@';
 
@@ -443,7 +443,7 @@ const Editor = (props: IProps, ref?: any) => {
   return (
     <>
       <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
-        {userLoginInfo?.avatar ? (
+        {isUrlValid(userLoginInfo?.avatar) ? (
           <img
             src={userLoginInfo?.avatar}
             alt=''
@@ -461,7 +461,6 @@ const Editor = (props: IProps, ref?: any) => {
             <AvatarDefault name={userLoginInfo?.displayName} />
           </div>
         )}
-
         <div
           className={classNames(
             'bottom-0 left-0 flex  min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]  mobile:w-full mobile:rounded-[1000px] tablet:static ',

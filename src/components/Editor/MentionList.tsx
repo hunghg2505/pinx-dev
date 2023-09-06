@@ -8,6 +8,7 @@ import { atom } from 'jotai';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
+import { isUrlValid } from '@utils/common';
 
 export const dataMention: any = atom([]);
 
@@ -141,7 +142,7 @@ export default forwardRef((props: any, ref) => {
                           className='block'
                         />
                       </div>
-                    ) : item.avatar ? (
+                    ) : isUrlValid(item.avatar) ? (
                       <img
                         src={item.avatar}
                         alt=''

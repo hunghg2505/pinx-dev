@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
-import { toNonAccentVietnamese } from '@utils/common';
+import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
   const name =
@@ -50,7 +50,10 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
     }
   }, [postDetail?.post?.postType]);
 
-  if (postDetail?.post?.customerInfo?.avatar === '') {
+  if (
+    postDetail?.post?.postType === TYPEPOST.POST &&
+    !isUrlValid(postDetail?.post?.customerInfo?.avatar)
+  ) {
     return (
       <div className='mr-2 object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'>
         <AvatarDefault name={name} />

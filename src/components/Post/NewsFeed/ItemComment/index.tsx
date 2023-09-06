@@ -24,7 +24,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { formatMessage, ROUTE_PATH } from '@utils/common';
+import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -67,6 +67,8 @@ interface IProps {
   isReply?: boolean;
   totalChildren?: number;
   onRemoveComment?: (v: any) => void;
+  onTrackingViewTicker?: (stockCode: string) => void;
+  onCloseModalComment?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -87,6 +89,8 @@ const ItemComment = (props: IProps) => {
     idPost,
     totalChildren = 0,
     onRemoveComment,
+    onTrackingViewTicker,
+    onCloseModalComment,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -253,6 +257,8 @@ const ItemComment = (props: IProps) => {
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onCloseModalComment && onCloseModalComment();
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
@@ -302,7 +308,7 @@ const ItemComment = (props: IProps) => {
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
-        {data?.customerInfo?.avatar ? (
+        {isUrlValid(data?.customerInfo?.avatar) ? (
           <img
             src={data?.customerInfo?.avatar}
             alt=''
@@ -337,7 +343,7 @@ const ItemComment = (props: IProps) => {
                 : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
             }
           >
-            <AvatarDefault name={data?.customerInfo?.displayName} />
+            <AvatarDefault nameClassName='text-[14px]' name={data?.customerInfo?.displayName} />
           </div>
         )}
         {!isHomePath && !isProfilePath && totalChildren > 0 && !isChildren && (
@@ -358,7 +364,6 @@ const ItemComment = (props: IProps) => {
             className='abc absolute left-[20px] top-[44px] z-10  hidden  w-[2px] bg-neutral_07 tablet:block'
           ></div>
         )}
-
         {isChildren && (
           <div>
             <div className='absolute -left-[28px] -top-[18px] z-20 h-[40px] w-[17px] rounded-bl-xl  bg-neutral_07'></div>
@@ -374,7 +379,6 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
         )}
-
         {/* bg-[#F6FAFD] */}
         <div
           className={classNames('content relative flex-1', {

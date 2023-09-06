@@ -5,8 +5,14 @@ import { clearCache } from 'ahooks';
 import { useGetPinedPost } from '@components/Home/service';
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
-const PinPost = ({ pinPostDataInitial }: any) => {
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', 'Pin post', 'Stock');
+};
+
+const PinPost = ({ pinPostDataInitial, onTrackingViewTickerCmt }: any) => {
   const { pinedPost, refresh, loading } = useGetPinedPost();
 
   const data = useMemo(() => {
@@ -32,6 +38,8 @@ const PinPost = ({ pinPostDataInitial }: any) => {
             pinned={true}
             onRefreshList={onRefresh}
             loading={loading}
+            onTrackingViewTicker={handleTrackingViewTicker}
+            onTrackingViewTickerCmt={onTrackingViewTickerCmt}
           />
         );
       })}

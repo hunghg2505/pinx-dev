@@ -6,7 +6,7 @@ import { IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
 
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
 
@@ -43,7 +43,7 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
             .slice(0, WATCHING_INVESTING_ITEM_LIMIT)
             .map((item, index) => (
               <div className='relative' key={index}>
-                {item.avatar ? (
+                {isUrlValid(item.avatar) ? (
                   <img
                     src={item.avatar}
                     alt='Avatar'

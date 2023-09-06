@@ -19,7 +19,7 @@ const Header = () => {
           <Cover />
           <Avatar>
             <>
-              <Img avatar={profileUser?.avatar} />
+              <Img avatar={profileUser?.avatar} displayName={profileUser?.displayName} />
               <IconAvartaEdit />
             </>
           </Avatar>

@@ -19,10 +19,11 @@ interface IActivitiesActionProps {
   isLike: boolean;
   idPost: string;
   refresh: () => void;
+  onTrackingViewTickerInfo?: (stockCode: string) => void;
 }
 
 const ActivitiesAction = (props: IActivitiesActionProps) => {
-  const { isLike, idPost, refresh } = props;
+  const { isLike, idPost, refresh, onTrackingViewTickerInfo } = props;
   const { t } = useTranslation('common');
 
   const { commentsOfPost, refreshCommentOfPost } = useCommentsOfPost(idPost);
@@ -114,6 +115,7 @@ const ActivitiesAction = (props: IActivitiesActionProps) => {
         refreshCommentOfPost={refreshCommentOfPost}
         id={idPost}
         refresh={refresh}
+        onTrackingViewTickerInfo={onTrackingViewTickerInfo}
       >
         <Text type='body-12-regular' color='neutral-gray'>
           {countComment > 0 && countComment} {t('comment')}
