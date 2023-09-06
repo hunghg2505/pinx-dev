@@ -98,11 +98,7 @@ export const VietStockNews = ({
         )}
 
         {!isPostDetailPath && (
-          <CustomLink
-            target='_blank'
-            href={`${post_url}`}
-            className='absolute bottom-0 left-0 z-[2]  w-full'
-          >
+          <CustomLink href={`${postDetailUrl}`} className='absolute bottom-0 left-0 z-[2]  w-full'>
             <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
               <ListStock listStock={postDetail?.post?.tagStocks} />
             </div>

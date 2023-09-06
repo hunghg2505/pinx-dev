@@ -23,7 +23,6 @@ import { ListTheme } from '@components/Compose/ListTheme';
 import { Metatags } from '@components/Compose/Metatags';
 import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
 import { UploadImage } from '@components/Compose/UploadImage';
-import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, TYPEPOST, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
@@ -50,6 +49,7 @@ import { USERTYPE } from '@utils/constant';
 
 import { ActivityWatchlist } from './ActivityWatchlist';
 import { serviceAddPost, serviceUpdatePost } from './service';
+import Suggestion from './Suggestion';
 
 interface IProps {
   hidePopup?: () => void;
