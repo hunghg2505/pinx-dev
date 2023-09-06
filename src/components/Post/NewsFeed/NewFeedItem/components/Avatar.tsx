@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
-import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { isUrlValid, replaceImageError, toNonAccentVietnamese } from '@utils/common';
 
 export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
   const name =
@@ -67,6 +67,7 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
         src={url}
         alt='avatar'
         sizes='100vw'
+        onError={replaceImageError}
         className={classNames(
           'mr-2 rounded-full border border-solid border-[#ebebeb] object-contain mobile:h-[44px] mobile:w-[44px]  desktop:h-[56px] desktop:w-[56px]',
           {

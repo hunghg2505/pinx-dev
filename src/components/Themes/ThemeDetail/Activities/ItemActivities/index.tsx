@@ -7,7 +7,7 @@ import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError, toNonAccentVietnamese } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 
 import ActivitiesAction from '../ActivitiesAction';
@@ -45,7 +45,8 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
             loading='lazy'
             src={avatar}
             alt=''
-            className='mr-[12px] h-[28px] w-[28px] rounded-full'
+            onError={replaceImageError}
+            className='mr-[12px] h-[28px] w-[28px] rounded-full border border-solid border-[#ebebeb]'
           />
         ) : (
           <div className='mr-[12px] h-[28px] w-[28px]'>

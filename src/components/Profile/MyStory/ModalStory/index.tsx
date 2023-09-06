@@ -2,8 +2,10 @@ import React, { ReactNode, useState } from 'react';
 
 import classNames from 'classnames';
 
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
+import { isUrlValid, replaceImageError } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -25,11 +27,22 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
       <Modal visible={visible} onClose={onVisible} className={styles.modalStory}>
         <article className='overflow-hidden rounded-[12px] text-white'>
           <header className='relative h-[375px] max-h-[375px]'>
-            <img
-              src={profileUser?.avatar}
-              alt='story picture'
-              className='relative h-full w-full object-cover'
-            />
+            {isUrlValid(profileUser?.avatar) ? (
+              <img
+                src={profileUser?.avatar}
+                alt='story picture'
+                onError={replaceImageError}
+                className='relative h-full w-full object-cover'
+              />
+            ) : (
+              <div className='relative h-full w-full object-cover'>
+                <AvatarDefault
+                  className='!rounded-none'
+                  nameClassName='text-[100px]'
+                  name={profileUser?.displayName}
+                />
+              </div>
+            )}
             <div className='absolute left-0 top-0 z-10 flex h-full w-full bg-gradient-to-t from-neutral_black to-[transparent] px-[20px] pb-[12px] pt-[20px]'>
               <div className='mt-auto w-full text-center'>
                 <div className='flex items-center justify-center'>

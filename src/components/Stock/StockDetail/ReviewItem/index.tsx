@@ -9,7 +9,7 @@ import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { isUrlValid } from '@utils/common';
+import { isUrlValid, replaceImageError } from '@utils/common';
 
 const MSG_LINE_HEIGHT = 21;
 const MSG_MAX_LINE = 2;
@@ -61,7 +61,8 @@ const ReviewItem = ({
           <img
             src={data.customerInfo.avatar}
             alt='Reviewer avatar'
-            className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'
+            onError={replaceImageError}
+            className='h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover mobile-max:flex-none'
           />
         ) : (
           <div className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'>

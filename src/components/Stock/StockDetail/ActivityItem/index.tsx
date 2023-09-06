@@ -11,7 +11,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 
 // tracking event view ticker info
@@ -56,7 +56,8 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
           <img
             src={data.post.customerInfo.avatar}
             alt={data.post.customerInfo.displayName}
-            className='h-[28px] w-[28px] rounded-full object-cover'
+            className='h-[28px] w-[28px] rounded-full border border-solid border-[#ebebeb] object-cover'
+            onError={replaceImageError}
           />
         ) : (
           <div className='h-[28px] w-[28px] rounded-full object-cover'>

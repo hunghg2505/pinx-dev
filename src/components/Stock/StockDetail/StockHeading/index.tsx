@@ -7,7 +7,13 @@ import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
-import { formatStringToNumber, getStockColor, imageStock, isUrlValid } from '@utils/common';
+import {
+  formatStringToNumber,
+  getStockColor,
+  imageStock,
+  isUrlValid,
+  replaceImageError,
+} from '@utils/common';
 
 interface StockHeadingProps {
   stockCode: string;
@@ -111,6 +117,7 @@ const StockHeading = ({
                       key={index}
                       src={item.avatar}
                       alt='Subscriber user'
+                      onError={replaceImageError}
                       className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
                     />
                   ) : (

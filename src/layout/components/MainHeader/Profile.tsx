@@ -30,6 +30,7 @@ import {
   checkUserType,
   formatStringToNumber,
   isUrlValid,
+  replaceImageError,
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
@@ -157,7 +158,8 @@ const Profile = () => {
               <img
                 src={userLoginInfo?.avatar}
                 alt=''
-                className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'
+                onError={replaceImageError}
+                className='h-[72px] w-[72px] min-w-[72px] cursor-pointer rounded-full  border border-solid border-[#ebebeb] object-cover'
               />
             ) : (
               <div className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'>
@@ -320,7 +322,8 @@ const Profile = () => {
               <img
                 src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
                 alt=''
-                className='h-full w-full overflow-hidden rounded-full object-cover '
+                onError={replaceImageError}
+                className='h-full w-full overflow-hidden rounded-full border border-solid border-[#ebebeb] object-cover '
               />
             </div>
           </Dropdown>
@@ -329,7 +332,8 @@ const Profile = () => {
         <img
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          className='h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:block tablet:hidden'
+          onError={replaceImageError}
+          className='h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />
       </>
