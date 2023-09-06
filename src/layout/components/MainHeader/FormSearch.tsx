@@ -207,7 +207,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const users = data?.data?.customerList?.list || [];
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
-  const listMedia = data?.data?.listMedia || [];
+  const listMedia = data?.data?.listMedia?.list;
   const media = listMedia?.map((item: any) => {
     return {
       type: 'media',
@@ -215,7 +215,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       ...item,
     };
   });
-  const image = data?.data?.listImage
+  const image = data?.data?.listImage?.list
     ?.filter((item: any) => item.postType === TYPEPOST.POST)
     ?.map((item: any) => {
       return {
