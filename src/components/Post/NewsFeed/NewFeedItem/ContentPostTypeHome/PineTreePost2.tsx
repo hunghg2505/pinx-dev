@@ -115,7 +115,7 @@ export const PineTreePost2 = ({
           <img
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
-            className='absolute left-0 top-0 h-full w-full rounded-[9px]'
+            className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
             // blurDataURL="data:..." automatically provided
             // placeholder="blur" // Optional blur-up while loading
           />

@@ -10,12 +10,8 @@ import { ViewTickerInfo } from '@utils/dataLayer';
 import NotFound from './NotFound';
 
 // tracking event view ticker info
-const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'User detail screen', 'Post', 'Stock');
-};
-
-const handleTrackingViewTickerCmt = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'User detail screen', 'Comment', 'Stock');
+const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'User detail screen', locationDetail, 'Stock');
 };
 
 const Posts = () => {
@@ -74,8 +70,10 @@ const Posts = () => {
                 key={`other-people-post-${item?.id}`}
               >
                 <NewsFeed
-                  onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
-                  onTrackingViewTicker={handleTrackingViewTicker}
+                  onTrackingViewTickerCmt={(stockCode) =>
+                    handleTrackingViewTicker(stockCode, 'Comment')
+                  }
+                  onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                   data={item}
                   onRemoveData={refresh}
                 />
@@ -86,8 +84,10 @@ const Posts = () => {
           return (
             <div key={`other-people-post-${item?.id}`}>
               <NewsFeed
-                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
-                onTrackingViewTicker={handleTrackingViewTicker}
+                onTrackingViewTickerCmt={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'Comment')
+                }
+                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                 data={item}
                 onRemoveData={refresh}
               />

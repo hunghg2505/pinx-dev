@@ -42,12 +42,8 @@ const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
 });
 
 // tracking event view ticker info
-const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Home screen', 'News feed', 'Stock');
-};
-
-const handleTrackingViewTickerCmt = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Home screen', 'Comment', 'Stock');
+const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Home screen', locationDetail, 'Stock');
 };
 
 const HomeNewFeed = ({ pinPostDataInitial }: any) => {
@@ -218,13 +214,15 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
       <PinPost
-        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+        onTrackingViewTickerCmt={(stockCode: string) =>
+          handleTrackingViewTicker(stockCode, 'Comment')
+        }
         pinPostDataInitial={pinPostDataInitial}
       />
 
       <NewsFeed
-        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
-        onTrackingViewTicker={handleTrackingViewTicker}
+        onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+        onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
         key={`home-post-item-${firstPost?.id}`}
         data={firstPost as any}
       />
@@ -262,8 +260,8 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       {fourPost?.map((item: IPost) => {
         return (
           <NewsFeed
-            onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
-            onTrackingViewTicker={handleTrackingViewTicker}
+            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
             loading={loadingPosts}
             key={`home-post-item-${item?.id}`}
             data={item}
@@ -291,8 +289,12 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
               ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
             >
               <NewsFeed
-                onTrackingViewTicker={handleTrackingViewTicker}
-                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+                onTrackingViewTicker={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'News feed')
+                }
+                onTrackingViewTickerCmt={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'Comment')
+                }
                 data={item}
               />
             </div>
@@ -301,8 +303,8 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
         return (
           <NewsFeed
-            onTrackingViewTicker={handleTrackingViewTicker}
-            onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
+            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
             key={`home-post-item-${item?.id}`}
             data={item}
           />
