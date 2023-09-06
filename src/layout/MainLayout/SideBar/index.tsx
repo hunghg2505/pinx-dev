@@ -136,6 +136,7 @@ const SideBar = () => {
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
               if (menu.path === ROUTE_PATH.HOME) {
+                globalThis?.sessionStorage.removeItem('scrollPosition');
                 setPostDetailStatus({
                   ...postDetailStatus,
                   isRefreshHome: true,
