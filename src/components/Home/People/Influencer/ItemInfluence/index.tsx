@@ -13,7 +13,7 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -130,6 +130,7 @@ const ItemInfluence = (props: IProps) => {
             <img
               src={data.avatar}
               alt=''
+              onError={replaceImageError}
               className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
               width={161}
               height={252}

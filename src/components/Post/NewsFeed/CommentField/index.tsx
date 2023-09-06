@@ -37,7 +37,13 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
-import { ROUTE_PATH, isImage, isUrlValid, validateHTML } from '../../../../utils/common';
+import {
+  ROUTE_PATH,
+  isImage,
+  isUrlValid,
+  replaceImageError,
+  validateHTML,
+} from '../../../../utils/common';
 import suggestion from '../../../Editor/Suggestion';
 // import { toBase64 } from '@';
 
@@ -450,7 +456,8 @@ const Editor = (props: IProps, ref?: any) => {
             width={0}
             height={0}
             sizes='100vw'
-            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            onError={replaceImageError}
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:hidden tablet:block'
             onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
           />
         ) : (

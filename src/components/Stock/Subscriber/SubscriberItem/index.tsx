@@ -6,7 +6,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
 
 interface ISubscriberItemProps {
   data: ICustomerInfo;
@@ -22,11 +22,12 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <CustomLink className='galaxy-max:flex-none' href={url}>
-        {data.avatar ? (
+        {isUrlValid(data.avatar) ? (
           <img
             src={data.avatar}
             alt='User avatar'
-            className='h-[36px] w-[36px] rounded-full object-cover'
+            onError={replaceImageError}
+            className='h-[36px] w-[36px] rounded-full border border-solid border-[#ebebeb] object-cover'
           />
         ) : (
           <div className='h-[36px] w-[36px] rounded-full object-cover'>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 
 import { followContext } from '..';
 
@@ -30,6 +30,7 @@ const Figure = () => {
           src={context?.avatar}
           alt=''
           className='z-[-1] h-full w-full object-cover'
+          onError={replaceImageError}
         />
       ) : (
         <div className='z-[-1] h-full w-full object-cover'>

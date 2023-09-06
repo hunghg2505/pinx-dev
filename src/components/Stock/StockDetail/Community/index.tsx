@@ -6,7 +6,7 @@ import { IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
 
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
 
@@ -47,6 +47,7 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
                   <img
                     src={item.avatar}
                     alt='Avatar'
+                    onError={replaceImageError}
                     className='h-[40px] w-[40px] rounded-full border border-solid border-[#EEF5F9] object-cover galaxy-max:h-[30px] galaxy-max:w-[30px]'
                   />
                 ) : (

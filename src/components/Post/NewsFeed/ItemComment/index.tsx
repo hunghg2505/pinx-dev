@@ -24,7 +24,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
+import { formatMessage, isUrlValid, replaceImageError, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -315,8 +315,9 @@ const ItemComment = (props: IProps) => {
             width='0'
             height='0'
             sizes='100vw'
+            onError={replaceImageError}
             className={classNames(
-              'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+              'mr-[8px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover galaxy-max:mr-[4px] ',
               {
                 'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
                 'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,

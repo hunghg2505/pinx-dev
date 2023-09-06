@@ -14,7 +14,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -94,6 +94,7 @@ const ItemPeople = (props: IProps) => {
               width='0'
               height='0'
               sizes='100vw'
+              onError={replaceImageError}
               className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
             />
           ) : (

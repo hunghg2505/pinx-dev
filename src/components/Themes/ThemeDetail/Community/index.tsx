@@ -8,7 +8,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { formatStringToNumber, isUrlValid } from '@utils/common';
+import { formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
@@ -125,6 +125,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
                     alt=''
                     width='0'
                     height='0'
+                    onError={replaceImageError}
                     className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
                   />
                 ) : (
