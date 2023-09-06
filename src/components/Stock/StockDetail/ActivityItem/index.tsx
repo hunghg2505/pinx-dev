@@ -12,6 +12,12 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Modal comment stock activities', 'Comment', 'Stock');
+};
 
 interface IActivityItemProps {
   data: IPost;
@@ -157,6 +163,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
             isLike={data.isLike}
             idPost={data.id}
             refresh={refreshStockActivities}
+            onTrackingViewTickerInfo={handleTrackingViewTicker}
           />
         </div>
       </div>

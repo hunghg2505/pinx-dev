@@ -177,6 +177,7 @@ export const usePostDetail = (postId: string, option = {}) => {
     },
     {
       refreshDeps: [postId],
+      loadingDelay: 300,
       ...option,
       // manual: true,
     },

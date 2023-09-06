@@ -21,6 +21,7 @@ import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import CommentPost from './CommentPost';
 import styles from './index.module.scss';
@@ -54,6 +55,15 @@ export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
     />
   );
 });
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Post detail screen', 'News feed', 'Stock');
+};
+
+const handleTrackingViewTickerCmt = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Post detail screen', 'Comment', 'Stock');
+};
 
 const PostDetail = () => {
   const { t } = useTranslation();
@@ -148,6 +158,8 @@ const PostDetail = () => {
     const storage = globalThis?.sessionStorage;
     if (storage?.prevPath === '') {
       router.push(ROUTE_PATH.HOME);
+    } else if (storage?.prevPath === storage?.currentPath) {
+      router.back();
     } else {
       router.push(storage?.prevPath);
     }
@@ -268,6 +280,7 @@ const PostDetail = () => {
               postDetail={postData}
               totalComments={totalCommentOfPost}
               onRefreshPostDetail={refresh}
+              onTrackingViewTicker={handleTrackingViewTicker}
             />
           </div>
 
@@ -304,6 +317,7 @@ const PostDetail = () => {
                     <div ref={(node) => refLastElement(node, service)} key={`comment-${item?.id}`}>
                       <div className='mt-[16px]'>
                         <CommentPost
+                          onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
                           ref={(val: any) => {
                             refListComment.current.push({
                               id: item?.id,
@@ -328,6 +342,7 @@ const PostDetail = () => {
                   <div key={`comment-${item?.id}`}>
                     <div className='mt-[16px]'>
                       <CommentPost
+                        onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
                         ref={(val: any) => {
                           refListComment.current.push({
                             id: item?.id,

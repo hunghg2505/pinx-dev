@@ -452,6 +452,7 @@ const Compose = (props: IProps) => {
       if (url) {
         urlLinks.push(url);
       }
+      console.log('editor?.getJSON()', editor?.getJSON());
       const test = editor?.getJSON()?.content?.map((item: any) => {
         const abcd = item?.content?.map((text: any) => {
           let p = '';
@@ -480,7 +481,7 @@ const Compose = (props: IProps) => {
           if (text.type === 'stockMention') {
             const query = text.attrs.label;
             stock.push(query);
-            p = `%[${text.attrs.label}](${text.attrs.label}) `;
+            p = `%[${text.attrs.label}](${text.attrs.label})`;
           }
           if (text.type === 'hashTag') {
             const query = text.attrs.label;
@@ -511,11 +512,13 @@ const Compose = (props: IProps) => {
 
           return acc;
         }, []);
+        console.log('dataReduce', dataReduce);
         const dataJoin = dataReduce?.join(' ');
         return dataJoin;
       });
 
       const message = test?.flat().join('\n');
+      console.log('🚀 ~ file: index.tsx:520 ~ onAddPost ~ message:', message);
       const tagPeople = await Promise.all(
         users?.map(async (item: string) => {
           const payload: ISearch = {
@@ -563,7 +566,6 @@ const Compose = (props: IProps) => {
       };
       if (urlLinks?.length && !metaData?.length) {
         const dataSeo = await getSeoDataFromLink(urlLinks[0]);
-        console.log('🚀 ~ file: index.tsx:568 ~ onAddPost ~ dataSeo:', dataSeo);
 
         if (dataSeo?.length) {
           data.metadata = [JSON.stringify(dataSeo)];

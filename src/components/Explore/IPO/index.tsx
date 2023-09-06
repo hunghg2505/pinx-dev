@@ -4,9 +4,20 @@ import { ROUTE_PATH, imageStock } from '@utils/common';
 
 import { IStockIPO } from '../service';
 
-const IPO = ({ data }: { data: IStockIPO }) => {
+const IPO = ({
+  data,
+  onTrackingViewTickerInfo,
+}: {
+  data: IStockIPO;
+  onTrackingViewTickerInfo?: () => void;
+}) => {
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+    <CustomLink
+      onClick={() => {
+        onTrackingViewTickerInfo && onTrackingViewTickerInfo();
+      }}
+      href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+    >
       <div className='relative  h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div className='relative z-10 flex h-full items-center justify-between'>
           <div className='flex w-[calc(100%_-_57px)] items-center'>

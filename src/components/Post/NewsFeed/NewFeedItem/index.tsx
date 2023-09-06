@@ -38,6 +38,7 @@ import PostActionComment from '../PostAction';
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
+// tracking event view ticker info
 interface IProps {
   postDetail: IPost;
   isExplore?: boolean;
@@ -49,6 +50,7 @@ interface IProps {
   isNewFeedExplore?: boolean;
   refreshTrendingOnPinex?: () => void;
   isSearchSeoBox?: boolean;
+  onTrackingViewTicker?: (stockCode: string) => void;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -65,6 +67,7 @@ const NewFeedItem = (props: IProps) => {
     refreshTrendingOnPinex,
     isExplore,
     isSearchSeoBox,
+    onTrackingViewTicker,
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -468,7 +471,6 @@ const NewFeedItem = (props: IProps) => {
             </div>
           </MaybeLink>
         </div>
-
         <div className='flex items-center gap-[6px] galaxy-max:max-w-[49px]'>
           {!isMyProfileOrUserDetailPath && (
             <Follower
@@ -489,6 +491,7 @@ const NewFeedItem = (props: IProps) => {
           onNavigate={onNavigate}
           postDetail={postDetail}
           pinned={pinned}
+          onTrackingViewTicker={onTrackingViewTicker}
         />
         {!isNewFeedExplore && (
           <div className='mobile:mt-[22px] desktop:mt-[28px]'>

@@ -19,7 +19,13 @@ import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublicPage } from '@components/SearchSeo/service';
 import Loading from '@components/UI/Loading';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Search seo screen', locationDetail, 'Stock');
+};
 
 const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
@@ -113,7 +119,16 @@ const SearchSeo = () => {
             {companiesL ? (
               <div className='flex flex-col gap-y-[16px]'>
                 {companies?.map((company: any, index: number) => {
-                  return <CompanyItem isSearchSeo key={`company-${index}`} data={company} />;
+                  return (
+                    <CompanyItem
+                      onTrackingEventViewStockInfo={() => {
+                        handleTrackingViewTickerInfo(company?.stockCode, 'Company tab');
+                      }}
+                      isSearchSeo
+                      key={`company-${index}`}
+                      data={company}
+                    />
+                  );
                 })}
               </div>
             ) : (
@@ -157,6 +172,9 @@ const SearchSeo = () => {
                       data={post}
                       isNewFeedExplore={false}
                       hiddenComment={true}
+                      onTrackingViewTicker={(stockCode) =>
+                        handleTrackingViewTickerInfo(stockCode, 'Posts tab')
+                      }
                     />
                   );
                 })}
@@ -204,7 +222,16 @@ const SearchSeo = () => {
             {fillterMediaSort?.length > 0 ? (
               <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
                 {fillterMediaSort?.map((item: any) => {
-                  return <MediaItem key={`media-item-${item?.id}`} data={item} type={item?.type} />;
+                  return (
+                    <MediaItem
+                      onTrackingViewTicker={(stockCode) =>
+                        handleTrackingViewTickerInfo(stockCode, 'Media tab')
+                      }
+                      key={`media-item-${item?.id}`}
+                      data={item}
+                      type={item?.type}
+                    />
+                  );
                 })}
               </div>
             ) : (

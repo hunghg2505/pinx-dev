@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import ItemComment from '@components/Post/NewsFeed/ItemComment';
@@ -18,11 +19,14 @@ interface Iprops {
   refreshCommentOfPost: () => void;
   id: string;
   refresh: () => void;
+  onTrackingViewTickerInfo?: (stockCode: string) => void;
 }
 
 const ModalComment = (props: Iprops) => {
-  const { children, commentsOfPost, refreshCommentOfPost, id, refresh } = props;
+  const { children, commentsOfPost, refreshCommentOfPost, id, refresh, onTrackingViewTickerInfo } =
+    props;
   const { t } = useTranslation('common');
+  const router = useRouter();
   const isLogin = !!getAccessToken();
 
   const refSubReplies: any = React.useRef();
@@ -46,12 +50,17 @@ const ModalComment = (props: Iprops) => {
     }
   };
 
+  useEffect(() => {
+    visible && onVisible();
+  }, [router]);
+
   const getSubComment = (payload: IComment[]) => {
     if (payload.length > 0) {
       return (
         <div className='sub-comment ml-[48px]'>
           {payload?.map((comment: IComment, index: number) => (
             <ItemComment
+              onTrackingViewTicker={onTrackingViewTickerInfo}
               data={comment}
               key={index}
               onReplies={onReplies}
@@ -92,6 +101,7 @@ const ModalComment = (props: Iprops) => {
                 return (
                   <div key={index}>
                     <ItemComment
+                      onTrackingViewTicker={onTrackingViewTickerInfo}
                       key={index}
                       data={item}
                       onReplies={onReplies}

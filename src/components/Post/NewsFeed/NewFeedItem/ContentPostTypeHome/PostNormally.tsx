@@ -17,7 +17,7 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
-const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
+const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingViewTicker }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
@@ -83,6 +83,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
@@ -244,7 +245,7 @@ const MetaContent = ({ metaData }: any) => {
   );
 };
 
-export const PostNormally = ({ postDetail, onComment }: any) => {
+export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
   const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
   const [inView, setInView] = useState(false);
 
@@ -330,6 +331,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
           onComment={onComment}
           postDetail={postDetail}
           messagePostFormat={messagePostFormat}
+          onTrackingViewTicker={onTrackingViewTicker}
         />
       )}
 

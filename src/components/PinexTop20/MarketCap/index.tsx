@@ -6,7 +6,11 @@ import Text from '@components/UI/Text';
 import PinexTop from '../PinexTop';
 import { IProfit, useGetTopMarketCap } from '../service';
 
-const MarketCap = () => {
+interface IMarketCapProps {
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
+}
+
+const MarketCap = ({ onTrackingViewTickerInfo }: IMarketCapProps) => {
   const { t } = useTranslation('explore');
   const { marketCap, loading } = useGetTopMarketCap();
   const maxRevenue = marketCap && Math.max(...marketCap.map((item: IProfit) => item.marketCapital));
@@ -35,6 +39,10 @@ const MarketCap = () => {
                 number={index + 1}
                 key={`profit-${index}`}
                 data={marketCap}
+                onTrackingViewTickerInfo={() => {
+                  onTrackingViewTickerInfo &&
+                    onTrackingViewTickerInfo(marketCap?.stockCode, 'Market Capitalization tab');
+                }}
               />
             );
           })
