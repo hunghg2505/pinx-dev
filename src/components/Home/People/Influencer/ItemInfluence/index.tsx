@@ -7,12 +7,13 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -125,7 +126,7 @@ const ItemInfluence = (props: IProps) => {
               {data.position}
             </Text>
           </div>
-          {data.avatar && (
+          {isUrlValid(data.avatar) ? (
             <img
               src={data.avatar}
               alt=''
@@ -135,6 +136,14 @@ const ItemInfluence = (props: IProps) => {
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
             />
+          ) : (
+            <div className='absolute left-0 top-0 h-full w-full overflow-hidden object-cover'>
+              <AvatarDefault
+                nameClassName='text-[110px]'
+                className='!rounded-[15px]'
+                name={data.displayName}
+              />
+            </div>
           )}
           <div className='bg pointer-events-none absolute bottom-0 left-0 h-full w-full rounded-[15px] bg-[linear-gradient(180deg,_rgba(0,_0,_0,_0.0001)_59.32%,_rgba(0,_0,_0,_0.868253)_91.04%)]'></div>
         </div>

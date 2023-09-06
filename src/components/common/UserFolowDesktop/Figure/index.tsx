@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import { followContext } from '..';
 
@@ -24,7 +24,7 @@ const Figure = () => {
         route.push(url);
       }}
     >
-      {context?.avatar ? (
+      {isUrlValid(context?.avatar) ? (
         <img
           loading='lazy'
           src={context?.avatar}
@@ -33,7 +33,11 @@ const Figure = () => {
         />
       ) : (
         <div className='z-[-1] h-full w-full object-cover'>
-          <AvatarDefault name={context?.displayName} />
+          <AvatarDefault
+            nameClassName='text-[110px]'
+            className='rounded-none'
+            name={context?.displayName}
+          />
         </div>
       )}
       <div className='to-transparent absolute left-0 top-0 z-10 h-full w-full bg-gradient-to-t from-[black]'></div>

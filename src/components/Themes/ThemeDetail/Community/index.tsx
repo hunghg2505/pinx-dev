@@ -8,7 +8,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { formatStringToNumber } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
@@ -119,7 +119,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
           [...data?.list]?.slice(0, 3)?.map((item: any, index: number) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
-                {item.avatar ? (
+                {isUrlValid(item.avatar) ? (
                   <img
                     src={item.avatar}
                     alt=''

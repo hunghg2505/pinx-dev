@@ -9,6 +9,7 @@ import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
+import { isUrlValid } from '@utils/common';
 
 const MSG_LINE_HEIGHT = 21;
 const MSG_MAX_LINE = 2;
@@ -56,7 +57,7 @@ const ReviewItem = ({
       />
 
       <div className='mb-[4px] flex items-center'>
-        {data.customerInfo.avatar ? (
+        {isUrlValid(data.customerInfo.avatar) ? (
           <img
             src={data.customerInfo.avatar}
             alt='Reviewer avatar'
