@@ -207,7 +207,9 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const users = data?.data?.customerList?.list || [];
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
-  const media = data?.data?.listMedia?.map((item: any) => {
+  const listMedia = data?.data?.listMedia || [];
+  console.log('🚀 ~ file: FormSearch.tsx:211 ~ FormSearch ~ listMedia:', listMedia);
+  const media = listMedia?.map((item: any) => {
     return {
       type: 'media',
       timeString: item.timeString,

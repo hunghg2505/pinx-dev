@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
-import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import UserPosting from '@components/Home/UserPosting/UserPosting';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
@@ -28,6 +27,9 @@ import { FILTER_TYPE } from '../ModalFilter';
 import { useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
+  ssr: false,
+});
+const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
   ssr: false,
 });
 const Trending = dynamic(() => import('../Trending'), {
@@ -73,7 +75,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   useEffect(() => {
     const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
     if (scrollPosition) {
-      window.scrollTo(0, Number.parseInt(scrollPosition, 10));
+      window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
       globalThis?.sessionStorage.removeItem('scrollPosition');
     }
   }, []);

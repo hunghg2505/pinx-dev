@@ -56,7 +56,7 @@ export const CafeFNews = ({
           </CustomLink>
 
           <div className=' flex w-full flex-1 flex-col items-start justify-center gap-y-[10px] px-[8px] py-[8px] [border-left:1px_solid_#CCC] tablet:px-[12px]'>
-            <CustomLink target='_blank' href={`${post_url}`}>
+            <CustomLink href={`${post_url}`} target='_blank'>
               <Text type='body-14-bold' color='cbblack' className='line-clamp-2 tablet:text-[16px]'>
                 {postDetail?.post?.title}
               </Text>
