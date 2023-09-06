@@ -100,7 +100,10 @@ export const CafeFNews = ({
         {!isPostDetailPath && (
           <div className='absolute bottom-0 left-0 z-[2]  w-full'>
             <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
-              <ListStock listStock={postDetail?.post?.tagStocks} />
+              <ListStock
+                onTrackingViewTicker={onTrackingViewTicker}
+                listStock={postDetail?.post?.tagStocks}
+              />
             </div>
 
             <CustomLink href={postDetailUrl}>

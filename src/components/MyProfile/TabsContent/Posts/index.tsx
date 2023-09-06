@@ -9,12 +9,8 @@ import { ViewTickerInfo } from '@utils/dataLayer';
 import NotFound from './NotFound';
 
 // tracking event view ticker info
-const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'My profile screen', 'Post', 'Stock');
-};
-
-const handleTrackingViewTickerCmt = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'My profile screen', 'Comment', 'Stock');
+const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'My profile screen', locationDetail, 'Stock');
 };
 
 const Posts = () => {
@@ -62,8 +58,10 @@ const Posts = () => {
             return (
               <div ref={(node) => refLastElement(node, service)} key={`my-post-${item?.id}`}>
                 <NewsFeed
-                  onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
-                  onTrackingViewTicker={handleTrackingViewTicker}
+                  onTrackingViewTickerCmt={(stockCode) =>
+                    handleTrackingViewTicker(stockCode, 'Comment')
+                  }
+                  onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                   data={item}
                 />
               </div>
@@ -73,8 +71,10 @@ const Posts = () => {
           return (
             <div key={`my-post-${item?.id}`}>
               <NewsFeed
-                onTrackingViewTickerCmt={handleTrackingViewTickerCmt}
-                onTrackingViewTicker={handleTrackingViewTicker}
+                onTrackingViewTickerCmt={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'Comment')
+                }
+                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                 data={item}
               />
             </div>
