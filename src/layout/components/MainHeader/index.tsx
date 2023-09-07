@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useMount } from 'ahooks';
+import { useMount, useUpdateEffect } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -10,11 +10,13 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
+// import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import FormSearch from '@layout/components/MainHeader/FormSearch';
 // import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import SideBar from '@layout/MainLayout/SideBar';
+import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
@@ -88,8 +90,10 @@ const MainHeader = () => {
   const { isRouteSetting } = useRouteSetting();
   const [isOpenSearch, setIsOpenSearch] = React.useState(false);
   const { isMobile } = useResponsive();
+  const token = getAccessToken();
   const router = useRouter();
   const isRouteExplore = [ROUTE_PATH.EXPLORE, ROUTE_PATH.SEARCH].includes(router.pathname);
+  console.log('🚀 ~ file: index.tsx:96 ~ MainHeader ~ isRouteExplore:', isRouteExplore);
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -122,7 +126,9 @@ const MainHeader = () => {
       document.removeEventListener('touchmove', onScroll);
     };
   });
-
+  useUpdateEffect(() => {
+    router.reload();
+  }, [token]);
   return (
     <>
       <div
@@ -202,14 +208,14 @@ const MainHeader = () => {
                 <MenuMobile />
               </div>
               {!isMobile && !isRouteExplore && (
-                <div className='hidden w-full flex-auto'>
+                <div className='w-full flex-auto'>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
               <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
-                {/* {isMobile && !isRouteExplore && (
+                {isMobile && !isRouteExplore && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
-                )} */}
+                )}
                 {/* <Notifications /> */}
                 <Profile />
               </div>

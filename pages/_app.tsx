@@ -2,9 +2,8 @@
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { ReactElement, ReactNode, useEffect, useRef } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 
-import dayjs from 'dayjs';
 import { useAtomValue } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -47,7 +46,6 @@ const BarlowFont = Barlow({
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
   const stockSocket = useAtomValue(stockSocketAtom);
-  const timerRef = useRef<any>(null);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -73,27 +71,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       socket.off('connect');
     };
   }, [stockSocket]);
-
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      console.log(
-        'Is socket connected',
-        `(${dayjs().format('DD/MM/YYYY HH:mm:ss')})`,
-        socket.connected,
-      );
-    }, 1000);
-
-    const handleSocketDisconnect = () => {
-      console.log('Socket disconnect at', dayjs().format('DD/MM/YYYY HH:mm:ss'));
-    };
-
-    socket.on('disconnect', handleSocketDisconnect);
-
-    return () => {
-      clearInterval(timerRef.current);
-      socket.off('disconnect', handleSocketDisconnect);
-    };
-  }, []);
 
   return (
     <>

@@ -422,8 +422,8 @@ export const useGetPinedPost = (options = {}) => {
     },
     {
       ...options,
-      // staleTime: -1,
-      // cacheKey: 'data-pin-post',
+      staleTime: -1,
+      cacheKey: 'data-pin-post',
       loadingDelay: 300,
     },
   );

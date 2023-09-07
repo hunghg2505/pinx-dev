@@ -154,14 +154,9 @@ const PostDetail = () => {
     const storage = globalThis?.sessionStorage;
     if (storage?.prevPath === '') {
       router.push(ROUTE_PATH.HOME);
-    } else if (storage?.prevPath === storage?.currentPath) {
-      router.back();
     } else {
-      router.push(storage?.prevPath);
+      router.back();
     }
-    // console.log('🚀 ~ file: index.tsx:149 ~ onGoToBack ~ storage:', storage);
-    // router.back();
-    // router.
   };
 
   const onReplies = async (value: string, customerId: number, id: string) => {

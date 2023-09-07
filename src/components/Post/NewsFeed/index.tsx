@@ -192,7 +192,7 @@ const NewsFeed = (props: IProps) => {
     // refreshCommentOfPost();
   };
 
-  if (loading) {
+  if (loading && !pinned) {
     return <NewsFeedSkeleton />;
   }
 

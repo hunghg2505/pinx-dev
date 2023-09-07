@@ -66,60 +66,64 @@ export const ROUTE_PATH = {
 export const formatMessage = (message: string, data: any) => {
   const str = message.split(' ');
   const ignore: any = [];
-  const checkSplit = message.split(' ')?.reduce((acc: any, cur: any, index: any, array: any) => {
-    const isStart = cur.includes('[');
-    const isEnd = cur.includes(']');
-    const isHashTag = cur.includes('#');
+  const checkSplit = message
+    .split('\n')
+    .join(' ')
+    .split(' ')
+    ?.reduce((acc: any, cur: any, index: any, array: any) => {
+      const isStart = cur.includes('[');
+      const isEnd = cur.includes(']');
+      const isHashTag = cur.includes('#');
 
-    if (isStart && !isEnd && !isHashTag) {
-      for (const [i, item] of array.entries()) {
-        if (cur === item) {
-          continue;
-        }
-        if (i <= index) {
-          continue;
-        }
-
-        ignore.push(i);
-
-        cur = cur?.concat(` ${item}`);
-
-        const isEndItem = item.includes(']');
-
-        if (isEndItem) {
-          break;
-        }
-      }
-    }
-
-    const can = !ignore.includes(index);
-
-    if (can) {
-      const nCur = `${cur}`;
-
-      const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%') || nCur.includes('#'));
-      if (isSepecial) {
-        acc.push(nCur);
-      } else {
-        // eslint-disable-next-line unicorn/prefer-at
-        const prevItem = acc[acc.length - 1];
-        if (prevItem) {
-          const isPrevItemSepecial = Boolean(
-            prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
-          );
-
-          if (isPrevItemSepecial) {
-            acc.push(nCur);
-          } else {
-            acc[acc.length - 1] = `${prevItem} ${nCur}`;
+      if (isStart && !isEnd && !isHashTag) {
+        for (const [i, item] of array.entries()) {
+          if (cur === item) {
+            continue;
           }
-        } else {
-          acc.push(nCur);
+          if (i <= index) {
+            continue;
+          }
+
+          ignore.push(i);
+
+          cur = cur?.concat(` ${item}`);
+
+          const isEndItem = item.includes(']');
+
+          if (isEndItem) {
+            break;
+          }
         }
       }
-    }
-    return acc;
-  }, []);
+
+      const can = !ignore.includes(index);
+
+      if (can) {
+        const nCur = `${cur}`;
+
+        const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%') || nCur.includes('#'));
+        if (isSepecial) {
+          acc.push(nCur);
+        } else {
+          // eslint-disable-next-line unicorn/prefer-at
+          const prevItem = acc[acc.length - 1];
+          if (prevItem) {
+            const isPrevItemSepecial = Boolean(
+              prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+            );
+
+            if (isPrevItemSepecial) {
+              acc.push(nCur);
+            } else {
+              acc[acc.length - 1] = `${prevItem} ${nCur}`;
+            }
+          } else {
+            acc.push(nCur);
+          }
+        }
+      }
+      return acc;
+    }, []);
   message = message.replaceAll('\n', '<p></p>');
   const tagPeople = data?.tagPeople?.map((item: any) => {
     return `@[${item?.displayName}](${item?.customerId})`;

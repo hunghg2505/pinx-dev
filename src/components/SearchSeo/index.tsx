@@ -61,14 +61,14 @@ const SearchSeo = () => {
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
-  const media = data?.data?.listMedia?.map((item: any) => {
+  const media = data?.data?.listMedia?.list?.map((item: any) => {
     return {
       type: 'media',
       timeString: item.timeString,
       ...item,
     };
   });
-  const image = data?.data?.listImage
+  const image = data?.data?.listImage?.list
     ?.filter((item: any) => item.postType === TYPEPOST.POST)
     ?.map((item: any) => {
       return {
