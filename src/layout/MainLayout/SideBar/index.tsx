@@ -15,7 +15,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
-import { ViewWatchlist } from '@utils/dataLayer';
+import { NavigateSection, ViewWatchlist } from '@utils/dataLayer';
 
 import {
   IconAssets,
@@ -142,6 +142,9 @@ const SideBar = () => {
                   isRefreshHome: true,
                 });
               }
+
+              // tracking navigate section
+              NavigateSection(menu.label);
 
               // tracking event view watch list
               if (menu.path === ROUTE_PATH.WATCHLIST) {
