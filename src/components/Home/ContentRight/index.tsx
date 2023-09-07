@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import StickyBox from 'react-sticky-box';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
-import MarketDesktop from '@components/Home/Market/MarketDesktop';
+// import MarketDesktop from '@components/Home/Market/MarketDesktop';
 import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
 import { Button } from '@components/UI/Button';
@@ -94,9 +94,7 @@ const ContentRight = () => {
   return (
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div className='max-w-[350px]'>
-        <Fade visible={!isProfilePath}>
-          <MarketDesktop />
-        </Fade>
+        <Fade visible={!isProfilePath}>{/* <MarketDesktop /> */}</Fade>
 
         <Fade visible={isLogin && !isPageWatchList}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
