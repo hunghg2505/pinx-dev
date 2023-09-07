@@ -16,6 +16,7 @@ const PinPost = ({ pinPostDataInitial, onTrackingViewTickerCmt }: any) => {
   const { pinedPost, refresh, loading } = useGetPinedPost();
 
   const data = useMemo(() => {
+    clearCache('data-pin-post');
     if (pinedPost?.length) {
       return pinedPost;
     }
