@@ -60,6 +60,7 @@ export const RegisterTracking = (startRegistration: Date, CTALocaiton: string, C
       'CTA Type': CTAType,
       'Register CTA Location': CTALocaiton,
       'Start Registration Date': startRegistration,
+      param_1: 'Test',
     });
   } catch {}
 };
