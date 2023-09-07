@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import ModalComposeMobile from '@components/Compose/ModalComposeMobile';
 import ModalCompose from '@components/Home/ModalCompose';
@@ -70,15 +71,12 @@ const UserPosting = ({ onAddNewPost }: any) => {
       <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
         <div className='flex items-center'>
           {isUrlValid(userLoginInfo?.avatar) ? (
-            <img
+            <LazyLoadImage
               src={userLoginInfo?.avatar}
               alt=''
-              width={0}
-              height={0}
               onClick={() => {
                 router.push(ROUTE_PATH.MY_PROFILE);
               }}
-              sizes='100vw'
               onError={replaceImageError}
               className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover'
             />

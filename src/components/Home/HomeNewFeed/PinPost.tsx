@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { clearCache } from 'ahooks';
 
@@ -12,17 +12,17 @@ const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'Home screen', 'Pin post', 'Stock');
 };
 
-const PinPost = ({ pinPostDataInitial, onTrackingViewTickerCmt }: any) => {
+const PinPost = ({ onTrackingViewTickerCmt }: any) => {
   const { pinedPost, refresh, loading } = useGetPinedPost();
 
-  const data = useMemo(() => {
-    clearCache('data-pin-post');
-    if (pinedPost?.length) {
-      return pinedPost;
-    }
+  // const data = useMemo(() => {
+  //   clearCache('data-pin-post');
+  //   if (pinedPost?.length) {
+  //     return pinedPost;
+  //   }
 
-    return pinPostDataInitial?.data;
-  }, [pinPostDataInitial?.data, pinedPost]);
+  //   return pinPostDataInitial?.data;
+  // }, [pinPostDataInitial?.data, pinedPost]);
 
   const onRefresh = () => {
     clearCache('data-pin-post');
@@ -31,7 +31,7 @@ const PinPost = ({ pinPostDataInitial, onTrackingViewTickerCmt }: any) => {
 
   return (
     <>
-      {data?.map((item: IPost) => {
+      {pinedPost?.map((item: IPost) => {
         return (
           <NewsFeed
             data={item}

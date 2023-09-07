@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
@@ -184,7 +185,7 @@ const ThemesItem = (props: IProps) => {
       <div className='mx-auto w-[177px] pr-[16px]'>
         <div className='relative min-h-[252px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           {theme?.url && (
-            <img
+            <LazyLoadImage
               src={theme?.url}
               alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'

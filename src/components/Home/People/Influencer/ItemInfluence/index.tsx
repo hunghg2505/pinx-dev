@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
+import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
@@ -21,12 +22,13 @@ interface IProps {
   data: IKOL;
   refresh: () => void;
   refreshList?: () => void;
+  scrollPosition: any;
 }
 const ItemInfluence = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  const { data, refreshList, refresh } = props;
+  const { data, refreshList, refresh, scrollPosition } = props;
   const { run: getUserProfile } = useProfileInitial();
   const [isFollow, setIsFollow] = React.useState(data?.isFollowed);
   React.useEffect(() => {
@@ -97,22 +99,16 @@ const ItemInfluence = (props: IProps) => {
                 {data?.displayName}
               </Text>
               {isFeatureProfile && (
-                <img
+                <LazyLoadImage
                   src='/static/icons/iconKol.svg'
                   alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
                   className='h-[20px] w-[20px]'
                 />
               )}
               {isKol && (
-                <img
+                <LazyLoadImage
                   src='/static/icons/iconTick.svg'
                   alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
                   className='ml-[8px] h-[16px] w-[16px]'
                 />
               )}
@@ -127,13 +123,13 @@ const ItemInfluence = (props: IProps) => {
             </Text>
           </div>
           {isUrlValid(data.avatar) ? (
-            <img
+            <LazyLoadImage
               src={data.avatar}
               alt=''
+              scrollPosition={scrollPosition}
               onError={replaceImageError}
               className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
-              width={161}
-              height={252}
+
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
             />
@@ -152,11 +148,9 @@ const ItemInfluence = (props: IProps) => {
           className='absolute right-[13px] top-[13px] z-20 flex h-[24px] w-[32px] cursor-pointer flex-row items-center justify-center rounded-[100px] bg-[#589DC0]'
           onClick={onFollow}
         >
-          <img
+          <LazyLoadImage
             src={isFollow ? '/static/icons/iconTickFollow.svg' : '/static/icons/iconPlus.svg'}
             alt=''
-            width='0'
-            height='0'
             className='w-[10px]'
           />
         </div>
@@ -164,4 +158,4 @@ const ItemInfluence = (props: IProps) => {
     </div>
   );
 };
-export default ItemInfluence;
+export default trackWindowScroll(ItemInfluence);
