@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -8,8 +8,10 @@ import PopupReview from '@components/Stock/Popup/PopupReview';
 import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { isUrlValid, replaceImageError } from '@utils/common';
+import { useUserType } from '@hooks/useUserType';
+import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
 
 const MSG_LINE_HEIGHT = 21;
 const MSG_MAX_LINE = 2;
@@ -28,6 +30,7 @@ const ReviewItem = ({
   isMyReview = false,
   onEditReviewSuccess,
 }: IReviewItemProps) => {
+  const { userId } = useUserType();
   const { t } = useTranslation(['stock', 'common']);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
@@ -39,6 +42,15 @@ const ReviewItem = ({
     const messageReviewHeight = messageRef.current?.clientHeight || 0;
     messageReviewHeight && setShowSeeMore(messageReviewHeight > MSG_MAX_HEIGHT);
   }, [data]);
+
+  const profileUrl = useMemo(() => {
+    const url =
+      userId === data.customerId
+        ? ROUTE_PATH.MY_PROFILE
+        : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
+
+    return url;
+  }, [userId, data.customerId]);
 
   return (
     <div>
@@ -57,45 +69,49 @@ const ReviewItem = ({
       />
 
       <div className='mb-[4px] flex items-center'>
-        {isUrlValid(data.customerInfo.avatar) ? (
-          <img
-            src={data.customerInfo.avatar}
-            alt='Reviewer avatar'
-            onError={replaceImageError}
-            className='h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover mobile-max:flex-none'
-          />
-        ) : (
-          <div className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'>
-            <AvatarDefault nameClassName='text-[12px]' name={data.customerInfo.displayName} />
+        <CustomLink href={profileUrl}>
+          {isUrlValid(data.customerInfo.avatar) ? (
+            <img
+              src={data.customerInfo.avatar}
+              alt='Reviewer avatar'
+              onError={replaceImageError}
+              className='h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover mobile-max:flex-none'
+            />
+          ) : (
+            <div className='h-[28px] w-[28px] rounded-full border border-[#EEF5F9] object-cover mobile-max:flex-none'>
+              <AvatarDefault nameClassName='text-[12px]' name={data.customerInfo.displayName} />
+            </div>
+          )}
+        </CustomLink>
+
+        <CustomLink href={profileUrl} linkClassName='ml-[12px]'>
+          <div className='flex items-center'>
+            <Text
+              type='body-14-semibold'
+              className='max-w-[150px] truncate text-[#0D0D0D] galaxy-max:ml-[6px] galaxy-max:max-w-[110px] galaxy-max:text-[12px] laptop:max-w-[300px]'
+            >
+              {data.customerInfo.displayName}
+            </Text>
+
+            {data?.customerInfo.isFeatureProfile && (
+              <img
+                src='/static/icons/iconStarFollow.svg'
+                alt=''
+                width={0}
+                height={0}
+                className='ml-[6px] w-[16px] galaxy-max:ml-[2px]'
+              />
+            )}
+
+            {data?.customerInfo.isKol && (
+              <img
+                src='/static/icons/iconTickKol.svg'
+                alt=''
+                className='ml-[6px] h-[14px] w-[14px] object-contain galaxy-max:ml-[2px]'
+              />
+            )}
           </div>
-        )}
-
-        <div className='flex items-center'>
-          <Text
-            type='body-14-semibold'
-            className='ml-[12px] max-w-[150px] truncate text-[#0D0D0D] galaxy-max:ml-[6px] galaxy-max:max-w-[110px] galaxy-max:text-[12px] laptop:max-w-[300px]'
-          >
-            {data.customerInfo.displayName}
-          </Text>
-
-          {data?.customerInfo.isFeatureProfile && (
-            <img
-              src='/static/icons/iconStarFollow.svg'
-              alt=''
-              width={0}
-              height={0}
-              className='ml-[6px] w-[16px] galaxy-max:ml-[2px]'
-            />
-          )}
-
-          {data?.customerInfo.isKol && (
-            <img
-              src='/static/icons/iconTickKol.svg'
-              alt=''
-              className='ml-[6px] h-[14px] w-[14px] object-contain galaxy-max:ml-[2px]'
-            />
-          )}
-        </div>
+        </CustomLink>
 
         <Text type='body-12-regular' className='ml-auto   text-[#999999] galaxy-max:text-[10px]'>
           {isLatestReview
