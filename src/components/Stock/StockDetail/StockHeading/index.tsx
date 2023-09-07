@@ -6,7 +6,6 @@ import { useTranslation } from 'next-i18next';
 import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
-import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
 import {
   formatStringToNumber,
   getStockColor,
@@ -14,6 +13,8 @@ import {
   isUrlValid,
   replaceImageError,
 } from '@utils/common';
+
+import PriceWrapper from '../StockItem/PriceWrapper';
 
 interface StockHeadingProps {
   stockCode: string;
@@ -148,51 +149,45 @@ const StockHeading = ({
           }}
         >
           <div>
-            <Text
-              type='body-16-medium'
-              className={classNames(
-                'inline-block p-[4px]',
-                useToggleClassStock2(
-                  !!isPriceChange,
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-              )}
+            <PriceWrapper
+              isChange={!!isPriceChange}
+              lastPrice={dataStock?.lastPrice || 0}
+              ceilPrice={dataStock?.c || 0}
+              floorPrice={dataStock?.f || 0}
+              refPrice={dataStock?.r || 0}
+              className='inline-block p-[4px]'
             >
-              {!dataStock?.lastPrice || dataStock.lastPrice === 0
-                ? '-'
-                : formatStringToNumber(dataStock?.lastPrice, true, 2)}
-            </Text>
+              <Text type='body-16-medium'>
+                {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                  ? '-'
+                  : formatStringToNumber(dataStock?.lastPrice, true, 2)}
+              </Text>
+            </PriceWrapper>
           </div>
           <div>
-            <Text
-              type='body-12-regular'
-              className={classNames(
-                'inline-block p-[4px]',
-                useToggleClassStock2(
-                  !!isPriceChange,
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-              )}
+            <PriceWrapper
+              isChange={!!isPriceChange}
+              lastPrice={dataStock?.lastPrice || 0}
+              ceilPrice={dataStock?.c || 0}
+              floorPrice={dataStock?.f || 0}
+              refPrice={dataStock?.r || 0}
+              className='inline-block p-[4px]'
             >
-              {!dataStock?.lastPrice || dataStock.lastPrice === 0
-                ? '- / -'
-                : `${unitOt}${formatStringToNumber(
-                    String(dataStock?.ot),
-                    true,
-                    dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
-                  )} / ${unitChangePc}${formatStringToNumber(
-                    String(dataStock?.changePc),
-                    true,
-                    dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
-                  )}`}
-              %
-            </Text>
+              <Text type='body-12-regular'>
+                {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                  ? '- / -'
+                  : `${unitOt}${formatStringToNumber(
+                      String(dataStock?.ot),
+                      true,
+                      dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
+                    )} / ${unitChangePc}${formatStringToNumber(
+                      String(dataStock?.changePc),
+                      true,
+                      dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
+                    )}`}
+                %
+              </Text>
+            </PriceWrapper>
           </div>
         </div>
       </div>
