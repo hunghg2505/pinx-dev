@@ -87,8 +87,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
-      // const text = textContent.slice(1);
-      // return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      const text = textContent.slice(1);
+      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
     }
     return onComment();
   };

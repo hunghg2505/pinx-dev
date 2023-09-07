@@ -1,8 +1,8 @@
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-// import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH } from '@utils/common';
 
 import TrendingSkeleton from './Skeleton';
 import { ITrending, useGetTrending } from '../service';
@@ -14,7 +14,7 @@ export enum TYPETRENDING {
 const Trending = () => {
   const { t } = useTranslation();
   const { dataTrending, loading } = useGetTrending();
-  // const router = useRouter();
+  const router = useRouter();
   return (
     <>
       <Text type='body-16-bold' color='neutral-2' className='mb-4'>
@@ -43,7 +43,7 @@ const Trending = () => {
                 key={index}
               >
                 <Text
-                  // onClick={() => router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${item.keyword}`)}
+                  onClick={() => router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${item.keyword}`)}
                   type='body-14-medium'
                   className='cursor-pointer'
                   color='primary-2'

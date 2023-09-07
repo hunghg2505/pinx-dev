@@ -172,8 +172,8 @@ const MediaItem = ({
       return onNavigate(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
-      // const text = textContent.slice(1);
-      // return onNavigate(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      const text = textContent.slice(1);
+      return onNavigate(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
     }
     return onGoToDetail();
   };
