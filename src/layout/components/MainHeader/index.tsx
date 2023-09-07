@@ -180,13 +180,13 @@ const MainHeader = () => {
             </div>
           ) : (
             <>
-              <div className='flex w-full max-w-[218px] items-center gap-[16px] '>
+              <div className='flex w-full max-w-[218px] items-center desktop:gap-[16px]'>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <div className='flex items-center'>
                     <img
                       src='/static/icons/logo.svg'
                       alt=''
-                      className='h-[40px] w-[40px] object-contain desktop:h-[52px] desktop:w-[52px]'
+                      className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
                     />
 
                     <img
