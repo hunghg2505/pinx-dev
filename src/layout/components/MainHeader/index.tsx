@@ -93,6 +93,7 @@ const MainHeader = () => {
   const token = getAccessToken();
   const router = useRouter();
   const isRouteExplore = [ROUTE_PATH.EXPLORE, ROUTE_PATH.SEARCH].includes(router.pathname);
+  console.log('🚀 ~ file: index.tsx:96 ~ MainHeader ~ isRouteExplore:', isRouteExplore);
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -207,14 +208,14 @@ const MainHeader = () => {
                 <MenuMobile />
               </div>
               {!isMobile && !isRouteExplore && (
-                <div className='hidden w-full flex-auto'>
+                <div className='w-full flex-auto'>
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
                 </div>
               )}
               <div className='flex w-full max-w-[350px] items-center justify-end gap-[12px] galaxy-max:gap-[2px]'>
-                {/* {isMobile && !isRouteExplore && (
+                {isMobile && !isRouteExplore && (
                   <SearchInput isOpenSearch={isOpenSearch} setIsOpenSearch={setIsOpenSearch} />
-                )} */}
+                )}
                 {/* <Notifications /> */}
                 <Profile />
               </div>
