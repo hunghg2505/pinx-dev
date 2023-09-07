@@ -12,6 +12,7 @@ import UserPosting from '@components/Home/UserPosting/UserPosting';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -31,6 +32,13 @@ const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
 });
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
   ssr: false,
+  loading: () => (
+    <>
+      <SkeletonLoading />
+      <SkeletonLoading />
+      <SkeletonLoading />
+    </>
+  ),
 });
 const Trending = dynamic(() => import('../Trending'), {
   ssr: false,
