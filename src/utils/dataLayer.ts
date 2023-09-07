@@ -52,12 +52,14 @@ export const GetMoreInfo = (screenName: string, infoGroup: string, infoDetail: s
     });
   } catch {}
 };
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const RegisterTracking = (startRegistration: Date, CTALocaiton: string, CTAType: string) => {
   try {
     window.dataLayer.push({
       event: 'Register',
-      kyc_status: 'Start Register Account',
+      'KYC Status': 'Start Register Account',
+      'CTA Type': CTAType,
+      'Register CTA Location': CTALocaiton,
+      'Start Registration Date': startRegistration,
     });
   } catch {}
 };
