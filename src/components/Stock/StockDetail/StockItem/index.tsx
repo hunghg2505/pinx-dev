@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 
-import classNames from 'classnames';
-
 import { IStock } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
 import { ROUTE_PATH, formatStringToNumber, getStockColor, imageStock } from '@utils/common';
+
+import PriceWrapper from './PriceWrapper';
 
 interface IStockItemProps {
   data: IStock;
@@ -95,26 +94,30 @@ const StockItem = ({ data }: IStockItemProps) => {
 
         <div className='ml-auto text-right' style={{ color: data.lastPrice ? color : '' }}>
           <div>
-            <Text
-              className={classNames(
-                'inline-block p-[4px] galaxy-max:text-[14px]',
-                useToggleClassStock2(isChange, data.lastPrice, data.c, data.f, data.r),
-              )}
-              type='body-16-medium'
+            <PriceWrapper
+              isChange={isChange}
+              lastPrice={data.lastPrice}
+              ceilPrice={data.c}
+              floorPrice={data.f}
+              refPrice={data.r}
+              className='inline-block p-[4px] galaxy-max:text-[14px]'
             >
-              {data.lastPrice ? formatStringToNumber(data.lastPrice, true, 2) : '-'}
-            </Text>
+              <Text type='body-16-medium'>
+                {data.lastPrice ? formatStringToNumber(data.lastPrice, true, 2) : '-'}
+              </Text>
+            </PriceWrapper>
           </div>
           <div>
-            <Text
-              type='body-12-regular'
-              className={classNames(
-                'mt-[2px] inline-block p-[4px] galaxy-max:mt-[4px] galaxy-max:text-[10px]',
-                useToggleClassStock2(isChange, data.lastPrice, data.c, data.f, data.r),
-              )}
+            <PriceWrapper
+              isChange={isChange}
+              lastPrice={data.lastPrice}
+              ceilPrice={data.c}
+              floorPrice={data.f}
+              refPrice={data.r}
+              className='mt-[2px] inline-block p-[4px] galaxy-max:mt-[4px] galaxy-max:text-[10px]'
             >
-              {data.lastPrice ? renderPricePc() : '- / -%'}
-            </Text>
+              <Text type='body-12-regular'>{data.lastPrice ? renderPricePc() : '- / -%'}</Text>
+            </PriceWrapper>
           </div>
         </div>
       </div>

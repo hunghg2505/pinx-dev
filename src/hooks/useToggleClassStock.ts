@@ -4,7 +4,7 @@ const useToggleClassStock = (
   isIncrease: boolean,
   isDecrease: boolean,
   isEqual: boolean,
-  data: any,
+  dependencies: any,
 ) => {
   const [className, setClassName] = useState('');
 
@@ -32,7 +32,7 @@ const useToggleClassStock = (
       clearTimeout(timerId);
       setClassName('');
     };
-  }, [isIncrease, isDecrease, isEqual, data]);
+  }, [isIncrease, isDecrease, isEqual, dependencies]);
 
   return className;
 };
