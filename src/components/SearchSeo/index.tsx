@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import CompanyItem from '@components/Explore/Search/CompanyItem';
 import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
@@ -21,6 +20,8 @@ import Loading from '@components/UI/Loading';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+
+import { CompanyTab } from './Tab';
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
@@ -57,7 +58,7 @@ const SearchSeo = () => {
     push(ROUTE_PATH.POST_DETAIL(postId));
   };
 
-  const companies = data?.data?.companyList?.list;
+  // const companies = data?.data?.companyList?.list;
   const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
@@ -86,7 +87,7 @@ const SearchSeo = () => {
     };
   });
 
-  const companiesL = companies?.length > 0;
+  // const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
@@ -116,32 +117,7 @@ const SearchSeo = () => {
           animated={false}
         >
           <TabPane tab={t('common:searchseo.tab.company')} key='company'>
-            {companiesL ? (
-              <div className='flex flex-col gap-y-[16px]'>
-                {companies?.map((company: any, index: number) => {
-                  return (
-                    <CompanyItem
-                      onTrackingEventViewStockInfo={() => {
-                        handleTrackingViewTickerInfo(company?.stockCode, 'Company tab');
-                      }}
-                      isSearchSeo
-                      key={`company-${index}`}
-                      data={company}
-                    />
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                {data ? (
-                  <Empty keyword={keyword} loading={loading} />
-                ) : (
-                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
-                    <Loading />
-                  </div>
-                )}
-              </>
-            )}
+            <CompanyTab textSearch={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.people')} key='people'>
             {usersL ? (

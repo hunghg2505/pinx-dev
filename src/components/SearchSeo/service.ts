@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
+import { IStock } from '@components/Stock/type';
 import { getAccessToken } from '@store/auth';
 
 interface IOptions {
@@ -129,5 +130,46 @@ export const useSearchPublicPage = (options?: IOptions) => {
     loading,
     refresh,
     mutate,
+  };
+};
+
+interface ParamsSearchCompany {
+  textSearch: string;
+  page?: number;
+}
+
+export interface ResponseSearchCompany {
+  data: {
+    list: IStock[];
+    totalElements: number;
+    totalPages: number;
+    page: number;
+    size: number;
+    hasNext: boolean;
+  };
+}
+
+export const useSearchCompany = (options?: object) => {
+  const { data, loading, run } = useRequest(
+    (params?: ParamsSearchCompany) => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_COMPANY_V2, {
+            params,
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_COMPANY_V2, {
+            params,
+          });
+    },
+    {
+      ...options,
+    },
+  );
+
+  return {
+    data,
+    loading,
+    run,
   };
 };
