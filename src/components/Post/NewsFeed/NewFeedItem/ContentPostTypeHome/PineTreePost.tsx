@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -11,7 +10,7 @@ const ImageHeadPost = dynamic(
   {
     ssr: false,
     loading: () => (
-      <LazyLoadImage
+      <img
         src='/static/images/img-blur.png'
         alt=''
         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
@@ -70,7 +69,7 @@ export const PineTreePost = ({
                 {t('see_more')}
               </Text>
 
-              <LazyLoadImage
+              <img
                 src='/static/icons/chevronRightPrimaryLight.svg'
                 alt='Icon chevron right'
                 className='h-[20px] w-[20px] object-contain'
@@ -132,7 +131,7 @@ export const PineTreePost = ({
             },
           )}
         >
-          <LazyLoadImage src='/static/icons/iconLink.svg' alt='' className='h-[18px] w-[18px]' />
+          <img src='/static/icons/iconLink.svg' alt='' className='h-[18px] w-[18px]' />
         </CustomLink>
       </div>
     </>

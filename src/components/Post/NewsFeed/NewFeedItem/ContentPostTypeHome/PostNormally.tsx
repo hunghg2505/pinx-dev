@@ -6,7 +6,6 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ReactPlayer from 'react-player/youtube';
 
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
@@ -100,7 +99,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
           className='theme relative flex w-full  flex-col justify-end overflow-hidden rounded-[10px]'
           onClick={(event) => onHandleClick(event)}
         >
-          <LazyLoadImage
+          <img
             src={BgThemePost?.bgImage}
             alt=''
             className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:max-h-[300px] mobile:min-h-[204px] mobile-max:object-bottom tablet:rounded-[8px] desktop:h-[300px]'
@@ -207,7 +206,7 @@ const MetaContent = ({ metaData }: any) => {
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
             <div className='overflow-hidden'>
-              <LazyLoadImage
+              <img
                 src={imageUrl}
                 alt=''
                 className={classNames(
@@ -293,7 +292,7 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
     if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
       return (
         <ModalMedia url={imageMetaData}>
-          <LazyLoadImage
+          <img
             src={imageMetaData}
             alt=''
             className='my-[10px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
@@ -309,7 +308,7 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <LazyLoadImage
+          <img
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
             className='my-[10px]  max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
