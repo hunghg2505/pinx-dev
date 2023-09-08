@@ -21,11 +21,14 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
         TYPEPOST.PinetreeWeeklyNews,
       ].includes(postDetail?.post?.postType)
     ) {
-      return '/static/logo/logoPintree.png';
+      return postDetail?.post?.vendorInfo?.logo || '/static/logo/logoPintree.png';
     }
 
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
-      return 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
+      return (
+        postDetail?.post?.vendorInfo?.logo ||
+        'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png'
+      );
     }
 
     if (
@@ -43,10 +46,13 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
         postDetail?.post?.postType,
       )
     ) {
-      return 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
+      return (
+        postDetail?.post?.vendorInfo?.logo ||
+        'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png'
+      );
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post?.postType)) {
-      return '/static/logo/cafef-logo.png';
+      return postDetail?.post?.vendorInfo?.logo || '/static/logo/cafef-logo.png';
     }
   }, [postDetail?.post?.postType]);
 
