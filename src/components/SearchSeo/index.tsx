@@ -9,7 +9,6 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import NewsItem from '@components/Explore/Search/NewsItem';
-import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
 import { TYPEPOST } from '@components/Post/service';
 import Empty from '@components/SearchSeo/Empty';
@@ -21,7 +20,7 @@ import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
-import { CompanyTab } from './Tab';
+import { CompanyTab, PeopleTab } from './Tab';
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
@@ -58,8 +57,6 @@ const SearchSeo = () => {
     push(ROUTE_PATH.POST_DETAIL(postId));
   };
 
-  // const companies = data?.data?.companyList?.list;
-  const users = data?.data?.customerList?.list;
   const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list?.map((item: any) => {
@@ -79,16 +76,6 @@ const SearchSeo = () => {
       };
     });
 
-  // map api do trả thiếu id
-  const newUsers = users?.map((item: any) => {
-    return {
-      id: item.customerId,
-      ...item,
-    };
-  });
-
-  // const companiesL = companies?.length > 0;
-  const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
@@ -120,23 +107,7 @@ const SearchSeo = () => {
             <CompanyTab textSearch={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.people')} key='people'>
-            {usersL ? (
-              <div className='flex flex-col gap-y-[16px]'>
-                {newUsers?.map((item: any, index: number) => (
-                  <UserItem data={item} key={index} />
-                ))}
-              </div>
-            ) : (
-              <>
-                {data ? (
-                  <Empty keyword={keyword} loading={loading} />
-                ) : (
-                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
-                    <Loading />
-                  </div>
-                )}
-              </>
-            )}
+            <PeopleTab textSearch={keyword} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.posts')} key='posts'>
             {postsL ? (

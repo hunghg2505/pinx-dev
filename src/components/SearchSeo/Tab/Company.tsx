@@ -49,6 +49,10 @@ const CompanyTab = ({ textSearch, onTrackingViewTicker }: CompanyTabProps) => {
         textSearch,
       });
     }
+
+    return () => {
+      setCompanies(undefined);
+    };
   }, [textSearch]);
 
   useBottomScroll(ref, () => {

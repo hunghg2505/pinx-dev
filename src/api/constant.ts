@@ -166,6 +166,8 @@ export const API_PATH = {
 
   PRIVATE_SEARCH_SEO_COMPANY_V2: '/private/search-seo/companyV2',
   PUBLIC_SEARCH_SEO_COMPANY_V2: '/public/search-seo/companyV2',
+  PRIVATE_SEARCH_SEO_PEOPLE_V2: '/private/search-seo/customerV2',
+  PUBLIC_SEARCH_SEO_PEOPLE_V2: '/public/search-seo/customerV2',
   // End SEARCH_SEO
 
   PRIVATE_SEARCH_NEWS: '/private/mapping/searching/news',

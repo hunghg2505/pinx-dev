@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
+import { ICustomerInfo } from '@components/Post/service';
 import { IStock } from '@components/Stock/type';
 import { getAccessToken } from '@store/auth';
 
@@ -133,7 +134,7 @@ export const useSearchPublicPage = (options?: IOptions) => {
   };
 };
 
-interface ParamsSearchCompany {
+interface paramsSearch {
   textSearch: string;
   page?: number;
 }
@@ -151,7 +152,7 @@ export interface ResponseSearchCompany {
 
 export const useSearchCompany = (options?: object) => {
   const { data, loading, run } = useRequest(
-    (params?: ParamsSearchCompany) => {
+    (params?: paramsSearch) => {
       const isLogin = !!getAccessToken();
 
       return isLogin
@@ -159,6 +160,42 @@ export const useSearchCompany = (options?: object) => {
             params,
           })
         : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_COMPANY_V2, {
+            params,
+          });
+    },
+    {
+      ...options,
+    },
+  );
+
+  return {
+    data,
+    loading,
+    run,
+  };
+};
+
+export interface ResponseSearchPeople {
+  data: {
+    list: ICustomerInfo[];
+    totalElements: number;
+    totalPages: number;
+    pageSize: number;
+    pageNumber: number;
+    isLast: boolean;
+  };
+}
+
+export const useSearchPeople = (options?: object) => {
+  const { data, loading, run } = useRequest(
+    (params?: paramsSearch) => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_PEOPLE_V2, {
+            params,
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_PEOPLE_V2, {
             params,
           });
     },
