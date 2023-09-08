@@ -190,7 +190,7 @@ const MainHeader = () => {
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <div className='flex items-center'>
                     <img
-                      src='/static/icons/logo.svg'
+                      src='/static/logo/logo.png'
                       alt=''
                       className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
                     />
