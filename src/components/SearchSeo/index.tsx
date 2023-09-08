@@ -8,18 +8,16 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import NewsItem from '@components/Explore/Search/NewsItem';
 import { TYPEPOST } from '@components/Post/service';
 import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
 import { useSearchPublicPage } from '@components/SearchSeo/service';
 import Loading from '@components/UI/Loading';
-import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
-import { CompanyTab, PeopleTab, PostsTab } from './Tab';
+import { CompanyTab, NewsTab, PeopleTab, PostsTab } from './Tab';
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
@@ -31,7 +29,7 @@ const SearchSeo = () => {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
   const getType = searchParams.get('tab') || '';
-  const { replace, query, push } = useRouter();
+  const { replace, query } = useRouter();
 
   const {
     data,
@@ -52,11 +50,6 @@ const SearchSeo = () => {
     }
   }, [keyword]);
 
-  const navigateToPostDetail = (postId: string) => {
-    push(ROUTE_PATH.POST_DETAIL(postId));
-  };
-
-  const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list?.map((item: any) => {
     return {
       type: 'media',
@@ -74,7 +67,6 @@ const SearchSeo = () => {
       };
     });
 
-  const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
   let newMedia = [];
@@ -110,31 +102,7 @@ const SearchSeo = () => {
             <PostsTab keyword={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.news')} key='news'>
-            {newsL ? (
-              <div className='my-[16px] flex flex-col gap-y-[12px]'>
-                {news?.map((item: any) => {
-                  return (
-                    <NewsItem
-                      onNavigate={() => navigateToPostDetail(item?.id)}
-                      key={`new-items-${item?.id}`}
-                      middle={true}
-                      data={item}
-                      showComment
-                    />
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                {data ? (
-                  <Empty keyword={keyword} loading={loading} />
-                ) : (
-                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
-                    <Loading />
-                  </div>
-                )}
-              </>
-            )}
+            <NewsTab keyword={keyword} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
             {fillterMediaSort?.length > 0 ? (

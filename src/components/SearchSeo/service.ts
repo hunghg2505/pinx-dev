@@ -242,3 +242,26 @@ export const useSearchPost = (options?: object) => {
 
   return requestSearchPost;
 };
+
+export const useSearchNews = (options?: object) => {
+  const requestSearchPost = useRequest(
+    (params?: paramsSearch) => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_NEWS, {
+            data: {
+              keyword: params?.keyword,
+            },
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_NEWS, {
+            params,
+          });
+    },
+    {
+      ...options,
+    },
+  );
+
+  return requestSearchPost;
+};
