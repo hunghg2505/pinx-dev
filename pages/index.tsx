@@ -3,13 +3,13 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { fetchPinedPostFromServer } from '@components/Home/service';
+// import { fetchPinedPostFromServer } from '@components/Home/service';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
 
 const Home = dynamic(() => import('@components/Home'));
 
-const HomePage = ({ pinPostData }: any) => {
+const HomePage = () => {
   const schema = {
     '@context': 'https://schema.org/',
     '@type': 'WebPage',
@@ -25,7 +25,7 @@ const HomePage = ({ pinPostData }: any) => {
         description='Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư'
         schema={schema}
       />
-      <Home pinPostData={pinPostData} />
+      <Home />
     </>
   );
 };
@@ -39,13 +39,13 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export async function getStaticProps({ locale }: any) {
-  const pinPostData = await fetchPinedPostFromServer();
+  // const pinPostData = await fetchPinedPostFromServer();
 
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'home', 'profile', 'theme'])),
       // Will be passed to the page component as props
-      pinPostData,
+      // pinPostData,
     },
   };
 }

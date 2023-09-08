@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 
-import { useUpdateEffect } from 'ahooks';
+import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ import CustomLink from '@components/UI/CustomLink';
 import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
+import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -56,7 +57,7 @@ const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => 
   ViewTickerInfo(stockCode, 'Home screen', locationDetail, 'Stock');
 };
 
-const HomeNewFeed = ({ pinPostDataInitial }: any) => {
+const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
   const { run: initUserProfile } = useProfileInitial();
@@ -64,6 +65,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
+  const { isMobile } = useResponsive();
   // socket.on('connect', requestJoinIndex);
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
@@ -89,7 +91,7 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
   }, []);
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
-
+    clearCache('data-pin-post');
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
   }, [filterType]);
   React.useEffect(() => {
@@ -194,30 +196,32 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
   return (
     <div className='relative desktop:pt-0'>
-      <div className='relative laptop:hidden'>
-        {selectTab === '1' && isHaveStockWatchList && (
-          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
-            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-              <Text
-                type='body-12-medium'
-                className='galaxy-max:hidden tablet:text-[14px]'
-                color='primary-1'
-              >
-                {t('see_all')}
-              </Text>
-              <img
-                src='/static/icons/iconNext.svg'
-                width={5}
-                height={5}
-                alt=''
-                className='ml-[11px] w-[10px]'
-              />
-            </button>
-          </CustomLink>
-        )}
+      {isMobile && (
+        <div className='relative laptop:hidden'>
+          {selectTab === '1' && isHaveStockWatchList && (
+            <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
+              <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
+                <Text
+                  type='body-12-medium'
+                  className='galaxy-max:hidden tablet:text-[14px]'
+                  color='primary-1'
+                >
+                  {t('see_all')}
+                </Text>
+                <img
+                  src='/static/icons/iconNext.svg'
+                  width={5}
+                  height={5}
+                  alt=''
+                  className='ml-[11px] w-[10px]'
+                />
+              </button>
+            </CustomLink>
+          )}
 
-        <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
-      </div>
+          <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
+        </div>
+      )}
 
       <UserPosting onAddNewPost={onAddNewPost} />
 
@@ -227,7 +231,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         onTrackingViewTickerCmt={(stockCode: string) =>
           handleTrackingViewTicker(stockCode, 'Comment')
         }
-        pinPostDataInitial={pinPostDataInitial}
       />
 
       <NewsFeed
@@ -252,7 +255,6 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
         >
           {t('people_in_spotlight')}
         </Text>
-
         <Influencer />
 
         <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
@@ -270,10 +272,10 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
       {fourPost?.map((item: IPost) => {
         return (
           <NewsFeed
+            key={`home-post-item-${item?.id}`}
             onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
             onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
             loading={loadingPosts}
-            key={`home-post-item-${item?.id}`}
             data={item}
           />
         );
@@ -313,9 +315,9 @@ const HomeNewFeed = ({ pinPostDataInitial }: any) => {
 
         return (
           <NewsFeed
+            key={`home-post-item-${item?.id}`}
             onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
             onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-            key={`home-post-item-${item?.id}`}
             data={item}
           />
         );

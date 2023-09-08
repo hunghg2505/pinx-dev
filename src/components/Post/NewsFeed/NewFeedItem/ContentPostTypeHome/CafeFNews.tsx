@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
@@ -15,12 +16,9 @@ const ImageHeadPost = dynamic(
   {
     ssr: false,
     loading: () => (
-      <img
+      <LazyLoadImage
         src='/static/images/img-blur.png'
         alt=''
-        width='0'
-        height='0'
-        sizes='100vw'
         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
       />
     ),
@@ -131,14 +129,7 @@ export const CafeFNews = ({
             },
           )}
         >
-          <img
-            src='/static/icons/iconLink.svg'
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-[18px] w-[18px]'
-          />
+          <LazyLoadImage src='/static/icons/iconLink.svg' alt='' className='h-[18px] w-[18px]' />
         </CustomLink>
       </div>
     );
@@ -190,7 +181,7 @@ export const CafeFNews = ({
                 {t('see_more')}
               </Text>
 
-              <img
+              <LazyLoadImage
                 src='/static/icons/chevronRightPrimaryLight.svg'
                 alt='Icon chevron right'
                 className='h-[20px] w-[20px] object-contain'

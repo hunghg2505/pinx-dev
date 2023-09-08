@@ -38,7 +38,7 @@ const AppInitialData = () => {
     getInitDataStockMarketHome();
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
-
+    console.log('123');
     run();
   });
 

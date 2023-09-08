@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
-
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { ReactElement, ReactNode, useEffect } from 'react';
 
 import { useAtomValue } from 'jotai';

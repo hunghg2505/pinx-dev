@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import {
@@ -487,12 +488,9 @@ const ItemComment = (props: IProps) => {
 
           {urlImage && (
             <ModalMedia url={urlImage}>
-              <img
+              <LazyLoadImage
                 src={urlImage}
                 alt=''
-                width={0}
-                height={0}
-                sizes='100vw'
                 className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
               />
             </ModalMedia>

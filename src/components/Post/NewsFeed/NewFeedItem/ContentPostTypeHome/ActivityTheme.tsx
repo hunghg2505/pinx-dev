@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
@@ -123,7 +124,7 @@ export const ActivityTheme = ({
 
       <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
-          <img
+          <LazyLoadImage
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt=''
             className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'
@@ -131,11 +132,9 @@ export const ActivityTheme = ({
           <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
             <div className='flex flex-col items-center justify-center'>
               {iconPost && (
-                <img
+                <LazyLoadImage
                   src={iconPost}
                   alt=''
-                  width='0'
-                  height='0'
                   className='mobile:mt-[19px] mobile:h-[22px] mobile:w-[22px] desktop:mt-[30px] desktop:h-[32px] desktop:w-[32px]'
                 />
               )}

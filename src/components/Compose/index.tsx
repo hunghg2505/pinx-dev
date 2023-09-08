@@ -512,13 +512,11 @@ const Compose = (props: IProps) => {
 
           return acc;
         }, []);
-        console.log('dataReduce', dataReduce);
         const dataJoin = dataReduce?.join(' ');
         return dataJoin;
       });
 
       const message = test?.flat().join('\n');
-      console.log('🚀 ~ file: index.tsx:520 ~ onAddPost ~ message:', message);
       const tagPeople = await Promise.all(
         users?.map(async (item: string) => {
           const payload: ISearch = {

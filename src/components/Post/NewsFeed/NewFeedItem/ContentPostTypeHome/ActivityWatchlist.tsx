@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -93,24 +94,18 @@ export const ActivityWatchlist = ({
       >
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
           {postDetail?.post?.bgImage && (
-            <img
+            <LazyLoadImage
               src={postDetail?.post?.bgImage}
               alt=''
-              width='0'
-              height='0'
-              sizes='100vw'
               className='absolute right-0 top-0 h-full'
             />
           )}
 
           <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
             <div className='absolute -top-[14px] left-2/4 mr-[6px] flex h-[36px] w-[36px] -translate-x-1/2 transform items-center justify-center overflow-hidden rounded-full bg-white object-contain tablet:-top-[24px] tablet:h-[48px] tablet:w-[48px]'>
-              <img
+              <LazyLoadImage
                 src={urlStock || '/static/icons/logoStock.svg'}
                 alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
                 className='block'
               />
             </div>
@@ -123,21 +118,15 @@ export const ActivityWatchlist = ({
                 {postDetail?.post.stockCode}
               </Text>
               {postDetail?.post.action === 'ADD' ? (
-                <img
+                <LazyLoadImage
                   src='/static/icons/iconHeartActive.svg'
                   alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
                   className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                 />
               ) : (
-                <img
+                <LazyLoadImage
                   src='/static/icons/iconHeart.svg'
                   alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
                   className='h-[24px] w-[24px] desktop:h-[32px] desktop:w-[32px]'
                 />
               )}
