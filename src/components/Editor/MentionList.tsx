@@ -19,7 +19,7 @@ export default forwardRef((props: any, ref) => {
     const item = props.items?.[index];
     if (item) {
       const isStock = !!item?.stockCode;
-      const isHashTag = typeof item === 'string' && item.includes('#');
+      const isHashTag = typeof item === 'string' && item[0] === '#';
       // const hashTag = isHashTag && item?.content?.replace('#', '');
       if (isStock) {
         props.command({ id: item.id, label: item.stockCode });
@@ -67,7 +67,7 @@ export default forwardRef((props: any, ref) => {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const renderText = (item: any) => {
     const isStock = !!item.stockCode;
-    const isHashTag = typeof item === 'string' && item.includes('#');
+    const isHashTag = typeof item === 'string' && item[0] === '#';
     if (isStock) {
       return item.stockCode;
     }
@@ -110,7 +110,7 @@ export default forwardRef((props: any, ref) => {
           <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
-              const isHashTag = typeof item === 'string' && item.includes('#');
+              const isHashTag = typeof item === 'string' && item[0] === '#';
               let url = '';
               const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
               if (isStock) {

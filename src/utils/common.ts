@@ -256,7 +256,7 @@ export const formatMessagePost = (message: string) => {
   // message = message.replaceAll('\n', '<p></p>');
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    if (item.includes('#')) {
+    if (item[0] === '#') {
       message = message.replace(
         item,
         `
@@ -582,7 +582,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
       }, []);
       const newArray = checkSplit?.map((item: any, index: number) => {
         const b = [];
-        if (item.includes('@') || item.includes('#')) {
+        if (item.includes('@') || item[0] === '#') {
           const a = index === 0 ? [item, ''] : [item, ''];
           b.push(a);
         } else {
@@ -632,7 +632,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
             text: check,
           };
         }
-        if (check.includes('#')) {
+        if (check.includes('#') && check.charAt(0) === '#') {
           return {
             type: 'hashTag',
             attrs: {

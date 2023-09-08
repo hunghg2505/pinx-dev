@@ -463,7 +463,7 @@ const Compose = (props: IProps) => {
               if (item.includes('http') && urlLinks.length < 2) {
                 urlLinks.push(item);
               }
-              if (item.includes('#')) {
+              if (item[0] === '#') {
                 hashtags.push(item);
               }
             }
