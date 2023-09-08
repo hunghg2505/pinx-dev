@@ -9,7 +9,6 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import NewsItem from '@components/Explore/Search/NewsItem';
-import NewsFeed from '@components/Post/NewsFeed';
 import { TYPEPOST } from '@components/Post/service';
 import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
@@ -20,7 +19,7 @@ import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
-import { CompanyTab, PeopleTab } from './Tab';
+import { CompanyTab, PeopleTab, PostsTab } from './Tab';
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
@@ -57,7 +56,6 @@ const SearchSeo = () => {
     push(ROUTE_PATH.POST_DETAIL(postId));
   };
 
-  const posts = data?.data?.postList?.list || data?.data?.listMapping;
   const news = data?.data?.newsList?.list;
   const media = data?.data?.listMedia?.list?.map((item: any) => {
     return {
@@ -76,7 +74,6 @@ const SearchSeo = () => {
       };
     });
 
-  const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
@@ -110,33 +107,7 @@ const SearchSeo = () => {
             <PeopleTab textSearch={keyword} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.posts')} key='posts'>
-            {postsL ? (
-              <div className='flex flex-col'>
-                {posts?.map((post: any) => {
-                  return (
-                    <NewsFeed
-                      key={`explore-search-${post?.id}`}
-                      data={post}
-                      isNewFeedExplore={false}
-                      hiddenComment={true}
-                      onTrackingViewTicker={(stockCode) =>
-                        handleTrackingViewTickerInfo(stockCode, 'Posts tab')
-                      }
-                    />
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                {data ? (
-                  <Empty keyword={keyword} loading={loading} />
-                ) : (
-                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
-                    <Loading />
-                  </div>
-                )}
-              </>
-            )}
+            <PostsTab keyword={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.news')} key='news'>
             {newsL ? (

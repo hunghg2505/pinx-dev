@@ -135,8 +135,10 @@ export const useSearchPublicPage = (options?: IOptions) => {
 };
 
 interface paramsSearch {
-  textSearch: string;
+  textSearch?: string;
+  keyword?: string;
   page?: number;
+  last?: string;
 }
 
 export interface ResponseSearchCompany {
@@ -209,4 +211,34 @@ export const useSearchPeople = (options?: object) => {
     loading,
     run,
   };
+};
+
+export interface ResponseSearchPost {
+  data: {
+    list: any[];
+    last: string;
+    hasNext: boolean;
+  };
+}
+export const useSearchPost = (options?: object) => {
+  const requestSearchPost = useRequest(
+    (params?: paramsSearch) => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_POST, {
+            data: {
+              keyword: params?.keyword,
+            },
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_POST, {
+            params,
+          });
+    },
+    {
+      ...options,
+    },
+  );
+
+  return requestSearchPost;
 };
