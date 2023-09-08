@@ -5,7 +5,6 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
@@ -256,9 +255,7 @@ const HomeNewFeed = () => {
         >
           {t('people_in_spotlight')}
         </Text>
-        <LazyLoadComponent>
-          <Influencer />
-        </LazyLoadComponent>
+        <Influencer />
 
         <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
           <div className='mt-[16px]'>
@@ -270,22 +267,17 @@ const HomeNewFeed = () => {
           </div>
         </CustomLink>
       </div>
-      <LazyLoadComponent>
-        <SuggestionPeople />
-      </LazyLoadComponent>
+      <SuggestionPeople />
 
       {fourPost?.map((item: IPost) => {
         return (
-          <LazyLoadComponent key={`home-post-item-${item?.id}`}>
-            <NewsFeed
-              onTrackingViewTickerCmt={(stockCode) =>
-                handleTrackingViewTicker(stockCode, 'Comment')
-              }
-              onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-              loading={loadingPosts}
-              data={item}
-            />
-          </LazyLoadComponent>
+          <NewsFeed
+            key={`home-post-item-${item?.id}`}
+            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+            loading={loadingPosts}
+            data={item}
+          />
         );
       })}
 
@@ -298,9 +290,7 @@ const HomeNewFeed = () => {
         >
           {t('economy_in_the_themes')}
         </Text>
-        <LazyLoadComponent>
-          <ListTheme />
-        </LazyLoadComponent>
+        <ListTheme />
       </div>
 
       {postsNext?.map((item: IPost, idx: number) => {
@@ -310,31 +300,26 @@ const HomeNewFeed = () => {
               key={`home-post-item-${item?.id}`}
               ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
             >
-              <LazyLoadComponent>
-                <NewsFeed
-                  onTrackingViewTicker={(stockCode) =>
-                    handleTrackingViewTicker(stockCode, 'News feed')
-                  }
-                  onTrackingViewTickerCmt={(stockCode) =>
-                    handleTrackingViewTicker(stockCode, 'Comment')
-                  }
-                  data={item}
-                />
-              </LazyLoadComponent>
+              <NewsFeed
+                onTrackingViewTicker={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'News feed')
+                }
+                onTrackingViewTickerCmt={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'Comment')
+                }
+                data={item}
+              />
             </div>
           );
         }
 
         return (
-          <LazyLoadComponent key={`home-post-item-${item?.id}`}>
-            <NewsFeed
-              onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-              onTrackingViewTickerCmt={(stockCode) =>
-                handleTrackingViewTicker(stockCode, 'Comment')
-              }
-              data={item}
-            />
-          </LazyLoadComponent>
+          <NewsFeed
+            key={`home-post-item-${item?.id}`}
+            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+            data={item}
+          />
         );
       })}
 
