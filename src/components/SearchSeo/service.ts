@@ -265,3 +265,35 @@ export const useSearchNews = (options?: object) => {
 
   return requestSearchPost;
 };
+
+export interface ResponseSearchMedia {
+  data: {
+    list: any[];
+    totalElements: number;
+    totalPages: number;
+    pageSize: number;
+    pageNumber: number;
+    isLast: boolean;
+  };
+}
+
+export const useSearchMedia = (options?: object) => {
+  const requestSearchPost = useRequest(
+    (params?: paramsSearch) => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_SEARCH_SEO_MEDIA_V2, {
+            params,
+          })
+        : requestCommunity.get(API_PATH.PUBLIC_SEARCH_SEO_MEDIA_V2, {
+            params,
+          });
+    },
+    {
+      ...options,
+    },
+  );
+
+  return requestSearchPost;
+};

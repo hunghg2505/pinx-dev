@@ -1,23 +1,15 @@
 import React from 'react';
 
-import { clearCache } from 'ahooks';
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import { TYPEPOST } from '@components/Post/service';
-import Empty from '@components/SearchSeo/Empty';
 import styles from '@components/SearchSeo/index.module.scss';
-import MediaItem from '@components/SearchSeo/MediaItem';
-import { useSearchPublicPage } from '@components/SearchSeo/service';
-import Loading from '@components/UI/Loading';
 import { ViewTickerInfo } from '@utils/dataLayer';
-import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
-import { CompanyTab, NewsTab, PeopleTab, PostsTab } from './Tab';
+import { CompanyTab, MediaTab, NewsTab, PeopleTab, PostsTab } from './Tab';
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
@@ -28,59 +20,38 @@ const SearchSeo = () => {
   const { t } = useTranslation(['search-seo', 'common']);
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
-  const getType = searchParams.get('tab') || '';
   const { replace, query } = useRouter();
 
-  const {
-    data,
-    run: searchPublicPage,
-    loading,
-  } = useSearchPublicPage({
-    onSuccess: () => {
-      clearCache('search-seo-page');
-    },
-  });
-  React.useEffect(() => {
-    clearCache('search-seo-page');
-    if (keyword) {
-      searchPublicPage({
-        textSearch: removeSpecialCharacter(keyword),
-        type: getType,
-      });
-    }
-  }, [keyword]);
+  // const media = data?.data?.listMedia?.list?.map((item: any) => {
+  //   return {
+  //     type: 'media',
+  //     timeString: item.timeString,
+  //     ...item,
+  //   };
+  // });
+  // const image = data?.data?.listImage?.list
+  //   ?.filter((item: any) => item.postType === TYPEPOST.POST)
+  //   ?.map((item: any) => {
+  //     return {
+  //       type: 'image',
+  //       timeString: item.timeString,
+  //       ...item,
+  //     };
+  //   });
 
-  const media = data?.data?.listMedia?.list?.map((item: any) => {
-    return {
-      type: 'media',
-      timeString: item.timeString,
-      ...item,
-    };
-  });
-  const image = data?.data?.listImage?.list
-    ?.filter((item: any) => item.postType === TYPEPOST.POST)
-    ?.map((item: any) => {
-      return {
-        type: 'image',
-        timeString: item.timeString,
-        ...item,
-      };
-    });
+  // const mediaL = media?.length > 0;
+  // const imageL = image?.length > 0;
+  // let newMedia = [];
+  // let fillterMediaSort = [];
 
-  const mediaL = media?.length > 0;
-  const imageL = image?.length > 0;
-  let newMedia = [];
-  let fillterMediaSort = [];
+  // if (mediaL || imageL) {
+  //   newMedia = [...media, ...image];
+  //   const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
+  //     dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
+  //   );
 
-  if (mediaL || imageL) {
-    newMedia = [...media, ...image];
-    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
-      dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
-    );
-
-    fillterMediaSort = newMediaSort;
-  }
-  console.log('fillterMediaSort', fillterMediaSort);
+  //   fillterMediaSort = newMediaSort;
+  // }
   return (
     <>
       <div className={classNames('box-shadow card-style', styles.Tab)}>
@@ -105,32 +76,7 @@ const SearchSeo = () => {
             <NewsTab keyword={keyword} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            {fillterMediaSort?.length > 0 ? (
-              <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2'>
-                {fillterMediaSort?.map((item: any) => {
-                  return (
-                    <MediaItem
-                      onTrackingViewTicker={(stockCode) =>
-                        handleTrackingViewTickerInfo(stockCode, 'Media tab')
-                      }
-                      key={`media-item-${item?.id}`}
-                      data={item}
-                      type={item?.type}
-                    />
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                {data ? (
-                  <Empty keyword={keyword} loading={loading} />
-                ) : (
-                  <div className='flex min-h-[150px] flex-row items-center justify-center'>
-                    <Loading />
-                  </div>
-                )}
-              </>
-            )}
+            <MediaTab textSearch={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
           </TabPane>
         </Tabs>
       </div>

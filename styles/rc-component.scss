@@ -168,9 +168,24 @@
 
 .messageFormat2 {
   @extend .messageFormat;
+  // max-height: 42px;
+  // overflow: hidden;
+
+  * {
+    line-height: inherit !important;
+  }
+
   .link,
   .mention {
     @apply text-[14px];
+    display: block !important;
+
+    // * {
+    //   line-height: inherit !important;
+    //   display: -webkit-box !important;
+    //   -webkit-box-orient: vertical;
+    //   -webkit-line-clamp: 2;
+    // }
   }
 }
 
