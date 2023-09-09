@@ -13,6 +13,7 @@ import { ResponseSearchPost, useSearchNews } from '../service';
 
 interface NewsTabProps {
   keyword: string;
+  keywordFormat: string;
 }
 
 const SkeletonLoadingNews = () => {
@@ -33,14 +34,14 @@ const SkeletonLoadingNews = () => {
   );
 };
 
-const NewsTab = ({ keyword }: NewsTabProps) => {
-  const [news, setNews] = useState<ResponseSearchPost>();
+const NewsTab = ({ keyword, keywordFormat }: NewsTabProps) => {
+  const [news, setNews] = useState<ResponseSearchPost | NonNullable<any>>();
   const router = useRouter();
   const ref = useRef(null);
   const requestGetNews = useSearchNews({
     manual: true,
     onSuccess: ({ data }: ResponseSearchPost) => {
-      setNews((prev) => ({
+      setNews((prev: any) => ({
         data: {
           list: [...(prev?.data.list || []), ...data?.list],
           hasNext: data?.hasNext,
@@ -48,12 +49,13 @@ const NewsTab = ({ keyword }: NewsTabProps) => {
         },
       }));
     },
+    onError: () => setNews({}),
   });
 
   useEffect(() => {
     if (keyword.trim()) {
       requestGetNews.run({
-        keyword,
+        keyword: keywordFormat,
       });
     }
 
@@ -75,7 +77,7 @@ const NewsTab = ({ keyword }: NewsTabProps) => {
     router.push(ROUTE_PATH.POST_DETAIL(postId));
   };
 
-  return news?.data.list && news?.data.list.length > 0 ? (
+  return news?.data?.list && news?.data.list.length > 0 ? (
     <div className='flex flex-col gap-y-[16px]' ref={ref}>
       {news?.data?.list.map((item: any) => {
         return (

@@ -13,6 +13,7 @@ import { ResponseSearchMedia, useSearchMedia } from '../service';
 interface MediaTabProps {
   textSearch: string;
   onTrackingViewTicker: (stockCode: string, locationDetail: string) => void;
+  textSearchFormat: string;
 }
 
 const SkeletonLoadingMedia = () => {
@@ -31,7 +32,7 @@ const SkeletonLoadingMedia = () => {
   );
 };
 
-const MediaTab = ({ textSearch, onTrackingViewTicker }: MediaTabProps) => {
+const MediaTab = ({ textSearch, onTrackingViewTicker, textSearchFormat }: MediaTabProps) => {
   const [listMedia, setListMedia] = useState<ResponseSearchMedia>();
   const ref = useRef(null);
   const requestGetListMedia = useSearchMedia({
@@ -57,7 +58,7 @@ const MediaTab = ({ textSearch, onTrackingViewTicker }: MediaTabProps) => {
   useEffect(() => {
     if (textSearch.trim()) {
       requestGetListMedia.run({
-        textSearch,
+        textSearch: textSearchFormat,
       });
     }
 

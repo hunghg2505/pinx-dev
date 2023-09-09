@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import classNames from 'classnames';
 import { useSearchParams } from 'next/navigation';
@@ -8,6 +8,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import styles from '@components/SearchSeo/index.module.scss';
 import { ViewTickerInfo } from '@utils/dataLayer';
+import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 import { CompanyTab, MediaTab, NewsTab, PeopleTab, PostsTab } from './Tab';
 
@@ -21,6 +22,10 @@ const SearchSeo = () => {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
   const { replace, query } = useRouter();
+
+  const keywordFormat = useMemo(() => {
+    return removeSpecialCharacter(keyword);
+  }, [keyword]);
 
   // const media = data?.data?.listMedia?.list?.map((item: any) => {
   //   return {
@@ -64,19 +69,31 @@ const SearchSeo = () => {
           animated={false}
         >
           <TabPane tab={t('common:searchseo.tab.company')} key='company'>
-            <CompanyTab textSearch={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
+            <CompanyTab
+              textSearch={keyword}
+              textSearchFormat={keywordFormat}
+              onTrackingViewTicker={handleTrackingViewTickerInfo}
+            />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.people')} key='people'>
-            <PeopleTab textSearch={keyword} />
+            <PeopleTab textSearch={keyword} textSearchFormat={keywordFormat} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.posts')} key='posts'>
-            <PostsTab keyword={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
+            <PostsTab
+              keyword={keyword}
+              keywordFormat={keywordFormat}
+              onTrackingViewTicker={handleTrackingViewTickerInfo}
+            />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.news')} key='news'>
-            <NewsTab keyword={keyword} />
+            <NewsTab keyword={keyword} keywordFormat={keywordFormat} />
           </TabPane>
           <TabPane tab={t('common:searchseo.tab.media')} key='media'>
-            <MediaTab textSearch={keyword} onTrackingViewTicker={handleTrackingViewTickerInfo} />
+            <MediaTab
+              textSearch={keyword}
+              textSearchFormat={keywordFormat}
+              onTrackingViewTicker={handleTrackingViewTickerInfo}
+            />
           </TabPane>
         </Tabs>
       </div>

@@ -11,6 +11,7 @@ import { ResponseSearchCompany, useSearchCompany } from '../service';
 interface CompanyTabProps {
   textSearch: string;
   onTrackingViewTicker: (stockCode: string, locationDetail: string) => void;
+  textSearchFormat: string;
 }
 
 const SkeletonLoadingStock = () => {
@@ -24,7 +25,7 @@ const SkeletonLoadingStock = () => {
   );
 };
 
-const CompanyTab = ({ textSearch, onTrackingViewTicker }: CompanyTabProps) => {
+const CompanyTab = ({ textSearch, onTrackingViewTicker, textSearchFormat }: CompanyTabProps) => {
   const [companies, setCompanies] = useState<ResponseSearchCompany>();
   const ref = useRef(null);
   const requestGetCompanies = useSearchCompany({
@@ -32,7 +33,7 @@ const CompanyTab = ({ textSearch, onTrackingViewTicker }: CompanyTabProps) => {
     onSuccess: ({ data }: ResponseSearchCompany) => {
       setCompanies((prev) => ({
         data: {
-          list: [...(prev?.data.list || []), ...data?.list],
+          list: [...(prev?.data.list || []), ...(data?.list || [])],
           totalElements: data?.totalElements,
           totalPages: data?.totalPages,
           page: data?.page,
@@ -46,7 +47,7 @@ const CompanyTab = ({ textSearch, onTrackingViewTicker }: CompanyTabProps) => {
   useEffect(() => {
     if (textSearch.trim()) {
       requestGetCompanies.run({
-        textSearch,
+        textSearch: textSearchFormat,
       });
     }
 
