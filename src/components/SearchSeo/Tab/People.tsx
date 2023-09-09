@@ -10,6 +10,7 @@ import { ResponseSearchPeople, useSearchPeople } from '../service';
 
 interface PeopleTabProps {
   textSearch: string;
+  textSearchFormat: string;
 }
 
 const SkeletonLoadingPeople = () => {
@@ -23,7 +24,7 @@ const SkeletonLoadingPeople = () => {
   );
 };
 
-const PeopleTab = ({ textSearch }: PeopleTabProps) => {
+const PeopleTab = ({ textSearch, textSearchFormat }: PeopleTabProps) => {
   const [listPeople, setListPeople] = useState<ResponseSearchPeople>();
   const ref = useRef(null);
   const requestGetListPeople = useSearchPeople({
@@ -45,7 +46,7 @@ const PeopleTab = ({ textSearch }: PeopleTabProps) => {
   useEffect(() => {
     if (textSearch.trim()) {
       requestGetListPeople.run({
-        textSearch,
+        textSearch: textSearchFormat,
       });
     }
 

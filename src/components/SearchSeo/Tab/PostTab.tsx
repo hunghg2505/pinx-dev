@@ -11,19 +11,20 @@ import { ResponseSearchPost, useSearchPost } from '../service';
 interface PostTabProps {
   keyword: string;
   onTrackingViewTicker: (stockCode: string, locationDetail: string) => void;
+  keywordFormat: string;
 }
 
 const SkeletonLoadingPost = () => {
   return <NewsFeedSkeleton />;
 };
 
-const PostsTab = ({ keyword, onTrackingViewTicker }: PostTabProps) => {
-  const [posts, setPosts] = useState<ResponseSearchPost>();
+const PostsTab = ({ keyword, onTrackingViewTicker, keywordFormat }: PostTabProps) => {
+  const [posts, setPosts] = useState<ResponseSearchPost | NonNullable<any>>();
   const ref = useRef(null);
   const requestGetPosts = useSearchPost({
     manual: true,
     onSuccess: ({ data }: ResponseSearchPost) => {
-      setPosts((prev) => ({
+      setPosts((prev: any) => ({
         data: {
           list: [...(prev?.data.list || []), ...data?.list],
           hasNext: data?.hasNext,
@@ -31,12 +32,15 @@ const PostsTab = ({ keyword, onTrackingViewTicker }: PostTabProps) => {
         },
       }));
     },
+    onError: () => {
+      setPosts({});
+    },
   });
 
   useEffect(() => {
     if (keyword.trim()) {
       requestGetPosts.run({
-        keyword,
+        keyword: keywordFormat,
       });
     }
 
@@ -54,7 +58,7 @@ const PostsTab = ({ keyword, onTrackingViewTicker }: PostTabProps) => {
     }
   });
 
-  return posts?.data.list && posts?.data.list.length > 0 ? (
+  return posts?.data?.list && posts?.data.list.length > 0 ? (
     <div className='flex flex-col gap-y-[16px]' ref={ref}>
       {posts.data.list?.map((post: any) => {
         return (
