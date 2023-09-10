@@ -17,6 +17,10 @@ const PRODUCT_COMPANY_IMAGE = (fileName: string) =>
 
 const MAX_AVATAR_FILE_SIZE_KB = 150;
 const MAX_COVER_FILE_SIZE_KB = 100;
+const COVER_SIZE = {
+  width: 1280,
+  height: 720,
+};
 
 export {
   ZALO_OAID,
@@ -31,4 +35,5 @@ export {
   ONE_LINK_DOWNLOAD,
   MAX_AVATAR_FILE_SIZE_KB,
   MAX_COVER_FILE_SIZE_KB,
+  COVER_SIZE,
 };

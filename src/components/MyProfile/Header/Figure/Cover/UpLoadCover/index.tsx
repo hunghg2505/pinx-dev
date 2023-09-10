@@ -1,30 +1,77 @@
-import React, { useContext } from 'react';
+import React, { ChangeEvent, useContext, useState } from 'react';
+
+import { useTranslation } from 'next-i18next';
+import { toast } from 'react-hot-toast';
 
 import { profileUserContext } from '@components/MyProfile';
 import { useUpdateUserProfile } from '@components/Profile/service';
+import { CONVERT_IMAGE_ERR_MSG, compressorImage, convertImageToJpg } from '@utils/common';
+import { COVER_SIZE, MAX_COVER_FILE_SIZE_KB } from 'src/constant';
 
 import IconCoverEdit from './IconCoverEdit';
 import { useUploadImage } from './uploadImage';
 
 const UpLoadCover = () => {
+  const { t } = useTranslation();
   const profileUser = useContext<any>(profileUserContext);
   const { run } = useUpdateUserProfile(profileUser?.reload);
   const { run: uploadImage, loading: loadingUpload } = useUploadImage(run);
+  const [onCompressing, setOnCompressing] = useState(false);
+
+  const handleCompressSuccess = (blob: File | Blob) => {
+    setOnCompressing(false);
+    const blobToFile = new File([blob], '.jpg', {
+      type: blob.type,
+    });
+
+    const formData = new FormData();
+    formData.append('files', blobToFile);
+    blob && uploadImage(formData);
+  };
+
+  const convertToJpgSuccess = async (file: Blob | null) => {
+    if (file) {
+      await compressorImage({
+        file,
+        maxFileSizeKB: MAX_COVER_FILE_SIZE_KB,
+        onSuccess: handleCompressSuccess,
+        onCompressStart: () => setOnCompressing(true),
+        onError: (message) => toast.error(message),
+        compressorOpt: {
+          width: COVER_SIZE.width,
+          height: COVER_SIZE.height,
+          resize: 'cover',
+        },
+      });
+    }
+  };
+
+  const handleChangeCover = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target.files as FileList)[0];
+
+    // convert image to jpg
+    convertImageToJpg(file, convertToJpgSuccess, (error) => {
+      switch (error) {
+        case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
+          return toast.error(t('file_invalid'));
+        }
+        default: {
+          return toast.error(t('error'));
+        }
+      }
+    });
+  };
+
   return (
     <label className='cursor-pointer tablet:hidden'>
       <input
         disabled={loadingUpload}
         type='file'
-        accept='image/png, image/jpeg'
+        accept='image/png, image/jpeg, .webp'
         className='hidden'
-        onChange={(e: any) => {
-          const file = e?.target?.files?.[0];
-          const formData = new FormData();
-          formData.append('files', file);
-          file && uploadImage(formData);
-        }}
+        onChange={handleChangeCover}
       />
-      <IconCoverEdit loading={loadingUpload} />
+      <IconCoverEdit loading={loadingUpload || onCompressing} />
     </label>
   );
 };
