@@ -15,6 +15,8 @@ const AUTH_TAB_TYPE = {
 const PRODUCT_COMPANY_IMAGE = (fileName: string) =>
   `https://static.pinetree.com.vn/internal/public/customer/image?fileName=${fileName}&type=PRODUCT_COMPANY`;
 
+const MAX_AVATAR_FILE_SIZE_KB = 150;
+
 export {
   ZALO_OAID,
   SHARE_THIS_PROPERTY_ID,
@@ -26,4 +28,5 @@ export {
   AUTH_TAB_TYPE,
   PRODUCT_COMPANY_IMAGE,
   ONE_LINK_DOWNLOAD,
+  MAX_AVATAR_FILE_SIZE_KB,
 };

@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
 import { BaseSyntheticEvent } from 'react';
 
+import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
@@ -820,4 +821,97 @@ export const isUrlValid = (url?: string) => {
 export const replaceImageError = ({ currentTarget }: BaseSyntheticEvent) => {
   currentTarget.removeEventListener('error', null);
   currentTarget.src = '/static/images/white-background.jpeg';
+};
+
+// convert image to jpg
+export enum CONVERT_IMAGE_ERR_MSG {
+  FILE_INVALID = 'FILE_INVALID',
+  ERROR = 'ERROR',
+}
+export const convertImageToJpg = (
+  file: File | Blob,
+  onSuccess: (file: Blob | null) => void,
+  onError?: (message: string) => void,
+) => {
+  if (!['image/png', 'image/jpg', 'image/jpeg', 'image/webp'].includes(file.type)) {
+    onError && onError(CONVERT_IMAGE_ERR_MSG.FILE_INVALID);
+  }
+
+  const reader = new FileReader();
+
+  reader.addEventListener('load', (e) => {
+    const img = new Image();
+    img.src = e.target?.result?.toString() || '';
+
+    img.addEventListener('load', () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx?.drawImage(img, 0, 0);
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          onSuccess(blob);
+        } else {
+          onError && onError(CONVERT_IMAGE_ERR_MSG.ERROR);
+        }
+      }, 'image/jpeg');
+    });
+  });
+
+  reader.readAsDataURL(file);
+};
+
+// compress image
+
+interface compressImageParams {
+  file: File | Blob;
+  targetQuality?: number;
+  maxFileSizeKB: number;
+  onSuccess: (file: File | Blob) => void;
+  onCompressStart?: () => void;
+  onError?: (message: any) => void;
+  compressorOpt?: any;
+}
+export const compressorImage = async ({
+  file,
+  targetQuality = 0.9,
+  maxFileSizeKB,
+  onSuccess,
+  onCompressStart,
+  onError,
+  compressorOpt,
+}: compressImageParams) => {
+  try {
+    let compressedImage: File | Blob = file;
+    let quality = targetQuality;
+    onCompressStart && onCompressStart();
+
+    while (quality >= 0 && compressedImage.size / 1024 > maxFileSizeKB) {
+      compressedImage = await new Promise((resolve, reject) => {
+        // eslint-disable-next-line no-new
+        new Compressor(file, {
+          quality,
+          ...compressorOpt,
+          success(result) {
+            resolve(result);
+          },
+          error(error) {
+            reject(error.message);
+          },
+        });
+      });
+
+      if (compressedImage.size / 1024 > maxFileSizeKB) {
+        quality -= 0.1;
+      }
+    }
+
+    onSuccess(compressedImage);
+  } catch (error) {
+    onError && onError(error);
+  }
 };
