@@ -291,7 +291,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   return URL.createObjectURL(blob);
 };
 
-export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
+export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'webp'];
 export const isImage = (file: any) => {
   if (!file) {
     return false;
@@ -828,48 +828,52 @@ export enum CONVERT_IMAGE_ERR_MSG {
   FILE_INVALID = 'FILE_INVALID',
   ERROR = 'ERROR',
 }
-export const convertImageToJpg = (
+export const convertImageToJpg = async (
   file: File | Blob,
-  onSuccess: (file: Blob | null) => void,
+  onSuccess: (file: Blob | null) => Promise<void>,
   onError?: (message: string) => void,
-) => {
+): Promise<void> => {
   if (!['image/png', 'image/jpg', 'image/jpeg', 'image/webp'].includes(file.type)) {
     onError && onError(CONVERT_IMAGE_ERR_MSG.FILE_INVALID);
   }
 
-  const reader = new FileReader();
+  const imageConverted: Blob | null = await new Promise((resolve) => {
+    const reader = new FileReader();
 
-  reader.addEventListener('load', (e) => {
-    const img = new Image();
-    img.src = e.target?.result?.toString() || '';
+    reader.onload = async (e) => {
+      const img = new Image();
+      img.src = e.target?.result?.toString() || '';
 
-    img.addEventListener('load', () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
-      canvas.width = img.width;
-      canvas.height = img.height;
+        canvas.width = img.width;
+        canvas.height = img.height;
 
-      ctx?.drawImage(img, 0, 0);
+        ctx?.drawImage(img, 0, 0);
 
-      // fill background color to png file
-      if (file.type === 'image/png') {
-        ctx!.globalCompositeOperation = 'destination-over';
-        ctx!.fillStyle = 'white';
-        ctx?.fillRect(0, 0, canvas.width, canvas.height);
-      }
-
-      canvas.toBlob((blob) => {
-        if (blob) {
-          onSuccess(blob);
-        } else {
-          onError && onError(CONVERT_IMAGE_ERR_MSG.ERROR);
+        // fill background color to png file
+        if (file.type === 'image/png') {
+          ctx!.globalCompositeOperation = 'destination-over';
+          ctx!.fillStyle = 'white';
+          ctx?.fillRect(0, 0, canvas.width, canvas.height);
         }
-      }, 'image/jpeg');
-    });
+
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            onError && onError(CONVERT_IMAGE_ERR_MSG.ERROR);
+          }
+        }, 'image/jpeg');
+      };
+    };
+
+    reader.readAsDataURL(file);
   });
 
-  reader.readAsDataURL(file);
+  await onSuccess(imageConverted);
 };
 
 // compress image
@@ -878,7 +882,7 @@ interface compressImageParams {
   file: File | Blob;
   targetQuality?: number;
   maxFileSizeKB: number;
-  onSuccess: (file: File | Blob) => void;
+  onSuccess: (file: File | Blob) => Promise<void>;
   onCompressStart?: () => void;
   onError?: (message: any) => void;
   compressorOpt?: any;
@@ -933,7 +937,7 @@ export const compressorImage = async ({
       });
     }
 
-    onSuccess(compressedImage);
+    await onSuccess(compressedImage);
   } catch (error) {
     onError && onError(error);
   }

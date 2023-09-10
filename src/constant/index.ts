@@ -26,6 +26,8 @@ const AVATAR_SIZE = {
   height: 150,
 };
 
+const MAX_IMG_POST_CMT_FILE_SIZE_KB = 150;
+
 export {
   ZALO_OAID,
   SHARE_THIS_PROPERTY_ID,
@@ -41,4 +43,5 @@ export {
   MAX_COVER_FILE_SIZE_KB,
   COVER_SIZE,
   AVATAR_SIZE,
+  MAX_IMG_POST_CMT_FILE_SIZE_KB,
 };
