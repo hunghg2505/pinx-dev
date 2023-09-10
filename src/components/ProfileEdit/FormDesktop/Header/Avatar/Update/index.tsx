@@ -25,10 +25,14 @@ const Update = ({ form }: { form: FormInstance }) => {
     });
   };
 
-  const handleCompressSuccess = (file: File | Blob) => {
+  const handleCompressSuccess = (blob: File | Blob) => {
     setOnCompressing(false);
+    const blobToFile = new File([blob], '.jpg', {
+      type: blob.type,
+    });
+
     const formData = new FormData();
-    formData.append('files', file);
+    formData.append('files', blobToFile);
 
     file && run(formData, '', setField);
   };
