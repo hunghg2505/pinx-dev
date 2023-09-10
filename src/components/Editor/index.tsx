@@ -36,10 +36,14 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
+import { MAX_IMG_POST_CMT_FILE_SIZE_KB } from 'src/constant';
 
 import suggestion from './Suggestion';
 import {
+  CONVERT_IMAGE_ERR_MSG,
   ROUTE_PATH,
+  compressorImage,
+  convertImageToJpg,
   isImage,
   isUrlValid,
   replaceImageError,
@@ -89,6 +93,7 @@ const Editor = (props: IProps, ref?: any) => {
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
+  const [loading, setLoading] = useState(false);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
@@ -236,10 +241,48 @@ const Editor = (props: IProps, ref?: any) => {
       },
     },
   );
-  const onStart = async (file: File) => {
+
+  const handleCompressSuccess = async (blob: Blob) => {
+    setLoading(false);
+
+    const blobToFile = new File([blob], '.jpg', {
+      type: blob.type,
+    });
+
     const formData = new FormData();
-    formData.append('files', file);
+    formData.append('files', blobToFile);
     useUploadImage.run(formData);
+  };
+
+  const onStart = async (file: File) => {
+    setLoading(true);
+    convertImageToJpg(
+      file,
+      async (file) => {
+        setLoading(false);
+        if (file) {
+          compressorImage({
+            file,
+            maxFileSizeKB: MAX_IMG_POST_CMT_FILE_SIZE_KB,
+            onCompressStart: () => setLoading(true),
+            onSuccess: handleCompressSuccess,
+            onError: (message) => toast.error(message),
+          });
+        }
+      },
+      (error) => {
+        setLoading(false);
+
+        switch (error) {
+          case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
+            return toast.error(t('file_invalid'));
+          }
+          default: {
+            return toast.error(t('error'));
+          }
+        }
+      },
+    );
   };
   const onCloseImage = () => {
     setImageComment('');
@@ -549,7 +592,7 @@ const Editor = (props: IProps, ref?: any) => {
           >
             <div className='flex flex-row items-center'>
               <Upload
-                accept='.png, .jpeg, .jpg'
+                accept='.png, .jpeg, .jpg, .webp'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
                 className='tablet:hidden'
@@ -587,7 +630,7 @@ const Editor = (props: IProps, ref?: any) => {
                 className={classNames({
                   hidden: isFocus || !canExpand,
                 })}
-                accept='.png, .jpeg, .jpg'
+                accept='.png, .jpeg, .jpg, .webp'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
               >
@@ -613,7 +656,11 @@ const Editor = (props: IProps, ref?: any) => {
                 },
               )}
             >
-              <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
+              <Upload
+                accept='.png, .jpeg, .jpg, .webp'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
                 <img
                   src='/static/icons/iconCamera.svg'
                   alt=''
@@ -642,7 +689,7 @@ const Editor = (props: IProps, ref?: any) => {
                 />
               )}
             </div>
-            {useUploadImage?.loading ? (
+            {useUploadImage?.loading || loading ? (
               <div className='mobile:hidden tablet:block'>
                 <Loading />
               </div>
@@ -689,7 +736,7 @@ const Editor = (props: IProps, ref?: any) => {
             />
           )}
         </div>
-        {useUploadImage?.loading ? (
+        {useUploadImage?.loading || loading ? (
           <div className='mobile:block tablet:hidden'>
             <Loading />
           </div>
