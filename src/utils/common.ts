@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
 import { BaseSyntheticEvent } from 'react';
 
+import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
@@ -290,7 +291,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   return URL.createObjectURL(blob);
 };
 
-export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
+export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'webp'];
 export const isImage = (file: any) => {
   if (!file) {
     return false;
@@ -820,4 +821,124 @@ export const isUrlValid = (url?: string) => {
 export const replaceImageError = ({ currentTarget }: BaseSyntheticEvent) => {
   currentTarget.removeEventListener('error', null);
   currentTarget.src = '/static/images/white-background.jpeg';
+};
+
+// convert image to jpg
+export enum CONVERT_IMAGE_ERR_MSG {
+  FILE_INVALID = 'FILE_INVALID',
+  ERROR = 'ERROR',
+}
+export const convertImageToJpg = async (
+  file: File | Blob,
+  onSuccess: (file: Blob | null) => Promise<void>,
+  onError?: (message: string) => void,
+): Promise<void> => {
+  if (!['image/png', 'image/jpg', 'image/jpeg', 'image/webp'].includes(file.type)) {
+    onError && onError(CONVERT_IMAGE_ERR_MSG.FILE_INVALID);
+  }
+
+  const imageConverted: Blob | null = await new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      const img = new Image();
+      img.src = e.target?.result?.toString() || '';
+
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx?.drawImage(img, 0, 0);
+
+        // fill background color to png file
+        if (file.type === 'image/png') {
+          ctx!.globalCompositeOperation = 'destination-over';
+          ctx!.fillStyle = 'white';
+          ctx?.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            onError && onError(CONVERT_IMAGE_ERR_MSG.ERROR);
+          }
+        }, 'image/jpeg');
+      };
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  await onSuccess(imageConverted);
+};
+
+// compress image
+
+interface compressImageParams {
+  file: File | Blob;
+  targetQuality?: number;
+  maxFileSizeKB: number;
+  onSuccess: (file: File | Blob) => Promise<void>;
+  onCompressStart?: () => void;
+  onError?: (message: any) => void;
+  compressorOpt?: any;
+}
+export const compressorImage = async ({
+  file,
+  targetQuality = 0.9,
+  maxFileSizeKB,
+  onSuccess,
+  onCompressStart,
+  onError,
+  compressorOpt,
+}: compressImageParams) => {
+  try {
+    let compressedImage: File | Blob = file;
+    const initFileSizeKB = file.size / 1024;
+    let quality = targetQuality;
+    onCompressStart && onCompressStart();
+
+    if (initFileSizeKB > maxFileSizeKB) {
+      while (quality >= 0 && compressedImage.size / 1024 > maxFileSizeKB) {
+        compressedImage = await new Promise((resolve, reject) => {
+          // eslint-disable-next-line no-new
+          new Compressor(file, {
+            quality,
+            ...compressorOpt,
+            success(result) {
+              resolve(result);
+            },
+            error(error) {
+              reject(error.message);
+            },
+          });
+        });
+
+        if (compressedImage.size / 1024 > maxFileSizeKB) {
+          quality -= 0.1;
+        }
+      }
+    } else {
+      compressedImage = await new Promise((resolve, reject) => {
+        // eslint-disable-next-line no-new
+        new Compressor(file, {
+          ...compressorOpt,
+          success(result) {
+            resolve(result);
+          },
+          error(error) {
+            reject(error.message);
+          },
+        });
+      });
+    }
+
+    await onSuccess(compressedImage);
+  } catch (error) {
+    onError && onError(error);
+  }
 };

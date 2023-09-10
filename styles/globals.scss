@@ -13,6 +13,7 @@
 @import 'slick-carousel/slick/slick-theme.css';
 @import 'slick-carousel/slick/slick.css';
 @import 'rc-checkbox/assets/index.css';
+@import 'cropperjs/dist/cropper.css';
 
 *,
 html,
@@ -121,7 +122,7 @@ body {
 
 .greenColor {
   @extend .purpleColor;
-  background-color: #66C660
+  background-color: #66c660;
 }
 
 // skeleton animation

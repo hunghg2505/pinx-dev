@@ -1,39 +1,93 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
-import { Field } from 'rc-field-form';
+import { useTranslation } from 'next-i18next';
+// eslint-disable-next-line import/named
+import { Field, FormInstance } from 'rc-field-form';
+import { toast } from 'react-hot-toast';
 
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
+import { CONVERT_IMAGE_ERR_MSG, compressorImage, convertImageToJpg } from '@utils/common';
+import { AVATAR_SIZE, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
 import Img from './Img';
 
-const Avatar = () => {
+const Avatar = ({ form }: { form: FormInstance }) => {
+  const { t } = useTranslation();
   const { run, loading } = useUploadImage();
+  const [loading2, setLoading2] = useState(false);
+
+  const setField = (value: string) => {
+    form.setFieldsValue({
+      avatar: value,
+    });
+  };
+
+  const handleCompressSuccess = async (blob: File | Blob) => {
+    setLoading2(false);
+    const blobToFile = new File([blob], '.jpg', {
+      type: blob.type,
+    });
+
+    const formData = new FormData();
+    formData.append('files', blobToFile);
+    blob && run(formData, 'avatar', setField);
+  };
+
+  const convertToJpgSuccess = async (file: Blob | null) => {
+    setLoading2(false);
+    if (file) {
+      await compressorImage({
+        file,
+        maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
+        onSuccess: handleCompressSuccess,
+        onCompressStart: () => setLoading2(true),
+        onError: (message) => toast.error(message),
+        compressorOpt: {
+          width: AVATAR_SIZE.width,
+          height: AVATAR_SIZE.height,
+          resize: 'cover',
+        },
+      });
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target.files as FileList)[0];
+    setLoading2(true);
+
+    // convert image to jpg
+    convertImageToJpg(file, convertToJpgSuccess, (error) => {
+      setLoading2(false);
+      switch (error) {
+        case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
+          return toast.error(t('file_invalid'));
+        }
+        default: {
+          return toast.error(t('error'));
+        }
+      }
+    });
+  };
 
   return (
     <div className='relative mb-[21px]'>
       <Img />
       <label className=' absolute  bottom-0 right-[9px] flex h-[44px]  w-[44px] items-center justify-center rounded-full border-[2px] border-solid border-white bg-primary_blue'>
-        <Field name='avatar'>
-          {({ onChange }) => {
+        <Field>
+          {() => {
             return (
               <input
                 type='file'
-                accept='image/png, image/jpeg'
+                accept='image/png, image/jpeg, .webp'
                 className='hidden'
-                disabled={loading}
-                onChange={(e: any) => {
-                  const file = e.target.files[0];
-                  const formData = new FormData();
-                  formData.append('files', file);
-                  file && run(formData, 'avatar', onChange);
-                }}
+                disabled={loading || loading2}
+                onChange={handleChange}
               />
             );
           }}
         </Field>
-
-        {loading ? (
+        {loading || loading2 ? (
           <Loading className='!bg-white' />
         ) : (
           <svg
