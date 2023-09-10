@@ -16,10 +16,10 @@ const UpLoadCover = () => {
   const profileUser = useContext<any>(profileUserContext);
   const { run } = useUpdateUserProfile(profileUser?.reload);
   const { run: uploadImage, loading: loadingUpload } = useUploadImage(run);
-  const [onCompressing, setOnCompressing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleCompressSuccess = (blob: File | Blob) => {
-    setOnCompressing(false);
+  const handleCompressSuccess = async (blob: File | Blob) => {
+    setLoading(false);
     const blobToFile = new File([blob], '.jpg', {
       type: blob.type,
     });
@@ -30,12 +30,13 @@ const UpLoadCover = () => {
   };
 
   const convertToJpgSuccess = async (file: Blob | null) => {
+    setLoading(false);
     if (file) {
       await compressorImage({
         file,
         maxFileSizeKB: MAX_COVER_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
-        onCompressStart: () => setOnCompressing(true),
+        onCompressStart: () => setLoading(true),
         onError: (message) => toast.error(message),
         compressorOpt: {
           width: COVER_SIZE.width,
@@ -48,6 +49,7 @@ const UpLoadCover = () => {
 
   const handleChangeCover = (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target.files as FileList)[0];
+    setLoading(true);
 
     // convert image to jpg
     convertImageToJpg(file, convertToJpgSuccess, (error) => {
@@ -71,7 +73,7 @@ const UpLoadCover = () => {
         className='hidden'
         onChange={handleChangeCover}
       />
-      <IconCoverEdit loading={loadingUpload || onCompressing} />
+      <IconCoverEdit loading={loadingUpload || loading} />
     </label>
   );
 };

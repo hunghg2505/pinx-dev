@@ -15,7 +15,7 @@ import Img from './Img';
 const Avatar = ({ form }: { form: FormInstance }) => {
   const { t } = useTranslation();
   const { run, loading } = useUploadImage();
-  const [onCompressing, setOnCompressing] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   const setField = (value: string) => {
     form.setFieldsValue({
@@ -23,8 +23,8 @@ const Avatar = ({ form }: { form: FormInstance }) => {
     });
   };
 
-  const handleCompressSuccess = (blob: File | Blob) => {
-    setOnCompressing(false);
+  const handleCompressSuccess = async (blob: File | Blob) => {
+    setLoading2(false);
     const blobToFile = new File([blob], '.jpg', {
       type: blob.type,
     });
@@ -35,12 +35,13 @@ const Avatar = ({ form }: { form: FormInstance }) => {
   };
 
   const convertToJpgSuccess = async (file: Blob | null) => {
+    setLoading2(false);
     if (file) {
       await compressorImage({
         file,
         maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
-        onCompressStart: () => setOnCompressing(true),
+        onCompressStart: () => setLoading2(true),
         onError: (message) => toast.error(message),
         compressorOpt: {
           width: AVATAR_SIZE.width,
@@ -53,9 +54,11 @@ const Avatar = ({ form }: { form: FormInstance }) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = (e.target.files as FileList)[0];
+    setLoading2(true);
 
     // convert image to jpg
     convertImageToJpg(file, convertToJpgSuccess, (error) => {
+      setLoading2(false);
       switch (error) {
         case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
           return toast.error(t('file_invalid'));
@@ -78,14 +81,13 @@ const Avatar = ({ form }: { form: FormInstance }) => {
                 type='file'
                 accept='image/png, image/jpeg, .webp'
                 className='hidden'
-                disabled={loading || onCompressing}
+                disabled={loading || loading2}
                 onChange={handleChange}
               />
             );
           }}
         </Field>
-
-        {loading || onCompressing ? (
+        {loading || loading2 ? (
           <Loading className='!bg-white' />
         ) : (
           <svg

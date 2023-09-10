@@ -15,7 +15,7 @@ import ModalCropImage from '../../ModalCropImage';
 const UpLoadCover = ({ form }: { form: FormInstance }) => {
   const { t } = useTranslation('editProfile');
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
-  const [onCompressing, setOnCompressing] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [file, setFile] = useState<File>();
 
   const { run, loading } = useUploadImage();
@@ -26,24 +26,26 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
     });
   };
 
-  const handleCompressSuccess = (blob: File | Blob) => {
+  const handleCompressSuccess = async (blob: File | Blob) => {
     const blobToFile = new File([blob], '.jpg', {
       type: blob.type,
     });
-    setOnCompressing(false);
+    setLoading2(false);
     const formData = new FormData();
     formData.append('files', blobToFile);
 
     file && run(formData, '', setField);
   };
 
-  const handleConvertToJpgSuccess = (file: Blob | null) => {
+  const handleConvertToJpgSuccess = async (file: Blob | null) => {
+    setLoading2(false);
+
     if (file) {
       compressorImage({
         file,
         maxFileSizeKB: MAX_COVER_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
-        onCompressStart: () => setOnCompressing(true),
+        onCompressStart: () => setLoading2(true),
         onError: (message) => toast.error(message),
       });
     }
@@ -53,8 +55,11 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
     setOpenModalCropImg(false);
 
     if (blob) {
+      setLoading2(true);
+
       // convert image to jpg
       convertImageToJpg(blob, handleConvertToJpgSuccess, (error) => {
+        setLoading2(false);
         switch (error) {
           case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
             return toast.error(t('file_invalid'));
@@ -78,7 +83,7 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
                   type='file'
                   accept='image/png, image/jpeg, .webp'
                   className='hidden'
-                  disabled={loading || onCompressing}
+                  disabled={loading || loading2}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     const file = (e.target.files as FileList)[0];
 
@@ -89,7 +94,7 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
                   }}
                 />
                 <span className=' flex h-[36px] items-center rounded-[5px] bg-[#F0F7FC] px-[16px] py-[5px] text-[14px] font-[700] text-primary_blue'>
-                  {loading || onCompressing ? <Loading /> : t('upload_image')}
+                  {loading || loading2 ? <Loading /> : t('upload_image')}
                 </span>
               </label>
             </>

@@ -15,7 +15,7 @@ import ModalCropImage from '../../ModalCropImage';
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
   const [file, setFile] = useState<File>();
-  const [onCompressing, setOnCompressing] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const { t } = useTranslation();
   const { run, loading } = useUploadImage();
 
@@ -25,8 +25,8 @@ const Update = ({ form }: { form: FormInstance }) => {
     });
   };
 
-  const handleCompressSuccess = (blob: File | Blob) => {
-    setOnCompressing(false);
+  const handleCompressSuccess = async (blob: File | Blob) => {
+    setLoading2(false);
     const blobToFile = new File([blob], '.jpg', {
       type: blob.type,
     });
@@ -37,13 +37,14 @@ const Update = ({ form }: { form: FormInstance }) => {
     file && run(formData, '', setField);
   };
 
-  const handleConvertToJpgSuccess = (file: Blob | null) => {
+  const handleConvertToJpgSuccess = async (file: Blob | null) => {
+    setLoading2(false);
     if (file) {
       compressorImage({
         file,
         maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
-        onCompressStart: () => setOnCompressing(true),
+        onCompressStart: () => setLoading2(true),
         onError: (message) => toast.error(message),
       });
     }
@@ -53,8 +54,10 @@ const Update = ({ form }: { form: FormInstance }) => {
     setOpenModalCropImg(false);
 
     if (blob) {
+      setLoading2(true);
       // convert image to jpg
       convertImageToJpg(blob, handleConvertToJpgSuccess, (error) => {
+        setLoading2(false);
         switch (error) {
           case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
             return toast.error(t('file_invalid'));
@@ -77,7 +80,7 @@ const Update = ({ form }: { form: FormInstance }) => {
                 type='file'
                 accept='image/png, image/jpeg, .webp'
                 className='hidden'
-                disabled={loading || onCompressing}
+                disabled={loading || loading2}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const file = (e.target.files as FileList)[0];
 
@@ -88,7 +91,7 @@ const Update = ({ form }: { form: FormInstance }) => {
                 }}
               />
               <p className='absolute -bottom-[4px] right-[10px] flex h-[36px]  w-[36px] cursor-pointer items-center justify-center rounded-full border-[2px] border-solid border-white bg-primary_blue'>
-                {loading || onCompressing ? (
+                {loading || loading2 ? (
                   <Loading className='!bg-white' />
                 ) : (
                   <svg
