@@ -16,7 +16,7 @@ const Header = ({ form }: { form: FormInstance }) => {
     <div className='bg-white'>
       <div className='relative w-full pt-[41%] tablet:pt-[280px]'>
         <Back />
-        <Cover />
+        <Cover form={form} />
         <div className='mx-auto'>
           <Avatar form={form} />
           <Phone />
