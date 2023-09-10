@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { CONVERT_IMAGE_ERR_MSG, compressorImage, convertImageToJpg } from '@utils/common';
-import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
+import { AVATAR_SIZE, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
 import ModalCropImage from '../../ModalCropImage';
 
@@ -57,10 +57,10 @@ const Update = ({ form }: { form: FormInstance }) => {
       convertImageToJpg(blob, handleConvertToJpgSuccess, (error) => {
         switch (error) {
           case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
-            return t('file_invalid');
+            return toast.error(t('file_invalid'));
           }
           default: {
-            return t('error');
+            return toast.error(t('error'));
           }
         }
       });
@@ -113,8 +113,8 @@ const Update = ({ form }: { form: FormInstance }) => {
       </Field>
 
       <ModalCropImage
-        width={150}
-        height={150}
+        width={AVATAR_SIZE.width}
+        height={AVATAR_SIZE.height}
         file={file}
         visible={openModalCropImg}
         onClose={() => setOpenModalCropImg(false)}

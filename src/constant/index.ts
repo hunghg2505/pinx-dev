@@ -21,6 +21,10 @@ const COVER_SIZE = {
   width: 1280,
   height: 720,
 };
+const AVATAR_SIZE = {
+  width: 150,
+  height: 150,
+};
 
 export {
   ZALO_OAID,
@@ -36,4 +40,5 @@ export {
   MAX_AVATAR_FILE_SIZE_KB,
   MAX_COVER_FILE_SIZE_KB,
   COVER_SIZE,
+  AVATAR_SIZE,
 };
