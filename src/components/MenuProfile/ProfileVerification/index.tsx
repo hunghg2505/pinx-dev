@@ -30,10 +30,18 @@ import {
   calcUserStatusText,
   isUrlValid,
   replaceImageError,
+  convertImageToJpg,
+  CONVERT_IMAGE_ERR_MSG,
+  compressorImage,
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import {
+  APP_STORE_DOWNLOAD,
+  AVATAR_SIZE,
+  GOOGLE_PLAY_DOWNLOAD,
+  MAX_AVATAR_FILE_SIZE_KB,
+} from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
 
@@ -103,10 +111,45 @@ const ProfileVerification = () => {
     },
   );
 
-  const onChangeAvatar = async (file: File) => {
+  const handleCompressSuccess = async (blob: Blob) => {
+    const blobToFile = new File([blob], '.jpg', {
+      type: blob.type,
+    });
+
     const formData = new FormData();
-    formData.append('files', file);
-    requestUploadImage.run(formData);
+    formData.append('files', blobToFile);
+    blob && requestUploadImage.run(formData);
+  };
+
+  const onChangeAvatar = async (file: File) => {
+    convertImageToJpg(
+      file,
+      async (file) => {
+        if (file) {
+          compressorImage({
+            file,
+            maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
+            onSuccess: handleCompressSuccess,
+            onError: (message) => toast.error(message),
+            compressorOpt: {
+              width: AVATAR_SIZE.width,
+              height: AVATAR_SIZE.height,
+              resize: 'cover',
+            },
+          });
+        }
+      },
+      (error) => {
+        switch (error) {
+          case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
+            return toast.error(t('file_invalid'));
+          }
+          default: {
+            return toast.error(t('error'));
+          }
+        }
+      },
+    );
   };
 
   const deactiveAccount = () => {
@@ -147,7 +190,11 @@ const ProfileVerification = () => {
 
       <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
         <div className='relative mr-3 flex-none'>
-          <Upload accept='.png, .jpeg, .jpg' onStart={onChangeAvatar} beforeUpload={beforeUpload}>
+          <Upload
+            accept='.png, .jpeg, .jpg, .webp'
+            onStart={onChangeAvatar}
+            beforeUpload={beforeUpload}
+          >
             {isUrlValid(userLoginInfo?.avatar) ? (
               <img
                 src={userLoginInfo?.avatar}
