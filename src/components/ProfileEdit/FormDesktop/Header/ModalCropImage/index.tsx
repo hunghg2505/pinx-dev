@@ -89,7 +89,7 @@ const ModalCropImage = (props: ModalCropImageProps) => {
         background={false}
         aspectRatio={cropperOptions?.aspectRatio || 16 / 9}
         viewMode={cropperOptions?.viewMode || 1}
-        style={{ marginTop: '24px', maxHeight: 400 }}
+        style={{ marginTop: '24px', maxHeight: '50vh' }}
         {...cropperOptions}
         cropmove={() => setCloseable(false)}
         cropend={() => setCloseable(true)}

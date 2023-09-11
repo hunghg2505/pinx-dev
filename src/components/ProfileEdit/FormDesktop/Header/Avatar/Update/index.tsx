@@ -45,7 +45,10 @@ const Update = ({ form }: { form: FormInstance }) => {
         maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading2(true),
-        onError: (message) => toast.error(message),
+        onError: (message) => {
+          setLoading2(false);
+          toast.error(message);
+        },
       });
     }
   };
