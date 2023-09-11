@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { CONVERT_IMAGE_ERR_MSG, compressorImage, convertImageToJpg } from '@utils/common';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AVATAR_SIZE, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
 import Img from './Img';
@@ -43,11 +44,11 @@ const Avatar = ({ form }: { form: FormInstance }) => {
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading2(true),
         onError: (message) => toast.error(message),
-        compressorOpt: {
-          width: AVATAR_SIZE.width,
-          height: AVATAR_SIZE.height,
-          resize: 'cover',
-        },
+        // compressorOpt: {
+        //   width: AVATAR_SIZE.width,
+        //   height: AVATAR_SIZE.height,
+        //   resize: 'cover',
+        // },
       });
     }
   };

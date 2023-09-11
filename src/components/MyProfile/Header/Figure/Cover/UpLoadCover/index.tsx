@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { profileUserContext } from '@components/MyProfile';
 import { useUpdateUserProfile } from '@components/Profile/service';
 import { CONVERT_IMAGE_ERR_MSG, compressorImage, convertImageToJpg } from '@utils/common';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { COVER_SIZE, MAX_COVER_FILE_SIZE_KB } from 'src/constant';
 
 import IconCoverEdit from './IconCoverEdit';
@@ -38,11 +39,11 @@ const UpLoadCover = () => {
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading(true),
         onError: (message) => toast.error(message),
-        compressorOpt: {
-          width: COVER_SIZE.width,
-          height: COVER_SIZE.height,
-          resize: 'cover',
-        },
+        // compressorOpt: {
+        //   width: COVER_SIZE.width,
+        //   height: COVER_SIZE.height,
+        //   resize: 'cover',
+        // },
       });
     }
   };
