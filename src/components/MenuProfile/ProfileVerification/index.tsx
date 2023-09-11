@@ -38,6 +38,7 @@ import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/cons
 import { DownloadPineXApp } from '@utils/dataLayer';
 import {
   APP_STORE_DOWNLOAD,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   AVATAR_SIZE,
   GOOGLE_PLAY_DOWNLOAD,
   MAX_AVATAR_FILE_SIZE_KB,
@@ -131,11 +132,11 @@ const ProfileVerification = () => {
             maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
             onSuccess: handleCompressSuccess,
             onError: (message) => toast.error(message),
-            compressorOpt: {
-              width: AVATAR_SIZE.width,
-              height: AVATAR_SIZE.height,
-              resize: 'cover',
-            },
+            // compressorOpt: {
+            //   width: AVATAR_SIZE.width,
+            //   height: AVATAR_SIZE.height,
+            //   resize: 'cover',
+            // },
           });
         }
       },

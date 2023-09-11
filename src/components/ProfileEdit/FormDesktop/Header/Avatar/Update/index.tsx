@@ -14,6 +14,7 @@ import ModalCropImage from '../../ModalCropImage';
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
   const [loading2, setLoading2] = useState(false);
   const { t } = useTranslation();
@@ -34,7 +35,7 @@ const Update = ({ form }: { form: FormInstance }) => {
     const formData = new FormData();
     formData.append('files', blobToFile);
 
-    file && run(formData, '', setField);
+    blob && run(formData, '', setField);
   };
 
   const handleConvertToJpgSuccess = async (file: Blob | null) => {
@@ -85,8 +86,9 @@ const Update = ({ form }: { form: FormInstance }) => {
                   const file = (e.target.files as FileList)[0];
 
                   if (file) {
-                    setOpenModalCropImg(true);
-                    setFile(file);
+                    // setOpenModalCropImg(true);
+                    // setFile(file);
+                    handleCropImageSuccess(file);
                   }
                 }}
               />
