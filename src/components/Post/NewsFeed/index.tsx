@@ -33,6 +33,7 @@ interface IProps {
   isSearchSeoBox?: boolean;
   onTrackingViewTicker?: (stockCode: string) => void;
   onTrackingViewTickerCmt?: (stockCode: string) => void;
+  onCommentPost?: (postData: IPost) => void;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -49,6 +50,7 @@ const NewsFeed = (props: IProps) => {
     isSearchSeoBox,
     onTrackingViewTicker,
     onTrackingViewTickerCmt,
+    onCommentPost,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -62,7 +64,6 @@ const NewsFeed = (props: IProps) => {
   // }, [data]);
   const isMyPost = postData?.customerId === userLoginInfo?.id;
   const isMyComment = postData?.children?.[0]?.customerInfo?.customerId === userLoginInfo?.id;
-
   const { findItemFollow, itemLike, idPostAddComment, isChangeMyProfile } = React.useMemo(() => {
     const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
     const idPostAddComment = postDetailStatus?.idPostAddComment === postData?.id;
@@ -126,6 +127,7 @@ const NewsFeed = (props: IProps) => {
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
+      onCommentPost && onCommentPost(res?.data);
       if (!isPageMyProfile) {
         setPostDetailStatus({
           ...postDetailStatus,
@@ -141,7 +143,6 @@ const NewsFeed = (props: IProps) => {
     },
     manual: true,
   });
-
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
@@ -184,6 +185,7 @@ const NewsFeed = (props: IProps) => {
   if (!postData) {
     return <></>;
   }
+
   const refreshComment = () => {
     // if (onRefreshList) {
     //   onRefreshList();
