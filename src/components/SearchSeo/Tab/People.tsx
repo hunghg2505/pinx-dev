@@ -44,7 +44,7 @@ const PeopleTab = ({ textSearch, textSearchFormat }: PeopleTabProps) => {
   });
 
   useEffect(() => {
-    if (textSearch.trim()) {
+    if (textSearchFormat.trim()) {
       requestGetListPeople.run({
         textSearch: textSearchFormat,
       });
@@ -63,7 +63,6 @@ const PeopleTab = ({ textSearch, textSearchFormat }: PeopleTabProps) => {
       });
     }
   });
-
   return listPeople?.data?.totalElements ? (
     <div className='flex flex-col gap-y-[16px]' ref={ref}>
       {listPeople?.data.list?.map((item: any, index: number) => {
@@ -74,7 +73,7 @@ const PeopleTab = ({ textSearch, textSearchFormat }: PeopleTabProps) => {
     </div>
   ) : (
     <>
-      {listPeople && textSearch ? (
+      {(!listPeople && !textSearchFormat) || (listPeople && textSearch) ? (
         <Empty keyword={textSearch} />
       ) : (
         <div className='flex min-h-[150px] flex-row items-center justify-center'>
