@@ -14,7 +14,7 @@ export const profileUserContext = createContext(undefined);
 const Header = ({ form }: { form: FormInstance }) => {
   return (
     <div className='bg-white'>
-      <div className='relative w-full pt-[41%] tablet:pt-[280px]'>
+      <div className='relative w-full pt-[52%]'>
         <Back />
         <Cover form={form} />
         <div className='mx-auto'>
