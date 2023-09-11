@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH, imageStock } from '@utils/common';
 import { ModifyWatchlist } from '@utils/dataLayer';
 
@@ -24,6 +25,7 @@ const RegisterCompanyStep = () => {
   const [selected, setSelected] = useState<any[]>([]);
   const [myListStock, setMyListStock] = useState<string[]>([]);
   const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
+  const { setUserRegisterInfo } = useUserRegisterInfo();
 
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
@@ -50,13 +52,16 @@ const RegisterCompanyStep = () => {
   const requestSelectStock = useSelectStock({
     onSuccess: (_, params) => {
       router.push(ROUTE_PATH.REGISTER_THEME);
-
       // gtm
       const unselectedStock = myListStock.filter((item) => !selected.includes(item));
       const stockHasAdd = params
         .toString()
         .split(',')
         .filter((item: string) => !myListStock.includes(item));
+      setUserRegisterInfo((prev) => ({
+        ...prev,
+        selectedStock: params.toString().split(','),
+      }));
       ModifyWatchlist(stockHasAdd, unselectedStock, 'Default', myListStock, myListStock?.length);
     },
   });

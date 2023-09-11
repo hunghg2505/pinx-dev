@@ -7,6 +7,7 @@ import Notification from '@components/UI/Notification';
 import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
+import { ResendSMS } from '@utils/dataLayer';
 
 import { useLoginOtp, useConfirmContract } from './service';
 import OtpVerification from '../../OtpVerification';
@@ -62,6 +63,7 @@ const Register = () => {
       trdType: '1',
     };
     requestResendLoginOtp.run(payload);
+    ResendSMS(userLoginInfo?.phone || '');
   };
 
   useEffect(() => {

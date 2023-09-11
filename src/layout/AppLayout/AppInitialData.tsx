@@ -70,8 +70,13 @@ const AppInitialData = () => {
   }, [toasts]);
 
   useEffect(() => {
+    const locale = getLocaleCookie() as string;
+
     if (router.pathname === ROUTE_PATH.HOME) {
       getInitDataStockWatchlistHome();
+    }
+    if (getLocaleCookie() && getLocaleCookie() !== router.locale) {
+      router.push(router.asPath, router.asPath, { locale });
     }
   }, [router.pathname]);
 
