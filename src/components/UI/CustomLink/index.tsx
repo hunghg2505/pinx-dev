@@ -30,7 +30,7 @@ const CustomLink = ({
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const handleClickLink = () => {
-    if (!isPostDetailPath) {
+    if (!isPostDetailPath && href !== ROUTE_PATH.HOME) {
       globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
     }
     onClick && onClick();
