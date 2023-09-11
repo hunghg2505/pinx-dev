@@ -26,7 +26,7 @@ const SearchSeo = () => {
   const keywordFormat = useMemo(() => {
     return removeSpecialCharacter(keyword);
   }, [keyword]);
-
+  console.log(keywordFormat);
   // const media = data?.data?.listMedia?.list?.map((item: any) => {
   //   return {
   //     type: 'media',

@@ -56,7 +56,7 @@ const MediaTab = ({ textSearch, onTrackingViewTicker, textSearchFormat }: MediaT
   });
 
   useEffect(() => {
-    if (textSearch.trim()) {
+    if (textSearchFormat.trim()) {
       requestGetListMedia.run({
         textSearch: textSearchFormat,
       });
@@ -75,7 +75,6 @@ const MediaTab = ({ textSearch, onTrackingViewTicker, textSearchFormat }: MediaT
       });
     }
   });
-
   return listMedia?.data.list && listMedia?.data.list.length > 0 ? (
     <div className='grid grid-cols-1 gap-[16px] tablet:grid-cols-2' ref={ref}>
       {listMedia.data.list?.map((item: any) => {
@@ -98,7 +97,7 @@ const MediaTab = ({ textSearch, onTrackingViewTicker, textSearchFormat }: MediaT
     </div>
   ) : (
     <>
-      {listMedia && textSearch ? (
+      {(!listMedia && !textSearchFormat) || (listMedia && textSearch) ? (
         <Empty keyword={textSearch} />
       ) : (
         <div className='flex min-h-[150px] flex-row items-center justify-center'>
