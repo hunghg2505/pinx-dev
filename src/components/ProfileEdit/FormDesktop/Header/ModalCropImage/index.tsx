@@ -93,7 +93,8 @@ const ModalCropImage = (props: ModalCropImageProps) => {
         {...cropperOptions}
         cropmove={() => setCloseable(false)}
         cropend={() => setCloseable(true)}
-        draggable={false}
+        // draggable={false}
+        toggleDragModeOnDblclick={false}
       />
 
       {showZoomControl && (
