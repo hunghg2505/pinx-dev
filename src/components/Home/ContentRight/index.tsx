@@ -18,6 +18,7 @@ import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
+import MarketDesktop from '../Market/MarketDesktop';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
 // tracking event view ticker info
@@ -94,7 +95,9 @@ const ContentRight = () => {
   return (
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div className='max-w-[350px]'>
-        <Fade visible={!isProfilePath}>{/* <MarketDesktop /> */}</Fade>
+        <Fade visible={!isProfilePath}>
+          <MarketDesktop />
+        </Fade>
 
         <Fade visible={isLogin && !isPageWatchList}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>

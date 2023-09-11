@@ -425,7 +425,7 @@ const Editor = (props: IProps, ref?: any) => {
         if (text.type === 'text') {
           const txt = text?.text?.split(' ');
           for (const item of txt) {
-            if (item.includes('#')) {
+            if (item[0] === '#') {
               hashtags.push(item);
             }
           }
@@ -615,7 +615,7 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex w-full cursor-text items-center justify-between galaxy-max:py-2'
+              className='flex items-center justify-between w-full cursor-text galaxy-max:py-2'
             >
               <EditorContent
                 editor={editor}

@@ -157,6 +157,18 @@ const HomeNewFeed = () => {
       type: dataPosts?.type,
     });
   };
+
+  const onCommentPost = (postData: IPost) => {
+    const newList = dataPosts.list?.map((post: IPost) =>
+      postData.id === post.id ? postData : post,
+    );
+    mutate({
+      list: newList,
+      nextId: dataPosts.nextId,
+      type: dataPosts.type,
+    });
+  };
+
   React.useEffect(() => {
     const findIndex = dataPosts?.list?.findIndex(
       (item) => item?.id === postDetailStatus?.themeWatchlist?.id,
@@ -238,6 +250,7 @@ const HomeNewFeed = () => {
         onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
         key={`home-post-item-${firstPost?.id}`}
         data={firstPost as any}
+        onCommentPost={onCommentPost}
       />
 
       <div className='box-shadow card-style tablet:hidden'>
@@ -277,6 +290,7 @@ const HomeNewFeed = () => {
             onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
             loading={loadingPosts}
             data={item}
+            onCommentPost={onCommentPost}
           />
         );
       })}
@@ -308,6 +322,7 @@ const HomeNewFeed = () => {
                   handleTrackingViewTicker(stockCode, 'Comment')
                 }
                 data={item}
+                onCommentPost={onCommentPost}
               />
             </div>
           );
@@ -319,6 +334,7 @@ const HomeNewFeed = () => {
             onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
             onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
             data={item}
+            onCommentPost={onCommentPost}
           />
         );
       })}
