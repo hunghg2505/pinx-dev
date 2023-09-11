@@ -14,7 +14,6 @@ import ModalCropImage from '../../ModalCropImage';
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
   const [loading2, setLoading2] = useState(false);
   const { t } = useTranslation();
@@ -46,7 +45,10 @@ const Update = ({ form }: { form: FormInstance }) => {
         maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading2(true),
-        onError: (message) => toast.error(message),
+        onError: (message) => {
+          setLoading2(false);
+          toast.error(message);
+        },
       });
     }
   };
@@ -82,13 +84,13 @@ const Update = ({ form }: { form: FormInstance }) => {
                 accept='image/png, image/jpeg, .webp'
                 className='hidden'
                 disabled={loading || loading2}
+                onClick={(e: any) => (e.target.value = '')}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const file = (e.target.files as FileList)[0];
 
                   if (file) {
-                    // setOpenModalCropImg(true);
-                    // setFile(file);
-                    handleCropImageSuccess(file);
+                    setOpenModalCropImg(true);
+                    setFile(file);
                   }
                 }}
               />
@@ -125,8 +127,14 @@ const Update = ({ form }: { form: FormInstance }) => {
         onClose={() => setOpenModalCropImg(false)}
         cropperOptions={{
           aspectRatio: 1 / 1,
+          autoCropArea: 1,
+          zoomOnTouch: false,
+          zoomOnWheel: false,
+          cropBoxResizable: false,
+          dragMode: 'move',
         }}
         onCropSuccess={handleCropImageSuccess}
+        showZoomControl
       />
     </>
   );
