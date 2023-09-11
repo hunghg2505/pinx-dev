@@ -11,7 +11,7 @@ import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-import { ConfirmPhoneNumber } from '@utils/dataLayer';
+import { ConfirmPhoneNumber, ResendSMS } from '@utils/dataLayer';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
@@ -48,11 +48,31 @@ const Register = (props: IProps) => {
       setUserType(checkUserType(resData?.custStat, resData?.acntStat));
       setIsReadTerms(true);
       deleteRegisterCookies();
-      ConfirmPhoneNumber('Success', '', '', 'Verified', new Date(), resData.email, resData.cif, resData.phone, resData.username);
+      ConfirmPhoneNumber(
+        'Success',
+        '',
+        '',
+        'Verified',
+        new Date(),
+        resData.email,
+        resData.cif,
+        resData.phone,
+        resData.username,
+      );
     },
     onError: (e) => {
       toast(() => <Notification type='error' message={e?.error} />);
-      ConfirmPhoneNumber('Failed', e.errorCode, e.error, 'Not Verified', new Date(), '', '', '', '');
+      ConfirmPhoneNumber(
+        'Failed',
+        e.errorCode,
+        e.error,
+        'Not Verified',
+        new Date(),
+        '',
+        '',
+        '',
+        '',
+      );
     },
   });
 
@@ -68,6 +88,7 @@ const Register = (props: IProps) => {
 
   const onResendOtp = () => {
     requestResendRegisterOtp.run();
+    ResendSMS(userRegisterInfo?.phoneNumber || '');
   };
 
   useEffect(() => {

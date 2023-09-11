@@ -16,6 +16,7 @@ import LoginHeader from '@layout/components/LoginHeader';
 import { useAuth } from '@store/auth/useAuth';
 import { settingAtom } from '@store/setting/setting';
 import { ROUTE_PATH } from '@utils/common';
+import { ResendSMS } from '@utils/dataLayer';
 
 import { useChangePassord } from './service';
 
@@ -82,6 +83,7 @@ const ChangePasswordVertification = () => {
       trdType: '1',
     };
     requestResendLoginOtp.run(payload);
+    ResendSMS(userLoginInfo?.phone || '');
   };
 
   useEffect(() => {
