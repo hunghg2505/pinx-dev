@@ -168,6 +168,12 @@
 
 .messageFormat2 {
   @extend .messageFormat;
+
+  * {
+    line-height: inherit !important;
+    display: inline !important;
+  }
+
   .link,
   .mention {
     @apply text-[14px];

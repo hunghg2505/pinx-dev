@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-
 interface IPropsImageHeadPost {
   headImageUrl: string;
 }
@@ -13,7 +11,7 @@ const ImageHeadPost = ({ headImageUrl }: IPropsImageHeadPost) => {
 
   return (
     <>
-      <LazyLoadImage
+      <img
         src={headImageUrl}
         alt=''
         className='absolute left-0 top-0 h-full w-full rounded-[9px]'

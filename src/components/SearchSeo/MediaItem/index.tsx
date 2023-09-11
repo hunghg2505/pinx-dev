@@ -125,7 +125,6 @@ import getSeoDataFromLink, { ROUTE_PATH, formatMessage } from '@utils/common';
 
 const MediaItem = ({
   data,
-  type,
   setShowPopup,
   onTrackingViewTicker,
 }: {
@@ -182,153 +181,123 @@ const MediaItem = ({
     switch (param) {
       case 'TikTok': {
         return (
-          <>
-            {img && (
-              <div className='flex cursor-pointer flex-col gap-y-[8px]'>
+          <div className='flex cursor-pointer flex-col gap-y-[8px]'>
+            <div
+              className={classNames('relative', styles.Video, styles.Tiktok)}
+              onClick={onGoToDetail}
+            >
+              <img
+                className='aspect-[16/9] rounded bg-[#12121239] object-contain'
+                src={img || '/static/images/noimage.jpg'}
+                alt='Picture of TikTok'
+                width={345}
+                height={162}
+              />
+            </div>
+            <div onClick={(e: any) => onHandleClick(e)}>
+              <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
                 <div
-                  className={classNames('relative', styles.Video, styles.Tiktok)}
-                  onClick={onGoToDetail}
-                >
-                  <img
-                    className='aspect-[16/9] rounded bg-[#12121239] object-contain'
-                    src={img || '/static/images/noimage.jpg'}
-                    alt='Picture of TikTok'
-                    width={345}
-                    height={162}
-                  />
-                </div>
-                <div onClick={(e: any) => onHandleClick(e)}>
-                  <Text
-                    type='body-14-semibold'
-                    className='messageFormat2 line-clamp-2 text-[#0D0D0D]'
-                  >
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: formatMessage(
-                          data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                          data?.post,
-                        ),
-                      }}
-                    ></div>
-                  </Text>
-                </div>
-              </div>
-            )}
-          </>
+                  dangerouslySetInnerHTML={{
+                    __html: formatMessage(
+                      data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                      data?.post,
+                    ),
+                  }}
+                ></div>
+              </Text>
+            </div>
+          </div>
         );
       }
       case 'YouTube': {
         return (
-          <>
-            {data?.post?.metadataList[0]?.images[0] && (
-              <div className='flex cursor-pointer flex-col gap-y-[8px]'>
-                <div className={classNames('relative', styles.Youtube)} onClick={onGoToDetail}>
-                  <img
-                    className='aspect-[16/9] rounded bg-[#12121239] object-cover'
-                    src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
-                    alt='Picture of Youtube'
-                    width={345}
-                    height={162}
-                  />
-                </div>
-                <div onClick={(e: any) => onHandleClick(e)}>
-                  <Text
-                    type='body-14-semibold'
-                    className='messageFormat2 line-clamp-2 text-[#0D0D0D]'
-                  >
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: formatMessage(
-                          data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                          data?.post,
-                        ),
-                      }}
-                    ></div>
-                  </Text>
-                </div>
-              </div>
-            )}
-          </>
+          <div className='flex cursor-pointer flex-col gap-y-[8px]'>
+            <div className={classNames('relative', styles.Youtube)} onClick={onGoToDetail}>
+              <img
+                className='aspect-[16/9] rounded bg-[#12121239] object-cover'
+                src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
+                alt='Picture of Youtube'
+                width={345}
+                height={162}
+              />
+            </div>
+            <div onClick={(e: any) => onHandleClick(e)}>
+              <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: formatMessage(
+                      data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                      data?.post,
+                    ),
+                  }}
+                ></div>
+              </Text>
+            </div>
+          </div>
         );
       }
       default: {
         return (
-          <>
-            {data?.post?.metadataList[0]?.images[0] && (
-              <div className='flex cursor-pointer flex-col gap-y-[8px]'>
-                <div className={classNames('relative', styles.Video)} onClick={onGoToDetail}>
-                  <img
-                    className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
-                      'object-cover': data?.post?.metadataList[0]?.images[0],
-                      'object-cover ': !data?.post?.metadataList[0]?.images[0],
-                    })}
-                    src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
-                    alt='Picture of Orther'
-                    width={345}
-                    height={162}
-                  />
-                </div>
-                <div onClick={(e: any) => onHandleClick(e)}>
-                  <Text
-                    type='body-14-semibold'
-                    className='messageFormat2 line-clamp-2 text-[#0D0D0D]'
-                  >
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: formatMessage(
-                          data?.post?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                          data?.post,
-                        ),
-                      }}
-                    ></div>
-                  </Text>
-                </div>
-              </div>
-            )}
-          </>
+          <div className='flex cursor-pointer flex-col gap-y-[8px]'>
+            <div className={classNames('relative', styles.Video)} onClick={onGoToDetail}>
+              <img
+                className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
+                  '!object-contain': data?.post?.metadataList[0]?.images?.[0],
+                  'object-cover': !data?.post?.metadataList[0]?.images?.[0],
+                })}
+                src={data?.post?.metadataList[0]?.images?.[0] || '/static/images/noimage.jpg'}
+                alt='Picture of Orther'
+                width={345}
+                height={162}
+              />
+            </div>
+            <div onClick={(e: any) => onHandleClick(e)}>
+              <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: formatMessage(
+                      data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                      data?.post,
+                    ),
+                  }}
+                ></div>
+              </Text>
+            </div>
+          </div>
         );
       }
     }
   };
-  return (
-    <>
-      {type === 'image' ? (
-        <>
-          {data?.seoMetadata?.imageSeo?.urlImage && (
-            <div className='flex cursor-pointer flex-col gap-y-[8px]'>
-              <img
-                className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
-                  '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
-                  '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,
-                })}
-                src={data?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
-                alt='Picture of the author'
-                width={345}
-                height={162}
-                onClick={onGoToDetail}
-              />
-              <div onClick={(e: any) => onHandleClick(e)}>
-                <Text
-                  type='body-14-semibold'
-                  className='messageFormat2 line-clamp-2 text-[#0D0D0D]'
-                >
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: formatMessage(
-                        data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                        data?.post,
-                      ),
-                    }}
-                  ></div>
-                </Text>
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
-      )}
-    </>
+  return data?.post?.metadataList?.[0]?.siteName ? (
+    <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
+  ) : (
+    data?.seoMetadata?.imageSeo?.urlImage && (
+      <div className='flex cursor-pointer flex-col gap-y-[8px]'>
+        <img
+          className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
+            '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
+            '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,
+          })}
+          src={data?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
+          alt='Picture of the author'
+          width={345}
+          height={162}
+          onClick={onGoToDetail}
+        />
+        <div onClick={(e: any) => onHandleClick(e)}>
+          <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: formatMessage(
+                  data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                  data?.post,
+                ),
+              }}
+            ></div>
+          </Text>
+        </div>
+      </div>
+    )
   );
 };
 export default MediaItem;

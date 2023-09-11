@@ -386,3 +386,10 @@ export const DownloadPineXApp = (CTA_Type?: string, Register_CTA_Location?: stri
     });
   } catch {}
 };
+export const CloseWeb = () => {
+  try {
+    window.dataLayer.push({
+      event: 'Close Web',
+    });
+  } catch {}
+};

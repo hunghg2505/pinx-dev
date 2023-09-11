@@ -18,6 +18,7 @@ import ErrorBoundary from '@components/ErrorBoundary';
 import { requestJoinChannel, requestJoinIndex, socket } from '@components/Home/service';
 import AppLayout from '@layout/AppLayout';
 import { stockSocketAtom } from '@store/stockStocket';
+// import { CloseWeb } from '@utils/dataLayer';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -71,6 +72,22 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       socket.off('connect');
     };
   }, [stockSocket]);
+
+  // tracking event close web
+  // useEffect(() => {
+  //   const handleClose = (event: BeforeUnloadEvent) => {
+  //     event.preventDefault();
+  //     event.returnValue = '';
+
+  //     CloseWeb();
+  //   };
+
+  //   window.addEventListener('beforeunload', handleClose);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleClose);
+  //   };
+  // }, []);
 
   return (
     <>

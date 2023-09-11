@@ -8,7 +8,6 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 // import CustomLink from '@components/UI/CustomLink';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -113,7 +112,7 @@ export const PineTreePost2 = ({
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <LazyLoadImage
+          <img
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
             className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
