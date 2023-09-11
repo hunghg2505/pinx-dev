@@ -16,7 +16,6 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
   const { t } = useTranslation('editProfile');
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
 
   const { run, loading } = useUploadImage();
@@ -47,7 +46,10 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
         maxFileSizeKB: MAX_COVER_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading2(true),
-        onError: (message) => toast.error(message),
+        onError: (message) => {
+          setLoading2(false);
+          toast.error(message);
+        },
       });
     }
   };
@@ -84,15 +86,14 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
                   type='file'
                   accept='image/png, image/jpeg, .webp'
                   className='hidden'
+                  onClick={(e: any) => (e.target.value = '')}
                   disabled={loading || loading2}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     const file = (e.target.files as FileList)[0];
 
                     if (file) {
-                      // setOpenModalCropImg(true);
-                      // setFile(file);
-
-                      handleCropImageSuccess(file);
+                      setOpenModalCropImg(true);
+                      setFile(file);
                     }
                   }}
                 />
@@ -113,6 +114,11 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
         onClose={() => setOpenModalCropImg(false)}
         cropperOptions={{
           aspectRatio: 16 / 9,
+          autoCropArea: 1,
+          zoomOnTouch: false,
+          zoomOnWheel: false,
+          cropBoxResizable: false,
+          dragMode: 'move',
         }}
         onCropSuccess={handleCropImageSuccess}
       />
