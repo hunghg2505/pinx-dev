@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
 import { BaseSyntheticEvent } from 'react';
 
+import imageCompression from 'browser-image-compression';
 import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
@@ -942,4 +943,41 @@ export const compressorImage = async ({
   } catch (error) {
     onError && onError(error);
   }
+};
+
+interface CompressImageParams {
+  file: File;
+  maxFileSizeKb?: number;
+  quality?: number;
+  options?: any;
+}
+
+export const compressImage = async ({
+  file,
+  maxFileSizeKb,
+  quality,
+  options,
+}: CompressImageParams) => {
+  const initOptions: any = { ...options };
+  const fileSizeKB = file.size / 1024;
+
+  if (maxFileSizeKb) {
+    initOptions.maxSizeMB = maxFileSizeKb / 1024;
+  }
+
+  if (quality) {
+    initOptions.initialQuality = quality;
+  }
+
+  try {
+    if (maxFileSizeKb && fileSizeKB > maxFileSizeKb) {
+      const compressedImage = await imageCompression(file, {
+        ...initOptions,
+      });
+
+      return compressedImage;
+    }
+
+    return file;
+  } catch {}
 };
