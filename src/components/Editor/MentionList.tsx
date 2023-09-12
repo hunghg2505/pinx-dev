@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-nested-ternary */
 /* eslint-disable react/display-name */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { atom } from 'jotai';
@@ -15,6 +15,8 @@ export const dataMention: any = atom([]);
 export default forwardRef((props: any, ref) => {
   // const router = useRouter();
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const elementRef = useRef<HTMLDivElement>(null);
+  const optionHeight = elementRef?.current?.children[0]?.clientHeight as number;
   const selectItem = (index: any) => {
     const item = props.items?.[index];
     if (item) {
@@ -33,17 +35,28 @@ export default forwardRef((props: any, ref) => {
 
   const upHandler = () => {
     setSelectedIndex((selectedIndex + props.items.length - 1) % props.items.length);
+    elementRef.current?.scrollBy(0, -optionHeight);
   };
 
   const downHandler = () => {
     setSelectedIndex((selectedIndex + 1) % props.items.length);
+    elementRef.current?.scroll(0, selectedIndex * optionHeight);
   };
 
-  // const enterHandler = () => {
-  //   selectItem(selectedIndex);
-  // };
+  const enterHandler = () => {
+    selectItem(selectedIndex);
+  };
 
   useEffect(() => setSelectedIndex(0), [props.items]);
+  useEffect(() => {
+    if (selectedIndex === 0) {
+      elementRef.current?.scroll(0, 0);
+    }
+    if (props.items && selectedIndex + 1 === props.items.length) {
+      const scrollHeight = elementRef.current?.scrollHeight as number;
+      elementRef.current?.scroll(0, scrollHeight);
+    }
+  }, [selectedIndex]);
 
   useImperativeHandle(ref, () => ({
     onKeyDown: ({ event }: { event: any }) => {
@@ -57,7 +70,7 @@ export default forwardRef((props: any, ref) => {
         return true;
       }
       if (event.key === 'Enter') {
-        // enterHandler();
+        enterHandler();
         return true;
       }
 
@@ -72,7 +85,7 @@ export default forwardRef((props: any, ref) => {
       return item.stockCode;
     }
     if (isHashTag) {
-      console.log('item', item);
+      // console.log('item', item);
       return item;
     }
     return item.displayName;
@@ -107,7 +120,10 @@ export default forwardRef((props: any, ref) => {
       {props.items?.length > 0 && (
         // để 375 thì màn mobile bị tràn ở write posst
         <div className='w-[300px] max-w-full bg-[#ffffff]'>
-          <div className='items h flex max-h-[190px] w-full flex-col overflow-x-hidden overflow-y-scroll'>
+          <div
+            ref={elementRef}
+            className='items h flex max-h-[180px] w-full flex-col overflow-x-hidden overflow-y-scroll'
+          >
             {props.items?.map((item: any, index: number) => {
               const isStock = !!item.stockCode;
               const isHashTag = typeof item === 'string' && item[0] === '#';
@@ -124,8 +140,10 @@ export default forwardRef((props: any, ref) => {
               return (
                 <button
                   // className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
+                  id={`suggest-${index}`}
                   className={classNames(
-                    'item h-30px flex items-center p-[6px] hover:bg-[var(--primary-3)] tablet:p-[12px]',
+                    'item flex items-center p-[6px] hover:bg-[var(--primary-3)] tablet:p-[12px]',
+                    { 'bg-[var(--primary-3)]': index === selectedIndex },
                   )}
                   key={index}
                   onClick={() => selectItem(index)}
