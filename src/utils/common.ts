@@ -970,7 +970,7 @@ export const compressImage = async ({
   }
 
   try {
-    if (maxFileSizeKb && fileSizeKB > maxFileSizeKb) {
+    if ((maxFileSizeKb && fileSizeKB > maxFileSizeKb) || quality) {
       const compressedImage = await imageCompression(file, {
         ...initOptions,
       });

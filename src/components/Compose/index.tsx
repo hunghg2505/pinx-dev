@@ -39,17 +39,14 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import getSeoDataFromLink, {
   base64ToBlob,
-  // compressorImage,
+  compressImage,
   converStringMessageToObject,
-  // CONVERT_IMAGE_ERR_MSG,
-  // convertImageToJpg,
   formatMessage,
   isImage,
   toBase64,
   validateHTML,
 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-// import { MAX_IMG_POST_CMT_FILE_SIZE_KB } from 'src/constant';
 
 import { ActivityWatchlist } from './ActivityWatchlist';
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -443,52 +440,41 @@ const Compose = (props: IProps) => {
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
 
-      // const onConvertToJpgSuccess = async (file: Blob | null) => {
-      //   setLoading(false);
+      const handleCompressSuccess = async (file: Blob) => {
+        setLoading(false);
 
-      //   if (file) {
-      //     await compressorImage({
-      //       file,
-      //       maxFileSizeKB: MAX_IMG_POST_CMT_FILE_SIZE_KB,
-      //       onSuccess: async (res) => {
-      //         setLoading(false);
-      //         const blobToFile = new File([res], '.jpg', {
-      //           type: res.type,
-      //         });
-
-      //         const formData = new FormData();
-      //         formData.append('files', blobToFile);
-
-      //         const resUploadImg = await requestUploadFile.runAsync(formData);
-
-      //         imageUploadedUrl = resUploadImg?.files?.[0]?.url;
-      //       },
-      //       onCompressStart: () => setLoading(true),
-      //       onError: (message) => toast.error(message),
-      //     });
-      //   }
-      // };
-
-      if (imageUploaded?.file && themeActiveId === 'default') {
-        // setLoading(true);
-        // await convertImageToJpg(imageUploaded?.file, onConvertToJpgSuccess, (error) => {
-        //   setLoading(false);
-        //   switch (error) {
-        //     case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
-        //       return toast.error(t('file_invalid'));
-        //     }
-        //     default: {
-        //       return toast.error(t('error'));
-        //     }
-        //   }
-        // });
+        const blobToFile = new File([file], '.' + file.type.split('/')[1], {
+          type: file.type,
+        });
 
         const formData = new FormData();
-        formData.append('files', imageUploaded?.file);
+        formData.append('files', blobToFile);
 
         const resUploadImg = await requestUploadFile.runAsync(formData);
 
         imageUploadedUrl = resUploadImg?.files?.[0]?.url;
+      };
+
+      if (imageUploaded?.file && themeActiveId === 'default') {
+        try {
+          setLoading(true);
+
+          // compress
+          const compressedImage = await compressImage({
+            file: imageUploaded?.file,
+            quality: 0.5,
+            options: {
+              fileType: 'image/jpeg',
+            },
+          });
+
+          if (compressedImage) {
+            await handleCompressSuccess(compressedImage);
+          }
+        } catch {
+          setLoading(false);
+          toast.error(t('error'));
+        }
       }
 
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
