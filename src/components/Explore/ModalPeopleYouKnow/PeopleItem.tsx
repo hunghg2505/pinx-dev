@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -116,7 +117,10 @@ const PeopleItem = (props: Iprops) => {
         onClick={handleNavigateToUserDetail}
       >
         {isUrlValid(data?.avatar) ? (
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data?.avatar}
             alt=''
             onError={replaceImageError}

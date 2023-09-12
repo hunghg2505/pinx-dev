@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
@@ -202,8 +203,8 @@ const ProfileVerification = () => {
               beforeUpload={beforeUpload}
             >
               {isUrlValid(userLoginInfo?.avatar) ? (
-                <img
-                  src={userLoginInfo?.avatar}
+                <Image
+                  src={userLoginInfo?.avatar || ''}
                   alt=''
                   width={0}
                   height={0}
@@ -428,7 +429,7 @@ const ProfileVerification = () => {
 
           {userLoginInfo?.custStat === USERTYPE.NEW && (
             <div className='mb-[82px] mt-[-77px] flex w-full flex-col items-center justify-center rounded-lg bg-[#D8EBFC] laptop-max:hidden'>
-              <img
+              <Image
                 src='/static/images/book_list.png'
                 alt=''
                 width={0}
@@ -441,19 +442,21 @@ const ProfileVerification = () => {
                 <Text type='body-16-semibold'>App PineX</Text>
               </div>
               <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
-                <img
+                <Image
                   src='/static/images/googleplay.png'
                   alt='Download google play'
                   width={180}
                   height={52}
+                  sizes='100vw'
                   className='h-[32px] w-[106.5px] cursor-pointer object-contain'
                   onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
                 />
 
-                <img
+                <Image
                   src='/static/images/appstore.png'
                   alt='Download app store'
                   width={180}
+                  sizes='100vw'
                   height={52}
                   className='h-[32px] w-[106.5px] cursor-pointer object-contain'
                   onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}

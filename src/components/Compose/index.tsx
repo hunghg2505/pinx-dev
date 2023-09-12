@@ -10,6 +10,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { useDeepCompareEffect, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -743,9 +744,12 @@ const Compose = (props: IProps) => {
       return (
         <>
           <div className='relative flex items-center justify-between overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB]'>
-            <img
-              src={imageUploaded?.url}
+            <Image
+              src={imageUploaded?.url || ''}
               alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
               className='max-h-[280px] w-full rounded-[8px] object-contain'
             />
             <img
@@ -762,9 +766,12 @@ const Compose = (props: IProps) => {
     return (
       <Fade visible={!!imageUploaded?.url && themeActiveId === 'default'}>
         <div className='relative flex items-center justify-between overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB]'>
-          <img
-            src={imageUploaded?.url}
+          <Image
+            src={imageUploaded?.url || ''}
             alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
             className='max-h-[280px] w-full rounded-[8px] object-contain'
           />
           <img

@@ -11,6 +11,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
@@ -529,8 +530,8 @@ const Editor = (props: IProps, ref?: any) => {
         className='relative mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'
       >
         {isUrlValid(userLoginInfo?.avatar) ? (
-          <img
-            src={userLoginInfo?.avatar}
+          <Image
+            src={userLoginInfo?.avatar || ''}
             alt=''
             width={0}
             height={0}
@@ -688,7 +689,7 @@ const Editor = (props: IProps, ref?: any) => {
             ) : (
               imageComment && (
                 <div className='relative'>
-                  <img
+                  <Image
                     src={imageComment}
                     alt=''
                     width='0'
@@ -735,7 +736,7 @@ const Editor = (props: IProps, ref?: any) => {
         ) : (
           imageComment && (
             <div className='relative'>
-              <img
+              <Image
                 src={imageComment}
                 alt=''
                 width='0'

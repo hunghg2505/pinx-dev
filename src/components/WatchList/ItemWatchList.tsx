@@ -1,5 +1,6 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -66,7 +67,14 @@ const ItemWatchList = ({
           href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
         >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
-            <img src={imageStock(data?.stockCode)} alt='' className='block' />
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
+              src={imageStock(data?.stockCode)}
+              alt=''
+              className='block'
+            />
           </div>
         </CustomLink>
         <div className='flex flex-1 flex-col gap-y-[4px]'>

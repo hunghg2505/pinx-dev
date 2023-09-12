@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
@@ -120,11 +121,12 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
                 {isUrlValid(item.avatar) ? (
-                  <img
-                    src={item.avatar}
-                    alt=''
+                  <Image
                     width='0'
                     height='0'
+                    sizes='100vw'
+                    src={item.avatar}
+                    alt=''
                     onError={replaceImageError}
                     className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
                   />

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -42,7 +43,7 @@ const BasicInfo = ({
     >
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] p-[12px]'>
         {isUrlValid(avatar) ? (
-          <img
+          <Image
             src={avatar}
             alt=''
             width={52}

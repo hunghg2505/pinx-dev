@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -310,7 +311,7 @@ const ItemComment = (props: IProps) => {
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
         {isUrlValid(data?.customerInfo?.avatar) ? (
-          <img
+          <Image
             src={data?.customerInfo?.avatar}
             alt=''
             width='0'

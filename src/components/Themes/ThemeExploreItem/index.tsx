@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { ILatestSubscribe, ITheme } from '@components/Home/service';
@@ -27,7 +28,10 @@ const ThemeExploreItem = (props: IProps) => {
         alt=''
         className='absolute left-[12px] top-[12px] z-10 h-[18px] w-[18px]'
       />
-      <img
+      <Image
+        width='0'
+        height='0'
+        sizes='100vw'
         loading='lazy'
         src={data?.url}
         alt=''

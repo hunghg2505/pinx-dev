@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -79,7 +80,7 @@ const ItemPeople = (props: IProps) => {
         onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
       >
         {isUrlValid(data?.avatar) ? (
-          <img
+          <Image
             src={data?.avatar}
             alt=''
             width='0'

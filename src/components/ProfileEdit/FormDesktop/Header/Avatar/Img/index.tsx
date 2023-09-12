@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { Field } from 'rc-field-form';
 
 import { replaceImageError } from '@utils/common';
@@ -10,7 +11,10 @@ const Img = () => {
       {({ value }) => {
         return (
           <div className='h-[113px] w-[113px] rounded-full bg-white p-[5px] tablet:h-[100px] tablet:w-[100px] xdesktop:h-[120px] xdesktop:w-[120px]'>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src={value}
               alt='background cover'
               onError={replaceImageError}

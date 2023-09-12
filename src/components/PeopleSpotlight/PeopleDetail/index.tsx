@@ -1,8 +1,13 @@
+import Image from 'next/image';
+
 const PeopleDetail = () => {
   return (
     <>
       <div>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           loading='lazy'
           src='/static/images/bg_influencer.jpg'
           alt=''

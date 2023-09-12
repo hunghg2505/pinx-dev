@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -41,7 +42,10 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
     <div className='flex'>
       <div onClick={() => router.push(urlProfile)} className='cursor-pointer'>
         {isUrlValid(avatar) ? (
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             loading='lazy'
             src={avatar}
             alt=''

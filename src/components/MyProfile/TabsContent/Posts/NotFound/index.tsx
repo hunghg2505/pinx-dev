@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -31,7 +32,10 @@ const NotFound = ({ refresh }: any) => {
     <>
       <div className='mt-[41px]  flex w-full flex-wrap justify-between gap-[24px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap tablet:px-0'>
         <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={'/static/images/write_now.png'}
             alt="Don't have any result"
             className='mb-[50px]  object-contain tablet:my-auto'

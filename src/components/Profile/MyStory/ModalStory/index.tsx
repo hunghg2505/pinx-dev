@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Modal from '@components/UI/Modal/Modal';
@@ -28,7 +29,10 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
         <article className='overflow-hidden rounded-[12px] text-white'>
           <header className='relative h-[375px] max-h-[375px]'>
             {isUrlValid(profileUser?.avatar) ? (
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={profileUser?.avatar}
                 alt='story picture'
                 onError={replaceImageError}

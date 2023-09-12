@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
@@ -23,7 +24,10 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <CustomLink className='galaxy-max:flex-none' href={url}>
         {isUrlValid(data.avatar) ? (
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data.avatar}
             alt='User avatar'
             onError={replaceImageError}

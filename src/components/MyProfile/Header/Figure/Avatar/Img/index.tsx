@@ -1,12 +1,17 @@
 import React from 'react';
 
+import Image from 'next/image';
+
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { isUrlValid, replaceImageError } from '@utils/common';
 
 const Img = ({ avatar, displayName }: { avatar: string; displayName: string }) => {
   return isUrlValid(avatar) ? (
     <div className='h-[113px] w-[113px] rounded-full bg-white p-[5px] galaxy-max:h-[90px] galaxy-max:w-[90px] tablet:h-[100px] tablet:w-[100px] xdesktop:h-[120px] xdesktop:w-[120px]'>
-      <img
+      <Image
+        width='0'
+        height='0'
+        sizes='100vw'
         src={avatar}
         alt=''
         onError={replaceImageError}

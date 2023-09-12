@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
@@ -25,10 +26,13 @@ const Figure = () => {
       }}
     >
       {isUrlValid(context?.avatar) ? (
-        <img
+        <Image
           loading='lazy'
           src={context?.avatar}
           alt=''
+          width='0'
+          height='0'
+          sizes='100vw'
           className='z-[-1] h-full w-full object-cover'
           onError={replaceImageError}
         />

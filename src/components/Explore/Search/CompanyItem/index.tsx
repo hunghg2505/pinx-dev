@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -29,7 +30,14 @@ const CompanyItem = ({
       className='flex cursor-pointer items-center rounded-[15px] bg-[#F7F6F8] py-[10px] pl-[8px] pr-[20px]'
     >
       <div className='mr-[10px] flex h-[36px] w-[36px] min-w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] galaxy-max:h-[32px] galaxy-max:w-[32px] galaxy-max:flex-none'>
-        <img src={imageStock(data?.stockCode)} alt='' className='block' />
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
+          src={imageStock(data?.stockCode)}
+          alt=''
+          className='block'
+        />
       </div>
       <div className='w-full'>
         <div className='flex items-center'>

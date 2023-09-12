@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import Image from 'next/image';
+
 import Modal from '@components/UI/Modal/Modal';
 
 import styles from './index.module.scss';
@@ -22,7 +24,7 @@ const ModalMedia = ({ children, url }: IPropsModalMedia) => {
         closeIcon={<></>}
         className={styles.modalMedia}
       >
-        <img loading='lazy' src={url} alt='' />
+        <Image width='0' height='0' sizes='100vw' loading='lazy' src={url} alt='' />
       </Modal>
     </>
   );

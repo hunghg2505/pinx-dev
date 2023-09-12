@@ -3,6 +3,7 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -121,7 +122,10 @@ const UserItem = (props: Iprops) => {
         }}
       >
         {isUrlValid(data?.avatar) ? (
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data?.avatar}
             alt=''
             onError={replaceImageError}

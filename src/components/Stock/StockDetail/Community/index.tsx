@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { IStockDetails } from '@components/Stock/type';
@@ -44,7 +45,10 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
             .map((item, index) => (
               <div className='relative' key={index}>
                 {isUrlValid(item.avatar) ? (
-                  <img
+                  <Image
+                    width='0'
+                    height='0'
+                    sizes='100vw'
                     src={item.avatar}
                     alt='Avatar'
                     onError={replaceImageError}

@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 // import dayjs from 'dayjs';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
@@ -29,7 +30,10 @@ const ItemHoverProfile = (props: IProps) => {
     >
       <div className='flex items-center'>
         {isUrlValid(profileOtherUser?.avatar) ? (
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={profileOtherUser?.avatar}
             className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full border border-solid border-[#ebebeb] object-cover'
             alt=''

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import { IProduct } from '@components/Stock/type';
 import Text from '@components/UI/Text';
@@ -14,7 +15,10 @@ interface IProductItemProps {
 const ProductItem = ({ data, className }: IProductItemProps) => {
   return (
     <div className={classNames('mr-[28px] !w-[112px] galaxy-max:mr-[16px]', className)}>
-      <img
+      <Image
+        width='0'
+        height='0'
+        sizes='100vw'
         src={PRODUCT_COMPANY_IMAGE(data.imageUrl)}
         alt={data.name}
         className='h-[112px] w-full rounded-[24px] border border-solid border-[#EBEBEB] object-cover'

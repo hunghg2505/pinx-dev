@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import styles from '@components/SearchSeo/index.module.scss';
@@ -186,7 +187,8 @@ const MediaItem = ({
               className={classNames('relative', styles.Video, styles.Tiktok)}
               onClick={onGoToDetail}
             >
-              <img
+              <Image
+                sizes='100vw'
                 className='aspect-[16/9] rounded bg-[#12121239] object-contain'
                 src={img || '/static/images/noimage.jpg'}
                 alt='Picture of TikTok'
@@ -213,7 +215,8 @@ const MediaItem = ({
         return (
           <div className='flex cursor-pointer flex-col gap-y-[8px]'>
             <div className={classNames('relative', styles.Youtube)} onClick={onGoToDetail}>
-              <img
+              <Image
+                sizes='100vw'
                 className='aspect-[16/9] rounded bg-[#12121239] object-cover'
                 src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
                 alt='Picture of Youtube'
@@ -240,7 +243,8 @@ const MediaItem = ({
         return (
           <div className='flex cursor-pointer flex-col gap-y-[8px]'>
             <div className={classNames('relative', styles.Video)} onClick={onGoToDetail}>
-              <img
+              <Image
+                sizes='100vw'
                 className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
                   '!object-contain': data?.post?.metadataList[0]?.images?.[0],
                   'object-cover': !data?.post?.metadataList[0]?.images?.[0],
@@ -273,7 +277,8 @@ const MediaItem = ({
   ) : (
     data?.seoMetadata?.imageSeo?.urlImage && (
       <div className='flex cursor-pointer flex-col gap-y-[8px]'>
-        <img
+        <Image
+          sizes='100vw'
           className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
             '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
             '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,

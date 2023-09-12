@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -40,7 +41,14 @@ const PinexTop = (props: Iprops) => {
             </div>
 
             <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
-              <img src={imageStock(data?.stockCode)} className='block' alt='' />
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={imageStock(data?.stockCode)}
+                className='block'
+                alt=''
+              />
             </div>
             <div>
               <div className='flex'>

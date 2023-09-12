@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -88,7 +89,7 @@ const ItemPeople = (props: IProps) => {
           className='flex flex-col items-center justify-center'
         >
           {isUrlValid(data?.avatar) ? (
-            <img
+            <Image
               src={data?.avatar}
               alt=''
               width='0'

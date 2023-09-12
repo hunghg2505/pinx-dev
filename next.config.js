@@ -49,6 +49,8 @@ const nextConfig = {
       'cafefcdn.com',
       'photo-cms-tinnhanhchungkhoan.epicdn.me',
       'i.pinimg.com',
+      'p16-sign-sg.tiktokcdn.com',
+      'pinex.vn',
     ],
   },
   headers: async function headers() {

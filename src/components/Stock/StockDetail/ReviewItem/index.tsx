@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import PopupReview from '@components/Stock/Popup/PopupReview';
@@ -71,7 +72,10 @@ const ReviewItem = ({
       <div className='mb-[4px] flex items-center'>
         <CustomLink href={profileUrl}>
           {isUrlValid(data.customerInfo.avatar) ? (
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src={data.customerInfo.avatar}
               alt='Reviewer avatar'
               onError={replaceImageError}

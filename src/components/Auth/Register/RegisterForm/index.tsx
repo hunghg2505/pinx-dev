@@ -118,12 +118,26 @@ const Register = (props: IProps) => {
             break;
           }
         }
-        CompleteBasicInfo('Success', '', '', userRegisterInfo.email || '', userRegisterInfo.phoneNumber || '', userRegisterInfo.phoneNumber || '');
+        CompleteBasicInfo(
+          'Success',
+          '',
+          '',
+          userRegisterInfo.email || '',
+          userRegisterInfo.phoneNumber || '',
+          userRegisterInfo.phoneNumber || '',
+        );
       }
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
-      CompleteBasicInfo('Failed', e.errorCode, e.error, userRegisterInfo.email || '', userRegisterInfo.phoneNumber || '', userRegisterInfo.phoneNumber || '');
+      CompleteBasicInfo(
+        'Failed',
+        e.errorCode,
+        e.error,
+        userRegisterInfo.email || '',
+        userRegisterInfo.phoneNumber || '',
+        userRegisterInfo.phoneNumber || '',
+      );
     },
   });
 

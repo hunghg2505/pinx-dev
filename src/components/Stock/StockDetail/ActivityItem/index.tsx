@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { IPost } from '@components/Post/service';
@@ -53,7 +54,10 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
     <div className='flex'>
       <CustomLink href={href}>
         {isUrlValid(data.post.customerInfo.avatar) ? (
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data.post.customerInfo.avatar}
             alt={data.post.customerInfo.displayName}
             className='h-[28px] w-[28px] rounded-full border border-solid border-[#ebebeb] object-cover'

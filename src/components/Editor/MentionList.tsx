@@ -3,8 +3,9 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import { atom } from 'jotai';
 // import { useRouter } from 'next/router';
+import { atom } from 'jotai';
+import Image from 'next/image';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import Text from '@components/UI/Text';
@@ -151,7 +152,7 @@ export default forwardRef((props: any, ref) => {
                   {!isHashTag &&
                     (isStock ? (
                       <div className='mr-[12px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full object-contain'>
-                        <img
+                        <Image
                           src={url}
                           alt=''
                           width={0}
@@ -161,7 +162,7 @@ export default forwardRef((props: any, ref) => {
                         />
                       </div>
                     ) : isUrlValid(item.avatar) ? (
-                      <img
+                      <Image
                         src={item.avatar}
                         alt=''
                         width={0}

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -30,7 +31,14 @@ const WatchingStock = (props: Iprops) => {
         <div className='relative z-10 flex h-full items-center justify-between'>
           <div className='flex w-[calc(100%_-_57px)] items-center'>
             <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
-              <img src={imageStock(data?.stockCode)} alt='' className='block' />
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={imageStock(data?.stockCode)}
+                alt=''
+                className='block'
+              />
             </div>
             <div className='w-full flex-1'>
               <div className='flex items-center'>

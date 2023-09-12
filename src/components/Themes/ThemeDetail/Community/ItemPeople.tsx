@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { IUserTheme } from '@components/Themes/service';
@@ -30,7 +31,10 @@ const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) 
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
         <div className='flex items-center'>
           {isUrlValid(data?.avatar) ? (
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               loading='lazy'
               src={data?.avatar}
               alt=''

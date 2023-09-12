@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
+import Image from 'next/image';
 
 import Fade from '@components/UI/Fade';
 import { postThemeAtom } from '@store/postTheme/theme';
@@ -23,7 +24,10 @@ export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, re
           className='min-w-[38px] cursor-pointer rounded-[10px] bg-[#F7F6F8] p-[8px] [box-shadow:0px_2px_12px_0px_rgba(0,_0,_0,_0.07),_0px_0.5px_2px_0px_rgba(0,_0,_0,_0.12)]'
           onClick={() => setIsShowMore(!isShowMore)}
         >
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             loading='lazy'
             src='/static/icons/explore/iconCompose.svg'
             alt=''
@@ -51,7 +55,10 @@ export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, re
                   key={index}
                   onClick={onSelectThemeId(item.id)}
                 >
-                  <img
+                  <Image
+                    width='0'
+                    height='0'
+                    sizes='100vw'
                     src={item.bgImage}
                     alt=''
                     className='absolute left-0 top-0 h-full w-full rounded-[10px]'

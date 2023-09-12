@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import { TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
@@ -69,7 +70,9 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
 
   return (
     <>
-      <img
+      <Image
+        width='0'
+        height='0'
         src={url}
         alt='avatar'
         sizes='100vw'
