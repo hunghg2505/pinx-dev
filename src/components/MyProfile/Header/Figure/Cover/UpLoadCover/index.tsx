@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 import { profileUserContext } from '@components/MyProfile';
 import { useUpdateUserProfile } from '@components/Profile/service';
 import ModalCropImage from '@components/ProfileEdit/FormDesktop/Header/ModalCropImage';
-import { CONVERT_IMAGE_ERR_MSG, compressorImage, convertImageToJpg } from '@utils/common';
+import { compressImage } from '@utils/common';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { COVER_SIZE, MAX_COVER_FILE_SIZE_KB } from 'src/constant';
 
@@ -25,7 +25,7 @@ const UpLoadCover = () => {
 
   const handleCompressSuccess = async (blob: File | Blob) => {
     setLoading(false);
-    const blobToFile = new File([blob], '.jpg', {
+    const blobToFile = new File([blob], '.' + blob.type.split('/')[1], {
       type: blob.type,
     });
 
@@ -34,41 +34,29 @@ const UpLoadCover = () => {
     blob && uploadImage(formData);
   };
 
-  const convertToJpgSuccess = async (file: Blob | null) => {
-    setLoading(false);
-    if (file) {
-      await compressorImage({
-        file,
-        maxFileSizeKB: MAX_COVER_FILE_SIZE_KB,
-        onSuccess: handleCompressSuccess,
-        onCompressStart: () => setLoading(true),
-        onError: (message) => {
-          setLoading(false);
-          toast.error(message);
-        },
-      });
-    }
-  };
-
-  const handleCropImageSuccess = (blob: Blob | null) => {
+  const handleCropImageSuccess = async (blob: any) => {
     setOpenModalCropImg(false);
 
     if (blob) {
-      setLoading(true);
+      try {
+        setLoading(true);
 
-      // convert image to jpg
-      convertImageToJpg(blob, convertToJpgSuccess, (error) => {
-        setLoading(false);
+        // convert image to jpg
+        const compressedImage = await compressImage({
+          file: blob,
+          maxFileSizeKb: MAX_COVER_FILE_SIZE_KB,
+          options: {
+            fileType: 'image/jpeg',
+          },
+        });
 
-        switch (error) {
-          case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
-            return toast.error(t('file_invalid'));
-          }
-          default: {
-            return toast.error(t('error'));
-          }
+        if (compressedImage) {
+          await handleCompressSuccess(compressedImage);
         }
-      });
+      } catch {
+        setLoading(false);
+        toast.error(t('error'));
+      }
     }
   };
 
@@ -78,9 +66,8 @@ const UpLoadCover = () => {
     if (file) {
       // setOpenModalCropImg(true);
       // setFile(file);
-      const formData = new FormData();
-      formData.append('files', file);
-      file && uploadImage(formData);
+
+      handleCropImageSuccess(file);
     }
   };
 
