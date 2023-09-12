@@ -230,6 +230,9 @@ export const useSearchPost = (options?: object) => {
             data: {
               keyword: params?.keyword,
             },
+            params: {
+              last: params?.last,
+            },
           })
         : requestCommunity.get(API_PATH.PUBLIC_SEARCH_POST, {
             params,
@@ -252,6 +255,9 @@ export const useSearchNews = (options?: object) => {
         ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_NEWS, {
             data: {
               keyword: params?.keyword,
+            },
+            params: {
+              last: params?.last,
             },
           })
         : requestCommunity.get(API_PATH.PUBLIC_SEARCH_NEWS, {
