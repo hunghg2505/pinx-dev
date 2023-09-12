@@ -14,6 +14,7 @@ import ModalCropImage from '../../ModalCropImage';
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
   const [loading2, setLoading2] = useState(false);
   const { t } = useTranslation();
@@ -89,8 +90,9 @@ const Update = ({ form }: { form: FormInstance }) => {
                   const file = (e.target.files as FileList)[0];
 
                   if (file) {
-                    setOpenModalCropImg(true);
-                    setFile(file);
+                    // setOpenModalCropImg(true);
+                    handleCropImageSuccess(file);
+                    // setFile(file);
                   }
                 }}
               />
@@ -132,6 +134,7 @@ const Update = ({ form }: { form: FormInstance }) => {
           zoomOnWheel: false,
           cropBoxResizable: false,
           dragMode: 'move',
+          cropBoxMovable: false,
         }}
         onCropSuccess={handleCropImageSuccess}
         showZoomControl

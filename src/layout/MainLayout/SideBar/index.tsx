@@ -16,6 +16,7 @@ import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
 import { NavigateSection, ViewWatchlist } from '@utils/dataLayer';
+import { BANNER_URL } from 'src/constant';
 
 import {
   IconAssets,
@@ -184,7 +185,8 @@ const SideBar = () => {
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
           <img
-            src='/static/images/sidebar_banner.png'
+            // src='/static/images/sidebar_banner.png'
+            src={BANNER_URL}
             alt=''
             sizes='100vw'
             className='mt-[16px] w-full laptop-max:px-[10px]'
