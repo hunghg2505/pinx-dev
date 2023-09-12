@@ -85,7 +85,8 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
               <label className='absolute bottom-[14px] right-[14px] cursor-pointer'>
                 <input
                   type='file'
-                  accept='image/png, image/jpeg, .webp'
+                  // accept='image/png, image/jpeg, .webp'
+                  accept='image/png, image/jpeg'
                   className='hidden'
                   onClick={(e: any) => (e.target.value = '')}
                   disabled={loading || loading2}
@@ -95,7 +96,11 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
                     if (file) {
                       // setOpenModalCropImg(true);
                       // setFile(file);
-                      handleCropImageSuccess(file);
+
+                      const formData = new FormData();
+                      formData.append('files', file);
+
+                      file && run(formData, '', setField);
                     }
                   }}
                 />

@@ -82,7 +82,8 @@ const Update = ({ form }: { form: FormInstance }) => {
             <>
               <input
                 type='file'
-                accept='image/png, image/jpeg, .webp'
+                // accept='image/png, image/jpeg, .webp'
+                accept='image/png, image/jpeg'
                 className='hidden'
                 disabled={loading || loading2}
                 onClick={(e: any) => (e.target.value = '')}
@@ -91,8 +92,13 @@ const Update = ({ form }: { form: FormInstance }) => {
 
                   if (file) {
                     // setOpenModalCropImg(true);
-                    handleCropImageSuccess(file);
+
                     // setFile(file);
+
+                    const formData = new FormData();
+                    formData.append('files', file);
+
+                    file && run(formData, '', setField);
                   }
                 }}
               />

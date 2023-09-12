@@ -78,7 +78,9 @@ const UpLoadCover = () => {
     if (file) {
       // setOpenModalCropImg(true);
       // setFile(file);
-      handleCropImageSuccess(file);
+      const formData = new FormData();
+      formData.append('files', file);
+      file && uploadImage(formData);
     }
   };
 
@@ -88,7 +90,8 @@ const UpLoadCover = () => {
         <input
           disabled={loadingUpload}
           type='file'
-          accept='image/png, image/jpeg, .webp'
+          // accept='image/png, image/jpeg, .webp'
+          accept='image/png, image/jpeg'
           className='hidden'
           onClick={(e: any) => (e.target.value = '')}
           onChange={handleChangeCover}

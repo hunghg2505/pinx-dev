@@ -163,7 +163,9 @@ const ProfileVerification = () => {
       // setOpenModalCropImg(true);
       // setFile(file);
 
-      handleCropImageSuccess(file);
+      const formData = new FormData();
+      formData.append('files', file);
+      file && requestUploadImage.run(formData);
     }
   };
 
@@ -207,7 +209,8 @@ const ProfileVerification = () => {
         <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
           <div className='relative mr-3 flex-none'>
             <Upload
-              accept='.png, .jpeg, .jpg, .webp'
+              // accept='.png, .jpeg, .jpg, .webp'
+              accept='.png, .jpeg, .jpg'
               onStart={onChangeAvatar}
               beforeUpload={beforeUpload}
             >

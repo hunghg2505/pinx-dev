@@ -39,17 +39,17 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import getSeoDataFromLink, {
   base64ToBlob,
-  compressorImage,
+  // compressorImage,
   converStringMessageToObject,
-  CONVERT_IMAGE_ERR_MSG,
-  convertImageToJpg,
+  // CONVERT_IMAGE_ERR_MSG,
+  // convertImageToJpg,
   formatMessage,
   isImage,
   toBase64,
   validateHTML,
 } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import { MAX_IMG_POST_CMT_FILE_SIZE_KB } from 'src/constant';
+// import { MAX_IMG_POST_CMT_FILE_SIZE_KB } from 'src/constant';
 
 import { ActivityWatchlist } from './ActivityWatchlist';
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -130,6 +130,7 @@ const Compose = (props: IProps) => {
     url: postDetail?.post?.urlImages?.[0] || '',
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
 
   const requestUploadFile = useRequest(
@@ -442,45 +443,52 @@ const Compose = (props: IProps) => {
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
 
-      const onConvertToJpgSuccess = async (file: Blob | null) => {
-        setLoading(false);
+      // const onConvertToJpgSuccess = async (file: Blob | null) => {
+      //   setLoading(false);
 
-        if (file) {
-          await compressorImage({
-            file,
-            maxFileSizeKB: MAX_IMG_POST_CMT_FILE_SIZE_KB,
-            onSuccess: async (res) => {
-              setLoading(false);
-              const blobToFile = new File([res], '.jpg', {
-                type: res.type,
-              });
+      //   if (file) {
+      //     await compressorImage({
+      //       file,
+      //       maxFileSizeKB: MAX_IMG_POST_CMT_FILE_SIZE_KB,
+      //       onSuccess: async (res) => {
+      //         setLoading(false);
+      //         const blobToFile = new File([res], '.jpg', {
+      //           type: res.type,
+      //         });
 
-              const formData = new FormData();
-              formData.append('files', blobToFile);
+      //         const formData = new FormData();
+      //         formData.append('files', blobToFile);
 
-              const resUploadImg = await requestUploadFile.runAsync(formData);
+      //         const resUploadImg = await requestUploadFile.runAsync(formData);
 
-              imageUploadedUrl = resUploadImg?.files?.[0]?.url;
-            },
-            onCompressStart: () => setLoading(true),
-            onError: (message) => toast.error(message),
-          });
-        }
-      };
+      //         imageUploadedUrl = resUploadImg?.files?.[0]?.url;
+      //       },
+      //       onCompressStart: () => setLoading(true),
+      //       onError: (message) => toast.error(message),
+      //     });
+      //   }
+      // };
 
       if (imageUploaded?.file && themeActiveId === 'default') {
-        setLoading(true);
-        await convertImageToJpg(imageUploaded?.file, onConvertToJpgSuccess, (error) => {
-          setLoading(false);
-          switch (error) {
-            case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
-              return toast.error(t('file_invalid'));
-            }
-            default: {
-              return toast.error(t('error'));
-            }
-          }
-        });
+        // setLoading(true);
+        // await convertImageToJpg(imageUploaded?.file, onConvertToJpgSuccess, (error) => {
+        //   setLoading(false);
+        //   switch (error) {
+        //     case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
+        //       return toast.error(t('file_invalid'));
+        //     }
+        //     default: {
+        //       return toast.error(t('error'));
+        //     }
+        //   }
+        // });
+
+        const formData = new FormData();
+        formData.append('files', imageUploaded?.file);
+
+        const resUploadImg = await requestUploadFile.runAsync(formData);
+
+        imageUploadedUrl = resUploadImg?.files?.[0]?.url;
       }
 
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
