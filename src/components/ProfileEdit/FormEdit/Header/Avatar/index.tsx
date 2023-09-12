@@ -19,6 +19,7 @@ const Avatar = ({ form }: { form: FormInstance }) => {
   const { run, loading } = useUploadImage();
   const [loading2, setLoading2] = useState(false);
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
 
   const setField = (value: string) => {
@@ -79,8 +80,10 @@ const Avatar = ({ form }: { form: FormInstance }) => {
     const file = (e.target.files as FileList)[0];
 
     if (file) {
-      setOpenModalCropImg(true);
-      setFile(file);
+      // setOpenModalCropImg(true);
+      // setFile(file);
+
+      handleCropImageSuccess(file);
     }
   };
 

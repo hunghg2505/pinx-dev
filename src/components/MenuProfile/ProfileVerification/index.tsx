@@ -80,6 +80,7 @@ const ProfileVerification = () => {
   const { isMobile } = useResponsive();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
 
   const requestUpdateUserProfile = useUpdateUserProfile({
@@ -159,8 +160,10 @@ const ProfileVerification = () => {
 
   const onChangeAvatar = async (file: File) => {
     if (file) {
-      setOpenModalCropImg(true);
-      setFile(file);
+      // setOpenModalCropImg(true);
+      // setFile(file);
+
+      handleCropImageSuccess(file);
     }
   };
 
