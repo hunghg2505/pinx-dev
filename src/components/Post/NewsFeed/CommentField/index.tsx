@@ -36,13 +36,13 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
-import { MAX_IMG_POST_CMT_FILE_SIZE_KB } from 'src/constant';
+// import { MAX_IMG_POST_CMT_FILE_SIZE_KB } from 'src/constant';
 
 import {
-  CONVERT_IMAGE_ERR_MSG,
+  // CONVERT_IMAGE_ERR_MSG,
   ROUTE_PATH,
-  compressorImage,
-  convertImageToJpg,
+  // compressorImage,
+  // convertImageToJpg,
   isImage,
   isUrlValid,
   replaceImageError,
@@ -79,6 +79,7 @@ const Editor = (props: IProps, ref?: any) => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
 
   const scrollToBottom = () => {
@@ -233,47 +234,51 @@ const Editor = (props: IProps, ref?: any) => {
     },
   );
 
-  const handleCompressSuccess = async (blob: Blob) => {
-    setLoading(false);
+  // const handleCompressSuccess = async (blob: Blob) => {
+  //   setLoading(false);
 
-    const blobToFile = new File([blob], '.jpg', {
-      type: blob.type,
-    });
+  //   const blobToFile = new File([blob], '.jpg', {
+  //     type: blob.type,
+  //   });
 
-    const formData = new FormData();
-    formData.append('files', blobToFile);
-    blob && useUploadImage.run(formData);
-  };
+  //   const formData = new FormData();
+  //   formData.append('files', blobToFile);
+  //   blob && useUploadImage.run(formData);
+  // };
 
   const onStart = async (file: File) => {
-    setLoading(true);
-    convertImageToJpg(
-      file,
-      async (file) => {
-        setLoading(false);
-        if (file) {
-          compressorImage({
-            file,
-            maxFileSizeKB: MAX_IMG_POST_CMT_FILE_SIZE_KB,
-            onCompressStart: () => setLoading(true),
-            onSuccess: handleCompressSuccess,
-            onError: (message) => toast.error(message),
-          });
-        }
-      },
-      (error) => {
-        setLoading(false);
+    // setLoading(true);
+    // convertImageToJpg(
+    //   file,
+    //   async (file) => {
+    //     setLoading(false);
+    //     if (file) {
+    //       compressorImage({
+    //         file,
+    //         maxFileSizeKB: MAX_IMG_POST_CMT_FILE_SIZE_KB,
+    //         onCompressStart: () => setLoading(true),
+    //         onSuccess: handleCompressSuccess,
+    //         onError: (message) => toast.error(message),
+    //       });
+    //     }
+    //   },
+    //   (error) => {
+    //     setLoading(false);
 
-        switch (error) {
-          case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
-            return toast.error(t('file_invalid'));
-          }
-          default: {
-            return toast.error(t('error'));
-          }
-        }
-      },
-    );
+    //     switch (error) {
+    //       case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
+    //         return toast.error(t('file_invalid'));
+    //       }
+    //       default: {
+    //         return toast.error(t('error'));
+    //       }
+    //     }
+    //   },
+    // );
+
+    const formData = new FormData();
+    formData.append('files', file);
+    file && useUploadImage.run(formData);
   };
   const onCloseImage = () => {
     setImageComment('');
@@ -556,7 +561,7 @@ const Editor = (props: IProps, ref?: any) => {
                 setIsFocus(true);
                 setIsClickAway(false);
               }}
-              className='flex items-center justify-between w-full cursor-text galaxy-max:py-2'
+              className='flex w-full cursor-text items-center justify-between galaxy-max:py-2'
             >
               <EditorContent
                 editor={editor}

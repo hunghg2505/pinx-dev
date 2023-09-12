@@ -83,7 +83,9 @@ const Avatar = ({ form }: { form: FormInstance }) => {
       // setOpenModalCropImg(true);
       // setFile(file);
 
-      handleCropImageSuccess(file);
+      const formData = new FormData();
+      formData.append('files', file);
+      file && run(formData, 'avatar', setField);
     }
   };
 

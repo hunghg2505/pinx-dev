@@ -91,8 +91,13 @@ const Update = ({ form }: { form: FormInstance }) => {
 
                   if (file) {
                     // setOpenModalCropImg(true);
-                    handleCropImageSuccess(file);
+
                     // setFile(file);
+
+                    const formData = new FormData();
+                    formData.append('files', file);
+
+                    file && run(formData, '', setField);
                   }
                 }}
               />
