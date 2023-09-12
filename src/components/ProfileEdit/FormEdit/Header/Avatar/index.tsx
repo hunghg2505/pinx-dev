@@ -99,7 +99,8 @@ const Avatar = ({ form }: { form: FormInstance }) => {
               return (
                 <input
                   type='file'
-                  accept='image/png, image/jpeg, .webp'
+                  // accept='image/png, image/jpeg, .webp'
+                  accept='image/png, image/jpeg'
                   className='hidden'
                   disabled={loading || loading2}
                   onChange={handleChange}

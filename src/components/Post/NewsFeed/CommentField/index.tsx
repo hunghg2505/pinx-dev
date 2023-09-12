@@ -538,7 +538,8 @@ const Editor = (props: IProps, ref?: any) => {
             {/* mobile upload image button */}
             <div className='flex flex-row items-center'>
               <Upload
-                accept='.png, .jpeg, .jpg, .webp'
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
                 className='tablet:hidden'
@@ -574,7 +575,8 @@ const Editor = (props: IProps, ref?: any) => {
               />
               <Upload
                 className={classNames({ hidden: isFocus })}
-                accept='.png, .jpeg, .jpg, .webp'
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
               >
@@ -601,7 +603,8 @@ const Editor = (props: IProps, ref?: any) => {
               )}
             >
               <Upload
-                accept='.png, .jpeg, .jpg, .webp'
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
               >

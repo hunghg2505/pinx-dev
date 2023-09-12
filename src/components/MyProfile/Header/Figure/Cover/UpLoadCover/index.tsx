@@ -90,7 +90,8 @@ const UpLoadCover = () => {
         <input
           disabled={loadingUpload}
           type='file'
-          accept='image/png, image/jpeg, .webp'
+          // accept='image/png, image/jpeg, .webp'
+          accept='image/png, image/jpeg'
           className='hidden'
           onClick={(e: any) => (e.target.value = '')}
           onChange={handleChangeCover}

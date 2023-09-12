@@ -597,7 +597,8 @@ const Editor = (props: IProps, ref?: any) => {
           >
             <div className='flex flex-row items-center'>
               <Upload
-                accept='.png, .jpeg, .jpg, .webp'
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
                 className='tablet:hidden'
@@ -635,7 +636,8 @@ const Editor = (props: IProps, ref?: any) => {
                 className={classNames({
                   hidden: isFocus || !canExpand,
                 })}
-                accept='.png, .jpeg, .jpg, .webp'
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
               >
@@ -662,7 +664,8 @@ const Editor = (props: IProps, ref?: any) => {
               )}
             >
               <Upload
-                accept='.png, .jpeg, .jpg, .webp'
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
               >

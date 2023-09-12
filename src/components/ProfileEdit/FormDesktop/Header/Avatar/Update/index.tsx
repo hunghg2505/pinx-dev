@@ -82,7 +82,8 @@ const Update = ({ form }: { form: FormInstance }) => {
             <>
               <input
                 type='file'
-                accept='image/png, image/jpeg, .webp'
+                // accept='image/png, image/jpeg, .webp'
+                accept='image/png, image/jpeg'
                 className='hidden'
                 disabled={loading || loading2}
                 onClick={(e: any) => (e.target.value = '')}
