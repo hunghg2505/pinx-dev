@@ -26,7 +26,8 @@ const AVATAR_SIZE = {
   height: 150,
 };
 
-const MAX_IMG_POST_CMT_FILE_SIZE_KB = 150;
+const MAX_IMG_POST_CMT_FILE_SIZE_KB = 500;
+const BANNER_URL = 'https://pinex.vn/static/images/sidebar_banner.png';
 
 export {
   ZALO_OAID,
@@ -44,4 +45,5 @@ export {
   COVER_SIZE,
   AVATAR_SIZE,
   MAX_IMG_POST_CMT_FILE_SIZE_KB,
+  BANNER_URL,
 };

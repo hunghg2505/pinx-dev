@@ -47,7 +47,10 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
         maxFileSizeKB: MAX_COVER_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading2(true),
-        onError: (message) => toast.error(message),
+        onError: (message) => {
+          setLoading2(false);
+          toast.error(message);
+        },
       });
     }
   };
@@ -82,8 +85,10 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
               <label className='absolute bottom-[14px] right-[14px] cursor-pointer'>
                 <input
                   type='file'
-                  accept='image/png, image/jpeg, .webp'
+                  // accept='image/png, image/jpeg, .webp'
+                  accept='image/png, image/jpeg'
                   className='hidden'
+                  onClick={(e: any) => (e.target.value = '')}
                   disabled={loading || loading2}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     const file = (e.target.files as FileList)[0];
@@ -92,7 +97,10 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
                       // setOpenModalCropImg(true);
                       // setFile(file);
 
-                      handleCropImageSuccess(file);
+                      const formData = new FormData();
+                      formData.append('files', file);
+
+                      file && run(formData, '', setField);
                     }
                   }}
                 />
@@ -113,6 +121,11 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
         onClose={() => setOpenModalCropImg(false)}
         cropperOptions={{
           aspectRatio: 16 / 9,
+          autoCropArea: 1,
+          zoomOnTouch: false,
+          zoomOnWheel: false,
+          cropBoxResizable: false,
+          dragMode: 'move',
         }}
         onCropSuccess={handleCropImageSuccess}
       />

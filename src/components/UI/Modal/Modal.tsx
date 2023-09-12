@@ -10,6 +10,7 @@ interface IModal extends DialogProps {
   onClose: () => void;
   closeIcon?: React.ReactNode | string;
   className?: string;
+  [x: string]: any;
 }
 
 const Modal = ({
@@ -19,6 +20,7 @@ const Modal = ({
   closeIcon: closeX,
   className,
   destroyOnClose,
+  ...props
 }: IModal) => {
   const closeIcon = closeX || (
     <img
@@ -38,6 +40,7 @@ const Modal = ({
       onClose={onClose}
       closeIcon={<>{closeIcon}</>}
       destroyOnClose={destroyOnClose}
+      {...props}
     >
       <>{children}</>
     </Dialog>

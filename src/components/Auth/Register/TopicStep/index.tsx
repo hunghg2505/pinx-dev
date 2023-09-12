@@ -6,7 +6,9 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH } from '@utils/common';
+import { InvestmentPreference } from '@utils/dataLayer';
 
 import { useSelectTopic, useSuggestTopic } from './service';
 
@@ -19,12 +21,18 @@ const RegisterCompanyStep = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<ITopicCard[]>([]);
+  const { userRegisterInfo } = useUserRegisterInfo();
 
   const listTopicSuggest = useSuggestTopic();
 
   const { onSelectTopic } = useSelectTopic({
-    onSuccess: () => {
+    onSuccess: (_, params) => {
       router.push(ROUTE_PATH.HOME);
+      InvestmentPreference(
+        userRegisterInfo.selectedStock || [],
+        userRegisterInfo.selectedTheme || [],
+        params[0]?.topicCodes.toString().split(','),
+      );
     },
   });
 

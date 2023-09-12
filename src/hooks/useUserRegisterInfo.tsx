@@ -6,6 +6,9 @@ interface InitUserRegisterInfo {
   email?: string;
   recaptcha?: string;
   token?: any;
+  selectedStock?: string[];
+  selectedTheme?: string[];
+  selectedTopic?: string[];
 }
 
 const initialUserRegisterInfo: InitUserRegisterInfo = {

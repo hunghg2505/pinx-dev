@@ -291,7 +291,8 @@ export const base64ToBlob = (base64: any, type: any) => {
   return URL.createObjectURL(blob);
 };
 
-export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'webp'];
+// export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'webp'];
+export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
 export const isImage = (file: any) => {
   if (!file) {
     return false;

@@ -1,0 +1,62 @@
+.range {
+  display: flex;
+  align-items: center;
+
+  input[type='range'] {
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    border-radius: 15px;
+    /*  overflow: hidden;  remove this line*/
+
+    /* New additions */
+    height: 4px;
+    background: #ced0d4;
+    flex: 1;
+  }
+
+  /* Thumb: webkit */
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: none;
+
+    transition: 0.2s ease-in-out;
+    border: 1px solid #ced0d4;
+  }
+
+  /* Thumb: Firefox */
+  input[type='range']::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: none;
+
+    transition: 0.2s ease-in-out;
+    border: 1px solid #ced0d4;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: #ebebeb;
+    }
+  }
+}

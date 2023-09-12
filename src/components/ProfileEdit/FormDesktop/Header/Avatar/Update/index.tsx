@@ -46,7 +46,10 @@ const Update = ({ form }: { form: FormInstance }) => {
         maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
         onSuccess: handleCompressSuccess,
         onCompressStart: () => setLoading2(true),
-        onError: (message) => toast.error(message),
+        onError: (message) => {
+          setLoading2(false);
+          toast.error(message);
+        },
       });
     }
   };
@@ -79,16 +82,23 @@ const Update = ({ form }: { form: FormInstance }) => {
             <>
               <input
                 type='file'
-                accept='image/png, image/jpeg, .webp'
+                // accept='image/png, image/jpeg, .webp'
+                accept='image/png, image/jpeg'
                 className='hidden'
                 disabled={loading || loading2}
+                onClick={(e: any) => (e.target.value = '')}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const file = (e.target.files as FileList)[0];
 
                   if (file) {
                     // setOpenModalCropImg(true);
+
                     // setFile(file);
-                    handleCropImageSuccess(file);
+
+                    const formData = new FormData();
+                    formData.append('files', file);
+
+                    file && run(formData, '', setField);
                   }
                 }}
               />
@@ -125,8 +135,15 @@ const Update = ({ form }: { form: FormInstance }) => {
         onClose={() => setOpenModalCropImg(false)}
         cropperOptions={{
           aspectRatio: 1 / 1,
+          autoCropArea: 1,
+          zoomOnTouch: false,
+          zoomOnWheel: false,
+          cropBoxResizable: false,
+          dragMode: 'move',
+          cropBoxMovable: false,
         }}
         onCropSuccess={handleCropImageSuccess}
+        showZoomControl
       />
     </>
   );
