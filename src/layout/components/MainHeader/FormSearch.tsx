@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
@@ -73,7 +73,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
   const { data, run: searchPublic, loading, refresh } = useSearchPublic();
-
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
   // const [showRecent, setShowRecent] = React.useState(false);
@@ -140,7 +139,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       const value = form.getFieldValue('search');
       router.push({
         pathname: ROUTE_PATH.SEARCHSEO,
-        query: { keyword: value, tab: 'company' },
+        query: { keyword: value, tab },
       });
       clearCache('data-pin-post');
       setInputFocus(false);
@@ -233,13 +232,29 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       ...item,
     };
   });
-
   const companiesL = companies?.length > 0;
   const usersL = users?.length > 0;
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
+  const [tab, setTab] = useState('company');
+  console.log(tab);
+  useEffect(() => {
+    if (companiesL) {
+      setTab('company');
+    } else if (usersL) {
+      setTab('people');
+    } else if (postsL) {
+      setTab('posts');
+    } else if (newsL) {
+      setTab('news');
+    } else if (mediaL) {
+      setTab('media');
+    } else {
+      setTab('company');
+    }
+  }, [data?.data]);
 
   let fillterMediaSort = [];
 
