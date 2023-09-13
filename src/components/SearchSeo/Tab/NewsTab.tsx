@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import NewsItem from '@components/Explore/Search/NewsItem';
-import Loading from '@components/UI/Loading';
+// import Loading from '@components/UI/Loading';
 import { Skeleton } from '@components/UI/Skeleton';
 import useBottomScroll from '@hooks/useBottomScroll';
 import { ROUTE_PATH } from '@utils/common';
@@ -99,7 +99,8 @@ const NewsTab = ({ keyword, keywordFormat }: NewsTabProps) => {
         <Empty keyword={keyword} />
       ) : (
         <div className='flex min-h-[150px] flex-row items-center justify-center'>
-          <Loading />
+          {/* <Loading /> */}
+          <Skeleton className='!h-[290px] !w-full !rounded-[8px]' />
         </div>
       )}
     </>
