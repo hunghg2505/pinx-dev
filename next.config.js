@@ -49,8 +49,18 @@ const nextConfig = {
       'cafefcdn.com',
       'photo-cms-tinnhanhchungkhoan.epicdn.me',
       'i.pinimg.com',
-      'p16-sign-sg.tiktokcdn.com',
       'pinex.vn',
+      'i2-vnexpress.vnecdn.net',
+      'i.ytimg.com',
+      'icdn.dantri.com.vn',
+      'pinex-sit.agiletech.vn',
+    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.tiktokcdn**.com',
+        port: '',
+      },
     ],
   },
   headers: async function headers() {
