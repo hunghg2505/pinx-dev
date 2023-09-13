@@ -1,5 +1,27 @@
 declare const window: any;
 
+export const openWeb = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
+  try {
+    window.dataLayer.push({
+      event: 'Open Web',
+      Platform: 'PineX Website',
+      CIF: cif,
+      'Login Status': isLogged ? 'Login' : 'Not login',
+      'Implementation Method': 'Client-Side',
+      'Time of Last Visit': lastTimeVisit,
+    });
+
+    console.log('ABC', {
+      event: 'Open Web',
+      Platform: 'PineX Website',
+      CIF: cif,
+      'Login Status': isLogged ? 'Login' : 'Not login',
+      'Implementation Method': 'Client-Side',
+      'Time of Last Visit': lastTimeVisit,
+    });
+  } catch {}
+};
+
 export const LoginTracking = (
   loginStatus: string,
   cif: string,
