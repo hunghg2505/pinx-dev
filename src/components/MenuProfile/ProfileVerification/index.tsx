@@ -9,8 +9,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
-import Upload from 'rc-upload';
-import { RcFile } from 'rc-upload/lib/interface';
+// import Upload from 'rc-upload';
+// import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
@@ -27,7 +27,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { isImage, ROUTE_PATH, calcUserStatusText, isUrlValid, compressImage } from '@utils/common';
+import { ROUTE_PATH, calcUserStatusText, isUrlValid, compressImage } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
 import {
@@ -44,10 +44,10 @@ const customInputClassName =
   'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] text-[#999999] outline-none bg-white';
 const hideBorder = '!border-none';
 
-const beforeUpload = (file: RcFile) => {
-  const isJpgOrPng = isImage(file);
-  return isJpgOrPng;
-};
+// const beforeUpload = (file: RcFile) => {
+//   const isJpgOrPng = isImage(file);
+//   return isJpgOrPng;
+// };
 
 const handleRedirect = (url: string) => {
   DownloadPineXApp('CTA in App', 'PopUpEkyc');
@@ -142,14 +142,14 @@ const ProfileVerification = () => {
     }
   };
 
-  const onChangeAvatar = async (file: File) => {
-    if (file) {
-      // setOpenModalCropImg(true);
-      // setFile(file);
+  // const onChangeAvatar = async (file: File) => {
+  //   if (file) {
+  //     // setOpenModalCropImg(true);
+  //     // setFile(file);
 
-      handleCropImageSuccess(file);
-    }
-  };
+  //     handleCropImageSuccess(file);
+  //   }
+  // };
 
   const deactiveAccount = () => {
     if (isMobile) {
@@ -190,35 +190,35 @@ const ProfileVerification = () => {
 
         <div className='mt-5 flex items-center border-b-[1px] border-solid border-white px-[14px] pb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.12)] laptop:shadow-none'>
           <div className='relative mr-3 flex-none'>
-            <Upload
+            {/* <Upload
               // accept='.png, .jpeg, .jpg, .webp'
               accept='.png, .jpeg, .jpg'
               onStart={onChangeAvatar}
               beforeUpload={beforeUpload}
-            >
-              {isUrlValid(userLoginInfo?.avatar) ? (
-                <CustomImage
-                  src={userLoginInfo?.avatar || ''}
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[52px] w-[52px] rounded-full border border-solid border-[#ebebeb] mobile:block galaxy-max:object-cover'
-                />
-              ) : (
-                <div className='h-[52px] w-[52px] rounded-full mobile:block galaxy-max:object-cover'>
-                  <AvatarDefault name={userLoginInfo?.displayName} />
-                </div>
-              )}
-              <img
-                src='/static/icons/icon_plus.svg'
+            > */}
+            {isUrlValid(userLoginInfo?.avatar) ? (
+              <CustomImage
+                src={userLoginInfo?.avatar || ''}
                 alt=''
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='absolute bottom-0 right-0 h-[16px] w-[16px]'
+                className='h-[52px] w-[52px] rounded-full border border-solid border-[#ebebeb] mobile:block object-cover'
               />
-            </Upload>
+            ) : (
+              <div className='h-[52px] w-[52px] rounded-full mobile:block object-cover'>
+                <AvatarDefault name={userLoginInfo?.displayName} />
+              </div>
+            )}
+            {/* <img
+              src='/static/icons/icon_plus.svg'
+              alt=''
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='absolute bottom-0 right-0 h-[16px] w-[16px]'
+            /> */}
+            {/* </Upload> */}
           </div>
 
           <div className='overflow-hidden'>
