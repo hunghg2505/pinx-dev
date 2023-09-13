@@ -240,42 +240,13 @@ const MediaItem = ({
         );
       }
       default: {
-        return (
-          <div className='flex cursor-pointer flex-col gap-y-[8px]'>
-            <div className={classNames('relative', styles.Video)} onClick={onGoToDetail}>
-              <Image
-                sizes='100vw'
-                className={classNames('aspect-[16/9] rounded bg-[#12121239]', {
-                  '!object-contain': data?.post?.metadataList[0]?.images?.[0],
-                  'object-cover': !data?.post?.metadataList[0]?.images?.[0],
-                })}
-                src={data?.post?.metadataList[0]?.images?.[0] || '/static/images/noimage.jpg'}
-                alt='Picture of Orther'
-                width={345}
-                height={162}
-              />
-            </div>
-            <div onClick={(e: any) => onHandleClick(e)}>
-              <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: formatMessage(
-                      data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                      data?.post,
-                    ),
-                  }}
-                ></div>
-              </Text>
-            </div>
-          </div>
-        );
+        return <></>;
       }
     }
   };
-  return data?.post?.metadataList?.[0]?.siteName ? (
-    <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
-  ) : (
-    data?.seoMetadata?.imageSeo?.urlImage && (
+
+  if (data?.seoMetadata?.imageSeo?.urlImage) {
+    return (
       <div className='flex cursor-pointer flex-col gap-y-[8px]'>
         <Image
           sizes='100vw'
@@ -302,6 +273,12 @@ const MediaItem = ({
           </Text>
         </div>
       </div>
+    );
+  }
+
+  return (
+    data?.post?.metadataList?.[0]?.siteName && (
+      <>{renderTypeMedia(data?.post?.metadataList[0]?.siteName)}</>
     )
   );
 };
