@@ -1,13 +1,13 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 
 const BasicInfo = ({
@@ -43,12 +43,11 @@ const BasicInfo = ({
     >
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] p-[12px]'>
         {isUrlValid(avatar) ? (
-          <Image
+          <CustomImage
             src={avatar}
             alt=''
             width={52}
             height={52}
-            onError={replaceImageError}
             className='h-[52px] w-[52px] min-w-[52px] rounded-[50%] object-cover galaxy-max:flex-none'
           />
         ) : (

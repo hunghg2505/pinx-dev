@@ -16,6 +16,7 @@ import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { MainButton } from '@components/UI/Button';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -31,7 +32,6 @@ import {
   checkUserType,
   formatStringToNumber,
   isUrlValid,
-  replaceImageError,
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
@@ -157,13 +157,12 @@ const Profile = () => {
         <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
           <div className='flex w-full items-center gap-[24px] p-4'>
             {isUrlValid(userLoginInfo?.avatar) ? (
-              <Image
+              <CustomImage
                 width='0'
                 height='0'
                 sizes='100vw'
                 src={userLoginInfo?.avatar || ''}
                 alt=''
-                onError={replaceImageError}
                 className='h-[72px] w-[72px] min-w-[72px] cursor-pointer rounded-full  border border-solid border-[#ebebeb] object-cover'
               />
             ) : (
@@ -326,26 +325,24 @@ const Profile = () => {
             placement='bottomRight'
           >
             <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
-              <Image
+              <CustomImage
                 width='0'
                 height='0'
                 sizes='100vw'
                 src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
                 alt=''
-                onError={replaceImageError}
                 className='h-full w-full overflow-hidden rounded-full border border-solid border-[#ebebeb] object-cover '
               />
             </div>
           </Dropdown>
         </div>
 
-        <Image
+        <CustomImage
           width='0'
           height='0'
           sizes='100vw'
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          onError={replaceImageError}
           className='h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />

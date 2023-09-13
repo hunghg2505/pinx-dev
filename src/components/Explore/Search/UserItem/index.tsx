@@ -3,7 +3,6 @@ import React from 'react';
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -14,6 +13,7 @@ import {
 } from '@components/Home/service';
 import styles from '@components/Post/NewsFeed/NewFeedItem/index.module.scss';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
@@ -23,7 +23,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, isUrlValid, replaceImageError, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
   data: ISuggestionPeople;
@@ -122,13 +122,12 @@ const UserItem = (props: Iprops) => {
         }}
       >
         {isUrlValid(data?.avatar) ? (
-          <Image
+          <CustomImage
             width='0'
             height='0'
             sizes='100vw'
             src={data?.avatar}
             alt=''
-            onError={replaceImageError}
             className='mr-[8px] h-[44px] w-[44px] min-w-[44px] rounded-full object-cover galaxy-max:h-[36px] galaxy-max:w-[36px] galaxy-max:min-w-[36px]'
           />
         ) : (

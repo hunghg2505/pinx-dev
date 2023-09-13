@@ -1,13 +1,13 @@
 import React, { createContext } from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import Follow from './Follow';
 import UnFollow from './UnFollow';
@@ -23,9 +23,8 @@ const UserFolow = (props: any) => {
       <div className='flex items-center justify-between gap-x-[12px] rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]'>
         <div className='flex flex-1 items-center overflow-hidden'>
           {isUrlValid(props?.avatar) ? (
-            <Image
+            <CustomImage
               src={props?.avatar}
-              onError={replaceImageError}
               alt=''
               width='0'
               height='0'

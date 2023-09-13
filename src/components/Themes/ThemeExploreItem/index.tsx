@@ -3,8 +3,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { ILatestSubscribe, ITheme } from '@components/Home/service';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface IProps {
   data: ITheme;
@@ -46,14 +47,16 @@ const ThemeExploreItem = (props: IProps) => {
           <div className='listAvatar mr-[7px] flex items-center'>
             {data?.latestSubscribe?.map((item: ILatestSubscribe, index: number) => {
               return (
-                <img
+                <CustomImage
                   src={item.avatar}
-                  onError={replaceImageError}
                   alt=''
                   className={classNames(' h-[20px] w-[20px] rounded-full', {
                     '-ml-[5px]': index > 0,
                   })}
                   key={index}
+                  width='0'
+                  height='0'
+                  sizes='100vw'
                 />
               );
             })}

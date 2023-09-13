@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ModalMedia';
 import {
@@ -20,13 +19,14 @@ import {
   requestUnLikeComment,
 } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { formatMessage, isUrlValid, replaceImageError, ROUTE_PATH } from '@utils/common';
+import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
@@ -311,13 +311,12 @@ const ItemComment = (props: IProps) => {
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
         {isUrlValid(data?.customerInfo?.avatar) ? (
-          <Image
+          <CustomImage
             src={data?.customerInfo?.avatar}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
-            onError={replaceImageError}
             className={classNames(
               'mr-[8px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover galaxy-max:mr-[4px] ',
               {
@@ -489,9 +488,12 @@ const ItemComment = (props: IProps) => {
 
           {urlImage && (
             <ModalMedia url={urlImage}>
-              <LazyLoadImage
+              <Image
                 src={urlImage}
                 alt=''
+                width='0'
+                height='0'
+                sizes='100vw'
                 className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
               />
             </ModalMedia>

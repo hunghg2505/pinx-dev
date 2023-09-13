@@ -1,12 +1,12 @@
 import React, { ReactNode, useState } from 'react';
 
 import classNames from 'classnames';
-import Image from 'next/image';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import { isUrlValid, replaceImageError } from '@utils/common';
+import { isUrlValid } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -29,13 +29,12 @@ const ModalStory = ({ children, profileUser }: IModalStoryProps) => {
         <article className='overflow-hidden rounded-[12px] text-white'>
           <header className='relative h-[375px] max-h-[375px]'>
             {isUrlValid(profileUser?.avatar) ? (
-              <Image
+              <CustomImage
                 width='0'
                 height='0'
                 sizes='100vw'
                 src={profileUser?.avatar}
                 alt='story picture'
-                onError={replaceImageError}
                 className='relative h-full w-full object-cover'
               />
             ) : (

@@ -2,14 +2,14 @@ import React from 'react';
 
 import classNames from 'classnames';
 // import dayjs from 'dayjs';
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -30,14 +30,13 @@ const ItemHoverProfile = (props: IProps) => {
     >
       <div className='flex items-center'>
         {isUrlValid(profileOtherUser?.avatar) ? (
-          <Image
+          <CustomImage
             width='0'
             height='0'
             sizes='100vw'
             src={profileOtherUser?.avatar}
             className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full border border-solid border-[#ebebeb] object-cover'
             alt=''
-            onError={replaceImageError}
           />
         ) : (
           <div className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'>

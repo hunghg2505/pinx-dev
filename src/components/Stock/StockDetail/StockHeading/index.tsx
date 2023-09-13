@@ -6,14 +6,9 @@ import { useTranslation } from 'next-i18next';
 
 import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import {
-  formatStringToNumber,
-  getStockColor,
-  imageStock,
-  isUrlValid,
-  replaceImageError,
-} from '@utils/common';
+import { formatStringToNumber, getStockColor, imageStock, isUrlValid } from '@utils/common';
 
 import PriceWrapper from '../StockItem/PriceWrapper';
 
@@ -118,14 +113,13 @@ const StockHeading = ({
                 .reverse()
                 .map((item, index) =>
                   isUrlValid(item.avatar) ? (
-                    <Image
+                    <CustomImage
                       width='0'
                       height='0'
                       sizes='100vw'
                       key={index}
                       src={item.avatar}
                       alt='Subscriber user'
-                      onError={replaceImageError}
                       className='block h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover [&:not(:first-child)]:-ml-[8px]'
                     />
                   ) : (

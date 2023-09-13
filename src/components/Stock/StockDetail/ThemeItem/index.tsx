@@ -3,9 +3,10 @@ import React from 'react';
 import Image from 'next/image';
 
 import { IStockTheme } from '@components/Stock/type';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 interface IThemeItemProps {
   data: IStockTheme;
@@ -40,14 +41,13 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
           <div className='mt-[6px] flex items-center'>
             <div className='flex items-center'>
               {data.latestSubscribe.map((item, index) => (
-                <Image
+                <CustomImage
                   width='0'
                   height='0'
                   sizes='100vw'
                   key={index}
                   src={item.avatar}
                   alt='Avatar user'
-                  onError={replaceImageError}
                   className='h-[20px] w-[20px] rounded-full border border-solid border-[#F8FAFD33] object-cover [&:not(:first-child)]:-ml-[5px]'
                 />
               ))}

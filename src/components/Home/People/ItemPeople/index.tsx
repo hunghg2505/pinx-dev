@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useRequest } from 'ahooks';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -12,10 +11,11 @@ import {
   // requestUnFollowUser,
 } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -89,13 +89,12 @@ const ItemPeople = (props: IProps) => {
           className='flex flex-col items-center justify-center'
         >
           {isUrlValid(data?.avatar) ? (
-            <Image
+            <CustomImage
               src={data?.avatar}
               alt=''
               width='0'
               height='0'
               sizes='100vw'
-              onError={replaceImageError}
               className='mb-[12px] h-[36px] w-[36px] rounded-full object-cover'
             />
           ) : (

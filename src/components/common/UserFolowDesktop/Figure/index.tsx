@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 
 import { useAtom } from 'jotai';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import { followContext } from '..';
 
@@ -26,7 +26,7 @@ const Figure = () => {
       }}
     >
       {isUrlValid(context?.avatar) ? (
-        <Image
+        <CustomImage
           loading='lazy'
           src={context?.avatar}
           alt=''
@@ -34,7 +34,6 @@ const Figure = () => {
           height='0'
           sizes='100vw'
           className='z-[-1] h-full w-full object-cover'
-          onError={replaceImageError}
         />
       ) : (
         <div className='z-[-1] h-full w-full object-cover'>

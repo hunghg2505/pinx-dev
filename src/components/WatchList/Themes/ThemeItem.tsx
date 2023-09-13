@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { ITheme } from '@components/Home/service';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
 const ThemeItem = ({ data }: { data: ITheme }) => {
   const latestSubscribe = data?.latestSubscribe;
@@ -35,14 +35,13 @@ const ThemeItem = ({ data }: { data: ITheme }) => {
           <div className='flex'>
             {latestSubscribe?.map((user: any, index: number) => {
               return (
-                <Image
+                <CustomImage
                   width='0'
                   height='0'
                   sizes='100vw'
                   key={index}
                   src={user?.avatar}
                   alt=''
-                  onError={replaceImageError}
                   className='mr-[-5px] h-[20px] w-[20px] rounded-full border-[1px] border-solid border-[_rgba(248,_250,_253,_0.20)] last:mr-0'
                 />
               );

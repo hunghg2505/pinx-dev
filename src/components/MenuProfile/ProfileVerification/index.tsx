@@ -17,6 +17,7 @@ import request from 'umi-request';
 import ModalCropImage from '@components/ProfileEdit/FormDesktop/Header/ModalCropImage';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { ErrorMainButton } from '@components/UI/Button';
+import CustomImage from '@components/UI/CustomImage';
 import FormItem from '@components/UI/FormItem';
 import Input from '@components/UI/Input';
 import Notification from '@components/UI/Notification';
@@ -26,14 +27,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import {
-  isImage,
-  ROUTE_PATH,
-  calcUserStatusText,
-  isUrlValid,
-  replaceImageError,
-  compressImage,
-} from '@utils/common';
+import { isImage, ROUTE_PATH, calcUserStatusText, isUrlValid, compressImage } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
 import {
@@ -203,13 +197,12 @@ const ProfileVerification = () => {
               beforeUpload={beforeUpload}
             >
               {isUrlValid(userLoginInfo?.avatar) ? (
-                <Image
+                <CustomImage
                   src={userLoginInfo?.avatar || ''}
                   alt=''
                   width={0}
                   height={0}
                   sizes='100vw'
-                  onError={replaceImageError}
                   className='h-[52px] w-[52px] rounded-full border border-solid border-[#ebebeb] mobile:block galaxy-max:object-cover'
                 />
               ) : (

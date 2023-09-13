@@ -2,17 +2,17 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import PopupReview from '@components/Stock/Popup/PopupReview';
 import Rating from '@components/Stock/Rating';
 import { IReview } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 const MSG_LINE_HEIGHT = 21;
 const MSG_MAX_LINE = 2;
@@ -72,13 +72,12 @@ const ReviewItem = ({
       <div className='mb-[4px] flex items-center'>
         <CustomLink href={profileUrl}>
           {isUrlValid(data.customerInfo.avatar) ? (
-            <Image
+            <CustomImage
               width='0'
               height='0'
               sizes='100vw'
               src={data.customerInfo.avatar}
               alt='Reviewer avatar'
-              onError={replaceImageError}
               className='h-[28px] w-[28px] rounded-full border border-solid border-[#EEF5F9] object-cover mobile-max:flex-none'
             />
           ) : (

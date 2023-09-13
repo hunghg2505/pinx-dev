@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import Image from 'next/image';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { isUrlValid, replaceImageError } from '@utils/common';
+import { isUrlValid } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -48,10 +49,9 @@ const ThemeCard = (props: IThemeCardProps) => {
             {props.latestUserLikeThis?.map(
               (user: { id: number; avatar: string; displayName: string }) => {
                 return isUrlValid(user?.avatar) ? (
-                  <Image
+                  <CustomImage
                     src={user.avatar}
                     alt=''
-                    onError={replaceImageError}
                     width='0'
                     height='0'
                     sizes='100vw'

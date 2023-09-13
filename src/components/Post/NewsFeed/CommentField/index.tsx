@@ -30,6 +30,7 @@ import {
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -43,7 +44,6 @@ import {
   compressImage,
   isImage,
   isUrlValid,
-  replaceImageError,
   validateHTML,
 } from '../../../../utils/common';
 import suggestion from '../../../Editor/Suggestion';
@@ -481,13 +481,12 @@ const Editor = (props: IProps, ref?: any) => {
     <>
       <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
         {isUrlValid(userLoginInfo?.avatar) ? (
-          <Image
+          <CustomImage
             src={userLoginInfo?.avatar || ''}
             alt=''
             width={0}
             height={0}
             sizes='100vw'
-            onError={replaceImageError}
             className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:hidden tablet:block'
             onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
           />

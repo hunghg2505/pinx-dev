@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { IPost } from '@components/Post/service';
@@ -9,10 +8,11 @@ import { ACTIVITIES_TYPE } from '@components/Stock/const';
 import { ActivityIconType } from '@components/Stock/type';
 import ActivitiesAction from '@components/Themes/ThemeDetail/Activities/ActivitiesAction';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 
 // tracking event view ticker info
@@ -54,14 +54,13 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
     <div className='flex'>
       <CustomLink href={href}>
         {isUrlValid(data.post.customerInfo.avatar) ? (
-          <Image
+          <CustomImage
             width='0'
             height='0'
             sizes='100vw'
             src={data.post.customerInfo.avatar}
             alt={data.post.customerInfo.displayName}
             className='h-[28px] w-[28px] rounded-full border border-solid border-[#ebebeb] object-cover'
-            onError={replaceImageError}
           />
         ) : (
           <div className='h-[28px] w-[28px] rounded-full object-cover'>
