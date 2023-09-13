@@ -31,9 +31,7 @@ import {
   calcUserStatusText,
   isUrlValid,
   replaceImageError,
-  convertImageToJpg,
-  CONVERT_IMAGE_ERR_MSG,
-  compressorImage,
+  compressImage,
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
@@ -117,7 +115,7 @@ const ProfileVerification = () => {
   );
 
   const handleCompressSuccess = async (blob: Blob) => {
-    const blobToFile = new File([blob], '.jpg', {
+    const blobToFile = new File([blob], '.' + blob.type.split('/')[1], {
       type: blob.type,
     });
 
@@ -126,35 +124,26 @@ const ProfileVerification = () => {
     blob && requestUploadImage.run(formData);
   };
 
-  const handleCropImageSuccess = (blob: Blob | null) => {
+  const handleCropImageSuccess = async (blob: any) => {
     setOpenModalCropImg(false);
 
     if (blob) {
-      convertImageToJpg(
-        blob,
-        async (file) => {
-          if (file) {
-            compressorImage({
-              file,
-              maxFileSizeKB: MAX_AVATAR_FILE_SIZE_KB,
-              onSuccess: handleCompressSuccess,
-              onError: (message) => {
-                toast.error(message);
-              },
-            });
-          }
-        },
-        (error) => {
-          switch (error) {
-            case CONVERT_IMAGE_ERR_MSG.FILE_INVALID: {
-              return toast.error(t('file_invalid'));
-            }
-            default: {
-              return toast.error(t('error'));
-            }
-          }
-        },
-      );
+      try {
+        // compress image
+        const compressedImage = await compressImage({
+          file: blob,
+          maxFileSizeKb: MAX_AVATAR_FILE_SIZE_KB,
+          options: {
+            fileType: 'image/jpeg',
+          },
+        });
+
+        if (compressedImage) {
+          await handleCompressSuccess(compressedImage);
+        }
+      } catch {
+        toast.error(t('error'));
+      }
     }
   };
 
@@ -163,9 +152,7 @@ const ProfileVerification = () => {
       // setOpenModalCropImg(true);
       // setFile(file);
 
-      const formData = new FormData();
-      formData.append('files', file);
-      file && requestUploadImage.run(formData);
+      handleCropImageSuccess(file);
     }
   };
 
