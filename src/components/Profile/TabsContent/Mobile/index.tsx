@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
+import { ViewAsset } from '@utils/dataLayer';
 
 import Assets from '../Assets';
 import Posts from '../Posts';
@@ -28,6 +29,11 @@ const Mobile = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
+                  if (key === 'assets') {
+                    // tracking event view assets
+                    ViewAsset('Tab assets user detail', 'Asset Overview');
+                  }
+
                   replace({ hash: '#tabbar', query: { ...query, tab: key } });
                 }}
               />
