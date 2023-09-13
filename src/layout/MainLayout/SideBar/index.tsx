@@ -16,7 +16,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
-import { NavigateSection, ViewWatchlist } from '@utils/dataLayer';
+import { NavigateSection, ViewWatchlist, ViewAsset } from '@utils/dataLayer';
 import { BANNER_URL } from 'src/constant';
 
 import {
@@ -162,6 +162,11 @@ const SideBar = () => {
                   listStockCodes.length,
                   'Left sidebar layout',
                 );
+              }
+
+              // tracking event view assets
+              if (menu.path === ROUTE_PATH.ASSET) {
+                ViewAsset('Tab assets sidebar layout', 'Asset Overview');
               }
             }}
           >

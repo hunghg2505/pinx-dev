@@ -2,7 +2,7 @@
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
 import type { NextPage } from 'next';
@@ -16,9 +16,12 @@ import 'dayjs/locale/vi';
 import 'dayjs/locale/en';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { requestJoinChannel, requestJoinIndex, socket } from '@components/Home/service';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
+import { useUserType } from '@hooks/useUserType';
 import AppLayout from '@layout/AppLayout';
 import { stockSocketAtom } from '@store/stockStocket';
-// import { CloseWeb } from '@utils/dataLayer';
+import { CloseWeb, openWeb } from '@utils/dataLayer';
+import { localStorageUtils } from '@utils/local-storage-utils';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -45,8 +48,11 @@ const BarlowFont = Barlow({
 });
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const { isLogin } = useUserType();
+  const { userLoginInfo } = useUserLoginInfo();
   const getLayout = Component.getLayout ?? ((page: any) => page);
   const stockSocket = useAtomValue(stockSocketAtom);
+  const [isTrackingOpenWeb, setIsTrackingOpenWeb] = useState(false);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -73,21 +79,31 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     };
   }, [stockSocket]);
 
-  // tracking event close web
-  // useEffect(() => {
-  //   const handleClose = (event: BeforeUnloadEvent) => {
-  //     event.preventDefault();
-  //     event.returnValue = '';
+  useEffect(() => {
+    // tracking event close web
+    const handleClose = () => {
+      localStorageUtils.set('lastTimeVisit', new Date().toISOString());
+      CloseWeb();
+      return false;
+    };
+    window.addEventListener('beforeunload', handleClose);
 
-  //     CloseWeb();
-  //   };
+    return () => {
+      window.removeEventListener('beforeunload', handleClose);
+    };
+  }, []);
 
-  //   window.addEventListener('beforeunload', handleClose);
+  useEffect(() => {
+    if (userLoginInfo?.loading || isTrackingOpenWeb) {
+      return;
+    }
 
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleClose);
-  //   };
-  // }, []);
+    // tracking event open web
+    const lastTimeVisit = new Date(localStorageUtils.get('lastTimeVisit') as string).toISOString();
+    const cif = isLogin ? userLoginInfo?.cif : '';
+    openWeb(isLogin, cif, lastTimeVisit);
+    setIsTrackingOpenWeb(true);
+  }, [isTrackingOpenWeb, userLoginInfo]);
 
   return (
     <>

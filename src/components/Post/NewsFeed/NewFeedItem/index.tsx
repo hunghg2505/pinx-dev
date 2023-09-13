@@ -421,7 +421,7 @@ const NewFeedItem = (props: IProps) => {
           'z-50': isHovering,
         })}
       >
-        <div onClick={() => setSearchSeo(false)}>
+        <div onClick={() => setSearchSeo(false)} className='flex-1'>
           <MaybeLink
             linkClassName='flex-1'
             href={urlTitle}
