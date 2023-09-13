@@ -1,6 +1,4 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
-import { BaseSyntheticEvent } from 'react';
-
 import imageCompression from 'browser-image-compression';
 import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
@@ -817,12 +815,6 @@ export const isUrlValid = (url?: string) => {
   }
 
   return isValid;
-};
-
-// replace image error
-export const replaceImageError = ({ currentTarget }: BaseSyntheticEvent) => {
-  currentTarget.removeEventListener('error', null);
-  currentTarget.src = '/static/images/white-background.jpeg';
 };
 
 // convert image to jpg
