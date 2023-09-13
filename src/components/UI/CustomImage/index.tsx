@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 
@@ -11,18 +11,21 @@ interface CustomImageProps {
   [x: string]: any;
 }
 
-const CustomImage = ({ alt, src: srcProp, ...props }: CustomImageProps) => {
-  const [src, setSrc] = useState('');
-
-  useEffect(() => {
-    setSrc(srcProp);
-  }, [srcProp]);
+const CustomImage = ({ alt, src, ...props }: CustomImageProps) => {
+  const [isError, setIsError] = useState(false);
 
   const handleImageError = () => {
-    setSrc(WHITE_BACKGROUND_IMAGE);
+    setIsError(true);
   };
 
-  return <Image key={src} alt={alt} src={src} {...props} onError={handleImageError} />;
+  return (
+    <Image
+      src={isError ? WHITE_BACKGROUND_IMAGE : src}
+      alt={alt}
+      {...props}
+      onError={handleImageError}
+    />
+  );
 };
 
 export default CustomImage;
