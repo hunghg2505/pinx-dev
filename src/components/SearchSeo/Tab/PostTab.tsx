@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import NewsFeed from '@components/Post/NewsFeed';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
-import Loading from '@components/UI/Loading';
+// import Loading from '@components/UI/Loading';
+import { Skeleton } from '@components/UI/Skeleton';
 import useBottomScroll from '@hooks/useBottomScroll';
 
 import Empty from '../Empty';
@@ -80,7 +81,8 @@ const PostsTab = ({ keyword, onTrackingViewTicker, keywordFormat }: PostTabProps
         <Empty keyword={keyword} />
       ) : (
         <div className='flex min-h-[150px] flex-row items-center justify-center'>
-          <Loading />
+          {/* <Loading /> */}
+          <Skeleton className='!h-[290px] !w-full !rounded-[8px]' />
         </div>
       )}
     </>

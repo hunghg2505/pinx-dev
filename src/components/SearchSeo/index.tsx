@@ -98,7 +98,7 @@ const SearchSeo = () => {
         <div className='box-shadow card-style'>
           <Skeleton
             rows={5}
-            wrapClassName='!flex-row gap-x-[12px] mb-[20px]'
+            wrapClassName='!flex-row gap-x-[12px] mb-[20px] !w-[470px]'
             className='!w-full'
             round
           />
