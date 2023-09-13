@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -123,7 +124,10 @@ export const ActivityTheme = ({
 
       <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt=''
             className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'

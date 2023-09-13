@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import PostAction from '@components/Post/NewsFeed/PostAction';
@@ -28,7 +29,10 @@ const NewsItem = ({ className, data }: INewsItemProps) => {
     return data.post.headImageUrl ? (
       <CustomLink href={data.post.url} target='_blank'>
         <div className='relative cursor-pointer'>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data.post.headImageUrl}
             alt={data.post.title}
             className='h-[73px] w-[73px] rounded-[12px] object-cover'

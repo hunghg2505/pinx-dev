@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -53,7 +54,10 @@ const NewsItem = ({
   const renderThumbnail = () => {
     return data?.post?.thumbImageUrl ? (
       <div className='relative cursor-pointer'>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={data?.post?.thumbImageUrl}
           alt=''
           className='h-[73px] w-[73px] rounded-[12px] object-cover'

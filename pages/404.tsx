@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -17,10 +18,12 @@ const PageNotFound = () => {
     <>
       <div className='flex h-[100vh] flex-col content-center items-center justify-center bg-[#f8f8f8] p-10'>
         <div className='flex flex-col items-center justify-center'>
-          <img
+          <Image
             loading='lazy'
             src='/static/images/notFound.png'
             className='h-[191px] w-[246px]'
+            width={246}
+            height={191}
             alt=''
           />
           <Text className='mb-[8px] mt-[24px] text-[59px] leading-[71px]' color='neutral-1'>

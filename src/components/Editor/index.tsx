@@ -11,6 +11,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
@@ -29,6 +30,7 @@ import {
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -38,14 +40,7 @@ import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
-import {
-  ROUTE_PATH,
-  compressImage,
-  isImage,
-  isUrlValid,
-  replaceImageError,
-  validateHTML,
-} from '../../utils/common';
+import { ROUTE_PATH, compressImage, isImage, isUrlValid, validateHTML } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
@@ -529,13 +524,12 @@ const Editor = (props: IProps, ref?: any) => {
         className='relative mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'
       >
         {isUrlValid(userLoginInfo?.avatar) ? (
-          <img
-            src={userLoginInfo?.avatar}
+          <CustomImage
+            src={userLoginInfo?.avatar || ''}
             alt=''
             width={0}
             height={0}
             sizes='100vw'
-            onError={replaceImageError}
             className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:hidden tablet:block'
             onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
           />
@@ -688,7 +682,7 @@ const Editor = (props: IProps, ref?: any) => {
             ) : (
               imageComment && (
                 <div className='relative'>
-                  <img
+                  <Image
                     src={imageComment}
                     alt=''
                     width='0'
@@ -735,7 +729,7 @@ const Editor = (props: IProps, ref?: any) => {
         ) : (
           imageComment && (
             <div className='relative'>
-              <img
+              <Image
                 src={imageComment}
                 alt=''
                 width='0'

@@ -1,6 +1,7 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -113,7 +114,10 @@ const LandingPageDetailThemes = ({
             className='h-[15px]cursor-pointer w-[9px]'
           />
         </div>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={data?.bgImage || data?.url}
           alt=''
           className='absolute left-0 top-0 h-full w-full rounded-[16px] object-cover'

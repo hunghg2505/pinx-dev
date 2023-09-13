@@ -41,14 +41,29 @@ const nextConfig = {
   },
   images: {
     minimumCacheTTL: 60,
-    domains: [
-      'static.pinetree.com.vn',
-      'cdn.pixabay.com',
-      'pinetree.vn',
-      'image.vietstock.vn',
-      'cafefcdn.com',
-      'photo-cms-tinnhanhchungkhoan.epicdn.me',
-      'i.pinimg.com',
+    // domains: [
+    //   'static.pinetree.com.vn',
+    //   'cdn.pixabay.com',
+    //   'pinetree.vn',
+    //   'image.vietstock.vn',
+    //   'cafefcdn.com',
+    //   'photo-cms-tinnhanhchungkhoan.epicdn.me',
+    //   'i.pinimg.com',
+    //   'pinex.vn',
+    //   'i2-vnexpress.vnecdn.net',
+    //   'i.ytimg.com',
+    //   'icdn.dantri.com.vn',
+    //   'pinex-sit.agiletech.vn',
+    // ],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ],
   },
   headers: async function headers() {

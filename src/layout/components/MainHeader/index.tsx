@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useMount, useUpdateEffect } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -189,7 +190,10 @@ const MainHeader = () => {
               <div className='flex w-full max-w-[218px] items-center desktop:gap-[16px]'>
                 <CustomLink href={ROUTE_PATH.HOME}>
                   <div className='flex items-center'>
-                    <img
+                    <Image
+                      width='0'
+                      height='0'
+                      sizes='100vw'
                       src='/static/logo/logo.png'
                       alt=''
                       className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
@@ -32,16 +33,18 @@ const Desktop = ({ close }: { close?: () => void }) => {
           {profile('install_app')}
         </p>
         <div className='flex justify-center gap-[23px]'>
-          <img
+          <Image
             src={'/static/images/googleplay.png'}
             height={180}
             width={52}
+            sizes='100vw'
             alt="Don't have any result"
             className=' mb-[12px] h-[52px] w-[180px] object-contain '
             onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
           />
 
-          <img
+          <Image
+            sizes='100vw'
             src={'/static/images/appstore.png'}
             height={180}
             width={52}

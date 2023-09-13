@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import ModalReport from '@components/Post/NewsFeed/ModalReport';
@@ -65,7 +66,10 @@ const HeadingNewsItem = ({ className, data }: IHeadingNewsItemProps) => {
 
   return (
     <div className={classNames('flex items-center', className)}>
-      <img
+      <Image
+        width='0'
+        height='0'
+        sizes='100vw'
         src={data.post.vendorInfo.logo}
         alt={data.post.vendorInfo.name}
         className='h-[24px] w-[24px] object-contain'

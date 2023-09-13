@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
@@ -14,7 +15,7 @@ export const ActivityWatchlist = ({ postDetail }: any) => {
   return (
     <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
       {postDetail?.post?.bgImage && (
-        <img
+        <Image
           src={postDetail?.post?.bgImage}
           alt=''
           width='0'

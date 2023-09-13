@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
@@ -8,14 +9,15 @@ const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
     <div className='flex  w-full flex-wrap justify-center gap-[0px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center'>
-      <img
+      <Image
+        sizes='100vw'
         src={'/static/images/hand chat connect.png'}
         height={433}
         width={412}
         alt="Don't have any result"
         className=' mb-[12px] h-[330px] w-[full] object-contain tablet:h-[240px] tablet:w-[312px]'
       />
-      <div className='align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] py-[44px] tablet:w-[287px] px-[20px]'>
+      <div className='align-center flex w-full  items-center justify-center rounded-[12px] bg-[#edf6fe] px-[20px] py-[44px] tablet:w-[287px]'>
         <div className='mx-auto my-auto w-fit'>
           <p className=' line-[28px]  mb-[30px]  max-w-[225px] text-[20px] font-[600]'>
             {t('don’t_have_any_result')}

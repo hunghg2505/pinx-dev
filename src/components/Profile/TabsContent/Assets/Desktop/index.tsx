@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
@@ -20,7 +21,8 @@ const Desktop = () => {
       </div>
 
       <div className='flex flex-wrap justify-center gap-[20px]'>
-        <img
+        <Image
+          sizes='100vw'
           src='/static/images/google-play.png'
           height={180}
           width={52}
@@ -29,7 +31,8 @@ const Desktop = () => {
           onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
         />
 
-        <img
+        <Image
+          sizes='100vw'
           src='/static/images/app-store.png'
           height={180}
           width={52}

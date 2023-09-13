@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 
+import Image from 'next/image';
+
 import { profileUserContext } from '@components/Profile';
 
 import User from './User';
@@ -10,7 +12,10 @@ const Influencer = ({ closeStory }: { closeStory: () => void }) => {
   return (
     <article className='min-[375px] w-screen max-w-[min(calc(100vw-32px),375px)] overflow-hidden rounded-[12px] text-white'>
       <header className='relative h-[375px] '>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={profileUser?.avatar}
           alt='story picture'
           className='relative  h-full w-full object-cover'
@@ -25,7 +30,7 @@ const Influencer = ({ closeStory }: { closeStory: () => void }) => {
         </div>
       </header>
       <main className=' bg-neutral_black px-[16px] pb-[20px] pt-[40px]'>
-        <p className='mb-[16px] min-h-[100px] w-full overflow-auto text-[12px] whitespace-pre-line'>
+        <p className='mb-[16px] min-h-[100px] w-full overflow-auto whitespace-pre-line text-[12px]'>
           {profileUser?.caption}
         </p>
       </main>

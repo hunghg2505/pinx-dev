@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import { IStockTheme } from '@components/Themes/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -37,7 +38,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: 
         <div className='item flex h-[82px] items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px]'>
           <div className='flex w-[65%] items-center galaxy-max:flex-none'>
             <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain galaxy-max:flex-none'>
-              <img
+              <Image
                 src={imageStock(data?.stock_code)}
                 alt=''
                 width='0'

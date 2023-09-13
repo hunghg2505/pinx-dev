@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Image from 'next/image';
+
 const NotFound = () => {
   return (
     <div className='width-[100%]  rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
-      <img
+      <Image
+        sizes='100vw'
         src={'/static/images/hand chat connect.png'}
         height={433}
         width={412}

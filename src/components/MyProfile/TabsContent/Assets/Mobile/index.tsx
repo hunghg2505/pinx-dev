@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -10,7 +11,8 @@ const Mobile = () => {
   return (
     <div className='pb-50px'>
       <div className='flex  w-full flex-wrap justify-center rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center '>
-        <img
+        <Image
+          sizes='100vw'
           src={'/static/images/rocket.png'}
           height={433}
           width={412}

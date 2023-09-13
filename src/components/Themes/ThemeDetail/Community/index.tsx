@@ -5,10 +5,11 @@ import { useTranslation } from 'next-i18next';
 
 import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { formatStringToNumber, isUrlValid, replaceImageError } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
@@ -120,12 +121,12 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
                 {isUrlValid(item.avatar) ? (
-                  <img
-                    src={item.avatar}
-                    alt=''
+                  <CustomImage
                     width='0'
                     height='0'
-                    onError={replaceImageError}
+                    sizes='100vw'
+                    src={item.avatar}
+                    alt=''
                     className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
                   />
                 ) : (

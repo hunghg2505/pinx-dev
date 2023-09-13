@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { DownloadPineXApp } from '@utils/dataLayer';
@@ -59,7 +61,8 @@ const PopUpEkyc = () => {
           </CustomLink>
         </div>
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
-          <img
+          <Image
+            sizes='100vw'
             src='/static/images/googleplay.png'
             alt='Download google play'
             width={180}
@@ -68,7 +71,8 @@ const PopUpEkyc = () => {
             onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
           />
 
-          <img
+          <Image
+            sizes='100vw'
             src='/static/images/appstore.png'
             alt='Download app store'
             width={180}

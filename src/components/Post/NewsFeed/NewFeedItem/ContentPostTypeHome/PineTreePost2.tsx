@@ -5,6 +5,7 @@ import { useMount } from 'ahooks';
 import classNames from 'classnames';
 // import dynamic from 'next/dynamic';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 // import CustomLink from '@components/UI/CustomLink';
@@ -112,7 +113,10 @@ export const PineTreePost2 = ({
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
             className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'

@@ -3,12 +3,14 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import { atom } from 'jotai';
 // import { useRouter } from 'next/router';
+import { atom } from 'jotai';
+import Image from 'next/image';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { isUrlValid, replaceImageError } from '@utils/common';
+import { isUrlValid } from '@utils/common';
 
 export const dataMention: any = atom([]);
 
@@ -151,7 +153,7 @@ export default forwardRef((props: any, ref) => {
                   {!isHashTag &&
                     (isStock ? (
                       <div className='mr-[12px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full object-contain'>
-                        <img
+                        <Image
                           src={url}
                           alt=''
                           width={0}
@@ -161,13 +163,12 @@ export default forwardRef((props: any, ref) => {
                         />
                       </div>
                     ) : isUrlValid(item.avatar) ? (
-                      <img
+                      <CustomImage
                         src={item.avatar}
                         alt=''
                         width={0}
                         height={0}
                         sizes='100vw'
-                        onError={replaceImageError}
                         className='mr-[12px] h-[36px] w-[36px] rounded-full border border-solid border-[#ebebeb] object-cover'
                       />
                     ) : (

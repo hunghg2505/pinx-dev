@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import Text from '@components/UI/Text';
 
 const PostSell = () => {
@@ -47,7 +49,7 @@ const PostSell = () => {
         Username has just sold $VPG get a profit of 6.16%
       </Text>
       <div className='relative h-[185px] w-[343px] rounded-[15px] bg-[linear-gradient(247.96deg,_#66CD90_14.41%,_#58A1C0_85.59%)]'>
-        <img
+        <Image
           src='/static/images/postBuy.png'
           alt=''
           width='0'

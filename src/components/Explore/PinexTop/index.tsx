@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 // import { TabsEnum } from '@components/UI/Tabs';
@@ -31,7 +32,10 @@ const PinexTop = (props: Iprops) => {
   return (
     <div className='mr-[16px] w-[156px] cursor-pointer' onClick={onHandleClick}>
       <div className='relative flex h-[252px] flex-col justify-end rounded-[12px] bg-[#ffffff] '>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={newObject[value]}
           alt=''
           className='absolute left-0 top-0 h-full w-full rounded-[12px]'

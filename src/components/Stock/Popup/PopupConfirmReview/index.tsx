@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
@@ -23,7 +24,10 @@ const PopupConfirmReview = ({ visible, onClose, onOpenPopupReview }: IPopupConfi
         {t('popup_confirm_review.title')}
       </Text>
 
-      <img
+      <Image
+        width='0'
+        height='0'
+        sizes='100vw'
         src='/static/images/thank_you.png'
         alt='Thank you image'
         className='mx-auto h-[190px] w-[287px] object-contain'

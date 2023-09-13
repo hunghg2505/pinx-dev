@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -107,8 +108,11 @@ const PopupSubsribeTheme = (props: IProps) => {
           </FormItem>
 
           <div className='relative flex h-[205px] w-full rounded-lg'>
-            <img
-              src={popupThemeData?.bgImage || popupThemeData?.url}
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
+              src={popupThemeData?.bgImage || popupThemeData?.url || ''}
               alt=''
               className='absolute left-0 top-0 h-full w-full rounded-lg object-cover'
             />

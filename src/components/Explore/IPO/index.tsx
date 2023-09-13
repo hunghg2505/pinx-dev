@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, imageStock } from '@utils/common';
@@ -22,7 +24,7 @@ const IPO = ({
         <div className='relative z-10 flex h-full items-center justify-between'>
           <div className='flex w-[calc(100%_-_57px)] items-center'>
             <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
-              <img
+              <Image
                 src={imageStock(data?.stockCode)}
                 alt=''
                 width='0'

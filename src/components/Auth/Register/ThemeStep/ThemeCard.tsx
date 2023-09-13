@@ -2,10 +2,12 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { isUrlValid, replaceImageError } from '@utils/common';
+import { isUrlValid } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -30,10 +32,11 @@ const ThemeCard = (props: IThemeCardProps) => {
           "max-[375px]:h-[250px] relative h-[247px] w-[100%] bg-cover bg-center bg-no-repeat before:absolute before:bottom-[0] before:left-[0] before:h-full before:w-full before:rounded-[12px] before:content-['']"
         }
       >
-        <img
+        <Image
           src={props.image}
-          height='247'
-          width='100'
+          width='0'
+          height='0'
+          sizes='100vw'
           className='w-100% max-[375px]:h-[250px] h-[247px]'
           alt={''}
         />
@@ -46,12 +49,12 @@ const ThemeCard = (props: IThemeCardProps) => {
             {props.latestUserLikeThis?.map(
               (user: { id: number; avatar: string; displayName: string }) => {
                 return isUrlValid(user?.avatar) ? (
-                  <img
+                  <CustomImage
                     src={user.avatar}
                     alt=''
-                    onError={replaceImageError}
-                    width='20'
-                    height='20'
+                    width='0'
+                    height='0'
+                    sizes='100vw'
                     className='h-[20px] w-[20px] rounded-full'
                   />
                 ) : (

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
@@ -184,7 +185,9 @@ const SideBar = () => {
       <div>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-          <img
+          <Image
+            width='0'
+            height='0'
             // src='/static/images/sidebar_banner.png'
             src={BANNER_URL}
             alt=''
@@ -228,7 +231,7 @@ const SideBar = () => {
               />
             </a>
             <a target='_blank' rel='noopener noreferrer' href='https://zalo.me/895810815009263150'>
-              <img
+              <Image
                 src='/static/social/zalo.png'
                 alt=''
                 width={0}

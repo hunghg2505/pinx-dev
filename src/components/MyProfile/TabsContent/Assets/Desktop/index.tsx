@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
@@ -8,7 +9,8 @@ const Mobile = () => {
   const { t } = useTranslation('profile');
   return (
     <div className='flex  w-full flex-wrap justify-center gap-[56px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap'>
-      <img
+      <Image
+        sizes='100vw'
         src={'/static/images/rocket.png'}
         height={433}
         width={412}
@@ -21,14 +23,20 @@ const Mobile = () => {
             {t('start_investment')}
           </p>
           <div className='flex justify-center gap-[23px]'>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src={'/static/images/googleplay.png'}
               alt="Don't have any result"
               className='h-[30px] w-[106px] cursor-pointer object-contain '
               onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
             />
 
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src={'/static/images/appstore.png'}
               alt="Don't have any result"
               className='h-[30px] w-[106px] cursor-pointer object-contain '
