@@ -9,12 +9,13 @@ import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-componen
 
 import { IKOL, requestFollowUser, requestUnFollowUser } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, isUrlValid, replaceImageError } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -28,7 +29,7 @@ const ItemInfluence = (props: IProps) => {
   const router = useRouter();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { isLogin } = useUserType();
-  const { data, refreshList, refresh, scrollPosition } = props;
+  const { data, refreshList, refresh } = props;
   const { run: getUserProfile } = useProfileInitial();
   const [isFollow, setIsFollow] = React.useState(data?.isFollowed);
   React.useEffect(() => {
@@ -123,15 +124,13 @@ const ItemInfluence = (props: IProps) => {
             </Text>
           </div>
           {isUrlValid(data.avatar) ? (
-            <LazyLoadImage
+            <CustomImage
               src={data.avatar}
               alt=''
-              scrollPosition={scrollPosition}
-              onError={replaceImageError}
+              width='0'
+              height='0'
+              sizes='100vw'
               className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
-
-              // blurDataURL="data:..." automatically provided
-              // placeholder="blur" // Optional blur-up while loading
             />
           ) : (
             <div className='absolute left-0 top-0 h-full w-full overflow-hidden object-cover'>
