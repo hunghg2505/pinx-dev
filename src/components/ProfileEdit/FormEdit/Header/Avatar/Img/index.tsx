@@ -1,14 +1,15 @@
 import React from 'react';
 
-import Image from 'next/image';
 import { Field } from 'rc-field-form';
+
+import CustomImage from '@components/UI/CustomImage';
 
 const Img = () => {
   return (
     <Field name='avatar'>
       {({ value }) => {
         return (
-          <Image
+          <CustomImage
             width='0'
             height='0'
             sizes='100vw'
