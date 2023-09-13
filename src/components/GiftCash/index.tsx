@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
@@ -83,16 +84,18 @@ const GiftCash = () => {
               </div>
             </div>
             <div className='flex w-[158px] flex-col justify-center  gap-y-[24px] mobile-max:hidden'>
-              <img
+              <Image
                 src='/static/images/googleplay.png'
                 alt='Download google play'
                 width={180}
                 height={52}
+                sizes='100vw'
                 className='h-[52px] w-[180px] cursor-pointer object-contain'
                 onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
               />
 
-              <img
+              <Image
+                sizes='100vw'
                 src='/static/images/appstore.png'
                 alt='Download app store'
                 width={180}
@@ -122,7 +125,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black'>
               {t('giftcash.text.only.vsd')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img1.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -138,7 +144,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black' className=''>
               {t('giftcash.text.not.cash')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img2.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -151,7 +160,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black'>
               {t('giftcash.text.balance')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img3.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -165,7 +177,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black'>
               {t('giftcash.text.invest')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img4.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -181,7 +196,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.only.vsd')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img1.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -197,7 +215,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black' className=''>
                 {t('giftcash.text.not.cash')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img2.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -210,7 +231,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.balance')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img3.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -223,7 +247,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.invest')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img4.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'

@@ -3,6 +3,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
@@ -99,8 +100,11 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
           className='theme relative flex w-full  flex-col justify-end overflow-hidden rounded-[10px]'
           onClick={(event) => onHandleClick(event)}
         >
-          <img
-            src={BgThemePost?.bgImage}
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={BgThemePost?.bgImage || ''}
             alt=''
             className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:max-h-[300px] mobile:min-h-[204px] mobile-max:object-bottom tablet:rounded-[8px] desktop:h-[300px]'
           />
@@ -206,7 +210,10 @@ const MetaContent = ({ metaData }: any) => {
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
             <div className='overflow-hidden'>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={imageUrl}
                 alt=''
                 className={classNames(
@@ -292,7 +299,10 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
     if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
       return (
         <ModalMedia url={imageMetaData}>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={imageMetaData}
             alt=''
             className='my-[10px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
@@ -308,7 +318,10 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
             className='my-[10px]  max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '

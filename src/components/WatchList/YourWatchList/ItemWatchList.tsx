@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
@@ -90,7 +91,7 @@ const ItemWatchList = ({
           href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
         >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
-            <img src={url} alt='' className='block' />
+            <Image width='0' height='0' sizes='100vw' src={url} alt='' className='block' />
           </div>
         </CustomLink>
         <div className='flex flex-col gap-y-[4px]'>

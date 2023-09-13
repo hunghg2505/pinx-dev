@@ -4,6 +4,7 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
@@ -15,6 +16,7 @@ import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import { MainButton } from '@components/UI/Button';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
@@ -30,7 +32,6 @@ import {
   checkUserType,
   formatStringToNumber,
   isUrlValid,
-  replaceImageError,
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
@@ -103,7 +104,8 @@ const MenuProfileMobile = forwardRef((_, ref) => {
       {checkUserType(userLoginInfo?.custStat, userLoginInfo?.acntStat) === USERTYPE.NEW && (
         <div className='my-[20px] px-[16px]'>
           <div className='width-full rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
-            <img
+            <Image
+              sizes='100vw'
               src={'/static/images/shopinext-update_account.png'}
               height={150}
               width={150}
@@ -155,10 +157,12 @@ const Profile = () => {
         <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
           <div className='flex w-full items-center gap-[24px] p-4'>
             {isUrlValid(userLoginInfo?.avatar) ? (
-              <img
-                src={userLoginInfo?.avatar}
+              <CustomImage
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={userLoginInfo?.avatar || ''}
                 alt=''
-                onError={replaceImageError}
                 className='h-[72px] w-[72px] min-w-[72px] cursor-pointer rounded-full  border border-solid border-[#ebebeb] object-cover'
               />
             ) : (
@@ -228,7 +232,7 @@ const Profile = () => {
       {checkUserType(userLoginInfo?.custStat, userLoginInfo?.acntStat) === USERTYPE.NEW && (
         <MenuItem>
           <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
-            <img
+            <Image
               src='/static/images/book_list.png'
               alt=''
               width={0}
@@ -239,7 +243,8 @@ const Profile = () => {
             <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
               <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
               <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
-                <img
+                <Image
+                  sizes='100vw'
                   src='/static/images/googleplay.png'
                   alt='Download google play'
                   width={180}
@@ -248,7 +253,8 @@ const Profile = () => {
                   onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
                 />
 
-                <img
+                <Image
+                  sizes='100vw'
                   src='/static/images/appstore.png'
                   alt='Download app store'
                   width={180}
@@ -319,20 +325,24 @@ const Profile = () => {
             placement='bottomRight'
           >
             <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
-              <img
+              <CustomImage
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
                 alt=''
-                onError={replaceImageError}
                 className='h-full w-full overflow-hidden rounded-full border border-solid border-[#ebebeb] object-cover '
               />
             </div>
           </Dropdown>
         </div>
 
-        <img
+        <CustomImage
+          width='0'
+          height='0'
+          sizes='100vw'
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          onError={replaceImageError}
           className='h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />

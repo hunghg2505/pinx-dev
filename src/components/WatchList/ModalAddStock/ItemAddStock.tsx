@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -80,7 +81,14 @@ const ItemAddStock = ({
     >
       <div className='flex items-center gap-x-[10px]'>
         <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'>
-          <img src={imageStock(data?.stockCode)} alt='' className='block' />
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={imageStock(data?.stockCode)}
+            alt=''
+            className='block'
+          />
         </div>
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { MainButton } from '@components/UI/Button';
@@ -22,7 +23,8 @@ const UpdateAccount = () => {
   return (
     <div className='my-[20px] px-[16px]'>
       <div className='width-[100%] rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
-        <img
+        <Image
+          sizes='100vw'
           src={'/static/images/shopinext-update_account.png'}
           height={150}
           width={150}

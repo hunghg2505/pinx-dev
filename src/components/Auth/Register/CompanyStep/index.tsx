@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -164,7 +165,7 @@ const RegisterCompanyStep = () => {
                           )}
                         </div>
                         <div className='flex h-[48px] w-[48px] items-center justify-center overflow-hidden rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'>
-                          <img
+                          <Image
                             src={imageStock(item?.stockCode)}
                             alt=''
                             width='0'

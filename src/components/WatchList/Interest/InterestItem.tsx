@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
@@ -71,7 +72,14 @@ const InterestItem = (props: IProps) => {
       />
       <div className='flex flex-col gap-y-[16px]'>
         <div className='m-auto flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full bg-white object-contain'>
-          <img src={imageStock(data?.stockCode)} alt='' className='block' />
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={imageStock(data?.stockCode)}
+            alt=''
+            className='block'
+          />
         </div>
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text

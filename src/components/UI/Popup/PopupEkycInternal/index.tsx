@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -63,7 +64,8 @@ const PopUpEkycInternal = (props: IProps) => {
           </CustomLink>
         </div>
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
-          <img
+          <Image
+            sizes='100vw'
             src='/static/images/googleplay.png'
             alt='Download google play'
             width={180}
@@ -72,7 +74,8 @@ const PopUpEkycInternal = (props: IProps) => {
             onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
           />
 
-          <img
+          <Image
+            sizes='100vw'
             src='/static/images/appstore.png'
             alt='Download app store'
             width={180}

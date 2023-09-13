@@ -5,9 +5,10 @@ import { useTranslation } from 'next-i18next';
 
 import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH, isUrlValid, replaceImageError, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 
 import ActivitiesAction from '../ActivitiesAction';
@@ -41,11 +42,13 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
     <div className='flex'>
       <div onClick={() => router.push(urlProfile)} className='cursor-pointer'>
         {isUrlValid(avatar) ? (
-          <img
+          <CustomImage
+            width='0'
+            height='0'
+            sizes='100vw'
             loading='lazy'
             src={avatar}
             alt=''
-            onError={replaceImageError}
             className='mr-[12px] h-[28px] w-[28px] rounded-full border border-solid border-[#ebebeb]'
           />
         ) : (

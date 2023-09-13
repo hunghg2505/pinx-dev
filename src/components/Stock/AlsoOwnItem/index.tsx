@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -38,7 +39,10 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
         <div className='flex h-[81px] w-[81px] items-center justify-center galaxy-max:w-[56px] '>
           {data.listed ? (
             <div className='flex h-full w-full items-center justify-center overflow-hidden object-contain'>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={imageStock(data.stockCode)}
                 // alt={`Logo ${data.name}`}
                 alt=''

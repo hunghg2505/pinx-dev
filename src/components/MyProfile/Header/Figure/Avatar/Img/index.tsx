@@ -1,15 +1,18 @@
 import React from 'react';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
-import { isUrlValid, replaceImageError } from '@utils/common';
+import CustomImage from '@components/UI/CustomImage';
+import { isUrlValid } from '@utils/common';
 
 const Img = ({ avatar, displayName }: { avatar: string; displayName: string }) => {
   return isUrlValid(avatar) ? (
     <div className='h-[113px] w-[113px] rounded-full bg-white p-[5px] galaxy-max:h-[90px] galaxy-max:w-[90px] tablet:h-[100px] tablet:w-[100px] xdesktop:h-[120px] xdesktop:w-[120px]'>
-      <img
+      <CustomImage
+        width='0'
+        height='0'
+        sizes='100vw'
         src={avatar}
         alt=''
-        onError={replaceImageError}
         className='block h-full w-full rounded-full border border-solid border-[#ebebeb] object-cover'
       />
     </div>

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
@@ -15,7 +16,10 @@ const NotFound = ({ message }: INotFoundProps) => {
   return (
     <div className='flex  w-full flex-wrap justify-center gap-[48px] rounded-[12px] bg-primary_bgblue_2 p-[24px] text-center tablet:flex-nowrap'>
       <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={'/static/images/hand chat connect.png'}
           alt="Don't have any result"
           className=' mb-[12px]  w-[full] object-contain '

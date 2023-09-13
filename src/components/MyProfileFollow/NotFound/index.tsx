@@ -1,16 +1,18 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 const NotFound = () => {
   const { t } = useTranslation('profile');
   return (
     <div className='width-[100%]  rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
-      <img
+      <Image
         src={'/static/images/hand chat connect.png'}
         height={312}
         width={291}
         alt="Don't have any result"
+        sizes='100vw'
         className='mx-auto mb-[12px] h-[312px] w-[291px]'
       />
       <div className='flex-col rounded-[12px] bg-[#edf6fe] py-[44px] '>

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -15,7 +16,10 @@ const ImageHeadPost = dynamic(
   {
     ssr: false,
     loading: () => (
-      <img
+      <Image
+        width='0'
+        height='0'
+        sizes='100vw'
         src='/static/images/img-blur.png'
         alt=''
         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
