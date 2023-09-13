@@ -100,7 +100,7 @@ export const ActivityWatchlist = ({
               sizes='100vw'
               src={postDetail?.post?.bgImage}
               alt=''
-              className='absolute right-0 top-0 h-full'
+              className='absolute right-0 top-0 h-full object-cover'
             />
           )}
 
