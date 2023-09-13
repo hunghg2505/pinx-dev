@@ -10,15 +10,6 @@ export const openWeb = (isLogged: boolean, cif?: string, lastTimeVisit?: string)
       'Implementation Method': 'Client-Side',
       'Time of Last Visit': lastTimeVisit,
     });
-
-    console.log('ABC', {
-      event: 'Open Web',
-      Platform: 'PineX Website',
-      CIF: cif,
-      'Login Status': isLogged ? 'Login' : 'Not login',
-      'Implementation Method': 'Client-Side',
-      'Time of Last Visit': lastTimeVisit,
-    });
   } catch {}
 };
 
