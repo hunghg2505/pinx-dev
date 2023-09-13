@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import UserItem from '@components/Explore/Search/UserItem';
-import Loading from '@components/UI/Loading';
+// import Loading from '@components/UI/Loading';
 import { Skeleton } from '@components/UI/Skeleton';
 import useBottomScroll from '@hooks/useBottomScroll';
 
@@ -77,7 +77,8 @@ const PeopleTab = ({ textSearch, textSearchFormat }: PeopleTabProps) => {
         <Empty keyword={textSearch} />
       ) : (
         <div className='flex min-h-[150px] flex-row items-center justify-center'>
-          <Loading />
+          {/* <Loading /> */}
+          <Skeleton className='!h-[290px] !w-full !rounded-[8px]' />
         </div>
       )}
     </>
