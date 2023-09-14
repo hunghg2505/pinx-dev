@@ -8,9 +8,10 @@ import { toast } from 'react-hot-toast';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
-import { AVATAR_SIZE, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
+import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
-import ModalCropImage from '../../ModalCropImage';
+// import ModalCropImage from '../../ModalCropImage';
+import ModalCropImage2 from '../../ModalCropImage2';
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
@@ -83,10 +84,10 @@ const Update = ({ form }: { form: FormInstance }) => {
                   const file = (e.target.files as FileList)[0];
 
                   if (file) {
-                    // setOpenModalCropImg(true);
-                    // setFile(file);
+                    setOpenModalCropImg(true);
+                    setFile(file);
 
-                    handleCropImageSuccess(file);
+                    // handleCropImageSuccess(file);
                   }
                 }}
               />
@@ -115,7 +116,7 @@ const Update = ({ form }: { form: FormInstance }) => {
         }}
       </Field>
 
-      <ModalCropImage
+      {/* <ModalCropImage
         width={AVATAR_SIZE.width}
         height={AVATAR_SIZE.height}
         file={file}
@@ -132,6 +133,14 @@ const Update = ({ form }: { form: FormInstance }) => {
         }}
         onCropSuccess={handleCropImageSuccess}
         showZoomControl
+      /> */}
+
+      <ModalCropImage2
+        file={file}
+        showZoomControl
+        visible={openModalCropImg}
+        onClose={() => setOpenModalCropImg(false)}
+        onSuccess={handleCropImageSuccess}
       />
     </>
   );

@@ -1,0 +1,11 @@
+.cropContainer {
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+
+  :global {
+    img {
+      max-width: unset;
+    }
+  }
+}
