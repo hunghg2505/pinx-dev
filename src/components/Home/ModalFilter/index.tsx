@@ -2,7 +2,6 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
@@ -25,22 +24,23 @@ interface IFilter {
 }
 
 const ModalFilter = (props: IProps) => {
-  const { t, i18n } = useTranslation('home');
-  const router = useRouter();
+  const { t } = useTranslation('home');
+
   const { run, type } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
-  const { data, refresh } = useGetListFillter(i18n?.language);
+
+  const { data } = useGetListFillter();
+
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
+
   React.useEffect(() => {
     if (type) {
       setFilterType(type);
     }
   }, [type]);
-  React.useEffect(() => {
-    refresh();
-  }, [router.pathname, i18n.language, visible]);
+
   const onVisible = () => {
     setVisible(!visible);
   };
