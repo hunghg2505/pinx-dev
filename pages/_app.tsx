@@ -3,7 +3,7 @@ import { ReactElement, ReactNode, useEffect } from 'react';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { useAtomValue, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';

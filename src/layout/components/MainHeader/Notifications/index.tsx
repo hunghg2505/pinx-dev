@@ -215,17 +215,9 @@ const NotificationsMobile = forwardRef((_, ref) => {
       </WhiteButton>
 
       <div className='mt-4'>
-        {mockData.map((item) => (
-          <NotificationItem notification={item} key={item.id} />
-        ))}
+        <NotificationTabs />
       </div>
 
-      <div className='bg-[white] p-[12px]'>
-        <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
-          <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-          <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
-        </div>
-      </div>
     </Fade>
   );
 });
