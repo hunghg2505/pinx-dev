@@ -9,8 +9,10 @@
     "multiline-ternary": "off",
     "import/no-named-as-default-member": "off",
     "react-hooks/exhaustive-deps": "off",
-    "no-console": "warn",
+    "no-console": ["error", { "allow": ["error"] }],
     "semi": [2, "always"],
-    "unicorn/no-null": "off"
+    "unicorn/no-null": "off",
+    "import/no-cycle": "off",
+    "import/no-named-as-default": "off"
   }
 }

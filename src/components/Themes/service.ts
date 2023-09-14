@@ -185,8 +185,7 @@ export const serviceGetThemeDetailFromServer = async (code: any, ctx: any): Prom
         ...res,
       },
     };
-  } catch (error) {
-    console.log('error', error);
+  } catch {
     return {};
   }
 };

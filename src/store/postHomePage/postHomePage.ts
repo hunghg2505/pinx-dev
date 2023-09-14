@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 import { atom, useAtom } from 'jotai';
 
-import { FILTER_TYPE } from '@components/Home/ModalFilter';
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import { serviceGetNewFeed } from '@components/Home/service';
 import { IPost } from '@components/Post/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';

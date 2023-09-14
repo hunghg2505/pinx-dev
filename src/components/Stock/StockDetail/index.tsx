@@ -11,7 +11,7 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 import { toast } from 'react-hot-toast';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
@@ -23,6 +23,7 @@ import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import { AddTicker, AnalyzeTicker, RemoveTicker } from '@utils/dataLayer';
+import { socket } from 'src/socket/socket';
 
 import ActivityItem from './ActivityItem';
 import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';

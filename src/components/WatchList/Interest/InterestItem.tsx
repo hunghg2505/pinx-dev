@@ -6,7 +6,7 @@ import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { useStockWatchlistHome } from '@store/stockWatchlistHome';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 import { AddTicker } from '@utils/dataLayer';
 

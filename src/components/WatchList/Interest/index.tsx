@@ -5,9 +5,10 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
-import { IWatchListItem, socket } from '@components/Home/service';
+import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import { socket } from 'src/socket/socket';
 
 import styles from './index.module.scss';
 import InterestItem from './InterestItem';

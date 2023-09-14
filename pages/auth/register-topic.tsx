@@ -1,6 +1,7 @@
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterTopicStep from '@components/Auth/Register/TopicStep';
+const RegisterTopicStep = dynamic(() => import('@components/Auth/Register/TopicStep'));
 
 const RegisterTopicStepPage = () => {
   return (

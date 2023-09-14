@@ -9,11 +9,9 @@ import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 
 const PopupHomeNoti = () => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { run: initUserProfile } = useProfileInitial();
   const { userType, isReadTerms } = useUserLoginInfo();
 
   useEffect(() => {
@@ -23,7 +21,6 @@ const PopupHomeNoti = () => {
         popupLoginTerms: true,
       });
     }
-    initUserProfile();
   }, [userType, isReadTerms]);
 
   const onCloseModal = () => {

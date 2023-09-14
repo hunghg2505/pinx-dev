@@ -4,10 +4,11 @@ import { useUnmount } from 'ahooks';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { IStockTheme, IThemeDetail } from '@components/Themes/service';
 import Text from '@components/UI/Text';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { socket } from 'src/socket/socket';
 
 import ItemStock from './ItemStock';
 

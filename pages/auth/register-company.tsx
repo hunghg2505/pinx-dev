@@ -1,6 +1,7 @@
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterCompanyStep from '@components/Auth/Register/CompanyStep';
+const RegisterCompanyStep = dynamic(() => import('@components/Auth/Register/CompanyStep'));
 
 const RegisterCompanyStepPage = () => {
   return (

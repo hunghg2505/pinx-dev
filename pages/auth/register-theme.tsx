@@ -1,6 +1,7 @@
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterThemes from '@components/Auth/Register/ThemeStep';
+const RegisterThemes = dynamic(() => import('@components/Auth/Register/ThemeStep'));
 
 const RegisterThemesPage = () => {
   return (

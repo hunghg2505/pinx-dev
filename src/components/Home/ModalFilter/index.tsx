@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -17,17 +18,12 @@ interface IProps {
   run: (value: string) => void;
   type: any;
 }
-export interface IFilter {
+interface IFilter {
   title: string;
   description: string;
   filterType: any;
 }
-export enum FILTER_TYPE {
-  MOST_RECENT = 'MOST_RECENT',
-  MOST_REACTED = 'MOST_REACTED',
-  POST = 'POST',
-  NEWS = 'NEWS',
-}
+
 const ModalFilter = (props: IProps) => {
   const { t, i18n } = useTranslation('home');
   const router = useRouter();
@@ -148,4 +144,5 @@ const ModalFilter = (props: IProps) => {
     </>
   );
 };
+
 export default ModalFilter;

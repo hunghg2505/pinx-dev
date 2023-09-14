@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import Checkbox from 'rc-checkbox';
+import { Checkbox } from 'rc-checkbox';
 
 interface CheckBoxProps {
   children?: React.ReactNode;

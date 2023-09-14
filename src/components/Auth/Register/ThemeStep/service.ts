@@ -11,12 +11,12 @@ export interface ResultSubscribedTheme {
 }
 
 const requestGetSuggestThemes = async () => {
-  return await privateRequest(requestPist.get, API_PATH.PRIVATE_THEMES);
+  return privateRequest(requestPist.get, API_PATH.PRIVATE_THEMES);
 };
 
 export const useSuggestThemes = () => {
   const { data, loading } = useRequest(async () => {
-    return await requestGetSuggestThemes();
+    return requestGetSuggestThemes();
   });
 
   return {
@@ -26,13 +26,13 @@ export const useSuggestThemes = () => {
 };
 
 const requestSubscribeThemes = async (themes: string) => {
-  return await privateRequest(requestPist.post, API_PATH.PRIVATE_THEME_SUBSCRIBE(themes));
+  return privateRequest(requestPist.post, API_PATH.PRIVATE_THEME_SUBSCRIBE(themes));
 };
 
 export const useSubscribeThemes = (options: IOptions) => {
   const { data, loading, run } = useRequest(
     async (themes: string) => {
-      return await requestSubscribeThemes(themes);
+      return requestSubscribeThemes(themes);
     },
     {
       manual: true,

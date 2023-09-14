@@ -12,18 +12,20 @@ interface IOptionsRequest {
 const serviceGetSetting = async (key: string) => {
   return privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_SETTING, {
     params: {
-      key
-    }
+      key,
+    },
   });
 };
 
 export const useGetSetting = (key: string, options?: IOptionsRequest) => {
   const requestGetSetting = useRequest(
     async () => {
-      return await serviceGetSetting(key);
-    }, {
-    ...options,
-  });
+      return serviceGetSetting(key);
+    },
+    {
+      ...options,
+    },
+  );
 
   return requestGetSetting;
 };
@@ -40,13 +42,12 @@ export const useGetSettings = (options?: IOptionsRequest) => {
   return requestGetSettings;
 };
 
-
 const serviceUpdateSetting = async (key: string, value: string) => {
   return privateRequest(requestPist.post, API_PATH.GET_CUSTOMER_SETTING, {
     params: {
       key,
-      value
-    }
+      value,
+    },
   });
 };
 
@@ -58,4 +59,3 @@ export const useUpdateSetting = (options?: IOptionsRequest) => {
 
   return requestUpdateSetting;
 };
-

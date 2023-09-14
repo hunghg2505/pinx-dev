@@ -18,7 +18,7 @@ const nextConfig = {
   // i18n
   i18n,
   swcMinify: true,
-  output: 'standalone',
+  // output: 'standalone',
 
   // Back scroll postion
   experimental: {

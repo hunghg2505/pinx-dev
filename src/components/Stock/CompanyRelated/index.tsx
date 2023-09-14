@@ -7,11 +7,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
 import { stockSocketAtom, StockSocketLocation } from '@store/stockStocket';
 import { formatStringToNumber } from '@utils/common';
+import { socket } from 'src/socket/socket';
 
 import { useCompaniesRelated, useCompanyTaggingInfo } from '../service';
 import StockItem from '../StockDetail/StockItem';

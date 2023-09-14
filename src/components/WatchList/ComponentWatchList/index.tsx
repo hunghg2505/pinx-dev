@@ -7,14 +7,10 @@ import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
-import {
-  IWatchListItem,
-  requestJoinChannel,
-  requestLeaveChannel,
-  socket,
-} from '@components/Home/service';
+import { IWatchListItem, requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { socket } from 'src/socket/socket';
 
 import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';

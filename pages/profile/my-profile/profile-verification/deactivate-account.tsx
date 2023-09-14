@@ -1,9 +1,13 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import DeactivateAccount from '@components/MenuProfile/ProfileVerification/DeactivateAccont';
 import MainLayout from '@layout/MainLayout';
+
+const DeactivateAccount = dynamic(
+  () => import('@components/MenuProfile/ProfileVerification/DeactivateAccont'),
+);
 
 const DeactivateAccountPage = () => {
   return (

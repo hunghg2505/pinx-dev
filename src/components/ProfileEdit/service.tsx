@@ -26,13 +26,12 @@ export const useUpdateUserProfile = () => {
     {
       manual: true,
       onSuccess: (_, params: any) => {
-        console.log('xxx params', params);
         router.back();
         setPostDetailStatus({ ...postDetailStatus, isChangeMyProfile: true });
         toast(() => <Notification type='success' message={t('upload_profile_success')} />);
-        setUserLoginInfo(prev => ({
+        setUserLoginInfo((prev) => ({
           ...prev,
-          displayName: params[0].displayName
+          displayName: params[0].displayName,
         }));
       },
       onError: () => {

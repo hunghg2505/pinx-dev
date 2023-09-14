@@ -2,6 +2,7 @@ import React from 'react';
 
 import { clearCache } from 'ahooks';
 
+import { useGetPinedPost } from '@components/Home/service';
 import NewsFeed from '@components/Post/NewsFeed';
 import { IPost } from '@components/Post/service';
 import { ViewTickerInfo } from '@utils/dataLayer';
@@ -12,21 +13,11 @@ const handleTrackingViewTicker = (stockCode: string) => {
 };
 interface IProps {
   onTrackingViewTickerCmt: any;
-  pinedPost: any;
-  refresh: any;
-  loading: any;
+  pinPostData: any;
 }
 const PinPost = (props: IProps) => {
-  const { onTrackingViewTickerCmt, pinedPost, refresh, loading } = props;
-  // const { pinedPost, refresh, loading } = useGetPinedPost();
-  // const data = useMemo(() => {
-  //   clearCache('data-pin-post');
-  //   if (pinedPost?.length) {
-  //     return pinedPost;
-  //   }
-
-  //   return pinPostDataInitial?.data;
-  // }, [pinPostDataInitial?.data, pinedPost]);
+  const { onTrackingViewTickerCmt, pinPostData } = props;
+  const { pinedPost, refresh, loading } = useGetPinedPost(pinPostData);
 
   const onRefresh = () => {
     clearCache('data-pin-post');
