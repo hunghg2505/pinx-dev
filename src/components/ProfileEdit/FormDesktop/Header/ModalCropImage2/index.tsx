@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
+import { useSize } from 'ahooks';
 import { useTranslation } from 'next-i18next';
 // eslint-disable-next-line import/named
-import Cropper, { Area } from 'react-easy-crop';
+import Cropper, { Area, CropperProps, MediaSize } from 'react-easy-crop';
+import { toast } from 'react-hot-toast';
 
 import { MainButton, SemiMainButton } from '@components/UI/Button';
 import Loading from '@components/UI/Loading';
@@ -12,6 +14,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { compressImage } from '@utils/common';
 import { getCroppedImg } from '@utils/cropImage';
+import { AVATAR_SIZE } from 'src/constant';
 
 import styles from './index.module.scss';
 
@@ -21,6 +24,7 @@ interface ModalCropImage2Props {
   file?: File;
   showZoomControl?: boolean;
   onSuccess?: (blob: Blob | null) => void;
+  options?: CropperProps;
 }
 
 const CROP_SIZE = 300;
@@ -29,19 +33,22 @@ const INIT_CROP = {
   y: 0,
 };
 const ModalCropImage2 = (props: ModalCropImage2Props) => {
-  const { visible, onClose, file, showZoomControl, onSuccess } = props;
+  const { visible, onClose, file, showZoomControl, onSuccess, options } = props;
   const { t } = useTranslation();
   const [crop, setCrop] = useState(INIT_CROP);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [zoom, setZoom] = useState(1);
   const [initZoom, setInitZoom] = useState(0);
   const preValueRangeSliderRef = useRef(0);
+  const containerRef = useRef(null);
   const [sliderPercent, setSliderPercent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [onCompressing, setOnCompressing] = useState(false);
   const [image, setImage] = useState<string>();
+  const [mediaSize, setMediaSize] = useState<MediaSize>();
 
   const { isMobile } = useResponsive();
+  const size = useSize(containerRef);
 
   useEffect(() => {
     setZoom(initZoom + sliderPercent / 10);
@@ -49,7 +56,7 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
 
   useEffect(() => {
     setCrop(INIT_CROP);
-  }, [initZoom]);
+  }, [mediaSize]);
 
   useEffect(() => {
     if (!file) {
@@ -70,7 +77,7 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
           compressedImage && setImage(URL.createObjectURL(compressedImage));
         })
         .catch(() => {
-          console.log('err');
+          toast.error(t('error'));
         })
         .finally(() => {
           setOnCompressing(false);
@@ -93,6 +100,14 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
     };
   }, [visible]);
 
+  const cropSize = useMemo(() => {
+    if (size && size.width < 320) {
+      return size.width;
+    }
+
+    return CROP_SIZE;
+  }, [size]);
+
   const handleCropImage = async () => {
     try {
       if (!image || !croppedAreaPixels) {
@@ -100,18 +115,37 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
       }
 
       setLoading(true);
-      const blob = await getCroppedImg(image, croppedAreaPixels);
+      const blob = await getCroppedImg(
+        image,
+        croppedAreaPixels,
+        AVATAR_SIZE.width,
+        AVATAR_SIZE.height,
+      );
+
       onSuccess && onSuccess(blob);
-    } catch (error) {
-      console.error(error);
+    } catch {
+      toast.error(t('error'));
     } finally {
       setLoading(false);
     }
   };
 
+  const handleLoadedMedia = (mediaSize: MediaSize) => {
+    const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+    const initZoom = CROP_SIZE / (isHorizontalImage ? mediaSize.height : mediaSize.width);
+    setInitZoom(initZoom);
+    setMediaSize(mediaSize);
+  };
+
   return (
-    <Modal visible={visible} onClose={onClose} closeIcon={<></>} destroyOnClose>
-      <div className={styles.cropContainer}>
+    <Modal
+      visible={visible}
+      onClose={onClose}
+      closeIcon={<></>}
+      destroyOnClose
+      className={styles.modal}
+    >
+      <div className={styles.cropContainer} ref={containerRef}>
         {onCompressing ? (
           <div className='flex h-full items-center justify-center'>
             <Loading />
@@ -119,15 +153,24 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
         ) : (
           <Cropper
             crop={crop}
-            onCropChange={setCrop}
+            onCropChange={(res) => {
+              setCrop(res);
+
+              if (mediaSize) {
+                const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+                const initZoom =
+                  cropSize / (isHorizontalImage ? mediaSize.height : mediaSize.width);
+                setInitZoom(initZoom);
+              }
+            }}
             aspect={1 / 1}
             cropShape='round'
             objectFit='vertical-cover'
             image={image}
             showGrid={false}
             cropSize={{
-              width: CROP_SIZE,
-              height: CROP_SIZE,
+              width: cropSize,
+              height: cropSize,
             }}
             zoom={zoom}
             style={{
@@ -135,14 +178,11 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
                 color: 'rgba(255, 255, 255, 0.6)',
               },
             }}
-            onMediaLoaded={async (mediaSize) => {
-              const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
-              const initZoom = CROP_SIZE / (isHorizontalImage ? mediaSize.height : mediaSize.width);
-              setInitZoom(initZoom);
-            }}
+            onMediaLoaded={handleLoadedMedia}
             onCropComplete={(_, croppedAreaPixels) => {
               setCroppedAreaPixels(croppedAreaPixels);
             }}
+            {...options}
           />
         )}
       </div>

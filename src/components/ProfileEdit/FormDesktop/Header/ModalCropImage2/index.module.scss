@@ -1,11 +1,19 @@
 .cropContainer {
-  height: 400px;
+  height: 350px;
   position: relative;
   overflow: hidden;
 
   :global {
     img {
       max-width: unset;
+    }
+  }
+}
+
+.modal {
+  :global {
+    .rc-dialog-content {
+      max-height: 90vh;
     }
   }
 }
