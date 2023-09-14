@@ -148,7 +148,7 @@ const Explore = () => {
         </Text>
 
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {loadingKeywords ? (
+          {loadingKeywords || !listKeyWords ? (
             <Skeleton
               className='!h-[51px] !w-full !rounded-[15px]'
               rows={5}
@@ -169,7 +169,7 @@ const Explore = () => {
           )}
         </div>
 
-        {loadingKeywords ? (
+        {loadingKeywords || !listKeyWords ? (
           <Skeleton className='!h-[52px] !w-full !rounded-[8px]' />
         ) : (
           <ExploreButton onClick={onShowMoreKeyWords}>
