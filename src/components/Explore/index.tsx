@@ -86,7 +86,7 @@ const Explore = () => {
   const refSlidePinex: any = React.useRef();
 
   const { theme, refresh: refreshTheme } = useGetTheme();
-  const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
+  const { keyWords, loading: loadingKeywords, mutate } = useGetKeyWordsTop();
   const {
     run,
     listNewFeed,
@@ -106,7 +106,6 @@ const Explore = () => {
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
   }, []);
-
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
   };
@@ -119,6 +118,10 @@ const Explore = () => {
     if (refClick?.current) {
       refClick?.current?.onKeyDown(value);
     }
+    const newList = keyWords.map((item: any) =>
+      item.keyword === value ? { ...item, numberHit: item.numberHit + 1 } : item,
+    );
+    mutate({ data: newList });
   };
 
   return (
