@@ -9,7 +9,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import TabBar from '@components/common/RCTabBar';
 import { profileUserContext } from '@components/MyProfile';
 import { stockSocketAtom, StockSocketLocation } from '@store/stockStocket';
-import { ViewWatchlist } from '@utils/dataLayer';
+import { ViewAsset, ViewWatchlist } from '@utils/dataLayer';
 
 import Assets from '../Assets';
 import Follower from '../Follower';
@@ -49,6 +49,11 @@ const Desktop = () => {
                     listStockCodes?.length,
                     'Profile screen',
                   );
+                }
+
+                if (key === 'assets') {
+                  // tracking event view assets
+                  ViewAsset('Tab assets my profile', 'Asset Overview');
                 }
 
                 replace({ query: { tab: key } });

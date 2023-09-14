@@ -30,6 +30,12 @@ const MAX_IMG_POST_CMT_FILE_SIZE_KB = 500;
 const BANNER_URL = 'https://pinex.vn/static/images/sidebar_banner.png';
 const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
 
+// sit
+const GOOGLE_TAG_MANAGER_ID = 'GTM-K44HCZ66';
+
+// product
+// const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
+
 export {
   ZALO_OAID,
   SHARE_THIS_PROPERTY_ID,
@@ -48,4 +54,5 @@ export {
   MAX_IMG_POST_CMT_FILE_SIZE_KB,
   BANNER_URL,
   WHITE_BACKGROUND_IMAGE,
+  GOOGLE_TAG_MANAGER_ID,
 };

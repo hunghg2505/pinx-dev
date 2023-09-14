@@ -26,7 +26,7 @@ import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
 import SuggestionPeople from './SuggestionPeople';
 import { FILTER_TYPE } from '../ModalFilter';
-import { useGetWatchList } from '../service';
+import { useGetPinedPost, useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
@@ -61,7 +61,7 @@ const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
   const { run: initUserProfile } = useProfileInitial();
-
+  const { pinedPost, refresh, loading } = useGetPinedPost();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
@@ -243,6 +243,9 @@ const HomeNewFeed = () => {
         onTrackingViewTickerCmt={(stockCode: string) =>
           handleTrackingViewTicker(stockCode, 'Comment')
         }
+        pinedPost={pinedPost}
+        refresh={refresh}
+        loading={loading}
       />
 
       <NewsFeed

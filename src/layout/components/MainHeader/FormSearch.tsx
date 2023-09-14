@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 
 import { useClickAway, useDebounceFn, useFocusWithin, useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
@@ -223,7 +222,6 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
         ...item,
       };
     });
-  let newMedia = [];
 
   // map api do trả thiếu id
   const newUsers = users?.map((item: any) => {
@@ -239,14 +237,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const mediaL = media?.length > 0;
   const imageL = image?.length > 0;
 
-  let fillterMediaSort = [];
+  let fillterMediaSort: any = [];
 
   if (mediaL || imageL) {
-    newMedia = [...media, ...image];
-    const newMediaSort = newMedia.sort(({ timeString: a }, { timeString: b }) =>
-      dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
-    );
-    fillterMediaSort = newMediaSort;
+    fillterMediaSort = [...media, ...image];
   }
 
   const goToPostDetail = (idPost: string) => {

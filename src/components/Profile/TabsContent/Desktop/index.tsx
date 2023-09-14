@@ -7,6 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
 import { profileUserContext } from '@components/Profile';
+import { ViewAsset } from '@utils/dataLayer';
 
 import Assets from '../Assets';
 import Follower from '../Follower';
@@ -36,6 +37,11 @@ const Desktop = () => {
               list={props?.panes}
               activeKey={props?.activeKey}
               onChange={(key: string) => {
+                if (key === 'assets') {
+                  // tracking event view assets
+                  ViewAsset('Tab assets user detail', 'Asset Overview');
+                }
+
                 replace({ query: { id: query.id, tab: key } });
               }}
             />
