@@ -940,6 +940,7 @@ interface CompressImageParams {
   maxFileSizeKb?: number;
   quality?: number;
   options?: any;
+  maxWidthOrHeight?: number;
 }
 
 export const compressImage = async ({
@@ -947,6 +948,7 @@ export const compressImage = async ({
   maxFileSizeKb,
   quality,
   options,
+  maxWidthOrHeight = 1280,
 }: CompressImageParams) => {
   const initOptions: any = { ...options };
   const fileSizeKB = file.size / 1024;
@@ -963,6 +965,8 @@ export const compressImage = async ({
     if ((maxFileSizeKb && fileSizeKB > maxFileSizeKb) || quality) {
       const compressedImage = await imageCompression(file, {
         ...initOptions,
+        maxWidthOrHeight,
+        alwaysKeepResolution: true,
       });
 
       return compressedImage;
