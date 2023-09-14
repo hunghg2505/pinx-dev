@@ -110,7 +110,7 @@ const MarketDesktop = () => {
                           [styles.isNoChange]: isNoChange && isChange,
                         })}
                       >
-                        {isIncrease ? '+' : '-'}
+                        {isIncrease ? '+' : ''}
                         {item?.change || change} / {isIncrease ? '+' : ''}
                         {item?.changePercent || changePercent}
                       </Text>
