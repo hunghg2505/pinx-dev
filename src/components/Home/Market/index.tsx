@@ -90,6 +90,16 @@ const Market = () => {
           const isDecrease = item?.cIndex < item?.oIndex;
           const isNoChange = item?.cIndex === item?.oIndex;
           const isChange = findIndex === index;
+
+          let unit;
+          if (isNoChange) {
+            unit = '';
+          } else if (isIncrease) {
+            unit = '+';
+          } else {
+            unit = '-';
+          }
+
           return (
             <div
               key={index}
@@ -136,8 +146,8 @@ const Market = () => {
                       [styles.isIncrease]: isIncrease && isChange,
                     })}
                   >
-                    {isIncrease ? '+' : ''}
-                    {item?.change || change} / {isIncrease ? '+' : ''}
+                    {unit}
+                    {item?.change || change} / {unit}
                     {item?.changePercent || changePercent}
                   </Text>
                 </div>
