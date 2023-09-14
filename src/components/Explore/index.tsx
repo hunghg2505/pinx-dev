@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
-import { FILTER_TYPE } from '@components/Home/ModalFilter';
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Influencer from '@components/Home/People/Influencer';
 import { ITheme, useGetListNewFeed, useGetTheme } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
@@ -567,7 +567,7 @@ const Explore = () => {
       </div>
 
       {!loadingTrendingOnPinex && (
-        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
+        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_hot_topics')}

@@ -4,12 +4,13 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useRouter } from 'next/router';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 // import { useResponsive } from '@hooks/useResponsive';
 import Themes from '@components/WatchList/Themes';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ViewTickerInfo } from '@utils/dataLayer';
+import { socket } from 'src/socket/socket';
 
 import { useGetInterest, useGetYourWatchList } from './service';
 import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';

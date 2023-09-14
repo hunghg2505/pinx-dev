@@ -3,10 +3,11 @@ import React from 'react';
 import { useUnmount } from 'ahooks';
 import { useAtom } from 'jotai';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ViewTickerInfo } from '@utils/dataLayer';
+import { socket } from 'src/socket/socket';
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string) => {

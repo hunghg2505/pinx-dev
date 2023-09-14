@@ -1,0 +1,6 @@
+export enum FILTER_TYPE {
+  MOST_RECENT = 'MOST_RECENT',
+  MOST_REACTED = 'MOST_REACTED',
+  POST = 'POST',
+  NEWS = 'NEWS',
+}

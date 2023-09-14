@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-import Themes from '@components/Themes';
 import MainLayout from '@layout/MainLayout';
+
+const Themes = dynamic(() => import('@components/Themes'));
 
 const ThemesPage = () => {
   return (

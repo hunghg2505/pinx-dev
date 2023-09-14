@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Auth from '@components/Auth';
 import LoginLayout from '@layout/LoginLayout';
+
+const Auth = dynamic(() => import('@components/Auth'));
 
 const LoginPage = () => {
   return (
@@ -18,11 +20,7 @@ const LoginPage = () => {
 };
 
 LoginPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <LoginLayout>
-      {page}
-    </LoginLayout>
-  );
+  return <LoginLayout>{page}</LoginLayout>;
 };
 
 export async function getStaticProps({ locale }: any) {

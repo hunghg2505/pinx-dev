@@ -1,5 +1,4 @@
 import { useRequest } from 'ahooks';
-import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
 import {
@@ -10,7 +9,7 @@ import {
   requestPist,
 } from '@api/request';
 import { getAccessToken } from '@store/auth';
-import { ENV } from '@utils/env';
+import { socket } from 'src/socket/socket';
 
 export interface ITrending {
   keyword: string;
@@ -280,9 +279,6 @@ export const useGetInfluencer = (options = {}) => {
     loading,
   };
 };
-export const socket = io(ENV.URL_SOCKET, {
-  transports: ['websocket'],
-});
 
 export const requestJoinChannel = (stocks: string) => {
   const message = { action: 'join', data: stocks };
@@ -411,7 +407,7 @@ export const useGetBgTheme = () => {
 };
 
 // get pin post
-export const useGetPinedPost = (options = {}) => {
+export const useGetPinedPost = (dataInitial: any) => {
   const { data, loading, refresh } = useRequest(
     async () => {
       const isLogin = !!getAccessToken();
@@ -421,14 +417,14 @@ export const useGetPinedPost = (options = {}) => {
         : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
     },
     {
-      ...options,
       staleTime: -1,
       cacheKey: 'data-pin-post',
-      loadingDelay: 300,
+      loadingDelay: 3000,
     },
   );
+
   return {
-    pinedPost: data?.data,
+    pinedPost: data?.data?.length ? data?.data : dataInitial?.data,
     loading,
     refresh,
   };

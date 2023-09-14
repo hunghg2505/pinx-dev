@@ -4,7 +4,6 @@ import { useTranslation } from 'next-i18next';
 import StickyBox from 'react-sticky-box';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
-// import MarketDesktop from '@components/Home/Market/MarketDesktop';
 import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
 import { Button } from '@components/UI/Button';

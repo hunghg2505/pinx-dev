@@ -6,15 +6,11 @@ import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
-import {
-  IWatchListItem,
-  requestJoinChannel,
-  requestLeaveChannel,
-  socket,
-} from '@components/Home/service';
+import { IWatchListItem, requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ViewTickerInfo } from '@utils/dataLayer';
+import { socket } from 'src/socket/socket';
 
 import NotFound from '../NotFound';
 

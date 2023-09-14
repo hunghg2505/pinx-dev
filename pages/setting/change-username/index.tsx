@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import ChangeUsername from '@components/Setting/ChangeUsername';
 import MainLayout from '@layout/MainLayout';
+
+const ChangeUsername = dynamic(() => import('@components/Setting/ChangeUsername'));
 
 const SettingChangeUsernamePage = () => {
   return (

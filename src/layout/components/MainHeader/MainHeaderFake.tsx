@@ -37,6 +37,7 @@ const MainHeaderFake = () => {
             </CustomLink>
           </div>
         </div>
+
         <CustomLink
           href='https://onelink.to/cgarrk'
           onClick={() => DownloadPineXApp('CTA in App', 'Header')}

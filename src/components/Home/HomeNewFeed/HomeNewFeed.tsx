@@ -7,7 +7,9 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
+import PinPost from '@components/Home/HomeNewFeed/PinPost';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import UserPosting from '@components/Home/UserPosting/UserPosting';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
@@ -19,27 +21,16 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
 import SuggestionPeople from './SuggestionPeople';
-import { FILTER_TYPE } from '../ModalFilter';
-import { useGetPinedPost, useGetWatchList } from '../service';
+import { useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
 });
-const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
-  ssr: false,
-  loading: () => (
-    <>
-      <NewsFeedSkeleton />
-      <NewsFeedSkeleton />
-      <NewsFeedSkeleton />
-    </>
-  ),
-});
+// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost');
 const Trending = dynamic(() => import('../Trending'), {
   ssr: false,
 });
@@ -56,11 +47,10 @@ const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => 
   ViewTickerInfo(stockCode, 'Home screen', locationDetail, 'Stock');
 };
 
-const HomeNewFeed = () => {
+const HomeNewFeed = ({ pinPostData }: any) => {
   const { t } = useTranslation('home');
   const router = useRouter();
-  const { run: initUserProfile } = useProfileInitial();
-  const { pinedPost, refresh, loading } = useGetPinedPost();
+
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
@@ -111,7 +101,6 @@ const HomeNewFeed = () => {
         popupLoginTerms: true,
       });
     }
-    initUserProfile();
   }, [userType, isReadTerms]);
 
   const serviceLoadMorePost = async () => {
@@ -242,9 +231,7 @@ const HomeNewFeed = () => {
         onTrackingViewTickerCmt={(stockCode: string) =>
           handleTrackingViewTicker(stockCode, 'Comment')
         }
-        pinedPost={pinedPost}
-        refresh={refresh}
-        loading={loading}
+        pinPostData={pinPostData}
       />
 
       <NewsFeed

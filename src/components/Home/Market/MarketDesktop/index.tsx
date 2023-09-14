@@ -7,7 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { requestJoinIndex, requestLeaveIndex } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
+import { useStockDesktop } from '@store/stockDesktop/useStockDesktopInfo';
 import { formatStringToNumber } from '@utils/common';
 
 import MarketChartIframe from './ChartIframe';

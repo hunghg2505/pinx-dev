@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { useGetDataStockWatchlistHome, useStockWatchlistHome } from '@store/stockWatchlistHome';
+import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome/useGetDataStockWatchlistHome';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH } from '@utils/common';
 
 import ItemStock from './ItemStock';
