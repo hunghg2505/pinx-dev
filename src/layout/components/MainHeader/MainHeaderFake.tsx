@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -13,13 +14,14 @@ const MainHeaderFake = () => {
     <>
       <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
         <div className='flex flex-row'>
-          <img
+          <Image
             loading='lazy'
-            src='/static/icons/logo.svg'
+            src='/static/logo/logo.png'
             alt=''
             width='0'
             height='0'
-            className='w-[35px]'
+            sizes='100vw'
+            className='h-[35px] w-[35px]'
           />
           <div className='ml-[8px]'>
             <Text type='body-14-regular' color='primary-5'>
@@ -50,9 +52,12 @@ const MainHeaderFake = () => {
       <div className='flex h-[56px] items-center border-b-[1px] border-solid border-[#EBEBEB] bg-white px-[10px] desktop:h-[84px] desktop:px-0'>
         <div className='mx-auto flex w-[100%]  max-w-[1355px] items-center justify-between gap-[32px]'>
           <div className='flex items-center'>
-            <img
-              src='/static/icons/logo.svg'
+            <Image
+              src='/static/logo/logo.png'
               alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
               className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
             />
             <img

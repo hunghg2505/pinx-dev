@@ -107,8 +107,8 @@ const RegisterCompanyStep = () => {
       <div className='md:h-screen lg:py-0 flex flex-1 flex-col items-center justify-center py-8 tablet:mx-auto'>
         <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
-            <img
-              src='/static/icons/logo.svg'
+            <Image
+              src='/static/logo/logo.png'
               alt=''
               width='0'
               height='0'
