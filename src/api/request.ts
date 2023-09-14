@@ -21,6 +21,8 @@ export const PREFIX_API_UPLOADPHOTO = ENV.URL_UPLOADPHOTO;
 export const PREFIX_API_IP_COMMUNITY = ENV.URL_IP_API_COMMUNITY;
 export const PREFIX_API_IP_PIST = ENV.URL_IP_API_PIST;
 export const PREFIX_API_IP_MARKET = ENV.URL_IP_API_MARKET;
+export const PREFIX_API_IP_NOTIFICATION = ENV.URL_API_NOTIFICATION;
+
 const redirectlogin = (error: any) => {
   if (getAccessToken() && (error?.response?.status === 401 || error?.response?.status === 403)) {
     localStorage.clear();
@@ -33,12 +35,35 @@ const redirectlogin = (error: any) => {
   throw error?.data || error?.response;
 };
 
+const requestNoti = extend({
+  prefix: PREFIX_API_IP_NOTIFICATION,
+  timeout: REQ_TIMEOUT,
+  headers: {
+    'Content-Type': 'application/json',
+    'App-Name': 'PineX_Web',
+  },
+  errorHandler: (error) => {
+    redirectlogin(error);
+  },
+});
+requestNoti.interceptors.request.use((url, options) => {
+  options.headers = {
+    ...options.headers,
+    'Accept-Language': (getLocaleCookie() as string) || 'vi',
+  };
+
+  return {
+    url,
+    options,
+  };
+});
+
 const requestPist = extend({
   prefix: PREFIX_API_PIST,
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    // 'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -61,7 +86,7 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    // 'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -85,6 +110,7 @@ const requestUploadPhoto = extend({
   headers: {
     'Content-Type': 'application/json',
     'Accept-Language': (getLocaleCookie() as string) || 'vi',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -94,9 +120,9 @@ const requestUploadPhoto = extend({
 const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
-  // headers: {
-  //   'Accept-Language': (getLocaleCookie() as string) || 'vi',
-  // },
+  headers: {
+    'App-Name': 'PineX_Web',
+  },
   errorHandler: (error) => {
     redirectlogin(error);
   },
@@ -144,35 +170,6 @@ const privateRequest = async (request: any, suffixUrl: string, configs?: any) =>
   }
 };
 
-// dùng cái này khi gọi nhiều api ở phía server => đảm bảo có token mới nhất cho các request ở sau, tránh bị call reuqest đồng thời
-export const checkTokenExpiredOnServer = async () => {
-  try {
-    // const token = getAccessToken(ctx?.res, ctx?.req);
-    // const salonRefreshToken = getRefreshToken(ctx?.res, ctx?.req);
-    // const decoded = parseJwt(token);
-    // const { exp } = decoded;
-    // const currentTime = Date.now() / 1000;
-    // if (exp - 5 > currentTime) return null;
-    // const res: any = await privateRequest(fetch, `${PREFIX_API}/auth/refresh-token`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ refresh_token: salonRefreshToken }),
-    // }).then((r) => r.json());
-    // if (res?.token && res?.refresh_token) {
-    //   const objToken = {
-    //     token: res?.token,
-    //     refreshToken: res?.refresh_token,
-    //     expiredTime: res?.expired_time || 0,
-    //   };
-    //   setAuthCookies(objToken, { res: ctx?.res, req: ctx?.req });
-    //   return res?.token;
-    // }
-  } catch {}
-};
-
 export const requestFromServer = async (ctx: any, suffixUrl: string) => {
   const token = getAccessToken(ctx?.res, ctx?.req);
 
@@ -181,4 +178,11 @@ export const requestFromServer = async (ctx: any, suffixUrl: string) => {
   }).then((r) => r.json());
 };
 
-export { privateRequest, requestPist, requestCommunity, requestMarket, requestUploadPhoto };
+export {
+  privateRequest,
+  requestPist,
+  requestCommunity,
+  requestMarket,
+  requestUploadPhoto,
+  requestNoti,
+};

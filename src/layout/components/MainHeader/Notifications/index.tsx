@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
 import Menu from 'rc-menu';
+import Tabs, { TabPane } from 'rc-tabs';
 
 import { WhiteButton } from '@components/UI/Button';
 import Fade from '@components/UI/Fade';
@@ -17,6 +18,8 @@ import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
+
+import styles from './index.module.scss';
 
 const mockData = [
   {
@@ -50,7 +53,7 @@ const mockData = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const NotificationItem = ({ notification }: { notification: any }) => {
+const NotificationItem = ({ notification, onCloseNotiDropdown }: { notification: any, onCloseNotiDropdown?: () => void }) => {
   const index = mockData.indexOf(notification);
   const calcNotificationSymbol = () => {
     switch (notification.type) {
@@ -86,6 +89,10 @@ const NotificationItem = ({ notification }: { notification: any }) => {
     }
   };
 
+  const onReadNoti = () => {
+    onCloseNotiDropdown && onCloseNotiDropdown();
+  };
+
   return (
     <div className='flex justify-between p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white] hover:bg-[#EBEBEB]'>
       <div className='flex gap-[10px] items-center'>
@@ -95,7 +102,7 @@ const NotificationItem = ({ notification }: { notification: any }) => {
           className='h-[36px] w-[36px]'
         />
         <div className='flex flex-col w-[80%]'>
-          <Text>{calcNotificationTitle()}</Text>
+          <Text className='cursor-pointer' onClick={onReadNoti}>{calcNotificationTitle()}</Text>
           <Text>{notification.content}</Text>
         </div>
       </div>
@@ -113,6 +120,29 @@ const NotificationItem = ({ notification }: { notification: any }) => {
         </div>
       </div>
     </div >
+  );
+};
+
+const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () => void }) => {
+  const { t } = useTranslation('common');
+  const defaultActiveTab = 'userNoti';
+
+  return (
+    <Tabs defaultActiveKey={defaultActiveTab} className={styles.tabLogin}>
+      <TabPane tab='Other' key='userNoti'>
+        {mockData.map((item) => (
+          <NotificationItem notification={item} key={item.id} onCloseNotiDropdown={onCloseNotiDropdown} />
+        ))}
+      </TabPane>
+      <TabPane tab='Pinetree' key='pinetreeNoti'>
+        <div className='bg-[white] p-[12px]'>
+          <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
+            <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
+            <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
+          </div>
+        </div>
+      </TabPane>
+    </Tabs>
   );
 };
 
@@ -162,7 +192,7 @@ const NotificationsMobile = forwardRef((_, ref) => {
         />
       </div>
 
-      <WhiteButton onClick={() => console.log('xxx read all')} className='w-full flex justify-center mt-4 shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08);]'>
+      <WhiteButton onClick={() => {}} className='w-full flex justify-center mt-4 shadow-[0px_1px_2px_0px_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08);]'>
         <img
           src='/static/icons/blue_check_mark.svg'
           alt=''
@@ -172,17 +202,9 @@ const NotificationsMobile = forwardRef((_, ref) => {
       </WhiteButton>
 
       <div className='mt-4'>
-        {mockData.map((item) => (
-          <NotificationItem notification={item} key={item.id} />
-        ))}
+        <NotificationTabs />
       </div>
 
-      <div className='bg-[white] p-[12px]'>
-        <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
-          <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-          <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
-        </div>
-      </div>
     </Fade>
   );
 });
@@ -192,20 +214,29 @@ const Notifications = () => {
   const { t } = useTranslation('common');
   const isLogin = !!getAccessToken();
   const { isMobile } = useResponsive();
+  const [dropdownVisible, setdropdownVisible] = useState(false);
 
   const notiMobileRef = useRef<any>(null);
+
+  const onDropdownVisibleChange = (visible: boolean) => {
+    setdropdownVisible(visible);
+  };
+
+  const onCloseNotiDropdown = () => {
+    setdropdownVisible(false);
+  };
 
   const goToNotification = () => {
     notiMobileRef.current.onVisible && notiMobileRef.current.onVisible();
   };
 
   const NotificationOverlay = () => (
-    <Menu multiple className='w-[375px] rounded-e-lg border-none bg-white py-[20px] px-5'>
-      <div className='flex justify-between mb-[20px]'>
+    <Menu multiple className='w-[375px] rounded-e-lg border-none bg-white py-[20px]'>
+      <div className='flex justify-between mb-[20px] px-5'>
         <Text type='body-20-semibold'>
           {t('notification')}
         </Text>
-        <div className='flex items-center cursor-pointer' onClick={() => console.log('xxx read all')}>
+        <div className='flex items-center cursor-pointer' onClick={() => {}}>
           <img
             src='/static/icons/blue_check_mark.svg'
             alt=''
@@ -217,17 +248,7 @@ const Notifications = () => {
         </div>
       </div>
 
-      {mockData.map((item) => (
-        <NotificationItem notification={item} key={item.id} />
-      ))}
-
-      <div className='bg-[white] p-[12px]'>
-        <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
-          <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-          <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
-        </div>
-      </div>
-
+      <NotificationTabs onCloseNotiDropdown={onCloseNotiDropdown} />
     </Menu>
 
   );
@@ -247,10 +268,12 @@ const Notifications = () => {
         ) : (
           <div className='items-center mobile:hidden tablet:flex'>
             <Dropdown
-              trigger={['hover']}
+              trigger={['click']}
               animation='slide-up'
               overlay={<NotificationOverlay />}
               placement='bottomRight'
+              onVisibleChange={onDropdownVisibleChange}
+              visible={dropdownVisible}
             >
               <div className='ta flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8]'>
                 <img

@@ -1,0 +1,43 @@
+.tabLogin {
+  :global {
+    .rc-tabs-nav-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    .rc-tabs-nav-operations {
+      display: none;
+    }
+    .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
+      display: none;
+    }
+    .rc-tabs-tabpane:focus {
+      outline: none !important;
+    }
+    .rc-tabs-nav-list {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      border-bottom: 1px solid #b1d5f1;
+      .rc-tabs-tab {
+        cursor: pointer;
+        padding: 10px;
+        width: calc(50% - 16px);
+
+        .rc-tabs-tab-btn {
+          font-weight: 400;
+          font-size: 16px;
+          text-align: center;
+          color: #b3b3b3;
+          line-height: 21px;
+        }
+
+        &.rc-tabs-tab-active {
+          border-bottom: 3px solid #1f6eac;
+          .rc-tabs-tab-btn {
+            color: #1f6eac;
+          }
+        }
+      }
+    }
+  }
+}

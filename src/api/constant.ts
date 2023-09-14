@@ -212,6 +212,8 @@ export const API_PATH = {
   PRIVATE_ACTIVITY_WATCHLIST_V2: '/private/activity/watchlist/addV2',
   PRIVATE_ACTIVITY_THEME_V2: '/private/activity/theme/addV2',
   PRIVATE_UPDATE_POST_V2: (id: string) => `/private/mapping/${id}/updateV2`,
-
   PUBLIC_SEO_PAGE_V2: (textSearch: string) => `/public/seo/pageV2/?textSearch=${textSearch}`,
+
+  // notifications
+  GET_NOTIFICATION_TOKEN: '/private/notification/save-token',
 };

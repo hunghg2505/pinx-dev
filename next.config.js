@@ -8,10 +8,10 @@ const compiler =
   process.env.NODE_ENV === 'development'
     ? {}
     : {
-        removeConsole: {
-          exclude: ['error'],
-        },
-      };
+      removeConsole: {
+        exclude: ['error'],
+      },
+    };
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -38,6 +38,7 @@ const nextConfig = {
     URL_IP_API_MARKET: process.env.URL_IP_API_MARKET,
     RECAPTHCHA_SITE_KEY: process.env.RECAPTHCHA_SITE_KEY,
     URL_UPLOADPHOTO: process.env.URL_UPLOADPHOTO,
+    URL_API_NOTIFICATION: process.env.URL_API_NOTIFICATION,
   },
   images: {
     minimumCacheTTL: 60,

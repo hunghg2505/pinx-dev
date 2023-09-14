@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unknown-property */
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { useAtomValue, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -17,10 +17,8 @@ import AppLayout from '@layout/AppLayout';
 import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
-import { stockSocketAtom } from '@store/stockStocket';
 import { disableScroll, enableScroll } from '@utils/common';
-import { CloseWeb, openWeb } from '@utils/dataLayer';
-import { localStorageUtils } from '@utils/local-storage-utils';
+import '../firebase';
 
 import nextI18nConfig from '../next-i18next.config';
 
