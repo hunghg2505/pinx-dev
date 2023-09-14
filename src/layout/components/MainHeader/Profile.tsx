@@ -154,7 +154,11 @@ const Profile = () => {
   const ProfileOverlay = () => (
     <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
       <MenuItem>
-        <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
+        <CustomLink
+          onClick={() => globalThis?.sessionStorage?.removeItem('scrollPosition')}
+          href={ROUTE_PATH.MY_PROFILE}
+          className='block w-full'
+        >
           <div className='flex w-full items-center gap-[24px] p-4'>
             {isUrlValid(userLoginInfo?.avatar) ? (
               <CustomImage

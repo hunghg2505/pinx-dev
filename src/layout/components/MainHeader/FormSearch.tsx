@@ -15,7 +15,7 @@ import CompanyItem from '@components/Explore/Search/CompanyItem';
 import NewsItem from '@components/Explore/Search/NewsItem';
 import UserItem from '@components/Explore/Search/UserItem';
 import NewsFeed from '@components/Post/NewsFeed';
-import { TYPEPOST } from '@components/Post/service';
+// import { TYPEPOST } from '@components/Post/service';
 import styles from '@components/SearchSeo/index.module.scss';
 import MediaItem from '@components/SearchSeo/MediaItem';
 import {
@@ -205,7 +205,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const users = data?.data?.customerList?.list || [];
   const posts = data?.data?.postList?.list || [];
   const news = data?.data?.newsList?.list || [];
-  const listMedia = data?.data?.listMedia?.list;
+  const listMedia = data?.data?.listMediaAndImageSeo?.list;
   const media = listMedia?.map((item: any) => {
     return {
       type: 'media',
@@ -213,15 +213,15 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       ...item,
     };
   });
-  const image = data?.data?.listImage?.list
-    ?.filter((item: any) => item.postType === TYPEPOST.POST)
-    ?.map((item: any) => {
-      return {
-        type: 'image',
-        timeString: item.timeString,
-        ...item,
-      };
-    });
+  // const image = data?.data?.listImage?.list
+  //   ?.filter((item: any) => item.postType === TYPEPOST.POST)
+  //   ?.map((item: any) => {
+  //     return {
+  //       type: 'image',
+  //       timeString: item.timeString,
+  //       ...item,
+  //     };
+  //   });
 
   // map api do trả thiếu id
   const newUsers = users?.map((item: any) => {
@@ -235,14 +235,13 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
   const postsL = posts?.length > 0;
   const newsL = news?.length > 0;
   const mediaL = media?.length > 0;
-  const imageL = image?.length > 0;
+  // const imageL = image?.length > 0;
 
   let fillterMediaSort: any = [];
 
-  if (mediaL || imageL) {
-    fillterMediaSort = [...media, ...image];
+  if (mediaL) {
+    fillterMediaSort = [...media];
   }
-
   const goToPostDetail = (idPost: string) => {
     router.push(ROUTE_PATH.POST_DETAIL(idPost));
   };
@@ -273,9 +272,7 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
       )}
       <div className={classNames(className)} ref={searchResultPopupRef}>
         <div className='absolute right-[20px] top-[50%] z-10 translate-y-[-50%] desktop:right-[10px]'>
-          {isLogin && loading && (companiesL || usersL || postsL || newsL || mediaL || imageL) && (
-            <Loading />
-          )}
+          {isLogin && loading && (companiesL || usersL || postsL || newsL || mediaL) && <Loading />}
         </div>
 
         {/* Khi nhập input show button close clear data */}
@@ -369,10 +366,10 @@ const FormSearch = ({ className, isOpenSearch, setIsOpenSearch }: any) => {
             'absolute left-0 right-0 top-[calc(100%+0px)] z-10 flex max-h-[490px] w-full flex-col gap-y-[32px] overflow-x-auto bg-white px-[16px] py-[24px] desktop:top-[calc(100%+8px)] desktop:rounded-lg',
           )}
         >
-          {loading && !companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL && (
+          {loading && !companiesL && !usersL && !postsL && !newsL && !mediaL && (
             <Loading className='mx-auto' />
           )}
-          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !imageL && !loading ? (
+          {!companiesL && !usersL && !postsL && !newsL && !mediaL && !loading ? (
             <>
               <Text type='body-16-regular' className='text-center leading-5 text-[#999]'>
                 {t('common:searchseo.txtEmpty')} {form.getFieldValue('search')}
