@@ -324,7 +324,7 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
             sizes='100vw'
             src={postDetail?.post?.urlImages?.[0]}
             alt=''
-            className='my-[10px]  max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
+            className='my-[10px] h-[300px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
           />
         </ModalMedia>
       );
