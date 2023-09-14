@@ -195,7 +195,7 @@ const MediaItem = ({
               ) : (
                 <Image
                   sizes='100vw'
-                  className='aspect-[16/9] rounded bg-[#12121239] object-contain'
+                  className='aspect-[16/9] rounded bg-[#eee] object-contain'
                   src={img || '/static/images/noimage.jpg'}
                   alt='Picture of TikTok'
                   width={345}
@@ -227,7 +227,7 @@ const MediaItem = ({
               ) : (
                 <Image
                   sizes='100vw'
-                  className='aspect-[16/9] rounded bg-[#12121239] object-cover'
+                  className='aspect-[16/9] rounded bg-[#eee] object-cover'
                   src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
                   alt='Picture of Youtube'
                   width={345}
@@ -264,7 +264,7 @@ const MediaItem = ({
         ) : (
           <Image
             sizes='100vw'
-            className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
+            className={classNames('aspect-[16/9] rounded bg-[#eee] object-cover', {
               '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
               '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,
             })}
