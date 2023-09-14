@@ -1,13 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import {
-  PREFIX_API_COMMUNITY,
-  PREFIX_API_MARKET,
-  privateRequest,
-  requestCommunity,
-  requestPist,
-} from '@api/request';
+import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 import { socket } from 'src/socket/socket';
 
@@ -146,20 +140,10 @@ interface IOptionsRequest {
   onSuccess?: (r: any) => void;
   onError?: (e: any) => void;
 }
-export const useGetListFillter = (language: string) => {
-  const { data, refresh } = useRequest(
-    () => {
-      return requestCommunity.get(API_PATH.FILTER_LIST, {
-        headers: {
-          'Accept-Language': language,
-        },
-      });
-    },
-    // {
-    //   cacheKey: 'data-filter',
-    //   staleTime: -1,
-    // },
-  );
+export const useGetListFillter = () => {
+  const { data, refresh } = useRequest(() => {
+    return requestCommunity.get(API_PATH.FILTER_LIST);
+  });
 
   return {
     data,
@@ -332,22 +316,6 @@ export const useGetTheme = () => {
     theme: data?.data,
     refresh,
     loading,
-  };
-};
-// get stock market
-export const useGetStock = () => {
-  const { data, loading, run } = useRequest(
-    () => {
-      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
-    },
-    {
-      manual: true,
-    },
-  );
-  return {
-    stockIndex: data?.data,
-    loading,
-    run,
   };
 };
 
