@@ -25,6 +25,8 @@ body {
   line-height: normal;
   text-rendering: optimizeSpeed;
   font-family: var(--fontInter), sans-serif !important;
+
+  -webkit-tap-highlight-color: transparent;
 }
 body {
   position: relative;

@@ -188,7 +188,10 @@ const MainHeader = () => {
           ) : (
             <>
               <div className='flex w-full max-w-[218px] items-center desktop:gap-[16px]'>
-                <CustomLink href={ROUTE_PATH.HOME}>
+                <CustomLink
+                  onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
+                  href={ROUTE_PATH.HOME}
+                >
                   <div className='flex items-center'>
                     <Image
                       width='0'
