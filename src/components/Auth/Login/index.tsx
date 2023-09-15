@@ -73,7 +73,8 @@ const Login = (props: Iprops) => {
           });
           router.reload();
         } else {
-          router.push(ROUTE_PATH.HOME);
+          // router.push(ROUTE_PATH.HOME);
+          window.location.href = ROUTE_PATH.HOME;
         }
       }
     },
