@@ -51,7 +51,14 @@ const Login = (props: Iprops) => {
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
-        LoginTracking('Login', loginData.cif, loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified', loginData.username, date, '');
+        LoginTracking(
+          'Login',
+          loginData.cif,
+          loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified',
+          loginData.username,
+          date,
+          '',
+        );
         requestProfleSetting();
         setUserLoginInfo(loginData);
         setForceAllowTerm(loginData.forceAllow);
@@ -66,7 +73,8 @@ const Login = (props: Iprops) => {
           });
           router.reload();
         } else {
-          router.push(ROUTE_PATH.HOME);
+          // router.push(ROUTE_PATH.HOME);
+          window.location.href = ROUTE_PATH.HOME;
         }
       }
     },
