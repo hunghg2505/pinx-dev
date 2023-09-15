@@ -80,9 +80,9 @@ const Avatar = ({ form }: { form: FormInstance }) => {
 
   return (
     <>
-      <div className='relative mb-[21px]'>
+      <div className='relative mx-auto mb-[21px] h-[174px] w-[174px] tablet:h-[100px] tablet:w-[100px]'>
         <Img />
-        <label className=' absolute  bottom-0 right-[9px] flex h-[44px]  w-[44px] items-center justify-center rounded-full border-[2px] border-solid border-white bg-primary_blue'>
+        <label className=' absolute  bottom-0 right-[9px] flex h-[44px] w-[44px]  items-center justify-center rounded-full border-[2px] border-solid border-white bg-primary_blue tablet:-right-[9px]'>
           <Field>
             {() => {
               return (
