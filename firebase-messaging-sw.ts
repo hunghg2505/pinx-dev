@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable unicorn/prefer-top-level-await */
 // src/firebase-messaging-sw.js
 import { firebaseConfig } from './firebase';
