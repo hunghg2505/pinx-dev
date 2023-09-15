@@ -10,8 +10,7 @@ import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
 import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
-// import ModalCropImage from '../../ModalCropImage';
-import ModalCropImage2 from '../../ModalCropImage2';
+import ModalCropAvatarCover from '../../ModalCropAvatarCover';
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
@@ -86,8 +85,6 @@ const Update = ({ form }: { form: FormInstance }) => {
                   if (file) {
                     setOpenModalCropImg(true);
                     setFile(file);
-
-                    // handleCropImageSuccess(file);
                   }
                 }}
               />
@@ -116,26 +113,7 @@ const Update = ({ form }: { form: FormInstance }) => {
         }}
       </Field>
 
-      {/* <ModalCropImage
-        width={AVATAR_SIZE.width}
-        height={AVATAR_SIZE.height}
-        file={file}
-        visible={openModalCropImg}
-        onClose={() => setOpenModalCropImg(false)}
-        cropperOptions={{
-          aspectRatio: 1 / 1,
-          autoCropArea: 1,
-          zoomOnTouch: false,
-          zoomOnWheel: false,
-          cropBoxResizable: false,
-          dragMode: 'move',
-          cropBoxMovable: false,
-        }}
-        onCropSuccess={handleCropImageSuccess}
-        showZoomControl
-      /> */}
-
-      <ModalCropImage2
+      <ModalCropAvatarCover
         file={file}
         showZoomControl
         visible={openModalCropImg}

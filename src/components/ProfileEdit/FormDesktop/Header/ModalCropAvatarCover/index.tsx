@@ -18,13 +18,14 @@ import { AVATAR_SIZE } from 'src/constant';
 
 import styles from './index.module.scss';
 
-interface ModalCropImage2Props {
+interface ModalCropAvatarCoverProps {
   visible: boolean;
   onClose: () => void;
   file?: File;
   showZoomControl?: boolean;
   onSuccess?: (blob: Blob | null) => void;
   options?: CropperProps;
+  cropCover?: boolean;
 }
 
 const CROP_SIZE = 300;
@@ -32,8 +33,8 @@ const INIT_CROP = {
   x: 0,
   y: 0,
 };
-const ModalCropImage2 = (props: ModalCropImage2Props) => {
-  const { visible, onClose, file, showZoomControl, onSuccess, options } = props;
+const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
+  const { visible, onClose, file, showZoomControl, onSuccess, options, cropCover } = props;
   const { t } = useTranslation();
   const [crop, setCrop] = useState(INIT_CROP);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
@@ -108,6 +109,33 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
     return CROP_SIZE;
   }, [size]);
 
+  const initOptions = useMemo(() => {
+    let initOpt: any = {
+      cropShape: 'rect',
+      objectFit: 'horizontal-cover',
+      aspect: 16 / 9,
+    };
+
+    if (!cropCover) {
+      initOpt = {
+        cropShape: 'round',
+        cropSize: {
+          width: cropSize,
+          height: cropSize,
+        },
+        style: {
+          cropAreaStyle: {
+            color: 'rgba(255, 255, 255, 0.6)',
+          },
+        },
+        objectFit: 'vertical-cover',
+        aspect: 1 / 1,
+      };
+    }
+
+    return initOpt;
+  }, [cropCover, cropSize]);
+
   const handleCropImage = async () => {
     try {
       if (!image || !croppedAreaPixels) {
@@ -118,8 +146,8 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
       const blob = await getCroppedImg(
         image,
         croppedAreaPixels,
-        AVATAR_SIZE.width,
-        AVATAR_SIZE.height,
+        cropCover ? croppedAreaPixels.width : AVATAR_SIZE.width,
+        cropCover ? croppedAreaPixels.height : AVATAR_SIZE.height,
       );
 
       onSuccess && onSuccess(blob);
@@ -156,32 +184,21 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
             onCropChange={(res) => {
               setCrop(res);
 
-              if (mediaSize) {
+              if (mediaSize && !cropCover) {
                 const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
                 const initZoom =
                   cropSize / (isHorizontalImage ? mediaSize.height : mediaSize.width);
                 setInitZoom(initZoom);
               }
             }}
-            aspect={1 / 1}
-            cropShape='round'
-            objectFit='vertical-cover'
             image={image}
             showGrid={false}
-            cropSize={{
-              width: cropSize,
-              height: cropSize,
-            }}
-            zoom={zoom}
-            style={{
-              cropAreaStyle: {
-                color: 'rgba(255, 255, 255, 0.6)',
-              },
-            }}
+            zoom={cropCover ? 1 : zoom}
             onMediaLoaded={handleLoadedMedia}
             onCropComplete={(_, croppedAreaPixels) => {
               setCroppedAreaPixels(croppedAreaPixels);
             }}
+            {...initOptions}
             {...options}
           />
         )}
@@ -206,4 +223,4 @@ const ModalCropImage2 = (props: ModalCropImage2Props) => {
   );
 };
 
-export default ModalCropImage2;
+export default ModalCropAvatarCover;

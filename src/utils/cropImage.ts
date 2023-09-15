@@ -13,8 +13,8 @@ export const createImage = (url: string): Promise<CanvasImageSource> =>
 export const getCroppedImg = async (
   imageSrc: string,
   crop: Area,
-  width: number,
-  height: number,
+  width?: number,
+  height?: number,
 ): Promise<Blob | null> => {
   const image = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
@@ -22,8 +22,8 @@ export const getCroppedImg = async (
 
   /* setting canvas width & height allows us to 
     resize from the original image resolution */
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = width || crop.width;
+  canvas.height = height || crop.height;
 
   ctx?.drawImage(image, crop.x, crop.y, crop.width, crop.height, 0, 0, canvas.width, canvas.height);
 
