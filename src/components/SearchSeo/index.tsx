@@ -26,7 +26,6 @@ const SearchSeo = () => {
   const keyword = searchParams.get('keyword') || '';
   const { replace, query } = useRouter();
   const [tab, setTab] = useState('company');
-
   const keywordFormat = useMemo(() => {
     return removeSpecialCharacter(keyword);
   }, [keyword]);
@@ -36,14 +35,12 @@ const SearchSeo = () => {
     run({
       textSearch: keywordFormat,
     });
-    setTab('company');
-  }, [keywordFormat]);
+  }, [keyword]);
   const companiesL = data?.data?.companyList?.list?.length > 0;
   const usersL = data?.data?.customerList?.list?.length > 0;
   const postsL = data?.data?.postList?.list?.length > 0;
   const newsL = data?.data?.newsList?.list?.length > 0;
   const mediaL = data?.data?.listMedia?.list?.length > 0;
-
   useEffect(() => {
     if (companiesL) {
       setTab('company');
@@ -59,9 +56,7 @@ const SearchSeo = () => {
       setTab('company');
     }
   }, [data]);
-  useEffect(() => {
-    replace({ query: { ...query, tab } });
-  }, [keyword]);
+
   // console.log(keywordFormat);
   // const media = data?.data?.listMedia?.list?.map((item: any) => {
   //   return {
@@ -93,7 +88,6 @@ const SearchSeo = () => {
 
   //   fillterMediaSort = newMediaSort;
   // }
-
   return (
     <>
       {loading ? (
@@ -109,7 +103,7 @@ const SearchSeo = () => {
       ) : (
         <div className={classNames('box-shadow card-style', styles.Tab)}>
           <Tabs
-            defaultActiveKey='company'
+            // defaultActiveKey={tab}
             activeKey={searchParams.get('tab') || tab}
             onChange={(key: string) => {
               replace({ query: { ...query, tab: key } });

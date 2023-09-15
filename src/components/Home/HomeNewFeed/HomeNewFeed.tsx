@@ -71,13 +71,13 @@ const HomeNewFeed = ({ pinPostData }: any) => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
-  useEffect(() => {
-    const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
-    if (scrollPosition) {
-      window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
-      globalThis?.sessionStorage.removeItem('scrollPosition');
-    }
-  }, []);
+  // useEffect(() => {
+  //   const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
+  //   if (scrollPosition) {
+  //     window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
+  //     globalThis?.sessionStorage.removeItem('scrollPosition');
+  //   }
+  // }, []);
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
     clearCache('data-pin-post');
