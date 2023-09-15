@@ -141,7 +141,7 @@ const ItemWatchList = ({
           />
         </div>
       ) : (
-        <div className='flex flex-col items-end gap-y-[5px]'>
+        <div className='flex flex-col items-end gap-y-[5px] whitespace-nowrap'>
           <Text
             type='body-14-semibold'
             className={classNames('px-[5px] py-[2px] galaxy-max:text-[12px]', {
