@@ -59,6 +59,9 @@ const SearchSeo = () => {
       setTab('company');
     }
   }, [data]);
+  useEffect(() => {
+    replace({ query: { ...query, tab } });
+  }, [keyword]);
   // console.log(keywordFormat);
   // const media = data?.data?.listMedia?.list?.map((item: any) => {
   //   return {
