@@ -1,6 +1,4 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
-import { BaseSyntheticEvent } from 'react';
-
 import imageCompression from 'browser-image-compression';
 import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
@@ -739,9 +737,7 @@ export default async function getSeoDataFromLink(url: string) {
       summary.push(tempsum);
     }
     return summary;
-  } catch (error: any) {
-    console.log('ERROR FETCHING META LINK', error);
-
+  } catch {
     return [
       {
         property: 'og:url',
@@ -819,12 +815,6 @@ export const isUrlValid = (url?: string) => {
   return isValid;
 };
 
-// replace image error
-export const replaceImageError = ({ currentTarget }: BaseSyntheticEvent) => {
-  currentTarget.removeEventListener('error', null);
-  currentTarget.src = '/static/images/white-background.jpeg';
-};
-
 // convert image to jpg
 export enum CONVERT_IMAGE_ERR_MSG {
   FILE_INVALID = 'FILE_INVALID',
@@ -848,7 +838,7 @@ export const convertImageToJpg = async (
 
       img.onload = async () => {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx: any = canvas.getContext('2d');
 
         canvas.width = img.width;
         canvas.height = img.height;
@@ -857,8 +847,8 @@ export const convertImageToJpg = async (
 
         // fill background color to png file
         if (file.type === 'image/png') {
-          ctx!.globalCompositeOperation = 'destination-over';
-          ctx!.fillStyle = 'white';
+          ctx.globalCompositeOperation = 'destination-over';
+          ctx.fillStyle = 'white';
           ctx?.fillRect(0, 0, canvas.width, canvas.height);
         }
 

@@ -30,9 +30,8 @@ const SearchSeo = () => {
   const keywordFormat = useMemo(() => {
     return removeSpecialCharacter(keyword);
   }, [keyword]);
-  const { data, run, refresh, loading } = useSearchPublic();
+  const { data, run, loading } = useSearchPublic();
   useEffect(() => {
-    refresh();
     clearCache('search-seo');
     run({
       textSearch: keywordFormat,

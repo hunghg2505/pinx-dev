@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-import TopMention from '@components/TopMention';
 import MainLayout from '@layout/MainLayout';
+
+const TopMention = dynamic(() => import('@components/TopMention'));
 
 const TopMentionPage = () => {
   return (

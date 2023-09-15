@@ -28,19 +28,23 @@ interface IOptions {
 }
 
 export const useGetKeyWordsTop = () => {
-  const { data, loading } = useRequest(() => {
-    const params = {
-      limit: 20,
-      days: 7,
-    };
-    const isLogin = !!getAccessToken();
-    return isLogin
-      ? privateRequest(requestPist.get, API_PATH.PRIVATE_SEARCH_KEYWORDS_TOP, { params })
-      : requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP, { params });
-  });
+  const { data, loading, mutate } = useRequest(
+    () => {
+      const params = {
+        limit: 20,
+        days: 7,
+      };
+      const isLogin = !!getAccessToken();
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_SEARCH_KEYWORDS_TOP, { params })
+        : requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP, { params });
+    },
+    { loadingDelay: 300 },
+  );
   return {
     keyWords: data?.data,
     loading,
+    mutate,
   };
 };
 export const useGetTopWatchingStock = () => {

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { DownloadPineXApp } from '@utils/dataLayer';
@@ -6,13 +8,14 @@ const HeaderMobile = () => {
   return (
     <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
       <div className='flex flex-row'>
-        <img
+        <Image
           loading='lazy'
-          src='/static/icons/logo.svg'
+          src='/static/logo/logo.png'
           alt=''
           width='0'
           height='0'
-          className='w-[35px]'
+          sizes='100vw'
+          className='h-[35px] w-[35px]'
         />
         <div className='ml-[8px]'>
           <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>

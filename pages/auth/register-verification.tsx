@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import RegisterVerification from '@components/Auth/Register/OtpVerification';
 import LoginLayout from '@layout/LoginLayout';
+
+const RegisterVerification = dynamic(() => import('@components/Auth/Register/OtpVerification'));
 
 const RegisterVerificationPage = () => {
   return (

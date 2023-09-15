@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import ProfileVerification from '@components/MenuProfile/ProfileVerification';
 import MainLayout from '@layout/MainLayout';
+
+const ProfileVerification = dynamic(() => import('@components/MenuProfile/ProfileVerification'));
 
 const ProfileVerificationPage = () => {
   return (

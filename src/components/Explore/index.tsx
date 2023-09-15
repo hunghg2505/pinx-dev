@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
-import { FILTER_TYPE } from '@components/Home/ModalFilter';
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Influencer from '@components/Home/People/Influencer';
 import { ITheme, useGetListNewFeed, useGetTheme } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
@@ -86,7 +86,7 @@ const Explore = () => {
   const refSlidePinex: any = React.useRef();
 
   const { theme, refresh: refreshTheme } = useGetTheme();
-  const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
+  const { keyWords, loading: loadingKeywords, mutate } = useGetKeyWordsTop();
   const {
     run,
     listNewFeed,
@@ -106,7 +106,6 @@ const Explore = () => {
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
   }, []);
-
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
   };
@@ -119,6 +118,10 @@ const Explore = () => {
     if (refClick?.current) {
       refClick?.current?.onKeyDown(value);
     }
+    const newList = keyWords.map((item: any) =>
+      item.keyword === value ? { ...item, numberHit: item.numberHit + 1 } : item,
+    );
+    mutate({ data: newList });
   };
 
   return (
@@ -564,7 +567,7 @@ const Explore = () => {
       </div>
 
       {!loadingTrendingOnPinex && (
-        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
+        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_hot_topics')}

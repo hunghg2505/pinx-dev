@@ -8,18 +8,13 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
-import PopupAuth from '@components/UI/Popup/PopupAuth';
-import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
-import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
-import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
+import { ForwardedRefComponentPostDetail } from '@components/Post/PostDetail/ForwardedRefComponentPostDetail';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 
@@ -34,26 +29,6 @@ const FooterSignUp = dynamic(import('@components/FooterSignup'), {
 
 const NewFeedItem = dynamic(import('../NewsFeed/NewFeedItem'), {
   ssr: false,
-});
-const ComponentRef = dynamic(import('@components/ComponentRef'), {
-  ssr: false,
-});
-
-export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
-  return (
-    <ComponentRef
-      {...props}
-      forwardedRef={ref}
-      id={props.id}
-      refresh={props.refresh}
-      refreshCommentOfComment={props?.refreshCommentOfComment}
-      refreshTotal={props.refreshTotal}
-      width={props?.width}
-      canExpand={props?.canExpand}
-      isReply={props.isReply}
-      onAddComment={props?.onAddComment}
-    />
-  );
 });
 
 // tracking event view ticker info
@@ -77,7 +52,6 @@ const PostDetail = () => {
   const [, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
-  const { run: initUserProfile } = useProfileInitial();
   const [postData, setPostData] = useState<any>();
   const postID = router.query.id;
   React.useEffect(() => {
@@ -178,9 +152,6 @@ const PostDetail = () => {
     }
   };
 
-  const onCloseModal = () => {
-    setPopupStatus(initialPopupStatus);
-  };
   React.useEffect(() => {
     if (!!userType && !isReadTerms) {
       setPopupStatus({
@@ -188,7 +159,6 @@ const PostDetail = () => {
         popupLoginTerms: true,
       });
     }
-    initUserProfile();
   }, [userType, isReadTerms]);
   // if (loadingPostDetail) {
   //   return <NewsFeedSkeleton showBtnBack />;
@@ -226,35 +196,9 @@ const PostDetail = () => {
   };
   return (
     <>
-      {popupStatus.popupAccessLinmit && (
-        <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
-      )}
-      {popupStatus.popupLoginTerms && (
-        <PopupLoginTerms visible={popupStatus.popupLoginTerms} onClose={onCloseModal} />
-      )}
-      {popupStatus.popupAuth && (
-        <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
-      )}
-      {popupStatus.popupRegisterOtp && (
-        <PopupRegisterOtp visible={popupStatus.popupRegisterOtp} onClose={onCloseModal} />
-      )}
-      {popupStatus.popupRegisterUsername && (
-        <PopupRegisterCreateUsername
-          visible={popupStatus.popupRegisterUsername}
-          onClose={onCloseModal}
-        />
-      )}
       <div>
         <div className='card-style rounded-[8px] bg-[#FFF] px-[10px] desktop:px-[0]'>
           <div className='header relative mobile:h-[56px] desktop:h-[60px]'>
-            <Text
-              type='body-20-bold'
-              color='primary-5'
-              className='absolute hidden text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 '
-            >
-              Post detail
-            </Text>
-
             <div
               onClick={onGoToBack}
               className='absolute top-2/4 flex h-full -translate-y-2/4 items-center px-[0] desktop:px-[20px]'
@@ -278,7 +222,7 @@ const PostDetail = () => {
 
           {isLogin && (
             <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
-              <ForwardedRefComponent
+              <ForwardedRefComponentPostDetail
                 ref={refRepliesLaptop}
                 id={postDetail?.data?.id}
                 refreshTotal={refresh}
@@ -380,7 +324,7 @@ const PostDetail = () => {
                   styles.comment,
                 )}
               >
-                <ForwardedRefComponent
+                <ForwardedRefComponentPostDetail
                   ref={refRepliesMobile}
                   id={postDetail?.data?.id}
                   refreshCommentOfComment={refreshCommentOfComment}

@@ -6,7 +6,6 @@
 @import './scrollBar.scss';
 @import './input.scss';
 @import './shareButton.scss';
-@import './tiptap.scss';
 @import './rc-dialog.scss';
 @import './rc-dropdown.scss';
 @import 'slick.scss';
@@ -25,6 +24,8 @@ body {
   line-height: normal;
   text-rendering: optimizeSpeed;
   font-family: var(--fontInter), sans-serif !important;
+
+  -webkit-tap-highlight-color: transparent;
 }
 body {
   position: relative;

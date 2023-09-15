@@ -12,9 +12,8 @@ import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
-import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
-import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
-import { useStockWatchlistHome } from '@store/stockWatchlistHome';
+import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from '@utils/constant';
 import { ENV } from '@utils/env';
@@ -28,18 +27,16 @@ const AppInitialData = () => {
   const { handleRemoveActionPost } = useHandlActionsPost();
   const { initialHomePostData } = usePostHomePage();
   const { userLoginInfo } = useUserLoginInfo();
-  useStockDesktopInitial();
   const { getInitDataStockMarketHome } = useStockMarketHome();
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   useMount(() => {
     initialHomePostData();
     handleRemoveActionPost();
-    getInitDataStockMarketHome();
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
-    console.log('123');
     run();
+    getInitDataStockMarketHome();
   });
 
   useUpdateEffect(() => {

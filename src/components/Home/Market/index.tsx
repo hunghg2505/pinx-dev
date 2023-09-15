@@ -1,12 +1,11 @@
 import React from 'react';
 
-// import classNames from 'classnames';
-
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { useGetDataStockHome, useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
+import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
+import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 
 import styles from './index.module.scss';
 
@@ -66,18 +65,19 @@ const Market = () => {
     };
   }, []);
 
-
   if (!dataStockIndex?.length) {
-    return <div className='mt-[24px] desktop:px-[16px]'>
-      <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
-        {[1, 2, 3, 4].map(item => (
-          <div
-            key={item}
-            className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
-          />
-        ))}
+    return (
+      <div className='mt-[24px] desktop:px-[16px]'>
+        <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
+          {[1, 2, 3, 4].map((item) => (
+            <div
+              key={item}
+              className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
+            />
+          ))}
+        </div>
       </div>
-    </div>;
+    );
   }
 
   return (
@@ -89,6 +89,16 @@ const Market = () => {
           const isDecrease = item?.cIndex < item?.oIndex;
           const isNoChange = item?.cIndex === item?.oIndex;
           const isChange = findIndex === index;
+
+          let unit;
+          if (isNoChange) {
+            unit = '';
+          } else if (isIncrease) {
+            unit = '+';
+          } else {
+            unit = '-';
+          }
+
           return (
             <div
               key={index}
@@ -135,8 +145,8 @@ const Market = () => {
                       [styles.isIncrease]: isIncrease && isChange,
                     })}
                   >
-                    {isIncrease ? '+' : '-'}
-                    {item?.change || change} / {isIncrease ? '+' : ''}
+                    {unit}
+                    {item?.change || change} / {unit}
                     {item?.changePercent || changePercent}
                   </Text>
                 </div>

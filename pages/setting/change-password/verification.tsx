@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import ChangePasswordVertification from '@components/Setting/ChangePassword/OtpVerification';
+const ChangePasswordVertification = dynamic(
+  () => import('@components/Setting/ChangePassword/OtpVerification'),
+);
 
 const ChangePasswordVerificationPage = () => {
   return (

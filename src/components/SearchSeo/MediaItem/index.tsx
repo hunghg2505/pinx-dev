@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import styles from '@components/SearchSeo/index.module.scss';
+import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import getSeoDataFromLink, { ROUTE_PATH, formatMessage } from '@utils/common';
@@ -136,11 +137,13 @@ const MediaItem = ({
 }) => {
   const { userLoginInfo } = useUserLoginInfo();
   const [img, setImg] = React.useState('');
+  const [loading, setLoading] = React.useState(true);
 
   const router = useRouter();
   React.useEffect(() => {
     getSeoDataFromLink(data?.post?.metadataList?.[0]?.url).then((res) => {
       setImg(res?.[2]?.content);
+      setLoading(false);
     });
   }, [img]);
 
@@ -187,14 +190,18 @@ const MediaItem = ({
               className={classNames('relative', styles.Video, styles.Tiktok)}
               onClick={onGoToDetail}
             >
-              <Image
-                sizes='100vw'
-                className='aspect-[16/9] rounded bg-[#12121239] object-contain'
-                src={img || '/static/images/noimage.jpg'}
-                alt='Picture of TikTok'
-                width={345}
-                height={162}
-              />
+              {loading ? (
+                <Skeleton className='!h-[195px] !w-[345px]' />
+              ) : (
+                <Image
+                  sizes='100vw'
+                  className='aspect-[16/9] rounded bg-[#eee] object-contain'
+                  src={img || '/static/images/noimage.jpg'}
+                  alt='Picture of TikTok'
+                  width={345}
+                  height={162}
+                />
+              )}
             </div>
             <div onClick={(e: any) => onHandleClick(e)}>
               <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
@@ -215,14 +222,18 @@ const MediaItem = ({
         return (
           <div className='flex cursor-pointer flex-col gap-y-[8px]'>
             <div className={classNames('relative', styles.Youtube)} onClick={onGoToDetail}>
-              <Image
-                sizes='100vw'
-                className='aspect-[16/9] rounded bg-[#12121239] object-cover'
-                src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
-                alt='Picture of Youtube'
-                width={345}
-                height={162}
-              />
+              {loading ? (
+                <Skeleton className='!h-[195px] !w-[345px]' />
+              ) : (
+                <Image
+                  sizes='100vw'
+                  className='aspect-[16/9] rounded bg-[#eee] object-cover'
+                  src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
+                  alt='Picture of Youtube'
+                  width={345}
+                  height={162}
+                />
+              )}
             </div>
             <div onClick={(e: any) => onHandleClick(e)}>
               <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
@@ -248,18 +259,22 @@ const MediaItem = ({
   if (data?.seoMetadata?.imageSeo?.urlImage) {
     return (
       <div className='flex cursor-pointer flex-col gap-y-[8px]'>
-        <Image
-          sizes='100vw'
-          className={classNames('aspect-[16/9] rounded bg-[#12121239] object-cover', {
-            '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
-            '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,
-          })}
-          src={data?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
-          alt='Picture of the author'
-          width={345}
-          height={162}
-          onClick={onGoToDetail}
-        />
+        {loading ? (
+          <Skeleton className='!h-[195px] !w-[345px]' />
+        ) : (
+          <Image
+            sizes='100vw'
+            className={classNames('aspect-[16/9] rounded bg-[#eee] object-cover', {
+              '!object-contain': data?.seoMetadata?.imageSeo?.urlImage,
+              '!object-cover': !data?.seoMetadata?.imageSeo?.urlImage,
+            })}
+            src={data?.seoMetadata?.imageSeo?.urlImage || '/static/images/noimage.jpg'}
+            alt='Picture of the author'
+            width={345}
+            height={162}
+            onClick={onGoToDetail}
+          />
+        )}
         <div onClick={(e: any) => onHandleClick(e)}>
           <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
             <div

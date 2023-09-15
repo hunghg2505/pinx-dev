@@ -7,7 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { requestJoinIndex, requestLeaveIndex } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useStockDesktop } from '@store/stockDesktop/stockDesktop';
+import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
 import { formatStringToNumber } from '@utils/common';
 
 import MarketChartIframe from './ChartIframe';
@@ -16,7 +16,7 @@ import PopupZoomChart from './PopupZoomChart';
 
 const MarketDesktop = () => {
   const { t } = useTranslation('common');
-  const { dataStockIndex, findIndex } = useStockDesktop();
+  const { dataStockIndex, findIndex } = useGetDataStockHome();
   const [chartData, setChartData] = useState<{
     mc: string;
     oIndex: number;
@@ -81,6 +81,15 @@ const MarketDesktop = () => {
             const isNoChange = item?.cIndex === item?.oIndex;
             const isChange = findIndex === index;
             const valueIndex = item.value / 1000;
+
+            let unit;
+            if (isNoChange) {
+              unit = '';
+            } else if (isIncrease) {
+              unit = '+';
+            } else {
+              unit = '-';
+            }
             return (
               <TabPane tab={item.displayName} key={index + 1}>
                 <div className='mt-[20px]'>
@@ -110,8 +119,8 @@ const MarketDesktop = () => {
                           [styles.isNoChange]: isNoChange && isChange,
                         })}
                       >
-                        {isIncrease ? '+' : '-'}
-                        {item?.change || change} / {isIncrease ? '+' : ''}
+                        {unit}
+                        {item?.change || change} / {unit}
                         {item?.changePercent || changePercent}
                       </Text>
                     </div>

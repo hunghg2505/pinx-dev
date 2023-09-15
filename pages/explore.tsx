@@ -5,6 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Explore = dynamic(() => import('@components/Explore'));
 

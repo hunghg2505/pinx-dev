@@ -485,7 +485,6 @@ const Compose = (props: IProps) => {
       if (url) {
         urlLinks.push(url);
       }
-      console.log('editor?.getJSON()', editor?.getJSON());
       const test = editor?.getJSON()?.content?.map((item: any) => {
         const abcd = item?.content?.map((text: any) => {
           let p = '';
@@ -650,7 +649,7 @@ const Compose = (props: IProps) => {
         return requestAddPost.run(data);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

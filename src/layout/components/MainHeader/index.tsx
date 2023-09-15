@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useMount, useUpdateEffect } from 'ahooks';
-import classNames from 'classnames';
+import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -11,77 +10,15 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
-// import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import FormSearch from '@layout/components/MainHeader/FormSearch';
-// import Notifications from '@layout/components/MainHeader/Notifications';
+import MenuMobile from '@layout/components/MainHeader/MenuMobile';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
-import SideBar from '@layout/MainLayout/SideBar';
 import { getAccessToken } from '@store/auth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
 import { DownloadPineXApp } from '@utils/dataLayer';
-
-export const IconCloseMenu = () => (
-  <svg xmlns='http://www.w3.org/2000/svg' width='23' height='24' viewBox='0 0 23 24' fill='none'>
-    <path d='M20 20.5L3 3.5' stroke='#589DC0' strokeWidth='2.6' strokeLinecap='round' />
-    <path d='M3 20.5L20 3.5' stroke='#589DC0' strokeWidth='2.6' strokeLinecap='round' />
-  </svg>
-);
-
-const MenuMobile = () => {
-  const [isShowNavigate, setIsShowNavigate] = useSidebarMobile();
-  const router = useRouter();
-  const [, setOpenProfileMenu] = useAtom(openProfileAtom);
-  const { isRouteSetting } = useRouteSetting();
-
-  useMount(() => {
-    router.events.on('routeChangeStart', () => {
-      // @ts-ignore
-      setIsShowNavigate(false);
-    });
-  });
-
-  const onShowNavigate = () => {
-    // @ts-ignore
-    setIsShowNavigate(!isShowNavigate);
-
-    setOpenProfileMenu(false);
-  };
-
-  return (
-    <>
-      <span className='flex cursor-pointer items-center desktop:hidden' onClick={onShowNavigate}>
-        {isShowNavigate ? (
-          <IconCloseMenu />
-        ) : (
-          <img
-            src='/static/icons/icon-bar-mobile.svg'
-            alt='Icon bar'
-            className='h-[32px] w-[32px] object-contain'
-          />
-        )}
-      </span>
-      <div
-        className={classNames(
-          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[30px] pt-[12px] [transition:0.3s] desktop:hidden ',
-          {
-            'left-[0]': isShowNavigate,
-            'top-[55px]': isRouteSetting,
-            'h-[calc(100vh-56px)]': isRouteSetting,
-            'top-[115px]': !isRouteSetting,
-            'h-[calc(100vh-115px)]': !isRouteSetting,
-          },
-        )}
-      >
-        <div className='mt-[12px]'>
-          <SideBar />
-        </div>
-      </div>
-    </>
-  );
-};
 
 const MainHeader = () => {
   const { t } = useTranslation('common');
@@ -94,7 +31,6 @@ const MainHeader = () => {
   const token = getAccessToken();
   const router = useRouter();
   const isRouteExplore = [ROUTE_PATH.EXPLORE, ROUTE_PATH.SEARCH].includes(router.pathname);
-  console.log('🚀 ~ file: index.tsx:96 ~ MainHeader ~ isRouteExplore:', isRouteExplore);
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -139,13 +75,14 @@ const MainHeader = () => {
         {!isRouteSetting && (
           <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>
             <div className='flex flex-row'>
-              <img
+              <Image
                 loading='lazy'
-                src='/static/icons/logo.svg'
+                src='/static/logo/logo.png'
                 alt=''
                 width='0'
                 height='0'
-                className='w-[35px]'
+                sizes='100vw'
+                className='h-[35px] w-[35px]'
               />
               <div className='ml-[8px]'>
                 <Text type={isMobile ? 'body-10-regular' : 'body-14-regular'} color='primary-5'>
@@ -188,7 +125,10 @@ const MainHeader = () => {
           ) : (
             <>
               <div className='flex w-full max-w-[218px] items-center desktop:gap-[16px]'>
-                <CustomLink href={ROUTE_PATH.HOME}>
+                <CustomLink
+                  onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
+                  href={ROUTE_PATH.HOME}
+                >
                   <div className='flex items-center'>
                     <Image
                       width='0'

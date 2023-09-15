@@ -11,18 +11,13 @@ import { ViewTickerInfo } from '@utils/dataLayer';
 const handleTrackingViewTicker = (stockCode: string) => {
   ViewTickerInfo(stockCode, 'Home screen', 'Pin post', 'Stock');
 };
-
-const PinPost = ({ onTrackingViewTickerCmt }: any) => {
-  const { pinedPost, refresh, loading } = useGetPinedPost();
-
-  // const data = useMemo(() => {
-  //   clearCache('data-pin-post');
-  //   if (pinedPost?.length) {
-  //     return pinedPost;
-  //   }
-
-  //   return pinPostDataInitial?.data;
-  // }, [pinPostDataInitial?.data, pinedPost]);
+interface IProps {
+  onTrackingViewTickerCmt: any;
+  pinPostData: any;
+}
+const PinPost = (props: IProps) => {
+  const { onTrackingViewTickerCmt, pinPostData } = props;
+  const { pinedPost, refresh, loading } = useGetPinedPost(pinPostData);
 
   const onRefresh = () => {
     clearCache('data-pin-post');

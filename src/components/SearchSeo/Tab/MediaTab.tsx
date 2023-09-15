@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import dayjs from 'dayjs';
-
 // import Loading from '@components/UI/Loading';
 import { Skeleton } from '@components/UI/Skeleton';
 import useBottomScroll from '@hooks/useBottomScroll';
@@ -38,13 +36,9 @@ const MediaTab = ({ textSearch, onTrackingViewTicker, textSearchFormat }: MediaT
   const requestGetListMedia = useSearchMedia({
     manual: true,
     onSuccess: ({ data }: ResponseSearchMedia) => {
-      const sortData = data?.list.sort(({ timeString: a }, { timeString: b }) =>
-        dayjs(a).isBefore(dayjs(b)) ? 1 : -1,
-      );
-
       setListMedia((prev) => ({
         data: {
-          list: [...(prev?.data.list || []), ...(sortData || [])],
+          list: [...(prev?.data.list || []), ...(data?.list || [])],
           totalElements: data?.totalElements,
           totalPages: data?.totalPages,
           pageSize: data?.pageSize,

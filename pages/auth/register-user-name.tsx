@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import CreateUsername from '@components/Auth/Register/CreateUsername';
 import LoginLayout from '@layout/LoginLayout';
+
+const CreateUsername = dynamic(() => import('@components/Auth/Register/CreateUsername'));
 
 const CreateUsernamePage = () => {
   return (

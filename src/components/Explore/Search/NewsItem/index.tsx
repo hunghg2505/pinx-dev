@@ -14,6 +14,7 @@ import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
+import { ReadNews } from '@utils/dataLayer';
 
 const IconLink2 = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'>
@@ -50,10 +51,15 @@ const NewsItem = ({
   };
 
   const url = data?.post?.url;
+  const onTrackingReadNews = () => {
+    const curPostData = data?.post;
+    ReadNews(curPostData.postType, curPostData.vendorInfo.name, curPostData.category, curPostData.tagStocks, 'Search Box');
+  };
+
 
   const renderThumbnail = () => {
     return data?.post?.thumbImageUrl ? (
-      <div className='relative cursor-pointer'>
+      <div className='relative cursor-pointer' onClick={onTrackingReadNews}>
         <Image
           width='0'
           height='0'
@@ -67,7 +73,7 @@ const NewsItem = ({
         </div>
       </div>
     ) : (
-      <div className='relative cursor-pointer'>
+      <div className='relative cursor-pointer' onClick={onTrackingReadNews}>
         <div className='h-[73px] w-[73px] rounded-[12px] border border-solid border-[#ccc] bg-[#EFF2F5] object-cover'></div>
 
         <div className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full'>

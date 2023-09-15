@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-import TopWatching from '@components/TopWatching';
 import MainLayout from '@layout/MainLayout';
+
+const TopWatching = dynamic(() => import('@components/TopWatching'));
 
 const TopWatchingPage = () => {
   return (
