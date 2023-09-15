@@ -273,7 +273,7 @@ const YourWatchList = (props: IProps) => {
               return (
                 <div
                   key={index}
-                  className={classNames({
+                  className={classNames('gap-x-[8px]', {
                     'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
                       isEdit,
                     'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 galaxy-max:gap-[8px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
