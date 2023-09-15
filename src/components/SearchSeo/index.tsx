@@ -40,7 +40,7 @@ const SearchSeo = () => {
   const usersL = data?.data?.customerList?.list?.length > 0;
   const postsL = data?.data?.postList?.list?.length > 0;
   const newsL = data?.data?.newsList?.list?.length > 0;
-  const mediaL = data?.data?.listMedia?.list?.length > 0;
+  const mediaL = data?.data?.listMediaAndImageSeo?.list?.length > 0;
   useEffect(() => {
     if (companiesL) {
       setTab('company');
