@@ -104,7 +104,7 @@ const Market = () => {
               key={index}
               className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
             >
-              <div className='item p-[20px] text-left galaxy-max:p-[12px] ' key={index}>
+              <div className='item px-[12px] py-[20px] text-left galaxy-max:p-[12px] ' key={index}>
                 <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
                   {item?.displayName}
                 </Text>
@@ -127,13 +127,16 @@ const Market = () => {
                   {item?.cIndex?.toLocaleString('en-US')}
                 </Text>
                 <div
-                  className={classNames('mt-[6px] inline-block rounded-[100px] px-[5px] py-[2px]', {
-                    'bg-[#E3F6E2]': isIncrease,
-                    'bg-[#F5E4E7]': isDecrease,
-                    'bg-[#FCECC4]': isNoChange,
-                    [styles.isDecrease]: isDecrease && isChange,
-                    [styles.isIncrease]: isIncrease && isChange,
-                  })}
+                  className={classNames(
+                    'mt-[6px] inline-block whitespace-nowrap rounded-[100px] px-[5px] py-[2px]',
+                    {
+                      'bg-[#E3F6E2]': isIncrease,
+                      'bg-[#F5E4E7]': isDecrease,
+                      'bg-[#FCECC4]': isNoChange,
+                      [styles.isDecrease]: isDecrease && isChange,
+                      [styles.isIncrease]: isIncrease && isChange,
+                    },
+                  )}
                 >
                   <Text
                     type='body-12-medium'
