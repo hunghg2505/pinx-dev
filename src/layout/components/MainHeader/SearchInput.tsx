@@ -1,22 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useResponsive } from '@hooks/useResponsive';
 import FormSearch from '@layout/components/MainHeader/FormSearch';
 
-const SearchInput = ({
-  isOpenSearch,
-  setIsOpenSearch,
-}: {
-  isOpenSearch?: boolean;
-  setIsOpenSearch?: any;
-}) => {
-  const { isDesktop } = useResponsive();
+const SearchInput = () => {
+  const [isOpenSearch, setIsOpenSearch] = useState(false);
 
   return (
     <>
       <button
         onClick={() => setIsOpenSearch(!isOpenSearch)}
-        className='mr-[0] flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] mobile:block  tablet:hidden desktop:mr-[12px]'
+        className='h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[#F8F8F8] laptop:hidden'
       >
         <img
           src='/static/icons/search-gray.svg'
@@ -25,8 +18,7 @@ const SearchInput = ({
         />
       </button>
 
-      {/* left-1/2 */}
-      {isDesktop && <FormSearch className='relative' />}
+      <FormSearch setIsOpenSearch={setIsOpenSearch} isOpenSearch={isOpenSearch} />
     </>
   );
 };

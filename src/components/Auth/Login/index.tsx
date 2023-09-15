@@ -18,7 +18,6 @@ import { ROUTE_PATH, checkUserType } from '@utils/common';
 import { LoginTracking } from '@utils/dataLayer';
 
 import { useLogin } from './service';
-// import { PINETREE_LINK } from '@utils/constant';
 
 interface Iprops {
   isModal?: boolean;
@@ -115,7 +114,12 @@ const Login = (props: Iprops) => {
           </NextLink>
         </div>
 
-        <MainButton type='submit' className='!mt-2 w-full'>
+        <MainButton
+          type='submit'
+          className='!mt-2 w-full'
+          disabled={requestLogin.loading}
+          loading={requestLogin.loading}
+        >
           {t('login')}
         </MainButton>
 
@@ -128,25 +132,6 @@ const Login = (props: Iprops) => {
             </NextLink>
           </div>
         )}
-
-        {/* {!isModal && (
-          <a
-            href={PINETREE_LINK}
-            target='_blank'
-            rel='noreferrer'
-            className='!mt-[24px] flex items-center justify-center laptop:!mt-[48px]'
-          >
-            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D] galaxy-max:text-[14px]'>
-              {t('a_product_of')}
-            </Text>
-            <img
-              src='/static/images/pinetree_logo.png'
-              alt=''
-              sizes='100vw'
-              className='h-[40px] w-[105px] galaxy-max:h-[35px] galaxy-max:w-[90px] laptop:h-[55px] laptop:w-[140px]'
-            />
-          </a>
-        )} */}
       </Form>
     </>
   );

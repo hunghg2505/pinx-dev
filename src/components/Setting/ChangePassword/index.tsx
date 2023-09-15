@@ -185,6 +185,8 @@ const ChangePassword = () => {
         <MainButton
           type='submit'
           className='fixed bottom-9 w-[calc(100%-32px)]  laptop:absolute laptop:bottom-[-56px] laptop:m-auto laptop:w-1/2 laptop:translate-x-1/2'
+          disabled={requestSendOtp.loading}
+          loading={requestSendOtp.loading}
         >
           {t('next')}
         </MainButton>

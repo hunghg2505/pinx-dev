@@ -83,7 +83,12 @@ const ForgotPasswordStepOne = () => {
             maxLength={10}
           />
         </FormItem>
-        <MainButton type='submit' className='!mt-1 w-full'>
+        <MainButton
+          type='submit'
+          className='!mt-1 w-full'
+          disabled={requestForgotPassword.loading}
+          loading={requestForgotPassword.loading}
+        >
           {t('send_request')}
         </MainButton>
       </Form>
