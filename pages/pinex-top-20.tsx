@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import PinexTop20 from '@components/PinexTop20';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+
+const PinexTop20 = dynamic(() => import('@components/PinexTop20'));
 
 const PinexTop20Page = () => {
   return (

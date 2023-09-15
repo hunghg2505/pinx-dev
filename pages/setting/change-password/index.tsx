@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import ChangePassword from '@components/Setting/ChangePassword';
 import MainLayout from '@layout/MainLayout';
+
+const ChangePassword = dynamic(() => import('@components/Setting/ChangePassword'));
 
 const SettingChangePasswordPage = () => {
   return (

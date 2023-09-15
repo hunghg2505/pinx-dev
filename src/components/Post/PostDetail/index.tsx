@@ -8,13 +8,13 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import { ForwardedRefComponentPostDetail } from '@components/Post/PostDetail/ForwardedRefComponentPostDetail';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo } from '@utils/dataLayer';
 
@@ -29,26 +29,6 @@ const FooterSignUp = dynamic(import('@components/FooterSignup'), {
 
 const NewFeedItem = dynamic(import('../NewsFeed/NewFeedItem'), {
   ssr: false,
-});
-const ComponentRef = dynamic(import('@components/ComponentRef'), {
-  ssr: false,
-});
-
-export const ForwardedRefComponent = React.forwardRef((props: any, ref) => {
-  return (
-    <ComponentRef
-      {...props}
-      forwardedRef={ref}
-      id={props.id}
-      refresh={props.refresh}
-      refreshCommentOfComment={props?.refreshCommentOfComment}
-      refreshTotal={props.refreshTotal}
-      width={props?.width}
-      canExpand={props?.canExpand}
-      isReply={props.isReply}
-      onAddComment={props?.onAddComment}
-    />
-  );
 });
 
 // tracking event view ticker info
@@ -72,7 +52,6 @@ const PostDetail = () => {
   const [, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
-  const { run: initUserProfile } = useProfileInitial();
   const [postData, setPostData] = useState<any>();
   const postID = router.query.id;
   React.useEffect(() => {
@@ -180,7 +159,6 @@ const PostDetail = () => {
         popupLoginTerms: true,
       });
     }
-    initUserProfile();
   }, [userType, isReadTerms]);
   // if (loadingPostDetail) {
   //   return <NewsFeedSkeleton showBtnBack />;
@@ -244,7 +222,7 @@ const PostDetail = () => {
 
           {isLogin && (
             <div className='mt-4 mobile:hidden tablet:block desktop:ml-[64px] desktop:px-[20px]'>
-              <ForwardedRefComponent
+              <ForwardedRefComponentPostDetail
                 ref={refRepliesLaptop}
                 id={postDetail?.data?.id}
                 refreshTotal={refresh}
@@ -346,7 +324,7 @@ const PostDetail = () => {
                   styles.comment,
                 )}
               >
-                <ForwardedRefComponent
+                <ForwardedRefComponentPostDetail
                   ref={refRepliesMobile}
                   id={postDetail?.data?.id}
                   refreshCommentOfComment={refreshCommentOfComment}

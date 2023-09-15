@@ -1,12 +1,11 @@
 import React from 'react';
 
-// import classNames from 'classnames';
-
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { useGetDataStockHome, useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
+import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
+import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 
 import styles from './index.module.scss';
 

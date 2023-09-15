@@ -737,9 +737,7 @@ export default async function getSeoDataFromLink(url: string) {
       summary.push(tempsum);
     }
     return summary;
-  } catch (error: any) {
-    console.log('ERROR FETCHING META LINK', error);
-
+  } catch {
     return [
       {
         property: 'og:url',
@@ -840,7 +838,7 @@ export const convertImageToJpg = async (
 
       img.onload = async () => {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx: any = canvas.getContext('2d');
 
         canvas.width = img.width;
         canvas.height = img.height;
@@ -849,8 +847,8 @@ export const convertImageToJpg = async (
 
         // fill background color to png file
         if (file.type === 'image/png') {
-          ctx!.globalCompositeOperation = 'destination-over';
-          ctx!.fillStyle = 'white';
+          ctx.globalCompositeOperation = 'destination-over';
+          ctx.fillStyle = 'white';
           ctx?.fillRect(0, 0, canvas.width, canvas.height);
         }
 
@@ -942,6 +940,7 @@ interface CompressImageParams {
   maxFileSizeKb?: number;
   quality?: number;
   options?: any;
+  maxWidthOrHeight?: number;
 }
 
 export const compressImage = async ({
@@ -949,6 +948,7 @@ export const compressImage = async ({
   maxFileSizeKb,
   quality,
   options,
+  maxWidthOrHeight = 1280,
 }: CompressImageParams) => {
   const initOptions: any = { ...options };
   const fileSizeKB = file.size / 1024;
@@ -965,6 +965,8 @@ export const compressImage = async ({
     if ((maxFileSizeKb && fileSizeKB > maxFileSizeKb) || quality) {
       const compressedImage = await imageCompression(file, {
         ...initOptions,
+        maxWidthOrHeight,
+        alwaysKeepResolution: true,
       });
 
       return compressedImage;

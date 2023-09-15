@@ -2,9 +2,9 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -17,34 +17,30 @@ interface IProps {
   run: (value: string) => void;
   type: any;
 }
-export interface IFilter {
+interface IFilter {
   title: string;
   description: string;
   filterType: any;
 }
-export enum FILTER_TYPE {
-  MOST_RECENT = 'MOST_RECENT',
-  MOST_REACTED = 'MOST_REACTED',
-  POST = 'POST',
-  NEWS = 'NEWS',
-}
+
 const ModalFilter = (props: IProps) => {
-  const { t, i18n } = useTranslation('home');
-  const router = useRouter();
+  const { t } = useTranslation('home');
+
   const { run, type } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
-  const { data, refresh } = useGetListFillter(i18n?.language);
+
+  const { data } = useGetListFillter();
+
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
+
   React.useEffect(() => {
     if (type) {
       setFilterType(type);
     }
   }, [type]);
-  React.useEffect(() => {
-    refresh();
-  }, [router.pathname, i18n.language, visible]);
+
   const onVisible = () => {
     setVisible(!visible);
   };
@@ -148,4 +144,5 @@ const ModalFilter = (props: IProps) => {
     </>
   );
 };
+
 export default ModalFilter;

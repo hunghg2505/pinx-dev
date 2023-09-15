@@ -5,9 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { fetchPostDetailFromServer } from '@components/Post/service';
 
-const pagePinex = ({ postDetail }: any) => {
-  console.log('postDetail', postDetail);
-
+const pagePinex = () => {
   return (
     <>
       <Image

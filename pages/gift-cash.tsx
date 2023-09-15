@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import GiftCash from '@components/GiftCash';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+
+const GiftCash = dynamic(() => import('@components/GiftCash'));
 
 const GiftCashPage = () => {
   return (

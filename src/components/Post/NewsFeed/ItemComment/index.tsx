@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
@@ -20,6 +20,7 @@ import {
 } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
+import { IconReported } from '@components/UI/Icon/IconReported';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -29,33 +30,33 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
+dayjs.extend(relativeTime);
+
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
   ssr: false,
 });
 
-export const IconReported = ({ className }: { className?: string }) => {
+const MessageCommentContent = ({ message }: { message: string }) => {
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    setContent(message);
+  }, [message]);
+
+  if (!content) {
+    return <></>;
+  }
+
   return (
-    <svg
-      className={className}
-      width='17'
-      height='17'
-      viewBox='0 0 17 18'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        d='M1.33301 9.83333H14.3222C14.7076 9.83333 14.9003 9.83333 15.0104 9.75252C15.1063 9.68205 15.1676 9.57389 15.1786 9.45534C15.1913 9.31938 15.0921 9.15413 14.8939 8.82367L13.2055 6.00966C13.1306 5.88496 13.0932 5.8226 13.0786 5.75604C13.0657 5.69716 13.0657 5.63618 13.0786 5.5773C13.0932 5.51073 13.1306 5.44838 13.2055 5.32367L14.8939 2.50966C15.0922 2.17919 15.1913 2.01395 15.1786 1.878C15.1676 1.75945 15.1063 1.65129 15.0104 1.58082C14.9003 1.5 14.7076 1.5 14.3222 1.5H1.33301L1.33301 16.5'
-        stroke='#589DC0'
-        strokeWidth='2'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        fill='#589DC0'
-      />
-    </svg>
+    <Text type='body-16-regular' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
+      <div
+        dangerouslySetInnerHTML={{ __html: content }}
+        className='messageFormat [word-wrap:break-word]'
+      ></div>
+    </Text>
   );
 };
 
-dayjs.extend(relativeTime);
 interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
@@ -106,6 +107,7 @@ const ItemComment = (props: IProps) => {
   const [isReport, setIsReport] = React.useState<boolean>(data?.isReport);
   const [totalReport, setTotalReport] = React.useState<number>(0);
   const [totalLikes, setTotalLikes] = React.useState<number>(0);
+
   React.useEffect(() => {
     setIsLike(data?.isLike);
     setTotalLikes(data?.totalLikes);
@@ -113,7 +115,10 @@ const ItemComment = (props: IProps) => {
     setTotalReport(data?.totalReports);
   }, [data]);
 
-  const message = data?.message && formatMessage(data?.message, data);
+  const message = useMemo(() => {
+    return data?.message ? formatMessage(data?.message, data) : '';
+  }, [data?.message]);
+
   const name = data?.customerInfo?.displayName || '';
   const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const onComment = (value: string, customerId: number, id: string) => {
@@ -138,6 +143,7 @@ const ItemComment = (props: IProps) => {
       });
     }
   };
+
   useClickAway(() => {
     showDelete && setShowDelete(false);
   }, ref);
@@ -381,7 +387,7 @@ const ItemComment = (props: IProps) => {
             )}
           </div>
         )}
-        {/* bg-[#F6FAFD] */}
+
         <div
           className={classNames('content relative flex-1', {
             'w-[calc(100%_-_40px)]': isChildren,
@@ -451,18 +457,12 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
+
             <div
               className='box-border cursor-pointer rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
-              onClick={(event) => handleClick(event)}
+              onClick={handleClick}
             >
-              <Text type='body-16-regular' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
-                {message && (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: message }}
-                    className='messageFormat [word-wrap:break-word]'
-                  ></div>
-                )}
-              </Text>
+              <MessageCommentContent message={message} />
             </div>
 
             {totalLikes > 0 && (

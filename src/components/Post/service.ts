@@ -152,7 +152,7 @@ export const TypePostOnlyReportAction = [
 ];
 
 export const getPostDetail = async (postId: string) => {
-  return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
+  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };
 
 // export const usePostDetail = (postId: string) => {
@@ -191,11 +191,9 @@ export const usePostDetail = (postId: string, option = {}) => {
 };
 
 export const getCommentsOfPostAuth = async (postId: string, params?: any) => {
-  return await privateRequest(
-    requestCommunity.get,
-    API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId),
-    { params },
-  );
+  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId), {
+    params,
+  });
 };
 export const getCommentsOfPost = (postId: string, params?: any) => {
   return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId), { params });
@@ -255,7 +253,7 @@ export async function getMoreCommentPost(postId: string, nextId: string): Promis
 }
 
 export const likePost = async (postId: string) => {
-  return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
 };
 
 export const useLikePost = (postId: string) => {
@@ -277,7 +275,7 @@ export const useLikePost = (postId: string) => {
 };
 
 export const unlikePost = async (postId: string) => {
-  return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
 };
 
 export const useUnlikePost = (postId: string) => {

@@ -6,7 +6,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { USERTYPE } from '@utils/constant';
 
-export const serviceGetUserProfile = async () => {
+const serviceGetUserProfile = async () => {
   const requestProfile = await privateRequest(requestPist.get, API_PATH.USER_PROFILE);
 
   return requestProfile;
