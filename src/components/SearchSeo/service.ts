@@ -87,7 +87,7 @@ export const useSearchPublic = (options?: IOptions) => {
     },
     {
       manual: true,
-      cacheKey: 'search-seo',
+      // cacheKey: 'search-seo',
       staleTime: -1,
       ...options,
     },
