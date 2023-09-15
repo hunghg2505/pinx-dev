@@ -72,8 +72,9 @@ const CreateUsername = (props: IProps) => {
 
   return (
     <div
-      className={`laptop:m-0 ${props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
-        }`}
+      className={`laptop:m-0 ${
+        props.isModal ? 'mobile:mt-0' : 'mobile:mt-20 laptop:min-w-[450px]'
+      }`}
     >
       <div className='mt-[36px]'>
         <Text type='body-28-bold'>{t('create_username')}</Text>
@@ -102,7 +103,12 @@ const CreateUsername = (props: IProps) => {
           {t('create_username_rule')}
         </Text>
 
-        <MainButton type='submit' className='!mt-10 w-full'>
+        <MainButton
+          type='submit'
+          className='!mt-10 w-full'
+          disabled={requestCreateUsername.loading}
+          loading={requestCreateUsername.loading}
+        >
           {t('select_this_username')}
         </MainButton>
       </Form>

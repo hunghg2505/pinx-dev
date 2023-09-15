@@ -1,0 +1,16 @@
+.formSearch {
+  display: flex;
+  background: white;
+  @media (max-width: 1024px) {
+    position: absolute;
+    left: 0;
+    top: 10px;
+  }
+}
+
+.formSearchHide {
+  @media (max-width: 1024px) {
+    display: none;
+    pointer-events: none;
+  }
+}

@@ -248,7 +248,12 @@ const Register = (props: IProps) => {
             </a>
           </span>
         </div>
-        <MainButton type='submit' className='w-full'>
+        <MainButton
+          type='submit'
+          className='w-full'
+          disabled={requestRegister.loading}
+          loading={requestRegister.loading}
+        >
           {t('continue')}
         </MainButton>
 
