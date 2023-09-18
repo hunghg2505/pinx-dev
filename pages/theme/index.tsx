@@ -43,7 +43,7 @@ ThemesPage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
+export async function getServerSideProps({ locale }: any) {
   const dataSeo = await fetchSeoDataFromServer(SEO_TEXT_SEARCH.EXPLORE_PAGE);
 
   return {
