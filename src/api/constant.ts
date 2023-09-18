@@ -67,6 +67,7 @@ export const API_PATH = {
   PUBLIC_ALL_THEME: '/public/theme/all',
   PRIVATE_GET_THEME_DETAIL: (code: string) => `/private/theme/${code}/details`,
   PUBLIC_GET_THEME_DETAIL: (code: string) => `/public/theme/${code}/detail`,
+  PUBLIC_GET_THEME_DETAIL_V2: (code: string) => `/public/theme/${code}-v2`,
   PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME: (code: string) =>
     `/public/theme/${code}/subscribed-customers`,
   PRIVATE_GET_COMMUNITY_THEME_DETAIL: (code: string) =>

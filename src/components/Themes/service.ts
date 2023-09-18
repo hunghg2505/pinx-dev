@@ -223,3 +223,16 @@ export const fetchSeoDataFromServer = async (textSearch: string) => {
     };
   }
 };
+
+export const fetchThemeDetailFromServer = async (code: string) => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(code)}`).then(
+      (data: any) => data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
+};

@@ -15,7 +15,7 @@ interface Props {
     locale?: string;
     site_name?: string;
     url?: string;
-    images: {
+    images?: {
       url: string;
     };
   };
