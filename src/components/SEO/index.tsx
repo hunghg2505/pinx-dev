@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import Head from 'next/head';
 
@@ -15,7 +15,7 @@ interface Props {
     locale?: string;
     site_name?: string;
     url?: string;
-    images: {
+    images?: {
       url: string;
     };
   };
@@ -24,9 +24,28 @@ interface Props {
       url: string;
     };
   };
+  keywords?: [];
 }
 
-const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph, schema }) => {
+const SEO: FC<Props> = ({
+  title,
+  siteUrl,
+  description,
+  openGraph,
+  twitterGraph,
+  schema,
+  keywords,
+}) => {
+  const kwToStr = useMemo(() => {
+    let data = '';
+
+    if (Array.isArray(keywords) && keywords?.length && keywords.length > 0) {
+      data = keywords.join(', ');
+    }
+
+    return data;
+  }, [keywords]);
+
   return (
     <Head>
       <title>{title || config.title}</title>
@@ -66,6 +85,7 @@ const SEO: FC<Props> = ({ title, siteUrl, description, openGraph, twitterGraph, 
       />
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
+      <meta name='keywords' content={kwToStr} />
       <link rel='canonical' href='https://pinex.vn/' />
       {schema && (
         <script

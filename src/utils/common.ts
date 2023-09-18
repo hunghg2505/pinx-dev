@@ -207,10 +207,13 @@ export const formatMessage = (message: string, data: any) => {
     //   );
     // }
     if (item.includes('http') && !item.includes('\n')) {
+      const index = item.indexOf('http');
+      const newUrl = item.slice(index);
+      const txt = item.slice(0, index);
       message = message.replaceAll(
         item,
         `
-        <div class="mention"><span class="link">${item}</span></div>
+        <div class="mention txtLink">${txt}<span class="link">${newUrl}</span></div>
         `,
       );
     }
@@ -218,10 +221,13 @@ export const formatMessage = (message: string, data: any) => {
       const newItem = item?.split('\n');
       for (const item of newItem) {
         if (item.includes('http')) {
+          const index = item.indexOf('http');
+          const newUrl = item.slice(index);
+          const txt = item.slice(0, index);
           message = message.replaceAll(
             item,
             `
-            <div class="mention"><span class="link">${item}</span></div>
+            <div class="mention txtLink">${txt}<span class="link">${newUrl}</span></div>
             `,
           );
         }

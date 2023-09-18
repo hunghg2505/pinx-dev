@@ -493,9 +493,11 @@ const Compose = (props: IProps) => {
             const txt = text.text.split(' ');
             for (const item of txt) {
               if (item.includes('http') && urlLinks.length < 2) {
-                urlLinks.push(item);
+                const index = item.indexOf('http');
+                const newUrl = item.slice(index);
+                urlLinks.push(newUrl);
               }
-              if (item[0] === '#') {
+              if (item[0] === '#' && !item.includes('http')) {
                 hashtags.push(item);
               }
             }

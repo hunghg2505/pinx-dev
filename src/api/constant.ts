@@ -67,6 +67,7 @@ export const API_PATH = {
   PUBLIC_ALL_THEME: '/public/theme/all',
   PRIVATE_GET_THEME_DETAIL: (code: string) => `/private/theme/${code}/details`,
   PUBLIC_GET_THEME_DETAIL: (code: string) => `/public/theme/${code}/detail`,
+  PUBLIC_GET_THEME_DETAIL_V2: (code: string) => `/public/theme/${code}-v2`,
   PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME: (code: string) =>
     `/public/theme/${code}/subscribed-customers`,
   PRIVATE_GET_COMMUNITY_THEME_DETAIL: (code: string) =>
@@ -211,4 +212,6 @@ export const API_PATH = {
   PRIVATE_ACTIVITY_WATCHLIST_V2: '/private/activity/watchlist/addV2',
   PRIVATE_ACTIVITY_THEME_V2: '/private/activity/theme/addV2',
   PRIVATE_UPDATE_POST_V2: (id: string) => `/private/mapping/${id}/updateV2`,
+
+  PUBLIC_SEO_PAGE_V2: (textSearch: string) => `/public/seo/pageV2/?textSearch=${textSearch}`,
 };

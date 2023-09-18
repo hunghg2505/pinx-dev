@@ -262,7 +262,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           <>
             <button
               onClick={removeFormSearch}
-              className='absolute right-[10px] top-[50%] z-10 flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center desktop:right-[0px]'
+              className='absolute right-[10px] top-[50%] z-10 flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center'
             >
               <img
                 src='/static/icons/iconClose.svg'
