@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity } from '@api/request';
+import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity } from '@api/request';
 import { ICustomerInfo } from '@components/Post/service';
 import { IStock } from '@components/Stock/type';
 import { getAccessToken } from '@store/auth';
@@ -302,4 +302,20 @@ export const useSearchMedia = (options?: object) => {
   );
 
   return requestSearchPost;
+};
+
+export const createSearchSeoFromServer = async (textSearch: string) => {
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_SEARCH_SEO_CREATE}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        textSearch,
+        typeSearch: 'ALL',
+      }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((data: any) => data.json());
+  } catch {}
 };
