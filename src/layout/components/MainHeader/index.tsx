@@ -147,7 +147,7 @@ const MainHeader = () => {
               </div>
             )}
 
-            <div className='flex items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
+            <div className='z-10 flex items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
               <Profile />
             </div>
           </>

@@ -262,7 +262,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           <>
             <button
               onClick={removeFormSearch}
-              className='absolute right-[10px] top-[50%] z-10 flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center'
+              className='absolute right-[10px] top-[50%] z-10 flex h-[40px] w-[40px] translate-y-[-50%] items-center justify-center laptop:right-0'
             >
               <img
                 src='/static/icons/iconClose.svg'
@@ -276,8 +276,8 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
         <div ref={ref}>
           <Form
             ref={refForm}
-            className={classNames('pr-[10px]', {
-              'w-full': isMobile,
+            className={classNames('', {
+              'w-[calc(100%-70px)]': isMobile,
             })}
             form={form}
             onFinish={handleSubmit}
