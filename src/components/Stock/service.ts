@@ -1,7 +1,13 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestMarket, requestPist } from '@api/request';
+import {
+  PREFIX_API_COMMUNITY,
+  privateRequest,
+  requestCommunity,
+  requestMarket,
+  requestPist,
+} from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 import {
@@ -476,6 +482,19 @@ const useGetStockIntraday = (stockCode: string): IResponseStockIntraday => {
     stockIntraday: data,
     loading,
   };
+};
+
+export const fetchStockDetailFromServer = async (stockCode: string) => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode)}`).then(
+      (data: any) => data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
 };
 
 export {
