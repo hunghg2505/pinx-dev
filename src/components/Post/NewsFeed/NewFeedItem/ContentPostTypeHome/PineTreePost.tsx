@@ -98,7 +98,11 @@ export const PineTreePost = ({
             href={`${post_url}`}
             className='absolute left-0 top-0 z-[1]  h-full w-full'
           >
-            <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            <ImageHeadPost
+              alt={postDetail?.seoMetadata?.imageSeo?.alt}
+              title={postDetail?.seoMetadata?.imageSeo?.title}
+              headImageUrl={postDetail?.post?.headImageUrl}
+            />
           </CustomLink>
         )}
 

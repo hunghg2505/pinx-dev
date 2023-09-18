@@ -129,7 +129,8 @@ export const ActivityTheme = ({
             height='0'
             sizes='100vw'
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
-            alt=''
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
             className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'
           />
           <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
