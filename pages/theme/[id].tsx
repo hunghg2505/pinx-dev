@@ -23,6 +23,14 @@ const PostDetailPage = ({ themeDetail }: any) => {
         description={seoMetaData?.metaDescription}
         openGraph={{
           locale: i18n.language,
+          images: {
+            url: seoMetaData?.imageSeo?.urlImage,
+          },
+        }}
+        twitterGraph={{
+          images: {
+            url: seoMetaData?.imageSeo?.urlImage,
+          },
         }}
         keywords={seoMetaData?.keyphrase}
       />

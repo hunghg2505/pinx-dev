@@ -38,6 +38,8 @@ const GOOGLE_TAG_MANAGER_ID = 'GTM-K44HCZ66';
 
 const SEO_TEXT_SEARCH = {
   EXPLORE_PAGE: 'Explore-theme',
+  TOP_WATCHING_PAGE: 'Top-watch-stock',
+  TOP_MENTION_PAGE: 'Top-mention-stock',
 };
 
 export {
