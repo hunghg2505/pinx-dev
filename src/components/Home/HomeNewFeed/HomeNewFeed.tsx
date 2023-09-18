@@ -15,7 +15,7 @@ import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import useObserver from '@hooks/useObserver';
+// import useObserver from '@hooks/useObserver';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -38,9 +38,9 @@ const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
 
-const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
-  ssr: false,
-});
+// const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
+//   ssr: false,
+// });
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
@@ -62,15 +62,16 @@ const HomeNewFeed = ({ pinPostData }: any) => {
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
 
-  const { refLastElement } = useObserver();
+  // const { refLastElement } = useObserver();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
-  const { firstPost, fourPost, postsNext } = useMemo(() => {
-    return {
-      firstPost: dataPosts?.list?.[0],
-      fourPost: dataPosts?.list?.slice(1, 4),
-      postsNext: dataPosts?.list?.slice(5),
-    };
-  }, [dataPosts]);
+  // const { firstPost, fourPost, postsNext } = useMemo(() => {
+  //   return {
+  //     firstPost: dataPosts?.list?.[0],
+  //     fourPost: dataPosts?.list?.slice(1, 4),
+  //     postsNext: dataPosts?.list?.slice(5),
+  //   };
+  // }, [dataPosts]);
   useEffect(() => {
     const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
     if (scrollPosition) {
@@ -103,22 +104,22 @@ const HomeNewFeed = ({ pinPostData }: any) => {
     }
   }, [userType, isReadTerms]);
 
-  const serviceLoadMorePost = async () => {
-    if (!dataPosts?.nextId || loadingPosts) {
-      return;
-    }
+  // const serviceLoadMorePost = async () => {
+  //   if (!dataPosts?.nextId || loadingPosts) {
+  //     return;
+  //   }
 
-    const newData: any = await runAsync(dataPosts?.nextId, dataPosts?.type);
+  //   const newData: any = await runAsync(dataPosts?.nextId, dataPosts?.type);
 
-    if (newData?.list?.length) {
-      mutate({
-        // @ts-ignore
-        list: [...dataPosts?.list, ...newData?.list],
-        nextId: newData?.nextId,
-        type: dataPosts?.type,
-      });
-    }
-  };
+  //   if (newData?.list?.length) {
+  //     mutate({
+  //       // @ts-ignore
+  //       list: [...dataPosts?.list, ...newData?.list],
+  //       nextId: newData?.nextId,
+  //       type: dataPosts?.type,
+  //     });
+  //   }
+  // };
 
   const onFilter = async (value: string) => {
     router.push({
@@ -146,16 +147,16 @@ const HomeNewFeed = ({ pinPostData }: any) => {
     });
   };
 
-  const onCommentPost = (postData: IPost) => {
-    const newList = dataPosts.list?.map((post: IPost) =>
-      postData.id === post.id ? postData : post,
-    );
-    mutate({
-      list: newList,
-      nextId: dataPosts.nextId,
-      type: dataPosts.type,
-    });
-  };
+  // const onCommentPost = (postData: IPost) => {
+  //   const newList = dataPosts.list?.map((post: IPost) =>
+  //     postData.id === post.id ? postData : post,
+  //   );
+  //   mutate({
+  //     list: newList,
+  //     nextId: dataPosts.nextId,
+  //     type: dataPosts.type,
+  //   });
+  // };
 
   React.useEffect(() => {
     const findIndex = dataPosts?.list?.findIndex(
@@ -234,13 +235,13 @@ const HomeNewFeed = ({ pinPostData }: any) => {
         pinPostData={pinPostData}
       />
 
-      <NewsFeed
+      {/* <NewsFeed
         onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
         onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
         key={`home-post-item-${firstPost?.id}`}
         data={firstPost as any}
         onCommentPost={onCommentPost}
-      />
+      /> */}
 
       <div className='box-shadow card-style tablet:hidden'>
         <div className='pb-[13px] pt-[10px] '>
@@ -271,7 +272,7 @@ const HomeNewFeed = ({ pinPostData }: any) => {
       </div>
       <SuggestionPeople />
 
-      {fourPost?.map((item: IPost) => {
+      {/* {fourPost?.map((item: IPost) => {
         return (
           <NewsFeed
             key={`home-post-item-${item?.id}`}
@@ -282,7 +283,7 @@ const HomeNewFeed = ({ pinPostData }: any) => {
             onCommentPost={onCommentPost}
           />
         );
-      })}
+      })} */}
 
       <div className='box-shadow card-style'>
         <Text
@@ -296,7 +297,7 @@ const HomeNewFeed = ({ pinPostData }: any) => {
         <ListTheme />
       </div>
 
-      {postsNext?.map((item: IPost, idx: number) => {
+      {/* {postsNext?.map((item: IPost, idx: number) => {
         if (idx === postsNext?.length - 1) {
           return (
             <div
@@ -326,7 +327,7 @@ const HomeNewFeed = ({ pinPostData }: any) => {
             onCommentPost={onCommentPost}
           />
         );
-      })}
+      })} */}
 
       {loadingPosts && (
         <div className='mt-[10px]'>

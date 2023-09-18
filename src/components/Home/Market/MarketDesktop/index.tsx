@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
@@ -10,29 +11,29 @@ import Text from '@components/UI/Text';
 import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
 import { formatStringToNumber } from '@utils/common';
 
-import MarketChartIframe from './ChartIframe';
+// import MarketChartIframe from './ChartIframe';
 import styles from './index.module.scss';
-import PopupZoomChart from './PopupZoomChart';
+// import PopupZoomChart from './PopupZoomChart';
 
 const MarketDesktop = () => {
   const { t } = useTranslation('common');
   const { dataStockIndex, findIndex } = useGetDataStockHome();
-  const [chartData, setChartData] = useState<{
-    mc: string;
-    oIndex: number;
-  }>({
-    mc: '',
-    oIndex: 0,
-  });
-  const [popupVisible, setPopupVisible] = useState(false);
+  // const [chartData, setChartData] = useState<{
+  //   mc: string;
+  //   oIndex: number;
+  // }>({
+  //   mc: '',
+  //   oIndex: 0,
+  // });
+  // const [popupVisible, setPopupVisible] = useState(false);
 
-  const handelOpenPopup = (mc: string, oIndex: number) => {
-    setChartData({
-      mc,
-      oIndex,
-    });
-    setPopupVisible(true);
-  };
+  // const handelOpenPopup = (mc: string, oIndex: number) => {
+  //   setChartData({
+  //     mc,
+  //     oIndex,
+  //   });
+  //   setPopupVisible(true);
+  // };
 
   useEffect(() => {
     requestJoinIndex();
@@ -147,7 +148,7 @@ const MarketDesktop = () => {
                   <div className='relative mt-[12px] pt-[36px]'>
                     {/* icon maximize */}
                     <div
-                      onClick={() => handelOpenPopup(item.mc, item.oIndex)}
+                      // onClick={() => handelOpenPopup(item.mc, item.oIndex)}
                       className='absolute right-[22px] top-[8px] flex cursor-pointer items-center justify-center'
                     >
                       <img
@@ -157,7 +158,7 @@ const MarketDesktop = () => {
                       />
                     </div>
 
-                    <MarketChartIframe mc={item.mc} oIndex={item.oIndex} />
+                    {/* <MarketChartIframe mc={item.mc} oIndex={item.oIndex} /> */}
                   </div>
                 </div>
               </TabPane>
@@ -166,14 +167,14 @@ const MarketDesktop = () => {
         </Tabs>
       </div>
 
-      <PopupZoomChart
+      {/* <PopupZoomChart
         visible={popupVisible}
         onClose={() => {
           setPopupVisible(false);
         }}
         mc={chartData?.mc}
         oIndex={chartData?.oIndex}
-      />
+      /> */}
     </>
   );
 };
