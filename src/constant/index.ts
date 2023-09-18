@@ -36,6 +36,12 @@ const GOOGLE_TAG_MANAGER_ID = 'GTM-K44HCZ66';
 // product
 // const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
 
+const SEO_TEXT_SEARCH = {
+  EXPLORE_PAGE: 'Explore-theme',
+  TOP_WATCHING_PAGE: 'Top-watch-stock',
+  TOP_MENTION_PAGE: 'Top-mention-stock',
+};
+
 export {
   ZALO_OAID,
   SHARE_THIS_PROPERTY_ID,
@@ -55,4 +61,5 @@ export {
   BANNER_URL,
   WHITE_BACKGROUND_IMAGE,
   GOOGLE_TAG_MANAGER_ID,
+  SEO_TEXT_SEARCH,
 };
