@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useMemo } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
@@ -17,14 +17,34 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
 
 const PostDetailPage = ({ id, host, postDetail }: any) => {
   const { i18n } = useTranslation();
-  const seoMetadata = postDetail?.seoMetadata;
+
+  const { title, description, seoMetadata } = useMemo(() => {
+    const seoMetadata = postDetail?.seoMetadata;
+    let title = seoMetadata?.title;
+    let description = seoMetadata?.metaDescription;
+
+    if (
+      !postDetail?.post?.urlImages?.length &&
+      !postDetail?.post?.headImageUrl &&
+      postDetail?.post?.metadataList?.length
+    ) {
+      title = postDetail?.post?.metadataList?.[0]?.title;
+      description = postDetail?.post?.metadataList?.[0]?.description;
+    }
+
+    return {
+      title,
+      description,
+      seoMetadata,
+    };
+  }, [postDetail]);
 
   return (
     <>
       <SEO
         siteUrl={`${host}/post/${id}`}
-        title={seoMetadata?.title}
-        description={seoMetadata?.metaDescription}
+        title={title}
+        description={description}
         openGraph={{
           locale: i18n.language,
           images: {
