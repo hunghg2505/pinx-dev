@@ -201,6 +201,7 @@ const OtpVerification = (props: IProps) => {
         <RoundButton
           className='flex min-w-[120px] items-center justify-center px-4'
           disabled={!isResendAvailable}
+          loading={!isResendAvailable}
           onClick={onResendOtp}
         >
           <img

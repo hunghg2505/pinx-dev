@@ -16,7 +16,7 @@ import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 // import useObserver from '@hooks/useObserver';
-import { useResponsive } from '@hooks/useResponsive';
+// import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -54,7 +54,6 @@ const HomeNewFeed = ({ pinPostData }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-  const { isMobile } = useResponsive();
   // socket.on('connect', requestJoinIndex);
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
@@ -72,13 +71,13 @@ const HomeNewFeed = ({ pinPostData }: any) => {
   //     postsNext: dataPosts?.list?.slice(5),
   //   };
   // }, [dataPosts]);
-  useEffect(() => {
-    const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
-    if (scrollPosition) {
-      window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
-      globalThis?.sessionStorage.removeItem('scrollPosition');
-    }
-  }, []);
+  // useEffect(() => {
+  //   const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
+  //   if (scrollPosition) {
+  //     window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
+  //     globalThis?.sessionStorage.removeItem('scrollPosition');
+  //   }
+  // }, []);
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
     clearCache('data-pin-post');
@@ -197,32 +196,30 @@ const HomeNewFeed = ({ pinPostData }: any) => {
 
   return (
     <div className='relative desktop:pt-0'>
-      {isMobile && (
-        <div className='relative laptop:hidden'>
-          {selectTab === '1' && isHaveStockWatchList && (
-            <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
-              <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-                <Text
-                  type='body-12-medium'
-                  className='galaxy-max:hidden tablet:text-[14px]'
-                  color='primary-1'
-                >
-                  {t('see_all')}
-                </Text>
-                <img
-                  src='/static/icons/iconNext.svg'
-                  width={5}
-                  height={5}
-                  alt=''
-                  className='ml-[11px] w-[10px]'
-                />
-              </button>
-            </CustomLink>
-          )}
+      <div className='relative laptop:hidden'>
+        {selectTab === '1' && isHaveStockWatchList && (
+          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
+            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
+              <Text
+                type='body-12-medium'
+                className='galaxy-max:hidden tablet:text-[14px]'
+                color='primary-1'
+              >
+                {t('see_all')}
+              </Text>
+              <img
+                src='/static/icons/iconNext.svg'
+                width={5}
+                height={5}
+                alt=''
+                className='ml-[11px] w-[10px]'
+              />
+            </button>
+          </CustomLink>
+        )}
 
-          <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
-        </div>
-      )}
+        <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
+      </div>
 
       <UserPosting onAddNewPost={onAddNewPost} />
 

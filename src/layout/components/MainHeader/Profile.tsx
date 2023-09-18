@@ -356,7 +356,7 @@ const Profile = () => {
 
   if (!isLogin) {
     return (
-      <div className='flex items-center gap-[12px]'>
+      <div className='flex items-center'>
         <CustomLink
           href={ROUTE_PATH.LOGIN}
           className='flex h-[40px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
@@ -367,7 +367,7 @@ const Profile = () => {
         </CustomLink>
 
         <CustomLink
-          className='  hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
+          className='ml-[12px] hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
           href={`${ROUTE_PATH.LOGIN}?type=register`}
           onClick={() => RegisterTracking(new Date(), 'Header', 'CTA')}
         >

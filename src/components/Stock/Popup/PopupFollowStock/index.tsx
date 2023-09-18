@@ -181,6 +181,7 @@ const PopupFollowStock = ({
           type='submit'
           className='mt-[20px] flex w-full items-center justify-center'
           disabled={requestShareStockAct.loading}
+          loading={requestShareStockAct.loading}
         >
           {requestShareStockAct.loading && (
             <div className='mr-[12px]'>

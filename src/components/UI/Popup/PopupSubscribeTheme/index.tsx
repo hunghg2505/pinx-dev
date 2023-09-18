@@ -136,6 +136,7 @@ const PopupSubsribeTheme = (props: IProps) => {
             className='mt-5 flex w-full justify-center galaxy-max:text-[15px]'
             type='submit'
             disabled={requestShareThemeActivity?.loading}
+            loading={requestShareThemeActivity?.loading}
           >
             {requestShareThemeActivity?.loading && (
               <div className='mr-[8px]'>
