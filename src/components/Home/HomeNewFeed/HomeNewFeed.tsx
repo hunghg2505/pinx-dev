@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
@@ -36,7 +37,15 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
-
+// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
+//   loading: () => (
+//     <>
+//       <NewsFeedSkeleton />
+//       <NewsFeedSkeleton />
+//       <NewsFeedSkeleton />
+//     </>
+//   ),
+// });
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
@@ -46,7 +55,7 @@ const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => 
   ViewTickerInfo(stockCode, 'Home screen', locationDetail, 'Stock');
 };
 
-const HomeNewFeed = ({ pinPostData }: any) => {
+const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
 
@@ -227,7 +236,6 @@ const HomeNewFeed = ({ pinPostData }: any) => {
         onTrackingViewTickerCmt={(stockCode: string) =>
           handleTrackingViewTicker(stockCode, 'Comment')
         }
-        pinPostData={pinPostData}
       />
 
       <NewsFeed

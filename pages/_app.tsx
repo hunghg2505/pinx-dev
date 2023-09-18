@@ -12,6 +12,7 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
+
 import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 

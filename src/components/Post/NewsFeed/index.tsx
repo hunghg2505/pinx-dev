@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
@@ -55,7 +55,7 @@ const NewsFeed = (props: IProps) => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [, setSearchSeo] = useAtom(searchSeoAtom);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
   const isPageMyProfile = router.pathname === ROUTE_PATH.MY_PROFILE;

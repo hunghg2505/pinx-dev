@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 
 import { useGetIsShareWatchList } from './checkMyShareWatchList';
 import { useGetUerIsShareWatchList } from './checkUserShareWatchList';
@@ -16,7 +16,7 @@ const WatchList = () => {
   const { isShareWatchList } = useGetIsShareWatchList();
   const { isUserShareWatchList } = useGetUerIsShareWatchList(Number(router?.query?.id));
   const { watchList } = useCheckWatchList(Number(router?.query?.id));
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   if (isLogin) {
     if (
