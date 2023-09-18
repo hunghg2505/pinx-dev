@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 // import ThemesItem from '@components/Themes/ThemesItem';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 // import ThemeLoading from './Skeleton';
@@ -54,7 +54,7 @@ const settings = {
 const ListTheme = () => {
   const { t } = useTranslation();
 
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { theme, refresh } = useGetTheme();
   const refSlide: any = React.useRef();
 

@@ -31,7 +31,7 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
@@ -51,7 +51,7 @@ const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
 const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
   const { t } = useTranslation(['search-seo', 'common']);
   const { isDesktop, isMobile } = useResponsive();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const searchParams = useSearchParams();
   const search = searchParams.get('keyword') || '';
   const [form] = Form.useForm();
@@ -276,7 +276,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
         <div ref={ref}>
           <Form
             ref={refForm}
-            className={classNames('pr-[10px]', {
+            className={classNames('pr-[10px] laptop:pr-0', {
               'w-full': isMobile,
             })}
             form={form}

@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 
@@ -26,7 +26,7 @@ const BasicInfo = ({
   isFeatureProfile?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const router = useRouter();
   return (
     <div

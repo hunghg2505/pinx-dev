@@ -22,7 +22,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
@@ -126,7 +126,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
 const Profile = () => {
   const { t } = useTranslation('common');
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { userLoginInfo } = useUserLoginInfo();
   const watchList = useAtomValue(stockSocketAtom);
 

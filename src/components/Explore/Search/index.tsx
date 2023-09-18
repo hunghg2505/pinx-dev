@@ -14,7 +14,7 @@ import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
@@ -39,7 +39,7 @@ const Search = (props: any, ref: any) => {
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const { popular } = useGetPopular();
   const { listRecent, refreshSearchRecent } = useGetSearchRecent();

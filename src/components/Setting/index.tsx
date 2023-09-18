@@ -13,6 +13,7 @@ import { NegativeMainButton } from '@components/UI/Button';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie } from '@store/locale';
 // import { openProfileAtom } from '@store/profile/profile';
@@ -44,7 +45,8 @@ const Setting = () => {
   const currentLang = getLocaleCookie() || 'en';
   const [popupLanguageVisible, setPopupLanguageVisible] = useState(false);
   const [popupHotlineVisible, setPopupHotlineVisible] = useState(false);
-  const { onLogout, isLogin } = useAuth();
+  const { onLogout } = useAuth();
+  const { isLogin } = useLogin();
   const { data: settingsData, loading } = useGetSettings();
   const { isMobile } = useResponsive();
   const { isDesktop } = useResponsive();

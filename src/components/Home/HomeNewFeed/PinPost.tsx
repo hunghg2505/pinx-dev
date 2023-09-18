@@ -13,11 +13,10 @@ const handleTrackingViewTicker = (stockCode: string) => {
 };
 interface IProps {
   onTrackingViewTickerCmt: any;
-  pinPostData: any;
 }
 const PinPost = (props: IProps) => {
-  const { onTrackingViewTickerCmt, pinPostData } = props;
-  const { pinedPost, refresh, loading } = useGetPinedPost(pinPostData);
+  const { onTrackingViewTickerCmt } = props;
+  const { pinedPost, refresh, loading } = useGetPinedPost();
 
   const onRefresh = () => {
     clearCache('data-pin-post');

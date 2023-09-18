@@ -10,7 +10,7 @@ import StickyBox from 'react-sticky-box';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
@@ -37,7 +37,7 @@ import {
 const SideBar = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const watchList = useAtomValue(stockSocketAtom);
@@ -191,13 +191,13 @@ const SideBar = () => {
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
           <Image
-            width='0'
-            height='0'
-            // src='/static/images/sidebar_banner.png'
+            width={218}
+            height={400}
             src={BANNER_URL}
             alt=''
-            sizes='100vw'
             className='mt-[16px] w-full laptop-max:px-[10px]'
+            placeholder='blur'
+            blurDataURL='/static/blur/sidebar.png'
           />
         </a>
 

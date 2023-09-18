@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 
 import Figure from './Figure';
 import Caption from './Figure/Caption';
@@ -11,7 +11,7 @@ import UnFollow from './UnFollow';
 export const followContext = createContext<any>(undefined);
 
 const UserFolowDesktop = (props: any) => {
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { userLoginInfo } = useUserLoginInfo();
   const [state, setState] = useState(props);
   const isMyProfile = userLoginInfo?.id === state.id;

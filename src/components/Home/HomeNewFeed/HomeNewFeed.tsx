@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
@@ -46,7 +47,7 @@ const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => 
   ViewTickerInfo(stockCode, 'Home screen', locationDetail, 'Stock');
 };
 
-const HomeNewFeed = ({ pinPostData }: any) => {
+const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
 
@@ -227,7 +228,6 @@ const HomeNewFeed = ({ pinPostData }: any) => {
         onTrackingViewTickerCmt={(stockCode: string) =>
           handleTrackingViewTicker(stockCode, 'Comment')
         }
-        pinPostData={pinPostData}
       />
 
       <NewsFeed

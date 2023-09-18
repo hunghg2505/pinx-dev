@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 
 import styles from './index.module.scss';
 import Market from '../Market';
@@ -15,7 +15,7 @@ interface IPropsTabMobile {
 
 const TabMobile = ({ selectTab, onChangeTab }: IPropsTabMobile) => {
   const { t } = useTranslation();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   return (
     <>

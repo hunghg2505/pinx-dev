@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 
 const NotLogin = () => {
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     if (!isLogin && router?.query?.tab === 'watchlist') {

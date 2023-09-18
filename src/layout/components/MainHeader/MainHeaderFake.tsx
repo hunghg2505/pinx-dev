@@ -6,9 +6,11 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Text from '@components/UI/Text';
+import { useLogin } from '@store/auth/hydrateAuth';
 
 const MainHeaderFake = () => {
   const { t } = useTranslation();
+  const { isLogin } = useLogin();
 
   return (
     <>
@@ -68,10 +70,18 @@ const MainHeaderFake = () => {
           </div>
 
           <div className='flex items-center justify-end desktop:w-[350px]'>
-            <div className='flex items-center gap-[12px]'>
-              <div className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'></div>
-              <div className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'></div>
-            </div>
+            {isLogin ? (
+              <>
+                <div className='h-[40px] w-[40px] rounded-[100%] bg-[#EAF4FB]'></div>
+              </>
+            ) : (
+              <>
+                <div className='flex items-center gap-[12px]'>
+                  <div className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'></div>
+                  <div className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'></div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

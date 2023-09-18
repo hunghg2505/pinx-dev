@@ -12,6 +12,8 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
+import { useHydrateLoginToAtom } from '@store/auth/hydrateAuth';
+
 import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 
@@ -43,6 +45,10 @@ const BarlowFont = Barlow({
 });
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const { isLogin } = pageProps;
+
+  useHydrateLoginToAtom(isLogin);
+
   const getLayout = Component.getLayout ?? ((page: any) => page);
 
   return (

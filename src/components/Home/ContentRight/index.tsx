@@ -12,7 +12,7 @@ import Fade from '@components/UI/Fade';
 import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
@@ -87,7 +87,7 @@ const ContentRight = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const isProfilePath = router?.pathname === ROUTE_PATH.MY_PROFILE;
 

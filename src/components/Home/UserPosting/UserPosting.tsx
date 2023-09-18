@@ -16,7 +16,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
@@ -36,7 +36,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
   const refModalUnVerify = useRef<IBaseModal>(null);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const onShowModal = async () => {
     if (isLogin) {
@@ -58,7 +58,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
     }
   };
 
-  if (!isLogin && !userLoginInfo?.loading) {
+  if (!isLogin) {
     return <></>;
   }
 
