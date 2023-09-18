@@ -37,7 +37,15 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
-
+// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
+//   loading: () => (
+//     <>
+//       <NewsFeedSkeleton />
+//       <NewsFeedSkeleton />
+//       <NewsFeedSkeleton />
+//     </>
+//   ),
+// });
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
