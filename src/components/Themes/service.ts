@@ -1,7 +1,13 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestFromServer, requestPist } from '@api/request';
+import {
+  PREFIX_API_COMMUNITY,
+  privateRequest,
+  requestCommunity,
+  requestFromServer,
+  requestPist,
+} from '@api/request';
 import { ILatestSubscribe } from '@components/Home/service';
 import { getAccessToken } from '@store/auth';
 
@@ -204,3 +210,16 @@ export async function getCommunity(page: number, code: string): Promise<any> {
     totalElements: r?.data?.totalElements,
   };
 }
+
+export const fetchSeoDataFromServer = async (textSearch: string) => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_SEO_PAGE_V2(textSearch)}`).then(
+      (data: any) => data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
+};
