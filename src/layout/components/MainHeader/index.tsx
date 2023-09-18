@@ -115,42 +115,40 @@ const MainHeader = () => {
         </Fade>
 
         <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] galaxy-max:gap-[12px] desktop:h-[84px] desktop:px-[0]'>
-          <>
-            <div className='flex items-center desktop:w-[218px] desktop:gap-[16px]'>
-              <CustomLink
-                onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
-                href={ROUTE_PATH.HOME}
-              >
-                <div className='flex items-center'>
-                  <Image
-                    width='0'
-                    height='0'
-                    sizes='100vw'
-                    src='/static/logo/logo.png'
-                    alt=''
-                    className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
-                  />
+          <div className='flex flex-none items-center desktop:w-[218px] desktop:gap-[16px]'>
+            <CustomLink
+              onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
+              href={ROUTE_PATH.HOME}
+            >
+              <div className='flex items-center'>
+                <Image
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  src='/static/logo/logo.png'
+                  alt=''
+                  className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
+                />
 
-                  <img
-                    src='/static/logo/logo-website-pinetree.svg'
-                    alt='Logo pinetree'
-                    className='ml-[12px] hidden h-[32px] desktop:block'
-                  />
-                </div>
-              </CustomLink>
-              <MenuMobile />
-            </div>
-
-            {isShowSearch && (
-              <div className='ml-auto max-w-[740px] tablet:ml-[initial] tablet:w-full '>
-                <SearchInput />
+                <img
+                  src='/static/logo/logo-website-pinetree.svg'
+                  alt='Logo pinetree'
+                  className='ml-[12px] hidden h-[32px] desktop:block'
+                />
               </div>
-            )}
+            </CustomLink>
+            <MenuMobile />
+          </div>
 
-            <div className='z-10 flex items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
-              <Profile />
+          {isShowSearch && (
+            <div className='ml-auto max-w-[740px] tablet:ml-[initial] tablet:w-full '>
+              <SearchInput />
             </div>
-          </>
+          )}
+
+          <div className='z-10 flex  flex-none items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
+            <Profile />
+          </div>
         </div>
       </div>
     </>

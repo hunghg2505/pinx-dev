@@ -702,7 +702,7 @@ const Compose = (props: IProps) => {
     };
   };
   const UploadAndAddLink = useCallback(() => {
-    const url = postDetail?.post?.metadataList[0].url;
+    const url = postDetail?.post?.metadataList?.[0]?.url;
     if (!hiddenThemeSelected && themeSelected?.id) {
       return (
         <>
