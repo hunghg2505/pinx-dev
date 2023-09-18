@@ -701,8 +701,8 @@ const Compose = (props: IProps) => {
       verticalAlign: hiddenThemeSelected && (themeSelected?.verticalAlign || 'top'),
     };
   };
-
   const UploadAndAddLink = useCallback(() => {
+    const url = postDetail?.post?.metadataList[0].url;
     if (!hiddenThemeSelected && themeSelected?.id) {
       return (
         <>
@@ -716,7 +716,11 @@ const Compose = (props: IProps) => {
           </div>
 
           <div>
-            <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+            <ModalAddLink
+              urlLinkInitial={url}
+              isUpdateActivities={isUpdateActivities}
+              getDataOG={getDataOG}
+            />
           </div>
         </>
       );
@@ -734,7 +738,11 @@ const Compose = (props: IProps) => {
         </Fade>
 
         <Fade visible={!themeSelected?.id}>
-          <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+          <ModalAddLink
+            urlLinkInitial={url}
+            isUpdateActivities={isUpdateActivities}
+            getDataOG={getDataOG}
+          />
         </Fade>
       </>
     );
