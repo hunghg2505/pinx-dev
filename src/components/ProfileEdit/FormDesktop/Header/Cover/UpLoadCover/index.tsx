@@ -8,15 +8,14 @@ import { toast } from 'react-hot-toast';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
-import { COVER_SIZE, MAX_COVER_FILE_SIZE_KB } from 'src/constant';
+import { MAX_COVER_FILE_SIZE_KB } from 'src/constant';
 
-import ModalCropImage from '../../ModalCropImage';
+import ModalCropAvatarCover from '../../ModalCropAvatarCover';
 
 const UpLoadCover = ({ form }: { form: FormInstance }) => {
   const { t } = useTranslation('editProfile');
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
 
   const { run, loading } = useUploadImage();
@@ -45,7 +44,7 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
       try {
         setLoading2(true);
 
-        // convert image to jpg
+        // compress image
         const compressedImage = await compressImage({
           file: blob,
           maxFileSizeKb: MAX_COVER_FILE_SIZE_KB,
@@ -82,10 +81,8 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
                     const file = (e.target.files as FileList)[0];
 
                     if (file) {
-                      // setOpenModalCropImg(true);
-                      // setFile(file);
-
-                      handleCropImageSuccess(file);
+                      setOpenModalCropImg(true);
+                      setFile(file);
                     }
                   }}
                 />
@@ -98,21 +95,13 @@ const UpLoadCover = ({ form }: { form: FormInstance }) => {
         }}
       </Field>
 
-      <ModalCropImage
-        width={COVER_SIZE.width}
-        height={COVER_SIZE.height}
+      <ModalCropAvatarCover
+        cropCover
+        showZoomControl={false}
         file={file}
+        onSuccess={handleCropImageSuccess}
         visible={openModalCropImg}
         onClose={() => setOpenModalCropImg(false)}
-        cropperOptions={{
-          aspectRatio: 16 / 9,
-          autoCropArea: 1,
-          zoomOnTouch: false,
-          zoomOnWheel: false,
-          cropBoxResizable: false,
-          dragMode: 'move',
-        }}
-        onCropSuccess={handleCropImageSuccess}
       />
     </>
   );

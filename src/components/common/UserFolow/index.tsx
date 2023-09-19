@@ -6,7 +6,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import Follow from './Follow';
@@ -16,7 +16,7 @@ export const followContext = createContext<any>(undefined);
 const UserFolow = (props: any) => {
   const { userLoginInfo } = useUserLoginInfo();
   const route = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const isMyProfile = userLoginInfo?.id === props.id;
   return (
     <followContext.Provider value={{ ...props }}>

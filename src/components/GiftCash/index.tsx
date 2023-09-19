@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
 import { DownloadPineXApp } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 import styles from './index.module.scss';
 
@@ -91,7 +91,7 @@ const GiftCash = () => {
                 height={52}
                 sizes='100vw'
                 className='h-[52px] w-[180px] cursor-pointer object-contain'
-                onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                onClick={() => handleRedirect(DEEP_LINK.GIFT_CASH)}
               />
 
               <Image
@@ -101,13 +101,13 @@ const GiftCash = () => {
                 width={180}
                 height={52}
                 className='h-[52px] w-[180px] cursor-pointer object-contain'
-                onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                onClick={() => handleRedirect(DEEP_LINK.GIFT_CASH)}
               />
             </div>
             <div className='mt-[40px] hidden w-[158px] mobile-max:block'>
               <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
                 <a
-                  href='https://onelink.to/cgarrk'
+                  href={DEEP_LINK.GIFT_CASH}
                   target='_blank'
                   rel='noreferrer'
                   onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}
@@ -263,7 +263,7 @@ const GiftCash = () => {
           <div className='mx-auto mt-[36px] w-[158px]'>
             <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
               <a
-                href='https://onelink.to/cgarrk'
+                href={DEEP_LINK.GIFT_CASH}
                 target='_blank'
                 rel='noreferrer'
                 onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}

@@ -15,7 +15,7 @@ import Notification from '@components/UI/Notification';
 import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
@@ -82,7 +82,7 @@ const ThemesItem = (props: IProps) => {
   const { t } = useTranslation(['theme', 'common']);
   const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { statusUser } = useUserType();
   const { theme, refresh } = props;
   const router = useRouter();

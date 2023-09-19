@@ -8,9 +8,9 @@ import { toast } from 'react-hot-toast';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
-import { AVATAR_SIZE, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
+import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
-import ModalCropImage from '../../ModalCropImage';
+import ModalCropAvatarCover from '../../ModalCropAvatarCover';
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
@@ -83,10 +83,8 @@ const Update = ({ form }: { form: FormInstance }) => {
                   const file = (e.target.files as FileList)[0];
 
                   if (file) {
-                    // setOpenModalCropImg(true);
-                    // setFile(file);
-
-                    handleCropImageSuccess(file);
+                    setOpenModalCropImg(true);
+                    setFile(file);
                   }
                 }}
               />
@@ -115,23 +113,12 @@ const Update = ({ form }: { form: FormInstance }) => {
         }}
       </Field>
 
-      <ModalCropImage
-        width={AVATAR_SIZE.width}
-        height={AVATAR_SIZE.height}
+      <ModalCropAvatarCover
         file={file}
+        showZoomControl
         visible={openModalCropImg}
         onClose={() => setOpenModalCropImg(false)}
-        cropperOptions={{
-          aspectRatio: 1 / 1,
-          autoCropArea: 1,
-          zoomOnTouch: false,
-          zoomOnWheel: false,
-          cropBoxResizable: false,
-          dragMode: 'move',
-          cropBoxMovable: false,
-        }}
-        onCropSuccess={handleCropImageSuccess}
-        showZoomControl
+        onSuccess={handleCropImageSuccess}
       />
     </>
   );

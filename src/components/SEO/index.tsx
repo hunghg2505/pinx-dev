@@ -86,7 +86,7 @@ const SEO: FC<Props> = ({
       <meta name='twitter:site' content='@pinex' />
       <meta name='twitter:creator' content='@pinex' />
       <meta name='keywords' content={kwToStr} />
-      <link rel='canonical' href='https://pinex.vn/' />
+      <link rel='canonical' href={siteUrl || 'https://pinex.vn/'} />
       {schema && (
         <script
           type='application/ld+json'

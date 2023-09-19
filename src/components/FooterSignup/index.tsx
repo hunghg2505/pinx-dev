@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { RegisterTracking } from '@utils/dataLayer';
 
@@ -15,7 +15,7 @@ const FooterSignUp = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const footerRef = useRef(null);
 

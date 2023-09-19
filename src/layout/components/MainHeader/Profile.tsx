@@ -22,7 +22,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
@@ -35,7 +35,7 @@ import {
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD, ONE_LINK_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 const handleRedirect = (url: string) => {
   DownloadPineXApp('CTA in App', 'MenuProfileMobile');
@@ -112,7 +112,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
               alt={t('upgrade_account')}
               className='mx-auto mb-[12px] h-[150px] w-[150px] object-contain'
             />
-            <MainButton className='px-12' onClick={() => handleRedirect(ONE_LINK_DOWNLOAD)}>
+            <MainButton className='px-12' onClick={() => handleRedirect(DEEP_LINK.OPEN_APP)}>
               {t('upgrade_account')}
             </MainButton>
           </div>
@@ -126,7 +126,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
 const Profile = () => {
   const { t } = useTranslation('common');
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { userLoginInfo } = useUserLoginInfo();
   const watchList = useAtomValue(stockSocketAtom);
 
@@ -254,7 +254,7 @@ const Profile = () => {
                   width={180}
                   height={52}
                   className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                  onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
                 />
 
                 <Image
@@ -264,7 +264,7 @@ const Profile = () => {
                   width={180}
                   height={52}
                   className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                  onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
                 />
               </div>
             </div>

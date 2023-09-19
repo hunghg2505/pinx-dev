@@ -6,9 +6,12 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Text from '@components/UI/Text';
+import { useLogin } from '@store/auth/hydrateAuth';
+import { DEEP_LINK } from 'src/constant';
 
 const MainHeaderFake = () => {
   const { t } = useTranslation();
+  const { isLogin } = useLogin();
 
   return (
     <>
@@ -35,7 +38,7 @@ const MainHeaderFake = () => {
           </div>
         </div>
 
-        <CustomLink href='https://onelink.to/cgarrk'>
+        <CustomLink href={DEEP_LINK.OPEN_APP}>
           <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
             <Text type='body-14-bold' color='neutral-9'>
               {t('open_app')}
@@ -68,10 +71,18 @@ const MainHeaderFake = () => {
           </div>
 
           <div className='flex items-center justify-end desktop:w-[350px]'>
-            <div className='flex items-center gap-[12px]'>
-              <div className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'></div>
-              <div className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'></div>
-            </div>
+            {isLogin ? (
+              <>
+                <div className='h-[40px] w-[40px] rounded-[100%] bg-[#EAF4FB]'></div>
+              </>
+            ) : (
+              <>
+                <div className='flex items-center gap-[12px]'>
+                  <div className='h-[36px] rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'></div>
+                  <div className='h-[36px] rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:hidden desktop:block desktop:w-[122px]'></div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

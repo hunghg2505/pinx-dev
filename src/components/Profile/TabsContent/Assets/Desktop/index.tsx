@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 const Desktop = () => {
   const { t } = useTranslation('profile');
@@ -28,7 +28,7 @@ const Desktop = () => {
           width={52}
           alt="Don't have any result"
           className='h-[62px] w-[215px] cursor-pointer object-contain'
-          onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
+          onClick={() => window.open(DEEP_LINK.ASSETS)}
         />
 
         <Image
@@ -38,7 +38,7 @@ const Desktop = () => {
           width={52}
           alt="Don't have any result"
           className='h-[62px] w-[215px] cursor-pointer object-contain'
-          onClick={() => window.open(APP_STORE_DOWNLOAD)}
+          onClick={() => window.open(DEEP_LINK.ASSETS)}
         />
       </div>
     </div>

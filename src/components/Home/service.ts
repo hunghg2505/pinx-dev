@@ -375,7 +375,7 @@ export const useGetBgTheme = () => {
 };
 
 // get pin post
-export const useGetPinedPost = (dataInitial: any) => {
+export const useGetPinedPost = () => {
   const { data, loading, refresh } = useRequest(
     async () => {
       const isLogin = !!getAccessToken();
@@ -392,7 +392,7 @@ export const useGetPinedPost = (dataInitial: any) => {
   );
 
   return {
-    pinedPost: data?.data?.length ? data?.data : dataInitial?.data,
+    pinedPost: data?.data,
     loading,
     refresh,
   };

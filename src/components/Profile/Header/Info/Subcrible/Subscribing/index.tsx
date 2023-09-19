@@ -6,11 +6,11 @@ import { useTranslation } from 'next-i18next';
 import { requestFollowUser } from '@components/Home/service';
 import { profileUserContext } from '@components/Profile';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 
 const Subscribing = ({ access }: { access: () => void }) => {
   const profileUser = useContext<any>(profileUserContext);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { t } = useTranslation('profile');
   const { setUserLoginInfo } = useUserLoginInfo();
 
@@ -22,9 +22,9 @@ const Subscribing = ({ access }: { access: () => void }) => {
       manual: true,
       onSuccess: () => {
         profileUser?.refresh();
-        setUserLoginInfo(prev => ({
+        setUserLoginInfo((prev) => ({
           ...prev,
-          totalFollowing: prev.totalFollowing && prev.totalFollowing + 1
+          totalFollowing: prev.totalFollowing && prev.totalFollowing + 1,
         }));
       },
     },

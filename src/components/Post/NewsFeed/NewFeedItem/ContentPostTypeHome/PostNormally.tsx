@@ -104,7 +104,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
             height='0'
             sizes='100vw'
             src={BgThemePost?.bgImage || ''}
-            alt=''
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
             className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:max-h-[300px] mobile:min-h-[204px] mobile-max:object-bottom tablet:rounded-[8px] desktop:h-[300px]'
           />
           {message && (
@@ -214,7 +215,8 @@ const MetaContent = ({ metaData }: any) => {
                 height='0'
                 sizes='100vw'
                 src={imageUrl}
-                alt=''
+                alt={title}
+                title={title}
                 className={classNames(
                   'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
                   {
@@ -302,7 +304,8 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
             height='0'
             sizes='100vw'
             src={imageMetaData}
-            alt=''
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
             className='my-[10px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
           />
         </ModalMedia>
@@ -321,7 +324,8 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
             height='0'
             sizes='100vw'
             src={postDetail?.post?.urlImages?.[0]}
-            alt=''
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
             className='my-[10px] h-[300px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
           />
         </ModalMedia>

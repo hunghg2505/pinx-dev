@@ -60,7 +60,13 @@ export const CafeFNews = ({
 
   const onTrackingReadNews = () => {
     const curPostData = postDetail?.post;
-    ReadNews(curPostData.postType, curPostData.vendorInfo.name, curPostData.category, curPostData.tagStocks, calcLocation());
+    ReadNews(
+      curPostData.postType,
+      curPostData.vendorInfo.name,
+      curPostData.category,
+      curPostData.tagStocks,
+      calcLocation(),
+    );
   };
 
   const renderThumbnail = () => {
@@ -112,7 +118,11 @@ export const CafeFNews = ({
             className='absolute left-0 top-0 z-[1] h-full w-full'
             onClick={onTrackingReadNews}
           >
-            <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            <ImageHeadPost
+              alt={postDetail?.seoMetadata?.imageSeo?.alt}
+              title={postDetail?.seoMetadata?.imageSeo?.title}
+              headImageUrl={postDetail?.post?.headImageUrl}
+            />
           </CustomLink>
         )}
 
