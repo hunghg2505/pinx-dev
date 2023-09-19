@@ -209,7 +209,6 @@ const MediaItem = ({
                   dangerouslySetInnerHTML={{
                     __html: formatMessage(
                       data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                      data?.post,
                     ),
                   }}
                 ></div>
@@ -241,7 +240,6 @@ const MediaItem = ({
                   dangerouslySetInnerHTML={{
                     __html: formatMessage(
                       data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                      data?.post,
                     ),
                   }}
                 ></div>
@@ -281,7 +279,6 @@ const MediaItem = ({
               dangerouslySetInnerHTML={{
                 __html: formatMessage(
                   data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
-                  data?.post,
                 ),
               }}
             ></div>
