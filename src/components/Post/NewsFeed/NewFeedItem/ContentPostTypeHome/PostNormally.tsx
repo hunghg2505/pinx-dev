@@ -37,8 +37,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
       imageMetaData: metaData?.images?.[0],
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
-      message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+      message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
       post_url: postDetail?.post.url ?? '',
     };
@@ -253,7 +252,7 @@ const MetaContent = ({ metaData }: any) => {
 };
 
 export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
-  const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
+  const messagePostFormat = formatMessage(postDetail?.post?.message);
   const [inView, setInView] = useState(false);
 
   const { imageMetaData, siteName, videoId } = useMemo(() => {
@@ -263,8 +262,7 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
       imageMetaData: metaData?.images?.[0],
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
-      message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+      message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
       post_url: postDetail?.post.url ?? '',
     };

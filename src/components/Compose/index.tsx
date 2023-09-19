@@ -90,8 +90,7 @@ const Compose = (props: IProps) => {
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
-  const message =
-    postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+  const message = postDetail?.post?.message && formatMessage(postDetail?.post?.message);
 
   const postType = postDetail?.postType || '';
   const isShowImageActivities = [
