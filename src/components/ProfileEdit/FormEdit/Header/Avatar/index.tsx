@@ -5,12 +5,11 @@ import { useTranslation } from 'next-i18next';
 import { Field, FormInstance } from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
-import ModalCropImage from '@components/ProfileEdit/FormDesktop/Header/ModalCropImage';
+import ModalCropAvatarCover from '@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AVATAR_SIZE, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
+import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
 import Img from './Img';
 
@@ -19,7 +18,6 @@ const Avatar = ({ form }: { form: FormInstance }) => {
   const { run, loading } = useUploadImage();
   const [loading2, setLoading2] = useState(false);
   const [openModalCropImg, setOpenModalCropImg] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [file, setFile] = useState<File>();
 
   const setField = (value: string) => {
@@ -71,10 +69,8 @@ const Avatar = ({ form }: { form: FormInstance }) => {
     const file = (e.target.files as FileList)[0];
 
     if (file) {
-      // setOpenModalCropImg(true);
-      // setFile(file);
-
-      handleCropImageSuccess(file);
+      setOpenModalCropImg(true);
+      setFile(file);
     }
   };
 
@@ -119,22 +115,12 @@ const Avatar = ({ form }: { form: FormInstance }) => {
         </label>
       </div>
 
-      <ModalCropImage
-        width={AVATAR_SIZE.width}
-        height={AVATAR_SIZE.height}
+      <ModalCropAvatarCover
         file={file}
         visible={openModalCropImg}
         onClose={() => setOpenModalCropImg(false)}
-        cropperOptions={{
-          aspectRatio: 1 / 1,
-          autoCropArea: 1,
-          zoomOnTouch: false,
-          zoomOnWheel: false,
-          cropBoxResizable: false,
-          dragMode: 'move',
-        }}
-        onCropSuccess={handleCropImageSuccess}
         showZoomControl
+        onSuccess={handleCropImageSuccess}
       />
     </>
   );
