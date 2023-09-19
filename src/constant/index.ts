@@ -42,6 +42,14 @@ const SEO_TEXT_SEARCH = {
   TOP_MENTION_PAGE: 'Top-mention-stock',
 };
 
+const DEEP_LINK = {
+  OPEN_APP: 'https://pino-uat.pinex.vn/pinex-pino?screenName=pinetree.pist.feed',
+  ASSETS: 'https://pino-uat.pinex.vn/pinex-pino?screenName=pinetree.pist.assets',
+  GIFT_CASH: 'https://pino-uat.pinex.vn/pinex-pino?screenName=pinetree.pist.gifts',
+  SIGNUP:
+    'https://pino-uat.pinex.vn/pinex-pino?screenName=pinetree.pist.signup.activeAccountQuestion',
+};
+
 export {
   ZALO_OAID,
   SHARE_THIS_PROPERTY_ID,
@@ -62,4 +70,5 @@ export {
   WHITE_BACKGROUND_IMAGE,
   GOOGLE_TAG_MANAGER_ID,
   SEO_TEXT_SEARCH,
+  DEEP_LINK,
 };

@@ -7,7 +7,7 @@ import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
 import { DownloadPineXApp } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 const handleRedirect = (url: string) => {
   DownloadPineXApp('CTA in App', 'PopUpEkyc');
@@ -71,7 +71,7 @@ const PopUpEkycInternal = (props: IProps) => {
             width={180}
             height={52}
             className='h-[52px] w-[180px] cursor-pointer object-contain'
-            onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+            onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
           />
 
           <Image
@@ -81,7 +81,7 @@ const PopUpEkycInternal = (props: IProps) => {
             width={180}
             height={52}
             className='h-[52px] w-[180px] cursor-pointer object-contain'
-            onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+            onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
           />
         </div>
       </div>

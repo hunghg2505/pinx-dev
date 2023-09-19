@@ -20,6 +20,7 @@ import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
 import { DownloadPineXApp } from '@utils/dataLayer';
+import { DEEP_LINK } from 'src/constant';
 
 const MainHeader = () => {
   const { t } = useTranslation('common');
@@ -103,7 +104,7 @@ const MainHeader = () => {
             </div>
           </div>
           <CustomLink
-            href='https://onelink.to/cgarrk'
+            href={DEEP_LINK.OPEN_APP}
             onClick={() => DownloadPineXApp('CTA in App', 'Header')}
           >
             <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
