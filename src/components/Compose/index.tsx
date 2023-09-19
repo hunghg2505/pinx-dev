@@ -90,8 +90,7 @@ const Compose = (props: IProps) => {
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
-  const message =
-    postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+  const message = postDetail?.post?.message && formatMessage(postDetail?.post?.message);
 
   const postType = postDetail?.postType || '';
   const isShowImageActivities = [
@@ -701,8 +700,8 @@ const Compose = (props: IProps) => {
       verticalAlign: hiddenThemeSelected && (themeSelected?.verticalAlign || 'top'),
     };
   };
-
   const UploadAndAddLink = useCallback(() => {
+    const url = postDetail?.post?.metadataList?.[0]?.url;
     if (!hiddenThemeSelected && themeSelected?.id) {
       return (
         <>
@@ -716,7 +715,11 @@ const Compose = (props: IProps) => {
           </div>
 
           <div>
-            <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+            <ModalAddLink
+              urlLinkInitial={url}
+              isUpdateActivities={isUpdateActivities}
+              getDataOG={getDataOG}
+            />
           </div>
         </>
       );
@@ -734,7 +737,11 @@ const Compose = (props: IProps) => {
         </Fade>
 
         <Fade visible={!themeSelected?.id}>
-          <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+          <ModalAddLink
+            urlLinkInitial={url}
+            isUpdateActivities={isUpdateActivities}
+            getDataOG={getDataOG}
+          />
         </Fade>
       </>
     );

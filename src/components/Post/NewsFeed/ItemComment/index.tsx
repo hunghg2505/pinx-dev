@@ -116,7 +116,7 @@ const ItemComment = (props: IProps) => {
   }, [data]);
 
   const message = useMemo(() => {
-    return data?.message ? formatMessage(data?.message, data) : '';
+    return data?.message ? formatMessage(data?.message) : '';
   }, [data?.message]);
 
   const name = data?.customerInfo?.displayName || '';

@@ -34,7 +34,7 @@ const ContentPostTypeHome = (props: IProps) => {
 
   const ref = useRef(null);
 
-  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message, postDetail?.post);
+  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const { postDetailUrl, iconPost, urlStock, post_url } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
@@ -58,8 +58,7 @@ const ContentPostTypeHome = (props: IProps) => {
       siteName: metaData?.siteName,
       url: metaData?.url?.split('/')?.slice(-1),
       urlImages: postDetail?.post?.urlImages,
-      message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+      message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
       urlStock: imageStock(stockCode),
       iconPost,
       postDetailUrl,
