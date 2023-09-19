@@ -41,7 +41,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
   const [zoom, setZoom] = useState(1);
   const [initZoom, setInitZoom] = useState(0);
   const preValueRangeSliderRef = useRef(0);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [sliderPercent, setSliderPercent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [onCompressing, setOnCompressing] = useState(false);
@@ -107,14 +107,30 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
     }
 
     return CROP_SIZE;
-  }, [size]);
+  }, [size?.width, size?.height]);
 
   const initOptions = useMemo(() => {
     let initOpt: any = {
       cropShape: 'rect',
       objectFit: 'horizontal-cover',
       aspect: 16 / 9,
+      style: {
+        cropAreaStyle: {
+          color: '#fff',
+        },
+      },
     };
+
+    if (mediaSize) {
+      const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+      const ratioImage = mediaSize.naturalWidth / mediaSize.naturalHeight;
+      if (isHorizontalImage && ratioImage > 16 / 9) {
+        initOpt = {
+          ...initOpt,
+          objectFit: 'vertical-cover',
+        };
+      }
+    }
 
     if (!cropCover) {
       initOpt = {
@@ -134,7 +150,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
     }
 
     return initOpt;
-  }, [cropCover, cropSize]);
+  }, [cropCover, cropSize, mediaSize]);
 
   const handleCropImage = async () => {
     try {
@@ -159,9 +175,22 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
   };
 
   const handleLoadedMedia = (mediaSize: MediaSize) => {
-    const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
-    const initZoom = CROP_SIZE / (isHorizontalImage ? mediaSize.height : mediaSize.width);
-    setInitZoom(initZoom);
+    const containerElm = containerRef.current;
+    if (cropCover && containerElm) {
+      const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+      const ratioImage = mediaSize.naturalWidth / mediaSize.naturalHeight;
+      if (isHorizontalImage && ratioImage > 16 / 9) {
+        const cropSizeHeight = (containerElm.clientWidth * 9) / 16;
+        const zoom = cropSizeHeight / containerElm.clientHeight;
+        setZoom(zoom);
+      } else {
+        setZoom(1);
+      }
+    } else {
+      const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+      const initZoom = CROP_SIZE / (isHorizontalImage ? mediaSize.height : mediaSize.width);
+      setInitZoom(initZoom);
+    }
     setMediaSize(mediaSize);
   };
 
@@ -184,8 +213,20 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
             onCropChange={(res) => {
               setCrop(res);
 
-              if (mediaSize && !cropCover) {
-                const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+              if (!mediaSize) {
+                return;
+              }
+
+              const isHorizontalImage = mediaSize.naturalWidth > mediaSize.naturalHeight;
+              if (cropCover) {
+                const ratioImage = mediaSize.naturalWidth / mediaSize.naturalHeight;
+                if (isHorizontalImage && size?.width && size.height && ratioImage > 16 / 9) {
+                  const cropSizeHeight = (size.width * 9) / 16;
+                  const zoom = cropSizeHeight / size.height;
+
+                  setInitZoom(zoom);
+                }
+              } else {
                 const initZoom =
                   cropSize / (isHorizontalImage ? mediaSize.height : mediaSize.width);
                 setInitZoom(initZoom);
@@ -193,7 +234,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
             }}
             image={image}
             showGrid={false}
-            zoom={cropCover ? 1 : zoom}
+            zoom={zoom}
             onMediaLoaded={handleLoadedMedia}
             onCropComplete={(_, croppedAreaPixels) => {
               setCroppedAreaPixels(croppedAreaPixels);
