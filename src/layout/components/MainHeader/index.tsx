@@ -142,7 +142,7 @@ const MainHeader = () => {
           </div>
 
           {isShowSearch && (
-            <div className='ml-auto max-w-[740px] tablet:ml-[initial] tablet:w-full '>
+            <div className='ml-auto max-w-[740px] laptop:ml-[initial] laptop:w-full '>
               <SearchInput />
             </div>
           )}
