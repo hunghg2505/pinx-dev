@@ -19,12 +19,10 @@ const PinPost = (props: IProps) => {
   const { onTrackingViewTickerCmt } = props;
   const { pinedPost, refresh, loading } = useGetPinedPost();
   const [data, setData] = useState([]);
-  const [isTransition, setIsTransition] = useTransition();
+  const [, setIsTransition] = useTransition();
 
   useEffect(() => {
-    setIsTransition(() => {
-      setData(pinedPost);
-    });
+    setIsTransition(() => setData(pinedPost));
   }, [JSON.stringify(pinedPost)]);
 
   const onRefresh = () => {
@@ -32,9 +30,10 @@ const PinPost = (props: IProps) => {
     refresh();
   };
 
-  if (loading || isTransition || !data?.length) {
+  if (!data?.length) {
     return (
       <>
+        <NewsFeedSkeleton />
         <NewsFeedSkeleton />
         <NewsFeedSkeleton />
         <NewsFeedSkeleton />
