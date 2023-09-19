@@ -171,6 +171,7 @@ const StockDetail = () => {
       const isFollowed = !!(res && res.data[0].stocks.some((item) => item.stockCode === stockCode));
       setIsFollowedStock(isFollowed);
     },
+    refreshDeps: [stockCode],
   });
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {

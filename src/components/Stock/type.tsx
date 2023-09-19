@@ -95,6 +95,7 @@ export interface IResponseShareholder {
 export interface IOptions {
   onSuccess?: (res: any) => void;
   onError?: (error: any) => void;
+  refreshDeps?: any[];
 }
 
 export interface IResponseMyStocks {
