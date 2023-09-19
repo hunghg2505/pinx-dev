@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 const Mobile = () => {
   const { t } = useTranslation('profile');
@@ -30,7 +30,7 @@ const Mobile = () => {
               src={'/static/images/googleplay.png'}
               alt="Don't have any result"
               className='h-[30px] w-[106px] cursor-pointer object-contain '
-              onClick={() => window.open(GOOGLE_PLAY_DOWNLOAD)}
+              onClick={() => window.open(DEEP_LINK.ASSETS)}
             />
 
             <Image
@@ -40,7 +40,7 @@ const Mobile = () => {
               src={'/static/images/appstore.png'}
               alt="Don't have any result"
               className='h-[30px] w-[106px] cursor-pointer object-contain '
-              onClick={() => window.open(APP_STORE_DOWNLOAD)}
+              onClick={() => window.open(DEEP_LINK.ASSETS)}
             />
           </div>
         </div>

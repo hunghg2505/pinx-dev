@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
-import { ONE_LINK_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 const Mobile = () => {
   const { t } = useTranslation('profile');
@@ -25,7 +25,7 @@ const Mobile = () => {
               {t('start_investment')}
             </p>
             <CustomLink
-              href={ONE_LINK_DOWNLOAD}
+              href={DEEP_LINK.ASSETS}
               className='line-[18px] block max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white hover:text-white galaxy-max:text-[12px]'
             >
               {t('invest_now')}

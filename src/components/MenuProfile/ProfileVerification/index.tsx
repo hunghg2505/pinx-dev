@@ -30,13 +30,7 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH, calcUserStatusText, isUrlValid, compressImage } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 import { DownloadPineXApp } from '@utils/dataLayer';
-import {
-  APP_STORE_DOWNLOAD,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  AVATAR_SIZE,
-  GOOGLE_PLAY_DOWNLOAD,
-  MAX_AVATAR_FILE_SIZE_KB,
-} from 'src/constant';
+import { AVATAR_SIZE, DEEP_LINK, MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
 import { useUpdateUserProfile } from './service';
 
@@ -203,10 +197,10 @@ const ProfileVerification = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                className='h-[52px] w-[52px] rounded-full border border-solid border-[#ebebeb] mobile:block object-cover'
+                className='h-[52px] w-[52px] rounded-full border border-solid border-[#ebebeb] object-cover mobile:block'
               />
             ) : (
-              <div className='h-[52px] w-[52px] rounded-full mobile:block object-cover'>
+              <div className='h-[52px] w-[52px] rounded-full object-cover mobile:block'>
                 <AvatarDefault name={userLoginInfo?.displayName} />
               </div>
             )}
@@ -442,7 +436,7 @@ const ProfileVerification = () => {
                   height={52}
                   sizes='100vw'
                   className='h-[32px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                  onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
                 />
 
                 <Image
@@ -452,7 +446,7 @@ const ProfileVerification = () => {
                   sizes='100vw'
                   height={52}
                   className='h-[32px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                  onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
                 />
               </div>
             </div>
