@@ -190,15 +190,7 @@ const SideBar = () => {
       <div>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-          <Image
-            width={218}
-            height={400}
-            src={BANNER_URL}
-            alt=''
-            className='mt-[16px] w-full laptop-max:px-[10px]'
-            placeholder='blur'
-            blurDataURL='/static/blur/sidebar.png'
-          />
+          <img src={BANNER_URL} alt='' className='mt-[16px] w-full laptop-max:px-[10px]' />
         </a>
 
         <div className='px-[10px] pt-[16px]'>
