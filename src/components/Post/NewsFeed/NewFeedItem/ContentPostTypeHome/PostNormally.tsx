@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
@@ -17,6 +17,8 @@ import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
+
+import useHeight from './useHeight';
 
 const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingViewTicker }: any) => {
   const { t } = useTranslation();
@@ -56,16 +58,22 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
     };
   }, [postDetail, bgTheme]);
 
-  useEffect(() => {
-    setShowReadMore(false);
-    const t = setTimeout(() => {
-      const ele = document?.getElementById(`post-content-${postDetail.id}`);
-      if (ele?.clientHeight) {
-        setShowReadMore(ele?.clientHeight > 84);
-      }
-      clearTimeout(t);
-    }, 400);
-  }, [messageDefault, postThemeId]);
+  // useEffect(() => {
+  //   setShowReadMore(false);
+  //   const t = setTimeout(() => {
+  //     const ele = document?.getElementById(`post-content-${postDetail.id}`);
+  //     if (ele?.clientHeight) {
+  //       setShowReadMore(ele?.clientHeight > 84);
+  //     }
+  //     clearTimeout(t);
+  //   }, 400);
+  // }, [messageDefault, postThemeId]);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const height = useHeight(ref);
+  useLayoutEffect(() => {
+    setShowReadMore(height > 84);
+  }, [height, messageDefault, postThemeId]);
 
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent as string;
@@ -140,6 +148,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
               // onClick={onComment}
             >
               <div
+                ref={ref}
                 className='desc messageFormat messageBody'
                 dangerouslySetInnerHTML={{ __html: messagePostFormat }}
               ></div>
