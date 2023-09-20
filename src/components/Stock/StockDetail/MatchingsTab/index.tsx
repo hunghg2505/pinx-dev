@@ -112,7 +112,7 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
                     onClick={() => {
                       setOpenPopup(true);
                     }}
-                    className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+                    className='mt-[8px] flex h-[46px] w-full cursor-pointer items-center justify-center rounded-[8px] bg-[#EEF5F9]'
                   >
                     <Text type='body-14-bold' color='primary-2' className='uppercase'>
                       {t('common:view_more')}
