@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
-import { useMount } from 'ahooks';
+// import { useMount } from 'ahooks';
 import classNames from 'classnames';
 // import dynamic from 'next/dynamic';
 import { useAtom, useAtomValue } from 'jotai';
@@ -17,6 +17,7 @@ import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 
 import ModalMedia from './ModalMedia';
+import useHeight from './useHeight';
 
 // const ImageHeadPost = dynamic(
 //   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
@@ -55,7 +56,7 @@ export const PineTreePost2 = ({
   const [, setSearchSeo] = useAtom(searchSeoAtom);
   const router = useRouter();
 
-  const [showDescription, setShowDescription] = useState(false);
+  // const [showDescription, setShowDescription] = useState(false);
 
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
@@ -90,24 +91,42 @@ export const PineTreePost2 = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
+  const ref = useRef<HTMLDivElement>(null);
+  const height = useHeight(ref);
+  useLayoutEffect(() => {
+    setShowReadMore(height > 84);
+  }, [height]);
+  // React.useEffect(() => {
+  // const t = setTimeout(() => {
+  //   const ele = document?.getElementById(`PineTreePost2-${postDetail.id}`);
+  //   if (ele?.clientHeight) {
+  //     if (window.innerWidth > 768) {
+  //       setShowReadMore(ele?.clientHeight > 84);
+  //     } else {
+  //       setShowReadMore(ele?.clientHeight > 84);
+  //     }
+  //   }
+  //   clearTimeout(t);
+  // }, 400);
+  // }, []);
 
-  React.useEffect(() => {
-    const t = setTimeout(() => {
-      const ele = document?.getElementById(`PineTreePost2-${postDetail.id}`);
-      if (ele?.clientHeight) {
-        if (window.innerWidth > 768) {
-          setShowReadMore(ele?.clientHeight > 84);
-        } else {
-          setShowReadMore(ele?.clientHeight > 84);
-        }
-      }
-      clearTimeout(t);
-    }, 400);
-  }, []);
+  // useLayoutEffect(() => {
+  //   const handleResize = () => {
+  //     if (ref.current) {
+  //       setHeight(ref.current.offsetHeight);
+  //     }
+  //   };
+  //   handleResize();
+  //   window.addEventListener('resize', handleResize);
 
-  useMount(() => {
-    setShowDescription(true);
-  });
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [ref.current]);
+
+  // useMount(() => {
+  //   setShowDescription(true);
+  // });
 
   const ShowImage = () => {
     if (postDetail?.post?.urlImages?.length > 0) {
@@ -138,7 +157,7 @@ export const PineTreePost2 = ({
         onClick={onHandleClick}
         id={`PineTreePost2-${postDetail.id}`}
       >
-        {showDescription && (
+        <div>
           <Text
             type='body-14-regular'
             color='neutral-1'
@@ -148,11 +167,12 @@ export const PineTreePost2 = ({
             })}
           >
             <div
+              ref={ref}
               className='messageFormat messageBody'
               dangerouslySetInnerHTML={{ __html: messagePostFormat }}
             ></div>
           </Text>
-        )}
+        </div>
       </div>
 
       {!isPostDetailPath && (

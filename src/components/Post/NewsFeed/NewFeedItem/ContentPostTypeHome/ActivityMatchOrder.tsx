@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -13,6 +13,8 @@ import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
+
+import useHeight from './useHeight';
 
 export const ActivityMatchOrder = ({
   isReadMore,
@@ -63,20 +65,28 @@ export const ActivityMatchOrder = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
-  React.useEffect(() => {
-    const t = setTimeout(() => {
-      const ele = document?.getElementById(`activityOrder-${postDetail.id}`);
+  // React.useEffect(() => {
+  //   const t = setTimeout(() => {
+  //     const ele = document?.getElementById(`activityOrder-${postDetail.id}`);
 
-      if (ele?.clientHeight) {
-        if (window.innerWidth > 768) {
-          setShowReadMore(ele?.clientHeight > 84);
-        } else {
-          setShowReadMore(ele?.clientHeight > 84);
-        }
-      }
-      clearTimeout(t);
-    }, 400);
-  }, []);
+  //     if (ele?.clientHeight) {
+  //       if (window.innerWidth > 768) {
+  //         setShowReadMore(ele?.clientHeight > 84);
+  //       } else {
+  //         setShowReadMore(ele?.clientHeight > 84);
+  //       }
+  //     }
+  //     clearTimeout(t);
+  //   }, 400);
+  // }, []);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const height = useHeight(ref);
+
+  useLayoutEffect(() => {
+    setShowReadMore(height > 84);
+  }, [height]);
+
   return (
     <>
       <div
@@ -94,6 +104,7 @@ export const ActivityMatchOrder = ({
         >
           {/* {postDetail?.post?.message} */}
           <div
+            ref={ref}
             className='messageFormat messageBody'
             dangerouslySetInnerHTML={{ __html: messagePostFormat }}
           ></div>

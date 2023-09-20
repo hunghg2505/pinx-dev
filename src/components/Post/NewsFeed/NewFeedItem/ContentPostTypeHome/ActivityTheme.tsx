@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
@@ -12,6 +12,8 @@ import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
+
+import useHeight from './useHeight';
 
 export const ActivityTheme = ({
   // onRef,
@@ -65,20 +67,25 @@ export const ActivityTheme = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
-  React.useEffect(() => {
-    const t = setTimeout(() => {
-      const ele = document?.getElementById(`activityTheme-${postDetail.id}`);
+  // React.useEffect(() => {
+  //   const t = setTimeout(() => {
+  //     const ele = document?.getElementById(`activityTheme-${postDetail.id}`);
 
-      if (ele?.clientHeight) {
-        if (window.innerWidth > 768) {
-          setShowReadMore(ele?.clientHeight > 84);
-        } else {
-          setShowReadMore(ele?.clientHeight > 84);
-        }
-      }
-      clearTimeout(t);
-    }, 400);
-  }, []);
+  //     if (ele?.clientHeight) {
+  //       if (window.innerWidth > 768) {
+  //         setShowReadMore(ele?.clientHeight > 84);
+  //       } else {
+  //         setShowReadMore(ele?.clientHeight > 84);
+  //       }
+  //     }
+  //     clearTimeout(t);
+  //   }, 400);
+  // }, []);
+  const ref = useRef<HTMLDivElement>(null);
+  const height = useHeight(ref);
+  useLayoutEffect(() => {
+    setShowReadMore(height > 84);
+  }, [height]);
   // console.log('isReadMore', isReadMore);
   // const onRef = useCallback((ele: any) => {
   //   if (!ele) {
@@ -104,6 +111,7 @@ export const ActivityTheme = ({
           })}
         >
           <div
+            ref={ref}
             className='messageFormat messageBody'
             dangerouslySetInnerHTML={{ __html: messagePostFormat }}
           ></div>
