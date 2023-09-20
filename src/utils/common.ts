@@ -1014,3 +1014,35 @@ export const compressImage = async ({
     return file;
   } catch {}
 };
+
+export const slugify = (value?: string) => {
+  if (!value) {
+    return '';
+  }
+
+  // Đổi chữ hoa thành chữ thường
+  let slug = value.toLowerCase();
+
+  // Đổi ký tự có dấu thành không dấu
+  slug = slug.replaceAll(/[àáâãăạảấầẩẫậắằẳẵặ]/gi, 'a');
+  slug = slug.replaceAll(/[èéêẹẻẽếềểễệ]/gi, 'e');
+  slug = slug.replaceAll(/[iìíĩỉị]/gi, 'i');
+  slug = slug.replaceAll(/[òóôõơọỏốồổỗộớờởỡợ]/gi, 'o');
+  slug = slug.replaceAll(/[ùúũưụủứừửữự]/gi, 'u');
+  slug = slug.replaceAll(/[ýỳỵỷỹ]/gi, 'y');
+  slug = slug.replaceAll(/đ/gi, 'd');
+  // Xóa các ký tự đặt biệt
+  slug = slug.replaceAll(/[!"#$%&'()*+,./:;<=>?@^_`|~]/gi, '');
+  // Đổi khoảng trắng thành ký tự gạch ngang
+  slug = slug.replaceAll(/ /gi, '-');
+  // Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+  // Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+  slug = slug.replaceAll(/-{5}/gi, '-');
+  slug = slug.replaceAll(/-{4}/gi, '-');
+  slug = slug.replaceAll(/---/gi, '-');
+  slug = slug.replaceAll(/--/gi, '-');
+  // Xóa các ký tự gạch ngang ở đầu và cuối
+  slug = '@' + slug + '@';
+  slug = slug.replaceAll(/@-|-@|@/gi, '');
+  return slug;
+};

@@ -1,5 +1,6 @@
 import { API_PATH } from '@api/constant';
 import { PREFIX_API_COMMUNITY, PREFIX_API_PIST } from '@api/request';
+import { slugify } from '@utils/common';
 
 function generateSiteMap(listSlugs: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -10,9 +11,6 @@ function generateSiteMap(listSlugs: string[]) {
           return `
             <url>
               <loc>${`https://pinex.vn/${slug}`}</loc>
-            </url>
-            <url>
-              <loc>${`https://pinex.vn/en/${slug}`}</loc>
             </url>
           `;
         })
@@ -37,7 +35,8 @@ export async function getServerSideProps({ res }: any) {
       await fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(item?.code)}`)
     ).json();
 
-    listSlug.push(data?.data?.seoMetadata?.slug);
+    const slug = 'chu-de/' + data?.data?.code?.toLowerCase() + '-' + slugify(data?.data?.name);
+    listSlug.push(slug);
   }
 
   // We generate the XML sitemap with the posts data

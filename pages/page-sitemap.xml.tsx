@@ -19,9 +19,6 @@ function generateSiteMap() {
     <url>
       <loc>https://pinex.vn/${path}</loc>
     </url>
-    <url>
-      <loc>https://pinex.vn/en/${path}</loc>
-    </url>
   `,
   ).join('');
 
@@ -30,9 +27,6 @@ function generateSiteMap() {
       <!--We manually set the two URLs we know already-->
       <url>
         <loc>https://pinex.vn</loc>
-      </url>
-      <url>
-        <loc>https://pinex.vn/en</loc>
       </url>
       ${urls}
     </urlset>
