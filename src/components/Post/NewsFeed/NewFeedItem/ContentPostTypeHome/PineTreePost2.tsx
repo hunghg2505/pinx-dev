@@ -157,8 +157,6 @@ export const PineTreePost2 = ({
         onClick={onHandleClick}
         id={`PineTreePost2-${postDetail.id}`}
       >
-        <>{height}</>
-
         <div>
           <Text
             type='body-14-regular'
