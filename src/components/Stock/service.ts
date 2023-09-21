@@ -497,6 +497,19 @@ export const fetchStockDetailFromServer = async (stockCode: string) => {
   }
 };
 
+export const fetchAllStockFromServer = async () => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_STOCK_SITE_MAP}`).then((data: any) =>
+      data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
+};
+
 export {
   useStockDetail,
   useShareholder,

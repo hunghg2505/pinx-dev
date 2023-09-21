@@ -33,6 +33,7 @@ export const API_PATH = {
   PRIVATE_WATCHLIST_STOCK: '/private/watchlist/list',
   PRIVATE_HIDE_POST: '/private/mapping/hide',
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
+  PUBLIC_MAPPING_SITE_MAP: '/public/mapping/site-map',
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
   PRIVATE_ADD_POST: '/private/post/add',
   PRIVATE_PINNED_POST: '/private/mapping/pinned-posts',
@@ -120,6 +121,7 @@ export const API_PATH = {
   PUBLIC_FINANCE_INFO: '/public/finance-info',
   PUBLIC_STOCK_TRADE: (stockCode: string) => `/public/stock/${stockCode}/trade`,
   PUBLIC_STOCK_INTRADAY: (stockCode: string) => `/public/stock/${stockCode}/step-price`,
+  PUBLIC_STOCK_SITE_MAP: '/public/stock/site-map',
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',

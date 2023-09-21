@@ -371,3 +371,16 @@ export const fetchPostDetailFromServer = async (id: string) => {
     };
   }
 };
+
+export const fetchAllPostFromServer = async () => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_MAPPING_SITE_MAP}`).then((data: any) =>
+      data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
+};

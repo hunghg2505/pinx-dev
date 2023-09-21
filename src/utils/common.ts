@@ -1020,29 +1020,32 @@ export const slugify = (value?: string) => {
     return '';
   }
 
-  // Đổi chữ hoa thành chữ thường
-  let slug = value.toLowerCase();
+  // Remove diacritics
+  const withoutDiacritics = value.normalize('NFD').replaceAll(/[\u0300-\u036F]/g, '');
 
-  // Đổi ký tự có dấu thành không dấu
-  slug = slug.replaceAll(/[àáâãăạảấầẩẫậắằẳẵặ]/gi, 'a');
-  slug = slug.replaceAll(/[èéêẹẻẽếềểễệ]/gi, 'e');
-  slug = slug.replaceAll(/[iìíĩỉị]/gi, 'i');
-  slug = slug.replaceAll(/[òóôõơọỏốồổỗộớờởỡợ]/gi, 'o');
-  slug = slug.replaceAll(/[ùúũưụủứừửữự]/gi, 'u');
-  slug = slug.replaceAll(/[ýỳỵỷỹ]/gi, 'y');
-  slug = slug.replaceAll(/đ/gi, 'd');
-  // Xóa các ký tự đặt biệt
-  slug = slug.replaceAll(/[!"#$%&'()*+,./:;<=>?@^_`|~]/gi, '');
-  // Đổi khoảng trắng thành ký tự gạch ngang
-  slug = slug.replaceAll(/ /gi, '-');
-  // Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
-  // Phòng trường hợp người nhập vào quá nhiều ký tự trắng
-  slug = slug.replaceAll(/-{5}/gi, '-');
-  slug = slug.replaceAll(/-{4}/gi, '-');
-  slug = slug.replaceAll(/---/gi, '-');
-  slug = slug.replaceAll(/--/gi, '-');
-  // Xóa các ký tự gạch ngang ở đầu và cuối
-  slug = '@' + slug + '@';
-  slug = slug.replaceAll(/@-|-@|@/gi, '');
-  return slug;
+  // Replace spaces and special characters with hyphens
+  const slug = withoutDiacritics
+    .replaceAll(/[^\d\sA-Za-z]/g, '')
+    .trim()
+    .replaceAll(/\s+/g, '-'); // Replace spaces with hyphens
+
+  // Convert to lowercase
+  return slug.toLowerCase();
+};
+
+export const formatTitlePost = (title: string) => {
+  if (!title) {
+    return '';
+  }
+
+  let titleFormat = title;
+  const userMentionPattern = /@\[(.*?)]\((.*?)\)/g;
+  const stockMentionPattern = /%\[(.*?)]\((.*?)\)/g;
+  const hashtagPattern = /#(\S+)/g;
+
+  titleFormat = titleFormat.replaceAll(userMentionPattern, (_, b) => b);
+  titleFormat = titleFormat.replaceAll(stockMentionPattern, (_, b) => b);
+  titleFormat = titleFormat.replaceAll(hashtagPattern, (_, b) => b);
+
+  return titleFormat;
 };
