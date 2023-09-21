@@ -385,7 +385,7 @@ export const useGetPinedPost = () => {
         : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
     },
     {
-      staleTime: -1,
+      // staleTime: -1,
       cacheKey: 'data-pin-post',
       loadingDelay: 3000,
     },
