@@ -39,7 +39,7 @@ const ThemeDetail = () => {
 
     // tracking event view stock list
     if (value === TabsThemeDetailEnum.StockSymbols) {
-      ViewStockList('Stock symbols', '', 'Stock symbols of theme', 'Theme screen');
+      ViewStockList('Stock symbols', themeDetail?.name, 'Stock symbols of theme', 'Theme screen');
     }
   };
   const onGoBack = () => {
