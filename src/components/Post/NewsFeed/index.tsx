@@ -13,7 +13,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ClickaPost } from '@utils/dataLayer';
+import { ClickaPost, GetMoreInfo } from '@utils/dataLayer';
 
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
@@ -154,10 +154,29 @@ const NewsFeed = (props: IProps) => {
 
   const countComment = postData?.totalChildren;
 
+  // tracking event get more info
+  const handleTrackingGetMore = () => {
+    const pathName = router.pathname;
+    let screen = 'Home screen';
+
+    switch (pathName) {
+      case '/profile/my-profile': {
+        screen = 'My profile screen';
+        break;
+      }
+      case '/profile/[id]': {
+        screen = 'User detail screen';
+        break;
+      }
+    }
+
+    GetMoreInfo(screen, 'Comment', 'List comment belong to post');
+  };
+
   const ViewMore = () => {
     if (countComment > 1) {
       return (
-        <CustomLink href={`/post/${postData?.id}`}>
+        <CustomLink onClick={handleTrackingGetMore} href={`/post/${postData?.id}`}>
           <div className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'>
             <Text type='body-14-medium' color='primary-2'>
               {t('common:view_more')} {countComment - 1} {t('common:comments')}...
