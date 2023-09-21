@@ -14,7 +14,7 @@ import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
@@ -76,6 +76,11 @@ const handleTrackingViewListStock = (presetName: string) => {
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
   ViewTickerInfo(stockCode, 'Explore screen', location, 'Stock');
+};
+
+// tracking event get more info
+const handleTrackingGetMoreInfo = (infoGroup: string, infoDetail: string) => {
+  GetMoreInfo('Explore screen', infoGroup, infoDetail);
 };
 
 const Explore = () => {
@@ -186,7 +191,10 @@ const Explore = () => {
                 />
               </div>
             ) : (
-              <div className='flex items-center justify-center'>
+              <div
+                className='flex items-center justify-center'
+                onClick={() => handleTrackingGetMoreInfo('Keywords', 'Top keywords search')}
+              >
                 <Text type='body-14-bold' color='primary-2'>
                   {t('explore_top_search')}
                 </Text>
@@ -215,7 +223,10 @@ const Explore = () => {
           <Influencer />
         </div>
 
-        <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
+        <CustomLink
+          href={ROUTE_PATH.PEOPLEINSPOTLIGHT}
+          onClick={() => handleTrackingGetMoreInfo('User', 'List people in spotlight')}
+        >
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_influencer')}
@@ -288,7 +299,10 @@ const Explore = () => {
             />
           </div>
         </div>
-        <CustomLink href={ROUTE_PATH.THEME}>
+        <CustomLink
+          href={ROUTE_PATH.THEME}
+          onClick={() => handleTrackingGetMoreInfo('Theme', 'List theme')}
+        >
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_themes')}
@@ -334,7 +348,12 @@ const Explore = () => {
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
           <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
-            <ExploreButton onClick={() => handleTrackingViewListStock('Top watching stock')}>
+            <ExploreButton
+              onClick={() => {
+                handleTrackingViewListStock('Top watching stock');
+                handleTrackingGetMoreInfo('Stock', 'Top watching stock');
+              }}
+            >
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_watching_stock')}
               </Text>
@@ -381,7 +400,12 @@ const Explore = () => {
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
           <CustomLink href={ROUTE_PATH.TOPMENTION}>
-            <ExploreButton onClick={() => handleTrackingViewListStock('Top mention stock')}>
+            <ExploreButton
+              onClick={() => {
+                handleTrackingViewListStock('Top mention stock');
+                handleTrackingGetMoreInfo('Stock', 'Top mention stock');
+              }}
+            >
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_mention_stock')}
               </Text>
@@ -436,7 +460,12 @@ const Explore = () => {
         </div>
 
         <CustomLink href={ROUTE_PATH.PINEX_TOP_20}>
-          <ExploreButton onClick={() => handleTrackingViewListStock('Top 20 pinex')}>
+          <ExploreButton
+            onClick={() => {
+              handleTrackingViewListStock('Top 20 pinex');
+              handleTrackingGetMoreInfo('Stock', 'Pinex top 20');
+            }}
+          >
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_more')}
             </Text>
@@ -568,7 +597,7 @@ const Explore = () => {
 
       {!loadingTrendingOnPinex && (
         <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
-          <ExploreButton>
+          <ExploreButton onClick={() => handleTrackingGetMoreInfo('Post', 'Hot topics')}>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_hot_topics')}
             </Text>

@@ -6,6 +6,7 @@ import { useFinancialCalendar } from '@components/Stock/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { GetMoreInfo } from '@utils/dataLayer';
 
 import StockCalendarSkeleton from './skeleton';
 import CalendarItem from '../CalendarItem';
@@ -48,7 +49,10 @@ const StockCalendar = ({ stockCode, handleAnalyze }: IStockCalendarProps) => {
 
       {stockEvents.data.list.length > STOCK_EVENT_ITEM_LIMIT && (
         <CustomLink
-          onClick={() => handleAnalyze('Stock events')}
+          onClick={() => {
+            handleAnalyze('Stock events');
+            GetMoreInfo('Stock detail screen', 'Events', 'Events of company');
+          }}
           href={ROUTE_PATH.STOCK_EVENT(stockCode)}
         >
           <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>

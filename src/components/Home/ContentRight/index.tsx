@@ -15,7 +15,7 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
+import { GetMoreInfo, ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
 import MarketDesktop from '../Market/MarketDesktop';
 import { useGetInfluencer, useSuggestPeople } from '../service';
@@ -29,8 +29,8 @@ const WatchList = () => {
   const { t } = useTranslation('common');
   const watchList = useAtomValue(stockSocketAtom);
 
-  // tracking event view watch list
   const handleTracking = () => {
+    // tracking event view watch list
     const listStockCodes =
       watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
         ?.stocks || [];
@@ -42,6 +42,9 @@ const WatchList = () => {
       listStockCodes.length,
       'Right sidebar layout',
     );
+
+    // tracking event get more info
+    GetMoreInfo('Right sidebar layout', 'Watchlist', 'My watchlist');
   };
 
   return (
@@ -77,6 +80,10 @@ const WatchList = () => {
   );
 };
 
+// tracking event get more info
+const handleTrackingGetMore = () => {
+  GetMoreInfo('Right sidebar layout', 'User', 'People you may know');
+};
 const ContentRight = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople({
     // staleTime: -1,
@@ -129,7 +136,10 @@ const ContentRight = () => {
             />
             {suggestionPeople?.length && (
               <ModalPeopleYouKnow refreshList={refreshList}>
-                <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
+                <div
+                  onClick={handleTrackingGetMore}
+                  className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'
+                >
                   <Text type='body-14-bold' color='primary-2'>
                     {t('view_more')}
                   </Text>

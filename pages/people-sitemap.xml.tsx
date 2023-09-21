@@ -10,9 +10,6 @@ function generateSiteMap(users: ICustomerInfo[]) {
           return `
             <url>
               <loc>${`https://pinex.vn/profile/${item?.id}`}</loc>
-            </url>
-            <url>
-              <loc>${`https://pinex.vn/en/profile/${item?.id}`}</loc>
             </url>`;
         })
         .join('')}
