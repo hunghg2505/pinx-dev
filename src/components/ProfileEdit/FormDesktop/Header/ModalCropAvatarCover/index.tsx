@@ -42,6 +42,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
   const [initZoom, setInitZoom] = useState(0);
   const preValueRangeSliderRef = useRef(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const timerRef = useRef<any>(null);
   const [sliderPercent, setSliderPercent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [onCompressing, setOnCompressing] = useState(false);
@@ -86,13 +87,17 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
             setOnCompressing(false);
           });
       } else {
-        setTimeout(() => {
+        timerRef.current = setTimeout(() => {
           setOnCompressing(false);
         }, 3000);
       }
     }
 
     setImage(URL.createObjectURL(file));
+
+    return () => {
+      clearTimeout(timerRef.current);
+    };
   }, [file]);
 
   useEffect(() => {
