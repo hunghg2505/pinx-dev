@@ -65,24 +65,31 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
     }
 
     const fileSizeMB = file && file.size / 1024 / 1024;
-    if (isMobile && fileSizeMB && fileSizeMB > 3) {
+    if (isMobile) {
       setOnCompressing(true);
-      compressImage({
-        file,
-        maxFileSizeKb: 3 * 1024,
-        options: {
-          fileType: 'image/jpeg',
-        },
-      })
-        .then((compressedImage) => {
-          compressedImage && setImage(URL.createObjectURL(compressedImage));
+
+      if (fileSizeMB && fileSizeMB > 3) {
+        compressImage({
+          file,
+          maxFileSizeKb: 3 * 1024,
+          options: {
+            fileType: 'image/jpeg',
+          },
         })
-        .catch(() => {
-          toast.error(t('error'));
-        })
-        .finally(() => {
+          .then((compressedImage) => {
+            compressedImage && setImage(URL.createObjectURL(compressedImage));
+          })
+          .catch(() => {
+            toast.error(t('error'));
+          })
+          .finally(() => {
+            setOnCompressing(false);
+          });
+      } else {
+        setTimeout(() => {
           setOnCompressing(false);
-        });
+        }, 3000);
+      }
     }
 
     setImage(URL.createObjectURL(file));
@@ -102,7 +109,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
   }, [visible]);
 
   const cropSize = useMemo(() => {
-    if (size && size.width < 320) {
+    if (size?.width && size.width < 320) {
       return size.width;
     }
 
