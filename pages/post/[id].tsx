@@ -10,6 +10,7 @@ import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
+import { formatTitlePost } from '@utils/common';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
@@ -33,7 +34,7 @@ const PostDetailPage = ({ id, host, postDetail }: any) => {
     }
 
     return {
-      title,
+      title: formatTitlePost(title),
       description,
       seoMetadata,
     };
