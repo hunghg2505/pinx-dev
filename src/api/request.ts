@@ -40,7 +40,7 @@ const requestNoti = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    // 'App-Name': 'PineX_Web',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -63,7 +63,7 @@ const requestPist = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    // 'App-Name': 'PineX_Web',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -86,7 +86,7 @@ const requestMarket = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    // 'App-Name': 'PineX_Web',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -109,7 +109,7 @@ const requestUploadPhoto = extend({
   timeout: REQ_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
-    // 'App-Name': 'PineX_Web',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);
@@ -131,7 +131,7 @@ const requestCommunity = extend({
   prefix: PREFIX_API_COMMUNITY,
   timeout: REQ_TIMEOUT,
   headers: {
-    // 'App-Name': 'PineX_Web',
+    'App-Name': 'PineX_Web',
   },
   errorHandler: (error) => {
     redirectlogin(error);

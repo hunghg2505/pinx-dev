@@ -20,6 +20,8 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
 
+  // React Strict Mode is off
+  reactStrictMode: false,
   // Back scroll postion
   experimental: {
     scrollRestoration: true,

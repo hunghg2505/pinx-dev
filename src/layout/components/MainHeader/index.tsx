@@ -149,6 +149,7 @@ const MainHeader = () => {
           )}
 
           <div className='z-10 flex  flex-none items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
+            <Notifications />
             <Profile />
           </div>
         </div>

@@ -73,6 +73,12 @@ export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
   const postDetail = await fetchPostDetailFromServer(id);
 
+  if (!postDetail.data) {
+    return {
+      notFound: true,
+    };
+  }
+
   const url = req?.headers?.referer;
   let host = '';
   if (url) {

@@ -216,4 +216,7 @@ export const API_PATH = {
 
   // notifications
   GET_NOTIFICATION_TOKEN: '/private/notification/save-token',
+  GET_NOTIFICATION_LIST: '/private/notification/community/history',
+  GET_NOTIFICATION_COUNT: '/private/notification/community/history/count',
+  READ_NOTIFICATION: (id: string) => `/private/notification/community/history/${id}`,
 };

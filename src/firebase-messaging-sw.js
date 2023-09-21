@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-top-level-await */
-// src/firebase-messaging-sw.js
-import { firebaseConfig } from './firebase';
+/* eslint-disable no-console */
+import { firebaseConfig } from './src/firebase';
 
 if ('serviceWorker' in navigator) {
   const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
