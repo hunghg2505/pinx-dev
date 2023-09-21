@@ -224,6 +224,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
   if (mediaL) {
     fillterMediaSort = [...media];
   }
+
   const goToPostDetail = (idPost: string) => {
     router.push(ROUTE_PATH.POST_DETAIL(idPost));
   };
@@ -527,7 +528,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                         })}
                       </div>
                     </div>
-                    {fillterMediaSort?.length > 3 && (
+                    {fillterMediaSort?.length > 4 && (
                       <ExploreButton
                         className='-mt-[10px]'
                         onClick={() => {
