@@ -549,7 +549,7 @@ const Compose = (props: IProps) => {
         return dataJoin;
       });
 
-      const message = test?.flat().join('\n');
+      const message = test?.flat().join('\n').trim();
       const tagPeople = await Promise.all(
         users?.map(async (item: string) => {
           const payload: ISearch = {
