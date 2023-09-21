@@ -28,7 +28,18 @@ const TabBar = ({ tabKey, onTabChange, activeTab, setFullName, tab }: ITabBarPro
         onClick={() => {
           onTabChange(tabKey);
           setFullName('');
-          tab && window.history.replaceState('', '', ROUTE_PATH.MY_PROFILE_FOLLOW);
+          const newPath = ROUTE_PATH.MY_PROFILE_FOLLOW;
+
+          tab &&
+            window.history.replaceState(
+              {
+                ...window.history.state,
+                as: newPath,
+                url: newPath,
+              },
+              '',
+              newPath,
+            );
         }}
       >
         {t(tabKey)}
