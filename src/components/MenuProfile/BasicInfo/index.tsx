@@ -5,8 +5,9 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
-import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH } from '@utils/common';
+import CustomImage from '@components/UI/CustomImage';
+import { useLogin } from '@store/auth/hydrateAuth';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
 
 const BasicInfo = ({
@@ -25,7 +26,7 @@ const BasicInfo = ({
   isFeatureProfile?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const router = useRouter();
   return (
     <div
@@ -41,10 +42,10 @@ const BasicInfo = ({
       }}
     >
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] p-[12px]'>
-        {avatar ? (
-          <img
+        {isUrlValid(avatar) ? (
+          <CustomImage
             src={avatar}
-            alt='avatar'
+            alt=''
             width={52}
             height={52}
             className='h-[52px] w-[52px] min-w-[52px] rounded-[50%] object-cover galaxy-max:flex-none'

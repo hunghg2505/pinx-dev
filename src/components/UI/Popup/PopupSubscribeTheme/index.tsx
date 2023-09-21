@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -107,8 +107,11 @@ const PopupSubsribeTheme = (props: IProps) => {
           </FormItem>
 
           <div className='relative flex h-[205px] w-full rounded-lg'>
-            <img
-              src={popupThemeData?.bgImage || popupThemeData?.url}
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
+              src={popupThemeData?.bgImage || popupThemeData?.url || ''}
               alt=''
               className='absolute left-0 top-0 h-full w-full rounded-lg object-cover'
             />
@@ -129,15 +132,11 @@ const PopupSubsribeTheme = (props: IProps) => {
             </div>
           </div>
           <MainButton
-            className='mt-5 flex w-full justify-center galaxy-max:text-[15px]'
+            className='mt-5 w-full galaxy-max:text-[15px]'
             type='submit'
             disabled={requestShareThemeActivity?.loading}
+            loading={requestShareThemeActivity?.loading}
           >
-            {requestShareThemeActivity?.loading && (
-              <div className='mr-[8px]'>
-                <Loading />
-              </div>
-            )}
             {t('create_post')}
           </MainButton>
         </Form>

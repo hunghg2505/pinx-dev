@@ -16,10 +16,9 @@ import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { ROUTE_PATH } from '@utils/common';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
@@ -57,12 +56,11 @@ const PostDetail = () => {
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const [width, setWidth] = React.useState<number>(0);
   const [showReply, setShowReply]: any = useState('');
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
-  const { run: initUserProfile } = useProfileInitial();
   React.useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
@@ -138,7 +136,6 @@ const PostDetail = () => {
         popupLoginTerms: true,
       });
     }
-    initUserProfile();
   }, [userType, isReadTerms]);
 
   return (

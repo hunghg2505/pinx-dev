@@ -11,14 +11,15 @@ import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 import ComposeButton from '../ComposeButton';
@@ -35,7 +36,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
   const refModalUnVerify = useRef<IBaseModal>(null);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const onShowModal = async () => {
     if (isLogin) {
@@ -57,7 +58,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
     }
   };
 
-  if (!isLogin && !userLoginInfo?.loading) {
+  if (!isLogin) {
     return <></>;
   }
 
@@ -69,17 +70,17 @@ const UserPosting = ({ onAddNewPost }: any) => {
     <>
       <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
         <div className='flex items-center'>
-          {userLoginInfo?.avatar ? (
-            <img
-              src={userLoginInfo?.avatar}
+          {isUrlValid(userLoginInfo?.avatar) ? (
+            <CustomImage
+              src={userLoginInfo?.avatar || ''}
               alt=''
-              width={0}
-              height={0}
               onClick={() => {
                 router.push(ROUTE_PATH.MY_PROFILE);
               }}
+              width='0'
+              height='0'
               sizes='100vw'
-              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
+              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover'
             />
           ) : (
             <CustomLink
@@ -89,7 +90,6 @@ const UserPosting = ({ onAddNewPost }: any) => {
               <AvatarDefault name={userLoginInfo?.displayName} />
             </CustomLink>
           )}
-
           <input
             type='text'
             onClick={onShowModal}

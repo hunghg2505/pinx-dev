@@ -4,11 +4,13 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 // import { useRouter } from 'next/router';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
 // import { useResponsive } from '@hooks/useResponsive';
 import Themes from '@components/WatchList/Themes';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { ViewTickerInfo } from '@utils/dataLayer';
+import { socket } from 'src/socket/socket';
 
 import { useGetInterest, useGetYourWatchList } from './service';
 import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';
@@ -45,6 +47,11 @@ const Interest = dynamic(() => import('@components/WatchList/Interest'), {
     </div>
   ),
 });
+
+// tracking e view stock info
+const handleTrackingViewStockInfo = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Watch list screen', locationDetail, 'Stock');
+};
 
 const WatchList = () => {
   const [mounted, setMounted] = React.useState(false);
@@ -211,6 +218,7 @@ const WatchList = () => {
             setDataStock={setDataStock}
             isChangeStockPrice={isChangeStockPrice}
             findIndex={findIndex}
+            onTrackingEventViewTickerInfo={handleTrackingViewStockInfo}
           />
         </div>
         <Interest
@@ -218,6 +226,8 @@ const WatchList = () => {
           interestStock={interestStock}
           refreshInterest={refreshInterest}
           refreshYourWatchList={refreshYourWatchList}
+          totalStock={yourWatchListStock?.length || 0}
+          onTrackingViewTickerInfo={handleTrackingViewStockInfo}
         />
         <Themes isEdit={isEdit} />
       </div>

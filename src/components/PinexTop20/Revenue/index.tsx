@@ -6,7 +6,11 @@ import Text from '@components/UI/Text';
 import PinexTop from '../PinexTop';
 import { IProfit, useGetTopRevenue } from '../service';
 
-const Revenue = () => {
+interface IRevenueProps {
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
+}
+
+const Revenue = ({ onTrackingViewTickerInfo }: IRevenueProps) => {
   const { t } = useTranslation('explore');
   const { revenue, loading } = useGetTopRevenue();
   const maxRevenue = revenue && Math.max(...revenue.map((item: IProfit) => item.revenue));
@@ -35,6 +39,10 @@ const Revenue = () => {
                 number={index + 1}
                 key={`profit-${index}`}
                 data={revenue}
+                onTrackingViewTickerInfo={() => {
+                  onTrackingViewTickerInfo &&
+                    onTrackingViewTickerInfo(revenue?.stockCode, 'Revenue tab');
+                }}
               />
             );
           })

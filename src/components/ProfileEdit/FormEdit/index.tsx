@@ -32,7 +32,7 @@ const FormEdit = () => {
             run(value);
           }}
         >
-          <Header />
+          <Header form={form} />
           <Info />
         </Form>
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useRequest, useClickAway } from 'ahooks';
 import classNames from 'classnames';
@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -18,42 +19,44 @@ import {
   requestUnLikeComment,
 } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
+import { IconReported } from '@components/UI/Icon/IconReported';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { formatMessage, ROUTE_PATH } from '@utils/common';
+import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
+
+dayjs.extend(relativeTime);
 
 const ModalReportComment = dynamic(import('./ModalReportComment'), {
   ssr: false,
 });
 
-export const IconReported = ({ className }: { className?: string }) => {
+const MessageCommentContent = ({ message }: { message: string }) => {
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    setContent(message);
+  }, [message]);
+
+  if (!content) {
+    return <></>;
+  }
+
   return (
-    <svg
-      className={className}
-      width='17'
-      height='17'
-      viewBox='0 0 17 18'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        d='M1.33301 9.83333H14.3222C14.7076 9.83333 14.9003 9.83333 15.0104 9.75252C15.1063 9.68205 15.1676 9.57389 15.1786 9.45534C15.1913 9.31938 15.0921 9.15413 14.8939 8.82367L13.2055 6.00966C13.1306 5.88496 13.0932 5.8226 13.0786 5.75604C13.0657 5.69716 13.0657 5.63618 13.0786 5.5773C13.0932 5.51073 13.1306 5.44838 13.2055 5.32367L14.8939 2.50966C15.0922 2.17919 15.1913 2.01395 15.1786 1.878C15.1676 1.75945 15.1063 1.65129 15.0104 1.58082C14.9003 1.5 14.7076 1.5 14.3222 1.5H1.33301L1.33301 16.5'
-        stroke='#589DC0'
-        strokeWidth='2'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        fill='#589DC0'
-      />
-    </svg>
+    <Text type='body-16-regular' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
+      <div
+        dangerouslySetInnerHTML={{ __html: content }}
+        className='messageFormat [word-wrap:break-word]'
+      ></div>
+    </Text>
   );
 };
 
-dayjs.extend(relativeTime);
 interface IProps {
   onNavigate?: () => void;
   onReplies?: (value: string, customerId: number, id: string) => void;
@@ -67,6 +70,8 @@ interface IProps {
   isReply?: boolean;
   totalChildren?: number;
   onRemoveComment?: (v: any) => void;
+  onTrackingViewTicker?: (stockCode: string) => void;
+  onCloseModalComment?: () => void;
 }
 const ItemComment = (props: IProps) => {
   const { t, i18n } = useTranslation();
@@ -87,6 +92,8 @@ const ItemComment = (props: IProps) => {
     idPost,
     totalChildren = 0,
     onRemoveComment,
+    onTrackingViewTicker,
+    onCloseModalComment,
   } = props;
   const { userLoginInfo } = useUserLoginInfo();
   const isComment = userLoginInfo?.id === data?.customerId;
@@ -100,6 +107,7 @@ const ItemComment = (props: IProps) => {
   const [isReport, setIsReport] = React.useState<boolean>(data?.isReport);
   const [totalReport, setTotalReport] = React.useState<number>(0);
   const [totalLikes, setTotalLikes] = React.useState<number>(0);
+
   React.useEffect(() => {
     setIsLike(data?.isLike);
     setTotalLikes(data?.totalLikes);
@@ -107,7 +115,10 @@ const ItemComment = (props: IProps) => {
     setTotalReport(data?.totalReports);
   }, [data]);
 
-  const message = data?.message && formatMessage(data?.message, data);
+  const message = useMemo(() => {
+    return data?.message ? formatMessage(data?.message) : '';
+  }, [data?.message]);
+
   const name = data?.customerInfo?.displayName || '';
   const urlImage = data?.urlImages?.length > 0 ? data?.urlImages?.[0] : '';
   const onComment = (value: string, customerId: number, id: string) => {
@@ -132,6 +143,7 @@ const ItemComment = (props: IProps) => {
       });
     }
   };
+
   useClickAway(() => {
     showDelete && setShowDelete(false);
   }, ref);
@@ -253,6 +265,8 @@ const ItemComment = (props: IProps) => {
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onCloseModalComment && onCloseModalComment();
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
@@ -302,15 +316,15 @@ const ItemComment = (props: IProps) => {
   return (
     <div ref={commentRef} className='comment mt-[12px]'>
       <div className='relative flex flex-row items-start'>
-        {data?.customerInfo?.avatar ? (
-          <img
+        {isUrlValid(data?.customerInfo?.avatar) ? (
+          <CustomImage
             src={data?.customerInfo?.avatar}
             alt=''
             width='0'
             height='0'
             sizes='100vw'
             className={classNames(
-              'mr-[8px] cursor-pointer rounded-full object-cover galaxy-max:mr-[4px] ',
+              'mr-[8px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover galaxy-max:mr-[4px] ',
               {
                 'h-[40px] w-[40px] galaxy-max:h-[36px] galaxy-max:w-[36px]': !isChildren,
                 'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
@@ -337,7 +351,7 @@ const ItemComment = (props: IProps) => {
                 : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
             }
           >
-            <AvatarDefault name={data?.customerInfo?.displayName} />
+            <AvatarDefault nameClassName='text-[14px]' name={data?.customerInfo?.displayName} />
           </div>
         )}
         {!isHomePath && !isProfilePath && totalChildren > 0 && !isChildren && (
@@ -358,7 +372,6 @@ const ItemComment = (props: IProps) => {
             className='abc absolute left-[20px] top-[44px] z-10  hidden  w-[2px] bg-neutral_07 tablet:block'
           ></div>
         )}
-
         {isChildren && (
           <div>
             <div className='absolute -left-[28px] -top-[18px] z-20 h-[40px] w-[17px] rounded-bl-xl  bg-neutral_07'></div>
@@ -375,7 +388,6 @@ const ItemComment = (props: IProps) => {
           </div>
         )}
 
-        {/* bg-[#F6FAFD] */}
         <div
           className={classNames('content relative flex-1', {
             'w-[calc(100%_-_40px)]': isChildren,
@@ -445,18 +457,12 @@ const ItemComment = (props: IProps) => {
                 )}
               </button>
             </div>
+
             <div
               className='box-border cursor-pointer rounded-[12px] bg-[#F3F2F6] px-[16px] pb-[12px] pt-[6px]'
-              onClick={(event) => handleClick(event)}
+              onClick={handleClick}
             >
-              <Text type='body-16-regular' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
-                {message && (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: message }}
-                    className='messageFormat [word-wrap:break-word]'
-                  ></div>
-                )}
-              </Text>
+              <MessageCommentContent message={message} />
             </div>
 
             {totalLikes > 0 && (
@@ -482,11 +488,11 @@ const ItemComment = (props: IProps) => {
 
           {urlImage && (
             <ModalMedia url={urlImage}>
-              <img
+              <Image
                 src={urlImage}
                 alt=''
-                width={0}
-                height={0}
+                width='0'
+                height='0'
                 sizes='100vw'
                 className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
               />

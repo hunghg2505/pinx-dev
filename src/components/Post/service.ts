@@ -2,12 +2,7 @@ import { useRequest } from 'ahooks';
 import request from 'umi-request';
 
 import { API_PATH } from '@api/constant';
-import {
-  // PREFIX_API_COMMUNITY,
-  PREFIX_API_IP_COMMUNITY,
-  privateRequest,
-  requestCommunity,
-} from '@api/request';
+import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 export interface ICustomerInfo {
@@ -69,6 +64,12 @@ export interface IPost {
   totalReports: number;
   totalViews: number;
   isFollowing: boolean;
+  seoMetadata?: {
+    imageSeo?: {
+      alt: string;
+      title: string;
+    };
+  };
 }
 export interface IContentPost {
   customerId: number;
@@ -152,7 +153,7 @@ export const TypePostOnlyReportAction = [
 ];
 
 export const getPostDetail = async (postId: string) => {
-  return await privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
+  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
 };
 
 // export const usePostDetail = (postId: string) => {
@@ -177,6 +178,7 @@ export const usePostDetail = (postId: string, option = {}) => {
     },
     {
       refreshDeps: [postId],
+      loadingDelay: 300,
       ...option,
       // manual: true,
     },
@@ -190,11 +192,9 @@ export const usePostDetail = (postId: string, option = {}) => {
 };
 
 export const getCommentsOfPostAuth = async (postId: string, params?: any) => {
-  return await privateRequest(
-    requestCommunity.get,
-    API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId),
-    { params },
-  );
+  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId), {
+    params,
+  });
 };
 export const getCommentsOfPost = (postId: string, params?: any) => {
   return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId), { params });
@@ -254,7 +254,7 @@ export async function getMoreCommentPost(postId: string, nextId: string): Promis
 }
 
 export const likePost = async (postId: string) => {
-  return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
 };
 
 export const useLikePost = (postId: string) => {
@@ -276,7 +276,7 @@ export const useLikePost = (postId: string) => {
 };
 
 export const unlikePost = async (postId: string) => {
-  return await privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
+  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
 };
 
 export const useUnlikePost = (postId: string) => {
@@ -362,12 +362,25 @@ export const useDeletePost = (option = {}) => {
 export const fetchPostDetailFromServer = async (id: string) => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUCLIC_MAPPING_POST_DETAIL(id)}`).then(
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUCLIC_MAPPING_POST_DETAIL(id)}`).then(
       (data: any) => data.json(),
     );
   } catch {
     return {
-      data: [],
+      data: {},
+    };
+  }
+};
+
+export const fetchAllPostFromServer = async () => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_MAPPING_SITE_MAP}`).then((data: any) =>
+      data.json(),
+    );
+  } catch {
+    return {
+      data: {},
     };
   }
 };

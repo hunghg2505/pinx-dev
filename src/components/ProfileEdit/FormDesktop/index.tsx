@@ -43,7 +43,7 @@ const FormDesktop = () => {
             run(value);
           }}
         >
-          <Header />
+          <Header form={form} />
           <Info />
         </Form>
       )}

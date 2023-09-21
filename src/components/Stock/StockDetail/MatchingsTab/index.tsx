@@ -8,6 +8,7 @@ import { useGetStockTrade } from '@components/Stock/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { formatStringToNumber } from '@utils/common';
+import { AnalyzeTicker, GetMoreInfo } from '@utils/dataLayer';
 
 import { getColor } from '../MovementsTab';
 
@@ -106,29 +107,18 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
           {stockTrade?.data && stockTrade.data.length >= LIMIT_STOCK_TRADE && (
             <tfoot>
               <tr>
-                <td colSpan={4}>
+                <td colSpan={4} onClick={() => AnalyzeTicker(stockCode, 'Matching', 'price')}>
                   <Text
                     onClick={() => {
                       setOpenPopup(true);
+                      GetMoreInfo('Stock detail screen', 'Price', 'Matched price');
                     }}
-                    type='body-14-medium'
-                    className='cursor-pointer text-center uppercase text-[#3449D7] tablet:hidden'
+                    className='mt-[8px] flex h-[46px] w-full cursor-pointer items-center justify-center rounded-[8px] bg-[#EEF5F9]'
                   >
-                    {t('common:view_more')}
+                    <Text type='body-14-bold' color='primary-2' className='uppercase'>
+                      {t('common:view_more')}
+                    </Text>
                   </Text>
-
-                  <div className='hidden tablet:block'>
-                    <button
-                      onClick={() => {
-                        setOpenPopup(true);
-                      }}
-                      className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
-                    >
-                      <Text type='body-14-bold' color='primary-2' className='uppercase'>
-                        {t('common:view_more')}
-                      </Text>
-                    </button>
-                  </div>
                 </td>
               </tr>
             </tfoot>

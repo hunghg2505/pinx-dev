@@ -17,13 +17,13 @@ export interface ResultListStock {
 }
 
 const requestGetSuggestStockCode = async () => {
-  return await privateRequest(requestPist.get, API_PATH.PUBLIC_SUGGEST_STOCK_CODE);
+  return privateRequest(requestPist.get, API_PATH.PUBLIC_SUGGEST_STOCK_CODE);
 };
 
 export const useSuggestStockCode = (options: IOptionsRequest) => {
   const { data, loading } = useRequest(
     async () => {
-      return await requestGetSuggestStockCode();
+      return requestGetSuggestStockCode();
     },
     {
       ...options,
@@ -37,16 +37,13 @@ export const useSuggestStockCode = (options: IOptionsRequest) => {
 };
 
 const requestGetDetailStockCode = async (stockCodes: string) => {
-  return await privateRequest(
-    requestMarket.get,
-    API_PATH.PUBLIC_COMPANY_GET_BY_STOCK_BRIEF(stockCodes),
-  );
+  return privateRequest(requestMarket.get, API_PATH.PUBLIC_COMPANY_GET_BY_STOCK_BRIEF(stockCodes));
 };
 
 export const useGetDetailStockCode = (stockCodes: string) => {
   const { data, loading, run } = useRequest(
     async () => {
-      return await requestGetDetailStockCode(stockCodes);
+      return requestGetDetailStockCode(stockCodes);
     },
     {
       manual: true,
@@ -61,7 +58,7 @@ export const useGetDetailStockCode = (stockCodes: string) => {
 };
 
 const serviceSelectStock = async (stockCodes: string) => {
-  return await privateRequest(requestPist.post, API_PATH.PRIVATE_WATCH_LIST_CREATE, {
+  return privateRequest(requestPist.post, API_PATH.PRIVATE_WATCH_LIST_CREATE, {
     data: {
       stocks: stockCodes,
     },

@@ -1,26 +1,37 @@
+import Image from 'next/image';
+
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, imageStock } from '@utils/common';
 
-const ItemStock = ({ data }: { data: string }) => {
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.length === 3 || data?.[0] !== 'C' ? data : data?.slice(1, 4)
-  }.png`;
-
+const ItemStock = ({
+  data,
+  onTrackingViewTicker,
+}: {
+  data: string;
+  onTrackingViewTicker?: (stockCode: string) => void;
+}) => {
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data)}>
+    <CustomLink
+      onClick={() => {
+        onTrackingViewTicker && onTrackingViewTicker(data);
+      }}
+      href={ROUTE_PATH.STOCK_DETAIL(data)}
+    >
       <div className='mr-[6px]'>
         <div className='flex h-[32px] flex-row items-center justify-between rounded-[1000px] border-[1px] border-solid border-[rgba(88,157,192,0.24)] bg-[#1F6EAC] pl-[4px] pr-[6px] backdrop-blur-[2px] backdrop-filter'>
-          {url && (
-            <div className='mr-[6px] rounded-full bg-[#ffffff] shadow-[0_2px_4px_rgba(0,0,0,0.10)]'>
-              <img
-                src={url}
+          <div className='mr-[6px] rounded-full bg-[#ffffff] shadow-[0_2px_4px_rgba(0,0,0,0.10)]'>
+            <div className='flex h-[24px] min-w-[24px] max-w-[24px] items-center justify-center overflow-hidden rounded-full border-2 border-solid border-white object-contain'>
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={imageStock(data)}
                 alt=''
-                className='block h-[24px] min-w-[24px] max-w-[24px] rounded-full border-2 border-solid border-white object-contain'
+                className='block'
               />
             </div>
-          )}
+          </div>
 
           <Text type='body-12-medium' color='neutral-9'>
             {data}

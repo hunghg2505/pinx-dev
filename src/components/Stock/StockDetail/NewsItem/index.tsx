@@ -1,10 +1,12 @@
 import React, { memo } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import PostAction from '@components/Post/NewsFeed/PostAction';
 import { IPost } from '@components/Post/service';
+import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
@@ -19,51 +21,42 @@ interface INewsItemProps {
 const NewsItem = ({ className, data }: INewsItemProps) => {
   const router = useRouter();
 
-  const handleOpenLink = () => {
-    router.push({
-      pathname: ROUTE_PATH.REDIRECT,
-      query: {
-        url: data.post.url,
-      },
-    });
-  };
-
   const goToPostDetail = () => {
     router.push(ROUTE_PATH.POST_DETAIL(data.id));
   };
 
   const renderThumbnail = () => {
     return data.post.headImageUrl ? (
-      <div className='relative cursor-pointer'>
-        <img
-          src={data.post.headImageUrl}
-          alt={data.post.title}
-          className='h-[73px] w-[73px] rounded-[12px] object-cover'
-          onClick={goToPostDetail}
-        />
-
-        <div
-          onClick={handleOpenLink}
-          className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[rgba(255,255,255,0.45)]'
-        >
-          <img
-            src='/static/icons/iconLink.svg'
-            alt='Icon link'
-            className='h-[14px] w-[14px] object-contain'
+      <CustomLink href={data.post.url} target='_blank'>
+        <div className='relative cursor-pointer'>
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={data.post.headImageUrl}
+            alt={data.post.title}
+            className='h-[73px] w-[73px] rounded-[12px] object-cover'
           />
-        </div>
-      </div>
-    ) : (
-      <div className='relative'>
-        <div className='h-[73px] w-[73px] rounded-[12px] border border-solid border-[#ccc] bg-[#EFF2F5] object-cover'></div>
 
-        <div
-          onClick={handleOpenLink}
-          className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full'
-        >
-          <IconLink />
+          <div className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[rgba(255,255,255,0.45)]'>
+            <img
+              src='/static/icons/iconLink.svg'
+              alt='Icon link'
+              className='h-[14px] w-[14px] object-contain'
+            />
+          </div>
         </div>
-      </div>
+      </CustomLink>
+    ) : (
+      <CustomLink href={data.post.url} target='_blank'>
+        <div className='relative'>
+          <div className='h-[73px] w-[73px] rounded-[12px] border border-solid border-[#ccc] bg-[#EFF2F5] object-cover'></div>
+
+          <div className='absolute left-1/2 top-1/2 flex h-[30px] w-[30px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full'>
+            <IconLink />
+          </div>
+        </div>
+      </CustomLink>
     );
   };
 

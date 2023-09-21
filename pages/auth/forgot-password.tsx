@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import StepOne from '@components/Auth/ForgotPassword/StepOne';
 import LoginLayout from '@layout/LoginLayout';
+
+const StepOne = dynamic(() => import('@components/Auth/ForgotPassword/StepOne'));
 
 const ForgotPasswordPage = () => {
   return (

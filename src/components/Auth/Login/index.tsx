@@ -15,7 +15,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-// import { PINETREE_LINK } from '@utils/constant';
+import { LoginTracking } from '@utils/dataLayer';
 
 import { useLogin } from './service';
 
@@ -32,6 +32,7 @@ const Login = (props: Iprops) => {
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
   const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm } = useUserLoginInfo();
+  const date = new Date();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
@@ -43,18 +44,27 @@ const Login = (props: Iprops) => {
   const requestLogin = useLogin({
     onSuccess: (res: any) => {
       if (res?.data.token) {
+        const loginData = res?.data;
         onLogin({
-          token: res?.data.token,
+          token: loginData.token,
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
+        LoginTracking(
+          'Login',
+          loginData.cif,
+          loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified',
+          loginData.username,
+          date,
+          '',
+        );
         requestProfleSetting();
-        setUserLoginInfo(res?.data);
-        setForceAllowTerm(res?.data.forceAllow);
-        setUserType(checkUserType(res?.data?.custStat, res?.data?.acntStat));
-        if (res?.data.isReadTerms === 'true') {
+        setUserLoginInfo(loginData);
+        setForceAllowTerm(loginData.forceAllow);
+        if (loginData.isReadTerms === 'true') {
           setIsReadTerms(true);
         }
+        setUserType(checkUserType(loginData?.custStat, loginData?.acntStat));
         if (isModal) {
           setPopupStatus({
             ...popupStatus,
@@ -62,12 +72,14 @@ const Login = (props: Iprops) => {
           });
           router.reload();
         } else {
-          router.push(ROUTE_PATH.HOME);
+          // router.push(ROUTE_PATH.HOME);
+          window.location.href = ROUTE_PATH.HOME;
         }
       }
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
+      LoginTracking('Failed', '', '', '', date, '');
     },
   });
 
@@ -102,7 +114,12 @@ const Login = (props: Iprops) => {
           </NextLink>
         </div>
 
-        <MainButton type='submit' className='!mt-2 w-full'>
+        <MainButton
+          type='submit'
+          className='!mt-2 w-full'
+          disabled={requestLogin.loading}
+          loading={requestLogin.loading}
+        >
           {t('login')}
         </MainButton>
 
@@ -115,25 +132,6 @@ const Login = (props: Iprops) => {
             </NextLink>
           </div>
         )}
-
-        {/* {!isModal && (
-          <a
-            href={PINETREE_LINK}
-            target='_blank'
-            rel='noreferrer'
-            className='!mt-[24px] flex items-center justify-center laptop:!mt-[48px]'
-          >
-            <Text type='body-16-regular' className='mr-[8px] text-[#808A9D] galaxy-max:text-[14px]'>
-              {t('a_product_of')}
-            </Text>
-            <img
-              src='/static/images/pinetree_logo.png'
-              alt=''
-              sizes='100vw'
-              className='h-[40px] w-[105px] galaxy-max:h-[35px] galaxy-max:w-[90px] laptop:h-[55px] laptop:w-[140px]'
-            />
-          </a>
-        )} */}
       </Form>
     </>
   );

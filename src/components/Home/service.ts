@@ -1,16 +1,9 @@
 import { useRequest } from 'ahooks';
-import io from 'socket.io-client';
 
 import { API_PATH } from '@api/constant';
-import {
-  PREFIX_API_COMMUNITY,
-  PREFIX_API_MARKET,
-  privateRequest,
-  requestCommunity,
-  requestPist,
-} from '@api/request';
+import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
-import { ENV } from '@utils/env';
+import { socket } from 'src/socket/socket';
 
 export interface ITrending {
   keyword: string;
@@ -147,20 +140,10 @@ interface IOptionsRequest {
   onSuccess?: (r: any) => void;
   onError?: (e: any) => void;
 }
-export const useGetListFillter = (language: string) => {
-  const { data, refresh } = useRequest(
-    () => {
-      return requestCommunity.get(API_PATH.FILTER_LIST, {
-        headers: {
-          'Accept-Language': language,
-        },
-      });
-    },
-    // {
-    //   cacheKey: 'data-filter',
-    //   staleTime: -1,
-    // },
-  );
+export const useGetListFillter = () => {
+  const { data, refresh } = useRequest(() => {
+    return requestCommunity.get(API_PATH.FILTER_LIST);
+  });
 
   return {
     data,
@@ -280,9 +263,6 @@ export const useGetInfluencer = (options = {}) => {
     loading,
   };
 };
-export const socket = io(ENV.URL_SOCKET, {
-  transports: ['websocket'],
-});
 
 export const requestJoinChannel = (stocks: string) => {
   const message = { action: 'join', data: stocks };
@@ -336,22 +316,6 @@ export const useGetTheme = () => {
     theme: data?.data,
     refresh,
     loading,
-  };
-};
-// get stock market
-export const useGetStock = () => {
-  const { data, loading, run } = useRequest(
-    () => {
-      return fetch(PREFIX_API_MARKET + '/public/index').then((data: any) => data.json());
-    },
-    {
-      manual: true,
-    },
-  );
-  return {
-    stockIndex: data?.data,
-    loading,
-    run,
   };
 };
 
@@ -411,7 +375,7 @@ export const useGetBgTheme = () => {
 };
 
 // get pin post
-export const useGetPinedPost = (options = {}) => {
+export const useGetPinedPost = () => {
   const { data, loading, refresh } = useRequest(
     async () => {
       const isLogin = !!getAccessToken();
@@ -421,11 +385,12 @@ export const useGetPinedPost = (options = {}) => {
         : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
     },
     {
-      ...options,
-      staleTime: -1,
+      // staleTime: -1,
       cacheKey: 'data-pin-post',
+      loadingDelay: 3000,
     },
   );
+
   return {
     pinedPost: data?.data,
     loading,

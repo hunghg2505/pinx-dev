@@ -5,9 +5,9 @@ import { useTranslation } from 'next-i18next';
 
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import useToggleClassStock from '@hooks/useToggleClassStock';
 import { formatStringToNumber } from '@utils/common';
 
+import Price from './Price';
 import { getColor } from '..';
 import styles from '../index.module.scss';
 
@@ -102,22 +102,20 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             className='flex h-full flex-col justify-center pl-[16px]'
             style={{ color: getColor(+sell_price_3, stockData?.r || 0)?.color }}
           >
-            <Text
-              type='body-12-semibold'
-              className={classNames(
-                'inline-block self-start p-[4px]',
-                useToggleClassStock(
-                  sell_price_3 !== pre_sell_price_3 && +sell_price_3 > (stockData?.r || 0),
-                  sell_price_3 !== pre_sell_price_3 && +sell_price_3 < (stockData?.r || 0),
-                  sell_price_3 !== pre_sell_price_3 && +sell_price_3 === (stockData?.r || 0),
-                  stockData,
-                ),
-              )}
+            <Price
+              dependencies={stockData}
+              className='inline-block self-start p-[4px]'
+              currentVal={sell_price_3}
+              preVal={pre_sell_price_3}
+              price={sell_price_3}
+              refPrice={stockData?.r}
             >
-              {Number.isNaN(+sell_price_3)
-                ? sell_price_3
-                : formatStringToNumber(sell_price_3, true, 2) || 0}
-            </Text>
+              <Text type='body-12-semibold'>
+                {Number.isNaN(+sell_price_3)
+                  ? sell_price_3
+                  : formatStringToNumber(sell_price_3, true, 2) || 0}
+              </Text>
+            </Price>
 
             <div
               className='absolute -bottom-[1px] left-0 h-[3px] border-none'
@@ -128,20 +126,18 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             ></div>
           </div>
           <div className='pr-[16px] text-right'>
-            <Text
-              type='body-12-regular'
-              className={classNames(
-                'inline-block p-[4px] text-[#474D57]',
-                useToggleClassStock(
-                  sell_volume_3 !== pre_sell_volume_3 && +sell_price_3 > (stockData?.r || 0),
-                  sell_volume_3 !== pre_sell_volume_3 && +sell_price_3 < (stockData?.r || 0),
-                  sell_volume_3 !== pre_sell_volume_3 && +sell_price_3 === (stockData?.r || 0),
-                  stockData,
-                ),
-              )}
+            <Price
+              dependencies={stockData}
+              className='inline-block p-[4px] text-[#474D57]'
+              currentVal={sell_volume_3}
+              preVal={pre_sell_volume_3}
+              price={sell_price_3}
+              refPrice={stockData?.r}
             >
-              {formatStringToNumber((Number(sell_volume_3) || 0) * 10) || 0}
-            </Text>
+              <Text type='body-12-regular'>
+                {formatStringToNumber((Number(sell_volume_3) || 0) * 10) || 0}
+              </Text>
+            </Price>
           </div>
         </div>
 
@@ -150,22 +146,20 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             className='flex h-full flex-col justify-center pl-[16px]'
             style={{ color: getColor(+sell_price_2, stockData?.r || 0)?.color }}
           >
-            <Text
-              type='body-12-semibold'
-              className={classNames(
-                'inline-block self-start p-[4px]',
-                useToggleClassStock(
-                  sell_price_2 !== pre_sell_price_2 && +sell_price_2 > (stockData?.r || 0),
-                  sell_price_2 !== pre_sell_price_2 && +sell_price_2 < (stockData?.r || 0),
-                  sell_price_2 !== pre_sell_price_2 && +sell_price_2 === (stockData?.r || 0),
-                  stockData,
-                ),
-              )}
+            <Price
+              dependencies={stockData}
+              currentVal={sell_price_2}
+              preVal={pre_sell_price_2}
+              price={sell_price_2}
+              className='inline-block self-start p-[4px]'
+              refPrice={stockData?.r}
             >
-              {Number.isNaN(+sell_price_2)
-                ? sell_price_2
-                : formatStringToNumber(sell_price_2, true, 2) || 0}
-            </Text>
+              <Text type='body-12-semibold'>
+                {Number.isNaN(+sell_price_2)
+                  ? sell_price_2
+                  : formatStringToNumber(sell_price_2, true, 2) || 0}
+              </Text>
+            </Price>
 
             <div
               className='absolute -bottom-[1px] left-0 h-[3px] border-none'
@@ -176,20 +170,18 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             ></div>
           </div>
           <div className='pr-[16px] text-right'>
-            <Text
-              type='body-12-regular'
-              className={classNames(
-                'inline-block p-[4px] text-[#474D57]',
-                useToggleClassStock(
-                  sell_volume_2 !== pre_sell_volume_2 && +sell_price_2 > (stockData?.r || 0),
-                  sell_volume_2 !== pre_sell_volume_2 && +sell_price_2 < (stockData?.r || 0),
-                  sell_volume_2 !== pre_sell_volume_2 && +sell_price_2 === (stockData?.r || 0),
-                  stockData,
-                ),
-              )}
+            <Price
+              dependencies={stockData}
+              currentVal={sell_volume_2}
+              preVal={pre_sell_volume_2}
+              price={sell_price_2}
+              refPrice={stockData?.r}
+              className='inline-block p-[4px] text-[#474D57]'
             >
-              {formatStringToNumber((Number(sell_volume_2) || 0) * 10) || 0}
-            </Text>
+              <Text type='body-12-regular'>
+                {formatStringToNumber((Number(sell_volume_2) || 0) * 10) || 0}
+              </Text>
+            </Price>
           </div>
         </div>
 
@@ -198,22 +190,20 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             className='flex h-full flex-col justify-center pl-[16px]'
             style={{ color: getColor(+sell_price_1, stockData?.r || 0)?.color }}
           >
-            <Text
-              type='body-12-semibold'
-              className={classNames(
-                'inline-block self-start p-[4px]',
-                useToggleClassStock(
-                  sell_price_1 !== pre_sell_price_1 && +sell_price_1 > (stockData?.r || 0),
-                  sell_price_1 !== pre_sell_price_1 && +sell_price_1 < (stockData?.r || 0),
-                  sell_price_1 !== pre_sell_price_1 && +sell_price_1 === (stockData?.r || 0),
-                  stockData,
-                ),
-              )}
+            <Price
+              dependencies={stockData}
+              refPrice={stockData?.r}
+              className='inline-block self-start p-[4px]'
+              currentVal={sell_price_1}
+              preVal={pre_sell_price_1}
+              price={sell_price_1}
             >
-              {Number.isNaN(+sell_price_1)
-                ? sell_price_1
-                : formatStringToNumber(sell_price_1, true, 2) || 0}
-            </Text>
+              <Text type='body-12-semibold'>
+                {Number.isNaN(+sell_price_1)
+                  ? sell_price_1
+                  : formatStringToNumber(sell_price_1, true, 2) || 0}
+              </Text>
+            </Price>
 
             <div
               className='absolute -bottom-[1px] left-0 h-[3px] border-none'
@@ -224,20 +214,18 @@ const TableAsk = ({ stockData, preDataStock, className }: ITableAskProps) => {
             ></div>
           </div>
           <div className='pr-[16px] text-right'>
-            <Text
-              type='body-12-regular'
-              className={classNames(
-                'inline-block p-[4px] text-[#474D57]',
-                useToggleClassStock(
-                  sell_volume_1 !== pre_sell_volume_1 && +sell_price_1 > (stockData?.r || 0),
-                  sell_volume_1 !== pre_sell_volume_1 && +sell_price_1 < (stockData?.r || 0),
-                  sell_volume_1 !== pre_sell_volume_1 && +sell_price_1 === (stockData?.r || 0),
-                  stockData,
-                ),
-              )}
+            <Price
+              dependencies={stockData}
+              currentVal={sell_volume_1}
+              preVal={pre_sell_volume_1}
+              price={sell_price_1}
+              refPrice={stockData?.r}
+              className='inline-block p-[4px] text-[#474D57]'
             >
-              {formatStringToNumber((Number(sell_volume_1) || 0) * 10) || 0}
-            </Text>
+              <Text type='body-12-regular'>
+                {formatStringToNumber((Number(sell_volume_1) || 0) * 10) || 0}
+              </Text>
+            </Price>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { useDebounceFn } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
@@ -131,12 +132,12 @@ const OtpVerification = (props: IProps) => {
     >
       {props.settingLayout && (
         <>
-          <img
+          <Image
             src='/static/images/pinex_logo.png'
             alt=''
             width='0'
             height='0'
-            sizes='50vw'
+            sizes='100vw'
             className='mx-auto h-[72px] w-[72px] mobile:hidden laptop:block'
           />
         </>
@@ -200,6 +201,7 @@ const OtpVerification = (props: IProps) => {
         <RoundButton
           className='flex min-w-[120px] items-center justify-center px-4'
           disabled={!isResendAvailable}
+          loading={!isResendAvailable}
           onClick={onResendOtp}
         >
           <img

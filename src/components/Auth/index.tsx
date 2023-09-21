@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -34,7 +35,7 @@ function Auth() {
           type: AUTH_TAB_TYPE.REGISTER,
         },
       });
-      RegisterTracking(new Date(), 'Header', 'button');
+      RegisterTracking(new Date(), 'Header', 'CTA');
     } else {
       router.replace({
         pathname: ROUTE_PATH.LOGIN,
@@ -52,11 +53,12 @@ function Auth() {
             target='_blank'
             rel='noreferrer'
           >
-            <img
+            <Image
               src='/static/icons/register_help_icon.svg'
               alt=''
               width='0'
               height='0'
+              sizes='100vw'
               className='h-[28px] w-[28px]'
             />
             <Text type='body-14-regular' className='mobile:hidden laptop:block'>

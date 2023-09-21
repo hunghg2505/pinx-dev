@@ -3,6 +3,7 @@ import React, { ChangeEvent, useEffect, useRef } from 'react';
 
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
@@ -11,7 +12,6 @@ import { useShareStockActivity } from '@components/Stock/service';
 import { ShareStockAction } from '@components/Stock/type';
 import { MainButton } from '@components/UI/Button';
 import FormItem from '@components/UI/FormItem';
-import Loading from '@components/UI/Loading';
 import Modal from '@components/UI/Modal/Modal';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
@@ -122,18 +122,26 @@ const PopupFollowStock = ({
         </FormItem>
 
         <div className='relative flex h-[204px] w-full rounded-[8px]'>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={background}
             alt='Thumbnail'
             className='absolute left-0 top-0 h-full w-full rounded-lg object-cover'
           />
 
           <div className='absolute bottom-[8px] left-[20px] h-[168px] w-[120px] rounded-[8px] bg-[rgba(255,255,255,0.28)] text-center'>
-            <img
-              src={imageStock(stockCode)}
-              alt='Stock logo'
-              className='absolute left-1/2 h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white object-contain'
-            />
+            <div className='absolute left-1/2 flex h-[36px] w-[36px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-full bg-white object-contain'>
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={imageStock(stockCode)}
+                alt=''
+                className='block'
+              />
+            </div>
 
             <div className='mt-[26px] flex flex-col items-center'>
               <Text type='body-16-bold' color='cbblack'>
@@ -170,14 +178,10 @@ const PopupFollowStock = ({
 
         <MainButton
           type='submit'
-          className='mt-[20px] flex w-full items-center justify-center'
+          className='mt-[20px] w-full '
           disabled={requestShareStockAct.loading}
+          loading={requestShareStockAct.loading}
         >
-          {requestShareStockAct.loading && (
-            <div className='mr-[12px]'>
-              <Loading />
-            </div>
-          )}
           {t('common:create_post')}
         </MainButton>
       </Form>

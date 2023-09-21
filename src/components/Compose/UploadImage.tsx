@@ -11,6 +11,7 @@ export const UploadImage = memo(
     return (
       <>
         <Upload
+          // accept='.png, .jpeg, .jpg, .webp'
           accept='.png, .jpeg, .jpg'
           onStart={onStart}
           beforeUpload={beforeUpload}

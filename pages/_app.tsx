@@ -1,10 +1,8 @@
 /* eslint-disable react/no-unknown-property */
+import { ReactElement, ReactNode } from 'react';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { ReactElement, ReactNode, useEffect } from 'react';
-
-import { useAtomValue } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -12,16 +10,18 @@ import { Barlow, Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
-import 'dayjs/locale/vi';
-import 'dayjs/locale/en';
 import ErrorBoundary from '@components/ErrorBoundary';
-import { requestJoinChannel, requestJoinIndex, socket } from '@components/Home/service';
 import AppLayout from '@layout/AppLayout';
-import { stockSocketAtom } from '@store/stockStocket';
+
+import 'dayjs/locale/en';
+import 'dayjs/locale/vi';
 
 import nextI18nConfig from '../next-i18next.config';
 
 const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData'), {
+  ssr: false,
+});
+const InitialSocket = dynamic(() => import('@layout/AppLayout/InitialSocket'), {
   ssr: false,
 });
 
@@ -45,34 +45,6 @@ const BarlowFont = Barlow({
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
-  const stockSocket = useAtomValue(stockSocketAtom);
-  // console.log('ABC APP', stockSocket);
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      const listStockCodes = [];
-      for (const item of stockSocket) {
-        listStockCodes.push(...item.stocks);
-      }
-      const uniqueStockCodes: string[] = [];
-      for (const code of listStockCodes) {
-        if (!uniqueStockCodes.includes(code)) {
-          uniqueStockCodes.push(code);
-        }
-      }
-      // console.log('ABC Socket connect', uniqueStockCodes);
-      if (uniqueStockCodes.length > 0) {
-        requestJoinChannel(uniqueStockCodes.toString());
-      }
-
-      // join index
-      requestJoinIndex();
-    });
-
-    return () => {
-      socket.off('connect');
-    };
-  }, [stockSocket]);
 
   return (
     <>
@@ -101,6 +73,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       <ErrorBoundary>
         <AppInitialData />
+        <InitialSocket />
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>

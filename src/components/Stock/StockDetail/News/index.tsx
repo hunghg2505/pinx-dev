@@ -6,6 +6,7 @@ import { useStockNews } from '@components/Stock/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { GetMoreInfo } from '@utils/dataLayer';
 
 import StockNewsSkeleton from './skeleton';
 import NewsItem from '../NewsItem';
@@ -14,9 +15,10 @@ const NEWS_ITEM_LIMIT = 3;
 
 interface IStockNewsProps {
   stockCode: string;
+  handleAnalyze: (infoType: string) => void;
 }
 
-const StockNews = ({ stockCode }: IStockNewsProps) => {
+const StockNews = ({ stockCode, handleAnalyze }: IStockNewsProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const { stockNews, loading } = useStockNews(stockCode);
 
@@ -39,7 +41,13 @@ const StockNews = ({ stockCode }: IStockNewsProps) => {
       ))}
 
       {stockNews?.data?.list.length > NEWS_ITEM_LIMIT && (
-        <CustomLink href={ROUTE_PATH.STOCK_NEWS(stockCode)}>
+        <CustomLink
+          onClick={() => {
+            handleAnalyze('Stock news');
+            GetMoreInfo('Stock detail screen', 'News', 'List news of company');
+          }}
+          href={ROUTE_PATH.STOCK_NEWS(stockCode)}
+        >
           <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
             <Text type='body-14-bold' color='primary-2'>
               {t('more_news', {

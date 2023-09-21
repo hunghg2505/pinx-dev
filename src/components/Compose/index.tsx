@@ -10,6 +10,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { useDeepCompareEffect, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
@@ -23,7 +24,6 @@ import { ListTheme } from '@components/Compose/ListTheme';
 import { Metatags } from '@components/Compose/Metatags';
 import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
 import { UploadImage } from '@components/Compose/UploadImage';
-import Suggestion from '@components/Editor/Suggestion';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, TYPEPOST, getPostDetail } from '@components/Post/service';
 import Fade from '@components/UI/Fade';
@@ -40,6 +40,7 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import getSeoDataFromLink, {
   base64ToBlob,
+  compressImage,
   converStringMessageToObject,
   formatMessage,
   isImage,
@@ -50,6 +51,7 @@ import { USERTYPE } from '@utils/constant';
 
 import { ActivityWatchlist } from './ActivityWatchlist';
 import { serviceAddPost, serviceUpdatePost } from './service';
+import Suggestion from './Suggestion';
 
 interface IProps {
   hidePopup?: () => void;
@@ -88,8 +90,7 @@ const Compose = (props: IProps) => {
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const objectMessage = converStringMessageToObject(postDetail?.post?.message, postDetail?.post);
-  const message =
-    postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post);
+  const message = postDetail?.post?.message && formatMessage(postDetail?.post?.message);
 
   const postType = postDetail?.postType || '';
   const isShowImageActivities = [
@@ -125,6 +126,9 @@ const Compose = (props: IProps) => {
     file: '',
     url: postDetail?.post?.urlImages?.[0] || '',
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(false);
 
   const requestUploadFile = useRequest(
     (formData: any) => {
@@ -436,13 +440,41 @@ const Compose = (props: IProps) => {
 
       let imageUploadedUrl = imageUploaded?.url ?? '';
 
-      if (imageUploaded?.file && themeActiveId === 'default') {
+      const handleCompressSuccess = async (file: Blob) => {
+        setLoading(false);
+
+        const blobToFile = new File([file], '.' + file.type.split('/')[1], {
+          type: file.type,
+        });
+
         const formData = new FormData();
-        formData.append('files', imageUploaded?.file);
+        formData.append('files', blobToFile);
 
         const resUploadImg = await requestUploadFile.runAsync(formData);
 
         imageUploadedUrl = resUploadImg?.files?.[0]?.url;
+      };
+
+      if (imageUploaded?.file && themeActiveId === 'default') {
+        try {
+          setLoading(true);
+
+          // compress
+          const compressedImage = await compressImage({
+            file: imageUploaded?.file,
+            quality: 0.5,
+            options: {
+              fileType: 'image/jpeg',
+            },
+          });
+
+          if (compressedImage) {
+            await handleCompressSuccess(compressedImage);
+          }
+        } catch {
+          setLoading(false);
+          toast.error(t('error'));
+        }
       }
 
       const url = metaData?.find((it) => it?.property === 'og:url')?.content;
@@ -460,9 +492,11 @@ const Compose = (props: IProps) => {
             const txt = text.text.split(' ');
             for (const item of txt) {
               if (item.includes('http') && urlLinks.length < 2) {
-                urlLinks.push(item);
+                const index = item.indexOf('http');
+                const newUrl = item.slice(index);
+                urlLinks.push(newUrl);
               }
-              if (item.includes('#')) {
+              if (item[0] === '#' && !item.includes('http')) {
                 hashtags.push(item);
               }
             }
@@ -480,7 +514,7 @@ const Compose = (props: IProps) => {
           if (text.type === 'stockMention') {
             const query = text.attrs.label;
             stock.push(query);
-            p = `%[${text.attrs.label}](${text.attrs.label}) `;
+            p = `%[${text.attrs.label}](${text.attrs.label})`;
           }
           if (text.type === 'hashTag') {
             const query = text.attrs.label;
@@ -563,7 +597,6 @@ const Compose = (props: IProps) => {
       };
       if (urlLinks?.length && !metaData?.length) {
         const dataSeo = await getSeoDataFromLink(urlLinks[0]);
-        console.log('🚀 ~ file: index.tsx:568 ~ onAddPost ~ dataSeo:', dataSeo);
 
         if (dataSeo?.length) {
           data.metadata = [JSON.stringify(dataSeo)];
@@ -617,7 +650,7 @@ const Compose = (props: IProps) => {
         return requestAddPost.run(data);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -667,8 +700,8 @@ const Compose = (props: IProps) => {
       verticalAlign: hiddenThemeSelected && (themeSelected?.verticalAlign || 'top'),
     };
   };
-
   const UploadAndAddLink = useCallback(() => {
+    const url = postDetail?.post?.metadataList?.[0]?.url;
     if (!hiddenThemeSelected && themeSelected?.id) {
       return (
         <>
@@ -682,7 +715,11 @@ const Compose = (props: IProps) => {
           </div>
 
           <div>
-            <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+            <ModalAddLink
+              urlLinkInitial={url}
+              isUpdateActivities={isUpdateActivities}
+              getDataOG={getDataOG}
+            />
           </div>
         </>
       );
@@ -700,7 +737,11 @@ const Compose = (props: IProps) => {
         </Fade>
 
         <Fade visible={!themeSelected?.id}>
-          <ModalAddLink isUpdateActivities={isUpdateActivities} getDataOG={getDataOG} />
+          <ModalAddLink
+            urlLinkInitial={url}
+            isUpdateActivities={isUpdateActivities}
+            getDataOG={getDataOG}
+          />
         </Fade>
       </>
     );
@@ -711,9 +752,12 @@ const Compose = (props: IProps) => {
       return (
         <>
           <div className='relative flex items-center justify-between overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB]'>
-            <img
-              src={imageUploaded?.url}
+            <Image
+              src={imageUploaded?.url || ''}
               alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
               className='max-h-[280px] w-full rounded-[8px] object-contain'
             />
             <img
@@ -730,9 +774,12 @@ const Compose = (props: IProps) => {
     return (
       <Fade visible={!!imageUploaded?.url && themeActiveId === 'default'}>
         <div className='relative flex items-center justify-between overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB]'>
-          <img
-            src={imageUploaded?.url}
+          <Image
+            src={imageUploaded?.url || ''}
             alt=''
+            width='0'
+            height='0'
+            sizes='100vw'
             className='max-h-[280px] w-full rounded-[8px] object-contain'
           />
           <img
@@ -880,7 +927,8 @@ const Compose = (props: IProps) => {
                 requestUploadFile.loading ||
                 requestUpdatePost.loading ||
                 requestGetDetailPost.loading ||
-                !editor?.getText(),
+                !editor?.getText() ||
+                loading,
               'opacity-60': !editor?.getText(),
             },
           )}
@@ -889,7 +937,8 @@ const Compose = (props: IProps) => {
           {requestAddPost?.loading ||
           requestUploadFile.loading ||
           requestUpdatePost.loading ||
-          requestGetDetailPost.loading ? (
+          requestGetDetailPost.loading ||
+          loading ? (
             <Loading className='!bg-white' />
           ) : (
             <IconSend />

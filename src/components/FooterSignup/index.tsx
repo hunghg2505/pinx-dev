@@ -5,8 +5,9 @@ import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { RegisterTracking } from '@utils/dataLayer';
 
 const SCREEN_MOBILE_WIDTH = 768;
 const FooterSignUp = () => {
@@ -14,7 +15,7 @@ const FooterSignUp = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const footerRef = useRef(null);
 
@@ -57,6 +58,8 @@ const FooterSignUp = () => {
   }, [footerHeight]);
 
   const redirectToSignUp = () => {
+    const date = new Date();
+    RegisterTracking(date, 'Footer', 'CTA');
     router.push({
       pathname: ROUTE_PATH.LOGIN,
       query: {

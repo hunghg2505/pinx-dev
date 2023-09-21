@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useMount, useUpdateEffect } from 'ahooks';
 import { useRouter } from 'next/router';
@@ -6,16 +6,16 @@ import Script from 'next/script';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
+import { usePreserveScroll } from '@hooks/usePreserveScroll';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
-import { useStockDesktopInitial } from '@store/stockDesktop/stockDesktop';
-import { useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
-import { useStockWatchlistHome } from '@store/stockWatchlistHome';
-import { ROUTE_PATH } from '@utils/common';
+import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
+import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from '@utils/constant';
 import { ENV } from '@utils/env';
 
@@ -28,17 +28,16 @@ const AppInitialData = () => {
   const { handleRemoveActionPost } = useHandlActionsPost();
   const { initialHomePostData } = usePostHomePage();
   const { userLoginInfo } = useUserLoginInfo();
-  useStockDesktopInitial();
   const { getInitDataStockMarketHome } = useStockMarketHome();
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   useMount(() => {
     initialHomePostData();
     handleRemoveActionPost();
-    getInitDataStockMarketHome();
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
     run();
+    getInitDataStockMarketHome();
   });
 
   useUpdateEffect(() => {
@@ -69,10 +68,38 @@ const AppInitialData = () => {
   }, [toasts]);
 
   useEffect(() => {
+    const locale = getLocaleCookie() as string;
+
     if (router.pathname === ROUTE_PATH.HOME) {
       getInitDataStockWatchlistHome();
     }
+    if (getLocaleCookie() && getLocaleCookie() !== router.locale) {
+      router.push(router.asPath, router.asPath, { locale });
+    }
   }, [router.pathname]);
+
+  const storeInSession = React.useCallback(() => {
+    const storage = globalThis?.sessionStorage;
+    if (!storage) {
+      return;
+    }
+
+    const prevPath: string = storage.getItem('currentPath') || '';
+    storage.setItem('prevPath', prevPath);
+    storage.setItem('currentPath', globalThis.location.pathname);
+
+    for (const k of Object.keys(router.query).filter((k) => k.match(/^utm_*/))) {
+      const tmp = router.query[k] || '';
+      const value: string = Array.isArray(tmp) ? tmp[0] : tmp;
+      storeQueryToSession(storage, k, value);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    storeInSession();
+  }, [storeInSession]);
+
+  usePreserveScroll();
 
   return (
     <>

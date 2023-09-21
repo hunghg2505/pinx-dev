@@ -1,5 +1,6 @@
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -9,7 +10,7 @@ import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
 
 import style from './index.module.scss';
 
@@ -18,11 +19,13 @@ const ItemWatchList = ({
   isEdit,
   refresh,
   isChangeStock = false,
+  handleTrackingViewStockInfo,
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refresh: () => void;
   isChangeStock?: boolean;
+  handleTrackingViewStockInfo?: (stockCode: string) => void;
 }) => {
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
@@ -34,12 +37,6 @@ const ItemWatchList = ({
   // const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
   const isNoChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
 
   const useRemoveStock = useRequest(
     () => {
@@ -62,14 +59,32 @@ const ItemWatchList = ({
   return (
     <>
       <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
-        <CustomLink className='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <CustomLink
+          onClick={() => {
+            handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
+          }}
+          className='flex-none'
+          href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+        >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
-            <img src={url} alt='' className='block' />
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
+              src={imageStock(data?.stockCode)}
+              alt=''
+              className='block'
+            />
           </div>
         </CustomLink>
         <div className='flex flex-1 flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
-            <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+            <CustomLink
+              onClick={() => {
+                handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
+              }}
+              href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+            >
               <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}
               </Text>

@@ -29,7 +29,7 @@ const PopupAuth = (props: IProps) => {
   const handleChangeTab = (tabKey: string) => {
     setCurTab(tabKey);
     if (tabKey === AUTH_TAB_TYPE.REGISTER) {
-      RegisterTracking(new Date(), 'popupRegister', 'button');
+      RegisterTracking(new Date(), 'popupRegister', 'Login Modal');
     }
   };
 

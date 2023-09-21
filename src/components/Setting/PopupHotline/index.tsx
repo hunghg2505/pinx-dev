@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import Modal from '@components/UI/Modal/Modal';
@@ -23,7 +24,10 @@ const PopupHotline = (props: IProps) => {
     <>
       <Modal visible={visible} onClose={handleClose} className={styles.customDialog}>
         <div className='flex'>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src='/static/images/hotline.png'
             alt=''
             className='h-[200px] w-[200px] rounded-l-[12px]'

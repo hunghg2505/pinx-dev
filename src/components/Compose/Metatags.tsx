@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import Text from '@components/UI/Text';
 
@@ -48,7 +49,10 @@ export const Metatags = ({
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
             <div className='overflow-hidden'>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={imageUrl}
                 alt=''
                 className={classNames('h-[200px] w-full bg-[#ebebeb7c] object-cover', {

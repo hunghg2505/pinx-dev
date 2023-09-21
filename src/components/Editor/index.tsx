@@ -11,6 +11,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
@@ -29,6 +30,7 @@ import {
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment, requestReplyCommnet } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
@@ -38,7 +40,7 @@ import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
 import suggestion from './Suggestion';
-import { ROUTE_PATH, isImage, validateHTML } from '../../utils/common';
+import { ROUTE_PATH, compressImage, isImage, isUrlValid, validateHTML } from '../../utils/common';
 // import { toBase64 } from '@';
 
 interface IProps {
@@ -83,6 +85,8 @@ const Editor = (props: IProps, ref?: any) => {
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(false);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   };
@@ -94,13 +98,17 @@ const Editor = (props: IProps, ref?: any) => {
           return this.editor.commands.setHardBreak();
         },
         // Enter: ({ editor }) => {
-        //   onSend(editor, statusUser);
+        //   onHandleSendComment(editor);
+        //   // onSend(editor, statusUser);
         //   return true;
         // },
       };
     },
   });
-
+  // const onHandleSendComment = ({ editor }: any) => {
+  //   console.log('🚀 ~ file: index.tsx:105 ~ onHandleSendComment ~ editor:', editor);
+  //   console.log('statusUser', statusUser);
+  // };
   const editor = useEditor({
     extensions: [
       Document,
@@ -226,10 +234,39 @@ const Editor = (props: IProps, ref?: any) => {
       },
     },
   );
-  const onStart = async (file: File) => {
+
+  const handleCompressSuccess = async (blob: Blob) => {
+    setLoading(false);
+
+    const blobToFile = new File([blob], '.' + blob.type.split('/')[1], {
+      type: blob.type,
+    });
+
     const formData = new FormData();
-    formData.append('files', file);
+    formData.append('files', blobToFile);
     useUploadImage.run(formData);
+  };
+
+  const onStart = async (file: File) => {
+    try {
+      setLoading(true);
+
+      // compress image
+      const compressedImage = await compressImage({
+        file,
+        quality: 0.5,
+        options: {
+          fileType: 'image/jpeg',
+        },
+      });
+
+      if (compressedImage) {
+        await handleCompressSuccess(compressedImage);
+      }
+    } catch {
+      setLoading(false);
+      toast.error(t('error'));
+    }
   };
   const onCloseImage = () => {
     setImageComment('');
@@ -372,7 +409,7 @@ const Editor = (props: IProps, ref?: any) => {
         if (text.type === 'text') {
           const txt = text?.text?.split(' ');
           for (const item of txt) {
-            if (item.includes('#')) {
+            if (item[0] === '#') {
               hashtags.push(item);
             }
           }
@@ -486,14 +523,14 @@ const Editor = (props: IProps, ref?: any) => {
         ref={elementRef}
         className='relative mb-[20px] mobile:block mobile:bg-white mobile:px-[16px] tablet:flex tablet:px-0 desktop:mt-[12px]'
       >
-        {userLoginInfo?.avatar ? (
-          <img
-            src={userLoginInfo?.avatar}
+        {isUrlValid(userLoginInfo?.avatar) ? (
+          <CustomImage
+            src={userLoginInfo?.avatar || ''}
             alt=''
             width={0}
             height={0}
             sizes='100vw'
-            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:hidden tablet:block'
             onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
           />
         ) : (
@@ -504,7 +541,6 @@ const Editor = (props: IProps, ref?: any) => {
             <AvatarDefault name={userLoginInfo?.displayName} />
           </div>
         )}
-
         {isReply && (
           <div>
             <div className='absolute -left-[28px] -top-[18px] z-30 h-[40px] w-[20px] rounded-bl-xl  bg-neutral_07'></div>
@@ -517,7 +553,6 @@ const Editor = (props: IProps, ref?: any) => {
             ></div>
           </div>
         )}
-
         <div
           className={classNames(
             'bottom-0 left-0 flex min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px] mobile:w-full mobile:rounded-[1000px] tablet:static  tablet:rounded-[12px]',
@@ -540,6 +575,7 @@ const Editor = (props: IProps, ref?: any) => {
           >
             <div className='flex flex-row items-center'>
               <Upload
+                // accept='.png, .jpeg, .jpg, .webp'
                 accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
@@ -578,6 +614,7 @@ const Editor = (props: IProps, ref?: any) => {
                 className={classNames({
                   hidden: isFocus || !canExpand,
                 })}
+                // accept='.png, .jpeg, .jpg, .webp'
                 accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
@@ -604,7 +641,12 @@ const Editor = (props: IProps, ref?: any) => {
                 },
               )}
             >
-              <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
+              <Upload
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
                 <img
                   src='/static/icons/iconCamera.svg'
                   alt=''
@@ -633,14 +675,14 @@ const Editor = (props: IProps, ref?: any) => {
                 />
               )}
             </div>
-            {useUploadImage?.loading ? (
+            {useUploadImage?.loading || loading ? (
               <div className='mobile:hidden tablet:block'>
                 <Loading />
               </div>
             ) : (
               imageComment && (
                 <div className='relative'>
-                  <img
+                  <Image
                     src={imageComment}
                     alt=''
                     width='0'
@@ -680,14 +722,14 @@ const Editor = (props: IProps, ref?: any) => {
             />
           )}
         </div>
-        {useUploadImage?.loading ? (
+        {useUploadImage?.loading || loading ? (
           <div className='mobile:block tablet:hidden'>
             <Loading />
           </div>
         ) : (
           imageComment && (
             <div className='relative'>
-              <img
+              <Image
                 src={imageComment}
                 alt=''
                 width='0'

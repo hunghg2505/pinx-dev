@@ -1,18 +1,22 @@
+import Image from 'next/image';
+
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { DownloadPineXApp } from '@utils/dataLayer';
+import { DEEP_LINK } from 'src/constant';
 
 const HeaderMobile = () => {
   return (
     <div className='flex justify-between bg-[#EAF4FB] py-[12px] mobile:px-[16px] tablet:hidden'>
       <div className='flex flex-row'>
-        <img
+        <Image
           loading='lazy'
-          src='/static/icons/logo.svg'
+          src='/static/logo/logo.png'
           alt=''
           width='0'
           height='0'
-          className='w-[35px]'
+          sizes='100vw'
+          className='h-[35px] w-[35px]'
         />
         <div className='ml-[8px]'>
           <Text type='body-14-regular' className='galaxy-max:text-[10px]' color='primary-5'>
@@ -29,7 +33,7 @@ const HeaderMobile = () => {
         </div>
       </div>
       <CustomLink
-        href='https://onelink.to/cgarrk'
+        href={DEEP_LINK.OPEN_APP}
         onClick={() => DownloadPineXApp('CTA in App', 'HeaderMobile')}
       >
         <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>

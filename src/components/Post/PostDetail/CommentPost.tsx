@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useAtom } from 'jotai';
 
+import { ForwardedRefComponentPostDetail } from '@components/Post/PostDetail/ForwardedRefComponentPostDetail';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
-import { ForwardedRefComponent } from '.';
 import CommentOfComment from './CommentOfComment';
 import ItemComment from '../NewsFeed/ItemComment';
 // import { IComment } from '../service';
@@ -18,6 +18,7 @@ interface IProps {
   postID: string;
   onRemoveComment?: (v: any, totalComment: number) => void;
   onRepliesMobile?: (value: string, customerId: number, id: string) => void;
+  onTrackingViewTickerCmt?: (stockCode: string) => void;
 }
 
 const CommentPost = (props: IProps, ref: any) => {
@@ -30,6 +31,7 @@ const CommentPost = (props: IProps, ref: any) => {
     setImageCommentMobile,
     onRepliesMobile,
     onRemoveComment,
+    onTrackingViewTickerCmt,
   } = props;
   const refCommentofComment: any = React.useRef();
   const refSubReplies: any = React.useRef();
@@ -63,8 +65,6 @@ const CommentPost = (props: IProps, ref: any) => {
   };
   const isReply = postDetailStatus.idCommentReplie === item.id;
   const onHandleRemove = (v: any) => {
-    console.log('123', v);
-    console.log('totalChildren', totalChildren);
     onRemoveComment && onRemoveComment(v, totalChildren + 1);
   };
   const onHandleRemoveReply = () => {
@@ -82,6 +82,7 @@ const CommentPost = (props: IProps, ref: any) => {
         idPost={postID}
         totalChildren={totalChildren}
         onRemoveComment={onHandleRemove}
+        onTrackingViewTicker={onTrackingViewTickerCmt}
       />
 
       {/* {item.children?.length > 0 && ( */}
@@ -95,6 +96,7 @@ const CommentPost = (props: IProps, ref: any) => {
         refSubReplies={refSubReplies}
         totalComment={onGetTotalComment}
         onRemoveComment={onHandleRemoveReply}
+        onTrackingViewTicker={onTrackingViewTickerCmt}
       />
       {/* )} */}
 
@@ -102,7 +104,7 @@ const CommentPost = (props: IProps, ref: any) => {
         width > 770 &&
         !postDetailStatus.isDoneReplies && (
           <div className='ml-[48px] mt-4 mobile:hidden tablet:block'>
-            <ForwardedRefComponent
+            <ForwardedRefComponentPostDetail
               ref={refSubReplies}
               id={postID}
               refresh={refreshCommentOfComment}

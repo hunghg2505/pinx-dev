@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
+import { ROUTE_PATH, imageStock } from '@utils/common';
+import { ModifyWatchlist } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 import {
@@ -24,6 +26,7 @@ const RegisterCompanyStep = () => {
   const [selected, setSelected] = useState<any[]>([]);
   const [myListStock, setMyListStock] = useState<string[]>([]);
   const paramsGetDetailStockCodesRef: any = useRef({ params: '' });
+  const { setUserRegisterInfo } = useUserRegisterInfo();
 
   const listSuggestStock = useSuggestStockCode({
     onSuccess: async (res: any) => {
@@ -48,8 +51,19 @@ const RegisterCompanyStep = () => {
   const detailStockSuggested = useGetDetailStockCode(paramsGetDetailStockCodesRef.current.params);
 
   const requestSelectStock = useSelectStock({
-    onSuccess: () => {
+    onSuccess: (_, params) => {
       router.push(ROUTE_PATH.REGISTER_THEME);
+      // gtm
+      const unselectedStock = myListStock.filter((item) => !selected.includes(item));
+      const stockHasAdd = params
+        .toString()
+        .split(',')
+        .filter((item: string) => !myListStock.includes(item));
+      setUserRegisterInfo((prev) => ({
+        ...prev,
+        selectedStock: params.toString().split(','),
+      }));
+      ModifyWatchlist(stockHasAdd, unselectedStock, 'Default', myListStock, myListStock?.length);
     },
   });
 
@@ -93,8 +107,8 @@ const RegisterCompanyStep = () => {
       <div className='md:h-screen lg:py-0 flex flex-1 flex-col items-center justify-center py-8 tablet:mx-auto'>
         <div className='companyCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:flex desktop:w-full'>
-            <img
-              src='/static/icons/logo.svg'
+            <Image
+              src='/static/logo/logo.png'
               alt=''
               width='0'
               height='0'
@@ -124,10 +138,6 @@ const RegisterCompanyStep = () => {
             {/* mb-[81px] flex w-full flex-wrap items-center justify-center gap-y-[16px] tablet-max:w-[1000px] mobile-max:h-[300px] mobile-max:flex-col mobile:mt-9 tablet:mt-[64px] desktop:mt-[64px] */}
             <div className='mb-[81px] flex-wrap mobile:mt-9 mobile-max:!columns-3 tablet-max:h-[350px] tablet-max:columns-5 tablet:mt-[64px] tablet:flex tablet:w-full tablet:items-center tablet:justify-center tablet:gap-y-[16px] desktop:mt-[64px] '>
               {detailStockSuggested.detailStockCodes?.data.map((item: any) => {
-                const urlImageCompany = `${item?.stockCode?.length === 3 || item?.stockCode[0] !== 'C'
-                  ? item.stockCode
-                  : item.stockCode?.slice(1, 4)
-                  }.png`;
                 return (
                   <div
                     className={classNames('relative h-[67px] w-[67px]', styles.companyCard)}
@@ -154,14 +164,16 @@ const RegisterCompanyStep = () => {
                             />
                           )}
                         </div>
-                        <img
-                          src={`${IMAGE_COMPANY_URL}${urlImageCompany}`}
-                          alt=''
-                          width='0'
-                          height='0'
-                          sizes='100vw'
-                          className='h-[48px] w-[48px] rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'
-                        />
+                        <div className='flex h-[48px] w-[48px] items-center justify-center overflow-hidden rounded-full object-contain shadow-[0_2px_4px_0_#0000001A]'>
+                          <Image
+                            src={imageStock(item?.stockCode)}
+                            alt=''
+                            width='0'
+                            height='0'
+                            sizes='100vw'
+                            className='block'
+                          />
+                        </div>
                         {/* <Text type='body-14-bold'>{item.stockCode}</Text> */}
                       </div>
                     </div>

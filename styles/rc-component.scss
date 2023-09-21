@@ -140,6 +140,12 @@
       line-height: 21px;
     }
   }
+  .txtLink{
+    font-weight: 400 !important;
+    .link{
+      display: contents;
+    }
+  }
   .hashtag {
     color: #1f6eac !important;
     font-weight: 400 !important;
@@ -168,6 +174,12 @@
 
 .messageFormat2 {
   @extend .messageFormat;
+
+  * {
+    line-height: inherit !important;
+    display: inline !important;
+  }
+
   .link,
   .mention {
     @apply text-[14px];

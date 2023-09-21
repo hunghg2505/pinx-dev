@@ -1,6 +1,9 @@
 import React from 'react';
 
+import Image from 'next/image';
+
 import { IStockTheme } from '@components/Stock/type';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
@@ -21,7 +24,10 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
           />
         </div>
 
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={data.url}
           alt='Theme'
           className='absolute left-0 right-0 h-full w-full rounded-[12px] object-cover'
@@ -35,7 +41,10 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
           <div className='mt-[6px] flex items-center'>
             <div className='flex items-center'>
               {data.latestSubscribe.map((item, index) => (
-                <img
+                <CustomImage
+                  width='0'
+                  height='0'
+                  sizes='100vw'
                   key={index}
                   src={item.avatar}
                   alt='Avatar user'

@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
@@ -10,12 +11,14 @@ import StickyBox from 'react-sticky-box';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
-import { NavigateSection } from '@utils/dataLayer';
+import { NavigateSection, ViewWatchlist, ViewAsset } from '@utils/dataLayer';
+import { BANNER_URL } from 'src/constant';
 
 import {
   IconAssets,
@@ -35,9 +38,10 @@ import {
 const SideBar = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const watchList = useAtomValue(stockSocketAtom);
   const MENUS = [
     {
       id: 1,
@@ -135,13 +139,36 @@ const SideBar = () => {
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
               if (menu.path === ROUTE_PATH.HOME) {
+                globalThis?.sessionStorage.removeItem('scrollPosition');
                 setPostDetailStatus({
                   ...postDetailStatus,
                   isRefreshHome: true,
                 });
               }
 
-              return NavigateSection(menu.label);
+              // tracking navigate section
+              NavigateSection(menu.label);
+
+              // tracking event view watch list
+              if (menu.path === ROUTE_PATH.WATCHLIST) {
+                const listStockCodes =
+                  watchList.find(
+                    (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
+                  )?.stocks || [];
+
+                ViewWatchlist(
+                  'Default',
+                  'Normal WL',
+                  listStockCodes,
+                  listStockCodes.length,
+                  'Left sidebar layout',
+                );
+              }
+
+              // tracking event view assets
+              if (menu.path === ROUTE_PATH.ASSET) {
+                ViewAsset('Tab assets sidebar layout', 'Asset Overview');
+              }
             }}
           >
             {icon}
@@ -164,12 +191,7 @@ const SideBar = () => {
       <div>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-          <img
-            src='/static/images/sidebar_banner.png'
-            alt=''
-            sizes='100vw'
-            className='mt-[16px] w-full laptop-max:px-[10px]'
-          />
+          <img src={BANNER_URL} alt='' className='mt-[16px] w-full laptop-max:px-[10px]' />
         </a>
 
         <div className='px-[10px] pt-[16px]'>
@@ -207,7 +229,7 @@ const SideBar = () => {
               />
             </a>
             <a target='_blank' rel='noopener noreferrer' href='https://zalo.me/895810815009263150'>
-              <img
+              <Image
                 src='/static/social/zalo.png'
                 alt=''
                 width={0}

@@ -12,13 +12,14 @@ import {
   requestUnFollowUser,
 } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 interface Iprops {
   data: ISuggestionPeople;
@@ -104,16 +105,22 @@ const PeopleItem = (props: Iprops) => {
   return (
     <div
       className={classNames(
-        'relative flex items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
+        'relative flex items-center justify-between gap-x-[12px] rounded-[12px] bg-[#F7F6F8] px-[12px] py-[11px]',
         {
           '!bg-[transparent] py-[20px] after:absolute after:-left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-[#EFF2F5] after:content-[""] [&:last-child]:after:h-0':
             !isMobile && isSearchPage,
         },
       )}
     >
-      <div className='flex cursor-pointer items-center' onClick={handleNavigateToUserDetail}>
-        {data?.avatar ? (
-          <img
+      <div
+        className='flex flex-1 cursor-pointer items-center overflow-hidden'
+        onClick={handleNavigateToUserDetail}
+      >
+        {isUrlValid(data?.avatar) ? (
+          <CustomImage
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data?.avatar}
             alt=''
             className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:h-[40px] galaxy-max:w-[40px]'
@@ -124,10 +131,7 @@ const PeopleItem = (props: Iprops) => {
           </div>
         )}
 
-        <Text
-          type='body-14-semibold'
-          className='max-w-[120px] truncate text-[#474D57] galaxy-max:max-w-[100px] tablet:max-w-[300px]'
-        >
+        <Text type='body-14-semibold' className='truncate text-[#474D57]'>
           {data?.displayName}
         </Text>
 

@@ -4,7 +4,8 @@ import classNames from 'classnames';
 
 import { TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
-import { toNonAccentVietnamese } from '@utils/common';
+import CustomImage from '@components/UI/CustomImage';
+import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
   const name =
@@ -21,11 +22,14 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
         TYPEPOST.PinetreeWeeklyNews,
       ].includes(postDetail?.post?.postType)
     ) {
-      return '/static/logo/logoPintree.png';
+      return postDetail?.post?.vendorInfo?.logo || '/static/logo/logoPintree.png';
     }
 
     if ([TYPEPOST.TNCKNews].includes(postDetail?.post?.postType)) {
-      return 'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png';
+      return (
+        postDetail?.post?.vendorInfo?.logo ||
+        'https://static.pinetree.com.vn/upload/vendor_tnck_logo.png'
+      );
     }
 
     if (
@@ -43,14 +47,20 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
         postDetail?.post?.postType,
       )
     ) {
-      return 'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png';
+      return (
+        postDetail?.post?.vendorInfo?.logo ||
+        'https://static.pinetree.com.vn/upload/vendor_vietstock_logo.png'
+      );
     }
     if ([TYPEPOST.CafeFNews].includes(postDetail?.post?.postType)) {
-      return '/static/logo/cafef-logo.png';
+      return postDetail?.post?.vendorInfo?.logo || '/static/logo/cafef-logo.png';
     }
   }, [postDetail?.post?.postType]);
 
-  if (postDetail?.post?.customerInfo?.avatar === '') {
+  if (
+    postDetail?.post?.postType === TYPEPOST.POST &&
+    !isUrlValid(postDetail?.post?.customerInfo?.avatar)
+  ) {
     return (
       <div className='mr-2 object-contain mobile:h-[44px] mobile:w-[44px] desktop:h-[56px] desktop:w-[56px]'>
         <AvatarDefault name={name} />
@@ -60,7 +70,9 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
 
   return (
     <>
-      <img
+      <CustomImage
+        width='0'
+        height='0'
         src={url}
         alt='avatar'
         sizes='100vw'

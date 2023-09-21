@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { InView } from 'react-intersection-observer';
@@ -17,7 +18,9 @@ import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMessage, getVideoId } from '@utils/common';
 
-const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
+import useHeight from './useHeight';
+
+const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingViewTicker }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
@@ -36,8 +39,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       imageMetaData: metaData?.images?.[0],
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
-      message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+      message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
       post_url: postDetail?.post.url ?? '',
     };
@@ -56,16 +58,22 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     };
   }, [postDetail, bgTheme]);
 
-  useEffect(() => {
-    setShowReadMore(false);
-    const t = setTimeout(() => {
-      const ele = document?.getElementById(`post-content-${postDetail.id}`);
-      if (ele?.clientHeight) {
-        setShowReadMore(ele?.clientHeight > 84);
-      }
-      clearTimeout(t);
-    }, 400);
-  }, [messageDefault, postThemeId]);
+  // useEffect(() => {
+  //   setShowReadMore(false);
+  //   const t = setTimeout(() => {
+  //     const ele = document?.getElementById(`post-content-${postDetail.id}`);
+  //     if (ele?.clientHeight) {
+  //       setShowReadMore(ele?.clientHeight > 84);
+  //     }
+  //     clearTimeout(t);
+  //   }, 400);
+  // }, [messageDefault, postThemeId]);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const height = useHeight(ref);
+  useLayoutEffect(() => {
+    setShowReadMore(height > 84);
+  }, [height, messageDefault, postThemeId]);
 
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent as string;
@@ -74,10 +82,6 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
     setSearchSeo(false);
     if (classElement === 'link') {
       return window.open(textContent);
-      // return router.push({
-      //   pathname: '/redirecting',
-      //   query: { url: textContent },
-      // });
     }
     if (classElement === 'people') {
       const url =
@@ -87,6 +91,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
       return router.push(url);
     }
     if (classElement === 'tagStock') {
+      onTrackingViewTicker && onTrackingViewTicker(textContent);
       return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
@@ -102,9 +107,13 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
           className='theme relative flex w-full  flex-col justify-end overflow-hidden rounded-[10px]'
           onClick={(event) => onHandleClick(event)}
         >
-          <img
-            src={BgThemePost?.bgImage}
-            alt=''
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={BgThemePost?.bgImage || ''}
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
             className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:max-h-[300px] mobile:min-h-[204px] mobile-max:object-bottom tablet:rounded-[8px] desktop:h-[300px]'
           />
           {message && (
@@ -139,6 +148,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat }: any) => {
               // onClick={onComment}
             >
               <div
+                ref={ref}
                 className='desc messageFormat messageBody'
                 dangerouslySetInnerHTML={{ __html: messagePostFormat }}
               ></div>
@@ -209,9 +219,13 @@ const MetaContent = ({ metaData }: any) => {
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
             <div className='overflow-hidden'>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={imageUrl}
-                alt=''
+                alt={title}
+                title={title}
                 className={classNames(
                   'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
                   {
@@ -248,8 +262,8 @@ const MetaContent = ({ metaData }: any) => {
   );
 };
 
-export const PostNormally = ({ postDetail, onComment }: any) => {
-  const messagePostFormat = formatMessage(postDetail?.post?.message, postDetail?.post);
+export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
+  const messagePostFormat = formatMessage(postDetail?.post?.message);
   const [inView, setInView] = useState(false);
 
   const { imageMetaData, siteName, videoId } = useMemo(() => {
@@ -259,8 +273,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
       imageMetaData: metaData?.images?.[0],
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
-      message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
+      message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
       postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
       post_url: postDetail?.post.url ?? '',
     };
@@ -295,9 +308,13 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
     if (siteName !== 'youtube' && siteName !== 'vimeo' && siteName !== 'tiktok' && imageMetaData) {
       return (
         <ModalMedia url={imageMetaData}>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={imageMetaData}
-            alt=''
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
             className='my-[10px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
           />
         </ModalMedia>
@@ -311,10 +328,14 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
     if (postDetail?.post?.urlImages?.length > 0) {
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={postDetail?.post?.urlImages?.[0]}
-            alt=''
-            className='my-[10px]  max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
+            alt={postDetail?.seoMetadata?.imageSeo?.alt}
+            title={postDetail?.seoMetadata?.imageSeo?.title}
+            className='my-[10px] h-[300px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
           />
         </ModalMedia>
       );
@@ -334,6 +355,7 @@ export const PostNormally = ({ postDetail, onComment }: any) => {
           onComment={onComment}
           postDetail={postDetail}
           messagePostFormat={messagePostFormat}
+          onTrackingViewTicker={onTrackingViewTicker}
         />
       )}
 

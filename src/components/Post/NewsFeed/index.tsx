@@ -8,12 +8,12 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ClickaPost } from '@utils/dataLayer';
+import { ClickaPost, GetMoreInfo } from '@utils/dataLayer';
 
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
@@ -31,6 +31,9 @@ interface IProps {
   loading?: boolean;
   hiddenComment?: boolean;
   isSearchSeoBox?: boolean;
+  onTrackingViewTicker?: (stockCode: string) => void;
+  onTrackingViewTickerCmt?: (stockCode: string) => void;
+  onCommentPost?: (postData: IPost) => void;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -45,11 +48,14 @@ const NewsFeed = (props: IProps) => {
     loading,
     hiddenComment,
     isSearchSeoBox,
+    onTrackingViewTicker,
+    onTrackingViewTickerCmt,
+    onCommentPost,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [, setSearchSeo] = useAtom(searchSeoAtom);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
   const isPageMyProfile = router.pathname === ROUTE_PATH.MY_PROFILE;
@@ -58,7 +64,6 @@ const NewsFeed = (props: IProps) => {
   // }, [data]);
   const isMyPost = postData?.customerId === userLoginInfo?.id;
   const isMyComment = postData?.children?.[0]?.customerInfo?.customerId === userLoginInfo?.id;
-
   const { findItemFollow, itemLike, idPostAddComment, isChangeMyProfile } = React.useMemo(() => {
     const findItemFollow = postDetailStatus?.idCustomerFollow === postData?.customerId;
     const idPostAddComment = postDetailStatus?.idPostAddComment === postData?.id;
@@ -122,6 +127,7 @@ const NewsFeed = (props: IProps) => {
   const { refresh } = usePostDetail(data?.id, {
     onSuccess: (res: any) => {
       setPostData(res?.data);
+      onCommentPost && onCommentPost(res?.data);
       if (!isPageMyProfile) {
         setPostDetailStatus({
           ...postDetailStatus,
@@ -137,33 +143,40 @@ const NewsFeed = (props: IProps) => {
     },
     manual: true,
   });
-
   const onNavigate = () => {
     ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
     setSearchSeo(false);
+    globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
   };
 
   const [, setImageCommentMobile] = useState(false);
 
-  // const { commentsOfPost, refreshCommentOfPost, getDataComment } = useCommentsOfPost(
-  //   String(postData?.id),
-  //   {
-  //     manual: true,
-  //   },
-  // );
-  // const totalComments = commentsOfPost?.data?.list?.length;
-  // const commentChild = commentsOfPost?.data?.list?.reduce(
-  //   (acc: any, current: any) => acc + current?.totalChildren,
-  //   0,
-  // );
-
   const countComment = postData?.totalChildren;
+
+  // tracking event get more info
+  const handleTrackingGetMore = () => {
+    const pathName = router.pathname;
+    let screen = 'Home screen';
+
+    switch (pathName) {
+      case '/profile/my-profile': {
+        screen = 'My profile screen';
+        break;
+      }
+      case '/profile/[id]': {
+        screen = 'User detail screen';
+        break;
+      }
+    }
+
+    GetMoreInfo(screen, 'Comment', 'List comment belong to post');
+  };
 
   const ViewMore = () => {
     if (countComment > 1) {
       return (
-        <CustomLink href={`/post/${postData?.id}`}>
+        <CustomLink onClick={handleTrackingGetMore} href={`/post/${postData?.id}`}>
           <div className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'>
             <Text type='body-14-medium' color='primary-2'>
               {t('common:view_more')} {countComment - 1} {t('common:comments')}...
@@ -191,6 +204,7 @@ const NewsFeed = (props: IProps) => {
   if (!postData) {
     return <></>;
   }
+
   const refreshComment = () => {
     // if (onRefreshList) {
     //   onRefreshList();
@@ -199,7 +213,7 @@ const NewsFeed = (props: IProps) => {
     // refreshCommentOfPost();
   };
 
-  if (loading) {
+  if (loading && !pinned) {
     return <NewsFeedSkeleton />;
   }
 
@@ -222,8 +236,8 @@ const NewsFeed = (props: IProps) => {
           pinned={pinned}
           isNewFeedExplore={isNewFeedExplore}
           isSearchSeoBox={isSearchSeoBox}
+          onTrackingViewTicker={onTrackingViewTicker}
         />
-
         {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>
             <CommentField
@@ -234,7 +248,6 @@ const NewsFeed = (props: IProps) => {
             />
           </div>
         )}
-
         {!!countComment && !isNewFeedExplore && !hiddenComment && (
           <div className=' desktop:ml-[64px]'>
             {countComment > 0 && (
@@ -244,6 +257,8 @@ const NewsFeed = (props: IProps) => {
                   data={postData?.children?.[0]}
                   idPost={postData?.id}
                   refreshCommentOfPOst={refreshComment}
+                  totalChildren={postData?.children?.[0]?.totalChildren}
+                  onTrackingViewTicker={onTrackingViewTickerCmt}
                 />
               </div>
             )}

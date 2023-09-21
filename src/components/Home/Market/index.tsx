@@ -1,12 +1,11 @@
 import React from 'react';
 
-// import classNames from 'classnames';
-
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { useGetDataStockHome, useStockMarketHome } from '@store/stockMarketHome/stockMarketHome';
+import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
+import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 
 import styles from './index.module.scss';
 
@@ -66,18 +65,19 @@ const Market = () => {
     };
   }, []);
 
-
   if (!dataStockIndex?.length) {
-    return <div className='mt-[24px] desktop:px-[16px]'>
-      <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
-        {[1, 2, 3, 4].map(item => (
-          <div
-            key={item}
-            className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
-          />
-        ))}
+    return (
+      <div className='mt-[24px] desktop:px-[16px]'>
+        <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
+          {[1, 2, 3, 4].map((item) => (
+            <div
+              key={item}
+              className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
+            />
+          ))}
+        </div>
       </div>
-    </div>;
+    );
   }
 
   return (
@@ -89,12 +89,22 @@ const Market = () => {
           const isDecrease = item?.cIndex < item?.oIndex;
           const isNoChange = item?.cIndex === item?.oIndex;
           const isChange = findIndex === index;
+
+          let unit;
+          if (isNoChange) {
+            unit = '';
+          } else if (isIncrease) {
+            unit = '+';
+          } else {
+            unit = '-';
+          }
+
           return (
             <div
               key={index}
               className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
             >
-              <div className='item p-[20px] text-left galaxy-max:p-[12px] ' key={index}>
+              <div className='item px-[12px] py-[20px] text-left galaxy-max:p-[12px] ' key={index}>
                 <Text type='body-20-semibold' className='galaxy-max:text-[16px]' color='neutral-1'>
                   {item?.displayName}
                 </Text>
@@ -117,13 +127,16 @@ const Market = () => {
                   {item?.cIndex?.toLocaleString('en-US')}
                 </Text>
                 <div
-                  className={classNames('mt-[6px] inline-block rounded-[100px] px-[5px] py-[2px]', {
-                    'bg-[#E3F6E2]': isIncrease,
-                    'bg-[#F5E4E7]': isDecrease,
-                    'bg-[#FCECC4]': isNoChange,
-                    [styles.isDecrease]: isDecrease && isChange,
-                    [styles.isIncrease]: isIncrease && isChange,
-                  })}
+                  className={classNames(
+                    'mt-[6px] inline-block whitespace-nowrap rounded-[100px] px-[5px] py-[2px]',
+                    {
+                      'bg-[#E3F6E2]': isIncrease,
+                      'bg-[#F5E4E7]': isDecrease,
+                      'bg-[#FCECC4]': isNoChange,
+                      [styles.isDecrease]: isDecrease && isChange,
+                      [styles.isIncrease]: isIncrease && isChange,
+                    },
+                  )}
                 >
                   <Text
                     type='body-12-medium'
@@ -135,8 +148,8 @@ const Market = () => {
                       [styles.isIncrease]: isIncrease && isChange,
                     })}
                   >
-                    {isIncrease ? '+' : '-'}
-                    {item?.change || change} / {isIncrease ? '+' : ''}
+                    {unit}
+                    {item?.change || change} / {unit}
                     {item?.changePercent || changePercent}
                   </Text>
                 </div>

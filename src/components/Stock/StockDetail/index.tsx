@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
@@ -11,7 +11,7 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 import { toast } from 'react-hot-toast';
 
-import { requestJoinChannel, requestLeaveChannel, socket } from '@components/Home/service';
+import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import NotificationFollowStock from '@components/UI/Notification/FollowStock';
@@ -20,8 +20,10 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH, formatStringToNumber, getStockColor } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
+import { AddTicker, AnalyzeTicker, GetMoreInfo, RemoveTicker } from '@utils/dataLayer';
+import { socket } from 'src/socket/socket';
 
 import ActivityItem from './ActivityItem';
 import StockAlsoOwnSkeleton from './AlsoOwn/skeleton';
@@ -169,6 +171,7 @@ const StockDetail = () => {
       const isFollowed = !!(res && res.data[0].stocks.some((item) => item.stockCode === stockCode));
       setIsFollowedStock(isFollowed);
     },
+    refreshDeps: [stockCode],
   });
   const { stockDetails, refreshStockDetails } = useStockDetailsExtra(stockCode);
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
@@ -339,6 +342,13 @@ const StockDetail = () => {
           },
         );
       }
+
+      // gtm
+      if (isFollowedStock) {
+        RemoveTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+      } else {
+        AddTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+      }
     },
   });
 
@@ -401,22 +411,13 @@ const StockDetail = () => {
     setOpenPopupReview(false);
   };
 
-  const { chartColorFormat } = useMemo(() => {
-    const chartColor = getStockColor(
-      dataStock?.lastPrice || 0,
-      dataStock?.c || 0,
-      dataStock?.f || 0,
-      dataStock?.r || 0,
-    );
-    const chartColorFormat = chartColor.slice(1);
-
-    return {
-      chartColorFormat,
-    };
-  }, [dataStock]);
-
   const handleOpenPopupZoom = () => {
     setOpenPopupZoomChart(true);
+  };
+
+  // gtm
+  const handleAnalyze = (infoType: string) => {
+    AnalyzeTicker(stockCode, infoType, 'General');
   };
 
   return (
@@ -461,7 +462,6 @@ const StockDetail = () => {
         }}
         stockCode={stockCode}
         refPrice={dataStock?.r}
-        color={chartColorFormat}
       />
 
       <div className='box-shadow card-style'>
@@ -509,7 +509,7 @@ const StockDetail = () => {
 
         {/* chart */}
         <div className='relative mt-[8px] border-b border-solid border-[#EBEBEB] pb-[8px] pt-[36px]'>
-          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} color={chartColorFormat} />
+          <ChartIframe stockCode={stockCode} refPrice={dataStock?.r} />
 
           {/* icon maximize */}
           <div
@@ -530,6 +530,9 @@ const StockDetail = () => {
           activeKey={currentTab}
           onChange={(tabKey) => {
             setCurrentTab(tabKey);
+
+            // gtm
+            AnalyzeTicker(stockCode, tabKey, 'price');
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
@@ -631,7 +634,13 @@ const StockDetail = () => {
 
             {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
               <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
-                <button className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'>
+                <button
+                  onClick={() => {
+                    handleAnalyze('Stock rating');
+                    GetMoreInfo('Stock detail screen', 'Review', 'List review of company');
+                  }}
+                  className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
+                >
                   <Text type='body-14-bold' color='primary-2'>
                     {t('rating.see_more')}
                   </Text>
@@ -650,16 +659,20 @@ const StockDetail = () => {
       </div>
 
       {/* community */}
-      <StockCommunity stockDetails={stockDetails} stockCode={stockCode} />
+      <StockCommunity
+        handleAnalyze={handleAnalyze}
+        stockDetails={stockDetails}
+        stockCode={stockCode}
+      />
 
       {/* recent news */}
-      <StockNews stockCode={stockCode} />
+      <StockNews handleAnalyze={handleAnalyze} stockCode={stockCode} />
 
       {/* featured in themes */}
       <StockThemes stockCode={stockCode} />
 
       {/* calendar */}
-      <StockCalendar stockCode={stockCode} />
+      <StockCalendar handleAnalyze={handleAnalyze} stockCode={stockCode} />
 
       {/* financial */}
       <div className='box-shadow card-style'>

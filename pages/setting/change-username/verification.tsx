@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import ChangeUsernameVertification from '@components/Setting/ChangeUsername/OtpVerification';
+const ChangeUsernameVertification = dynamic(
+  () => import('@components/Setting/ChangeUsername/OtpVerification'),
+);
 
 const ChangeUsernameVerificationPage = () => {
   return (

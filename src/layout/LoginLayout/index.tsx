@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -10,9 +11,7 @@ const LoginHeader = dynamic(() => import('../components/LoginHeader'));
 const LoginLayout = ({ children }: any) => {
   const router = useRouter();
 
-  const isRouteLogin = [
-    ROUTE_PATH.LOGIN,
-  ].includes(router?.pathname);
+  const isRouteLogin = [ROUTE_PATH.LOGIN].includes(router?.pathname);
 
   return (
     <>
@@ -20,7 +19,7 @@ const LoginLayout = ({ children }: any) => {
 
       <div className='flex w-full justify-center laptop:min-h-screen'>
         <div className='w-[40%] flex-col items-center bg-[#6DB6E1] mobile:hidden laptop:flex laptop:min-h-[750px]'>
-          <img
+          <Image
             src='/static/images/pinex_logo.png'
             alt=''
             width='0'
@@ -36,25 +35,25 @@ const LoginLayout = ({ children }: any) => {
           <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>
             {isRouteLogin ? (
               <CustomLink href={ROUTE_PATH.HOME}>
-                <div className='laptop:!mb-14 laptop:!mt-[15vh] mobile:!mt-[10vh] flex items-center mobile:!mb-8'>
-                  <img
+                <div className='flex items-center mobile:!mb-8 mobile:!mt-[10vh] laptop:!mb-14 laptop:!mt-[15vh]'>
+                  <Image
                     src='/static/images/pinex_logo.png'
                     alt=''
                     width='0'
                     height='0'
                     sizes='50vw'
-                    className='laptop:h-[72px] laptop:w-[72px] mobile:h-[50px] mobile:w-[50px]'
+                    className='mobile:h-[50px] mobile:w-[50px] laptop:h-[72px] laptop:w-[72px]'
                   />
 
                   <img
                     src='/static/logo/logo-website-pinetree.svg'
                     alt='Logo pinetree'
-                    className='ml-[16px] laptop:h-[44px] mobile:h-[30px]'
+                    className='ml-[16px] mobile:h-[30px] laptop:h-[44px]'
                   />
                 </div>
               </CustomLink>
             ) : (
-              <div className='laptop:!mt-[30vh] mobile:!mt-0' />
+              <div className='mobile:!mt-0 laptop:!mt-[30vh]' />
             )}
 
             <div className='md:h-screen lg:py-0 mx-auto flex min-w-[98vw] flex-col items-center justify-center px-6 laptop:min-w-min laptop:px-0'>

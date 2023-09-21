@@ -14,13 +14,28 @@ import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
+import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
 import UserItem from './UserItem';
 import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
+
+const handleTrackingViewListStock = () => {
+  ViewStockList('List company', '', 'Research explore', 'Explore screen');
+};
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
+  ViewTickerInfo(stockCode, 'Search explore box', locationDetail, 'Stock');
+};
+
+// tracking event get more info
+const handleTrackingGetMoreInfo = (info: string, infoDetail: string) => {
+  GetMoreInfo('Search explore box', info, infoDetail);
+};
 
 const Search = (props: any, ref: any) => {
   const { t } = useTranslation('theme');
@@ -29,7 +44,7 @@ const Search = (props: any, ref: any) => {
   const [showPopup, setShowPopup] = React.useState(false);
   const [showRecent, setShowRecent] = React.useState(false);
   const searchResultPopupRef = useRef<HTMLDivElement | null>(null);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const { popular } = useGetPopular();
   const { listRecent, refreshSearchRecent } = useGetSearchRecent();
@@ -194,11 +209,25 @@ const Search = (props: any, ref: any) => {
                 <>
                   <div className='mb-[16px] mt-[16px] flex flex-col gap-y-[16px]'>
                     {[...companies]?.slice(0, 5)?.map((company: any, index: number) => {
-                      return <CompanyItem key={`company-${index}`} data={company} />;
+                      return (
+                        <CompanyItem
+                          onTrackingEventViewStockInfo={(stockCode) => {
+                            handleTrackingViewTicker(stockCode, 'List company');
+                          }}
+                          key={`company-${index}`}
+                          data={company}
+                        />
+                      );
                     })}
                   </div>
                   {companies?.length > 5 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.STOCK)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.STOCK);
+                        handleTrackingViewListStock();
+                        handleTrackingGetMoreInfo('Company', 'List company');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('show_more')}
                       </Text>
@@ -228,7 +257,12 @@ const Search = (props: any, ref: any) => {
                     ))}
                   </div>
                   {users?.length > 5 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.FRIEND);
+                        handleTrackingGetMoreInfo('User', 'List user');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('show_more')}
                       </Text>
@@ -261,12 +295,20 @@ const Search = (props: any, ref: any) => {
                           onRemoveData={onRemoveData(post?.id)}
                           isNewFeedExplore={true}
                           refreshSearch={refresh}
+                          onTrackingViewTicker={(stockCode) => {
+                            handleTrackingViewTicker(stockCode, 'Post');
+                          }}
                         />
                       );
                     })}
                   </div>
                   {posts?.length > 3 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.POST)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.POST);
+                        handleTrackingGetMoreInfo('Post', 'List post');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('exploring_more_posts')}
                       </Text>
@@ -296,7 +338,12 @@ const Search = (props: any, ref: any) => {
                     })}
                   </div>
                   {news?.length > 3 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.NEWS)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.NEWS);
+                        handleTrackingGetMoreInfo('News', 'List news');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('exploring_more_news')}
                       </Text>

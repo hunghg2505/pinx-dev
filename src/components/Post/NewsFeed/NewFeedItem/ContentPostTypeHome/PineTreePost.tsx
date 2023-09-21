@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -10,12 +11,12 @@ const ImageHeadPost = dynamic(
   {
     ssr: false,
     loading: () => (
-      <img
-        src='/static/images/img-blur.png'
-        alt=''
+      <Image
         width='0'
         height='0'
         sizes='100vw'
+        src='/static/images/img-blur.png'
+        alt=''
         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
       />
     ),
@@ -97,7 +98,11 @@ export const PineTreePost = ({
             href={`${post_url}`}
             className='absolute left-0 top-0 z-[1]  h-full w-full'
           >
-            <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            <ImageHeadPost
+              alt={postDetail?.seoMetadata?.imageSeo?.alt}
+              title={postDetail?.seoMetadata?.imageSeo?.title}
+              headImageUrl={postDetail?.post?.headImageUrl}
+            />
           </CustomLink>
         )}
 
@@ -134,14 +139,7 @@ export const PineTreePost = ({
             },
           )}
         >
-          <img
-            src='/static/icons/iconLink.svg'
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-[18px] w-[18px]'
-          />
+          <img src='/static/icons/iconLink.svg' alt='' className='h-[18px] w-[18px]' />
         </CustomLink>
       </div>
     </>

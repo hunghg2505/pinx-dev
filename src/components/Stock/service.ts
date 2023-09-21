@@ -1,7 +1,13 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { privateRequest, requestCommunity, requestMarket, requestPist } from '@api/request';
+import {
+  PREFIX_API_COMMUNITY,
+  privateRequest,
+  requestCommunity,
+  requestMarket,
+  requestPist,
+} from '@api/request';
 import { getAccessToken } from '@store/auth';
 
 import {
@@ -198,8 +204,8 @@ const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => 
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_DETAIL_EXTRA(stockCode))
-        : requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA(stockCode));
+        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_DETAIL_EXTRA_V2(stockCode))
+        : requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode));
     },
     {
       refreshDeps: [stockCode],
@@ -290,7 +296,7 @@ const useStockActivities = (
 const useReviewStock = (stockCode: string, options?: IOptions) => {
   return useRequest(
     (data: { rateValue: number; message?: string }) =>
-      privateRequest(requestCommunity.post, API_PATH.PRIVATE_STOCK_REVIEW(stockCode), {
+      privateRequest(requestCommunity.post, API_PATH.PRIVATE_STOCK_REVIEW_V2(stockCode), {
         data,
       }),
     {
@@ -476,6 +482,32 @@ const useGetStockIntraday = (stockCode: string): IResponseStockIntraday => {
     stockIntraday: data,
     loading,
   };
+};
+
+export const fetchStockDetailFromServer = async (stockCode: string) => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode)}`).then(
+      (data: any) => data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
+};
+
+export const fetchAllStockFromServer = async () => {
+  // PREFIX_API_IP_COMMUNITY
+  try {
+    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_STOCK_SITE_MAP}`).then((data: any) =>
+      data.json(),
+    );
+  } catch {
+    return {
+      data: {},
+    };
+  }
 };
 
 export {

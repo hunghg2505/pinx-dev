@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -10,7 +11,10 @@ const NotFound = () => {
   return (
     <div className='  flex w-full flex-wrap justify-center gap-[5px] rounded-[12px] bg-primary_bgblue_2  py-[24px] text-center tablet:flex-nowrap tablet:justify-between tablet:gap-[36px] tablet:p-[24px]'>
       <div className='flex-2 flex  w-full items-center tablet:mb-[12px] '>
-        <img
+        <Image
+          width='0'
+          height='0'
+          sizes='100vw'
           src={'/static/images/watchListNoutFoundFull.png'}
           alt="Don't have any result"
           className='  mb-[12px]  w-[full] object-contain tablet:mx-0 '

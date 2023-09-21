@@ -1,5 +1,8 @@
 import React, { createContext } from 'react';
 
+// eslint-disable-next-line import/named
+import { FormInstance } from 'rc-field-form';
+
 import Avatar from './Avatar';
 import Back from './Back';
 import Cover from './Cover';
@@ -8,14 +11,14 @@ import Verify from './Verify';
 
 export const profileUserContext = createContext(undefined);
 
-const Header = () => {
+const Header = ({ form }: { form: FormInstance }) => {
   return (
     <div className='bg-white'>
-      <div className='relative w-full pt-[41%] tablet:pt-[280px]'>
+      <div className='relative w-full pt-[52%]'>
         <Back />
-        <Cover />
+        <Cover form={form} />
         <div className='mx-auto'>
-          <Avatar />
+          <Avatar form={form} />
           <Phone />
           <Verify />
         </div>

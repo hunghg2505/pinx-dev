@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 
 import { ITheme } from '@components/Home/service';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 
@@ -34,7 +35,10 @@ const ThemeItem = ({ data }: { data: ITheme }) => {
           <div className='flex'>
             {latestSubscribe?.map((user: any, index: number) => {
               return (
-                <img
+                <CustomImage
+                  width='0'
+                  height='0'
+                  sizes='100vw'
                   key={index}
                   src={user?.avatar}
                   alt=''

@@ -1,6 +1,9 @@
 import React from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { ROUTE_PATH } from '@utils/common';
 
 interface ICustomLink {
   children: React.ReactNode | string;
@@ -24,6 +27,14 @@ const CustomLink = ({
   target = '_self',
   onClick,
 }: ICustomLink) => {
+  const router = useRouter();
+  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const handleClickLink = () => {
+    if (!isPostDetailPath && href !== ROUTE_PATH.HOME) {
+      globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
+    }
+    onClick && onClick();
+  };
   return (
     <Link
       href={href}
@@ -34,7 +45,7 @@ const CustomLink = ({
       target={target}
       className={linkClassName}
     >
-      <div onClick={onClick} className={className}>
+      <div onClick={handleClickLink} className={className}>
         {children}
       </div>
     </Link>

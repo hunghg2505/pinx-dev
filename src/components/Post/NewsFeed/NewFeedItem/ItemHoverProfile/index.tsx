@@ -7,8 +7,9 @@ import { useTranslation } from 'next-i18next';
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import { IPost } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { formatStringToNumber } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -28,14 +29,17 @@ const ItemHoverProfile = (props: IProps) => {
       )}
     >
       <div className='flex items-center'>
-        {profileOtherUser?.avatar ? (
-          <img
+        {isUrlValid(profileOtherUser?.avatar) ? (
+          <CustomImage
+            width='0'
+            height='0'
+            sizes='100vw'
             src={profileOtherUser?.avatar}
-            className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'
+            className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full border border-solid border-[#ebebeb] object-cover'
             alt=''
           />
         ) : (
-          <div className='h-[72px] w-[72px] min-w-[72px]'>
+          <div className='mr-[10px] h-[72px] w-[72px] min-w-[72px] rounded-full object-cover'>
             <AvatarDefault name={name} />
           </div>
         )}

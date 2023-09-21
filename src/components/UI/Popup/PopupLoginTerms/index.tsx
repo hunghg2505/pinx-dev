@@ -187,6 +187,8 @@ const ModalLoginTerms = (props: IProps) => {
             <RoundButton
               className='mt-3 w-full bg-[linear-gradient(238.35deg,_#1D6CAB_7.69%,_#589DC0_86.77%)] text-[--white]'
               onClick={onSubmit}
+              disabled={requestSendLoginOtp.loading || requestConfirmContract.loading}
+              loading={requestSendLoginOtp.loading || requestConfirmContract.loading}
             >
               {t('agree')}
             </RoundButton>

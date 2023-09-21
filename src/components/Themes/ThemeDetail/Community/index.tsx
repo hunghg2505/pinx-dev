@@ -5,10 +5,11 @@ import { useTranslation } from 'next-i18next';
 
 import { IThemeDetail, IUserTheme, getCommunity } from '@components/Themes/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { formatStringToNumber } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
 
 import ItemPeople from './ItemPeople';
 import ModalCommunity from './ModalCommunity';
@@ -38,6 +39,7 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
     }
     return getCommunity(page, code);
   });
+
   React.useImperativeHandle(ref, () => {
     return {
       removeItem,
@@ -71,19 +73,31 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
       isKol: userLoginInfo?.isKol,
       isFeatureProfile: userLoginInfo?.isFeatureProfile,
     };
-    mutate({
-      list: [newData, ...data?.list],
-      page: data.page,
-      totalElements: data?.totalElements + 1,
-    });
+
+    const isExists =
+      data?.list &&
+      data.list.length > 0 &&
+      data?.list?.some((item: any) => item?.customerId === newData.customerId);
+
+    if (!isExists) {
+      mutate({
+        list: [newData, ...data?.list],
+        page: data.page,
+        totalElements: data?.totalElements + 1,
+      });
+    }
   };
   const removeItem = () => {
+    const isExists = [...data?.list]?.some((item) => item.customerId === userLoginInfo?.id);
     const newData = [...data?.list]?.filter((item) => item.customerId !== userLoginInfo?.id);
-    mutate({
-      list: newData,
-      page: data.page,
-      totalElements: data?.totalElements - 1,
-    });
+
+    if (isExists) {
+      mutate({
+        list: newData,
+        page: data.page,
+        totalElements: data?.totalElements - 1,
+      });
+    }
   };
   const { refLastElement } = useObserver();
   return (
@@ -106,12 +120,13 @@ const Community = React.forwardRef((props: IProps, ref: any) => {
           [...data?.list]?.slice(0, 3)?.map((item: any, index: number) => {
             return (
               <div className='flex flex-col content-center items-center justify-center' key={index}>
-                {item.avatar ? (
-                  <img
-                    src={item.avatar}
-                    alt=''
+                {isUrlValid(item.avatar) ? (
+                  <CustomImage
                     width='0'
                     height='0'
+                    sizes='100vw'
+                    src={item.avatar}
+                    alt=''
                     className='h-[38px] w-[38px] justify-items-center rounded-full border-2 border-solid border-[#EAF4FB] object-cover'
                   />
                 ) : (

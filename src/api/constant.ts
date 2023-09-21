@@ -33,6 +33,7 @@ export const API_PATH = {
   PRIVATE_WATCHLIST_STOCK: '/private/watchlist/list',
   PRIVATE_HIDE_POST: '/private/mapping/hide',
   PUCLIC_MAPPING_POST_DETAIL: (post_id: string) => `/public/mapping/${post_id}/detail`,
+  PUBLIC_MAPPING_SITE_MAP: '/public/mapping/site-map',
   PUBLIC_MAPPING_POST_COMMENTS: (post_id: string) => `/public/mapping/${post_id}/comments`,
   PRIVATE_ADD_POST: '/private/post/add',
   PRIVATE_PINNED_POST: '/private/mapping/pinned-posts',
@@ -67,6 +68,7 @@ export const API_PATH = {
   PUBLIC_ALL_THEME: '/public/theme/all',
   PRIVATE_GET_THEME_DETAIL: (code: string) => `/private/theme/${code}/details`,
   PUBLIC_GET_THEME_DETAIL: (code: string) => `/public/theme/${code}/detail`,
+  PUBLIC_GET_THEME_DETAIL_V2: (code: string) => `/public/theme/${code}-v2`,
   PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME: (code: string) =>
     `/public/theme/${code}/subscribed-customers`,
   PRIVATE_GET_COMMUNITY_THEME_DETAIL: (code: string) =>
@@ -96,13 +98,17 @@ export const API_PATH = {
   PRIVATE_THEME_OF_STOCK: (stockCode: string) => `/private/theme/stock-code/${stockCode}`,
   PUBLIC_THEME_OF_STOCK: (stockCode: string) => `/public/theme/stock-code/${stockCode}`,
   PUBLIC_STOCK_DETAIL_EXTRA: (stockCode: string) => `/public/stock/${stockCode}/details-extra`,
+  PUBLIC_STOCK_DETAIL_EXTRA_V2: (stockCode: string) => `/public/stock/${stockCode}/details-extraV2`,
   PRIVATE_STOCK_DETAIL_EXTRA: (stockCode: string) => `/private/stock/${stockCode}/details-extra`,
+  PRIVATE_STOCK_DETAIL_EXTRA_V2: (stockCode: string) =>
+    `/private/stock/${stockCode}/details-extraV2`,
   PUBLIC_STOCK_REVIEWS: (stockCode: string) => `/public/stock/${stockCode}/reviews`,
   PUBLIC_STOCK_NEWS: (stockCode: string) => `/public/stock/${stockCode}/news`,
   PRIVATE_STOCK_NEWS: (stockCode: string) => `/private/stock/${stockCode}/news`,
   PUBLIC_STOCK_ACTIVITIES: (stockCode: string) => `/public/stock/${stockCode}/activities`,
   PRIVATE_STOCK_ACTIVITIES: (stockCode: string) => `/private/stock/${stockCode}/activities`,
   PRIVATE_STOCK_REVIEW: (stockCode: string) => `/private/stock/${stockCode}/review`,
+  PRIVATE_STOCK_REVIEW_V2: (stockCode: string) => `/private/stock/${stockCode}/reviewV2`,
   PUBLIC_STOCK_WATCHING_INVESTING: (stockCode: string) =>
     `/public/stock/${stockCode}/watching-investing-customers`,
   PUBLIC_STOCK_WATCHING: (stockCode: string) => `/public/stock/${stockCode}/watching-customers`,
@@ -115,6 +121,7 @@ export const API_PATH = {
   PUBLIC_FINANCE_INFO: '/public/finance-info',
   PUBLIC_STOCK_TRADE: (stockCode: string) => `/public/stock/${stockCode}/trade`,
   PUBLIC_STOCK_INTRADAY: (stockCode: string) => `/public/stock/${stockCode}/step-price`,
+  PUBLIC_STOCK_SITE_MAP: '/public/stock/site-map',
 
   PRIVATE_TOP_WATCHING_STOCK: '/private/watchlist/top-watching',
   PRIVATE_TOP_MENTION_STOCK: '/private/stock/top-mention',
@@ -159,6 +166,14 @@ export const API_PATH = {
   PUBLIC_SEARCH_SEO_SUGGEST: '/public/search-seo/suggest-v2',
   PRIVATE_SEARCH_SEO_SUGGEST: '/private/search-seo/suggest-v2',
   PUBLIC_SEARCH_SEO_DELETE: (code: string) => `/public/search-seo/${code}/delete-v2`,
+
+  PRIVATE_SEARCH_SEO_COMPANY_V2: '/private/search-seo/companyV2',
+  PUBLIC_SEARCH_SEO_COMPANY_V2: '/public/search-seo/companyV2',
+  PRIVATE_SEARCH_SEO_PEOPLE_V2: '/private/search-seo/customerV2',
+  PUBLIC_SEARCH_SEO_PEOPLE_V2: '/public/search-seo/customerV2',
+
+  PUBLIC_SEARCH_SEO_MEDIA_V2: '/public/search-seo/imageSeo-mediaV2',
+  PRIVATE_SEARCH_SEO_MEDIA_V2: '/private/search-seo/imageSeo-mediaV2',
   // End SEARCH_SEO
 
   PRIVATE_SEARCH_NEWS: '/private/mapping/searching/news',
@@ -199,4 +214,6 @@ export const API_PATH = {
   PRIVATE_ACTIVITY_WATCHLIST_V2: '/private/activity/watchlist/addV2',
   PRIVATE_ACTIVITY_THEME_V2: '/private/activity/theme/addV2',
   PRIVATE_UPDATE_POST_V2: (id: string) => `/private/mapping/${id}/updateV2`,
+
+  PUBLIC_SEO_PAGE_V2: (textSearch: string) => `/public/seo/pageV2/?textSearch=${textSearch}`,
 };

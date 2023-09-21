@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useCountDown } from 'ahooks';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -45,7 +46,7 @@ const Redirect = () => {
       </div>
 
       <div className='flex flex-col items-center mobile:px-[30px] tablet:mt-[32px]'>
-        <img
+        <Image
           src='/static/images/redirect.png'
           alt=''
           width={0}

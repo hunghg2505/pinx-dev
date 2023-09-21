@@ -3,10 +3,11 @@ import { useTranslation } from 'next-i18next';
 
 import { IUserTheme } from '@components/Themes/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 const IconArrow = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='24' viewBox='0 0 25 24' fill='none'>
@@ -29,19 +30,21 @@ const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) 
     <CustomLink href={urlProfile}>
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>
         <div className='flex items-center'>
-          {data?.avatar ? (
-            <img
+          {isUrlValid(data?.avatar) ? (
+            <CustomImage
+              width='0'
+              height='0'
+              sizes='100vw'
               loading='lazy'
               src={data?.avatar}
               alt=''
-              className='mr-[8px] h-[36px] w-[36px] rounded-full object-cover'
+              className='mr-[8px] h-[36px] w-[36px] rounded-full border border-solid border-[#ebebeb] object-cover'
             />
           ) : (
             <div className='mr-[8px] h-[36px] w-[36px] rounded-full object-cover'>
               <AvatarDefault nameClassName='text-[16px]' name={data?.displayName} />
             </div>
           )}
-
           <div>
             <Text
               type='body-14-semibold'

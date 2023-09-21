@@ -1,10 +1,14 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
+import { ROUTE_PATH } from '@utils/common';
+import { ReadNews } from '@utils/dataLayer';
 
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
@@ -15,12 +19,12 @@ const ImageHeadPost = dynamic(
   {
     ssr: false,
     loading: () => (
-      <img
-        src='/static/images/img-blur.png'
-        alt=''
+      <Image
         width='0'
         height='0'
         sizes='100vw'
+        src='/static/images/img-blur.png'
+        alt=''
         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
       />
     ),
@@ -37,8 +41,33 @@ export const VietStockNews = ({
   post_url,
   pinned,
   isPostDetailPath,
+  onTrackingViewTicker,
 }: any) => {
   const { t } = useTranslation();
+  const router = useRouter();
+  const calcLocation = () => {
+    if (router.pathname.includes(ROUTE_PATH.POST_DETAIL_PATH)) {
+      return 'Post Detail Screen';
+    }
+    if (router.pathname.includes(ROUTE_PATH.EXPLORE)) {
+      return 'Explore Screen';
+    }
+    if (router.pathname.includes(ROUTE_PATH.PROFILE)) {
+      return 'User Detail Screen';
+    }
+    return 'Home Screen';
+  };
+
+  const onTrackingReadNews = () => {
+    const curPostData = postDetail?.post;
+    ReadNews(
+      curPostData.postType,
+      curPostData.vendorInfo.name,
+      curPostData.category,
+      curPostData.tagStocks,
+      calcLocation(),
+    );
+  };
 
   const renderThumbnail = () => {
     if (!postDetail?.post?.headImageUrl) {
@@ -46,7 +75,7 @@ export const VietStockNews = ({
         <div
           className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
-          <CustomLink target='_blank' href={`${post_url}`}>
+          <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
             <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'>
               <div className='scale-[0.6]'>
                 <IconLink />
@@ -55,7 +84,7 @@ export const VietStockNews = ({
           </CustomLink>
 
           <div className=' flex w-full flex-1 flex-col items-start justify-center gap-y-[10px] px-[8px] py-[8px] [border-left:1px_solid_#CCC] tablet:px-[12px]'>
-            <CustomLink target='_blank' href={`${post_url}`}>
+            <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
               <Text
                 type='body-14-bold'
                 color='cbblack'
@@ -66,7 +95,10 @@ export const VietStockNews = ({
             </CustomLink>
 
             <div className='w-full overflow-hidden'>
-              <ListStock listStock={postDetail?.post?.tagStocks} />
+              <ListStock
+                onTrackingViewTicker={onTrackingViewTicker}
+                listStock={postDetail?.post?.tagStocks}
+              />
             </div>
           </div>
         </div>
@@ -88,8 +120,13 @@ export const VietStockNews = ({
             target='_blank'
             href={`${post_url}`}
             className='absolute left-0 top-0 z-[1] h-full  w-full'
+            onClick={onTrackingReadNews}
           >
-            <ImageHeadPost headImageUrl={postDetail?.post?.headImageUrl} />
+            <ImageHeadPost
+              alt={postDetail?.seoMetadata?.imageSeo?.alt}
+              title={postDetail?.seoMetadata?.imageSeo?.title}
+              headImageUrl={postDetail?.post?.headImageUrl}
+            />
           </CustomLink>
         )}
 
@@ -98,13 +135,12 @@ export const VietStockNews = ({
         )}
 
         {!isPostDetailPath && (
-          <CustomLink
-            target='_blank'
-            href={`${post_url}`}
-            className='absolute bottom-0 left-0 z-[2]  w-full'
-          >
+          <CustomLink href={`${postDetailUrl}`} className='absolute bottom-0 left-0 z-[2]  w-full'>
             <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
-              <ListStock listStock={postDetail?.post?.tagStocks} />
+              <ListStock
+                onTrackingViewTicker={onTrackingViewTicker}
+                listStock={postDetail?.post?.tagStocks}
+              />
             </div>
 
             <div
@@ -129,15 +165,9 @@ export const VietStockNews = ({
               'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2': isPostDetailPath,
             },
           )}
+          onClick={onTrackingReadNews}
         >
-          <img
-            src='/static/icons/iconLink.svg'
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-[18px] w-[18px]'
-          />
+          <img src='/static/icons/iconLink.svg' alt='' className='h-[18px] w-[18px]' />
         </CustomLink>
       </div>
     );
@@ -178,7 +208,7 @@ export const VietStockNews = ({
 
       {isPostDetailPath && (
         <div className='mb-[6px] text-right '>
-          <CustomLink target='_blank' href={`${post_url}`}>
+          <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
             <div
               className={classNames('inline-flex items-center', {
                 'mb-[8px]': !!postDetail?.post?.headImageUrl,

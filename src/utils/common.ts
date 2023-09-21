@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
+import imageCompression from 'browser-image-compression';
+import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
@@ -62,168 +64,211 @@ export const ROUTE_PATH = {
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
 };
 
-export const formatMessage = (message: string, data: any) => {
-  const str = message.split(' ');
-  const ignore: any = [];
-  const checkSplit = message.split(' ')?.reduce((acc: any, cur: any, index: any, array: any) => {
-    const isStart = cur.includes('[');
-    const isEnd = cur.includes(']');
-    const isHashTag = cur.includes('#');
+export const formatMessage = (message: string) => {
+  // console.log(message.split('\n'));
+  // const str = message.split(' ');
 
-    if (isStart && !isEnd && !isHashTag) {
-      for (const [i, item] of array.entries()) {
-        if (cur === item) {
-          continue;
-        }
-        if (i <= index) {
-          continue;
-        }
+  // const ignore: any = [];
+  // const checkSplit = message
+  //   .split('\n')
+  //   .join(' ')
+  //   .split(' ')
+  //   ?.reduce((acc: any, cur: any, index: any, array: any) => {
+  //     const isStart = cur.includes('[');
+  //     const isEnd = cur.includes(']');
+  //     const isHashTag = cur.includes('#');
 
-        ignore.push(i);
+  //     if (isStart && !isEnd && !isHashTag) {
+  //       for (const [i, item] of array.entries()) {
+  //         if (cur === item) {
+  //           continue;
+  //         }
+  //         if (i <= index) {
+  //           continue;
+  //         }
 
-        cur = cur?.concat(` ${item}`);
+  //         ignore.push(i);
 
-        const isEndItem = item.includes(']');
+  //         cur = cur?.concat(` ${item}`);
 
-        if (isEndItem) {
-          break;
-        }
-      }
-    }
+  //         const isEndItem = item.includes(']');
 
-    const can = !ignore.includes(index);
+  //         if (isEndItem) {
+  //           break;
+  //         }
+  //       }
+  //     }
 
-    if (can) {
-      const nCur = `${cur}`;
+  //     const can = !ignore.includes(index);
 
-      const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%') || nCur.includes('#'));
-      if (isSepecial) {
-        acc.push(nCur);
-      } else {
-        // eslint-disable-next-line unicorn/prefer-at
-        const prevItem = acc[acc.length - 1];
-        if (prevItem) {
-          const isPrevItemSepecial = Boolean(
-            prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
-          );
+  //     if (can) {
+  //       const nCur = `${cur}`;
 
-          if (isPrevItemSepecial) {
-            acc.push(nCur);
-          } else {
-            acc[acc.length - 1] = `${prevItem} ${nCur}`;
-          }
-        } else {
-          acc.push(nCur);
-        }
-      }
-    }
-    return acc;
-  }, []);
-  message = message.replaceAll('\n', '<p></p>');
-  const tagPeople = data?.tagPeople?.map((item: any) => {
-    return `@[${item?.displayName}](${item?.customerId})`;
-  });
-  const listStock = data?.tagStocks?.map((item: string) => {
-    return `%[${item}](${item})`;
-  });
-  const listHashTag = data?.hashtags?.map((item: any) => {
-    return item;
-  });
-  if (tagPeople) {
-    for (const item of tagPeople) {
-      const start = item.indexOf('[') + 1;
-      const end = item.indexOf(']');
-      const name = item.slice(start, end);
-      const startId = item.indexOf('(') + 1;
-      const endId = item.indexOf(')');
-      const ID = item.slice(startId, endId);
-      if (message) {
-        for (const text of checkSplit) {
-          if (text.includes(ID)) {
-            const startName = text.indexOf('@[') + 2;
-            const endName = text.indexOf(']');
-            const nameOld = text.slice(startName, endName);
-            message = message.replace(
-              `@[${nameOld}](${ID})`,
-              `
-              <div class="tagStock tagpeople mention" data-type="userMention"><span class="people" id=${ID}>${name}</span></div>
-              `,
-            );
-          }
-        }
-      }
-      // if (message && message.includes(name)) {
-      //   message = message.replace(
-      //     item,
-      //     `
-      //     <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
-      //     `,
-      //   );
-      // }
-    }
-  }
-  if (listStock) {
-    for (const item of listStock) {
-      const start = item.indexOf('[') + 1;
-      const end = item.indexOf(']');
-      const name = item.slice(start, end);
-      if (message && message.includes(item)) {
-        message = message.replaceAll(
-          item,
-          `
-          <div class="mention"><span class="tagStock">${name}</span></div>
-          `,
-        );
-      }
-    }
-  }
-  if (listHashTag) {
-    for (const item of listHashTag) {
-      if (message && message.includes(item)) {
-        // const newItem = item.replace('#', '');
-        message = message.replaceAll(
-          item,
-          `
-          <div class="mention"><span class="hashtag">${item}</span></div>
-          `,
-        );
-      }
-    }
-  }
-  // eslint-disable-next-line array-callback-return
-  str?.map((item) => {
-    // if (item.includes('#')) {
-    //   // const newItem = item.replace('#', '');
-    //   message = message.replaceAll(
-    //     item,
-    //     `
-    //     <a href="javascript:void(0)" class="hashtag">${item}</a>
-    //     `,
-    //   );
-    // }
-    if (item.includes('http') && !item.includes('\n')) {
-      message = message.replaceAll(
-        item,
-        `
-        <div class="mention"><span class="link">${item}</span></div>
-        `,
-      );
-    }
-    if (item.includes('http') && item.includes('\n')) {
-      const newItem = item?.split('\n');
-      for (const item of newItem) {
-        if (item.includes('http')) {
-          message = message.replaceAll(
-            item,
-            `
-            <div class="mention"><span class="link">${item}</span></div>
-            `,
-          );
-        }
-      }
-    }
-    // }
-  });
+  //       const isSepecial = Boolean(nCur.includes('@') || nCur.includes('%') || nCur.includes('#'));
+  //       if (isSepecial) {
+  //         acc.push(nCur);
+  //       } else {
+  //         // eslint-disable-next-line unicorn/prefer-at
+  //         const prevItem = acc[acc.length - 1];
+  //         if (prevItem) {
+  //           const isPrevItemSepecial = Boolean(
+  //             prevItem.includes('@') || prevItem.includes('%') || prevItem.includes('#'),
+  //           );
+
+  //           if (isPrevItemSepecial) {
+  //             acc.push(nCur);
+  //           } else {
+  //             acc[acc.length - 1] = `${prevItem} ${nCur}`;
+  //           }
+  //         } else {
+  //           acc.push(nCur);
+  //         }
+  //       }
+  //     }
+  //     return acc;
+  //   }, []);
+  // message = message.replaceAll('\n', '<p></p>');
+  // const tagPeople = data?.tagPeople?.map((item: any) => {
+  //   return `@[${item?.displayName}](${item?.customerId})`;
+  // });
+  // const listStock = data?.tagStocks?.map((item: string) => {
+  //   return `%[${item}](${item})`;
+  // });
+  // const listHashTag = data?.hashtags?.map((item: any) => {
+  //   return item;
+  // });
+  // if (tagPeople?.length > 0) {
+  //   for (const item of tagPeople) {
+  //     const start = item.indexOf('[') + 1;
+  //     const end = item.indexOf(']');
+  //     const name = item.slice(start, end);
+  //     const startId = item.indexOf('(') + 1;
+  //     const endId = item.indexOf(')');
+  //     const ID = item.slice(startId, endId);
+  //     if (message) {
+  //       for (const text of checkSplit) {
+  //         if (text.includes(ID)) {
+  //           const startName = text.indexOf('@[') + 2;
+  //           const endName = text.indexOf(']');
+  //           const nameOld = text.slice(startName, endName);
+  //           message = message.replace(
+  //             `@[${nameOld}](${ID})`,
+  //             `
+  //             <div class="tagStock tagpeople mention" data-type="userMention"><span class="people" id=${ID}>${name}</span></div>
+  //             `,
+  //           );
+  //         }
+  //       }
+  //     }
+  //     // if (message && message.includes(name)) {
+  //     //   message = message.replace(
+  //     //     item,
+  //     //     `
+  //     //     <div class="tagStock tagpeople mention" data-type="dataStock"><span class="people" id=${ID}>${name}</span></div>
+  //     //     `,
+  //     //   );
+  //     // }
+  //   }
+  // }
+  // if (listStock?.length > 0) {
+  //   for (const item of listStock) {
+  //     const start = item.indexOf('[') + 1;
+  //     const end = item.indexOf(']');
+  //     const name = item.slice(start, end);
+  //     if (message && message.includes(item)) {
+  //       message = message.replaceAll(
+  //         item,
+  //         `
+  //         <div class="mention"><span class="tagStock">${name}</span></div>
+  //         `,
+  //       );
+  //     }
+  //   }
+  // }
+
+  // if (listHashTag?.length > 0) {
+  //   for (const item of listHashTag) {
+  //     if (message && message.includes(item)) {
+  //       // const newItem = item.replace('#', '');
+  //       message = message.replaceAll(
+  //         item,
+  //         `<div class="mention"><span class="hashtag">${item}</span></div>`,
+  //       );
+  //     }
+  //   }
+  // }
+
+  // // eslint-disable-next-line array-callback-return
+  // str?.map((item) => {
+  //   // if (item.includes('#')) {
+  //   //   // const newItem = item.replace('#', '');
+  //   //   message = message.replaceAll(
+  //   //     item,
+  //   //     `
+  //   //     <a href="javascript:void(0)" class="hashtag">${item}</a>
+  //   //     `,
+  //   //   );
+  //   // }
+  //   if (item.includes('http') && !item.includes('\n')) {
+  //     const index = item.indexOf('http');
+  //     const newUrl = item.slice(index);
+  //     const txt = item.slice(0, index);
+  //     message = message.replaceAll(
+  //       item,
+  //       `<div class="mention txtLink">${txt}<span class="link">${newUrl}</span></div>`,
+  //     );
+  //   }
+  //   if (item.includes('http') && item.includes('\n')) {
+  //     const newItem = item?.split('\n');
+  //     for (const item of newItem) {
+  //       if (item.includes('http')) {
+  //         const index = item.indexOf('http');
+  //         const newUrl = item.slice(index);
+  //         const txt = item.slice(0, index);
+  //         message = message.replaceAll(
+  //           item,
+  //           `<div class="mention txtLink">${txt}<span class="link">${newUrl}</span></div>`,
+  //         );
+  //       }
+  //     }
+  //   }
+  //   // }
+  // });
+  // return message;
+  // Regular expression patterns for matching the different formats
+  const userMentionPattern = /@\[(.*?)]\((.*?)\)/g;
+  const itemMentionPattern = /%\[(.*?)]\((.*?)\)/g;
+  const hashtagPattern = /#(\S+)/g;
+  const urlPattern = /#?((https|http)?:\/\/\S+)/g;
+
+  // Replace user mentions
+  message = message.replaceAll(
+    userMentionPattern,
+    (_, name, id) =>
+      `<div class="tagStock tagpeople mention" data-type="userMention"><span class="people" id="${id}">${name} </span></div>`,
+  );
+
+  // Replace item mentions
+  message = message.replaceAll(
+    itemMentionPattern,
+    (_, item) => `<div class="mention"><span class="tagStock">${item} </span></div>`,
+  );
+
+  // Replace hashtags
+  message = message.replaceAll(
+    hashtagPattern,
+    (_, item) => `<div class="mention"><span class="hashtag">#${item} </span></div>`,
+  );
+
+  // Replace URLs
+  message = message.replaceAll(
+    urlPattern,
+    (match, url) =>
+      `<div class="mention txtLink">${
+        match[0] === '#' ? '#' : ''
+      }<span class="link">${url} </span></div>`,
+  );
+  message = message.replaceAll('\n', '<br/>');
   return message;
 };
 export const formatMessagePost = (message: string) => {
@@ -251,7 +296,7 @@ export const formatMessagePost = (message: string) => {
   // message = message.replaceAll('\n', '<p></p>');
   // eslint-disable-next-line array-callback-return
   str?.map((item) => {
-    if (item.includes('#')) {
+    if (item[0] === '#') {
       message = message.replace(
         item,
         `
@@ -285,6 +330,7 @@ export const base64ToBlob = (base64: any, type: any) => {
   return URL.createObjectURL(blob);
 };
 
+// export const EXT_IMAGE = ['jpg', 'jpeg', 'png', 'webp'];
 export const EXT_IMAGE = ['jpg', 'jpeg', 'png'];
 export const isImage = (file: any) => {
   if (!file) {
@@ -493,6 +539,7 @@ export const getQueryFromUrl = () => {
 };
 export const converStringMessageToObject = (message: string, data: any) => {
   const listStock = data?.tagStocks;
+  const listUserId = data?.tagPeople?.map((item: any) => item.customerId);
   const txt = message?.split('\n');
   const ignore: any = [];
   const newObject = {
@@ -528,19 +575,37 @@ export const converStringMessageToObject = (message: string, data: any) => {
 
         if (can) {
           const nCur = `${cur}`;
-
+          const startId = nCur.includes('(') && nCur.indexOf('(') + 1;
+          const endId = nCur.includes(')') && nCur.indexOf(')');
+          let ID = '';
+          if (startId && endId) {
+            ID = nCur.slice(startId, endId);
+          }
+          const isStock = listStock?.includes(ID);
+          const isPeopelTag = listUserId?.includes(Number(ID));
           const isSepecial = Boolean(
-            nCur.charAt(0) === '@' || nCur.charAt(0) === '%' || nCur.charAt(0) === '#',
+            (nCur.charAt(0) === '@' && isPeopelTag) ||
+              (nCur.charAt(0) === '%' && isStock) ||
+              nCur.charAt(0) === '#',
           );
+
           if (isSepecial) {
             acc.push(nCur);
           } else {
             // eslint-disable-next-line unicorn/prefer-at
             const prevItem = acc[acc.length - 1];
             if (prevItem) {
+              const startId = prevItem.includes('(') && prevItem.indexOf('(') + 1;
+              const endId = prevItem.includes(')') && prevItem.indexOf(')');
+              let ID = '';
+              if (startId && endId) {
+                ID = prevItem.slice(startId, endId);
+              }
+              const isStock = listStock?.includes(ID);
+              const isPeopelTag = listUserId?.includes(Number(ID));
               const isPrevItemSepecial = Boolean(
-                prevItem.charAt(0) === '@' ||
-                  prevItem.charAt(0) === '%' ||
+                (prevItem.charAt(0) === '@' && isPeopelTag) ||
+                  (prevItem.charAt(0) === '%' && isStock) ||
                   prevItem.charAt(0) === '#',
               );
 
@@ -558,7 +623,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
       }, []);
       const newArray = checkSplit?.map((item: any, index: number) => {
         const b = [];
-        if (item.includes('@') || item.includes('#')) {
+        if (item.includes('@') || item[0] === '#') {
           const a = index === 0 ? [item, ''] : [item, ''];
           b.push(a);
         } else {
@@ -575,12 +640,18 @@ export const converStringMessageToObject = (message: string, data: any) => {
           const startId = check.indexOf('(') + 1;
           const endId = check.indexOf(')');
           const ID = check.slice(startId, endId);
+          if (listUserId?.includes(Number(ID))) {
+            return {
+              type: 'userMention',
+              attrs: {
+                id: ID,
+                label: `${name}`,
+              },
+            };
+          }
           return {
-            type: 'userMention',
-            attrs: {
-              id: ID,
-              label: `${name}`,
-            },
+            type: 'text',
+            text: check,
           };
         }
         if (check.includes('%') && check.charAt(0) === '%') {
@@ -602,7 +673,7 @@ export const converStringMessageToObject = (message: string, data: any) => {
             text: check,
           };
         }
-        if (check.includes('#')) {
+        if (check.includes('#') && check.charAt(0) === '#') {
           return {
             type: 'hashTag',
             attrs: {
@@ -706,9 +777,7 @@ export default async function getSeoDataFromLink(url: string) {
       summary.push(tempsum);
     }
     return summary;
-  } catch (error: any) {
-    console.log('ERROR FETCHING META LINK', error);
-
+  } catch {
     return [
       {
         property: 'og:url',
@@ -765,4 +834,219 @@ export const formatStringToNumber = (value: any, isComma = true, minimumFraction
   const num = numString.includes('.') ? numString.slice(0, numString.indexOf('.') + 3) : numString;
 
   return formatter.format(+num).replaceAll(',', isComma ? ',' : '.');
+};
+export function storeQueryToSession(storage: Storage, key: string, value: string) {
+  if (!value) {
+    return;
+  }
+  const existing = storage.getItem(key);
+  if (!existing) {
+    storage.setItem(key, value);
+  }
+}
+
+// check url valid
+export const isUrlValid = (url?: string) => {
+  let isValid = false;
+  if (url && url.includes('http')) {
+    isValid = true;
+  }
+
+  return isValid;
+};
+
+// convert image to jpg
+export enum CONVERT_IMAGE_ERR_MSG {
+  FILE_INVALID = 'FILE_INVALID',
+  ERROR = 'ERROR',
+}
+export const convertImageToJpg = async (
+  file: File | Blob,
+  onSuccess: (file: Blob | null) => Promise<void>,
+  onError?: (message: string) => void,
+): Promise<void> => {
+  if (!['image/png', 'image/jpg', 'image/jpeg', 'image/webp'].includes(file.type)) {
+    onError && onError(CONVERT_IMAGE_ERR_MSG.FILE_INVALID);
+  }
+
+  const imageConverted: Blob | null = await new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      const img = new Image();
+      img.src = e.target?.result?.toString() || '';
+
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        const ctx: any = canvas.getContext('2d');
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx?.drawImage(img, 0, 0);
+
+        // fill background color to png file
+        if (file.type === 'image/png') {
+          ctx.globalCompositeOperation = 'destination-over';
+          ctx.fillStyle = 'white';
+          ctx?.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            onError && onError(CONVERT_IMAGE_ERR_MSG.ERROR);
+          }
+        }, 'image/jpeg');
+      };
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  await onSuccess(imageConverted);
+};
+
+// compress image
+
+interface compressImageParams {
+  file: File | Blob;
+  targetQuality?: number;
+  maxFileSizeKB: number;
+  onSuccess: (file: File | Blob) => Promise<void>;
+  onCompressStart?: () => void;
+  onError?: (message: any) => void;
+  compressorOpt?: any;
+}
+export const compressorImage = async ({
+  file,
+  targetQuality = 0.9,
+  maxFileSizeKB,
+  onSuccess,
+  onCompressStart,
+  onError,
+  compressorOpt,
+}: compressImageParams) => {
+  try {
+    let compressedImage: File | Blob = file;
+    const initFileSizeKB = file.size / 1024;
+    let quality = targetQuality;
+    onCompressStart && onCompressStart();
+
+    if (initFileSizeKB > maxFileSizeKB) {
+      while (quality >= 0 && compressedImage.size / 1024 > maxFileSizeKB) {
+        compressedImage = await new Promise((resolve, reject) => {
+          // eslint-disable-next-line no-new
+          new Compressor(file, {
+            quality,
+            ...compressorOpt,
+            success(result) {
+              resolve(result);
+            },
+            error(error) {
+              reject(error.message);
+            },
+          });
+        });
+
+        if (compressedImage.size / 1024 > maxFileSizeKB) {
+          quality -= 0.1;
+        }
+      }
+    } else {
+      compressedImage = await new Promise((resolve, reject) => {
+        // eslint-disable-next-line no-new
+        new Compressor(file, {
+          ...compressorOpt,
+          success(result) {
+            resolve(result);
+          },
+          error(error) {
+            reject(error.message);
+          },
+        });
+      });
+    }
+
+    await onSuccess(compressedImage);
+  } catch (error) {
+    onError && onError(error);
+  }
+};
+
+interface CompressImageParams {
+  file: File;
+  maxFileSizeKb?: number;
+  quality?: number;
+  options?: any;
+  maxWidthOrHeight?: number;
+}
+
+export const compressImage = async ({
+  file,
+  maxFileSizeKb,
+  quality,
+  options,
+  maxWidthOrHeight = 1280,
+}: CompressImageParams) => {
+  const initOptions: any = { ...options };
+  const fileSizeKB = file.size / 1024;
+
+  if (maxFileSizeKb) {
+    initOptions.maxSizeMB = maxFileSizeKb / 1024;
+  }
+
+  if (quality) {
+    initOptions.initialQuality = quality;
+  }
+
+  try {
+    if ((maxFileSizeKb && fileSizeKB > maxFileSizeKb) || quality) {
+      const compressedImage = await imageCompression(file, {
+        ...initOptions,
+        maxWidthOrHeight,
+        alwaysKeepResolution: true,
+      });
+
+      return compressedImage;
+    }
+
+    return file;
+  } catch {}
+};
+
+export const slugify = (value?: string) => {
+  if (!value) {
+    return '';
+  }
+
+  // Remove diacritics
+  const withoutDiacritics = value.normalize('NFD').replaceAll(/[\u0300-\u036F]/g, '');
+
+  // Replace spaces and special characters with hyphens
+  const slug = withoutDiacritics
+    .replaceAll(/[^\d\sA-Za-z]/g, '')
+    .trim()
+    .replaceAll(/\s+/g, '-'); // Replace spaces with hyphens
+
+  // Convert to lowercase
+  return slug.toLowerCase();
+};
+
+export const formatTitlePost = (title: string) => {
+  if (!title) {
+    return '';
+  }
+
+  let titleFormat = title;
+  const userMentionPattern = /@\[(.*?)]\((.*?)\)/g;
+  const stockMentionPattern = /%\[(.*?)]\((.*?)\)/g;
+  const hashtagPattern = /#(\S+)/g;
+
+  titleFormat = titleFormat.replaceAll(userMentionPattern, (_, b) => b);
+  titleFormat = titleFormat.replaceAll(stockMentionPattern, (_, b) => b);
+  titleFormat = titleFormat.replaceAll(hashtagPattern, (_, b) => b);
+
+  return titleFormat;
 };

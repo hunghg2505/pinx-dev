@@ -3,10 +3,11 @@ import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface ISubscriberItemProps {
   data: ICustomerInfo;
@@ -22,11 +23,14 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <CustomLink className='galaxy-max:flex-none' href={url}>
-        {data.avatar ? (
-          <img
+        {isUrlValid(data.avatar) ? (
+          <CustomImage
+            width='0'
+            height='0'
+            sizes='100vw'
             src={data.avatar}
             alt='User avatar'
-            className='h-[36px] w-[36px] rounded-full object-cover'
+            className='h-[36px] w-[36px] rounded-full border border-solid border-[#ebebeb] object-cover'
           />
         ) : (
           <div className='h-[36px] w-[36px] rounded-full object-cover'>

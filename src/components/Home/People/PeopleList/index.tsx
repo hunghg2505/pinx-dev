@@ -51,7 +51,7 @@ const PeopleList = (props: IProps) => {
       <Slider {...settings} className=''>
         {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
           return (
-            <div key={`people-list-${item.id}`}>
+            <div key={`people-list-${item.id}`} className='outline-none'>
               <ItemPeople refresh={refresh} data={item} refreshList={refreshList} />
             </div>
           );

@@ -1,9 +1,9 @@
+import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import StickyBox from 'react-sticky-box';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
-import MarketDesktop from '@components/Home/Market/MarketDesktop';
 import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
 import { Button } from '@components/UI/Button';
@@ -12,23 +12,51 @@ import Fade from '@components/UI/Fade';
 import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
+import { GetMoreInfo, ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
 
+import MarketDesktop from '../Market/MarketDesktop';
 import { useGetInfluencer, useSuggestPeople } from '../service';
+
+// tracking event view ticker info
+const handleTrackingViewStockInfo = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
+};
 
 const WatchList = () => {
   const { t } = useTranslation('common');
+  const watchList = useAtomValue(stockSocketAtom);
+
+  const handleTracking = () => {
+    // tracking event view watch list
+    const listStockCodes =
+      watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
+        ?.stocks || [];
+
+    ViewWatchlist(
+      'Default',
+      'Normal WL',
+      listStockCodes,
+      listStockCodes.length,
+      'Right sidebar layout',
+    );
+
+    // tracking event get more info
+    GetMoreInfo('Right sidebar layout', 'Watchlist', 'My watchlist');
+  };
 
   return (
     <div className='rounded-[8px] bg-white '>
       <ComponentWatchList
         isEdit={false}
         page_size={5}
+        handleTrackingViewStockInfo={handleTrackingViewStockInfo}
         footer={(list) => {
           if (list?.length) {
             return (
-              <CustomLink href={ROUTE_PATH.WATCHLIST}>
+              <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
                 <Button className='mt-4 h-[40px] w-full rounded-[5px] bg-[#F0F7FC]'>
                   <Text type='body-14-bold' color='primary-2'>
                     {t('view_more')}
@@ -52,6 +80,10 @@ const WatchList = () => {
   );
 };
 
+// tracking event get more info
+const handleTrackingGetMore = () => {
+  GetMoreInfo('Right sidebar layout', 'User', 'People you may know');
+};
 const ContentRight = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople({
     // staleTime: -1,
@@ -62,7 +94,7 @@ const ContentRight = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
 
   const isProfilePath = router?.pathname === ROUTE_PATH.MY_PROFILE;
 
@@ -104,7 +136,10 @@ const ContentRight = () => {
             />
             {suggestionPeople?.length && (
               <ModalPeopleYouKnow refreshList={refreshList}>
-                <div className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'>
+                <div
+                  onClick={handleTrackingGetMore}
+                  className='mt-[15px] flex h-[40px] w-full flex-row items-center justify-center rounded-[5px] bg-[#F0F7FC]'
+                >
                   <Text type='body-14-bold' color='primary-2'>
                     {t('view_more')}
                   </Text>

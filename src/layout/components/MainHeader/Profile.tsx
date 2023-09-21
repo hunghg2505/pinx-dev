@@ -3,7 +3,8 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 
 
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Dropdown from 'rc-dropdown';
@@ -13,19 +14,28 @@ import Back from '@components/MenuProfile/Back';
 import BasicInfo from '@components/MenuProfile/BasicInfo';
 import Follow from '@components/MenuProfile/Follow';
 import Options from '@components/MenuProfile/Options';
+import AvatarDefault from '@components/UI/AvatarDefault';
 import { MainButton } from '@components/UI/Button';
+import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
-import { ROUTE_PATH, calcUserStatusText, checkUserType, formatStringToNumber } from '@utils/common';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import {
+  ROUTE_PATH,
+  calcUserStatusText,
+  checkUserType,
+  formatStringToNumber,
+  isUrlValid,
+} from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
-import { DownloadPineXApp, RegisterTracking } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD, ONE_LINK_DOWNLOAD } from 'src/constant';
+import { DownloadPineXApp, RegisterTracking, ViewWatchlist } from '@utils/dataLayer';
+import { DEEP_LINK } from 'src/constant';
 
 const handleRedirect = (url: string) => {
   DownloadPineXApp('CTA in App', 'MenuProfileMobile');
@@ -79,7 +89,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
       />
       <BasicInfo
         userName={userLoginInfo?.displayName || 'Anonymous User'}
-        avatar={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
+        avatar={userLoginInfo?.avatar || ''}
         status={calcUserStatusText(userLoginInfo.acntStat || '')}
         close={close}
         isKol={userLoginInfo?.isKol}
@@ -94,14 +104,15 @@ const MenuProfileMobile = forwardRef((_, ref) => {
       {checkUserType(userLoginInfo?.custStat, userLoginInfo?.acntStat) === USERTYPE.NEW && (
         <div className='my-[20px] px-[16px]'>
           <div className='width-full rounded-[12px] bg-primary_bgblue_2 p-[12px] text-center'>
-            <img
+            <Image
+              sizes='100vw'
               src={'/static/images/shopinext-update_account.png'}
               height={150}
               width={150}
               alt={t('upgrade_account')}
               className='mx-auto mb-[12px] h-[150px] w-[150px] object-contain'
             />
-            <MainButton className='px-12' onClick={() => handleRedirect(ONE_LINK_DOWNLOAD)}>
+            <MainButton className='px-12' onClick={() => handleRedirect(DEEP_LINK.OPEN_APP)}>
               {t('upgrade_account')}
             </MainButton>
           </div>
@@ -115,8 +126,9 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
 const Profile = () => {
   const { t } = useTranslation('common');
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { userLoginInfo } = useUserLoginInfo();
+  const watchList = useAtomValue(stockSocketAtom);
 
   const menuMobileRef = useRef<any>(null);
 
@@ -124,16 +136,44 @@ const Profile = () => {
     menuMobileRef.current.onVisible && menuMobileRef.current.onVisible();
   };
 
+  // tracking event view watch list
+  const handleTracking = () => {
+    const listStockCodes =
+      watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
+        ?.stocks || [];
+
+    ViewWatchlist(
+      'Default',
+      'Normal WL',
+      listStockCodes,
+      listStockCodes.length,
+      'Dropdown menu profile',
+    );
+  };
+
   const ProfileOverlay = () => (
     <Menu multiple className='w-[360px] rounded-e-lg border-none bg-white'>
       <MenuItem>
-        <CustomLink href={ROUTE_PATH.MY_PROFILE} className='block w-full'>
+        <CustomLink
+          onClick={() => globalThis?.sessionStorage?.removeItem('scrollPosition')}
+          href={ROUTE_PATH.MY_PROFILE}
+          className='block w-full'
+        >
           <div className='flex w-full items-center gap-[24px] p-4'>
-            <img
-              src={userLoginInfo?.avatar || '/static/images/guest_avatar.png'}
-              alt=''
-              className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'
-            />
+            {isUrlValid(userLoginInfo?.avatar) ? (
+              <CustomImage
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={userLoginInfo?.avatar || ''}
+                alt=''
+                className='h-[72px] w-[72px] min-w-[72px] cursor-pointer rounded-full  border border-solid border-[#ebebeb] object-cover'
+              />
+            ) : (
+              <div className='h-[72px] w-[72px]  min-w-[72px] cursor-pointer rounded-full object-cover'>
+                <AvatarDefault className='!m-0' name={userLoginInfo?.displayName} />
+              </div>
+            )}
             <div className='flex flex-1 flex-col gap-[6px] overflow-hidden'>
               <div className='flex items-center'>
                 <Text type='body-16-semibold' className='truncate'>
@@ -196,7 +236,7 @@ const Profile = () => {
       {checkUserType(userLoginInfo?.custStat, userLoginInfo?.acntStat) === USERTYPE.NEW && (
         <MenuItem>
           <div className='m-[16px] flex w-full cursor-default flex-col items-center gap-[12px] rounded-xl bg-[#D8EBFC] px-[20px] py-[12px]'>
-            <img
+            <Image
               src='/static/images/book_list.png'
               alt=''
               width={0}
@@ -207,22 +247,24 @@ const Profile = () => {
             <div className='flex flex-col items-center gap-[20px] rounded-xl bg-[rgba(255,255,255,0.55)] p-[12px]'>
               <Text type='body-16-semibold'>{t('upgrade_account')}</Text>
               <div className='justify-center gap-x-[12px] mobile:hidden tablet:flex'>
-                <img
+                <Image
+                  sizes='100vw'
                   src='/static/images/googleplay.png'
                   alt='Download google play'
                   width={180}
                   height={52}
                   className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                  onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
                 />
 
-                <img
+                <Image
+                  sizes='100vw'
                   src='/static/images/appstore.png'
                   alt='Download app store'
                   width={180}
                   height={52}
                   className='h-[30px] w-[106.5px] cursor-pointer object-contain'
-                  onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                  onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
                 />
               </div>
             </div>
@@ -260,7 +302,11 @@ const Profile = () => {
       <hr className='border-neutral_07' />
 
       <MenuItem>
-        <CustomLink href='/watchlist' className='flex items-center px-[20px] py-4'>
+        <CustomLink
+          href={ROUTE_PATH.WATCHLIST}
+          onClick={handleTracking}
+          className='flex items-center px-[20px] py-4'
+        >
           <img
             src='/static/icons/iconTV.svg'
             className='mr-[10px] h-[14px] w-[15px] object-contain'
@@ -283,19 +329,25 @@ const Profile = () => {
             placement='bottomRight'
           >
             <div className='relative h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full object-cover'>
-              <img
+              <CustomImage
+                width='0'
+                height='0'
+                sizes='100vw'
                 src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
                 alt=''
-                className='h-full w-full overflow-hidden rounded-full object-cover '
+                className='h-full w-full overflow-hidden rounded-full border border-solid border-[#ebebeb] object-cover '
               />
             </div>
           </Dropdown>
         </div>
 
-        <img
+        <CustomImage
+          width='0'
+          height='0'
+          sizes='100vw'
           src={userLoginInfo?.avatar ?? '/static/images/guest_avatar.png'}
           alt=''
-          className='h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:block tablet:hidden'
+          className='h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:block tablet:hidden'
           onClick={goToMyProfile}
         />
       </>
@@ -304,7 +356,7 @@ const Profile = () => {
 
   if (!isLogin) {
     return (
-      <div className='flex items-center gap-[12px]'>
+      <div className='flex items-center'>
         <CustomLink
           href={ROUTE_PATH.LOGIN}
           className='flex h-[40px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
@@ -315,9 +367,9 @@ const Profile = () => {
         </CustomLink>
 
         <CustomLink
-          className='  hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
+          className='ml-[12px] hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
           href={`${ROUTE_PATH.LOGIN}?type=register`}
-          onClick={() => RegisterTracking(new Date(), 'Header', 'button')}
+          onClick={() => RegisterTracking(new Date(), 'Header', 'CTA')}
         >
           <Text type='body-14-bold' color='cbwhite'>
             {t('sign_up')}

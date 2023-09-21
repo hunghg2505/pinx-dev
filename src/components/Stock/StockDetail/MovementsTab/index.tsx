@@ -80,7 +80,7 @@ const MovementsTab = ({ stockData, preDataStock }: IMovementsTabProps) => {
           <TableBid stockData={stockData} preDataStock={preDataStock} />
         </div>
 
-        <div className='mt-[8px] flex gap-x-[20px] rounded-[12px] border-solid small-mobile-max:gap-x-[10px] tablet:mt-0 tablet:w-[220px] tablet:flex-col tablet:justify-between tablet:gap-y-[10px] tablet:border tablet:border-[#EBEBEB]'>
+        <div className='mt-[8px] grid grid-cols-2 rounded-[12px] border-solid small-mobile-max:gap-x-[10px] tablet:mt-0 tablet:w-[220px] tablet:grid-cols-1 tablet:justify-between tablet:gap-y-[10px] tablet:border tablet:border-[#EBEBEB]'>
           <TablePrice1 stockData={stockData} />
 
           <div className='mx-[20px] hidden h-[1px] bg-[#ebebeb] tablet:block'></div>

@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
@@ -6,7 +7,7 @@ import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { popupStatusAtom } from '@store/popup/popup';
 import { DownloadPineXApp } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 const handleRedirect = (url: string) => {
   DownloadPineXApp('CTA in App', 'PopUpEkyc');
@@ -63,22 +64,24 @@ const PopUpEkycInternal = (props: IProps) => {
           </CustomLink>
         </div>
         <div className='justify-center gap-x-[23px] mobile:hidden tablet:flex'>
-          <img
+          <Image
+            sizes='100vw'
             src='/static/images/googleplay.png'
             alt='Download google play'
             width={180}
             height={52}
             className='h-[52px] w-[180px] cursor-pointer object-contain'
-            onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+            onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
           />
 
-          <img
+          <Image
+            sizes='100vw'
             src='/static/images/appstore.png'
             alt='Download app store'
             width={180}
             height={52}
             className='h-[52px] w-[180px] cursor-pointer object-contain'
-            onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+            onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}
           />
         </div>
       </div>

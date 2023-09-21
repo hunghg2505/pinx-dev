@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 import {
@@ -21,10 +23,15 @@ const RegisterThemes = () => {
   const [selected, setSelected] = useState<any[]>([]);
   const [subscribedTheme, setSubscribedTheme] = useState<string[]>([]);
   const listThemesSuggest = useSuggestThemes();
+  const { setUserRegisterInfo } = useUserRegisterInfo();
 
   const { onSubscribeThemes } = useSubscribeThemes({
-    onSuccess: () => {
+    onSuccess: (_, params) => {
       router.push(ROUTE_PATH.REGISTER_TOPIC);
+      setUserRegisterInfo((prev) => ({
+        ...prev,
+        selectedTheme: params.toString().split(','),
+      }));
     },
   });
 
@@ -77,8 +84,8 @@ const RegisterThemes = () => {
       <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center px-[10px] tablet:pt-8 desktop:pt-8'>
         <div className='themeCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
-            <img
-              src='/static/icons/logo.svg'
+            <Image
+              src='/static/logo/logo.png'
               alt=''
               width='0'
               height='0'

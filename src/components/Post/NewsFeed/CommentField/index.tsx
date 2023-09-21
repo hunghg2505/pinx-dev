@@ -11,6 +11,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import { useClickAway, useRequest, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Upload from 'rc-upload';
@@ -29,15 +30,22 @@ import {
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { requestAddComment } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
-// import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
-import { ROUTE_PATH, isImage, validateHTML } from '../../../../utils/common';
+import {
+  ROUTE_PATH,
+  compressImage,
+  isImage,
+  isUrlValid,
+  validateHTML,
+} from '../../../../utils/common';
 import suggestion from '../../../Editor/Suggestion';
 // import { toBase64 } from '@';
 
@@ -66,9 +74,10 @@ const Editor = (props: IProps, ref?: any) => {
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [profileSetting] = useAtom(profileSettingAtom);
   const isCanCompose = profileSetting?.ignore_vsd_validator?.includes(userLoginInfo.cif);
-  // const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
+  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [idReply, setIdReply] = React.useState<string>('');
   const messagesEndRef: any = React.useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
@@ -221,10 +230,39 @@ const Editor = (props: IProps, ref?: any) => {
       },
     },
   );
-  const onStart = async (file: File) => {
+
+  const handleCompressSuccess = async (blob: Blob) => {
+    setLoading(false);
+
+    const blobToFile = new File([blob], '.' + blob.type.split('/')[1], {
+      type: blob.type,
+    });
+
     const formData = new FormData();
-    formData.append('files', file);
-    useUploadImage.run(formData);
+    formData.append('files', blobToFile);
+    blob && useUploadImage.run(formData);
+  };
+
+  const onStart = async (file: File) => {
+    try {
+      setLoading(true);
+
+      // compress
+      const compressedImage = await compressImage({
+        file,
+        quality: 0.5,
+        options: {
+          fileType: 'image/jpeg',
+        },
+      });
+
+      if (compressedImage) {
+        await handleCompressSuccess(compressedImage);
+      }
+    } catch {
+      setLoading(false);
+      toast.error(t('error'));
+    }
   };
   const onCloseImage = () => {
     setImageComment('');
@@ -273,6 +311,10 @@ const Editor = (props: IProps, ref?: any) => {
           if (imageComment) {
             onCloseImage();
           }
+          setPostDetailStatus({
+            ...postDetailStatus,
+            idPostAddComment: id,
+          });
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }
@@ -328,11 +370,10 @@ const Editor = (props: IProps, ref?: any) => {
         if (text.type === 'text' && text?.text !== ' ') {
           const txt = text.text.split(' ');
           for (const item of txt) {
-            if (item.includes('#')) {
+            if (item[0] === '#') {
               hashtags.push(item);
             }
           }
-
           p = text.text;
         }
         if (text.type === 'userMention') {
@@ -439,14 +480,14 @@ const Editor = (props: IProps, ref?: any) => {
   return (
     <>
       <div className=' mb-[20px] mobile:block mobile:bg-white tablet:flex tablet:px-0 desktop:mt-[12px]'>
-        {userLoginInfo?.avatar ? (
-          <img
-            src={userLoginInfo?.avatar}
+        {isUrlValid(userLoginInfo?.avatar) ? (
+          <CustomImage
+            src={userLoginInfo?.avatar || ''}
             alt=''
             width={0}
             height={0}
             sizes='100vw'
-            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full object-cover mobile:hidden tablet:block'
+            className='mr-[8px] h-[40px] w-[40px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover mobile:hidden tablet:block'
             onClick={() => router.push(ROUTE_PATH.MY_PROFILE)}
           />
         ) : (
@@ -457,7 +498,6 @@ const Editor = (props: IProps, ref?: any) => {
             <AvatarDefault name={userLoginInfo?.displayName} />
           </div>
         )}
-
         <div
           className={classNames(
             'bottom-0 left-0 flex  min-h-[40px] flex-1 items-center justify-between border-[1px] border-solid border-[#E6E6E6] bg-[#FFFFFF] px-[15px]  mobile:w-full mobile:rounded-[1000px] tablet:static ',
@@ -481,12 +521,13 @@ const Editor = (props: IProps, ref?: any) => {
             {/* mobile upload image button */}
             <div className='flex flex-row items-center'>
               <Upload
+                // accept='.png, .jpeg, .jpg, .webp'
                 accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
                 className='tablet:hidden'
               >
-                <img
+                <Image
                   src='/static/icons/iconCamnera.svg'
                   alt=''
                   width='0'
@@ -517,6 +558,7 @@ const Editor = (props: IProps, ref?: any) => {
               />
               <Upload
                 className={classNames({ hidden: isFocus })}
+                // accept='.png, .jpeg, .jpg, .webp'
                 accept='.png, .jpeg, .jpg'
                 onStart={onStart}
                 beforeUpload={beforeUpload}
@@ -543,7 +585,12 @@ const Editor = (props: IProps, ref?: any) => {
                 },
               )}
             >
-              <Upload accept='.png, .jpeg, .jpg' onStart={onStart} beforeUpload={beforeUpload}>
+              <Upload
+                // accept='.png, .jpeg, .jpg, .webp'
+                accept='.png, .jpeg, .jpg'
+                onStart={onStart}
+                beforeUpload={beforeUpload}
+              >
                 <img
                   src='/static/icons/iconCamera.svg'
                   alt=''
@@ -572,14 +619,14 @@ const Editor = (props: IProps, ref?: any) => {
                 />
               )}
             </div>
-            {useUploadImage?.loading ? (
+            {useUploadImage?.loading || loading ? (
               <div className='mobile:hidden tablet:block'>
                 <Loading />
               </div>
             ) : (
               imageComment && (
                 <div className='relative'>
-                  <img
+                  <Image
                     src={imageComment}
                     alt=''
                     width='0'
@@ -619,14 +666,14 @@ const Editor = (props: IProps, ref?: any) => {
             />
           )}
         </div>
-        {useUploadImage?.loading ? (
+        {useUploadImage?.loading || loading ? (
           <div className='mobile:block tablet:hidden'>
             <Loading />
           </div>
         ) : (
           imageComment && (
             <div className='relative'>
-              <img
+              <Image
                 src={imageComment}
                 alt=''
                 width='0'

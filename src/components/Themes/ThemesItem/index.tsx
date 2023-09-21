@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -14,7 +15,7 @@ import Notification from '@components/UI/Notification';
 import NotificationSubsribeTheme from '@components/UI/Notification/NotificationSubsribeTheme';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
@@ -81,7 +82,7 @@ const ThemesItem = (props: IProps) => {
   const { t } = useTranslation(['theme', 'common']);
   const [, setPopupThemeData] = useAtom(popupThemeDataAtom);
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   const { statusUser } = useUserType();
   const { theme, refresh } = props;
   const router = useRouter();
@@ -184,7 +185,10 @@ const ThemesItem = (props: IProps) => {
       <div className='mx-auto w-[177px] pr-[16px]'>
         <div className='relative min-h-[252px] w-full rounded-[10px]  bg-[#B5D2D3] [box-shadow:0px_4px_24px_rgba(88,_102,_126,_0.08),_0px_1px_2px_rgba(88,_102,_126,_0.12)]'>
           {theme?.url && (
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src={theme?.url}
               alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'

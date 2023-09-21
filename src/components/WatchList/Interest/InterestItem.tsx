@@ -1,12 +1,14 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
-import { useStockWatchlistHome } from '@store/stockWatchlistHome';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
+import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { AddTicker } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 
@@ -15,9 +17,18 @@ interface IProps {
   refresh?: () => void;
   refreshYourWatchList?: () => void;
   isChangeColor?: boolean;
+  totalStock: number;
+  onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
 }
 const InterestItem = (props: IProps) => {
-  const { data, refresh, refreshYourWatchList, isChangeColor } = props;
+  const {
+    data,
+    refresh,
+    refreshYourWatchList,
+    isChangeColor,
+    totalStock,
+    onTrackingViewTickerInfo,
+  } = props;
   const highest_price = data?.refPrice;
   const lowest_price = data?.refPrice;
   const isFloor = data?.lastPrice === data?.floorPrice;
@@ -26,20 +37,24 @@ const InterestItem = (props: IProps) => {
   const isIncrease = data?.lastPrice > lowest_price;
   const isChange = Number(data?.changePc) === 0 || Number(data?.perChange) === 0;
   const unit = isDecrease ? '-' : '+';
-  const imageCompanyUrl = 'https://static.pinetree.com.vn/upload/images/companies/';
-  const url = `${imageCompanyUrl}${
-    data?.stockCode?.length === 3 || data?.stockCode[0] !== 'C'
-      ? data?.stockCode
-      : data?.stockCode?.slice(1, 4)
-  }.png`;
+
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
   const requestSelectStock = useSelectStock({
-    onSuccess: () => {
+    onSuccess: (_, params: [string]) => {
       refresh && refresh();
       refreshYourWatchList && refreshYourWatchList();
       getInitDataStockWatchlistHome();
       // toast(() => <Notification type='success' message='Add stock success1' />);
+
+      // gtm
+      AddTicker(
+        params.length > 0 ? params[0] : '',
+        'Stock',
+        'Watchlist',
+        'Default',
+        totalStock + 1,
+      );
     },
   });
   const onAddStock = () => {
@@ -51,10 +66,20 @@ const InterestItem = (props: IProps) => {
         className='absolute inset-x-0 inset-y-0'
         href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
         prefetch={false}
+        onClick={() => {
+          onTrackingViewTickerInfo && onTrackingViewTickerInfo(data?.stockCode, 'You may interest');
+        }}
       />
       <div className='flex flex-col gap-y-[16px]'>
         <div className='m-auto flex h-[40px] w-[40px] items-center justify-center overflow-hidden rounded-full bg-white object-contain'>
-          <img src={url} alt='' className='block' />
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={imageStock(data?.stockCode)}
+            alt=''
+            className='block'
+          />
         </div>
         <div className='flex flex-col gap-y-[8px] text-center'>
           <Text

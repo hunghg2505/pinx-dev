@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
+import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
+import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
+import { ViewAsset, ViewWatchlist } from '@utils/dataLayer';
 
 import Assets from '../Assets';
 import { ProfileTabKey } from '../Desktop';
@@ -13,6 +16,7 @@ import Posts from '../Posts';
 import WatchList from '../WatchList';
 
 const Mobile = () => {
+  const watchList = useAtomValue(stockSocketAtom);
   const { t } = useTranslation('profile');
   const router = useRouter();
   const { tab }: any = router.query;
@@ -37,7 +41,37 @@ const Mobile = () => {
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
                   setActiveTab(key);
-                  window.history.replaceState('', '', ROUTE_PATH.MY_PROFILE);
+                  const newPath = ROUTE_PATH.MY_PROFILE;
+                  window.history.replaceState(
+                    {
+                      ...window.history.state,
+                      as: newPath,
+                      url: newPath,
+                    },
+                    '',
+                    newPath,
+                  );
+
+                  // tracking
+                  if (key === 'watchlist') {
+                    const listStockCodes =
+                      watchList.find(
+                        (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
+                      )?.stocks || [];
+
+                    ViewWatchlist(
+                      'Default',
+                      'Normal WL',
+                      listStockCodes,
+                      listStockCodes?.length,
+                      'Profile screen',
+                    );
+                  }
+
+                  if (key === 'assets') {
+                    // tracking event view assets
+                    ViewAsset('Tab assets my profile', 'Asset Overview');
+                  }
                 }}
               />
             </>

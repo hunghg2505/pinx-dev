@@ -14,20 +14,19 @@ import { VietStockNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPost
 import { IPost, TYPEPOST } from '@components/Post/service';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage } from '@utils/common';
+import { ROUTE_PATH, formatMessage, imageStock } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
   onNavigate?: () => void;
   pinned?: boolean;
   isPostDetailPath: boolean;
+  onTrackingViewTicker?: (stockCode: string) => void;
 }
-
-const IMAGE_COMPANY_URL = 'https://static.pinetree.com.vn/upload/images/companies/';
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
-  const { postDetail, onNavigate, pinned, isPostDetailPath } = props;
+  const { postDetail, onNavigate, pinned, isPostDetailPath, onTrackingViewTicker } = props;
   const [readMore, setReadMore] = useState(false);
 
   const [height, setHeight] = useState<number>(0);
@@ -35,16 +34,12 @@ const ContentPostTypeHome = (props: IProps) => {
 
   const ref = useRef(null);
 
-  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message, postDetail?.post);
+  const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
 
   const { postDetailUrl, iconPost, urlStock, post_url } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
 
     const stockCode = postDetail.post?.stockCode;
-
-    const urlStock = `${IMAGE_COMPANY_URL}${
-      stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
 
     const iconPost =
       postDetail?.post.action === 'SUBSCRIBE'
@@ -63,9 +58,8 @@ const ContentPostTypeHome = (props: IProps) => {
       siteName: metaData?.siteName,
       url: metaData?.url?.split('/')?.slice(-1),
       urlImages: postDetail?.post?.urlImages,
-      message:
-        postDetail?.post?.message && formatMessage(postDetail?.post?.message, postDetail?.post),
-      urlStock,
+      message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
+      urlStock: imageStock(stockCode),
       iconPost,
       postDetailUrl,
       post_url: postDetail?.post.url ?? '',
@@ -131,6 +125,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail={postDetail}
         iconPost={iconPost}
         messagePostFormat={messagePostFormat}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -172,6 +167,7 @@ const ContentPostTypeHome = (props: IProps) => {
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
         messagePostFormat={messagePostFormat}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -188,6 +184,7 @@ const ContentPostTypeHome = (props: IProps) => {
         urlStock={urlStock}
         onComment={onComment}
         messagePostFormat={messagePostFormat}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -202,6 +199,7 @@ const ContentPostTypeHome = (props: IProps) => {
         onComment={onComment}
         messagePostFormat={messagePostFormat}
         pnlRate={pnlRate}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -225,6 +223,7 @@ const ContentPostTypeHome = (props: IProps) => {
         post_url={post_url}
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -241,6 +240,7 @@ const ContentPostTypeHome = (props: IProps) => {
         post_url={post_url}
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }
@@ -253,6 +253,7 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail={postDetail}
         onComment={onComment}
         height={height}
+        onTrackingViewTicker={onTrackingViewTicker}
       />
     );
   }

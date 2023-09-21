@@ -27,6 +27,7 @@ interface IProps {
   setDataStock?: any;
   findIndex?: number;
   isChangeStockPrice?: boolean;
+  onTrackingEventViewTickerInfo?: (stockCode: string, location: string) => void;
 }
 
 const Empty = dynamic(() => import('@components/UI/Empty'), {
@@ -45,6 +46,7 @@ const YourWatchList = (props: IProps) => {
     setDataStock,
     findIndex,
     isChangeStockPrice,
+    onTrackingEventViewTickerInfo,
   } = props;
   const { t } = useTranslation('watchlist');
   const [isAz, setIsAz] = React.useState<boolean>(true);
@@ -209,10 +211,12 @@ const YourWatchList = (props: IProps) => {
                               })}
                             >
                               <ItemWatchList
+                                totalStock={yourWatchListStock?.length || 0}
                                 data={item}
                                 isEdit={isEdit}
                                 refreshYourWatchList={refreshYourWatchList}
                                 refreshInterest={refreshInterest}
+                                onTrackingEventViewTickerInfo={onTrackingEventViewTickerInfo}
                               />
                             </div>
                           )}
@@ -269,7 +273,7 @@ const YourWatchList = (props: IProps) => {
               return (
                 <div
                   key={index}
-                  className={classNames({
+                  className={classNames('gap-x-[8px]', {
                     'relative flex items-center justify-between rounded-[12px] border-b-[1px] border-solid border-[#EBEBEB] bg-[#ECECEC] p-[12px]':
                       isEdit,
                     'mt-[16px] flex items-center justify-between rounded-[12px] p-[12px] first:mt-0 galaxy-max:gap-[8px] tablet-max:bg-[#F7F6F8] desktop:rounded-none desktop:border-b-[1px] desktop:border-solid desktop:border-[#EBEBEB] desktop:px-0 desktop:py-[10px]':
@@ -277,10 +281,12 @@ const YourWatchList = (props: IProps) => {
                   })}
                 >
                   <ItemWatchList
+                    totalStock={yourWatchListStock?.length || 0}
                     data={item}
                     isEdit={isEdit}
                     refreshYourWatchList={refreshYourWatchList}
                     isChangeColor={isChangeColor}
+                    onTrackingEventViewTickerInfo={onTrackingEventViewTickerInfo}
                   />
                 </div>
               );

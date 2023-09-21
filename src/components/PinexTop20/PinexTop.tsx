@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -9,12 +10,18 @@ interface Iprops {
   changePrice?: boolean;
   data: any;
   percent: number;
+  onTrackingViewTickerInfo?: () => void;
 }
 const PinexTop = (props: Iprops) => {
-  const { number, changePrice = false, data, percent } = props;
+  const { number, changePrice = false, data, percent, onTrackingViewTickerInfo } = props;
 
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data?.stockCode)}>
+    <CustomLink
+      onClick={() => {
+        onTrackingViewTickerInfo && onTrackingViewTickerInfo();
+      }}
+      href={ROUTE_PATH.STOCK_DETAIL(data?.stockCode)}
+    >
       <div className='relative rounded-[15px] bg-[#F7F6F8]'>
         <div
           className='absolute h-full rounded-[15px] bg-[#D7EEFF]'
@@ -32,11 +39,17 @@ const PinexTop = (props: Iprops) => {
                 {number}
               </Text>
             </div>
-            <img
-              src={imageStock(data?.stockCode)}
-              className='mr-[10px] h-[36px] w-[36px] rounded-full bg-[#ffffff] object-contain'
-              alt=''
-            />
+
+            <div className='mr-[10px] flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-[#ffffff] object-contain'>
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
+                src={imageStock(data?.stockCode)}
+                className='block'
+                alt=''
+              />
+            </div>
             <div>
               <div className='flex'>
                 <Text

@@ -118,12 +118,26 @@ const Register = (props: IProps) => {
             break;
           }
         }
-        CompleteBasicInfo('Success', '', '', userRegisterInfo.email || '', userRegisterInfo.phoneNumber || '', userRegisterInfo.phoneNumber || '');
+        CompleteBasicInfo(
+          'Success',
+          '',
+          '',
+          userRegisterInfo.email || '',
+          userRegisterInfo.phoneNumber || '',
+          userRegisterInfo.phoneNumber || '',
+        );
       }
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
-      CompleteBasicInfo('Failed', e.errorCode, e.error, userRegisterInfo.email || '', userRegisterInfo.phoneNumber || '', userRegisterInfo.phoneNumber || '');
+      CompleteBasicInfo(
+        'Failed',
+        e.errorCode,
+        e.error,
+        userRegisterInfo.email || '',
+        userRegisterInfo.phoneNumber || '',
+        userRegisterInfo.phoneNumber || '',
+      );
     },
   });
 
@@ -234,7 +248,12 @@ const Register = (props: IProps) => {
             </a>
           </span>
         </div>
-        <MainButton type='submit' className='w-full'>
+        <MainButton
+          type='submit'
+          className='w-full'
+          disabled={requestRegister.loading}
+          loading={requestRegister.loading}
+        >
           {t('continue')}
         </MainButton>
 

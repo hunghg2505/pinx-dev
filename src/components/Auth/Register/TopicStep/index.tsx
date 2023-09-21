@@ -2,11 +2,14 @@
 import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
+import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH } from '@utils/common';
+import { InvestmentPreference } from '@utils/dataLayer';
 
 import { useSelectTopic, useSuggestTopic } from './service';
 
@@ -19,12 +22,18 @@ const RegisterCompanyStep = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const [selected, setSelected] = useState<ITopicCard[]>([]);
+  const { userRegisterInfo } = useUserRegisterInfo();
 
   const listTopicSuggest = useSuggestTopic();
 
   const { onSelectTopic } = useSelectTopic({
-    onSuccess: () => {
+    onSuccess: (_, params) => {
       router.push(ROUTE_PATH.HOME);
+      InvestmentPreference(
+        userRegisterInfo.selectedStock || [],
+        userRegisterInfo.selectedTheme || [],
+        params[0]?.topicCodes.toString().split(','),
+      );
     },
   });
 
@@ -59,8 +68,8 @@ const RegisterCompanyStep = () => {
       <div className='md:h-screen lg:py-0 mx-auto  flex flex-col items-center justify-center px-6 py-8'>
         <div className='topicCard md:mt-0 sm:max-w-md xl:p-0 w-full rounded-lg'>
           <div className='justify-center mobile:hidden mobile:w-0 tablet:mb-[27px] tablet:flex tablet:w-full desktop:mb-[27px] desktop:w-full'>
-            <img
-              src='/static/icons/logo.svg'
+            <Image
+              src='/static/logo/logo.png'
               alt=''
               width='0'
               height='0'

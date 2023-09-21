@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest, clearCache } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { API_PATH } from '@api/constant';
@@ -10,6 +11,7 @@ import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { RemoveTicker } from '@utils/dataLayer';
 
 import styles from '../index.module.scss';
 
@@ -19,12 +21,16 @@ const ItemWatchList = ({
   refreshYourWatchList,
   refreshInterest,
   isChangeColor,
+  totalStock,
+  onTrackingEventViewTickerInfo,
 }: {
   data: IWatchListItem;
   isEdit: boolean;
   refreshYourWatchList: any;
   refreshInterest?: any;
   isChangeColor?: boolean;
+  totalStock: number;
+  onTrackingEventViewTickerInfo?: (stockCode: string, location: string) => void;
 }) => {
   const { i18n } = useTranslation();
   const highest_price = data?.refPrice;
@@ -52,6 +58,15 @@ const ItemWatchList = ({
         refreshInterest && refreshInterest();
         refreshYourWatchList && refreshYourWatchList();
         clearCache('watchList');
+
+        // gtm
+        RemoveTicker(
+          data?.stockCode,
+          'Stock',
+          'Watchlist',
+          'Default',
+          totalStock && totalStock - 1,
+        );
       },
     },
   );
@@ -67,14 +82,27 @@ const ItemWatchList = ({
           'flex items-center gap-x-[10px] galaxy-max:flex-1 galaxy-max:gap-[6px]',
         )}
       >
-        <CustomLink linkClassName='flex-none' href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+        <CustomLink
+          onClick={() => {
+            onTrackingEventViewTickerInfo &&
+              onTrackingEventViewTickerInfo(data?.stockCode, 'Watch list');
+          }}
+          linkClassName='flex-none'
+          href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+        >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
-            <img src={url} alt='' className='block' />
+            <Image width='0' height='0' sizes='100vw' src={url} alt='' className='block' />
           </div>
         </CustomLink>
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>
-            <CustomLink href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}>
+            <CustomLink
+              onClick={() => {
+                onTrackingEventViewTickerInfo &&
+                  onTrackingEventViewTickerInfo(data?.stockCode, 'Watch list');
+              }}
+              href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+            >
               <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}
               </Text>
@@ -113,7 +141,7 @@ const ItemWatchList = ({
           />
         </div>
       ) : (
-        <div className='flex flex-col items-end gap-y-[5px]'>
+        <div className='flex flex-col items-end gap-y-[5px] whitespace-nowrap'>
           <Text
             type='body-14-semibold'
             className={classNames('px-[5px] py-[2px] galaxy-max:text-[12px]', {

@@ -1,12 +1,12 @@
 import React, { memo, useMemo } from 'react';
 
-import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { IStockData } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import useToggleClassStock from '@hooks/useToggleClassStock';
 import { formatStringToNumber } from '@utils/common';
+
+import TotalPriceItem from './TotalPriceItem';
 
 interface ITotalPriceProps {
   stockData?: IStockData;
@@ -77,102 +77,87 @@ const TotalPrice = ({ stockData, preDataStock }: ITotalPriceProps) => {
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.total_vol')}
         </Text>
-        <Text
-          className={classNames(
-            'mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]',
-            useToggleClassStock(
-              !!(isTotalVolChange && isLastPriceGreaterThanRefPrice),
-              !!(isTotalVolChange && isRefPriceGreaterThanLastPrice),
-              !!(isTotalVolChange && isLastPriceEqualRefPrice),
-              stockData,
-            ),
-          )}
-          type='body-12-regular'
+        <TotalPriceItem
+          dependencies={stockData}
+          isChange={!!isTotalVolChange}
+          isLastPriceGTRefPrice={!!isLastPriceGreaterThanRefPrice}
+          isRefPriceGTLastPrice={!!isRefPriceGreaterThanLastPrice}
+          isEqual={!!isLastPriceEqualRefPrice}
         >
-          {formatStringToNumber((Number(stockData?.lot || 0) * 10).toString()) || 0}
-        </Text>
+          <Text type='body-12-regular'>
+            {formatStringToNumber((Number(stockData?.lot || 0) * 10).toString()) || 0}
+          </Text>
+        </TotalPriceItem>
       </div>
 
       <div className='w-1/2 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.total_val')}
         </Text>
-        <Text
-          className={classNames(
-            'mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]',
-            useToggleClassStock(
-              !!(isTotalValChange && isLastPriceGreaterThanRefPrice),
-              !!(isTotalValChange && isRefPriceGreaterThanLastPrice),
-              !!(isTotalValChange && isLastPriceEqualRefPrice),
-              stockData,
-            ),
-          )}
-          type='body-12-regular'
+        <TotalPriceItem
+          dependencies={stockData}
+          isChange={!!isTotalValChange}
+          isLastPriceGTRefPrice={!!isLastPriceGreaterThanRefPrice}
+          isRefPriceGTLastPrice={!!isRefPriceGreaterThanLastPrice}
+          isEqual={!!isLastPriceEqualRefPrice}
         >
-          {formatStringToNumber(
-            (Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000).toString(),
-          ) || 0}
-        </Text>
+          <Text type='body-12-regular'>
+            {formatStringToNumber(
+              (Number(stockData?.lot) * Number(stockData?.avePrice) * 10_000).toString(),
+            ) || 0}
+          </Text>
+        </TotalPriceItem>
       </div>
 
       <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.foreign_buy')}
         </Text>
-        <Text
-          className={classNames(
-            'mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]',
-            useToggleClassStock(
-              !!(isFbVolChange && isLastPriceGreaterThanRefPrice),
-              !!(isFbVolChange && isRefPriceGreaterThanLastPrice),
-              !!(isFbVolChange && isLastPriceEqualRefPrice),
-              stockData,
-            ),
-          )}
-          type='body-12-regular'
+        <TotalPriceItem
+          dependencies={stockData}
+          isChange={!!isFbVolChange}
+          isLastPriceGTRefPrice={!!isLastPriceGreaterThanRefPrice}
+          isRefPriceGTLastPrice={!!isRefPriceGreaterThanLastPrice}
+          isEqual={!!isLastPriceEqualRefPrice}
         >
-          {formatStringToNumber(((Number(stockData?.fBVol) || 0) * 10).toString()) || 0}
-        </Text>
+          <Text type='body-12-regular'>
+            {formatStringToNumber(((Number(stockData?.fBVol) || 0) * 10).toString()) || 0}
+          </Text>
+        </TotalPriceItem>
       </div>
 
       <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.total_room')}
         </Text>
-        <Text
-          className={classNames(
-            'mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]',
-            useToggleClassStock(
-              !!(isFRoomChange && isLastPriceGreaterThanRefPrice),
-              !!(isFRoomChange && isRefPriceGreaterThanLastPrice),
-              !!(isFRoomChange && isLastPriceEqualRefPrice),
-              stockData,
-            ),
-          )}
-          type='body-12-regular'
+        <TotalPriceItem
+          dependencies={stockData}
+          isChange={!!isFRoomChange}
+          isLastPriceGTRefPrice={!!isLastPriceGreaterThanRefPrice}
+          isRefPriceGTLastPrice={!!isRefPriceGreaterThanLastPrice}
+          isEqual={!!isLastPriceEqualRefPrice}
         >
-          {formatStringToNumber(((Number(stockData?.fRoom) || 0) * 10).toString()) || 0}
-        </Text>
+          <Text type='body-12-regular'>
+            {formatStringToNumber(((Number(stockData?.fRoom) || 0) * 10).toString()) || 0}
+          </Text>
+        </TotalPriceItem>
       </div>
 
       <div className='w-1/3 border border-solid border-[#E6E6E6] pb-[6px] pt-[10px] text-center small-mobile-max:w-full tablet:w-1/5'>
         <Text type='body-12-regular' className='text-[#474D57]'>
           {t('movements.foreign_sell')}
         </Text>
-        <Text
-          className={classNames(
-            'mt-[2px] inline-block px-[6px] py-[4px] text-[#0D0D0D]',
-            useToggleClassStock(
-              !!(isFsVolumeChange && isLastPriceGreaterThanRefPrice),
-              !!(isFsVolumeChange && isRefPriceGreaterThanLastPrice),
-              !!(isFsVolumeChange && isLastPriceEqualRefPrice),
-              stockData,
-            ),
-          )}
-          type='body-12-regular'
+        <TotalPriceItem
+          dependencies={stockData}
+          isChange={!!isFsVolumeChange}
+          isLastPriceGTRefPrice={!!isLastPriceGreaterThanRefPrice}
+          isRefPriceGTLastPrice={!!isRefPriceGreaterThanLastPrice}
+          isEqual={!!isLastPriceEqualRefPrice}
         >
-          {formatStringToNumber(((Number(stockData?.fSVolume) || 0) * 10).toString()) || 0}
-        </Text>
+          <Text type='body-12-regular'>
+            {formatStringToNumber(((Number(stockData?.fSVolume) || 0) * 10).toString()) || 0}
+          </Text>
+        </TotalPriceItem>
       </div>
     </div>
   );

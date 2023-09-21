@@ -5,11 +5,18 @@ import { useTranslation } from 'next-i18next';
 
 import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { ViewTickerInfo } from '@utils/dataLayer';
 
 import ActivitiesAction from '../ActivitiesAction';
+
+// tracking event view ticker info
+const handleTrackingViewTicker = (stockCode: string) => {
+  ViewTickerInfo(stockCode, 'Modal comment theme activities', 'Comment', 'Stock');
+};
 
 dayjs.extend(relativeTime);
 export enum ActionPostEnum {
@@ -34,16 +41,19 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
   return (
     <div className='flex'>
       <div onClick={() => router.push(urlProfile)} className='cursor-pointer'>
-        {avatar ? (
-          <img
+        {isUrlValid(avatar) ? (
+          <CustomImage
+            width='0'
+            height='0'
+            sizes='100vw'
             loading='lazy'
             src={avatar}
             alt=''
-            className='mr-[12px] h-[28px] w-[28px] rounded-full'
+            className='mr-[12px] h-[28px] w-[28px] rounded-full border border-solid border-[#ebebeb]'
           />
         ) : (
           <div className='mr-[12px] h-[28px] w-[28px]'>
-            <AvatarDefault name={nameAvatar} />
+            <AvatarDefault nameClassName='text-[12px]' name={nameAvatar} />
           </div>
         )}
       </div>
@@ -92,7 +102,12 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
           )}
         </div>
         <div className='mt-[8px]'>
-          <ActivitiesAction isLike={isLike} idPost={idPost} refresh={refresh} />
+          <ActivitiesAction
+            onTrackingViewTickerInfo={handleTrackingViewTicker}
+            isLike={isLike}
+            idPost={idPost}
+            refresh={refresh}
+          />
         </div>
       </div>
     </div>

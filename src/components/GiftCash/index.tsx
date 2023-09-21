@@ -1,9 +1,10 @@
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
 import { DownloadPineXApp } from '@utils/dataLayer';
-import { APP_STORE_DOWNLOAD, GOOGLE_PLAY_DOWNLOAD } from 'src/constant';
+import { DEEP_LINK } from 'src/constant';
 
 import styles from './index.module.scss';
 
@@ -83,28 +84,30 @@ const GiftCash = () => {
               </div>
             </div>
             <div className='flex w-[158px] flex-col justify-center  gap-y-[24px] mobile-max:hidden'>
-              <img
+              <Image
                 src='/static/images/googleplay.png'
                 alt='Download google play'
                 width={180}
                 height={52}
+                sizes='100vw'
                 className='h-[52px] w-[180px] cursor-pointer object-contain'
-                onClick={() => handleRedirect(GOOGLE_PLAY_DOWNLOAD)}
+                onClick={() => handleRedirect(DEEP_LINK.GIFT_CASH)}
               />
 
-              <img
+              <Image
+                sizes='100vw'
                 src='/static/images/appstore.png'
                 alt='Download app store'
                 width={180}
                 height={52}
                 className='h-[52px] w-[180px] cursor-pointer object-contain'
-                onClick={() => handleRedirect(APP_STORE_DOWNLOAD)}
+                onClick={() => handleRedirect(DEEP_LINK.GIFT_CASH)}
               />
             </div>
             <div className='mt-[40px] hidden w-[158px] mobile-max:block'>
               <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
                 <a
-                  href='https://onelink.to/cgarrk'
+                  href={DEEP_LINK.GIFT_CASH}
                   target='_blank'
                   rel='noreferrer'
                   onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}
@@ -122,7 +125,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black'>
               {t('giftcash.text.only.vsd')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img1.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -138,7 +144,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black' className=''>
               {t('giftcash.text.not.cash')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img2.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -151,7 +160,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black'>
               {t('giftcash.text.balance')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img3.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -165,7 +177,10 @@ const GiftCash = () => {
             <Text type='body-22-bold' color='neutral-black'>
               {t('giftcash.text.invest')}
             </Text>
-            <img
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
               src='/static/icons/giftcash/img4.png'
               alt=''
               className='mx-auto mt-[24px] h-[120px] w-[144px] object-contain'
@@ -181,7 +196,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.only.vsd')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img1.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -197,7 +215,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black' className=''>
                 {t('giftcash.text.not.cash')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img2.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -210,7 +231,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.balance')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img3.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -223,7 +247,10 @@ const GiftCash = () => {
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.invest')}
               </Text>
-              <img
+              <Image
+                width='0'
+                height='0'
+                sizes='100vw'
                 src='/static/icons/giftcash/img4.png'
                 alt=''
                 className='mx-auto mt-[24px] w-[100px]'
@@ -236,7 +263,7 @@ const GiftCash = () => {
           <div className='mx-auto mt-[36px] w-[158px]'>
             <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
               <a
-                href='https://onelink.to/cgarrk'
+                href={DEEP_LINK.GIFT_CASH}
                 target='_blank'
                 rel='noreferrer'
                 onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}

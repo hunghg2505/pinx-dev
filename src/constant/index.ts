@@ -15,6 +15,41 @@ const AUTH_TAB_TYPE = {
 const PRODUCT_COMPANY_IMAGE = (fileName: string) =>
   `https://static.pinetree.com.vn/internal/public/customer/image?fileName=${fileName}&type=PRODUCT_COMPANY`;
 
+const MAX_AVATAR_FILE_SIZE_KB = 150;
+const MAX_COVER_FILE_SIZE_KB = 100;
+const COVER_SIZE = {
+  width: 1280,
+  height: 720,
+};
+const AVATAR_SIZE = {
+  width: 150,
+  height: 150,
+};
+
+const MAX_IMG_POST_CMT_FILE_SIZE_KB = 500;
+const BANNER_URL = 'https://pinex.vn/static/images/sidebar_banner.png';
+const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
+
+// sit
+const GOOGLE_TAG_MANAGER_ID = 'GTM-K44HCZ66';
+
+// product
+// const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
+
+const SEO_TEXT_SEARCH = {
+  EXPLORE_PAGE: 'Explore-theme',
+  TOP_WATCHING_PAGE: 'Top-watch-stock',
+  TOP_MENTION_PAGE: 'Top-mention-stock',
+};
+
+const DEEP_LINK = {
+  OPEN_APP: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.feed',
+  ASSETS: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.assets',
+  GIFT_CASH: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.gifts',
+  SIGNUP:
+    'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.signup.activeAccountQuestion',
+};
+
 export {
   ZALO_OAID,
   SHARE_THIS_PROPERTY_ID,
@@ -26,4 +61,14 @@ export {
   AUTH_TAB_TYPE,
   PRODUCT_COMPANY_IMAGE,
   ONE_LINK_DOWNLOAD,
+  MAX_AVATAR_FILE_SIZE_KB,
+  MAX_COVER_FILE_SIZE_KB,
+  COVER_SIZE,
+  AVATAR_SIZE,
+  MAX_IMG_POST_CMT_FILE_SIZE_KB,
+  BANNER_URL,
+  WHITE_BACKGROUND_IMAGE,
+  GOOGLE_TAG_MANAGER_ID,
+  SEO_TEXT_SEARCH,
+  DEEP_LINK,
 };

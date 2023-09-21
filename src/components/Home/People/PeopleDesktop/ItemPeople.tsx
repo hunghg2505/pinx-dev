@@ -12,10 +12,11 @@ import {
   requestUnFollowUser,
 } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -73,13 +74,13 @@ const ItemPeople = (props: IProps) => {
     data?.displayName && toNonAccentVietnamese(data?.displayName)?.charAt(0)?.toUpperCase();
 
   return (
-    <div className='item mb-[26px] flex items-center justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
+    <div className='item mb-[26px] flex items-center justify-between gap-x-[12px] pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
       <div
-        className='flex cursor-pointer'
+        className='flex flex-1 cursor-pointer overflow-hidden'
         onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
       >
-        {data?.avatar ? (
-          <img
+        {isUrlValid(data?.avatar) ? (
+          <CustomImage
             src={data?.avatar}
             alt=''
             width='0'
@@ -92,8 +93,8 @@ const ItemPeople = (props: IProps) => {
             <AvatarDefault name={name} />
           </div>
         )}
-        <div>
-          <div className='flex items-center'>
+        <div className='flex-1 overflow-hidden'>
+          <div className='flex items-center overflow-hidden truncate'>
             <Text type='body-14-semibold' color='cbblack' className='truncate'>
               {data.displayName}
             </Text>

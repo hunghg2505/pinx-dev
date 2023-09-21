@@ -1,5 +1,41 @@
 declare const window: any;
 
+export const openWeb = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
+  try {
+    window.dataLayer.push({
+      event: 'Open Web',
+      Platform: 'PineX Website',
+      CIF: cif,
+      'Login Status': isLogged ? 'Login' : 'Not login',
+      'Implementation Method': 'Client-Side',
+      'Time of Last Visit': lastTimeVisit,
+    });
+  } catch {}
+};
+
+export const LoginTracking = (
+  loginStatus: string,
+  cif: string,
+  kycStatus: string,
+  username: string,
+  time: Date,
+  loginId: string,
+) => {
+  try {
+    window.dataLayer.push({
+      event: 'Login',
+      'Login Status': loginStatus,
+      CIF: cif,
+      'KYC Status': kycStatus,
+      Username: username,
+      'Time of Last Visit': time,
+      'Login ID': loginId,
+      $name: cif,
+      'Login Method': 'Password',
+    });
+  } catch {}
+};
+
 export const Logout = (time: Date) => {
   try {
     window.dataLayer.push({
@@ -80,7 +116,6 @@ export const CreateLoginName = (
 };
 export const ConfirmPhoneNumber = (
   SubmitStatus: string,
-  RegistrationPlatform: string,
   errMessage: string,
   errCode: string,
   phoneVerified: string,
@@ -89,7 +124,6 @@ export const ConfirmPhoneNumber = (
   name: string,
   phone: string,
   Username: string,
-  AcquisitionSource: string,
 ) => {
   try {
     window.dataLayer.push({
@@ -98,14 +132,13 @@ export const ConfirmPhoneNumber = (
       'Submit Status': SubmitStatus,
       'Error Message': errMessage,
       'Error Code': errCode,
-      'Registration Platform': RegistrationPlatform,
+      'Registration Platform': 'PineX Website',
       'Phone Verified': phoneVerified,
       'Start Registration Date': RegistrationDate,
       $email: email,
       $name: name,
       $phone: phone,
       Username,
-      'Acquisition Source': AcquisitionSource,
     });
   } catch {}
 };
@@ -133,7 +166,7 @@ export const RemoveTicker = (
   Ticker_Type: string,
   Button_Location: string,
   Watchlist_Name: string,
-  Number_of_Ticker_in_Watchlist: number,
+  Number_of_Ticker_in_Watchlist: number | string,
 ) => {
   try {
     window.dataLayer.push({
@@ -152,7 +185,7 @@ export const AddTicker = (
   Ticker_Type: string,
   Button_Location: string,
   Watchlist_Name: string,
-  Number_of_Ticker: number,
+  Number_of_Ticker: number | string,
 ) => {
   try {
     window.dataLayer.push({
@@ -170,7 +203,7 @@ export const ModifyWatchlist = (
   Ticker_Removed: string[],
   Watchlist_Name: string,
   Watchlist_Ticker: string[],
-  Number_of_Ticker: string,
+  Number_of_Ticker: number,
 ) => {
   try {
     window.dataLayer.push({
@@ -290,8 +323,8 @@ export const Search = (
   Search_Term: string,
   Ticker: string,
   Number_of_Result: number,
-  Filter: string[],
   Search_Bar_Location: string,
+  Filter?: string[],
 ) => {
   try {
     window.dataLayer.push({
@@ -363,6 +396,13 @@ export const DownloadPineXApp = (CTA_Type?: string, Register_CTA_Location?: stri
       'KYC Status': 'Start Activate VSD Account',
       'CTA Type': CTA_Type,
       'Register CTA Location': Register_CTA_Location,
+    });
+  } catch {}
+};
+export const CloseWeb = () => {
+  try {
+    window.dataLayer.push({
+      event: 'Close Web',
     });
   } catch {}
 };

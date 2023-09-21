@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
@@ -12,6 +13,7 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { imageStock } from '@utils/common';
+import { AddTicker, RemoveTicker } from '@utils/dataLayer';
 
 import styles from './index.module.scss';
 
@@ -19,16 +21,27 @@ const ItemAddStock = ({
   data,
   refreshYourWatchList,
   like,
+  totalStock,
 }: {
   data: any;
   refreshYourWatchList?: () => void;
   like?: boolean;
+  totalStock: number;
 }) => {
   const { i18n } = useTranslation();
   const requestSelectStock = useSelectStock({
     onSuccess: () => {
       // toast(() => <Notification type='success' message='Add stock success' />);
       refreshYourWatchList && refreshYourWatchList();
+
+      // gtm
+      AddTicker(
+        data?.stockCode,
+        'Stock',
+        'Modal add stock to watchlist',
+        'Default',
+        totalStock + 1,
+      );
     },
   });
   const useRemoveStock = useRequest(
@@ -40,6 +53,15 @@ const ItemAddStock = ({
       onSuccess: () => {
         refreshYourWatchList && refreshYourWatchList();
         // toast(() => <Notification type='success' message='Remove stock success' />);
+
+        // gtm
+        RemoveTicker(
+          data?.stockCode,
+          'Stock',
+          'Modal add stock to watchlist',
+          'Default',
+          totalStock && totalStock - 1,
+        );
       },
       onError: (e: any) => {
         toast(() => <Notification type='error' message={e.error} />);
@@ -59,7 +81,14 @@ const ItemAddStock = ({
     >
       <div className='flex items-center gap-x-[10px]'>
         <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain tablet:h-[48px] tablet:w-[48px]'>
-          <img src={imageStock(data?.stockCode)} alt='' className='block' />
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
+            src={imageStock(data?.stockCode)}
+            alt=''
+            className='block'
+          />
         </div>
         <div className='flex flex-col gap-y-[4px]'>
           <div className='flex gap-x-[4px]'>

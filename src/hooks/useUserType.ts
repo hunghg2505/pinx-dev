@@ -1,13 +1,13 @@
 import { useAtom } from 'jotai';
 
-import { useAuth } from '@store/auth/useAuth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { USERTYPE } from '@utils/constant';
 
 import { userLoginInfoAtom } from './useUserLoginInfo';
 
 export const useUserType: any = () => {
-  const { isLogin } = useAuth();
+  const { isLogin } = useLogin();
   // const { userLoginInfo } = useUserLoginInfo();
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const [profileSetting] = useAtom(profileSettingAtom);

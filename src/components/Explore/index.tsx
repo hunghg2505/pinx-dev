@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
-import { FILTER_TYPE } from '@components/Home/ModalFilter';
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Influencer from '@components/Home/People/Influencer';
 import { ITheme, useGetListNewFeed, useGetTheme } from '@components/Home/service';
 import { optionTab } from '@components/PinexTop20';
@@ -14,6 +14,7 @@ import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
@@ -67,6 +68,21 @@ const settings = {
   // autoplay: true,
   // autoplaySpeed: 1000,
 };
+
+const handleTrackingViewListStock = (presetName: string) => {
+  ViewStockList(presetName, '', 'Basic category', 'Explore screen');
+};
+
+// tracking event view ticker info
+const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
+  ViewTickerInfo(stockCode, 'Explore screen', location, 'Stock');
+};
+
+// tracking event get more info
+const handleTrackingGetMoreInfo = (infoGroup: string, infoDetail: string) => {
+  GetMoreInfo('Explore screen', infoGroup, infoDetail);
+};
+
 const Explore = () => {
   const { t } = useTranslation(['theme', 'explore']);
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
@@ -75,7 +91,7 @@ const Explore = () => {
   const refSlidePinex: any = React.useRef();
 
   const { theme, refresh: refreshTheme } = useGetTheme();
-  const { keyWords, loading: loadingKeywords } = useGetKeyWordsTop();
+  const { keyWords, loading: loadingKeywords, mutate } = useGetKeyWordsTop();
   const {
     run,
     listNewFeed,
@@ -95,7 +111,6 @@ const Explore = () => {
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
   }, []);
-
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
   };
@@ -108,7 +123,12 @@ const Explore = () => {
     if (refClick?.current) {
       refClick?.current?.onKeyDown(value);
     }
+    const newList = keyWords.map((item: any) =>
+      item.keyword === value ? { ...item, numberHit: item.numberHit + 1 } : item,
+    );
+    mutate({ data: newList });
   };
+
   return (
     <div className='w-full rounded-[8px] text-left desktop:-mt-[16px] desktop:py-[16px]'>
       <div className='box-shadow mb-[18px] rounded-[12px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] desktop:p-[16px]'>
@@ -133,7 +153,7 @@ const Explore = () => {
         </Text>
 
         <div className='mb-[16px] flex flex-col gap-y-[12px]'>
-          {loadingKeywords ? (
+          {loadingKeywords || !listKeyWords ? (
             <Skeleton
               className='!h-[51px] !w-full !rounded-[15px]'
               rows={5}
@@ -154,7 +174,7 @@ const Explore = () => {
           )}
         </div>
 
-        {loadingKeywords ? (
+        {loadingKeywords || !listKeyWords ? (
           <Skeleton className='!h-[52px] !w-full !rounded-[8px]' />
         ) : (
           <ExploreButton onClick={onShowMoreKeyWords}>
@@ -171,7 +191,10 @@ const Explore = () => {
                 />
               </div>
             ) : (
-              <div className='flex items-center justify-center'>
+              <div
+                className='flex items-center justify-center'
+                onClick={() => handleTrackingGetMoreInfo('Keywords', 'Top keywords search')}
+              >
                 <Text type='body-14-bold' color='primary-2'>
                   {t('explore_top_search')}
                 </Text>
@@ -200,7 +223,10 @@ const Explore = () => {
           <Influencer />
         </div>
 
-        <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
+        <CustomLink
+          href={ROUTE_PATH.PEOPLEINSPOTLIGHT}
+          onClick={() => handleTrackingGetMoreInfo('User', 'List people in spotlight')}
+        >
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_influencer')}
@@ -273,7 +299,10 @@ const Explore = () => {
             />
           </div>
         </div>
-        <CustomLink href={ROUTE_PATH.THEME}>
+        <CustomLink
+          href={ROUTE_PATH.THEME}
+          onClick={() => handleTrackingGetMoreInfo('Theme', 'List theme')}
+        >
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_themes')}
@@ -306,6 +335,9 @@ const Explore = () => {
                   percen={(item.totalCount / maxTopWatchStock) * 100}
                   key={`stock-${index}`}
                   data={item}
+                  onTrackingViewTickerInfo={() =>
+                    handleTrackingViewTickerInfo(item?.stockCode, 'Top watching stock')
+                  }
                 />
               );
             })
@@ -316,7 +348,12 @@ const Explore = () => {
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
           <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
-            <ExploreButton>
+            <ExploreButton
+              onClick={() => {
+                handleTrackingViewListStock('Top watching stock');
+                handleTrackingGetMoreInfo('Stock', 'Top watching stock');
+              }}
+            >
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_watching_stock')}
               </Text>
@@ -350,6 +387,9 @@ const Explore = () => {
                   key={`stock-${index}`}
                   data={item}
                   mention
+                  onTrackingViewTickerInfo={() =>
+                    handleTrackingViewTickerInfo(item?.stockCode, 'Top mention stock')
+                  }
                 />
               );
             })
@@ -360,7 +400,12 @@ const Explore = () => {
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
           <CustomLink href={ROUTE_PATH.TOPMENTION}>
-            <ExploreButton>
+            <ExploreButton
+              onClick={() => {
+                handleTrackingViewListStock('Top mention stock');
+                handleTrackingGetMoreInfo('Stock', 'Top mention stock');
+              }}
+            >
               <Text type='body-14-bold' color='primary-2'>
                 {t('explore_top_mention_stock')}
               </Text>
@@ -392,7 +437,12 @@ const Explore = () => {
           <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
             <Slider {...settings} variableWidth ref={refSlidePinex}>
               {optionTab?.map((item: any) => (
-                <PinexTop label={t(`explore:${item.label}`)} value={item.value} key={item.value} />
+                <PinexTop
+                  onClick={() => handleTrackingViewListStock('Top 20 pinex')}
+                  label={t(`explore:${item.label}`)}
+                  value={item.value}
+                  key={item.value}
+                />
               ))}
             </Slider>
           </div>
@@ -410,7 +460,12 @@ const Explore = () => {
         </div>
 
         <CustomLink href={ROUTE_PATH.PINEX_TOP_20}>
-          <ExploreButton>
+          <ExploreButton
+            onClick={() => {
+              handleTrackingViewListStock('Top 20 pinex');
+              handleTrackingGetMoreInfo('Stock', 'Pinex top 20');
+            }}
+          >
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_more')}
             </Text>
@@ -436,7 +491,15 @@ const Explore = () => {
         {!loadingIPO && stockIPO && stockIPO?.length > 0 ? (
           <div className='mb-[16px] flex flex-col gap-y-[12px]'>
             {stockIPO?.map((ipo: IStockIPO, index: number) => {
-              return <IPO data={ipo} key={index} />;
+              return (
+                <IPO
+                  onTrackingViewTickerInfo={() =>
+                    handleTrackingViewTickerInfo(ipo?.stockCode, 'New IPO')
+                  }
+                  data={ipo}
+                  key={index}
+                />
+              );
             })}
           </div>
         ) : (
@@ -533,8 +596,8 @@ const Explore = () => {
       </div>
 
       {!loadingTrendingOnPinex && (
-        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE?.MOST_REACTED}`}>
-          <ExploreButton>
+        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
+          <ExploreButton onClick={() => handleTrackingGetMoreInfo('Post', 'Hot topics')}>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_hot_topics')}
             </Text>

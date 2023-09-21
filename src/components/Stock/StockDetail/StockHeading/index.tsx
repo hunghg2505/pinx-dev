@@ -1,13 +1,16 @@
 import React, { memo, useMemo } from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { IStock, IStockData, IStockDetails } from '@components/Stock/type';
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { useToggleClassStock2 } from '@hooks/useToggleClassStock';
-import { formatStringToNumber, getStockColor, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockColor, imageStock, isUrlValid } from '@utils/common';
+
+import PriceWrapper from '../StockItem/PriceWrapper';
 
 interface StockHeadingProps {
   stockCode: string;
@@ -67,7 +70,10 @@ const StockHeading = ({
     <div className='mt-[12px] flex items-center justify-between'>
       <div className='flex flex-1 flex-col gap-y-[8px] tablet:flex-row tablet:gap-x-[12px]'>
         <div className='flex h-[44px] w-[44px] items-center overflow-hidden rounded-[12px] border border-solid border-[#EEF5F9] bg-white px-[5px] shadow-[0_1px_2px_0_rgba(88,102,126,0.12),0px_4px_24px_0px_rgba(88,102,126,0.08)]'>
-          <img
+          <Image
+            width='0'
+            height='0'
+            sizes='100vw'
             src={imageStock(stockCode)}
             // alt={`Logo ${stockDetail?.data?.name}`}
             alt=''
@@ -106,8 +112,11 @@ const StockHeading = ({
                 .slice(0, 3)
                 .reverse()
                 .map((item, index) =>
-                  item.avatar ? (
-                    <img
+                  isUrlValid(item.avatar) ? (
+                    <CustomImage
+                      width='0'
+                      height='0'
+                      sizes='100vw'
                       key={index}
                       src={item.avatar}
                       alt='Subscriber user'
@@ -141,51 +150,45 @@ const StockHeading = ({
           }}
         >
           <div>
-            <Text
-              type='body-16-medium'
-              className={classNames(
-                'inline-block p-[4px]',
-                useToggleClassStock2(
-                  !!isPriceChange,
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-              )}
+            <PriceWrapper
+              isChange={!!isPriceChange}
+              lastPrice={dataStock?.lastPrice || 0}
+              ceilPrice={dataStock?.c || 0}
+              floorPrice={dataStock?.f || 0}
+              refPrice={dataStock?.r || 0}
+              className='inline-block p-[4px]'
             >
-              {!dataStock?.lastPrice || dataStock.lastPrice === 0
-                ? '-'
-                : formatStringToNumber(dataStock?.lastPrice, true, 2)}
-            </Text>
+              <Text type='body-16-medium'>
+                {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                  ? '-'
+                  : formatStringToNumber(dataStock?.lastPrice, true, 2)}
+              </Text>
+            </PriceWrapper>
           </div>
           <div>
-            <Text
-              type='body-12-regular'
-              className={classNames(
-                'inline-block p-[4px]',
-                useToggleClassStock2(
-                  !!isPriceChange,
-                  dataStock?.lastPrice || 0,
-                  dataStock?.c || 0,
-                  dataStock?.f || 0,
-                  dataStock?.r || 0,
-                ),
-              )}
+            <PriceWrapper
+              isChange={!!isPriceChange}
+              lastPrice={dataStock?.lastPrice || 0}
+              ceilPrice={dataStock?.c || 0}
+              floorPrice={dataStock?.f || 0}
+              refPrice={dataStock?.r || 0}
+              className='inline-block p-[4px]'
             >
-              {!dataStock?.lastPrice || dataStock.lastPrice === 0
-                ? '- / -'
-                : `${unitOt}${formatStringToNumber(
-                    String(dataStock?.ot),
-                    true,
-                    dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
-                  )} / ${unitChangePc}${formatStringToNumber(
-                    String(dataStock?.changePc),
-                    true,
-                    dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
-                  )}`}
-              %
-            </Text>
+              <Text type='body-12-regular'>
+                {!dataStock?.lastPrice || dataStock.lastPrice === 0
+                  ? '- / -'
+                  : `${unitOt}${formatStringToNumber(
+                      String(dataStock?.ot),
+                      true,
+                      dataStock?.ot && +dataStock?.ot !== 0 ? 2 : 0,
+                    )} / ${unitChangePc}${formatStringToNumber(
+                      String(dataStock?.changePc),
+                      true,
+                      dataStock?.changePc && +dataStock?.changePc !== 0 ? 2 : 0,
+                    )}`}
+                %
+              </Text>
+            </PriceWrapper>
           </div>
         </div>
       </div>

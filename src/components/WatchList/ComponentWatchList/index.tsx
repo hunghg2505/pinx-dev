@@ -7,14 +7,10 @@ import { useAtom } from 'jotai';
 
 import { API_PATH } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
-import {
-  IWatchListItem,
-  requestJoinChannel,
-  requestLeaveChannel,
-  socket,
-} from '@components/Home/service';
+import { IWatchListItem, requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { socket } from 'src/socket/socket';
 
 import StockLoading from './Skeleton';
 import ItemWatchList from '../ItemWatchList';
@@ -24,9 +20,10 @@ interface IProps {
   page_size?: number;
   footer?: (list: any) => void;
   optionsRequest?: any;
+  handleTrackingViewStockInfo?: (stockCode: string) => void;
 }
 const ComponentWatchList = (props: IProps) => {
-  const { isEdit = false, page_size, optionsRequest = {} } = props;
+  const { isEdit = false, page_size, optionsRequest = {}, handleTrackingViewStockInfo } = props;
   const [dataStock, setDataStock] = React.useState<any>([]);
   const [dataSocket, setDataSocket] = React.useState<any>({});
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -151,6 +148,7 @@ const ComponentWatchList = (props: IProps) => {
                 isEdit={isEdit}
                 refresh={useWatchList.refresh}
                 isChangeStock={isChangeStock}
+                handleTrackingViewStockInfo={handleTrackingViewStockInfo}
               />
             </div>
           );

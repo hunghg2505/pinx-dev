@@ -4,8 +4,9 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 import { followContext } from '..';
 
@@ -24,16 +25,23 @@ const Figure = () => {
         route.push(url);
       }}
     >
-      {context?.avatar ? (
-        <img
+      {isUrlValid(context?.avatar) ? (
+        <CustomImage
           loading='lazy'
           src={context?.avatar}
           alt=''
+          width='0'
+          height='0'
+          sizes='100vw'
           className='z-[-1] h-full w-full object-cover'
         />
       ) : (
         <div className='z-[-1] h-full w-full object-cover'>
-          <AvatarDefault name={context?.displayName} />
+          <AvatarDefault
+            nameClassName='text-[110px]'
+            className='rounded-none'
+            name={context?.displayName}
+          />
         </div>
       )}
       <div className='to-transparent absolute left-0 top-0 z-10 h-full w-full bg-gradient-to-t from-[black]'></div>

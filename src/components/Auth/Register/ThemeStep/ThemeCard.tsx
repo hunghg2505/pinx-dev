@@ -2,8 +2,12 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import Image from 'next/image';
 
+import AvatarDefault from '@components/UI/AvatarDefault';
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
+import { isUrlValid } from '@utils/common';
 
 import styles from './index.module.scss';
 
@@ -25,14 +29,15 @@ const ThemeCard = (props: IThemeCardProps) => {
     >
       <div
         className={
-          "relative h-[247px] w-[100%] bg-cover bg-center bg-no-repeat before:absolute before:bottom-[0] before:left-[0] before:h-full before:w-full before:rounded-[12px] before:content-[''] max-[375px]:h-[250px]"
+          "max-[375px]:h-[250px] relative h-[247px] w-[100%] bg-cover bg-center bg-no-repeat before:absolute before:bottom-[0] before:left-[0] before:h-full before:w-full before:rounded-[12px] before:content-['']"
         }
       >
-        <img
+        <Image
           src={props.image}
-          height='247'
-          width='100'
-          className='w-100% h-[247px] max-[375px]:h-[250px]'
+          width='0'
+          height='0'
+          sizes='100vw'
+          className='w-100% max-[375px]:h-[250px] h-[247px]'
           alt={''}
         />
         <div className='absolute bottom-0 left-0 z-10 h-[95px] w-[100%] rounded-tl-[12px] rounded-tr-[12px] bg-[rgba(248,248,248,0.5)]'></div>
@@ -41,19 +46,24 @@ const ThemeCard = (props: IThemeCardProps) => {
             {props.title}
           </Text>
           <div className='mt-[6px] flex'>
-            {props.latestUserLikeThis?.map((user: { id: number; avatar: string }) => {
-              return (
-                <>
-                  <img
+            {props.latestUserLikeThis?.map(
+              (user: { id: number; avatar: string; displayName: string }) => {
+                return isUrlValid(user?.avatar) ? (
+                  <CustomImage
                     src={user.avatar}
                     alt=''
-                    width='20'
-                    height='20'
+                    width='0'
+                    height='0'
+                    sizes='100vw'
                     className='h-[20px] w-[20px] rounded-full'
                   />
-                </>
-              );
-            })}
+                ) : (
+                  <div className='h-[20px] w-[20px] rounded-full'>
+                    <AvatarDefault nameClassName='text-[12px]' name={user?.displayName} />
+                  </div>
+                );
+              },
+            )}
             <Text
               type='body-12-medium'
               color='neutral-2'
