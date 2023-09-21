@@ -190,7 +190,13 @@ const SideBar = () => {
       <div>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-          <img src={BANNER_URL} alt='' className='mt-[16px] w-full laptop-max:px-[10px]' />
+          <img
+            src={BANNER_URL}
+            alt=''
+            width={218}
+            height={400}
+            className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
+          />
         </a>
 
         <div className='px-[10px] pt-[16px]'>
