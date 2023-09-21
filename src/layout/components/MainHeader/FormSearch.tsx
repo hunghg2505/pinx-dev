@@ -34,7 +34,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 import styles1 from './index.module.scss';
@@ -46,6 +46,11 @@ const handleTrackingViewStockList = () => {
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
   ViewTickerInfo(stockCode, 'Search seo box', location, 'Stock');
+};
+
+// tracking event get more info
+const handleTrackingGetMoreInfo = (infoGr: string, infoDetail: string) => {
+  GetMoreInfo('Search seo box', infoGr, infoDetail);
 };
 
 const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
@@ -384,6 +389,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                         onClick={() => {
                           onSeeMore('company');
                           handleTrackingViewStockList();
+                          handleTrackingGetMoreInfo('Company', 'List company');
                         }}
                       >
                         <Text type='body-14-bold' color='primary-2'>
@@ -410,7 +416,13 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                       ))}
                     </div>
                     {users?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('people')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('people');
+                          handleTrackingGetMoreInfo('User', 'List user');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>
@@ -443,7 +455,13 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                       })}
                     </div>
                     {posts?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('posts')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('posts');
+                          handleTrackingGetMoreInfo('Post', 'List post');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>
@@ -472,7 +490,13 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                       })}
                     </div>
                     {news?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('news')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('news');
+                          handleTrackingGetMoreInfo('News', 'List news');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>
@@ -504,7 +528,13 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                       </div>
                     </div>
                     {fillterMediaSort?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('media')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('media');
+                          handleTrackingGetMoreInfo('Media', 'List media');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>

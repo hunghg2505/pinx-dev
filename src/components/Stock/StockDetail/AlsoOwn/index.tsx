@@ -7,7 +7,7 @@ import { ITaggingInfo } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { AnalyzeTicker } from '@utils/dataLayer';
+import { AnalyzeTicker, GetMoreInfo } from '@utils/dataLayer';
 
 const ALSO_ITEM_LIMIT = 2;
 
@@ -45,7 +45,10 @@ const StockAlsoOwn = ({ taggingInfo, stockCode }: IStockAlsoOwnProps) => {
       {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
         <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
           <button
-            onClick={handleAnalyze}
+            onClick={() => {
+              handleAnalyze();
+              GetMoreInfo('Stock detail screen', 'Company', 'Subsidiaries');
+            }}
             className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
           >
             <Text type='body-14-bold' color='primary-2'>
