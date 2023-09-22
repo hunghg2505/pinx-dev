@@ -10,7 +10,7 @@ import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
-import { formatMsgPost } from '@utils/common';
+import { formatMsgPost, getHostName } from '@utils/common';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
@@ -81,13 +81,7 @@ export async function getServerSideProps({ locale, params, req }: any) {
   // host = `${arr[0]}//${arr[2]}`;
   // }
 
-  let protocol: string = req.headers['x-forwarded-proto'];
-  const protocolToArr = protocol?.split(',');
-  const findProtocol = protocolToArr.find((item) => item === 'https');
-
-  protocol = findProtocol || protocolToArr[0];
-
-  const host = protocol + '://' + req.headers.host;
+  const host = getHostName(req.headers);
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
