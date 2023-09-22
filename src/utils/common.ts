@@ -1033,7 +1033,10 @@ export const slugify = (value?: string) => {
   return slug.toLowerCase();
 };
 
-export const formatTitlePost = (title: string) => {
+/**
+ * Format message include tag stock, tag user, hashtag
+ */
+export const formatMsgPost = (title: string) => {
   if (!title) {
     return '';
   }

@@ -1,5 +1,5 @@
 import { fetchAllPostFromServer } from '@components/Post/service';
-import { formatTitlePost } from '@utils/common';
+import { formatMsgPost } from '@utils/common';
 
 function generateSiteMap(listSlug: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -26,7 +26,7 @@ export async function getServerSideProps({ res }: any) {
   const listSlug: string[] = [];
 
   for await (const item of response.data) {
-    const slug = formatTitlePost(item.slug);
+    const slug = formatMsgPost(item.slug);
 
     listSlug.push(slug);
   }
