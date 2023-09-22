@@ -60,7 +60,7 @@ const Desktop = () => {
                   currentLocale + newPath,
                 );
 
-                if (key === 'assets') {
+                if (key === ProfileTabKey.ASSETS) {
                   // tracking event view assets
                   ViewAsset('Tab assets user detail', 'Asset Overview');
                 }

@@ -57,7 +57,7 @@ const Mobile = () => {
                   );
 
                   // tracking
-                  if (key === 'watchlist') {
+                  if (key === ProfileTabKey.WATCH_LIST) {
                     const listStockCodes =
                       watchList.find(
                         (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
@@ -72,7 +72,7 @@ const Mobile = () => {
                     );
                   }
 
-                  if (key === 'assets') {
+                  if (key === ProfileTabKey.ASSETS) {
                     // tracking event view assets
                     ViewAsset('Tab assets my profile', 'Asset Overview');
                   }

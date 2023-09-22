@@ -66,7 +66,7 @@ const Desktop = () => {
                   currentLocale + newPath,
                 );
 
-                if (key === 'watchlist') {
+                if (key === ProfileTabKey.WATCH_LIST) {
                   const listStockCodes =
                     watchList.find(
                       (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
@@ -81,15 +81,15 @@ const Desktop = () => {
                   );
                 }
 
-                if (key === 'assets') {
+                if (key === ProfileTabKey.ASSETS) {
                   // tracking event view assets
                   ViewAsset('Tab assets my profile', 'Asset Overview');
                 }
 
-                if (key === 'following') {
+                if (key === ProfileTabKey.FOLLOWING) {
                   profileUser.setState((prev: any) => ({ ...prev, followingKey: Date.now() }));
                 }
-                if (key === 'followers') {
+                if (key === ProfileTabKey.FOLLOWERS) {
                   profileUser.setState((prev: any) => ({ ...prev, followerKey: Date.now() }));
                 }
               }}
