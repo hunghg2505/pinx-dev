@@ -10,6 +10,7 @@ import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
+import { formatMsgPost, getHostName } from '@utils/common';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
@@ -33,8 +34,8 @@ const PostDetailPage = ({ id, host, postDetail }: any) => {
     }
 
     return {
-      title,
-      description,
+      title: formatMsgPost(title),
+      description: formatMsgPost(description),
       seoMetadata,
     };
   }, [postDetail]);
@@ -79,12 +80,14 @@ export async function getServerSideProps({ locale, params, req }: any) {
     };
   }
 
-  const url = req?.headers?.referer;
-  let host = '';
-  if (url) {
-    const arr = url?.split('/');
-    host = `${arr[0]}//${arr[2]}`;
-  }
+  // const url = req?.headers?.referer;
+  // let host = '';
+  // if (url) {
+  // const arr = url?.split('/');
+  // host = `${arr[0]}//${arr[2]}`;
+  // }
+
+  const host = getHostName(req.headers);
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),

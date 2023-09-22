@@ -1,21 +1,18 @@
-import { API_PATH } from '@api/constant';
-import { PREFIX_API_COMMUNITY, PREFIX_API_PIST } from '@api/request';
+import { fetchAllStockFromServer } from '@components/Stock/service';
 import { slugify } from '@utils/common';
 
-function generateSiteMap(listSlugs: string[]) {
+function generateSiteMap(listSlug: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      <!--We manually set the two URLs we know already-->
-      ${listSlugs
-        .map((slug) => {
+      ${listSlug
+        .map((item) => {
           return `
             <url>
-              <loc>${`https://pinex.vn/${slug}`}</loc>
-            </url>
-          `;
+              <loc>${`https://pinex.vn/co-phieu/${item}`}</loc>
+            </url>`;
         })
         .join('')}
-    </urlset>
+   </urlset>
   `;
 }
 
@@ -25,17 +22,18 @@ function SiteMap() {
 
 export async function getServerSideProps({ res }: any) {
   // We make an API call to gather the URLs for our site
+  const response: any = await fetchAllStockFromServer();
   const listSlug: string[] = [];
-  const dataTheme: any = await (
-    await fetch(`${PREFIX_API_PIST}${API_PATH.PUBLIC_ALL_THEME}`)
-  ).json();
 
-  for await (const item of dataTheme?.data) {
-    const data: any = await (
-      await fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(item?.code)}`)
-    ).json();
+  for await (const item of response.data) {
+    let prefixSlug: string = item?.stockCode?.toLowerCase();
+    if (prefixSlug.codePointAt(0) === 18) {
+      prefixSlug = '';
+    }
 
-    const slug = 'chu-de/' + data?.data?.code?.toLowerCase() + '-' + slugify(data?.data?.name);
+    const suffixSlug = slugify(item.companyName);
+    const slug = [prefixSlug, suffixSlug].filter((item) => item.length).join('-');
+
     listSlug.push(slug);
   }
 

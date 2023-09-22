@@ -1,15 +1,14 @@
-import { API_PATH } from '@api/constant';
-import { PREFIX_API_PIST } from '@api/request';
-import { ICustomerInfo } from '@components/Post/service';
+import { fetchAllPostFromServer } from '@components/Post/service';
+import { formatMsgPost } from '@utils/common';
 
-function generateSiteMap(users: ICustomerInfo[]) {
+function generateSiteMap(listSlug: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      ${users
+      ${listSlug
         .map((item) => {
           return `
             <url>
-              <loc>${`https://pinex.vn/profile/${item?.id}`}</loc>
+              <loc>${`https://pinex.vn/${item}`}</loc>
             </url>`;
         })
         .join('')}
@@ -23,10 +22,17 @@ function SiteMap() {
 
 export async function getServerSideProps({ res }: any) {
   // We make an API call to gather the URLs for our site
-  const response: any = await (await fetch(`${PREFIX_API_PIST}${API_PATH.KOL}/?size=9999`)).json();
+  const response: any = await fetchAllPostFromServer();
+  const listSlug: string[] = [];
+
+  for await (const item of response.data) {
+    const slug = formatMsgPost(item.slug);
+
+    listSlug.push(slug);
+  }
 
   // We generate the XML sitemap with the posts data
-  const sitemap = generateSiteMap(response?.data?.list);
+  const sitemap = generateSiteMap(listSlug);
 
   res.setHeader('Content-Type', 'text/xml');
   // we send the XML to the browser

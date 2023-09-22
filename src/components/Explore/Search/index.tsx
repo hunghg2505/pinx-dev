@@ -16,7 +16,7 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
@@ -30,6 +30,11 @@ const handleTrackingViewListStock = () => {
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
   ViewTickerInfo(stockCode, 'Search explore box', locationDetail, 'Stock');
+};
+
+// tracking event get more info
+const handleTrackingGetMoreInfo = (info: string, infoDetail: string) => {
+  GetMoreInfo('Search explore box', info, infoDetail);
 };
 
 const Search = (props: any, ref: any) => {
@@ -220,6 +225,7 @@ const Search = (props: any, ref: any) => {
                       onClick={() => {
                         onShowMore(TYPESEARCH.STOCK);
                         handleTrackingViewListStock();
+                        handleTrackingGetMoreInfo('Company', 'List company');
                       }}
                     >
                       <Text type='body-14-bold' color='primary-2'>
@@ -251,7 +257,12 @@ const Search = (props: any, ref: any) => {
                     ))}
                   </div>
                   {users?.length > 5 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.FRIEND)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.FRIEND);
+                        handleTrackingGetMoreInfo('User', 'List user');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('show_more')}
                       </Text>
@@ -292,7 +303,12 @@ const Search = (props: any, ref: any) => {
                     })}
                   </div>
                   {posts?.length > 3 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.POST)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.POST);
+                        handleTrackingGetMoreInfo('Post', 'List post');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('exploring_more_posts')}
                       </Text>
@@ -322,7 +338,12 @@ const Search = (props: any, ref: any) => {
                     })}
                   </div>
                   {news?.length > 3 && (
-                    <ExploreButton onClick={() => onShowMore(TYPESEARCH.NEWS)}>
+                    <ExploreButton
+                      onClick={() => {
+                        onShowMore(TYPESEARCH.NEWS);
+                        handleTrackingGetMoreInfo('News', 'List news');
+                      }}
+                    >
                       <Text type='body-14-bold' color='primary-2'>
                         {t('exploring_more_news')}
                       </Text>

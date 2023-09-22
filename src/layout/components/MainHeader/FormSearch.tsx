@@ -34,7 +34,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 import styles1 from './index.module.scss';
@@ -46,6 +46,11 @@ const handleTrackingViewStockList = () => {
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
   ViewTickerInfo(stockCode, 'Search seo box', location, 'Stock');
+};
+
+// tracking event get more info
+const handleTrackingGetMoreInfo = (infoGr: string, infoDetail: string) => {
+  GetMoreInfo('Search seo box', infoGr, infoDetail);
 };
 
 const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
@@ -72,7 +77,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
-  const { data, run: searchPublic, loading, refresh } = useSearchPublic();
+  const { data, run: searchPublic, loading, refresh, mutate } = useSearchPublic();
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
   // const [showRecent, setShowRecent] = React.useState(false);
@@ -187,6 +192,18 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
     form.setFieldValue('search', data);
     form.submit();
   };
+  const onRemoveData = (postId: any) => () => {
+    // mutate
+    mutate({
+      data: {
+        ...data.data,
+        postList: {
+          ...data.data.postList,
+          list: posts?.filter((item: any) => item?.id !== postId),
+        },
+      },
+    });
+  };
 
   const companies = data?.data?.companyList?.list || [];
   const users = data?.data?.customerList?.list || [];
@@ -219,6 +236,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
   if (mediaL) {
     fillterMediaSort = [...media];
   }
+
   const goToPostDetail = (idPost: string) => {
     router.push(ROUTE_PATH.POST_DETAIL(idPost));
   };
@@ -273,7 +291,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           </>
         )}
         {/* End Khi nhập input show button close clear data */}
-        <div ref={ref}>
+        <div>
           <Form
             ref={refForm}
             className={classNames('pr-[10px] laptop:pr-0', {
@@ -286,6 +304,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           >
             <FormItem name='search'>
               <Input
+                ref={ref}
                 className={classNames(
                   'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                   {
@@ -384,6 +403,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                         onClick={() => {
                           onSeeMore('company');
                           handleTrackingViewStockList();
+                          handleTrackingGetMoreInfo('Company', 'List company');
                         }}
                       >
                         <Text type='body-14-bold' color='primary-2'>
@@ -410,7 +430,13 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                       ))}
                     </div>
                     {users?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('people')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('people');
+                          handleTrackingGetMoreInfo('User', 'List user');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>
@@ -438,12 +464,19 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                             onTrackingViewTicker={(stockCode) =>
                               handleTrackingViewStockInfo(stockCode, 'Post')
                             }
+                            onRemoveData={onRemoveData(post.id)}
                           />
                         );
                       })}
                     </div>
                     {posts?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('posts')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('posts');
+                          handleTrackingGetMoreInfo('Post', 'List post');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>
@@ -472,7 +505,13 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                       })}
                     </div>
                     {news?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('news')}>
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('news');
+                          handleTrackingGetMoreInfo('News', 'List news');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>
@@ -503,8 +542,14 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                         })}
                       </div>
                     </div>
-                    {fillterMediaSort?.length > 3 && (
-                      <ExploreButton className='-mt-[10px]' onClick={() => onSeeMore('media')}>
+                    {fillterMediaSort?.length > 4 && (
+                      <ExploreButton
+                        className='-mt-[10px]'
+                        onClick={() => {
+                          onSeeMore('media');
+                          handleTrackingGetMoreInfo('Media', 'List media');
+                        }}
+                      >
                         <Text type='body-14-bold' color='primary-2'>
                           {t('common:searchseo.txtBtnAll')}
                         </Text>

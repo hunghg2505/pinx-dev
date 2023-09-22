@@ -249,7 +249,35 @@ const MediaItem = ({
         );
       }
       default: {
-        return <></>;
+        return (
+          <div className='flex cursor-pointer flex-col gap-y-[8px]'>
+            <div className={classNames('relative')} onClick={onGoToDetail}>
+              {loading ? (
+                <Skeleton className='!h-[195px] !w-[345px]' />
+              ) : (
+                <Image
+                  sizes='100vw'
+                  className='aspect-[16/9] rounded bg-[#eee] object-contain'
+                  src={data?.post?.metadataList[0]?.images[0] || '/static/images/noimage.jpg'}
+                  alt='Picture of TikTok'
+                  width={345}
+                  height={162}
+                />
+              )}
+            </div>
+            <div onClick={(e: any) => onHandleClick(e)}>
+              <Text type='body-14-semibold' className='messageFormat2 line-clamp-2 text-[#0D0D0D]'>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: formatMessage(
+                      data?.seoMetadata?.title || data?.post?.metadataList[0]?.title,
+                    ),
+                  }}
+                ></div>
+              </Text>
+            </div>
+          </div>
+        );
       }
     }
   };

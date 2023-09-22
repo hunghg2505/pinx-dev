@@ -12,7 +12,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 
 import useHeight from './useHeight';
 
@@ -129,8 +129,8 @@ export const ActivityMatchOrder = ({
             height='0'
             sizes='100vw'
             src={postDetail?.post?.bgImage || '/static/images/postSellStock.png'}
-            alt={postDetail?.seoMetadata?.imageSeo?.alt}
-            title={postDetail?.seoMetadata?.imageSeo?.title}
+            alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
+            title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
             className='absolute right-0 top-0 h-full w-full rounded-[9px] object-cover'
           />
           <div className='absolute rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:bottom-[10px] mobile:left-[20px] mobile:h-[168px] mobile:w-[120px] desktop:bottom-[11px] desktop:left-[32px] desktop:h-[269px] desktop:w-[192px]'>
@@ -139,8 +139,8 @@ export const ActivityMatchOrder = ({
               height='0'
               sizes='100vw'
               src={urlStock || '/static/icons/logoStock.svg'}
-              alt={postDetail?.seoMetadata?.imageSeo?.alt}
-              title={postDetail?.seoMetadata?.imageSeo?.title}
+              alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
+              title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               className='absolute -top-[14px] left-2/4 mr-[6px] h-[36px] w-[36px] -translate-x-1/2 transform rounded-full object-contain desktop:-top-[24px] desktop:h-[48px] desktop:w-[48px]'
             />
             <div className='mt-[25px] flex flex-col items-center justify-center desktop:mt-[36px]'>

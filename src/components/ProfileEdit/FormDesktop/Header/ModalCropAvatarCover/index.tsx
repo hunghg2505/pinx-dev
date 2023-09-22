@@ -42,6 +42,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
   const [initZoom, setInitZoom] = useState(0);
   const preValueRangeSliderRef = useRef(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const timerRef = useRef<any>(null);
   const [sliderPercent, setSliderPercent] = useState(0);
   const [loading, setLoading] = useState(false);
   const [onCompressing, setOnCompressing] = useState(false);
@@ -65,27 +66,38 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
     }
 
     const fileSizeMB = file && file.size / 1024 / 1024;
-    if (isMobile && fileSizeMB && fileSizeMB > 3) {
+    if (isMobile) {
       setOnCompressing(true);
-      compressImage({
-        file,
-        maxFileSizeKb: 3 * 1024,
-        options: {
-          fileType: 'image/jpeg',
-        },
-      })
-        .then((compressedImage) => {
-          compressedImage && setImage(URL.createObjectURL(compressedImage));
+
+      if (fileSizeMB && fileSizeMB > 3) {
+        compressImage({
+          file,
+          maxFileSizeKb: 3 * 1024,
+          options: {
+            fileType: 'image/jpeg',
+          },
         })
-        .catch(() => {
-          toast.error(t('error'));
-        })
-        .finally(() => {
+          .then((compressedImage) => {
+            compressedImage && setImage(URL.createObjectURL(compressedImage));
+          })
+          .catch(() => {
+            toast.error(t('error'));
+          })
+          .finally(() => {
+            setOnCompressing(false);
+          });
+      } else {
+        timerRef.current = setTimeout(() => {
           setOnCompressing(false);
-        });
+        }, 3000);
+      }
     }
 
     setImage(URL.createObjectURL(file));
+
+    return () => {
+      clearTimeout(timerRef.current);
+    };
   }, [file]);
 
   useEffect(() => {
@@ -102,7 +114,7 @@ const ModalCropAvatarCover = (props: ModalCropAvatarCoverProps) => {
   }, [visible]);
 
   const cropSize = useMemo(() => {
-    if (size && size.width < 320) {
+    if (size?.width && size.width < 320) {
       return size.width;
     }
 

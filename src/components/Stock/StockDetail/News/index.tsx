@@ -6,6 +6,7 @@ import { useStockNews } from '@components/Stock/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { GetMoreInfo } from '@utils/dataLayer';
 
 import StockNewsSkeleton from './skeleton';
 import NewsItem from '../NewsItem';
@@ -41,7 +42,10 @@ const StockNews = ({ stockCode, handleAnalyze }: IStockNewsProps) => {
 
       {stockNews?.data?.list.length > NEWS_ITEM_LIMIT && (
         <CustomLink
-          onClick={() => handleAnalyze('Stock news')}
+          onClick={() => {
+            handleAnalyze('Stock news');
+            GetMoreInfo('Stock detail screen', 'News', 'List news of company');
+          }}
           href={ROUTE_PATH.STOCK_NEWS(stockCode)}
         >
           <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>

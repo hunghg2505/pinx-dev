@@ -61,7 +61,7 @@ const SEO: FC<Props> = ({
         content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
       ></meta>
       <meta property='og:type' content={openGraph?.type ?? config.openGraph.type} />
-      <meta property='og:url' content={siteUrl || ''} />
+      <meta property='og:url' content={siteUrl || 'https://pinex.vn/'} />
       <meta property='og:title' content={title || config.title} />
       <meta property='og:description' content={description || config.description} />
       <meta
@@ -74,7 +74,7 @@ const SEO: FC<Props> = ({
       {/* <meta property='og:image:width' content='1200' /> */}
       {/* <meta property='og:image:height' content='630' /> */}
       <meta property='twitter:card' content='summary_large_image' />
-      <meta property='twitter:url' content={siteUrl || ''} />
+      <meta property='twitter:url' content={siteUrl || 'https://pinex.vn/'} />
       <meta property='twitter:title' content={title || config.title} />
       <meta property='twitter:description' content={description || config.description} />
       <meta

@@ -1014,3 +1014,57 @@ export const compressImage = async ({
     return file;
   } catch {}
 };
+
+export const slugify = (value?: string) => {
+  if (!value) {
+    return '';
+  }
+
+  // Remove diacritics
+  const withoutDiacritics = value.normalize('NFD').replaceAll(/[\u0300-\u036F]/g, '');
+
+  // Replace spaces and special characters with hyphens
+  const slug = withoutDiacritics
+    .replaceAll(/[^\d\sA-Za-z]/g, '')
+    .trim()
+    .replaceAll(/\s+/g, '-'); // Replace spaces with hyphens
+
+  // Convert to lowercase
+  return slug.toLowerCase();
+};
+
+/**
+ * Format message include tag stock, tag user, hashtag
+ */
+export const formatMsgPost = (title: string) => {
+  if (!title) {
+    return '';
+  }
+
+  let titleFormat = title;
+  const userMentionPattern = /@\[(.*?)]\((.*?)\)/g;
+  const stockMentionPattern = /%\[(.*?)]\((.*?)\)/g;
+  const hashtagPattern = /#(\S+)/g;
+
+  titleFormat = titleFormat.replaceAll(userMentionPattern, (_, b) => b);
+  titleFormat = titleFormat.replaceAll(stockMentionPattern, (_, b) => b);
+  titleFormat = titleFormat.replaceAll(hashtagPattern, (_, b) => b);
+
+  return titleFormat;
+};
+
+export const getHostName = (headers: any) => {
+  if (!headers) {
+    return '';
+  }
+
+  let protocol: string = headers['x-forwarded-proto'];
+  const protocolToArr = protocol?.split(',');
+  const findProtocol = protocolToArr.find((item) => item === 'https');
+
+  protocol = findProtocol || protocolToArr[0];
+
+  const host = protocol + '://' + headers.host;
+
+  return host;
+};

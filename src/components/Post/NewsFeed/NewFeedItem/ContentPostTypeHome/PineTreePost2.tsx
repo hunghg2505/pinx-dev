@@ -14,7 +14,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 
 import ModalMedia from './ModalMedia';
 import useHeight from './useHeight';
@@ -137,8 +137,8 @@ export const PineTreePost2 = ({
             height='0'
             sizes='100vw'
             src={postDetail?.post?.urlImages?.[0]}
-            alt={postDetail?.seoMetadata?.imageSeo?.alt}
-            title={postDetail?.seoMetadata?.imageSeo?.title}
+            alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
+            title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
             className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
             // blurDataURL="data:..." automatically provided
             // placeholder="blur" // Optional blur-up while loading

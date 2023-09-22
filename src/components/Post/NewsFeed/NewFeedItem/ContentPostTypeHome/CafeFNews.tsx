@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 import { ReadNews } from '@utils/dataLayer';
 
 const ListStock = dynamic(import('./ListStock'), {
@@ -119,8 +119,8 @@ export const CafeFNews = ({
             onClick={onTrackingReadNews}
           >
             <ImageHeadPost
-              alt={postDetail?.seoMetadata?.imageSeo?.alt}
-              title={postDetail?.seoMetadata?.imageSeo?.title}
+              alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
+              title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               headImageUrl={postDetail?.post?.headImageUrl}
             />
           </CustomLink>
