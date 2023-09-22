@@ -10,6 +10,7 @@ import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
+import { formatMsgPost } from '@utils/common';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
@@ -33,8 +34,8 @@ const PostDetailPage = ({ id, host, postDetail }: any) => {
     }
 
     return {
-      title,
-      description,
+      title: formatMsgPost(title),
+      description: formatMsgPost(description),
       seoMetadata,
     };
   }, [postDetail]);
@@ -73,12 +74,20 @@ export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
   const postDetail = await fetchPostDetailFromServer(id);
 
-  const url = req?.headers?.referer;
-  let host = '';
-  if (url) {
-    const arr = url?.split('/');
-    host = `${arr[0]}//${arr[2]}`;
-  }
+  // const url = req?.headers?.referer;
+  // let host = '';
+  // if (url) {
+  // const arr = url?.split('/');
+  // host = `${arr[0]}//${arr[2]}`;
+  // }
+
+  let protocol: string = req.headers['x-forwarded-proto'];
+  const protocolToArr = protocol?.split(',');
+  const findProtocol = protocolToArr.find((item) => item === 'https');
+
+  protocol = findProtocol || protocolToArr[0];
+
+  const host = protocol + '://' + req.headers.host;
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),

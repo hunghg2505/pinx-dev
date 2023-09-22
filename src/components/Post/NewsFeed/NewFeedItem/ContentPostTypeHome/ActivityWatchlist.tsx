@@ -9,7 +9,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 
 export const ActivityWatchlist = ({
   onRef,
@@ -99,8 +99,8 @@ export const ActivityWatchlist = ({
               height='0'
               sizes='100vw'
               src={postDetail?.post?.bgImage}
-              alt={postDetail?.seoMetadata?.imageSeo?.alt}
-              title={postDetail?.seoMetadata?.imageSeo?.title}
+              alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
+              title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               className='absolute right-0 top-0 h-full object-cover'
             />
           )}
