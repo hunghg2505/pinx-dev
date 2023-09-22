@@ -37,7 +37,7 @@ const Desktop = () => {
     if (tab) {
       setActiveTab(tab);
     }
-  }, [tab]);
+  }, [tab, router]);
 
   return (
     <Tabs
@@ -52,16 +52,19 @@ const Desktop = () => {
               onChange={(key: string) => {
                 setActiveTab(key);
                 const newPath = ROUTE_PATH.MY_PROFILE;
-                tab &&
-                  window.history.replaceState(
-                    {
-                      ...window.history.state,
-                      as: newPath,
-                      url: newPath,
-                    },
-                    '',
-                    newPath,
-                  );
+
+                let currentLocale = window.history.state?.options?.locale;
+                currentLocale = currentLocale === 'en' ? '/en' : '';
+
+                window.history.replaceState(
+                  {
+                    ...window.history.state,
+                    as: newPath,
+                    url: currentLocale + newPath,
+                  },
+                  '',
+                  currentLocale + newPath,
+                );
 
                 if (key === 'watchlist') {
                   const listStockCodes =

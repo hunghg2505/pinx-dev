@@ -35,6 +35,9 @@ import {
   IconWatchListACtive,
 } from './icon';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const MenuItem = ({ children, href, ...props }: any) => <div {...props}>{children}</div>;
+
 const SideBar = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
@@ -130,11 +133,17 @@ const SideBar = () => {
         };
       }
 
+      const ComponentLink =
+        router.pathname === ROUTE_PATH.MY_PROFILE &&
+        menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)
+          ? MenuItem
+          : CustomLink;
+
       return {
         className: ` mb-[12px] ${checkPathExist && 'active'}`,
         key: `${menu.id}`,
         label: (
-          <CustomLink
+          <ComponentLink
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
@@ -166,8 +175,19 @@ const SideBar = () => {
               }
 
               // tracking event view assets
-              if (menu.path === ROUTE_PATH.ASSET) {
+              if (menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)) {
                 ViewAsset('Tab assets sidebar layout', 'Asset Overview');
+
+                if (router.pathname === ROUTE_PATH.MY_PROFILE) {
+                  const newPath = ROUTE_PATH.MY_PROFILE;
+
+                  router.replace({
+                    pathname: newPath,
+                    query: {
+                      tab: ProfileTabKey.ASSETS,
+                    },
+                  });
+                }
               }
             }}
           >
@@ -180,7 +200,7 @@ const SideBar = () => {
             >
               {menu.label}
             </Text>
-          </CustomLink>
+          </ComponentLink>
         ),
       };
     });

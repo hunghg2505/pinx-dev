@@ -40,14 +40,12 @@ const ProfileFollow = () => {
               onTabChange={setActiveTab}
               tabKey={ProfileTabKey.FOLLOWERS}
               setFullName={setFullName}
-              tab={tab}
             />
             <TabBar
               activeTab={activeTab}
               onTabChange={setActiveTab}
               tabKey={ProfileTabKey.FOLLOWING}
               setFullName={setFullName}
-              tab={tab}
             />
           </div>
           <Search fullName={fullName} onSearchChange={setFullName} />

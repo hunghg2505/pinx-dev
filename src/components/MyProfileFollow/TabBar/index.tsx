@@ -10,10 +10,9 @@ interface ITabBarProps {
   onTabChange: (v: string) => void;
   activeTab: string;
   setFullName: (v: string) => void;
-  tab: string;
 }
 
-const TabBar = ({ tabKey, onTabChange, activeTab, setFullName, tab }: ITabBarProps) => {
+const TabBar = ({ tabKey, onTabChange, activeTab, setFullName }: ITabBarProps) => {
   const { t } = useTranslation('profile');
 
   return (
@@ -29,17 +28,18 @@ const TabBar = ({ tabKey, onTabChange, activeTab, setFullName, tab }: ITabBarPro
           onTabChange(tabKey);
           setFullName('');
           const newPath = ROUTE_PATH.MY_PROFILE_FOLLOW;
+          let currentLocale = window.history.state?.options?.locale;
+          currentLocale = currentLocale === 'en' ? '/en' : '';
 
-          tab &&
-            window.history.replaceState(
-              {
-                ...window.history.state,
-                as: newPath,
-                url: newPath,
-              },
-              '',
-              newPath,
-            );
+          window.history.replaceState(
+            {
+              ...window.history.state,
+              as: newPath,
+              url: currentLocale + newPath,
+            },
+            '',
+            currentLocale + newPath,
+          );
         }}
       >
         {t(tabKey)}
