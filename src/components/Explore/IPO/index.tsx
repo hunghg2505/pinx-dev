@@ -1,8 +1,7 @@
 import Image from 'next/image';
 
-import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, imageStock } from '@utils/common';
+import { imageStock } from '@utils/common';
 
 import { IStockIPO } from '../service';
 
@@ -14,11 +13,10 @@ const IPO = ({
   onTrackingViewTickerInfo?: () => void;
 }) => {
   return (
-    <CustomLink
+    <div
       onClick={() => {
         onTrackingViewTickerInfo && onTrackingViewTickerInfo();
       }}
-      href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
     >
       <div className='relative  h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div className='relative z-10 flex h-full items-center justify-between'>
@@ -52,7 +50,7 @@ const IPO = ({
           </div>
         </div>
       </div>
-    </CustomLink>
+    </div>
   );
 };
 export default IPO;
