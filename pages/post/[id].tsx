@@ -81,12 +81,11 @@ export async function getServerSideProps({ locale, params, req }: any) {
   // host = `${arr[0]}//${arr[2]}`;
   // }
 
-  let protocol = req.headers['x-forwarded-proto'];
-  if (Array.isArray(protocol)) {
-    const findProtocol = protocol.find((item) => item === 'https');
+  let protocol: string = req.headers['x-forwarded-proto'];
+  const protocolToArr = protocol?.split(',');
+  const findProtocol = protocolToArr.find((item) => item === 'https');
 
-    protocol = findProtocol || protocol[0];
-  }
+  protocol = findProtocol || protocolToArr[0];
 
   const host = protocol + '://' + req.headers.host;
   return {
