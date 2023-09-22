@@ -219,4 +219,5 @@ export const API_PATH = {
   GET_NOTIFICATION_LIST: '/private/notification/community/history',
   GET_NOTIFICATION_COUNT: '/private/notification/community/history/count',
   READ_NOTIFICATION: (id: string) => `/private/notification/community/history/${id}`,
+  READ_ALL_NOTIFICATION: '/private/notification/community/history/receiver',
 };

@@ -79,12 +79,25 @@ export const useReadNotification = (options: IOptionsRequest) => {
   return requestReadNotification;
 };
 
-const serviceDeleteNotification = async (notiId: string) => {
-  return privateRequest(requestNoti.delete, API_PATH.READ_NOTIFICATION(notiId), {
+const serviceReadAllNotification = async () => {
+  return privateRequest(requestNoti.put, API_PATH.READ_ALL_NOTIFICATION, {
     params: {
       readStatus: true,
     },
   });
+};
+
+export const useReadAllNotification = (options: IOptionsRequest) => {
+  const requestReadAllNotification = useRequest(serviceReadAllNotification, {
+    manual: true,
+    ...options,
+  });
+
+  return requestReadAllNotification;
+};
+
+const serviceDeleteNotification = async (notiId: string) => {
+  return privateRequest(requestNoti.delete, API_PATH.READ_NOTIFICATION(notiId));
 };
 
 export const useDeleteNotification = (options: IOptionsRequest) => {

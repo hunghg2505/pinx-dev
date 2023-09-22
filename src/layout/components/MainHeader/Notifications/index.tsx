@@ -21,7 +21,20 @@ import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from './index.module.scss';
-import { useDeleteNotification, useGetNotificationCount, useGetNotificationList, useReadNotification } from './service';
+import { useDeleteNotification, useGetNotificationCount, useGetNotificationList, useReadAllNotification, useReadNotification } from './service';
+
+const EmptyNotification = () => {
+  const { t } = useTranslation('common');
+
+  return (
+    <div className='bg-[white] p-[12px]'>
+      <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
+        <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
+        <Text type='body-14-regular' className='text-[#999999] mt-3 text-center'>{t('no_recent_notification_desc')}</Text>
+      </div>
+    </div>
+  );
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const NotificationItem = ({
@@ -37,15 +50,11 @@ const NotificationItem = ({
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
-  const requestReadNotification = useReadNotification({
-    onSuccess: () => {
-      console.log('xxx requestReadNotification 123');
-    }
-  });
+  const requestReadNotification = useReadNotification({});
   const requestDeleteNotification = useDeleteNotification({
     onSuccess: () => {
       refreshNotiData && refreshNotiData();
-      console.log('xxx requestDeleteNotification 123');
+      refreshNotiCount && refreshNotiCount();
     }
   });
 
@@ -62,6 +71,9 @@ const NotificationItem = ({
 
   const onDeleteNoti = () => {
     requestDeleteNotification.run(notification.id);
+    // setTimeout(() => {
+    //   refreshNotiCount && refreshNotiCount();
+    // }, 300);
   };
 
   return (
@@ -107,40 +119,56 @@ const NotificationTabs = ({
   const { t } = useTranslation('common');
   const defaultActiveTab = 'userNoti';
   const { data: notiData, refresh: refreshNotiData } = useGetNotificationList({});
+  const userNoti = notiData?.data.filter((item: any) => item.type !== 'PINETREE_MKT');
+  const pinetreeNoti = notiData?.data.filter((item: any) => item.type === 'PINETREE_MKT');
 
   return (
     <Tabs defaultActiveKey={defaultActiveTab} className={styles.tabLogin}>
-      <TabPane tab='Other' key='userNoti'>
-        <div className={styles.notiList}>
-          {notiData?.data.map((item: any) => (
-            <NotificationItem
-              notification={item}
-              key={item.id}
-              onCloseNotiDropdown={onCloseNotiDropdown}
-              refreshNotiCount={refreshNotiCount}
-              refreshNotiData={refreshNotiData}
-            />
-          ))}
-        </div>
+      <TabPane tab={t('notice')} key='userNoti'>
+        {userNoti?.length > 0 ? (
+          <div className={styles.notiList}>
+            {userNoti.map((item: any) => (
+              <NotificationItem
+                notification={item}
+                key={item.id}
+                onCloseNotiDropdown={onCloseNotiDropdown}
+                refreshNotiCount={refreshNotiCount}
+                refreshNotiData={refreshNotiData}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyNotification />
+        )}
       </TabPane>
       <TabPane tab='Pinetree' key='pinetreeNoti'>
-        <div className='bg-[white] p-[12px]'>
-          <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
-            <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-            <Text type='body-14-regular' className='text-[#999999] mt-3'>{t('no_recent_notification_desc')}</Text>
+        {pinetreeNoti?.length > 0 ? (
+          <div className={styles.notiList}>
+            {pinetreeNoti.map((item: any) => (
+              <NotificationItem
+                notification={item}
+                key={item.id}
+                onCloseNotiDropdown={onCloseNotiDropdown}
+                refreshNotiCount={refreshNotiCount}
+                refreshNotiData={refreshNotiData}
+              />
+            ))}
           </div>
-        </div>
+        ) : (
+          <EmptyNotification />
+        )}
       </TabPane>
     </Tabs>
   );
 };
 
-const NotificationsMobile = forwardRef((_, ref) => {
+const NotificationsMobile = forwardRef(({ refreshNotiCount }: { refreshNotiCount?: () => void }, ref) => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const [openNotification, setOpenNotification] = useAtom(notificationMobileAtom);
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
   const [, setIsShowNavigate] = useSidebarMobile();
+  const requestReadAllNotification = useReadAllNotification({});
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
@@ -160,6 +188,10 @@ const NotificationsMobile = forwardRef((_, ref) => {
   }, [openNotification]);
 
   useImperativeHandle(ref, () => ({ onVisible }));
+
+  const readAllNoti = () => {
+    requestReadAllNotification.run();
+  };
 
   return (
     <Fade
@@ -181,7 +213,7 @@ const NotificationsMobile = forwardRef((_, ref) => {
           />
           <Text type='body-20-semibold'>{t('notification')}</Text>
         </div>
-        <div className='flex items-center cursor-pointer' onClick={() => console.log('xxx read all')}>
+        <div className='flex items-center cursor-pointer' onClick={readAllNoti}>
           <img
             src='/static/icons/blue_check_mark.svg'
             alt=''
@@ -194,9 +226,8 @@ const NotificationsMobile = forwardRef((_, ref) => {
 
       </div>
       <div className='mt-4'>
-        <NotificationTabs />
+        <NotificationTabs refreshNotiCount={refreshNotiCount} />
       </div>
-
     </Fade>
   );
 });
@@ -207,11 +238,7 @@ const Notifications = () => {
   const { isMobile } = useResponsive();
   const [dropdownVisible, setdropdownVisible] = useState(false);
   const { notiCount, refreshNotiCount } = useGetNotificationCount();
-  const requestReadNotification = useReadNotification({
-    onSuccess: () => {
-      console.log('xxx requestReadNotification 234');
-    }
-  });
+  const requestReadAllNotification = useReadAllNotification({});
 
   const notiMobileRef = useRef<any>(null);
 
@@ -227,13 +254,17 @@ const Notifications = () => {
     notiMobileRef.current.onVisible && notiMobileRef.current.onVisible();
   };
 
+  const readAllNoti = () => {
+    requestReadAllNotification.run();
+  };
+
   const NotificationOverlay = () => (
     <div className='w-[375px] rounded-lg border-none bg-white py-[20px] shadow-md'>
       <div className='flex justify-between mb-[20px] px-5' >
         <Text type='body-20-semibold'>
           {t('notification')}
         </Text>
-        <div className='flex items-center cursor-pointer' onClick={() => console.log('xxx read all')}>
+        <div className='flex items-center cursor-pointer' onClick={readAllNoti}>
           <img
             src='/static/icons/blue_check_mark.svg'
             alt=''
@@ -282,7 +313,7 @@ const Notifications = () => {
                 />
               </div>
             </Dropdown>
-            <div className='absolute bg-[#FF3B3B] rounded-full top-0 right-[-5px]' onClick={() => requestReadNotification.run('db4e7eb1-560a-4003-933d-a2793a422b9d')}>
+            <div className='absolute bg-[#FF3B3B] rounded-full top-0 right-[-5px]'>
               <Text className='text-[10px] font-[700] text-white px-1'>{notiCount}</Text>
             </div>
           </div>
@@ -298,7 +329,7 @@ const Notifications = () => {
   return (
     <>
       <NotificationBadge />
-      {isMobile && (<NotificationsMobile ref={notiMobileRef} />)}
+      {isMobile && (<NotificationsMobile ref={notiMobileRef} refreshNotiCount={refreshNotiCount} />)}
     </>
   );
 };
