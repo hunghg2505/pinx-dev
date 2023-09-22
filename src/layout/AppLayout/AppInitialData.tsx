@@ -6,7 +6,6 @@ import Script from 'next/script';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
-import { usePreserveScroll } from '@hooks/usePreserveScroll';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
@@ -98,8 +97,6 @@ const AppInitialData = () => {
   useEffect(() => {
     storeInSession();
   }, [storeInSession]);
-
-  usePreserveScroll();
 
   return (
     <>

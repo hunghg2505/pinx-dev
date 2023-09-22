@@ -23,6 +23,7 @@ const TrendingOnnPinex = ({ data, refreshTrendingOnPinex }: IProps) => {
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${dataPost?.id}`);
+    globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
   };
   const { commentsOfPost } = useCommentsOfPost(String(dataPost?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
