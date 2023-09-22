@@ -385,11 +385,11 @@ export const imageStock = (stock_code: string) => {
 };
 
 export const enableScroll = () => {
-  document.body.style.overflow = 'scroll';
+  document.body.style.cssText = 'overflow-y:overlay !important';
 };
 
 export const disableScroll = () => {
-  document.body.style.overflow = 'hidden';
+  document.body.style.cssText = 'overflow-y:hidden !important';
 };
 
 export const isValidURL = (urlString: any) => {
