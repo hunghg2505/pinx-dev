@@ -52,7 +52,7 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
-  MY_PROFILE_FOLLOW: '/profile/my-profile/follow',
+  MY_PROFILE_FOLLOW: (tab: string) => `/profile/my-profile/follow?tab=${tab}`,
   MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
   MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
   EDIT_MY_PROFILE: '/profile/my-profile/edit',

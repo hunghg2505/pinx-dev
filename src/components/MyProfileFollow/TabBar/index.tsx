@@ -1,20 +1,18 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { useTranslation } from 'next-i18next';
 
 import { ROUTE_PATH } from '@utils/common';
 
 interface ITabBarProps {
   tabKey: string;
+  tabName: string;
   onTabChange: (v: string) => void;
   activeTab: string;
   setFullName: (v: string) => void;
 }
 
-const TabBar = ({ tabKey, onTabChange, activeTab, setFullName }: ITabBarProps) => {
-  const { t } = useTranslation('profile');
-
+const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBarProps) => {
   return (
     <>
       <span
@@ -27,7 +25,7 @@ const TabBar = ({ tabKey, onTabChange, activeTab, setFullName }: ITabBarProps) =
         onClick={() => {
           onTabChange(tabKey);
           setFullName('');
-          const newPath = ROUTE_PATH.MY_PROFILE_FOLLOW;
+          const newPath = ROUTE_PATH.MY_PROFILE_FOLLOW(tabKey);
           let currentLocale = window.history.state?.options?.locale;
           currentLocale = currentLocale === 'en' ? '/en' : '';
 
@@ -42,7 +40,7 @@ const TabBar = ({ tabKey, onTabChange, activeTab, setFullName }: ITabBarProps) =
           );
         }}
       >
-        {t(tabKey)}
+        {tabName}
       </span>
     </>
   );

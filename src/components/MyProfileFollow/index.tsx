@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 
@@ -12,6 +13,7 @@ import TabBar from './TabBar';
 const Follower = dynamic(() => import('./Follower'), { ssr: false });
 const Following = dynamic(() => import('./Following'), { ssr: false });
 const ProfileFollow = () => {
+  const { t } = useTranslation('profile');
   const [fullName, setFullName] = useState('');
   const [activeTab, setActiveTab] = useState<string>(ProfileTabKey.FOLLOWERS);
   const router = useRouter();
@@ -36,12 +38,14 @@ const ProfileFollow = () => {
           galaxy-max:justify-between galaxy-max:gap-0 '
           >
             <TabBar
+              tabName={t('followers')}
               activeTab={activeTab}
               onTabChange={setActiveTab}
               tabKey={ProfileTabKey.FOLLOWERS}
               setFullName={setFullName}
             />
             <TabBar
+              tabName={t('following')}
               activeTab={activeTab}
               onTabChange={setActiveTab}
               tabKey={ProfileTabKey.FOLLOWING}

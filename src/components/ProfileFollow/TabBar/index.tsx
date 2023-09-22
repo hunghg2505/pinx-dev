@@ -2,19 +2,18 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
 
 import { ROUTE_PATH } from '@utils/common';
 
 interface ITabBarProps {
   tabKey: string;
+  tabName: string;
   onTabChange: (v: string) => void;
   activeTab: string;
   setFullName: (v: string) => void;
 }
 
-const TabBar = ({ tabKey, onTabChange, activeTab, setFullName }: ITabBarProps) => {
-  const { t } = useTranslation('profile');
+const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBarProps) => {
   const router = useRouter();
   const { id }: any = router.query;
 
@@ -45,7 +44,7 @@ const TabBar = ({ tabKey, onTabChange, activeTab, setFullName }: ITabBarProps) =
           );
         }}
       >
-        {t(tabKey)}
+        {tabName}
       </span>
     </>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { useDebounce } from 'ahooks';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 
@@ -11,22 +10,20 @@ import SearchIcon from './SearchIcon';
 
 interface ISearchProps {
   onSearchChange: (fullName: string) => void;
+  fullName: string;
 }
 
-const Search = ({ onSearchChange }: ISearchProps) => {
+const Search = ({ onSearchChange, fullName: fullNameProps }: ISearchProps) => {
   const { t } = useTranslation('profile');
-  const router = useRouter();
-  const { tab } = router.query;
   const [fullName, setFullName] = useState('');
   const [form] = Form.useForm();
   const debouncedValue = useDebounce(fullName, { wait: 500 });
 
   useEffect(() => {
-    return () => {
-      form.resetFields();
-      onSearchChange('');
-    };
-  }, [tab]);
+    form.setFieldsValue({
+      fullName: fullNameProps,
+    });
+  }, [fullNameProps]);
 
   useEffect(() => {
     onSearchChange(debouncedValue);
