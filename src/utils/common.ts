@@ -1052,3 +1052,19 @@ export const formatMsgPost = (title: string) => {
 
   return titleFormat;
 };
+
+export const getHostName = (headers: any) => {
+  if (!headers) {
+    return '';
+  }
+
+  let protocol: string = headers['x-forwarded-proto'];
+  const protocolToArr = protocol?.split(',');
+  const findProtocol = protocolToArr.find((item) => item === 'https');
+
+  protocol = findProtocol || protocolToArr[0];
+
+  const host = protocol + '://' + headers.host;
+
+  return host;
+};
