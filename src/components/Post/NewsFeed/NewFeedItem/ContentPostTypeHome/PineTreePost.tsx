@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { formatMsgPost } from '@utils/common';
 
 const ImageHeadPost = dynamic(
   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
@@ -99,8 +100,8 @@ export const PineTreePost = ({
             className='absolute left-0 top-0 z-[1]  h-full w-full'
           >
             <ImageHeadPost
-              alt={postDetail?.seoMetadata?.imageSeo?.alt}
-              title={postDetail?.seoMetadata?.imageSeo?.title}
+              alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
+              title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               headImageUrl={postDetail?.post?.headImageUrl}
             />
           </CustomLink>
