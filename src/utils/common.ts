@@ -62,6 +62,8 @@ export const ROUTE_PATH = {
   WATCHLIST: '/watchlist',
   PROFILE_PATH: '/profile',
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
+  PROFILE_DETAIL_FOLLOW: (id: number, tab: string) =>
+    `${ROUTE_PATH.PROFILE_PATH}/${id}/follow?tab=${tab}`,
 };
 
 export const formatMessage = (message: string) => {

@@ -26,7 +26,7 @@ const Mobile = () => {
     if (tab) {
       setActiveTab(tab);
     }
-  }, [tab]);
+  }, [tab, router]);
 
   return (
     <div id={'tabbar'}>
@@ -42,14 +42,18 @@ const Mobile = () => {
                 onChange={(key: string) => {
                   setActiveTab(key);
                   const newPath = ROUTE_PATH.MY_PROFILE;
+
+                  let currentLocale = window.history.state?.options?.locale;
+                  currentLocale = currentLocale === 'en' ? '/en' : '';
+
                   window.history.replaceState(
                     {
                       ...window.history.state,
                       as: newPath,
-                      url: newPath,
+                      url: currentLocale + newPath,
                     },
                     '',
-                    newPath,
+                    currentLocale + newPath,
                   );
 
                   // tracking

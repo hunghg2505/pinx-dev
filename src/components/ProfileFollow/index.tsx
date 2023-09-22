@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
 
-// import HeaderMobile from '@components/common/HeaderMobile';
 import ModalPage from '@components/ModalPage';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 
 import Back from './Back';
-// import NotFound from './NotFound';
 import Search from './Search';
 import TabBar from './TabBar';
 
 const Follower = dynamic(() => import('./Follower'));
 const Following = dynamic(() => import('./Following'));
 const ProfileFollow = () => {
-  const searchParams = useSearchParams();
   const [fullName, setFullName] = useState('');
+  const [activeTab, setActiveTab] = useState<string>(ProfileTabKey.FOLLOWERS);
 
   return (
     <>
@@ -27,13 +25,23 @@ const ProfileFollow = () => {
         </header>
         <main className='px-[16px]'>
           <div className='mb-[20px] flex gap-[32px] galaxy-max:justify-between  galaxy-max:gap-0 '>
-            <TabBar tabKey='followers' />
-            <TabBar tabKey='following' />
+            <TabBar
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              setFullName={setFullName}
+              tabKey={ProfileTabKey.FOLLOWERS}
+            />
+            <TabBar
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              setFullName={setFullName}
+              tabKey={ProfileTabKey.FOLLOWING}
+            />
           </div>
           <Search onSearchChange={setFullName} />
           <div>
-            {searchParams.get('tab') === 'followers' && <Follower fullName={fullName} />}
-            {searchParams.get('tab') === 'following' && <Following fullName={fullName} />}
+            {activeTab === ProfileTabKey.FOLLOWERS && <Follower fullName={fullName} />}
+            {activeTab === ProfileTabKey.FOLLOWING && <Following fullName={fullName} />}
           </div>
         </main>
       </div>
