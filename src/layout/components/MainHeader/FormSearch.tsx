@@ -77,7 +77,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
-  const { data, run: searchPublic, loading, refresh } = useSearchPublic();
+  const { data, run: searchPublic, loading, refresh, mutate } = useSearchPublic();
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
   // const [showRecent, setShowRecent] = React.useState(false);
@@ -192,6 +192,18 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
     form.setFieldValue('search', data);
     form.submit();
   };
+  const onRemoveData = (postId: any) => () => {
+    // mutate
+    mutate({
+      data: {
+        ...data.data,
+        postList: {
+          ...data.data.postList,
+          list: posts?.filter((item: any) => item?.id !== postId),
+        },
+      },
+    });
+  };
 
   const companies = data?.data?.companyList?.list || [];
   const users = data?.data?.customerList?.list || [];
@@ -279,7 +291,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           </>
         )}
         {/* End Khi nhập input show button close clear data */}
-        <div ref={ref}>
+        <div>
           <Form
             ref={refForm}
             className={classNames('pr-[10px] laptop:pr-0', {
@@ -292,6 +304,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           >
             <FormItem name='search'>
               <Input
+                ref={ref}
                 className={classNames(
                   'h-[40px] max-w-full rounded-[8px] border pl-[36px] pr-[12px] outline-none transition-all duration-300 ease-in-out',
                   {
@@ -451,6 +464,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                             onTrackingViewTicker={(stockCode) =>
                               handleTrackingViewStockInfo(stockCode, 'Post')
                             }
+                            onRemoveData={onRemoveData(post.id)}
                           />
                         );
                       })}
