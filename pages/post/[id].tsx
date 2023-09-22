@@ -74,12 +74,15 @@ export async function getServerSideProps({ locale, params, req }: any) {
   const id = params?.id;
   const postDetail = await fetchPostDetailFromServer(id);
 
-  const url = req?.headers?.referer;
-  let host = '';
-  if (url) {
-    const arr = url?.split('/');
-    host = `${arr[0]}//${arr[2]}`;
-  }
+  // const url = req?.headers?.referer;
+  // let host = '';
+  // if (url) {
+  // const arr = url?.split('/');
+  // host = `${arr[0]}//${arr[2]}`;
+  // }
+
+  const protocol = req.headers['x-forwarded-proto'];
+  const host = protocol + '://' + req.headers.host;
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
