@@ -9,6 +9,7 @@ import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { usePreserveScroll } from '@hooks/usePreserveScroll';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
@@ -22,6 +23,7 @@ import { ENV } from '@utils/env';
 import { getMessagingToken } from 'src/firebase';
 
 const AppInitialData = () => {
+  const { isLogin } = useLogin();
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
   const { requestProfleSetting } = useProfileSettingInitial();
@@ -41,12 +43,20 @@ const AppInitialData = () => {
     // getInitDataStockWatchlistHome();
     run();
     getInitDataStockMarketHome();
+    // getMessagingToken().then((firebaseToken) => {
+    //   requestGetNotificationToken.run({
+    //     deviceToken: firebaseToken
+    //   });
+    // });
+  });
+
+  useEffect(() => {
     getMessagingToken().then((firebaseToken) => {
       requestGetNotificationToken.run({
         deviceToken: firebaseToken
       });
     });
-  });
+  }, [isLogin]);
 
   useUpdateEffect(() => {
     if (!userLoginInfo?.id) {

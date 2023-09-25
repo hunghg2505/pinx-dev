@@ -18,7 +18,7 @@
       overflow-x: hidden;
 
       @media (min-width: 1024px) {
-        max-height: 500px;
+        max-height: 50vh;
         overflow-y: scroll;
         margin: 0;
         box-shadow: none;
@@ -67,4 +67,8 @@
       border-bottom-right-radius: 8px;
     }
   }
+}
+
+.customDropdown {
+  position: fixed;
 }
