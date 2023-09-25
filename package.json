@@ -24,6 +24,8 @@
     "dayjs": "^1.11.4",
     "firebase": "^10.3.1",
     "jotai": "^2.2.0",
+    "mixpanel": "^0.18.0",
+    "net": "^1.0.2",
     "next": "^13.4.7",
     "next-i18next": "^11.0.0",
     "rc-checkbox": "^3.0.1",
@@ -50,6 +52,7 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",
     "tippy.js": "^6.3.7",
+    "tls": "^0.0.1",
     "umi-request": "^1.2.3"
   },
   "devDependencies": {

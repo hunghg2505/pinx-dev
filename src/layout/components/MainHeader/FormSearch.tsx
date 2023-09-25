@@ -34,8 +34,9 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import styles1 from './index.module.scss';
 
@@ -50,7 +51,7 @@ const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
 
 // tracking event get more info
 const handleTrackingGetMoreInfo = (infoGr: string, infoDetail: string) => {
-  GetMoreInfo('Search seo box', infoGr, infoDetail);
+  getMoreInfoTracking('Search seo box', infoGr, infoDetail);
 };
 
 const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {

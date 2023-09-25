@@ -1,4 +1,5 @@
 declare const window: any;
+// hihi
 
 export const openWeb = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
   try {

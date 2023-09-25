@@ -15,7 +15,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-import { LoginTracking } from '@utils/dataLayer';
+import { loginTracking } from 'src/mixpanel/mixpanel';
 
 import { useLogin } from './service';
 
@@ -50,7 +50,7 @@ const Login = (props: Iprops) => {
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
-        LoginTracking(
+        loginTracking(
           'Login',
           loginData.cif,
           loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified',
@@ -79,7 +79,7 @@ const Login = (props: Iprops) => {
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
-      LoginTracking('Failed', '', '', '', date, '');
+      loginTracking('Failed', '', '', '', date, '');
     },
   });
 

@@ -17,8 +17,9 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
-import { NavigateSection, ViewWatchlist, ViewAsset } from '@utils/dataLayer';
+import { ViewWatchlist, ViewAsset } from '@utils/dataLayer';
 import { BANNER_URL } from 'src/constant';
+import { navigateSectionTracking } from 'src/mixpanel/mixpanel';
 
 import {
   IconAssets,
@@ -156,7 +157,7 @@ const SideBar = () => {
               }
 
               // tracking navigate section
-              NavigateSection(menu.label);
+              navigateSectionTracking(menu.label);
 
               // tracking event view watch list
               if (menu.path === ROUTE_PATH.WATCHLIST) {

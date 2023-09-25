@@ -22,7 +22,8 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import { AddTicker, AnalyzeTicker, GetMoreInfo, RemoveTicker } from '@utils/dataLayer';
+import { AddTicker, AnalyzeTicker, RemoveTicker } from '@utils/dataLayer';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 import ActivityItem from './ActivityItem';
@@ -637,7 +638,7 @@ const StockDetail = () => {
                 <button
                   onClick={() => {
                     handleAnalyze('Stock rating');
-                    GetMoreInfo('Stock detail screen', 'Review', 'List review of company');
+                    getMoreInfoTracking('Stock detail screen', 'Review', 'List review of company');
                   }}
                   className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
                 >
