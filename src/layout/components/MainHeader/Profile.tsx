@@ -112,7 +112,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
               alt={t('upgrade_account')}
               className='mx-auto mb-[12px] h-[150px] w-[150px] object-contain'
             />
-            <MainButton className='px-12' onClick={() => handleRedirect(DEEP_LINK.OPEN_APP)}>
+            <MainButton className='px-12' onClick={() => handleRedirect(DEEP_LINK.SIGNUP)}>
               {t('upgrade_account')}
             </MainButton>
           </div>
