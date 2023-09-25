@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import { profileUserContext } from '@components/Profile';
+import { ROUTE_PATH } from '@utils/common';
 import { ViewAsset } from '@utils/dataLayer';
 
 import Assets from '../Assets';
@@ -17,9 +18,16 @@ import WatchList from '../WatchList';
 
 const Desktop = () => {
   const { t } = useTranslation('profile');
-  const searchParams = useSearchParams();
-  const { replace, query } = useRouter();
+  const [activeTab, setActiveTab] = useState<string>(ProfileTabKey.POSTS);
+  const router = useRouter();
+  const { tab }: any = router.query;
   const profileUser = useContext<any>(profileUserContext);
+
+  useEffect(() => {
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
 
   if (!profileUser?.id) {
     return <></>;
@@ -27,8 +35,7 @@ const Desktop = () => {
 
   return (
     <Tabs
-      defaultActiveKey='1'
-      activeKey={searchParams.get('tab') || 'post'}
+      activeKey={activeTab}
       className='tabHome'
       renderTabBar={(props: any) => {
         return (
@@ -37,35 +44,49 @@ const Desktop = () => {
               list={props?.panes}
               activeKey={props?.activeKey}
               onChange={(key: string) => {
-                if (key === 'assets') {
+                setActiveTab(key);
+                const newPath = ROUTE_PATH.PROFILE_DETAIL(profileUser?.id);
+
+                let currentLocale = window.history.state?.options?.locale;
+                currentLocale = currentLocale === 'en' ? '/en' : '';
+
+                window.history.replaceState(
+                  {
+                    ...window.history.state,
+                    as: newPath,
+                    url: currentLocale + newPath,
+                  },
+                  '',
+                  currentLocale + newPath,
+                );
+
+                if (key === ProfileTabKey.ASSETS) {
                   // tracking event view assets
                   ViewAsset('Tab assets user detail', 'Asset Overview');
                 }
-
-                replace({ query: { id: query.id, tab: key } });
               }}
             />
           </>
         );
       }}
-      onChange={(key: string) => {
-        replace({ query: { ...query, tab: key } });
-      }}
     >
-      <TabPane tab={t('posts')} key='post'>
+      <TabPane tab={t('posts')} key={ProfileTabKey.POSTS}>
         <Posts />
       </TabPane>
-      <TabPane tab={t('watchlist')} key='watchlist'>
+      <TabPane tab={t('watchlist')} key={ProfileTabKey.WATCH_LIST}>
         <WatchList />
       </TabPane>
-      <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
+      <TabPane
+        tab={<div className='flex justify-center'>{t('assets')}</div>}
+        key={ProfileTabKey.ASSETS}
+      >
         <Assets />
       </TabPane>
 
-      <TabPane tab={t('following')} key='following'>
+      <TabPane tab={t('following')} key={ProfileTabKey.FOLLOWING}>
         <Following key={profileUser?.totalFollowing} />
       </TabPane>
-      <TabPane tab={t('followers')} key='followers'>
+      <TabPane tab={t('followers')} key={ProfileTabKey.FOLLOWERS}>
         <Follower key={profileUser?.totalFollower} />
       </TabPane>
     </Tabs>

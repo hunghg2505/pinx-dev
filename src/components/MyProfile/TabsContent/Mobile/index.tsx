@@ -1,29 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
+import { ROUTE_PATH } from '@utils/common';
 import { ViewAsset, ViewWatchlist } from '@utils/dataLayer';
 
 import Assets from '../Assets';
+import { ProfileTabKey } from '../Desktop';
 import Posts from '../Posts';
 import WatchList from '../WatchList';
 
 const Mobile = () => {
   const watchList = useAtomValue(stockSocketAtom);
   const { t } = useTranslation('profile');
-  const searchParams = useSearchParams();
-  const { replace, query } = useRouter();
+  const router = useRouter();
+  const { tab }: any = router.query;
+  const [activeTab, setActiveTab] = useState<string>(ProfileTabKey.POSTS);
+
+  useEffect(() => {
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [tab, router]);
+
   return (
     <div id={'tabbar'}>
       <Tabs
-        defaultActiveKey='1'
-        activeKey={searchParams.get('tab') || 'post'}
+        activeKey={activeTab}
         className='tabHome'
         renderTabBar={(props: any) => {
           return (
@@ -32,8 +40,24 @@ const Mobile = () => {
                 list={props?.panes}
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
+                  setActiveTab(key);
+                  const newPath = ROUTE_PATH.MY_PROFILE;
+
+                  let currentLocale = window.history.state?.options?.locale;
+                  currentLocale = currentLocale === 'en' ? '/en' : '';
+
+                  window.history.replaceState(
+                    {
+                      ...window.history.state,
+                      as: newPath,
+                      url: currentLocale + newPath,
+                    },
+                    '',
+                    currentLocale + newPath,
+                  );
+
                   // tracking
-                  if (key === 'watchlist') {
+                  if (key === ProfileTabKey.WATCH_LIST) {
                     const listStockCodes =
                       watchList.find(
                         (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
@@ -48,29 +72,28 @@ const Mobile = () => {
                     );
                   }
 
-                  if (key === 'assets') {
+                  if (key === ProfileTabKey.ASSETS) {
                     // tracking event view assets
                     ViewAsset('Tab assets my profile', 'Asset Overview');
                   }
-                  replace({ hash: '#tabbar', query: { ...query, tab: key } });
                 }}
               />
             </>
           );
         }}
-        onChange={(key: string) => {
-          replace({ query: { ...query, tab: key } });
-        }}
       >
-        <TabPane tab={t('posts')} key='post'>
+        <TabPane tab={t('posts')} key={ProfileTabKey.POSTS}>
           <Posts />
         </TabPane>
-        <TabPane tab={t('watchlist')} key='watchlist'>
+        <TabPane tab={t('watchlist')} key={ProfileTabKey.WATCH_LIST}>
           <div>
             <WatchList />
           </div>
         </TabPane>
-        <TabPane tab={<div className='flex justify-center'>{t('assets')}</div>} key='assets'>
+        <TabPane
+          tab={<div className='flex justify-center'>{t('assets')}</div>}
+          key={ProfileTabKey.ASSETS}
+        >
           <div className='pb-[50px] tablet:pb-0'>
             <Assets />
           </div>
