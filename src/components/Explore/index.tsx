@@ -14,8 +14,11 @@ import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
-import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
+import {
+  getMoreInfoTracking,
+  viewStockListTracking,
+  viewTickerInfoTracking,
+} from 'src/mixpanel/mixpanel';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
@@ -71,12 +74,12 @@ const settings = {
 };
 
 const handleTrackingViewListStock = (presetName: string) => {
-  ViewStockList(presetName, '', 'Basic category', 'Explore screen');
+  viewStockListTracking(presetName, '', 'Basic category', 'Explore screen');
 };
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
-  ViewTickerInfo(stockCode, 'Explore screen', location, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Explore screen', location, 'Stock');
 };
 
 // tracking event get more info

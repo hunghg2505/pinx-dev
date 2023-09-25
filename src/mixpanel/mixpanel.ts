@@ -1,8 +1,8 @@
-import Mixpanel from 'mixpanel';
+import mixpanel from 'mixpanel-browser';
 
 import { MIXPANEL_PROJECT_TOKEN } from 'src/constant';
 
-const mixpanel = Mixpanel.init(MIXPANEL_PROJECT_TOKEN);
+mixpanel.init(MIXPANEL_PROJECT_TOKEN);
 
 export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
   mixpanel.track('Open Web', {
@@ -47,6 +47,7 @@ export const navigateSectionTracking = (navigate: string) => {
     'Navigate To': navigate,
   });
 };
+
 export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoDetail: string) => {
   mixpanel.track('Get More Info', {
     'Screen Name': screenName,
@@ -54,6 +55,7 @@ export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoD
     'Info Detail': infoDetail,
   });
 };
+
 export const registerTracking = (startRegistration: Date, CTALocation: string, CTAType: string) => {
   mixpanel.track('Register', {
     'KYC Status': 'Start Register Account',
@@ -62,6 +64,7 @@ export const registerTracking = (startRegistration: Date, CTALocation: string, C
     'Start Registration Date': startRegistration,
   });
 };
+
 export const completeBasicInfoTracking = (
   submitStatus: string,
   errCode: string,
@@ -80,6 +83,7 @@ export const completeBasicInfoTracking = (
     Username: userName,
   });
 };
+
 export const createLoginNameTracking = (
   submitStatus: string,
   username: string,
@@ -94,6 +98,7 @@ export const createLoginNameTracking = (
     'Error Code': errCode,
   });
 };
+
 export const confirmPhoneNumberTracking = (
   submitStatus: string,
   errMessage: string,
@@ -119,11 +124,13 @@ export const confirmPhoneNumberTracking = (
     Username: username,
   });
 };
+
 export const resendSMSTracking = (phone: string) => {
   mixpanel.track('Resend SMS', {
     'Phone Number': phone,
   });
 };
+
 export const investmentPreferenceTracking = (company: any, industry: any, topic: any) => {
   mixpanel.track('Investment Preference', {
     'Company Of Interest': company,
@@ -163,6 +170,7 @@ export const addTickerTracking = (
     'Number of Ticker': numberOfTicker,
   });
 };
+
 export const modifyWatchListTracking = (
   tickerAdded: string[],
   tickerRemoved: string[],
@@ -178,6 +186,7 @@ export const modifyWatchListTracking = (
     'Number of Ticker': numberOfTicker,
   });
 };
+
 export const viewWatchListTracking = (
   watchListName: string,
   watchListType: string,
@@ -193,6 +202,7 @@ export const viewWatchListTracking = (
     'Watchlist View Location': watchListViewLocation,
   });
 };
+
 export const viewStockListTracking = (
   presetName: string,
   presetGroup: string,
@@ -206,6 +216,7 @@ export const viewStockListTracking = (
     'List Location': listLocation,
   });
 };
+
 export const viewTickerInfoTracking = (
   ticker: string,
   tickerLocation: string,
@@ -219,6 +230,7 @@ export const viewTickerInfoTracking = (
     'Ticker Type': tickerType,
   });
 };
+
 export const analyzeTickerTracking = (ticker: string, infoType: string, infoGroup: string) => {
   mixpanel.track('Analyze Ticker', {
     Ticker: ticker,
@@ -226,6 +238,7 @@ export const analyzeTickerTracking = (ticker: string, infoType: string, infoGrou
     'Info Group': infoGroup,
   });
 };
+
 export const readNewsTracking = (
   newsType: string,
   newsSource: string,
@@ -241,9 +254,11 @@ export const readNewsTracking = (
     'News Location': newsLocation,
   });
 };
+
 export const filterNewsTracking = () => {
   mixpanel.track('Filter News');
 };
+
 export const contactPinetreeTracking = (
   contactEmail: string,
   contactPhone: string,
@@ -259,6 +274,7 @@ export const contactPinetreeTracking = (
     'Has Screenshot': hasScreenshot,
   });
 };
+
 export const searchTracking = (
   searchTerm: string,
   ticker: string,
@@ -274,20 +290,24 @@ export const searchTracking = (
     'Search Bar Location': searchBarLocation,
   });
 };
+
 export const viewAssetTracking = (buttonLocation: string, assetDetail: string) => {
   mixpanel.track('View Asset', {
     'Button Location': buttonLocation,
     'Asset Detail': assetDetail,
   });
 };
+
 export const analyzeAssetTracking = (assetInfo: string) => {
   mixpanel.track('AnalyzeAsset', {
     'Asset Info': assetInfo,
   });
 };
+
 export const getDepositInfoTracking = () => {
   mixpanel.track('Get Deposit Info');
 };
+
 export const clickAPostTracking = (
   postId: string,
   postType: string,
@@ -305,11 +325,13 @@ export const clickAPostTracking = (
     Theme: theme,
   });
 };
+
 export const allowNotificationTracking = (allowNotification: string) => {
   mixpanel.track('Allow Notification', {
     'App Notification': allowNotification,
   });
 };
+
 export const downloadPineXAppTracking = (CTAType?: string, registerCTALocation?: string) => {
   mixpanel.track('Download PineX App', {
     'KYC Status': 'Start Activate VSD Account',
@@ -317,6 +339,12 @@ export const downloadPineXAppTracking = (CTAType?: string, registerCTALocation?:
     'Register CTA Location': registerCTALocation,
   });
 };
+
 export const closeWebTracking = () => {
   mixpanel.track('Close Web');
+};
+
+// identify user
+export const mixpanelIdentifyUser = (cif: string) => {
+  mixpanel.identify(cif);
 };

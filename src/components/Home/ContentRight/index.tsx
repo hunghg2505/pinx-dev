@@ -15,15 +15,18 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
-import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
+import {
+  getMoreInfoTracking,
+  viewTickerInfoTracking,
+  viewWatchListTracking,
+} from 'src/mixpanel/mixpanel';
 
 import MarketDesktop from '../Market/MarketDesktop';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
 };
 
 const WatchList = () => {
@@ -36,7 +39,7 @@ const WatchList = () => {
       watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
         ?.stocks || [];
 
-    ViewWatchlist(
+    viewWatchListTracking(
       'Default',
       'Normal WL',
       listStockCodes,

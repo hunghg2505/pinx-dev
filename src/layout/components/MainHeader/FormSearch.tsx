@@ -34,19 +34,22 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
-import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
+import {
+  getMoreInfoTracking,
+  viewStockListTracking,
+  viewTickerInfoTracking,
+} from 'src/mixpanel/mixpanel';
 
 import styles1 from './index.module.scss';
 
 const handleTrackingViewStockList = () => {
-  ViewStockList('List company', '', 'Search seo', 'Header in layout');
+  viewStockListTracking('List company', '', 'Search seo', 'Header in layout');
 };
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
-  ViewTickerInfo(stockCode, 'Search seo box', location, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Search seo box', location, 'Stock');
 };
 
 // tracking event get more info

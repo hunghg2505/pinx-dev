@@ -22,8 +22,12 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import { AddTicker, AnalyzeTicker, RemoveTicker } from '@utils/dataLayer';
-import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
+import {
+  addTickerTracking,
+  analyzeTickerTracking,
+  getMoreInfoTracking,
+  removeTickerTracking,
+} from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 import ActivityItem from './ActivityItem';
@@ -346,9 +350,9 @@ const StockDetail = () => {
 
       // gtm
       if (isFollowedStock) {
-        RemoveTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+        removeTickerTracking(stockCode, 'Stock', 'Stock detail page', '', '');
       } else {
-        AddTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+        addTickerTracking(stockCode, 'Stock', 'Stock detail page', '', '');
       }
     },
   });
@@ -418,7 +422,7 @@ const StockDetail = () => {
 
   // gtm
   const handleAnalyze = (infoType: string) => {
-    AnalyzeTicker(stockCode, infoType, 'General');
+    analyzeTickerTracking(stockCode, infoType, 'General');
   };
 
   return (
@@ -533,7 +537,7 @@ const StockDetail = () => {
             setCurrentTab(tabKey);
 
             // gtm
-            AnalyzeTicker(stockCode, tabKey, 'price');
+            analyzeTickerTracking(stockCode, tabKey, 'price');
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>

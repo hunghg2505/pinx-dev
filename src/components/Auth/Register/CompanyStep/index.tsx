@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH, imageStock } from '@utils/common';
-import { ModifyWatchlist } from '@utils/dataLayer';
+import { modifyWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
 import {
@@ -63,7 +63,13 @@ const RegisterCompanyStep = () => {
         ...prev,
         selectedStock: params.toString().split(','),
       }));
-      ModifyWatchlist(stockHasAdd, unselectedStock, 'Default', myListStock, myListStock?.length);
+      modifyWatchListTracking(
+        stockHasAdd,
+        unselectedStock,
+        'Default',
+        myListStock,
+        myListStock?.length,
+      );
     },
   });
 

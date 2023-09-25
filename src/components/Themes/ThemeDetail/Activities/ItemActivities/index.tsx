@@ -9,13 +9,13 @@ import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import ActivitiesAction from '../ActivitiesAction';
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Modal comment theme activities', 'Comment', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Modal comment theme activities', 'Comment', 'Stock');
 };
 
 dayjs.extend(relativeTime);

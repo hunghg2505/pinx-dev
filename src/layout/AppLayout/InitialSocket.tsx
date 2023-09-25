@@ -7,7 +7,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { stockSocketAtom } from '@store/stockStocket';
 import { localStorageUtils } from '@utils/local-storage-utils';
-import { closeWebTracking, openWebTracking } from 'src/mixpanel/mixpanel';
+import { closeWebTracking, mixpanelIdentifyUser, openWebTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 const InitialSocket = () => {
@@ -63,6 +63,9 @@ const InitialSocket = () => {
     // tracking event open web
     const lastTimeVisit = new Date(localStorageUtils.get('lastTimeVisit') as string).toISOString();
     const cif = isLogin ? userLoginInfo?.cif : '';
+    if (cif) {
+      mixpanelIdentifyUser(cif);
+    }
     openWebTracking(isLogin, cif, lastTimeVisit);
     setIsTrackingOpenWeb(true);
   }, [isTrackingOpenWeb, userLoginInfo]);

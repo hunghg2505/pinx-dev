@@ -16,8 +16,11 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
-import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
+import {
+  getMoreInfoTracking,
+  viewStockListTracking,
+  viewTickerInfoTracking,
+} from 'src/mixpanel/mixpanel';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
@@ -25,12 +28,12 @@ import UserItem from './UserItem';
 import { useGetPopular, useGetSearchRecent, useSearchPublic } from '../service';
 
 const handleTrackingViewListStock = () => {
-  ViewStockList('List company', '', 'Research explore', 'Explore screen');
+  viewStockListTracking('List company', '', 'Research explore', 'Explore screen');
 };
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'Search explore box', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Search explore box', locationDetail, 'Stock');
 };
 
 // tracking event get more info

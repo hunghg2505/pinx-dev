@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import Tabs, { TabsEnum } from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import ChangeInPrice from './ChangeInPrice';
 import MarketCap from './MarketCap';
@@ -38,7 +38,7 @@ export const optionTab = [
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
-  ViewTickerInfo(stockCode, 'Pinex top 20 screen', location, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Pinex top 20 screen', location, 'Stock');
 };
 
 const PinexTop20 = () => {

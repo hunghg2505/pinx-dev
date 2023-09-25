@@ -24,8 +24,7 @@
     "dayjs": "^1.11.4",
     "firebase": "^10.3.1",
     "jotai": "^2.2.0",
-    "mixpanel": "^0.18.0",
-    "net": "^1.0.2",
+    "mixpanel-browser": "^2.47.0",
     "next": "^13.4.7",
     "next-i18next": "^11.0.0",
     "rc-checkbox": "^3.0.1",
@@ -52,7 +51,6 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",
     "tippy.js": "^6.3.7",
-    "tls": "^0.0.1",
     "umi-request": "^1.2.3"
   },
   "devDependencies": {
@@ -67,6 +65,7 @@
     "@tiptap/suggestion": "^2.0.3",
     "@total-typescript/ts-reset": "^0.4.2",
     "@types/crypto-js": "^4.1.1",
+    "@types/mixpanel-browser": "^2.47.2",
     "@types/node": "18.7.16",
     "@types/react": "18.0.18",
     "@types/react-beautiful-dnd": "^13.1.4",

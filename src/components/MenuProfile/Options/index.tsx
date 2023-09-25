@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewWatchlist } from '@utils/dataLayer';
+import { viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import Option from './Option';
 
@@ -21,7 +21,7 @@ const Options = () => {
       watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
         ?.stocks || [];
 
-    ViewWatchlist(
+    viewWatchListTracking(
       'Default',
       'Normal WL',
       listStockCodes,

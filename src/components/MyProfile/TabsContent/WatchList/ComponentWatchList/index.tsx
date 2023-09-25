@@ -9,14 +9,14 @@ import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 import NotFound from '../NotFound';
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'My profile screen', 'Watch list tab', 'Stock');
+  viewTickerInfoTracking(stockCode, 'My profile screen', 'Watch list tab', 'Stock');
 };
 
 interface IProps {

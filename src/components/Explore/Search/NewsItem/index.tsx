@@ -14,7 +14,7 @@ import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ReadNews } from '@utils/dataLayer';
+import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
 const IconLink2 = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'>
@@ -53,9 +53,14 @@ const NewsItem = ({
   const url = data?.post?.url;
   const onTrackingReadNews = () => {
     const curPostData = data?.post;
-    ReadNews(curPostData.postType, curPostData.vendorInfo.name, curPostData.category, curPostData.tagStocks, 'Search Box');
+    readNewsTracking(
+      curPostData.postType,
+      curPostData.vendorInfo.name,
+      curPostData.category,
+      curPostData.tagStocks,
+      'Search Box',
+    );
   };
-
 
   const renderThumbnail = () => {
     return data?.post?.thumbImageUrl ? (
