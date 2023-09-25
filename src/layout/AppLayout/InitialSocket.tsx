@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import { useEffect, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
@@ -7,8 +6,8 @@ import { requestJoinChannel, requestJoinIndex } from '@components/Home/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { stockSocketAtom } from '@store/stockStocket';
-import { CloseWeb, openWeb } from '@utils/dataLayer';
 import { localStorageUtils } from '@utils/local-storage-utils';
+import { closeWebTracking, openWebTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 const InitialSocket = () => {
@@ -46,7 +45,7 @@ const InitialSocket = () => {
     // tracking event close web
     const handleClose = () => {
       localStorageUtils.set('lastTimeVisit', new Date().toISOString());
-      CloseWeb();
+      closeWebTracking();
       return false;
     };
     window.addEventListener('beforeunload', handleClose);
@@ -64,7 +63,7 @@ const InitialSocket = () => {
     // tracking event open web
     const lastTimeVisit = new Date(localStorageUtils.get('lastTimeVisit') as string).toISOString();
     const cif = isLogin ? userLoginInfo?.cif : '';
-    openWeb(isLogin, cif, lastTimeVisit);
+    openWebTracking(isLogin, cif, lastTimeVisit);
     setIsTrackingOpenWeb(true);
   }, [isTrackingOpenWeb, userLoginInfo]);
 

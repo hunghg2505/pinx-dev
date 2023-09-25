@@ -14,7 +14,8 @@ import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import IPO from './IPO';
 import KeywordSearch from './KeywordSearch';
@@ -80,7 +81,7 @@ const handleTrackingViewTickerInfo = (stockCode: string, location: string) => {
 
 // tracking event get more info
 const handleTrackingGetMoreInfo = (infoGroup: string, infoDetail: string) => {
-  GetMoreInfo('Explore screen', infoGroup, infoDetail);
+  getMoreInfoTracking('Explore screen', infoGroup, infoDetail);
 };
 
 const Explore = () => {

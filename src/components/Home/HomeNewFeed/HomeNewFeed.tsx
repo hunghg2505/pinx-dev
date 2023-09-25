@@ -22,7 +22,8 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
-import { GetMoreInfo, ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
+import { ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import SuggestionPeople from './SuggestionPeople';
 import { useGetWatchList } from '../service';
@@ -202,7 +203,7 @@ const HomeNewFeed = () => {
     ViewWatchlist('Default', 'Normal WL', stockCodes, stockCodes.length, 'Home screen');
 
     // tracking event get more info
-    GetMoreInfo('Home screen', 'Watchlist', 'My watchlist');
+    getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
 
   return (

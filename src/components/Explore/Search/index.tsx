@@ -16,7 +16,8 @@ import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
-import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import CompanyItem from './CompanyItem';
 import NewsItem from './NewsItem';
@@ -34,7 +35,7 @@ const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => 
 
 // tracking event get more info
 const handleTrackingGetMoreInfo = (info: string, infoDetail: string) => {
-  GetMoreInfo('Search explore box', info, infoDetail);
+  getMoreInfoTracking('Search explore box', info, infoDetail);
 };
 
 const Search = (props: any, ref: any) => {

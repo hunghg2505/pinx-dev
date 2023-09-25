@@ -13,7 +13,8 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ClickaPost, GetMoreInfo } from '@utils/dataLayer';
+import { ClickaPost } from '@utils/dataLayer';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
@@ -170,7 +171,7 @@ const NewsFeed = (props: IProps) => {
       }
     }
 
-    GetMoreInfo(screen, 'Comment', 'List comment belong to post');
+    getMoreInfoTracking(screen, 'Comment', 'List comment belong to post');
   };
 
   const ViewMore = () => {
