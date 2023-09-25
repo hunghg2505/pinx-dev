@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import FormSearch from '@layout/components/MainHeader/FormSearch';
+import { useOpenSearch } from '@store/headerSearch/headerSearch';
 
 const SearchInput = () => {
-  const [isOpenSearch, setIsOpenSearch] = useState(false);
+  const [isOpenSearch, setIsOpenSearch] = useOpenSearch();
 
   return (
     <>
