@@ -9,10 +9,11 @@ import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
 import { atomHeaderSearch, useHeaderSearch } from '@store/headerSearch/headerSearch';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { ROUTE_PATH, getHostName } from '@utils/common';
 
 const Explore = dynamic(() => import('@components/Explore'));
 
-const ExplorePage = () => {
+const ExplorePage = ({ host }: { host: string }) => {
   useHydrateAtoms([[atomHeaderSearch, false]]);
   const [, setShowSearch] = useHeaderSearch();
 
@@ -26,7 +27,7 @@ const ExplorePage = () => {
 
   return (
     <>
-      <SEO title={'Pinex Explore'} />
+      <SEO title={'Pinex Explore'} siteUrl={`${host}${ROUTE_PATH.EXPLORE}`} />
       <Explore />
     </>
   );
@@ -39,11 +40,14 @@ ExplorePage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
+export async function getServerSideProps({ locale, req }: any) {
+  const host = getHostName(req.headers);
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'theme', 'explore'])),
       // Will be passed to the page component as props
+      host,
     },
   };
 }

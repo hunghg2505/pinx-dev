@@ -5,13 +5,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+import { ROUTE_PATH, getHostName } from '@utils/common';
 
 const PinexTop20 = dynamic(() => import('@components/PinexTop20'));
 
-const PinexTop20Page = () => {
+const PinexTop20Page = ({ host }: { host: string }) => {
   return (
     <>
-      <SEO title={'Pinex Detail'} />
+      <SEO title={'Pinex Detail'} siteUrl={`${host}/${ROUTE_PATH.PINEX_TOP_20}`} />
       <PinexTop20 />
     </>
   );
@@ -24,11 +25,14 @@ PinexTop20Page.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
+export async function getServerSideProps({ locale, req }: any) {
+  const host = getHostName(req.headers);
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common', 'theme', 'explore'])),
       // Will be passed to the page component as props
+      host,
     },
   };
 }

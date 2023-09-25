@@ -214,7 +214,7 @@ const OtpVerification = (props: IProps) => {
             className={'mr-2 h-[15px] w-[15px]'}
           />
           <Text type='body-12-regular' color={isResendAvailable ? 'primary-2' : 'neutral-5'}>
-            {isResendAvailable ? t('resend_sms') : `00:${convertSecond(resendCount)}`}
+            {isResendAvailable ? t('resend_otp') : `00:${convertSecond(resendCount)}`}
           </Text>
         </RoundButton>
       </div>

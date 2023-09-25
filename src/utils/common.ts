@@ -52,15 +52,18 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
+  MY_PROFILE_FOLLOW: (tab: string) => `/profile/my-profile/follow?tab=${tab}`,
   MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
   MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
   EDIT_MY_PROFILE: '/profile/my-profile/edit',
-  ASSET: '/profile/my-profile?tab=assets',
+  ASSET: (assetsTab: string) => `/profile/my-profile?tab=${assetsTab}`,
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/watchlist',
   PROFILE_PATH: '/profile',
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
+  PROFILE_DETAIL_FOLLOW: (id: number, tab: string) =>
+    `${ROUTE_PATH.PROFILE_PATH}/${id}/follow?tab=${tab}`,
 };
 
 export const formatMessage = (message: string) => {
@@ -385,11 +388,11 @@ export const imageStock = (stock_code: string) => {
 };
 
 export const enableScroll = () => {
-  document.body.style.overflow = 'scroll';
+  document.body.style.cssText = 'overflow-y:overlay !important';
 };
 
 export const disableScroll = () => {
-  document.body.style.overflow = 'hidden';
+  document.body.style.cssText = 'overflow-y:hidden !important';
 };
 
 export const isValidURL = (urlString: any) => {
@@ -1051,4 +1054,20 @@ export const formatMsgPost = (title: string) => {
   titleFormat = titleFormat.replaceAll(hashtagPattern, (_, b) => b);
 
   return titleFormat;
+};
+
+export const getHostName = (headers: any) => {
+  if (!headers) {
+    return '';
+  }
+
+  let protocol: string = headers['x-forwarded-proto'];
+  const protocolToArr = protocol?.split(',');
+  const findProtocol = protocolToArr.find((item) => item === 'https');
+
+  protocol = findProtocol || protocolToArr[0];
+
+  const host = protocol + '://' + headers.host;
+
+  return host;
 };

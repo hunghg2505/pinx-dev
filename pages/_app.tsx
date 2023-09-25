@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unknown-property */
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
+import { useAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -12,9 +13,11 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
-
 import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
+import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
+import { disableScroll, enableScroll } from '@utils/common';
+import '../src/firebase';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -43,8 +46,21 @@ const BarlowFont = Barlow({
   display: 'swap',
 });
 
+
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
+
+  // notifications
+  const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
+
+  useEffect(() => {
+    if (isShowNotificationMobile) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [isShowNotificationMobile]);
 
   return (
     <>
@@ -52,7 +68,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name='robots' content='index, follow' />
         <meta name='googlebot' content={'index,follow'} />
         <meta charSet='utf-8' />
-        <meta name='theme-color' content='#FFFFFF' />
+        <meta name='theme-color' content={isShowNotificationMobile ? '#F8FAFD' : '#FFFFFF'} />
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
         <link rel='shortcut icon' href='/static/favicon.svg' />
