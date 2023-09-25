@@ -9,15 +9,15 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import styles from '@components/SearchSeo/index.module.scss';
 import { Skeleton } from '@components/UI/Skeleton';
-import { ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { useSearchPublic } from './service';
 import { CompanyTab, MediaTab, NewsTab, PeopleTab, PostsTab } from './Tab';
 
 // tracking event view ticker info
 const handleTrackingViewTickerInfo = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'Search seo screen', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Search seo screen', locationDetail, 'Stock');
 };
 
 const SearchSeo = () => {

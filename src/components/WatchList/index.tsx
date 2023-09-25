@@ -9,7 +9,7 @@ import { Skeleton } from '@components/UI/Skeleton';
 // import { useResponsive } from '@hooks/useResponsive';
 import Themes from '@components/WatchList/Themes';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 import { useGetInterest, useGetYourWatchList } from './service';
@@ -50,7 +50,7 @@ const Interest = dynamic(() => import('@components/WatchList/Interest'), {
 
 // tracking e view stock info
 const handleTrackingViewStockInfo = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'Watch list screen', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Watch list screen', locationDetail, 'Stock');
 };
 
 const WatchList = () => {

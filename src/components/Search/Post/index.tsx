@@ -12,13 +12,13 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { Search, ViewTickerInfo } from '@utils/dataLayer';
+import { searchTracking, viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { useGetPosts } from '../service';
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Search post screen', 'Post', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Search post screen', 'Post', 'Stock');
 };
 
 const Post = ({ keyword }: { keyword: any }) => {
@@ -32,7 +32,7 @@ const Post = ({ keyword }: { keyword: any }) => {
       const newPage = page + 1;
       setPage(newPage);
       setListCompany([...listComapany, ...res?.data?.list]);
-      Search('post', keyword, res?.data?.totalElements, 'page-search');
+      searchTracking('post', keyword, res?.data?.totalElements, 'page-search');
     },
   });
   React.useEffect(() => {

@@ -5,11 +5,11 @@ import { ITopWatchingStock, useGetTopWatchingStock } from '@components/Explore/s
 import WatchingStock from '@components/Explore/WatchingStock';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 // tracking event view stock info
 const handleTrackingViewTickerInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Top watching stock screen', 'Top watching stock', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Top watching stock screen', 'Top watching stock', 'Stock');
 };
 
 const TopWatching = () => {

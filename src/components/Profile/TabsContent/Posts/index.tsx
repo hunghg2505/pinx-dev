@@ -5,13 +5,13 @@ import NewsFeed from '@components/Post/NewsFeed';
 import { getOtherPeoplePost } from '@components/Profile/TabsContent/Posts/service';
 import SkeletonLoading from '@components/UI/Skeleton';
 import useObserver from '@hooks/useObserver';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import NotFound from './NotFound';
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'User detail screen', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'User detail screen', locationDetail, 'Stock');
 };
 
 const Posts = () => {

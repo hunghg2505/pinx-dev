@@ -8,7 +8,7 @@ import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
-import { AddTicker } from '@utils/dataLayer';
+import { addTickerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
 
@@ -48,7 +48,7 @@ const InterestItem = (props: IProps) => {
       // toast(() => <Notification type='success' message='Add stock success1' />);
 
       // gtm
-      AddTicker(
+      addTickerTracking(
         params.length > 0 ? params[0] : '',
         'Stock',
         'Watchlist',

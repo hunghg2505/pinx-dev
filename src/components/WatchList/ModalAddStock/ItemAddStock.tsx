@@ -13,7 +13,7 @@ import Loading from '@components/UI/Loading';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { imageStock } from '@utils/common';
-import { AddTicker, RemoveTicker } from '@utils/dataLayer';
+import { addTickerTracking, removeTickerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
 
@@ -35,7 +35,7 @@ const ItemAddStock = ({
       refreshYourWatchList && refreshYourWatchList();
 
       // gtm
-      AddTicker(
+      addTickerTracking(
         data?.stockCode,
         'Stock',
         'Modal add stock to watchlist',
@@ -55,7 +55,7 @@ const ItemAddStock = ({
         // toast(() => <Notification type='success' message='Remove stock success' />);
 
         // gtm
-        RemoveTicker(
+        removeTickerTracking(
           data?.stockCode,
           'Stock',
           'Modal add stock to watchlist',

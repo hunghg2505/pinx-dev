@@ -8,7 +8,7 @@ import TabBar from '@components/common/RCTabBar';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import { profileUserContext } from '@components/Profile';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewAsset } from '@utils/dataLayer';
+import { viewAssetTracking } from 'src/mixpanel/mixpanel';
 
 import Assets from '../Assets';
 import Posts from '../Posts';
@@ -61,7 +61,7 @@ const Mobile = () => {
 
                   if (key === ProfileTabKey.ASSETS) {
                     // tracking event view assets
-                    ViewAsset('Tab assets user detail', 'Asset Overview');
+                    viewAssetTracking('Tab assets user detail', 'Asset Overview');
                   }
                 }}
               />

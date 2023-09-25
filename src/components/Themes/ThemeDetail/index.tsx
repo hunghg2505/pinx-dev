@@ -11,7 +11,7 @@ import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewStockList } from '@utils/dataLayer';
+import { viewStockListTracking } from 'src/mixpanel/mixpanel';
 
 import Activities from './Activities';
 import Community from './Community';
@@ -39,7 +39,12 @@ const ThemeDetail = () => {
 
     // tracking event view stock list
     if (value === TabsThemeDetailEnum.StockSymbols) {
-      ViewStockList('Stock symbols', themeDetail?.name, 'Stock symbols of theme', 'Theme screen');
+      viewStockListTracking(
+        'Stock symbols',
+        themeDetail?.name,
+        'Stock symbols of theme',
+        'Theme screen',
+      );
     }
   };
   const onGoBack = () => {

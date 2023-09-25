@@ -13,8 +13,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { ClickaPost } from '@utils/dataLayer';
-import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
+import { clickAPostTracking, getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import CommentField from './CommentField';
 import ItemComment from './ItemComment';
@@ -145,7 +144,7 @@ const NewsFeed = (props: IProps) => {
     manual: true,
   });
   const onNavigate = () => {
-    ClickaPost(postData?.id, postType, hashtags, Ticker, Link, themeName);
+    clickAPostTracking(postData?.id, postType, hashtags, Ticker, Link, themeName);
     router.push(`/post/${postData?.id}`);
     setSearchSeo(false);
     globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
