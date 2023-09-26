@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
+import Script from 'next/script';
 
 import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
 import PopupAuth from '@components/UI/Popup/PopupAuth';
@@ -9,6 +10,7 @@ import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
 import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+import { ENV } from '@utils/env';
 
 const PopupHomeNoti = () => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
@@ -29,6 +31,8 @@ const PopupHomeNoti = () => {
 
   return (
     <>
+      <Script src={`https://www.google.com/recaptcha/api.js?render=${ENV.RECAPTHCHA_SITE_KEY}`} />
+
       {popupStatus.popupAccessLinmit && (
         <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
       )}

@@ -1,5 +1,8 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+import mixpanel from 'mixpanel-browser';
+
 import { ROUTE_PATH } from '@utils/common';
+import { logoutTracking } from 'src/mixpanel/mixpanel';
 
 import { deleteAuthCookies, setAuthCookies, setRegisterCookies } from '.';
 
@@ -14,9 +17,12 @@ export interface IAuth {
 export const useAuth = () => {
   const onLogout = (navigatePath?: string) => {
     try {
+      const date = new Date();
       deleteAuthCookies();
       localStorage.clear();
       window.location.href = navigatePath || ROUTE_PATH.HOME;
+      mixpanel.reset();
+      logoutTracking(date);
     } catch {}
   };
 

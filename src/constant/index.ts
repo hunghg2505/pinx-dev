@@ -32,7 +32,6 @@ const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
 
 // sit
 const GOOGLE_TAG_MANAGER_ID = 'GTM-WHBTBND5';
-const MIXPANEL_PROJECT_TOKEN = '16452f81bcb5ef2a0576354cb2fca6cd';
 
 // product
 // const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
@@ -73,5 +72,4 @@ export {
   GOOGLE_TAG_MANAGER_ID,
   SEO_TEXT_SEARCH,
   DEEP_LINK,
-  MIXPANEL_PROJECT_TOKEN,
 };

@@ -63,7 +63,7 @@ export const VietStockNews = ({
     readNewsTracking(
       curPostData.postType,
       curPostData.vendorInfo.name,
-      curPostData.category,
+      curPostData.newsCategoryCode,
       curPostData.tagStocks,
       calcLocation(),
     );
