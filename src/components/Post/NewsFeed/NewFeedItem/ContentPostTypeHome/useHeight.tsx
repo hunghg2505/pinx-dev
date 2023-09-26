@@ -9,10 +9,10 @@ const useHeight = (ref: React.RefObject<HTMLDivElement>) => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
+    ref.current?.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      ref.current?.removeEventListener('resize', handleResize);
     };
   }, [ref.current]);
   return height;
