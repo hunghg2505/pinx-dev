@@ -1,14 +1,16 @@
-import { fetchAllStockFromServer } from '@components/Stock/service';
-import { slugify } from '@utils/common';
+import { NextPageContext } from 'next';
 
-function generateSiteMap(listSlug: string[]) {
+import { fetchAllStockFromServer } from '@components/Stock/service';
+import { getHostName, slugify } from '@utils/common';
+
+function generateSiteMap(host: string, listSlug: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       ${listSlug
         .map((item) => {
           return `
             <url>
-              <loc>${`https://pinex.vn/co-phieu/${item}`}</loc>
+              <loc>${host}/co-phieu/${item}</loc>
             </url>`;
         })
         .join('')}
@@ -20,7 +22,13 @@ function SiteMap() {
   // getServerSideProps will do the heavy lifting
 }
 
-export async function getServerSideProps({ res }: any) {
+export async function getServerSideProps({ req, res }: NextPageContext) {
+  if (!req || !res) {
+    return;
+  }
+
+  const host = getHostName(req.headers);
+
   // We make an API call to gather the URLs for our site
   const response: any = await fetchAllStockFromServer();
   const listSlug: string[] = [];
@@ -38,7 +46,7 @@ export async function getServerSideProps({ res }: any) {
   }
 
   // We generate the XML sitemap with the posts data
-  const sitemap = generateSiteMap(listSlug);
+  const sitemap = generateSiteMap(host, listSlug);
 
   res.setHeader('Content-Type', 'text/xml');
   // we send the XML to the browser
