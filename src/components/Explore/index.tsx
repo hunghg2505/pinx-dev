@@ -122,7 +122,7 @@ const Explore = () => {
       // if (prevPath && prevPath.includes('/post/')) {
       const position = sessionStorage.getItem('scrollPosition');
       if (position) {
-        window.scrollTo({ top: +position, left: 0, behavior: 'instant' });
+        window.scrollTo({ top: +position, left: 0, behavior: 'auto' });
       }
       // }
       sessionStorage.removeItem('scrollPosition');
