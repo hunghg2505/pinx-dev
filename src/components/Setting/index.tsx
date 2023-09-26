@@ -19,7 +19,7 @@ import { getLocaleCookie } from '@store/locale';
 // import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
-import { Logout } from '@utils/dataLayer';
+import { logoutTracking } from 'src/mixpanel/mixpanel';
 
 import PopupHotline from './PopupHotline';
 import PopupLanguage from './PopupLanguage';
@@ -88,7 +88,7 @@ const Setting = () => {
   const onHandleLogout = () => {
     const date = new Date();
     onLogout();
-    Logout(date);
+    logoutTracking(date);
   };
   const PINEX_HELP: any = useMemo(() => {
     return [

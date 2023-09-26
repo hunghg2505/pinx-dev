@@ -6,7 +6,7 @@ import { useStockNews } from '@components/Stock/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { GetMoreInfo } from '@utils/dataLayer';
+import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import StockNewsSkeleton from './skeleton';
 import NewsItem from '../NewsItem';
@@ -44,7 +44,7 @@ const StockNews = ({ stockCode, handleAnalyze }: IStockNewsProps) => {
         <CustomLink
           onClick={() => {
             handleAnalyze('Stock news');
-            GetMoreInfo('Stock detail screen', 'News', 'List news of company');
+            getMoreInfoTracking('Stock detail screen', 'News', 'List news of company');
           }}
           href={ROUTE_PATH.STOCK_NEWS(stockCode)}
         >

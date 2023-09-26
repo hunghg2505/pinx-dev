@@ -6,12 +6,12 @@ import { useAtom } from 'jotai';
 import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'User detail screen', 'Watch list tab', 'Stock');
+  viewTickerInfoTracking(stockCode, 'User detail screen', 'Watch list tab', 'Stock');
 };
 
 const ComponentWatchList = ({ watchList }: { watchList: any }) => {

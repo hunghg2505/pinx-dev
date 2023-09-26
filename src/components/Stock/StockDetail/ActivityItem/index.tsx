@@ -13,11 +13,11 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Modal comment stock activities', 'Comment', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Modal comment stock activities', 'Comment', 'Stock');
 };
 
 interface IActivityItemProps {

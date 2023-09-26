@@ -6,13 +6,13 @@ import Image from 'next/image';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { IWatchListItem } from '../../service';
 import style from '../index.module.scss';
 
 const handleTrackingViewTickerInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Home screen', 'Watch list mobile', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Home screen', 'Watch list mobile', 'Stock');
 };
 
 const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStock: boolean }) => {

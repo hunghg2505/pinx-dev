@@ -38,6 +38,9 @@ body {
 }
 bold {
   font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
 }
 .overflow-overlay {
   overflow-y: overlay !important;

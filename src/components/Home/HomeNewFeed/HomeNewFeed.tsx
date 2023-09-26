@@ -22,7 +22,11 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
-import { GetMoreInfo, ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
+import {
+  getMoreInfoTracking,
+  viewTickerInfoTracking,
+  viewWatchListTracking,
+} from 'src/mixpanel/mixpanel';
 
 import SuggestionPeople from './SuggestionPeople';
 import { useGetWatchList } from '../service';
@@ -52,7 +56,7 @@ const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'Home screen', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Home screen', locationDetail, 'Stock');
 };
 
 const HomeNewFeed = () => {
@@ -199,10 +203,10 @@ const HomeNewFeed = () => {
       ? watchList?.[0]?.stocks?.map((item: any) => item.stockCode)
       : [];
 
-    ViewWatchlist('Default', 'Normal WL', stockCodes, stockCodes.length, 'Home screen');
+    viewWatchListTracking('Default', 'Normal WL', stockCodes, stockCodes.length, 'Home screen');
 
     // tracking event get more info
-    GetMoreInfo('Home screen', 'Watchlist', 'My watchlist');
+    getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
 
   return (

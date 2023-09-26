@@ -31,10 +31,12 @@ const BANNER_URL = 'https://pinex.vn/static/images/sidebar_banner.png';
 const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
 
 // sit
-const GOOGLE_TAG_MANAGER_ID = 'GTM-K44HCZ66';
+const GOOGLE_TAG_MANAGER_ID = 'GTM-WHBTBND5';
+const MIXPANEL_PROJECT_TOKEN = '16452f81bcb5ef2a0576354cb2fca6cd';
 
 // product
 // const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
+// const MIXPANEL_PROJECT_TOKEN = '7aec54370ff568a7f07d6380cb4529ce';
 
 const SEO_TEXT_SEARCH = {
   EXPLORE_PAGE: 'Explore-theme',
@@ -71,4 +73,5 @@ export {
   GOOGLE_TAG_MANAGER_ID,
   SEO_TEXT_SEARCH,
   DEEP_LINK,
+  MIXPANEL_PROJECT_TOKEN,
 };

@@ -17,8 +17,12 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK } from '@utils/constant';
-import { NavigateSection, ViewWatchlist, ViewAsset } from '@utils/dataLayer';
 import { BANNER_URL } from 'src/constant';
+import {
+  navigateSectionTracking,
+  viewAssetTracking,
+  viewWatchListTracking,
+} from 'src/mixpanel/mixpanel';
 
 import {
   IconAssets,
@@ -159,7 +163,7 @@ const SideBar = () => {
               }
 
               // tracking navigate section
-              NavigateSection(menu.label);
+              navigateSectionTracking(menu.label);
 
               // tracking event view watch list
               if (menu.path === ROUTE_PATH.WATCHLIST) {
@@ -168,7 +172,7 @@ const SideBar = () => {
                     (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
                   )?.stocks || [];
 
-                ViewWatchlist(
+                viewWatchListTracking(
                   'Default',
                   'Normal WL',
                   listStockCodes,
@@ -179,7 +183,7 @@ const SideBar = () => {
 
               // tracking event view assets
               if (menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)) {
-                ViewAsset('Tab assets sidebar layout', 'Asset Overview');
+                viewAssetTracking('Tab assets sidebar layout', 'Asset Overview');
 
                 if (router.pathname === ROUTE_PATH.MY_PROFILE) {
                   const newPath = ROUTE_PATH.MY_PROFILE;

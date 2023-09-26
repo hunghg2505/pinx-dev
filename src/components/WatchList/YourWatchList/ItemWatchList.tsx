@@ -11,7 +11,7 @@ import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
-import { RemoveTicker } from '@utils/dataLayer';
+import { removeTickerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from '../index.module.scss';
 
@@ -60,7 +60,7 @@ const ItemWatchList = ({
         clearCache('watchList');
 
         // gtm
-        RemoveTicker(
+        removeTickerTracking(
           data?.stockCode,
           'Stock',
           'Watchlist',

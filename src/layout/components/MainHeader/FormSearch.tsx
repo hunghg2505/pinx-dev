@@ -34,23 +34,27 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
-import { GetMoreInfo, ViewStockList, ViewTickerInfo } from '@utils/dataLayer';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+import {
+  getMoreInfoTracking,
+  viewStockListTracking,
+  viewTickerInfoTracking,
+} from 'src/mixpanel/mixpanel';
 
 import styles1 from './index.module.scss';
 
 const handleTrackingViewStockList = () => {
-  ViewStockList('List company', '', 'Search seo', 'Header in layout');
+  viewStockListTracking('List company', '', 'Search seo', 'Header in layout');
 };
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string, location: string) => {
-  ViewTickerInfo(stockCode, 'Search seo box', location, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Search seo box', location, 'Stock');
 };
 
 // tracking event get more info
 const handleTrackingGetMoreInfo = (infoGr: string, infoDetail: string) => {
-  GetMoreInfo('Search seo box', infoGr, infoDetail);
+  getMoreInfoTracking('Search seo box', infoGr, infoDetail);
 };
 
 const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {

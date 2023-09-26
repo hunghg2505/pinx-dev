@@ -8,7 +8,7 @@ import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatMsgPost } from '@utils/common';
-import { ReadNews } from '@utils/dataLayer';
+import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
@@ -60,7 +60,7 @@ export const VietStockNews = ({
 
   const onTrackingReadNews = () => {
     const curPostData = postDetail?.post;
-    ReadNews(
+    readNewsTracking(
       curPostData.postType,
       curPostData.vendorInfo.name,
       curPostData.category,

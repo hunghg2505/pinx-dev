@@ -11,7 +11,7 @@ import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-import { ConfirmPhoneNumber, ResendSMS } from '@utils/dataLayer';
+import { confirmPhoneNumberTracking, resendSMSTracking } from 'src/mixpanel/mixpanel';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
@@ -48,7 +48,7 @@ const Register = (props: IProps) => {
       setUserType(checkUserType(resData?.custStat, resData?.acntStat));
       setIsReadTerms(true);
       deleteRegisterCookies();
-      ConfirmPhoneNumber(
+      confirmPhoneNumberTracking(
         'Success',
         '',
         '',
@@ -62,7 +62,7 @@ const Register = (props: IProps) => {
     },
     onError: (e) => {
       toast(() => <Notification type='error' message={e?.error} />);
-      ConfirmPhoneNumber(
+      confirmPhoneNumberTracking(
         'Failed',
         e.errorCode,
         e.error,
@@ -88,7 +88,7 @@ const Register = (props: IProps) => {
 
   const onResendOtp = () => {
     requestResendRegisterOtp.run();
-    ResendSMS(userRegisterInfo?.phoneNumber || '');
+    resendSMSTracking(userRegisterInfo?.phoneNumber || '');
   };
 
   useEffect(() => {

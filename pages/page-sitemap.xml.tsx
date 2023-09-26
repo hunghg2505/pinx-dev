@@ -1,5 +1,7 @@
 import { NextPageContext } from 'next';
 
+import { getHostName } from '@utils/common';
+
 const LIST_PATH = [
   'kham-pha',
   'qua-tang',
@@ -13,11 +15,11 @@ const LIST_PATH = [
   'pinex-top-20',
 ];
 
-function generateSiteMap() {
+function generateSiteMap(host: string) {
   const urls = LIST_PATH.map(
     (path) => `
     <url>
-      <loc>https://pinex.vn/${path}</loc>
+      <loc>${host}/${path}</loc>
     </url>
   `,
   ).join('');
@@ -26,7 +28,7 @@ function generateSiteMap() {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <!--We manually set the two URLs we know already-->
       <url>
-        <loc>https://pinex.vn</loc>
+        <loc>${host}</loc>
       </url>
       ${urls}
     </urlset>
@@ -37,13 +39,16 @@ function SiteMap() {
   // getServerSideProps will do the heavy lifting
 }
 
-export async function getServerSideProps({ res }: NextPageContext) {
-  if (!res) {
+export async function getServerSideProps({ req, res }: NextPageContext) {
+  if (!req || !res) {
     return;
   }
+
+  const host = getHostName(req.headers);
+
   res.setHeader('Content-Type', 'text/xml');
   // we send the XML to the browser
-  res.write(generateSiteMap());
+  res.write(generateSiteMap(host));
   res.end();
 
   return {
