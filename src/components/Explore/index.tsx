@@ -115,6 +115,21 @@ const Explore = () => {
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
   }, []);
+
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      // const prevPath = sessionStorage.getItem('prevPath');
+      // if (prevPath && prevPath.includes('/post/')) {
+      const position = sessionStorage.getItem('scrollPosition');
+      if (position) {
+        window.scrollTo({ top: +position, left: 0, behavior: 'instant' });
+      }
+      // }
+      sessionStorage.removeItem('scrollPosition');
+      clearTimeout(t);
+    }, 1000);
+  }, []);
+
   const onShowMoreKeyWords = () => {
     setIsShowMoreKeyword(!isShowMoreKeyword);
   };
@@ -600,7 +615,7 @@ const Explore = () => {
       </div>
 
       {!loadingTrendingOnPinex && (
-        <CustomLink href={`/${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
+        <CustomLink href={`${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
           <ExploreButton onClick={() => handleTrackingGetMoreInfo('Post', 'Hot topics')}>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_hot_topics')}

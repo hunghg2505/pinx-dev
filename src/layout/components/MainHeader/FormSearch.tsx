@@ -299,7 +299,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
           <Form
             ref={refForm}
             className={classNames('pr-[10px] laptop:pr-0', {
-              'w-[calc(100%-70px)]': isMobile,
+              'w-full': isMobile,
             })}
             form={form}
             onFinish={handleSubmit}

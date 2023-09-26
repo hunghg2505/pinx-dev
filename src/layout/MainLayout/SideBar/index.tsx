@@ -158,6 +158,9 @@ const SideBar = () => {
                   isRefreshHome: true,
                 });
               }
+              if (menu.path === ROUTE_PATH.EXPLORE) {
+                globalThis?.sessionStorage.removeItem('scrollPosition');
+              }
 
               // tracking navigate section
               navigateSectionTracking(menu.label);
