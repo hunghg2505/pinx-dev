@@ -5,6 +5,8 @@ import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import { getMessaging, getToken, isSupported } from 'firebase/messaging';
+
+import { ENV } from '@utils/env';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -49,8 +51,7 @@ const getMessagingToken = async () => {
   }
   try {
     currentToken = await getToken(messaging, {
-      vapidKey:
-        'BBszbGKPrwSnb_tWEcor1125HZCgS3fC8cfxDz8Cw3kyRN-Jy-MjqquBks_LrsuWdvPHqocjWQB49y6DK_ahiz8',
+      vapidKey: ENV.FIREBASE_VAPIDKEY,
     });
   } catch (error) {
     console.log('xxx An error occurred while retrieving token.', error);

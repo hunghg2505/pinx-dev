@@ -41,6 +41,8 @@ const nextConfig = {
     RECAPTHCHA_SITE_KEY: process.env.RECAPTHCHA_SITE_KEY,
     URL_UPLOADPHOTO: process.env.URL_UPLOADPHOTO,
     URL_API_NOTIFICATION: process.env.URL_API_NOTIFICATION,
+    MIXPANEL_PROJECT_TOKEN: process.env.MIXPANEL_PROJECT_TOKEN,
+    FIREBASE_VAPIDKEY: process.env.FIREBASE_VAPIDKEY
   },
   images: {
     minimumCacheTTL: 60,
