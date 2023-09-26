@@ -67,26 +67,31 @@ const NotificationItem = ({
   };
 
   return (
-    <div className='flex items-center gap-[10px] p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white] hover:bg-[#F7F6F8] cursor-pointer' onClick={onReadNoti}>
+    <div className='flex items-center gap-[10px] p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white] hover:bg-[#F7F6F8]'>
       <CustomImage
         src={notification.readStatus ? notification.iconRead : notification.icon}
         alt='noti_icon'
         width='0'
         height='0'
         sizes='100vw'
-        className='h-[50px] w-[50px]'
+        className='h-[50px] w-[50px] cursor-pointer'
+        onClick={onReadNoti}
       />
 
       <div className='flex flex-col gap-[8px] w-full'>
         <div className='flex justify-between items-center'>
-          <Text className={classNames('text-[#394251]', {
-            'text-[#999]': notification.readStatus
-          })}>{notification.caption}</Text>
+          <Text
+            onClick={onReadNoti}
+            className={classNames('text-[#394251] cursor-pointer', {
+              'text-[#999]': notification.readStatus
+            })}
+          >{notification.caption}</Text>
           <Text type='body-12-medium' color='neutral-5' className='text-right'>{notification.time && dayjs(notification.time)?.locale(i18n.language)?.fromNow()}</Text>
         </div>
         <div className='flex justify-between items-end'>
           <div
-            className={classNames('text-[#0D0D0D] overflow-hidden text-ellipsis mobile:max-w-[60vw] laptop:max-w-[250px]', {
+            onClick={onReadNoti}
+            className={classNames('text-[#0D0D0D] overflow-hidden text-ellipsis mobile:max-w-[60vw] laptop:max-w-[250px] cursor-pointer', {
               'text-[#999]': notification.readStatus
             })}
             dangerouslySetInnerHTML={{ __html: notification.readStatus ? notification.messageRead : notification.message }}
@@ -97,7 +102,7 @@ const NotificationItem = ({
             width='0'
             height='0'
             sizes='100vw'
-            className='h-[16px] w-[16px] cursor-pointer'
+            className='h-[16px] w-[16px] cursor-pointer z-[999]'
             onClick={onDeleteNoti}
           />
         </div>
