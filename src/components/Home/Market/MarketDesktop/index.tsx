@@ -10,7 +10,7 @@ import Text from '@components/UI/Text';
 import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
 import { formatStringToNumber } from '@utils/common';
 
-// import MarketChartIframe from './ChartIframe';
+import MarketChartIframe from './ChartIframe';
 import styles from './index.module.scss';
 import PopupZoomChart from './PopupZoomChart';
 
@@ -157,7 +157,7 @@ const MarketDesktop = () => {
                       />
                     </div>
 
-                    {/* <MarketChartIframe mc={item.mc} oIndex={item.oIndex} /> */}
+                    <MarketChartIframe mc={item.mc} oIndex={item.oIndex} />
                   </div>
                 </div>
               </TabPane>
