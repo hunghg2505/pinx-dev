@@ -18,6 +18,7 @@ import 'dayjs/locale/vi';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { disableScroll, enableScroll } from '@utils/common';
 import '../src/firebase';
+import '../src/mixpanel/mixpanel';
 
 import nextI18nConfig from '../next-i18next.config';
 
