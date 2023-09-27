@@ -1,8 +1,8 @@
 import mixpanel from 'mixpanel-browser';
 
-// import { ENV } from '@utils/env';
+import { ENV } from '@utils/env';
 
-mixpanel.init('7aec54370ff568a7f07d6380cb4529ce', {
+mixpanel.init(ENV.MIXPANEL_PROJECT_TOKEN, {
   debug: true,
   track_pageview: true,
   persistence: 'localStorage',
