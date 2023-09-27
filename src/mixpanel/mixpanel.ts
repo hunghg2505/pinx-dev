@@ -8,7 +8,7 @@ mixpanel.init(ENV.MIXPANEL_PROJECT_TOKEN, {
   persistence: 'localStorage',
 });
 
-export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: Date) => {
+export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
   mixpanel.track('Open Web', {});
   mixpanel.register_once({
     Platform: 'PineX Website',
