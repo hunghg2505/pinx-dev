@@ -17,7 +17,7 @@ import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { disableScroll, enableScroll } from '@utils/common';
-import '../src/firebase';
+// import '../src/firebase';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -45,8 +45,6 @@ const BarlowFont = Barlow({
   weight: ['300', '400', '500', '600', '700', '900'],
   display: 'swap',
 });
-
-
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
