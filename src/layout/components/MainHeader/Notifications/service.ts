@@ -17,7 +17,7 @@ const serviceGetNotificationToken = async (value: IBodyeGetNotificationToken) =>
   return privateRequest(requestNoti.post, API_PATH.GET_NOTIFICATION_TOKEN, {
     data: {
       deviceInfo: 'WEB',
-      deviceToken: value.deviceToken,
+      deviceToken: value?.deviceToken,
     },
   });
 };
