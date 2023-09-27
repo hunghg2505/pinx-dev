@@ -8,13 +8,13 @@ import NewsFeed from '@components/Post/NewsFeed';
 // import { IPost } from '@components/Post/service';
 import SkeletonLoading from '@components/UI/Skeleton';
 import useObserver from '@hooks/useObserver';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import NotFound from './NotFound';
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'My profile screen', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'My profile screen', locationDetail, 'Stock');
 };
 const postMyProfile = atom<{ list?: any; nextId?: string }>({
   list: [],

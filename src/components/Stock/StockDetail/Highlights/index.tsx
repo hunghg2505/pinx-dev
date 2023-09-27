@@ -8,7 +8,7 @@ import { CompanyRelatedType, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { ROUTE_PATH } from '@utils/common';
-import { AnalyzeTicker, ViewStockList } from '@utils/dataLayer';
+import { analyzeTickerTracking, viewStockListTracking } from 'src/mixpanel/mixpanel';
 
 import styles from '../../index.module.scss';
 import HighlighItem from '../HighlighItem';
@@ -39,10 +39,10 @@ const StockHighlights = ({ taggingInfo, stockCode }: IStockHighlightsProps) => {
 
   const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
     // gtm
-    AnalyzeTicker(stockCode, 'Stock highlights', 'General');
+    analyzeTickerTracking(stockCode, 'Stock highlights', 'General');
 
     // tracking view stock list
-    ViewStockList('Company related', '', 'Highligh tagging', 'Ticker info');
+    viewStockListTracking('Company related', '', 'Highligh tagging', 'Ticker info');
 
     router.push({
       pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),

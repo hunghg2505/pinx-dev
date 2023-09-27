@@ -7,13 +7,13 @@ import { IStockTheme } from '@components/Themes/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import style from './index.module.scss';
 
 // tracking event view stock info
 const handleTrackingViewTickerInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Theme detail screen', 'Stock symbols tab', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Theme detail screen', 'Stock symbols tab', 'Stock');
 };
 
 const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: boolean }) => {

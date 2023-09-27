@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
 import { requestNoti, privateRequest } from '@api/request';
+import { getLocaleCookie } from '@store/locale';
 
 interface IOptionsRequest {
   onSuccess?: (r: any) => void;
@@ -16,7 +17,7 @@ const serviceGetNotificationToken = async (value: IBodyeGetNotificationToken) =>
   return privateRequest(requestNoti.post, API_PATH.GET_NOTIFICATION_TOKEN, {
     data: {
       deviceInfo: 'WEB',
-      deviceToken: value.deviceToken,
+      deviceToken: value?.deviceToken,
     },
   });
 };
@@ -37,6 +38,7 @@ const serviceGetNotificationList = async () => {
     params: {
       page: 1,
       pageSize: 999,
+      language: getLocaleCookie(),
     },
   });
 };
@@ -44,7 +46,7 @@ const serviceGetNotificationList = async () => {
 export const useGetNotificationList = (options: IOptionsRequest) => {
   const requestGetNotificationList = useRequest(serviceGetNotificationList, {
     ...options,
-    cacheKey: 'watchList',
+    cacheKey: 'notiList',
   });
 
   return requestGetNotificationList;
@@ -55,7 +57,9 @@ const serviceGetNotificationCount = async () => {
 };
 
 export const useGetNotificationCount = () => {
-  const { data, refresh } = useRequest(serviceGetNotificationCount);
+  const { data, refresh } = useRequest(serviceGetNotificationCount, {
+    cacheKey: 'notiCount',
+  });
   return {
     notiCount: data?.data,
     refreshNotiCount: refresh,

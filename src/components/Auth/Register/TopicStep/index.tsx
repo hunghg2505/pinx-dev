@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next';
 import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { ROUTE_PATH } from '@utils/common';
-import { InvestmentPreference } from '@utils/dataLayer';
+import { investmentPreferenceTracking } from 'src/mixpanel/mixpanel';
 
 import { useSelectTopic, useSuggestTopic } from './service';
 
@@ -29,7 +29,7 @@ const RegisterCompanyStep = () => {
   const { onSelectTopic } = useSelectTopic({
     onSuccess: (_, params) => {
       router.push(ROUTE_PATH.HOME);
-      InvestmentPreference(
+      investmentPreferenceTracking(
         userRegisterInfo.selectedStock || [],
         userRegisterInfo.selectedTheme || [],
         params[0]?.topicCodes.toString().split(','),

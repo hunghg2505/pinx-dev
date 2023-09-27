@@ -8,7 +8,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import TabBar from '@components/common/RCTabBar';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewAsset, ViewWatchlist } from '@utils/dataLayer';
+import { viewAssetTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import Assets from '../Assets';
 import { ProfileTabKey } from '../Desktop';
@@ -63,7 +63,7 @@ const Mobile = () => {
                         (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
                       )?.stocks || [];
 
-                    ViewWatchlist(
+                    viewWatchListTracking(
                       'Default',
                       'Normal WL',
                       listStockCodes,
@@ -74,7 +74,7 @@ const Mobile = () => {
 
                   if (key === ProfileTabKey.ASSETS) {
                     // tracking event view assets
-                    ViewAsset('Tab assets my profile', 'Asset Overview');
+                    viewAssetTracking('Tab assets my profile', 'Asset Overview');
                   }
                 }}
               />

@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 
 import { useMount, useUpdateEffect } from 'ahooks';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
-import { usePreserveScroll } from '@hooks/usePreserveScroll';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 // import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
+// import { useLogin } from '@store/auth/hydrateAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
@@ -18,10 +17,10 @@ import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from '@utils/constant';
-import { ENV } from '@utils/env';
 // import { getMessagingToken } from 'src/firebase';
 
 const AppInitialData = () => {
+  // const { isLogin } = useLogin();
   const { toasts } = useToasterStore();
   const { run } = useProfileInitial();
   const { requestProfleSetting } = useProfileSettingInitial();
@@ -47,6 +46,16 @@ const AppInitialData = () => {
     //   });
     // });
   });
+
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     getMessagingToken().then((firebaseToken) => {
+  //       requestGetNotificationToken.run({
+  //         deviceToken: firebaseToken,
+  //       });
+  //     });
+  //   }
+  // }, [isLogin]);
 
   useUpdateEffect(() => {
     if (!userLoginInfo?.id) {
@@ -107,11 +116,8 @@ const AppInitialData = () => {
     storeInSession();
   }, [storeInSession]);
 
-  usePreserveScroll();
-
   return (
     <>
-      <Script src={`https://www.google.com/recaptcha/api.js?render=${ENV.RECAPTHCHA_SITE_KEY}`} />
       <Toaster />
     </>
   );

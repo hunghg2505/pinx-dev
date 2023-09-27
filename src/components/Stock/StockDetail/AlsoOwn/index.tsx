@@ -7,7 +7,7 @@ import { ITaggingInfo } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { AnalyzeTicker, GetMoreInfo } from '@utils/dataLayer';
+import { analyzeTickerTracking, getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 const ALSO_ITEM_LIMIT = 2;
 
@@ -23,7 +23,7 @@ const StockAlsoOwn = ({ taggingInfo, stockCode }: IStockAlsoOwnProps) => {
 
   // gtm
   const handleAnalyze = () => {
-    AnalyzeTicker(stockCode, 'Stock also own', 'General');
+    analyzeTickerTracking(stockCode, 'Stock also own', 'General');
   };
 
   if (!taggingInfo?.data?.subsidiaries || taggingInfo.data.subsidiaries.length === 0) {
@@ -47,7 +47,7 @@ const StockAlsoOwn = ({ taggingInfo, stockCode }: IStockAlsoOwnProps) => {
           <button
             onClick={() => {
               handleAnalyze();
-              GetMoreInfo('Stock detail screen', 'Company', 'Subsidiaries');
+              getMoreInfoTracking('Stock detail screen', 'Company', 'Subsidiaries');
             }}
             className='mt-[8px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
           >

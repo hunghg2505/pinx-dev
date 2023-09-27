@@ -9,7 +9,7 @@ import TabBar from '@components/common/RCTabBar';
 import { profileUserContext } from '@components/MyProfile';
 import { stockSocketAtom, StockSocketLocation } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewAsset, ViewWatchlist } from '@utils/dataLayer';
+import { viewAssetTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import Assets from '../Assets';
 import Follower from '../Follower';
@@ -72,7 +72,7 @@ const Desktop = () => {
                       (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
                     )?.stocks || [];
 
-                  ViewWatchlist(
+                  viewWatchListTracking(
                     'Default',
                     'Normal WL',
                     listStockCodes,
@@ -83,7 +83,7 @@ const Desktop = () => {
 
                 if (key === ProfileTabKey.ASSETS) {
                   // tracking event view assets
-                  ViewAsset('Tab assets my profile', 'Asset Overview');
+                  viewAssetTracking('Tab assets my profile', 'Asset Overview');
                 }
 
                 if (key === ProfileTabKey.FOLLOWING) {

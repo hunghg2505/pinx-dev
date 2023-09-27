@@ -4,7 +4,9 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken, isSupported } from 'firebase/messaging';
+
+import { ENV } from '@utils/env';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,7 +33,12 @@ if (firebaseConfig?.projectId && firebase.apps.length === 0) {
 
   if (app.name && typeof window !== 'undefined') {
     analytics = getAnalytics(app);
-    messaging = getMessaging(app);
+    // eslint-disable-next-line unicorn/prefer-top-level-await
+    isSupported().then((value) => {
+      if (value) {
+        messaging = getMessaging(app);
+      }
+    });
   }
 } else {
   firebase.app();
@@ -44,8 +51,7 @@ const getMessagingToken = async () => {
   }
   try {
     currentToken = await getToken(messaging, {
-      vapidKey:
-        'BBszbGKPrwSnb_tWEcor1125HZCgS3fC8cfxDz8Cw3kyRN-Jy-MjqquBks_LrsuWdvPHqocjWQB49y6DK_ahiz8',
+      vapidKey: ENV.FIREBASE_VAPIDKEY,
     });
   } catch (error) {
     console.log('xxx An error occurred while retrieving token.', error);

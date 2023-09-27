@@ -8,7 +8,7 @@ import { useGetStockTrade } from '@components/Stock/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { formatStringToNumber } from '@utils/common';
-import { AnalyzeTicker, GetMoreInfo } from '@utils/dataLayer';
+import { analyzeTickerTracking, getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { getColor } from '../MovementsTab';
 
@@ -107,11 +107,14 @@ const MatchingsTab = ({ stockCode, stockRefPrice }: IMatchingsTabProps) => {
           {stockTrade?.data && stockTrade.data.length >= LIMIT_STOCK_TRADE && (
             <tfoot>
               <tr>
-                <td colSpan={4} onClick={() => AnalyzeTicker(stockCode, 'Matching', 'price')}>
+                <td
+                  colSpan={4}
+                  onClick={() => analyzeTickerTracking(stockCode, 'Matching', 'price')}
+                >
                   <Text
                     onClick={() => {
                       setOpenPopup(true);
-                      GetMoreInfo('Stock detail screen', 'Price', 'Matched price');
+                      getMoreInfoTracking('Stock detail screen', 'Price', 'Matched price');
                     }}
                     className='mt-[8px] flex h-[46px] w-full cursor-pointer items-center justify-center rounded-[8px] bg-[#EEF5F9]'
                   >

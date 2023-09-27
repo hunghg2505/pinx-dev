@@ -16,7 +16,7 @@ import MenuMobile from '@layout/components/MainHeader/MenuMobile';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import { getAccessToken } from '@store/auth';
-import { useHeaderSearch } from '@store/headerSearch/headerSearch';
+import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
@@ -33,6 +33,7 @@ const MainHeader = () => {
   const token = getAccessToken();
   const router = useRouter();
   const [isShowSearch] = useHeaderSearch();
+  const [isOpenSearch] = useOpenSearch();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -142,15 +143,16 @@ const MainHeader = () => {
             <MenuMobile />
           </div>
 
-          {isShowSearch && (
-            <div className='ml-auto max-w-[740px] laptop:ml-[initial] laptop:w-full '>
+          {isShowSearch && !isMobile && (
+            <div className='ml-auto max-w-[740px] tablet-max:hidden laptop:ml-[initial] laptop:w-full'>
               <SearchInput />
             </div>
           )}
 
           <div className='z-10 flex  flex-none items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
-            {/* <Notifications /> */}
-            <Profile />
+            {isMobile && isShowSearch && <SearchInput />}
+            {/* {!isOpenSearch && <Notifications />} */}
+            {!isOpenSearch && <Profile />}
           </div>
         </div>
       </div>

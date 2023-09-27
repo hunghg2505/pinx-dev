@@ -16,7 +16,7 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH } from '@utils/common';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import CommentPost from './CommentPost';
 import styles from './index.module.scss';
@@ -33,7 +33,7 @@ const NewFeedItem = dynamic(import('../NewsFeed/NewFeedItem'), {
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
-  ViewTickerInfo(stockCode, 'Post detail screen', locationDetail, 'Stock');
+  viewTickerInfoTracking(stockCode, 'Post detail screen', locationDetail, 'Stock');
 };
 
 const PostDetail = () => {

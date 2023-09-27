@@ -22,7 +22,12 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
-import { AddTicker, AnalyzeTicker, GetMoreInfo, RemoveTicker } from '@utils/dataLayer';
+import {
+  addTickerTracking,
+  analyzeTickerTracking,
+  getMoreInfoTracking,
+  removeTickerTracking,
+} from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 import ActivityItem from './ActivityItem';
@@ -345,9 +350,9 @@ const StockDetail = () => {
 
       // gtm
       if (isFollowedStock) {
-        RemoveTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+        removeTickerTracking(stockCode, 'Stock', 'Stock detail page', '', '');
       } else {
-        AddTicker(stockCode, 'Stock', 'Stock detail page', '', '');
+        addTickerTracking(stockCode, 'Stock', 'Stock detail page', '', '');
       }
     },
   });
@@ -417,7 +422,7 @@ const StockDetail = () => {
 
   // gtm
   const handleAnalyze = (infoType: string) => {
-    AnalyzeTicker(stockCode, infoType, 'General');
+    analyzeTickerTracking(stockCode, infoType, 'General');
   };
 
   return (
@@ -532,7 +537,7 @@ const StockDetail = () => {
             setCurrentTab(tabKey);
 
             // gtm
-            AnalyzeTicker(stockCode, tabKey, 'price');
+            analyzeTickerTracking(stockCode, tabKey, 'price');
           }}
         >
           <TabPane tab={t('tab.movements')} key={TabType.MOVEMENTS}>
@@ -637,7 +642,7 @@ const StockDetail = () => {
                 <button
                   onClick={() => {
                     handleAnalyze('Stock rating');
-                    GetMoreInfo('Stock detail screen', 'Review', 'List review of company');
+                    getMoreInfoTracking('Stock detail screen', 'Review', 'List review of company');
                   }}
                   className='mt-[20px] flex h-[46px] w-full items-center justify-center rounded-[8px] bg-[#EEF5F9]'
                 >

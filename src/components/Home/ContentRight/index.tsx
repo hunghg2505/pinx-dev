@@ -15,14 +15,18 @@ import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { GetMoreInfo, ViewTickerInfo, ViewWatchlist } from '@utils/dataLayer';
+import {
+  getMoreInfoTracking,
+  viewTickerInfoTracking,
+  viewWatchListTracking,
+} from 'src/mixpanel/mixpanel';
 
 import MarketDesktop from '../Market/MarketDesktop';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
 // tracking event view ticker info
 const handleTrackingViewStockInfo = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Sidebar layout right', 'Watch list', 'Stock');
 };
 
 const WatchList = () => {
@@ -35,7 +39,7 @@ const WatchList = () => {
       watchList.find((item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT)
         ?.stocks || [];
 
-    ViewWatchlist(
+    viewWatchListTracking(
       'Default',
       'Normal WL',
       listStockCodes,
@@ -44,7 +48,7 @@ const WatchList = () => {
     );
 
     // tracking event get more info
-    GetMoreInfo('Right sidebar layout', 'Watchlist', 'My watchlist');
+    getMoreInfoTracking('Right sidebar layout', 'Watchlist', 'My watchlist');
   };
 
   return (
@@ -82,7 +86,7 @@ const WatchList = () => {
 
 // tracking event get more info
 const handleTrackingGetMore = () => {
-  GetMoreInfo('Right sidebar layout', 'User', 'People you may know');
+  getMoreInfoTracking('Right sidebar layout', 'User', 'People you may know');
 };
 const ContentRight = () => {
   const { suggestionPeople, getSuggestFriend, refreshList } = useSuggestPeople({

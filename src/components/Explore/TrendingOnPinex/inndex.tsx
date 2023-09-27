@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 
 import NewFeedItem from '@components/Post/NewsFeed/NewFeedItem';
 import { IPost, useCommentsOfPost } from '@components/Post/service';
-import { ViewTickerInfo } from '@utils/dataLayer';
+import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 // tracking event view ticker info
 const handleTrackingViewTicker = (stockCode: string) => {
-  ViewTickerInfo(stockCode, 'Explore screen', 'Trending on pinex post', 'Stock');
+  viewTickerInfoTracking(stockCode, 'Explore screen', 'Trending on pinex post', 'Stock');
 };
 
 interface IProps {
@@ -23,6 +23,7 @@ const TrendingOnnPinex = ({ data, refreshTrendingOnPinex }: IProps) => {
   const router = useRouter();
   const onNavigate = () => {
     router.push(`/post/${dataPost?.id}`);
+    globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
   };
   const { commentsOfPost } = useCommentsOfPost(String(dataPost?.id));
   const totalComments = commentsOfPost?.data?.list?.length;
