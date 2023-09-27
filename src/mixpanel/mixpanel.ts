@@ -8,8 +8,9 @@ mixpanel.init(ENV.MIXPANEL_PROJECT_TOKEN, {
   persistence: 'localStorage',
 });
 
-export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
-  mixpanel?.register_once({
+export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: Date) => {
+  mixpanel.track('Open Web', {});
+  mixpanel.register_once({
     Platform: 'PineX Website',
     'Login Status': isLogged ? 'Login' : 'Not login',
     'Implementation Method': 'Client-Side',
@@ -28,7 +29,7 @@ export const loginTracking = (
   time: Date,
   loginId: string,
 ) => {
-  mixpanel?.register_once({
+  mixpanel.register_once({
     'Login Status': loginStatus,
     CIF: cif,
     'KYC Status': kycStatus,
@@ -48,7 +49,8 @@ export const loginTracking = (
 };
 
 export const logoutTracking = (time: Date) => {
-  mixpanel?.register_once({
+  mixpanel.track('Logout', {});
+  mixpanel.register_once({
     'Login Status': 'Not Login',
   });
   mixpanel.people.set({
@@ -72,7 +74,7 @@ export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoD
 };
 
 export const registerTracking = (startRegistration: Date, CTALocation: string, CTAType: string) => {
-  mixpanel?.register_once({
+  mixpanel.register_once({
     'KYC Status': 'Start Register Account',
   });
   mixpanel.track('Register', {
@@ -93,7 +95,7 @@ export const completeBasicInfoTracking = (
   phone: string,
   userName: string,
 ) => {
-  mixpanel?.register_once({
+  mixpanel.register_once({
     'KYC Status': 'Complete Basic Info',
   });
   mixpanel.track('Complete Basic Info', {
@@ -115,7 +117,7 @@ export const createLoginNameTracking = (
   errMessage: string,
   errCode: string,
 ) => {
-  mixpanel?.register_once({
+  mixpanel.register_once({
     'KYC Status': 'Complete Basic Info',
   });
   mixpanel.track('Create Login Name', {
@@ -140,7 +142,7 @@ export const confirmPhoneNumberTracking = (
   phone: string,
   username: string,
 ) => {
-  mixpanel?.register_once({
+  mixpanel.register_once({
     'KYC Status': 'Confirm Phone Number',
   });
   mixpanel.track('Confirm Phone Number', {
