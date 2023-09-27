@@ -44,11 +44,10 @@ const SEO_TEXT_SEARCH = {
 };
 
 const DEEP_LINK = {
-  OPEN_APP: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.feed',
-  ASSETS: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.assets',
-  GIFT_CASH: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.gifts',
-  SIGNUP:
-    'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.signup.activeAccountQuestion',
+  OPEN_APP: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.feed',
+  ASSETS: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.assets',
+  GIFT_CASH: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.gifts',
+  SIGNUP: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.signup.activeAccountQuestion',
 };
 
 export {
