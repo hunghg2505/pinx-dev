@@ -26,6 +26,7 @@ const Mobile = () => {
             </p>
             <CustomLink
               href={DEEP_LINK.ASSETS}
+              target='_blank'
               className='line-[18px] block max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white hover:text-white galaxy-max:text-[12px]'
             >
               {t('invest_now')}
