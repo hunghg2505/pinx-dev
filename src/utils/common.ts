@@ -635,12 +635,12 @@ export const converStringMessageToObject = (message: string, data: any) => {
       });
       const addSpace = newArray.flat();
       const data = addSpace?.map((check: any) => {
-        if (check.includes('@')) {
+        if (check[0] === '@') {
           const start = check.indexOf('[') + 1;
-          const end = check.indexOf(']');
-          const name = check.slice(start, end);
           const startId = check.indexOf('(') + 1;
-          const endId = check.indexOf(')');
+          const end = check.indexOf(']', startId - 2);
+          const name = check.slice(start, end);
+          const endId = check.indexOf(')', end);
           const ID = check.slice(startId, endId);
           if (listUserId?.includes(Number(ID))) {
             return {

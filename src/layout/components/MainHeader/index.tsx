@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
+// import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -22,6 +23,14 @@ import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
 import { DownloadPineXApp } from '@utils/dataLayer';
 import { DEEP_LINK } from 'src/constant';
+
+// const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
+// const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'), {
+//   ssr: false,
+// });
+// const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'), {
+//   ssr: false,
+// });
 
 const MainHeader = () => {
   const { t } = useTranslation('common');
@@ -123,6 +132,9 @@ const MainHeader = () => {
               onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
               href={ROUTE_PATH.HOME}
             >
+              <Text className='hidden' element='h1'>
+                Cộng đồng đầu tư chứng khoán PineX
+              </Text>
               <div className='flex items-center'>
                 <Image
                   width='0'
