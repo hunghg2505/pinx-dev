@@ -18,7 +18,7 @@ const Mobile = () => {
         {t('install_app')}
       </Text>
 
-      <CustomLink href={DEEP_LINK.ASSETS}>
+      <CustomLink href={DEEP_LINK.ASSETS} target='_blank'>
         <button className='mx-auto mt-[20px] block h-[38px] rounded-[41px] bg-gradient-to-r from-[#589DC0] to-[#1D6CAB] px-[16px]'>
           <Text type='body-14-bold' color='cbwhite' className='galaxy-max:text-[12px]'>
             {t('install')}
