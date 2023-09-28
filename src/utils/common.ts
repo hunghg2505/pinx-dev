@@ -636,12 +636,16 @@ export const converStringMessageToObject = (message: string, data: any) => {
       const addSpace = newArray.flat();
       const data = addSpace?.map((check: any) => {
         if (check[0] === '@') {
-          const start = check.indexOf('[') + 1;
-          const startId = check.indexOf('(') + 1;
-          const end = check.indexOf(']', startId - 2);
-          const name = check.slice(start, end);
-          const endId = check.indexOf(')', end);
-          const ID = check.slice(startId, endId);
+          // [ABC()[] das](491)
+          const userMentionPattern = /@\[(.*?)]\((.*?)\)/g;
+          const found = [...check.matchAll(userMentionPattern)];
+          // const start = check.indexOf('[') + 1;
+          // const startId = check.indexOf('(', -1) + 1;
+          // const end = check.indexOf(']', startId - 2);
+          const name = found[0][1];
+          // const endId = check.indexOf(')', end);
+          const ID = found[0][2];
+
           if (listUserId?.includes(Number(ID))) {
             return {
               type: 'userMention',
