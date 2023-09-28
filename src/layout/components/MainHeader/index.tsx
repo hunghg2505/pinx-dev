@@ -141,7 +141,7 @@ const MainHeader = () => {
                   height='0'
                   sizes='100vw'
                   src='/static/logo/logo.png'
-                  alt=''
+                  alt='Cộng đồng đầu tư chứng khoán PineX'
                   className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
                 />
 
