@@ -18,10 +18,12 @@ const NotiCount = forwardRef((_, ref: any) => {
   useImperativeHandle(ref, () => ({ refreshNotiCount }));
 
   return notiCount > 0 ? (
-    <div className='absolute bg-[#FF3B3B] rounded-full top-0 right-[-5px]'>
-      <Text className='text-[10px] font-[700] text-white px-1'>{notiCount}</Text>
+    <div className='absolute right-[-5px] top-0 rounded-full bg-[#FF3B3B]'>
+      <Text className='px-1 text-[10px] font-[700] text-white'>{notiCount}</Text>
     </div>
-  ) : (<></>);
+  ) : (
+    <></>
+  );
 });
 
 const Notifications = () => {
@@ -60,7 +62,7 @@ const Notifications = () => {
             />
           </div>
         ) : (
-          <div className='items-center mobile:hidden tablet:flex relative'>
+          <div className='relative items-center mobile:hidden tablet:flex'>
             <Dropdown
               trigger={['click']}
               animation='slide-up'
@@ -96,7 +98,7 @@ const Notifications = () => {
   return (
     <>
       <NotificationBadge />
-      {isMobile && (<NotificationMobile ref={notiMobileRef} refreshNotiCount={refreshNotiCount} />)}
+      {isMobile && <NotificationMobile ref={notiMobileRef} refreshNotiCount={refreshNotiCount} />}
     </>
   );
 };

@@ -1,15 +1,22 @@
 import mixpanel from 'mixpanel-browser';
 
-import { MIXPANEL_PROJECT_TOKEN } from 'src/constant';
+import { ENV } from '@utils/env';
 
-mixpanel.init(MIXPANEL_PROJECT_TOKEN);
+mixpanel.init(ENV.MIXPANEL_PROJECT_TOKEN, {
+  debug: true,
+  track_pageview: true,
+  persistence: 'localStorage',
+});
 
 export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
-  mixpanel.track('Open Web', {
+  mixpanel.track('Open Web', {});
+  mixpanel.register_once({
     Platform: 'PineX Website',
-    CIF: cif,
     'Login Status': isLogged ? 'Login' : 'Not login',
     'Implementation Method': 'Client-Side',
+    CIF: cif,
+  });
+  mixpanel.people.set({
     'Time of Last Visit': lastTimeVisit,
   });
 };
@@ -22,21 +29,31 @@ export const loginTracking = (
   time: Date,
   loginId: string,
 ) => {
-  mixpanel.track('Login', {
+  mixpanel.register_once({
     'Login Status': loginStatus,
     CIF: cif,
     'KYC Status': kycStatus,
+  });
+
+  mixpanel.track('Login', {
+    Username: username,
+    'Login ID': loginId,
+    'Login Method': 'Password',
+  });
+
+  mixpanel.people.set({
     Username: username,
     'Time of Last Visit': time,
-    'Login ID': loginId,
     $name: cif,
-    'Login Method': 'Password',
   });
 };
 
 export const logoutTracking = (time: Date) => {
-  mixpanel.track('Logout', {
+  mixpanel.track('Logout', {});
+  mixpanel.register_once({
     'Login Status': 'Not Login',
+  });
+  mixpanel.people.set({
     'Last Seen Time': time,
     'Last Seen App': 'PineX Website',
   });
@@ -57,8 +74,13 @@ export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoD
 };
 
 export const registerTracking = (startRegistration: Date, CTALocation: string, CTAType: string) => {
+  mixpanel.register_once({
+    'KYC Status': 'Start Register Account',
+  });
   mixpanel.track('Register', {
     'KYC Status': 'Start Register Account',
+  });
+  mixpanel.track('Register', {
     'CTA Type': CTAType,
     'Register CTA Location': CTALocation,
     'Start Registration Date': startRegistration,
@@ -73,8 +95,13 @@ export const completeBasicInfoTracking = (
   phone: string,
   userName: string,
 ) => {
+  mixpanel.register_once({
+    'KYC Status': 'Complete Basic Info',
+  });
   mixpanel.track('Complete Basic Info', {
     'KYC Status': 'Complete Basic Info',
+  });
+  mixpanel.track('Complete Basic Info', {
     'Submit Status': submitStatus,
     'Error Code': errCode,
     'Error Message': errMessage,
@@ -90,8 +117,13 @@ export const createLoginNameTracking = (
   errMessage: string,
   errCode: string,
 ) => {
+  mixpanel.register_once({
+    'KYC Status': 'Complete Basic Info',
+  });
   mixpanel.track('Create Login Name', {
     'KYC Status': 'Complete Basic Info',
+  });
+  mixpanel.track('Create Login Name', {
     Username: username,
     'Submit Status': submitStatus,
     'Error Message': errMessage,
@@ -110,11 +142,18 @@ export const confirmPhoneNumberTracking = (
   phone: string,
   username: string,
 ) => {
+  mixpanel.register_once({
+    'KYC Status': 'Confirm Phone Number',
+  });
   mixpanel.track('Confirm Phone Number', {
     'KYC Status': 'Confirm Phone Number',
+  });
+  mixpanel.track('Confirm Phone Number', {
     'Submit Status': submitStatus,
     'Error Message': errMessage,
     'Error Code': errCode,
+  });
+  mixpanel.people.set({
     'Registration Platform': 'PineX Website',
     'Phone Verified': phoneVerified,
     'Start Registration Date': registrationDate,
@@ -133,6 +172,11 @@ export const resendSMSTracking = (phone: string) => {
 
 export const investmentPreferenceTracking = (company: any, industry: any, topic: any) => {
   mixpanel.track('Investment Preference', {
+    'Company Of Interest': company,
+    'Industry Of Interest': industry,
+    'Topic Of Interest': topic,
+  });
+  mixpanel.people.set({
     'Company Of Interest': company,
     'Industry Of Interest': industry,
     'Topic Of Interest': topic,

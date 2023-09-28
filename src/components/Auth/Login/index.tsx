@@ -15,7 +15,7 @@ import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
 import { ROUTE_PATH, checkUserType } from '@utils/common';
-import { loginTracking } from 'src/mixpanel/mixpanel';
+import { loginTracking, mixpanelIdentifyUser } from 'src/mixpanel/mixpanel';
 
 import { useLogin } from './service';
 
@@ -50,6 +50,7 @@ const Login = (props: Iprops) => {
           refreshToken: res?.refresh_token,
           expiredTime: res?.expired_time || 0,
         });
+        mixpanelIdentifyUser(loginData.cif);
         loginTracking(
           'Login',
           loginData.cif,

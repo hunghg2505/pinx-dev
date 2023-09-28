@@ -32,7 +32,6 @@ const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
 
 // sit
 const GOOGLE_TAG_MANAGER_ID = 'GTM-WHBTBND5';
-const MIXPANEL_PROJECT_TOKEN = '16452f81bcb5ef2a0576354cb2fca6cd';
 
 // product
 // const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
@@ -45,11 +44,10 @@ const SEO_TEXT_SEARCH = {
 };
 
 const DEEP_LINK = {
-  OPEN_APP: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.feed',
-  ASSETS: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.assets',
-  GIFT_CASH: 'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.gifts',
-  SIGNUP:
-    'https://pino-uat.pinex.vn/app-pinex?screenName=pinetree.pist.signup.activeAccountQuestion',
+  OPEN_APP: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.feed',
+  ASSETS: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.assets',
+  GIFT_CASH: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.gifts',
+  SIGNUP: 'https://pino.pinex.vn/app-pinex?screenName=pinetree.pist.signup.activeAccountQuestion',
 };
 
 export {
@@ -73,5 +71,4 @@ export {
   GOOGLE_TAG_MANAGER_ID,
   SEO_TEXT_SEARCH,
   DEEP_LINK,
-  MIXPANEL_PROJECT_TOKEN,
 };
