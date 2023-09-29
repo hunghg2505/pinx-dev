@@ -82,7 +82,7 @@ const NewsTab = ({ keyword, keywordFormat }: NewsTabProps) => {
       {news?.data?.list.map((item: any) => {
         return (
           <NewsItem
-            onNavigate={() => navigateToPostDetail(item?.id)}
+            onNavigate={() => navigateToPostDetail(item?.seoMetadata.slug)}
             key={`new-items-${item?.id}`}
             middle={true}
             data={item}

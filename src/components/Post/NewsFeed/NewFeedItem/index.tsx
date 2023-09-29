@@ -139,7 +139,7 @@ const NewFeedItem = (props: IProps) => {
     {
       manual: true,
       onSuccess: () => {
-        if (router.route === '/post/[id]') {
+        if (router.route === '/post/[...id]') {
           router.back();
         }
         setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
@@ -226,7 +226,7 @@ const NewFeedItem = (props: IProps) => {
     //   onRefreshPostDetail(undefined);
     // }
     setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
-    if (router.route === '/post/[id]') {
+    if (router.route === '/post/[...id]') {
       router.back();
     } else {
       onRefreshPostDetail(undefined);

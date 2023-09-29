@@ -3,15 +3,17 @@ import { useRouter } from 'next/router';
 import { ITheme } from '@components/Home/service';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
 
 const ThemeItem = ({ data }: { data: ITheme }) => {
   const latestSubscribe = data?.latestSubscribe;
   const router = useRouter();
+  const id =
+    data?.code + '-chu-de-' + toNonAccentVietnamese(data?.name).toLowerCase().replaceAll(' ', '-');
   return (
     <div
       className='relative cursor-pointer overflow-hidden rounded-[16px]'
-      onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(data?.code))}
+      onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(id))}
     >
       <div
         className='bg-cover bg-center bg-no-repeat pt-[141%] desktop:pt-[66.6%]'

@@ -64,11 +64,12 @@ export interface IPost {
   totalReports: number;
   totalViews: number;
   isFollowing: boolean;
-  seoMetadata?: {
+  seoMetadata: {
     imageSeo?: {
       alt: string;
       title: string;
     };
+    slug: string;
   };
 }
 export interface IContentPost {

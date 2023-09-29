@@ -145,7 +145,10 @@ const NewsFeed = (props: IProps) => {
   });
   const onNavigate = () => {
     clickAPostTracking(postData?.id, postType, hashtags, Ticker, Link, themeName);
-    router.push(`/post/${postData?.id}`);
+    const url = postData?.seoMetadata
+      ? `/${postData?.seoMetadata?.slug}`
+      : ROUTE_PATH.POST_DETAIL(postData.id);
+    router.push(url);
     setSearchSeo(false);
     globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
   };

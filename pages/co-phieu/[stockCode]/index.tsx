@@ -1,26 +1,25 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
-import { fetchThemeDetailFromServer } from '@components/Themes/service';
+import { fetchStockDetailFromServer } from '@components/Stock/service';
 import MainLayout from '@layout/MainLayout';
 import { ROUTE_PATH, getHostName } from '@utils/common';
 
-const ThemeDetail = dynamic(() => import('@components/Themes/ThemeDetail'), {
+const StockDetail = dynamic(() => import('@components/Stock/StockDetail'), {
   ssr: false,
 });
 
-const PostDetailPage = ({ themeDetail, host }: any) => {
+const StockDetailPage = ({ seoMetaData, host }: any) => {
   const { i18n } = useTranslation();
-  const seoMetaData = themeDetail?.seoMetadata;
-
+  const id = seoMetaData.slug.split('/')[1];
   return (
     <>
       <SEO
-        siteUrl={`${host}${ROUTE_PATH.THEME_DETAIL(themeDetail?.code)}`}
+        siteUrl={`${host}${ROUTE_PATH.STOCK_DETAIL(id)}`}
         title={seoMetaData?.title}
         description={seoMetaData?.metaDescription}
         openGraph={{
@@ -35,32 +34,30 @@ const PostDetailPage = ({ themeDetail, host }: any) => {
           },
         }}
         keywords={seoMetaData?.keyphrase}
-      />
-      <ThemeDetail />
+      ></SEO>
+      <StockDetail />
     </>
   );
 };
-PostDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <MainLayout>
-      <>{page}</>
-    </MainLayout>
-  );
+
+StockDetailPage.getLayout = (page: ReactElement) => {
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export async function getServerSideProps({ locale, params, req }: any) {
-  const code = params?.id;
-  const themeDetail = await fetchThemeDetailFromServer(code);
+  const stockCode = params?.stockCode;
+  const dataStock = await fetchStockDetailFromServer(stockCode);
   const host = getHostName(req.headers);
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'theme'])),
-      themeDetail: themeDetail?.data,
+      ...(await serverSideTranslations(locale, ['common', 'stock'])),
+      seoMetaData: dataStock?.data?.details?.seoMetadata,
       // Will be passed to the page component as props
       host,
+      stockCode,
     },
   };
 }
 
-export default PostDetailPage;
+export default StockDetailPage;
