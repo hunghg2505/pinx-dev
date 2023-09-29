@@ -164,10 +164,8 @@ export const confirmPhoneNumberTracking = (
   });
 };
 
-export const resendSMSTracking = (phone: string) => {
-  mixpanel.track('Resend SMS', {
-    'Phone Number': phone,
-  });
+export const resendSMSTracking = () => {
+  mixpanel.track('Resend SMS');
 };
 
 export const investmentPreferenceTracking = (company: any, industry: any, topic: any) => {
