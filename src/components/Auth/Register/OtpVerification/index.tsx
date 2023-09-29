@@ -88,7 +88,7 @@ const Register = (props: IProps) => {
 
   const onResendOtp = () => {
     requestResendRegisterOtp.run();
-    resendSMSTracking(userRegisterInfo?.phoneNumber || '');
+    resendSMSTracking();
   };
 
   useEffect(() => {

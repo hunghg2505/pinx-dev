@@ -503,6 +503,7 @@ const NewFeedItem = (props: IProps) => {
               totalComments={totalComments}
               onNavigate={onNavigate}
               isForceNavigate={isSearchSeoBox}
+              postDetail={postDetail}
             />
           </div>
         )}
