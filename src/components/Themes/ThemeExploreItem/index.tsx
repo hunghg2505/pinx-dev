@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { ILatestSubscribe, ITheme } from '@components/Home/service';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   data: ITheme;
@@ -14,9 +14,10 @@ const ThemeExploreItem = (props: IProps) => {
   const { data } = props;
   const router = useRouter();
   const code = data?.code;
-
+  const name = toNonAccentVietnamese(data?.name).toLowerCase().replaceAll(' ', '-');
+  const id = code + '-chu-de-' + name;
   const onGotoDetail = () => {
-    router.push(ROUTE_PATH.THEME_DETAIL(code));
+    router.push(ROUTE_PATH.THEME_DETAIL(id));
   };
 
   return (

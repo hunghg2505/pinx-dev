@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
 
 import PopupAlsoOwn from '../Popup/PopupAlsoOwn';
 import { ISubsidiaries } from '../type';
@@ -27,7 +27,9 @@ const AlsoOwnItem = ({ data }: IAlsoOwnItemProps) => {
 
   const handleClickStock = () => {
     if (data.listed) {
-      router.push(ROUTE_PATH.STOCK_DETAIL(data.stockCode));
+      const code = getStockUrl(data);
+
+      router.push(ROUTE_PATH.STOCK_DETAIL(code));
     } else {
       setPopup({ data, visible: true });
     }

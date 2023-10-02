@@ -13,7 +13,7 @@ import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH } from '@utils/common';
+// import { ROUTE_PATH } from '@utils/common';
 import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
 const IconLink2 = () => (
@@ -47,7 +47,7 @@ const NewsItem = ({
   const router = useRouter();
   const [, setSearchSeo] = useAtom(searchSeoAtom);
   const onGoToDetail = () => {
-    router.push(ROUTE_PATH.POST_DETAIL(data?.id));
+    router.push('/' + data?.seoMetadata?.slug);
   };
 
   const url = data?.post?.url;

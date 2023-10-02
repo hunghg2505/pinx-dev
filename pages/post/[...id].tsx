@@ -18,7 +18,6 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
 
 const PostDetailPage = ({ id, host, postDetail }: any) => {
   const { i18n } = useTranslation();
-
   const { title, description, seoMetadata } = useMemo(() => {
     const seoMetadata = postDetail?.seoMetadata;
     let title = seoMetadata?.title;
@@ -73,9 +72,8 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export async function getServerSideProps({ locale, params, req }: any) {
-  const id = params?.id;
+  const id = params?.id[1].split('-').pop();
   const postDetail = await fetchPostDetailFromServer(id);
-
   if (!postDetail.data) {
     return {
       notFound: true,

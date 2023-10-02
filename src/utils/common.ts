@@ -21,14 +21,14 @@ export const ROUTE_PATH = {
   HOME: '/',
   REDIRECT: '/redirecting',
   POST_DETAIL_PATH: '/post',
-  PINEX_TOP_20: 'pinex-top-20',
-  EXPLORE: '/explore',
-  THEME: '/theme',
-  THEME_DETAIL: (id: string) => `/theme/${id}`,
+  PINEX_TOP_20: '/kham-pha/pinex-top-20',
+  EXPLORE: '/kham-pha',
+  THEME: '/chu-de',
+  THEME_DETAIL: (id: string) => `/chu-de/${id}`,
   PEOPLEINSPOTLIGHT: '/people-in-spotlight',
-  TOPMENTION: '/top-mention',
+  TOPMENTION: '/kham-pha/top-ma-co-phieu-duoc-nhac-den-nhieu-nhat',
   POST_DETAIL: (id: string) => `${ROUTE_PATH.POST_DETAIL_PATH}/${id}`,
-  STOCK_DETAIL: (stockCode: string) => `/stock/${stockCode}`,
+  STOCK_DETAIL: (stockCode: string) => `/co-phieu/${stockCode}`,
   STOCK_EVENT: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/financial-calendar`,
   STOCK_REVIEW: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/rating`,
   STOCK_ALSO_OWN: (stockCode: string) => `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/also-own`,
@@ -38,7 +38,7 @@ export const ROUTE_PATH = {
     `${ROUTE_PATH.STOCK_DETAIL(stockCode)}/related/${hashtagId}`,
   SEARCH: '/search',
   SEARCHSEO: '/search-seo',
-  TOP_WATCHING: '/top-watching',
+  TOP_WATCHING: '/kham-pha/top-ma-co-phieu-duoc-theo-doi-nhieu-nhat',
   GIFTCASH: '/gift-cash',
   NOT_FOUND: '/404',
 
@@ -636,12 +636,16 @@ export const converStringMessageToObject = (message: string, data: any) => {
       const addSpace = newArray.flat();
       const data = addSpace?.map((check: any) => {
         if (check[0] === '@') {
-          const start = check.indexOf('[') + 1;
-          const startId = check.indexOf('(') + 1;
-          const end = check.indexOf(']', startId - 2);
-          const name = check.slice(start, end);
-          const endId = check.indexOf(')', end);
-          const ID = check.slice(startId, endId);
+          // [ABC()[] das](491)
+          const userMentionPattern = /@\[(.*?)]\((.*?)\)/g;
+          const found = [...check.matchAll(userMentionPattern)];
+          // const start = check.indexOf('[') + 1;
+          // const startId = check.indexOf('(', -1) + 1;
+          // const end = check.indexOf(']', startId - 2);
+          const name = found[0][1];
+          // const endId = check.indexOf(')', end);
+          const ID = found[0][2];
+
           if (listUserId?.includes(Number(ID))) {
             return {
               type: 'userMention',
@@ -1088,4 +1092,18 @@ export const getHostName = (headers: any) => {
   const host = protocol + '://' + headers.host;
 
   return host;
+};
+
+export const getStockUrl = (data: any) => {
+  if (data.name) {
+    return `${data.stockCode.toLowerCase()}-${toNonAccentVietnamese(data.name)
+      .toLowerCase()
+      .replaceAll(' ', '-')}`;
+  } else if (data.companyName) {
+    return `${data.stockCode.toLowerCase()}-${toNonAccentVietnamese(data.companyName)
+      .toLowerCase()
+      .replaceAll(' ', '-')}`;
+  } else {
+    return data.stockCode;
+  }
 };

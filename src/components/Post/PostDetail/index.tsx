@@ -53,7 +53,9 @@ const PostDetail = () => {
   const [isImageCommentMobile, setImageCommentMobile] = useState(false);
   const [totalCommentOfPost, setTotalCommentOfPost] = useState(0);
   const [postData, setPostData] = useState<any>();
-  const postID = router.query.id;
+  const id: any = router.query.id;
+  const postID = id.length < 2 ? id[0] : id[1].split('-').pop();
+
   React.useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
@@ -69,9 +71,9 @@ const PostDetail = () => {
 
   // is login
   const { refresh, postDetail, run } = usePostDetail(String(postID), {
-    onError: () => {
-      router.push(ROUTE_PATH.NOT_FOUND);
-    },
+    // onError: () => {
+    //   router.push(ROUTE_PATH.NOT_FOUND);
+    // },
     onSuccess: (res: any) => {
       setTotalCommentOfPost(res.data.totalChildren);
       setPostData(res.data);

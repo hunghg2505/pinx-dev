@@ -27,7 +27,8 @@ const ThemeDetail = () => {
   const router = useRouter();
   const isLogin = !!getAccessToken();
   const refTheme: any = React.useRef();
-  const id = router.query.id || '';
+  const slug: any = router.query.id || '';
+  const id = slug.split('-')[0];
   const [popupStatus] = useAtom(popupStatusAtom);
   const refCommunity: any = useRef(null);
   const refActivities: any = useRef(null);

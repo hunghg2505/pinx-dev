@@ -18,7 +18,7 @@ import { useUserType } from '@hooks/useUserType';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 
 interface IProps {
@@ -180,6 +180,10 @@ const ThemesItem = (props: IProps) => {
       </>
     );
   };
+  const id =
+    theme?.code +
+    '-chu-de-' +
+    toNonAccentVietnamese(theme?.name).toLowerCase().replaceAll(' ', '-');
   return (
     <>
       <div className='mx-auto w-[177px] pr-[16px]'>
@@ -192,12 +196,12 @@ const ThemesItem = (props: IProps) => {
               src={theme?.url}
               alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
-              onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(theme?.code))}
+              onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(id))}
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
             />
           )}
-          <CustomLink href={ROUTE_PATH.THEME_DETAIL(theme?.code)}>
+          <CustomLink href={ROUTE_PATH.THEME_DETAIL(id)}>
             <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)]'>
               <div className='flex h-[80px] flex-col items-center justify-center px-[8px]'>
                 <Text type='body-12-bold' color='primary-5' className='text-center'>

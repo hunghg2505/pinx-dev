@@ -14,7 +14,7 @@ import { VietStockNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPost
 import { IPost, TYPEPOST } from '@components/Post/service';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatMessage, imageStock, toNonAccentVietnamese } from '@utils/common';
 
 interface IProps {
   postDetail: IPost;
@@ -28,14 +28,11 @@ const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
   const { postDetail, onNavigate, pinned, isPostDetailPath, onTrackingViewTicker } = props;
   const [readMore, setReadMore] = useState(false);
-
   const [height, setHeight] = useState<number>(0);
   const bgTheme = useAtomValue(postThemeAtom);
-
   const ref = useRef(null);
 
   const messagePostFormat = useFormatMessagePost(postDetail?.post?.message);
-
   const { postDetailUrl, iconPost, urlStock, post_url } = useMemo(() => {
     const metaData = postDetail?.post?.metadataList?.[0];
 
@@ -45,14 +42,20 @@ const ContentPostTypeHome = (props: IProps) => {
       postDetail?.post.action === 'SUBSCRIBE'
         ? '/static/icons/iconSubcribe.svg'
         : '/static/icons/iconUnSubcribe.svg';
-    let postDetailUrl = ROUTE_PATH.POST_DETAIL(postDetail?.id);
+    let postDetailUrl = postDetail?.seoMetadata
+      ? '/' + postDetail?.seoMetadata?.slug
+      : postDetail?.id;
     if (postDetail?.postType === TYPEPOST.ActivityTheme) {
-      postDetailUrl = ROUTE_PATH.THEME_DETAIL(postDetail?.post.themeCode);
+      const url =
+        postDetail?.post.themeCode +
+        '-chu-de-' +
+        toNonAccentVietnamese(postDetail?.post.themeName).toLowerCase().replaceAll(' ', '-');
+      postDetailUrl = ROUTE_PATH.THEME_DETAIL(url);
     }
     if ([TYPEPOST.ActivityWatchlist, TYPEPOST.ActivityMatchOrder].includes(postDetail?.postType)) {
       postDetailUrl = ROUTE_PATH.STOCK_DETAIL(postDetail?.post?.stockCode);
     }
-
+    // console.log('b', postDetailUrl);
     return {
       imageMetaData: metaData?.images?.[0],
       siteName: metaData?.siteName,
