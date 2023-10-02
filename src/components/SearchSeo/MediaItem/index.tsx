@@ -148,7 +148,7 @@ const MediaItem = ({
   }, [img]);
 
   const onGoToDetail = () => {
-    onNavigate(ROUTE_PATH.POST_DETAIL(data?.id));
+    onNavigate(ROUTE_PATH.POST_DETAIL(data?.seoMetadata.slug));
   };
 
   const onNavigate = (path: string) => {

@@ -40,7 +40,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
       message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
+      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail?.seoMetadata?.slug),
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);
@@ -274,7 +274,7 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
       message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail.id),
+      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail?.seoMetadata?.slug),
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);

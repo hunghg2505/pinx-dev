@@ -10,7 +10,7 @@ import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
 
 import style from './index.module.scss';
 
@@ -37,7 +37,7 @@ const ItemWatchList = ({
   // const isChange = Number(data?.changePc) === 0 && Number(data?.changePercent) === 0;
   const isNoChange = Number(data?.changePc) === 0 || Number(data?.changePercent) === 0;
   const unit = isDecrease ? '-' : '+';
-
+  const code = getStockUrl(data);
   const useRemoveStock = useRequest(
     () => {
       return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(data?.stockCode));
@@ -64,7 +64,7 @@ const ItemWatchList = ({
             handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
           }}
           className='flex-none'
-          href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+          href={ROUTE_PATH.STOCK_DETAIL(code)}
         >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
             <Image
@@ -83,7 +83,7 @@ const ItemWatchList = ({
               onClick={() => {
                 handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
               }}
-              href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+              href={ROUTE_PATH.STOCK_DETAIL(code)}
             >
               <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}

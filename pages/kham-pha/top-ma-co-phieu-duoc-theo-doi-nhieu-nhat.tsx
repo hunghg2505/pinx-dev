@@ -14,7 +14,6 @@ const TopWatching = dynamic(() => import('@components/TopWatching'));
 
 const TopWatchingPage = ({ seoMetadata, host }: any) => {
   const { i18n } = useTranslation();
-
   return (
     <>
       <SEO

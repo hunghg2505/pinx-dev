@@ -248,7 +248,7 @@ const HomeNewFeed = () => {
         }
       />
 
-      <NewsFeed
+      {/* <NewsFeed
         onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
         onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
         key={`home-post-item-${firstPost?.id}`}
@@ -348,7 +348,7 @@ const HomeNewFeed = () => {
           <NewsFeedSkeleton />
           <NewsFeedSkeleton />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -502,7 +502,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                             data={item}
                             // setShowPopup={setSearchSeo}
                             showComment
-                            onNavigate={() => goToPostDetail(item?.id)}
+                            onNavigate={() => goToPostDetail(item?.seoMetadata.slug)}
                             isForceNavigate
                           />
                         );

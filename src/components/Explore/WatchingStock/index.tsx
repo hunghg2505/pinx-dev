@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, imageStock } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
 
 import { ITopWatchingStock } from '../service';
 
@@ -18,10 +18,11 @@ const WatchingStock = (props: Iprops) => {
   const { i18n } = useTranslation();
 
   const nameStock = i18n.language === 'en' ? data?.nameEn : data?.name;
+  const code = getStockUrl(data);
   return (
     <CustomLink
       onClick={() => onTrackingViewTickerInfo && onTrackingViewTickerInfo()}
-      href={ROUTE_PATH.STOCK_DETAIL(data.stockCode)}
+      href={ROUTE_PATH.STOCK_DETAIL(code)}
     >
       <div className='relative h-[60px] rounded-[15px] bg-[#F7F6F8] pl-[8px] pr-[20px]'>
         <div

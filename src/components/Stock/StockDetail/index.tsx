@@ -20,7 +20,7 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH, formatStringToNumber } from '@utils/common';
+import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
 import { USERTYPE } from '@utils/constant';
 import {
   addTickerTracking,
@@ -164,13 +164,33 @@ const StockDetail = () => {
   const [stockSocket, setStockSocket] = useAtom(stockSocketAtom);
 
   const router = useRouter();
-  const { stockCode }: any = router.query;
-
+  const { stockCode: code }: any = router.query;
+  const stockCode = code.split('-')[0].toUpperCase();
   const { stockDetail } = useStockDetail(stockCode, {
     onError: () => {
       router.push(ROUTE_PATH.NOT_FOUND);
     },
   });
+
+  useEffect(() => {
+    if (stockDetail?.data?.name && code.split('-').length < 2) {
+      const newPath = ROUTE_PATH.STOCK_DETAIL(
+        stockCode.toLowerCase() +
+          '-' +
+          toNonAccentVietnamese(stockDetail?.data?.name).toLowerCase().replaceAll(' ', '-'),
+      );
+      let currentLocale = window.history.state?.options?.locale;
+      currentLocale = currentLocale === 'en' ? '/en' : '';
+      window.history.replaceState(
+        {
+          ...window.history.state,
+          url: currentLocale + newPath,
+        },
+        '',
+        currentLocale + newPath,
+      );
+    }
+  }, [stockDetail]);
   const { refreshMyStocks } = useMyListStock({
     onSuccess: (res: null | IResponseMyStocks) => {
       const isFollowed = !!(res && res.data[0].stocks.some((item) => item.stockCode === stockCode));

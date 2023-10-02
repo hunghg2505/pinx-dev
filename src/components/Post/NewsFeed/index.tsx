@@ -145,7 +145,10 @@ const NewsFeed = (props: IProps) => {
   });
   const onNavigate = () => {
     clickAPostTracking(postData?.id, postType, hashtags, Ticker, Link, themeName);
-    router.push(`/post/${postData?.id}`);
+    const url = postData?.seoMetadata
+      ? `/${postData?.seoMetadata?.slug}`
+      : ROUTE_PATH.POST_DETAIL(postData.id);
+    router.push(url);
     setSearchSeo(false);
     globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
   };
@@ -175,8 +178,11 @@ const NewsFeed = (props: IProps) => {
 
   const ViewMore = () => {
     if (countComment > 1) {
+      const url = postData?.seoMetadata
+        ? `/${postData?.seoMetadata?.slug}`
+        : ROUTE_PATH.POST_DETAIL(postData.id);
       return (
-        <CustomLink onClick={handleTrackingGetMore} href={`/post/${postData?.id}`}>
+        <CustomLink onClick={handleTrackingGetMore} href={url}>
           <div className='mb-[5px] mt-[15px] flex h-[36px] cursor-pointer flex-row items-center justify-center rounded-[4px] bg-[#EAF4FB]'>
             <Text type='body-14-medium' color='primary-2'>
               {t('common:view_more')} {countComment - 1} {t('common:comments')}...
