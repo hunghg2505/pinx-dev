@@ -16,7 +16,7 @@ const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
 });
 
-const PostDetailPage = ({ id, host, postDetail }: any) => {
+const PostDetailPage = ({  host, postDetail }: any) => {
   const { i18n } = useTranslation();
   const { title, description, seoMetadata } = useMemo(() => {
     const seoMetadata = postDetail?.seoMetadata;
@@ -42,7 +42,7 @@ const PostDetailPage = ({ id, host, postDetail }: any) => {
   return (
     <>
       <SEO
-        siteUrl={`${host}/post/${id}`}
+        siteUrl={`${host}/${postDetail?.seoMetadata?.slug}`}
         title={title}
         description={description}
         openGraph={{

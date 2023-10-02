@@ -1079,7 +1079,7 @@ export const formatMsgPost = (title: string) => {
 };
 
 export const getHostName = (headers: any) => {
-  if (!headers) {
+  if (!headers['x-forwarded-proto']) {
     return '';
   }
 
