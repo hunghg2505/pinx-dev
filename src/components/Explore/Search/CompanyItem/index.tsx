@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { ITopWatchingStock } from '@components/Explore/service';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, imageStock } from '@utils/common';
+import { ROUTE_PATH, getStockUrl, imageStock } from '@utils/common';
 
 const CompanyItem = ({
   data,
@@ -20,10 +20,11 @@ const CompanyItem = ({
   const router = useRouter();
   const { i18n } = useTranslation();
   const [, setSearchSeo] = useAtom(searchSeoAtom);
+  const code = getStockUrl(data);
   return (
     <div
       onClick={() => {
-        router.push(ROUTE_PATH.STOCK_DETAIL(data.stockCode));
+        router.push(ROUTE_PATH.STOCK_DETAIL(code));
         setSearchSeo(false);
         onTrackingEventViewStockInfo && onTrackingEventViewStockInfo(data?.stockCode);
       }}

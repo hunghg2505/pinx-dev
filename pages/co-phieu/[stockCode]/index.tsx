@@ -45,7 +45,8 @@ StockDetailPage.getLayout = (page: ReactElement) => {
 };
 
 export async function getServerSideProps({ locale, params, req }: any) {
-  const stockCode = params?.stockCode;
+  const code = params?.stockCode.split('-');
+  const stockCode = code[0].toUpperCase();
   const dataStock = await fetchStockDetailFromServer(stockCode);
   const host = getHostName(req.headers);
 

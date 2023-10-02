@@ -22,7 +22,7 @@ const NewsItem = ({ className, data }: INewsItemProps) => {
   const router = useRouter();
 
   const goToPostDetail = () => {
-    router.push(ROUTE_PATH.POST_DETAIL(data.seoMetadata.slug));
+    router.push(ROUTE_PATH.HOME + data.seoMetadata.slug);
   };
 
   const renderThumbnail = () => {
