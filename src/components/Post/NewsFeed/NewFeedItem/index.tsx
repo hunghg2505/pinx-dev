@@ -425,7 +425,7 @@ const NewFeedItem = (props: IProps) => {
           <MaybeLink
             linkClassName='flex-1'
             href={urlTitle}
-            className='flex flex-1 flex-row items-center'
+            className='flex flex-row items-center flex-1'
           >
             <div
               ref={refHover}
@@ -496,7 +496,7 @@ const NewFeedItem = (props: IProps) => {
         {!isNewFeedExplore && (
           <div className='mobile:mt-[22px] desktop:mt-[28px]'>
             <PostActionComment
-              urlPost={`/post/${postId}`}
+              urlPost={`/${postDetail?.seoMetadata?.slug}`}
               isLike={isLike}
               idPost={String(postId as string)}
               totalLikes={postDetail?.totalLikes}
