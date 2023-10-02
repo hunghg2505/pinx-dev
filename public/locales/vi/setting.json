@@ -41,5 +41,6 @@
   "got_it": "Đã hiểu",
   "select_language": "Chọn ngôn ngữ",
   "new": "Mới",
-  "new_username_error_1": "Tên đăng nhập mới không được trùng với tên đăng nhập hiện tại"
+  "new_username_error_1": "Tên đăng nhập mới không được trùng với tên đăng nhập hiện tại",
+  "guidance": "Hướng dẫn"
 }

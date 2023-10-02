@@ -41,5 +41,6 @@
   "got_it": "Got it",
   "select_language": "Select language",
   "new": "New",
-  "new_username_error_1": "Your new username cannot be the same as your current username"
+  "new_username_error_1": "Your new username cannot be the same as your current username",
+  "guidance": "Guidance"
 }
