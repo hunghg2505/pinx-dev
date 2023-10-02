@@ -40,8 +40,14 @@ const ModalShare = ({
       return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=news_post';
     }
   };
-  const [shareUrl, setShareUrl] = useState(calcShareUrl());
+  const [shareUrl, setShareUrl] = useState('');
+  const [defaultShareUrl] = useState(calcShareUrl());
   const [isCopied, setIsCopied] = useState(false);
+  const buttonTelegram = document.querySelector('div[data-network=\'telegram\']');
+  const buttonFacebook = document.querySelector('div[data-network=\'facebook\']');
+  const buttonMail = document.querySelector('div[data-network=\'email\']');
+  const buttonMessenger = document.querySelector('div[data-network=\'messenger\']');
+  const buttonSkype = document.querySelector('div[data-network=\'skype\']');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const requestGetTotalShare = useRequest(getTotalSharePost, {
@@ -52,8 +58,62 @@ const ModalShare = ({
     handleAppendShareThisScript();
     handleAppendZaloScript();
     requestGetTotalShare.run(urlPost);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalShareVisible]);
+
+  // set link share with tracking
+  useEffect(() => {
+    if (postType === 'Post' || postType === 'ActivityTheme') {
+      buttonTelegram?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=personal_post`);
+      });
+      buttonFacebook?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=personal_post`);
+      });
+      buttonMail?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=personal_post`);
+      });
+      buttonMessenger?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=messenger&utm_content=personal_post`);
+      });
+      buttonSkype?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=personal_post`);
+      });
+    }
+    else if (postType === 'ActivityWatchlist' || postType === 'ActivityWatchlist') {
+      buttonFacebook?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=investment_post`);
+      });
+      buttonMessenger?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=messenger&utm_content=investment_post`);
+      });
+      buttonSkype?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=investment_post`);
+      });
+      buttonTelegram?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=investment_post`);
+      });
+      buttonMail?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=investment_post`);
+      });
+    }
+    else if (postTypeGroup === 'News') {
+      buttonFacebook?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=news_post`);
+      });
+      buttonMessenger?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=messenger&utm_content=news_post`);
+      });
+      buttonSkype?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=news_post`);
+      });
+      buttonTelegram?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=news_post`);
+      });
+      buttonMail?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=news_post`);
+      });
+    }
+  }, [buttonTelegram]);
 
   const handleCopy = () => {
     if (isCopied) {
@@ -61,7 +121,7 @@ const ModalShare = ({
     }
 
     inputRef.current?.select();
-    navigator.clipboard.writeText(shareUrl || '');
+    navigator.clipboard.writeText(defaultShareUrl || '');
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
@@ -119,34 +179,18 @@ const ModalShare = ({
 
     document.head.append(shareThisBtnScript);
     document.head.append(script);
-
-    const buttonTelegram = document.querySelector('div[data-network=\'telegram\']');
-    const buttonFacebook = document.querySelector('div[data-network=\'facebook\']');
-    const buttonMail = document.querySelector('div[data-network=\'email\']');
-    const buttonMessenger = document.querySelector('div[data-network=\'messenger\']');
-    const buttonSkype = document.querySelector('div[data-network=\'skype\']');
-
-    if (postType === 'Post' || postType === 'ActivityTheme') {
-      buttonTelegram?.addEventListener('click', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=personal_post`);
-      });
-      buttonFacebook?.addEventListener('click', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=personal_post`);
-      });
-      buttonMail?.addEventListener('click', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=personal_post`);
-      });
-      buttonMessenger?.addEventListener('click', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=messenger&utm_content=personal_post`);
-      });
-      buttonSkype?.addEventListener('click', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=personal_post`);
-      });
-    }
   };
 
   const calcZaloShareUrl = () => {
-    return postType === 'Post' || postType === 'ActivityTheme' ? `${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=personal_post` : shareUrl;
+    if (postType === 'Post' || postType === 'ActivityTheme') {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=personal_post';
+    }
+    if (postType === 'ActivityWatchlist' || postType === 'ActivityWatchlist') {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=investment_post';
+    }
+    if (postTypeGroup === 'News') {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=news_post';
+    }
   };
 
   return (
@@ -186,7 +230,7 @@ const ModalShare = ({
               <input
                 type='text'
                 readOnly
-                value={shareUrl}
+                value={defaultShareUrl}
                 className='h-full w-full flex-1 rounded-bl-[8px] rounded-tl-[8px] border-b border-l border-t border-[var(--primary-2)] px-[8px] text-[15px] outline-none'
                 ref={inputRef}
               />
