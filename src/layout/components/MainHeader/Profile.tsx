@@ -34,12 +34,15 @@ import {
   isUrlValid,
 } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
-import { DownloadPineXApp } from '@utils/dataLayer';
 import { DEEP_LINK } from 'src/constant';
-import { registerTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
+import {
+  downloadPineXAppTracking,
+  registerTracking,
+  viewWatchListTracking,
+} from 'src/mixpanel/mixpanel';
 
 const handleRedirect = (url: string) => {
-  DownloadPineXApp('CTA in App', 'MenuProfileMobile');
+  downloadPineXAppTracking('CTA in App', 'MenuProfileMobile');
   window.open(url, '_blank');
 };
 

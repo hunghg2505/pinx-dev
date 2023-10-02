@@ -21,8 +21,8 @@ import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { ROUTE_PATH } from '@utils/common';
-import { DownloadPineXApp } from '@utils/dataLayer';
 import { DEEP_LINK } from 'src/constant';
+import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 // const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
 // const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'), {
@@ -106,7 +106,7 @@ const MainHeader = () => {
               </Text>
               <CustomLink
                 href='https://onelink.to/cgarrk'
-                onClick={() => DownloadPineXApp('CTA in App', 'Header')}
+                onClick={() => downloadPineXAppTracking('CTA in App', 'Header')}
               >
                 <Text type='body-14-medium' color='primary-5'>
                   {t('mobile_app')}
@@ -117,7 +117,7 @@ const MainHeader = () => {
           <CustomLink
             href={DEEP_LINK.OPEN_APP}
             target='_blank'
-            onClick={() => DownloadPineXApp('CTA in App', 'Header')}
+            onClick={() => downloadPineXAppTracking('CTA in App', 'Header')}
           >
             <div className='flex h-[38px] w-[101px] items-center justify-center rounded-[41px] bg-[linear-gradient(247.96deg,_#1D6CAB_14.41%,_#589DC0_85.59%)] [box-shadow:0px_4px_16px_rgba(88,_157,_192,_0.24)]'>
               <Text type='body-14-bold' color='neutral-9'>
