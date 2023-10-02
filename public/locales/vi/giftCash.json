@@ -13,5 +13,6 @@
   "giftcash.text.balance": "Giá trị quà tặng Giftcash sẽ về tài khoản sau 01 ngày làm việc",
   "giftcash.text.once.fulfill": "Sau khi ấn nút Đổi quà thành công, bạn sẽ nhận được quà tặng vào tài khoản quà sau 01 ngày làm việc. Thêm bạn thêm quà, hãy mời thêm bạn bè của bạn ngay hôm nay",
   "giftcash.text.invest": "Sử dụng Quà tặng Giftcash để đặt lệnh trên PineX",
-  "giftcash.text.list.eligible": "Bạn chỉ được sử dụng quà tặng để đặt lệnh với một số mã chứng khoán tốt được quy định bởi Pinetree. Lưu ý hãy dùng các lệnh ATO, MP, ATC để đặt lệnh với Giftcash nhé!"
+  "giftcash.text.list.eligible": "Bạn chỉ được sử dụng quà tặng để đặt lệnh với một số mã chứng khoán tốt được quy định bởi Pinetree. Lưu ý hãy dùng các lệnh ATO, MP, ATC để đặt lệnh với Giftcash nhé!",
+  "open_app": "Mở PineX"
 }

@@ -25,6 +25,8 @@ interface Props {
     };
   };
   keywords?: [];
+  isNoFollow?: boolean;
+  isNoIndex?: boolean;
 }
 
 const SEO: FC<Props> = ({
@@ -35,6 +37,8 @@ const SEO: FC<Props> = ({
   twitterGraph,
   schema,
   keywords,
+  isNoFollow = false,
+  isNoIndex = false,
 }) => {
   const kwToStr = useMemo(() => {
     let data = '';
@@ -58,7 +62,9 @@ const SEO: FC<Props> = ({
       )}
       <meta
         name='robots'
-        content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+        content={`${isNoIndex ? 'noindex' : 'index'}, ${
+          isNoFollow ? 'nofollow' : 'follow'
+        }, max-image-preview:large, max-snippet:-1, max-video-preview:-1`}
       ></meta>
       <meta property='og:type' content={openGraph?.type ?? config.openGraph.type} />
       <meta property='og:url' content={siteUrl || 'https://pinex.vn/'} />
