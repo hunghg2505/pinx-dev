@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 
 import dynamic from 'next/dynamic';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { createSearchSeoFromServer } from '@components/SearchSeo/service';
@@ -11,10 +12,36 @@ import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 
 const SearchSeo = dynamic(() => import('@components/SearchSeo'));
 
-const SearchBar = ({ host, urlParams }: { host: string; urlParams: string }) => {
+const SearchBar = ({
+  host,
+  urlParams,
+  seoMetadata,
+}: {
+  host: string;
+  urlParams: string;
+  seoMetadata: any;
+}) => {
+  const { i18n } = useTranslation();
+
   return (
     <>
-      <SEO title={'Search Seo'} siteUrl={`${host}${ROUTE_PATH.SEARCHSEO}${urlParams}`} />
+      <SEO
+        title={seoMetadata?.title}
+        siteUrl={`${host}${ROUTE_PATH.SEARCHSEO}${urlParams}`}
+        description={seoMetadata?.metaDescription}
+        openGraph={{
+          locale: i18n.language,
+          images: {
+            url: seoMetadata?.imageSeo?.urlImage,
+          },
+        }}
+        twitterGraph={{
+          images: {
+            url: seoMetadata?.imageSeo?.urlImage,
+          },
+        }}
+        keywords={seoMetadata?.keyphrase}
+      />
       <SearchSeo />
     </>
   );
@@ -28,7 +55,6 @@ SearchBar.getLayout = function getLayout(page: ReactElement) {
 };
 export async function getServerSideProps({ locale, query, req }: any) {
   const keyword = query?.keyword;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const response = await createSearchSeoFromServer(removeSpecialCharacter(keyword));
   const host = getHostName(req.headers);
 
@@ -50,6 +76,7 @@ export async function getServerSideProps({ locale, query, req }: any) {
       // Will be passed to the page component as props
       host,
       urlParams,
+      seoMetadata: response?.data?.seoMetadata,
     },
   };
 }

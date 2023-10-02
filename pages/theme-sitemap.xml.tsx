@@ -43,7 +43,8 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
       await fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(item?.code)}`)
     ).json();
 
-    const slug = 'chu-de/' + data?.data?.code?.toLowerCase() + '-' + slugify(data?.data?.name);
+    const slug =
+      'chu-de/' + data?.data?.code?.toLowerCase() + '-chu-de-' + slugify(data?.data?.name);
     listSlug.push(slug);
   }
 

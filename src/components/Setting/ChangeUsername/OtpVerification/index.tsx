@@ -80,7 +80,7 @@ const ChangeUsernameVertification = () => {
       trdType: '1',
     };
     requestResendLoginOtp.run(payload);
-    resendSMSTracking(userLoginInfo?.phone || '');
+    resendSMSTracking();
   };
 
   useEffect(() => {

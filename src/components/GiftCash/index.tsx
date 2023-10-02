@@ -3,8 +3,8 @@ import { useTranslation } from 'next-i18next';
 import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
-import { DownloadPineXApp } from '@utils/dataLayer';
 import { DEEP_LINK } from 'src/constant';
+import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
 
@@ -19,7 +19,7 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 const handleRedirect = (url: string) => {
-  DownloadPineXApp('CTA in App', 'GiftCash');
+  downloadPineXAppTracking('CTA in App', 'GiftCash');
   window.open(url, '_blank');
 };
 const GiftCash = () => {
@@ -85,7 +85,7 @@ const GiftCash = () => {
             </div>
             <div className='flex w-[158px] flex-col justify-center  gap-y-[24px] mobile-max:hidden'>
               <Image
-                src='/static/images/googleplay.png'
+                src='/static/images/google-play.png'
                 alt='Download google play'
                 width={180}
                 height={52}
@@ -96,7 +96,7 @@ const GiftCash = () => {
 
               <Image
                 sizes='100vw'
-                src='/static/images/appstore.png'
+                src='/static/images/app-store.png'
                 alt='Download app store'
                 width={180}
                 height={52}
@@ -110,10 +110,10 @@ const GiftCash = () => {
                   href={DEEP_LINK.GIFT_CASH}
                   target='_blank'
                   rel='noreferrer'
-                  onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}
+                  onClick={() => downloadPineXAppTracking('CTA in App', 'GiftCash')}
                 >
                   <Text type='body-14-bold' color='cbwhite'>
-                    {t('giftcash.text.download')}
+                    {t('open_app')}
                   </Text>
                 </a>
               </div>
@@ -266,10 +266,10 @@ const GiftCash = () => {
                 href={DEEP_LINK.GIFT_CASH}
                 target='_blank'
                 rel='noreferrer'
-                onClick={() => DownloadPineXApp('CTA in App', 'GiftCash')}
+                onClick={() => downloadPineXAppTracking('CTA in App', 'GiftCash')}
               >
                 <Text type='body-14-bold' color='cbwhite'>
-                  {t('giftcash.text.download')}
+                  {t('open_app')}
                 </Text>
               </a>
             </div>

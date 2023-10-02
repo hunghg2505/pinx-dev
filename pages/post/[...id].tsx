@@ -56,6 +56,8 @@ const PostDetailPage = ({ id, host, postDetail }: any) => {
             url: seoMetadata?.imageSeo?.urlImage,
           },
         }}
+        isNoFollow={!seoMetadata?.follow}
+        isNoIndex={!seoMetadata?.index}
       />
       <PostDetail />
     </>

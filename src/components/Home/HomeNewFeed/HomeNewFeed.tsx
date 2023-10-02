@@ -23,6 +23,7 @@ import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 import {
+  filterNewsTracking,
   getMoreInfoTracking,
   viewTickerInfoTracking,
   viewWatchListTracking,
@@ -132,6 +133,7 @@ const HomeNewFeed = () => {
   };
 
   const onFilter = async (value: string) => {
+    filterNewsTracking();
     router.push({
       pathname: ROUTE_PATH.HOME,
       query: { filterType: value },

@@ -13,5 +13,6 @@
   "giftcash.text.balance": "GiftCash balance arrive after 1 business day",
   "giftcash.text.once.fulfill": "Once you fulfill all condition, your reward will arrive your balance the next buniness day. Stay tune and you can earn more by inviting friends",
   "giftcash.text.invest": "Invest with GiftCash is special experience",
-  "giftcash.text.list.eligible": " There are a list a eligible stock codes for you to invest. They are hand-picked limited. GiftCash allows you to buy stock in ATO, MP, ATC order types only to ensure the liquidity"
+  "giftcash.text.list.eligible": " There are a list a eligible stock codes for you to invest. They are hand-picked limited. GiftCash allows you to buy stock in ATO, MP, ATC order types only to ensure the liquidity",
+  "open_app": "Open PineX"
 }

@@ -30,6 +30,7 @@ interface IPostActionProps {
   urlPost: string;
   className?: string;
   isForceNavigate?: boolean;
+  postDetail?: any;
 }
 
 const PostAction = (props: IPostActionProps) => {
@@ -43,6 +44,7 @@ const PostAction = (props: IPostActionProps) => {
     urlPost,
     className,
     isForceNavigate,
+    postDetail
   } = props;
 
   const { statusUser, isLogin } = useUserType();
@@ -166,6 +168,14 @@ const PostAction = (props: IPostActionProps) => {
 
   return (
     <>
+      {modalShareVisible && (
+        <ModalShare
+          urlPost={urlPostFormat}
+          modalShareVisible={modalShareVisible}
+          setModalShareVisible={setModalShareVisible}
+          postDetail={postDetail}
+        />
+      )}
       <div
         className={classNames(
           'action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]',
@@ -205,22 +215,16 @@ const PostAction = (props: IPostActionProps) => {
             <span className=' galaxy-max:hidden'>{t('comment')}</span>
           </Text>
         </div>
-        <ModalShare
-          urlPost={urlPostFormat}
-          modalShareVisible={modalShareVisible}
-          setModalShareVisible={setModalShareVisible}
-        >
-          <div className='report flex cursor-pointer flex-row items-center justify-center'>
-            <img
-              src='/static/icons/iconShare.svg'
-              alt=''
-              className='mr-[8px] h-[20px] w-[20px] object-contain'
-            />
-            <Text type='body-14-medium' color='primary-5'>
-              {total || ''} <span className='galaxy-max:hidden'>{t('share')}</span>
-            </Text>
-          </div>
-        </ModalShare>
+        <div className='report flex cursor-pointer flex-row items-center justify-center' onClick={() => setModalShareVisible(true)}>
+          <img
+            src='/static/icons/iconShare.svg'
+            alt=''
+            className='mr-[8px] h-[20px] w-[20px] object-contain'
+          />
+          <Text type='body-14-medium' color='primary-5'>
+            {total || ''} <span className='galaxy-max:hidden'>{t('share')}</span>
+          </Text>
+        </div>
       </div>
     </>
   );

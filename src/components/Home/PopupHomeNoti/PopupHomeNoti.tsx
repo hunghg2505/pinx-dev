@@ -31,8 +31,6 @@ const PopupHomeNoti = () => {
 
   return (
     <>
-      <Script src={`https://www.google.com/recaptcha/api.js?render=${ENV.RECAPTHCHA_SITE_KEY}`} />
-
       {popupStatus.popupAccessLinmit && (
         <PopupAccessLimit visible={popupStatus.popupAccessLinmit} onClose={onCloseModal} />
       )}
@@ -40,7 +38,10 @@ const PopupHomeNoti = () => {
         <PopupLoginTerms visible={popupStatus.popupLoginTerms} onClose={onCloseModal} />
       )}
       {popupStatus.popupAuth && (
-        <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
+        <>
+          <Script src={`https://www.google.com/recaptcha/api.js?render=${ENV.RECAPTHCHA_SITE_KEY}`} />
+          <PopupAuth visible={popupStatus.popupAuth} onClose={onCloseModal} />
+        </>
       )}
       {popupStatus.popupRegisterOtp && (
         <PopupRegisterOtp visible={popupStatus.popupRegisterOtp} onClose={onCloseModal} />

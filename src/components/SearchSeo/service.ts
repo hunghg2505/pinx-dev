@@ -310,7 +310,11 @@ export const createSearchSeoFromServer = async (textSearch: string) => {
       method: 'POST',
       body: JSON.stringify({
         textSearch,
-        typeSearch: '"ALL"',
+        link: '',
+        postId: [''],
+        stockCode: [''],
+        themeId: [''],
+        typeSearch: 'ALL',
       }),
       headers: {
         Accept: 'application/json',

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import { ISubsidiaries } from '@components/Stock/type';
@@ -45,7 +44,7 @@ const PopupAlsoOwn = ({ visible, onClose, data }: IPopupAlsoOwnProps) => {
 
         <div className='flex items-center'>
           <div className='flex-1'>
-            <Image
+            <img
               width='0'
               height='0'
               sizes='100vw'

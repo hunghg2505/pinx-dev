@@ -5,10 +5,10 @@ import { useTranslation } from 'next-i18next';
 
 import { MainButton } from '@components/UI/Button';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { DownloadPineXApp } from '@utils/dataLayer';
+import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 const handleRedirect = () => {
-  DownloadPineXApp('CTA in App', 'UpdateAccount');
+  downloadPineXAppTracking('CTA in App', 'UpdateAccount');
   window.open('https://onelink.to/cgarrk', '_blank');
 };
 
