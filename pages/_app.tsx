@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name='theme-color' content={isShowNotificationMobile ? '#F8FAFD' : '#FFFFFF'} />
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
-        <link rel='shortcut icon' href='/static/favicon.svg' />
+        <link rel='shortcut icon' href='/static/favicon2.ico' />
         <link rel='alternate' href='https://pinex.vn/' hrefLang='vi' />
         <link rel='alternate' href='https://pinex.vn/en' hrefLang='en' />
         <meta
