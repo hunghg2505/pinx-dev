@@ -43,6 +43,7 @@ const ModalShare = ({
   const [shareUrl, setShareUrl] = useState('');
   const [defaultShareUrl] = useState(calcShareUrl());
   const [isCopied, setIsCopied] = useState(false);
+  const [, setIsShareThisInit] = useState(false);
   const buttonTelegram = document.querySelector('div[data-network=\'telegram\']');
   const buttonFacebook = document.querySelector('div[data-network=\'facebook\']');
   const buttonMail = document.querySelector('div[data-network=\'email\']');
@@ -183,6 +184,9 @@ const ModalShare = ({
 
     document.head.append(shareThisBtnScript);
     document.head.append(script);
+    setTimeout(() => {
+      setIsShareThisInit(true);
+    }, 500);
   };
 
   const calcZaloShareUrl = () => {
