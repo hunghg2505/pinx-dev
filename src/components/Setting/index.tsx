@@ -19,6 +19,7 @@ import { getLocaleCookie } from '@store/locale';
 // import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
+import { GUIDANCE_LINK } from 'src/constant';
 
 import PopupHotline from './PopupHotline';
 import PopupLanguage from './PopupLanguage';
@@ -39,7 +40,7 @@ interface ISettingItem {
 }
 
 const Setting = () => {
-  const { t } = useTranslation('setting');
+  const { t, i18n } = useTranslation('setting');
   const router = useRouter();
   const currentLang = getLocaleCookie() || 'en';
   const [popupLanguageVisible, setPopupLanguageVisible] = useState(false);
@@ -103,13 +104,17 @@ const Setting = () => {
         hideArrow: !isMobile,
         hoverEffect: true,
       },
-      // {
-      //   title: 'Guidance',
-      //   action: () => window.open(TERM_AND_CONDITION_LINK),
-      //   linkStyle: !isMobile,
-      //   hideDivider: !isMobile,
-      //   hideArrow: !isMobile,
-      // },
+      {
+        title: t('guidance'),
+        action: () => {
+          const guidanceLink = i18n.language === 'vi' ? GUIDANCE_LINK.VI : GUIDANCE_LINK.EN;
+          window.open(guidanceLink);
+        },
+        linkStyle: false,
+        hideDivider: true,
+        hideArrow: !isMobile,
+        hoverEffect: true,
+      },
       {
         title: t('hotline'),
         action: () => {
