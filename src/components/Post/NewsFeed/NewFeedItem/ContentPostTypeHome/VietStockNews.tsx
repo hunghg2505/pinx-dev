@@ -123,6 +123,7 @@ export const VietStockNews = ({
             onClick={onTrackingReadNews}
           >
             <ImageHeadPost
+              priority={pinned}
               alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
               title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               headImageUrl={postDetail?.post?.headImageUrl}

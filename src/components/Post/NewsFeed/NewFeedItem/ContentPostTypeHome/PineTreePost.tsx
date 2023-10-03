@@ -33,6 +33,7 @@ export const PineTreePost = ({
   postDetail,
   post_url,
   isPostDetailPath,
+  pinned,
 }: any) => {
   const { t } = useTranslation();
 
@@ -100,6 +101,7 @@ export const PineTreePost = ({
             className='absolute left-0 top-0 z-[1]  h-full w-full'
           >
             <ImageHeadPost
+              priority={pinned}
               alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
               title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               headImageUrl={postDetail?.post?.headImageUrl}
