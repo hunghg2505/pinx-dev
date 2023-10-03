@@ -40,7 +40,7 @@ const ModalShare = ({
       return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=news_post';
     }
   };
-  const [shareUrl, setShareUrl] = useState('');
+  const [shareUrl, setShareUrl] = useState(calcShareUrl());
   const [defaultShareUrl] = useState(calcShareUrl());
   const [isCopied, setIsCopied] = useState(false);
   const [, setIsShareThisInit] = useState(false);
@@ -186,7 +186,7 @@ const ModalShare = ({
     document.head.append(script);
     setTimeout(() => {
       setIsShareThisInit(true);
-    }, 500);
+    }, 600);
   };
 
   const calcZaloShareUrl = () => {
