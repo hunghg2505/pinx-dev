@@ -6,9 +6,10 @@ interface IPropsImageHeadPost {
   headImageUrl: string;
   alt: string;
   title: string;
+  priority: boolean;
 }
 
-const ImageHeadPost = ({ headImageUrl, alt, title }: IPropsImageHeadPost) => {
+const ImageHeadPost = ({ headImageUrl, alt, title, priority }: IPropsImageHeadPost) => {
   if (!headImageUrl) {
     return <></>;
   }
@@ -19,6 +20,7 @@ const ImageHeadPost = ({ headImageUrl, alt, title }: IPropsImageHeadPost) => {
         width='0'
         height='0'
         sizes='100vw'
+        priority={priority}
         src={headImageUrl}
         alt={alt}
         title={title}

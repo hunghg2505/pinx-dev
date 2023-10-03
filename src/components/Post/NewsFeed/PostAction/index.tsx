@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
+import { useInView } from 'react-intersection-observer';
 
 import { likePost, unlikePost, useGetTotalSharePost } from '@components/Post/service';
 import Notification from '@components/UI/Notification';
@@ -44,7 +45,7 @@ const PostAction = (props: IPostActionProps) => {
     urlPost,
     className,
     isForceNavigate,
-    postDetail
+    postDetail,
   } = props;
 
   const { statusUser, isLogin } = useUserType();
@@ -70,11 +71,14 @@ const PostAction = (props: IPostActionProps) => {
     setUrlPostFormat(window.location.origin + urlPost);
   }, [urlPost]);
 
+  const { ref, inView } = useInView();
+  const fetchRef = useRef(false);
   useEffect(() => {
-    if (!modalShareVisible) {
+    if (!modalShareVisible && inView && !fetchRef.current) {
       onGetTotalShare(urlPostFormat);
+      fetchRef.current = true;
     }
-  }, [modalShareVisible, urlPostFormat]);
+  }, [modalShareVisible, urlPostFormat, inView]);
 
   const useLikePost = useRequest(
     () => {
@@ -177,6 +181,7 @@ const PostAction = (props: IPostActionProps) => {
         />
       )}
       <div
+        ref={ref}
         className={classNames(
           'action flex flex-row items-center justify-around  py-3 [border-top:1px_solid_#EBEBEB]',
           className,
@@ -190,7 +195,7 @@ const PostAction = (props: IPostActionProps) => {
             src={like && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
             color='#FFFFFF'
             alt=''
-            sizes='100vw'
+            sizes='22px'
             className='mr-[8px] h-[20px] w-[22px] object-contain'
           />
           <Text
@@ -208,6 +213,7 @@ const PostAction = (props: IPostActionProps) => {
           <img
             src='/static/icons/iconComment.svg'
             alt=''
+            sizes='20px'
             className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
           <Text type='body-14-medium' color='primary-5'>
@@ -215,10 +221,14 @@ const PostAction = (props: IPostActionProps) => {
             <span className=' galaxy-max:hidden'>{t('comment')}</span>
           </Text>
         </div>
-        <div className='report flex cursor-pointer flex-row items-center justify-center' onClick={() => setModalShareVisible(true)}>
+        <div
+          className='report flex cursor-pointer flex-row items-center justify-center'
+          onClick={() => setModalShareVisible(true)}
+        >
           <img
             src='/static/icons/iconShare.svg'
             alt=''
+            sizes='20px'
             className='mr-[8px] h-[20px] w-[20px] object-contain'
           />
           <Text type='body-14-medium' color='primary-5'>

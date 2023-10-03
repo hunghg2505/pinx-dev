@@ -39,7 +39,11 @@ const AppInitialData = () => {
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
     run();
-    getInitDataStockMarketHome();
+    const t = setTimeout(() => {
+      getInitDataStockMarketHome();
+      clearTimeout(t);
+    }, 5000);
+
     // getMessagingToken().then((firebaseToken) => {
     //   requestGetNotificationToken.run({
     //     deviceToken: firebaseToken

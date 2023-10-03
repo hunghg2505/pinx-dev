@@ -136,6 +136,7 @@ export const PineTreePost2 = ({
             width='0'
             height='0'
             sizes='100vw'
+            priority={pinned}
             src={postDetail?.post?.urlImages?.[0]}
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
             title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
