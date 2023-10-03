@@ -1,3 +1,4 @@
+import { useMount } from 'ahooks';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -14,7 +15,10 @@ const Themes = () => {
   const onGoBack = () => {
     router.back();
   };
-  const { theme, loading } = useGetTheme();
+  const { theme, loading, fetchTheme } = useGetTheme();
+  useMount(() => {
+    fetchTheme();
+  });
   return (
     <div className='box-shadow card-style mb-10 rounded-[8px] bg-[#FFF] p-[10px] tablet:mt-[24px] tablet:p-[16px] desktop:mt-0'>
       <div className='relative mb-[16px] mt-[12px] h-[40px] text-center tablet:mt-0'>

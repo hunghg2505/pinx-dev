@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
+import { useInView } from 'react-intersection-observer';
 import Slider from 'react-slick';
 
 // import ThemesItem from '@components/Themes/ThemesItem';
@@ -11,6 +12,7 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 
 // import ThemeLoading from './Skeleton';
+import ThemeLoading from './Skeleton';
 import { ITheme, useGetTheme } from '../service';
 
 const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
@@ -55,23 +57,33 @@ const ListTheme = () => {
   const { t } = useTranslation();
 
   const { isLogin } = useLogin();
-  const { theme, refresh } = useGetTheme();
+  const { theme, refresh, fetchTheme } = useGetTheme();
   const refSlide: any = React.useRef();
 
-  // if (loading) {
-  //   return (
-  //     <div className='overflow-x-hidden whitespace-nowrap'>
-  //       <ThemeLoading />
-  //       <ThemeLoading />
-  //       <ThemeLoading />
-  //       <ThemeLoading />
-  //       <ThemeLoading />
-  //     </div>
-  //   );
-  // }
+  const { ref, inView } = useInView();
+  const checkRef = useRef(false);
+
+  useEffect(() => {
+    if (inView && !checkRef.current) {
+      fetchTheme();
+      checkRef.current = true;
+    }
+  }, [inView]);
+
+  if (theme?.length === 0) {
+    return (
+      <div className='overflow-x-hidden whitespace-nowrap'>
+        <ThemeLoading />
+        <ThemeLoading />
+        <ThemeLoading />
+        <ThemeLoading />
+        <ThemeLoading />
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div ref={ref}>
       <div className='relative h-[252px] '>
         <div
           onClick={refSlide?.current?.slickPrev}

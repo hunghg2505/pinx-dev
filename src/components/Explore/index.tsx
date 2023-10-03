@@ -94,7 +94,7 @@ const Explore = () => {
   const refSlideTheme: any = React.useRef();
   const refSlidePinex: any = React.useRef();
 
-  const { theme, refresh: refreshTheme } = useGetTheme();
+  const { theme, refresh: refreshTheme, fetchTheme } = useGetTheme();
   const { keyWords, loading: loadingKeywords, mutate } = useGetKeyWordsTop();
   const {
     run,
@@ -114,6 +114,7 @@ const Explore = () => {
 
   React.useEffect(() => {
     run(FILTER_TYPE.MOST_REACTED);
+    fetchTheme();
   }, []);
 
   React.useEffect(() => {
