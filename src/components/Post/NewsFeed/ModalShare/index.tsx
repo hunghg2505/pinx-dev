@@ -60,8 +60,7 @@ const ModalShare = ({
     requestGetTotalShare.run(urlPost);
   }, [modalShareVisible]);
 
-  // set link share with tracking
-  useEffect(() => {
+  const initShareThisButton = () => {
     if (postType === 'Post' || postType === 'ActivityTheme') {
       buttonTelegram?.addEventListener('mouseover', () => {
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=personal_post`);
@@ -113,7 +112,12 @@ const ModalShare = ({
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=news_post`);
       });
     }
-  }, [buttonTelegram]);
+  };
+
+  // set link share with tracking
+  useEffect(() => {
+    initShareThisButton();
+  });
 
   const handleCopy = () => {
     if (isCopied) {
