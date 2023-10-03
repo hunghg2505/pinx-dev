@@ -1,10 +1,12 @@
-import React from 'react';
+import { useRef, useEffect } from 'react';
 
+import { useInView } from 'react-intersection-observer';
 import Slider from 'react-slick';
 
 import { IKOL, useGetInfluencer, useSuggestPeople } from '@components/Home/service';
 
 import ItemInfluence from './ItemInfluence';
+import InfluencerLoading from './Skeleton';
 // import InfluencerLoading from './Skeleton';
 
 const Influencer = () => {
@@ -42,28 +44,39 @@ const Influencer = () => {
     // autoplay: true,
     // autoplaySpeed: 1000,
   };
-  const { KOL, refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
+  const { KOL, refresh, fetchInfluencer } = useGetInfluencer({
+    cacheKey: 'data-influencer',
+    manual: true,
+  });
   const { refreshList } = useSuggestPeople({
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
   });
-  const refSlide: any = React.useRef();
+  const refSlide: any = useRef();
+  const { ref, inView } = useInView();
+  const checkRef = useRef(false);
 
-  // if (loading) {
-  //   return (
-  //     <div className='overflow-x-hidden whitespace-nowrap'>
-  //       <InfluencerLoading />
-  //       <InfluencerLoading />
-  //       <InfluencerLoading />
-  //       <InfluencerLoading />
-  //       <InfluencerLoading />
-  //     </div>
-  //   );
-  // }
+  useEffect(() => {
+    if (inView && !checkRef.current) {
+      fetchInfluencer();
+      checkRef.current = true;
+    }
+  }, [inView]);
+  if (KOL?.length === 0) {
+    return (
+      <div className='overflow-x-hidden whitespace-nowrap'>
+        <InfluencerLoading />
+        <InfluencerLoading />
+        <InfluencerLoading />
+        <InfluencerLoading />
+        <InfluencerLoading />
+      </div>
+    );
+  }
 
   // const ListInfluencer = KOL?.filter((item: IKOL) => item.isFeatureProfile === true);
   return (
-    <div className='peopleInfluence relative w-[100%]'>
+    <div ref={ref} className='peopleInfluence relative w-[100%]'>
       <div
         onClick={refSlide?.current?.slickPrev}
         className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'

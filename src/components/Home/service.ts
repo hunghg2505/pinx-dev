@@ -245,7 +245,7 @@ export const useGetTrending = (options = {}) => {
 };
 
 export const useGetInfluencer = (options = {}) => {
-  const { data, refresh, loading } = useRequest(
+  const { data, refresh, loading, run } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
 
@@ -261,6 +261,7 @@ export const useGetInfluencer = (options = {}) => {
     KOL: data?.data?.list || data?.data,
     refresh,
     loading,
+    fetchInfluencer: run,
   };
 };
 
