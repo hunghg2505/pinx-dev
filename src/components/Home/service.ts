@@ -245,7 +245,7 @@ export const useGetTrending = (options = {}) => {
 };
 
 export const useGetInfluencer = (options = {}) => {
-  const { data, refresh, loading } = useRequest(
+  const { data, refresh, loading, run } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
 
@@ -261,6 +261,7 @@ export const useGetInfluencer = (options = {}) => {
     KOL: data?.data?.list || data?.data,
     refresh,
     loading,
+    fetchInfluencer: run,
   };
 };
 
@@ -303,19 +304,20 @@ export const useSuggestPeople = (options = {}) => {
 };
 
 export const useGetTheme = () => {
-  const { data, refresh, loading } = useRequest(
+  const { data, refresh, loading, run } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
         ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
         : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
     },
-    { loadingDelay: 300 },
+    { loadingDelay: 300, manual: true },
   );
   return {
     theme: data?.data,
     refresh,
     loading,
+    fetchTheme: run,
   };
 };
 
