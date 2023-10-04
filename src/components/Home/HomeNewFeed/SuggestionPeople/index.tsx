@@ -13,7 +13,7 @@ const SuggestionPeople = () => {
   const { suggestionPeople, getSuggestFriend, refreshList, loading } = useSuggestPeople({
     cacheKey: 'data-suggestionPeople',
   });
-  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer', manual: true });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
 
   React.useEffect(() => {
     const isLogin = !!getAccessToken();

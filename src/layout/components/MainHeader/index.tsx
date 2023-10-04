@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useSize, useUpdateEffect } from 'ahooks';
+import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 // import dynamic from 'next/dynamic';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -13,7 +12,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
-// import MenuMobile from '@layout/components/MainHeader/MenuMobile';
+import MenuMobile from '@layout/components/MainHeader/MenuMobile';
 // import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
@@ -25,9 +24,6 @@ import { ROUTE_PATH } from '@utils/common';
 import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
-const MenuMobile = dynamic(() => import('@layout/components/MainHeader/MenuMobile'), {
-  ssr: false,
-});
 // const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
 // const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'), {
 //   ssr: false,
@@ -84,7 +80,6 @@ const MainHeader = () => {
     router.reload();
   }, [token]);
 
-  const size = useSize(() => document.querySelector('body'));
   return (
     <>
       <div
@@ -158,7 +153,7 @@ const MainHeader = () => {
                 />
               </div>
             </CustomLink>
-            {size && size.width < 1200 && <MenuMobile />}
+            <MenuMobile />
           </div>
 
           {isShowSearch && !isMobile && (
