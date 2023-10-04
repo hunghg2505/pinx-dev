@@ -117,7 +117,7 @@ const AppInitialData = () => {
     if ('serviceWorker' in navigator) {
       const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
       navigator.serviceWorker
-        .register(`../firebase-messaging-sw.js?${firebaseConfigParams}`);
+        .register(`../../../src/firebase-messaging-sw.js?${firebaseConfigParams}`);
       // .then(function (registration) {
       //   console.log('xxx Registration successful, scope is:', registration.scope);
       // })
