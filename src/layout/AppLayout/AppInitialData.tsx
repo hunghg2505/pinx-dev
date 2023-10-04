@@ -18,12 +18,11 @@ import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchli
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from '@utils/constant';
 import { firebaseConfig, getMessagingToken } from 'src/firebase';
-import 'firebase/messaging';
 
 const AppInitialData = () => {
   const { isLogin } = useLogin();
   const { toasts } = useToasterStore();
-  const { run } = useProfileInitial();
+  const { run: getUserProfile } = useProfileInitial();
   const { requestProfleSetting } = useProfileSettingInitial();
   const router = useRouter();
   usePostThemeInitial();
@@ -34,16 +33,7 @@ const AppInitialData = () => {
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
   const requestGetNotificationToken = useGetNotificationToken({});
 
-  useMount(() => {
-    initialHomePostData();
-    handleRemoveActionPost();
-    requestProfleSetting();
-    // getInitDataStockWatchlistHome();
-    run();
-    getInitDataStockMarketHome();
-  });
-
-  useEffect(() => {
+  const initFirebaseToken = () => {
     if (isLogin) {
       getMessagingToken().then((firebaseToken) => {
         requestGetNotificationToken.run({
@@ -51,6 +41,20 @@ const AppInitialData = () => {
         });
       });
     }
+  };
+
+  useMount(() => {
+    initialHomePostData();
+    handleRemoveActionPost();
+    requestProfleSetting();
+    // getInitDataStockWatchlistHome();
+    getUserProfile();
+    getInitDataStockMarketHome();
+    // initFirebaseToken();
+  });
+
+  useEffect(() => {
+    initFirebaseToken();
   }, [isLogin]);
 
   useUpdateEffect(() => {
@@ -118,10 +122,8 @@ const AppInitialData = () => {
       const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
       navigator.serviceWorker
         .register(`../../../src/firebase-messaging-sw.js?${firebaseConfigParams}`)
-        .then(function (registration) {
-          console.log('xxx Registration successful, scope is:', registration.scope);
-        })
         .catch(function (error) {
+          /* eslint-disable no-console */
           console.log('xxx Service worker registration failed, error:', error);
         });
     }

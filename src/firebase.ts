@@ -47,7 +47,6 @@ if (firebaseConfig?.projectId && firebase.apps.length === 0) {
 const getMessagingToken = async () => {
   let currentToken = '';
   if (!messaging) {
-    console.log('xxx no massageing');
     return;
   }
   try {

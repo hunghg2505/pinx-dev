@@ -9,11 +9,11 @@
     "multiline-ternary": "off",
     "import/no-named-as-default-member": "off",
     "react-hooks/exhaustive-deps": "off",
-    // "no-console": ["error", { "allow": ["error"] }],
+    "no-console": ["error", { "allow": ["error"] }],
     "semi": [2, "always"],
     "unicorn/no-null": "off",
     "import/no-cycle": "off",
-    "import/no-named-as-default": "off",
-    "linebreak-style": 0
+    "import/no-named-as-default": "off"
+    // "linebreak-style": 0
   }
 }
