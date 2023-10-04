@@ -40,9 +40,10 @@ const ModalShare = ({
       return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=news_post';
     }
   };
-  const [shareUrl, setShareUrl] = useState('');
+  const [shareUrl, setShareUrl] = useState(calcShareUrl());
   const [defaultShareUrl] = useState(calcShareUrl());
   const [isCopied, setIsCopied] = useState(false);
+  const [, setIsShareThisInit] = useState(false);
   const buttonTelegram = document.querySelector('div[data-network=\'telegram\']');
   const buttonFacebook = document.querySelector('div[data-network=\'facebook\']');
   const buttonMail = document.querySelector('div[data-network=\'email\']');
@@ -60,8 +61,7 @@ const ModalShare = ({
     requestGetTotalShare.run(urlPost);
   }, [modalShareVisible]);
 
-  // set link share with tracking
-  useEffect(() => {
+  const initShareThisButton = () => {
     if (postType === 'Post' || postType === 'ActivityTheme') {
       buttonTelegram?.addEventListener('mouseover', () => {
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=personal_post`);
@@ -113,7 +113,12 @@ const ModalShare = ({
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=news_post`);
       });
     }
-  }, [buttonTelegram]);
+  };
+
+  // set link share with tracking
+  useEffect(() => {
+    initShareThisButton();
+  });
 
   const handleCopy = () => {
     if (isCopied) {
@@ -179,6 +184,9 @@ const ModalShare = ({
 
     document.head.append(shareThisBtnScript);
     document.head.append(script);
+    setTimeout(() => {
+      setIsShareThisInit(true);
+    }, 600);
   };
 
   const calcZaloShareUrl = () => {
