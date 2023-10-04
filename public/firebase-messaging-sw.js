@@ -17,7 +17,6 @@ const messaging = firebase.messaging();
 // const channel = new BroadcastChannel('notifications');
 
 messaging.onBackgroundMessage(function (payload) {
-  // can not console.log here
   // channel.postMessage(payload);
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
