@@ -150,7 +150,7 @@ const NotificationTabs = ({
 
   return (
     <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
-      <TabPane tab={t('notice')} key='userNoti'>
+      <TabPane tab={t('latest')} key='userNoti'>
         {userNoti?.data?.length > 0 ? (
           <div className={styles.notiList}>
             {userNoti?.data?.map((item: any) => (
