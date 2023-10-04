@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
@@ -6,8 +7,9 @@ import { useLogin } from '@store/auth/hydrateAuth';
 
 import styles from './index.module.scss';
 import Market from '../Market';
-import WatchList from '../WatchList';
+// import WatchList from '../WatchList';
 
+const WatchList = dynamic(() => import('../WatchList'), { ssr: false });
 interface IPropsTabMobile {
   selectTab: string;
   onChangeTab: (val: any) => void;
