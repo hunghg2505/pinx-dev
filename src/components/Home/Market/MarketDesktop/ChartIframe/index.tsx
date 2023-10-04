@@ -38,7 +38,6 @@ const MarketChartIframe = ({ mc, oIndex }: IMarketChartIframeProps) => {
       )}&type=INDEX&ref=${oIndex}&lang=${i18n.language}`}
       className='h-[350px] w-full rounded-[8px]'
       key={Math.random()}
-      loading='lazy'
     ></iframe>
   );
 };
