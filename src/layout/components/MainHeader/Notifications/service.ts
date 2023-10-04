@@ -24,6 +24,7 @@ const serviceGetNotificationToken = async (value: IBodyeGetNotificationToken) =>
 
 export const useGetNotificationToken = (options: IOptionsRequest) => {
   const requestGetNotificationToken = useRequest(serviceGetNotificationToken, {
+    manual: true,
     ...options,
   });
 

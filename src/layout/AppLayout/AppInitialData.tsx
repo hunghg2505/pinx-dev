@@ -117,13 +117,13 @@ const AppInitialData = () => {
     if ('serviceWorker' in navigator) {
       const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
       navigator.serviceWorker
-        .register(`../../../src/firebase-messaging-sw.js?${firebaseConfigParams}`);
-      // .then(function (registration) {
-      //   console.log('xxx Registration successful, scope is:', registration.scope);
-      // })
-      // .catch(function (error) {
-      //   console.log('xxx Service worker registration failed, error:', error);
-      // });
+        .register(`../../../src/firebase-messaging-sw.js?${firebaseConfigParams}`)
+        .then(function (registration) {
+          console.log('xxx Registration successful, scope is:', registration.scope);
+        })
+        .catch(function (error) {
+          console.log('xxx Service worker registration failed, error:', error);
+        });
     }
   }, []);
 
