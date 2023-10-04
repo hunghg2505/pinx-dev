@@ -241,9 +241,9 @@
   "a_product_of": "Một sản phẩm của",
   "bil": "Tỷ",
   "file_invalid": "Vui lòng chọn lại file ảnh!",
-  "notification": "Notification",
-  "mark_all_as_read": "Mark all as read",
-  "notice": "Notice",
-  "no_recent_notification": "No Recent Notification",
-  "no_recent_notification_desc": "Notification will show up here, so you can easily view them here later"
+  "notification": "Thông báo",
+  "mark_all_as_read": "Đánh dấu đã đọc",
+  "latest": "Gần đây",
+  "no_recent_notification": "Không có thông báo gần đây",
+  "no_recent_notification_desc": "Thông báo sẽ hiển thị ở đây, bạn có thể quay lại xem sau nhé"
 }
