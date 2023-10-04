@@ -4,7 +4,7 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
-import { getMessaging, getToken, isSupported } from 'firebase/messaging';
+import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
 
 import { ENV } from '@utils/env';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -59,4 +59,11 @@ const getMessagingToken = async () => {
   return currentToken;
 };
 
-export { analytics, firestore, getMessagingToken };
+const onMessageListener = () =>
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      resolve(payload);
+    });
+  });
+
+export { firebaseConfig, analytics, firestore, getMessagingToken, onMessageListener };

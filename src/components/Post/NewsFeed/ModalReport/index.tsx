@@ -14,8 +14,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { USERTYPE } from '@utils/constant';
-import { RC_DIALOG_CLASS_NAME } from 'src/constant';
+import { USERTYPE, RC_DIALOG_CLASS_NAME } from 'src/constant';
 
 import Reason from './Reason';
 import { TYPEREPORT, serviceReportPost } from './service';

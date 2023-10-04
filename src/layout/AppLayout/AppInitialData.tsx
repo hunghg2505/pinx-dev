@@ -6,8 +6,8 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-// import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
-// import { useLogin } from '@store/auth/hydrateAuth';
+import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
@@ -16,13 +16,13 @@ import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSet
 import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
-import { TOAST_LIMIT } from '@utils/constant';
-// import { getMessagingToken } from 'src/firebase';
+import { TOAST_LIMIT } from 'src/constant';
+import { firebaseConfig, getMessagingToken } from 'src/firebase';
 
 const AppInitialData = () => {
-  // const { isLogin } = useLogin();
+  const { isLogin } = useLogin();
   const { toasts } = useToasterStore();
-  const { run } = useProfileInitial();
+  const { run: getUserProfile } = useProfileInitial();
   const { requestProfleSetting } = useProfileSettingInitial();
   const router = useRouter();
   usePostThemeInitial();
@@ -31,35 +31,31 @@ const AppInitialData = () => {
   const { userLoginInfo } = useUserLoginInfo();
   const { getInitDataStockMarketHome } = useStockMarketHome();
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
-  // const requestGetNotificationToken = useGetNotificationToken({});
+  const requestGetNotificationToken = useGetNotificationToken({});
+
+  const initFirebaseToken = () => {
+    if (isLogin) {
+      getMessagingToken().then((firebaseToken) => {
+        requestGetNotificationToken.run({
+          deviceToken: firebaseToken,
+        });
+      });
+    }
+  };
 
   useMount(() => {
     initialHomePostData();
     handleRemoveActionPost();
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
-    run();
-    const t = setTimeout(() => {
-      getInitDataStockMarketHome();
-      clearTimeout(t);
-    }, 5000);
-
-    // getMessagingToken().then((firebaseToken) => {
-    //   requestGetNotificationToken.run({
-    //     deviceToken: firebaseToken
-    //   });
-    // });
+    getUserProfile();
+    getInitDataStockMarketHome();
+    // initFirebaseToken();
   });
 
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     getMessagingToken().then((firebaseToken) => {
-  //       requestGetNotificationToken.run({
-  //         deviceToken: firebaseToken,
-  //       });
-  //     });
-  //   }
-  // }, [isLogin]);
+  useEffect(() => {
+    initFirebaseToken();
+  }, [isLogin]);
 
   useUpdateEffect(() => {
     if (!userLoginInfo?.id) {
@@ -119,6 +115,19 @@ const AppInitialData = () => {
   useEffect(() => {
     storeInSession();
   }, [storeInSession]);
+
+  useEffect(() => {
+    // Event listener that listens for the push notification event in the background
+    if ('serviceWorker' in navigator) {
+      const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
+      navigator.serviceWorker
+        .register(`../../../src/firebase-messaging-sw.js?${firebaseConfigParams}`)
+        .catch(function (error) {
+          /* eslint-disable no-console */
+          console.log('xxx Service worker registration failed, error:', error);
+        });
+    }
+  }, []);
 
   return (
     <>

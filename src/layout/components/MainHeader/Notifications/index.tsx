@@ -1,11 +1,13 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+import { useAtom } from 'jotai';
 import Dropdown from 'rc-dropdown';
 
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
+import { notificationAtom } from '@store/notification/notification';
 
 import NotificationMobile from './components/NotificationMobile';
 import NotificationOverlay from './components/NotificationOverlay';
@@ -15,7 +17,18 @@ import { useGetNotificationCount } from './service';
 const NotiCount = forwardRef((_, ref: any) => {
   const { notiCount, refreshNotiCount } = useGetNotificationCount();
 
-  useImperativeHandle(ref, () => ({ refreshNotiCount }));
+  useImperativeHandle(ref, () => ({ refreshNotiCount, notiCount }));
+
+  const [, setNotiStore] = useAtom(notificationAtom);
+
+  useEffect(() => {
+    setNotiStore((prev) => {
+      return {
+        ...prev,
+        notiCount,
+      };
+    });
+  }, [notiCount]);
 
   return notiCount > 0 ? (
     <div className='absolute right-[-5px] top-0 rounded-full bg-[#FF3B3B]'>

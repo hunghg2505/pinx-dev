@@ -16,7 +16,7 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { ROUTE_PATH } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 const ModalShare = dynamic(() => import('../ModalShare'), {
   ssr: false,

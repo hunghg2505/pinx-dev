@@ -33,8 +33,7 @@ import {
   formatStringToNumber,
   isUrlValid,
 } from '@utils/common';
-import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
-import { DEEP_LINK } from 'src/constant';
+import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED, DEEP_LINK } from 'src/constant';
 import {
   downloadPineXAppTracking,
   registerTracking,

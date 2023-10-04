@@ -4,15 +4,14 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { IMAGE_COMPANY_URL } from '@utils/constant';
+import { IMAGE_COMPANY_URL } from 'src/constant';
 
 export const ActivityOrder = ({ postDetail }: any) => {
   const { t } = useTranslation();
   const stockCode = postDetail.post?.stockCode;
 
-  const urlStock = `${IMAGE_COMPANY_URL}${
-    stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-  }.png`;
+  const urlStock = `${IMAGE_COMPANY_URL}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+    }.png`;
   const pnlRate = postDetail?.post?.pnlRate;
   return (
     <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>

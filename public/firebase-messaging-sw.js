@@ -1,25 +1,30 @@
 /* eslint-disable no-undef */
-importScripts('https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.3.1/firebase-messaging-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
 
-self.addEventListener('fetch', () => {
-  const urlParams = new URLSearchParams(location.search);
-  self.firebaseConfig = Object.fromEntries(urlParams);
-});
-
-const defaultConfig = {
-  apiKey: true,
-  projectId: true,
-  messagingSenderId: true,
-  appId: true,
+const firebaseConfig = {
+  apiKey: 'AIzaSyDtEXAkNbCgR5zR6snZxqWHX7dyoSozhY4',
+  authDomain: 'pinex-a4cf1.firebaseapp.com',
+  projectId: 'pinex-a4cf1',
+  storageBucket: 'pinex-a4cf1.appspot.com',
+  messagingSenderId: '503006267993',
+  appId: '1:503006267993:web:9daef83823c704d223ff48',
+  measurementId: 'G-KK9XPVRSXB',
 };
 
-firebase.initializeApp(self.firebaseConfig || defaultConfig);
-if (firebase.messaging.isSupported()) {
-  const messaging = firebase.messaging();
-  const channel = new BroadcastChannel('notifications');
-  messaging.onBackgroundMessage(function (payload) {
-    // can not console.log here
-    channel.postMessage(payload);
-  });
-}
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(function (payload) {
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+  };
+
+  self.registration.showNotification(notificationTitle,
+    notificationOptions);
+});
+
+self.addEventListener('notificationclick', event => {
+  return event;
+});

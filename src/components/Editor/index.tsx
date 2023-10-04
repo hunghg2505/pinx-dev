@@ -37,7 +37,7 @@ import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 import suggestion from './Suggestion';
 import { ROUTE_PATH, compressImage, isImage, isUrlValid, validateHTML } from '../../utils/common';

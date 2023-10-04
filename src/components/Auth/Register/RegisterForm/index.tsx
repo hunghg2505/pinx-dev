@@ -21,10 +21,10 @@ import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { ROUTE_PATH } from '@utils/common';
-import { TERM_AND_CONDITION_LINK } from '@utils/constant';
 import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
+import { TERM_AND_CONDITION_LINK } from 'src/constant';
 import { completeBasicInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { useRegister } from './service';

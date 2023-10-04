@@ -6,8 +6,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import Login from '@components/Auth/Login';
 import Register from '@components/Auth/Register/RegisterForm';
 import Modal from '@components/UI/Modal/Modal';
-import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
-import { AUTH_TAB_TYPE } from 'src/constant';
+import { REGISTER_INSTRUCTIONS_LINK, AUTH_TAB_TYPE } from 'src/constant';
 import { registerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';

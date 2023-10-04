@@ -15,7 +15,7 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { isUnubsribeThemeAtom, popupThemeDataAtom } from '@store/theme';
 import { formatStringToNumber } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 // import PopupComponent from '@utils/PopupComponent';
 
 const LandingPageDetailThemes = ({

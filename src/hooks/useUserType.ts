@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 
 import { useLogin } from '@store/auth/hydrateAuth';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 import { userLoginInfoAtom } from './useUserLoginInfo';
 
