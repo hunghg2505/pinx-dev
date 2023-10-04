@@ -4,7 +4,7 @@ import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
 
-import { ACNT_STAT_ACTIVE, ACNT_STAT_VSD_PENDING, USERTYPE } from './constant';
+import { ACNT_STAT_ACTIVE, ACNT_STAT_VSD_PENDING, USERTYPE } from 'src/constant';
 
 export const ROUTE_PATH = {
   // AUTH
