@@ -11,7 +11,7 @@ import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 import ModalComment from './ModalComment';
 

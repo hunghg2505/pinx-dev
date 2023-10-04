@@ -47,7 +47,7 @@ import getSeoDataFromLink, {
   toBase64,
   validateHTML,
 } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 import { ActivityWatchlist } from './ActivityWatchlist';
 import { serviceAddPost, serviceUpdatePost } from './service';
@@ -935,10 +935,10 @@ const Compose = (props: IProps) => {
           onClick={onAddPost}
         >
           {requestAddPost?.loading ||
-          requestUploadFile.loading ||
-          requestUpdatePost.loading ||
-          requestGetDetailPost.loading ||
-          loading ? (
+            requestUploadFile.loading ||
+            requestUpdatePost.loading ||
+            requestGetDetailPost.loading ||
+            loading ? (
             <Loading className='!bg-white' />
           ) : (
             <IconSend />

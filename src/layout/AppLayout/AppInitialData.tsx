@@ -16,7 +16,7 @@ import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSet
 import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
-import { TOAST_LIMIT } from '@utils/constant';
+import { TOAST_LIMIT } from 'src/constant';
 import { firebaseConfig, getMessagingToken } from 'src/firebase';
 
 const AppInitialData = () => {

@@ -18,8 +18,8 @@ import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie } from '@store/locale';
 // import { openProfileAtom } from '@store/profile/profile';
 import { ROUTE_PATH } from '@utils/common';
-import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK } from '@utils/constant';
-import { GUIDANCE_LINK } from 'src/constant';
+import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK, GUIDANCE_LINK } from 'src/constant';
+
 
 import PopupHotline from './PopupHotline';
 import PopupLanguage from './PopupLanguage';

@@ -53,6 +53,29 @@ export const useGetNotificationList = (options: IOptionsRequest) => {
   return requestGetNotificationList;
 };
 
+const serviceGetPinetreeNotificationList = async () => {
+  return privateRequest(requestNoti.post, API_PATH.GET_NOTIFICATION_LIST, {
+    data: {
+      type: 'NEW',
+      notificationType: 'PINETREE_MKT',
+    },
+    params: {
+      page: 1,
+      pageSize: 999,
+      language: getLocaleCookie(),
+    },
+  });
+};
+
+export const useGetPinetreeNotificationList = (options: IOptionsRequest) => {
+  const requestGetPinetreeNotificationList = useRequest(serviceGetPinetreeNotificationList, {
+    ...options,
+    cacheKey: 'pinetreeNotiList',
+  });
+
+  return requestGetPinetreeNotificationList;
+};
+
 const serviceGetNotificationCount = async () => {
   return privateRequest(requestNoti.get, API_PATH.GET_NOTIFICATION_COUNT);
 };
@@ -61,6 +84,7 @@ export const useGetNotificationCount = () => {
   const { data, refresh } = useRequest(serviceGetNotificationCount, {
     cacheKey: 'notiCount',
   });
+
   return {
     notiCount: data?.data,
     refreshNotiCount: refresh,

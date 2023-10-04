@@ -14,7 +14,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { ROUTE_PATH } from '@utils/common';
-import { PHONE_CONTACT_SUPPORT } from '@utils/constant';
+import { PHONE_CONTACT_SUPPORT } from 'src/constant';
 
 import { useGetContract, useSendLoginOtp, useConfirmContract } from './service';
 

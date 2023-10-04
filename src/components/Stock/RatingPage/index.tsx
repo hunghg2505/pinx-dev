@@ -10,7 +10,7 @@ import Text from '@components/UI/Text';
 import useBottomScroll from '@hooks/useBottomScroll';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 import PopupReview from '../Popup/PopupReview';
 import { useStockReviews } from '../service';

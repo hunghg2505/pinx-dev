@@ -21,7 +21,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 import {
   addTickerTracking,
   analyzeTickerTracking,
@@ -176,8 +176,8 @@ const StockDetail = () => {
     if (stockDetail?.data?.name && code.split('-').length < 2) {
       const newPath = ROUTE_PATH.STOCK_DETAIL(
         stockCode.toLowerCase() +
-          '-' +
-          toNonAccentVietnamese(stockDetail?.data?.name).toLowerCase().replaceAll(' ', '-'),
+        '-' +
+        toNonAccentVietnamese(stockDetail?.data?.name).toLowerCase().replaceAll(' ', '-'),
       );
       let currentLocale = window.history.state?.options?.locale;
       currentLocale = currentLocale === 'en' ? '/en' : '';
@@ -343,11 +343,11 @@ const StockDetail = () => {
       if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
         const title = isFollowedStock
           ? t('tell_people_reason_unwatched', {
-              stockCode,
-            })
+            stockCode,
+          })
           : t('tell_people_reason_watched', {
-              stockCode,
-            });
+            stockCode,
+          });
 
         toast(
           (t) => (
@@ -758,8 +758,8 @@ const StockDetail = () => {
               onClickTextHasAct={
                 isFollowedStock
                   ? () => {
-                      setOpenPopupFollowStock(true);
-                    }
+                    setOpenPopupFollowStock(true);
+                  }
                   : handleFollowOrUnfollowStock
               }
             />

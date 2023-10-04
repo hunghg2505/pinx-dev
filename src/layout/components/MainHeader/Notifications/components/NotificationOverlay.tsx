@@ -1,20 +1,37 @@
 /* eslint-disable unicorn/no-useless-spread */
+import { useRef, useState } from 'react';
+
+import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
+import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
+import { notificationAtom } from '@store/notification/notification';
 
 import NotificationTabs from './NotificationTabs';
 import { useReadAllNotification } from '../service';
 
 const NotificationOverlay = ({
   onCloseNotiDropdown,
-  refreshNotiCount
+  refreshNotiCount,
 }: {
   onCloseNotiDropdown: () => void,
   refreshNotiCount: () => void,
 }) => {
   const { t } = useTranslation('common');
-  const requestReadAllNotification = useReadAllNotification({});
+  const [notiStore] = useAtom(notificationAtom);
+  const [hideReadAllButton, setHideReadAllButton] = useState(false);
+  const requestReadAllNotification = useReadAllNotification({
+    onSuccess: () => {
+      refreshNotiCount();
+      refreshNotiData();
+    }
+  });
+  const notiTabsRef = useRef<any>(null);
+
+  const refreshNotiData = () => {
+    notiTabsRef.current.refreshNotiData && notiTabsRef.current.refreshNotiData();
+  };
 
   const readAllNoti = () => {
     requestReadAllNotification.run();
@@ -26,19 +43,40 @@ const NotificationOverlay = ({
         <Text type='body-20-semibold'>
           {t('notification')}
         </Text>
-        <div className='flex items-center cursor-pointer' onClick={readAllNoti}>
-          <img
-            src='/static/icons/blue_check_mark.svg'
-            alt=''
-            className='h-[20px] w-[20px] mr-3'
-          />
-          <Text type='body-14-semibold' color='primary-2'>
-            {t('mark_all_as_read')}
-          </Text>
-        </div>
+        {!hideReadAllButton && (
+          <div className='flex items-center cursor-pointer' onClick={readAllNoti}>
+            {notiStore.notiCount > 0 ? (
+              <CustomImage
+                src='/static/icons/blue_check_mark.svg'
+                alt='check_mark'
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='h-[20px] w-[20px] mr-3'
+              />
+            ) : (
+              <CustomImage
+                src='/static/icons/gray_check_mark.svg'
+                alt='check_mark'
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='h-[20px] w-[20px] mr-3'
+              />
+            )}
+            <Text type='body-14-semibold' color={notiStore.notiCount > 0 ? 'primary-2' : 'neutral-5'}>
+              {t('mark_all_as_read')}
+            </Text>
+          </div>
+        )}
       </div >
 
-      <NotificationTabs onCloseNotiDropdown={onCloseNotiDropdown} refreshNotiCount={refreshNotiCount} />
+      <NotificationTabs
+        ref={notiTabsRef}
+        onCloseNotiDropdown={onCloseNotiDropdown}
+        refreshNotiCount={refreshNotiCount}
+        setHideReadAllButton={setHideReadAllButton}
+      />
     </div >
   );
 };
