@@ -37,7 +37,7 @@ const ContentRight = () => {
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
   });
-  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer', manual: true });
 
   const { t } = useTranslation('common');
   const router = useRouter();
@@ -55,7 +55,7 @@ const ContentRight = () => {
 
         <Fade visible={isLogin && !isPageWatchList}>
           <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
-            <Text element='h3' type='body-16-bold' color='cbblack' className='mb-4'>
+            <Text type='body-16-bold' color='cbblack' className='mb-4'>
               {t('user_watchlist')}
             </Text>
             <WatchList />

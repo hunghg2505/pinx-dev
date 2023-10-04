@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo } from 'react';
 
-import { clearCache, useUpdateEffect } from 'ahooks';
+import { clearCache, useSize, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -29,9 +29,10 @@ import {
   viewWatchListTracking,
 } from 'src/mixpanel/mixpanel';
 
-import SuggestionPeople from './SuggestionPeople';
+// import SuggestionPeople from './SuggestionPeople';
 import { useGetWatchList } from '../service';
 
+const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: false });
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
 });
@@ -42,15 +43,6 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
-// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
-//   loading: () => (
-//     <>
-//       <NewsFeedSkeleton />
-//       <NewsFeedSkeleton />
-//       <NewsFeedSkeleton />
-//     </>
-//   ),
-// });
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
@@ -83,13 +75,6 @@ const HomeNewFeed = () => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
-  // useEffect(() => {
-  //   const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
-  //   if (scrollPosition) {
-  //     window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
-  //     globalThis?.sessionStorage.removeItem('scrollPosition');
-  //   }
-  // }, []);
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
     clearCache('data-pin-post');
@@ -210,35 +195,37 @@ const HomeNewFeed = () => {
     // tracking event get more info
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
+  const size = useSize(() => document?.querySelector('body'));
 
   return (
     <div className='relative desktop:pt-0'>
-      <div className='relative laptop:hidden'>
-        {selectTab === '1' && isHaveStockWatchList && (
-          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
-            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-              <Text
-                type='body-12-medium'
-                className='galaxy-max:hidden tablet:text-[14px]'
-                color='primary-1'
-              >
-                {t('see_all')}
-              </Text>
-              <img
-                src='/static/icons/iconNext.svg'
-                width={5}
-                height={5}
-                alt=''
-                className='ml-[11px] w-[10px]'
-              />
-            </button>
-          </CustomLink>
-        )}
+      {size && size.width < 1025 && (
+        <div className='relative laptop:hidden'>
+          {selectTab === '1' && isHaveStockWatchList && (
+            <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
+              <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
+                <Text
+                  type='body-12-medium'
+                  className='galaxy-max:hidden tablet:text-[14px]'
+                  color='primary-1'
+                >
+                  {t('see_all')}
+                </Text>
+                <img
+                  src='/static/icons/iconNext.svg'
+                  width={5}
+                  height={5}
+                  alt=''
+                  className='ml-[11px] w-[10px]'
+                />
+              </button>
+            </CustomLink>
+          )}
 
-        <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
-      </div>
-
-      <UserPosting onAddNewPost={onAddNewPost} />
+          <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
+        </div>
+      )}
+      {size && size.width > 768 && <UserPosting onAddNewPost={onAddNewPost} />}
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
@@ -255,12 +242,13 @@ const HomeNewFeed = () => {
         data={firstPost as any}
         onCommentPost={onCommentPost}
       />
-
-      <div className='box-shadow card-style tablet:hidden'>
-        <div className='pb-[13px] pt-[10px] '>
-          <Trending />
+      {size && size.width < 769 && (
+        <div className='box-shadow card-style tablet:hidden'>
+          <div className='pb-[13px] pt-[10px] '>
+            <Trending />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className='box-shadow card-style'>
         <Text
@@ -283,7 +271,8 @@ const HomeNewFeed = () => {
           </div>
         </CustomLink>
       </div>
-      <SuggestionPeople />
+
+      {size && size.width < 769 && <SuggestionPeople />}
 
       {fourPost?.map((item: IPost) => {
         return (
