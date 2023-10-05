@@ -88,6 +88,7 @@ const NewsItem = ({ className, data }: INewsItemProps) => {
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}
         onNavigate={goToPostDetail}
+        postDetail={data}
       />
     </div>
   );
