@@ -34,13 +34,11 @@ const NewsItem = ({
   data,
   middle,
   showComment,
-  onNavigate,
   isForceNavigate,
 }: {
   data: any;
   middle?: boolean;
   showComment?: boolean;
-  onNavigate?: () => void;
   isForceNavigate?: boolean;
 }) => {
   const { i18n } = useTranslation();
@@ -135,7 +133,7 @@ const NewsItem = ({
           totalLikes={data.totalLikes}
           totalComments={data.totalChildren}
           onNavigate={() => {
-            onNavigate && onNavigate();
+            onGoToDetail();
             setSearchSeo(false);
           }}
           isForceNavigate={isForceNavigate}
