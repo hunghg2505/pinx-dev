@@ -22,7 +22,7 @@ const FooterSignUp = () => {
   const { width } = useContainerDimensions(footerRef);
 
   useEffect(() => {
-    setFooterHeight(width <= SCREEN_MOBILE_WIDTH ? 49 : 64);
+    setFooterHeight(width <= SCREEN_MOBILE_WIDTH ? 49 : 0);
   }, [width]);
 
   useEffect(() => {
