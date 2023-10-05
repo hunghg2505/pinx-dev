@@ -162,9 +162,10 @@ export const PineTreePost2 = ({
           <Text
             type='body-14-regular'
             color='neutral-1'
-            className={classNames('mb-[16px] tablet:!text-[16px]', {
+            className={classNames('tablet:!text-[16px]', {
               'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
               '!line-clamp-none !h-auto': isPostDetailPath || readMore,
+              'mb-[16px]': !!postDetail?.post?.urlImages.length,
             })}
           >
             <div
@@ -190,13 +191,10 @@ export const PineTreePost2 = ({
       )}
 
       <div
-        className={classNames(
-          'relative flex h-[113px] w-full flex-col justify-end  rounded-[9px]',
-          {
-            'h-[250px] tablet:h-[360px] ': !!postDetail?.post?.urlImages.length,
-            '!h-0': !postDetail?.post?.urlImages.length && isPostDetailPath,
-          },
-        )}
+        className={classNames('relative flex w-full flex-col justify-end  rounded-[9px]', {
+          'h-[250px] tablet:h-[360px] ': !!postDetail?.post?.urlImages.length,
+          // '!h-0': !postDetail?.post?.urlImages.length && isPostDetailPath,
+        })}
       >
         {/* {postDetail?.post?.urlImages.length && (
           <CustomLink href={postDetailUrl} className='absolute left-0 top-0 z-[1]  h-full w-full'>
@@ -206,9 +204,9 @@ export const PineTreePost2 = ({
 
         <ShowImage />
 
-        {!postDetail?.post?.urlImages.length && pinned && (
+        {/* {!postDetail?.post?.urlImages.length && pinned && (
           <div className='absolute left-0 top-0 z-[1] h-full  w-full rounded-[9px] bg-neutral_07'></div>
-        )}
+        )} */}
       </div>
     </>
   );
