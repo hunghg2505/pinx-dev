@@ -83,7 +83,7 @@ const NewsItem = ({ className, data }: INewsItemProps) => {
 
       <PostAction
         idPost={data.id}
-        urlPost={'/post/' + data.id}
+        urlPost={`/${data?.seoMetadata?.slug}`}
         isLike={data.isLike}
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}

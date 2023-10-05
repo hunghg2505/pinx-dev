@@ -47,7 +47,6 @@ const NewsItem = ({
   const onGoToDetail = () => {
     router.push('/' + data?.seoMetadata?.slug);
   };
-  const postDetail = data;
   const url = data?.post?.url;
   const onTrackingReadNews = () => {
     const curPostData = data?.post;
@@ -128,7 +127,7 @@ const NewsItem = ({
       {showComment && (
         <PostAction
           idPost={data.id}
-          urlPost={'/post/' + data.id}
+          urlPost={`/${data?.seoMetadata?.slug}`}
           isLike={data.isLike}
           totalLikes={data.totalLikes}
           totalComments={data.totalChildren}
@@ -137,7 +136,7 @@ const NewsItem = ({
             setSearchSeo(false);
           }}
           isForceNavigate={isForceNavigate}
-          postDetail={postDetail}
+          postDetail={data}
         />
       )}
     </>
