@@ -47,7 +47,7 @@ const NewsItem = ({
   const onGoToDetail = () => {
     router.push('/' + data?.seoMetadata?.slug);
   };
-
+  const postDetail = data;
   const url = data?.post?.url;
   const onTrackingReadNews = () => {
     const curPostData = data?.post;
@@ -137,6 +137,7 @@ const NewsItem = ({
             setSearchSeo(false);
           }}
           isForceNavigate={isForceNavigate}
+          postDetail={postDetail}
         />
       )}
     </>
