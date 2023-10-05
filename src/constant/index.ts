@@ -110,5 +110,5 @@ export const POST_TYPE = {
   ACTIVITY_WATCH_ORDER: 'ActivityMatchOrder',
 };
 export const POST_TYPE_GROUP = {
-  NEWS: 'newxs',
+  NEWS: 'News',
 };
