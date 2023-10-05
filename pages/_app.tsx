@@ -64,8 +64,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <meta name='robots' content='index, follow' />
-        <meta name='googlebot' content={'index,follow'} />
         <meta charSet='utf-8' />
         <meta name='theme-color' content={isShowNotificationMobile ? '#F8FAFD' : '#FFFFFF'} />
         <meta name='title' content='pinex' />

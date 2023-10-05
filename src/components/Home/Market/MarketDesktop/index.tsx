@@ -46,7 +46,9 @@ const MarketDesktop = () => {
     return (
       <>
         <div className='mb-[25px]  min-h-[536px] w-full rounded-[8px] bg-[#fff]  px-[20px] py-[30px]  [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
-          <p className='body-16-bold cbblack mb-[25px]'>{t('market')}</p>
+          <Text element='h4' type='body-16-bold' color='cbblack' className='mb-[25px]'>
+            {t('market')}
+          </Text>
 
           <Skeleton
             rows={3}
