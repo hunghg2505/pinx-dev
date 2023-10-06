@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-useless-spread */
 import { useRef, useState } from 'react';
 
+import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
@@ -44,7 +45,11 @@ const NotificationOverlay = ({
           {t('notification')}
         </Text>
         {!hideReadAllButton && (
-          <div className='flex items-center cursor-pointer' onClick={readAllNoti}>
+          <div
+            className={classNames('flex items-center', {
+              'cursor-pointer': notiStore.notiCount > 0
+            })}
+            onClick={readAllNoti}>
             {notiStore.notiCount > 0 ? (
               <CustomImage
                 src='/static/icons/blue_check_mark.svg'
