@@ -156,11 +156,11 @@ const NotificationTabs = (
 ) => {
   const { t } = useTranslation('common');
   const defaultActiveTab = 'userNoti';
-  const [, setStoreNoti] = useAtom(notificationAtom);
+  const [, setNotiStore] = useAtom(notificationAtom);
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
   const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({
     onSuccess: () => {
-      setStoreNoti((prev) => {
+      setNotiStore((prev) => {
         return {
           ...prev,
           refreshNotiData
@@ -170,7 +170,7 @@ const NotificationTabs = (
   });
   const { data: pinetreeNoti, refresh: refreshPinetreeNotiData } = useGetPinetreeNotificationList({
     onSuccess: () => {
-      setStoreNoti((prev) => {
+      setNotiStore((prev) => {
         return {
           ...prev,
           refreshPinetreeNotiData

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useMount, useUpdateEffect } from 'ahooks';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
@@ -9,6 +10,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
+import { notificationAtom } from '@store/notification/notification';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
@@ -17,7 +19,7 @@ import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from 'src/constant';
-import { firebaseConfig, getMessagingToken } from 'src/firebase';
+import { firebaseConfig, getMessagingToken, onMessageListener } from 'src/firebase';
 
 const AppInitialData = () => {
   const { isLogin } = useLogin();
@@ -32,6 +34,7 @@ const AppInitialData = () => {
   const { getInitDataStockMarketHome } = useStockMarketHome();
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
   const requestGetNotificationToken = useGetNotificationToken({});
+  const [notiStore] = useAtom(notificationAtom);
 
   const initFirebaseToken = () => {
     if (isLogin) {
@@ -128,6 +131,12 @@ const AppInitialData = () => {
         });
     }
   }, []);
+
+  onMessageListener().then(() => {
+    notiStore.refreshNotiCount && notiStore.refreshNotiCount();
+    notiStore.refreshNotiData && notiStore.refreshNotiData();
+    notiStore.refreshPinetreeNotiData && notiStore.refreshPinetreeNotiData();
+  });
 
   return (
     <>
