@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { useUpdateEffect } from 'ahooks';
+import { useSize, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 // import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -80,6 +80,8 @@ const MainHeader = () => {
     router.reload();
   }, [token]);
 
+  const size = useSize(() => document.querySelector('body'));
+
   return (
     <>
       <div
@@ -153,7 +155,7 @@ const MainHeader = () => {
                 />
               </div>
             </CustomLink>
-            <MenuMobile />
+            {size && size.width < 1200 && <MenuMobile />}
           </div>
 
           {isShowSearch && !isMobile && (
