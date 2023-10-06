@@ -8,6 +8,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
 import { notificationAtom } from '@store/notification/notification';
+import { onMessageListener } from 'src/firebase';
 
 import NotificationMobile from './components/NotificationMobile';
 import NotificationOverlay from './components/NotificationOverlay';
@@ -45,6 +46,7 @@ const Notifications = () => {
   const [dropdownVisible, setdropdownVisible] = useState(false);
   const notiCountRef = useRef<any>(null);
   const notiMobileRef = useRef<any>(null);
+  const [storeNoti] = useAtom(notificationAtom);
 
   const onDropdownVisibleChange = (visible: boolean) => {
     setdropdownVisible(visible);
@@ -61,6 +63,12 @@ const Notifications = () => {
   const refreshNotiCount = () => {
     notiCountRef.current.refreshNotiCount && notiCountRef.current.refreshNotiCount();
   };
+
+  onMessageListener().then(() => {
+    refreshNotiCount && refreshNotiCount();
+    storeNoti.refreshNotiData();
+    storeNoti.refreshPinetreeNotiData();
+  });
 
   const NotificationBadge = () => {
     return (
