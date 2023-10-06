@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo } from 'react';
 
-import { clearCache, useUpdateEffect } from 'ahooks';
+import { clearCache, useSize, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -210,34 +210,36 @@ const HomeNewFeed = () => {
     // tracking event get more info
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
+  const size = useSize(() => document.querySelector('body'));
 
   return (
     <div className='relative desktop:pt-0'>
-      <div className='relative laptop:hidden'>
-        {selectTab === '1' && isHaveStockWatchList && (
-          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
-            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-              <Text
-                type='body-12-medium'
-                className='galaxy-max:hidden tablet:text-[14px]'
-                color='primary-1'
-              >
-                {t('see_all')}
-              </Text>
-              <img
-                src='/static/icons/iconNext.svg'
-                width={5}
-                height={5}
-                alt=''
-                className='ml-[11px] w-[10px]'
-              />
-            </button>
-          </CustomLink>
-        )}
+      {size && size.width < 1024 && (
+        <div className='relative laptop:hidden'>
+          {selectTab === '1' && isHaveStockWatchList && (
+            <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
+              <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
+                <Text
+                  type='body-12-medium'
+                  className='galaxy-max:hidden tablet:text-[14px]'
+                  color='primary-1'
+                >
+                  {t('see_all')}
+                </Text>
+                <img
+                  src='/static/icons/iconNext.svg'
+                  width={5}
+                  height={5}
+                  alt=''
+                  className='ml-[11px] w-[10px]'
+                />
+              </button>
+            </CustomLink>
+          )}
 
-        <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
-      </div>
-
+          <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
+        </div>
+      )}
       <UserPosting onAddNewPost={onAddNewPost} />
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
@@ -283,7 +285,7 @@ const HomeNewFeed = () => {
           </div>
         </CustomLink>
       </div>
-      <SuggestionPeople />
+      {size && size.width < 769 && <SuggestionPeople />}
 
       {fourPost?.map((item: IPost) => {
         return (

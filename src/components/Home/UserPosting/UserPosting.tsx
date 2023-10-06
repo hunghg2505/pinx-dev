@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 
+import { useSize } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -37,7 +38,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const { statusUser } = useUserType();
   const { isLogin } = useLogin();
-
+  const size = useSize(() => document?.querySelector('body'));
   const onShowModal = async () => {
     if (isLogin) {
       if (statusUser === USERTYPE.VSD || isCanCompose) {
@@ -68,42 +69,48 @@ const UserPosting = ({ onAddNewPost }: any) => {
 
   return (
     <>
-      <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
-        <div className='flex items-center'>
-          {isUrlValid(userLoginInfo?.avatar) ? (
-            <CustomImage
-              src={userLoginInfo?.avatar || ''}
-              alt=''
-              onClick={() => {
-                router.push(ROUTE_PATH.MY_PROFILE);
-              }}
-              width='0'
-              height='0'
-              sizes='100vw'
-              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover'
+      {size && size.width > 768 && (
+        <div className='box-shadow card-style rounded-[12px] bg-[#fff] mobile:hidden tablet:mb-[20px] tablet:block'>
+          <div className='flex items-center'>
+            {isUrlValid(userLoginInfo?.avatar) ? (
+              <CustomImage
+                src={userLoginInfo?.avatar || ''}
+                alt=''
+                onClick={() => {
+                  router.push(ROUTE_PATH.MY_PROFILE);
+                }}
+                width='0'
+                height='0'
+                sizes='100vw'
+                className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full border border-solid border-[#ebebeb] object-cover'
+              />
+            ) : (
+              <CustomLink
+                href={ROUTE_PATH.MY_PROFILE}
+                className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
+              >
+                <AvatarDefault name={userLoginInfo?.displayName} />
+              </CustomLink>
+            )}
+            <input
+              type='text'
+              onClick={onShowModal}
+              readOnly
+              className='h-[36px] w-full flex-1 rounded-[5px] bg-[#fff] p-[10px] focus:outline-none'
+              placeholder={t('what_is_on_your_mind')}
             />
-          ) : (
-            <CustomLink
-              href={ROUTE_PATH.MY_PROFILE}
-              className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
-            >
-              <AvatarDefault name={userLoginInfo?.displayName} />
-            </CustomLink>
-          )}
-          <input
-            type='text'
-            onClick={onShowModal}
-            readOnly
-            className='h-[36px] w-full flex-1 rounded-[5px] bg-[#fff] p-[10px] focus:outline-none'
-            placeholder={t('what_is_on_your_mind')}
-          />
+          </div>
         </div>
-      </div>
+      )}
 
       <ModalCompose ref={refModal} refresh={onAddNewPost} />
-      <ModalComposeMobile refresh={onAddNewPost}>
-        <ComposeButton />
-      </ModalComposeMobile>
+
+      {size && size.width < 769 && (
+        <ModalComposeMobile refresh={onAddNewPost}>
+          <ComposeButton />
+        </ModalComposeMobile>
+      )}
+
       <BaseModal ref={refModalUnVerify}>
         <Unverify close={refModalUnVerify?.current?.close} />
       </BaseModal>

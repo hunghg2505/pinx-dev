@@ -71,9 +71,9 @@ const PostDetail = () => {
 
   // is login
   const { refresh, postDetail, run } = usePostDetail(String(postID), {
-    // onError: () => {
-    //   router.push(ROUTE_PATH.NOT_FOUND);
-    // },
+    onError: () => {
+      router.push(ROUTE_PATH.NOT_FOUND);
+    },
     onSuccess: (res: any) => {
       setTotalCommentOfPost(res.data.totalChildren);
       setPostData(res.data);
@@ -84,7 +84,23 @@ const PostDetail = () => {
     run();
     runAsync('');
   }, [postID]);
+  // React.useEffect(() => {
+  //   if (id.length < 2) {
+  //     const newPath = `/post/${postData?.post?.customerInfo?.displayName}/${postID}`;
 
+  //     let currentLocale = window.history.state?.options?.locale;
+  //     currentLocale = currentLocale === 'en' ? '/en' : '';
+  //     window.history.replaceState(
+  //       {
+  //         ...window.history.state,
+  //         as: newPath,
+  //         url: currentLocale + newPath,
+  //       },
+  //       '',
+  //       currentLocale + newPath,
+  //     );
+  //   }
+  // }, [postData]);
   const {
     data,
     loading,

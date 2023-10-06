@@ -13,16 +13,23 @@ import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from '../index.module.scss';
-import { useDeleteNotification, useGetNotificationList, useGetPinetreeNotificationList, useReadNotification } from '../service';
+import {
+  useDeleteNotification,
+  useGetNotificationList,
+  useGetPinetreeNotificationList,
+  useReadNotification,
+} from '../service';
 
 const EmptyNotification = () => {
   const { t } = useTranslation('common');
 
   return (
     <div className='bg-[white] p-[12px]'>
-      <div className='flex flex-col justify-center items-center border border-dashed rounded-xl py-[28px] border-[#CCCCCC] bg-[#F7F6F8]'>
+      <div className='flex flex-col items-center justify-center rounded-xl border border-dashed border-[#CCCCCC] bg-[#F7F6F8] py-[28px]'>
         <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-        <Text type='body-14-regular' className='text-[#999999] mt-3 text-center'>{t('no_recent_notification_desc')}</Text>
+        <Text type='body-14-regular' className='mt-3 text-center text-[#999999]'>
+          {t('no_recent_notification_desc')}
+        </Text>
       </div>
     </div>
   );
@@ -33,12 +40,12 @@ const NotificationItem = ({
   notification,
   onCloseNotiDropdown,
   refreshNotiCount,
-  refreshNotiData
+  refreshNotiData,
 }: {
-  notification: any,
-  onCloseNotiDropdown?: () => void,
-  refreshNotiCount?: () => void,
-  refreshNotiData?: () => void,
+  notification: any;
+  onCloseNotiDropdown?: () => void;
+  refreshNotiCount?: () => void;
+  refreshNotiData?: () => void;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -46,7 +53,7 @@ const NotificationItem = ({
   const requestDeleteNotification = useDeleteNotification({
     onSuccess: () => {
       refreshNotiData && refreshNotiData();
-    }
+    },
   });
 
   const onReadNoti = () => {
@@ -55,12 +62,15 @@ const NotificationItem = ({
     const contentId = resourceData?.passProps?.item?.id;
     if (resourceData.notificationType === 'NEW_FOLLOWER') {
       router.push(ROUTE_PATH.PROFILE_DETAIL(contentId));
-    }
-    else if (resourceData.actionType === 'PINETREE_MKT') {
+    } else if (resourceData.actionType === 'PINETREE_MKT') {
       window.open(resourceData.url_notification, '_blank');
-    }
-    else {
-      router.push(ROUTE_PATH.POST_DETAIL(contentId));
+    } else {
+      const id = resourceData?.passProps?.item?.slug;
+      if (id === '%%SLUG%%') {
+        router.push(ROUTE_PATH.POST_DETAIL(contentId));
+      } else {
+        router.push(`/${id}`);
+      }
     }
     setTimeout(() => {
       refreshNotiCount && refreshNotiCount();
@@ -76,7 +86,7 @@ const NotificationItem = ({
   };
 
   return (
-    <div className='flex items-center gap-[10px] p-[12px] border-solid border-b-[1px] border-[#EBEBEB] bg-[white] hover:bg-[#F7F6F8]'>
+    <div className='flex items-center gap-[10px] border-b-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] hover:bg-[#F7F6F8]'>
       <CustomImage
         src={notification.readStatus ? notification.iconRead : notification.icon}
         alt='noti_icon'
@@ -87,23 +97,32 @@ const NotificationItem = ({
         onClick={onReadNoti}
       />
 
-      <div className='flex flex-col gap-[8px] w-full'>
-        <div className='flex justify-between items-center'>
+      <div className='flex w-full flex-col gap-[8px]'>
+        <div className='flex items-center justify-between'>
           <Text
             onClick={onReadNoti}
-            className={classNames('text-[#394251] cursor-pointer', {
-              'text-[#999]': notification.readStatus
+            className={classNames('cursor-pointer text-[#394251]', {
+              'text-[#999]': notification.readStatus,
             })}
-          >{notification.caption}</Text>
-          <Text type='body-12-medium' color='neutral-5' className='text-right'>{notification.time && dayjs(notification.time)?.locale(i18n.language)?.fromNow()}</Text>
+          >
+            {notification.caption}
+          </Text>
+          <Text type='body-12-medium' color='neutral-5' className='text-right'>
+            {notification.time && dayjs(notification.time)?.locale(i18n.language)?.fromNow()}
+          </Text>
         </div>
-        <div className='flex justify-between items-end'>
+        <div className='flex items-end justify-between'>
           <div
             onClick={onReadNoti}
-            className={classNames('text-[#0D0D0D] overflow-hidden text-ellipsis mobile:max-w-[60vw] laptop:max-w-[250px] cursor-pointer', {
-              'text-[#999]': notification.readStatus
-            })}
-            dangerouslySetInnerHTML={{ __html: notification.readStatus ? notification.messageRead : notification.message }}
+            className={classNames(
+              'cursor-pointer overflow-hidden text-ellipsis text-[#0D0D0D] mobile:max-w-[60vw] laptop:max-w-[250px]',
+              {
+                'text-[#999]': notification.readStatus,
+              },
+            )}
+            dangerouslySetInnerHTML={{
+              __html: notification.readStatus ? notification.messageRead : notification.message,
+            }}
           />
           {notification.type !== 'PINETREE_MKT' && (
             <CustomImage
@@ -112,25 +131,28 @@ const NotificationItem = ({
               width='0'
               height='0'
               sizes='100vw'
-              className='h-[16px] w-[16px] cursor-pointer z-[999]'
+              className='z-[999] h-[16px] w-[16px] cursor-pointer'
               onClick={onDeleteNoti}
             />
           )}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
-const NotificationTabs = ({
-  onCloseNotiDropdown,
-  refreshNotiCount,
-  setHideReadAllButton,
-}: {
-  onCloseNotiDropdown?: () => void,
-  refreshNotiCount?: () => void,
-  setHideReadAllButton?: (value: boolean) => void,
-}, ref?: any) => {
+const NotificationTabs = (
+  {
+    onCloseNotiDropdown,
+    refreshNotiCount,
+    setHideReadAllButton,
+  }: {
+    onCloseNotiDropdown?: () => void;
+    refreshNotiCount?: () => void;
+    setHideReadAllButton?: (value: boolean) => void;
+  },
+  ref?: any,
+) => {
   const { t } = useTranslation('common');
   const defaultActiveTab = 'userNoti';
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
