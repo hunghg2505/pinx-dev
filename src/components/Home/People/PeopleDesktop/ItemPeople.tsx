@@ -110,7 +110,7 @@ const ItemPeople = (props: IProps) => {
 
             {data?.isKol && (
               <img
-                src='/static/icons/iconTickKol.svg'
+                src='/static/icons/iconTickKolV2.svg'
                 alt=''
                 className='ml-[6px] h-[14px] w-[14px] object-contain'
               />
