@@ -10,7 +10,7 @@ const Name = () => {
 
       {profileUser?.isKol && (
         <img
-          src='/static/icons/iconTick.svg'
+          src='/static/icons/iconTickKolV2.svg'
           alt=''
           width={0}
           height={0}

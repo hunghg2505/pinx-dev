@@ -45,13 +45,13 @@ export const UserName = ({ postDetail }: any) => {
     <Text
       type='body-14-semibold'
       color='neutral-1'
-      className='flex flex-1 items-center galaxy-max:text-[12px] tablet:text-[16px] overflow-hidden'
+      className='flex flex-1 items-center overflow-hidden galaxy-max:text-[12px] tablet:text-[16px]'
     >
       <span className='truncate'>{name}</span>
 
       {postDetail?.post?.customerInfo?.isKol && (
         <img
-          src='/static/icons/iconTick.svg'
+          src='/static/icons/iconTickKolV2.svg'
           alt=''
           width={0}
           height={0}

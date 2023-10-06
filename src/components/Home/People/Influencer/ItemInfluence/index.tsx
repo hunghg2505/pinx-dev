@@ -108,7 +108,7 @@ const ItemInfluence = (props: IProps) => {
               )}
               {isKol && (
                 <LazyLoadImage
-                  src='/static/icons/iconTick.svg'
+                  src='/static/icons/iconTickKolV2.svg'
                   alt=''
                   className='ml-[8px] h-[16px] w-[16px]'
                 />

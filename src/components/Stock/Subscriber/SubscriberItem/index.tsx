@@ -61,7 +61,7 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
 
             {data?.isKol && (
               <img
-                src='/static/icons/iconTickKol.svg'
+                src='/static/icons/iconTickKolV2.svg'
                 alt=''
                 className='ml-[6px] h-[14px] w-[14px] object-contain galaxy-max:ml-[2px] galaxy-max:h-[10px] galaxy-max:w-[10px]'
               />
