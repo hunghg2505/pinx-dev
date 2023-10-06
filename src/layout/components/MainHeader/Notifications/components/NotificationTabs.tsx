@@ -1,15 +1,16 @@
-/* eslint-disable no-console */
 /* eslint-disable unicorn/no-useless-spread */
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
+import { notificationAtom } from '@store/notification/notification';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from '../index.module.scss';
@@ -26,8 +27,8 @@ const EmptyNotification = () => {
   return (
     <div className='bg-[white] p-[12px]'>
       <div className='flex flex-col items-center justify-center rounded-xl border border-dashed border-[#CCCCCC] bg-[#F7F6F8] py-[28px]'>
-        <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-        <Text type='body-14-regular' className='mt-3 text-center text-[#999999]'>
+        <Text type='body-16-semibold'>{t('no_recent_notification')}</Text>
+        <Text type='body-12-regular' className='mt-3 text-center text-[#999999]'>
           {t('no_recent_notification_desc')}
         </Text>
       </div>
@@ -155,11 +156,30 @@ const NotificationTabs = (
 ) => {
   const { t } = useTranslation('common');
   const defaultActiveTab = 'userNoti';
+  const [, setNotiStore] = useAtom(notificationAtom);
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
-  const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({});
-  const { data: pinetreeNoti } = useGetPinetreeNotificationList({});
+  const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({
+    onSuccess: () => {
+      setNotiStore((prev) => {
+        return {
+          ...prev,
+          refreshNotiData
+        };
+      });
+    }
+  });
+  const { data: pinetreeNoti, refresh: refreshPinetreeNotiData } = useGetPinetreeNotificationList({
+    onSuccess: () => {
+      setNotiStore((prev) => {
+        return {
+          ...prev,
+          refreshPinetreeNotiData
+        };
+      });
+    }
+  });
 
-  useImperativeHandle(ref, () => ({ refreshNotiData }));
+  useImperativeHandle(ref, () => ({ refreshNotiData, refreshPinetreeNotiData }));
 
   const handleChangeTab = (tabKey: string) => {
     setCurTab(tabKey);

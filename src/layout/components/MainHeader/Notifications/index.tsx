@@ -15,19 +15,29 @@ import styles from './index.module.scss';
 import { useGetNotificationCount } from './service';
 
 const NotiCount = forwardRef((_, ref: any) => {
-  const { notiCount, refreshNotiCount } = useGetNotificationCount();
+  const [notiStore, setNotiStore] = useAtom(notificationAtom);
+  const { notiCount, refreshNotiCount } = useGetNotificationCount({
+    onSuccess: () => {
+      setNotiStore((prev) => {
+        return {
+          ...prev,
+          refreshNotiCount
+        };
+      });
+    }
+  });
 
   useImperativeHandle(ref, () => ({ refreshNotiCount, notiCount }));
 
-  const [, setNotiStore] = useAtom(notificationAtom);
-
   useEffect(() => {
-    setNotiStore((prev) => {
-      return {
-        ...prev,
-        notiCount,
-      };
-    });
+    if (notiStore !== notiCount) {
+      setNotiStore((prev) => {
+        return {
+          ...prev,
+          notiCount,
+        };
+      });
+    }
   }, [notiCount]);
 
   return notiCount > 0 ? (
@@ -61,6 +71,8 @@ const Notifications = () => {
   const refreshNotiCount = () => {
     notiCountRef.current.refreshNotiCount && notiCountRef.current.refreshNotiCount();
   };
+
+
 
   const NotificationBadge = () => {
     return (

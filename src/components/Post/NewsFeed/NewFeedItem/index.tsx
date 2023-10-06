@@ -122,6 +122,15 @@ const NewFeedItem = (props: IProps) => {
     return url;
   }, [postDetail, isLogin]);
 
+  const urlPost = useMemo(() => {
+    const slug = postDetail?.seoMetadata?.slug;
+    if (slug) {
+      return `/${slug}`;
+    }
+
+    return `/post/${postDetail?.id}`;
+  }, [postDetail]);
+
   const { refButtonList } = useHandlActionsPost();
 
   const { run: getUserProfile } = useProfileInitial();
@@ -425,7 +434,7 @@ const NewFeedItem = (props: IProps) => {
           <MaybeLink
             linkClassName='flex-1'
             href={urlTitle}
-            className='flex flex-row items-center flex-1'
+            className='flex flex-1 flex-row items-center'
           >
             <div
               ref={refHover}
@@ -496,7 +505,7 @@ const NewFeedItem = (props: IProps) => {
         {!isNewFeedExplore && (
           <div className='mobile:mt-[22px] desktop:mt-[28px]'>
             <PostActionComment
-              urlPost={`/${postDetail?.seoMetadata?.slug}`}
+              urlPost={urlPost}
               isLike={isLike}
               idPost={String(postId as string)}
               totalLikes={postDetail?.totalLikes}

@@ -80,9 +80,10 @@ const serviceGetNotificationCount = async () => {
   return privateRequest(requestNoti.get, API_PATH.GET_NOTIFICATION_COUNT);
 };
 
-export const useGetNotificationCount = () => {
+export const useGetNotificationCount = (options: IOptionsRequest) => {
   const { data, refresh } = useRequest(serviceGetNotificationCount, {
     cacheKey: 'notiCount',
+    ...options,
   });
 
   return {
