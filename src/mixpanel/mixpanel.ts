@@ -369,9 +369,6 @@ export const clickAPostTracking = (
 };
 
 export const allowNotificationTracking = (allowNotification: string) => {
-  mixpanel.people.set({
-    'PineX Web Notification': allowNotification,
-  });
   mixpanel.track('Allow Notification', {
     'App Notification': allowNotification,
   });
