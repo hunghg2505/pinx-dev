@@ -72,7 +72,8 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export async function getServerSideProps({ locale, params, req }: any) {
-  const id = params?.id[1]?.split('-').pop();
+  const id = params?.id?.length > 1 ? params?.id[1]?.split('-').pop() : params?.id[0];
+  // const id = params?.id[1]?.split('-').pop();
   const postDetail = await fetchPostDetailFromServer(id);
   if (!postDetail.data) {
     return {
