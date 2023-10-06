@@ -69,6 +69,8 @@ const NotificationItem = ({
       const id = resourceData?.passProps?.item?.slug;
       if (id === '%%SLUG%%') {
         router.push(ROUTE_PATH.POST_DETAIL(contentId));
+      } else if (id === router.asPath.slice(1)) {
+        router.reload();
       } else {
         router.push(`/${id}`);
       }
