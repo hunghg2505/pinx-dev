@@ -5,6 +5,7 @@ import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
+import { isSafari } from 'react-device-detect';
 
 import { ENV } from '@utils/env';
 
@@ -41,14 +42,16 @@ if (firebaseConfig?.projectId && firebase.apps.length === 0) {
         messaging = getMessaging(app);
       }
     });
-    // eslint-disable-next-line unicorn/prefer-top-level-await
-    Notification.requestPermission().then((value) => {
-      if (value && value === 'granted') {
-        allowNotificationTracking('Allow');
-      } else {
-        allowNotificationTracking('Not Allow');
-      }
-    });
+    if (!isSafari) {
+      // eslint-disable-next-line unicorn/prefer-top-level-await
+      Notification.requestPermission().then((value) => {
+        if (value && value === 'granted') {
+          allowNotificationTracking('Allow');
+        } else {
+          allowNotificationTracking('Not Allow');
+        }
+      });
+    }
   }
 } else {
   firebase.app();
