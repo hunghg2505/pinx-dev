@@ -225,7 +225,7 @@ const HomeNewFeed = () => {
           <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
         </div>
       )}
-      {size && size.width > 768 && <UserPosting onAddNewPost={onAddNewPost} />}
+      <UserPosting onAddNewPost={onAddNewPost} />
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
