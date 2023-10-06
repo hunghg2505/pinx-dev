@@ -8,7 +8,6 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { getAccessToken } from '@store/auth';
 import { notificationAtom } from '@store/notification/notification';
-import { onMessageListener } from 'src/firebase';
 
 import NotificationMobile from './components/NotificationMobile';
 import NotificationOverlay from './components/NotificationOverlay';
@@ -16,19 +15,29 @@ import styles from './index.module.scss';
 import { useGetNotificationCount } from './service';
 
 const NotiCount = forwardRef((_, ref: any) => {
-  const { notiCount, refreshNotiCount } = useGetNotificationCount();
+  const [notiStore, setNotiStore] = useAtom(notificationAtom);
+  const { notiCount, refreshNotiCount } = useGetNotificationCount({
+    onSuccess: () => {
+      setNotiStore((prev) => {
+        return {
+          ...prev,
+          refreshNotiCount
+        };
+      });
+    }
+  });
 
   useImperativeHandle(ref, () => ({ refreshNotiCount, notiCount }));
 
-  const [, setNotiStore] = useAtom(notificationAtom);
-
   useEffect(() => {
-    setNotiStore((prev) => {
-      return {
-        ...prev,
-        notiCount,
-      };
-    });
+    if (notiStore !== notiCount) {
+      setNotiStore((prev) => {
+        return {
+          ...prev,
+          notiCount,
+        };
+      });
+    }
   }, [notiCount]);
 
   return notiCount > 0 ? (
@@ -46,7 +55,6 @@ const Notifications = () => {
   const [dropdownVisible, setdropdownVisible] = useState(false);
   const notiCountRef = useRef<any>(null);
   const notiMobileRef = useRef<any>(null);
-  const [storeNoti] = useAtom(notificationAtom);
 
   const onDropdownVisibleChange = (visible: boolean) => {
     setdropdownVisible(visible);
@@ -64,11 +72,7 @@ const Notifications = () => {
     notiCountRef.current.refreshNotiCount && notiCountRef.current.refreshNotiCount();
   };
 
-  onMessageListener().then(() => {
-    refreshNotiCount && refreshNotiCount();
-    storeNoti.refreshNotiData();
-    storeNoti.refreshPinetreeNotiData();
-  });
+
 
   const NotificationBadge = () => {
     return (

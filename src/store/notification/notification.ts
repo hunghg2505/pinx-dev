@@ -1,15 +1,14 @@
 import { atom } from 'jotai';
 
-interface INotification {
+export interface INotification {
   notiCount: number;
-  refreshNotiData: () => void;
-  refreshPinetreeNotiData: () => void;
+  refreshNotiData?: () => void;
+  refreshPinetreeNotiData?: () => void;
+  refreshNotiCount?: () => void;
 }
 
 export const initialNotification: INotification = {
   notiCount: 0,
-  refreshNotiData: () => {},
-  refreshPinetreeNotiData: () => {},
 };
 
 export const notificationAtom = atom({ ...initialNotification });
