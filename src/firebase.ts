@@ -7,6 +7,8 @@ import firebase from 'firebase/compat/app';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
 
 import { ENV } from '@utils/env';
+
+import { allowNotificationTracking } from './mixpanel/mixpanel';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,6 +39,14 @@ if (firebaseConfig?.projectId && firebase.apps.length === 0) {
     isSupported().then((value) => {
       if (value) {
         messaging = getMessaging(app);
+      }
+    });
+    // eslint-disable-next-line unicorn/prefer-top-level-await
+    Notification.requestPermission().then((value) => {
+      if (value && value === 'granted') {
+        allowNotificationTracking('Allow');
+      } else {
+        allowNotificationTracking('Not Allow');
       }
     });
   }
