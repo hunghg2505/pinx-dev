@@ -244,14 +244,24 @@ export const useGetTrending = (options = {}) => {
   };
 };
 
-export const useGetInfluencer = (options = {}) => {
+export const useGetInfluencer = (options = {}, params = {}) => {
   const { data, refresh, loading, run } = useRequest(
-    () => {
+    (params2 = {}) => {
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS)
-        : requestPist.get(API_PATH.KOL);
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS, {
+            params: {
+              ...params,
+              ...params2,
+            },
+          })
+        : requestPist.get(API_PATH.KOL, {
+            params: {
+              ...params,
+              ...params2,
+            },
+          });
     },
     {
       ...options,

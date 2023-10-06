@@ -44,10 +44,15 @@ const Influencer = () => {
     // autoplay: true,
     // autoplaySpeed: 1000,
   };
-  const { KOL, refresh, fetchInfluencer } = useGetInfluencer({
-    cacheKey: 'data-influencer',
-    manual: true,
-  });
+  const { KOL, refresh, fetchInfluencer } = useGetInfluencer(
+    {
+      cacheKey: 'data-influencer',
+      manual: true,
+    },
+    {
+      size: 9999,
+    },
+  );
   const { refreshList } = useSuggestPeople({
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
@@ -58,7 +63,9 @@ const Influencer = () => {
 
   useEffect(() => {
     if (inView && !checkRef.current) {
-      fetchInfluencer();
+      fetchInfluencer({
+        size: 9999,
+      });
       checkRef.current = true;
     }
   }, [inView]);
