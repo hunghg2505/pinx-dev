@@ -11,6 +11,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
+import { onMessageListener } from 'src/firebase';
 
 import styles from '../index.module.scss';
 import {
@@ -26,8 +27,8 @@ const EmptyNotification = () => {
   return (
     <div className='bg-[white] p-[12px]'>
       <div className='flex flex-col items-center justify-center rounded-xl border border-dashed border-[#CCCCCC] bg-[#F7F6F8] py-[28px]'>
-        <Text type='body-20-semibold'>{t('no_recent_notification')}</Text>
-        <Text type='body-14-regular' className='mt-3 text-center text-[#999999]'>
+        <Text type='body-16-semibold'>{t('no_recent_notification')}</Text>
+        <Text type='body-12-regular' className='mt-3 text-center text-[#999999]'>
           {t('no_recent_notification_desc')}
         </Text>
       </div>
@@ -157,7 +158,7 @@ const NotificationTabs = (
   const defaultActiveTab = 'userNoti';
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
   const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({});
-  const { data: pinetreeNoti } = useGetPinetreeNotificationList({});
+  const { data: pinetreeNoti, refresh: refreshPinetreeNotiData } = useGetPinetreeNotificationList({});
 
   useImperativeHandle(ref, () => ({ refreshNotiData }));
 
@@ -169,6 +170,13 @@ const NotificationTabs = (
       setHideReadAllButton && setHideReadAllButton(true);
     }
   };
+
+  onMessageListener().then((payload) => {
+    refreshNotiCount && refreshNotiCount();
+    console.log('xxx payload', payload);
+    refreshNotiData();
+    refreshPinetreeNotiData();
+  });
 
   return (
     <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
