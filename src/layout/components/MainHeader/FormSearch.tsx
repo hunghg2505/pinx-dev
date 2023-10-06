@@ -241,9 +241,6 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
     fillterMediaSort = [...media];
   }
 
-  const goToPostDetail = (idPost: string) => {
-    router.push(ROUTE_PATH.POST_DETAIL(idPost));
-  };
   const onSeeMore = (tab: string) => {
     setSearchSeo(false);
     const value = form.getFieldValue('search');
@@ -304,7 +301,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
             form={form}
             onFinish={handleSubmit}
             onValuesChange={run}
-            // onFieldsChange={handleOnchange}
+          // onFieldsChange={handleOnchange}
           >
             <FormItem name='search'>
               <Input
@@ -502,7 +499,6 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                             data={item}
                             // setShowPopup={setSearchSeo}
                             showComment
-                            onNavigate={() => goToPostDetail(item?.seoMetadata.slug)}
                             isForceNavigate
                           />
                         );

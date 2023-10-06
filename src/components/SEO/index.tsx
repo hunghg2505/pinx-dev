@@ -66,6 +66,10 @@ const SEO: FC<Props> = ({
           isNoFollow ? 'nofollow' : 'follow'
         }, max-image-preview:large, max-snippet:-1, max-video-preview:-1`}
       ></meta>
+      <meta
+        name='googlebot'
+        content={`${isNoIndex ? 'noindex' : 'index'}, ${isNoFollow ? 'nofollow' : 'follow'}`}
+      />
       <meta property='og:type' content={openGraph?.type ?? config.openGraph.type} />
       <meta property='og:url' content={siteUrl || 'https://pinex.vn/'} />
       <meta property='og:title' content={title || config.title} />

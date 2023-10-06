@@ -14,5 +14,6 @@
     "unicorn/no-null": "off",
     "import/no-cycle": "off",
     "import/no-named-as-default": "off"
+    // "linebreak-style": 0
   }
 }

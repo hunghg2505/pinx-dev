@@ -34,13 +34,11 @@ const NewsItem = ({
   data,
   middle,
   showComment,
-  onNavigate,
   isForceNavigate,
 }: {
   data: any;
   middle?: boolean;
   showComment?: boolean;
-  onNavigate?: () => void;
   isForceNavigate?: boolean;
 }) => {
   const { i18n } = useTranslation();
@@ -49,7 +47,6 @@ const NewsItem = ({
   const onGoToDetail = () => {
     router.push('/' + data?.seoMetadata?.slug);
   };
-
   const url = data?.post?.url;
   const onTrackingReadNews = () => {
     const curPostData = data?.post;
@@ -130,15 +127,16 @@ const NewsItem = ({
       {showComment && (
         <PostAction
           idPost={data.id}
-          urlPost={'/post/' + data.id}
+          urlPost={`/${data?.seoMetadata?.slug}`}
           isLike={data.isLike}
           totalLikes={data.totalLikes}
           totalComments={data.totalChildren}
           onNavigate={() => {
-            onNavigate && onNavigate();
+            onGoToDetail();
             setSearchSeo(false);
           }}
           isForceNavigate={isForceNavigate}
+          postDetail={data}
         />
       )}
     </>

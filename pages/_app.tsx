@@ -17,7 +17,7 @@ import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { disableScroll, enableScroll } from '@utils/common';
-// import '../src/firebase';
+import '../src/firebase';
 import '../src/mixpanel/mixpanel';
 
 import nextI18nConfig from '../next-i18next.config';
@@ -64,8 +64,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <meta name='robots' content='index, follow' />
-        <meta name='googlebot' content={'index,follow'} />
         <meta charSet='utf-8' />
         <meta name='theme-color' content={isShowNotificationMobile ? '#F8FAFD' : '#FFFFFF'} />
         <meta name='title' content='pinex' />

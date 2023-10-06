@@ -19,7 +19,7 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
 import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 interface IProps {
   theme: ITheme;
@@ -197,8 +197,8 @@ const ThemesItem = (props: IProps) => {
               alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
               onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(id))}
-              // blurDataURL="data:..." automatically provided
-              // placeholder="blur" // Optional blur-up while loading
+            // blurDataURL="data:..." automatically provided
+            // placeholder="blur" // Optional blur-up while loading
             />
           )}
           <CustomLink href={ROUTE_PATH.THEME_DETAIL(id)}>

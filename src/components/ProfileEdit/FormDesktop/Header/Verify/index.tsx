@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { profileUserContext } from '@components/ProfileEdit';
 import { calcUserStatusText } from '@utils/common';
-import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
+import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from 'src/constant';
 
 const Verify = () => {
   const profileUser = useContext<any>(profileUserContext);

@@ -16,8 +16,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
-import { PINETREE_LINK } from '@utils/constant';
-import { BANNER_URL } from 'src/constant';
+import { PINETREE_LINK, BANNER_URL } from 'src/constant';
 import {
   navigateSectionTracking,
   viewAssetTracking,
@@ -139,7 +138,7 @@ const SideBar = () => {
 
       const ComponentLink =
         router.pathname === ROUTE_PATH.MY_PROFILE &&
-        menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)
+          menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
 

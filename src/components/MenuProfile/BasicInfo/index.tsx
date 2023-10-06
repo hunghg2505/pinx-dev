@@ -8,7 +8,7 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
-import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from '@utils/constant';
+import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from 'src/constant';
 
 const BasicInfo = ({
   avatar,

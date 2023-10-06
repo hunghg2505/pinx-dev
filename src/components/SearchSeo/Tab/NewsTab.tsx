@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useRouter } from 'next/router';
-
 import NewsItem from '@components/Explore/Search/NewsItem';
 // import Loading from '@components/UI/Loading';
 import { Skeleton } from '@components/UI/Skeleton';
 import useBottomScroll from '@hooks/useBottomScroll';
-import { ROUTE_PATH } from '@utils/common';
 
 import Empty from '../Empty';
 import { ResponseSearchPost, useSearchNews } from '../service';
@@ -36,7 +33,6 @@ const SkeletonLoadingNews = () => {
 
 const NewsTab = ({ keyword, keywordFormat }: NewsTabProps) => {
   const [news, setNews] = useState<ResponseSearchPost | NonNullable<any>>();
-  const router = useRouter();
   const ref = useRef(null);
   const requestGetNews = useSearchNews({
     manual: true,
@@ -73,16 +69,11 @@ const NewsTab = ({ keyword, keywordFormat }: NewsTabProps) => {
     }
   });
 
-  const navigateToPostDetail = (postId: string) => {
-    router.push(ROUTE_PATH.POST_DETAIL(postId));
-  };
-
   return news?.data?.list && news?.data.list.length > 0 ? (
     <div className='flex flex-col gap-y-[16px]' ref={ref}>
       {news?.data?.list.map((item: any) => {
         return (
           <NewsItem
-            onNavigate={() => navigateToPostDetail(item?.seoMetadata.slug)}
             key={`new-items-${item?.id}`}
             middle={true}
             data={item}

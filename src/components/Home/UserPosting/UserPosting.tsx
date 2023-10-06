@@ -21,7 +21,7 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 import ComposeButton from '../ComposeButton';
 

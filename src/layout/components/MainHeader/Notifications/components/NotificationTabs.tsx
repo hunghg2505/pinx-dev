@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/no-useless-spread */
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -12,7 +13,7 @@ import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
 import styles from '../index.module.scss';
-import { useDeleteNotification, useGetNotificationList, useReadNotification } from '../service';
+import { useDeleteNotification, useGetNotificationList, useGetPinetreeNotificationList, useReadNotification } from '../service';
 
 const EmptyNotification = () => {
   const { t } = useTranslation('common');
@@ -51,8 +52,16 @@ const NotificationItem = ({
   const onReadNoti = () => {
     requestReadNotification.run(notification.id);
     const resourceData: any = JSON.parse(notification.resource);
-    const postId = resourceData?.passProps?.item?.id;
-    router.push(ROUTE_PATH.POST_DETAIL(postId));
+    const contentId = resourceData?.passProps?.item?.id;
+    if (resourceData.notificationType === 'NEW_FOLLOWER') {
+      router.push(ROUTE_PATH.PROFILE_DETAIL(contentId));
+    }
+    else if (resourceData.actionType === 'PINETREE_MKT') {
+      window.open(resourceData.url_notification, '_blank');
+    }
+    else {
+      router.push(ROUTE_PATH.POST_DETAIL(contentId));
+    }
     setTimeout(() => {
       refreshNotiCount && refreshNotiCount();
     }, 300);
@@ -96,15 +105,17 @@ const NotificationItem = ({
             })}
             dangerouslySetInnerHTML={{ __html: notification.readStatus ? notification.messageRead : notification.message }}
           />
-          <CustomImage
-            src='/static/icons/black_close_icon.svg'
-            alt='noti_close'
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='h-[16px] w-[16px] cursor-pointer z-[999]'
-            onClick={onDeleteNoti}
-          />
+          {notification.type !== 'PINETREE_MKT' && (
+            <CustomImage
+              src='/static/icons/black_close_icon.svg'
+              alt='noti_close'
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='h-[16px] w-[16px] cursor-pointer z-[999]'
+              onClick={onDeleteNoti}
+            />
+          )}
         </div>
       </div>
     </div >
@@ -113,23 +124,36 @@ const NotificationItem = ({
 
 const NotificationTabs = ({
   onCloseNotiDropdown,
-  refreshNotiCount
+  refreshNotiCount,
+  setHideReadAllButton,
 }: {
   onCloseNotiDropdown?: () => void,
-  refreshNotiCount?: () => void
-}) => {
+  refreshNotiCount?: () => void,
+  setHideReadAllButton?: (value: boolean) => void,
+}, ref?: any) => {
   const { t } = useTranslation('common');
   const defaultActiveTab = 'userNoti';
-  const { data: notiData, refresh: refreshNotiData } = useGetNotificationList({});
-  const userNoti = notiData?.data.filter((item: any) => item.type !== 'PINETREE_MKT');
-  const pinetreeNoti = notiData?.data.filter((item: any) => item.type === 'PINETREE_MKT');
+  const [curTab, setCurTab] = useState<string>(defaultActiveTab);
+  const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({});
+  const { data: pinetreeNoti } = useGetPinetreeNotificationList({});
+
+  useImperativeHandle(ref, () => ({ refreshNotiData }));
+
+  const handleChangeTab = (tabKey: string) => {
+    setCurTab(tabKey);
+    if (tabKey === 'userNoti') {
+      setHideReadAllButton && setHideReadAllButton(false);
+    } else {
+      setHideReadAllButton && setHideReadAllButton(true);
+    }
+  };
 
   return (
-    <Tabs defaultActiveKey={defaultActiveTab} className={styles.tabLogin}>
-      <TabPane tab={t('notice')} key='userNoti'>
-        {userNoti?.length > 0 ? (
+    <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
+      <TabPane tab={t('latest')} key='userNoti'>
+        {userNoti?.data?.length > 0 ? (
           <div className={styles.notiList}>
-            {userNoti.map((item: any) => (
+            {userNoti?.data?.map((item: any) => (
               <NotificationItem
                 notification={item}
                 key={item.id}
@@ -144,15 +168,14 @@ const NotificationTabs = ({
         )}
       </TabPane>
       <TabPane tab='Pinetree' key='pinetreeNoti'>
-        {pinetreeNoti?.length > 0 ? (
+        {pinetreeNoti?.data?.length > 0 ? (
           <div className={styles.notiList}>
-            {pinetreeNoti.map((item: any) => (
+            {pinetreeNoti?.data?.map((item: any) => (
               <NotificationItem
                 notification={item}
                 key={item.id}
                 onCloseNotiDropdown={onCloseNotiDropdown}
                 refreshNotiCount={refreshNotiCount}
-                refreshNotiData={refreshNotiData}
               />
             ))}
           </div>
@@ -164,4 +187,4 @@ const NotificationTabs = ({
   );
 };
 
-export default NotificationTabs;
+export default forwardRef(NotificationTabs);

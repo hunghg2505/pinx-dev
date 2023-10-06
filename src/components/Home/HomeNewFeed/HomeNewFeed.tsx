@@ -29,10 +29,9 @@ import {
   viewWatchListTracking,
 } from 'src/mixpanel/mixpanel';
 
-// import SuggestionPeople from './SuggestionPeople';
+import SuggestionPeople from './SuggestionPeople';
 import { useGetWatchList } from '../service';
 
-const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: false });
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
   ssr: false,
 });
@@ -43,6 +42,15 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
+// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
+//   loading: () => (
+//     <>
+//       <NewsFeedSkeleton />
+//       <NewsFeedSkeleton />
+//       <NewsFeedSkeleton />
+//     </>
+//   ),
+// });
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
 });
@@ -75,6 +83,13 @@ const HomeNewFeed = () => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
+  // useEffect(() => {
+  //   const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
+  //   if (scrollPosition) {
+  //     window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
+  //     globalThis?.sessionStorage.removeItem('scrollPosition');
+  //   }
+  // }, []);
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
     clearCache('data-pin-post');
@@ -195,11 +210,11 @@ const HomeNewFeed = () => {
     // tracking event get more info
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
-  const size = useSize(() => document?.querySelector('body'));
+  const size = useSize(() => document.querySelector('body'));
 
   return (
     <div className='relative desktop:pt-0'>
-      {size && size.width < 1025 && (
+      {size && size.width < 1024 && (
         <div className='relative laptop:hidden'>
           {selectTab === '1' && isHaveStockWatchList && (
             <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
@@ -242,13 +257,12 @@ const HomeNewFeed = () => {
         data={firstPost as any}
         onCommentPost={onCommentPost}
       />
-      {size && size.width < 769 && (
-        <div className='box-shadow card-style tablet:hidden'>
-          <div className='pb-[13px] pt-[10px] '>
-            <Trending />
-          </div>
+
+      <div className='box-shadow card-style tablet:hidden'>
+        <div className='pb-[13px] pt-[10px] '>
+          <Trending />
         </div>
-      )}
+      </div>
 
       <div className='box-shadow card-style'>
         <Text
@@ -271,7 +285,6 @@ const HomeNewFeed = () => {
           </div>
         </CustomLink>
       </div>
-
       {size && size.width < 769 && <SuggestionPeople />}
 
       {fourPost?.map((item: IPost) => {

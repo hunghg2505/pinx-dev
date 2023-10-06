@@ -28,7 +28,7 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
-import { USERTYPE } from '@utils/constant';
+import { USERTYPE } from 'src/constant';
 
 dayjs.extend(relativeTime);
 

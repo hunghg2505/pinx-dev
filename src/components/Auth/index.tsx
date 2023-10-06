@@ -7,8 +7,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
-import { REGISTER_INSTRUCTIONS_LINK } from '@utils/constant';
-import { AUTH_TAB_TYPE } from 'src/constant';
+import { REGISTER_INSTRUCTIONS_LINK, AUTH_TAB_TYPE } from 'src/constant';
 import { registerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
