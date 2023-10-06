@@ -13,7 +13,7 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import MenuMobile from '@layout/components/MainHeader/MenuMobile';
-import Notifications from '@layout/components/MainHeader/Notifications';
+// import Notifications from '@layout/components/MainHeader/Notifications';
 import Profile from '@layout/components/MainHeader/Profile';
 import SearchInput from '@layout/components/MainHeader/SearchInput';
 import { getAccessToken } from '@store/auth';
@@ -164,7 +164,7 @@ const MainHeader = () => {
 
           <div className='z-10 flex  flex-none items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
             {isMobile && isShowSearch && <SearchInput />}
-            {!isOpenSearch && <Notifications />}
+            {/* {!isOpenSearch && <Notifications  */}
             {!isOpenSearch && <Profile />}
           </div>
         </div>
