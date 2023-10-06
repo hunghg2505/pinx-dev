@@ -1,17 +1,17 @@
-/* eslint-disable no-console */
 /* eslint-disable unicorn/no-useless-spread */
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
+import { notificationAtom } from '@store/notification/notification';
 import { ROUTE_PATH } from '@utils/common';
-import { onMessageListener } from 'src/firebase';
 
 import styles from '../index.module.scss';
 import {
@@ -156,11 +156,30 @@ const NotificationTabs = (
 ) => {
   const { t } = useTranslation('common');
   const defaultActiveTab = 'userNoti';
+  const [, setStoreNoti] = useAtom(notificationAtom);
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
-  const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({});
-  const { data: pinetreeNoti, refresh: refreshPinetreeNotiData } = useGetPinetreeNotificationList({});
+  const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({
+    onSuccess: () => {
+      setStoreNoti((prev) => {
+        return {
+          ...prev,
+          refreshNotiData
+        };
+      });
+    }
+  });
+  const { data: pinetreeNoti, refresh: refreshPinetreeNotiData } = useGetPinetreeNotificationList({
+    onSuccess: () => {
+      setStoreNoti((prev) => {
+        return {
+          ...prev,
+          refreshPinetreeNotiData
+        };
+      });
+    }
+  });
 
-  useImperativeHandle(ref, () => ({ refreshNotiData }));
+  useImperativeHandle(ref, () => ({ refreshNotiData, refreshPinetreeNotiData }));
 
   const handleChangeTab = (tabKey: string) => {
     setCurTab(tabKey);
@@ -170,13 +189,6 @@ const NotificationTabs = (
       setHideReadAllButton && setHideReadAllButton(true);
     }
   };
-
-  onMessageListener().then((payload) => {
-    refreshNotiCount && refreshNotiCount();
-    console.log('xxx payload', payload);
-    refreshNotiData();
-    refreshPinetreeNotiData();
-  });
 
   return (
     <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
