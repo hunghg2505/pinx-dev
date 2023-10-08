@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import PinPost from '@components/Home/HomeNewFeed/PinPost';
-import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
+// import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import UserPosting from '@components/Home/UserPosting/UserPosting';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
@@ -29,7 +29,7 @@ import {
   viewWatchListTracking,
 } from 'src/mixpanel/mixpanel';
 
-import SuggestionPeople from './SuggestionPeople';
+// import SuggestionPeople from './SuggestionPeople';
 import { useGetWatchList } from '../service';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
@@ -42,6 +42,10 @@ const Trending = dynamic(() => import('../Trending'), {
 const Influencer = dynamic(() => import('../People/Influencer'), {
   ssr: false,
 });
+
+const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), { ssr: false });
+
+const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: false });
 // const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
 //   loading: () => (
 //     <>
