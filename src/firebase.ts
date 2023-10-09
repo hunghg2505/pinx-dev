@@ -5,7 +5,7 @@ import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
-import { isSafari } from 'react-device-detect';
+import { isIOS } from 'react-device-detect';
 
 import { ENV } from '@utils/env';
 
@@ -42,7 +42,7 @@ if (firebaseConfig?.projectId && firebase.apps.length === 0) {
         messaging = getMessaging(app);
       }
     });
-    if (!isSafari) {
+    if (!isIOS) {
       // eslint-disable-next-line unicorn/prefer-top-level-await
       Notification.requestPermission().then((value) => {
         if (value && value === 'granted') {
