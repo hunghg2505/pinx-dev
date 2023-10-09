@@ -9,6 +9,7 @@ const MainHeader = dynamic(() => import('../components/MainHeader'), {
   ssr: false,
   loading: () => <MainHeaderFake />,
 });
+
 const SideBar = dynamic(() => import('@layout/MainLayout/SideBar'));
 
 const ModalPage = dynamic(() => import('@components/ModalPage'), {
