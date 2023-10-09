@@ -335,7 +335,7 @@ export const useGetTotalSharePost = () => {
   });
 
   return {
-    total: data?.shares.all,
+    total: data?.shares?.all,
     onGetTotalShare: run,
   };
 };
