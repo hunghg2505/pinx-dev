@@ -64,7 +64,7 @@ const NotificationItem = ({
     if (resourceData.notificationType === 'NEW_FOLLOWER') {
       router.push(ROUTE_PATH.PROFILE_DETAIL(contentId));
     } else if (resourceData.actionType === 'PINETREE_MKT') {
-      window.open(resourceData.url_notification, '_blank');
+      resourceData.url_notification && window.open(resourceData.url_notification, '_blank');
     } else {
       const id = resourceData?.passProps?.item?.slug;
       if (id === '%%SLUG%%') {
