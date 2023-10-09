@@ -747,7 +747,7 @@ export const converStringMessageToObject = (message: string) => {
 
     if (mentions) {
       for (const mention of mentions) {
-        if (mention.startsWith('@')) {
+        if (mention.startsWith('@[')) {
           const [, label, id] = mention.match(/@\[(.*?)]\((.*?)\)/) || [];
           content.push({
             type: 'userMention',
@@ -764,7 +764,7 @@ export const converStringMessageToObject = (message: string) => {
               label: mention,
             },
           });
-        } else if (mention.startsWith('%')) {
+        } else if (mention.startsWith('%[')) {
           const [, label] = mention.match(/%\[(.*?)]\((.*?)\)/) || [];
           content.push({
             type: 'stockMention',
@@ -787,7 +787,6 @@ export const converStringMessageToObject = (message: string) => {
       content,
     };
   });
-
   return {
     type: 'doc',
     content: paragraphs,
