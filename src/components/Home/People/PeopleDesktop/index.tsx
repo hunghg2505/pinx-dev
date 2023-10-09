@@ -3,6 +3,7 @@ import React from 'react';
 import { useAtom } from 'jotai';
 
 import { ISuggestionPeople } from '@components/Home/service';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { getAccessToken } from '@store/auth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 
@@ -45,11 +46,11 @@ const PeopleDesktop = ({
   }
 
   return (
-    <>
+    <LoadCompVisible>
       {suggestionPeople?.slice(0, 3)?.map((item: ISuggestionPeople, index: number) => {
         return <ItemPeople data={item} key={index} refreshList={refreshList} refresh={refresh} />;
       })}
-    </>
+    </LoadCompVisible>
   );
 };
 export default PeopleDesktop;

@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unknown-property */
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import '../styles/globals.scss';
 import '../styles/tailwind.css';
 
-import { useAtom } from 'jotai';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -13,19 +12,19 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
-import 'dayjs/locale/en';
-import 'dayjs/locale/vi';
-import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
-import { disableScroll, enableScroll } from '@utils/common';
-import '../src/firebase';
-import '../src/mixpanel/mixpanel';
 
 import nextI18nConfig from '../next-i18next.config';
+
+import 'dayjs/locale/en';
+import 'dayjs/locale/vi';
 
 const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData'), {
   ssr: false,
 });
 const InitialSocket = dynamic(() => import('@layout/AppLayout/InitialSocket'), {
+  ssr: false,
+});
+const InitialNotification = dynamic(() => import('@layout/AppLayout/InitialNotification'), {
   ssr: false,
 });
 
@@ -50,22 +49,11 @@ const BarlowFont = Barlow({
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
 
-  // notifications
-  const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
-
-  useEffect(() => {
-    if (isShowNotificationMobile) {
-      disableScroll();
-    } else {
-      enableScroll();
-    }
-  }, [isShowNotificationMobile]);
-
   return (
     <>
       <Head>
         <meta charSet='utf-8' />
-        <meta name='theme-color' content={isShowNotificationMobile ? '#F8FAFD' : '#FFFFFF'} />
+        <meta name='theme-color' content={'#FFFFFF'} />
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
         <link rel='shortcut icon' href='/static/favicon2.ico' />
@@ -87,6 +75,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ErrorBoundary>
         <AppInitialData />
         <InitialSocket />
+        <InitialNotification />
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>

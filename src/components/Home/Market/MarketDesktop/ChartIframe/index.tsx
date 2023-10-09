@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+
 const getMarketCodeChart = (marketCode: string) => {
   if (marketCode === '10') {
     return 'VNINDEX';
@@ -32,13 +34,15 @@ const MarketChartIframe = ({ mc, oIndex }: IMarketChartIframeProps) => {
   const { i18n } = useTranslation();
 
   return (
-    <iframe
-      src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
-        mc,
-      )}&type=INDEX&ref=${oIndex}&lang=${i18n.language}`}
-      className='h-[350px] w-full rounded-[8px]'
-      key={Math.random()}
-    ></iframe>
+    <LoadCompVisible>
+      <iframe
+        src={`https://price.pinetree.vn/chart-index/stock-chart?code=${getMarketCodeChart(
+          mc,
+        )}&type=INDEX&ref=${oIndex}&lang=${i18n.language}`}
+        className='h-[350px] w-full rounded-[8px]'
+        key={Math.random()}
+      ></iframe>
+    </LoadCompVisible>
   );
 };
 

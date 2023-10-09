@@ -7,6 +7,7 @@ import { isIOS } from 'react-device-detect';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
+import useScript from '@hooks/useScript';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
 import { useLogin } from '@store/auth/hydrateAuth';
@@ -19,10 +20,12 @@ import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSet
 import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
-import { TOAST_LIMIT } from 'src/constant';
+import { GOOGLE_TAG_MANAGER_ID, TOAST_LIMIT } from 'src/constant';
 import { firebaseConfig, getMessagingToken, onMessageListener } from 'src/firebase';
 
 const AppInitialData = () => {
+  useScript(`https://www.googletagmanager.com/gtm.js?id=${GOOGLE_TAG_MANAGER_ID}`, 8000);
+
   const { isLogin } = useLogin();
   const { toasts } = useToasterStore();
   const { run: getUserProfile } = useProfileInitial();

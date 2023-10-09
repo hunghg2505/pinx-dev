@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import Text from '@components/UI/Text';
 import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome/useGetDataStockWatchlistHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
@@ -27,7 +28,7 @@ const WatchList = () => {
     router.push(ROUTE_PATH.REGISTER_COMPANY);
   };
   return (
-    <>
+    <LoadCompVisible>
       <div className='mt-[22px] h-[179px] justify-center overflow-hidden mobile:block tablet:hidden'>
         {dataStockWatchlist?.length > 0 ? (
           <div className='no-scrollbar flex overflow-x-auto'>
@@ -55,7 +56,7 @@ const WatchList = () => {
           </div>
         )}
       </div>
-    </>
+    </LoadCompVisible>
   );
 };
 export default WatchList;

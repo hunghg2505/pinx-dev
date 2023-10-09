@@ -18,7 +18,7 @@ const nextConfig = {
   // i18n
   i18n,
   swcMinify: true,
-  output: 'standalone',
+  // output: 'standalone',
 
   // React Strict Mode is off
   reactStrictMode: false,

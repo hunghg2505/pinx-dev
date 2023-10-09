@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { IconCloseMenu } from '@components/UI/Icon/IconCloseMenu';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import SideBar from '@layout/MainLayout/SideBar';
@@ -30,7 +31,7 @@ const MenuMobile = () => {
   };
 
   return (
-    <>
+    <LoadCompVisible>
       <span className='flex cursor-pointer items-center desktop:hidden' onClick={onShowNavigate}>
         {isShowNavigate ? (
           <IconCloseMenu />
@@ -58,7 +59,7 @@ const MenuMobile = () => {
           <SideBar />
         </div>
       </div>
-    </>
+    </LoadCompVisible>
   );
 };
 

@@ -82,6 +82,7 @@ const ContentRight = () => {
               getSuggestFriend={getSuggestFriend}
               refresh={refresh}
             />
+
             {suggestionPeople?.length && (
               <ModalPeopleYouKnow refreshList={refreshList}>
                 <div

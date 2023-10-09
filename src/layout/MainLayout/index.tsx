@@ -4,12 +4,12 @@ import dynamic from 'next/dynamic';
 
 import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
 import MainHeaderFake from '@layout/components/MainHeader/MainHeaderFake';
-import SideBar from '@layout/MainLayout/SideBar';
 
 const MainHeader = dynamic(() => import('../components/MainHeader'), {
   ssr: false,
   loading: () => <MainHeaderFake />,
 });
+const SideBar = dynamic(() => import('@layout/MainLayout/SideBar'));
 
 const ModalPage = dynamic(() => import('@components/ModalPage'), {
   ssr: false,

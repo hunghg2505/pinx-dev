@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 
 import { ITrending, useGetTrending } from '@components/Home/service';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 
@@ -29,7 +30,7 @@ const TrendingDesktop = () => {
 
   return (
     <>
-      <div>
+      <LoadCompVisible>
         {dataTrending?.map((item: ITrending, index: number) => {
           return (
             <div
@@ -52,7 +53,7 @@ const TrendingDesktop = () => {
             </div>
           );
         })}
-      </div>
+      </LoadCompVisible>
     </>
   );
 };
