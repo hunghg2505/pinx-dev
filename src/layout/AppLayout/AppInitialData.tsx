@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useMount, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { isSafari } from 'react-device-detect';
+import { isIOS } from 'react-device-detect';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
@@ -133,7 +133,7 @@ const AppInitialData = () => {
     }
   }, []);
 
-  if (!isSafari) {
+  if (!isIOS) {
     onMessageListener().then(() => {
       notiStore.refreshNotiCount && notiStore.refreshNotiCount();
       notiStore.refreshNotiData && notiStore.refreshNotiData();
