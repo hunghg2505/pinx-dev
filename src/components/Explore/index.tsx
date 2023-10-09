@@ -128,7 +128,7 @@ const Explore = () => {
       // }
       sessionStorage.removeItem('scrollPosition');
       clearTimeout(t);
-    }, 1000);
+    }, 300);
   }, []);
 
   const onShowMoreKeyWords = () => {
