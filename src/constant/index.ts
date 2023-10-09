@@ -1,5 +1,5 @@
 const ZALO_OAID = '3853758560685742933';
-const SHARE_THIS_PROPERTY_ID = '64e5ad507cfc45001a61d322';
+const SHARE_THIS_PROPERTY_ID = '6523783d2074a00013caebeb';
 const POPUP_COMPONENT_ID = 'md-popup-container';
 const RC_DIALOG_CLASS_NAME = 'rc-dialog-container';
 // const GOOGLE_PLAY_DOWNLOAD = 'https://play.google.com/store/apps/details?id=com.pinetree.pist';
