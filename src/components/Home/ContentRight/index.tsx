@@ -37,7 +37,7 @@ const ContentRight = () => {
     // staleTime: -1,
     cacheKey: 'data-suggestionPeople',
   });
-  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer' });
+  const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer', manual: true });
 
   const { t } = useTranslation('common');
   const router = useRouter();

@@ -17,9 +17,11 @@ const ImageHeadPost = ({ headImageUrl, alt, title, priority }: IPropsImageHeadPo
   return (
     <>
       <Image
-        width='0'
-        height='0'
-        sizes='100vw'
+        // width='0'
+        // height='0'
+        // sizes='100vw'
+        fill
+        sizes='(min-width: 1400px) 642px, (min-width: 1200px) calc(86.11vw - 546px), (min-width: 780px) calc(100vw - 399px), calc(100vw - 45px)'
         priority={priority}
         src={headImageUrl}
         alt={alt}

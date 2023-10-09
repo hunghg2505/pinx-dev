@@ -129,7 +129,7 @@ const ItemInfluence = (props: IProps) => {
               alt=''
               width='0'
               height='0'
-              sizes='100vw'
+              sizes='161px'
               className='absolute left-0 top-0 h-full w-full rounded-[15px] object-cover'
             />
           ) : (

@@ -133,9 +133,11 @@ export const PineTreePost2 = ({
       return (
         <ModalMedia url={postDetail?.post?.urlImages?.[0]}>
           <Image
-            width='0'
-            height='0'
-            sizes='100vw'
+            // width='0'
+            // height='0'
+            // sizes='100vw'
+            fill
+            sizes='(min-width: 1400px) 642px, (min-width: 1200px) calc(86.11vw - 546px), (min-width: 780px) calc(100vw - 399px), calc(100vw - 45px)'
             priority={pinned}
             src={postDetail?.post?.urlImages?.[0]}
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
