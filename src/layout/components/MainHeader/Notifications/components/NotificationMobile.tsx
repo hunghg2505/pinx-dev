@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { isChrome, isSafari } from 'react-device-detect';
+import { isAndroid, isChrome, isIOS, isSafari } from 'react-device-detect';
 
 import CustomImage from '@components/UI/CustomImage';
 import Fade from '@components/UI/Fade';
@@ -71,7 +71,8 @@ const NotificationsMobile = ({ refreshNotiCount }: { refreshNotiCount?: () => vo
         'fixed left-[100%] z-[9999] w-full bg-[#F8FAFD] pt-[12px] [transition:0.3s] laptop:hidden overflow-y-auto top-0 h-[100vh] px-4',
         {
           '!left-0': openNotification,
-          'pb-[100px]': isChrome,
+          'pb-[100px]': isChrome && isIOS,
+          'pb-[50px]': isChrome && isAndroid,
           'pb-[80px]': isSafari,
         },
       )}
