@@ -218,32 +218,30 @@ const HomeNewFeed = () => {
 
   return (
     <div className='relative desktop:pt-0'>
-      {size && size.width < 1024 && (
-        <div className='relative laptop:hidden'>
-          {selectTab === '1' && isHaveStockWatchList && (
-            <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
-              <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-                <Text
-                  type='body-12-medium'
-                  className='galaxy-max:hidden tablet:text-[14px]'
-                  color='primary-1'
-                >
-                  {t('see_all')}
-                </Text>
-                <img
-                  src='/static/icons/iconNext.svg'
-                  width={5}
-                  height={5}
-                  alt=''
-                  className='ml-[11px] w-[10px]'
-                />
-              </button>
-            </CustomLink>
-          )}
+      <div className='relative tablet:hidden'>
+        {selectTab === '1' && isHaveStockWatchList && (
+          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
+            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
+              <Text
+                type='body-12-medium'
+                className='galaxy-max:hidden tablet:text-[14px]'
+                color='primary-1'
+              >
+                {t('see_all')}
+              </Text>
+              <img
+                src='/static/icons/iconNext.svg'
+                width={5}
+                height={5}
+                alt=''
+                className='ml-[11px] w-[10px]'
+              />
+            </button>
+          </CustomLink>
+        )}
 
-          <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
-        </div>
-      )}
+        <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
+      </div>
       <UserPosting onAddNewPost={onAddNewPost} />
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
