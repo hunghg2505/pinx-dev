@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import { requestJoinIndex, requestLeaveIndex } from '@components/Home/service';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
@@ -70,7 +71,7 @@ const MarketDesktop = () => {
   }
 
   return (
-    <>
+    <LoadCompVisible>
       <div className='box-shadow card-style mb-[25px] rounded-[8px] bg-[#FFFFFF] p-[20px] pt-[30px]'>
         <Text element='h4' type='body-16-bold' color='cbblack' className='mb-[25px]'>
           {t('market')}
@@ -176,7 +177,7 @@ const MarketDesktop = () => {
         mc={chartData?.mc}
         oIndex={chartData?.oIndex}
       />
-    </>
+    </LoadCompVisible>
   );
 };
 export default MarketDesktop;

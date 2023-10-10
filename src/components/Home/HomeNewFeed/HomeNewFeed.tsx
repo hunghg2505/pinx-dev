@@ -6,18 +6,17 @@ import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { Virtuoso } from 'react-virtuoso';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
-import PinPost from '@components/Home/HomeNewFeed/PinPost';
-// import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
+// import PinPost from '@components/Home/HomeNewFeed/PinPost';
+// import PostList from '@components/Home/HomeNewFeed/PostList';
+import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
-import UserPosting from '@components/Home/UserPosting/UserPosting';
-import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
+// import UserPosting from '@components/Home/UserPosting/UserPosting';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import useObserver from '@hooks/useObserver';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -26,44 +25,15 @@ import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
 import {
   filterNewsTracking,
   getMoreInfoTracking,
-  viewTickerInfoTracking,
   viewWatchListTracking,
 } from 'src/mixpanel/mixpanel';
 
-// import SuggestionPeople from './SuggestionPeople';
 import { useGetWatchList } from '../service';
 
-const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
-  ssr: false,
-});
-// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost');
-const Trending = dynamic(() => import('../Trending'), {
-  ssr: false,
-});
-const Influencer = dynamic(() => import('../People/Influencer'), {
-  ssr: false,
-});
-
 const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), { ssr: false });
-
-const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: false });
-// const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'), {
-//   loading: () => (
-//     <>
-//       <NewsFeedSkeleton />
-//       <NewsFeedSkeleton />
-//       <NewsFeedSkeleton />
-//     </>
-//   ),
-// });
-const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
-  ssr: false,
-});
-
-// tracking event view ticker info
-const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => {
-  viewTickerInfoTracking(stockCode, 'Home screen', locationDetail, 'Stock');
-};
+const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
+const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
+const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'));
 
 const HomeNewFeed = () => {
   const { t } = useTranslation('home');
@@ -72,15 +42,15 @@ const HomeNewFeed = () => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-  // socket.on('connect', requestJoinIndex);
+
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
 
-  const { refLastElement } = useObserver();
   const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
+
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -88,13 +58,7 @@ const HomeNewFeed = () => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
-  // useEffect(() => {
-  //   const scrollPosition = globalThis?.sessionStorage.getItem('scrollPosition');
-  //   if (scrollPosition) {
-  //     window.scrollTo({ left: 0, top: Number.parseInt(scrollPosition, 10), behavior: 'smooth' });
-  //     globalThis?.sessionStorage.removeItem('scrollPosition');
-  //   }
-  // }, []);
+
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
     clearCache('data-pin-post');
@@ -147,12 +111,6 @@ const HomeNewFeed = () => {
 
   const onChangeTab = (key: string) => {
     setSelectTab(key);
-    // if (key === '1') {
-    //   requestLeaveIndex();
-    // }
-    // if (key === '2') {
-    //   requestJoinIndex();
-    // }
   };
 
   const onAddNewPost = (newData: IPost) => {
@@ -216,19 +174,18 @@ const HomeNewFeed = () => {
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
   const size = useSize(() => document.querySelector('body'));
+
   const virtuoso = useRef<any>(null);
+
   useEffect(() => {
     const postIndex = sessionStorage?.getItem('postIndex');
     if (postIndex && virtuoso.current) {
-      // const t = setTimeout(() => {
       virtuoso.current.scrollToIndex({
         index: +postIndex,
         align: 'start',
         behavior: 'auto',
       });
       sessionStorage.removeItem('postIndex');
-      //   clearTimeout(t);
-      // }, 700);
     }
   }, []);
 
@@ -255,151 +212,37 @@ const HomeNewFeed = () => {
             </button>
           </CustomLink>
         )}
-
         <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
       </div>
-      <UserPosting onAddNewPost={onAddNewPost} />
 
-      <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
+      <LoadCompVisible>
+        <UserPosting onAddNewPost={onAddNewPost} />
+      </LoadCompVisible>
 
-      <PinPost
-        onTrackingViewTickerCmt={(stockCode: string) =>
-          handleTrackingViewTicker(stockCode, 'Comment')
-        }
-      />
+      <LoadCompVisible>
+        <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
+      </LoadCompVisible>
 
-      <NewsFeed
-        onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-        onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-        key={`home-post-item-${firstPost?.id}`}
-        data={firstPost as any}
-        onCommentPost={onCommentPost}
-      />
+      <LoadCompVisible>
+        <PinPost
+          onTrackingViewTickerCmt={(stockCode: string) =>
+            handleTrackingViewTicker(stockCode, 'Comment')
+          }
+        />
+      </LoadCompVisible>
 
-      <div className='box-shadow card-style tablet:hidden'>
-        <div className='pb-[13px] pt-[10px] '>
-          <Trending />
-        </div>
-      </div>
-
-      <div className='box-shadow card-style'>
-        <Text
-          element='h2'
-          type='body-16-semibold'
-          color='neutral-2'
-          className='mb-[14px] tablet:text-[20px]'
-        >
-          {t('people_in_spotlight')}
-        </Text>
-        <Influencer />
-
-        <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
-          <div className='mt-[16px]'>
-            <button className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
-              <Text type='body-14-bold' color='primary-2'>
-                {t('explore_influencer')}
-              </Text>
-            </button>
-          </div>
-        </CustomLink>
-      </div>
-      {size && size.width < 769 && <SuggestionPeople />}
-
-      {fourPost?.map((item: IPost) => {
-        return (
-          <NewsFeed
-            key={`home-post-item-${item?.id}`}
-            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-            loading={loadingPosts}
-            data={item}
-            onCommentPost={onCommentPost}
-          />
-        );
-      })}
-
-      <div className='box-shadow card-style'>
-        <Text
-          element='h2'
-          type='body-16-semibold'
-          color='neutral-2'
-          className='mb-[14px] tablet:text-[20px]'
-        >
-          {t('economy_in_the_themes')}
-        </Text>
-        <ListTheme />
-      </div>
-
-      {/* {postsNext?.map((item: IPost, idx: number) => {
-        if (idx === postsNext?.length - 1) {
-          return (
-            <div
-              key={`home-post-item-${item?.id}`}
-              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-            >
-              <NewsFeed
-                onTrackingViewTicker={(stockCode) =>
-                  handleTrackingViewTicker(stockCode, 'News feed')
-                }
-                onTrackingViewTickerCmt={(stockCode) =>
-                  handleTrackingViewTicker(stockCode, 'Comment')
-                }
-                data={item}
-                onCommentPost={onCommentPost}
-              />
-            </div>
-          );
-        }
-
-        return (
-          <NewsFeed
-            key={`home-post-item-${item?.id}`}
-            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-            data={item}
-            onCommentPost={onCommentPost}
-          />
-        );
-      })} */}
-
-      <Virtuoso
-        ref={virtuoso}
-        style={{ height: '2000px' }}
-        useWindowScroll
-        totalCount={postsNext?.length}
-        data={postsNext}
-        overscan={6}
-        endReached={serviceLoadMorePost}
-        components={{
-          Footer: () => (
-            <div className='mt-[10px]'>
-              <NewsFeedSkeleton />
-              <NewsFeedSkeleton />
-              <NewsFeedSkeleton />
-            </div>
-          ),
-        }}
-        itemContent={(index, data) => (
-          <div onClick={() => sessionStorage.setItem('postIndex', index + '')}>
-            <NewsFeed
-              onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-              onTrackingViewTickerCmt={(stockCode) =>
-                handleTrackingViewTicker(stockCode, 'Comment')
-              }
-              data={data}
-              onCommentPost={onCommentPost}
-            />
-          </div>
-        )}
-      />
-
-      {/* {loadingPosts && (
-        <div className='mt-[10px]'>
-          <NewsFeedSkeleton />
-          <NewsFeedSkeleton />
-          <NewsFeedSkeleton />
-        </div>
-      )} */}
+      <LoadCompVisible>
+        <PostList
+          size={size}
+          serviceLoadMorePost={serviceLoadMorePost}
+          onCommentPost={onCommentPost}
+          firstPost={firstPost}
+          fourPost={fourPost}
+          postsNext={postsNext}
+          loadingPosts={loadingPosts}
+          virtuoso={virtuoso}
+        />
+      </LoadCompVisible>
     </div>
   );
 };

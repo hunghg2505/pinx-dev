@@ -1,11 +1,13 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+// import lazyLoadComponent from 'next-lazy-component';
 import StickyBox from 'react-sticky-box';
 
-// import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
-import PeopleDesktop from '@components/Home/People/PeopleDesktop';
-import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
+// import MarketDesktop from '@components/Home/Market/MarketDesktop';
+// import PeopleDesktop from '@components/Home/People/PeopleDesktop';
+// import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
+// import { lazyLoadComponent } from '@components/LoadCompVisible';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
@@ -13,20 +15,15 @@ import { ROUTE_PATH } from '@utils/common';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import WatchList from './WatchList';
-import MarketDesktop from '../Market/MarketDesktop';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
-// const MarketDesktop = dynamic(() => import('../Market/MarketDesktop'), { ssr: false });
-// const TrendingDesktop = dynamic(() => import('@components/Home/Trending/TrendingDesktop'), {
-//   ssr: false,
-// });
-// const PeopleDesktop = dynamic(() => import('@components/Home/People/PeopleDesktop'), {
-//   ssr: false,
-// });
 const ModalPeopleYouKnow = dynamic(() => import('@components/Explore/ModalPeopleYouKnow'), {
   ssr: false,
 });
-// const WatchList = dynamic(() => import('./WatchList'), { ssr: false });
+
+const MarketDesktop = dynamic(() => import('../Market/MarketDesktop'));
+const PeopleDesktop = dynamic(() => import('@components/Home/People/PeopleDesktop'));
+const TrendingDesktop = dynamic(() => import('@components/Home/Trending/TrendingDesktop'));
 
 // tracking event get more info
 const handleTrackingGetMore = () => {
@@ -82,6 +79,7 @@ const ContentRight = () => {
               getSuggestFriend={getSuggestFriend}
               refresh={refresh}
             />
+
             {suggestionPeople?.length && (
               <ModalPeopleYouKnow refreshList={refreshList}>
                 <div

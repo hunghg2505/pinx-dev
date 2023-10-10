@@ -2,11 +2,11 @@ import { ReactElement } from 'react';
 
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // import { fetchPinedPostFromServer } from '@components/Home/service';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Home = dynamic(() => import('@components/Home'));
 

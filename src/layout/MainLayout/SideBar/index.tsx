@@ -8,6 +8,7 @@ import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
 import StickyBox from 'react-sticky-box';
 
+// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -138,7 +139,7 @@ const SideBar = () => {
 
       const ComponentLink =
         router.pathname === ROUTE_PATH.MY_PROFILE &&
-          menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)
+        menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
 
@@ -214,7 +215,7 @@ const SideBar = () => {
 
   return (
     <StickyBox offsetTop={110} offsetBottom={20}>
-      <div>
+      <>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
           <img
@@ -300,7 +301,7 @@ const SideBar = () => {
             </a>
           </div>
         </div>
-      </div>
+      </>
     </StickyBox>
   );
 };
