@@ -65,9 +65,9 @@ const InitialSocket = () => {
     const cif = isLogin ? userLoginInfo?.cif : '';
     if (cif) {
       mixpanelIdentifyUser(cif);
+      openWebTracking(isLogin, cif, lastTimeVisit);
+      setIsTrackingOpenWeb(true);
     }
-    openWebTracking(isLogin, cif, lastTimeVisit);
-    setIsTrackingOpenWeb(true);
   }, [isTrackingOpenWeb, userLoginInfo]);
 
   return <></>;
