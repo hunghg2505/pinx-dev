@@ -56,29 +56,32 @@ const NotificationItem = ({
       refreshNotiData && refreshNotiData();
     },
   });
+  const resourceData: any = JSON.parse(notification.resource);
+  const disabledNoti = (resourceData.actionType === 'PINETREE_MKT' && !resourceData.url_notification);
 
   const onReadNoti = () => {
-    requestReadNotification.run(notification.id);
-    const resourceData: any = JSON.parse(notification.resource);
-    const contentId = resourceData?.passProps?.item?.id;
-    if (resourceData.notificationType === 'NEW_FOLLOWER') {
-      router.push(ROUTE_PATH.PROFILE_DETAIL(contentId));
-    } else if (resourceData.actionType === 'PINETREE_MKT') {
-      resourceData.url_notification && window.open(resourceData.url_notification, '_blank');
-    } else {
-      const id = resourceData?.passProps?.item?.slug;
-      if (id === '%%SLUG%%') {
-        router.push(ROUTE_PATH.POST_DETAIL(contentId));
-      } else if (id === router.asPath.slice(1)) {
-        router.reload();
+    if (!disabledNoti) {
+      requestReadNotification.run(notification.id);
+      const contentId = resourceData?.passProps?.item?.id;
+      if (resourceData.notificationType === 'NEW_FOLLOWER') {
+        router.push(ROUTE_PATH.PROFILE_DETAIL(contentId));
+      } else if (resourceData.actionType === 'PINETREE_MKT') {
+        resourceData.url_notification && window.open(resourceData.url_notification, '_blank');
       } else {
-        router.push(`/${id}`);
+        const id = resourceData?.passProps?.item?.slug;
+        if (id === '%%SLUG%%') {
+          router.push(ROUTE_PATH.POST_DETAIL(contentId));
+        } else if (id === router.asPath.slice(1)) {
+          router.reload();
+        } else {
+          router.push(`/${id}`);
+        }
       }
+      setTimeout(() => {
+        refreshNotiCount && refreshNotiCount();
+      }, 300);
+      onCloseNotiDropdown && onCloseNotiDropdown();
     }
-    setTimeout(() => {
-      refreshNotiCount && refreshNotiCount();
-    }, 300);
-    onCloseNotiDropdown && onCloseNotiDropdown();
   };
 
   const onDeleteNoti = () => {
@@ -96,7 +99,9 @@ const NotificationItem = ({
         width='0'
         height='0'
         sizes='100vw'
-        className='h-[50px] w-[50px] cursor-pointer'
+        className={classNames('h-[50px] w-[50px] cursor-pointer', {
+          '!cursor-auto': disabledNoti
+        })}
         onClick={onReadNoti}
       />
 
@@ -106,6 +111,7 @@ const NotificationItem = ({
             onClick={onReadNoti}
             className={classNames('cursor-pointer text-[#394251]', {
               'text-[#999]': notification.readStatus,
+              '!cursor-auto': disabledNoti
             })}
           >
             {notification.caption}
@@ -121,6 +127,7 @@ const NotificationItem = ({
               'cursor-pointer overflow-hidden text-ellipsis text-[#0D0D0D] mobile:max-w-[60vw] laptop:max-w-[250px]',
               {
                 'text-[#999]': notification.readStatus,
+                '!cursor-auto': disabledNoti
               },
             )}
             dangerouslySetInnerHTML={{
