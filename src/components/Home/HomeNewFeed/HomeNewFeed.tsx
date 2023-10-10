@@ -232,7 +232,7 @@ const HomeNewFeed = () => {
       </LoadCompVisible>
 
       <LoadCompVisible>
-        {/* <PostList
+        <PostList
           size={size}
           serviceLoadMorePost={serviceLoadMorePost}
           onCommentPost={onCommentPost}
@@ -241,7 +241,7 @@ const HomeNewFeed = () => {
           postsNext={postsNext}
           loadingPosts={loadingPosts}
           virtuoso={virtuoso}
-        /> */}
+        />
       </LoadCompVisible>
     </div>
   );
