@@ -80,9 +80,8 @@ const FooterSignUp = () => {
   }
 
   return (
-    <footer ref={footerRef} className='fixed bottom-0 left-0 right-0 z-50'>
-      <LoadCompVisible>
-        {/* mobile */}
+    <LoadCompVisible>
+      <footer ref={footerRef} className='fixed bottom-0 left-0 right-0 z-50'>
         <div style={{ height: `${footerHeight}px` }}>
           <div
             style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
@@ -119,44 +118,8 @@ const FooterSignUp = () => {
             </Text>
           </div>
         </div>
-
-        {/* > tablet */}
-        {/* <div
-        style={{ transform: `translateY(${scrollTop.toFixed(0)}px)` }}
-        className='z-[999] h-full w-full items-center border-t border-solid border-t-[var(--primary-3)] bg-white transition mobile:hidden tablet:flex'
-      >
-        <div className='mx-auto w-full max-w-[1355px]'>
-          <div className='flex h-[37px] w-full items-center pl-[10px] desktop:pl-[calc(218px+24px+10px)]'>
-            <button
-              onClick={redirectToSignUp}
-              className='h-full rounded-[4px] bg-[var(--primary-2)] px-[24px]'
-            >
-              <Text type='body-16-semibold' color='cbwhite'>
-                {t('sign_up')}
-              </Text>
-            </button>
-
-            <Text type='body-16-semibold' color='primary-5' className='mx-[8px]'>
-              {t('or')}
-            </Text>
-
-            <button
-              onClick={redirectToLogin}
-              className='h-full rounded-[4px] border border-solid border-[var(--primary-6)] bg-[var(--primary-3)] px-[24px]'
-            >
-              <Text type='body-16-semibold' color='primary-2'>
-                {t('log_in')}
-              </Text>
-            </button>
-
-            <Text type='body-16-semibold' color='primary-5' className='ml-[8px]'>
-              {t('to_join_the_discussion')}
-            </Text>
-          </div>
-        </div>
-      </div> */}
-      </LoadCompVisible>
-    </footer>
+      </footer>
+    </LoadCompVisible>
   );
 };
 
