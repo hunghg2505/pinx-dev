@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // import { getAnalytics } from 'firebase/analytics';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 // import firebase from 'firebase/compat/app';
@@ -41,7 +42,7 @@ const firebaseCloudMessaging = {
     try {
       let fcmToken = await this.tokenInLocalForage();
       if (fcmToken !== null) {
-        console.error('fcm_token_client', fcmToken);
+        console.log('fcm_token_client', fcmToken);
         return fcmToken;
       }
       // const analytics = getAnalytics(app);
@@ -57,14 +58,14 @@ const firebaseCloudMessaging = {
       await Notification.requestPermission();
 
       fcmToken = await getToken(messaging, {
-        vapidKey: ENV.FIREBASE_VAPID_KEY,
+        vapidKey: ENV.FIREBASE_VAPIDKEY,
       });
 
       if (fcmToken) {
         // Send the token to your server and update the UI if necessary
         // save the token in your database
         localforage.setItem('fcm_token_client', fcmToken);
-        console.error('fcm_token_client', fcmToken);
+        console.log('fcm_token_client', fcmToken);
         allowNotificationTracking('Allow');
 
         return fcmToken;
