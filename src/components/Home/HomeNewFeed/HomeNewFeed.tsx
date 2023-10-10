@@ -215,23 +215,23 @@ const HomeNewFeed = () => {
         <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
       </div>
 
-      <LoadCompVisible>
+      <>
         <UserPosting onAddNewPost={onAddNewPost} />
-      </LoadCompVisible>
+      </>
 
-      <LoadCompVisible>
+      <>
         <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
-      </LoadCompVisible>
+      </>
 
-      <LoadCompVisible>
+      <>
         <PinPost
           onTrackingViewTickerCmt={(stockCode: string) =>
             handleTrackingViewTicker(stockCode, 'Comment')
           }
         />
-      </LoadCompVisible>
+      </>
 
-      <LoadCompVisible>
+      <>
         <PostList
           size={size}
           serviceLoadMorePost={serviceLoadMorePost}
@@ -242,7 +242,7 @@ const HomeNewFeed = () => {
           loadingPosts={loadingPosts}
           virtuoso={virtuoso}
         />
-      </LoadCompVisible>
+      </>
     </div>
   );
 };
