@@ -74,8 +74,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       <ErrorBoundary>
         <AppInitialData />
-        <InitialSocket />
         <InitialNotification />
+        <InitialSocket />
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>
