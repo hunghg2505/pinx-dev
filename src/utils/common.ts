@@ -39,7 +39,7 @@ export const ROUTE_PATH = {
   SEARCH: '/search',
   SEARCHSEO: '/search-seo',
   TOP_WATCHING: '/kham-pha/top-ma-co-phieu-duoc-theo-doi-nhieu-nhat',
-  GIFTCASH: '/gift-cash',
+  GIFTCASH: '/qua-tang',
   NOT_FOUND: '/404',
 
   // SETTING
@@ -59,7 +59,7 @@ export const ROUTE_PATH = {
   ASSET: (assetsTab: string) => `/profile/my-profile?tab=${assetsTab}`,
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
-  WATCHLIST: '/watchlist',
+  WATCHLIST: '/danh-muc-theo-doi',
   PROFILE_PATH: '/profile',
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
   PROFILE_DETAIL_FOLLOW: (id: number, tab: string) =>
