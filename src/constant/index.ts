@@ -27,7 +27,7 @@ const AVATAR_SIZE = {
 };
 
 const MAX_IMG_POST_CMT_FILE_SIZE_KB = 500;
-const BANNER_URL = 'https://pinex.vn/static/images/sidebar_banner.png';
+const BANNER_URL = 'https://static.pinetree.com.vn/upload/images/sidebar_banner.png';
 const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
 
 // sit
