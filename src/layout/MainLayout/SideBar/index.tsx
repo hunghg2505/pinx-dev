@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
 import StickyBox from 'react-sticky-box';
 
-import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -215,21 +215,20 @@ const SideBar = () => {
 
   return (
     <StickyBox offsetTop={110} offsetBottom={20}>
-      <LoadCompVisible>
-        <>
-          <Menu items={items} className='sidebar-list' />
-          <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-            <img
-              src={BANNER_URL}
-              alt=''
-              width={218}
-              height={400}
-              className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
-            />
-          </a>
+      <>
+        <Menu items={items} className='sidebar-list' />
+        <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
+          <img
+            src={BANNER_URL}
+            alt=''
+            width={218}
+            height={400}
+            className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
+          />
+        </a>
 
-          <div className='px-[10px] pt-[16px]'>
-            {/* <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
+        <div className='px-[10px] pt-[16px]'>
+          {/* <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
@@ -237,77 +236,72 @@ const SideBar = () => {
               className='mb-[20px] h-[55px] w-[140px]'
             />
           </a> */}
-            <a href={PINETREE_LINK} target='_blank' rel='noopener noreferrer'>
-              <Text type='body-12-regular' className='text-[#78909C]'>
-                Copyright 2023. Công ty CP Chứng Khoán{' '}
-                <span className='text-[#1F6EAC]'>Pinetree</span>
-              </Text>
-            </a>
-            <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
-              GPKD: <span className='text-[#474D57]'>0101294902</span>
-              <span className='block'>16:14 04/07/2023</span>
+          <a href={PINETREE_LINK} target='_blank' rel='noopener noreferrer'>
+            <Text type='body-12-regular' className='text-[#78909C]'>
+              Copyright 2023. Công ty CP Chứng Khoán{' '}
+              <span className='text-[#1F6EAC]'>Pinetree</span>
             </Text>
-            <div className='mt-[20px] flex gap-x-[10px]'>
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://www.facebook.com/chungkhoanpinetree'
-              >
-                <img
-                  src='/static/social/facebook.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[32px] w-[32px]'
-                />
-              </a>
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://zalo.me/895810815009263150'
-              >
-                <Image
-                  src='/static/social/zalo.png'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[32px] w-[32px]'
-                />
-              </a>
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://www.youtube.com/@ChungKhoanPinetree'
-              >
-                <img
-                  src='/static/social/youtube.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[32px] w-[32px]'
-                />
-              </a>
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://www.tiktok.com/@pinetree_official'
-              >
-                <img
-                  src='/static/social/tik_tok.svg'
-                  alt=''
-                  width={0}
-                  height={0}
-                  sizes='100vw'
-                  className='h-[32px] w-[32px]'
-                />
-              </a>
-            </div>
+          </a>
+          <Text type='body-12-regular' className='mt-[8px] text-[#78909C]'>
+            GPKD: <span className='text-[#474D57]'>0101294902</span>
+            <span className='block'>16:14 04/07/2023</span>
+          </Text>
+          <div className='mt-[20px] flex gap-x-[10px]'>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.facebook.com/chungkhoanpinetree'
+            >
+              <img
+                src='/static/social/facebook.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </a>
+            <a target='_blank' rel='noopener noreferrer' href='https://zalo.me/895810815009263150'>
+              <Image
+                src='/static/social/zalo.png'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </a>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.youtube.com/@ChungKhoanPinetree'
+            >
+              <img
+                src='/static/social/youtube.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </a>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://www.tiktok.com/@pinetree_official'
+            >
+              <img
+                src='/static/social/tik_tok.svg'
+                alt=''
+                width={0}
+                height={0}
+                sizes='100vw'
+                className='h-[32px] w-[32px]'
+              />
+            </a>
           </div>
-        </>
-      </LoadCompVisible>
+        </div>
+      </>
     </StickyBox>
   );
 };

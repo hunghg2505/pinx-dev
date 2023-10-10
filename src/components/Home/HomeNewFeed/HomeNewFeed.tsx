@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useRef } from 'react';
 
 import { clearCache, useSize, useUpdateEffect } from 'ahooks';
@@ -7,11 +8,11 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
-import PinPost from '@components/Home/HomeNewFeed/PinPost';
+// import PinPost from '@components/Home/HomeNewFeed/PinPost';
 // import PostList from '@components/Home/HomeNewFeed/PostList';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
-import UserPosting from '@components/Home/UserPosting/UserPosting';
+// import UserPosting from '@components/Home/UserPosting/UserPosting';
 import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -30,7 +31,9 @@ import {
 import { useGetWatchList } from '../service';
 
 const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), { ssr: false });
+const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
 const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
+const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'));
 
 const HomeNewFeed = () => {
   const { t } = useTranslation('home');
@@ -229,7 +232,7 @@ const HomeNewFeed = () => {
       </LoadCompVisible>
 
       <LoadCompVisible>
-        <PostList
+        {/* <PostList
           size={size}
           serviceLoadMorePost={serviceLoadMorePost}
           onCommentPost={onCommentPost}
@@ -238,7 +241,7 @@ const HomeNewFeed = () => {
           postsNext={postsNext}
           loadingPosts={loadingPosts}
           virtuoso={virtuoso}
-        />
+        /> */}
       </LoadCompVisible>
     </div>
   );

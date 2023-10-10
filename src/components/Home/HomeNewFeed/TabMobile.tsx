@@ -1,16 +1,18 @@
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
+// import lazyLoadComponent from 'next-lazy-component';
 import Tabs, { TabPane } from 'rc-tabs';
 
-import { lazyLoadComponent } from '@components/LoadCompVisible';
+// import { lazyLoadComponent } from '@components/LoadCompVisible';
 import { useLogin } from '@store/auth/hydrateAuth';
 
 import styles from './index.module.scss';
 // import Market from '../Market';
 // import WatchList from '../WatchList';
 
-const Market = lazyLoadComponent(() => import('../Market'));
-const WatchList = lazyLoadComponent(() => import('../WatchList'));
+const Market = dynamic(() => import('../Market'));
+const WatchList = dynamic(() => import('../WatchList'));
 
 interface IPropsTabMobile {
   selectTab: string;
