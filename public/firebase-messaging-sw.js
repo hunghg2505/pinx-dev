@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // @ts-nocheck
 
 if (typeof window === 'undefined') {
