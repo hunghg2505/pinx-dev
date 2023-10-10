@@ -13,7 +13,8 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 // import UserPosting from '@components/Home/UserPosting/UserPosting';
-import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+// import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -173,21 +174,6 @@ const HomeNewFeed = () => {
     // tracking event get more info
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
   };
-  const size = useSize(() => document.querySelector('body'));
-
-  const virtuoso = useRef<any>(null);
-
-  useEffect(() => {
-    const postIndex = sessionStorage?.getItem('postIndex');
-    if (postIndex && virtuoso.current) {
-      virtuoso.current.scrollToIndex({
-        index: +postIndex,
-        align: 'start',
-        behavior: 'auto',
-      });
-      sessionStorage.removeItem('postIndex');
-    }
-  }, []);
 
   return (
     <div className='relative desktop:pt-0'>
@@ -233,14 +219,13 @@ const HomeNewFeed = () => {
 
       <>
         <PostList
-          size={size}
+          // size={size}
           serviceLoadMorePost={serviceLoadMorePost}
           onCommentPost={onCommentPost}
           firstPost={firstPost}
           fourPost={fourPost}
           postsNext={postsNext}
           loadingPosts={loadingPosts}
-          virtuoso={virtuoso}
         />
       </>
     </div>

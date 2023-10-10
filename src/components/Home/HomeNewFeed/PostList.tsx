@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import { Virtuoso } from 'react-virtuoso';
 
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
@@ -8,6 +7,7 @@ import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import useObserver from '@hooks/useObserver';
 import { ROUTE_PATH } from '@utils/common';
 
 const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
@@ -27,17 +27,16 @@ const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
 });
 
 const PostList = ({
-  size,
+  // size,
   serviceLoadMorePost,
   onCommentPost,
   firstPost,
   fourPost,
   postsNext,
   loadingPosts,
-  virtuoso,
 }: any) => {
   const { t } = useTranslation('home');
-
+  const { refLastElement } = useObserver();
   return (
     <>
       <NewsFeed
@@ -76,11 +75,9 @@ const PostList = ({
         </CustomLink>
       </div>
 
-      {size && size.width < 769 && (
-        <LoadCompVisible>
-          <SuggestionPeople />
-        </LoadCompVisible>
-      )}
+      <LoadCompVisible>
+        <SuggestionPeople />
+      </LoadCompVisible>
 
       {fourPost?.map((item: IPost) => {
         return (
@@ -107,36 +104,45 @@ const PostList = ({
         <ListTheme />
       </div>
 
-      <Virtuoso
-        ref={virtuoso}
-        style={{ height: '2000px' }}
-        useWindowScroll
-        totalCount={postsNext?.length}
-        data={postsNext}
-        overscan={6}
-        endReached={serviceLoadMorePost}
-        components={{
-          Footer: () => (
-            <div className='mt-[10px]'>
-              <NewsFeedSkeleton />
-              <NewsFeedSkeleton />
-              <NewsFeedSkeleton />
+      {postsNext?.map((item: IPost, idx: number) => {
+        if (idx === postsNext?.length - 1) {
+          return (
+            <div
+              key={`home-post-item-${item?.id}`}
+              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+            >
+              <NewsFeed
+                onTrackingViewTicker={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'News feed')
+                }
+                onTrackingViewTickerCmt={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'Comment')
+                }
+                data={item}
+                onCommentPost={onCommentPost}
+              />
             </div>
-          ),
-        }}
-        itemContent={(index, data) => (
-          <div onClick={() => sessionStorage.setItem('postIndex', index + '')}>
-            <NewsFeed
-              onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-              onTrackingViewTickerCmt={(stockCode) =>
-                handleTrackingViewTicker(stockCode, 'Comment')
-              }
-              data={data}
-              onCommentPost={onCommentPost}
-            />
-          </div>
-        )}
-      />
+          );
+        }
+
+        return (
+          <NewsFeed
+            key={`home-post-item-${item?.id}`}
+            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+            data={item}
+            onCommentPost={onCommentPost}
+          />
+        );
+      })}
+
+      {loadingPosts && (
+        <div className='mt-[10px]'>
+          <NewsFeedSkeleton />
+          <NewsFeedSkeleton />
+          <NewsFeedSkeleton />
+        </div>
+      )}
     </>
   );
 };
