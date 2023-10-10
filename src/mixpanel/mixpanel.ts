@@ -1,7 +1,6 @@
 import mixpanel from 'mixpanel-browser';
 
 export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
-  mixpanel.track('Open Web', {});
   mixpanel.register_once({
     Platform: 'PineX Website',
     'Login Status': isLogged ? 'Login' : 'Not login',
