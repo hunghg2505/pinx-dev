@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { useRouter } from 'next/router';
+
 const OPTIONS = {
   root: null,
   rootMargin: '0px 0px 0px 0px',
@@ -8,6 +10,7 @@ const OPTIONS = {
 
 const useIsVisible = (elementRef: any) => {
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (elementRef.current) {
@@ -21,7 +24,7 @@ const useIsVisible = (elementRef: any) => {
       }, OPTIONS);
       observer.observe(elementRef.current);
     }
-  }, [elementRef]);
+  }, [elementRef, router.pathname]);
 
   return isVisible;
 };
