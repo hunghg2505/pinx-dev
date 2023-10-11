@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useRequest } from 'ahooks';
+import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { getTotalSharePost } from '@components/Post/service';
@@ -29,21 +30,25 @@ const ModalShare = ({
   const { t } = useTranslation();
   const postType = postDetail?.post.postType;
   const postTypeGroup = postDetail?.post.postTypeGroup;
+  const firstShareCase = postTypeGroup === POST_TYPE_GROUP.NEWS;
+  const secondShareCase = postType === POST_TYPE.POST || postType === POST_TYPE.ACTIVITY_THEME;
+  const thirdShareCase = postType === POST_TYPE.ACTIVITY_WATCHLIST || postType === POST_TYPE.ACTIVITY_WATCH_ORDER;
+
   const calcShareUrl = () => {
-    if (postType === POST_TYPE.POST || postType === POST_TYPE.ACTIVITY_THEME) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=direct_link&utm_source=others&utm_content=personal_post';
+    if (firstShareCase) {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=news_post';
     }
-    if (postType === POST_TYPE.ACTIVITY_WATCHLIST || postType === POST_TYPE.ACTIVITY_WATCH_ORDER) {
+    if (secondShareCase) {
       return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=investment_post';
     }
-    if (postTypeGroup === POST_TYPE_GROUP.NEWS) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=news_post';
+    if (thirdShareCase) {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=direct_link&utm_source=others&utm_content=personal_post';
     }
   };
   const [shareUrl, setShareUrl] = useState(calcShareUrl());
   const [defaultShareUrl] = useState(calcShareUrl());
   const [isCopied, setIsCopied] = useState(false);
-  const [, setIsShareThisInit] = useState(false);
+  const [isShareThisInit, setIsShareThisInit] = useState(false);
   const buttonTelegram = document.querySelector('div[data-network=\'telegram\']');
   const buttonFacebook = document.querySelector('div[data-network=\'facebook\']');
   const buttonMail = document.querySelector('div[data-network=\'email\']');
@@ -62,7 +67,25 @@ const ModalShare = ({
   }, [modalShareVisible]);
 
   const initShareThisButton = () => {
-    if (postType === POST_TYPE.POST || postType === POST_TYPE.ACTIVITY_THEME) {
+    if (firstShareCase) {
+      buttonFacebook?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=news_post`);
+      });
+      buttonMessenger?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=messenger&utm_content=news_post`);
+      });
+      buttonSkype?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=news_post`);
+      });
+      buttonTelegram?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=news_post`);
+      });
+      buttonMail?.addEventListener('mouseover', () => {
+        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=news_post`);
+      });
+      return;
+    }
+    if (secondShareCase) {
       buttonTelegram?.addEventListener('mouseover', () => {
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=personal_post`);
       });
@@ -78,8 +101,9 @@ const ModalShare = ({
       buttonSkype?.addEventListener('mouseover', () => {
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=personal_post`);
       });
+      return;
     }
-    else if (postType === POST_TYPE.ACTIVITY_WATCHLIST || postType === POST_TYPE.ACTIVITY_WATCH_ORDER) {
+    if (thirdShareCase) {
       buttonFacebook?.addEventListener('mouseover', () => {
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=investment_post`);
       });
@@ -94,23 +118,6 @@ const ModalShare = ({
       });
       buttonMail?.addEventListener('mouseover', () => {
         setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=investment_post`);
-      });
-    }
-    else if (postTypeGroup === POST_TYPE_GROUP.NEWS) {
-      buttonFacebook?.addEventListener('mouseover', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=social_media&utm_source=facebook&utm_content=news_post`);
-      });
-      buttonMessenger?.addEventListener('mouseover', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=messenger&utm_content=news_post`);
-      });
-      buttonSkype?.addEventListener('mouseover', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=skype&utm_content=news_post`);
-      });
-      buttonTelegram?.addEventListener('mouseover', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=chat&utm_source=telegram&utm_content=news_post`);
-      });
-      buttonMail?.addEventListener('mouseover', () => {
-        setShareUrl(`${urlPost}?utm_campaign=organic_share&utm_medium=email&utm_source=email&utm_content=news_post`);
       });
     }
   };
@@ -186,18 +193,18 @@ const ModalShare = ({
     document.head.append(script);
     setTimeout(() => {
       setIsShareThisInit(true);
-    }, 600);
+    }, 1000);
   };
 
   const calcZaloShareUrl = () => {
-    if (postType === POST_TYPE.POST || postType === POST_TYPE.ACTIVITY_THEME) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=personal_post';
+    if (firstShareCase) {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=news_post';
     }
-    if (postType === POST_TYPE.ACTIVITY_WATCHLIST || postType === POST_TYPE.ACTIVITY_WATCH_ORDER) {
+    if (secondShareCase) {
       return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=investment_post';
     }
-    if (postTypeGroup === POST_TYPE_GROUP.NEWS) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=news_post';
+    if (thirdShareCase) {
+      return urlPost + '?utm_campaign=organic_share&utm_medium=social_media&utm_source=zalo&utm_content=personal_post';
     }
   };
 
@@ -231,7 +238,12 @@ const ModalShare = ({
               <Text type='body-14-medium' color='neutral-4' className='mb-[12px]'>
                 {t('or_share_to')}:
               </Text>
-              <div className='sharethis-inline-share-buttons gap-4' data-url={shareUrl}></div>
+              <div
+                className={classNames('sharethis-inline-share-buttons gap-4', {
+                  hidden: isShareThisInit
+                })}
+                data-url={shareUrl}>
+              </div>
             </div>
 
             <div className='field mt-[12px] flex h-[44px] items-center justify-between rounded-[8px]'>
