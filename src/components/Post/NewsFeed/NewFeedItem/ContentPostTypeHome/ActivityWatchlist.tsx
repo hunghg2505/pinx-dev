@@ -96,7 +96,7 @@ export const ActivityWatchlist = ({
               src={postDetail?.post?.bgImage}
               alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
               title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
-              className='absolute right-0 top-0 h-full object-cover'
+              className='absolute right-0 top-0 h-full rounded-[10px] object-cover'
             />
           )}
 
