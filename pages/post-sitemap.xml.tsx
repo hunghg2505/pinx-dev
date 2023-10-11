@@ -35,9 +35,7 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
   for await (const item of response.data) {
     const slug = formatMsgPost(item.slug);
 
-    if (!item.slug.includes('&')) {
-      listSlug.push(slug);
-    }
+    listSlug.push(slug);
   }
 
   // We generate the XML sitemap with the posts data
