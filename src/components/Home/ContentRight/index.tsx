@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -10,6 +12,7 @@ import StickyBox from 'react-sticky-box';
 // import { lazyLoadComponent } from '@components/LoadCompVisible';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
+import { useUserType } from '@hooks/useUserType';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
@@ -37,11 +40,17 @@ const ContentRight = () => {
   const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer', manual: true });
 
   const { t } = useTranslation('common');
+  const { userId: userIdLogin } = useUserType();
   const router = useRouter();
+  const { profileSlug }: any = router.query;
   const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
   const { isLogin } = useLogin();
 
-  const isProfilePath = router?.pathname === ROUTE_PATH.MY_PROFILE;
+  const isProfilePath = useMemo(() => {
+    const userId = profileSlug?.split('-').pop();
+
+    return router?.pathname === ROUTE_PATH.PROFILE_PATH && +userId === +userIdLogin;
+  }, [router, userIdLogin]);
 
   return (
     <StickyBox offsetTop={110} offsetBottom={20}>

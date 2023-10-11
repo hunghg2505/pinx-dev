@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/router';
 
@@ -16,18 +18,22 @@ const handleTrackingViewTicker = (stockCode: string, locationDetail: string) => 
 
 const Posts = () => {
   const router = useRouter();
+  const { profileSlug }: any = router.query;
+  const userId = useMemo(() => {
+    return profileSlug.split('-').pop();
+  }, [profileSlug]);
 
   const { data, loading, mutate, runAsync, refresh } = useRequest(
     async (nextId: any) => {
-      if (nextId === false || !router?.query?.id) {
+      if (nextId === false || !userId) {
         return;
       }
 
       // @ts-ignore
-      return getOtherPeoplePost(router.query?.id, nextId);
+      return getOtherPeoplePost(userId, nextId);
     },
     {
-      refreshDeps: [router.query?.id],
+      refreshDeps: [userId],
     },
   );
   const service = async () => {

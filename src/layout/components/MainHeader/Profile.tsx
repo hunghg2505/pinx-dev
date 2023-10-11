@@ -97,6 +97,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
         close={close}
         isKol={userLoginInfo?.isKol}
         isFeatureProfile={userLoginInfo?.isFeatureProfile}
+        userId={Number(userLoginInfo?.id)}
       />
       <Follow
         follower={userLoginInfo?.totalFollower || 0}
@@ -159,7 +160,7 @@ const Profile = () => {
       <MenuItem>
         <CustomLink
           onClick={() => globalThis?.sessionStorage?.removeItem('scrollPosition')}
-          href={ROUTE_PATH.MY_PROFILE}
+          href={ROUTE_PATH.PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
           className='block w-full'
         >
           <div className='flex w-full items-center gap-[24px] p-4'>
@@ -277,7 +278,7 @@ const Profile = () => {
 
       <MenuItem>
         <CustomLink
-          href={ROUTE_PATH.PROFILE_VERIFICATION}
+          href={ROUTE_PATH.PROFILE_VERIFICATION_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
           className='flex items-center justify-between px-[20px] py-4'
         >
           <div className='flex items-center'>

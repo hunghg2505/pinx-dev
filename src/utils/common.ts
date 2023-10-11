@@ -3,7 +3,10 @@ import imageCompression from 'browser-image-compression';
 import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
+import jwtDecode from 'jwt-decode';
 
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
+import { getAccessToken } from '@store/auth';
 import { ACNT_STAT_ACTIVE, ACNT_STAT_VSD_PENDING, USERTYPE } from 'src/constant';
 
 export const ROUTE_PATH = {
@@ -50,20 +53,41 @@ export const ROUTE_PATH = {
   SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
 
   // MY PROFILE
-  PROFILE: '/profile',
-  MY_PROFILE: '/profile/my-profile',
-  MY_PROFILE_FOLLOW: (tab: string) => `/profile/my-profile/follow?tab=${tab}`,
-  MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
-  MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
-  EDIT_MY_PROFILE: '/profile/my-profile/edit',
-  ASSET: (assetsTab: string) => `/profile/my-profile?tab=${assetsTab}`,
-  PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
-  DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/danh-muc-theo-doi',
-  PROFILE_PATH: '/profile',
-  PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
-  PROFILE_DETAIL_FOLLOW: (id: number, tab: string) =>
-    `${ROUTE_PATH.PROFILE_PATH}/${id}/follow?tab=${tab}`,
+  PROFILE_PATH: '/[profileSlug]',
+
+  PROFILE_FOLLOW_V2: (displayName: any, userId: any, tab: ProfileTabKey) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+    return profilePath + `/follow?tab=${tab}`;
+  },
+  PROFILE_V2: (displayName: any, userId: any) => {
+    let path = String(userId);
+    const displayNameFormat = slugify(displayName);
+    if (displayNameFormat.length > 0) {
+      path = `${displayNameFormat}-${userId}`;
+    }
+
+    return `/${path}`;
+  },
+  PROFILE_VERIFICATION_V2: (displayName: any, userId: any) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+
+    return profilePath + '/profile-verification';
+  },
+  DEACTIVATE_ACCOUNT_V2: (displayName: any, userId: any) => {
+    const profileVerificationPath = ROUTE_PATH.PROFILE_VERIFICATION_V2(displayName, userId);
+
+    return profileVerificationPath + '/deactivate-account';
+  },
+  ASSETS_V2: (displayName: any, userId: any, tab: ProfileTabKey) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+
+    return profilePath + `?tab=${tab}`;
+  },
+  EDIT_MY_PROFILE_V2: (displayName: any, userId: any) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+    return profilePath + '/edit';
+  },
 };
 
 export const formatMessage = (message: string) => {
@@ -1156,4 +1180,25 @@ export const getStockUrl = (data: any) => {
   } else {
     return data.stockCode;
   }
+};
+
+/**
+ * Check user view my profile page or profile of other
+ */
+export const checkProfilePath = (params: any, req: any, res: any) => {
+  let isMyProfile = false;
+  const { profileSlug }: any = params;
+  let userId = profileSlug.split('-').pop() || '';
+  userId = Number.isNaN(Number(userId)) ? '' : userId;
+
+  const accessToken = getAccessToken(res, req);
+  if (accessToken && userId) {
+    const decoded: any = jwtDecode(String(accessToken));
+    isMyProfile = +userId === +decoded?.userId;
+  }
+
+  return {
+    isMyProfile,
+    userId,
+  };
 };

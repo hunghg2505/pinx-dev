@@ -77,7 +77,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
                 src={userLoginInfo?.avatar || ''}
                 alt=''
                 onClick={() => {
-                  router.push(ROUTE_PATH.MY_PROFILE);
+                  router.push(ROUTE_PATH.PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id));
                 }}
                 width='0'
                 height='0'
@@ -86,7 +86,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
               />
             ) : (
               <CustomLink
-                href={ROUTE_PATH.MY_PROFILE}
+                href={ROUTE_PATH.PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
                 className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
               >
                 <AvatarDefault name={userLoginInfo?.displayName} />

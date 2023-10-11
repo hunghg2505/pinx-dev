@@ -87,7 +87,7 @@ const ItemInfluence = (props: IProps) => {
     <div className='cursor-pointer '>
       <div className='relative h-[252px] w-[100%] rounded-[15px]'>
         <div
-          onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id))}
+          onClick={() => router.push(ROUTE_PATH.PROFILE_V2(data?.displayName, data?.id))}
           className='relative left-0 top-0 z-10 h-full w-full'
         >
           <div className='absolute bottom-[20px] left-[12px] right-[12px] z-10'>
