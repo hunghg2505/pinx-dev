@@ -94,7 +94,7 @@ export const VietStockNews = ({
               </Text>
             </CustomLink>
 
-            <div className='w-full overflow-hidden'>
+            <div className='w-full max-w-[700px] overflow-hidden'>
               <ListStock
                 onTrackingViewTicker={onTrackingViewTicker}
                 listStock={postDetail?.post?.tagStocks}
@@ -137,7 +137,7 @@ export const VietStockNews = ({
 
         {!isPostDetailPath && (
           <CustomLink href={`${postDetailUrl}`} className='absolute bottom-0 left-0 z-[2]  w-full'>
-            <div className='mb-[10px] w-full overflow-hidden pl-[8px]'>
+            <div className='mb-[10px] w-full max-w-[700px] overflow-hidden pl-[8px]'>
               <ListStock
                 onTrackingViewTicker={onTrackingViewTicker}
                 listStock={postDetail?.post?.tagStocks}

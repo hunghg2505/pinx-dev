@@ -21,13 +21,11 @@ const ListStock = ({
   onTrackingViewTicker?: (stockCode: string) => void;
 }) => {
   return (
-    <div className=' max-w-[700px] '>
-      <Slider {...settings} className='slidePostAdmin' variableWidth>
-        {listStock?.map((item: string, index: number) => {
-          return <ItemStock onTrackingViewTicker={onTrackingViewTicker} key={index} data={item} />;
-        })}
-      </Slider>
-    </div>
+    <Slider {...settings} className='slidePostAdmin' variableWidth>
+      {listStock?.map((item: string, index: number) => {
+        return <ItemStock onTrackingViewTicker={onTrackingViewTicker} key={index} data={item} />;
+      })}
+    </Slider>
   );
 };
 export default ListStock;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useRef } from 'react';
 
-import { clearCache, useSize, useUpdateEffect } from 'ahooks';
+import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -29,9 +29,13 @@ import {
   viewWatchListTracking,
 } from 'src/mixpanel/mixpanel';
 
+import TabMobileSkeleton from './TabMobileSkeleton';
 import { useGetWatchList } from '../service';
 
-const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), { ssr: false });
+const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
+  ssr: false,
+  loading: () => <TabMobileSkeleton />,
+});
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
 const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
 const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'));
@@ -179,23 +183,25 @@ const HomeNewFeed = () => {
     <div className='relative desktop:pt-0'>
       <div className='relative tablet:hidden'>
         {selectTab === '1' && isHaveStockWatchList && (
-          <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
-            <button className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'>
-              <Text
-                type='body-12-medium'
-                className='galaxy-max:hidden tablet:text-[14px]'
-                color='primary-1'
-              >
-                {t('see_all')}
-              </Text>
-              <img
-                src='/static/icons/iconNext.svg'
-                width={5}
-                height={5}
-                alt=''
-                className='ml-[11px] w-[10px]'
-              />
-            </button>
+          <CustomLink
+            className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
+            href={ROUTE_PATH.WATCHLIST}
+            onClick={handleTracking}
+          >
+            <Text
+              type='body-12-medium'
+              className='galaxy-max:hidden tablet:text-[14px]'
+              color='primary-1'
+            >
+              {t('see_all')}
+            </Text>
+            <img
+              src='/static/icons/iconNext.svg'
+              width={5}
+              height={5}
+              alt=''
+              className='ml-[11px] w-[10px]'
+            />
           </CustomLink>
         )}
         <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
