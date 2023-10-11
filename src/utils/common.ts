@@ -53,12 +53,8 @@ export const ROUTE_PATH = {
   SETTING_CHANGE_PASSWORD_VERIFICATION: '/setting/change-password/verification',
 
   // MY PROFILE
-  PROFILE: '/profile',
-  MY_PROFILE: '/profile/my-profile',
-  PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
-  DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/danh-muc-theo-doi',
-  PROFILE_PATH: '/profile',
+  PROFILE_PATH: '/[profileSlug]',
 
   PROFILE_FOLLOW_V2: (displayName: any, userId: any, tab: ProfileTabKey) => {
     const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);

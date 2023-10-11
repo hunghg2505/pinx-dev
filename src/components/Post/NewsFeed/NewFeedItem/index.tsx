@@ -245,8 +245,7 @@ const NewFeedItem = (props: IProps) => {
         !customerId ||
         pinned ||
         router.pathname === ROUTE_PATH.EXPLORE ||
-        router.pathname === '/profile/[id]' ||
-        router.pathname === '/profile/my-profile' ||
+        router.pathname === ROUTE_PATH.PROFILE_PATH ||
         router.pathname === '/search-seo' ||
         isSearchSeoBox;
 

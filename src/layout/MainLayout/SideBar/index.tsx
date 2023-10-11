@@ -119,7 +119,7 @@ const SideBar = () => {
 
       let icon = checkPathExist ? menu.iconActive : menu.icon;
 
-      if (router.pathname === ROUTE_PATH.PROFILE_VERIFICATION) {
+      if (router.pathname === '/[profileSlug]/profile-verification') {
         icon = menu.icon;
         checkPathExist = false;
       }
@@ -148,7 +148,7 @@ const SideBar = () => {
       }
 
       const ComponentLink =
-        router.pathname === '/[profileSlug]' &&
+        router.pathname === ROUTE_PATH.PROFILE_PATH &&
         Number(userId) === Number(userLoginInfo?.id) &&
         menu.path ===
           ROUTE_PATH.ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
@@ -205,7 +205,7 @@ const SideBar = () => {
                 viewAssetTracking('Tab assets sidebar layout', 'Asset Overview');
 
                 if (
-                  router.pathname === '/[profileSlug]' &&
+                  router.pathname === ROUTE_PATH.PROFILE_PATH &&
                   Number(userId) === Number(userLoginInfo?.id)
                 ) {
                   const newPath = ROUTE_PATH.PROFILE_V2(

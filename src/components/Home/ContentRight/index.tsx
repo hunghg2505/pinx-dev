@@ -49,7 +49,7 @@ const ContentRight = () => {
   const isProfilePath = useMemo(() => {
     const userId = profileSlug?.split('-').pop();
 
-    return router?.pathname === '/[profileSlug]' && +userId === +userIdLogin;
+    return router?.pathname === ROUTE_PATH.PROFILE_PATH && +userId === +userIdLogin;
   }, [router, userIdLogin]);
 
   return (

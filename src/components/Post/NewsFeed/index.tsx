@@ -59,10 +59,14 @@ const NewsFeed = (props: IProps) => {
   const [postData, setPostData] = useState(data);
   const router = useRouter();
   const { profileSlug }: any = router.query;
-  const isPageMyProfile = useMemo(() => {
+  const { isPageMyProfile, userId } = useMemo(() => {
     const userId = profileSlug?.split('-')?.pop();
 
-    return router.pathname === '/[profileSlug]' && Number(userId) === Number(userLoginInfo?.id);
+    return {
+      isPageMyProfile:
+        router.pathname === ROUTE_PATH.PROFILE_PATH && Number(userId) === Number(userLoginInfo?.id),
+      userId,
+    };
   }, [router]);
 
   // React.useEffect(() => {
@@ -168,15 +172,12 @@ const NewsFeed = (props: IProps) => {
     const pathName = router.pathname;
     let screen = 'Home screen';
 
-    switch (pathName) {
-      case '/profile/my-profile': {
-        screen = 'My profile screen';
-        break;
-      }
-      case '/profile/[id]': {
-        screen = 'User detail screen';
-        break;
-      }
+    if (pathName === ROUTE_PATH.PROFILE_PATH && Number(userId) === Number(userLoginInfo?.id)) {
+      screen = 'My profile screen';
+    }
+
+    if (pathName === ROUTE_PATH.PROFILE_PATH && Number(userId) !== Number(userLoginInfo?.id)) {
+      screen = 'User detail screen';
     }
 
     getMoreInfoTracking(screen, 'Comment', 'List comment belong to post');

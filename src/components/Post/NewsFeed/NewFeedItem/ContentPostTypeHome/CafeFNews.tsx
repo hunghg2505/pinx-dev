@@ -52,7 +52,7 @@ export const CafeFNews = ({
     if (router.pathname.includes(ROUTE_PATH.EXPLORE)) {
       return 'Explore Screen';
     }
-    if (router.pathname.includes(ROUTE_PATH.PROFILE)) {
+    if (router.pathname.includes(ROUTE_PATH.PROFILE_PATH)) {
       return 'User Detail Screen';
     }
     return 'Home Screen';
