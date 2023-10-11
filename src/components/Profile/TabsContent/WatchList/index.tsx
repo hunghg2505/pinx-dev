@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -13,9 +13,14 @@ import NotLogin from './NotLogin';
 
 const WatchList = () => {
   const router = useRouter();
+  const { profileSlug }: any = router.query;
+  const userId = useMemo(() => {
+    return profileSlug.split('-').pop();
+  }, [profileSlug]);
+
   const { isShareWatchList } = useGetIsShareWatchList();
-  const { isUserShareWatchList } = useGetUerIsShareWatchList(Number(router?.query?.id));
-  const { watchList } = useCheckWatchList(Number(router?.query?.id));
+  const { isUserShareWatchList } = useGetUerIsShareWatchList(Number(userId));
+  const { watchList } = useCheckWatchList(Number(userId));
   const { isLogin } = useLogin();
 
   if (isLogin) {

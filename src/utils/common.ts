@@ -3,7 +3,10 @@ import imageCompression from 'browser-image-compression';
 import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
+import jwtDecode from 'jwt-decode';
 
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
+import { getAccessToken } from '@store/auth';
 import { ACNT_STAT_ACTIVE, ACNT_STAT_VSD_PENDING, USERTYPE } from 'src/constant';
 
 export const ROUTE_PATH = {
@@ -64,6 +67,10 @@ export const ROUTE_PATH = {
   PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
   PROFILE_DETAIL_FOLLOW: (id: number, tab: string) =>
     `${ROUTE_PATH.PROFILE_PATH}/${id}/follow?tab=${tab}`,
+
+  PROFILE_DETAIL_V2: (id: number) => `le-van-tuan-${id}`,
+  PROFILE_FOLLOW_V2: (id: number, tab: ProfileTabKey) => `/le-van-tuan-${id}/follow?tab=${tab}`,
+  EDIT_MY_PROFILE_V2: (id: number) => `le-van-tuan-${id}/edit`,
 };
 
 export const formatMessage = (message: string) => {
@@ -1156,4 +1163,25 @@ export const getStockUrl = (data: any) => {
   } else {
     return data.stockCode;
   }
+};
+
+/**
+ * Check user view my profile page or profile of other
+ */
+export const checkProfilePath = (params: any, req: any, res: any) => {
+  let isMyProfile = false;
+  const { profileSlug }: any = params;
+  let userId = profileSlug.split('-').pop() || '';
+  userId = Number.isNaN(Number(userId)) ? '' : userId;
+
+  const accessToken = getAccessToken(res, req);
+  if (accessToken && userId) {
+    const decoded: any = jwtDecode(String(accessToken));
+    isMyProfile = +userId === +decoded?.userId;
+  }
+
+  return {
+    isMyProfile,
+    userId,
+  };
 };

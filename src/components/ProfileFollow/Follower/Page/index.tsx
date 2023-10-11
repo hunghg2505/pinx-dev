@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -17,8 +17,13 @@ const Page = ({
 }) => {
   const profileUser = useContext<any>(profileUserContext);
   const router = useRouter();
+  const { profileSlug }: any = router.query;
+  const userId = useMemo(() => {
+    return profileSlug.split('-').pop();
+  }, [profileSlug]);
+
   const { data, refresh, run } = useOtherCustomerFollower(
-    String(router?.query?.id),
+    String(userId),
     {
       page,
       fullName,

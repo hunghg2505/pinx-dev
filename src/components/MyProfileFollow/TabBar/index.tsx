@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import { ROUTE_PATH } from '@utils/common';
 
 interface ITabBarProps {
-  tabKey: string;
+  tabKey: ProfileTabKey;
   tabName: string;
   onTabChange: (v: string) => void;
   activeTab: string;
@@ -13,6 +15,12 @@ interface ITabBarProps {
 }
 
 const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBarProps) => {
+  const router = useRouter();
+  const { profileSlug }: any = router.query;
+  const userId = useMemo(() => {
+    return profileSlug.split('-').pop();
+  }, [profileSlug]);
+
   return (
     <>
       <span
@@ -25,7 +33,7 @@ const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBa
         onClick={() => {
           onTabChange(tabKey);
           setFullName('');
-          const newPath = ROUTE_PATH.MY_PROFILE_FOLLOW(tabKey);
+          const newPath = ROUTE_PATH.PROFILE_FOLLOW_V2(userId, tabKey);
           let currentLocale = window.history.state?.options?.locale;
           currentLocale = currentLocale === 'en' ? '/en' : '';
 

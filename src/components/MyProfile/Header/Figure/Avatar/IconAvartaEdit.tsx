@@ -1,10 +1,20 @@
+import { useMemo } from 'react';
+
+import { useRouter } from 'next/router';
+
 import CustomLink from '@components/UI/CustomLink';
 import { ROUTE_PATH } from '@utils/common';
 
 const IconAvartaEdit = () => {
+  const router = useRouter();
+  const { profileSlug }: any = router.query;
+  const userId = useMemo(() => {
+    return profileSlug.split('-').pop();
+  }, [profileSlug]);
+
   return (
     <CustomLink
-      href={ROUTE_PATH.EDIT_MY_PROFILE}
+      href={ROUTE_PATH.EDIT_MY_PROFILE_V2(userId)}
       className='absolute right-[9px] top-[4px] z-10 flex h-[28px] w-[28px] items-center justify-center rounded-full border-[1px] border-solid border-primary_blue bg-white p-[7.85px] galaxy-max:h-[22px] galaxy-max:w-[22px] galaxy-max:p-[5px] tablet:hidden'
     >
       <svg
