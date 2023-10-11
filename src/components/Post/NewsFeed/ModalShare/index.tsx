@@ -193,7 +193,7 @@ const ModalShare = ({
     document.head.append(script);
     setTimeout(() => {
       setIsShareThisInit(true);
-    }, 1000);
+    }, 1200);
   };
 
   const calcZaloShareUrl = () => {
@@ -240,7 +240,7 @@ const ModalShare = ({
               </Text>
               <div
                 className={classNames('sharethis-inline-share-buttons gap-4', {
-                  hidden: isShareThisInit
+                  '!invisible': !isShareThisInit
                 })}
                 data-url={shareUrl}>
               </div>
