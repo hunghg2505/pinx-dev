@@ -55,22 +55,43 @@ export const ROUTE_PATH = {
   // MY PROFILE
   PROFILE: '/profile',
   MY_PROFILE: '/profile/my-profile',
-  MY_PROFILE_FOLLOW: (tab: string) => `/profile/my-profile/follow?tab=${tab}`,
-  MY_PROFILE_FOLLOWING: '/profile/my-profile/follow?tab=following',
-  MY_PROFILE_FOLLOWER: '/profile/my-profile/follow?tab=followers',
-  EDIT_MY_PROFILE: '/profile/my-profile/edit',
-  ASSET: (assetsTab: string) => `/profile/my-profile?tab=${assetsTab}`,
   PROFILE_VERIFICATION: '/profile/my-profile/profile-verification',
   DEACTIVATE_ACCOUNT: '/profile/my-profile/profile-verification/deactivate-account',
   WATCHLIST: '/danh-muc-theo-doi',
   PROFILE_PATH: '/profile',
-  PROFILE_DETAIL: (id: number) => `${ROUTE_PATH.PROFILE_PATH}/${id}`,
-  PROFILE_DETAIL_FOLLOW: (id: number, tab: string) =>
-    `${ROUTE_PATH.PROFILE_PATH}/${id}/follow?tab=${tab}`,
 
-  PROFILE_DETAIL_V2: (id: number) => `le-van-tuan-${id}`,
-  PROFILE_FOLLOW_V2: (id: number, tab: ProfileTabKey) => `/le-van-tuan-${id}/follow?tab=${tab}`,
-  EDIT_MY_PROFILE_V2: (id: number) => `le-van-tuan-${id}/edit`,
+  PROFILE_FOLLOW_V2: (displayName: any, userId: any, tab: ProfileTabKey) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+    return profilePath + `/follow?tab=${tab}`;
+  },
+  PROFILE_V2: (displayName: any, userId: any) => {
+    let path = String(userId);
+    const displayNameFormat = slugify(displayName);
+    if (displayNameFormat.length > 0) {
+      path = `${displayNameFormat}-${userId}`;
+    }
+
+    return `/${path}`;
+  },
+  PROFILE_VERIFICATION_V2: (displayName: any, userId: any) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+
+    return profilePath + '/profile-verification';
+  },
+  DEACTIVATE_ACCOUNT_V2: (displayName: any, userId: any) => {
+    const profileVerificationPath = ROUTE_PATH.PROFILE_VERIFICATION_V2(displayName, userId);
+
+    return profileVerificationPath + '/deactivate-account';
+  },
+  ASSETS_V2: (displayName: any, userId: any, tab: ProfileTabKey) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+
+    return profilePath + `?tab=${tab}`;
+  },
+  EDIT_MY_PROFILE_V2: (displayName: any, userId: any) => {
+    const profilePath = ROUTE_PATH.PROFILE_V2(displayName, userId);
+    return profilePath + '/edit';
+  },
 };
 
 export const formatMessage = (message: string) => {

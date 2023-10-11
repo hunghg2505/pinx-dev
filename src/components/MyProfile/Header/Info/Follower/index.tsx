@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -6,13 +6,15 @@ import { useTranslation } from 'next-i18next';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import { ROUTE_PATH } from '@utils/common';
 
-const Follower = ({ totalFollower }: { totalFollower: number | string }) => {
+interface FollowerProps {
+  totalFollower: number | string;
+  displayName: any;
+  userId: any;
+}
+
+const Follower = ({ totalFollower, displayName, userId }: FollowerProps) => {
   const { t } = useTranslation('profile');
   const router = useRouter();
-  const { profileSlug }: any = router.query;
-  const userId = useMemo(() => {
-    return profileSlug.split('-').pop();
-  }, [profileSlug]);
 
   const [state, setState] = useState({ mobile: false });
   useEffect(() => {
@@ -28,7 +30,7 @@ const Follower = ({ totalFollower }: { totalFollower: number | string }) => {
           //     ProfileTabKey.FOLLOWERS
           //   }`,
           // );
-          router.push(ROUTE_PATH.PROFILE_FOLLOW_V2(userId, ProfileTabKey.FOLLOWERS));
+          router.push(ROUTE_PATH.PROFILE_FOLLOW_V2(displayName, userId, ProfileTabKey.FOLLOWERS));
         } else {
           router.replace({ query: { ...router.query, tab: ProfileTabKey.FOLLOWERS } });
         }

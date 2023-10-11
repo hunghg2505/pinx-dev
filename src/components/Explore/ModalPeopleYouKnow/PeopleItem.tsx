@@ -99,7 +99,7 @@ const PeopleItem = (props: Iprops) => {
 
   const handleNavigateToUserDetail = () => {
     onClosePopup && onClosePopup();
-    router.push(ROUTE_PATH.PROFILE_DETAIL(data?.id));
+    router.push(ROUTE_PATH.PROFILE_V2(data?.displayName, data?.id));
   };
 
   return (

@@ -1,4 +1,3 @@
-import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 
 import { ICustomerInfo } from '@components/Post/service';
@@ -6,7 +5,6 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
 
 interface ISubscriberItemProps {
@@ -15,11 +13,7 @@ interface ISubscriberItemProps {
 
 const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   const { t } = useTranslation(['stock', 'commmon']);
-  const [userLoginInfo] = useAtom(userLoginInfoAtom);
-  const url =
-    data?.customerId === userLoginInfo?.id
-      ? ROUTE_PATH.MY_PROFILE
-      : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
+  const url = ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId);
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <CustomLink className='galaxy-max:flex-none' href={url}>
@@ -38,7 +32,6 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
           </div>
         )}
       </CustomLink>
-
       <div className='ml-[8px]'>
         <CustomLink href={url}>
           <div className='flex items-center'>
@@ -72,7 +65,6 @@ const SubscriberItem = ({ data }: ISubscriberItemProps) => {
           {formatStringToNumber(data.totalFollowers)} {t('common:followers')}
         </Text>
       </div>
-
       <div className='ml-auto flex h-[36px] w-[36px] items-center justify-center rounded-full border border-solid border-[#EBEBEB] galaxy-max:h-[32px] galaxy-max:w-[32px]'>
         {data.isInvesting ? (
           <img

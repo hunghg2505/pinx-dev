@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 
@@ -25,7 +24,6 @@ export const ActivityWatchlist = ({
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const userDetail = useAtomValue(userLoginInfoAtom);
   const [, setSearchSeo] = useAtom(searchSeoAtom);
   const onHandleClick = (e: any) => {
     const textContent = e?.target?.textContent;
@@ -40,10 +38,7 @@ export const ActivityWatchlist = ({
       return window.open(textContent);
     }
     if (classElement === 'people') {
-      const url =
-        Number(userDetail?.id) === Number(id)
-          ? ROUTE_PATH.MY_PROFILE
-          : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {

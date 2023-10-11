@@ -17,8 +17,13 @@ interface ITabBarProps {
 const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBarProps) => {
   const router = useRouter();
   const { profileSlug }: any = router.query;
-  const userId = useMemo(() => {
-    return profileSlug.split('-').pop();
+  const { displayName, userId } = useMemo(() => {
+    const lastIndexOfDashChar = (profileSlug as string)?.lastIndexOf('-');
+
+    return {
+      displayName: (profileSlug as string)?.slice(0, lastIndexOfDashChar),
+      userId: (profileSlug as string)?.slice(lastIndexOfDashChar + 1),
+    };
   }, [profileSlug]);
 
   return (
@@ -33,7 +38,7 @@ const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBa
         onClick={() => {
           onTabChange(tabKey);
           setFullName('');
-          const newPath = ROUTE_PATH.PROFILE_FOLLOW_V2(userId, tabKey);
+          const newPath = ROUTE_PATH.PROFILE_FOLLOW_V2(displayName, userId, tabKey);
           let currentLocale = window.history.state?.options?.locale;
           currentLocale = currentLocale === 'en' ? '/en' : '';
 

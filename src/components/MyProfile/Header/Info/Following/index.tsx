@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -6,16 +6,17 @@ import { useTranslation } from 'next-i18next';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import { ROUTE_PATH } from '@utils/common';
 
-const Following = ({ totalFollowing }: { totalFollowing: number | string }) => {
+interface FollowingProps {
+  totalFollowing: number | string;
+  displayName: any;
+  userId: any;
+}
+
+const Following = ({ totalFollowing, displayName, userId }: FollowingProps) => {
   const { t } = useTranslation('profile');
 
   const router = useRouter();
-  const { profileSlug }: any = router.query;
   const [state, setState] = useState({ mobile: false });
-
-  const userId = useMemo(() => {
-    return profileSlug.split('-').pop();
-  }, [profileSlug]);
 
   useEffect(() => {
     return window.innerWidth >= 768 ? setState({ mobile: false }) : setState({ mobile: true });
@@ -31,7 +32,7 @@ const Following = ({ totalFollowing }: { totalFollowing: number | string }) => {
           //     ProfileTabKey.FOLLOWING
           //   }`,
           // );
-          router.push(ROUTE_PATH.PROFILE_FOLLOW_V2(userId, ProfileTabKey.FOLLOWING));
+          router.push(ROUTE_PATH.PROFILE_FOLLOW_V2(displayName, userId, ProfileTabKey.FOLLOWING));
         } else {
           router.replace({ query: { ...router.query, tab: ProfileTabKey.FOLLOWING } });
         }

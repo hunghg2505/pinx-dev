@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
@@ -58,7 +58,13 @@ const NewsFeed = (props: IProps) => {
   const { isLogin } = useLogin();
   const [postData, setPostData] = useState(data);
   const router = useRouter();
-  const isPageMyProfile = router.pathname === ROUTE_PATH.MY_PROFILE;
+  const { profileSlug }: any = router.query;
+  const isPageMyProfile = useMemo(() => {
+    const userId = profileSlug?.split('-')?.pop();
+
+    return router.pathname === '/[profileSlug]' && Number(userId) === Number(userLoginInfo?.id);
+  }, [router]);
+
   // React.useEffect(() => {
   //   setPostData(data);
   // }, [data]);

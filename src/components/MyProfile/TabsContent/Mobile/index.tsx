@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { viewAssetTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
@@ -19,12 +20,9 @@ const Mobile = () => {
   const watchList = useAtomValue(stockSocketAtom);
   const { t } = useTranslation('profile');
   const router = useRouter();
-  const { tab, profileSlug }: any = router.query;
+  const { tab }: any = router.query;
   const [activeTab, setActiveTab] = useState<string>(ProfileTabKey.POSTS);
-
-  const userId = useMemo(() => {
-    return profileSlug.split('-').pop();
-  }, [profileSlug]);
+  const { userLoginInfo } = useUserLoginInfo();
 
   useEffect(() => {
     if (tab) {
@@ -45,7 +43,10 @@ const Mobile = () => {
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
                   setActiveTab(key);
-                  const newPath = ROUTE_PATH.PROFILE_DETAIL_V2(userId);
+                  const newPath = ROUTE_PATH.PROFILE_V2(
+                    userLoginInfo?.displayName,
+                    userLoginInfo?.id,
+                  );
 
                   let currentLocale = window.history.state?.options?.locale;
                   currentLocale = currentLocale === 'en' ? '/en' : '';

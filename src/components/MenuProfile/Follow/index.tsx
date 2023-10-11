@@ -2,7 +2,9 @@ import React from 'react';
 
 import { useTranslation } from 'next-i18next';
 
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH } from '@utils/common';
 
 const Follow = ({
@@ -14,13 +16,19 @@ const Follow = ({
   following: number;
   close: () => void;
 }) => {
+  const { userLoginInfo } = useUserLoginInfo();
+
   const { t } = useTranslation('common');
   return (
     <>
       <div className='flex items-center px-[16px] pb-[12px] galaxy-max:justify-evenly'>
         {' '}
         <CustomLink
-          href={ROUTE_PATH.MY_PROFILE_FOLLOWER}
+          href={ROUTE_PATH.PROFILE_FOLLOW_V2(
+            userLoginInfo?.displayName,
+            userLoginInfo?.id,
+            ProfileTabKey.FOLLOWERS,
+          )}
           linkClassName='flex w-[50%] justify-center'
           onClick={() => {
             close();
@@ -31,7 +39,11 @@ const Follow = ({
         </CustomLink>
         <div className='h-[27px] w-[1px] bg-neutral_07 '></div>
         <CustomLink
-          href={ROUTE_PATH.MY_PROFILE_FOLLOWING}
+          href={ROUTE_PATH.PROFILE_FOLLOW_V2(
+            userLoginInfo?.displayName,
+            userLoginInfo?.id,
+            ProfileTabKey.FOLLOWING,
+          )}
           linkClassName='flex w-[50%] justify-center'
           onClick={() => {
             close();

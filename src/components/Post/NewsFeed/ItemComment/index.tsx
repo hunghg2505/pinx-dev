@@ -258,10 +258,7 @@ const ItemComment = (props: IProps) => {
       window.open(textContent);
     }
     if (classElement === 'people') {
-      const url =
-        Number(userLoginInfo?.id) === Number(id)
-          ? ROUTE_PATH.MY_PROFILE
-          : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
@@ -330,11 +327,9 @@ const ItemComment = (props: IProps) => {
                 'h-[36px] w-[36px] galaxy-max:h-[32px] galaxy-max:w-[32px]': isChildren,
               },
             )}
-            onClick={() =>
-              isComment
-                ? router.push(ROUTE_PATH.MY_PROFILE)
-                : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
-            }
+            onClick={() => {
+              router.push(ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId));
+            }}
           />
         ) : (
           <div
@@ -346,9 +341,7 @@ const ItemComment = (props: IProps) => {
               },
             )}
             onClick={() =>
-              isComment
-                ? router.push(ROUTE_PATH.MY_PROFILE)
-                : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+              router.push(ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId))
             }
           >
             <AvatarDefault nameClassName='text-[14px]' name={data?.customerInfo?.displayName} />
@@ -398,9 +391,9 @@ const ItemComment = (props: IProps) => {
             <div className='flex w-full flex-row items-center justify-between gap-x-[12px] px-[16px]'>
               <div
                 onClick={() =>
-                  isComment
-                    ? router.push(ROUTE_PATH.MY_PROFILE)
-                    : router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))
+                  router.push(
+                    ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId),
+                  )
                 }
                 className='relative flex cursor-pointer items-center overflow-hidden truncate'
               >

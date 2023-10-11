@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
@@ -29,13 +29,9 @@ const Desktop = () => {
   const watchList = useAtomValue(stockSocketAtom);
   const { t } = useTranslation('profile');
   const router = useRouter();
-  const { tab, profileSlug }: any = router.query;
+  const { tab }: any = router.query;
   const profileUser = useContext<any>(profileUserContext);
   const [activeTab, setActiveTab] = useState<string>(ProfileTabKey.POSTS);
-
-  const userId = useMemo(() => {
-    return profileSlug.split('-').pop();
-  }, [profileSlug]);
 
   useEffect(() => {
     if (tab) {
@@ -55,7 +51,7 @@ const Desktop = () => {
               activeKey={props?.activeKey}
               onChange={(key: string) => {
                 setActiveTab(key);
-                const newPath = ROUTE_PATH.PROFILE_DETAIL_V2(userId);
+                const newPath = ROUTE_PATH.PROFILE_V2(profileUser?.displayName, profileUser?.id);
 
                 let currentLocale = window.history.state?.options?.locale;
                 currentLocale = currentLocale === 'en' ? '/en' : '';

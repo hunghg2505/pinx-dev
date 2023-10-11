@@ -7,7 +7,6 @@ import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
@@ -25,9 +24,7 @@ export enum ActionPostEnum {
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
   const { t, i18n } = useTranslation('theme');
-  const { userId } = useUserType();
-  const isMyPost = Number(data?.customerId) === Number(userId);
-  const urlProfile = isMyPost ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(data?.customerId);
+  const urlProfile = ROUTE_PATH.PROFILE_V2(data?.post?.customerInfo?.displayName, data?.customerId);
   const messageBody =
     data?.post?.action === ActionPostEnum.SUBSCRIBE ? t('desc.subscribe') : t('desc.unsubscribe');
   const router = useRouter();
@@ -38,6 +35,7 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
   const nameAvatar =
     data?.post?.customerInfo?.displayName &&
     toNonAccentVietnamese(data?.post?.customerInfo?.displayName)?.charAt(0)?.toUpperCase();
+
   return (
     <div className='flex'>
       <div onClick={() => router.push(urlProfile)} className='cursor-pointer'>
@@ -57,7 +55,6 @@ const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void
           </div>
         )}
       </div>
-
       <div className='w-[calc(100%_-_40px)]'>
         <div
           className='relative w-full cursor-pointer rounded-[12px] bg-[#EEF5F9] px-[16px] py-[12px] galaxy-max:px-[14px] galaxy-max:py-[10px]'

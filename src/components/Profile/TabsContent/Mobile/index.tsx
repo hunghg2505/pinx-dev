@@ -44,7 +44,7 @@ const Mobile = () => {
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
                   setActiveTab(key);
-                  const newPath = ROUTE_PATH.PROFILE_DETAIL_V2(profileUser?.id);
+                  const newPath = ROUTE_PATH.PROFILE_V2(profileUser?.displayName, profileUser?.id);
 
                   let currentLocale = window.history.state?.options?.locale;
                   currentLocale = currentLocale === 'en' ? '/en' : '';

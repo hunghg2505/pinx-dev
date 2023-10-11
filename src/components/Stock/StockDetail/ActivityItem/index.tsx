@@ -11,7 +11,6 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
@@ -44,11 +43,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
     icon = activityFound.icon;
     content = t(activityFound.label);
   }
-  const { userLoginInfo } = useUserLoginInfo();
-  const href =
-    userLoginInfo?.id === data.customerId
-      ? ROUTE_PATH.MY_PROFILE
-      : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
+  const href = ROUTE_PATH.PROFILE_V2(data?.post?.customerInfo?.displayName, data?.customerId);
 
   return (
     <div className='flex'>
@@ -70,7 +65,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
       </CustomLink>
 
       <div className='ml-[12px] flex-1'>
-        <CustomLink href={ROUTE_PATH.PROFILE_DETAIL(data.customerId)}>
+        <CustomLink href={href}>
           <div
             className={classNames(
               'relative rounded-[12px] bg-[#F7F6F8] px-[16px] pb-[16px] pt-[12px]',
