@@ -12,6 +12,7 @@ import StickyBox from 'react-sticky-box';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -45,10 +46,15 @@ const MenuItem = ({ children, href, ...props }: any) => <div {...props}>{childre
 const SideBar = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
+  const { profileSlug }: any = router.query;
   const { isLogin } = useLogin();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const watchList = useAtomValue(stockSocketAtom);
+  const { userLoginInfo } = useUserLoginInfo();
+  const userId = useMemo(() => {
+    return profileSlug?.split('-')?.pop();
+  }, [profileSlug]);
   const MENUS = [
     {
       id: 1,
@@ -83,7 +89,11 @@ const SideBar = () => {
     },
     {
       id: 5,
-      path: ROUTE_PATH.ASSET(ProfileTabKey.ASSETS),
+      path: ROUTE_PATH.ASSETS_V2(
+        userLoginInfo?.displayName,
+        userLoginInfo?.id,
+        ProfileTabKey.ASSETS,
+      ),
       icon: <IconAssets />,
       iconActive: <IconAssetsActive />,
       label: t('assets'),
@@ -109,7 +119,7 @@ const SideBar = () => {
 
       let icon = checkPathExist ? menu.iconActive : menu.icon;
 
-      if (router.pathname === ROUTE_PATH.PROFILE_VERIFICATION) {
+      if (router.pathname === '/[profileSlug]/profile-verification') {
         icon = menu.icon;
         checkPathExist = false;
       }
@@ -138,8 +148,10 @@ const SideBar = () => {
       }
 
       const ComponentLink =
-        router.pathname === ROUTE_PATH.MY_PROFILE &&
-        menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)
+        router.pathname === ROUTE_PATH.PROFILE_PATH &&
+        Number(userId) === Number(userLoginInfo?.id) &&
+        menu.path ===
+          ROUTE_PATH.ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
 
@@ -182,11 +194,24 @@ const SideBar = () => {
               }
 
               // tracking event view assets
-              if (menu.path === ROUTE_PATH.ASSET(ProfileTabKey.ASSETS)) {
+              if (
+                menu.path ===
+                ROUTE_PATH.ASSETS_V2(
+                  userLoginInfo?.displayName,
+                  userLoginInfo?.id,
+                  ProfileTabKey.ASSETS,
+                )
+              ) {
                 viewAssetTracking('Tab assets sidebar layout', 'Asset Overview');
 
-                if (router.pathname === ROUTE_PATH.MY_PROFILE) {
-                  const newPath = ROUTE_PATH.MY_PROFILE;
+                if (
+                  router.pathname === ROUTE_PATH.PROFILE_PATH &&
+                  Number(userId) === Number(userLoginInfo?.id)
+                ) {
+                  const newPath = ROUTE_PATH.PROFILE_V2(
+                    userLoginInfo?.displayName,
+                    userLoginInfo?.id,
+                  );
 
                   router.replace({
                     pathname: newPath,

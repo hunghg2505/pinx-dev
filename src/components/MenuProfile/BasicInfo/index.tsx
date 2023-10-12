@@ -17,6 +17,7 @@ const BasicInfo = ({
   close,
   isKol,
   isFeatureProfile,
+  userId,
 }: {
   avatar: string;
   userName: string;
@@ -24,6 +25,7 @@ const BasicInfo = ({
   close: () => void;
   isKol?: boolean;
   isFeatureProfile?: boolean;
+  userId: number;
 }) => {
   const { t } = useTranslation();
   const { isLogin } = useLogin();
@@ -33,7 +35,7 @@ const BasicInfo = ({
       className=' mb-[16px] px-[16px]'
       onClick={() => {
         router.push({
-          pathname: ROUTE_PATH.MY_PROFILE,
+          pathname: ROUTE_PATH.PROFILE_V2(userName, userId),
           query: {
             from_profile_menu: 1,
           },

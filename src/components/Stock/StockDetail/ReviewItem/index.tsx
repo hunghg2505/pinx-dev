@@ -45,10 +45,7 @@ const ReviewItem = ({
   }, [data]);
 
   const profileUrl = useMemo(() => {
-    const url =
-      userId === data.customerId
-        ? ROUTE_PATH.MY_PROFILE
-        : ROUTE_PATH.PROFILE_DETAIL(data.customerId);
+    const url = ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId);
 
     return url;
   }, [userId, data.customerId]);
@@ -86,7 +83,6 @@ const ReviewItem = ({
             </div>
           )}
         </CustomLink>
-
         <CustomLink href={profileUrl} linkClassName='ml-[12px]'>
           <div className='flex items-center'>
             <Text
@@ -115,7 +111,6 @@ const ReviewItem = ({
             )}
           </div>
         </CustomLink>
-
         <Text type='body-12-regular' className='ml-auto   text-[#999999] galaxy-max:text-[10px]'>
           {isLatestReview
             ? t('rating.latest_review')

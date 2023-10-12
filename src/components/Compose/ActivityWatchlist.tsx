@@ -9,8 +9,9 @@ export const ActivityWatchlist = ({ postDetail }: any) => {
   const { t } = useTranslation();
   const stockCode = postDetail.post?.stockCode;
 
-  const urlStock = `${IMAGE_COMPANY_URL}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
+  const urlStock = `${IMAGE_COMPANY_URL}${
+    stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+  }.png`;
   return (
     <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
       {postDetail?.post?.bgImage && (
@@ -20,7 +21,7 @@ export const ActivityWatchlist = ({ postDetail }: any) => {
           width='0'
           height='0'
           sizes='100vw'
-          className='absolute right-0 top-0 h-full'
+          className='absolute right-0 top-0 h-full rounded-[10px]'
         />
       )}
 

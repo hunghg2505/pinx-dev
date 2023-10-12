@@ -113,10 +113,7 @@ const NewFeedItem = (props: IProps) => {
   const urlTitle = useMemo(() => {
     let url = '';
     if (postDetail?.customerId) {
-      url =
-        isLogin && postDetail?.customerId === userId
-          ? ROUTE_PATH.MY_PROFILE
-          : ROUTE_PATH.PROFILE_DETAIL(customerId);
+      url = ROUTE_PATH.PROFILE_V2(postDetail?.post?.customerInfo?.displayName, customerId);
     }
 
     return url;
@@ -248,8 +245,7 @@ const NewFeedItem = (props: IProps) => {
         !customerId ||
         pinned ||
         router.pathname === ROUTE_PATH.EXPLORE ||
-        router.pathname === '/profile/[id]' ||
-        router.pathname === '/profile/my-profile' ||
+        router.pathname === ROUTE_PATH.PROFILE_PATH ||
         router.pathname === '/search-seo' ||
         isSearchSeoBox;
 

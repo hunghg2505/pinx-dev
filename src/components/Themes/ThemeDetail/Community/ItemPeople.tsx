@@ -6,7 +6,6 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useUserType } from '@hooks/useUserType';
 import { ROUTE_PATH, isUrlValid } from '@utils/common';
 
 const IconArrow = () => (
@@ -23,9 +22,7 @@ const IconArrow = () => (
 
 const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) => {
   const { t } = useTranslation('common');
-  const { userId } = useUserType();
-  const isMyPost = Number(data?.customerId) === Number(userId);
-  const urlProfile = isMyPost ? ROUTE_PATH.MY_PROFILE : ROUTE_PATH.PROFILE_DETAIL(data?.customerId);
+  const urlProfile = ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId);
   return (
     <CustomLink href={urlProfile}>
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>

@@ -13,7 +13,6 @@ import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHom
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 // import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
-import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMessage, formatMsgPost, getVideoId } from '@utils/common';
@@ -25,7 +24,6 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
   const router = useRouter();
   const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
-  const userDetail = useAtomValue(userLoginInfoAtom);
   const [, setSearchSeo] = useAtom(searchSeoAtom);
   const messageDefault = postDetail?.post?.message;
   // userLoginInfoAtom
@@ -84,10 +82,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
       return window.open(textContent);
     }
     if (classElement === 'people') {
-      const url =
-        Number(userDetail?.id) === Number(id)
-          ? ROUTE_PATH.MY_PROFILE
-          : ROUTE_PATH.PROFILE_DETAIL(id);
+      const displayName = e?.target?.textContent;
+      const url = ROUTE_PATH.PROFILE_V2(displayName, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {

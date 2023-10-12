@@ -77,7 +77,7 @@ const ItemPeople = (props: IProps) => {
     <div className='item mb-[26px] flex items-center justify-between gap-x-[12px] pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
       <div
         className='flex flex-1 cursor-pointer overflow-hidden'
-        onClick={() => router.push(ROUTE_PATH.PROFILE_DETAIL(data?.customerId))}
+        onClick={() => router.push(ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId))}
       >
         {isUrlValid(data?.avatar) ? (
           <CustomImage

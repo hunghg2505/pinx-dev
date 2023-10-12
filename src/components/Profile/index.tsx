@@ -13,14 +13,18 @@ import TabsContent from './TabsContent';
 
 export const profileUserContext = createContext(undefined);
 
-const Profile = () => {
+interface ProfileProps {
+  userId: number;
+}
+
+const Profile = ({ userId }: ProfileProps) => {
   const router = useRouter();
   const {
     profileOtherUser,
     run: runPrivate,
     refresh: RefreshPrivate,
     loading,
-  } = useGetProfileOtherUser(Number(router.query.id), {
+  } = useGetProfileOtherUser(Number(userId), {
     onError: () => {
       router.replace(ROUTE_PATH.NOT_FOUND);
     },

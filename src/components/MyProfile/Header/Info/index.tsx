@@ -30,9 +30,17 @@ const Info = () => {
         <div className='mb-[5px] flex items-center justify-between'>
           <div>
             <div className='flex gap-[8px] xdesktop:gap-[8px]'>
-              <Follower totalFollower={formatStringToNumber(profileUser?.totalFollower) || 0} />
+              <Follower
+                displayName={profileUser?.displayName}
+                userId={profileUser?.id}
+                totalFollower={formatStringToNumber(profileUser?.totalFollower) || 0}
+              />
               <span className='text-[#808A9D]'>&bull;</span>
-              <Following totalFollowing={formatStringToNumber(profileUser?.totalFollowing) || 0} />
+              <Following
+                displayName={profileUser?.displayName}
+                userId={profileUser?.id}
+                totalFollowing={formatStringToNumber(profileUser?.totalFollowing) || 0}
+              />
             </div>
 
             <div className='mt-[8px] flex justify-start tablet:hidden'>

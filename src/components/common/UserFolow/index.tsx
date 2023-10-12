@@ -31,14 +31,14 @@ const UserFolow = (props: any) => {
               sizes='100vw'
               className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:mr-[6px] galaxy-max:h-[40px] galaxy-max:w-[40px]'
               onClick={() => {
-                route.push(ROUTE_PATH.PROFILE_DETAIL(props?.id));
+                route.push(ROUTE_PATH.PROFILE_V2(props?.displayName, props?.id));
               }}
             />
           ) : (
             <div
               className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:mr-[6px] galaxy-max:h-[40px] galaxy-max:w-[40px]'
               onClick={() => {
-                route.push(ROUTE_PATH.PROFILE_DETAIL(props?.id));
+                route.push(ROUTE_PATH.PROFILE_V2(props?.displayName, props?.id));
               }}
             >
               <AvatarDefault name={props?.displayName} />

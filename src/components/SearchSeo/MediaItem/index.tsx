@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import styles from '@components/SearchSeo/index.module.scss';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import getSeoDataFromLink, { ROUTE_PATH, formatMessage } from '@utils/common';
 
 // const formatMessages = (message: string, data: any, idCustomer?: any) => {
@@ -135,7 +134,6 @@ const MediaItem = ({
   setShowPopup?: any;
   onTrackingViewTicker?: (stockCode: string) => void;
 }) => {
-  const { userLoginInfo } = useUserLoginInfo();
   const [img, setImg] = React.useState('');
   const [loading, setLoading] = React.useState(true);
 
@@ -164,10 +162,7 @@ const MediaItem = ({
       return window.open(textContent);
     }
     if (classElement === 'people') {
-      const url =
-        Number(userLoginInfo?.id) === Number(id)
-          ? ROUTE_PATH.MY_PROFILE
-          : ROUTE_PATH.PROFILE_DETAIL(id);
+      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
       return onNavigate(url);
     }
     if (classElement === 'tagStock') {

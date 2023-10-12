@@ -9,7 +9,7 @@ const AUTH_PATH: any = [
   ROUTE_PATH.REGISTER_OTP_VERIFICATION,
   ROUTE_PATH.UPDATE_USER_PROFILE,
 ];
-const PAGE_LOGIN: any = [ROUTE_PATH.WATCHLIST, ROUTE_PATH.MY_PROFILE];
+const PAGE_LOGIN: any = [ROUTE_PATH.WATCHLIST];
 const PATH: any = [''];
 
 // Check auth from server side here
