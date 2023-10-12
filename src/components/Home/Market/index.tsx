@@ -158,6 +158,7 @@ const Market = () => {
               </div>
               <iframe
                 src={`https://price.pinetree.vn/chart-index/market-chart?marketCode=${item.mc}`}
+                loading='lazy'
                 className='h-[70px] w-full rounded-[8px]'
               ></iframe>
             </div>

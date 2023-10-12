@@ -1,16 +1,25 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 
-import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
-import PopupAuth from '@components/UI/Popup/PopupAuth';
-import PopUpEkycInternal from '@components/UI/Popup/PopupEkycInternal';
-import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
-import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
-import PopupSubsribeTheme from '@components/UI/Popup/PopupSubscribeTheme';
-import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
+// import PopupAccessLimit from '@components/UI/Popup/PopupAccessLimit';
+// import PopupAuth from '@components/UI/Popup/PopupAuth';
+// import PopUpEkycInternal from '@components/UI/Popup/PopupEkycInternal';
+// import PopupLoginTerms from '@components/UI/Popup/PopupLoginTerms';
+// import PopupRegisterOtp from '@components/UI/Popup/PopupOtp';
+// import PopupSubsribeTheme from '@components/UI/Popup/PopupSubscribeTheme';
+// import PopupRegisterCreateUsername from '@components/UI/Popup/PopupUsername';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { initialPopupStatus, popupStatusAtom } from '@store/popup/popup';
+
+const PopupAccessLimit = dynamic(() => import('@components/UI/Popup/PopupAccessLimit'));
+const PopupAuth = dynamic(() => import('@components/UI/Popup/PopupAuth'));
+const PopUpEkycInternal = dynamic(() => import('@components/UI/Popup/PopupEkycInternal'));
+const PopupLoginTerms = dynamic(() => import('@components/UI/Popup/PopupLoginTerms'));
+const PopupRegisterOtp = dynamic(() => import('@components/UI/Popup/PopupOtp'));
+const PopupSubsribeTheme = dynamic(() => import('@components/UI/Popup/PopupSubscribeTheme'));
+const PopupRegisterCreateUsername = dynamic(() => import('@components/UI/Popup/PopupUsername'));
 
 const ModalPage = () => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);

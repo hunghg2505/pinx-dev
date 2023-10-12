@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -264,7 +265,7 @@ const NewFeedItem = (props: IProps) => {
               className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'
               onClick={handleHidePost}
             >
-              <img
+              <Image
                 src='/static/icons/iconUnHide.svg'
                 alt=''
                 width='0'
@@ -286,7 +287,7 @@ const NewFeedItem = (props: IProps) => {
 
       return (
         <div className='relative z-50'>
-          <img
+          <Image
             src='/static/icons/iconDot.svg'
             alt=''
             width='0'
@@ -302,7 +303,7 @@ const NewFeedItem = (props: IProps) => {
 
               {cond2 && (
                 <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                  <img
+                  <Image
                     src='/static/icons/iconFlag.svg'
                     alt=''
                     width='0'
@@ -330,7 +331,7 @@ const NewFeedItem = (props: IProps) => {
                     refresh={(newData) => onRefreshPostDetail(newData, true)}
                   >
                     <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [border-bottom:1px_solid_#EAF4FB]'>
-                      <img
+                      <Image
                         src='/static/icons/iconEdit.svg'
                         alt=''
                         width='0'
@@ -350,7 +351,7 @@ const NewFeedItem = (props: IProps) => {
 
                   <ModalDelete id={postDetail?.id} onDeletePost={onDeletePost}>
                     <div className='ml-[12px] flex h-[44px] cursor-pointer items-center [&:not(:last-child)]:[border-bottom:1px_solid_#EAF4FB]'>
-                      <img
+                      <Image
                         src='/static/icons/iconDelete.svg'
                         alt=''
                         width='0'

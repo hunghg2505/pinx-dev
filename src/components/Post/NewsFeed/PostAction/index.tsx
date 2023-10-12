@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
@@ -191,7 +192,9 @@ const PostAction = (props: IPostActionProps) => {
           className='like z-10 flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
           onClick={handleLikeOrUnLikePost}
         >
-          <img
+          <Image
+            width={22}
+            height={20}
             src={like && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'}
             color='#FFFFFF'
             alt=''
@@ -210,7 +213,9 @@ const PostAction = (props: IPostActionProps) => {
           className='comment flex cursor-pointer flex-row items-center justify-center desktop:mr-[40px]'
           onClick={handleComment}
         >
-          <img
+          <Image
+            width={20}
+            height={20}
             src='/static/icons/iconComment.svg'
             alt=''
             sizes='20px'
@@ -225,7 +230,9 @@ const PostAction = (props: IPostActionProps) => {
           className='report flex cursor-pointer flex-row items-center justify-center'
           onClick={() => setModalShareVisible(true)}
         >
-          <img
+          <Image
+            width={20}
+            height={20}
             src='/static/icons/iconShare.svg'
             alt=''
             sizes='20px'

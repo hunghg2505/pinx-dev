@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { useSize, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -14,9 +14,9 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import MenuMobile from '@layout/components/MainHeader/MenuMobile';
-import Notifications from '@layout/components/MainHeader/Notifications';
-import Profile from '@layout/components/MainHeader/Profile';
-import SearchInput from '@layout/components/MainHeader/SearchInput';
+// import Notifications from '@layout/components/MainHeader/Notifications';
+// import Profile from '@layout/components/MainHeader/Profile';
+// import SearchInput from '@layout/components/MainHeader/SearchInput';
 import { getAccessToken } from '@store/auth';
 import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch';
 import { openProfileAtom } from '@store/profile/profile';
@@ -25,13 +25,9 @@ import { ROUTE_PATH } from '@utils/common';
 import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
-// const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
-// const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'), {
-//   ssr: false,
-// });
-// const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'), {
-//   ssr: false,
-// });
+const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
+const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
+const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'));
 
 const MainHeader = () => {
   const { t } = useTranslation('common');
@@ -148,7 +144,9 @@ const MainHeader = () => {
                 className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
               />
 
-              <img
+              <Image
+                width={85}
+                height={32}
                 src='/static/logo/logo-website-pinetree.svg'
                 alt='Logo pinetree'
                 className='ml-[12px] hidden h-[32px] desktop:block'
