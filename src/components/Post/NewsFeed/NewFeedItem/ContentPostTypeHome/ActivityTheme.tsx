@@ -128,9 +128,11 @@ export const ActivityTheme = ({
       <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
           <Image
-            width='0'
-            height='0'
-            sizes='100vw'
+            // width='0'
+            // height='0'
+            // sizes='100vw'
+            fill
+            sizes='(min-width: 1400px) 642px, (min-width: 1200px) calc(86.11vw - 546px), (min-width: 800px) calc(100vw - 399px), calc(104.17vw - 58px)'
             src={postDetail?.post.bgImage || postDetail?.post.headImageUrl}
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
             title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
@@ -139,7 +141,9 @@ export const ActivityTheme = ({
           <div className='absolute bottom-[19px] left-[19px] rounded-[8px] border-[1px] border-solid border-[rgba(255,255,255,0.44)] bg-[rgba(255,_255,_255,_0.14)] mobile:h-[168px] mobile:w-[120px] desktop:h-[269px] desktop:w-[192px]'>
             <div className='flex flex-col items-center justify-center'>
               {iconPost && (
-                <img
+                <Image
+                  width={22}
+                  height={22}
                   src={iconPost}
                   alt=''
                   className='mobile:mt-[19px] mobile:h-[22px] mobile:w-[22px] desktop:mt-[30px] desktop:h-[32px] desktop:w-[32px]'

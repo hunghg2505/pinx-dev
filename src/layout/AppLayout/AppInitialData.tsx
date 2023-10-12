@@ -37,7 +37,10 @@ const AppInitialData = () => {
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
     getUserProfile();
-    getInitDataStockMarketHome();
+    const t = setTimeout(() => {
+      getInitDataStockMarketHome();
+      clearTimeout(t);
+    }, 5000);
     // initFirebaseToken();
   });
 

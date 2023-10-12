@@ -30,7 +30,7 @@ const PinPost = (props: IProps) => {
     refresh();
   };
 
-  if (!data?.length) {
+  if (!data?.length || loading) {
     return (
       <>
         <NewsFeedSkeleton />

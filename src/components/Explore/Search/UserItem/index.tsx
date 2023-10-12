@@ -42,7 +42,7 @@ const UserItem = (props: Iprops) => {
   const { run: getUserProfile } = useProfileInitial();
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
   const isMyProfile = userLoginInfo?.id === Number(data?.id);
-  const urlProfile = ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId);
+  const urlProfile = ROUTE_PATH.PROFILE_V2(data?.displayName, data?.id);
   const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
   React.useEffect(() => {
     setIsFollow(data?.isFollowed);

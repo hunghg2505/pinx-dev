@@ -8,10 +8,11 @@ import Tabs, { TabPane } from 'rc-tabs';
 import { useLogin } from '@store/auth/hydrateAuth';
 
 import styles from './index.module.scss';
+import MarketSkeleton from '../Market/MarketSkeleton';
 // import Market from '../Market';
 // import WatchList from '../WatchList';
 
-const Market = dynamic(() => import('../Market'));
+const Market = dynamic(() => import('../Market'), { loading: () => <MarketSkeleton /> });
 const WatchList = dynamic(() => import('../WatchList'));
 
 interface IPropsTabMobile {

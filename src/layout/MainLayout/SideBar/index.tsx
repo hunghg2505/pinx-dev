@@ -246,6 +246,7 @@ const SideBar = () => {
           <img
             src={BANNER_URL}
             alt=''
+            loading='lazy'
             width={218}
             height={400}
             className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
@@ -277,7 +278,7 @@ const SideBar = () => {
               rel='noopener noreferrer'
               href='https://www.facebook.com/chungkhoanpinetree'
             >
-              <img
+              <Image
                 src='/static/social/facebook.svg'
                 alt=''
                 width={0}
@@ -301,7 +302,7 @@ const SideBar = () => {
               rel='noopener noreferrer'
               href='https://www.youtube.com/@ChungKhoanPinetree'
             >
-              <img
+              <Image
                 src='/static/social/youtube.svg'
                 alt=''
                 width={0}
@@ -315,7 +316,7 @@ const SideBar = () => {
               rel='noopener noreferrer'
               href='https://www.tiktok.com/@pinetree_official'
             >
-              <img
+              <Image
                 src='/static/social/tik_tok.svg'
                 alt=''
                 width={0}
