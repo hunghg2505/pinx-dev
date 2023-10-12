@@ -26,7 +26,8 @@ const PostDetailPage = ({ host, postDetail }: any) => {
     if (
       !postDetail?.post?.urlImages?.length &&
       !postDetail?.post?.headImageUrl &&
-      postDetail?.post?.metadataList?.length
+      postDetail?.post?.metadataList?.length &&
+      postDetail?.post?.metadataList?.[0]?.title
     ) {
       title = postDetail?.post?.metadataList?.[0]?.title;
       description = postDetail?.post?.metadataList?.[0]?.description;
