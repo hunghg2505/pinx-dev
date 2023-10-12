@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { TYPEPOST } from '@components/Post/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
-import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { isUrlValid, setCurClickedHomePostId, toNonAccentVietnamese } from '@utils/common';
 
 export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
   const name =
@@ -90,6 +90,9 @@ export const Avatar = ({ postDetail, isNewFeedExplore }: any) => {
             'galaxy-max:h-[36px] galaxy-max:w-[36px]': isNewFeedExplore,
           },
         )}
+        onClick={() => {
+          setCurClickedHomePostId(postDetail?.id);
+        }}
       />
     </>
   );

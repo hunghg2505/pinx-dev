@@ -1202,3 +1202,7 @@ export const checkProfilePath = (params: any, req: any, res: any) => {
     userId,
   };
 };
+
+export const setCurClickedHomePostId = (postId: string) => {
+  globalThis?.sessionStorage.setItem('curClickedHomePostId', String(postId));
+};

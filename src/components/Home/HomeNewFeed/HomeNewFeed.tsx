@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
+import localforage from 'localforage';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -13,7 +14,7 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 // import UserPosting from '@components/Home/UserPosting/UserPosting';
-// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 // import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
@@ -56,9 +57,9 @@ const HomeNewFeed = () => {
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
+  const [, setInitHomePage] = React.useState<boolean>(false);
 
   const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
-
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -66,6 +67,16 @@ const HomeNewFeed = () => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
+
+  useEffect(() => {
+    const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
+    // eslint-disable-next-line unicorn/prefer-query-selector
+    const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
+    element?.scrollIntoView({
+      block: 'nearest',
+      inline: 'center',
+    });
+  });
 
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
@@ -91,6 +102,12 @@ const HomeNewFeed = () => {
       });
     }
   }, [userType, isReadTerms]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setInitHomePage(true);
+    }, 300);
+  });
 
   const serviceLoadMorePost = async () => {
     if (!dataPosts?.nextId || loadingPosts) {
@@ -226,7 +243,7 @@ const HomeNewFeed = () => {
         />
       </>
 
-      <>
+      <LoadCompVisible>
         <PostList
           // size={size}
           serviceLoadMorePost={serviceLoadMorePost}
@@ -236,7 +253,7 @@ const HomeNewFeed = () => {
           postsNext={postsNext}
           loadingPosts={loadingPosts}
         />
-      </>
+      </LoadCompVisible>
     </div>
   );
 };

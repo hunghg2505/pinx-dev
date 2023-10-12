@@ -52,7 +52,7 @@ import suggestion from '../../../Editor/Suggestion';
 interface IProps {
   id: string;
   refresh: () => void;
-  refreshTotal: () => void;
+  refreshTotal?: () => void;
   setImageCommentMobile: (v: boolean) => void;
   width?: number;
 }
@@ -304,7 +304,7 @@ const Editor = (props: IProps, ref?: any) => {
       manual: true,
       onSuccess: (r: any) => {
         if (r) {
-          refreshTotal();
+          refreshTotal && refreshTotal();
           refresh();
           editor?.commands.clearContent();
           setIdReply('');

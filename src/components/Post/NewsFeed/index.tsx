@@ -103,6 +103,7 @@ const NewsFeed = (props: IProps) => {
       postType,
     };
   }, [postData]);
+
   React.useEffect(() => {
     if (
       findItemFollow ||
@@ -162,6 +163,7 @@ const NewsFeed = (props: IProps) => {
     router.push(url);
     setSearchSeo(false);
     globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
+    globalThis?.sessionStorage.setItem('curClickedHomePostId', String(postData?.id));
   };
 
   const [, setImageCommentMobile] = useState(false);
@@ -256,9 +258,8 @@ const NewsFeed = (props: IProps) => {
         {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>
             <CommentField
-              id={postData?.id}
+              id={`post-${postData?.id}`}
               refresh={refreshComment}
-              refreshTotal={() => {}}
               setImageCommentMobile={setImageCommentMobile}
             />
           </div>

@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatMsgPost } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
 const ListStock = dynamic(import('./ListStock'), {
@@ -176,7 +176,7 @@ export const VietStockNews = ({
 
   return (
     <div className='VietStockNews'>
-      <CustomLink href={postDetailUrl}>
+      <CustomLink href={postDetailUrl} onClick={() => setCurClickedHomePostId(postDetail?.id)}>
         {(postDetail?.post.head || postDetail?.post?.contentText) && (
           <div
             ref={onRef}

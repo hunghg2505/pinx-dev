@@ -11,7 +11,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, formatMsgPost } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 
 import useHeight from './useHeight';
 
@@ -55,6 +55,7 @@ export const ActivityMatchOrder = ({
       const text = textContent.slice(1);
       return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
     }
+    setCurClickedHomePostId(postDetail?.id);
     return onComment();
   };
   const onReadMore = () => {

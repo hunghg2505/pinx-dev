@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, formatMsgPost } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 
 export const ActivityWatchlist = ({
   onRef,
@@ -85,6 +85,7 @@ export const ActivityWatchlist = ({
         onClick={() => {
           setSearchSeo(false);
           onTrackingViewTicker && onTrackingViewTicker(postDetail?.post.stockCode);
+          setCurClickedHomePostId(postDetail?.id);
         }}
       >
         <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
