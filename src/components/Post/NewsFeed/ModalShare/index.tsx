@@ -36,13 +36,13 @@ const ModalShare = ({
 
   const calcShareUrl = () => {
     if (firstShareCase) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=news_post';
+      return urlPost + '?utm_campaign=organic_share&utm_medium=direct_link&utm_source=others&utm_content=news_post';
     }
     if (secondShareCase) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=others&utm_source=&utm_content=investment_post';
+      return urlPost + '?utm_campaign=organic_share&utm_medium=direct_link&utm_source=others&utm_content=personal_post';
     }
     if (thirdShareCase) {
-      return urlPost + '?utm_campaign=organic_share&utm_medium=direct_link&utm_source=others&utm_content=personal_post';
+      return urlPost + '?utm_campaign=organic_share&utm_medium=direct_link&utm_source=others&utm_content=investment_post';
     }
   };
   const [shareUrl, setShareUrl] = useState(calcShareUrl());
@@ -193,7 +193,7 @@ const ModalShare = ({
     document.head.append(script);
     setTimeout(() => {
       setIsShareThisInit(true);
-    }, 1200);
+    }, 300);
   };
 
   const calcZaloShareUrl = () => {

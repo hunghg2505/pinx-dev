@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 
 import { useHandlActionsPost } from '@hooks/useHandlActionsPost';
-import useScript from '@hooks/useScript';
+// import useScript from '@hooks/useScript';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getLocaleCookie, setLocaleCookie } from '@store/locale';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
@@ -15,10 +15,10 @@ import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSet
 import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
-import { GOOGLE_TAG_MANAGER_ID, TOAST_LIMIT } from 'src/constant';
+import { TOAST_LIMIT } from 'src/constant';
 
 const AppInitialData = () => {
-  useScript(`https://www.googletagmanager.com/gtm.js?id=${GOOGLE_TAG_MANAGER_ID}`, 8000);
+  // useScript(`https://www.googletagmanager.com/gtm.js?id=${GOOGLE_TAG_MANAGER_ID}`, 8000);
 
   const { toasts } = useToasterStore();
   const { run: getUserProfile } = useProfileInitial();
