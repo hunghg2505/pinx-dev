@@ -10,7 +10,7 @@ import { fetchPostDetailFromServer } from '@components/Post/service';
 import SEO from '@components/SEO';
 // import SkeletonLoading from '@components/UI/Skeleton';
 import MainLayout from '@layout/MainLayout';
-import { formatMsgPost, getHostName } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost, getHostName } from '@utils/common';
 
 const PostDetail = dynamic(() => import('@components/Post/PostDetail'), {
   loading: () => <NewsFeedSkeleton showBtnBack />,
@@ -43,7 +43,7 @@ const PostDetailPage = ({ host, postDetail }: any) => {
   return (
     <>
       <SEO
-        siteUrl={`${host}/${postDetail?.seoMetadata?.slug}`}
+        siteUrl={`${host}${ROUTE_PATH.POST_DETAIL(postDetail?.seoMetadata?.slug)}`}
         title={title}
         description={description}
         openGraph={{

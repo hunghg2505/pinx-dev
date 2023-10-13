@@ -83,7 +83,7 @@ const NewsItem = ({ className, data }: INewsItemProps) => {
 
       <PostAction
         idPost={data.id}
-        urlPost={`/${data?.seoMetadata?.slug}`}
+        urlPost={ROUTE_PATH.POST_DETAIL(data?.seoMetadata?.slug)}
         isLike={data.isLike}
         totalLikes={data.totalLikes}
         totalComments={data.totalChildren}
