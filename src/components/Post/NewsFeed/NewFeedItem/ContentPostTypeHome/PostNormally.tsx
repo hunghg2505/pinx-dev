@@ -13,6 +13,7 @@ import ModalMedia from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHom
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 // import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
+import useCheckPineXPost from '@hooks/useCheckPineXPost';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMessage, formatMsgPost, getVideoId } from '@utils/common';
@@ -55,6 +56,8 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
       BgThemePost,
     };
   }, [postDetail, bgTheme]);
+
+  const { isPineXPost, postSlug } = useCheckPineXPost(urlLink);
 
   // useEffect(() => {
   //   setShowReadMore(false);
@@ -151,7 +154,10 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
             </Text>
           </div>
           {!message?.includes(urlLink) && urlLink !== '' && (
-            <CustomLink target='_blank' href={`${urlLink}`}>
+            <CustomLink
+              target={isPineXPost ? '' : '_blank'}
+              href={isPineXPost ? postSlug : urlLink}
+            >
               <div className='messageFormat messageBody'>
                 <span className='link'>{urlLink}</span>
               </div>
@@ -203,6 +209,8 @@ const MetaContent = ({ metaData }: any) => {
     };
   }, [metaData]);
 
+  const { isPineXPost, postSlug } = useCheckPineXPost(data?.url);
+
   if (!data) {
     return <></>;
   }
@@ -210,7 +218,11 @@ const MetaContent = ({ metaData }: any) => {
   const { url, imageUrl, title, description } = data;
 
   return (
-    <CustomLink target='_blank' href={`${url}`} className='mt-4 block'>
+    <CustomLink
+      target={isPineXPost ? '' : '_blank'}
+      href={isPineXPost ? postSlug : url}
+      className='mt-4 block'
+    >
       <div className='relative '>
         <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
           {imageUrl && (
