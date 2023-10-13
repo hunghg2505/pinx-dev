@@ -24,7 +24,7 @@ const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: fals
 
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
-  loading: () => <NewsFeedSkeleton />
+  loading: () => <NewsFeedSkeleton />,
 });
 
 const PostList = ({
