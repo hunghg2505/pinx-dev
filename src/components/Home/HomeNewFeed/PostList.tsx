@@ -24,6 +24,7 @@ const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: fals
 
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
+  loading: () => <NewsFeedSkeleton />,
 });
 
 const PostList = ({
@@ -37,15 +38,20 @@ const PostList = ({
 }: any) => {
   const { t } = useTranslation('home');
   const { refLastElement } = useObserver();
+
   return (
     <>
-      <NewsFeed
-        onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-        onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-        key={`home-post-item-${firstPost?.id}`}
-        data={firstPost as any}
-        onCommentPost={onCommentPost}
-      />
+      {firstPost ? (
+        <NewsFeed
+          onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+          onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+          key={`home-post-item-${firstPost?.id}`}
+          data={firstPost as any}
+          onCommentPost={onCommentPost}
+        />
+      ) : (
+        <NewsFeedSkeleton />
+      )}
 
       <div className='box-shadow card-style tablet:hidden'>
         <div className='pb-[13px] pt-[10px] '>
@@ -79,18 +85,25 @@ const PostList = ({
         <SuggestionPeople />
       </LoadCompVisible>
 
-      {fourPost?.map((item: IPost) => {
-        return (
-          <NewsFeed
-            key={`home-post-item-${item?.id}`}
-            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-            loading={loadingPosts}
-            data={item}
-            onCommentPost={onCommentPost}
-          />
-        );
-      })}
+      {fourPost.length > 0 ? (
+        <>
+          {fourPost?.map((item: IPost) => {
+            return (
+              <NewsFeed
+                key={`home-post-item-${item?.id}`}
+                onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+                loading={loadingPosts}
+                data={item}
+                onCommentPost={onCommentPost}
+              />
+            );
+          })}
+        </>
+      ) : (
+        <NewsFeedSkeleton />
+      )}
+
 
       <div className='box-shadow card-style'>
         <Text
@@ -135,14 +148,6 @@ const PostList = ({
           />
         );
       })}
-
-      {loadingPosts && (
-        <div className='mt-[10px]'>
-          <NewsFeedSkeleton />
-          <NewsFeedSkeleton />
-          <NewsFeedSkeleton />
-        </div>
-      )}
     </>
   );
 };

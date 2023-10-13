@@ -15,6 +15,7 @@ import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 // import UserPosting from '@components/Home/UserPosting/UserPosting';
 // import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 // import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
+import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -30,7 +31,7 @@ import {
 } from 'src/mixpanel/mixpanel';
 
 import TabMobileSkeleton from './TabMobileSkeleton';
-import { useGetWatchList } from '../service';
+import { useGetPinedPost, useGetWatchList } from '../service';
 
 const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
   ssr: false,
@@ -43,6 +44,8 @@ const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosti
 const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
+
+  const { pinedPost, refresh, loading } = useGetPinedPost();
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);

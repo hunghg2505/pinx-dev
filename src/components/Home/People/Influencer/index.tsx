@@ -69,13 +69,9 @@ const Influencer = () => {
       checkRef.current = true;
     }
   }, [inView]);
-  if (KOL?.length === 0) {
+  if (!KOL) {
     return (
-      <div className='overflow-x-hidden whitespace-nowrap'>
-        <InfluencerLoading />
-        <InfluencerLoading />
-        <InfluencerLoading />
-        <InfluencerLoading />
+      <div>
         <InfluencerLoading />
       </div>
     );
