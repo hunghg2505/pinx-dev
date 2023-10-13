@@ -32,7 +32,7 @@ import {
 } from 'src/mixpanel/mixpanel';
 
 import TabMobileSkeleton from './TabMobileSkeleton';
-import { useGetPinedPost, useGetWatchList } from '../service';
+import { useGetWatchList } from '../service';
 
 const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
   ssr: false,
@@ -45,8 +45,6 @@ const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosti
 const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
-
-  const { pinedPost, refresh, loading } = useGetPinedPost();
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
@@ -70,6 +68,9 @@ const HomeNewFeed = () => {
 
   useEffect(() => {
     const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
+    if (!curClickedHomePostId) {
+      window.scrollTo(0, 0);
+    }
     // eslint-disable-next-line unicorn/prefer-query-selector
     const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
     if (element) {
