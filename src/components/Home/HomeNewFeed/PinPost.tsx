@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from 'react';
+import React from 'react';
 
 import { clearCache } from 'ahooks';
 import dynamic from 'next/dynamic';
@@ -22,21 +22,19 @@ interface IProps {
 const PinPost = (props: IProps) => {
   const { onTrackingViewTickerCmt } = props;
   const { pinedPost, refresh, loading } = useGetPinedPost();
-  const [data, setData] = useState([]);
-  const [, setIsTransition] = useTransition();
-
-  useEffect(() => {
-    setIsTransition(() => setData(pinedPost));
-  }, [JSON.stringify(pinedPost)]);
 
   const onRefresh = () => {
     clearCache('data-pin-post');
     refresh();
   };
 
+  if (!pinedPost) {
+    return <NewsFeedSkeleton />;
+  }
+
   return (
     <>
-      {data?.map((item: IPost) => {
+      {pinedPost?.map((item: IPost) => {
         return (
           <NewsFeed
             data={item}
