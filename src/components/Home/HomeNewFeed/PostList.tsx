@@ -136,14 +136,6 @@ const PostList = ({
           />
         );
       })}
-
-      {/* {loadingPosts && (
-        <div className='mt-[10px]'>
-          <NewsFeedSkeleton />
-          <NewsFeedSkeleton />
-          <NewsFeedSkeleton />
-        </div>
-      )} */}
     </>
   );
 };

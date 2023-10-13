@@ -4,7 +4,6 @@ import { clearCache } from 'ahooks';
 import dynamic from 'next/dynamic';
 
 import { useGetPinedPost } from '@components/Home/service';
-// import NewsFeed from '@components/Post/NewsFeed';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
