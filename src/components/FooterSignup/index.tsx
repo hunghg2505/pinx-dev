@@ -76,7 +76,11 @@ const FooterSignUp = () => {
   };
 
   if (isLogin) {
-    return <></>;
+    return (
+      <LoadCompVisible>
+        <></>
+      </LoadCompVisible>
+    );
   }
 
   return (

@@ -24,6 +24,7 @@ const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: fals
 
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
+  loading: () => <NewsFeedSkeleton />,
 });
 
 const PostList = ({
@@ -136,13 +137,13 @@ const PostList = ({
         );
       })}
 
-      {loadingPosts && (
+      {/* {loadingPosts && (
         <div className='mt-[10px]'>
           <NewsFeedSkeleton />
           <NewsFeedSkeleton />
           <NewsFeedSkeleton />
         </div>
-      )}
+      )} */}
     </>
   );
 };
