@@ -68,9 +68,6 @@ const HomeNewFeed = () => {
 
   useEffect(() => {
     const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
-    if (!curClickedHomePostId) {
-      window.scrollTo(0, 0);
-    }
     // eslint-disable-next-line unicorn/prefer-query-selector
     const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
     if (element) {
@@ -83,6 +80,13 @@ const HomeNewFeed = () => {
       }, 2500);
     }
   });
+
+  useEffect(() => {
+    const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
+    if (!curClickedHomePostId) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
