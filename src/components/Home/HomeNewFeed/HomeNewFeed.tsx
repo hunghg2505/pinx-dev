@@ -73,9 +73,12 @@ const HomeNewFeed = () => {
     // eslint-disable-next-line unicorn/prefer-query-selector
     const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
     element?.scrollIntoView({
-      block: 'nearest',
-      inline: 'center',
+      block: 'center',
+      inline: 'center'
     });
+    setTimeout(() => {
+      globalThis?.sessionStorage?.removeItem('curClickedHomePostId');
+    }, 2500);
   });
 
   useUpdateEffect(() => {
@@ -243,17 +246,15 @@ const HomeNewFeed = () => {
         />
       </>
 
-      <LoadCompVisible>
-        <PostList
-          // size={size}
-          serviceLoadMorePost={serviceLoadMorePost}
-          onCommentPost={onCommentPost}
-          firstPost={firstPost}
-          fourPost={fourPost}
-          postsNext={postsNext}
-          loadingPosts={loadingPosts}
-        />
-      </LoadCompVisible>
+      <PostList
+        // size={size}
+        serviceLoadMorePost={serviceLoadMorePost}
+        onCommentPost={onCommentPost}
+        firstPost={firstPost}
+        fourPost={fourPost}
+        postsNext={postsNext}
+        loadingPosts={loadingPosts}
+      />
     </div>
   );
 };

@@ -258,7 +258,7 @@ const NewsFeed = (props: IProps) => {
         {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>
             <CommentField
-              id={`post-${postData?.id}`}
+              id={postData?.id}
               refresh={refreshComment}
               setImageCommentMobile={setImageCommentMobile}
             />

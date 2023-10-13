@@ -428,7 +428,6 @@ const NewFeedItem = (props: IProps) => {
         className={classNames('relative z-30 mb-[2px] flex flex-row justify-between gap-x-[12px]', {
           'z-50': isHovering,
         })}
-        id={`post-${postDetail?.id}`}
       >
         <div
           onClick={() => setSearchSeo(false)}
@@ -500,7 +499,7 @@ const NewFeedItem = (props: IProps) => {
         </div>
       </div >
 
-      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
+      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0' id={`post-${postDetail?.id}`}>
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}
