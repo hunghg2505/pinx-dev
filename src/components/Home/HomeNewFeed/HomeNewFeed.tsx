@@ -24,7 +24,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
-import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
+import { ROUTE_PATH, getQueryFromUrl, removeCurClickedHomePostId } from '@utils/common';
 import {
   filterNewsTracking,
   getMoreInfoTracking,
@@ -72,13 +72,15 @@ const HomeNewFeed = () => {
     const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
     // eslint-disable-next-line unicorn/prefer-query-selector
     const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
-    element?.scrollIntoView({
-      block: 'center',
-      inline: 'center'
-    });
-    setTimeout(() => {
-      globalThis?.sessionStorage?.removeItem('curClickedHomePostId');
-    }, 2500);
+    if (element) {
+      element?.scrollIntoView({
+        block: 'center',
+        inline: 'center'
+      });
+      setTimeout(() => {
+        removeCurClickedHomePostId();
+      }, 2500);
+    }
   });
 
   useUpdateEffect(() => {

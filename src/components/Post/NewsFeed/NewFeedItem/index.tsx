@@ -28,7 +28,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, setCurClickedHomePostId, toNonAccentVietnamese } from '@utils/common';
+import { removeCurClickedHomePostId, ROUTE_PATH, setCurClickedHomePostId, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
@@ -147,6 +147,7 @@ const NewFeedItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         if (router.route === '/post/[...id]') {
+          removeCurClickedHomePostId();
           router.back();
         }
         setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
@@ -235,6 +236,7 @@ const NewFeedItem = (props: IProps) => {
     setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
     if (router.route === '/post/[...id]') {
       router.back();
+      removeCurClickedHomePostId();
     } else {
       onRefreshPostDetail(undefined);
     }

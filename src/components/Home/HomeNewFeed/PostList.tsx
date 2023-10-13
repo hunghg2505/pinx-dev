@@ -104,20 +104,18 @@ const PostList = ({
         <NewsFeedSkeleton />
       )}
 
-
-      <div className='box-shadow card-style'>
-        <Text
-          element='h2'
-          type='body-16-semibold'
-          color='neutral-2'
-          className='mb-[14px] tablet:text-[20px]'
-        >
-          {t('economy_in_the_themes')}
-        </Text>
-        <ListTheme />
-      </div>
-
       <LoadCompVisible>
+        <div className='box-shadow card-style'>
+          <Text
+            element='h2'
+            type='body-16-semibold'
+            color='neutral-2'
+            className='mb-[14px] tablet:text-[20px]'
+          >
+            {t('economy_in_the_themes')}
+          </Text>
+          <ListTheme />
+        </div>
 
         {postsNext?.map((item: IPost, idx: number) => {
           if (idx === postsNext?.length - 1) {
