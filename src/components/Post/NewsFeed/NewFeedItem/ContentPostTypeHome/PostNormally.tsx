@@ -116,15 +116,13 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
             className='pointer-events-none left-0 top-0 w-full object-cover object-top mobile:max-h-[300px] mobile:min-h-[204px] mobile-max:object-bottom tablet:rounded-[8px] desktop:h-[300px]'
           />
           {message && (
-            <div>
-              <Text type='body-16-bold' color='neutral-1'>
-                <div
-                  className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-h-full max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform py-[10px] text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
-                  dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-                  style={{ color }}
-                ></div>
-              </Text>
-            </div>
+            <Text type='body-16-bold' color='neutral-1'>
+              <div
+                className='messageBody desc messageFormat absolute left-2/4 top-2/4 mx-[auto] my-[0] mb-[15px] max-h-full max-w-[calc(100%_-_20px)] -translate-x-1/2 -translate-y-1/2 transform py-[10px] text-center mobile-max:w-full mobile-max:break-words mobile-max:px-[5px]'
+                dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+                style={{ color }}
+              ></div>
+            </Text>
           )}
         </div>
       );
@@ -139,28 +137,27 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
             '!line-clamp-none !h-auto': readMore || isPostDetailPath,
           })}
         >
-          <div onClick={(event) => onHandleClick(event)}>
-            <Text
-              type='body-14-regular'
-              color='neutral-1'
-              className=' tablet:!text-[16px]'
-              // onClick={onComment}
-            >
-              <div
-                ref={ref}
-                className='desc messageFormat messageBody'
-                dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-              ></div>
-            </Text>
-          </div>
+          <Text
+            type='body-14-regular'
+            color='neutral-1'
+            className=' tablet:!text-[16px]'
+            // onClick={onComment}
+          >
+            <div
+              onClick={(event) => onHandleClick(event)}
+              ref={ref}
+              className='desc messageFormat messageBody'
+              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+            ></div>
+          </Text>
+
           {!message?.includes(urlLink) && urlLink !== '' && (
             <CustomLink
               target={isPineXPost ? '' : '_blank'}
               href={isPineXPost ? postSlug : urlLink}
+              className='messageFormat messageBody'
             >
-              <div className='messageFormat messageBody'>
-                <span className='link'>{urlLink}</span>
-              </div>
+              <span className='link'>{urlLink}</span>
             </CustomLink>
           )}
         </div>
@@ -221,49 +218,47 @@ const MetaContent = ({ metaData }: any) => {
     <CustomLink
       target={isPineXPost ? '' : '_blank'}
       href={isPineXPost ? postSlug : url}
-      className='mt-4 block'
+      className='relative mt-4 block'
     >
-      <div className='relative '>
-        <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
-          {imageUrl && (
-            <div className='overflow-hidden'>
-              <Image
-                width='0'
-                height='0'
-                sizes='100vw'
-                src={imageUrl}
-                alt={title}
-                title={title}
-                className={classNames(
-                  'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
-                  {
-                    '-translate-y-[18px] scale-[1.48] !object-contain mobile-max:-translate-y-[12px]':
-                      url?.includes('tiktok'),
-                  },
-                )}
-              />
-            </div>
+      <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
+        {imageUrl && (
+          <div className='overflow-hidden'>
+            <Image
+              width='0'
+              height='0'
+              sizes='100vw'
+              src={imageUrl}
+              alt={title}
+              title={title}
+              className={classNames(
+                'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
+                {
+                  '-translate-y-[18px] scale-[1.48] !object-contain mobile-max:-translate-y-[12px]':
+                    url?.includes('tiktok'),
+                },
+              )}
+            />
+          </div>
+        )}
+
+        <div className='bg-[#EBEBEB] p-[10px]'>
+          {url && (
+            <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
+              {url}
+            </Text>
           )}
 
-          <div className='bg-[#EBEBEB] p-[10px]'>
-            {url && (
-              <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
-                {url}
-              </Text>
-            )}
+          {title && (
+            <Text type='body-16-medium' color='cbblack' className='my-[8px] text-left'>
+              {title}
+            </Text>
+          )}
 
-            {title && (
-              <Text type='body-16-medium' color='cbblack' className='my-[8px] text-left'>
-                {title}
-              </Text>
-            )}
-
-            {description && (
-              <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
-                {description}
-              </Text>
-            )}
-          </div>
+          {description && (
+            <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
+              {description}
+            </Text>
+          )}
         </div>
       </div>
     </CustomLink>

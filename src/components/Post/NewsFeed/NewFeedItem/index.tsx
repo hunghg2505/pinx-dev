@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -31,10 +32,18 @@ import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { removeCurClickedHomePostId, ROUTE_PATH, setCurClickedHomePostId, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
-import ItemHoverProfile from './ItemHoverProfile';
-import ModalDelete from './ModalDelete';
-import ModalEdit from './ModalEdit';
-import PostActionComment from '../PostAction';
+// import ItemHoverProfile from './ItemHoverProfile';
+// import ModalDelete from './ModalDelete';
+// import ModalEdit from './ModalEdit';
+// import PostActionComment from '../PostAction';
+
+const ItemHoverProfile = dynamic(() => import('./ItemHoverProfile'));
+const ModalDelete = dynamic(() => import('./ModalDelete'));
+const ModalEdit = dynamic(() => import('./ModalEdit'));
+const PostActionComment = dynamic(() => import('../PostAction'));
+// const ContentPostTypeHome = dynamic(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome'),
+// );
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -300,7 +309,7 @@ const NewFeedItem = (props: IProps) => {
           />
 
           <div className='box-shadow pointer-events-none absolute right-0 z-20 min-w-[125px] max-w-full rounded-bl-[12px] rounded-br-[12px] rounded-tl-[12px] rounded-tr-[4px] bg-[#FFFFFF] px-[8px] opacity-0 transition-all duration-300 [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] mobile:top-[29px] tablet:top-[40px]'>
-            <div>
+            <>
               {renderHideButton()}
 
               {cond2 && (
@@ -372,7 +381,7 @@ const NewFeedItem = (props: IProps) => {
                   </ModalDelete>
                 </>
               )}
-            </div>
+            </>
           </div>
         </div>
       );

@@ -18,23 +18,6 @@ import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 import ModalMedia from './ModalMedia';
 import useHeight from './useHeight';
 
-// const ImageHeadPost = dynamic(
-//   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
-//   {
-//     ssr: false,
-//     loading: () => (
-//       <img
-//         src='/static/images/img-blur.png'
-//         alt=''
-//         width='0'
-//         height='0'
-//         sizes='100vw'
-//         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
-//       />
-//     ),
-//   },
-// );
-
 export const PineTreePost2 = ({
   // onRef,
   // isReadMore,
@@ -91,33 +74,6 @@ export const PineTreePost2 = ({
   useLayoutEffect(() => {
     setShowReadMore(height > 84);
   }, [height]);
-  // React.useEffect(() => {
-  // const t = setTimeout(() => {
-  //   const ele = document?.getElementById(`PineTreePost2-${postDetail.id}`);
-  //   if (ele?.clientHeight) {
-  //     if (window.innerWidth > 768) {
-  //       setShowReadMore(ele?.clientHeight > 84);
-  //     } else {
-  //       setShowReadMore(ele?.clientHeight > 84);
-  //     }
-  //   }
-  //   clearTimeout(t);
-  // }, 400);
-  // }, []);
-
-  // useLayoutEffect(() => {
-  //   const handleResize = () => {
-  //     if (ref.current) {
-  //       setHeight(ref.current.offsetHeight);
-  //     }
-  //   };
-  //   handleResize();
-  //   window.addEventListener('resize', handleResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [ref.current]);
 
   // useMount(() => {
   //   setShowDescription(true);
@@ -155,23 +111,21 @@ export const PineTreePost2 = ({
         onClick={onHandleClick}
         id={`PineTreePost2-${postDetail.id}`}
       >
-        <div>
-          <Text
-            type='body-14-regular'
-            color='neutral-1'
-            className={classNames('tablet:!text-[16px]', {
-              'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
-              '!line-clamp-none !h-auto': isPostDetailPath || readMore,
-              'mb-[16px]': !!postDetail?.post?.urlImages.length,
-            })}
-          >
-            <div
-              ref={ref}
-              className='messageFormat messageBody'
-              dangerouslySetInnerHTML={{ __html: messagePostFormat }}
-            ></div>
-          </Text>
-        </div>
+        <Text
+          type='body-14-regular'
+          color='neutral-1'
+          className={classNames('tablet:!text-[16px]', {
+            'line-clamp-4 h-[84px] overflow-hidden': !isPostDetailPath && showReadMore,
+            '!line-clamp-none !h-auto': isPostDetailPath || readMore,
+            'mb-[16px]': !!postDetail?.post?.urlImages.length,
+          })}
+        >
+          <div
+            ref={ref}
+            className='messageFormat messageBody'
+            dangerouslySetInnerHTML={{ __html: messagePostFormat }}
+          ></div>
+        </Text>
       </div>
 
       {!isPostDetailPath && (
