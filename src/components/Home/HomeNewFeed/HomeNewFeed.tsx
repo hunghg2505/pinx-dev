@@ -77,7 +77,7 @@ const HomeNewFeed = () => {
       });
       setTimeout(() => {
         removeCurClickedHomePostId();
-      }, 2500);
+      }, 500);
     }
   });
 
