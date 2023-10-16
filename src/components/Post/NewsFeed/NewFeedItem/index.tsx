@@ -122,8 +122,11 @@ const NewFeedItem = (props: IProps) => {
 
   const urlPost = useMemo(() => {
     const slug = postDetail?.seoMetadata?.slug;
+    if (slug) {
+      return `/${slug}`;
+    }
 
-    return ROUTE_PATH.POST_DETAIL(slug || postDetail?.id);
+    return `/post/${postDetail?.id}`;
   }, [postDetail]);
 
   const { refButtonList } = useHandlActionsPost();
