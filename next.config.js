@@ -43,6 +43,7 @@ const nextConfig = {
     URL_API_NOTIFICATION: process.env.URL_API_NOTIFICATION,
     MIXPANEL_PROJECT_TOKEN: process.env.MIXPANEL_PROJECT_TOKEN,
     FIREBASE_VAPIDKEY: process.env.FIREBASE_VAPIDKEY,
+    GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
   },
   images: {
     minimumCacheTTL: 60,

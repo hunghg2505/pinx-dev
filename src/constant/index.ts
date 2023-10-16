@@ -30,13 +30,6 @@ const MAX_IMG_POST_CMT_FILE_SIZE_KB = 500;
 const BANNER_URL = 'https://static.pinetree.com.vn/upload/images/sidebar_banner.png';
 const WHITE_BACKGROUND_IMAGE = '/static/images/white-background.jpeg';
 
-// sit
-const GOOGLE_TAG_MANAGER_ID = 'GTM-WHBTBND5';
-
-// product
-// const GOOGLE_TAG_MANAGER_ID = 'GTM-5BXCJM3';
-// const MIXPANEL_PROJECT_TOKEN = '7aec54370ff568a7f07d6380cb4529ce';
-
 const SEO_TEXT_SEARCH = {
   EXPLORE_PAGE: 'Explore-theme',
   TOP_WATCHING_PAGE: 'Top-watch-stock',
@@ -73,7 +66,6 @@ export {
   MAX_IMG_POST_CMT_FILE_SIZE_KB,
   BANNER_URL,
   WHITE_BACKGROUND_IMAGE,
-  GOOGLE_TAG_MANAGER_ID,
   SEO_TEXT_SEARCH,
   DEEP_LINK,
   GUIDANCE_LINK,
