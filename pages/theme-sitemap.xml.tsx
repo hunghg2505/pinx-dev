@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 
 import { API_PATH } from '@api/constant';
-import { PREFIX_API_COMMUNITY, PREFIX_API_PIST } from '@api/request';
+import { PREFIX_API_IP_COMMUNITY, PREFIX_API_IP_PIST } from '@api/request';
 import { getHostName, slugify } from '@utils/common';
 
 function generateSiteMap(host: string, listSlugs: string[]) {
@@ -35,12 +35,12 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
   // We make an API call to gather the URLs for our site
   const listSlug: string[] = [];
   const dataTheme: any = await (
-    await fetch(`${PREFIX_API_PIST}${API_PATH.PUBLIC_ALL_THEME}`)
+    await fetch(`${PREFIX_API_IP_PIST}${API_PATH.PUBLIC_ALL_THEME}`)
   ).json();
 
   for await (const item of dataTheme?.data) {
     const data: any = await (
-      await fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(item?.code)}`)
+      await fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(item?.code)}`)
     ).json();
 
     const slug =

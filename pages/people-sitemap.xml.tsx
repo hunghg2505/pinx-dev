@@ -1,7 +1,7 @@
 import { NextPageContext } from 'next';
 
 import { API_PATH } from '@api/constant';
-import { PREFIX_API_PIST } from '@api/request';
+import { PREFIX_API_IP_PIST } from '@api/request';
 import { ICustomerInfo } from '@components/Post/service';
 import { getHostName } from '@utils/common';
 
@@ -32,7 +32,9 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
   const host = getHostName(req.headers);
 
   // We make an API call to gather the URLs for our site
-  const response: any = await (await fetch(`${PREFIX_API_PIST}${API_PATH.KOL}/?size=9999`)).json();
+  const response: any = await (
+    await fetch(`${PREFIX_API_IP_PIST}${API_PATH.KOL}/?size=9999`)
+  ).json();
 
   // We generate the XML sitemap with the posts data
   const sitemap = generateSiteMap(host, response?.data?.list);
