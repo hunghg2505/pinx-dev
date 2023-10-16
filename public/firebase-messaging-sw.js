@@ -21,44 +21,46 @@ if (typeof window === 'undefined') {
     const messaging = firebase.messaging();
 
     messaging.onBackgroundMessage(function (payload) {
+      console.log('xxx payload bg', payload);
       const notificationTitle = payload.notification.title;
       const notificationOptions = {
         body: payload.notification.body,
-        image: './static/icons/pinex_logo.svg'
+        icon: './static/icons/pinex_logo.svg',
+        data: payload.data.data,
       };
-
+      console.log('xxx notificationOptions', notificationOptions);
       self.registration.showNotification(notificationTitle, notificationOptions);
     });
 
-    self.addEventListener('notificationclick', (event) => {
-      console.log(event);
-      const data = JSON.parse(event.data.data);
-      const contentId = data?.passProps?.item?.id;
-      const displayName = data?.passProps?.item?.display_name;
+    self.onnotificationclick = (event) => {
+      const redirectDataString = event.notification.data;
+      const redirectData = JSON.parse(redirectDataString);
+      const contentId = redirectData && redirectData?.passProps?.item?.id;
+      const displayName = redirectData && redirectData?.passProps?.item?.display_name;
+      event.notification.close();
       event.waitUntil(
         clients
           .matchAll({
             type: 'window',
           })
-          .then((clientList) => {
-            for (const client of clientList) {
-              if (client.url === '/' && 'focus' in client) { return client.focus(); }
-            }
+          .then(() => {
             if (clients.openWindow) {
-              // return clients.openWindow('/kham-pha');
-              if (data.notificationType === 'NEW_FOLLOWER') {
-                return clients.openWindow(`/${displayName}-${contentId}`);
-              } else if (data.actionType === 'PINETREE_MKT') {
-                return data.url_notification && clients.openWindow(data.url_notification, '_blank');
+              if (redirectData) {
+                if (redirectData.notificationType === 'NEW_FOLLOWER') {
+                  return clients.openWindow(`/${displayName}-${contentId}`);
+                } else if (redirectData.actionType === 'PINETREE_MKT') {
+                  return clients.openWindow('/');
+                } else {
+                  const id = redirectData?.passProps?.item?.slug;
+                  return id === '%%SLUG%%' ? clients.openWindow(`/post/${contentId}`) : clients.openWindow(`/${id}`);
+                }
               } else {
-                const id = data?.passProps?.item?.slug;
-                return id === '%%SLUG%%' ? clients.openWindow(`/post/${contentId}`) : clients.openWindow(`/${id}`);
+                return clients.openWindow('/');
               }
             }
           }),
       );
-      return event;
-    });
+    };
   } catch (error) {
     console.log({ error });
   }
