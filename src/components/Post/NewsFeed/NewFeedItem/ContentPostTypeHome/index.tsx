@@ -42,9 +42,9 @@ const ContentPostTypeHome = (props: IProps) => {
       postDetail?.post.action === 'SUBSCRIBE'
         ? '/static/icons/iconSubcribe.svg'
         : '/static/icons/iconUnSubcribe.svg';
-    let postDetailUrl = ROUTE_PATH.POST_DETAIL(
-      postDetail?.seoMetadata ? postDetail?.seoMetadata?.slug : postDetail?.id,
-    );
+    let postDetailUrl = postDetail?.seoMetadata
+      ? '/' + postDetail?.seoMetadata?.slug
+      : postDetail?.id;
 
     if (postDetail?.postType === TYPEPOST.ActivityTheme) {
       const url =
