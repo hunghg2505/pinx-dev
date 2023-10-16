@@ -1,7 +1,12 @@
 import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
-import { PREFIX_API_COMMUNITY, privateRequest, requestCommunity, requestPist } from '@api/request';
+import {
+  PREFIX_API_IP_COMMUNITY,
+  privateRequest,
+  requestCommunity,
+  requestPist,
+} from '@api/request';
 import { getAccessToken } from '@store/auth';
 import { socket } from 'src/socket/socket';
 
@@ -412,7 +417,7 @@ export const useGetPinedPost = () => {
 
 export const fetchPinedPostFromServer = async () => {
   try {
-    return fetch(`${PREFIX_API_COMMUNITY}/${API_PATH.PUBLIC_PINNED_POST}`).then((data: any) =>
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_PINNED_POST}`).then((data: any) =>
       data.json(),
     );
   } catch {

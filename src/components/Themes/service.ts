@@ -2,7 +2,7 @@ import { useRequest } from 'ahooks';
 
 import { API_PATH } from '@api/constant';
 import {
-  PREFIX_API_COMMUNITY,
+  PREFIX_API_IP_COMMUNITY,
   privateRequest,
   requestCommunity,
   requestFromServer,
@@ -214,7 +214,7 @@ export async function getCommunity(page: number, code: string): Promise<any> {
 export const fetchSeoDataFromServer = async (textSearch: string) => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_SEO_PAGE_V2(textSearch)}`).then(
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_SEO_PAGE_V2(textSearch)}`).then(
       (data: any) => data.json(),
     );
   } catch {
@@ -227,7 +227,7 @@ export const fetchSeoDataFromServer = async (textSearch: string) => {
 export const fetchThemeDetailFromServer = async (code: string) => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(`${PREFIX_API_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(code)}`).then(
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(code)}`).then(
       (data: any) => data.json(),
     );
   } catch {
