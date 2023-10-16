@@ -75,11 +75,14 @@ export const VietStockNews = ({
         <div
           className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
-          <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
-            <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'>
-              <div className='scale-[0.6]'>
-                <IconLink />
-              </div>
+          <CustomLink
+            className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'
+            target='_blank'
+            href={`${post_url}`}
+            onClick={onTrackingReadNews}
+          >
+            <div className='scale-[0.6]'>
+              <IconLink />
             </div>
           </CustomLink>
 
@@ -209,22 +212,23 @@ export const VietStockNews = ({
 
       {isPostDetailPath && (
         <div className='mb-[6px] text-right '>
-          <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
-            <div
-              className={classNames('inline-flex items-center', {
-                'mb-[8px]': !!postDetail?.post?.headImageUrl,
-              })}
-            >
-              <Text type='body-14-regular' color='primary-1'>
-                {t('see_more')}
-              </Text>
+          <CustomLink
+            className={classNames('inline-flex items-center', {
+              'mb-[8px]': !!postDetail?.post?.headImageUrl,
+            })}
+            target='_blank'
+            href={`${post_url}`}
+            onClick={onTrackingReadNews}
+          >
+            <Text type='body-14-regular' color='primary-1'>
+              {t('see_more')}
+            </Text>
 
-              <img
-                src='/static/icons/chevronRightPrimaryLight.svg'
-                alt='Icon chevron right'
-                className='h-[20px] w-[20px] object-contain'
-              />
-            </div>
+            <img
+              src='/static/icons/chevronRightPrimaryLight.svg'
+              alt='Icon chevron right'
+              className='h-[20px] w-[20px] object-contain'
+            />
           </CustomLink>
         </div>
       )}

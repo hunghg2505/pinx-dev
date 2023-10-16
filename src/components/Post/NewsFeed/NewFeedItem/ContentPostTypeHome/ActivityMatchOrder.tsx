@@ -61,20 +61,6 @@ export const ActivityMatchOrder = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
-  // React.useEffect(() => {
-  //   const t = setTimeout(() => {
-  //     const ele = document?.getElementById(`activityOrder-${postDetail.id}`);
-
-  //     if (ele?.clientHeight) {
-  //       if (window.innerWidth > 768) {
-  //         setShowReadMore(ele?.clientHeight > 84);
-  //       } else {
-  //         setShowReadMore(ele?.clientHeight > 84);
-  //       }
-  //     }
-  //     clearTimeout(t);
-  //   }, 400);
-  // }, []);
 
   const ref = useRef<HTMLDivElement>(null);
   const height = useHeight(ref);

@@ -10,7 +10,7 @@ import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
-const ListStock = dynamic(import('./ListStock'), {
+const ListStock = dynamic(() => import('./ListStock'), {
   ssr: false,
 });
 
@@ -75,11 +75,14 @@ export const CafeFNews = ({
         <div
           className={'flex overflow-hidden rounded-[12px] border-[1px] border-solid border-[#CCC]'}
         >
-          <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
-            <div className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'>
-              <div className='scale-[0.6]'>
-                <IconLink />
-              </div>
+          <CustomLink
+            className='flex h-[95px] w-[95px] items-center justify-center bg-[#EFF2F5] tablet:h-[100px] tablet:w-[100px]'
+            target='_blank'
+            href={`${post_url}`}
+            onClick={onTrackingReadNews}
+          >
+            <div className='scale-[0.6]'>
+              <IconLink />
             </div>
           </CustomLink>
 
@@ -140,16 +143,15 @@ export const CafeFNews = ({
               />
             </div>
 
-            <CustomLink href={postDetailUrl}>
-              <div
-                className={
-                  'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
-                }
-              >
-                <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
-                  {postDetail?.post?.title}
-                </Text>
-              </div>
+            <CustomLink
+              className={
+                'relative top-[8px] z-[3] min-h-[44px] w-full rounded-[8px] bg-white px-[12px] [border:1px_solid_#EBEBEB] mobile:py-[10px] tablet:py-[16px]'
+              }
+              href={postDetailUrl}
+            >
+              <Text type='body-16-bold' color='cbblack' className='line-clamp-2'>
+                {postDetail?.post?.title}
+              </Text>
             </CustomLink>
           </div>
         )}
@@ -208,22 +210,23 @@ export const CafeFNews = ({
 
       {isPostDetailPath && (
         <div className='mb-[6px] text-right'>
-          <CustomLink target='_blank' href={`${post_url}`} onClick={onTrackingReadNews}>
-            <div
-              className={classNames('inline-flex items-center', {
-                'mb-[8px]': !!postDetail?.post?.headImageUrl,
-              })}
-            >
-              <Text type='body-14-regular' color='primary-1'>
-                {t('see_more')}
-              </Text>
+          <CustomLink
+            className={classNames('inline-flex items-center', {
+              'mb-[8px]': !!postDetail?.post?.headImageUrl,
+            })}
+            target='_blank'
+            href={`${post_url}`}
+            onClick={onTrackingReadNews}
+          >
+            <Text type='body-14-regular' color='primary-1'>
+              {t('see_more')}
+            </Text>
 
-              <img
-                src='/static/icons/chevronRightPrimaryLight.svg'
-                alt='Icon chevron right'
-                className='h-[20px] w-[20px] object-contain'
-              />
-            </div>
+            <img
+              src='/static/icons/chevronRightPrimaryLight.svg'
+              alt='Icon chevron right'
+              className='h-[20px] w-[20px] object-contain'
+            />
           </CustomLink>
         </div>
       )}

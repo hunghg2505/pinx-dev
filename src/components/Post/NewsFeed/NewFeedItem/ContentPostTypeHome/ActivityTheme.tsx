@@ -62,36 +62,15 @@ export const ActivityTheme = ({
   const onReadMore = () => {
     setReadMore(!readMore);
   };
-  // React.useEffect(() => {
-  //   const t = setTimeout(() => {
-  //     const ele = document?.getElementById(`activityTheme-${postDetail.id}`);
 
-  //     if (ele?.clientHeight) {
-  //       if (window.innerWidth > 768) {
-  //         setShowReadMore(ele?.clientHeight > 84);
-  //       } else {
-  //         setShowReadMore(ele?.clientHeight > 84);
-  //       }
-  //     }
-  //     clearTimeout(t);
-  //   }, 400);
-  // }, []);
   const ref = useRef<HTMLDivElement>(null);
   const height = useHeight(ref);
   useLayoutEffect(() => {
     setShowReadMore(height > 84);
   }, [height]);
-  // console.log('isReadMore', isReadMore);
-  // const onRef = useCallback((ele: any) => {
-  //   if (!ele) {
-  //     return;
-  //   }
-  //   // console.log('ele', ele?.offsetHeight);
-  //   setHeight(ele?.offsetHeight);
-  // }, []);
+
   return (
     <>
-      {/* <div className='ActivityTheme'> */}
       <div
         className={classNames('ActivityTheme cursor-pointer')}
         onClick={(e: any) => onHandleClick(e)}

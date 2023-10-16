@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useRef } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
-import localforage from 'localforage';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -68,12 +67,13 @@ const HomeNewFeed = () => {
 
   useEffect(() => {
     const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
-    // eslint-disable-next-line unicorn/prefer-query-selector
-    const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
+    const element = curClickedHomePostId // eslint-disable-next-line unicorn/prefer-query-selector
+      ? document.getElementById(`post-${curClickedHomePostId}`)
+      : null;
     if (element) {
       element?.scrollIntoView({
         block: 'center',
-        inline: 'center'
+        inline: 'center',
       });
       setTimeout(() => {
         removeCurClickedHomePostId();

@@ -65,22 +65,22 @@ export const PineTreePost = ({
 
       {isPostDetailPath && (
         <div className='mb-[6px] text-right '>
-          <CustomLink target='_blank' href={`${post_url}`}>
-            <div
-              className={classNames('inline-flex items-center', {
-                'mb-[8px]': !!postDetail?.post?.headImageUrl,
-              })}
-            >
-              <Text type='body-14-regular' color='primary-1'>
-                {t('see_more')}
-              </Text>
+          <CustomLink
+            className={classNames('inline-flex items-center', {
+              'mb-[8px]': !!postDetail?.post?.headImageUrl,
+            })}
+            target='_blank'
+            href={`${post_url}`}
+          >
+            <Text type='body-14-regular' color='primary-1'>
+              {t('see_more')}
+            </Text>
 
-              <img
-                src='/static/icons/chevronRightPrimaryLight.svg'
-                alt='Icon chevron right'
-                className='h-[20px] w-[20px] object-contain'
-              />
-            </div>
+            <img
+              src='/static/icons/chevronRightPrimaryLight.svg'
+              alt='Icon chevron right'
+              className='h-[20px] w-[20px] object-contain'
+            />
           </CustomLink>
         </div>
       )}
