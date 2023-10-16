@@ -10,7 +10,7 @@ import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, formatMsgPost } from '@utils/common';
+import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 
 import useHeight from './useHeight';
 
@@ -125,7 +125,13 @@ export const ActivityTheme = ({
         </Fade>
       )}
 
-      <CustomLink href={postDetailUrl} onClick={() => setSearchSeo(false)}>
+      <CustomLink
+        href={postDetailUrl}
+        onClick={() => {
+          setSearchSeo(false);
+          setCurClickedHomePostId(postDetail?.id);
+        }}
+      >
         <div className='relative w-full  rounded-[9px] mobile:h-[204px] desktop:h-[309px]'>
           <Image
             // width='0'

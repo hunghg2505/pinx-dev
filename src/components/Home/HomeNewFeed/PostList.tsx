@@ -104,50 +104,51 @@ const PostList = ({
         <NewsFeedSkeleton />
       )}
 
+      <LoadCompVisible>
+        <div className='box-shadow card-style'>
+          <Text
+            element='h2'
+            type='body-16-semibold'
+            color='neutral-2'
+            className='mb-[14px] tablet:text-[20px]'
+          >
+            {t('economy_in_the_themes')}
+          </Text>
+          <ListTheme />
+        </div>
 
-      <div className='box-shadow card-style'>
-        <Text
-          element='h2'
-          type='body-16-semibold'
-          color='neutral-2'
-          className='mb-[14px] tablet:text-[20px]'
-        >
-          {t('economy_in_the_themes')}
-        </Text>
-        <ListTheme />
-      </div>
+        {postsNext?.map((item: IPost, idx: number) => {
+          if (idx === postsNext?.length - 1) {
+            return (
+              <div
+                key={`home-post-item-${item?.id}`}
+                ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
+              >
+                <NewsFeed
+                  onTrackingViewTicker={(stockCode) =>
+                    handleTrackingViewTicker(stockCode, 'News feed')
+                  }
+                  onTrackingViewTickerCmt={(stockCode) =>
+                    handleTrackingViewTicker(stockCode, 'Comment')
+                  }
+                  data={item}
+                  onCommentPost={onCommentPost}
+                />
+              </div>
+            );
+          }
 
-      {postsNext?.map((item: IPost, idx: number) => {
-        if (idx === postsNext?.length - 1) {
           return (
-            <div
+            <NewsFeed
               key={`home-post-item-${item?.id}`}
-              ref={(node: any) => refLastElement(node, serviceLoadMorePost)}
-            >
-              <NewsFeed
-                onTrackingViewTicker={(stockCode) =>
-                  handleTrackingViewTicker(stockCode, 'News feed')
-                }
-                onTrackingViewTickerCmt={(stockCode) =>
-                  handleTrackingViewTicker(stockCode, 'Comment')
-                }
-                data={item}
-                onCommentPost={onCommentPost}
-              />
-            </div>
+              onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+              onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+              data={item}
+              onCommentPost={onCommentPost}
+            />
           );
-        }
-
-        return (
-          <NewsFeed
-            key={`home-post-item-${item?.id}`}
-            onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-            onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-            data={item}
-            onCommentPost={onCommentPost}
-          />
-        );
-      })}
+        })}
+      </LoadCompVisible>
     </>
   );
 };

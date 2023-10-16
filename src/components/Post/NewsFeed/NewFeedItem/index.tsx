@@ -28,7 +28,7 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, toNonAccentVietnamese } from '@utils/common';
+import { removeCurClickedHomePostId, ROUTE_PATH, setCurClickedHomePostId, toNonAccentVietnamese } from '@utils/common';
 
 import styles from './index.module.scss';
 import ItemHoverProfile from './ItemHoverProfile';
@@ -147,6 +147,7 @@ const NewFeedItem = (props: IProps) => {
       manual: true,
       onSuccess: () => {
         if (router.route === '/post/[...id]') {
+          removeCurClickedHomePostId();
           router.back();
         }
         setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
@@ -235,6 +236,7 @@ const NewFeedItem = (props: IProps) => {
     setPostDetailStatus({ ...postDetailStatus, idPostDetail: postDetail?.id });
     if (router.route === '/post/[...id]') {
       router.back();
+      removeCurClickedHomePostId();
     } else {
       onRefreshPostDetail(undefined);
     }
@@ -403,15 +405,17 @@ const NewFeedItem = (props: IProps) => {
     href,
     className,
     linkClassName,
+    onClick,
   }: {
     children: ReactNode;
     href: string;
     className?: string;
     linkClassName?: string;
+    onClick?: () => void;
   }) => {
     if (href) {
       return (
-        <CustomLink className={className} href={href} linkClassName={linkClassName}>
+        <CustomLink className={className} href={href} linkClassName={linkClassName} onClick={onClick}>
           {children}
         </CustomLink>
       );
@@ -427,11 +431,17 @@ const NewFeedItem = (props: IProps) => {
           'z-50': isHovering,
         })}
       >
-        <div onClick={() => setSearchSeo(false)} className='flex-1'>
+        <div
+          onClick={() => setSearchSeo(false)}
+          className='flex-1'
+        >
           <MaybeLink
             linkClassName='flex-1'
             href={urlTitle}
             className='flex flex-1 flex-row items-center'
+            onClick={() => {
+              setCurClickedHomePostId(postDetail?.id);
+            }}
           >
             <div
               ref={refHover}
@@ -489,9 +499,9 @@ const NewFeedItem = (props: IProps) => {
 
           <ButtonAction />
         </div>
-      </div>
+      </div >
 
-      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'>
+      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0' id={`post-${postDetail?.id}`}>
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

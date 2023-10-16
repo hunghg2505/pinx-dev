@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
+import localforage from 'localforage';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -13,7 +14,7 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 // import UserPosting from '@components/Home/UserPosting/UserPosting';
-// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 // import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
@@ -23,7 +24,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
-import { ROUTE_PATH, getQueryFromUrl } from '@utils/common';
+import { ROUTE_PATH, getQueryFromUrl, removeCurClickedHomePostId } from '@utils/common';
 import {
   filterNewsTracking,
   getMoreInfoTracking,
@@ -31,7 +32,7 @@ import {
 } from 'src/mixpanel/mixpanel';
 
 import TabMobileSkeleton from './TabMobileSkeleton';
-import { useGetPinedPost, useGetWatchList } from '../service';
+import { useGetWatchList } from '../service';
 
 const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
   ssr: false,
@@ -45,8 +46,6 @@ const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
 
-  const { pinedPost, refresh, loading } = useGetPinedPost();
-
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
@@ -56,9 +55,9 @@ const HomeNewFeed = () => {
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = React.useState<string>('2');
+  const [, setInitHomePage] = React.useState<boolean>(false);
 
   const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
-
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -66,6 +65,28 @@ const HomeNewFeed = () => {
       postsNext: dataPosts?.list?.slice(5),
     };
   }, [dataPosts]);
+
+  useEffect(() => {
+    const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
+    // eslint-disable-next-line unicorn/prefer-query-selector
+    const element = curClickedHomePostId ? document.getElementById(`post-${curClickedHomePostId}`) : null;
+    if (element) {
+      element?.scrollIntoView({
+        block: 'center',
+        inline: 'center'
+      });
+      setTimeout(() => {
+        removeCurClickedHomePostId();
+      }, 500);
+    }
+  });
+
+  useEffect(() => {
+    const curClickedHomePostId = globalThis?.sessionStorage?.getItem('curClickedHomePostId');
+    if (!curClickedHomePostId) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   useUpdateEffect(() => {
     const query: any = getQueryFromUrl();
@@ -91,6 +112,12 @@ const HomeNewFeed = () => {
       });
     }
   }, [userType, isReadTerms]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setInitHomePage(true);
+    }, 300);
+  });
 
   const serviceLoadMorePost = async () => {
     if (!dataPosts?.nextId || loadingPosts) {
@@ -226,17 +253,15 @@ const HomeNewFeed = () => {
         />
       </>
 
-      <>
-        <PostList
-          // size={size}
-          serviceLoadMorePost={serviceLoadMorePost}
-          onCommentPost={onCommentPost}
-          firstPost={firstPost}
-          fourPost={fourPost}
-          postsNext={postsNext}
-          loadingPosts={loadingPosts}
-        />
-      </>
+      <PostList
+        // size={size}
+        serviceLoadMorePost={serviceLoadMorePost}
+        onCommentPost={onCommentPost}
+        firstPost={firstPost}
+        fourPost={fourPost}
+        postsNext={postsNext}
+        loadingPosts={loadingPosts}
+      />
     </div>
   );
 };

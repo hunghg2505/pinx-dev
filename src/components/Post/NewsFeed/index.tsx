@@ -103,6 +103,7 @@ const NewsFeed = (props: IProps) => {
       postType,
     };
   }, [postData]);
+
   React.useEffect(() => {
     if (
       findItemFollow ||
@@ -162,6 +163,7 @@ const NewsFeed = (props: IProps) => {
     router.push(url);
     setSearchSeo(false);
     globalThis?.sessionStorage.setItem('scrollPosition', String(window?.scrollY));
+    globalThis?.sessionStorage.setItem('curClickedHomePostId', String(postData?.id));
   };
 
   const [, setImageCommentMobile] = useState(false);
@@ -258,7 +260,6 @@ const NewsFeed = (props: IProps) => {
             <CommentField
               id={postData?.id}
               refresh={refreshComment}
-              refreshTotal={() => {}}
               setImageCommentMobile={setImageCommentMobile}
             />
           </div>
