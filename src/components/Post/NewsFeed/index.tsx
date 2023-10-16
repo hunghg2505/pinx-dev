@@ -155,9 +155,9 @@ const NewsFeed = (props: IProps) => {
   });
   const onNavigate = () => {
     clickAPostTracking(postData?.id, postType, hashtags, Ticker, Link, themeName);
-    const url = ROUTE_PATH.POST_DETAIL(
-      postData?.seoMetadata ? postData?.seoMetadata?.slug : postData.id,
-    );
+    const url = postData?.seoMetadata
+      ? `/${postData?.seoMetadata?.slug}`
+      : ROUTE_PATH.POST_DETAIL(postData.id);
 
     router.push(url);
     setSearchSeo(false);
@@ -186,9 +186,9 @@ const NewsFeed = (props: IProps) => {
 
   const ViewMore = () => {
     if (countComment > 1) {
-      const url = ROUTE_PATH.POST_DETAIL(
-        postData?.seoMetadata ? postData?.seoMetadata?.slug : postData.id,
-      );
+      const url = postData?.seoMetadata
+        ? `/${postData?.seoMetadata?.slug}`
+        : ROUTE_PATH.POST_DETAIL(postData.id);
 
       return (
         <CustomLink onClick={handleTrackingGetMore} href={url}>
