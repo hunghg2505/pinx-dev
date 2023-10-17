@@ -26,7 +26,7 @@ import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
-const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
+// const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
 const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'));
 
 const MainHeader = () => {
@@ -174,11 +174,11 @@ const MainHeader = () => {
               <SearchInput />
             </LoadCompVisible>
           )}
-          {!isOpenSearch && (
+          {/* {!isOpenSearch && (
             <LoadCompVisible>
               <Notifications />
             </LoadCompVisible>
-          )}
+          )} */}
           {!isOpenSearch && (
             <LoadCompVisible>
               <Profile />
