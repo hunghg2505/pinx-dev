@@ -1,6 +1,7 @@
 import mixpanel from 'mixpanel-browser';
 
 export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
+  mixpanel.track('Open App');
   mixpanel.register_once({
     Platform: 'PineX Website',
     'Login Status': isLogged ? 'Login' : 'Not login',
@@ -377,7 +378,7 @@ export const downloadPineXAppTracking = (CTAType?: string, registerCTALocation?:
 };
 
 export const closeWebTracking = () => {
-  mixpanel.track('Close Web');
+  mixpanel.track('Close App');
 };
 
 // identify user

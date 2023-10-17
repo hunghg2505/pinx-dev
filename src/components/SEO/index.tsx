@@ -24,7 +24,7 @@ interface Props {
       url: string;
     };
   };
-  keywords?: [];
+  keywords?: string[];
   isNoFollow?: boolean;
   isNoIndex?: boolean;
 }
