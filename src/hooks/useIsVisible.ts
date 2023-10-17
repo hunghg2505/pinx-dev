@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const OPTIONS = {
   root: null,
-  rootMargin: '10px',
+  rootMargin: '50px',
   threshold: 0,
 };
 
