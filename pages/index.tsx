@@ -10,6 +10,23 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Home = dynamic(() => import('@components/Home'));
 
+const homePageKW = [
+  'Cộng đồng đầu tư chứng khoán PineX',
+  'Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc',
+  '0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn',
+  'cộng đồng nhà đầu tư',
+  'Bản tin',
+  'Ngôi sao đầu tư',
+  'Chủ đề',
+  'Khám phá',
+  'Quà tặng',
+  'Danh mục theo dõi',
+  'tài sản',
+  'Cài đặt',
+  'Thị trường',
+  'Xu hướng',
+];
+
 const HomePage = () => {
   const schema = {
     '@context': 'https://schema.org/',
@@ -25,6 +42,7 @@ const HomePage = () => {
         title='Cộng đồng đầu tư chứng khoán PineX'
         description='Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư'
         schema={schema}
+        keywords={homePageKW}
       />
       <Home />
     </>
