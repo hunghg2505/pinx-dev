@@ -149,6 +149,14 @@ const PostList = ({
           );
         })}
       </LoadCompVisible>
+
+      {loadingPosts && (
+        <>
+          {[1, 2].map(item => (
+            <NewsFeedSkeleton key={item} />
+          ))}
+        </>
+      )}
     </>
   );
 };

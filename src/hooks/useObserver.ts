@@ -1,5 +1,10 @@
 import { useCallback, useRef } from 'react';
 
+const OPTIONS = {
+  root: null,
+  rootMargin: '350px',
+  threshold: 0,
+};
 const useObserver = () => {
   const refObserver: any = useRef(null);
 
@@ -16,7 +21,7 @@ const useObserver = () => {
       if (entries[0].isIntersecting) {
         service && service();
       }
-    });
+    }, OPTIONS);
 
     if (node) {
       refObserver.current.observe(node);

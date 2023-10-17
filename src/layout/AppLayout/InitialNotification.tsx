@@ -10,8 +10,6 @@ import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile'
 import { disableScroll, enableScroll } from '@utils/common';
 import { firebaseCloudMessaging } from 'src/firebase';
 
-import 'src/mixpanel/mixpanelInitial';
-
 const InitialNotification = () => {
   const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
   const [notiStore] = useAtom(notificationAtom);
