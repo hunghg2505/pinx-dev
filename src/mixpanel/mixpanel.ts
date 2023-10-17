@@ -377,7 +377,7 @@ export const downloadPineXAppTracking = (CTAType?: string, registerCTALocation?:
 };
 
 export const closeWebTracking = () => {
-  mixpanel.track('Close Web');
+  mixpanel.track('Close App');
 };
 
 // identify user
