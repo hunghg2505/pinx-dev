@@ -17,6 +17,8 @@ import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchli
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from 'src/constant';
 
+import 'src/mixpanel/mixpanelInitial';
+
 const AppInitialData = () => {
   // useScript(`https://www.googletagmanager.com/gtm.js?id=${GOOGLE_TAG_MANAGER_ID}`, 8000);
 

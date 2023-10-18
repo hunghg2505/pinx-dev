@@ -40,6 +40,7 @@ const MainHeader = () => {
   const router = useRouter();
   const [isShowSearch] = useHeaderSearch();
   const [isOpenSearch] = useOpenSearch();
+  // const isLogin = getAccessToken();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -174,7 +175,7 @@ const MainHeader = () => {
               <SearchInput />
             </LoadCompVisible>
           )}
-          {/* {!isOpenSearch && (
+          {/* {!isOpenSearch && isLogin && (
             <LoadCompVisible>
               <Notifications />
             </LoadCompVisible>

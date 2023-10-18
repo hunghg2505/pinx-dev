@@ -12,6 +12,7 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
+// import { getAccessToken } from '@store/auth';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -24,9 +25,9 @@ const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData'),
 const InitialSocket = dynamic(() => import('@layout/AppLayout/InitialSocket'), {
   ssr: false,
 });
-const InitialNotification = dynamic(() => import('@layout/AppLayout/InitialNotification'), {
-  ssr: false,
-});
+// const InitialNotification = dynamic(() => import('@layout/AppLayout/InitialNotification'), {
+//   ssr: false,
+// });
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -48,6 +49,7 @@ const BarlowFont = Barlow({
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
+  // const isLogin = getAccessToken();
 
   return (
     <>
@@ -74,7 +76,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       <ErrorBoundary>
         <AppInitialData />
-        <InitialNotification />
+        {/* {isLogin && <InitialNotification />} */}
         <InitialSocket />
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
