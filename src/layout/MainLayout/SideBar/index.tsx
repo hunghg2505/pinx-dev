@@ -243,7 +243,7 @@ const SideBar = () => {
       <>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-          <img
+          <Image
             src={BANNER_URL}
             alt=''
             width={218}
@@ -257,7 +257,7 @@ const SideBar = () => {
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
-              sizes='100vw'
+              sizes='100px'
               className='mb-[20px] h-[55px] w-[140px]'
             />
           </a> */}
@@ -282,7 +282,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
@@ -292,7 +292,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
@@ -306,7 +306,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
@@ -320,7 +320,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
