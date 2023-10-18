@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
-import imageCompression from 'browser-image-compression';
+// import imageCompression from 'browser-image-compression';
 import Compressor from 'compressorjs';
 import Base64 from 'crypto-js/enc-base64';
 import sha256 from 'crypto-js/sha256';
@@ -1083,6 +1083,7 @@ export const compressImage = async ({
 
   try {
     if ((maxFileSizeKb && fileSizeKB > maxFileSizeKb) || quality) {
+      const imageCompression = (await import('browser-image-compression')).default;
       const compressedImage = await imageCompression(file, {
         ...initOptions,
         maxWidthOrHeight,

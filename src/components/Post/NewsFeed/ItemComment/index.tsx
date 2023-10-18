@@ -484,9 +484,9 @@ const ItemComment = (props: IProps) => {
               <Image
                 src={urlImage}
                 alt=''
-                width='0'
-                height='0'
-                sizes='100vw'
+                width='1'
+                height='1'
+                sizes='100px'
                 className='mb-[8px] h-[100px] w-[100px] rounded-[8px] object-cover'
               />
             </ModalMedia>

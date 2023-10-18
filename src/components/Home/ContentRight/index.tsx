@@ -18,13 +18,13 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
-import WatchList from './WatchList';
+// import WatchList from './WatchList';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
 const ModalPeopleYouKnow = dynamic(() => import('@components/Explore/ModalPeopleYouKnow'), {
   ssr: false,
 });
-
+const WatchList = dynamic(() => import('./WatchList'));
 const MarketDesktop = dynamic(() => import('../Market/MarketDesktop'));
 const PeopleDesktop = dynamic(() => import('@components/Home/People/PeopleDesktop'));
 const TrendingDesktop = dynamic(() => import('@components/Home/Trending/TrendingDesktop'));
