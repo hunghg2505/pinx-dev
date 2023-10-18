@@ -391,6 +391,7 @@ export interface IPayloadShareStock {
   action: ShareStockAction;
   message?: string;
   stockCode: string;
+  tagPeople: [];
 }
 
 export enum FinancialType {

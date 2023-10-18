@@ -90,6 +90,7 @@ const PopupFollowStock = ({
       stockCode,
       message: shareContent,
       action: isFollowedStock ? ShareStockAction.ADD : ShareStockAction.REMOVE,
+      tagPeople: [],
     });
   };
 
