@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { useSize } from 'ahooks';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -17,13 +18,13 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
-import WatchList from './WatchList';
+// import WatchList from './WatchList';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
 const ModalPeopleYouKnow = dynamic(() => import('@components/Explore/ModalPeopleYouKnow'), {
   ssr: false,
 });
-
+const WatchList = dynamic(() => import('./WatchList'));
 const MarketDesktop = dynamic(() => import('../Market/MarketDesktop'));
 const PeopleDesktop = dynamic(() => import('@components/Home/People/PeopleDesktop'));
 const TrendingDesktop = dynamic(() => import('@components/Home/Trending/TrendingDesktop'));
@@ -52,6 +53,10 @@ const ContentRight = () => {
     return router?.pathname === ROUTE_PATH.PROFILE_PATH && +userId === +userIdLogin;
   }, [router, userIdLogin]);
 
+  const size = useSize(document.querySelector('body'));
+  if (size && size.width < 769) {
+    return <></>;
+  }
   return (
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div className='max-w-[350px]'>

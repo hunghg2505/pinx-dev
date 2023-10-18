@@ -218,48 +218,49 @@ const MetaContent = ({ metaData }: any) => {
     <CustomLink
       target={isPineXPost ? '' : '_blank'}
       href={isPineXPost ? postSlug : url}
-      className='relative mt-4 block'
+      className='relative mt-4 block w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'
     >
-      <div className='w-full overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white'>
-        {imageUrl && (
-          <div className='overflow-hidden'>
-            <Image
-              width='0'
-              height='0'
-              sizes='100vw'
-              src={imageUrl}
-              alt={title}
-              title={title}
-              className={classNames(
-                'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
-                {
-                  '-translate-y-[18px] scale-[1.48] !object-contain mobile-max:-translate-y-[12px]':
-                    url?.includes('tiktok'),
-                },
-              )}
-            />
-          </div>
+      {imageUrl && (
+        <div className='overflow-hidden'>
+          <Image
+            // width='0'
+            // height='0'
+            // sizes='100vw'
+            width={641}
+            height={290}
+            sizes='(min-width: 1400px) 641px, (min-width: 1200px) calc(86.11vw - 547px), (min-width: 780px) calc(100vw - 400px), calc(100vw - 46px)'
+            src={imageUrl}
+            alt={title}
+            title={title}
+            className={classNames(
+              'h-[290px] w-full bg-[#12121239] object-cover mobile-max:h-[190px]',
+              {
+                '-translate-y-[18px] scale-[1.48] !object-contain mobile-max:-translate-y-[12px]':
+                  url?.includes('tiktok'),
+              },
+            )}
+          />
+        </div>
+      )}
+
+      <div className='bg-[#EBEBEB] p-[10px]'>
+        {url && (
+          <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
+            {url}
+          </Text>
         )}
 
-        <div className='bg-[#EBEBEB] p-[10px]'>
-          {url && (
-            <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
-              {url}
-            </Text>
-          )}
+        {title && (
+          <Text type='body-16-medium' color='cbblack' className='my-[8px] text-left'>
+            {title}
+          </Text>
+        )}
 
-          {title && (
-            <Text type='body-16-medium' color='cbblack' className='my-[8px] text-left'>
-              {title}
-            </Text>
-          )}
-
-          {description && (
-            <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
-              {description}
-            </Text>
-          )}
-        </div>
+        {description && (
+          <Text type='body-14-regular' color='neutral-4' className='text-1-line text-left'>
+            {description}
+          </Text>
+        )}
       </div>
     </CustomLink>
   );

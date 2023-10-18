@@ -40,7 +40,7 @@ const AppInitialData = () => {
     const t = setTimeout(() => {
       getInitDataStockMarketHome();
       clearTimeout(t);
-    }, 5000);
+    }, 7000);
     // initFirebaseToken();
   });
 
