@@ -69,6 +69,7 @@ const PostsTab = ({ keyword, onTrackingViewTicker, keywordFormat }: PostTabProps
             isNewFeedExplore={false}
             hiddenComment={true}
             onTrackingViewTicker={(stockCode) => onTrackingViewTicker(stockCode, 'Posts tab')}
+            currentLocation='Search seo posts tab'
           />
         );
       })}

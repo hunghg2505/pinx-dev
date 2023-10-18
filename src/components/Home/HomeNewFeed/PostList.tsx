@@ -48,6 +48,7 @@ const PostList = ({
           key={`home-post-item-${firstPost?.id}`}
           data={firstPost as any}
           onCommentPost={onCommentPost}
+          currentLocation='Home page'
         />
       ) : (
         <NewsFeedSkeleton />
@@ -91,11 +92,16 @@ const PostList = ({
             return (
               <NewsFeed
                 key={`home-post-item-${item?.id}`}
-                onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
-                onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
+                onTrackingViewTickerCmt={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'Comment')
+                }
+                onTrackingViewTicker={(stockCode) =>
+                  handleTrackingViewTicker(stockCode, 'News feed')
+                }
                 loading={loadingPosts}
                 data={item}
                 onCommentPost={onCommentPost}
+                currentLocation='Home page'
               />
             );
           })}
@@ -133,6 +139,7 @@ const PostList = ({
                   }
                   data={item}
                   onCommentPost={onCommentPost}
+                  currentLocation='Home page'
                 />
               </div>
             );
@@ -142,9 +149,12 @@ const PostList = ({
             <NewsFeed
               key={`home-post-item-${item?.id}`}
               onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'News feed')}
-              onTrackingViewTickerCmt={(stockCode) => handleTrackingViewTicker(stockCode, 'Comment')}
+              onTrackingViewTickerCmt={(stockCode) =>
+                handleTrackingViewTicker(stockCode, 'Comment')
+              }
               data={item}
               onCommentPost={onCommentPost}
+              currentLocation='Home page'
             />
           );
         })}
@@ -152,7 +162,7 @@ const PostList = ({
 
       {loadingPosts && (
         <>
-          {[1, 2].map(item => (
+          {[1, 2].map((item) => (
             <NewsFeedSkeleton key={item} />
           ))}
         </>

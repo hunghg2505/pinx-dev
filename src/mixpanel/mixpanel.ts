@@ -351,6 +351,7 @@ export const clickAPostTracking = (
   ticker: string[],
   link: any,
   theme: string,
+  location: string,
 ) => {
   mixpanel.track('Click a Post', {
     'Post ID': postId,
@@ -359,6 +360,7 @@ export const clickAPostTracking = (
     'Ticker %': ticker,
     Link: link,
     Theme: theme,
+    Location: location,
   });
 };
 

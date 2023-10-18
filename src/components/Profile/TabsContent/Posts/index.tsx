@@ -82,6 +82,7 @@ const Posts = () => {
                   onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                   data={item}
                   onRemoveData={refresh}
+                  currentLocation='Profile posts tab'
                 />
               </div>
             );
@@ -96,6 +97,7 @@ const Posts = () => {
                 onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                 data={item}
                 onRemoveData={refresh}
+                currentLocation='Profile posts tab'
               />
             </div>
           );

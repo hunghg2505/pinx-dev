@@ -79,7 +79,9 @@ const News = ({ keyword }: { keyword: any }) => {
         {news?.length > 0 ? (
           <div className='mt-[20px] flex flex-col gap-y-[20px]'>
             {news?.map((item: any, index: number) => {
-              return <NewsItem key={`new-${index}`} data={item} />;
+              return (
+                <NewsItem key={`new-${index}`} data={item} currentLocation='Search news screen' />
+              );
             })}
           </div>
         ) : (

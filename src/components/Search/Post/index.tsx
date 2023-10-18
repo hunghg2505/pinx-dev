@@ -91,6 +91,7 @@ const Post = ({ keyword }: { keyword: any }) => {
                   onRefreshList={refresh}
                   isNewFeedExplore={true}
                   onTrackingViewTicker={handleTrackingViewTicker}
+                  currentLocation='Search post screen'
                 />
               );
             })}
