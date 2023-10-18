@@ -147,8 +147,8 @@ const Profile = () => {
         ?.stocks || [];
 
     viewWatchListTracking(
-      'Default',
-      'Normal WL',
+      'Personal Watchlist',
+      'Personal Watchlist',
       listStockCodes,
       listStockCodes.length,
       'Dropdown menu profile',

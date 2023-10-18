@@ -73,8 +73,8 @@ const Desktop = () => {
                     )?.stocks || [];
 
                   viewWatchListTracking(
-                    'Default',
-                    'Normal WL',
+                    'Personal Watchlist',
+                    'Personal Watchlist',
                     listStockCodes,
                     listStockCodes?.length,
                     'Profile screen',

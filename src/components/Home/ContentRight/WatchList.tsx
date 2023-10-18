@@ -31,8 +31,8 @@ const WatchList = () => {
         ?.stocks || [];
 
     viewWatchListTracking(
-      'Default',
-      'Normal WL',
+      'Personal Watchlist',
+      'Personal Watchlist',
       listStockCodes,
       listStockCodes.length,
       'Right sidebar layout',
