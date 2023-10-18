@@ -30,7 +30,6 @@ export const PineTreePost2 = ({
   messagePostFormat,
   onComment,
   onTrackingViewTicker,
-  isImagePriority
 }: any) => {
   const { t } = useTranslation();
   const [readMore, setReadMore] = React.useState(false);
@@ -90,7 +89,7 @@ export const PineTreePost2 = ({
             // sizes='100vw'
             fill
             sizes='(min-width: 1400px) 642px, (min-width: 1200px) calc(86.11vw - 546px), (min-width: 780px) calc(100vw - 399px), calc(100vw - 45px)'
-            priority={pinned || isImagePriority}
+            priority={pinned}
             src={postDetail?.post?.urlImages?.[0]}
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
             title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}

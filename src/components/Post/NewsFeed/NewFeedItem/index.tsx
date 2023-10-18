@@ -66,7 +66,6 @@ interface IProps {
   refreshTrendingOnPinex?: () => void;
   isSearchSeoBox?: boolean;
   onTrackingViewTicker?: (stockCode: string) => void;
-  isImagePriority?: boolean;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -84,7 +83,6 @@ const NewFeedItem = (props: IProps) => {
     isExplore,
     isSearchSeoBox,
     onTrackingViewTicker,
-    isImagePriority
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -529,7 +527,6 @@ const NewFeedItem = (props: IProps) => {
           postDetail={postDetail}
           pinned={pinned}
           onTrackingViewTicker={onTrackingViewTicker}
-          isImagePriority={isImagePriority}
         />
         {!isNewFeedExplore && (
           <div className='mobile:mt-[22px] desktop:mt-[28px]'>

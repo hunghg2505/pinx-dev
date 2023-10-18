@@ -54,7 +54,6 @@ const NewsFeed = (props: IProps) => {
     onTrackingViewTickerCmt,
     onCommentPost,
     currentLocation,
-    isImagePriority
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -267,7 +266,6 @@ const NewsFeed = (props: IProps) => {
           isNewFeedExplore={isNewFeedExplore}
           isSearchSeoBox={isSearchSeoBox}
           onTrackingViewTicker={onTrackingViewTicker}
-          isImagePriority={isImagePriority}
         />
         {isLogin && !isNewFeedExplore && !hiddenComment && (
           <div className='mt-4 galaxy-max:mt-2 tablet:block desktop:ml-[64px]'>

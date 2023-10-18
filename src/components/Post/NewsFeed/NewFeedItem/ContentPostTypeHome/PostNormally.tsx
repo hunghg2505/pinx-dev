@@ -255,7 +255,7 @@ const MetaContent = ({ metaData }: any) => {
   );
 };
 
-export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker, isImagePriority }: any) => {
+export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
   const messagePostFormat = formatMessage(postDetail?.post?.message);
   const [inView, setInView] = useState(false);
 
@@ -329,7 +329,6 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker, isIm
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
             title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
             className='my-[10px] h-[300px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
-            priority={isImagePriority}
           />
         </ModalMedia>
       );

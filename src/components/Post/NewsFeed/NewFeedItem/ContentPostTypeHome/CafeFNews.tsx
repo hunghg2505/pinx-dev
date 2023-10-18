@@ -42,7 +42,6 @@ export const CafeFNews = ({
   pinned,
   isPostDetailPath,
   onTrackingViewTicker,
-  isImagePriority
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -123,7 +122,7 @@ export const CafeFNews = ({
             onClick={onTrackingReadNews}
           >
             <ImageHeadPost
-              priority={pinned || isImagePriority}
+              priority={pinned}
               alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
               title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
               headImageUrl={postDetail?.post?.headImageUrl}
