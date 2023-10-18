@@ -34,6 +34,8 @@ interface IProps {
   onTrackingViewTicker?: (stockCode: string) => void;
   onTrackingViewTickerCmt?: (stockCode: string) => void;
   onCommentPost?: (postData: IPost) => void;
+  currentLocation?: string;
+  isImagePriority?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {
@@ -51,6 +53,7 @@ const NewsFeed = (props: IProps) => {
     onTrackingViewTicker,
     onTrackingViewTickerCmt,
     onCommentPost,
+    currentLocation,
   } = props;
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [userLoginInfo] = useAtom(userLoginInfoAtom);
@@ -155,7 +158,16 @@ const NewsFeed = (props: IProps) => {
     manual: true,
   });
   const onNavigate = () => {
-    clickAPostTracking(postData?.id, postType, hashtags, Ticker, Link, themeName);
+    clickAPostTracking(
+      postData?.id,
+      postType,
+      hashtags,
+      Ticker,
+      Link,
+      themeName,
+      currentLocation || '',
+    );
+
     const url = postData?.seoMetadata
       ? `/${postData?.seoMetadata?.slug}`
       : ROUTE_PATH.POST_DETAIL(postData.id);

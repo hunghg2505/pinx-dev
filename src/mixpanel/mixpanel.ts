@@ -1,7 +1,9 @@
 import mixpanel from 'mixpanel-browser';
 
 export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
-  mixpanel.track('Open App');
+  mixpanel.track('Open App', {
+    'Time of Last Visit': lastTimeVisit,
+  });
   mixpanel.register_once({
     Platform: 'PineX Website',
     'Login Status': isLogged ? 'Login' : 'Not login',
@@ -349,6 +351,7 @@ export const clickAPostTracking = (
   ticker: string[],
   link: any,
   theme: string,
+  location: string,
 ) => {
   mixpanel.track('Click a Post', {
     'Post ID': postId,
@@ -357,6 +360,7 @@ export const clickAPostTracking = (
     'Ticker %': ticker,
     Link: link,
     Theme: theme,
+    Location: location,
   });
 };
 

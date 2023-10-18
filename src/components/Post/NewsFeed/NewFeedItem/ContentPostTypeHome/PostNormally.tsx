@@ -59,17 +59,6 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
 
   const { isPineXPost, postSlug } = useCheckPineXPost(urlLink);
 
-  // useEffect(() => {
-  //   setShowReadMore(false);
-  //   const t = setTimeout(() => {
-  //     const ele = document?.getElementById(`post-content-${postDetail.id}`);
-  //     if (ele?.clientHeight) {
-  //       setShowReadMore(ele?.clientHeight > 84);
-  //     }
-  //     clearTimeout(t);
-  //   }, 400);
-  // }, [messageDefault, postThemeId]);
-
   const ref = useRef<HTMLDivElement>(null);
   const height = useHeight(ref);
   useLayoutEffect(() => {
@@ -141,7 +130,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
             type='body-14-regular'
             color='neutral-1'
             className=' tablet:!text-[16px]'
-            // onClick={onComment}
+          // onClick={onComment}
           >
             <div
               onClick={(event) => onHandleClick(event)}
@@ -339,7 +328,7 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
             src={postDetail?.post?.urlImages?.[0]}
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
             title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
-            className='my-[10px] h-[300px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover  '
+            className='my-[10px] h-[300px] max-h-[300px] w-full rounded-[9px] border-[1px] border-solid border-[#EBEBEB] bg-white object-cover'
           />
         </ModalMedia>
       );

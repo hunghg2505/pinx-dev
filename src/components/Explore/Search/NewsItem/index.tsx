@@ -14,7 +14,7 @@ import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 // import { ROUTE_PATH } from '@utils/common';
-import { readNewsTracking } from 'src/mixpanel/mixpanel';
+import { clickAPostTracking, readNewsTracking } from 'src/mixpanel/mixpanel';
 
 const IconLink2 = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'>
@@ -35,16 +35,19 @@ const NewsItem = ({
   middle,
   showComment,
   isForceNavigate,
+  currentLocation,
 }: {
   data: any;
   middle?: boolean;
   showComment?: boolean;
   isForceNavigate?: boolean;
+  currentLocation?: string;
 }) => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const [, setSearchSeo] = useAtom(searchSeoAtom);
   const onGoToDetail = () => {
+    handleClickPostTracking();
     router.push('/' + data?.seoMetadata?.slug);
   };
   const url = data?.post?.url;
@@ -56,6 +59,22 @@ const NewsItem = ({
       curPostData.category,
       curPostData.tagStocks,
       'Search Box',
+    );
+  };
+
+  const handleClickPostTracking = () => {
+    const hashtags = data?.post?.hashtags || [];
+    const ticker = data?.post?.tagStocks;
+    const link = data?.post?.urlLinks || [];
+    const themeName = '';
+    clickAPostTracking(
+      data?.id,
+      data?.postType,
+      hashtags,
+      ticker,
+      link,
+      themeName,
+      currentLocation || '',
     );
   };
 

@@ -302,6 +302,7 @@ const Search = (props: any, ref: any) => {
                           onTrackingViewTicker={(stockCode) => {
                             handleTrackingViewTicker(stockCode, 'Post');
                           }}
+                          currentLocation='Search explore box'
                         />
                       );
                     })}
@@ -338,7 +339,13 @@ const Search = (props: any, ref: any) => {
                 <>
                   <div className='my-[16px] flex flex-col gap-y-[12px]'>
                     {[...news]?.splice(0, 3)?.map((item: any) => {
-                      return <NewsItem key={`new-items-${item?.id}`} data={item} />;
+                      return (
+                        <NewsItem
+                          key={`new-items-${item?.id}`}
+                          data={item}
+                          currentLocation='Search explore box'
+                        />
+                      );
                     })}
                   </div>
                   {news?.length > 3 && (

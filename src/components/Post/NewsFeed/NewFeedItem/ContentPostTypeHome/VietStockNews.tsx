@@ -171,7 +171,14 @@ export const VietStockNews = ({
           )}
           onClick={onTrackingReadNews}
         >
-          <img src='/static/icons/iconLink.svg' alt='' className='h-[18px] w-[18px]' />
+          <Image
+            src='/static/icons/iconLink.svg'
+            alt=''
+            width='0'
+            height='0'
+            sizes='100px'
+            className='h-[18px] w-[18px]'
+          />
         </CustomLink>
       </div>
     );
@@ -224,9 +231,12 @@ export const VietStockNews = ({
               {t('see_more')}
             </Text>
 
-            <img
+            <Image
               src='/static/icons/chevronRightPrimaryLight.svg'
               alt='Icon chevron right'
+              width='0'
+              height='0'
+              sizes='100px'
               className='h-[20px] w-[20px] object-contain'
             />
           </CustomLink>

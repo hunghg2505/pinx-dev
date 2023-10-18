@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 
 import classNames from 'classnames';
+import { useAtomValue } from 'jotai';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -9,7 +10,9 @@ import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
+import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH } from '@utils/common';
+import { clickAPostTracking } from 'src/mixpanel/mixpanel';
 
 import HeadingNewsItem from './Heading';
 
@@ -21,7 +24,35 @@ interface INewsItemProps {
 const NewsItem = ({ className, data }: INewsItemProps) => {
   const router = useRouter();
 
+  const bgTheme = useAtomValue(postThemeAtom);
+
+  const { hashtags, ticker, link, themeName, postType } = React.useMemo(() => {
+    const hashtags = data?.post?.hashtags || [];
+    const ticker = data?.post?.tagStocks;
+    const link = data?.post?.urlLinks || [];
+    const themeActive = bgTheme?.find((item) => item.id === data?.post?.postThemeId);
+    const themeName = themeActive?.name || '';
+    const postType = data?.post?.postType;
+
+    return {
+      hashtags,
+      ticker,
+      link,
+      themeName,
+      postType,
+    };
+  }, [data]);
+
   const goToPostDetail = () => {
+    clickAPostTracking(
+      data?.id,
+      postType,
+      hashtags,
+      ticker,
+      link,
+      themeName,
+      'Stock detail screen',
+    );
     router.push(ROUTE_PATH.HOME + data.seoMetadata.slug);
   };
 

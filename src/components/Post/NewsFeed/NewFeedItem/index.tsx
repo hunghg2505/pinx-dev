@@ -29,7 +29,12 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { removeCurClickedHomePostId, ROUTE_PATH, setCurClickedHomePostId, toNonAccentVietnamese } from '@utils/common';
+import {
+  removeCurClickedHomePostId,
+  ROUTE_PATH,
+  setCurClickedHomePostId,
+  toNonAccentVietnamese,
+} from '@utils/common';
 
 import styles from './index.module.scss';
 // import ItemHoverProfile from './ItemHoverProfile';
@@ -281,7 +286,7 @@ const NewFeedItem = (props: IProps) => {
                 alt=''
                 width='0'
                 height='0'
-                sizes='100vw'
+                sizes='100px'
                 className='mr-[8px] h-[20px] w-[20px] object-contain'
               />
               <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
@@ -319,7 +324,7 @@ const NewFeedItem = (props: IProps) => {
                     alt=''
                     width='0'
                     height='0'
-                    sizes='100vw'
+                    sizes='100px'
                     className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
 
@@ -347,7 +352,7 @@ const NewFeedItem = (props: IProps) => {
                         alt=''
                         width='0'
                         height='0'
-                        sizes='100vw'
+                        sizes='100px'
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
                       <Text
@@ -367,7 +372,7 @@ const NewFeedItem = (props: IProps) => {
                         alt=''
                         width='0'
                         height='0'
-                        sizes='100vw'
+                        sizes='100px'
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
                       <Text
@@ -424,7 +429,12 @@ const NewFeedItem = (props: IProps) => {
   }) => {
     if (href) {
       return (
-        <CustomLink className={className} href={href} linkClassName={linkClassName} onClick={onClick}>
+        <CustomLink
+          className={className}
+          href={href}
+          linkClassName={linkClassName}
+          onClick={onClick}
+        >
           {children}
         </CustomLink>
       );
@@ -440,10 +450,7 @@ const NewFeedItem = (props: IProps) => {
           'z-50': isHovering,
         })}
       >
-        <div
-          onClick={() => setSearchSeo(false)}
-          className='flex-1'
-        >
+        <div onClick={() => setSearchSeo(false)} className='flex-1'>
           <MaybeLink
             linkClassName='flex-1'
             href={urlTitle}
@@ -508,9 +515,12 @@ const NewFeedItem = (props: IProps) => {
 
           <ButtonAction />
         </div>
-      </div >
+      </div>
 
-      <div className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0' id={`post-${postDetail?.id}`}>
+      <div
+        className='mobile:mt-[14px] desktop:ml-[64px] desktop:mt-0'
+        id={`post-${postDetail?.id}`}
+      >
         <ContentPostTypeHome
           isPostDetailPath={isPostDetailPath}
           onNavigate={onNavigate}

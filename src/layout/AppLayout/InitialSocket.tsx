@@ -61,13 +61,14 @@ const InitialSocket = () => {
     }
 
     // tracking event open web
-    const lastTimeVisit = new Date(localStorageUtils.get('lastTimeVisit') as string).toISOString();
+    // const lastTimeVisit = new Date(localStorageUtils.get('lastTimeVisit') as string).toISOString();
+    const lastTimeVisit = new Date().toISOString();
     const cif = isLogin ? userLoginInfo?.cif : '';
     if (cif) {
       mixpanelIdentifyUser(cif);
-      openWebTracking(isLogin, cif, lastTimeVisit);
-      setIsTrackingOpenWeb(true);
     }
+    openWebTracking(isLogin, cif, lastTimeVisit);
+    setIsTrackingOpenWeb(true);
   }, [isTrackingOpenWeb, userLoginInfo]);
 
   return <></>;

@@ -100,6 +100,7 @@ const Posts = () => {
                   }
                   onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                   data={item}
+                  currentLocation='Profile posts tab'
                 />
               </div>
             );
@@ -113,6 +114,7 @@ const Posts = () => {
                 }
                 onTrackingViewTicker={(stockCode) => handleTrackingViewTicker(stockCode, 'Post')}
                 data={item}
+                currentLocation='Profile posts tab'
               />
             </div>
           );

@@ -301,7 +301,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
             form={form}
             onFinish={handleSubmit}
             onValuesChange={run}
-          // onFieldsChange={handleOnchange}
+            // onFieldsChange={handleOnchange}
           >
             <FormItem name='search'>
               <Input
@@ -466,6 +466,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                               handleTrackingViewStockInfo(stockCode, 'Post')
                             }
                             onRemoveData={onRemoveData(post.id)}
+                            currentLocation='Search seo box'
                           />
                         );
                       })}
@@ -500,6 +501,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
                             // setShowPopup={setSearchSeo}
                             showComment
                             isForceNavigate
+                            currentLocation='Search seo box'
                           />
                         );
                       })}

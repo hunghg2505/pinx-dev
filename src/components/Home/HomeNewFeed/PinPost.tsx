@@ -44,6 +44,7 @@ const PinPost = (props: IProps) => {
             loading={loading}
             onTrackingViewTicker={handleTrackingViewTicker}
             onTrackingViewTickerCmt={onTrackingViewTickerCmt}
+            currentLocation='Pin post home page'
           />
         );
       })}
