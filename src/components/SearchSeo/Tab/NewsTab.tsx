@@ -78,6 +78,7 @@ const NewsTab = ({ keyword, keywordFormat }: NewsTabProps) => {
             middle={true}
             data={item}
             showComment
+            currentLocation='Search seo news tab'
           />
         );
       })}
