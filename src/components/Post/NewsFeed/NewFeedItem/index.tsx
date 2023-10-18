@@ -66,6 +66,7 @@ interface IProps {
   refreshTrendingOnPinex?: () => void;
   isSearchSeoBox?: boolean;
   onTrackingViewTicker?: (stockCode: string) => void;
+  isImagePriority?: boolean;
 }
 
 const NewFeedItem = (props: IProps) => {
@@ -83,6 +84,7 @@ const NewFeedItem = (props: IProps) => {
     isExplore,
     isSearchSeoBox,
     onTrackingViewTicker,
+    isImagePriority
   } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
@@ -286,7 +288,7 @@ const NewFeedItem = (props: IProps) => {
                 alt=''
                 width='0'
                 height='0'
-                sizes='100vw'
+                sizes='100px'
                 className='mr-[8px] h-[20px] w-[20px] object-contain'
               />
               <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
@@ -324,7 +326,7 @@ const NewFeedItem = (props: IProps) => {
                     alt=''
                     width='0'
                     height='0'
-                    sizes='100vw'
+                    sizes='100px'
                     className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
 
@@ -352,7 +354,7 @@ const NewFeedItem = (props: IProps) => {
                         alt=''
                         width='0'
                         height='0'
-                        sizes='100vw'
+                        sizes='100px'
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
                       <Text
@@ -372,7 +374,7 @@ const NewFeedItem = (props: IProps) => {
                         alt=''
                         width='0'
                         height='0'
-                        sizes='100vw'
+                        sizes='100px'
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
                       <Text
@@ -527,6 +529,7 @@ const NewFeedItem = (props: IProps) => {
           postDetail={postDetail}
           pinned={pinned}
           onTrackingViewTicker={onTrackingViewTicker}
+          isImagePriority={isImagePriority}
         />
         {!isNewFeedExplore && (
           <div className='mobile:mt-[22px] desktop:mt-[28px]'>

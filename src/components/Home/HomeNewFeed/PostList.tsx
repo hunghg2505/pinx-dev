@@ -49,6 +49,7 @@ const PostList = ({
           data={firstPost as any}
           onCommentPost={onCommentPost}
           currentLocation='Home page'
+          isImagePriority
         />
       ) : (
         <NewsFeedSkeleton />

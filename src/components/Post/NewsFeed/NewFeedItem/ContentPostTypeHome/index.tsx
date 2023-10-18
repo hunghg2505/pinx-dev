@@ -22,11 +22,12 @@ interface IProps {
   pinned?: boolean;
   isPostDetailPath: boolean;
   onTrackingViewTicker?: (stockCode: string) => void;
+  isImagePriority?: boolean;
 }
 
 const ContentPostTypeHome = (props: IProps) => {
   const router = useRouter();
-  const { postDetail, onNavigate, pinned, isPostDetailPath, onTrackingViewTicker } = props;
+  const { postDetail, onNavigate, pinned, isPostDetailPath, onTrackingViewTicker, isImagePriority } = props;
   const [readMore, setReadMore] = useState(false);
   const [height, setHeight] = useState<number>(0);
   const bgTheme = useAtomValue(postThemeAtom);
@@ -154,6 +155,7 @@ const ContentPostTypeHome = (props: IProps) => {
         post_url={post_url}
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
+        isImagePriority={isImagePriority}
       />
     );
   }
@@ -172,6 +174,7 @@ const ContentPostTypeHome = (props: IProps) => {
         isPostDetailPath={isPostDetailPath}
         messagePostFormat={messagePostFormat}
         onTrackingViewTicker={onTrackingViewTicker}
+        isImagePriority={isImagePriority}
       />
     );
   }
@@ -228,6 +231,7 @@ const ContentPostTypeHome = (props: IProps) => {
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
         onTrackingViewTicker={onTrackingViewTicker}
+        isImagePriority={isImagePriority}
       />
     );
   }
@@ -245,6 +249,7 @@ const ContentPostTypeHome = (props: IProps) => {
         pinned={pinned}
         isPostDetailPath={isPostDetailPath}
         onTrackingViewTicker={onTrackingViewTicker}
+        isImagePriority={isImagePriority}
       />
     );
   }
@@ -258,6 +263,7 @@ const ContentPostTypeHome = (props: IProps) => {
         onComment={onComment}
         height={height}
         onTrackingViewTicker={onTrackingViewTicker}
+        isImagePriority={isImagePriority}
       />
     );
   }
