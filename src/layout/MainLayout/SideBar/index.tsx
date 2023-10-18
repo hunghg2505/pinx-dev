@@ -149,8 +149,8 @@ const SideBar = () => {
 
       const ComponentLink =
         router.pathname === ROUTE_PATH.PROFILE_PATH &&
-        Number(userId) === Number(userLoginInfo?.id) &&
-        menu.path ===
+          Number(userId) === Number(userLoginInfo?.id) &&
+          menu.path ===
           ROUTE_PATH.ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
@@ -246,7 +246,6 @@ const SideBar = () => {
           <img
             src={BANNER_URL}
             alt=''
-            loading='lazy'
             width={218}
             height={400}
             className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
