@@ -35,6 +35,7 @@ interface IProps {
   onTrackingViewTickerCmt?: (stockCode: string) => void;
   onCommentPost?: (postData: IPost) => void;
   currentLocation?: string;
+  isImagePriority?: boolean;
 }
 
 const NewsFeed = (props: IProps) => {

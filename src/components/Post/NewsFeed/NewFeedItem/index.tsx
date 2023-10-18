@@ -286,7 +286,7 @@ const NewFeedItem = (props: IProps) => {
                 alt=''
                 width='0'
                 height='0'
-                sizes='100vw'
+                sizes='100px'
                 className='mr-[8px] h-[20px] w-[20px] object-contain'
               />
               <Text type='body-14-medium' color='neutral-2' className='whitespace-nowrap'>
@@ -324,7 +324,7 @@ const NewFeedItem = (props: IProps) => {
                     alt=''
                     width='0'
                     height='0'
-                    sizes='100vw'
+                    sizes='100px'
                     className='mr-[8px] h-[20px] w-[20px] object-contain'
                   />
 
@@ -352,7 +352,7 @@ const NewFeedItem = (props: IProps) => {
                         alt=''
                         width='0'
                         height='0'
-                        sizes='100vw'
+                        sizes='100px'
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
                       <Text
@@ -372,7 +372,7 @@ const NewFeedItem = (props: IProps) => {
                         alt=''
                         width='0'
                         height='0'
-                        sizes='100vw'
+                        sizes='100px'
                         className='mr-[8px] h-[20px] w-[20px] object-contain'
                       />
                       <Text
