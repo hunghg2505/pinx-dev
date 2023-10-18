@@ -149,8 +149,8 @@ const SideBar = () => {
 
       const ComponentLink =
         router.pathname === ROUTE_PATH.PROFILE_PATH &&
-        Number(userId) === Number(userLoginInfo?.id) &&
-        menu.path ===
+          Number(userId) === Number(userLoginInfo?.id) &&
+          menu.path ===
           ROUTE_PATH.ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
@@ -243,13 +243,13 @@ const SideBar = () => {
       <>
         <Menu items={items} className='sidebar-list' />
         <a href={PINETREE_LINK} target='_blank' rel='noreferrer'>
-          <img
+          <Image
             src={BANNER_URL}
             alt=''
-            loading='lazy'
             width={218}
             height={400}
             className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
+            priority
           />
         </a>
 
@@ -258,7 +258,7 @@ const SideBar = () => {
             <img
               src='/static/images/pinetree_logo.png'
               alt=''
-              sizes='100vw'
+              sizes='100px'
               className='mb-[20px] h-[55px] w-[140px]'
             />
           </a> */}
@@ -283,7 +283,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
@@ -293,7 +293,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
@@ -307,7 +307,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
@@ -321,7 +321,7 @@ const SideBar = () => {
                 alt=''
                 width={0}
                 height={0}
-                sizes='100vw'
+                sizes='100px'
                 className='h-[32px] w-[32px]'
               />
             </a>
