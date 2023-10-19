@@ -373,7 +373,7 @@ const Profile = () => {
         <CustomLink
           className='ml-[12px] hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
           href={`${ROUTE_PATH.LOGIN}?type=register`}
-          onClick={() => registerTracking(new Date(), 'Header', 'CTA')}
+          onClick={() => registerTracking(new Date().toISOString(), 'Header', 'CTA')}
         >
           <Text type='body-14-bold' color='cbwhite'>
             {t('sign_up')}

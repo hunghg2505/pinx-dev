@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { CompanyRelatedType, ITaggingInfo } from '@components/Stock/type';
+import { CompanyRelatedType, IHashtag, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { ROUTE_PATH } from '@utils/common';
@@ -37,15 +37,15 @@ const StockHighlights = ({ taggingInfo, stockCode }: IStockHighlightsProps) => {
     };
   }, [taggingInfo]);
 
-  const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
+  const goToListCompanyPage = (type: CompanyRelatedType, hashtag: IHashtag) => {
     // gtm
     analyzeTickerTracking(stockCode, 'Stock highlights', 'General');
 
     // tracking view stock list
-    viewStockListTracking('Company related', '', 'Highligh tagging', 'Ticker info');
+    viewStockListTracking(hashtag.tagName, 'Company related', 'Highligh tagging', 'Ticker info');
 
     router.push({
-      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
+      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtag.id),
       query: {
         type,
       },

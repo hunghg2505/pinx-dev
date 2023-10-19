@@ -60,7 +60,7 @@ const FooterSignUp = () => {
 
   const redirectToSignUp = () => {
     const date = new Date();
-    registerTracking(date, 'Footer', 'CTA');
+    registerTracking(date.toISOString(), 'Footer', 'CTA');
     router.push({
       pathname: ROUTE_PATH.LOGIN,
       query: {

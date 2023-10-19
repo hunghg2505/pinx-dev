@@ -3,7 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { CompanyRelatedType, ITaggingInfo } from '@components/Stock/type';
+import { CompanyRelatedType, IHashtag, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import { analyzeTickerTracking, viewStockListTracking } from 'src/mixpanel/mixpanel';
@@ -19,15 +19,15 @@ const MainBusiness = ({ taggingInfo, stockCode }: IMainBusinessProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const router = useRouter();
 
-  const goToListCompanyPage = (type: CompanyRelatedType, hashtagId: string) => {
+  const goToListCompanyPage = (type: CompanyRelatedType, hashtag: IHashtag) => {
     // gtm
     analyzeTickerTracking(stockCode, 'Stock related', 'General');
 
     // tracking view stock list
-    viewStockListTracking('Company related', '', 'Main business', 'Ticker info');
+    viewStockListTracking(hashtag.tagName, 'Company related', 'Main business', 'Ticker info');
 
     router.push({
-      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtagId),
+      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtag.id),
       query: {
         type,
       },
@@ -48,7 +48,7 @@ const MainBusiness = ({ taggingInfo, stockCode }: IMainBusinessProps) => {
         <div
           className='flex cursor-pointer items-center border-solid border-[var(--neutral-7)] py-[12px] [&:not(:last-child)]:border-b'
           key={index}
-          onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item.id)}
+          onClick={() => goToListCompanyPage(CompanyRelatedType.INDUSTRY, item)}
         >
           {index === 0 ? (
             <img

@@ -63,12 +63,14 @@ const RegisterCompanyStep = () => {
         ...prev,
         selectedStock: params.toString().split(','),
       }));
+
+      const numberOfTicker = myListStock?.length + stockHasAdd.length - unselectedStock.length || 0;
       modifyWatchListTracking(
         stockHasAdd,
         unselectedStock,
-        'Default',
+        'Personal Watchlist',
         myListStock,
-        myListStock?.length,
+        numberOfTicker,
       );
     },
   });

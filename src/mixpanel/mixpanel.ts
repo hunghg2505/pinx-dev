@@ -67,7 +67,11 @@ export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoD
   });
 };
 
-export const registerTracking = (startRegistration: Date, CTALocation: string, CTAType: string) => {
+export const registerTracking = (
+  startRegistration: string,
+  CTALocation: string,
+  CTAType: string,
+) => {
   mixpanel.register_once({
     'KYC Status': 'Start Register Account',
   });
