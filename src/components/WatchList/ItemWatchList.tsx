@@ -58,7 +58,7 @@ const ItemWatchList = ({
   };
   return (
     <>
-      <div className={classNames('mr-[32px] flex flex-1 items-center gap-x-[10px]')}>
+      <div className={classNames('mr-[12px] flex flex-1 items-center gap-x-[10px]')}>
         <CustomLink
           onClick={() => {
             handleTrackingViewStockInfo && handleTrackingViewStockInfo(data?.stockCode);
@@ -146,7 +146,7 @@ const ItemWatchList = ({
           </Text>
           <Text
             type='body-12-medium'
-            className={classNames('px-[5px] py-[2px] galaxy-max:text-[10px]', {
+            className={classNames('whitespace-nowrap px-[5px] py-[2px] galaxy-max:text-[10px]', {
               'text-[#128F63]': isIncrease && !isHigh,
               'text-[#DA314F]': isDecrease && !isFloor && Number(data?.lastPrice) !== 0,
               'text-[#22D1E9]': isFloor,

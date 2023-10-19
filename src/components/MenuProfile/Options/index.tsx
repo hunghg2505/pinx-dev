@@ -24,8 +24,8 @@ const Options = () => {
         ?.stocks || [];
 
     viewWatchListTracking(
-      'Default',
-      'Normal WL',
+      'Personal Watchlist',
+      'Personal Watchlist',
       listStockCodes,
       listStockCodes.length,
       'Menu profile mobile',

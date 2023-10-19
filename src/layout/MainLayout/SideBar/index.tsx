@@ -149,8 +149,8 @@ const SideBar = () => {
 
       const ComponentLink =
         router.pathname === ROUTE_PATH.PROFILE_PATH &&
-          Number(userId) === Number(userLoginInfo?.id) &&
-          menu.path ===
+        Number(userId) === Number(userLoginInfo?.id) &&
+        menu.path ===
           ROUTE_PATH.ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
@@ -185,8 +185,8 @@ const SideBar = () => {
                   )?.stocks || [];
 
                 viewWatchListTracking(
-                  'Default',
-                  'Normal WL',
+                  'Personal Watchlist',
+                  'Personal Watchlist',
                   listStockCodes,
                   listStockCodes.length,
                   'Left sidebar layout',
