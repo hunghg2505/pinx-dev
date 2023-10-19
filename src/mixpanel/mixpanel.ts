@@ -43,10 +43,10 @@ export const loginTracking = (
 };
 
 export const logoutTracking = (time: Date) => {
-  mixpanel.track('Logout', {});
   mixpanel.register({
     'Login Status': 'Not Login',
   });
+  mixpanel.track('Logout', {});
   mixpanel.people.set({
     'Last Seen Time': time,
     'Last Seen App': 'PineX Website',
