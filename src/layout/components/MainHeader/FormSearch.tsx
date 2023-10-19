@@ -217,33 +217,6 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
     },
   );
 
-  // const totalSearchResult = useMemo(() => {
-  //   if (!data || loading) {
-  //     return null;
-  //   }
-
-  //   const total = Object.keys(data?.data)?.reduce((total, key) => {
-  //     const totalRes = data?.data?.[key]
-  //       ? data?.data?.[key]?.totalElements || data?.data?.[key]?.list?.length
-  //       : 0;
-  //     total += totalRes;
-
-  //     return total;
-  //   }, 0);
-  //   console.log('TuanDZ ~ file: FormSearch.tsx:206 ~ total ~ total:', total, data);
-
-  //   return total;
-  // }, [data, loading]);
-
-  // useEffect(() => {
-  //   let value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
-  //   value = removeSpecialCharacter(value);
-
-  //   if (value && totalSearchResult !== null) {
-  //     searchTracking(value, '', totalSearchResult, 'Search seo box');
-  //   }
-  // }, [totalSearchResult, valueInput]);
-
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);
     form.submit();
