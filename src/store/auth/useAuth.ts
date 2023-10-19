@@ -21,8 +21,8 @@ export const useAuth = () => {
       deleteAuthCookies();
       localStorage.clear();
       window.location.href = navigatePath || ROUTE_PATH.HOME;
-      mixpanel.reset();
       logoutTracking(date);
+      mixpanel.reset();
       navigator.serviceWorker.getRegistrations().then(function (registrations) {
         for (const registration of registrations) {
           registration.unregister();

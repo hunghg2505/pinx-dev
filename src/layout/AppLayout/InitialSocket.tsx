@@ -4,14 +4,14 @@ import { useAtomValue } from 'jotai';
 
 import { requestJoinChannel, requestJoinIndex } from '@components/Home/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useUserType } from '@hooks/useUserType';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { stockSocketAtom } from '@store/stockStocket';
 import { localStorageUtils } from '@utils/local-storage-utils';
 import { closeWebTracking, mixpanelIdentifyUser, openWebTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 const InitialSocket = () => {
-  const { isLogin } = useUserType();
+  const { isLogin } = useLogin();
   const { userLoginInfo } = useUserLoginInfo();
   const stockSocket = useAtomValue(stockSocketAtom);
   const [isTrackingOpenWeb, setIsTrackingOpenWeb] = useState(false);
