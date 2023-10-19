@@ -60,7 +60,7 @@ const Login = (props: Iprops) => {
         loginTracking(
           'Login',
           loginData.cif,
-          loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified',
+          loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : 'Not Verified',
           loginData.username,
           date,
           '',
