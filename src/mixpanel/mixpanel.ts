@@ -4,7 +4,7 @@ export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?:
   mixpanel.track('Open App', {
     'Time of Last Visit': lastTimeVisit,
   });
-  mixpanel.register_once({
+  mixpanel.register({
     Platform: 'PineX Website',
     'Login Status': isLogged ? 'Login' : 'Not login',
     'Implementation Method': 'Client-Side',
@@ -23,7 +23,7 @@ export const loginTracking = (
   time: Date,
   loginId: string,
 ) => {
-  mixpanel.register_once({
+  mixpanel.register({
     'Login Status': loginStatus,
     CIF: cif,
     'KYC Status': kycStatus,
@@ -44,7 +44,7 @@ export const loginTracking = (
 
 export const logoutTracking = (time: Date) => {
   mixpanel.track('Logout', {});
-  mixpanel.register_once({
+  mixpanel.register({
     'Login Status': 'Not Login',
   });
   mixpanel.people.set({
@@ -67,12 +67,8 @@ export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoD
   });
 };
 
-export const registerTracking = (
-  startRegistration: string,
-  CTALocation: string,
-  CTAType: string,
-) => {
-  mixpanel.register_once({
+export const registerTracking = (startRegistration: Date, CTALocation: string, CTAType: string) => {
+  mixpanel.register({
     'KYC Status': 'Start Register Account',
   });
   mixpanel.track('Register', {
@@ -93,10 +89,7 @@ export const completeBasicInfoTracking = (
   phone: string,
   userName: string,
 ) => {
-  mixpanel.register_once({
-    'KYC Status': 'Complete Basic Info',
-  });
-  mixpanel.track('Complete Basic Info', {
+  mixpanel.register({
     'KYC Status': 'Complete Basic Info',
   });
   mixpanel.track('Complete Basic Info', {
@@ -115,7 +108,7 @@ export const createLoginNameTracking = (
   errMessage: string,
   errCode: string,
 ) => {
-  mixpanel.register_once({
+  mixpanel.register({
     'KYC Status': 'Complete Basic Info',
   });
   mixpanel.track('Create Login Name', {
@@ -140,10 +133,7 @@ export const confirmPhoneNumberTracking = (
   phone: string,
   username: string,
 ) => {
-  mixpanel.register_once({
-    'KYC Status': 'Confirm Phone Number',
-  });
-  mixpanel.track('Confirm Phone Number', {
+  mixpanel.register({
     'KYC Status': 'Confirm Phone Number',
   });
   mixpanel.track('Confirm Phone Number', {
@@ -152,6 +142,7 @@ export const confirmPhoneNumberTracking = (
     'Error Code': errCode,
   });
   mixpanel.people.set({
+    'KYC Status': 'Confirm Phone Number',
     'Registration Platform': 'PineX Website',
     'Phone Verified': phoneVerified,
     'Start Registration Date': registrationDate,
