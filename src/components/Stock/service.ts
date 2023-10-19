@@ -510,6 +510,23 @@ export const fetchAllStockFromServer = async () => {
   }
 };
 
+const useGetMyStock = (refreshDeps: any[]) => {
+  const data = useRequest(
+    () => {
+      const isLogin = !!getAccessToken();
+
+      return isLogin
+        ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
+        : Promise.resolve(null);
+    },
+    {
+      refreshDeps,
+    },
+  );
+
+  return { data: data?.data };
+};
+
 export {
   useStockDetail,
   useShareholder,
@@ -534,4 +551,5 @@ export {
   useFinancialIndicator,
   useGetStockTrade,
   useGetStockIntraday,
+  useGetMyStock,
 };

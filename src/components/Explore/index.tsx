@@ -73,8 +73,8 @@ const settings = {
   // autoplaySpeed: 1000,
 };
 
-const handleTrackingViewListStock = (presetName: string) => {
-  viewStockListTracking(presetName, '', 'Basic category', 'Explore screen');
+const handleTrackingViewListStock = (presetName: string, presetGroup = '') => {
+  viewStockListTracking(presetName, presetGroup, 'Basic category', 'Explore screen');
 };
 
 // tracking event view ticker info
@@ -458,7 +458,9 @@ const Explore = () => {
             <Slider {...settings} variableWidth ref={refSlidePinex}>
               {optionTab?.map((item: any) => (
                 <PinexTop
-                  onClick={() => handleTrackingViewListStock('Top 20 pinex')}
+                  onClick={() =>
+                    handleTrackingViewListStock(t(`explore:${item.label}`), 'Top 20 pinex')
+                  }
                   label={t(`explore:${item.label}`)}
                   value={item.value}
                   key={item.value}

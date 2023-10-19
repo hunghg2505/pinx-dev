@@ -34,7 +34,7 @@ function Auth() {
           type: AUTH_TAB_TYPE.REGISTER,
         },
       });
-      registerTracking(new Date(), 'Header', 'CTA');
+      registerTracking(new Date().toISOString(), 'Header', 'CTA');
     } else {
       router.replace({
         pathname: ROUTE_PATH.LOGIN,
