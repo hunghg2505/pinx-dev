@@ -37,6 +37,7 @@ import { ROUTE_PATH } from '@utils/common';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
 import {
   getMoreInfoTracking,
+  searchTracking,
   viewStockListTracking,
   viewTickerInfoTracking,
 } from 'src/mixpanel/mixpanel';
@@ -81,7 +82,31 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
 
   // Call API
   const { listRecent, runRecent, refreshSearchRecent } = useGetSearchRecent();
-  const { data, run: searchPublic, loading, refresh, mutate } = useSearchPublic();
+  const {
+    data,
+    run: searchPublic,
+    loading,
+    refresh,
+    mutate,
+  } = useSearchPublic({
+    onSuccess: (res, params) => {
+      // tracking search event
+      const total = Object.keys(res?.data)?.reduce((total, key) => {
+        const totalRes = res?.data?.[key]
+          ? res?.data?.[key]?.totalElements || res?.data?.[key]?.list?.length
+          : 0;
+        total += totalRes;
+
+        return total;
+      }, 0);
+
+      const value = removeSpecialCharacter(params?.[0]?.textSearch);
+
+      if (value) {
+        searchTracking(value, '', total, 'Search seo box');
+      }
+    },
+  });
   const [inputFocus, setInputFocus] = React.useState(false);
   const [searchSeo, setSearchSeo] = useAtom(searchSeoAtom);
   // const [showRecent, setShowRecent] = React.useState(false);
@@ -191,6 +216,33 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
       wait: 300,
     },
   );
+
+  // const totalSearchResult = useMemo(() => {
+  //   if (!data || loading) {
+  //     return null;
+  //   }
+
+  //   const total = Object.keys(data?.data)?.reduce((total, key) => {
+  //     const totalRes = data?.data?.[key]
+  //       ? data?.data?.[key]?.totalElements || data?.data?.[key]?.list?.length
+  //       : 0;
+  //     total += totalRes;
+
+  //     return total;
+  //   }, 0);
+  //   console.log('TuanDZ ~ file: FormSearch.tsx:206 ~ total ~ total:', total, data);
+
+  //   return total;
+  // }, [data, loading]);
+
+  // useEffect(() => {
+  //   let value = form.getFieldValue('search')?.trim().replaceAll(/\s\s+/g, ' ');
+  //   value = removeSpecialCharacter(value);
+
+  //   if (value && totalSearchResult !== null) {
+  //     searchTracking(value, '', totalSearchResult, 'Search seo box');
+  //   }
+  // }, [totalSearchResult, valueInput]);
 
   const onClickRecent = (data: any) => {
     form.setFieldValue('search', data);

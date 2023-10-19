@@ -7,7 +7,7 @@ import { IStock } from '@components/Stock/type';
 import { getAccessToken } from '@store/auth';
 
 interface IOptions {
-  onSuccess?: (res: any) => void;
+  onSuccess?: (res: any, params?: any) => void;
   onError?: (error: any) => void;
 }
 

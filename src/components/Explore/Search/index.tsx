@@ -18,6 +18,7 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 import {
   getMoreInfoTracking,
+  searchTracking,
   viewStockListTracking,
   viewTickerInfoTracking,
 } from 'src/mixpanel/mixpanel';
@@ -69,8 +70,17 @@ const Search = (props: any, ref: any) => {
   }, refInput);
 
   const { search, data, mutate, refresh } = useSearchPublic({
-    onSuccess: () => {
+    onSuccess: (res, params) => {
       refreshSearchRecent();
+
+      const totalResult = Object.keys(res?.data)?.reduce((total, key) => {
+        total += res?.data?.[key]?.length || 0;
+
+        return total;
+      }, 0);
+      const keyword = params?.[0]?.keyword;
+
+      searchTracking(keyword, '', totalResult, 'Search explore box');
     },
   });
   const { run } = useDebounceFn(
