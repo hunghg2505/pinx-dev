@@ -76,9 +76,6 @@ export const registerTracking = (
     'KYC Status': 'Start Register Account',
   });
   mixpanel.track('Register', {
-    'KYC Status': 'Start Register Account',
-  });
-  mixpanel.track('Register', {
     'CTA Type': CTAType,
     'Register CTA Location': CTALocation,
     'Start Registration Date': startRegistration,
@@ -113,9 +110,6 @@ export const createLoginNameTracking = (
   errCode: string,
 ) => {
   mixpanel.register({
-    'KYC Status': 'Complete Basic Info',
-  });
-  mixpanel.track('Create Login Name', {
     'KYC Status': 'Complete Basic Info',
   });
   mixpanel.track('Create Login Name', {
