@@ -45,7 +45,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
             />
           </div>
           <Text
-            type='barlow-16-medium'
+            type='body-16-medium'
             className={classNames('mt-[16px] px-[5px] py-[2px]', {
               'text-[#08AADD]': isFloor,
               'text-[#B349C3]': isHigh,
@@ -84,14 +84,14 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
                 !isChange,
             })}
           >
-            <Text type='barlow-12-medium'>
+            <Text type='body-12-medium'>
               {isChange ? '' : unit}
               {isChange ? '-' : formatStringToNumber(data?.change, true, 2)} /{' '}
               {isChange ? '' : unit}
               {isChange
                 ? '-'
                 : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
-                  formatStringToNumber(data?.changePercent, true, 2)}
+                formatStringToNumber(data?.changePercent, true, 2)}
               %
             </Text>
           </div>
