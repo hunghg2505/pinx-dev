@@ -137,7 +137,7 @@ const HomeNewFeed = () => {
   };
 
   const onFilter = async (value: string) => {
-    filterNewsTracking();
+    filterNewsTracking(value);
     router.push({
       pathname: ROUTE_PATH.HOME,
       query: { filterType: value },
@@ -203,7 +203,13 @@ const HomeNewFeed = () => {
       ? watchList?.[0]?.stocks?.map((item: any) => item.stockCode)
       : [];
 
-    viewWatchListTracking('Default', 'Normal WL', stockCodes, stockCodes.length, 'Home screen');
+    viewWatchListTracking(
+      'Personal Watchlist',
+      'Personal Watchlist',
+      stockCodes,
+      stockCodes.length,
+      'Home screen',
+    );
 
     // tracking event get more info
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');

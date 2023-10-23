@@ -23,7 +23,7 @@ export interface IStockIPO {
 }
 
 interface IOptions {
-  onSuccess?: (res: any) => void;
+  onSuccess?: (res: any, params?: any) => void;
   onError?: (error: any) => void;
 }
 

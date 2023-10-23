@@ -62,6 +62,7 @@ import Rating from '../Rating';
 import {
   useCompanyTaggingInfo,
   useFollowOrUnfollowStock,
+  useGetMyStock,
   useGetStockData,
   useMyListStock,
   useReviewStock,
@@ -172,12 +173,14 @@ const StockDetail = () => {
     },
   });
 
+  const { data } = useGetMyStock([stockCode, isFollowedStock]);
+
   useEffect(() => {
     if (stockDetail?.data?.name && code.split('-').length < 2) {
       const newPath = ROUTE_PATH.STOCK_DETAIL(
         stockCode.toLowerCase() +
-        '-' +
-        toNonAccentVietnamese(stockDetail?.data?.name).toLowerCase().replaceAll(' ', '-'),
+          '-' +
+          toNonAccentVietnamese(stockDetail?.data?.name).toLowerCase().replaceAll(' ', '-'),
       );
       let currentLocale = window.history.state?.options?.locale;
       currentLocale = currentLocale === 'en' ? '/en' : '';
@@ -343,11 +346,11 @@ const StockDetail = () => {
       if (![USERTYPE.NEW, USERTYPE.PENDING_TO_CLOSE].includes(statusUser)) {
         const title = isFollowedStock
           ? t('tell_people_reason_unwatched', {
-            stockCode,
-          })
+              stockCode,
+            })
           : t('tell_people_reason_watched', {
-            stockCode,
-          });
+              stockCode,
+            });
 
         toast(
           (t) => (
@@ -369,10 +372,23 @@ const StockDetail = () => {
       }
 
       // gtm
+      const numberOfTicker = data?.data?.[0]?.stocks?.length || 0;
       if (isFollowedStock) {
-        removeTickerTracking(stockCode, 'Stock', 'Stock detail page', '', '');
+        removeTickerTracking(
+          stockCode,
+          'Stock',
+          'Stock detail page',
+          'Personal Watchlist',
+          numberOfTicker - 1 || 0,
+        );
       } else {
-        addTickerTracking(stockCode, 'Stock', 'Stock detail page', '', '');
+        addTickerTracking(
+          stockCode,
+          'Stock',
+          'Stock detail page',
+          'Personal Watchlist',
+          numberOfTicker + 1,
+        );
       }
     },
   });
@@ -758,8 +774,8 @@ const StockDetail = () => {
               onClickTextHasAct={
                 isFollowedStock
                   ? () => {
-                    setOpenPopupFollowStock(true);
-                  }
+                      setOpenPopupFollowStock(true);
+                    }
                   : handleFollowOrUnfollowStock
               }
             />

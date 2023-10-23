@@ -31,13 +31,19 @@ const Login = (props: Iprops) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
-  const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm } = useUserLoginInfo();
+  const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm, userLoginInfo } = useUserLoginInfo();
   const date = new Date();
 
   const onSubmit = (values: any) => {
     requestLogin.run({
       username: values?.username,
       password: values?.password,
+    });
+    setUserLoginInfo(prev => {
+      return {
+        ...prev,
+        username: values?.username
+      };
     });
   };
 
@@ -54,7 +60,7 @@ const Login = (props: Iprops) => {
         loginTracking(
           'Login',
           loginData.cif,
-          loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : ' Not Verified',
+          loginData.acntStat === 'ACTIVE' ? 'Complete VSD Account' : 'Not Verified',
           loginData.username,
           date,
           '',
@@ -80,7 +86,7 @@ const Login = (props: Iprops) => {
     },
     onError(e) {
       toast(() => <Notification type='error' message={e?.error} />);
-      loginTracking('Failed', '', '', '', date, '');
+      loginTracking('Failed', '', '', userLoginInfo.username || '', date, '');
     },
   });
 

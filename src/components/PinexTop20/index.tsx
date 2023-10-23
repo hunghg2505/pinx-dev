@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import Tabs, { TabsEnum } from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
-import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
+import { viewStockListTracking, viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import ChangeInPrice from './ChangeInPrice';
 import MarketCap from './MarketCap';
@@ -49,6 +49,13 @@ const PinexTop20 = () => {
   const [selectTab, setSelectTab] = React.useState<TabsEnum>(type || TabsEnum.Profit);
   const onChangeTab = (value: TabsEnum) => {
     setSelectTab(value);
+    const findLabel = optionTab.find((item) => item.value === value)?.label;
+    viewStockListTracking(
+      t(`explore:${findLabel}`),
+      'Top 20 PineX',
+      'Basic category',
+      'PineX top 20 screen',
+    );
   };
   const onGoBack = () => {
     router.back();

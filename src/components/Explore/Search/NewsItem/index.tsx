@@ -56,7 +56,7 @@ const NewsItem = ({
     readNewsTracking(
       curPostData.postType,
       curPostData.vendorInfo.name,
-      curPostData.category,
+      curPostData.newsCategoryCode,
       curPostData.tagStocks,
       'Search Box',
     );

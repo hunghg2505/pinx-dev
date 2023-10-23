@@ -6,7 +6,7 @@ import '../styles/tailwind.css';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
-import { Barlow, Inter } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
@@ -38,12 +38,7 @@ type AppPropsWithLayout = AppProps & {
 
 const InterFont = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '900'],
-  display: 'swap',
-});
-const BarlowFont = Barlow({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '900'],
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -58,7 +53,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name='theme-color' content={'#FFFFFF'} />
         <meta name='title' content='pinex' />
         <meta name='description' content='pinex' />
-        <link rel='shortcut icon' href='/static/favicon2.ico' />
+        <link rel='shortcut icon' href='/static/favicon.ico' />
         <link rel='alternate' href='https://pinex.vn/' hrefLang='vi' />
         <link rel='alternate' href='https://pinex.vn/en' hrefLang='en' />
         <meta
@@ -70,7 +65,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <style jsx global>{`
         :root {
           --fontInter: ${InterFont.style.fontFamily};
-          --fontBarlow: ${BarlowFont.style.fontFamily};
         }
       `}</style>
 
