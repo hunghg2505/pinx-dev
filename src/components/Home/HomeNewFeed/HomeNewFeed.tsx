@@ -137,7 +137,7 @@ const HomeNewFeed = () => {
   };
 
   const onFilter = async (value: string) => {
-    filterNewsTracking();
+    filterNewsTracking(value);
     router.push({
       pathname: ROUTE_PATH.HOME,
       query: { filterType: value },

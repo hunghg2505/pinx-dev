@@ -290,8 +290,10 @@ export const readNewsTracking = (
   });
 };
 
-export const filterNewsTracking = () => {
-  mixpanel.track('Filter News');
+export const filterNewsTracking = (filterType: string) => {
+  mixpanel.track('Filter News', {
+    'Filter Type': filterType,
+  });
 };
 
 export const contactPinetreeTracking = (
