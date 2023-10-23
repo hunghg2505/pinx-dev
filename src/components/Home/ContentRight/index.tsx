@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { useSize } from 'ahooks';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -12,7 +13,6 @@ import StickyBox from 'react-sticky-box';
 // import { lazyLoadComponent } from '@components/LoadCompVisible';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
-import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -39,7 +39,6 @@ const ContentRight = () => {
     cacheKey: 'data-suggestionPeople',
   });
   const { refresh } = useGetInfluencer({ cacheKey: 'data-influencer', manual: true });
-  const { isMobile } = useResponsive();
   const { t } = useTranslation('common');
   const { userId: userIdLogin } = useUserType();
   const router = useRouter();
@@ -53,7 +52,9 @@ const ContentRight = () => {
     return router?.pathname === ROUTE_PATH.PROFILE_PATH && +userId === +userIdLogin;
   }, [router, userIdLogin]);
 
-  return isMobile ? null : (
+  const size = useSize(document.querySelector('body'));
+
+  return size && size.width < 768 ? null : (
     <StickyBox offsetTop={110} offsetBottom={20}>
       <div className='max-w-[350px]'>
         <Fade visible={!isProfilePath}>

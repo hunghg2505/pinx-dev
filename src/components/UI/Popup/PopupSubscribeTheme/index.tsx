@@ -70,6 +70,7 @@ const PopupSubsribeTheme = (props: IProps) => {
       message: values.shareContent as string,
       themeCode: popupThemeData.code || '',
       themeName: popupThemeData.name || '',
+      tagPeople: [],
     };
     if (values.shareContent && validateHTML(values.shareContent)) {
       toast(() => <Notification type='error' message={t('your_post_should_be_review')} />);
