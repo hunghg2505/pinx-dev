@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
@@ -54,6 +54,7 @@ const handleTrackingViewStockInfo = (stockCode: string, locationDetail: string) 
 };
 
 const WatchList = () => {
+  const router = useRouter();
   const [mounted, setMounted] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [watchlistId, setWatchlistId] = React.useState<number>();
@@ -188,6 +189,10 @@ const WatchList = () => {
     };
   }, []);
 
+  const onGoBack = () => {
+    router.back();
+  };
+
   // For Next.js 13, return jsx once the component is mounted
   if (!mounted) {
     return <></>;
@@ -197,14 +202,14 @@ const WatchList = () => {
     <div className='desktop:px-[0] desktop:py-[0]'>
       <div className='box-shadow card-style flex flex-col gap-y-[32px]'>
         <div className='flex flex-col gap-y-[16px] desktop:gap-y-[20px]'>
-          {/* {!isEdit && isMobile && (
+          {!isEdit && (
             <img
               src='/static/icons/back_icon.svg'
               alt=''
               className='w-[28px] cursor-pointer'
               onClick={onGoBack}
             />
-          )} */}
+          )}
 
           <YourWatchList
             watchlistId={watchlistId}

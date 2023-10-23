@@ -112,7 +112,7 @@ const YourWatchList = (props: IProps) => {
           <div className='relative flex items-center'>
             <div className='flex'>
               <div className='flex min-h-[28px] items-center'>
-                <Text
+                {/* <Text
                   type='body-12-semibold'
                   className='cursor-pointer text-[#1F6EAC]'
                   onClick={() => setIsEdit(false)}
@@ -132,7 +132,14 @@ const YourWatchList = (props: IProps) => {
                       strokeLinejoin='round'
                     />
                   </svg>
-                </Text>
+                </Text> */}
+
+                <img
+                  src='/static/icons/back_icon.svg'
+                  alt=''
+                  className='w-[28px] cursor-pointer'
+                  onClick={() => setIsEdit(false)}
+                />
               </div>
             </div>
             <div className='absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] opacity-0'></div>
