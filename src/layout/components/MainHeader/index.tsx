@@ -26,7 +26,7 @@ import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
-// const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
+const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
 const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'));
 
 const MainHeader = () => {
@@ -40,7 +40,7 @@ const MainHeader = () => {
   const router = useRouter();
   const [isShowSearch] = useHeaderSearch();
   const [isOpenSearch] = useOpenSearch();
-  // const isLogin = getAccessToken();
+  const isLogin = getAccessToken();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -175,11 +175,11 @@ const MainHeader = () => {
               <SearchInput />
             </LoadCompVisible>
           )}
-          {/* {!isOpenSearch && isLogin && (
+          {!isOpenSearch && isLogin && (
             <LoadCompVisible>
               <Notifications />
             </LoadCompVisible>
-          )} */}
+          )}
           {!isOpenSearch && (
             <LoadCompVisible>
               <Profile />
