@@ -75,7 +75,6 @@ const AppInitialData = () => {
 
   useEffect(() => {
     const locale = getLocaleCookie() as string;
-
     if (router.pathname === ROUTE_PATH.HOME) {
       getInitDataStockWatchlistHome();
     }
