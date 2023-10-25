@@ -8,10 +8,10 @@ const compiler =
   process.env.NODE_ENV === 'development'
     ? {}
     : {
-        removeConsole: {
-          exclude: ['error'],
-        },
-      };
+      removeConsole: {
+        exclude: ['error'],
+      },
+    };
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -71,6 +71,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    formats: ['image/webp'],
   },
   headers: async function headers() {
     if (process.env.NODE_ENV === 'development') return [];
