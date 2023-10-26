@@ -2,17 +2,16 @@ import { NextPageContext } from 'next';
 
 import { API_PATH } from '@api/constant';
 import { PREFIX_API_IP_PIST } from '@api/request';
-import { ICustomerInfo } from '@components/Post/service';
-import { getHostName } from '@utils/common';
+import { ROUTE_PATH, getHostName } from '@utils/common';
 
-function generateSiteMap(host: string, users: ICustomerInfo[]) {
+function generateSiteMap(host: string, listSlug: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      ${users
-        .map((item) => {
+      ${listSlug
+        .map((slug) => {
           return `
             <url>
-              <loc>${host}/profile/${item?.id}</loc>
+              <loc>${host}${slug}</loc>
             </url>`;
         })
         .join('')}
@@ -36,8 +35,15 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
     await fetch(`${PREFIX_API_IP_PIST}${API_PATH.KOL}/?size=9999`)
   ).json();
 
+  const listSlug: string[] = [];
+  for await (const item of response?.data?.list) {
+    const slug = ROUTE_PATH.PROFILE_V2(item?.displayName, item?.id);
+
+    listSlug.push(slug);
+  }
+
   // We generate the XML sitemap with the posts data
-  const sitemap = generateSiteMap(host, response?.data?.list);
+  const sitemap = generateSiteMap(host, listSlug);
 
   res.setHeader('Content-Type', 'text/xml');
   // we send the XML to the browser
