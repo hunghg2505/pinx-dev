@@ -14,6 +14,7 @@ const InitialNotification = () => {
   const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
   const [notiStore] = useAtom(notificationAtom);
   const requestGetNotificationToken = useGetNotificationToken({});
+  const isLogin = getAccessToken();
 
   const refFunc: any = useRef();
   useEffect(() => {
@@ -26,8 +27,6 @@ const InitialNotification = () => {
 
   const { run: updateNoti } = useDebounceFn(
     () => {
-      const isLogin = getAccessToken();
-
       if (!isLogin) {
         return;
       }
@@ -41,21 +40,27 @@ const InitialNotification = () => {
     },
   );
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const token = await firebaseCloudMessaging.init();
-        if (token) {
-          firebaseCloudMessaging.onMessage(updateNoti);
-          requestGetNotificationToken.run({
-            deviceToken: token as string,
-          });
-        }
-      } catch (error) {
-        console.error({ error });
+  const initFirebase = async () => {
+    try {
+      const token = await firebaseCloudMessaging.init();
+      if (token) {
+        firebaseCloudMessaging.onMessage(updateNoti);
+        requestGetNotificationToken.run({
+          deviceToken: token as string,
+        });
       }
-    })();
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
+  useEffect(() => {
+    initFirebase();
   }, []);
+
+  useEffect(() => {
+    isLogin && initFirebase();
+  }, [isLogin]);
 
   useEffect(() => {
     if (isShowNotificationMobile) {
