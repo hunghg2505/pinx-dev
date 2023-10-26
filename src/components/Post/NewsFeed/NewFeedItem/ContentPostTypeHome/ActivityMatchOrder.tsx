@@ -137,6 +137,8 @@ export const ActivityMatchOrder = ({
                 <img
                   src='/static/icons/iconPostBuy.svg'
                   alt=''
+                  width='0'
+                  height='0'
                   className='w-[12px] desktop:w-[20px]'
                 />
               </div>

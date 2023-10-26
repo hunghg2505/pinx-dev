@@ -10,8 +10,9 @@ export const ActivityOrder = ({ postDetail }: any) => {
   const { t } = useTranslation();
   const stockCode = postDetail.post?.stockCode;
 
-  const urlStock = `${IMAGE_COMPANY_URL}${stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
-    }.png`;
+  const urlStock = `${IMAGE_COMPANY_URL}${
+    stockCode?.length === 3 || stockCode?.[0] !== 'C' ? stockCode : stockCode?.slice(1, 4)
+  }.png`;
   const pnlRate = postDetail?.post?.pnlRate;
   return (
     <div className='relative w-full rounded-[10px] mobile:h-[204px] desktop:h-[309px]'>
@@ -41,7 +42,7 @@ export const ActivityOrder = ({ postDetail }: any) => {
             {postDetail?.post?.stockCode}
           </Text>
           <div className='flex h-[24px] w-[24px] flex-col items-center justify-center rounded-[10000px] bg-[#FFFFFF] desktop:my-[7px] desktop:h-[32px] desktop:w-[32px]'>
-            <Image
+            <img
               src='/static/icons/iconPostBuy.svg'
               alt=''
               width='0'
