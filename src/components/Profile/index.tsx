@@ -23,7 +23,6 @@ const Profile = ({ userId }: ProfileProps) => {
     profileOtherUser,
     run: runPrivate,
     refresh: RefreshPrivate,
-    loading,
   } = useGetProfileOtherUser(Number(userId), {
     onError: () => {
       router.replace(ROUTE_PATH.NOT_FOUND);
@@ -38,11 +37,7 @@ const Profile = ({ userId }: ProfileProps) => {
       }}
     >
       <>
-        {loading ? (
-          <div className='flex items-center justify-center'>
-            <Loading />
-          </div>
-        ) : (
+        {profileOtherUser ? (
           <div className='flex '>
             <div className='w-full '>
               <div className='box-shadow rounded-[8px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] mobile:pb-[20px] desktop:p-[16px]'>
@@ -57,6 +52,10 @@ const Profile = ({ userId }: ProfileProps) => {
                 </div>
               </div>
             </div>
+          </div>
+        ) : (
+          <div className='flex items-center justify-center'>
+            <Loading />
           </div>
         )}
       </>
