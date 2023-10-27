@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
@@ -9,13 +10,13 @@ import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
-
-import { useGetListFillter } from '../service';
+import { ROUTE_PATH } from '@utils/common';
+import { filterNewsTracking } from 'src/mixpanel/mixpanel';
 
 interface IProps {
   closeIcon?: boolean;
-  run: (value: string) => void;
   type: any;
+  filterData: any;
 }
 interface IFilter {
   title: string;
@@ -25,27 +26,21 @@ interface IFilter {
 
 const ModalFilter = (props: IProps) => {
   const { t } = useTranslation('home');
-
-  const { run, type } = props;
+  const router = useRouter();
+  const { type, filterData: data } = props;
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const [filterType, setFilterType] = React.useState<string>(type || FILTER_TYPE.MOST_RECENT);
-
-  const { data } = useGetListFillter();
-
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
 
-  React.useEffect(() => {
-    if (type) {
-      setFilterType(type);
-    }
-  }, [type]);
+  // React.useEffect(() => {
+  //   if (type) {
+  //     setFilterType(type);
+  //   }
+  // }, [type]);
 
-  const onVisible = () => {
-    setVisible(!visible);
-  };
+  const onFilter = async (value: string) => {
+    filterNewsTracking(value);
 
-  const onFilter = (value: string) => {
     if (!isLogin && [FILTER_TYPE.POST].includes(value)) {
       setPopupStatus({
         ...popupStatus,
@@ -53,12 +48,31 @@ const ModalFilter = (props: IProps) => {
       });
       return;
     }
-    run(value);
-    setFilterType(value);
     onVisible();
+    router.push({
+      pathname: ROUTE_PATH.HOME,
+      query: { filterType: value },
+    });
   };
+
+  const onVisible = () => {
+    setVisible(!visible);
+  };
+
+  // const onFilter = (value: string) => {
+  //   if (!isLogin && [FILTER_TYPE.POST].includes(value)) {
+  //     setPopupStatus({
+  //       ...popupStatus,
+  //       popupAccessLinmit: true,
+  //     });
+  //     return;
+  //   }
+  //   run(value);
+  //   setFilterType(value);
+  //   onVisible();
+  // };
   const renderText = () => {
-    const text = data?.data?.find((item: IFilter) => item.filterType === filterType);
+    const text = data?.find((item: IFilter) => item.filterType === type);
     if (text) {
       return text.title;
     }
@@ -79,6 +93,7 @@ const ModalFilter = (props: IProps) => {
           width='0'
           height='0'
           className='w-[10px]'
+          loading='lazy'
         />
       </span>
 
@@ -91,6 +106,7 @@ const ModalFilter = (props: IProps) => {
             height='0'
             sizes='100vw'
             className='mr-[8px] h-[16px] w-[16px]'
+            loading='lazy'
           />
           <Text className='' type='body-14-semibold'>
             {t('filter_posts_by')}
@@ -98,8 +114,8 @@ const ModalFilter = (props: IProps) => {
         </div>
         <div className='list mt-[36px]'>
           {data &&
-            data?.data?.map((item: IFilter, index: string) => {
-              const isChecked: boolean = item.filterType === filterType;
+            data?.map((item: IFilter, index: string) => {
+              const isChecked: boolean = item.filterType === type;
               return (
                 <div
                   className={classNames(
@@ -134,6 +150,7 @@ const ModalFilter = (props: IProps) => {
                       width='0'
                       height='0'
                       className='w-[21px]'
+                      loading='lazy'
                     />
                   )}
                 </div>

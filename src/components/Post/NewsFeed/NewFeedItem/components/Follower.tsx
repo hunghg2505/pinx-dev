@@ -41,15 +41,19 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
           height={0}
           className='w-[24px] mobile:block tablet:hidden'
           sizes='100vw'
+          loading='lazy'
         />
       </div>
     );
   }
   return (
     <>
-      <Fade visible className={classNames({
-        hidden: isMyPost
-      })}>
+      <Fade
+        visible
+        className={classNames({
+          hidden: isMyPost,
+        })}
+      >
         <div className='cursor-pointer' onClick={onFollow}>
           <div
             className={classNames(
@@ -70,6 +74,7 @@ export const Follower = ({ postDetail, onFollow, following, isMyPost }: any) => 
             height={0}
             className='w-[24px] mobile:block tablet:hidden'
             sizes='100vw'
+            loading='lazy'
           />
         </div>
       </Fade>

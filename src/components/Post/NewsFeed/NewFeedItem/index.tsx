@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useMemo, useRef, useState } from 'react';
 
 import { useHover, useRequest } from 'ahooks';
 import classNames from 'classnames';
@@ -147,11 +147,11 @@ const NewFeedItem = (props: IProps) => {
 
   const { run: getUserProfile } = useProfileInitial();
 
-  useEffect(() => {
-    setFollowing(postDetail?.isFollowing);
+  // useEffect(() => {
+  //   setFollowing(postDetail?.isFollowing);
 
-    setReported(!!postDetail?.isReport);
-  }, [postDetail]);
+  //   setReported(!!postDetail?.isReport);
+  // }, [postDetail]);
   // hide post
   const onHidePost = useRequest(
     () => {

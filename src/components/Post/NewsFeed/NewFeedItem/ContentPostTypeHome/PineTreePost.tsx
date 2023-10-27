@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
@@ -7,22 +7,24 @@ import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { formatMsgPost } from '@utils/common';
 
-const ImageHeadPost = dynamic(
-  import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
-  {
-    ssr: false,
-    loading: () => (
-      <Image
-        width='0'
-        height='0'
-        sizes='100vw'
-        src='/static/images/img-blur.png'
-        alt=''
-        className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
-      />
-    ),
-  },
-);
+import ImageHeadPost from './ImgHeadPost';
+
+// const ImageHeadPost = dynamic(
+//   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <Image
+//         width='0'
+//         height='0'
+//         sizes='100vw'
+//         src='/static/images/img-blur.png'
+//         alt=''
+//         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
+//       />
+//     ),
+//   },
+// );
 
 export const PineTreePost = ({
   onRef,

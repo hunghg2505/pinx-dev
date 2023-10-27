@@ -15,7 +15,7 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { postDetailStatusAtom } from '@store/postDetail/postDetail';
+import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
 import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK, BANNER_URL } from 'src/constant';
@@ -49,12 +49,13 @@ const SideBar = () => {
   const { profileSlug }: any = router.query;
   const { isLogin } = useLogin();
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
-  const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const watchList = useAtomValue(stockSocketAtom);
   const { userLoginInfo } = useUserLoginInfo();
   const userId = useMemo(() => {
     return profileSlug?.split('-')?.pop();
   }, [profileSlug]);
+
+  const { initialHomePostData } = usePostHomePage();
   const MENUS = [
     {
       id: 1,
@@ -165,10 +166,7 @@ const SideBar = () => {
             onClick={() => {
               if (menu.path === ROUTE_PATH.HOME) {
                 globalThis?.sessionStorage.removeItem('scrollPosition');
-                setPostDetailStatus({
-                  ...postDetailStatus,
-                  isRefreshHome: true,
-                });
+                initialHomePostData();
               }
               if (menu.path === ROUTE_PATH.EXPLORE) {
                 globalThis?.sessionStorage.removeItem('scrollPosition');

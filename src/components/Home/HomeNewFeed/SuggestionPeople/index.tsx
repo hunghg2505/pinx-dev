@@ -32,6 +32,7 @@ const SuggestionPeople = () => {
               alt=''
               width={20}
               height={20}
+              loading='lazy'
               className='mr-[8px] h-[20px] w-[20px] object-contain'
             />
             <Text type='body-16-bold' color='neutral-2'>

@@ -157,6 +157,7 @@ const MarketDesktop = () => {
                         src='/static/icons/icon_maximize.svg'
                         alt='Icon maximize'
                         className='h-[18px] w-[18px] object-contain'
+                        loading='lazy'
                       />
                     </div>
 

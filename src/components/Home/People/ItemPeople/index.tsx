@@ -118,6 +118,7 @@ const ItemPeople = (props: IProps) => {
                 height={0}
                 sizes='100vw'
                 className='ml-[4px] h-[20px] w-[20px]'
+                loading='lazy'
               />
             )}
             {data?.isKol && (
@@ -128,6 +129,7 @@ const ItemPeople = (props: IProps) => {
                 height={0}
                 sizes='100vw'
                 className='ml-[4px] h-[16px] w-[16px]'
+                loading='lazy'
               />
             )}
           </div>

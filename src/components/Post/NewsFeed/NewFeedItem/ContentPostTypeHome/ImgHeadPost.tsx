@@ -20,6 +20,7 @@ const ImageHeadPost = ({ headImageUrl, alt, title, priority }: IPropsImageHeadPo
         // width='0'
         // height='0'
         // sizes='100vw'
+        quality={60}
         fill
         sizes='(min-width: 1400px) 642px, (min-width: 1200px) calc(86.11vw - 546px), (min-width: 780px) calc(100vw - 399px), calc(100vw - 45px)'
         priority={priority}

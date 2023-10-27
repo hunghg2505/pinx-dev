@@ -10,26 +10,28 @@ import Text from '@components/UI/Text';
 import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
+import ImageHeadPost from './ImgHeadPost';
+
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
 });
 
-const ImageHeadPost = dynamic(
-  import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
-  {
-    ssr: false,
-    loading: () => (
-      <Image
-        width='0'
-        height='0'
-        sizes='100vw'
-        src='/static/images/img-blur.png'
-        alt=''
-        className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
-      />
-    ),
-  },
-);
+// const ImageHeadPost = dynamic(
+//   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <Image
+//         width='0'
+//         height='0'
+//         sizes='100vw'
+//         src='/static/images/img-blur.png'
+//         alt=''
+//         className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
+//       />
+//     ),
+//   },
+// );
 
 export const VietStockNews = ({
   onRef,

@@ -93,6 +93,7 @@ const ListTheme = () => {
             src='/static/icons/iconGrayPrev.svg'
             alt='Icon prev'
             className='h-[16px] w-[7px] object-contain'
+            loading='lazy'
           />
         </div>
         <div className='slideTheme max-w-[700px] overflow-hidden'>
@@ -117,6 +118,7 @@ const ListTheme = () => {
             src='/static/icons/iconGrayNext.svg'
             alt='Icon next'
             className='h-[16px] w-[7px] object-contain'
+            loading='lazy'
           />
         </div>
       </div>
