@@ -6,8 +6,8 @@ import ModalFilter from '@components/Home/ModalFilter';
 import Text from '@components/UI/Text';
 
 interface IPropsModalFilter {
-  onFilter: () => void;
   filterType: string;
+  filterData: any;
 }
 
 export const FilterFake = () => {
@@ -43,7 +43,7 @@ const HomeFeedFilter = (props: IPropsModalFilter) => {
         >
           {t('news_feed')}
         </Text>
-        <ModalFilter run={props.onFilter} type={props.filterType} />
+        <ModalFilter filterData={props.filterData} type={props.filterType} />
       </div>
     </>
   );

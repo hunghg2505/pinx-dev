@@ -573,6 +573,7 @@ const Editor = (props: IProps, ref?: any) => {
                   width='0'
                   height='0'
                   sizes='100vw'
+                  loading='lazy'
                   className={classNames(
                     ' flex h-[21px] w-[24px] cursor-pointer items-center object-contain tablet-max:hidden',
                   )}
@@ -600,6 +601,7 @@ const Editor = (props: IProps, ref?: any) => {
                   alt=''
                   width='0'
                   height='0'
+                  loading='lazy'
                   sizes='100vw'
                   className='mr-[8px] mt-[12px] h-[21px] w-[24px] object-contain'
                 />
@@ -614,6 +616,7 @@ const Editor = (props: IProps, ref?: any) => {
                   alt=''
                   width='0'
                   height='0'
+                  loading='lazy'
                   sizes='100vw'
                   className={classNames('w-[19px] cursor-pointer', {
                     'pointer-events-none opacity-40': !textComment,
@@ -643,6 +646,7 @@ const Editor = (props: IProps, ref?: any) => {
                     alt=''
                     width={0}
                     height={0}
+                    loading='lazy'
                     className='absolute -right-[12px] -top-[6px] w-[24px] cursor-pointer'
                     onClick={onCloseImage}
                   />
@@ -662,6 +666,7 @@ const Editor = (props: IProps, ref?: any) => {
               width='0'
               height='0'
               sizes='100vw'
+              loading='lazy'
               className={classNames('w-[19px] cursor-pointer mobile:block tablet:hidden', {
                 'pointer-events-none opacity-40': !textComment,
                 'pointer-events-auto opacity-100': textComment,
@@ -690,6 +695,7 @@ const Editor = (props: IProps, ref?: any) => {
                 alt=''
                 width={0}
                 height={0}
+                loading='lazy'
                 className='absolute -top-[12px] left-[calc(100px-10px)] w-[24px] cursor-pointer'
                 onClick={onCloseImage}
               />

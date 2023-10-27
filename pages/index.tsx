@@ -1,9 +1,14 @@
 import { ReactElement } from 'react';
 
+import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 // import { fetchPinedPostFromServer } from '@components/Home/service';
+import { API_PATH } from '@api/constant';
+import { privateRequest, requestCommunity } from '@api/request';
+import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
+// import { serviceGetNewFeed } from '@components/Home/service';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -27,7 +32,7 @@ const homePageKW = [
   'Xu hướng',
 ];
 
-const HomePage = () => {
+const HomePage = ({ pinPosts, filterType, filterData }: any) => {
   const schema = {
     '@context': 'https://schema.org/',
     '@type': 'WebPage',
@@ -44,7 +49,7 @@ const HomePage = () => {
         schema={schema}
         keywords={homePageKW}
       />
-      <Home />
+      <Home pinedPosts={pinPosts} filterType={filterType} filterData={filterData} />
     </>
   );
 };
@@ -57,11 +62,23 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
+export async function getServerSideProps({ locale, req, query }: GetServerSidePropsContext) {
+  const token = req.cookies.accessToken;
+  const isLogin = !!token;
+
+  const [responsePinnedPost, filterData] = await Promise.all([
+    isLogin
+      ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_PINNED_POST, { token })
+      : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST),
+    requestCommunity.get(API_PATH.FILTER_LIST),
+  ]);
   return {
     props: {
       ...(await serverSideTranslations(locale || 'en', ['common', 'home', 'profile', 'theme'])),
       // Will be passed to the page component as props
+      pinPosts: responsePinnedPost.data || null,
+      filterType: query?.filterType || FILTER_TYPE.MOST_RECENT,
+      filterData: filterData.data || null,
     },
   };
 }

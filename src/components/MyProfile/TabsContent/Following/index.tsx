@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import Search from '@components/common/Search';
 import { pageSize, useCustomerFollowing } from '@components/MyProfileFollow/service';
 import useElementOnscreen from '@utils/useElementOnscreen';
 
-import NotFound from './NotFound';
-import Page from './Page';
+// import NotFound from './NotFound';
+// import Page from './Page';
+
+const Page = dynamic(() => import('./Page'));
+const NotFound = dynamic(() => import('./NotFound'));
 
 const Following = ({ totalFollowing: total }: { totalFollowing: number }) => {
   const { t } = useTranslation('profile');

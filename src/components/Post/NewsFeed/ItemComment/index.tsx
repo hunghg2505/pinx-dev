@@ -407,6 +407,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
+                    loading='lazy'
                     className='ml-[6px] h-[14px] w-[14px] object-contain'
                   />
                 )}
@@ -417,6 +418,7 @@ const ItemComment = (props: IProps) => {
                     width={0}
                     height={0}
                     sizes='100vw'
+                    loading='lazy'
                     className='ml-[6px] h-[14px] w-[14px] object-contain'
                   />
                 )}
@@ -428,6 +430,7 @@ const ItemComment = (props: IProps) => {
                     alt=''
                     className='ml-[8px] h-[14px] w-[14px] rotate-90 transform cursor-pointer'
                     onClick={onShowDelete}
+                    loading='lazy'
                   />
                 )}
 
@@ -442,6 +445,7 @@ const ItemComment = (props: IProps) => {
                       width={0}
                       height={0}
                       className='mr-[8px] h-[24px] w-[24px]'
+                      loading='lazy'
                     />
                     <Text type='body-16-regular' color='primary-5'>
                       {t('delete')}
@@ -466,6 +470,7 @@ const ItemComment = (props: IProps) => {
                   width='0'
                   height='0'
                   className='mr-[10px] w-[15px] galaxy-max:mr-0'
+                  loading='lazy'
                 />
 
                 <Text
@@ -507,6 +512,7 @@ const ItemComment = (props: IProps) => {
                 src={
                   isLike && isLogin ? '/static/icons/iconLike.svg' : '/static/icons/iconUnLike.svg'
                 }
+                loading='lazy'
                 alt=''
                 className={classNames(
                   'mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[6px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]',
@@ -521,6 +527,7 @@ const ItemComment = (props: IProps) => {
                 src='/static/icons/iconComment.svg'
                 alt=''
                 className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[4px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
+                loading='lazy'
               />
               <Text
                 type='body-13-regular'
@@ -554,6 +561,7 @@ const ItemComment = (props: IProps) => {
                     src='/static/icons/iconFlag.svg'
                     alt=''
                     className='mr-[8px] hidden h-[20px] w-[20px] object-contain galaxy-max:mr-[6px] galaxy-max:block galaxy-max:h-[16px] galaxy-max:w-[16px]'
+                    loading='lazy'
                   />
                 )}
                 <div>

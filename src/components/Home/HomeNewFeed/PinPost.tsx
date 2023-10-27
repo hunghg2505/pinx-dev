@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { clearCache } from 'ahooks';
+// import { clearCache } from 'ahooks';
 import dynamic from 'next/dynamic';
 
-import { useGetPinedPost } from '@components/Home/service';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
@@ -18,30 +17,31 @@ const handleTrackingViewTicker = (stockCode: string) => {
 };
 interface IProps {
   onTrackingViewTickerCmt: any;
+  pinedPosts: any;
 }
 const PinPost = (props: IProps) => {
-  const { onTrackingViewTickerCmt } = props;
-  const { pinedPost, refresh, loading } = useGetPinedPost();
+  const { onTrackingViewTickerCmt, pinedPosts } = props;
+  // const { refresh, loading } = useGetPinedPost();
 
-  const onRefresh = () => {
-    clearCache('data-pin-post');
-    refresh();
-  };
+  // const onRefresh = () => {
+  //   clearCache('data-pin-post');
+  //   refresh();
+  // };
 
-  if (!pinedPost) {
+  if (!pinedPosts) {
     return <NewsFeedSkeleton />;
   }
 
   return (
     <>
-      {pinedPost?.map((item: IPost) => {
+      {pinedPosts?.map((item: IPost) => {
         return (
           <NewsFeed
             data={item}
             key={`pined-post-${item.id}`}
             pinned={true}
-            onRefreshList={onRefresh}
-            loading={loading}
+            // onRefreshList={onRefresh}
+            // loading={loading}
             onTrackingViewTicker={handleTrackingViewTicker}
             onTrackingViewTickerCmt={onTrackingViewTickerCmt}
             currentLocation='Pin post home page'
