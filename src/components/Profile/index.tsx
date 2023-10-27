@@ -38,22 +38,27 @@ const Profile = ({ userId }: ProfileProps) => {
       }}
     >
       <>
-        <div className='flex '>
-          <div className='w-full '>
-            <div className='box-shadow rounded-[8px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] mobile:pb-[20px] desktop:p-[16px]'>
-              <Header />
-              <MyStory />
-              <div
-                className={classNames('mt-[24px]', {
-                  'tablet:!mt-[32px]': !profileOtherUser?.caption,
-                })}
-              >
-                <TabsContent />
+        {loading ? (
+          <div className='flex items-center justify-center'>
+            <Loading />
+          </div>
+        ) : (
+          <div className='flex '>
+            <div className='w-full '>
+              <div className='box-shadow rounded-[8px] border-[1px] border-solid border-[#EBEBEB] bg-[white] p-[12px] mobile:pb-[20px] desktop:p-[16px]'>
+                <Header />
+                <MyStory />
+                <div
+                  className={classNames('mt-[24px]', {
+                    'tablet:!mt-[32px]': !profileOtherUser?.caption,
+                  })}
+                >
+                  <TabsContent />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {loading && <Loading />}
+        )}
       </>
     </profileUserContext.Provider>
   );
