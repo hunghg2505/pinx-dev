@@ -219,7 +219,9 @@ export const API_PATH = {
   // notifications
   GET_NOTIFICATION_TOKEN: '/private/notification/save-token',
   GET_NOTIFICATION_LIST: '/private/notification/community/history',
-  GET_NOTIFICATION_COUNT: '/private/notification/community/history/count',
+  GET_NOTIFICATION_COUNT: '/private/notification/community/history/countV2',
   READ_NOTIFICATION: (id: string) => `/private/notification/community/history/${id}`,
+  READ_PINETREE_NOTIFICATION: (id: string) => `private/notification/history/pinetree/${id}`,
   READ_ALL_NOTIFICATION: '/private/notification/community/history/receiver',
+  DELETE_ALL_NOTIFICATIONS: 'private/notification/history/receiver',
 };

@@ -245,5 +245,6 @@
   "mark_all_as_read": "Đánh dấu đã đọc",
   "latest": "Gần đây",
   "no_recent_notification": "Không có thông báo gần đây",
-  "no_recent_notification_desc": "Thông báo sẽ hiển thị ở đây, bạn có thể quay lại xem sau nhé"
+  "no_recent_notification_desc": "Thông báo sẽ hiển thị ở đây, bạn có thể quay lại xem sau nhé",
+  "delete_all": "Xóa tất cả"
 }

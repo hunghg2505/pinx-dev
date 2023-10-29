@@ -246,5 +246,6 @@
   "mark_all_as_read": "Mark all as read",
   "latest": "Latest",
   "no_recent_notification": "No Recent Notification",
-  "no_recent_notification_desc": "Notification will show up here, so you can easily view them here later"
+  "no_recent_notification_desc": "Notification will show up here, so you can easily view them here later",
+  "delete_all": "Delete all"
 }
