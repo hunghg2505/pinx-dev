@@ -109,6 +109,23 @@ export const useReadNotification = (options: IOptionsRequest) => {
   return requestReadNotification;
 };
 
+const serviceReadPinetreeNotification = async (notiId: string) => {
+  return privateRequest(requestNoti.put, API_PATH.READ_PINETREE_NOTIFICATION(notiId), {
+    params: {
+      readStatus: true,
+    },
+  });
+};
+
+export const useReadPinetreeNotification = (options: IOptionsRequest) => {
+  const requestReadPinetreeNotification = useRequest(serviceReadPinetreeNotification, {
+    manual: true,
+    ...options,
+  });
+
+  return requestReadPinetreeNotification;
+};
+
 const serviceReadAllNotification = async () => {
   return privateRequest(requestNoti.put, API_PATH.READ_ALL_NOTIFICATION, {
     params: {
@@ -137,4 +154,17 @@ export const useDeleteNotification = (options: IOptionsRequest) => {
   });
 
   return requestDeleteNotification;
+};
+
+const serviceDeleteAllNotification = async () => {
+  return privateRequest(requestNoti.delete, API_PATH.DELETE_ALL_NOTIFICATIONS);
+};
+
+export const useDeleteAllNotification = (options: IOptionsRequest) => {
+  const requestDeleteAllNotification = useRequest(serviceDeleteAllNotification, {
+    manual: true,
+    ...options,
+  });
+
+  return requestDeleteAllNotification;
 };

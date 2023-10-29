@@ -5,6 +5,8 @@ export interface INotification {
   refreshNotiData?: () => void;
   refreshPinetreeNotiData?: () => void;
   refreshNotiCount?: () => void;
+  pinetreeNoti?: any[];
+  userNoti?: any[];
 }
 
 export const initialNotification: INotification = {
