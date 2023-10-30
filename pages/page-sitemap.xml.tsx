@@ -35,9 +35,7 @@ function generateSiteMap(host: string) {
   `;
 }
 
-function SiteMap() {
-  // getServerSideProps will do the heavy lifting
-}
+function SiteMap() {}
 
 export async function getServerSideProps({ req, res }: NextPageContext) {
   if (!req || !res) {

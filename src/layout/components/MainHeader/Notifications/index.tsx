@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 
 import { useAtom } from 'jotai';
 import Dropdown from 'rc-dropdown';
@@ -15,30 +15,20 @@ import styles from './index.module.scss';
 import { useGetNotificationCount } from './service';
 
 const NotiCount = forwardRef((_, ref: any) => {
-  const [notiStore, setNotiStore] = useAtom(notificationAtom);
+  const [, setNotiStore] = useAtom(notificationAtom);
   const { notiCount, refreshNotiCount } = useGetNotificationCount({
-    onSuccess: () => {
+    onSuccess: (res: any) => {
       setNotiStore((prev) => {
         return {
           ...prev,
-          refreshNotiCount
+          refreshNotiCount,
+          notiCount: res.data,
         };
       });
-    }
+    },
   });
 
   useImperativeHandle(ref, () => ({ refreshNotiCount, notiCount }));
-
-  useEffect(() => {
-    if (notiStore !== notiCount) {
-      setNotiStore((prev) => {
-        return {
-          ...prev,
-          notiCount,
-        };
-      });
-    }
-  }, [notiCount]);
 
   return notiCount > 0 ? (
     <div className='absolute right-[-5px] top-0 rounded-full bg-[#FF3B3B]'>
@@ -72,8 +62,6 @@ const Notifications = () => {
     notiCountRef.current.refreshNotiCount && notiCountRef.current.refreshNotiCount();
   };
 
-
-
   const NotificationBadge = () => {
     return (
       <div className='relative'>
@@ -91,12 +79,7 @@ const Notifications = () => {
             <Dropdown
               trigger={['click']}
               animation='slide-up'
-              overlay={
-                <NotificationOverlay
-                  refreshNotiCount={refreshNotiCount}
-                  onCloseNotiDropdown={onCloseNotiDropdown}
-                />
-              }
+              overlay={<NotificationOverlay onCloseNotiDropdown={onCloseNotiDropdown} />}
               onVisibleChange={onDropdownVisibleChange}
               visible={dropdownVisible}
               overlayClassName={styles.customDropdown}
