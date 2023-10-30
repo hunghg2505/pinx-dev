@@ -12,17 +12,19 @@ const Fade = ({
   const [_isTransitioning, shouldBeVisible, refModal] = useFadeEffect(visible);
 
   return (
-    <>
-      {_isTransitioning && (
-        <div
-          ref={refModal}
-          className={className}
-          style={shouldBeVisible ? _popoverVisibleStyles : _popoverStyles}
-        >
-          <>{children}</>
-        </div>
-      )}
-    </>
+    visible && (
+      <>
+        {_isTransitioning && (
+          <div
+            ref={refModal}
+            className={className}
+            style={shouldBeVisible ? _popoverVisibleStyles : _popoverStyles}
+          >
+            <>{children}</>
+          </div>
+        )}
+      </>
+    )
   );
 };
 
