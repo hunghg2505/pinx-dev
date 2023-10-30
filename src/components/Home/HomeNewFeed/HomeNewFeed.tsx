@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
@@ -22,6 +23,7 @@ import { ROUTE_PATH, removeCurClickedHomePostId } from '@utils/common';
 import { getMoreInfoTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import TabMobileSkeleton from './TabMobileSkeleton';
+import { FILTER_TYPE } from '../ModalFilter/modal-filter';
 import { useGetWatchList } from '../service';
 import UserPostingFake from '../UserPosting/UserPostingFake';
 
@@ -37,20 +39,17 @@ const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosti
 
 const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
   const { t } = useTranslation('home');
-  // const router = useRouter();
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
-
-  // const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
 
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = useState<string>('2');
   const [, setInitHomePage] = useState<boolean>(false);
 
-  const { loadingPosts, dataPosts, runAsync, mutate } = usePostHomePage();
+  const { loadingPosts, dataPosts, runAsync, mutate, run } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
     return {
       firstPost: dataPosts?.list?.[0],
@@ -82,16 +81,10 @@ const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
     }
   }, []);
 
-  // useUpdateEffect(() => {
-  //   const query: any = getQueryFromUrl();
-  //   clearCache('data-pin-post');
-  //   run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
-  // }, [filterType]);
-  // React.useEffect(() => {
-  //   if (postDetailStatus?.isRefreshHome) {
-  //     initialHomePostData();
-  //   }
-  // }, [postDetailStatus?.isRefreshHome]);
+  useUpdateEffect(() => {
+    run('', filterType || FILTER_TYPE.MOST_RECENT);
+  }, [filterType]);
+
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');

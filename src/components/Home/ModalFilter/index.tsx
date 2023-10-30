@@ -32,12 +32,6 @@ const ModalFilter = (props: IProps) => {
   const { isLogin } = useUserType();
   const [visible, setVisible] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   if (type) {
-  //     setFilterType(type);
-  //   }
-  // }, [type]);
-
   const onFilter = async (value: string) => {
     filterNewsTracking(value);
 
@@ -59,18 +53,6 @@ const ModalFilter = (props: IProps) => {
     setVisible(!visible);
   };
 
-  // const onFilter = (value: string) => {
-  //   if (!isLogin && [FILTER_TYPE.POST].includes(value)) {
-  //     setPopupStatus({
-  //       ...popupStatus,
-  //       popupAccessLinmit: true,
-  //     });
-  //     return;
-  //   }
-  //   run(value);
-  //   setFilterType(value);
-  //   onVisible();
-  // };
   const renderText = () => {
     const text = data?.find((item: IFilter) => item.filterType === type);
     if (text) {
