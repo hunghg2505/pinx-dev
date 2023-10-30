@@ -64,7 +64,7 @@ const NotificationItem = ({
       if (notification.type === 'PINETREE_MKT') {
         requestReadPinetreeNotification.run(notification.id);
       } else {
-        requestReadNotification.run(notification.id);
+        requestReadNotification.run(notification.transactionId);
       }
       setTimeout(() => {
         notiStore.refreshNotiCount && notiStore.refreshNotiCount();
