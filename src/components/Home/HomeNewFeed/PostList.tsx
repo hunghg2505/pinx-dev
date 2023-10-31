@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
@@ -10,17 +11,12 @@ import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
 import { ROUTE_PATH } from '@utils/common';
 
-const ListTheme = dynamic(() => import('@components/Home/ListTheme'), {
-  ssr: false,
-});
-const Trending = dynamic(() => import('../Trending'), {
-  ssr: false,
-});
-const Influencer = dynamic(() => import('../People/Influencer'), {
-  ssr: false,
-});
+const ListTheme = lazyLoadHydrate(() => import('@components/Home/ListTheme'), false);
+const Trending = lazyLoadHydrate(() => import('../Trending'), false);
+const Influencer = lazyLoadHydrate(() => import('../People/Influencer'), false);
 
-const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: false });
+// const SuggestionPeople = dynamic(() => import('./SuggestionPeople'), { ssr: false });
+const SuggestionPeople = lazyLoadHydrate(() => import('./SuggestionPeople'), false);
 
 const NewsFeed = dynamic(() => import('../../Post/NewsFeed'), {
   ssr: false,
@@ -82,9 +78,7 @@ const PostList = ({
         </CustomLink>
       </div>
 
-      <LoadCompVisible>
-        <SuggestionPeople />
-      </LoadCompVisible>
+      <SuggestionPeople />
 
       {fourPost.length > 0 ? (
         <>

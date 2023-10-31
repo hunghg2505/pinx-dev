@@ -10,6 +10,7 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 // import UserPosting from '@components/Home/UserPosting/UserPosting';
 // import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -25,15 +26,27 @@ import TabMobileSkeleton from './TabMobileSkeleton';
 import { useGetWatchList } from '../service';
 import UserPostingFake from '../UserPosting/UserPostingFake';
 
-const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
-  loading: () => <TabMobileSkeleton />,
-  ssr: false,
-});
+// const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'), {
+//   loading: () => <TabMobileSkeleton />,
+//   ssr: false,
+// });
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
-const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
-const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
-  loading: () => <UserPostingFake />,
-});
+// const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
+// const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
+//   loading: () => <UserPostingFake />,
+// });
+
+const TabMobile = lazyLoadHydrate(
+  () => import('@components/Home/HomeNewFeed/TabMobile'),
+  false,
+  () => <TabMobileSkeleton />,
+);
+const UserPosting = lazyLoadHydrate(
+  () => import('@components/Home/UserPosting/UserPosting'),
+  false,
+  () => <UserPostingFake />,
+);
+const PostList = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PostList'), false);
 
 const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
   const { t } = useTranslation('home');

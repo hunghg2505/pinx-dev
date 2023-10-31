@@ -1,0 +1,26 @@
+diff --git a/node_modules/rc-tabs/es/hooks/useTouchMove.js b/node_modules/rc-tabs/es/hooks/useTouchMove.js
+index b5c120b..d9057e3 100644
+--- a/node_modules/rc-tabs/es/hooks/useTouchMove.js
++++ b/node_modules/rc-tabs/es/hooks/useTouchMove.js
+@@ -151,7 +151,7 @@ export default function useTouchMove(ref, onOffset) {
+     ref.current.addEventListener('touchstart', onProxyTouchStart, {
+       passive: false
+     });
+-    ref.current.addEventListener('wheel', onProxyWheel);
++    ref.current.addEventListener('wheel', onProxyWheel, { passive: false });
+     return function () {
+       document.removeEventListener('touchmove', onProxyTouchMove);
+       document.removeEventListener('touchend', onProxyTouchEnd);
+diff --git a/node_modules/rc-tabs/lib/hooks/useTouchMove.js b/node_modules/rc-tabs/lib/hooks/useTouchMove.js
+index ac81471..44e5625 100644
+--- a/node_modules/rc-tabs/lib/hooks/useTouchMove.js
++++ b/node_modules/rc-tabs/lib/hooks/useTouchMove.js
+@@ -167,7 +167,7 @@ function useTouchMove(ref, onOffset) {
+     ref.current.addEventListener('touchstart', onProxyTouchStart, {
+       passive: false
+     });
+-    ref.current.addEventListener('wheel', onProxyWheel);
++    ref.current.addEventListener('wheel', onProxyWheel, { passive: false });
+     return function () {
+       document.removeEventListener('touchmove', onProxyTouchMove);
+       document.removeEventListener('touchend', onProxyTouchEnd);

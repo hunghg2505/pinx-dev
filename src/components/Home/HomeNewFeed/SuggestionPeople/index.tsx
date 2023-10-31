@@ -3,10 +3,13 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 import ModalPeopleYouKnow from '@components/Explore/ModalPeopleYouKnow';
-import PeopleList from '@components/Home/People/PeopleList';
+// import PeopleList from '@components/Home/People/PeopleList';
 import { useGetInfluencer, useSuggestPeople } from '@components/Home/service';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
+
+const PeopleList = lazyLoadHydrate(() => import('@components/Home/People/PeopleList'), false);
 
 const SuggestionPeople = () => {
   const { t } = useTranslation('home');

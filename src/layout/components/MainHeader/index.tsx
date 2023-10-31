@@ -2,18 +2,18 @@ import React, { useEffect, useRef } from 'react';
 
 import { useSize, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
-import MenuMobile from '@layout/components/MainHeader/MenuMobile';
+// import MenuMobile from '@layout/components/MainHeader/MenuMobile';
 // import Notifications from '@layout/components/MainHeader/Notifications';
 // import Profile from '@layout/components/MainHeader/Profile';
 // import SearchInput from '@layout/components/MainHeader/SearchInput';
@@ -25,9 +25,20 @@ import { ROUTE_PATH } from '@utils/common';
 import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
-const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
-const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
-const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'));
+// const SearchInput = dynamic(() => import('@layout/components/MainHeader/SearchInput'));
+// const Notifications = dynamic(() => import('@layout/components/MainHeader/Notifications'));
+// const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'));
+
+const MenuMobile = lazyLoadHydrate(() => import('@layout/components/MainHeader/MenuMobile'), false);
+const SearchInput = lazyLoadHydrate(
+  () => import('@layout/components/MainHeader/SearchInput'),
+  false,
+);
+const Notifications = lazyLoadHydrate(
+  () => import('@layout/components/MainHeader/Notifications'),
+  false,
+);
+const Profile = lazyLoadHydrate(() => import('@layout/components/MainHeader/Profile'), false);
 
 const MainHeader = () => {
   const { t } = useTranslation('common');
@@ -45,7 +56,8 @@ const MainHeader = () => {
   useEffect(() => {
     let lastScrollTop = 0;
 
-    const onScroll = () => {
+    const onScroll = (e: any) => {
+      e.preventDefault();
       if (window?.innerWidth > 600) {
         return;
       }
@@ -65,12 +77,12 @@ const MainHeader = () => {
       lastScrollTop = st <= 0 ? 0 : st; // For Mobile or nega
     };
 
-    document.addEventListener('scroll', onScroll);
-    document.addEventListener('touchmove', onScroll);
+    document.addEventListener('scroll', onScroll, { passive: true });
+    // document.addEventListener('touchmove', onScroll, { passive: true });
 
     return () => {
       document.removeEventListener('scroll', onScroll);
-      document.removeEventListener('touchmove', onScroll);
+      // document.removeEventListener('touchmove', onScroll);
     };
   });
 
@@ -154,37 +166,19 @@ const MainHeader = () => {
               />
             </div>
           </CustomLink>
-          {size && size.width < 1200 && (
-            <LoadCompVisible>
-              <MenuMobile />
-            </LoadCompVisible>
-          )}
+          {size && size.width < 1200 && <MenuMobile />}
         </div>
 
         {isShowSearch && !isMobile && (
           <div className='ml-auto max-w-[740px] tablet-max:hidden laptop:ml-[initial] laptop:w-full'>
-            <LoadCompVisible>
-              <SearchInput />
-            </LoadCompVisible>
+            <SearchInput />
           </div>
         )}
 
         <div className='z-10 flex  flex-none items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
-          {isMobile && isShowSearch && (
-            <LoadCompVisible>
-              <SearchInput />
-            </LoadCompVisible>
-          )}
-          {!isOpenSearch && isLogin && (
-            <LoadCompVisible>
-              <Notifications />
-            </LoadCompVisible>
-          )}
-          {!isOpenSearch && (
-            <LoadCompVisible>
-              <Profile />
-            </LoadCompVisible>
-          )}
+          {isMobile && isShowSearch && <SearchInput />}
+          {!isOpenSearch && isLogin && <Notifications />}
+          {!isOpenSearch && <Profile />}
         </div>
       </div>
     </div>
