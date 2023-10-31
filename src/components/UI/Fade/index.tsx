@@ -11,7 +11,7 @@ const Fade = ({
 }) => {
   const [_isTransitioning, shouldBeVisible, refModal] = useFadeEffect(visible);
 
-  return (
+  return visible ? (
     <>
       {_isTransitioning && (
         <div
@@ -23,6 +23,8 @@ const Fade = ({
         </div>
       )}
     </>
+  ) : (
+    <></>
   );
 };
 
