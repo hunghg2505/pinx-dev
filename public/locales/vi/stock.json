@@ -1,9 +1,9 @@
 {
   "follow_stock": "Thêm cổ phiếu",
   "tab": {
-    "movements": "Movements",
-    "matchings": "Matchings",
-    "intraday": "Intraday"
+    "movements": "Mức giá",
+    "matchings": "Lịch sử khớp lệnh",
+    "intraday": "Giá trong ngày"
   },
   "movements": {
     "high": "Cao",
