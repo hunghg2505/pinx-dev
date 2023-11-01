@@ -104,6 +104,18 @@ const AppInitialData = () => {
     storeInSession();
   }, [storeInSession]);
 
+  useEffect(() => {
+    // Event listener that listens for the push notification event in the background
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('../../../src/firebase-messaging-sw.js')
+        .catch(function (error) {
+          /* eslint-disable no-console */
+          console.log('xxx Service worker registration failed, error:', error);
+        });
+    }
+  }, []);
+
   return (
     <>
       <Toaster />
