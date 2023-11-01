@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useMemo, useState } from 'react';
 
-import { useUpdateEffect } from 'ahooks';
+import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
@@ -20,8 +22,12 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
-import { ROUTE_PATH, removeCurClickedHomePostId } from '@utils/common';
-import { getMoreInfoTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
+import { ROUTE_PATH, getQueryFromUrl, removeCurClickedHomePostId } from '@utils/common';
+import {
+  filterNewsTracking,
+  getMoreInfoTracking,
+  viewWatchListTracking,
+} from 'src/mixpanel/mixpanel';
 
 import TabMobileSkeleton from './TabMobileSkeleton';
 import { FILTER_TYPE } from '../ModalFilter/modal-filter';
@@ -33,7 +39,7 @@ import UserPostingFake from '../UserPosting/UserPostingFake';
 //   ssr: false,
 // });
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
-// const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
+const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
 // const UserPosting = dynamic(() => import('@components/Home/UserPosting/UserPosting'), {
 //   loading: () => <UserPostingFake />,
 // });
@@ -48,19 +54,21 @@ const UserPosting = lazyLoadHydrate(
   false,
   () => <UserPostingFake />,
 );
-const PostList = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PostList'), false);
+// const PostList = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PostList'), false);
 
-const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
+const HomeNewFeed = () => {
   const { t } = useTranslation('home');
+  const router = useRouter();
 
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
 
+  const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
+
   const { watchList } = useGetWatchList();
   const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
   const [selectTab, setSelectTab] = useState<string>('2');
-  const [, setInitHomePage] = useState<boolean>(false);
 
   const { loadingPosts, dataPosts, runAsync, mutate, run } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
@@ -95,8 +103,16 @@ const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
   }, []);
 
   useUpdateEffect(() => {
-    run('', filterType || FILTER_TYPE.MOST_RECENT);
+    const query: any = getQueryFromUrl();
+    clearCache('data-pin-post');
+    run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
   }, [filterType]);
+
+  useEffect(() => {
+    if (postDetailStatus?.isRefreshHome) {
+      // initialHomePostData();
+    }
+  }, [postDetailStatus?.isRefreshHome]);
 
   useEffect(() => {
     if (isHaveStockWatchList) {
@@ -112,12 +128,6 @@ const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
       });
     }
   }, [userType, isReadTerms]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setInitHomePage(true);
-    }, 300);
-  });
 
   const serviceLoadMorePost = async () => {
     if (!dataPosts?.nextId || loadingPosts) {
@@ -136,13 +146,13 @@ const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
     }
   };
 
-  // const onFilter = async (value: string) => {
-  //   filterNewsTracking(value);
-  //   router.push({
-  //     pathname: ROUTE_PATH.HOME,
-  //     query: { filterType: value },
-  //   });
-  // };
+  const onFilter = async (value: string) => {
+    filterNewsTracking(value);
+    router.push({
+      pathname: ROUTE_PATH.HOME,
+      query: { filterType: value },
+    });
+  };
 
   const onChangeTab = (key: string) => {
     setSelectTab(key);
@@ -248,12 +258,11 @@ const HomeNewFeed = ({ pinedPosts, filterType, filterData }: any) => {
       <>{isLogin && <UserPosting onAddNewPost={onAddNewPost} />}</>
 
       <>
-        <HomeFeedFilter filterType={filterType as string} filterData={filterData} />
+        <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
       </>
 
       <>
         <PinPost
-          pinedPosts={pinedPosts}
           onTrackingViewTickerCmt={(stockCode: string) =>
             handleTrackingViewTicker(stockCode, 'Comment')
           }

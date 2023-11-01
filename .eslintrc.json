@@ -1,5 +1,11 @@
 {
-  "extends": ["next/core-web-vitals", "@hunghg255/eslint-config-react"],
+  "extends": [
+    "next/core-web-vitals",
+    "@hunghg255/eslint-config-react",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
   "rules": {
     "unicorn/no-new-array": "off",
     "react/display-name": "off",

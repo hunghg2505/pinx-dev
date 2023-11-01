@@ -26,7 +26,7 @@ import ImageHeadPost from './ImgHeadPost';
 //   },
 // );
 
-export const PineTreePost = ({
+const PineTreePost = ({
   onRef,
   isReadMore,
   onReadMore,
@@ -160,3 +160,5 @@ export const PineTreePost = ({
     </>
   );
 };
+
+export default PineTreePost;

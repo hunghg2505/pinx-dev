@@ -13,12 +13,12 @@ const FooterSignUp = dynamic(() => import('@components/Home/PopupHomeNoti/PopupH
   ssr: false,
 });
 
-const Home = ({ pinedPosts, filterType, filterData }: any) => {
+const Home = () => {
   return (
     <>
       <PopupHomeNoti />
 
-      <HomeNewFeed pinedPosts={pinedPosts} filterType={filterType} filterData={filterData} />
+      <HomeNewFeed />
 
       <FooterSignUp />
     </>

@@ -12,7 +12,6 @@ import { appWithTranslation } from 'next-i18next';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import AppLayout from '@layout/AppLayout';
-import { getAccessToken } from '@store/auth';
 
 import nextI18nConfig from '../next-i18next.config';
 
@@ -44,7 +43,6 @@ const InterFont = Inter({
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
-  const isLogin = getAccessToken();
 
   return (
     <>
@@ -69,9 +67,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       `}</style>
 
       <ErrorBoundary>
-        <AppInitialData />
-        {isLogin && <InitialNotification />}
-        <InitialSocket />
+        <>
+          <AppInitialData />
+          <InitialNotification />
+          <InitialSocket />
+        </>
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
     </>

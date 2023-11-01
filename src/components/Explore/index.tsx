@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Influencer from '@components/Home/People/Influencer';
@@ -39,39 +39,6 @@ import WatchingStock from './WatchingStock';
 const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
   ssr: false,
 });
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 3,
-  swipeToSlide: true,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 3,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 
 const handleTrackingViewListStock = (presetName: string, presetGroup = '') => {
   viewStockListTracking(presetName, presetGroup, 'Basic category', 'Explore screen');
@@ -284,7 +251,9 @@ const Explore = () => {
           <> */}
         <div className='relative mb-[16px]'>
           <div
-            onClick={refSlideTheme?.current?.slickPrev}
+            onClick={() => {
+              refSlideTheme?.current?.splide.go('-2');
+            }}
             className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
           >
             <img
@@ -295,21 +264,42 @@ const Explore = () => {
           </div>
 
           <div className='slideTheme max-w-[700px] overflow-hidden'>
-            <Slider {...settings} variableWidth ref={refSlideTheme}>
-              {theme?.map((theme: ITheme, index: number) => {
+            <Splide
+              options={{
+                perPage: 4,
+                pagination: false,
+                arrows: false,
+                gap: 10,
+                breakpoints: {
+                  1024: {
+                    perPage: 3,
+                  },
+                  768: {
+                    perPage: 3,
+                  },
+                  480: {
+                    perPage: 2,
+                  },
+                },
+              }}
+              ref={refSlideTheme}
+            >
+              {theme?.map((theme: ITheme) => {
                 return (
-                  <div key={index}>
-                    <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
+                  <SplideSlide key={theme.code}>
+                    <div className='w-[161px]'>
                       <ThemesItem refresh={refreshTheme} theme={theme} />
                     </div>
-                  </div>
+                  </SplideSlide>
                 );
               })}
-            </Slider>
+            </Splide>
           </div>
 
           <div
-            onClick={refSlideTheme?.current?.slickNext}
+            onClick={() => {
+              refSlideTheme?.current?.splide.go('+2');
+            }}
             className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
           >
             <img
@@ -444,7 +434,9 @@ const Explore = () => {
         </Text>
         <div className='relative mb-[16px]'>
           <div
-            onClick={refSlidePinex?.current?.slickPrev}
+            onClick={() => {
+              refSlidePinex?.current?.splide.go('-2');
+            }}
             className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
           >
             <img
@@ -455,22 +447,47 @@ const Explore = () => {
           </div>
 
           <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
-            <Slider {...settings} variableWidth ref={refSlidePinex}>
-              {optionTab?.map((item: any) => (
-                <PinexTop
-                  onClick={() =>
-                    handleTrackingViewListStock(t(`explore:${item.label}`), 'Top 20 pinex')
-                  }
-                  label={t(`explore:${item.label}`)}
-                  value={item.value}
-                  key={item.value}
-                />
-              ))}
-            </Slider>
+            <Splide
+              options={{
+                perPage: 4,
+                pagination: false,
+                arrows: false,
+                gap: 10,
+                breakpoints: {
+                  1024: {
+                    perPage: 3,
+                  },
+                  768: {
+                    perPage: 3,
+                  },
+                  480: {
+                    perPage: 2,
+                  },
+                },
+              }}
+              ref={refSlidePinex}
+            >
+              {optionTab?.map((item: any) => {
+                return (
+                  <SplideSlide key={item.value}>
+                    <PinexTop
+                      onClick={() =>
+                        handleTrackingViewListStock(t(`explore:${item.label}`), 'Top 20 pinex')
+                      }
+                      label={t(`explore:${item.label}`)}
+                      value={item.value}
+                      key={item.value}
+                    />
+                  </SplideSlide>
+                );
+              })}
+            </Splide>
           </div>
 
           <div
-            onClick={refSlidePinex?.current?.slickNext}
+            onClick={() => {
+              refSlidePinex?.current?.splide.go('+2');
+            }}
             className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
           >
             <img

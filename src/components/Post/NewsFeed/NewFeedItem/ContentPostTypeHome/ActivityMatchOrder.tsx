@@ -15,7 +15,7 @@ import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/commo
 
 import useHeight from './useHeight';
 
-export const ActivityMatchOrder = ({
+const ActivityMatchOrder = ({
   isReadMore,
   // onReadMore,
   postDetailUrl,
@@ -185,3 +185,5 @@ export const ActivityMatchOrder = ({
     </>
   );
 };
+
+export default ActivityMatchOrder;

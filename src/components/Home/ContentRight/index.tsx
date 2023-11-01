@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { useSize } from 'ahooks';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 // import lazyLoadComponent from 'next-lazy-component';
@@ -11,6 +10,7 @@ import StickyBox from 'react-sticky-box';
 // import PeopleDesktop from '@components/Home/People/PeopleDesktop';
 // import TrendingDesktop from '@components/Home/Trending/TrendingDesktop';
 // import { lazyLoadComponent } from '@components/LoadCompVisible';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
@@ -21,13 +21,17 @@ import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 // import WatchList from './WatchList';
 import { useGetInfluencer, useSuggestPeople } from '../service';
 
-const ModalPeopleYouKnow = dynamic(() => import('@components/Explore/ModalPeopleYouKnow'), {
-  ssr: false,
-});
-const WatchList = dynamic(() => import('./WatchList'));
-const MarketDesktop = dynamic(() => import('../Market/MarketDesktop'));
-const PeopleDesktop = dynamic(() => import('@components/Home/People/PeopleDesktop'));
-const TrendingDesktop = dynamic(() => import('@components/Home/Trending/TrendingDesktop'));
+const ModalPeopleYouKnow = lazyLoadHydrate(
+  () => import('@components/Explore/ModalPeopleYouKnow'),
+  false,
+);
+const WatchList = lazyLoadHydrate(() => import('./WatchList'), false);
+const MarketDesktop = lazyLoadHydrate(() => import('../Market/MarketDesktop'), false);
+const PeopleDesktop = lazyLoadHydrate(() => import('@components/Home/People/PeopleDesktop'), false);
+const TrendingDesktop = lazyLoadHydrate(
+  () => import('@components/Home/Trending/TrendingDesktop'),
+  false,
+);
 
 // tracking event get more info
 const handleTrackingGetMore = () => {

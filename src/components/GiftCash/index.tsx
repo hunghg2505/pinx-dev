@@ -1,6 +1,6 @@
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
 import Text from '@components/UI/Text';
 import { DEEP_LINK } from 'src/constant';
@@ -8,16 +8,16 @@ import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
 
-const settings = {
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 1,
-  // slidesToScroll: 1,
-  // swipeToSlide: true,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
+// const settings = {
+//   dots: true,
+//   infinite: false,
+//   speed: 500,
+//   slidesToShow: 1,
+//   // slidesToScroll: 1,
+//   // swipeToSlide: true,
+//   // autoplay: true,
+//   // autoplaySpeed: 1000,
+// };
 const handleRedirect = (url: string) => {
   downloadPineXAppTracking('CTA in App', 'GiftCash');
   window.open(url, '_blank');
@@ -191,8 +191,16 @@ const GiftCash = () => {
           </div>
         </div>
         <div className='mt-[20px] hidden max-w-[700px] rounded-[12px] bg-[#F7F6F8] px-[25px] py-[32px]  mobile-max:block '>
-          <Slider {...settings} className={styles.slider}>
-            <div className='text-center'>
+          <Splide
+            options={{
+              perPage: 1,
+              pagination: true,
+              arrows: false,
+              gap: 10,
+            }}
+            className={styles.slider}
+          >
+            <SplideSlide className='text-center'>
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.only.vsd')}
               </Text>
@@ -210,8 +218,8 @@ const GiftCash = () => {
               <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
                 {t('giftcash.text.welcome.gift')}
               </Text>
-            </div>
-            <div className='text-center'>
+            </SplideSlide>
+            <SplideSlide className='text-center'>
               <Text type='body-20-bold' color='neutral-black' className=''>
                 {t('giftcash.text.not.cash')}
               </Text>
@@ -226,8 +234,8 @@ const GiftCash = () => {
               <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
                 {t('giftcash.text.giftcash.pinetree')}
               </Text>
-            </div>
-            <div className='text-center'>
+            </SplideSlide>
+            <SplideSlide className='text-center'>
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.balance')}
               </Text>
@@ -242,8 +250,8 @@ const GiftCash = () => {
               <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
                 {t('giftcash.text.once.fulfill')}
               </Text>
-            </div>
-            <div className='text-center'>
+            </SplideSlide>
+            <SplideSlide className='text-center'>
               <Text type='body-20-bold' color='neutral-black'>
                 {t('giftcash.text.invest')}
               </Text>
@@ -258,8 +266,8 @@ const GiftCash = () => {
               <Text type='body-14-regular' color='neutral-darkgray' className='mt-[24px]'>
                 {t('giftcash.text.list.eligible')}
               </Text>
-            </div>
-          </Slider>
+            </SplideSlide>
+          </Splide>
           <div className='mx-auto mt-[36px] w-[158px]'>
             <div className='mt-[16px] flex h-[45px] w-[158px] items-center justify-center rounded-[22px] bg-[linear-gradient(238deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)]'>
               <a

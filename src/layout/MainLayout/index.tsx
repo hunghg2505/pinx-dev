@@ -9,10 +9,10 @@ import MainHeaderFake from '@layout/components/MainHeader/MainHeaderFake';
 
 // import DesktopSidebar from './DesktopSidebar';
 
-// const MainHeader = dynamic(() => import('../components/MainHeader'), {
-//   ssr: false,
-//   loading: () => <MainHeaderFake />,
-// });
+const MainHeader = dynamic(() => import('../components/MainHeader'), {
+  ssr: false,
+  loading: () => <MainHeaderFake />,
+});
 
 // const DesktopSidebar = dynamic(() => import('./DesktopSidebar'), { ssr: false });
 
@@ -24,11 +24,6 @@ const ContentRight = lazyLoadHydrate(
   () => import('@components/Home/ContentRight'),
   false,
   () => <ContentRightFake />,
-);
-const MainHeader = lazyLoadHydrate(
-  () => import('../components/MainHeader'),
-  false,
-  () => <MainHeaderFake />,
 );
 
 const MainLayout = ({ children }: any) => {

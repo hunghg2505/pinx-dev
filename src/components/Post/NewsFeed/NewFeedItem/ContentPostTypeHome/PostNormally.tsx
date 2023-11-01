@@ -130,7 +130,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
             type='body-14-regular'
             color='neutral-1'
             className=' tablet:!text-[16px]'
-          // onClick={onComment}
+            // onClick={onComment}
           >
             <div
               onClick={(event) => onHandleClick(event)}
@@ -255,7 +255,7 @@ const MetaContent = ({ metaData }: any) => {
   );
 };
 
-export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
+const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
   const messagePostFormat = formatMessage(postDetail?.post?.message);
   const [inView, setInView] = useState(false);
 
@@ -356,3 +356,5 @@ export const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: an
     </div>
   );
 };
+
+export default PostNormally;

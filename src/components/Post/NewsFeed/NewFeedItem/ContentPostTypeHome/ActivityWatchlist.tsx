@@ -10,7 +10,7 @@ import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
 
-export const ActivityWatchlist = ({
+const ActivityWatchlist = ({
   onRef,
   isReadMore,
   onReadMore,
@@ -161,3 +161,5 @@ export const ActivityWatchlist = ({
     </div>
   );
 };
+
+export default ActivityWatchlist;

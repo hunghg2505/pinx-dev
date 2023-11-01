@@ -1,49 +1,14 @@
 import { useRef, useEffect } from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { useInView } from 'react-intersection-observer';
-import Slider from 'react-slick';
 
 import { IKOL, useGetInfluencer, useSuggestPeople } from '@components/Home/service';
 
 import ItemInfluence from './ItemInfluence';
 import InfluencerLoading from './Skeleton';
-// import InfluencerLoading from './Skeleton';
 
 const Influencer = () => {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 3,
-    swipeToSlide: true,
-    draggable: false,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-    // autoplay: true,
-    // autoplaySpeed: 1000,
-  };
   const { KOL, refresh, fetchInfluencer } = useGetInfluencer(
     {
       cacheKey: 'data-influencer',
@@ -81,7 +46,9 @@ const Influencer = () => {
   return (
     <div ref={ref} className='peopleInfluence relative w-[100%]'>
       <div
-        onClick={refSlide?.current?.slickPrev}
+        onClick={() => {
+          refSlide?.current?.splide.go('-2');
+        }}
         className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
         <img
@@ -92,22 +59,43 @@ const Influencer = () => {
         />
       </div>
       <div className='max-w-[700px]'>
-        <Slider {...settings} variableWidth ref={refSlide} draggable={true}>
+        <Splide
+          options={{
+            perPage: 4,
+            pagination: false,
+            arrows: false,
+            gap: 10,
+            breakpoints: {
+              1024: {
+                perPage: 3,
+              },
+              768: {
+                perPage: 3,
+              },
+              480: {
+                perPage: 2,
+              },
+            },
+          }}
+          ref={refSlide}
+        >
           {KOL?.filter((item: IKOL) => item.isFeatureProfile === true || item.isKol === true).map(
-            (item: IKOL, index: number) => {
+            (item: IKOL) => {
               return (
-                <div key={`ItemInfluence-${index}`} className='mr-[16px]'>
+                <SplideSlide key={`ItemInfluence-${item.id}`}>
                   <div className='w-[161px] '>
                     <ItemInfluence data={item} refresh={refresh} refreshList={refreshList} />
                   </div>
-                </div>
+                </SplideSlide>
               );
             },
           )}
-        </Slider>
+        </Splide>
       </div>
       <div
-        onClick={refSlide?.current?.slickNext}
+        onClick={() => {
+          refSlide?.current?.splide.go('+2');
+        }}
         className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
       >
         <img

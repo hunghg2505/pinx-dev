@@ -1,9 +1,9 @@
 /* eslint-disable unicorn/no-useless-spread */
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
 import { IStock } from '@components/Stock/type';
 import Text from '@components/UI/Text';
@@ -24,15 +24,6 @@ const StockProducts = ({ stockDetail }: IStockProductsProps) => {
   const { t } = useTranslation(['stock', 'common']);
   const refSlide = useRef<any>(null);
   const { isMobile } = useResponsive();
-
-  // slider product awareness
-  const settings = useMemo(() => {
-    return {
-      dots: false,
-      speed: 500,
-      slidesToScroll: PRODUCT_SLIDE_LIMIT,
-    };
-  }, [stockDetail?.data?.products]);
 
   if (!stockDetail?.data?.products || !stockDetail?.data?.products.length) {
     return <></>;
@@ -59,7 +50,9 @@ const StockProducts = ({ stockDetail }: IStockProductsProps) => {
         <div className='relative'>
           {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
             <div
-              onClick={() => refSlide.current.slickPrev()}
+              onClick={() => {
+                refSlide?.current?.splide.go('-1');
+              }}
               className='absolute left-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-x-1/4 -translate-y-full transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
             >
               <img
@@ -71,21 +64,28 @@ const StockProducts = ({ stockDetail }: IStockProductsProps) => {
           )}
 
           <div className='overflow-hidden'>
-            <Slider
-              {...settings}
+            <Splide
+              options={{
+                perPage: 1,
+                pagination: false,
+                arrows: false,
+                gap: 10,
+              }}
               ref={refSlide}
-              draggable={stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT}
-              variableWidth
             >
-              {stockDetail?.data?.products.map((item, index) => (
-                <ProductItem className='!mr-[14px]' key={index} data={item} />
+              {stockDetail?.data?.products.map((item) => (
+                <SplideSlide key={item.name}>
+                  <ProductItem className='!mr-[14px]' data={item} />
+                </SplideSlide>
               ))}
-            </Slider>
+            </Splide>
           </div>
 
           {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (
             <div
-              onClick={() => refSlide.current.slickNext()}
+              onClick={() => {
+                refSlide?.current?.splide.go('+1');
+              }}
               className='absolute right-0 top-1/2 z-10 flex h-[40px] w-[40px] -translate-y-full translate-x-1/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
             >
               <img

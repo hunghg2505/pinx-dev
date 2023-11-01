@@ -14,7 +14,6 @@ const InitialNotification = () => {
   const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
   const [notiStore] = useAtom(notificationAtom);
   const requestGetNotificationToken = useGetNotificationToken({});
-  const isLogin = getAccessToken();
 
   const refFunc: any = useRef();
   useEffect(() => {
@@ -27,6 +26,8 @@ const InitialNotification = () => {
 
   const { run: updateNoti } = useDebounceFn(
     () => {
+      const isLogin = getAccessToken();
+
       if (!isLogin) {
         return;
       }
@@ -55,12 +56,12 @@ const InitialNotification = () => {
   };
 
   useEffect(() => {
-    initFirebase();
-  }, []);
+    const isLogin = getAccessToken();
 
-  useEffect(() => {
-    isLogin && initFirebase();
-  }, [isLogin]);
+    if (isLogin) {
+      initFirebase();
+    }
+  }, []);
 
   useEffect(() => {
     if (isShowNotificationMobile) {

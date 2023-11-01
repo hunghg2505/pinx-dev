@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import classNames from 'classnames';
-import Slider from 'react-slick';
 
 import { ITheme } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
@@ -13,15 +13,15 @@ import ThemeItem from './ThemeItem';
 interface IProps {
   isEdit?: boolean;
 }
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  autoplaySpeed: 7000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-};
+// const settings = {
+//   dots: false,
+//   infinite: true,
+//   speed: 500,
+//   autoplaySpeed: 7000,
+//   slidesToShow: 1,
+//   slidesToScroll: 1,
+//   autoplay: true,
+// };
 const Themes = (props: IProps) => {
   const { isEdit = false } = props;
   const { theme, loading } = useGetTheme();
@@ -38,15 +38,24 @@ const Themes = (props: IProps) => {
     <>
       {!isEdit && (
         <div className='max-w-[100%]'>
-          <Slider className={classNames('', styles.sliderTheme)} {...settings}>
-            {theme?.map((item: ITheme, index: number) => {
+          <Splide
+            className={classNames('', styles.sliderTheme)}
+            options={{
+              perPage: 1,
+              pagination: false,
+              arrows: false,
+              gap: 10,
+              autoplay: true,
+            }}
+          >
+            {theme?.map((item: ITheme) => {
               return (
-                <div key={`them-${index}`}>
+                <SplideSlide key={`them-${item.code}`}>
                   <ThemeItem data={item} />
-                </div>
+                </SplideSlide>
               );
             })}
-          </Slider>
+          </Splide>
         </div>
       )}
     </>

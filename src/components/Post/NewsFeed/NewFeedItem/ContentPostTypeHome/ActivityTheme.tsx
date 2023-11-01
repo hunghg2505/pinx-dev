@@ -14,7 +14,7 @@ import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/commo
 
 import useHeight from './useHeight';
 
-export const ActivityTheme = ({
+const ActivityTheme = ({
   // onRef,
   onComment,
   // isReadMore,
@@ -157,3 +157,5 @@ export const ActivityTheme = ({
     </>
   );
 };
+
+export default ActivityTheme;

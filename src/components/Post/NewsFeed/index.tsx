@@ -5,7 +5,9 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import CustomLink from '@components/UI/CustomLink';
+import SkeletonLoading from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
 import { userLoginInfoAtom } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
@@ -15,11 +17,22 @@ import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import { ROUTE_PATH } from '@utils/common';
 import { clickAPostTracking, getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
-import CommentField from './CommentField';
-import ItemComment from './ItemComment';
+// import CommentField from './CommentField';
+// import ItemComment from './ItemComment';
 import NewFeedItem from './NewFeedItem';
 import NewsFeedSkeleton from './NewsFeedSkeleton';
 import { IPost, usePostDetail } from '../service';
+
+const CommentField = lazyLoadHydrate(
+  () => import('./CommentField').then((module) => module.default),
+  false,
+  () => <SkeletonLoading hiddenImg={false} />,
+);
+const ItemComment = lazyLoadHydrate(
+  () => import('./ItemComment'),
+  false,
+  () => <SkeletonLoading hiddenImg={false} />,
+);
 
 interface IProps {
   data: IPost;

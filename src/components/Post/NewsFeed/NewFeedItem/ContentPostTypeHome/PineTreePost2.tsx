@@ -18,7 +18,7 @@ import { ROUTE_PATH, formatMsgPost } from '@utils/common';
 import ModalMedia from './ModalMedia';
 import useHeight from './useHeight';
 
-export const PineTreePost2 = ({
+const PineTreePost2 = ({
   // onRef,
   // isReadMore,
   // onReadMore,
@@ -94,8 +94,8 @@ export const PineTreePost2 = ({
             alt={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.alt)}
             title={formatMsgPost(postDetail?.seoMetadata?.imageSeo?.title)}
             className='absolute left-0 top-0 h-full w-full rounded-[9px] object-cover'
-          // blurDataURL="data:..." automatically provided
-          // placeholder="blur" // Optional blur-up while loading
+            // blurDataURL="data:..." automatically provided
+            // placeholder="blur" // Optional blur-up while loading
           />
         </ModalMedia>
       );
@@ -162,3 +162,5 @@ export const PineTreePost2 = ({
     </>
   );
 };
+
+export default PineTreePost2;

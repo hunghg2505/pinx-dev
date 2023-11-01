@@ -1,30 +1,12 @@
 import React from 'react';
 
-import Slider from 'react-slick';
+import { SplideSlide, Splide } from '@splidejs/react-splide';
 
 import { ISuggestionPeople } from '@components/Home/service';
 
 // import PeopleLoading from './Skeleton';
 import ItemPeople from '../ItemPeople';
 
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 300,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 interface IProps {
   data: ISuggestionPeople[];
   refreshList: () => void;
@@ -48,15 +30,33 @@ const PeopleList = (props: IProps) => {
 
   return (
     <div className='ml-[12px] max-w-[700px] overflow-hidden  '>
-      <Slider {...settings} className=''>
+      <Splide
+        options={{
+          perPage: 3,
+          pagination: false,
+          arrows: false,
+          gap: 10,
+          breakpoints: {
+            1024: {
+              perPage: 2,
+            },
+            768: {
+              perPage: 2,
+            },
+            480: {
+              perPage: 2,
+            },
+          },
+        }}
+      >
         {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
           return (
-            <div key={`people-list-${item.id}`} className='outline-none'>
+            <SplideSlide key={`people-list-${item.id}`} className='outline-none'>
               <ItemPeople refresh={refresh} data={item} refreshList={refreshList} />
-            </div>
+            </SplideSlide>
           );
         })}
-      </Slider>
+      </Splide>
     </div>
   );
 };

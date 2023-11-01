@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
+// import ListStock from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ListStock';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
@@ -15,7 +16,6 @@ import ImageHeadPost from './ImgHeadPost';
 const ListStock = dynamic(import('./ListStock'), {
   ssr: false,
 });
-
 // const ImageHeadPost = dynamic(
 //   import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ImgHeadPost'),
 //   {
@@ -33,7 +33,7 @@ const ListStock = dynamic(import('./ListStock'), {
 //   },
 // );
 
-export const VietStockNews = ({
+const VietStockNews = ({
   onRef,
   isReadMore,
   onReadMore,
@@ -249,3 +249,5 @@ export const VietStockNews = ({
     </div>
   );
 };
+
+export default VietStockNews;

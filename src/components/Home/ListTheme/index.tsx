@@ -1,57 +1,21 @@
 import React, { useRef, useEffect } from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import { useInView } from 'react-intersection-observer';
-import Slider from 'react-slick';
 
-// import ThemesItem from '@components/Themes/ThemesItem';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
 
-// import ThemeLoading from './Skeleton';
 import ThemeLoading from './Skeleton';
 import { ITheme, useGetTheme } from '../service';
 
 const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
   ssr: false,
 });
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 3,
-  swipeToSlide: true,
-  // centerMode: true,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
 
 const ListTheme = () => {
   const { t } = useTranslation();
@@ -86,7 +50,9 @@ const ListTheme = () => {
     <div ref={ref}>
       <div className='relative h-[252px] '>
         <div
-          onClick={refSlide?.current?.slickPrev}
+          onClick={() => {
+            refSlide?.current?.splide.go('-2');
+          }}
           className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img
@@ -97,21 +63,39 @@ const ListTheme = () => {
           />
         </div>
         <div className='slideTheme max-w-[700px] overflow-hidden'>
-          <Slider {...settings} variableWidth ref={refSlide}>
-            {theme?.map((item: ITheme, index: number) => {
+          <Splide
+            options={{
+              perPage: 4,
+              pagination: false,
+              arrows: false,
+              gap: 10,
+              breakpoints: {
+                1024: {
+                  perPage: 3,
+                },
+                768: {
+                  perPage: 3,
+                },
+                480: {
+                  perPage: 2,
+                },
+              },
+            }}
+            ref={refSlide}
+          >
+            {theme?.map((item: ITheme) => {
               return (
-                <ThemesItem
-                  theme={item}
-                  key={`themeHome-${index}`}
-                  isLogin={isLogin}
-                  refresh={refresh}
-                />
+                <SplideSlide key={`themeHome-${item.code}`}>
+                  <ThemesItem theme={item} isLogin={isLogin} refresh={refresh} />
+                </SplideSlide>
               );
             })}
-          </Slider>
+          </Splide>
         </div>
         <div
-          onClick={refSlide?.current?.slickNext}
+          onClick={() => {
+            refSlide?.current?.splide.go('+2');
+          }}
           className='absolute -right-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
         >
           <img

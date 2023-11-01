@@ -33,7 +33,7 @@ const ListStock = dynamic(() => import('./ListStock'), {
 //   },
 // );
 
-export const CafeFNews = ({
+const CafeFNews = ({
   onRef,
   isReadMore,
   onReadMore,
@@ -252,3 +252,5 @@ export const CafeFNews = ({
     </div>
   );
 };
+
+export default CafeFNews;
