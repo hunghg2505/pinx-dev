@@ -16,7 +16,6 @@ import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
 import { TOAST_LIMIT } from 'src/constant';
-import { firebaseConfig } from 'src/firebase';
 
 import 'src/mixpanel/mixpanelInitial';
 
@@ -104,19 +103,6 @@ const AppInitialData = () => {
   useEffect(() => {
     storeInSession();
   }, [storeInSession]);
-
-  useEffect(() => {
-    // Event listener that listens for the push notification event in the background
-    if ('serviceWorker' in navigator) {
-      const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
-      navigator.serviceWorker
-        .register(`../../../public/firebase-messaging-sw.js?${firebaseConfigParams}`)
-        .catch(function (error) {
-          /* eslint-disable no-console */
-          console.log('xxx Service worker registration failed, error:', error);
-        });
-    }
-  }, []);
 
   return (
     <>
