@@ -11,7 +11,7 @@ import { allowNotificationTracking } from './mixpanel/mixpanel';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyDtEXAkNbCgR5zR6snZxqWHX7dyoSozhY4',
   authDomain: 'pinex-a4cf1.firebaseapp.com',
   projectId: 'pinex-a4cf1',
