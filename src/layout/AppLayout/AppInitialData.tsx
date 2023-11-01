@@ -110,7 +110,7 @@ const AppInitialData = () => {
     if ('serviceWorker' in navigator) {
       const firebaseConfigParams = new URLSearchParams(firebaseConfig).toString();
       navigator.serviceWorker
-        .register(`../../../src/firebase-messaging-sw.js?${firebaseConfigParams}`)
+        .register(`../../../public/firebase-messaging-sw.js?${firebaseConfigParams}`)
         .catch(function (error) {
           /* eslint-disable no-console */
           console.log('xxx Service worker registration failed, error:', error);
