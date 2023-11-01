@@ -97,11 +97,7 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        // Enter: ({ editor }) => {
-        //   onHandleSendComment(editor);
-        //   // onSend(editor, statusUser);
-        //   return true;
-        // },
+        Enter: () => this.editor.commands.blur(),
       };
     },
   });
@@ -320,6 +316,7 @@ const Editor = (props: IProps, ref?: any) => {
             ...postDetailStatus,
             idPostAddComment: id,
           });
+          setIsFocus(false);
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }
@@ -356,6 +353,7 @@ const Editor = (props: IProps, ref?: any) => {
           if (imageComment) {
             onCloseImage();
           }
+          setIsFocus(false);
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }
@@ -613,6 +611,12 @@ const Editor = (props: IProps, ref?: any) => {
                     'mt-[3px]': isFocus || !canExpand,
                   },
                 )}
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    onSend(editor, statusUser);
+                  }
+                }}
               />
               <Upload
                 className={classNames({

@@ -91,13 +91,14 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        // Enter: ({ editor }) => {
-        //   onSend(editor, statusUser);
-        //   return true;
-        // },
+        Enter: ({ editor }) => {
+          onSend(editor, statusUser);
+          return editor.commands.blur();
+        },
       };
     },
   });
+
   const editor = useEditor({
     extensions: [
       Document,
@@ -315,6 +316,7 @@ const Editor = (props: IProps, ref?: any) => {
             ...postDetailStatus,
             idPostAddComment: id,
           });
+          setIsFocus(false);
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }
