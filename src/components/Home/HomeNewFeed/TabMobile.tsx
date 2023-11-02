@@ -74,7 +74,7 @@ const TabMobile = () => {
             className='galaxy-max:hidden tablet:text-[14px]'
             color='primary-1'
           >
-            {t('see_all')}
+            {t('home:see_all')}
           </Text>
           <img
             src='/static/icons/iconNext.svg'

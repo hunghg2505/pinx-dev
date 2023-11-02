@@ -9,6 +9,6 @@ export const initMixpanel = () => {
       track_pageview: true,
       persistence: 'localStorage',
     });
-    resolve(true);
+    setTimeout(resolve, 8000);
   });
 };
