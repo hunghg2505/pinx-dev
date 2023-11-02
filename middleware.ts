@@ -10,7 +10,7 @@ const AUTH_PATH: any = [
   ROUTE_PATH.UPDATE_USER_PROFILE,
 ];
 const PAGE_LOGIN: any = [ROUTE_PATH.WATCHLIST];
-const PATH: any = [''];
+// const PATH: any = [''];
 
 // Check auth from server side here
 export function middleware(request: NextRequest) {
@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
 
   const isMatchAuthPath = AUTH_PATH.find((path: string) => request.nextUrl.pathname === path);
   const isMatchLoginPath = PAGE_LOGIN.find((path: string) => request.nextUrl.pathname === path);
-  const isMatchPath = PATH.find((path: string) => request.nextUrl.pathname.includes(path));
+  // const isMatchPath = PATH.find((path: string) => request.nextUrl.pathname.includes(path));
   if (!token && isMatchLoginPath) {
     url.pathname = '/';
     return NextResponse.redirect(url);

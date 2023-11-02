@@ -11,7 +11,10 @@ const Chunk2 = () => {
 
   useMount(() => {
     getUserProfile();
-    getInitDataStockMarketHome();
+    const t = setTimeout(() => {
+      getInitDataStockMarketHome();
+      clearTimeout(t);
+    }, 10_000);
   });
 
   return <></>;

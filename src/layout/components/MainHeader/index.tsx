@@ -12,16 +12,14 @@ import { getAccessToken } from '@store/auth';
 import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch';
 import { ROUTE_PATH } from '@utils/common';
 
-const MenuMobile = lazyLoadHydrate(
-  () => import('@layout/components/MainHeader/MenuMobile'),
-  false,
-  () => (
+const MenuMobile = dynamic(() => import('@layout/components/MainHeader/MenuMobile'), {
+  loading: () => (
     <div className='flex w-[96vw] items-center justify-between px-[10px] tablet:hidden'>
       <div className='h-[32px] w-[32px] bg-[#589dc1]'></div>
       <div className='h-[40px] w-[90px] bg-[#B1D5F1]'></div>
     </div>
   ),
-);
+});
 const SearchInput = lazyLoadHydrate(
   () => import('@layout/components/MainHeader/SearchInput'),
   false,
