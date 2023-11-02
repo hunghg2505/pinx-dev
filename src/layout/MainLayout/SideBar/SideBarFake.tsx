@@ -16,7 +16,6 @@ const SideBarFake = () => {
           width={218}
           height={400}
           className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
-          priority
         />
       </a>
 

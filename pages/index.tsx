@@ -74,6 +74,7 @@ export async function getStaticProps({ locale }: any) {
       ...(await serverSideTranslations(locale || 'en', ['common', 'home', 'profile', 'theme'])),
       dataSSRPinPost: responsePinnedPost?.data?.length ? responsePinnedPost?.data?.slice(0, 1) : [],
       // Will be passed to the page component as props
+      revalidate: 10,
     },
   };
 }

@@ -1,8 +1,11 @@
 import { FC, useMemo } from 'react';
 
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 import config from 'src/configs/seo_meta.json';
+
+const Schema = dynamic(() => import('@components/SEO/Schema'));
 
 interface Props {
   title?: string;
@@ -98,12 +101,8 @@ const SEO: FC<Props> = ({
       <meta name='twitter:creator' content='@pinex' />
       <meta name='keywords' content={kwToStr} />
       <link rel='canonical' href={siteUrl || 'https://pinex.vn/'} />
-      {schema && (
-        <script
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      )}
+
+      <Schema schema={schema} />
     </Head>
   );
 };

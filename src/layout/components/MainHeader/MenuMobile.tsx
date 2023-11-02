@@ -1,4 +1,4 @@
-import { useMount } from 'ahooks';
+import { useMount, useSize } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ const MenuMobile = () => {
   const router = useRouter();
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
   const { isRouteSetting } = useRouteSetting();
+  const size = useSize(() => document.querySelector('body'));
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
@@ -29,6 +30,10 @@ const MenuMobile = () => {
 
     setOpenProfileMenu(false);
   };
+
+  if (size && size.width >= 1200) {
+    return <></>;
+  }
 
   return (
     <LoadCompVisible>
