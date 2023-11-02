@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useAtomValue } from 'jotai';
 
 import { requestJoinChannel, requestJoinIndex } from '@components/Home/service';
-import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { useLogin } from '@store/auth/hydrateAuth';
 import { stockSocketAtom } from '@store/stockStocket';
-import { localStorageUtils } from '@utils/local-storage-utils';
-import { closeWebTracking, mixpanelIdentifyUser, openWebTracking } from 'src/mixpanel/mixpanel';
 import { socket } from 'src/socket/socket';
 
 const InitialSocket = () => {
-  const { isLogin } = useLogin();
-  const { userLoginInfo } = useUserLoginInfo();
   const stockSocket = useAtomValue(stockSocketAtom);
-  const [isTrackingOpenWeb, setIsTrackingOpenWeb] = useState(false);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -40,36 +33,6 @@ const InitialSocket = () => {
       socket.off('connect');
     };
   }, [stockSocket]);
-
-  useEffect(() => {
-    // tracking event close web
-    const handleClose = () => {
-      localStorageUtils.set('lastTimeVisit', new Date().toISOString());
-      closeWebTracking();
-      return false;
-    };
-    window.addEventListener('beforeunload', handleClose);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleClose);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (userLoginInfo?.loading || isTrackingOpenWeb) {
-      return;
-    }
-
-    // tracking event open web
-    // const lastTimeVisit = new Date(localStorageUtils.get('lastTimeVisit') as string).toISOString();
-    const lastTimeVisit = new Date().toISOString();
-    const cif = isLogin ? userLoginInfo?.cif : '';
-    if (cif) {
-      mixpanelIdentifyUser(cif);
-    }
-    openWebTracking(isLogin, cif, lastTimeVisit);
-    setIsTrackingOpenWeb(true);
-  }, [isTrackingOpenWeb, userLoginInfo]);
 
   return <></>;
 };
