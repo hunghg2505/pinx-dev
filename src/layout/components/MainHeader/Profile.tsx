@@ -18,7 +18,6 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import { MainButton } from '@components/UI/Button';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
-import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -71,9 +70,12 @@ const MenuProfileMobile = forwardRef((_, ref) => {
 
   useImperativeHandle(ref, () => ({ onVisible }));
 
+  if (!openProfileMenu) {
+    return <></>;
+  }
+
   return (
-    <Fade
-      visible={openProfileMenu}
+    <div
       className={classNames(
         'fixed  left-[100%] z-[9999] w-full overflow-y-auto overflow-x-hidden bg-[white] pb-[100px] pt-[12px]  [transition:0.3s] tablet:hidden',
         {
@@ -124,7 +126,7 @@ const MenuProfileMobile = forwardRef((_, ref) => {
       )}
 
       <Options />
-    </Fade>
+    </div>
   );
 });
 

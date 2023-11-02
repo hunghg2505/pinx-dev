@@ -1,16 +1,21 @@
 import React, { ChangeEvent, useContext, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
 import { profileUserContext } from '@components/MyProfile';
 import { useUpdateUserProfile } from '@components/Profile/service';
-import ModalCropAvatarCover from '@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover';
+// import ModalCropAvatarCover from '@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover';
 import { compressImage } from '@utils/common';
 import { MAX_COVER_FILE_SIZE_KB } from 'src/constant';
 
 import IconCoverEdit from './IconCoverEdit';
 import { useUploadImage } from './uploadImage';
+
+const ModalCropAvatarCover = dynamic(
+  () => import('@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover'),
+);
 
 const UpLoadCover = () => {
   const { t } = useTranslation();

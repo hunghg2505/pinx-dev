@@ -8,7 +8,6 @@ import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
 import StickyBox from 'react-sticky-box';
 
-// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';

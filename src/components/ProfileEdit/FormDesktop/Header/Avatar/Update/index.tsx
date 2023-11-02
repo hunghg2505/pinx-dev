@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 // eslint-disable-next-line import/named
 import { Field, FormInstance } from 'rc-field-form';
@@ -10,7 +11,8 @@ import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
 import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
-import ModalCropAvatarCover from '../../ModalCropAvatarCover';
+// import ModalCropAvatarCover from '../../ModalCropAvatarCover';
+const ModalCropAvatarCover = dynamic(() => import('../../ModalCropAvatarCover'));
 
 const Update = ({ form }: { form: FormInstance }) => {
   const [openModalCropImg, setOpenModalCropImg] = useState(false);

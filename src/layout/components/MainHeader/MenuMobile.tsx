@@ -1,21 +1,21 @@
-import { useMount, useSize } from 'ahooks';
+import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import { IconCloseMenu } from '@components/UI/Icon/IconCloseMenu';
 import { useRouteSetting } from '@hooks/useRouteSetting';
-import SideBar from '@layout/MainLayout/SideBar';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
+
+const SideBar = dynamic(() => import('@layout/MainLayout/SideBar'));
 
 const MenuMobile = () => {
   const [isShowNavigate, setIsShowNavigate] = useSidebarMobile();
   const router = useRouter();
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
   const { isRouteSetting } = useRouteSetting();
-  const size = useSize(() => document.querySelector('body'));
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
@@ -31,12 +31,8 @@ const MenuMobile = () => {
     setOpenProfileMenu(false);
   };
 
-  if (size && size.width >= 1200) {
-    return <></>;
-  }
-
   return (
-    <LoadCompVisible>
+    <>
       <span className='flex cursor-pointer items-center desktop:hidden' onClick={onShowNavigate}>
         {isShowNavigate ? (
           <IconCloseMenu />
@@ -64,7 +60,7 @@ const MenuMobile = () => {
           <SideBar />
         </div>
       </div>
-    </LoadCompVisible>
+    </>
   );
 };
 

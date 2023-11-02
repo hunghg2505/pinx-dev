@@ -1,17 +1,22 @@
 import React, { ChangeEvent, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 // eslint-disable-next-line import/named
 import { Field, FormInstance } from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
-import ModalCropAvatarCover from '@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover';
+// import ModalCropAvatarCover from '@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover';
 import { useUploadImage } from '@components/ProfileEdit/FormDesktop/service';
 import Loading from '@components/UI/Loading';
 import { compressImage } from '@utils/common';
 import { MAX_AVATAR_FILE_SIZE_KB } from 'src/constant';
 
 import Img from './Img';
+
+const ModalCropAvatarCover = dynamic(
+  () => import('@components/ProfileEdit/FormDesktop/Header/ModalCropAvatarCover'),
+);
 
 const Avatar = ({ form }: { form: FormInstance }) => {
   const { t } = useTranslation();
