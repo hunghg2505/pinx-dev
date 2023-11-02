@@ -91,13 +91,18 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        // Enter: ({ editor }) => {
-        //   onSend(editor, statusUser);
-        //   return true;
-        // },
+        Enter: ({ editor }) => {
+          if (editor.getText()) {
+            onSend(editor, statusUser);
+            return editor.commands.blur();
+          } else {
+            return editor.commands.focus();
+          }
+        },
       };
     },
   });
+
   const editor = useEditor({
     extensions: [
       Document,
@@ -198,13 +203,9 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none abcd',
       },
     },
-    // onUpdate({ editor }) {
-    //   const text = editor.getText();
-    //   if (idReply && text === '' && width && width < 738) {
-    //     console.log('123');
-    //     setIdReply('');
-    //   }
-    // },
+    onUpdate({ editor }) {
+      editor.commands.scrollIntoView();
+    },
   });
   const textComment = editor?.getText();
 
@@ -315,6 +316,7 @@ const Editor = (props: IProps, ref?: any) => {
             ...postDetailStatus,
             idPostAddComment: id,
           });
+          setIsFocus(false);
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }

@@ -97,11 +97,7 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        // Enter: ({ editor }) => {
-        //   onHandleSendComment(editor);
-        //   // onSend(editor, statusUser);
-        //   return true;
-        // },
+        Enter: () => this.editor.commands.focus(),
       };
     },
   });
@@ -209,8 +205,11 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none',
       },
     },
+    onUpdate({ editor }) {
+      editor.commands.scrollIntoView();
+    },
   });
-  const textComment = editor?.getText();
+  const textComment = editor?.getText().trim();
 
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -320,6 +319,7 @@ const Editor = (props: IProps, ref?: any) => {
             ...postDetailStatus,
             idPostAddComment: id,
           });
+          setIsFocus(false);
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }
@@ -356,6 +356,7 @@ const Editor = (props: IProps, ref?: any) => {
           if (imageComment) {
             onCloseImage();
           }
+          setIsFocus(false);
         } else {
           toast(() => <Notification type='error' message={t('policy_post')} />);
         }
@@ -517,6 +518,16 @@ const Editor = (props: IProps, ref?: any) => {
     }
   }, [elementRef?.current?.clientHeight]);
 
+  const handleKeyDown = (event: any) => {
+    if (
+      event.key === 'Enter' &&
+      !event.shiftKey && // event.preventDefault();
+      textComment
+    ) {
+      onSend(editor, statusUser);
+    }
+  };
+
   return (
     <>
       <div
@@ -613,6 +624,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'mt-[3px]': isFocus || !canExpand,
                   },
                 )}
+                onKeyDown={handleKeyDown}
               />
               <Upload
                 className={classNames({

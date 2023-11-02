@@ -1,4 +1,3 @@
-import { Partytown } from '@builder.io/partytown/react';
 import { Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
 
@@ -8,11 +7,9 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <Partytown forward={['dataLayer.push']} />
         <Script
-          type='text/partytown'
           id='gtag'
-          strategy='afterInteractive'
+          strategy='lazyOnload'
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

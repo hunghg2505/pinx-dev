@@ -4,7 +4,7 @@ import { useDebounceFn } from 'ahooks';
 import { useAtom } from 'jotai';
 
 import { useGetNotificationToken } from '@layout/components/MainHeader/Notifications/service';
-import { getAccessToken } from '@store/auth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { notificationAtom } from '@store/notification/notification';
 import { notificationMobileAtom } from '@store/sidebarMobile/notificationMobile';
 import { disableScroll, enableScroll } from '@utils/common';
@@ -14,6 +14,7 @@ const InitialNotification = () => {
   const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
   const [notiStore] = useAtom(notificationAtom);
   const requestGetNotificationToken = useGetNotificationToken({});
+  const { isLogin } = useLogin();
 
   const refFunc: any = useRef();
   useEffect(() => {
@@ -26,8 +27,6 @@ const InitialNotification = () => {
 
   const { run: updateNoti } = useDebounceFn(
     () => {
-      const isLogin = getAccessToken();
-
       if (!isLogin) {
         return;
       }
@@ -44,7 +43,7 @@ const InitialNotification = () => {
   const initFirebase = async () => {
     try {
       const token = await firebaseCloudMessaging.init();
-      if (token) {
+      if (token && isLogin) {
         firebaseCloudMessaging.onMessage(updateNoti);
         requestGetNotificationToken.run({
           deviceToken: token as string,
@@ -56,12 +55,10 @@ const InitialNotification = () => {
   };
 
   useEffect(() => {
-    const isLogin = getAccessToken();
-
     if (isLogin) {
       initFirebase();
     }
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     if (isShowNotificationMobile) {

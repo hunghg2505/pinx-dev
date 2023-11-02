@@ -7,12 +7,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 // import { fetchPinedPostFromServer } from '@components/Home/service';
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
-import SEO from '@components/SEO';
-import MainLayout from '@layout/MainLayout';
+// import SEO from '@components/SEO';
+// import MainLayout from '@layout/MainLayout';
 import { atomSSRPinPost } from '@store/pinPost/pinPost';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Home = dynamic(() => import('@components/Home'));
+const SEO = dynamic(() => import('@components/SEO'));
+const MainLayout = dynamic(() => import('@layout/MainLayout'));
 
 const homePageKW = [
   'Cộng đồng đầu tư chứng khoán PineX',
