@@ -1,54 +1,54 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 
-import lazyLoadHydrate from '@components/LazyComp/LazyComp';
-// import ActivityMatchOrder from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityMatchOrder';
-// import {ActivityTheme} from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityTheme';
-// import { ActivityWatchlist } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityWatchlist';
-// import { CafeFNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/CafeFNews';
-// import { PineTreePost } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost';
-// import { PineTreePost2 } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost2';
-// import { PostNormally } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PostNormally';
-// import { VietStockNews } from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/VietStockNews';
+// import lazyLoadHydrate from '@components/LazyComp/LazyComp';
+import ActivityMatchOrder from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityMatchOrder';
+import ActivityTheme from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityTheme';
+import ActivityWatchlist from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityWatchlist';
+import CafeFNews from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/CafeFNews';
+import PineTreePost from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost';
+import PineTreePost2 from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost2';
+import PostNormally from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PostNormally';
+import VietStockNews from '@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/VietStockNews';
 import { IPost, TYPEPOST } from '@components/Post/service';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { ROUTE_PATH, formatMessage, imageStock, toNonAccentVietnamese } from '@utils/common';
 
-const ActivityMatchOrder = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityMatchOrder'),
-  true,
-);
-const ActivityTheme = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityTheme'),
-  true,
-);
-const ActivityWatchlist = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityWatchlist'),
-  true,
-);
-const CafeFNews = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/CafeFNews'),
-  true,
-);
-const PineTreePost = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost'),
-  true,
-);
-const PineTreePost2 = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost2'),
-  true,
-);
-const PostNormally = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PostNormally'),
-  true,
-);
-const VietStockNews = lazyLoadHydrate(
-  () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/VietStockNews'),
-  true,
-);
+// const ActivityMatchOrder = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityMatchOrder'),
+//   true,
+// );
+// const ActivityTheme = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityTheme'),
+//   true,
+// );
+// const ActivityWatchlist = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityWatchlist'),
+//   true,
+// );
+// const CafeFNews = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/CafeFNews'),
+//   true,
+// );
+// const PineTreePost = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost'),
+//   true,
+// );
+// const PineTreePost2 = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PineTreePost2'),
+//   true,
+// );
+// const PostNormally = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/PostNormally'),
+//   true,
+// );
+// const VietStockNews = lazyLoadHydrate(
+//   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/VietStockNews'),
+//   true,
+// );
 
 interface IProps {
   postDetail: IPost;
@@ -299,4 +299,4 @@ const ContentPostTypeHome = (props: IProps) => {
   return <></>;
 };
 
-export default memo(ContentPostTypeHome);
+export default ContentPostTypeHome;

@@ -1,18 +1,12 @@
 import React from 'react';
 
 import { Splide, SplideSlide } from '@splidejs/react-splide';
+import dynamic from 'next/dynamic';
 
-import ItemStock from './ItemStock';
+const ItemStock = dynamic(() => import('./ItemStock'), {
+  ssr: false,
+});
 
-// const settings = {
-//   dots: false,
-//   infinite: false,
-//   speed: 500,
-//   slidesToShow: 3,
-//   slidesToScroll: 1,
-//   // autoplay: true,
-//   // autoplaySpeed: 1000,
-// };
 const ListStock = ({
   listStock,
   onTrackingViewTicker,

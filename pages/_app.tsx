@@ -18,7 +18,7 @@ import nextI18nConfig from '../next-i18next.config';
 import 'dayjs/locale/en';
 import 'dayjs/locale/vi';
 
-const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData'), {
+const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData/AppInitialData'), {
   ssr: false,
 });
 const InitialSocket = dynamic(() => import('@layout/AppLayout/InitialSocket'), {

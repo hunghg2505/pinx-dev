@@ -3,13 +3,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
-import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -28,7 +28,7 @@ import {
 import TabMobileSkeleton from './TabMobileSkeleton';
 import { useGetWatchList } from '../service';
 
-const PinPost = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PinPost'));
+const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
 const PostList = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PostList'));
 
 const TabMobile = lazyLoadHydrate(
@@ -39,7 +39,7 @@ const TabMobile = lazyLoadHydrate(
 const UserPosting = lazyLoadHydrate(
   () => import('@components/Home/UserPosting/UserPosting'),
   false,
-  () => <UserPostingFake />,
+  () => <></>,
 );
 
 const HomeNewFeed = () => {

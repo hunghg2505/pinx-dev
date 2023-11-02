@@ -8,10 +8,10 @@ const compiler =
   process.env.NODE_ENV === 'development'
     ? {}
     : {
-      removeConsole: {
-        exclude: ['error'],
-      },
-    };
+        removeConsole: {
+          exclude: ['error'],
+        },
+      };
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -19,7 +19,7 @@ const nextConfig = {
   i18n,
   swcMinify: true,
   output: 'standalone',
-
+  compress: true,
   // React Strict Mode is off
   reactStrictMode: false,
   // Back scroll postion
