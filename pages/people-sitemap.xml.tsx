@@ -2,7 +2,8 @@ import { NextPageContext } from 'next';
 
 import { KOL } from '@api/constant';
 import { PREFIX_API_IP_PIST } from '@api/request';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 function generateSiteMap(host: string, listSlug: string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -35,7 +36,7 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
 
   const listSlug: string[] = [];
   for await (const item of response?.data?.list) {
-    const slug = ROUTE_PATH.PROFILE_V2(item?.displayName, item?.id);
+    const slug = PROFILE_V2(item?.displayName, item?.id);
 
     listSlug.push(slug);
   }

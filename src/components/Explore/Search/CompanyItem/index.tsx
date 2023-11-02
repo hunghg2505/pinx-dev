@@ -6,7 +6,8 @@ import { useTranslation } from 'next-i18next';
 import { ITopWatchingStock } from '@components/Explore/service';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, getStockUrl, imageStock } from '@utils/common';
+import { getStockUrl, imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 
 const CompanyItem = ({
   data,
@@ -24,7 +25,7 @@ const CompanyItem = ({
   return (
     <div
       onClick={() => {
-        router.push(ROUTE_PATH.STOCK_DETAIL(code));
+        router.push(STOCK_DETAIL(code));
         setSearchSeo(false);
         onTrackingEventViewStockInfo && onTrackingEventViewStockInfo(data?.stockCode);
       }}

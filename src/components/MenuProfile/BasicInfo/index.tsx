@@ -7,8 +7,9 @@ import { useTranslation } from 'next-i18next';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
 import { USER_STATUS_PENDING, USER_STATUS_VERIFIED } from 'src/constant';
+import { PROFILE_V2 } from 'src/constant/route';
 
 const BasicInfo = ({
   avatar,
@@ -35,7 +36,7 @@ const BasicInfo = ({
       className=' mb-[16px] px-[16px]'
       onClick={() => {
         router.push({
-          pathname: ROUTE_PATH.PROFILE_V2(userName, userId),
+          pathname: PROFILE_V2(userName, userId),
           query: {
             from_profile_menu: 1,
           },

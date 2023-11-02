@@ -1,15 +1,22 @@
-import { ROUTE_PATH } from '@utils/common';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import {
+  LOGIN,
+  FORGOT_PASSWORD,
+  REGISTER_USER_NAME,
+  REGISTER_OTP_VERIFICATION,
+  UPDATE_USER_PROFILE,
+  WATCHLIST,
+} from 'src/constant/route';
 
 const AUTH_PATH: any = [
-  ROUTE_PATH.LOGIN,
-  ROUTE_PATH.FORGOT_PASSWORD,
-  ROUTE_PATH.REGISTER_USER_NAME,
-  ROUTE_PATH.REGISTER_OTP_VERIFICATION,
-  ROUTE_PATH.UPDATE_USER_PROFILE,
+  LOGIN,
+  FORGOT_PASSWORD,
+  REGISTER_USER_NAME,
+  REGISTER_OTP_VERIFICATION,
+  UPDATE_USER_PROFILE,
 ];
-const PAGE_LOGIN: any = [ROUTE_PATH.WATCHLIST];
+const PAGE_LOGIN: any = [WATCHLIST];
 // const PATH: any = [''];
 
 // Check auth from server side here

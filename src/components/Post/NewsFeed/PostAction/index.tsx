@@ -16,8 +16,8 @@ import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH } from '@utils/common';
 import { USERTYPE } from 'src/constant';
+import { POST_DETAIL_PATH } from 'src/constant/route';
 
 const ModalShare = dynamic(() => import('../ModalShare'), {
   ssr: false,
@@ -55,7 +55,7 @@ const PostAction = (props: IPostActionProps) => {
   const router = useRouter();
   const [like, setLike] = React.useState(isLike);
   const [totalLike, setTotalLike] = React.useState(totalLikes);
-  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const isPostDetailPath = router.pathname.startsWith(POST_DETAIL_PATH);
   const [urlPostFormat, setUrlPostFormat] = useState('');
   const [modalShareVisible, setModalShareVisible] = useState(false);
 

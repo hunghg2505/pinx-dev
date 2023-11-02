@@ -33,8 +33,8 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH } from '@utils/common';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+import { SEARCHSEO } from 'src/constant/route';
 import {
   getMoreInfoTracking,
   searchTracking,
@@ -165,7 +165,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
     onSuccess: () => {
       const value = form.getFieldValue('search');
       router.push({
-        pathname: ROUTE_PATH.SEARCHSEO,
+        pathname: SEARCHSEO,
         query: { keyword: value },
       });
       clearCache('data-pin-post');
@@ -270,7 +270,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
     setSearchSeo(false);
     const value = form.getFieldValue('search');
     router.push({
-      pathname: ROUTE_PATH.SEARCHSEO,
+      pathname: SEARCHSEO,
       query: { keyword: value, tab },
     });
   };

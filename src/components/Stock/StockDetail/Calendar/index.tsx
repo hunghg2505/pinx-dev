@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { useFinancialCalendar } from '@components/Stock/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { STOCK_EVENT } from 'src/constant/route';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import StockCalendarSkeleton from './skeleton';
@@ -53,7 +53,7 @@ const StockCalendar = ({ stockCode, handleAnalyze }: IStockCalendarProps) => {
             handleAnalyze('Stock events');
             getMoreInfoTracking('Stock detail screen', 'Events', 'Events of company');
           }}
-          href={ROUTE_PATH.STOCK_EVENT(stockCode)}
+          href={STOCK_EVENT(stockCode)}
         >
           <button className='mt-[16px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
             <Text type='body-14-bold' color='primary-2'>

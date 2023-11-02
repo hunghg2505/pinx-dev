@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 
 import { CompanyRelatedType, IHashtag, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { STOCK_RELATED } from 'src/constant/route';
 import { analyzeTickerTracking, viewStockListTracking } from 'src/mixpanel/mixpanel';
 
 interface IMainBusinessProps {
@@ -27,7 +27,7 @@ const MainBusiness = ({ taggingInfo, stockCode }: IMainBusinessProps) => {
     viewStockListTracking(hashtag.tagName, 'Company related', 'Main business', 'Ticker info');
 
     router.push({
-      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtag.id),
+      pathname: STOCK_RELATED(stockCode, hashtag.id),
       query: {
         type,
       },

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
-import { ROUTE_PATH } from '@utils/common';
+import { TOP_WATCHING } from 'src/constant/route';
 
 const NotFound = () => {
   const { t } = useTranslation('profile');
@@ -26,7 +26,7 @@ const NotFound = () => {
             {t('watch_list_not_found')}
           </p>
           <CustomLink
-            href={ROUTE_PATH.TOP_WATCHING}
+            href={TOP_WATCHING}
             className='
           line-[18px]
           block

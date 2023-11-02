@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { useStockNews } from '@components/Stock/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { STOCK_NEWS } from 'src/constant/route';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 import StockNewsSkeleton from './skeleton';
@@ -46,7 +46,7 @@ const StockNews = ({ stockCode, handleAnalyze }: IStockNewsProps) => {
             handleAnalyze('Stock news');
             getMoreInfoTracking('Stock detail screen', 'News', 'List news of company');
           }}
-          href={ROUTE_PATH.STOCK_NEWS(stockCode)}
+          href={STOCK_NEWS(stockCode)}
         >
           <button className='mt-[12px] h-[46px] w-full rounded-[8px] bg-[#EEF5F9]'>
             <Text type='body-14-bold' color='primary-2'>

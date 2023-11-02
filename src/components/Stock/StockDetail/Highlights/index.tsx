@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { CompanyRelatedType, IHashtag, ITaggingInfo } from '@components/Stock/type';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
-import { ROUTE_PATH } from '@utils/common';
+import { STOCK_RELATED } from 'src/constant/route';
 import { analyzeTickerTracking, viewStockListTracking } from 'src/mixpanel/mixpanel';
 
 import styles from '../../index.module.scss';
@@ -45,7 +45,7 @@ const StockHighlights = ({ taggingInfo, stockCode }: IStockHighlightsProps) => {
     viewStockListTracking(hashtag.tagName, 'Company related', 'Highligh tagging', 'Ticker info');
 
     router.push({
-      pathname: ROUTE_PATH.STOCK_RELATED(stockCode, hashtag.id),
+      pathname: STOCK_RELATED(stockCode, hashtag.id),
       query: {
         type,
       },

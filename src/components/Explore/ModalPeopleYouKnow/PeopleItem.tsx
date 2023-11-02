@@ -19,7 +19,8 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { PROFILE_V2, SEARCH } from 'src/constant/route';
 
 interface Iprops {
   data: ISuggestionPeople;
@@ -36,7 +37,7 @@ const PeopleItem = (props: Iprops) => {
   // const [isFollow, setIsFollow] = React.useState<boolean>(false);
   const isFollow = data?.isFollowed;
   const { isMobile } = useResponsive();
-  const isSearchPage = router.pathname === ROUTE_PATH.SEARCH;
+  const isSearchPage = router.pathname === SEARCH;
 
   const isMyAccount = useMemo(() => {
     const isMyAcc = data.id === userId;
@@ -99,7 +100,7 @@ const PeopleItem = (props: Iprops) => {
 
   const handleNavigateToUserDetail = () => {
     onClosePopup && onClosePopup();
-    router.push(ROUTE_PATH.PROFILE_V2(data?.displayName, data?.id));
+    router.push(PROFILE_V2(data?.displayName, data?.id));
   };
 
   return (

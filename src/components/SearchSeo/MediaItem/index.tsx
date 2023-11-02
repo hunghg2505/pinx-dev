@@ -7,7 +7,8 @@ import { useRouter } from 'next/router';
 import styles from '@components/SearchSeo/index.module.scss';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
-import getSeoDataFromLink, { ROUTE_PATH, formatMessage } from '@utils/common';
+import { getSeoDataFromLink, formatMessage } from '@utils/common';
+import { PROFILE_V2, SEARCHSEO, STOCK_DETAIL } from 'src/constant/route';
 
 // const formatMessages = (message: string, data: any, idCustomer?: any) => {
 //   const str = message.split(' ');
@@ -162,16 +163,16 @@ const MediaItem = ({
       return window.open(textContent);
     }
     if (classElement === 'people') {
-      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
+      const url = PROFILE_V2(textContent, id);
       return onNavigate(url);
     }
     if (classElement === 'tagStock') {
       onTrackingViewTicker && onTrackingViewTicker(textContent);
-      return onNavigate(ROUTE_PATH.STOCK_DETAIL(textContent));
+      return onNavigate(STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
       const text = textContent.slice(1);
-      return onNavigate(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      return onNavigate(`${SEARCHSEO}?keyword=${text}`);
     }
     return onGoToDetail();
   };

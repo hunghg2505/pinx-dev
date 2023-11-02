@@ -27,7 +27,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, calcUserStatusText, isUrlValid, compressImage } from '@utils/common';
+import { calcUserStatusText, isUrlValid, compressImage } from '@utils/common';
 import {
   USERTYPE,
   USER_STATUS_PENDING,
@@ -36,6 +36,7 @@ import {
   DEEP_LINK,
   MAX_AVATAR_FILE_SIZE_KB,
 } from 'src/constant';
+import { DEACTIVATE_ACCOUNT_V2 } from 'src/constant/route';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 import { useUpdateUserProfile } from './service';
@@ -153,7 +154,7 @@ const ProfileVerification = () => {
 
   const deactiveAccount = () => {
     if (isMobile) {
-      router.push(ROUTE_PATH.DEACTIVATE_ACCOUNT_V2(userLoginInfo?.displayName, userLoginInfo?.id));
+      router.push(DEACTIVATE_ACCOUNT_V2(userLoginInfo?.displayName, userLoginInfo?.id));
     } else {
       setPopupStatus({ ...popupStatus, popupDeactivateAccount: true });
     }

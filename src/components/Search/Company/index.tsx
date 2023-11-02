@@ -11,7 +11,7 @@ import FormItem from '@components/UI/FormItem';
 import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { SEARCH } from 'src/constant/route';
 import { searchTracking, viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { useGetCompany } from '../service';
@@ -43,7 +43,7 @@ const Company = ({ keyword }: { keyword: any }) => {
     () => {
       const value = form.getFieldValue('search');
       router.push({
-        pathname: ROUTE_PATH.SEARCH,
+        pathname: SEARCH,
         query: {
           keyword: value,
           type: TYPESEARCH.STOCK,

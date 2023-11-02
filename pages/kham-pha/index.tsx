@@ -9,7 +9,8 @@ import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
 import { atomHeaderSearch, useHeaderSearch } from '@store/headerSearch/headerSearch';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { EXPLORE } from 'src/constant/route';
 
 const Explore = dynamic(() => import('@components/Explore'));
 
@@ -27,7 +28,7 @@ const ExplorePage = ({ host }: { host: string }) => {
 
   return (
     <>
-      <SEO title={'Pinex Explore'} siteUrl={`${host}${ROUTE_PATH.EXPLORE}`} />
+      <SEO title={'Pinex Explore'} siteUrl={`${host}${EXPLORE}`} />
       <Explore />
     </>
   );

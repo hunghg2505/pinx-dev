@@ -13,7 +13,8 @@ import { useTranslation } from 'next-i18next';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, formatMsgPost } from '@utils/common';
+import { formatMsgPost } from '@utils/common';
+import { PROFILE_V2, SEARCHSEO, STOCK_DETAIL } from 'src/constant/route';
 
 import ModalMedia from './ModalMedia';
 import useHeight from './useHeight';
@@ -52,16 +53,16 @@ const PineTreePost2 = ({
       // });
     }
     if (classElement === 'people') {
-      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
+      const url = PROFILE_V2(textContent, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
       onTrackingViewTicker && onTrackingViewTicker(textContent);
-      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+      return router.push(STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
       const text = textContent.slice(1);
-      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      return router.push(`${SEARCHSEO}?keyword=${text}`);
     }
     return onComment();
   };

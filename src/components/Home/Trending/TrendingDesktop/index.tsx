@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { ITrending, useGetTrending } from '@components/Home/service';
 import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { SEARCHSEO } from 'src/constant/route';
 
 import TrendingDesktopLoading from './Skeleton';
 
@@ -43,7 +43,7 @@ const TrendingDesktop = () => {
                 </Text>
               </div>
               <Text
-                onClick={() => router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${item.keyword}`)}
+                onClick={() => router.push(`${SEARCHSEO}?keyword=${item.keyword}`)}
                 type='body-14-regular'
                 color='primary-2'
                 className='flex-1 cursor-pointer'

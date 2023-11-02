@@ -13,8 +13,8 @@ import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH } from '@utils/common';
 import { REG_USERNAME } from '@utils/reg';
+import { REGISTER_OTP_VERIFICATION } from 'src/constant/route';
 import { createLoginNameTracking } from 'src/mixpanel/mixpanel';
 
 import { useCreateUsername } from './service';
@@ -52,7 +52,7 @@ const CreateUsername = (props: IProps) => {
                 popupRegisterUsername: false,
               });
             } else {
-              router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+              router.push(REGISTER_OTP_VERIFICATION);
             }
             break;
           }

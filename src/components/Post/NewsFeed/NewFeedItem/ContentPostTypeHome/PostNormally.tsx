@@ -16,14 +16,21 @@ import Text from '@components/UI/Text';
 import useCheckPineXPost from '@hooks/useCheckPineXPost';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, formatMessage, formatMsgPost, getVideoId } from '@utils/common';
+import { formatMessage, formatMsgPost, getVideoId } from '@utils/common';
+import {
+  POST_DETAIL,
+  POST_DETAIL_PATH,
+  PROFILE_V2,
+  SEARCHSEO,
+  STOCK_DETAIL,
+} from 'src/constant/route';
 
 import useHeight from './useHeight';
 
 const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingViewTicker }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const isPostDetailPath = router.pathname.startsWith(POST_DETAIL_PATH);
   const [showReadMore, setShowReadMore] = useState<boolean>(isPostDetailPath);
   const [, setSearchSeo] = useAtom(searchSeoAtom);
   const messageDefault = postDetail?.post?.message;
@@ -39,7 +46,7 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
       message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail?.seoMetadata?.slug),
+      postDetailUrl: POST_DETAIL(postDetail?.seoMetadata?.slug),
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);
@@ -75,16 +82,16 @@ const Content = memo(({ postDetail, onComment, messagePostFormat, onTrackingView
     }
     if (classElement === 'people') {
       const displayName = e?.target?.textContent;
-      const url = ROUTE_PATH.PROFILE_V2(displayName, id);
+      const url = PROFILE_V2(displayName, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
       onTrackingViewTicker && onTrackingViewTicker(textContent);
-      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+      return router.push(STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
       const text = textContent.slice(1);
-      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      return router.push(`${SEARCHSEO}?keyword=${text}`);
     }
     return onComment();
   };
@@ -267,7 +274,7 @@ const PostNormally = ({ postDetail, onComment, onTrackingViewTicker }: any) => {
       siteName: `${metaData?.siteName}`.toLowerCase(),
       videoId: getVideoId(metaData?.url, metaData?.siteName),
       message: postDetail?.post?.message && formatMessage(postDetail?.post?.message),
-      postDetailUrl: ROUTE_PATH.POST_DETAIL(postDetail?.seoMetadata?.slug),
+      postDetailUrl: POST_DETAIL(postDetail?.seoMetadata?.slug),
       post_url: postDetail?.post.url ?? '',
     };
   }, [postDetail]);

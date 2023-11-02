@@ -7,8 +7,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { createSearchSeoFromServer } from '@components/SearchSeo/service';
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
-import { getHostName, ROUTE_PATH } from '@utils/common';
+import { getHostName } from '@utils/common';
 import { removeSpecialCharacter } from '@utils/removeSpecialChar';
+import { SEARCHSEO } from 'src/constant/route';
 
 const SearchSeo = dynamic(() => import('@components/SearchSeo'));
 
@@ -27,7 +28,7 @@ const SearchBar = ({
     <>
       <SEO
         title={seoMetadata?.title}
-        siteUrl={`${host}${ROUTE_PATH.SEARCHSEO}${urlParams}`}
+        siteUrl={`${host}${SEARCHSEO}${urlParams}`}
         description={seoMetadata?.metaDescription}
         openGraph={{
           locale: i18n.language,

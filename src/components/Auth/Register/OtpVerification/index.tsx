@@ -10,8 +10,14 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies, getRegisterToken } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH, checkUserType } from '@utils/common';
-import { confirmPhoneNumberTracking, loginTracking, mixpanelIdentifyUser, resendSMSTracking } from 'src/mixpanel/mixpanel';
+import { checkUserType } from '@utils/common';
+import { LOGIN, REGISTER_COMPANY } from 'src/constant/route';
+import {
+  confirmPhoneNumberTracking,
+  loginTracking,
+  mixpanelIdentifyUser,
+  resendSMSTracking,
+} from 'src/mixpanel/mixpanel';
 
 import { useRegisterOtp, useResendRegisterOtp } from './service';
 import OtpVerification from '../../OtpVerification';
@@ -44,19 +50,12 @@ const Register = (props: IProps) => {
           popupRegisterOtp: false,
         });
       }
-      router.push(ROUTE_PATH.REGISTER_COMPANY);
+      router.push(REGISTER_COMPANY);
       setUserType(checkUserType(resData?.custStat, resData?.acntStat));
       setIsReadTerms(true);
       deleteRegisterCookies();
       mixpanelIdentifyUser(resData.cif);
-      loginTracking(
-        'Login',
-        resData.cif,
-        'Not Verified',
-        resData.username,
-        new Date(),
-        '',
-      );
+      loginTracking('Login', resData.cif, 'Not Verified', resData.username, new Date(), '');
       confirmPhoneNumberTracking(
         'Success',
         '',
@@ -103,7 +102,7 @@ const Register = (props: IProps) => {
   useEffect(() => {
     if (!userRegisterInfo.phoneNumber || !getRegisterToken()) {
       deleteRegisterCookies();
-      router.push(ROUTE_PATH.LOGIN);
+      router.push(LOGIN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

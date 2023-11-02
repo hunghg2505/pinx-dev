@@ -15,7 +15,8 @@ import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -85,7 +86,7 @@ const ItemPeople = (props: IProps) => {
     <>
       <div className='mr-[16px] flex flex-col items-center rounded-[15px] border-[1px] border-solid border-[#F4F4F4] bg-[rgba(255,_255,_255,_0.704436)] px-[9px] pb-[10px] pt-[14px] backdrop-blur-[8.15485px] backdrop-filter [box-shadow:0px_5px_8px_rgba(88,_157,_192,_0.0948973)] galaxy-max:mr-[12px]'>
         <div
-          onClick={() => router.push(ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId))}
+          onClick={() => router.push(PROFILE_V2(data?.displayName, data?.customerId))}
           className='flex flex-col items-center justify-center'
         >
           {isUrlValid(data?.avatar) ? (

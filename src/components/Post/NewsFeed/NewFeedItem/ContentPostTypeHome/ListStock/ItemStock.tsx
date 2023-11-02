@@ -2,7 +2,8 @@ import Image from 'next/image';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, imageStock } from '@utils/common';
+import { imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 
 const ItemStock = ({
   data,
@@ -16,7 +17,7 @@ const ItemStock = ({
       onClick={() => {
         onTrackingViewTicker && onTrackingViewTicker(data);
       }}
-      href={ROUTE_PATH.STOCK_DETAIL(data)}
+      href={STOCK_DETAIL(data)}
       className='mr-[6px] inline-flex h-[32px] flex-row items-center justify-between rounded-[1000px] border-[1px] border-solid border-[rgba(88,157,192,0.24)] bg-[#1F6EAC] pl-[4px] pr-[6px] backdrop-blur-[2px] backdrop-filter'
     >
       <Image

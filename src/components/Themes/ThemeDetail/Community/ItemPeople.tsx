@@ -6,7 +6,8 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 const IconArrow = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='24' viewBox='0 0 25 24' fill='none'>
@@ -22,7 +23,7 @@ const IconArrow = () => (
 
 const ItemPeople = ({ data, isModal }: { data: IUserTheme; isModal?: boolean }) => {
   const { t } = useTranslation('common');
-  const urlProfile = ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId);
+  const urlProfile = PROFILE_V2(data?.displayName, data?.customerId);
   return (
     <CustomLink href={urlProfile}>
       <div className='flex flex-row items-center justify-between rounded-[16px] border-[1px] border-solid border-[#E6E6E6] px-[12px] py-[16px]'>

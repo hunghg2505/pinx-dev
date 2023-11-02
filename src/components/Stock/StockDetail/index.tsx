@@ -20,8 +20,9 @@ import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
+import { formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
 import { USERTYPE } from 'src/constant';
+import { NOT_FOUND, STOCK_DETAIL, STOCK_REVIEW } from 'src/constant/route';
 import {
   addTickerTracking,
   analyzeTickerTracking,
@@ -169,7 +170,7 @@ const StockDetail = () => {
   const stockCode = code.split('-')[0].toUpperCase();
   const { stockDetail } = useStockDetail(stockCode, {
     onError: () => {
-      router.push(ROUTE_PATH.NOT_FOUND);
+      router.push(NOT_FOUND);
     },
   });
 
@@ -177,7 +178,7 @@ const StockDetail = () => {
 
   useEffect(() => {
     if (stockDetail?.data?.name && code.split('-').length < 2) {
-      const newPath = ROUTE_PATH.STOCK_DETAIL(
+      const newPath = STOCK_DETAIL(
         stockCode.toLowerCase() +
           '-' +
           toNonAccentVietnamese(stockDetail?.data?.name).toLowerCase().replaceAll(' ', '-'),
@@ -205,7 +206,7 @@ const StockDetail = () => {
   const { taggingInfo } = useCompanyTaggingInfo(stockCode, {
     onError: (e) => {
       if (e.errorCode === 'error.company.not.found') {
-        router.push(ROUTE_PATH.NOT_FOUND);
+        router.push(NOT_FOUND);
       }
     },
   });
@@ -647,7 +648,7 @@ const StockDetail = () => {
                 {t('rating.reviews')}
               </Text>
 
-              <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+              <CustomLink href={STOCK_REVIEW(stockCode)}>
                 <div className='flex items-center justify-center'>
                   <Text type='body-20-medium' color='primary-1'>
                     {formatStringToNumber(stockDetails?.data.details.totalReviews) || 0}
@@ -674,7 +675,7 @@ const StockDetail = () => {
             />
 
             {stockDetails.data.details.totalReviews > STOCK_REVIEW_LIMIT && (
-              <CustomLink href={ROUTE_PATH.STOCK_REVIEW(stockCode)}>
+              <CustomLink href={STOCK_REVIEW(stockCode)}>
                 <button
                   onClick={() => {
                     handleAnalyze('Stock rating');

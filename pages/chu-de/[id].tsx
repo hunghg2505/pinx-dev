@@ -7,7 +7,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 import { fetchThemeDetailFromServer } from '@components/Themes/service';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName, toNonAccentVietnamese } from '@utils/common';
+import { getHostName, toNonAccentVietnamese } from '@utils/common';
+import { THEME_DETAIL } from 'src/constant/route';
 
 const ThemeDetail = dynamic(() => import('@components/Themes/ThemeDetail'), {
   ssr: false,
@@ -23,7 +24,7 @@ const PostDetailPage = ({ themeDetail, host }: any) => {
   return (
     <>
       <SEO
-        siteUrl={`${host}${ROUTE_PATH.THEME_DETAIL(slug)}`}
+        siteUrl={`${host}${THEME_DETAIL(slug)}`}
         title={seoMetaData?.title}
         description={seoMetaData?.metaDescription}
         openGraph={{

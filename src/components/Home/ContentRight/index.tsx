@@ -15,7 +15,7 @@ import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { PROFILE_PATH, WATCHLIST } from 'src/constant/route';
 import { getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 // import WatchList from './WatchList';
@@ -47,13 +47,13 @@ const ContentRight = () => {
   const { userId: userIdLogin } = useUserType();
   const router = useRouter();
   const { profileSlug }: any = router.query;
-  const isPageWatchList = router?.pathname === ROUTE_PATH.WATCHLIST;
+  const isPageWatchList = router?.pathname === WATCHLIST;
   const { isLogin } = useLogin();
 
   const isProfilePath = useMemo(() => {
     const userId = profileSlug?.split('-').pop();
 
-    return router?.pathname === ROUTE_PATH.PROFILE_PATH && +userId === +userIdLogin;
+    return router?.pathname === PROFILE_PATH && +userId === +userIdLogin;
   }, [router, userIdLogin]);
 
   const size = useSize(document.querySelector('body'));

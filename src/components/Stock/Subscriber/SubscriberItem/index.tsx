@@ -5,7 +5,8 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 interface ISubscriberItemProps {
   data: ICustomerInfo;
@@ -13,7 +14,7 @@ interface ISubscriberItemProps {
 
 const SubscriberItem = ({ data }: ISubscriberItemProps) => {
   const { t } = useTranslation(['stock', 'commmon']);
-  const url = ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId);
+  const url = PROFILE_V2(data?.displayName, data?.customerId);
   return (
     <div className='flex items-center rounded-[16px] border border-solid border-[#EBEBEB] p-[16px]'>
       <CustomLink className='galaxy-max:flex-none' href={url}>

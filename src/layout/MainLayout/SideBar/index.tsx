@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
 import StickyBox from 'react-sticky-box';
 
-import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
@@ -16,8 +16,17 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH } from '@utils/common';
 import { PINETREE_LINK, BANNER_URL } from 'src/constant';
+import {
+  ASSETS_V2,
+  EXPLORE,
+  GIFTCASH,
+  HOME,
+  PROFILE_PATH,
+  PROFILE_V2,
+  SETTING,
+  WATCHLIST,
+} from 'src/constant/route';
 import {
   navigateSectionTracking,
   viewAssetTracking,
@@ -58,28 +67,28 @@ const SideBar = () => {
   const MENUS = [
     {
       id: 1,
-      path: ROUTE_PATH.HOME,
+      path: HOME,
       icon: <IconHome />,
       iconActive: <IconHomeActive />,
       label: t('home'),
     },
     {
       id: 2,
-      path: ROUTE_PATH.EXPLORE,
+      path: EXPLORE,
       icon: <IconExplore />,
       iconActive: <IconExploreActive />,
       label: t('explore'),
     },
     {
       id: 3,
-      path: ROUTE_PATH.GIFTCASH,
+      path: GIFTCASH,
       icon: <IconGiftCash />,
       iconActive: <IconGiftCashActive />,
       label: t('gift_cash'),
     },
     {
       id: 4,
-      path: ROUTE_PATH.WATCHLIST,
+      path: WATCHLIST,
       icon: <IconWatchList />,
       iconActive: <IconWatchListACtive />,
       label: t('wtach_list'),
@@ -89,11 +98,7 @@ const SideBar = () => {
     },
     {
       id: 5,
-      path: ROUTE_PATH.ASSETS_V2(
-        userLoginInfo?.displayName,
-        userLoginInfo?.id,
-        ProfileTabKey.ASSETS,
-      ),
+      path: ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS),
       icon: <IconAssets />,
       iconActive: <IconAssetsActive />,
       label: t('assets'),
@@ -103,7 +108,7 @@ const SideBar = () => {
     },
     {
       id: 6,
-      path: ROUTE_PATH.SETTING,
+      path: SETTING,
       icon: <IconSetting />,
       iconActive: <IconSettingActive />,
       label: t('settings'),
@@ -148,10 +153,9 @@ const SideBar = () => {
       }
 
       const ComponentLink =
-        router.pathname === ROUTE_PATH.PROFILE_PATH &&
+        router.pathname === PROFILE_PATH &&
         Number(userId) === Number(userLoginInfo?.id) &&
-        menu.path ===
-          ROUTE_PATH.ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
+        menu.path === ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
           ? MenuItem
           : CustomLink;
 
@@ -163,11 +167,11 @@ const SideBar = () => {
             href={menu?.path}
             className='flex items-center gap-[10px] px-[8px] py-[5px] '
             onClick={() => {
-              if (menu.path === ROUTE_PATH.HOME) {
+              if (menu.path === HOME) {
                 globalThis?.sessionStorage.removeItem('scrollPosition');
                 initialHomePostData();
               }
-              if (menu.path === ROUTE_PATH.EXPLORE) {
+              if (menu.path === EXPLORE) {
                 globalThis?.sessionStorage.removeItem('scrollPosition');
               }
 
@@ -175,7 +179,7 @@ const SideBar = () => {
               navigateSectionTracking(menu.label);
 
               // tracking event view watch list
-              if (menu.path === ROUTE_PATH.WATCHLIST) {
+              if (menu.path === WATCHLIST) {
                 const listStockCodes =
                   watchList.find(
                     (item) => item.location === StockSocketLocation.WATCH_LIST_COMPONENT_LAYOUT,
@@ -193,22 +197,15 @@ const SideBar = () => {
               // tracking event view assets
               if (
                 menu.path ===
-                ROUTE_PATH.ASSETS_V2(
-                  userLoginInfo?.displayName,
-                  userLoginInfo?.id,
-                  ProfileTabKey.ASSETS,
-                )
+                ASSETS_V2(userLoginInfo?.displayName, userLoginInfo?.id, ProfileTabKey.ASSETS)
               ) {
                 viewAssetTracking('Tab assets sidebar layout', 'Asset Overview');
 
                 if (
-                  router.pathname === ROUTE_PATH.PROFILE_PATH &&
+                  router.pathname === PROFILE_PATH &&
                   Number(userId) === Number(userLoginInfo?.id)
                 ) {
-                  const newPath = ROUTE_PATH.PROFILE_V2(
-                    userLoginInfo?.displayName,
-                    userLoginInfo?.id,
-                  );
+                  const newPath = PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id);
 
                   router.replace({
                     pathname: newPath,

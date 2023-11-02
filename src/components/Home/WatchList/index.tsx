@@ -7,7 +7,7 @@ import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import Text from '@components/UI/Text';
 import { useGetDataStockWatchlistHome } from '@store/stockWatchlistHome/useGetDataStockWatchlistHome';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
-import { ROUTE_PATH } from '@utils/common';
+import { REGISTER_COMPANY } from 'src/constant/route';
 
 import ItemStock from './ItemStock';
 import { IWatchListItem } from '../service';
@@ -25,7 +25,7 @@ const WatchList = () => {
   }, []);
 
   const onAddStock = () => {
-    router.push(ROUTE_PATH.REGISTER_COMPANY);
+    router.push(REGISTER_COMPANY);
   };
   return (
     <LoadCompVisible>

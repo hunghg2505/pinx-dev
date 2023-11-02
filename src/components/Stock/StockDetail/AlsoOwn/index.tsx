@@ -6,7 +6,7 @@ import AlsoOwnItem from '@components/Stock/AlsoOwnItem';
 import { ITaggingInfo } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { STOCK_ALSO_OWN } from 'src/constant/route';
 import { analyzeTickerTracking, getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 const ALSO_ITEM_LIMIT = 2;
@@ -43,7 +43,7 @@ const StockAlsoOwn = ({ taggingInfo, stockCode }: IStockAlsoOwnProps) => {
       </div>
 
       {taggingInfo.data.subsidiaries.length > ALSO_ITEM_LIMIT && (
-        <CustomLink href={ROUTE_PATH.STOCK_ALSO_OWN(stockCode)}>
+        <CustomLink href={STOCK_ALSO_OWN(stockCode)}>
           <button
             onClick={() => {
               handleAnalyze();

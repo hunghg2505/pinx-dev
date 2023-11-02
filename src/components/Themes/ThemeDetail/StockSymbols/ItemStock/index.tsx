@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { IStockTheme } from '@components/Themes/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, imageStock, toNonAccentVietnamese } from '@utils/common';
+import { formatStringToNumber, imageStock, toNonAccentVietnamese } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import style from './index.module.scss';
@@ -39,7 +40,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IStockTheme; isChangeStock: 
     <>
       <CustomLink
         onClick={() => handleTrackingViewTickerInfo(data?.stock_code)}
-        href={ROUTE_PATH.STOCK_DETAIL(code)}
+        href={STOCK_DETAIL(code)}
       >
         <div className='item flex h-[82px] items-center justify-between rounded-[12px] bg-[#F7F6F8] px-[12px]'>
           <div className='flex w-[65%] items-center galaxy-max:flex-none'>

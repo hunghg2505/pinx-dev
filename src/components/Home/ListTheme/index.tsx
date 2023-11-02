@@ -9,7 +9,7 @@ import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { THEME } from 'src/constant/route';
 
 import ThemeLoading from './Skeleton';
 import { ITheme, useGetTheme } from '../service';
@@ -108,7 +108,7 @@ const ListTheme = () => {
         </div>
       </div>
 
-      <CustomLink href={ROUTE_PATH.THEME}>
+      <CustomLink href={THEME}>
         <div className=' mt-[16px] w-full'>
           <div className='flex h-[46px] w-full cursor-pointer flex-row items-center justify-center rounded-[8px] bg-[#EAF4FB]'>
             <Text type='body-14-bold' color='primary-2'>

@@ -6,7 +6,8 @@ import { IStockTheme } from '@components/Stock/type';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
+import { formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
+import { THEME_DETAIL } from 'src/constant/route';
 
 interface IThemeItemProps {
   data: IStockTheme;
@@ -16,7 +17,7 @@ const ThemeItem = ({ data }: IThemeItemProps) => {
   const id =
     data.code + '-chu-de-' + toNonAccentVietnamese(data.name).toLowerCase().replaceAll(' ', '-');
   return (
-    <CustomLink href={ROUTE_PATH.THEME_DETAIL(id)}>
+    <CustomLink href={THEME_DETAIL(id)}>
       <div className='relative h-[214px] w-[149px] rounded-[12px] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:rounded-[12px] after:bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_100%)] after:content-[""]'>
         <div className='absolute left-[12px] top-[12px] flex h-[18px] w-[18px] items-center justify-center'>
           <img

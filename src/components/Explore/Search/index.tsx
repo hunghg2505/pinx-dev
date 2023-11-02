@@ -15,7 +15,7 @@ import { IconSearchWhite } from '@components/UI/Icon/IconSearchWhite';
 import Input from '@components/UI/Input';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { SEARCH } from 'src/constant/route';
 import {
   getMoreInfoTracking,
   searchTracking,
@@ -131,7 +131,7 @@ const Search = (props: any, ref: any) => {
 
   const onShowMore = (type: string) => {
     router.push({
-      pathname: ROUTE_PATH.SEARCH,
+      pathname: SEARCH,
       query: {
         keyword: valueInput,
         type,

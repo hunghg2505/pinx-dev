@@ -7,7 +7,8 @@ import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 import Follow from './Follow';
 import UnFollow from './UnFollow';
@@ -31,14 +32,14 @@ const UserFolow = (props: any) => {
               sizes='100vw'
               className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:mr-[6px] galaxy-max:h-[40px] galaxy-max:w-[40px]'
               onClick={() => {
-                route.push(ROUTE_PATH.PROFILE_V2(props?.displayName, props?.id));
+                route.push(PROFILE_V2(props?.displayName, props?.id));
               }}
             />
           ) : (
             <div
               className='mr-[8px] h-[44px] w-[44px] rounded-full object-cover galaxy-max:mr-[6px] galaxy-max:h-[40px] galaxy-max:w-[40px]'
               onClick={() => {
-                route.push(ROUTE_PATH.PROFILE_V2(props?.displayName, props?.id));
+                route.push(PROFILE_V2(props?.displayName, props?.id));
               }}
             >
               <AvatarDefault name={props?.displayName} />

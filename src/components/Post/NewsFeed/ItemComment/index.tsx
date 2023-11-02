@@ -27,8 +27,15 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { formatMessage, isUrlValid, ROUTE_PATH } from '@utils/common';
+import { formatMessage, isUrlValid } from '@utils/common';
 import { USERTYPE } from 'src/constant';
+import {
+  POST_DETAIL_PATH,
+  PROFILE_PATH,
+  PROFILE_V2,
+  SEARCHSEO,
+  STOCK_DETAIL,
+} from 'src/constant/route';
 
 dayjs.extend(relativeTime);
 
@@ -99,9 +106,9 @@ const ItemComment = (props: IProps) => {
   const isComment = userLoginInfo?.id === data?.customerId;
   const ref = React.useRef<HTMLButtonElement>(null);
   const bottomRef: any = useRef(null);
-  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const isPostDetailPath = router.pathname.startsWith(POST_DETAIL_PATH);
   const isHomePath = router.pathname === '/';
-  const isProfilePath = router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH);
+  const isProfilePath = router.pathname.startsWith(PROFILE_PATH);
   const [postDetailStatus, setPostDetailStatus] = useAtom(postDetailStatusAtom);
   const [isLike, setIsLike] = React.useState<boolean>(data?.isLike);
   const [isReport, setIsReport] = React.useState<boolean>(data?.isReport);
@@ -258,17 +265,17 @@ const ItemComment = (props: IProps) => {
       window.open(textContent);
     }
     if (classElement === 'people') {
-      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
+      const url = PROFILE_V2(textContent, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
       onCloseModalComment && onCloseModalComment();
       onTrackingViewTicker && onTrackingViewTicker(textContent);
-      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+      return router.push(STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
       const text = textContent.slice(1);
-      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      return router.push(`${SEARCHSEO}?keyword=${text}`);
     }
   };
   // const [windowSize, setWindowSize] = useState([window.innerWidth]);
@@ -328,7 +335,7 @@ const ItemComment = (props: IProps) => {
               },
             )}
             onClick={() => {
-              router.push(ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId));
+              router.push(PROFILE_V2(data?.customerInfo?.displayName, data?.customerId));
             }}
           />
         ) : (
@@ -341,7 +348,7 @@ const ItemComment = (props: IProps) => {
               },
             )}
             onClick={() =>
-              router.push(ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId))
+              router.push(PROFILE_V2(data?.customerInfo?.displayName, data?.customerId))
             }
           >
             <AvatarDefault nameClassName='text-[14px]' name={data?.customerInfo?.displayName} />
@@ -391,9 +398,7 @@ const ItemComment = (props: IProps) => {
             <div className='flex w-full flex-row items-center justify-between gap-x-[12px] px-[16px]'>
               <div
                 onClick={() =>
-                  router.push(
-                    ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId),
-                  )
+                  router.push(PROFILE_V2(data?.customerInfo?.displayName, data?.customerId))
                 }
                 className='relative flex cursor-pointer items-center overflow-hidden truncate'
               >

@@ -6,13 +6,13 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 import { viewAssetTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import Assets from '../Assets';
-import { ProfileTabKey } from '../Desktop';
 import Posts from '../Posts';
 import WatchList from '../WatchList';
 
@@ -43,10 +43,7 @@ const Mobile = () => {
                 activeKey={props?.activeKey}
                 onChange={(key: string) => {
                   setActiveTab(key);
-                  const newPath = ROUTE_PATH.PROFILE_V2(
-                    userLoginInfo?.displayName,
-                    userLoginInfo?.id,
-                  );
+                  const newPath = PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id);
 
                   let currentLocale = window.history.state?.options?.locale;
                   currentLocale = currentLocale === 'en' ? '/en' : '';

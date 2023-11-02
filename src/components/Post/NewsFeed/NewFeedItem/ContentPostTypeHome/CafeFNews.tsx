@@ -7,7 +7,8 @@ import { useTranslation } from 'next-i18next';
 import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
+import { formatMsgPost, setCurClickedHomePostId } from '@utils/common';
+import { EXPLORE, POST_DETAIL_PATH, PROFILE_PATH } from 'src/constant/route';
 import { readNewsTracking } from 'src/mixpanel/mixpanel';
 
 import ImageHeadPost from './ImgHeadPost';
@@ -48,13 +49,13 @@ const CafeFNews = ({
   const { t } = useTranslation();
   const router = useRouter();
   const calcLocation = () => {
-    if (router.pathname.includes(ROUTE_PATH.POST_DETAIL_PATH)) {
+    if (router.pathname.includes(POST_DETAIL_PATH)) {
       return 'Post Detail Screen';
     }
-    if (router.pathname.includes(ROUTE_PATH.EXPLORE)) {
+    if (router.pathname.includes(EXPLORE)) {
       return 'Explore Screen';
     }
-    if (router.pathname.includes(ROUTE_PATH.PROFILE_PATH)) {
+    if (router.pathname.includes(PROFILE_PATH)) {
       return 'User Detail Screen';
     }
     return 'Home Screen';

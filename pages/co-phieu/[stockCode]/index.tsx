@@ -7,7 +7,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 import { fetchStockDetailFromServer } from '@components/Stock/service';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 
 const StockDetail = dynamic(() => import('@components/Stock/StockDetail'), {
   ssr: false,
@@ -19,7 +20,7 @@ const StockDetailPage = ({ seoMetaData, host }: any) => {
   return (
     <>
       <SEO
-        siteUrl={`${host}${ROUTE_PATH.STOCK_DETAIL(id)}`}
+        siteUrl={`${host}${STOCK_DETAIL(id)}`}
         title={seoMetaData?.title}
         description={seoMetaData?.metaDescription}
         openGraph={{

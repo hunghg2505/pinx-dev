@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH } from '@utils/common';
+import { PROFILE_VERIFICATION_V2, WATCHLIST } from 'src/constant/route';
 import { viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import Option from './Option';
@@ -40,7 +40,7 @@ const Options = () => {
 
           <Option
             link={{
-              pathname: ROUTE_PATH.PROFILE_VERIFICATION_V2(
+              pathname: PROFILE_VERIFICATION_V2(
                 String(userLoginInfo?.displayName),
                 Number(userLoginInfo?.id),
               ),
@@ -56,7 +56,7 @@ const Options = () => {
 
           <Option
             link={{
-              pathname: ROUTE_PATH.WATCHLIST,
+              pathname: WATCHLIST,
               query: {
                 from_profile_menu: 1,
               },

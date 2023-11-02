@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 // import { TabsEnum } from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { PINEX_TOP_20 } from 'src/constant/route';
 
 interface Iprops {
   label: string;
@@ -24,7 +24,7 @@ const PinexTop = (props: Iprops) => {
   const router = useRouter();
   const onHandleClick = () => {
     router.push({
-      pathname: ROUTE_PATH.PINEX_TOP_20,
+      pathname: PINEX_TOP_20,
       query: { type: value },
     });
     onClick && onClick();

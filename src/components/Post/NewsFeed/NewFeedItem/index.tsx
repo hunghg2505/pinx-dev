@@ -31,10 +31,10 @@ import { useProfileInitial } from '@store/profile/useProfileInitial';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
 import {
   removeCurClickedHomePostId,
-  ROUTE_PATH,
   setCurClickedHomePostId,
   toNonAccentVietnamese,
 } from '@utils/common';
+import { EXPLORE, POST_DETAIL_PATH, PROFILE_PATH, PROFILE_V2 } from 'src/constant/route';
 
 import styles from './index.module.scss';
 // import ItemHoverProfile from './ItemHoverProfile';
@@ -104,9 +104,9 @@ const NewFeedItem = (props: IProps) => {
 
         postId: postDetail?.id || router.query?.id,
 
-        isPostDetailPath: router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH),
+        isPostDetailPath: router.pathname.startsWith(POST_DETAIL_PATH),
 
-        isMyProfileOrUserDetailPath: router.pathname.startsWith(ROUTE_PATH.PROFILE_PATH),
+        isMyProfileOrUserDetailPath: router.pathname.startsWith(PROFILE_PATH),
       };
     }, [
       postDetail?.customerId,
@@ -128,7 +128,7 @@ const NewFeedItem = (props: IProps) => {
   const urlTitle = useMemo(() => {
     let url = '';
     if (postDetail?.customerId) {
-      url = ROUTE_PATH.PROFILE_V2(postDetail?.post?.customerInfo?.displayName, customerId);
+      url = PROFILE_V2(postDetail?.post?.customerInfo?.displayName, customerId);
     }
 
     return url;
@@ -242,7 +242,7 @@ const NewFeedItem = (props: IProps) => {
 
   const onDeletePost = () => {
     // onRefreshPostDetail(undefined);
-    // if (router.route === ROUTE_PATH.MY_PROFILE) {
+    // if (router.route === MY_PROFILE) {
     //   onRefreshPostDetail(undefined);
     // } else {
     //   onRefreshPostDetail(undefined);
@@ -261,8 +261,8 @@ const NewFeedItem = (props: IProps) => {
       const cond1 =
         !customerId ||
         pinned ||
-        router.pathname === ROUTE_PATH.EXPLORE ||
-        router.pathname === ROUTE_PATH.PROFILE_PATH ||
+        router.pathname === EXPLORE ||
+        router.pathname === PROFILE_PATH ||
         router.pathname === '/search-seo' ||
         isSearchSeoBox;
 

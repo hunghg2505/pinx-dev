@@ -16,7 +16,8 @@ import CustomImage from '@components/UI/CustomImage';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
 import { useProfileInitial } from '@store/profile/useProfileInitial';
-import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 interface IProps {
   data: ISuggestionPeople;
@@ -77,7 +78,7 @@ const ItemPeople = (props: IProps) => {
     <div className='item mb-[26px] flex items-center justify-between gap-x-[12px] pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
       <div
         className='flex flex-1 cursor-pointer overflow-hidden'
-        onClick={() => router.push(ROUTE_PATH.PROFILE_V2(data?.displayName, data?.customerId))}
+        onClick={() => router.push(PROFILE_V2(data?.displayName, data?.customerId))}
       >
         {isUrlValid(data?.avatar) ? (
           <CustomImage

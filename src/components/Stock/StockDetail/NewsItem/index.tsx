@@ -11,7 +11,7 @@ import CustomLink from '@components/UI/CustomLink';
 import IconLink from '@components/UI/Icon/IconPin';
 import Text from '@components/UI/Text';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH } from '@utils/common';
+import { HOME } from 'src/constant/route';
 import { clickAPostTracking } from 'src/mixpanel/mixpanel';
 
 import HeadingNewsItem from './Heading';
@@ -53,7 +53,7 @@ const NewsItem = ({ className, data }: INewsItemProps) => {
       themeName,
       'Stock detail screen',
     );
-    router.push(ROUTE_PATH.HOME + data.seoMetadata.slug);
+    router.push(HOME + data.seoMetadata.slug);
   };
 
   const renderThumbnail = () => {

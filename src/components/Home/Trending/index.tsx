@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { SEARCHSEO } from 'src/constant/route';
 
 import TrendingSkeleton from './Skeleton';
 import { ITrending, useGetTrending } from '../service';
@@ -43,7 +43,7 @@ const Trending = () => {
                 key={index}
               >
                 <Text
-                  onClick={() => router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${item.keyword}`)}
+                  onClick={() => router.push(`${SEARCHSEO}?keyword=${item.keyword}`)}
                   type='body-14-medium'
                   className='cursor-pointer'
                   color='primary-2'

@@ -7,7 +7,8 @@ import { INewFeed } from '@components/Home/service';
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { isUrlValid, toNonAccentVietnamese } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import ActivitiesAction from '../ActivitiesAction';
@@ -24,7 +25,7 @@ export enum ActionPostEnum {
 }
 const ItemActivities = ({ data, refresh }: { data: INewFeed; refresh: () => void }) => {
   const { t, i18n } = useTranslation('theme');
-  const urlProfile = ROUTE_PATH.PROFILE_V2(data?.post?.customerInfo?.displayName, data?.customerId);
+  const urlProfile = PROFILE_V2(data?.post?.customerInfo?.displayName, data?.customerId);
   const messageBody =
     data?.post?.action === ActionPostEnum.SUBSCRIBE ? t('desc.subscribe') : t('desc.unsubscribe');
   const router = useRouter();

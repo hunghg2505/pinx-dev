@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
-import { ROUTE_PATH } from '@utils/common';
+import { REGISTER_TOPIC } from 'src/constant/route';
 
 import {
   ResultSubscribedTheme,
@@ -27,7 +27,7 @@ const RegisterThemes = () => {
 
   const { onSubscribeThemes } = useSubscribeThemes({
     onSuccess: (_, params) => {
-      router.push(ROUTE_PATH.REGISTER_TOPIC);
+      router.push(REGISTER_TOPIC);
       setUserRegisterInfo((prev) => ({
         ...prev,
         selectedTheme: params.toString().split(','),

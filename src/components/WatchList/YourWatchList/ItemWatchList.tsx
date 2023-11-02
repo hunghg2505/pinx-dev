@@ -10,7 +10,8 @@ import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, getStockUrl } from '@utils/common';
+import { formatStringToNumber, getStockUrl } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 import { removeTickerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from '../index.module.scss';
@@ -89,7 +90,7 @@ const ItemWatchList = ({
               onTrackingEventViewTickerInfo(data?.stockCode, 'Watch list');
           }}
           linkClassName='flex-none'
-          href={ROUTE_PATH.STOCK_DETAIL(code)}
+          href={STOCK_DETAIL(code)}
         >
           <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[30px] galaxy-max:w-[30px] tablet:h-[48px] tablet:w-[48px]'>
             <Image width='0' height='0' sizes='100vw' src={url} alt='' className='block' />
@@ -102,7 +103,7 @@ const ItemWatchList = ({
                 onTrackingEventViewTickerInfo &&
                   onTrackingEventViewTickerInfo(data?.stockCode, 'Watch list');
               }}
-              href={ROUTE_PATH.STOCK_DETAIL(code)}
+              href={STOCK_DETAIL(code)}
             >
               <Text type='body-16-semibold' className='text-[#0D0D0D] galaxy-max:text-[14px]'>
                 {data?.stockCode}

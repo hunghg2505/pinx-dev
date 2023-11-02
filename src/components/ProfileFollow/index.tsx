@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import ModalPage from '@components/ModalPage';
-import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
 
 import Back from './Back';
 import Search from './Search';

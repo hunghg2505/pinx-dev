@@ -5,13 +5,8 @@ import Image from 'next/image';
 import { IStock } from '@components/Stock/type';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import {
-  ROUTE_PATH,
-  formatStringToNumber,
-  getStockColor,
-  getStockUrl,
-  imageStock,
-} from '@utils/common';
+import { formatStringToNumber, getStockColor, getStockUrl, imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 
 import PriceWrapper from './PriceWrapper';
 
@@ -70,7 +65,7 @@ const StockItem = ({ data }: IStockItemProps) => {
   const code = getStockUrl(data);
 
   return (
-    <CustomLink href={ROUTE_PATH.STOCK_DETAIL(code)}>
+    <CustomLink href={STOCK_DETAIL(code)}>
       <div className='flex items-center rounded-[12px] bg-[#F7F6F8] py-[16px] pl-[12px] pr-[8px] galaxy-max:px-[8px] galaxy-max:py-[12px]'>
         <div className='flex h-[36px] w-[36px] items-center justify-center overflow-hidden rounded-full bg-white object-contain galaxy-max:h-[32px] galaxy-max:w-[32px]'>
           <Image

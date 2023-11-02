@@ -9,7 +9,7 @@ import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import useObserver from '@hooks/useObserver';
-import { ROUTE_PATH } from '@utils/common';
+import { PEOPLEINSPOTLIGHT } from 'src/constant/route';
 
 const ListTheme = lazyLoadHydrate(() => import('@components/Home/ListTheme'), false);
 const Trending = lazyLoadHydrate(() => import('../Trending'), false);
@@ -67,7 +67,7 @@ const PostList = ({
         </Text>
         <Influencer />
 
-        <CustomLink href={ROUTE_PATH.PEOPLEINSPOTLIGHT}>
+        <CustomLink href={PEOPLEINSPOTLIGHT}>
           <div className='mt-[16px]'>
             <button className='h-[45px] w-full rounded-[8px] bg-[#F0F7FC]'>
               <Text type='body-14-bold' color='primary-2'>

@@ -15,7 +15,8 @@ import VietStockNews from '@components/Post/NewsFeed/NewFeedItem/ContentPostType
 import { IPost, TYPEPOST } from '@components/Post/service';
 import { useFormatMessagePost } from '@hooks/useFormatMessagePost';
 import { postThemeAtom } from '@store/postTheme/theme';
-import { ROUTE_PATH, formatMessage, imageStock, toNonAccentVietnamese } from '@utils/common';
+import { formatMessage, imageStock, toNonAccentVietnamese } from '@utils/common';
+import { STOCK_DETAIL, THEME_DETAIL } from 'src/constant/route';
 
 // const ActivityMatchOrder = lazyLoadHydrate(
 //   () => import('@components/Post/NewsFeed/NewFeedItem/ContentPostTypeHome/ActivityMatchOrder'),
@@ -85,10 +86,10 @@ const ContentPostTypeHome = (props: IProps) => {
         postDetail?.post.themeCode +
         '-chu-de-' +
         toNonAccentVietnamese(postDetail?.post.themeName).toLowerCase().replaceAll(' ', '-');
-      postDetailUrl = ROUTE_PATH.THEME_DETAIL(url);
+      postDetailUrl = THEME_DETAIL(url);
     }
     if ([TYPEPOST.ActivityWatchlist, TYPEPOST.ActivityMatchOrder].includes(postDetail?.postType)) {
-      postDetailUrl = ROUTE_PATH.STOCK_DETAIL(postDetail?.post?.stockCode);
+      postDetailUrl = STOCK_DETAIL(postDetail?.post?.stockCode);
     }
     // console.log('b', postDetailUrl);
     return {

@@ -8,7 +8,7 @@ import IconPlus from '@components/UI/Icon/IconPlus';
 import Text from '@components/UI/Text';
 import ComponentWatchList from '@components/WatchList/ComponentWatchList';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import { ROUTE_PATH } from '@utils/common';
+import { REGISTER_COMPANY, WATCHLIST } from 'src/constant/route';
 import {
   getMoreInfoTracking,
   viewTickerInfoTracking,
@@ -52,7 +52,7 @@ const WatchList = () => {
           footer={(list) => {
             if (list?.length) {
               return (
-                <CustomLink href={ROUTE_PATH.WATCHLIST} onClick={handleTracking}>
+                <CustomLink href={WATCHLIST} onClick={handleTracking}>
                   <Button className='mt-4 h-[40px] w-full rounded-[5px] bg-[#F0F7FC]'>
                     <Text type='body-14-bold' color='primary-2'>
                       {t('view_more')}
@@ -63,7 +63,7 @@ const WatchList = () => {
             }
 
             return (
-              <CustomLink href={ROUTE_PATH.REGISTER_COMPANY}>
+              <CustomLink href={REGISTER_COMPANY}>
                 <Button className='mt-4 flex h-[68px] w-full items-center justify-center gap-[10px] rounded-[12px] border-[1px] border-dashed border-[var(--primary-lightblue,#589DC0)] bg-[#FFF] [box-shadow:0px_1px_2px_0px_rgba(88,_102,_126,_0.12),_0px_4px_24px_0px_rgba(88,_102,_126,_0.08)]'>
                   <IconPlus />
                   <Text color='primary-2'>{t('add_favorite_stock')}</Text>

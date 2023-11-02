@@ -5,14 +5,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { GIFTCASH } from 'src/constant/route';
 
 const GiftCash = dynamic(() => import('@components/GiftCash'));
 
 const GiftCashPage = ({ host }: { host: string }) => {
   return (
     <>
-      <SEO title={'Pinex Gift cash'} siteUrl={`${host}${ROUTE_PATH.GIFTCASH}`} />
+      <SEO title={'Pinex Gift cash'} siteUrl={`${host}${GIFTCASH}`} />
       <GiftCash />
     </>
   );

@@ -4,14 +4,15 @@ import { useRouter } from 'next/router';
 
 import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 import { followContext } from '..';
 
 const Figure = () => {
   const context = useContext(followContext);
   const route = useRouter();
-  const url = ROUTE_PATH.PROFILE_V2(context?.displayName, context?.id);
+  const url = PROFILE_V2(context?.displayName, context?.id);
   return (
     <div
       className='absolute left-0 top-0 h-full w-full cursor-pointer'

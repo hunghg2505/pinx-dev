@@ -39,7 +39,8 @@ import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import getSeoDataFromLink, {
+import {
+  getSeoDataFromLink,
   base64ToBlob,
   compressImage,
   converStringMessageToObject,

@@ -5,14 +5,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { WATCHLIST } from 'src/constant/route';
 
 const WatchList = dynamic(() => import('@components/WatchList'));
 
 const WatchlistPage = ({ host }: { host: string }) => {
   return (
     <>
-      <SEO title={'Pinex WatchList'} siteUrl={`${host}${ROUTE_PATH.WATCHLIST}`} />
+      <SEO title={'Pinex WatchList'} siteUrl={`${host}${WATCHLIST}`} />
       <WatchList />
     </>
   );

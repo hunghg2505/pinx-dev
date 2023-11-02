@@ -7,7 +7,8 @@ import { IWatchListItem } from '@components/Home/service';
 import Loading from '@components/UI/Loading';
 import Text from '@components/UI/Text';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
-import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 import { addTickerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
@@ -66,7 +67,7 @@ const InterestItem = (props: IProps) => {
     <>
       <Link
         className='absolute inset-x-0 inset-y-0'
-        href={ROUTE_PATH.STOCK_DETAIL(code)}
+        href={STOCK_DETAIL(code)}
         prefetch={false}
         onClick={() => {
           onTrackingViewTickerInfo && onTrackingViewTickerInfo(data?.stockCode, 'You may interest');

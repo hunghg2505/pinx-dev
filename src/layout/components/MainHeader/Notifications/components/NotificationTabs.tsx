@@ -11,7 +11,7 @@ import Tabs, { TabPane } from 'rc-tabs';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
 import { notificationAtom } from '@store/notification/notification';
-import { ROUTE_PATH } from '@utils/common';
+import { POST_DETAIL, PROFILE_V2 } from 'src/constant/route';
 
 import styles from '../index.module.scss';
 import {
@@ -74,13 +74,13 @@ const NotificationItem = ({
     if (!disabledNoti) {
       const contentId = resourceData?.passProps?.item?.id;
       if (resourceData.notificationType === 'NEW_FOLLOWER') {
-        router.push(ROUTE_PATH.PROFILE_V2(resourceData?.passProps?.item?.display_name, contentId));
+        router.push(PROFILE_V2(resourceData?.passProps?.item?.display_name, contentId));
       } else if (resourceData.actionType === 'PINETREE_MKT') {
         resourceData.url_notification && window.open(resourceData.url_notification, '_blank');
       } else {
         const id = resourceData?.passProps?.item?.slug;
         if (id === '%%SLUG%%') {
-          router.push(ROUTE_PATH.POST_DETAIL(contentId));
+          router.push(POST_DETAIL(contentId));
         } else if (id === router.asPath.slice(1)) {
           router.reload();
         } else {

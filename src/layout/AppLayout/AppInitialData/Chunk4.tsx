@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import { getLocaleCookie } from '@store/locale';
 import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
-import { ROUTE_PATH, storeQueryToSession } from '@utils/common';
+import { storeQueryToSession } from '@utils/common';
+import { HOME } from 'src/constant/route';
 
 const Chunk4 = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const Chunk4 = () => {
 
   useEffect(() => {
     const locale = getLocaleCookie() as string;
-    if (router.pathname === ROUTE_PATH.HOME) {
+    if (router.pathname === HOME) {
       getInitDataStockWatchlistHome();
     }
     if (getLocaleCookie() && getLocaleCookie() !== router.locale) {

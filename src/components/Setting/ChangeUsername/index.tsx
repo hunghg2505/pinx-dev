@@ -17,8 +17,8 @@ import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { openProfileAtom } from '@store/profile/profile';
 import { settingAtom } from '@store/setting/setting';
-import { ROUTE_PATH } from '@utils/common';
 import { REG_USERNAME } from '@utils/reg';
+import { SETTING_CHANGE_USERNAME_VERIFICATION } from 'src/constant/route';
 
 const customInputClassName =
   'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] outline-none bg-white';
@@ -41,7 +41,7 @@ const ChangeUsername = () => {
 
   const requestSendOtp = useSendLoginOtp({
     onSuccess: () => {
-      router.push(ROUTE_PATH.SETTING_CHANGE_USERNAME_VERIFICATION);
+      router.push(SETTING_CHANGE_USERNAME_VERIFICATION);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);

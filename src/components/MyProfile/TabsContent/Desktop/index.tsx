@@ -7,8 +7,9 @@ import Tabs, { TabPane } from 'rc-tabs';
 
 import TabBar from '@components/common/RCTabBar';
 import { profileUserContext } from '@components/MyProfile';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
 import { stockSocketAtom, StockSocketLocation } from '@store/stockStocket';
-import { ROUTE_PATH } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 import { viewAssetTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import Assets from '../Assets';
@@ -16,14 +17,6 @@ import Follower from '../Follower';
 import Following from '../Following';
 import Posts from '../Posts';
 import WatchList from '../WatchList';
-
-export enum ProfileTabKey {
-  POSTS = 'POSTS',
-  WATCH_LIST = 'WATCH_LIST',
-  ASSETS = 'ASSETS',
-  FOLLOWING = 'FOLLOWING',
-  FOLLOWERS = 'FOLLOWERS',
-}
 
 const Desktop = () => {
   const watchList = useAtomValue(stockSocketAtom);
@@ -51,7 +44,7 @@ const Desktop = () => {
               activeKey={props?.activeKey}
               onChange={(key: string) => {
                 setActiveTab(key);
-                const newPath = ROUTE_PATH.PROFILE_V2(profileUser?.displayName, profileUser?.id);
+                const newPath = PROFILE_V2(profileUser?.displayName, profileUser?.id);
 
                 let currentLocale = window.history.state?.options?.locale;
                 currentLocale = currentLocale === 'en' ? '/en' : '';

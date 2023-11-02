@@ -7,7 +7,7 @@ import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import Text from '@components/UI/Text';
 import { useContainerDimensions } from '@hooks/useDimensions';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { LOGIN } from 'src/constant/route';
 import { registerTracking } from 'src/mixpanel/mixpanel';
 
 const SCREEN_MOBILE_WIDTH = 768;
@@ -62,7 +62,7 @@ const FooterSignUp = () => {
     const date = new Date();
     registerTracking(date.toISOString(), 'Footer', 'CTA');
     router.push({
-      pathname: ROUTE_PATH.LOGIN,
+      pathname: LOGIN,
       query: {
         type: 'register',
       },
@@ -71,7 +71,7 @@ const FooterSignUp = () => {
 
   const redirectToLogin = () => {
     router.push({
-      pathname: ROUTE_PATH.LOGIN,
+      pathname: LOGIN,
     });
   };
 

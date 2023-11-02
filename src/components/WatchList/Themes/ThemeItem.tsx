@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { ITheme } from '@components/Home/service';
 import CustomImage from '@components/UI/CustomImage';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
+import { formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
+import { THEME_DETAIL } from 'src/constant/route';
 
 const ThemeItem = ({ data }: { data: ITheme }) => {
   const latestSubscribe = data?.latestSubscribe;
@@ -13,7 +14,7 @@ const ThemeItem = ({ data }: { data: ITheme }) => {
   return (
     <div
       className='relative cursor-pointer overflow-hidden rounded-[16px]'
-      onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(id))}
+      onClick={() => router.push(THEME_DETAIL(id))}
     >
       <div
         className='bg-cover bg-center bg-no-repeat pt-[141%] desktop:pt-[66.6%]'

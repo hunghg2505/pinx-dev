@@ -7,8 +7,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 import { fetchSeoDataFromServer } from '@components/Themes/service';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
 import { SEO_TEXT_SEARCH } from 'src/constant';
+import { TOPMENTION } from 'src/constant/route';
 
 const TopMention = dynamic(() => import('@components/TopMention'));
 
@@ -18,7 +19,7 @@ const TopMentionPage = ({ seoMetadata, host }: any) => {
   return (
     <>
       <SEO
-        siteUrl={`${host}${ROUTE_PATH.TOPMENTION}`}
+        siteUrl={`${host}${TOPMENTION}`}
         title={seoMetadata?.title}
         description={seoMetadata?.metaDescription}
         openGraph={{

@@ -7,7 +7,7 @@ import Form from 'rc-field-form';
 import FormItem from '@components/UI/FormItem';
 import Modal from '@components/UI/Modal/Modal';
 import Text from '@components/UI/Text';
-import getSeoDataFromLink, { isValidURL } from '@utils/common';
+import { getSeoDataFromLink, isValidURL } from '@utils/common';
 
 import styles from './index.module.scss';
 

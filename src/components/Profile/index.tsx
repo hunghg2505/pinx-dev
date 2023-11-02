@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import { useGetProfileOtherUser } from '@components/MenuProfile/service';
 import Loading from '@components/UI/Loading';
-import { ROUTE_PATH } from '@utils/common';
+import { NOT_FOUND } from 'src/constant/route';
 
 import Header from './Header';
 import MyStory from './MyStory';
@@ -25,7 +25,7 @@ const Profile = ({ userId }: ProfileProps) => {
     refresh: RefreshPrivate,
   } = useGetProfileOtherUser(Number(userId), {
     onError: () => {
-      router.replace(ROUTE_PATH.NOT_FOUND);
+      router.replace(NOT_FOUND);
     },
   });
   return (

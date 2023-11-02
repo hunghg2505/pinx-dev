@@ -10,7 +10,8 @@ import CustomLink from '@components/UI/CustomLink';
 import Fade from '@components/UI/Fade';
 import Text from '@components/UI/Text';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH, formatMsgPost, setCurClickedHomePostId } from '@utils/common';
+import { formatMsgPost, setCurClickedHomePostId } from '@utils/common';
+import { POST_DETAIL_PATH, PROFILE_V2, SEARCHSEO, STOCK_DETAIL } from 'src/constant/route';
 
 import useHeight from './useHeight';
 
@@ -28,7 +29,7 @@ const ActivityTheme = ({
 }: any) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const isPostDetailPath = router.pathname.startsWith(ROUTE_PATH.POST_DETAIL_PATH);
+  const isPostDetailPath = router.pathname.startsWith(POST_DETAIL_PATH);
   const [readMore, setReadMore] = React.useState(false);
   const [showReadMore, setShowReadMore] = React.useState<boolean>(false);
   const [, setSearchSeo] = useAtom(searchSeoAtom);
@@ -46,16 +47,16 @@ const ActivityTheme = ({
       return window.open(textContent);
     }
     if (classElement === 'people') {
-      const url = ROUTE_PATH.PROFILE_V2(textContent, id);
+      const url = PROFILE_V2(textContent, id);
       return router.push(url);
     }
     if (classElement === 'tagStock') {
       onTrackingViewTicker && onTrackingViewTicker(textContent);
-      return router.push(ROUTE_PATH.STOCK_DETAIL(textContent));
+      return router.push(STOCK_DETAIL(textContent));
     }
     if (classElement === 'hashtag') {
       const text = textContent.slice(1);
-      return router.push(`${ROUTE_PATH.SEARCHSEO}?keyword=${text}`);
+      return router.push(`${SEARCHSEO}?keyword=${text}`);
     }
     return onComment();
   };

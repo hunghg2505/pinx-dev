@@ -17,9 +17,8 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { useAuth } from '@store/auth/useAuth';
 import { getLocaleCookie } from '@store/locale';
 // import { openProfileAtom } from '@store/profile/profile';
-import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT, TERM_AND_CONDITION_LINK, GUIDANCE_LINK } from 'src/constant';
-
+import { SETTING_CHANGE_PASSWORD, SETTING_CHANGE_USERNAME } from 'src/constant/route';
 
 import PopupHotline from './PopupHotline';
 import PopupLanguage from './PopupLanguage';
@@ -70,14 +69,14 @@ const Setting = () => {
       },
       {
         title: t('change_password'),
-        path: ROUTE_PATH.SETTING_CHANGE_PASSWORD,
+        path: SETTING_CHANGE_PASSWORD,
         hidden: !isLogin,
         hideDivider: true,
         hoverEffect: true,
       },
       {
         title: t('change_username'),
-        path: ROUTE_PATH.SETTING_CHANGE_USERNAME,
+        path: SETTING_CHANGE_USERNAME,
         isNew: true,
         hidden: !isLogin,
         hideDivider: !isMobile,

@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 
 import { TYPESEARCH } from '@components/Home/service';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { EXPLORE } from 'src/constant/route';
 
 import Company from './Company';
 import News from './News';
@@ -14,7 +14,7 @@ const Search = () => {
   const { t } = useTranslation('theme');
   const router = useRouter();
   const onGoBack = () => {
-    router.push(ROUTE_PATH.EXPLORE);
+    router.push(EXPLORE);
   };
   const keyword = router?.query?.keyword;
   const type = router?.query?.type;

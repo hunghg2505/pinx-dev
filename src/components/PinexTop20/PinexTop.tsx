@@ -3,7 +3,8 @@ import Image from 'next/image';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 
 interface Iprops {
   number: number;
@@ -21,7 +22,7 @@ const PinexTop = (props: Iprops) => {
       onClick={() => {
         onTrackingViewTickerInfo && onTrackingViewTickerInfo();
       }}
-      href={ROUTE_PATH.STOCK_DETAIL(code)}
+      href={STOCK_DETAIL(code)}
     >
       <div className='relative rounded-[15px] bg-[#F7F6F8]'>
         <div

@@ -19,7 +19,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom, initialPopupStatus } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH } from '@utils/common';
+import { NOT_FOUND } from 'src/constant/route';
 
 const FooterSignUp = dynamic(import('@components/FooterSignup'), {
   ssr: false,
@@ -68,7 +68,7 @@ const PostDetail = () => {
   // is login
   const { refresh, postDetail } = usePostDetail(String(router.query.id), {
     onError: () => {
-      router.push(ROUTE_PATH.NOT_FOUND);
+      router.push(NOT_FOUND);
     },
     manual: true,
   });

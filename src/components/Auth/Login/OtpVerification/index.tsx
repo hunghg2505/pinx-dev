@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import Notification from '@components/UI/Notification';
 import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
-import { ROUTE_PATH } from '@utils/common';
+import { HOME } from 'src/constant/route';
 import { resendSMSTracking } from 'src/mixpanel/mixpanel';
 
 import { useLoginOtp, useConfirmContract } from './service';
@@ -19,7 +19,7 @@ const Register = () => {
 
   const requestConfirmContract = useConfirmContract({
     onSuccess: () => {
-      router.push(ROUTE_PATH.HOME);
+      router.push(HOME);
       setIsReadTerms(true);
     },
     onError: (e: any) => {
@@ -68,7 +68,7 @@ const Register = () => {
 
   useEffect(() => {
     if (!userLoginInfo.phone) {
-      router.push(ROUTE_PATH.HOME);
+      router.push(HOME);
     }
   }, []);
 

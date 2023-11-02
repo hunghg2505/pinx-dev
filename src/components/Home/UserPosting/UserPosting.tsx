@@ -18,8 +18,9 @@ import { useUserType } from '@hooks/useUserType';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { profileSettingAtom } from '@store/profileSetting/profileSetting';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
 import { USERTYPE } from 'src/constant';
+import { PROFILE_V2 } from 'src/constant/route';
 
 import ComposeButton from '../ComposeButton';
 
@@ -78,7 +79,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
                 src={userLoginInfo?.avatar || ''}
                 alt=''
                 onClick={() => {
-                  router.push(ROUTE_PATH.PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id));
+                  router.push(PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id));
                 }}
                 width='0'
                 height='0'
@@ -87,7 +88,7 @@ const UserPosting = ({ onAddNewPost }: any) => {
               />
             ) : (
               <CustomLink
-                href={ROUTE_PATH.PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
+                href={PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
                 className='mr-[10px] h-[56px] w-[56px] cursor-pointer rounded-full object-cover'
               >
                 <AvatarDefault name={userLoginInfo?.displayName} />

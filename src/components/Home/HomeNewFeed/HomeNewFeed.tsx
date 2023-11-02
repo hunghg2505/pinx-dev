@@ -17,7 +17,8 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
-import { ROUTE_PATH, getQueryFromUrl, removeCurClickedHomePostId } from '@utils/common';
+import { getQueryFromUrl, removeCurClickedHomePostId } from '@utils/common';
+import { HOME } from 'src/constant/route';
 import { filterNewsTracking } from 'src/mixpanel/mixpanel';
 
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
@@ -121,7 +122,7 @@ const HomeNewFeed = () => {
   const onFilter = async (value: string) => {
     filterNewsTracking(value);
     router.push({
-      pathname: ROUTE_PATH.HOME,
+      pathname: HOME,
       query: { filterType: value },
     });
   };

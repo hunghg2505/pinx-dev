@@ -12,7 +12,8 @@ import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useUserType } from '@hooks/useUserType';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 
 const MSG_LINE_HEIGHT = 21;
 const MSG_MAX_LINE = 2;
@@ -45,7 +46,7 @@ const ReviewItem = ({
   }, [data]);
 
   const profileUrl = useMemo(() => {
-    const url = ROUTE_PATH.PROFILE_V2(data?.customerInfo?.displayName, data?.customerId);
+    const url = PROFILE_V2(data?.customerInfo?.displayName, data?.customerId);
 
     return url;
   }, [userId, data.customerId]);

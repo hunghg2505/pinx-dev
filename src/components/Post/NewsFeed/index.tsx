@@ -14,7 +14,7 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { postThemeAtom } from '@store/postTheme/theme';
 import { searchSeoAtom } from '@store/searchSeo/searchSeo';
-import { ROUTE_PATH } from '@utils/common';
+import { POST_DETAIL, PROFILE_PATH } from 'src/constant/route';
 import { clickAPostTracking, getMoreInfoTracking } from 'src/mixpanel/mixpanel';
 
 // import CommentField from './CommentField';
@@ -80,7 +80,7 @@ const NewsFeed = (props: IProps) => {
 
     return {
       isPageMyProfile:
-        router.pathname === ROUTE_PATH.PROFILE_PATH && Number(userId) === Number(userLoginInfo?.id),
+        router.pathname === PROFILE_PATH && Number(userId) === Number(userLoginInfo?.id),
       userId,
     };
   }, [router]);
@@ -183,7 +183,7 @@ const NewsFeed = (props: IProps) => {
 
     const url = postData?.seoMetadata
       ? `/${postData?.seoMetadata?.slug}`
-      : ROUTE_PATH.POST_DETAIL(postData.id);
+      : POST_DETAIL(postData.id);
 
     router.push(url);
     setSearchSeo(false);
@@ -200,11 +200,11 @@ const NewsFeed = (props: IProps) => {
     const pathName = router.pathname;
     let screen = 'Home screen';
 
-    if (pathName === ROUTE_PATH.PROFILE_PATH && Number(userId) === Number(userLoginInfo?.id)) {
+    if (pathName === PROFILE_PATH && Number(userId) === Number(userLoginInfo?.id)) {
       screen = 'My profile screen';
     }
 
-    if (pathName === ROUTE_PATH.PROFILE_PATH && Number(userId) !== Number(userLoginInfo?.id)) {
+    if (pathName === PROFILE_PATH && Number(userId) !== Number(userLoginInfo?.id)) {
       screen = 'User detail screen';
     }
 
@@ -215,7 +215,7 @@ const NewsFeed = (props: IProps) => {
     if (countComment > 1) {
       const url = postData?.seoMetadata
         ? `/${postData?.seoMetadata?.slug}`
-        : ROUTE_PATH.POST_DETAIL(postData.id);
+        : POST_DETAIL(postData.id);
 
       return (
         <CustomLink onClick={handleTrackingGetMore} href={url}>

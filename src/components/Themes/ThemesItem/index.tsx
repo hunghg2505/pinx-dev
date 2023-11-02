@@ -18,8 +18,9 @@ import { useUserType } from '@hooks/useUserType';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { popupThemeDataAtom } from '@store/theme';
-import { ROUTE_PATH, formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
+import { formatStringToNumber, toNonAccentVietnamese } from '@utils/common';
 import { USERTYPE } from 'src/constant';
+import { THEME_DETAIL } from 'src/constant/route';
 
 interface IProps {
   theme: ITheme;
@@ -190,12 +191,12 @@ const ThemesItem = (props: IProps) => {
               src={theme?.url}
               alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
-              onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(id))}
+              onClick={() => router.push(THEME_DETAIL(id))}
               // blurDataURL="data:..." automatically provided
               // placeholder="blur" // Optional blur-up while loading
             />
           )}
-          <CustomLink href={ROUTE_PATH.THEME_DETAIL(id)}>
+          <CustomLink href={THEME_DETAIL(id)}>
             <div className='absolute bottom-[10px] left-2/4 w-[calc(100%_-_30px)] -translate-x-1/2 transform rounded-[10px] bg-[rgba(255,_255,_255,_0.8)]'>
               <div className='flex h-[80px] flex-col items-center justify-center px-[8px]'>
                 <Text type='body-12-bold' color='primary-5' className='text-center'>

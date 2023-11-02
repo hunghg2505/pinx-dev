@@ -5,7 +5,8 @@ import Image from 'next/image';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { IWatchListItem } from '../../service';
@@ -30,7 +31,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
   return (
     <CustomLink
       onClick={() => handleTrackingViewTickerInfo(data?.stockCode)}
-      href={ROUTE_PATH.STOCK_DETAIL(code)}
+      href={STOCK_DETAIL(code)}
     >
       <div className='mr-[16px] w-[120px]'>
         <div className='mb-[20px] flex flex-col items-center justify-center rounded-[15px] bg-[#FDFDFD] px-[5px] py-[14px] [box-shadow:0px_4px_20px_rgba(0,_0,_0,_0.07)]'>
@@ -91,7 +92,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
               {isChange
                 ? '-'
                 : (data?.changePc && formatStringToNumber(data?.changePc, true, 2)) ||
-                formatStringToNumber(data?.changePercent, true, 2)}
+                  formatStringToNumber(data?.changePercent, true, 2)}
               %
             </Text>
           </div>

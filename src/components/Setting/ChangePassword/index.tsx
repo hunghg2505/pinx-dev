@@ -16,8 +16,9 @@ import { useSendLoginOtp } from '@components/UI/Popup/PopupLoginTerms/service';
 import Text from '@components/UI/Text';
 import { openProfileAtom } from '@store/profile/profile';
 import { settingAtom } from '@store/setting/setting';
-import { ROUTE_PATH, encryptPassword } from '@utils/common';
+import { encryptPassword } from '@utils/common';
 import { REG_PASSWORD } from '@utils/reg';
+import { SETTING_CHANGE_PASSWORD_VERIFICATION } from 'src/constant/route';
 
 const customInputClassName =
   'w-full py-2 border-solid border-b-[1px] border-[--neutral-7] !text-neutral_black outline-none bg-white';
@@ -40,7 +41,7 @@ const ChangePassword = () => {
 
   const requestSendOtp = useSendLoginOtp({
     onSuccess: () => {
-      router.push(ROUTE_PATH.SETTING_CHANGE_PASSWORD_VERIFICATION);
+      router.push(SETTING_CHANGE_PASSWORD_VERIFICATION);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);

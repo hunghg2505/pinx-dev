@@ -5,14 +5,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { PEOPLEINSPOTLIGHT } from 'src/constant/route';
 
 const PeopleSpotlight = dynamic(() => import('@components/PeopleSpotlight'));
 
 const PeopleSpotLightPage = ({ host }: { host: string }) => {
   return (
     <>
-      <SEO title={'Pinex Detail'} siteUrl={`${host}${ROUTE_PATH.PEOPLEINSPOTLIGHT}`} />
+      <SEO title={'Pinex Detail'} siteUrl={`${host}${PEOPLEINSPOTLIGHT}`} />
       <PeopleSpotlight />
     </>
   );

@@ -15,7 +15,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import LoginHeader from '@layout/components/LoginHeader';
 import { useAuth } from '@store/auth/useAuth';
 import { settingAtom } from '@store/setting/setting';
-import { ROUTE_PATH } from '@utils/common';
+import { LOGIN, SETTING_CHANGE_PASSWORD } from 'src/constant/route';
 import { resendSMSTracking } from 'src/mixpanel/mixpanel';
 
 import { useChangePassord } from './service';
@@ -64,7 +64,7 @@ const ChangePasswordVertification = () => {
   const requestChangePassword = useChangePassord({
     onSuccess: () => {
       toast(() => <Notification type='success' message={t('change_password_successfully')} />);
-      onLogout(ROUTE_PATH.LOGIN);
+      onLogout(LOGIN);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
@@ -88,7 +88,7 @@ const ChangePasswordVertification = () => {
 
   useEffect(() => {
     if (!settingValues.curPassword || !settingValues.newPassword || !userLoginInfo.phone) {
-      router.push(ROUTE_PATH.SETTING_CHANGE_PASSWORD);
+      router.push(SETTING_CHANGE_PASSWORD);
     }
   }, []);
 

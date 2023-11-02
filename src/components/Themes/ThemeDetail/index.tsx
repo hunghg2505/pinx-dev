@@ -10,7 +10,7 @@ import Tabs from '@components/UI/Tabs';
 import Text from '@components/UI/Text';
 import { getAccessToken } from '@store/auth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH } from '@utils/common';
+import { NOT_FOUND } from 'src/constant/route';
 import { viewStockListTracking } from 'src/mixpanel/mixpanel';
 
 import Activities from './Activities';
@@ -75,7 +75,7 @@ const ThemeDetail = () => {
   const { themeDetail, refresh } = useGetThemeDetail(id, {
     onError: (err: any) => {
       if (err.errorCode === 'error.theme.notfound') {
-        router.push(ROUTE_PATH.NOT_FOUND);
+        router.push(NOT_FOUND);
       }
     },
   });

@@ -15,7 +15,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
-import { ROUTE_PATH } from '@utils/common';
+import { HOME, NOT_FOUND } from 'src/constant/route';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 import CommentPost from './CommentPost';
@@ -72,7 +72,7 @@ const PostDetail = () => {
   // is login
   const { refresh, postDetail, run } = usePostDetail(String(postID), {
     onError: () => {
-      router.push(ROUTE_PATH.NOT_FOUND);
+      router.push(NOT_FOUND);
     },
     onSuccess: (res: any) => {
       setTotalCommentOfPost(res.data.totalChildren);
@@ -145,7 +145,7 @@ const PostDetail = () => {
     // console.log()
     const storage = globalThis?.sessionStorage;
     if (storage?.prevPath === '') {
-      router.push(ROUTE_PATH.HOME);
+      router.push(HOME);
     } else {
       router.back();
     }

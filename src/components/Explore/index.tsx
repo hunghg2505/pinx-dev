@@ -14,7 +14,14 @@ import { Skeleton } from '@components/UI/Skeleton';
 import { SplideCustomWrap } from '@components/UI/Splide/Splide';
 import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import {
+  HOME,
+  PEOPLEINSPOTLIGHT,
+  PINEX_TOP_20,
+  THEME,
+  TOP_WATCHING,
+  TOPMENTION,
+} from 'src/constant/route';
 import {
   getMoreInfoTracking,
   viewStockListTracking,
@@ -212,7 +219,7 @@ const Explore = () => {
         </div>
 
         <CustomLink
-          href={ROUTE_PATH.PEOPLEINSPOTLIGHT}
+          href={PEOPLEINSPOTLIGHT}
           onClick={() => handleTrackingGetMoreInfo('User', 'List people in spotlight')}
         >
           <ExploreButton>
@@ -310,10 +317,7 @@ const Explore = () => {
             />
           </div>
         </div>
-        <CustomLink
-          href={ROUTE_PATH.THEME}
-          onClick={() => handleTrackingGetMoreInfo('Theme', 'List theme')}
-        >
+        <CustomLink href={THEME} onClick={() => handleTrackingGetMoreInfo('Theme', 'List theme')}>
           <ExploreButton>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_themes')}
@@ -358,7 +362,7 @@ const Explore = () => {
         {loadingTopWatchingStock ? (
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
-          <CustomLink href={ROUTE_PATH.TOP_WATCHING}>
+          <CustomLink href={TOP_WATCHING}>
             <ExploreButton
               onClick={() => {
                 handleTrackingViewListStock('Top watching stock');
@@ -410,7 +414,7 @@ const Explore = () => {
         {loadingTopMentionStock ? (
           <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
         ) : (
-          <CustomLink href={ROUTE_PATH.TOPMENTION}>
+          <CustomLink href={TOPMENTION}>
             <ExploreButton
               onClick={() => {
                 handleTrackingViewListStock('Top mention stock');
@@ -499,7 +503,7 @@ const Explore = () => {
           </div>
         </div>
 
-        <CustomLink href={ROUTE_PATH.PINEX_TOP_20}>
+        <CustomLink href={PINEX_TOP_20}>
           <ExploreButton
             onClick={() => {
               handleTrackingViewListStock('Top 20 pinex');
@@ -636,7 +640,7 @@ const Explore = () => {
       </div>
 
       {!loadingTrendingOnPinex && (
-        <CustomLink href={`${ROUTE_PATH.HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
+        <CustomLink href={`${HOME}?filterType=${FILTER_TYPE.MOST_REACTED}`}>
           <ExploreButton onClick={() => handleTrackingGetMoreInfo('Post', 'Hot topics')}>
             <Text type='body-14-bold' color='primary-2'>
               {t('explore_hot_topics')}

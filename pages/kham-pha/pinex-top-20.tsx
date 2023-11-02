@@ -5,14 +5,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import SEO from '@components/SEO';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
+import { PINEX_TOP_20 } from 'src/constant/route';
 
 const PinexTop20 = dynamic(() => import('@components/PinexTop20'));
 
 const PinexTop20Page = ({ host }: { host: string }) => {
   return (
     <>
-      <SEO title={'Pinex Detail'} siteUrl={`${host}/${ROUTE_PATH.PINEX_TOP_20}`} />
+      <SEO title={'Pinex Detail'} siteUrl={`${host}/${PINEX_TOP_20}`} />
       <PinexTop20 />
     </>
   );

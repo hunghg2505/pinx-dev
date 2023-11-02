@@ -15,9 +15,9 @@ import LabelDatePicker from '@components/UI/LabelDatePicker';
 import LabelInput from '@components/UI/LabelInput';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PHONE_NUMBER } from '@utils/reg';
+import { HOME, LOGIN } from 'src/constant/route';
 
 import { useForgotPassword } from './service';
 
@@ -37,7 +37,7 @@ const ForgotPasswordStepOne = () => {
 
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
-      router.push(ROUTE_PATH.LOGIN);
+      router.push(LOGIN);
       toast(() => <Notification type='success' message={t('request_password_msg')} />);
     },
     onError(e: any) {
@@ -155,7 +155,7 @@ const ForgotPasswordStepOne = () => {
 
       <div className='mt-9 flex flex-col items-center'>
         <Text type='body-14-regular'>{t('do_not_want_log_in')}</Text>
-        <NextLink href={ROUTE_PATH.HOME}>
+        <NextLink href={HOME}>
           <Text type='body-14-medium' color='primary-1'>
             {t('skip_forgot_password')}
           </Text>

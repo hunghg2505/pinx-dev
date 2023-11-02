@@ -15,7 +15,7 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import LoginHeader from '@layout/components/LoginHeader';
 import { useAuth } from '@store/auth/useAuth';
 import { settingAtom } from '@store/setting/setting';
-import { ROUTE_PATH } from '@utils/common';
+import { LOGIN, SETTING_CHANGE_USERNAME } from 'src/constant/route';
 import { resendSMSTracking } from 'src/mixpanel/mixpanel';
 
 import { useChangeUsername } from './service';
@@ -61,7 +61,7 @@ const ChangeUsernameVertification = () => {
   const requestChangePassword = useChangeUsername({
     onSuccess: () => {
       toast(() => <Notification type='success' message={t('change_username_successfully')} />);
-      onLogout(ROUTE_PATH.LOGIN);
+      onLogout(LOGIN);
     },
     onError: (e: any) => {
       toast(() => <Notification type='error' message={e?.error} />);
@@ -85,7 +85,7 @@ const ChangeUsernameVertification = () => {
 
   useEffect(() => {
     if (!settingValues.newUsername || !userLoginInfo.phone) {
-      router.push(ROUTE_PATH.SETTING_CHANGE_USERNAME);
+      router.push(SETTING_CHANGE_USERNAME);
     }
   }, []);
 

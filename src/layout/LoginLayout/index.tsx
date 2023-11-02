@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
+import { HOME, LOGIN } from 'src/constant/route';
 
 const LoginHeader = dynamic(() => import('../components/LoginHeader'));
 
 const LoginLayout = ({ children }: any) => {
   const router = useRouter();
 
-  const isRouteLogin = [ROUTE_PATH.LOGIN].includes(router?.pathname);
+  const isRouteLogin = [LOGIN].includes(router?.pathname);
 
   return (
     <>
@@ -34,7 +34,7 @@ const LoginLayout = ({ children }: any) => {
         <main className='flex flex-col laptop:w-[60%]'>
           <div className='md:h-screen lg:py-0 mx-auto flex flex-col items-center justify-center'>
             {isRouteLogin ? (
-              <CustomLink href={ROUTE_PATH.HOME}>
+              <CustomLink href={HOME}>
                 <div className='flex items-center mobile:!mb-8 mobile:!mt-[10vh] laptop:!mb-14 laptop:!mt-[15vh]'>
                   <Image
                     src='/static/images/pinex_logo.png'

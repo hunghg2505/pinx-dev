@@ -25,14 +25,9 @@ import { useLogin } from '@store/auth/hydrateAuth';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 import { StockSocketLocation, stockSocketAtom } from '@store/stockStocket';
-import {
-  ROUTE_PATH,
-  calcUserStatusText,
-  checkUserType,
-  formatStringToNumber,
-  isUrlValid,
-} from '@utils/common';
+import { calcUserStatusText, checkUserType, formatStringToNumber, isUrlValid } from '@utils/common';
 import { USERTYPE, USER_STATUS_PENDING, USER_STATUS_VERIFIED, DEEP_LINK } from 'src/constant';
+import { LOGIN, PROFILE_V2, PROFILE_VERIFICATION_V2, WATCHLIST } from 'src/constant/route';
 import {
   downloadPineXAppTracking,
   registerTracking,
@@ -162,7 +157,7 @@ const Profile = () => {
       <MenuItem>
         <CustomLink
           onClick={() => globalThis?.sessionStorage?.removeItem('scrollPosition')}
-          href={ROUTE_PATH.PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
+          href={PROFILE_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
           className='block w-full'
         >
           <div className='flex w-full items-center gap-[24px] p-4'>
@@ -280,7 +275,7 @@ const Profile = () => {
 
       <MenuItem>
         <CustomLink
-          href={ROUTE_PATH.PROFILE_VERIFICATION_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
+          href={PROFILE_VERIFICATION_V2(userLoginInfo?.displayName, userLoginInfo?.id)}
           className='flex items-center justify-between px-[20px] py-4'
         >
           <div className='flex items-center'>
@@ -309,7 +304,7 @@ const Profile = () => {
 
       <MenuItem>
         <CustomLink
-          href={ROUTE_PATH.WATCHLIST}
+          href={WATCHLIST}
           onClick={handleTracking}
           className='flex items-center px-[20px] py-4'
         >
@@ -364,7 +359,7 @@ const Profile = () => {
     return (
       <div className='flex items-center'>
         <CustomLink
-          href={ROUTE_PATH.LOGIN}
+          href={LOGIN}
           className='flex h-[40px] items-center justify-center rounded-[4px] border border-[--primary-6] bg-[#EAF4FB] mobile:w-[90px] desktop:w-[122px]'
         >
           <Text type='body-14-bold' color='primary-2'>
@@ -374,7 +369,7 @@ const Profile = () => {
 
         <CustomLink
           className='ml-[12px] hidden h-[40px] items-center justify-center rounded-[4px] bg-[linear-gradient(230.86deg,_rgba(29,_108,_171,_0.99)_0%,_rgba(88,_157,_192,_0.99)_100%)] mobile:w-[90px] tablet:flex desktop:w-[122px]'
-          href={`${ROUTE_PATH.LOGIN}?type=register`}
+          href={`${LOGIN}?type=register`}
           onClick={() => registerTracking(new Date().toISOString(), 'Header', 'CTA')}
         >
           <Text type='body-14-bold' color='cbwhite'>

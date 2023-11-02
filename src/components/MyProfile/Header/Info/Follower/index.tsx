@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
-import { ROUTE_PATH } from '@utils/common';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
+import { PROFILE_FOLLOW_V2 } from 'src/constant/route';
 
 interface FollowerProps {
   totalFollower: number | string;
@@ -30,7 +30,7 @@ const Follower = ({ totalFollower, displayName, userId }: FollowerProps) => {
           //     ProfileTabKey.FOLLOWERS
           //   }`,
           // );
-          router.push(ROUTE_PATH.PROFILE_FOLLOW_V2(displayName, userId, ProfileTabKey.FOLLOWERS));
+          router.push(PROFILE_FOLLOW_V2(displayName, userId, ProfileTabKey.FOLLOWERS));
         } else {
           router.replace({ query: { ...router.query, tab: ProfileTabKey.FOLLOWERS } });
         }

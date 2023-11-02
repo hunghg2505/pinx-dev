@@ -7,7 +7,8 @@ import { useTranslation } from 'next-i18next';
 
 import Text from '@components/UI/Text';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
-import { ROUTE_PATH, imageStock } from '@utils/common';
+import { imageStock } from '@utils/common';
+import { REGISTER_THEME } from 'src/constant/route';
 import { modifyWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
@@ -52,7 +53,7 @@ const RegisterCompanyStep = () => {
 
   const requestSelectStock = useSelectStock({
     onSuccess: (_, params) => {
-      router.push(ROUTE_PATH.REGISTER_THEME);
+      router.push(REGISTER_THEME);
       // gtm
       const unselectedStock = myListStock.filter((item) => !selected.includes(item));
       const stockHasAdd = params

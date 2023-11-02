@@ -11,7 +11,8 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, isUrlValid } from '@utils/common';
+import { isUrlValid } from '@utils/common';
+import { PROFILE_V2 } from 'src/constant/route';
 import { viewTickerInfoTracking } from 'src/mixpanel/mixpanel';
 
 // tracking event view ticker info
@@ -43,7 +44,7 @@ const ActivityItem = ({ data, refreshStockActivities }: IActivityItemProps) => {
     icon = activityFound.icon;
     content = t(activityFound.label);
   }
-  const href = ROUTE_PATH.PROFILE_V2(data?.post?.customerInfo?.displayName, data?.customerId);
+  const href = PROFILE_V2(data?.post?.customerInfo?.displayName, data?.customerId);
 
   return (
     <div className='flex'>

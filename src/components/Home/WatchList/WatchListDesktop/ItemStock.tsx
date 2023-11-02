@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { formatStringToNumber, getStockUrl, imageStock } from '@utils/common';
+import { STOCK_DETAIL } from 'src/constant/route';
 
 import style from '../index.module.scss';
 
@@ -25,7 +26,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
     <>
       <div className='item mb-[26px] flex justify-between pb-[10px] [border-bottom:1px_solid_#ECECEC] last:border-none '>
         <div className='flex'>
-          <CustomLink href={ROUTE_PATH.STOCK_DETAIL(code)}>
+          <CustomLink href={STOCK_DETAIL(code)}>
             <div className='mr-[10px] flex h-[48px] w-[48px] items-center justify-center overflow-hidden rounded-full object-contain'>
               <img
                 src={imageStock(data?.stockCode)}
@@ -39,7 +40,7 @@ const ItemStock = ({ data, isChangeStock }: { data: IWatchListItem; isChangeStoc
           </CustomLink>
           <div>
             <div className='flex items-center'>
-              <CustomLink href={ROUTE_PATH.STOCK_DETAIL(code)}>
+              <CustomLink href={STOCK_DETAIL(code)}>
                 <Text type='body-14-bold' color='cbblack'>
                   {data?.stockCode}
                 </Text>

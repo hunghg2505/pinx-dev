@@ -7,7 +7,8 @@ import AvatarDefault from '@components/UI/AvatarDefault';
 import CustomImage from '@components/UI/CustomImage';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH, formatStringToNumber, isUrlValid } from '@utils/common';
+import { formatStringToNumber, isUrlValid } from '@utils/common';
+import { STOCK_SUBSCRIBER } from 'src/constant/route';
 
 const WATCHING_INVESTING_ITEM_LIMIT = 4;
 
@@ -36,7 +37,7 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
 
       <div className='mb-[8px] mt-[16px] flex items-center justify-between tablet:justify-start'>
         <CustomLink
-          href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
+          href={STOCK_SUBSCRIBER(stockCode)}
           onClick={() => handleAnalyze('Stock community')}
           className='flex gap-x-[10px] galaxy-max:gap-[6px]'
         >
@@ -77,7 +78,7 @@ const StockCommunity = ({ stockDetails, stockCode, handleAnalyze }: IStockCommun
         </CustomLink>
 
         <CustomLink
-          href={ROUTE_PATH.STOCK_SUBSCRIBER(stockCode)}
+          href={STOCK_SUBSCRIBER(stockCode)}
           onClick={() => handleAnalyze('Stock community')}
           className='ml-[10px] flex h-[34px] min-w-[90px] cursor-pointer items-center justify-center rounded-full bg-[#F7F6F8] px-[16px] galaxy-max:px-[12px]'
         >

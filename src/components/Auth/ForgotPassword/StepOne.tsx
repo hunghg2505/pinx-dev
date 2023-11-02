@@ -9,9 +9,9 @@ import FormItem from '@components/UI/FormItem';
 import LabelInput from '@components/UI/LabelInput';
 import Notification from '@components/UI/Notification';
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_PHONE_NUMBER } from '@utils/reg';
+import { HOME, LOGIN, UPDATE_USER_PROFILE } from 'src/constant/route';
 
 import { useForgotPassword } from './service';
 
@@ -24,13 +24,13 @@ const ForgotPasswordStepOne = () => {
 
   const requestForgotPassword = useForgotPassword({
     onSuccess: () => {
-      router.push(ROUTE_PATH.LOGIN);
+      router.push(LOGIN);
       toast(() => <Notification type='success' message={t('request_password_msg')} />);
     },
     onError(e: any) {
       if (ERROR_CODE.has(e?.errorWTSCode)) {
         router.push({
-          pathname: ROUTE_PATH.UPDATE_USER_PROFILE,
+          pathname: UPDATE_USER_PROFILE,
           query: {
             username: form.getFieldValue('username'),
             phone_number: form.getFieldValue('phoneNumber'),
@@ -97,7 +97,7 @@ const ForgotPasswordStepOne = () => {
         <Text type='body-14-regular' color='neutral-4'>
           {t('do_not_want_log_in')}
         </Text>
-        <NextLink href={ROUTE_PATH.HOME}>
+        <NextLink href={HOME}>
           <Text type='body-14-medium' color='primary-1'>
             {t('skip_forgot_password')}
           </Text>

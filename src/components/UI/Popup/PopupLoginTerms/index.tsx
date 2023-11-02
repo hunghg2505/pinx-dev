@@ -13,8 +13,8 @@ import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
-import { ROUTE_PATH } from '@utils/common';
 import { PHONE_CONTACT_SUPPORT } from 'src/constant';
+import { HOME, LOGIN_OTP_VERIFICATION } from 'src/constant/route';
 
 import { useGetContract, useSendLoginOtp, useConfirmContract } from './service';
 
@@ -47,7 +47,7 @@ const ModalLoginTerms = (props: IProps) => {
 
   const requestSendLoginOtp = useSendLoginOtp({
     onSuccess: () => {
-      router.push(ROUTE_PATH.LOGIN_OTP_VERIFICATION);
+      router.push(LOGIN_OTP_VERIFICATION);
       onClose();
     },
     onError(e) {
@@ -58,7 +58,7 @@ const ModalLoginTerms = (props: IProps) => {
 
   const requestConfirmContract = useConfirmContract({
     onSuccess: () => {
-      router.push(ROUTE_PATH.HOME);
+      router.push(HOME);
       onClose();
     },
     onError(e) {

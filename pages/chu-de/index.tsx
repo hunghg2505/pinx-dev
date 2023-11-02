@@ -7,8 +7,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEO from '@components/SEO';
 import { fetchSeoDataFromServer } from '@components/Themes/service';
 import MainLayout from '@layout/MainLayout';
-import { ROUTE_PATH, getHostName } from '@utils/common';
+import { getHostName } from '@utils/common';
 import { SEO_TEXT_SEARCH } from 'src/constant';
+import { THEME } from 'src/constant/route';
 
 const Themes = dynamic(() => import('@components/Themes'));
 
@@ -17,7 +18,7 @@ const ThemesPage = ({ seoMetadata, host }: any) => {
   return (
     <>
       <SEO
-        siteUrl={`${host}${ROUTE_PATH.THEME}`}
+        siteUrl={`${host}${THEME}`}
         title={seoMetadata?.title}
         description={seoMetadata?.metaDescription}
         openGraph={{

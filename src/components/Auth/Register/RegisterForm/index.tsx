@@ -20,11 +20,11 @@ import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { deleteRegisterCookies } from '@store/auth';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH } from '@utils/common';
 import { ENV } from '@utils/env';
 import { normalizeNumber } from '@utils/normalize';
 import { REG_EMAIL, REG_PASSWORD, REG_PHONE_NUMBER } from '@utils/reg';
 import { TERM_AND_CONDITION_LINK } from 'src/constant';
+import { HOME, REGISTER_OTP_VERIFICATION, REGISTER_USER_NAME } from 'src/constant/route';
 import { completeBasicInfoTracking } from 'src/mixpanel/mixpanel';
 
 import { useRegister } from './service';
@@ -101,7 +101,7 @@ const Register = (props: IProps) => {
                 popupRegisterOtp: true,
               });
             } else {
-              router.push(ROUTE_PATH.REGISTER_OTP_VERIFICATION);
+              router.push(REGISTER_OTP_VERIFICATION);
             }
             break;
           }
@@ -113,7 +113,7 @@ const Register = (props: IProps) => {
                 popupRegisterUsername: true,
               });
             } else {
-              router.push(ROUTE_PATH.REGISTER_USER_NAME);
+              router.push(REGISTER_USER_NAME);
             }
             break;
           }
@@ -259,7 +259,7 @@ const Register = (props: IProps) => {
 
         {!isModal && (
           <div className='mt-9 flex flex-col items-center'>
-            <CustomLink href={ROUTE_PATH.HOME}>
+            <CustomLink href={HOME}>
               <Text type='body-14-medium' color='primary-1'>
                 {t('skip_forgot_password')}
               </Text>

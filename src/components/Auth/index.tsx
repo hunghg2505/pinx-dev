@@ -6,8 +6,8 @@ import { useTranslation } from 'next-i18next';
 import Tabs, { TabPane } from 'rc-tabs';
 
 import Text from '@components/UI/Text';
-import { ROUTE_PATH } from '@utils/common';
 import { REGISTER_INSTRUCTIONS_LINK, AUTH_TAB_TYPE } from 'src/constant';
+import { LOGIN } from 'src/constant/route';
 import { registerTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
@@ -29,7 +29,7 @@ function Auth() {
 
     if (tabKey === AUTH_TAB_TYPE.REGISTER) {
       router.replace({
-        pathname: ROUTE_PATH.LOGIN,
+        pathname: LOGIN,
         query: {
           type: AUTH_TAB_TYPE.REGISTER,
         },
@@ -37,7 +37,7 @@ function Auth() {
       registerTracking(new Date().toISOString(), 'Header', 'CTA');
     } else {
       router.replace({
-        pathname: ROUTE_PATH.LOGIN,
+        pathname: LOGIN,
       });
     }
   };

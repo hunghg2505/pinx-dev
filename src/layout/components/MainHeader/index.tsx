@@ -10,7 +10,7 @@ import { useResponsive } from '@hooks/useResponsive';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { getAccessToken } from '@store/auth';
 import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch';
-import { ROUTE_PATH } from '@utils/common';
+import { HOME } from 'src/constant/route';
 
 const MenuMobile = dynamic(() => import('@layout/components/MainHeader/MenuMobile'), {
   loading: () => (
@@ -55,7 +55,7 @@ const MainHeader = () => {
         <div className='flex flex-none items-center desktop:w-[218px] desktop:gap-[16px]'>
           <CustomLink
             onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
-            href={ROUTE_PATH.HOME}
+            href={HOME}
           >
             <Text className='hidden' element='h1'>
               Cộng đồng đầu tư chứng khoán PineX

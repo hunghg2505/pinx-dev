@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import { ITheme } from '@components/Home/service';
 import { popupStatusAtom } from '@store/popup/popup';
-import { ROUTE_PATH } from '@utils/common';
+import { THEME } from 'src/constant/route';
 
 import { MainButton } from '../Button';
 import Text from '../Text';
@@ -25,7 +25,7 @@ const NotificationSubsribeTheme = (props: IProps) => {
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
 
   const onShare = () => {
-    if (router.pathname.includes(ROUTE_PATH.THEME + '/')) {
+    if (router.pathname.includes(THEME + '/')) {
       setPopupStatus({ ...popupStatus, popupSubsribeTheme: true });
     } else {
       setPopupStatus({ ...popupStatus, popupSubsribeThemeHome: true });

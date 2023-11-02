@@ -8,7 +8,7 @@ import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
-import { ROUTE_PATH } from '@utils/common';
+import { WATCHLIST } from 'src/constant/route';
 import { getMoreInfoTracking, viewWatchListTracking } from 'src/mixpanel/mixpanel';
 
 import styles from './index.module.scss';
@@ -66,7 +66,7 @@ const TabMobile = () => {
       {selectTab === '1' && isHaveStockWatchList && (
         <CustomLink
           className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
-          href={ROUTE_PATH.WATCHLIST}
+          href={WATCHLIST}
           onClick={handleTracking}
         >
           <Text

@@ -14,7 +14,8 @@ import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useAuth } from '@store/auth/useAuth';
 import { popupStatusAtom } from '@store/popup/popup';
 import { useProfileSettingInitial } from '@store/profileSetting/useGetProfileSetting';
-import { ROUTE_PATH, checkUserType } from '@utils/common';
+import { checkUserType } from '@utils/common';
+import { FORGOT_PASSWORD, HOME } from 'src/constant/route';
 import { loginTracking, mixpanelIdentifyUser } from 'src/mixpanel/mixpanel';
 
 import { useLogin } from './service';
@@ -31,7 +32,8 @@ const Login = (props: Iprops) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { onLogin } = useAuth();
-  const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm, userLoginInfo } = useUserLoginInfo();
+  const { setUserLoginInfo, setIsReadTerms, setUserType, setForceAllowTerm, userLoginInfo } =
+    useUserLoginInfo();
   const date = new Date();
 
   const onSubmit = (values: any) => {
@@ -39,10 +41,10 @@ const Login = (props: Iprops) => {
       username: values?.username,
       password: values?.password,
     });
-    setUserLoginInfo(prev => {
+    setUserLoginInfo((prev) => {
       return {
         ...prev,
-        username: values?.username
+        username: values?.username,
       };
     });
   };
@@ -79,8 +81,7 @@ const Login = (props: Iprops) => {
           });
           router.reload();
         } else {
-          // router.push(ROUTE_PATH.HOME);
-          window.location.href = ROUTE_PATH.HOME;
+          window.location.href = HOME;
         }
       }
     },
@@ -114,7 +115,7 @@ const Login = (props: Iprops) => {
         </FormItem>
 
         <div className='!mt-3 flex flex-row-reverse'>
-          <NextLink href={ROUTE_PATH.FORGOT_PASSWORD}>
+          <NextLink href={FORGOT_PASSWORD}>
             <Text type='body-14-medium' color='primary-2'>
               {t('forgot_password')}
             </Text>
@@ -132,7 +133,7 @@ const Login = (props: Iprops) => {
 
         {!isModal && (
           <div className='mt-9 flex flex-col items-center'>
-            <NextLink href={ROUTE_PATH.HOME}>
+            <NextLink href={HOME}>
               <Text type='body-14-medium' color='primary-1'>
                 {t('skip_forgot_password')}
               </Text>

@@ -3,8 +3,8 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
-import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop';
-import { ROUTE_PATH } from '@utils/common';
+import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
+import { PROFILE_FOLLOW_V2 } from 'src/constant/route';
 
 interface ITabBarProps {
   tabKey: ProfileTabKey;
@@ -38,7 +38,7 @@ const TabBar = ({ tabKey, tabName, onTabChange, activeTab, setFullName }: ITabBa
         onClick={() => {
           onTabChange(tabKey);
           setFullName('');
-          const newPath = ROUTE_PATH.PROFILE_FOLLOW_V2(displayName, userId, tabKey);
+          const newPath = PROFILE_FOLLOW_V2(displayName, userId, tabKey);
           let currentLocale = window.history.state?.options?.locale;
           currentLocale = currentLocale === 'en' ? '/en' : '';
 
