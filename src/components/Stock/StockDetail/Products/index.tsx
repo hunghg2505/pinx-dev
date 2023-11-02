@@ -1,11 +1,12 @@
 /* eslint-disable unicorn/no-useless-spread */
 import React, { useRef } from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
 import { IStock } from '@components/Stock/type';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 
@@ -64,7 +65,7 @@ const StockProducts = ({ stockDetail }: IStockProductsProps) => {
           )}
 
           <div className='overflow-hidden'>
-            <Splide
+            <SplideCustomWrap
               options={{
                 perPage: 1,
                 pagination: false,
@@ -78,7 +79,7 @@ const StockProducts = ({ stockDetail }: IStockProductsProps) => {
                   <ProductItem className='!mr-[14px]' data={item} />
                 </SplideSlide>
               ))}
-            </Splide>
+            </SplideCustomWrap>
           </div>
 
           {stockDetail?.data?.products.length > PRODUCT_SLIDE_LIMIT && (

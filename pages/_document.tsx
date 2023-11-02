@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-css-tags */
 import { Partytown } from '@builder.io/partytown/react';
 import { Head, Html, Main, NextScript } from 'next/document';
 import Script from 'next/script';
@@ -21,6 +22,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           }}
           type='text/partytown'
         ></Script>
+        <link
+          href='
+https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css
+'
+          rel='stylesheet'
+        ></link>
       </Head>
       <body>
         <noscript

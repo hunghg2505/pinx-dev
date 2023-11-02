@@ -40,39 +40,8 @@ const Market = () => {
           {[1, 2, 3, 4].map((item) => (
             <div
               key={`skeleton-market-${item}`}
-              className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF]  [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
-            >
-              <div className='item px-[12px] py-[20px] text-left galaxy-max:p-[12px] '>
-                <Text
-                  type='body-20-semibold'
-                  className='h-[28px] bg-[#1a1a1a] opacity-[0.3] galaxy-max:text-[16px]'
-                  color='neutral-1'
-                >
-                  ---
-                </Text>
-                <Text
-                  type='body-12-regular'
-                  color='neutral-4'
-                  className='mt-[4px] h-[14px] bg-[grey] opacity-[0.3]'
-                >
-                  ---
-                </Text>
-                <Text
-                  type='body-24-regular'
-                  className={classNames(
-                    'mt-[10px] h-[36px] px-[5px] py-[2px] galaxy-max:text-[20px]',
-                    {
-                      'text-[#128F63]': Math.random() > 0.5,
-                      'text-[#DB4444]': Math.random() > 0.5,
-                      'text-[#E6A70A]': Math.random() > 0.5,
-                    },
-                  )}
-                >
-                  ---
-                </Text>
-              </div>
-              <div className='h-[50px] rounded-[18px] bg-[#e1edf4]'></div>
-            </div>
+              className='h-[230px] w-full rounded-[8px] bg-[#e1edf4] tablet:w-[163px]'
+            ></div>
           ))}
         </div>
       </div>

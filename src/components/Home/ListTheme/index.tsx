@@ -1,11 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import { useInView } from 'react-intersection-observer';
 
 import CustomLink from '@components/UI/CustomLink';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { useLogin } from '@store/auth/hydrateAuth';
 import { ROUTE_PATH } from '@utils/common';
@@ -63,7 +64,7 @@ const ListTheme = () => {
           />
         </div>
         <div className='slideTheme max-w-[700px] overflow-hidden'>
-          <Splide
+          <SplideCustomWrap
             options={{
               perPage: 4,
               pagination: false,
@@ -90,7 +91,7 @@ const ListTheme = () => {
                 </SplideSlide>
               );
             })}
-          </Splide>
+          </SplideCustomWrap>
         </div>
         <div
           onClick={() => {

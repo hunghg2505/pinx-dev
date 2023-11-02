@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import dynamic from 'next/dynamic';
+
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 
 const ItemStock = dynamic(() => import('./ItemStock'), {
   ssr: false,
@@ -15,9 +17,9 @@ const ListStock = ({
   onTrackingViewTicker?: (stockCode: string) => void;
 }) => {
   return (
-    <Splide
+    <SplideCustomWrap
       options={{
-        perPage: 3,
+        perPage: 5,
         pagination: false,
         arrows: false,
         gap: 10,
@@ -41,7 +43,7 @@ const ListStock = ({
           </SplideSlide>
         );
       })}
-    </Splide>
+    </SplideCustomWrap>
   );
 };
 export default ListStock;

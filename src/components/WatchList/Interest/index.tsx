@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import { IWatchListItem } from '@components/Home/service';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
 import { socket } from 'src/socket/socket';
@@ -109,7 +110,7 @@ const Interest = (props: IProps) => {
           )}
           {isDesktop && interestStock?.length > 0 && (
             <>
-              <Splide
+              <SplideCustomWrap
                 className={classNames('', styles.slickSlider)}
                 options={{
                   perPage: 5,
@@ -146,7 +147,7 @@ const Interest = (props: IProps) => {
                     </SplideSlide>
                   );
                 })}
-              </Splide>
+              </SplideCustomWrap>
             </>
           )}
         </div>

@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import classNames from 'classnames';
 
 import { ITheme } from '@components/Home/service';
 import { Skeleton } from '@components/UI/Skeleton';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 
 import styles from './index.module.scss';
 import { useGetTheme } from './service';
@@ -38,7 +39,7 @@ const Themes = (props: IProps) => {
     <>
       {!isEdit && (
         <div className='max-w-[100%]'>
-          <Splide
+          <SplideCustomWrap
             className={classNames('', styles.sliderTheme)}
             options={{
               perPage: 1,
@@ -55,7 +56,7 @@ const Themes = (props: IProps) => {
                 </SplideSlide>
               );
             })}
-          </Splide>
+          </SplideCustomWrap>
         </div>
       )}
     </>

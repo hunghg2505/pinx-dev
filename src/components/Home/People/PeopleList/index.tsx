@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { SplideSlide, Splide } from '@splidejs/react-splide';
-
 import { ISuggestionPeople } from '@components/Home/service';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 
-// import PeopleLoading from './Skeleton';
 import ItemPeople from '../ItemPeople';
 
 interface IProps {
@@ -30,7 +29,7 @@ const PeopleList = (props: IProps) => {
 
   return (
     <div className='ml-[12px] max-w-[700px] overflow-hidden  '>
-      <Splide
+      <SplideCustomWrap
         options={{
           perPage: 3,
           pagination: false,
@@ -56,7 +55,7 @@ const PeopleList = (props: IProps) => {
             </SplideSlide>
           );
         })}
-      </Splide>
+      </SplideCustomWrap>
     </div>
   );
 };

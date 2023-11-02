@@ -1,9 +1,10 @@
 import { useRef, useEffect } from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { useInView } from 'react-intersection-observer';
 
 import { IKOL, useGetInfluencer, useSuggestPeople } from '@components/Home/service';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 
 import ItemInfluence from './ItemInfluence';
 import InfluencerLoading from './Skeleton';
@@ -59,7 +60,7 @@ const Influencer = () => {
         />
       </div>
       <div className='max-w-[700px]'>
-        <Splide
+        <SplideCustomWrap
           options={{
             perPage: 4,
             pagination: false,
@@ -90,7 +91,7 @@ const Influencer = () => {
               );
             },
           )}
-        </Splide>
+        </SplideCustomWrap>
       </div>
       <div
         onClick={() => {

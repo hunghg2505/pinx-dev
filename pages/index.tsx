@@ -7,6 +7,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
 import { atomSSRPinPost } from '@store/pinPost/pinPost';
+
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Home = dynamic(() => import('@components/Home'));

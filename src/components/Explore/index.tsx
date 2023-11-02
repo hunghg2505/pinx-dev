@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
@@ -12,6 +11,8 @@ import { IPost } from '@components/Post/service';
 import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
+import { SplideCustomWrap } from '@components/UI/Splide/Splide';
+import { SplideSlide } from '@components/UI/Splide/SplideSlide/SplideSlide';
 import Text from '@components/UI/Text';
 import { ROUTE_PATH } from '@utils/common';
 import {
@@ -264,7 +265,7 @@ const Explore = () => {
           </div>
 
           <div className='slideTheme max-w-[700px] overflow-hidden'>
-            <Splide
+            <SplideCustomWrap
               options={{
                 perPage: 4,
                 pagination: false,
@@ -293,7 +294,7 @@ const Explore = () => {
                   </SplideSlide>
                 );
               })}
-            </Splide>
+            </SplideCustomWrap>
           </div>
 
           <div
@@ -447,7 +448,7 @@ const Explore = () => {
           </div>
 
           <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
-            <Splide
+            <SplideCustomWrap
               options={{
                 perPage: 4,
                 pagination: false,
@@ -481,7 +482,7 @@ const Explore = () => {
                   </SplideSlide>
                 );
               })}
-            </Splide>
+            </SplideCustomWrap>
           </div>
 
           <div
