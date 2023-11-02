@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import ModalCompose from '@components/Home/ModalCompose';
 import UserPostingFake from '@components/Home/UserPosting/UserPostingFake';
 import BaseModal, { IBaseModal } from '@components/MyProfile/MyStory/BaseModal';
 import AvatarDefault from '@components/UI/AvatarDefault';
@@ -26,6 +25,7 @@ import ComposeButton from '../ComposeButton';
 
 const Unverify = dynamic(() => import('./UnVerify'));
 const ModalComposeMobile = dynamic(() => import('@components/Compose/ModalComposeMobile'));
+const ModalCompose = dynamic(() => import('@components/Home/ModalCompose'));
 
 const UserPosting = ({ onAddNewPost }: any) => {
   const { t } = useTranslation(['home']);

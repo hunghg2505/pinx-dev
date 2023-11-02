@@ -1,14 +1,16 @@
 import React from 'react';
 
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import ModalCompose from '@components/Home/ModalCompose';
 import Notification from '@components/UI/Notification';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from 'src/constant';
+
+const ModalCompose = dynamic(() => import('@components/Home/ModalCompose'));
 
 interface IProps {
   children: any;
