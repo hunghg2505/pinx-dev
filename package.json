@@ -5,16 +5,18 @@
   "scripts": {
     "dev": "env-cmd -f env.development next dev",
     "standalone": "PORT=80 node server.js",
-    "build": "next build",
+    "build": "npm run partytown && next build",
     "start": "env-cmd -f env.development next start",
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
     "prepare": "husky install",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "partytown": "partytown copylib public/~partytown"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.8.1",
     "@splidejs/react-splide": "^0.7.12",
     "ahooks": "^3.5.1",
     "brainless-token-manager": "^1.2.6",
