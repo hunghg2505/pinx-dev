@@ -1,6 +1,36 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  PUBLIC_COMPANY_DETAIL,
+  PUBLIC_COMPANY_SHAREHOLDER,
+  PRIVATE_WATCH_LIST_CREATE,
+  PRIVATE_WATCH_LIST_STOCK_REMOVE,
+  PUBLIC_COMPANY_TAGGING_INFO,
+  PUBLIC_FINANCIAL_INDEX,
+  PUBLIC_COMPANY_OWNERSHIP,
+  PUBLIC_STOCK_EVENTS,
+  PUBLIC_THEME_OF_STOCK,
+  PRIVATE_STOCK_DETAIL_EXTRA_V2,
+  PUBLIC_STOCK_REVIEWS,
+  PRIVATE_STOCK_NEWS,
+  PUBLIC_STOCK_NEWS,
+  PRIVATE_STOCK_ACTIVITIES,
+  PUBLIC_STOCK_ACTIVITIES,
+  PRIVATE_STOCK_REVIEW_V2,
+  PUBLIC_STOCK_WATCHING_INVESTING,
+  PUBLIC_STOCK_WATCHING,
+  PUBLIC_STOCK_INVESTING,
+  PUBLIC_HASHTAG_INDUSTRY,
+  PUBLIC_HASHTAG_HIGHLIGHT,
+  PRIVATE_ACTIVITY_WATCH_LIST_ADD,
+  PUBLIC_STOCK_DATA,
+  PUBLIC_FINANCE_INFO,
+  PUBLIC_STOCK_TRADE,
+  PUBLIC_STOCK_INTRADAY,
+  PUBLIC_STOCK_DETAIL_EXTRA_V2,
+  PUBLIC_STOCK_SITE_MAP,
+  PRIVATE_WATCHLIST_STOCK,
+} from '@api/constant';
 import {
   PREFIX_API_IP_COMMUNITY,
   privateRequest,
@@ -31,13 +61,10 @@ import {
 } from './type';
 
 const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDetail => {
-  const { data, loading } = useRequest(
-    () => requestMarket.get(API_PATH.PUBLIC_COMPANY_DETAIL(stockCode)),
-    {
-      refreshDeps: [stockCode],
-      ...options,
-    },
-  );
+  const { data, loading } = useRequest(() => requestMarket.get(PUBLIC_COMPANY_DETAIL(stockCode)), {
+    refreshDeps: [stockCode],
+    ...options,
+  });
 
   return {
     stockDetail: data,
@@ -48,7 +75,7 @@ const useStockDetail = (stockCode: string, options?: IOptions): IResponseStockDe
 const useShareholder = (stockCode: string): IResponseShareholder => {
   const { data, loading } = useRequest(
     () =>
-      requestMarket.get(API_PATH.PUBLIC_COMPANY_SHAREHOLDER, {
+      requestMarket.get(PUBLIC_COMPANY_SHAREHOLDER, {
         params: {
           stockCode,
         },
@@ -65,7 +92,7 @@ const useShareholder = (stockCode: string): IResponseShareholder => {
 };
 
 const serviceGetMyListStock = () => {
-  return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+  return privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK);
 };
 
 const useMyListStock = (options?: IOptions) => {
@@ -84,7 +111,7 @@ const useMyListStock = (options?: IOptions) => {
 };
 
 const serviceFollowStock = (stockCode: string) => {
-  return privateRequest(requestPist.post, API_PATH.PRIVATE_WATCH_LIST_CREATE, {
+  return privateRequest(requestPist.post, PRIVATE_WATCH_LIST_CREATE, {
     data: {
       stocks: stockCode,
     },
@@ -92,7 +119,7 @@ const serviceFollowStock = (stockCode: string) => {
 };
 
 const serviceUnfollowStock = (stockCode: string) => {
-  return privateRequest(requestPist.put, API_PATH.PRIVATE_WATCH_LIST_STOCK_REMOVE(stockCode));
+  return privateRequest(requestPist.put, PRIVATE_WATCH_LIST_STOCK_REMOVE(stockCode));
 };
 
 const useFollowOrUnfollowStock = (options?: IOptions) => {
@@ -110,7 +137,7 @@ const useFollowOrUnfollowStock = (options?: IOptions) => {
 const useCompanyTaggingInfo = (stockCode: string, options?: IOptions): IResponseTaggingInfo => {
   const { data, loading } = useRequest(
     () => {
-      return requestMarket.get(API_PATH.PUBLIC_COMPANY_TAGGING_INFO(stockCode));
+      return requestMarket.get(PUBLIC_COMPANY_TAGGING_INFO(stockCode));
     },
     {
       refreshDeps: [stockCode],
@@ -127,7 +154,7 @@ const useCompanyTaggingInfo = (stockCode: string, options?: IOptions): IResponse
 const useFinancialIndex = (stockCode: string, options?: IOptions): IResponseFinancialIndex => {
   const { data, loading } = useRequest(
     () => {
-      return requestMarket.get(API_PATH.PUBLIC_FINANCIAL_INDEX, {
+      return requestMarket.get(PUBLIC_FINANCIAL_INDEX, {
         params: {
           stockCode,
         },
@@ -148,7 +175,7 @@ const useFinancialIndex = (stockCode: string, options?: IOptions): IResponseFina
 const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
   const { data, loading } = useRequest(
     () =>
-      requestMarket.get(API_PATH.PUBLIC_COMPANY_OWNERSHIP, {
+      requestMarket.get(PUBLIC_COMPANY_OWNERSHIP, {
         params: {
           stockCode,
         },
@@ -167,7 +194,7 @@ const useHoldingRatio = (stockCode: string): IResponseHoldingRatio => {
 const useFinancialCalendar = (stockCode: string, options?: object): IResponseStockEvents => {
   const { data, run, loading } = useRequest(
     (last?: string) =>
-      requestCommunity.get(API_PATH.PUBLIC_STOCK_EVENTS(stockCode), {
+      requestCommunity.get(PUBLIC_STOCK_EVENTS(stockCode), {
         params: {
           last,
         },
@@ -186,12 +213,9 @@ const useFinancialCalendar = (stockCode: string, options?: object): IResponseSto
 };
 
 const useThemesOfStock = (stockCode: string): IResponseThemesOfStock => {
-  const { data, loading } = useRequest(
-    () => requestPist.get(API_PATH.PUBLIC_THEME_OF_STOCK(stockCode)),
-    {
-      refreshDeps: [stockCode],
-    },
-  );
+  const { data, loading } = useRequest(() => requestPist.get(PUBLIC_THEME_OF_STOCK(stockCode)), {
+    refreshDeps: [stockCode],
+  });
 
   return {
     stockThemes: data,
@@ -204,8 +228,8 @@ const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => 
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_DETAIL_EXTRA_V2(stockCode))
-        : requestCommunity.get(API_PATH.PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode));
+        ? privateRequest(requestCommunity.get, PRIVATE_STOCK_DETAIL_EXTRA_V2(stockCode))
+        : requestCommunity.get(PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode));
     },
     {
       refreshDeps: [stockCode],
@@ -218,7 +242,7 @@ const useStockDetailsExtra = (stockCode: string): IResponseStockDetailsExtra => 
 const useStockReviews = (stockCode: string, options?: IOptions) => {
   const { run, refresh, loading } = useRequest(
     (params?: object) =>
-      requestCommunity.get(API_PATH.PUBLIC_STOCK_REVIEWS(stockCode), {
+      requestCommunity.get(PUBLIC_STOCK_REVIEWS(stockCode), {
         params,
       }),
     {
@@ -241,12 +265,12 @@ const useStockNews = (stockCode: string, options?: any): IResponseStockNews2 => 
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_NEWS(stockCode), {
+        ? privateRequest(requestCommunity.get, PRIVATE_STOCK_NEWS(stockCode), {
             params: {
               last,
             },
           })
-        : requestCommunity.get(API_PATH.PUBLIC_STOCK_NEWS(stockCode), {
+        : requestCommunity.get(PUBLIC_STOCK_NEWS(stockCode), {
             params: {
               last,
             },
@@ -275,10 +299,10 @@ const useStockActivities = (
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_STOCK_ACTIVITIES(stockCode), {
+        ? privateRequest(requestCommunity.get, PRIVATE_STOCK_ACTIVITIES(stockCode), {
             params,
           })
-        : requestCommunity.get(API_PATH.PUBLIC_STOCK_ACTIVITIES(stockCode), {
+        : requestCommunity.get(PUBLIC_STOCK_ACTIVITIES(stockCode), {
             params,
           });
     },
@@ -296,7 +320,7 @@ const useStockActivities = (
 const useReviewStock = (stockCode: string, options?: IOptions) => {
   return useRequest(
     (data: { rateValue: number; message?: string }) =>
-      privateRequest(requestCommunity.post, API_PATH.PRIVATE_STOCK_REVIEW_V2(stockCode), {
+      privateRequest(requestCommunity.post, PRIVATE_STOCK_REVIEW_V2(stockCode), {
         data,
       }),
     {
@@ -309,7 +333,7 @@ const useReviewStock = (stockCode: string, options?: IOptions) => {
 const useStockWatchingInvesting = (stockCode: string, options?: IOptions) => {
   const requestGetWatchingInvesting = useRequest(
     (last?: string) =>
-      requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING_INVESTING(stockCode), {
+      requestCommunity.get(PUBLIC_STOCK_WATCHING_INVESTING(stockCode), {
         params: {
           last,
         },
@@ -327,7 +351,7 @@ const useStockWatchingInvesting = (stockCode: string, options?: IOptions) => {
 const useStockWatching = (stockCode: string, options?: IOptions) => {
   const requestGetStockWatching = useRequest(
     (last?: string) =>
-      requestCommunity.get(API_PATH.PUBLIC_STOCK_WATCHING(stockCode), {
+      requestCommunity.get(PUBLIC_STOCK_WATCHING(stockCode), {
         params: {
           last,
         },
@@ -345,7 +369,7 @@ const useStockWatching = (stockCode: string, options?: IOptions) => {
 const useStockInvesting = (stockCode: string, options?: IOptions) => {
   const requestGetStockInvesting = useRequest(
     (last?: string) =>
-      requestCommunity.get(API_PATH.PUBLIC_STOCK_INVESTING(stockCode), {
+      requestCommunity.get(PUBLIC_STOCK_INVESTING(stockCode), {
         params: {
           last,
         },
@@ -366,11 +390,11 @@ const useCompaniesRelated = (hashtagId: string, type: CompanyRelatedType, option
       let apiPath;
       switch (type) {
         case CompanyRelatedType.INDUSTRY: {
-          apiPath = API_PATH.PUBLIC_HASHTAG_INDUSTRY;
+          apiPath = PUBLIC_HASHTAG_INDUSTRY;
           break;
         }
         case CompanyRelatedType.HIGHLIGHTS: {
-          apiPath = API_PATH.PUBLIC_HASHTAG_HIGHLIGHT;
+          apiPath = PUBLIC_HASHTAG_HIGHLIGHT;
           break;
         }
       }
@@ -399,7 +423,7 @@ const useCompaniesRelated = (hashtagId: string, type: CompanyRelatedType, option
 const useShareStockActivity = (options?: IOptions) => {
   const requestShareStock = useRequest(
     (payload: IPayloadShareStock) =>
-      privateRequest(requestCommunity.post, API_PATH.PRIVATE_ACTIVITY_WATCH_LIST_ADD, {
+      privateRequest(requestCommunity.post, PRIVATE_ACTIVITY_WATCH_LIST_ADD, {
         data: payload,
       }),
     {
@@ -412,7 +436,7 @@ const useShareStockActivity = (options?: IOptions) => {
 };
 
 const useGetStockData = (stockCode: string, options?: IOptions): IResponseStockData => {
-  const { data } = useRequest(() => requestPist.get(API_PATH.PUBLIC_STOCK_DATA(stockCode)), {
+  const { data } = useRequest(() => requestPist.get(PUBLIC_STOCK_DATA(stockCode)), {
     refreshDeps: [stockCode],
     ...options,
   });
@@ -436,7 +460,7 @@ const useFinancialIndicator = ({
 }: IFinancialParams): IResponseFinancialIndicator => {
   const { data, run, loading } = useRequest(
     (page?: number) =>
-      requestMarket.get(API_PATH.PUBLIC_FINANCE_INFO, {
+      requestMarket.get(PUBLIC_FINANCE_INFO, {
         params: {
           ...params,
           page,
@@ -457,12 +481,9 @@ const useFinancialIndicator = ({
 };
 
 const useGetStockTrade = (stockCode: string): IResponseStockTrade => {
-  const { data, loading } = useRequest(
-    () => requestPist.get(API_PATH.PUBLIC_STOCK_TRADE(stockCode)),
-    {
-      refreshDeps: [stockCode],
-    },
-  );
+  const { data, loading } = useRequest(() => requestPist.get(PUBLIC_STOCK_TRADE(stockCode)), {
+    refreshDeps: [stockCode],
+  });
 
   return {
     stockTrade: data,
@@ -471,12 +492,9 @@ const useGetStockTrade = (stockCode: string): IResponseStockTrade => {
 };
 
 const useGetStockIntraday = (stockCode: string): IResponseStockIntraday => {
-  const { data, loading } = useRequest(
-    () => requestPist.get(API_PATH.PUBLIC_STOCK_INTRADAY(stockCode)),
-    {
-      refreshDeps: [stockCode],
-    },
-  );
+  const { data, loading } = useRequest(() => requestPist.get(PUBLIC_STOCK_INTRADAY(stockCode)), {
+    refreshDeps: [stockCode],
+  });
 
   return {
     stockIntraday: data,
@@ -487,9 +505,9 @@ const useGetStockIntraday = (stockCode: string): IResponseStockIntraday => {
 export const fetchStockDetailFromServer = async (stockCode: string) => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(
-      `${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode)}`,
-    ).then((data: any) => data.json());
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUBLIC_STOCK_DETAIL_EXTRA_V2(stockCode)}`).then(
+      (data: any) => data.json(),
+    );
   } catch {
     return {
       data: {},
@@ -500,7 +518,7 @@ export const fetchStockDetailFromServer = async (stockCode: string) => {
 export const fetchAllStockFromServer = async () => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_STOCK_SITE_MAP}`).then((data: any) =>
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUBLIC_STOCK_SITE_MAP}`).then((data: any) =>
       data.json(),
     );
   } catch {
@@ -516,7 +534,7 @@ const useGetMyStock = (refreshDeps: any[]) => {
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
+        ? privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK)
         : Promise.resolve(null);
     },
     {

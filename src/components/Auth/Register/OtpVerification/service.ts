@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 import { getCookie } from 'cookies-next';
 
-import { API_PATH } from '@api/constant';
+import { REGISTER_OTP, RESEND_REGISTER_OTP } from '@api/constant';
 import { requestPist } from '@api/request';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 
@@ -22,7 +22,7 @@ export const useRegisterOtp = (options: IOptionsRequest) => {
   return useRequest(
     // eslint-disable-next-line require-await
     async (value: IBodySubmitOtp) => {
-      return requestPist.post(API_PATH.REGISTER_OTP, {
+      return requestPist.post(REGISTER_OTP, {
         headers: {
           Authorization: token || (userRegisterInfo.token as string),
         },
@@ -42,7 +42,7 @@ export const useResendRegisterOtp = (options: IOptionsRequest) => {
   return useRequest(
     // eslint-disable-next-line require-await
     async () => {
-      return requestPist.post(API_PATH.RESEND_REGISTER_OTP, {
+      return requestPist.post(RESEND_REGISTER_OTP, {
         headers: {
           Authorization: token || (userRegisterInfo.token as string),
         },

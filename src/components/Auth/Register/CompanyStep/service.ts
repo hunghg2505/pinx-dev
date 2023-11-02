@@ -1,6 +1,12 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  PUBLIC_SUGGEST_STOCK_CODE,
+  PUBLIC_COMPANY_GET_BY_STOCK_BRIEF,
+  PRIVATE_WATCH_LIST_CREATE,
+  PRIVATE_WATCHLIST_STOCK,
+  PRIVATE_WATCH_LIST_REMOVE_STOCK,
+} from '@api/constant';
 import { IOptions, privateRequest, requestMarket, requestPist } from '@api/request';
 
 interface IOptionsRequest {
@@ -17,7 +23,7 @@ export interface ResultListStock {
 }
 
 const requestGetSuggestStockCode = async () => {
-  return privateRequest(requestPist.get, API_PATH.PUBLIC_SUGGEST_STOCK_CODE);
+  return privateRequest(requestPist.get, PUBLIC_SUGGEST_STOCK_CODE);
 };
 
 export const useSuggestStockCode = (options: IOptionsRequest) => {
@@ -37,7 +43,7 @@ export const useSuggestStockCode = (options: IOptionsRequest) => {
 };
 
 const requestGetDetailStockCode = async (stockCodes: string) => {
-  return privateRequest(requestMarket.get, API_PATH.PUBLIC_COMPANY_GET_BY_STOCK_BRIEF(stockCodes));
+  return privateRequest(requestMarket.get, PUBLIC_COMPANY_GET_BY_STOCK_BRIEF(stockCodes));
 };
 
 export const useGetDetailStockCode = (stockCodes: string) => {
@@ -58,7 +64,7 @@ export const useGetDetailStockCode = (stockCodes: string) => {
 };
 
 const serviceSelectStock = async (stockCodes: string) => {
-  return privateRequest(requestPist.post, API_PATH.PRIVATE_WATCH_LIST_CREATE, {
+  return privateRequest(requestPist.post, PRIVATE_WATCH_LIST_CREATE, {
     data: {
       stocks: stockCodes,
     },
@@ -75,7 +81,7 @@ export const useSelectStock = (options: IOptions) => {
 };
 
 const serviceGetMyStock = () => {
-  return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+  return privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK);
 };
 
 export const useGetMyStock = (options: IOptions) => {
@@ -88,7 +94,7 @@ export const useGetMyStock = (options: IOptions) => {
 };
 
 const serviceUnSelectStock = (stockCode: string) => {
-  return privateRequest(requestPist.put, API_PATH.PRIVATE_WATCH_LIST_REMOVE_STOCK(stockCode));
+  return privateRequest(requestPist.put, PRIVATE_WATCH_LIST_REMOVE_STOCK(stockCode));
 };
 
 export const useUnSelectStock = () => {

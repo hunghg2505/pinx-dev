@@ -4,7 +4,7 @@ import { useHydrateAtoms } from 'jotai/utils';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { API_PATH } from '@api/constant';
+import { PUBLIC_PINNED_POST } from '@api/constant';
 import { requestCommunity } from '@api/request';
 import { atomSSRPinPost } from '@store/pinPost/pinPost';
 
@@ -66,7 +66,7 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export async function getStaticProps({ locale }: any) {
-  const responsePinnedPost = await requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
+  const responsePinnedPost = await requestCommunity.get(PUBLIC_PINNED_POST);
 
   return {
     props: {

@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { CHANGE_USERNAME } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -16,7 +16,7 @@ interface IBodyChangeUsername {
 }
 
 const serviceChamgeUsername = async (values: IBodyChangeUsername) => {
-  return privateRequest(requestPist.post, API_PATH.CHANGE_USERNAME, {
+  return privateRequest(requestPist.post, CHANGE_USERNAME, {
     data: values,
   });
 };

@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_SHARE_THEME_ACTIVITY } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
 
 interface IOptionsRequest {
@@ -16,7 +16,7 @@ interface IBodyShareThemeActivity {
 }
 
 const serviceShareThemeActivity = async (values: IBodyShareThemeActivity) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_SHARE_THEME_ACTIVITY, {
+  return privateRequest(requestCommunity.post, PRIVATE_SHARE_THEME_ACTIVITY, {
     data: values,
   });
 };

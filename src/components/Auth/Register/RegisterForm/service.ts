@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { REGISTER } from '@api/constant';
 import { requestPist } from '@api/request';
 import { encryptPassword } from '@utils/common';
 
@@ -20,7 +20,7 @@ export const useRegister = (options?: IOptionsRequest) => {
   return useRequest(
     // eslint-disable-next-line require-await
     async ({ phoneNumber, email, password, recaptcha }: IUserRegisInfo) => {
-      return requestPist.post(API_PATH.REGISTER, {
+      return requestPist.post(REGISTER, {
         data: {
           email,
           phone: phoneNumber,

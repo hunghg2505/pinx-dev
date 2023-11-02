@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_SUGGESTED_STOCK, PRIVATE_WATCHLIST_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 
 interface IOptionsRequest {
@@ -11,7 +11,7 @@ interface IOptionsRequest {
 export const useGetInterest = (option = {}) => {
   const { data, refresh, run, loading } = useRequest(
     () => {
-      return privateRequest(requestPist.get, API_PATH.PRIVATE_SUGGESTED_STOCK);
+      return privateRequest(requestPist.get, PRIVATE_SUGGESTED_STOCK);
     },
     {
       ...option,
@@ -28,7 +28,7 @@ export const useGetInterest = (option = {}) => {
 export const useGetYourWatchList = (options?: IOptionsRequest) => {
   const { data, run, refresh, loading } = useRequest(
     () => {
-      return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+      return privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK);
     },
     {
       ...options,

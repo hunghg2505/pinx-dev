@@ -5,7 +5,7 @@ import { useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_WATCHLIST_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -36,7 +36,7 @@ const ComponentWatchList = (props: IProps) => {
   }, [postDetailStatus?.isChangeStockWatchList]);
   const useWatchList = useRequest(
     () => {
-      return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+      return privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK);
     },
     {
       manual: true,

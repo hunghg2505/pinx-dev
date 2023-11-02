@@ -1,7 +1,7 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { DEACTIVATE_ACCOUNT } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -10,7 +10,7 @@ interface IOptionsRequest {
 }
 
 const serviceDeactivateAccout = async () => {
-  return privateRequest(requestPist.put, API_PATH.DEACTIVATE_ACCOUNT);
+  return privateRequest(requestPist.put, DEACTIVATE_ACCOUNT);
 };
 
 export const useDeactivateAccout = (options?: IOptionsRequest) => {

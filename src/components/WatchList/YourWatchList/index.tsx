@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_SORT_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import { Button } from '@components/UI/Button';
@@ -92,7 +92,7 @@ const YourWatchList = (props: IProps) => {
 
   const useSortStock = useRequest(
     (code, payload) => {
-      return privateRequest(requestPist.put, API_PATH.PRIVATE_SORT_STOCK(code), {
+      return privateRequest(requestPist.put, PRIVATE_SORT_STOCK(code), {
         data: payload,
       });
     },

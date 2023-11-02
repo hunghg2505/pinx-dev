@@ -1,7 +1,7 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { UPDATE_USER_PROFILE } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -21,7 +21,7 @@ interface IBodyUpdateUserProfile {
 }
 
 const servviceUpdateUserProfile = async (values: IBodyUpdateUserProfile) => {
-  return privateRequest(requestPist.put, API_PATH.UPDATE_USER_PROFILE, {
+  return privateRequest(requestPist.put, UPDATE_USER_PROFILE, {
     data: values,
   });
 };

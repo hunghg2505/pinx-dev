@@ -1,8 +1,8 @@
-import { API_PATH } from '@api/constant';
+import { GET_MY_POST } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
 
 export async function getMyPost(nextId: string): Promise<any> {
-  const r = await privateRequest(requestCommunity.get, API_PATH.GET_MY_POST, {
+  const r = await privateRequest(requestCommunity.get, GET_MY_POST, {
     params: {
       limit: 3,
       last: nextId ?? '',

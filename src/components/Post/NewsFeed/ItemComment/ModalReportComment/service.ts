@@ -1,4 +1,4 @@
-import { API_PATH } from '@api/constant';
+import { PRIVATE_REPORT_COMMENT } from '@api/constant';
 import { privateRequest, requestCommunity } from '@api/request';
 
 export enum TYPEREPORT {
@@ -8,7 +8,7 @@ export enum TYPEREPORT {
   OTHER = 'OTHER',
 }
 export const requestReportPost = (postId: string, payload: any) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_REPORT_COMMENT(postId), {
+  return privateRequest(requestCommunity.post, PRIVATE_REPORT_COMMENT(postId), {
     data: payload,
   });
 };

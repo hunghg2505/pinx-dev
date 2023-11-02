@@ -1,7 +1,7 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { GET_USER_CONTRACT, SEND_LOGIN_OTP, CONFIRM_CONTRACT } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -22,7 +22,7 @@ interface IBodyConfirmContract {
 }
 
 const serviceGetContract = async () => {
-  return privateRequest(requestPist.get, API_PATH.GET_USER_CONTRACT);
+  return privateRequest(requestPist.get, GET_USER_CONTRACT);
 };
 
 export const useGetContract = (options?: IOptionsRequest) => {
@@ -35,7 +35,7 @@ export const useGetContract = (options?: IOptionsRequest) => {
 };
 
 const serviceSendLoginOtp = async (value: IBodySendLoginOtp) => {
-  return privateRequest(requestPist.post, API_PATH.SEND_LOGIN_OTP, {
+  return privateRequest(requestPist.post, SEND_LOGIN_OTP, {
     data: value,
   });
 };
@@ -50,7 +50,7 @@ export const useSendLoginOtp = (options: IOptionsRequest) => {
 };
 
 const serviceConfirmContract = async (values: IBodyConfirmContract) => {
-  return privateRequest(requestPist.post, API_PATH.CONFIRM_CONTRACT, {
+  return privateRequest(requestPist.post, CONFIRM_CONTRACT, {
     data: values,
   });
 };

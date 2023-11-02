@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { CHANGE_PASSWORD } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -19,7 +19,7 @@ interface IBodyChangePassword {
 }
 
 const serviceChamgePassword = async (values: IBodyChangePassword) => {
-  return privateRequest(requestPist.post, API_PATH.CHANGE_PASSWORD, {
+  return privateRequest(requestPist.post, CHANGE_PASSWORD, {
     data: values,
   });
 };

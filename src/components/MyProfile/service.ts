@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { GET_MY_POST, UPDATE_USER_PROFILE, GET_USER_WATCHLIST } from '@api/constant';
 import { privateRequest, requestCommunity, requestPist } from '@api/request';
 
 export const useGetMYPost = () => {
@@ -9,7 +9,7 @@ export const useGetMYPost = () => {
       last: lastid || undefined,
     };
     const limit = data ? data.length + 20 : 20;
-    const res = await privateRequest(requestCommunity.get, API_PATH.GET_MY_POST, {
+    const res = await privateRequest(requestCommunity.get, GET_MY_POST, {
       params: {
         ...last,
         limit,
@@ -32,7 +32,7 @@ export const useGetMYPost = () => {
 export const useUpdateUserProfile = (reload = () => {}) => {
   const { run, loading } = useRequest(
     async (update) => {
-      return privateRequest(requestPist.put, API_PATH.UPDATE_USER_PROFILE, {
+      return privateRequest(requestPist.put, UPDATE_USER_PROFILE, {
         data: update,
       });
     },
@@ -50,6 +50,6 @@ export const useUpdateUserProfile = (reload = () => {}) => {
 };
 
 export const useGetMyWatchList = async () => {
-  const res = await privateRequest(requestPist.get, API_PATH.GET_USER_WATCHLIST);
+  const res = await privateRequest(requestPist.get, GET_USER_WATCHLIST);
   return res;
 };

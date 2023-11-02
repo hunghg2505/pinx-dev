@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
-import { API_PATH } from '@api/constant';
+import { UPDATE_USER_PROFILE } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import Notification from '@components/UI/Notification';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
@@ -19,7 +19,7 @@ export const useUpdateUserProfile = () => {
 
   const { run, loading } = useRequest(
     async (update) => {
-      return privateRequest(requestPist.put, API_PATH.UPDATE_USER_PROFILE, {
+      return privateRequest(requestPist.put, UPDATE_USER_PROFILE, {
         data: update,
       });
     },

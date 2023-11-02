@@ -1,7 +1,7 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { RESET_PASSWORD } from '@api/constant';
 import { requestPist } from '@api/request';
 
 interface IOptionsRequest {
@@ -25,7 +25,7 @@ export const useForgotPassword = (options?: IOptionsRequest) => {
       phoneNumber: string;
       birthday?: string;
     }) => {
-      return requestPist.post(API_PATH.RESET_PASSWORD, {
+      return requestPist.post(RESET_PASSWORD, {
         data: {
           birthday,
           custNm: customerName,

@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_WATCHLIST_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import { atomStockWatchlist, atomStockWatchlistSocket } from '@store/stockWatchlistHome';
@@ -13,7 +13,7 @@ export const useStockWatchlistHome = () => {
 
   const { run } = useRequest(
     () => {
-      return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+      return privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK);
     },
     {
       manual: true,

@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { CREATE_USER_NAME } from '@api/constant';
 import { requestPist } from '@api/request';
 import { useUserRegisterInfo } from '@hooks/useUserRegisterInfo';
 import { getRegisterToken } from '@store/auth';
@@ -22,7 +22,7 @@ export const useCreateUsername = (options: IOptionsRequest) => {
   return useRequest(
     // eslint-disable-next-line require-await
     async (value: IBodySubmitUsername) => {
-      return requestPist.post(API_PATH.CREATE_USER_NAME, {
+      return requestPist.post(CREATE_USER_NAME, {
         headers: {
           Authorization: token || (userRegisterInfo.token as string),
         },

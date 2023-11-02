@@ -19,7 +19,7 @@ import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_SEARCH, PRIVATE_HASHTAG_V2_COMMUNITY } from '@api/constant';
 import {
   // PREFIX_API_UPLOADPHOTO,
   privateRequest,
@@ -129,7 +129,7 @@ const Editor = (props: IProps, ref?: any) => {
               keyword: query,
               searchType: TYPESEARCH.FRIEND,
             };
-            const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+            const data = await privateRequest(requestPist.post, PRIVATE_SEARCH, {
               data: payload,
             });
             return data?.data?.users;
@@ -151,7 +151,7 @@ const Editor = (props: IProps, ref?: any) => {
               keyword: query,
               searchType: TYPESEARCH.STOCK,
             };
-            const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+            const data = await privateRequest(requestPist.post, PRIVATE_SEARCH, {
               data: payload,
             });
 
@@ -188,13 +188,9 @@ const Editor = (props: IProps, ref?: any) => {
               page: 0,
               pageSize: 10,
             };
-            const data = await privateRequest(
-              requestCommunity.post,
-              API_PATH.PRIVATE_HASHTAG_V2_COMMUNITY,
-              {
-                data: payload,
-              },
-            );
+            const data = await privateRequest(requestCommunity.post, PRIVATE_HASHTAG_V2_COMMUNITY, {
+              data: payload,
+            });
             return data?.data?.hashtags;
           },
         },
@@ -464,7 +460,7 @@ const Editor = (props: IProps, ref?: any) => {
           keyword: item,
           searchType: TYPESEARCH.FRIEND,
         };
-        const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+        const data = await privateRequest(requestPist.post, PRIVATE_SEARCH, {
           data: payload,
         });
         return data?.data?.users;

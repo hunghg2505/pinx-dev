@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { SUBMIT_LOGIN_OTP, CONFIRM_CONTRACT } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -21,7 +21,7 @@ interface IBodyConfirmContract {
 }
 
 const serviceSubmitOtp = async (values: IBodySubmitOtp) => {
-  return privateRequest(requestPist.post, API_PATH.SUBMIT_LOGIN_OTP, {
+  return privateRequest(requestPist.post, SUBMIT_LOGIN_OTP, {
     data: values,
   });
 };
@@ -36,7 +36,7 @@ export const useLoginOtp = (options: IOptionsRequest) => {
 };
 
 const serviceConfirmContract = async (values: IBodyConfirmContract) => {
-  return privateRequest(requestPist.post, API_PATH.CONFIRM_CONTRACT, {
+  return privateRequest(requestPist.post, CONFIRM_CONTRACT, {
     data: values,
   });
 };

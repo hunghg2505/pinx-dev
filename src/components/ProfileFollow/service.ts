@@ -1,6 +1,11 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  GET_CUSTOMER_FOLLOWER,
+  PUBLIC_GET_CUSTOMER_FOLLOWER,
+  GET_CUSTOMER_FOLLOWING,
+  PUBLIC_GET_CUSTOMER_FOLLOWING,
+} from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
@@ -14,8 +19,8 @@ export const useOtherCustomerFollower = (idCustomer: string, params: object, con
     async () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWER, { params: listParams })
-        : requestPist.get(API_PATH.PUBLIC_GET_CUSTOMER_FOLLOWER, { params: listParams });
+        ? privateRequest(requestPist.get, GET_CUSTOMER_FOLLOWER, { params: listParams })
+        : requestPist.get(PUBLIC_GET_CUSTOMER_FOLLOWER, { params: listParams });
     },
     { ...config },
   );
@@ -31,8 +36,8 @@ export const useOtherCustomerFollowing = (idCustomer: string, params: object, co
     async () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_FOLLOWING, { params: listParams })
-        : requestPist.get(API_PATH.PUBLIC_GET_CUSTOMER_FOLLOWING, { params });
+        ? privateRequest(requestPist.get, GET_CUSTOMER_FOLLOWING, { params: listParams })
+        : requestPist.get(PUBLIC_GET_CUSTOMER_FOLLOWING, { params });
     },
     { ...config },
   );

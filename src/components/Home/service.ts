@@ -1,6 +1,23 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  FILTER_LIST,
+  PRIVATE_NEWFEED_LIST,
+  NEWFEED_LIST,
+  PUBLIC_GET_TRENDING,
+  PRIVATE_LIST_KOLS,
+  KOL,
+  SUGGESTION_PEOPLE,
+  PRIVATE_ALL_THEME,
+  PUBLIC_ALL_THEME,
+  PRIVATE_FOLLOW_USER,
+  PRIVATE_UNFOLLOW_USER,
+  PRIVATE_WATCHLIST_STOCK,
+  PRIVATE_SEARCH,
+  PUBLIC_THEME,
+  PRIVATE_PINNED_POST,
+  PUBLIC_PINNED_POST,
+} from '@api/constant';
 import {
   PREFIX_API_IP_COMMUNITY,
   privateRequest,
@@ -147,7 +164,7 @@ interface IOptionsRequest {
 }
 export const useGetListFillter = () => {
   const { data, refresh } = useRequest(() => {
-    return requestCommunity.get(API_PATH.FILTER_LIST);
+    return requestCommunity.get(FILTER_LIST);
   });
 
   return {
@@ -156,7 +173,7 @@ export const useGetListFillter = () => {
   };
 };
 const requestGetList = (params: any) => {
-  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_NEWFEED_LIST, { params });
+  return privateRequest(requestCommunity.get, PRIVATE_NEWFEED_LIST, { params });
 };
 
 export const useGetListNewFeed = (options?: IOptionsRequest) => {
@@ -173,9 +190,7 @@ export const useGetListNewFeed = (options?: IOptionsRequest) => {
           delete params[key];
         }
       }
-      return isLogin
-        ? requestGetList(params)
-        : requestCommunity.get(API_PATH.NEWFEED_LIST, { params });
+      return isLogin ? requestGetList(params) : requestCommunity.get(NEWFEED_LIST, { params });
     },
     {
       ...options,
@@ -208,7 +223,7 @@ export const serviceGetNewFeed = async (type: any, last?: string) => {
     };
   }
 
-  const r = await requestCommunity.get(API_PATH.NEWFEED_LIST, { params });
+  const r = await requestCommunity.get(NEWFEED_LIST, { params });
 
   return {
     list: r?.data?.list,
@@ -221,10 +236,7 @@ export const serviceGetNewFeed = async (type: any, last?: string) => {
 export const useGetListNewFeedAuth = () => {
   const { data, run, refresh } = useRequest(
     (type: string) => {
-      return privateRequest(
-        requestCommunity.get,
-        API_PATH.PRIVATE_NEWFEED_LIST + `?filterType=${type}`,
-      );
+      return privateRequest(requestCommunity.get, PRIVATE_NEWFEED_LIST + `?filterType=${type}`);
     },
     {
       manual: true,
@@ -239,7 +251,7 @@ export const useGetListNewFeedAuth = () => {
 export const useGetTrending = (options = {}) => {
   const { data, loading } = useRequest(
     () => {
-      return requestPist.get(API_PATH.PUBLIC_GET_TRENDING);
+      return requestPist.get(PUBLIC_GET_TRENDING);
     },
     { ...options },
   );
@@ -255,13 +267,13 @@ export const useGetInfluencer = (options = {}, params = {}) => {
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_LIST_KOLS, {
+        ? privateRequest(requestPist.get, PRIVATE_LIST_KOLS, {
             params: {
               ...params,
               ...params2,
             },
           })
-        : requestPist.get(API_PATH.KOL, {
+        : requestPist.get(KOL, {
             params: {
               ...params,
               ...params2,
@@ -302,7 +314,7 @@ export const requestLeaveIndex = () => {
 export const useSuggestPeople = (options = {}) => {
   const { data, refresh, run, loading } = useRequest(
     () => {
-      return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE);
+      return privateRequest(requestCommunity.get, SUGGESTION_PEOPLE);
     },
     {
       manual: true,
@@ -323,8 +335,8 @@ export const useGetTheme = () => {
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_ALL_THEME)
-        : requestPist.get(API_PATH.PUBLIC_ALL_THEME);
+        ? privateRequest(requestPist.get, PRIVATE_ALL_THEME)
+        : requestPist.get(PUBLIC_ALL_THEME);
     },
     { loadingDelay: 300, manual: true },
   );
@@ -338,18 +350,18 @@ export const useGetTheme = () => {
 
 // folow user
 export const requestFollowUser = (id: number) => {
-  return privateRequest(requestPist.post, API_PATH.PRIVATE_FOLLOW_USER + `?idFriend=${id}`);
+  return privateRequest(requestPist.post, PRIVATE_FOLLOW_USER + `?idFriend=${id}`);
 };
 // unfollow user
 export const requestUnFollowUser = (id: number) => {
-  return privateRequest(requestPist.put, API_PATH.PRIVATE_UNFOLLOW_USER + `?idFriend=${id}`);
+  return privateRequest(requestPist.put, PRIVATE_UNFOLLOW_USER + `?idFriend=${id}`);
 };
 export const useGetWatchList = () => {
   const { data } = useRequest(
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK)
+        ? privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK)
         : new Promise<void>((resolve) => {
             resolve();
           });
@@ -367,7 +379,7 @@ export const useGetWatchList = () => {
 export const useSearch = () => {
   const { data, run, loading } = useRequest(
     (payload: ISearch) => {
-      return privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+      return privateRequest(requestPist.post, PRIVATE_SEARCH, {
         data: payload,
       });
     },
@@ -384,7 +396,7 @@ export const useSearch = () => {
 // get list theme
 export const useGetBgTheme = () => {
   const { data } = useRequest(() => {
-    return requestCommunity.get(API_PATH.PUBLIC_THEME);
+    return requestCommunity.get(PUBLIC_THEME);
   });
   return {
     bgTheme: data?.data,
@@ -398,8 +410,8 @@ export const useGetPinedPost = () => {
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_PINNED_POST)
-        : requestCommunity.get(API_PATH.PUBLIC_PINNED_POST);
+        ? privateRequest(requestCommunity.get, PRIVATE_PINNED_POST)
+        : requestCommunity.get(PUBLIC_PINNED_POST);
     },
     {
       // staleTime: -1,
@@ -417,7 +429,7 @@ export const useGetPinedPost = () => {
 
 export const fetchPinedPostFromServer = async () => {
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_PINNED_POST}`).then((data: any) =>
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUBLIC_PINNED_POST}`).then((data: any) =>
       data.json(),
     );
   } catch {

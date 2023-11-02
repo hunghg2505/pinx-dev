@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_FOLLOW_THEME, PRIVATE_UNFOLLOW_THEME } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IThemeDetail } from '@components/Themes/service';
 import Notification from '@components/UI/Notification';
@@ -34,10 +34,7 @@ const LandingPageDetailThemes = ({
 
   const useSubcribe = useRequest(
     () => {
-      return privateRequest(
-        requestPist.post,
-        API_PATH.PRIVATE_FOLLOW_THEME + `?themeCodes=${code}`,
-      );
+      return privateRequest(requestPist.post, PRIVATE_FOLLOW_THEME + `?themeCodes=${code}`);
     },
     {
       manual: true,
@@ -60,10 +57,7 @@ const LandingPageDetailThemes = ({
   );
   const useUnSubcribe = useRequest(
     () => {
-      return privateRequest(
-        requestPist.put,
-        API_PATH.PRIVATE_UNFOLLOW_THEME + `?themeCodes=${code}`,
-      );
+      return privateRequest(requestPist.put, PRIVATE_UNFOLLOW_THEME + `?themeCodes=${code}`);
     },
     {
       manual: true,

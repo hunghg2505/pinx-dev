@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next';
 import Form from 'rc-field-form';
 import { toast } from 'react-hot-toast';
 
-import { API_PATH } from '@api/constant';
+import { PUBLIC_SEARCH_SEO_DELETE } from '@api/constant';
 import { requestCommunity } from '@api/request';
 import CompanyItem from '@components/Explore/Search/CompanyItem';
 import NewsItem from '@components/Explore/Search/NewsItem';
@@ -184,7 +184,7 @@ const FormSearch = ({ isOpenSearch, setIsOpenSearch }: any) => {
 
   const useRemoveItemRecent = useRequest(
     (code) => {
-      return requestCommunity.delete(API_PATH.PUBLIC_SEARCH_SEO_DELETE(code));
+      return requestCommunity.delete(PUBLIC_SEARCH_SEO_DELETE(code));
     },
     {
       manual: true,

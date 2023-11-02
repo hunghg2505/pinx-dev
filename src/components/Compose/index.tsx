@@ -17,7 +17,7 @@ import { RcFile } from 'rc-upload/lib/interface';
 import { toast } from 'react-hot-toast';
 import request from 'umi-request';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_SEARCH, PRIVATE_HASHTAG_V2_COMMUNITY } from '@api/constant';
 import { privateRequest, requestCommunity, requestPist } from '@api/request';
 import { ActivityTheme } from '@components/Compose/ActivityTheme';
 import { ImageTheme } from '@components/Compose/ImageTheme';
@@ -266,7 +266,7 @@ const Compose = (props: IProps) => {
                 keyword: query,
                 searchType: TYPESEARCH.FRIEND,
               };
-              const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+              const data = await privateRequest(requestPist.post, PRIVATE_SEARCH, {
                 data: payload,
               });
               return data?.data?.users;
@@ -303,7 +303,7 @@ const Compose = (props: IProps) => {
                 keyword: query,
                 searchType: TYPESEARCH.STOCK,
               };
-              const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+              const data = await privateRequest(requestPist.post, PRIVATE_SEARCH, {
                 data: payload,
               });
               return data?.data?.companies;
@@ -342,7 +342,7 @@ const Compose = (props: IProps) => {
               };
               const data = await privateRequest(
                 requestCommunity.post,
-                API_PATH.PRIVATE_HASHTAG_V2_COMMUNITY,
+                PRIVATE_HASHTAG_V2_COMMUNITY,
                 {
                   data: payload,
                 },
@@ -559,7 +559,7 @@ const Compose = (props: IProps) => {
             keyword: item,
             searchType: TYPESEARCH.FRIEND,
           };
-          const data = await privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, {
+          const data = await privateRequest(requestPist.post, PRIVATE_SEARCH, {
             data: payload,
           });
 

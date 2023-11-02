@@ -1,6 +1,13 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  PUBLIC_TOP_PROFIT,
+  PUBLIC_TOP_REVENUE,
+  PUBLIC_TOP_MARKET_CAPITALIZATION,
+  PUBLIC_TOP_PRICE,
+  PUBLIC_TOP_CHANGE_PRICE,
+  PUBLIC_TOP_CONFIG,
+} from '@api/constant';
 import { requestMarket, requestPist } from '@api/request';
 
 export interface IProfit {
@@ -19,7 +26,7 @@ const params = {
 };
 export const useGetTopProfit = () => {
   const { data, loading } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_TOP_PROFIT, { params });
+    return requestMarket.get(PUBLIC_TOP_PROFIT, { params });
   });
   return {
     profit: data?.data,
@@ -28,7 +35,7 @@ export const useGetTopProfit = () => {
 };
 export const useGetTopRevenue = () => {
   const { data, loading } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_TOP_REVENUE, { params });
+    return requestMarket.get(PUBLIC_TOP_REVENUE, { params });
   });
   return {
     revenue: data?.data,
@@ -37,7 +44,7 @@ export const useGetTopRevenue = () => {
 };
 export const useGetTopMarketCap = () => {
   const { data, loading } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_TOP_MARKET_CAPITALIZATION, { params });
+    return requestMarket.get(PUBLIC_TOP_MARKET_CAPITALIZATION, { params });
   });
   return {
     marketCap: data?.data,
@@ -46,7 +53,7 @@ export const useGetTopMarketCap = () => {
 };
 export const useGetTopPrice = () => {
   const { data, loading } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_TOP_PRICE, { params });
+    return requestMarket.get(PUBLIC_TOP_PRICE, { params });
   });
   return {
     price: data?.data,
@@ -55,7 +62,7 @@ export const useGetTopPrice = () => {
 };
 export const useGetTopChangePrice = () => {
   const { data, loading } = useRequest(() => {
-    return requestMarket.get(API_PATH.PUBLIC_TOP_CHANGE_PRICE, { params });
+    return requestMarket.get(PUBLIC_TOP_CHANGE_PRICE, { params });
   });
   return {
     changePriceInY: data?.data,
@@ -64,7 +71,7 @@ export const useGetTopChangePrice = () => {
 };
 export const useGetConfig = () => {
   const { data } = useRequest(() => {
-    return requestPist.get(API_PATH.PUBLIC_TOP_CONFIG);
+    return requestPist.get(PUBLIC_TOP_CONFIG);
   });
   return {
     topConfig: data?.data,

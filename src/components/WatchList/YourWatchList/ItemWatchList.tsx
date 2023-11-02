@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_REMOVE_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -50,7 +50,7 @@ const ItemWatchList = ({
 
   const useRemoveStock = useRequest(
     (code) => {
-      return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(code));
+      return privateRequest(requestPist.put, PRIVATE_REMOVE_STOCK(code));
     },
     {
       manual: true,

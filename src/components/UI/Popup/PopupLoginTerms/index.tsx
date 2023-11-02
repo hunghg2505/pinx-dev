@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 
-import { API_PATH } from '@api/constant';
+import { READ_CONTRACT } from '@api/constant';
 import { PREFIX_API_PIST } from '@api/request';
 import { RoundButton } from '@components/UI/Button';
 import Modal from '@components/UI/Modal/Modal';
@@ -114,7 +114,7 @@ const ModalLoginTerms = (props: IProps) => {
   const getLinkContract = (linkUrl: string) => {
     return (
       PREFIX_API_PIST +
-      API_PATH.READ_CONTRACT +
+      READ_CONTRACT +
       '?link=' +
       encodeURIComponent(linkUrl) +
       '&session=' +

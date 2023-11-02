@@ -1,7 +1,24 @@
 import { useRequest } from 'ahooks';
 import request from 'umi-request';
 
-import { API_PATH } from '@api/constant';
+import {
+  PRIVATE_MAPPING_POST_DETAIL,
+  PUCLIC_MAPPING_POST_DETAIL,
+  PRIVATE_MAPPING_POST_COMMENTS,
+  PUBLIC_MAPPING_POST_COMMENTS,
+  PRIVATE_COMMENT_OF_COMMENT,
+  PUBLIC_COMMENT_OF_COMMENT,
+  PRIVATE_MAPPING_LIKE_POST,
+  PRIVATE_MAPPING_UNLIKE_POST,
+  PRIVATE_LIKE_COMMENT,
+  PRIVATE_UNLIKE_COMMENT,
+  PRIVATE_REPLY_COMMENT_V2,
+  PRIVATE_ADD_COMMENT_V2,
+  PRIVATE_HIDE_POST,
+  PRIVATE_DELETE_COMMENT,
+  PRIVATE_DELETE_POST,
+  PUBLIC_MAPPING_SITE_MAP,
+} from '@api/constant';
 import { PREFIX_API_IP_COMMUNITY, privateRequest, requestCommunity } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
@@ -154,7 +171,7 @@ export const TypePostOnlyReportAction = [
 ];
 
 export const getPostDetail = async (postId: string) => {
-  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_DETAIL(postId));
+  return privateRequest(requestCommunity.get, PRIVATE_MAPPING_POST_DETAIL(postId));
 };
 
 // export const usePostDetail = (postId: string) => {
@@ -175,7 +192,7 @@ export const usePostDetail = (postId: string, option = {}) => {
       const isLogin = !!getAccessToken();
       return isLogin
         ? getPostDetail(postId)
-        : requestCommunity.get(API_PATH.PUCLIC_MAPPING_POST_DETAIL(postId));
+        : requestCommunity.get(PUCLIC_MAPPING_POST_DETAIL(postId));
     },
     {
       refreshDeps: [postId],
@@ -193,12 +210,12 @@ export const usePostDetail = (postId: string, option = {}) => {
 };
 
 export const getCommentsOfPostAuth = async (postId: string, params?: any) => {
-  return privateRequest(requestCommunity.get, API_PATH.PRIVATE_MAPPING_POST_COMMENTS(postId), {
+  return privateRequest(requestCommunity.get, PRIVATE_MAPPING_POST_COMMENTS(postId), {
     params,
   });
 };
 export const getCommentsOfPost = (postId: string, params?: any) => {
-  return requestCommunity.get(API_PATH.PUBLIC_MAPPING_POST_COMMENTS(postId), { params });
+  return requestCommunity.get(PUBLIC_MAPPING_POST_COMMENTS(postId), { params });
 };
 export const useCommentsOfPost = (postId: string, option = {}) => {
   const { data, loading, refresh, run } = useRequest(
@@ -223,8 +240,8 @@ export const useCommentOfComment = (option = {}) => {
     async (commentId: string) => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_COMMENT_OF_COMMENT(commentId))
-        : requestCommunity.get(API_PATH.PUBLIC_COMMENT_OF_COMMENT(commentId));
+        ? privateRequest(requestCommunity.get, PRIVATE_COMMENT_OF_COMMENT(commentId))
+        : requestCommunity.get(PUBLIC_COMMENT_OF_COMMENT(commentId));
     },
     {
       // manual: true,
@@ -255,7 +272,7 @@ export async function getMoreCommentPost(postId: string, nextId: string): Promis
 }
 
 export const likePost = async (postId: string) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_LIKE_POST(postId));
+  return privateRequest(requestCommunity.post, PRIVATE_MAPPING_LIKE_POST(postId));
 };
 
 export const useLikePost = (postId: string) => {
@@ -277,7 +294,7 @@ export const useLikePost = (postId: string) => {
 };
 
 export const unlikePost = async (postId: string) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_MAPPING_UNLIKE_POST(postId));
+  return privateRequest(requestCommunity.post, PRIVATE_MAPPING_UNLIKE_POST(postId));
 };
 
 export const useUnlikePost = (postId: string) => {
@@ -300,24 +317,24 @@ export const useUnlikePost = (postId: string) => {
 
 // like comment
 export const requestLikeComment = (id: string) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_LIKE_COMMENT(id));
+  return privateRequest(requestCommunity.post, PRIVATE_LIKE_COMMENT(id));
 };
 // unlike comment
 export const requestUnLikeComment = (id: string) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_UNLIKE_COMMENT(id));
+  return privateRequest(requestCommunity.post, PRIVATE_UNLIKE_COMMENT(id));
 };
 export const requestReplyCommnet = (id: string, payload: any) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_REPLY_COMMENT_V2(id), {
+  return privateRequest(requestCommunity.post, PRIVATE_REPLY_COMMENT_V2(id), {
     data: payload,
   });
 };
 export const requestAddComment = (payload: any) => {
-  return privateRequest(requestCommunity.post, API_PATH.PRIVATE_ADD_COMMENT_V2, {
+  return privateRequest(requestCommunity.post, PRIVATE_ADD_COMMENT_V2, {
     data: payload,
   });
 };
 export const requestHidePost = (id: string) => {
-  return privateRequest(requestCommunity.put, API_PATH.PRIVATE_HIDE_POST + `?mappingId=${id}`);
+  return privateRequest(requestCommunity.put, PRIVATE_HIDE_POST + `?mappingId=${id}`);
 };
 // export const requestSearch = () => {
 //   return privateRequest
@@ -342,13 +359,13 @@ export const useGetTotalSharePost = () => {
 
 // hide comment
 export const requestHideComment = (id: string) => {
-  return privateRequest(requestCommunity.delete, API_PATH.PRIVATE_DELETE_COMMENT(id));
+  return privateRequest(requestCommunity.delete, PRIVATE_DELETE_COMMENT(id));
 };
 
 export const useDeletePost = (option = {}) => {
   const { run } = useRequest(
     (id: string) => {
-      return privateRequest(requestCommunity.delete, API_PATH.PRIVATE_DELETE_POST(id));
+      return privateRequest(requestCommunity.delete, PRIVATE_DELETE_POST(id));
     },
     {
       manual: true,
@@ -362,8 +379,8 @@ export const useDeletePost = (option = {}) => {
 
 export const fetchPostDetailFromServer = async (id: string) => {
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUCLIC_MAPPING_POST_DETAIL(id)}`).then(
-      (data: any) => data.json(),
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUCLIC_MAPPING_POST_DETAIL(id)}`).then((data: any) =>
+      data.json(),
     );
   } catch {
     return {
@@ -374,8 +391,8 @@ export const fetchPostDetailFromServer = async (id: string) => {
 
 export const fetchAllPostFromServer = async () => {
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_MAPPING_SITE_MAP}`).then(
-      (data: any) => data.json(),
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUBLIC_MAPPING_SITE_MAP}`).then((data: any) =>
+      data.json(),
     );
   } catch {
     return {

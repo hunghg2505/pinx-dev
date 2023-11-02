@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_REMOVE_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { useSelectStock } from '@components/Auth/Register/CompanyStep/service';
 import Loading from '@components/UI/Loading';
@@ -46,7 +46,7 @@ const ItemAddStock = ({
   });
   const useRemoveStock = useRequest(
     () => {
-      return privateRequest(requestPist.put, API_PATH.PRIVATE_REMOVE_STOCK(data?.stockCode));
+      return privateRequest(requestPist.put, PRIVATE_REMOVE_STOCK(data?.stockCode));
     },
     {
       manual: true,

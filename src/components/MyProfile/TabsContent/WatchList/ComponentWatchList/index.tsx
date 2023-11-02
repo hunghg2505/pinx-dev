@@ -4,7 +4,7 @@ import { useRequest, useUnmount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_WATCHLIST_STOCK } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { IWatchListItem, requestJoinChannel, requestLeaveChannel } from '@components/Home/service';
 import ItemWatchList from '@components/WatchList/ItemWatchList';
@@ -29,7 +29,7 @@ const ComponentWatchList = (props: IProps) => {
   const [dataStock, setDataStock] = React.useState<any>([]);
   const useWatchList = useRequest(
     () => {
-      return privateRequest(requestPist.get, API_PATH.PRIVATE_WATCHLIST_STOCK);
+      return privateRequest(requestPist.get, PRIVATE_WATCHLIST_STOCK);
     },
     {
       manual: true,

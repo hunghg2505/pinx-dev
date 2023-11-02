@@ -1,7 +1,7 @@
 /* eslint-disable require-await */
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { GET_CUSTOMER_SETTING, GET_CUSTOMER_ALL_SETTINGS } from '@api/constant';
 import { requestPist, privateRequest } from '@api/request';
 
 interface IOptionsRequest {
@@ -10,7 +10,7 @@ interface IOptionsRequest {
 }
 
 const serviceGetSetting = async (key: string) => {
-  return privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_SETTING, {
+  return privateRequest(requestPist.get, GET_CUSTOMER_SETTING, {
     params: {
       key,
     },
@@ -31,7 +31,7 @@ export const useGetSetting = (key: string, options?: IOptionsRequest) => {
 };
 
 const serviceGetSettings = async () => {
-  return privateRequest(requestPist.get, API_PATH.GET_CUSTOMER_ALL_SETTINGS);
+  return privateRequest(requestPist.get, GET_CUSTOMER_ALL_SETTINGS);
 };
 
 export const useGetSettings = (options?: IOptionsRequest) => {
@@ -43,7 +43,7 @@ export const useGetSettings = (options?: IOptionsRequest) => {
 };
 
 const serviceUpdateSetting = async (key: string, value: string) => {
-  return privateRequest(requestPist.post, API_PATH.GET_CUSTOMER_SETTING, {
+  return privateRequest(requestPist.post, GET_CUSTOMER_SETTING, {
     params: {
       key,
       value,

@@ -1,6 +1,14 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  GET_NOTIFICATION_TOKEN,
+  GET_NOTIFICATION_LIST,
+  GET_NOTIFICATION_COUNT,
+  READ_PINETREE_NOTIFICATION,
+  READ_ALL_NOTIFICATION,
+  READ_NOTIFICATION,
+  DELETE_ALL_NOTIFICATIONS,
+} from '@api/constant';
 import { requestNoti, privateRequest } from '@api/request';
 import { getLocaleCookie } from '@store/locale';
 
@@ -14,7 +22,7 @@ interface IBodyeGetNotificationToken {
 }
 
 const serviceGetNotificationToken = async (value: IBodyeGetNotificationToken) => {
-  return privateRequest(requestNoti.post, API_PATH.GET_NOTIFICATION_TOKEN, {
+  return privateRequest(requestNoti.post, GET_NOTIFICATION_TOKEN, {
     data: {
       deviceInfo: 'WEB',
       deviceToken: value?.deviceToken,
@@ -32,7 +40,7 @@ export const useGetNotificationToken = (options: IOptionsRequest) => {
 };
 
 const serviceGetNotificationList = async () => {
-  return privateRequest(requestNoti.post, API_PATH.GET_NOTIFICATION_LIST, {
+  return privateRequest(requestNoti.post, GET_NOTIFICATION_LIST, {
     data: {
       type: 'NEW',
     },
@@ -54,7 +62,7 @@ export const useGetNotificationList = (options: IOptionsRequest) => {
 };
 
 const serviceGetPinetreeNotificationList = async () => {
-  return privateRequest(requestNoti.post, API_PATH.GET_NOTIFICATION_LIST, {
+  return privateRequest(requestNoti.post, GET_NOTIFICATION_LIST, {
     data: {
       type: 'NEW',
       notificationType: 'PINETREE_MKT',
@@ -77,7 +85,7 @@ export const useGetPinetreeNotificationList = (options: IOptionsRequest) => {
 };
 
 const serviceGetNotificationCount = async () => {
-  return privateRequest(requestNoti.get, API_PATH.GET_NOTIFICATION_COUNT);
+  return privateRequest(requestNoti.get, GET_NOTIFICATION_COUNT);
 };
 
 export const useGetNotificationCount = (options: IOptionsRequest) => {
@@ -93,7 +101,7 @@ export const useGetNotificationCount = (options: IOptionsRequest) => {
 };
 
 const serviceReadNotification = async (notiId: string) => {
-  return privateRequest(requestNoti.put, API_PATH.READ_NOTIFICATION(notiId), {
+  return privateRequest(requestNoti.put, READ_NOTIFICATION(notiId), {
     params: {
       readStatus: true,
     },
@@ -110,7 +118,7 @@ export const useReadNotification = (options: IOptionsRequest) => {
 };
 
 const serviceReadPinetreeNotification = async (notiId: string) => {
-  return privateRequest(requestNoti.put, API_PATH.READ_PINETREE_NOTIFICATION(notiId), {
+  return privateRequest(requestNoti.put, READ_PINETREE_NOTIFICATION(notiId), {
     params: {
       readStatus: true,
     },
@@ -127,7 +135,7 @@ export const useReadPinetreeNotification = (options: IOptionsRequest) => {
 };
 
 const serviceReadAllNotification = async () => {
-  return privateRequest(requestNoti.put, API_PATH.READ_ALL_NOTIFICATION, {
+  return privateRequest(requestNoti.put, READ_ALL_NOTIFICATION, {
     params: {
       readStatus: true,
     },
@@ -144,7 +152,7 @@ export const useReadAllNotification = (options: IOptionsRequest) => {
 };
 
 const serviceDeleteNotification = async (notiId: string) => {
-  return privateRequest(requestNoti.delete, API_PATH.READ_NOTIFICATION(notiId));
+  return privateRequest(requestNoti.delete, READ_NOTIFICATION(notiId));
 };
 
 export const useDeleteNotification = (options: IOptionsRequest) => {
@@ -157,7 +165,7 @@ export const useDeleteNotification = (options: IOptionsRequest) => {
 };
 
 const serviceDeleteAllNotification = async () => {
-  return privateRequest(requestNoti.delete, API_PATH.DELETE_ALL_NOTIFICATIONS);
+  return privateRequest(requestNoti.delete, DELETE_ALL_NOTIFICATIONS);
 };
 
 export const useDeleteAllNotification = (options: IOptionsRequest) => {

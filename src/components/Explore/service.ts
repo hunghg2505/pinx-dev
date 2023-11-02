@@ -1,6 +1,15 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  PRIVATE_SEARCH_KEYWORDS_TOP,
+  PUBLIC_SEARCH_KEYWORDS_TOP,
+  PUBLIC_TOP_WATCHING,
+  PUBLIC_TOP_MENTION,
+  PUBLIC_GET_ALL_STOCK_IPO,
+  PRIVATE_SEARCH_CUSTOMER_RECENT,
+  PRIVATE_SEARCH,
+  PUBLIC_SEARCH,
+} from '@api/constant';
 import { privateRequest, requestCommunity, requestPist } from '@api/request';
 import { ISearch } from '@components/Home/service';
 import { getAccessToken } from '@store/auth';
@@ -36,8 +45,8 @@ export const useGetKeyWordsTop = () => {
       };
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_SEARCH_KEYWORDS_TOP, { params })
-        : requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP, { params });
+        ? privateRequest(requestPist.get, PRIVATE_SEARCH_KEYWORDS_TOP, { params })
+        : requestPist.get(PUBLIC_SEARCH_KEYWORDS_TOP, { params });
     },
     { loadingDelay: 300 },
   );
@@ -52,7 +61,7 @@ export const useGetTopWatchingStock = () => {
     size: 20,
   };
   const { data, loading } = useRequest(() => {
-    return requestPist.get(API_PATH.PUBLIC_TOP_WATCHING, { params });
+    return requestPist.get(PUBLIC_TOP_WATCHING, { params });
   });
   return {
     listStock: data?.data?.list,
@@ -64,7 +73,7 @@ export const useGetTopMentionStock = () => {
     size: 20,
   };
   const { data, loading } = useRequest(() => {
-    return requestCommunity.get(API_PATH.PUBLIC_TOP_MENTION, { params });
+    return requestCommunity.get(PUBLIC_TOP_MENTION, { params });
   });
   return {
     listMention: data?.data?.list,
@@ -77,7 +86,7 @@ export const useGetAllIPO = () => {
     day: 1,
   };
   const { data, loading } = useRequest(() => {
-    return requestPist.get(API_PATH.PUBLIC_GET_ALL_STOCK_IPO, { params });
+    return requestPist.get(PUBLIC_GET_ALL_STOCK_IPO, { params });
   });
   return {
     stockIPO: data?.data,
@@ -86,7 +95,7 @@ export const useGetAllIPO = () => {
 };
 export const useGetSearchRecent = () => {
   const { data, refresh } = useRequest(() => {
-    return privateRequest(requestPist.get, API_PATH.PRIVATE_SEARCH_CUSTOMER_RECENT);
+    return privateRequest(requestPist.get, PRIVATE_SEARCH_CUSTOMER_RECENT);
   });
   return {
     listRecent: data?.data,
@@ -98,7 +107,7 @@ export const useGetPopular = () => {
     const params = {
       limit: 6,
     };
-    return requestPist.get(API_PATH.PUBLIC_SEARCH_KEYWORDS_TOP, { params });
+    return requestPist.get(PUBLIC_SEARCH_KEYWORDS_TOP, { params });
   });
   return {
     popular: data?.data,
@@ -109,8 +118,8 @@ export const useSearchPublic = (options?: IOptions) => {
     (payload: ISearch) => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH, { data: payload })
-        : requestPist.post(API_PATH.PUBLIC_SEARCH, {
+        ? privateRequest(requestPist.post, PRIVATE_SEARCH, { data: payload })
+        : requestPist.post(PUBLIC_SEARCH, {
             data: payload,
           });
     },

@@ -1,6 +1,13 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  PUBLIC_SEARCH_COMPANY,
+  PRIVATE_SEARCH_PEOPLE,
+  PUBLIC_SEARCH_PEOPLE,
+  PRIVATE_SEARCH_POST,
+  PUBLIC_SEARCH_POST,
+  PUBLIC_SEARCH_NEWS,
+} from '@api/constant';
 import { requestCommunity, requestPist, privateRequest } from '@api/request';
 import { getAccessToken } from '@store/auth';
 
@@ -13,7 +20,7 @@ export const useGetCompany = (option = {}, size?: number) => {
         size: size || 10,
       };
       if (keyword) {
-        return requestPist.get(API_PATH.PUBLIC_SEARCH_COMPANY, { params });
+        return requestPist.get(PUBLIC_SEARCH_COMPANY, { params });
       }
       return [];
     },
@@ -45,10 +52,10 @@ export const useGetPeople = (option = {}, size?: number) => {
       };
       if (keyword) {
         return isLogin
-          ? privateRequest(requestPist.post, API_PATH.PRIVATE_SEARCH_PEOPLE, {
+          ? privateRequest(requestPist.post, PRIVATE_SEARCH_PEOPLE, {
               data: payload,
             })
-          : requestPist.get(API_PATH.PUBLIC_SEARCH_PEOPLE, { params });
+          : requestPist.get(PUBLIC_SEARCH_PEOPLE, { params });
       }
       return [];
     },
@@ -78,10 +85,10 @@ export const useGetPosts = (option = {}, size?: number) => {
       };
       if (keyword) {
         return isLogin
-          ? privateRequest(requestCommunity.post, API_PATH.PRIVATE_SEARCH_POST, {
+          ? privateRequest(requestCommunity.post, PRIVATE_SEARCH_POST, {
               data: payload,
             })
-          : requestCommunity.get(API_PATH.PUBLIC_SEARCH_POST, { params });
+          : requestCommunity.get(PUBLIC_SEARCH_POST, { params });
       }
       return [];
     },
@@ -106,7 +113,7 @@ export const useGetNews = (option = {}, size?: number) => {
         size: size || 10,
       };
       if (keyword) {
-        return requestCommunity.get(API_PATH.PUBLIC_SEARCH_NEWS, { params });
+        return requestCommunity.get(PUBLIC_SEARCH_NEWS, { params });
       }
       return [];
     },

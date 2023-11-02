@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_FOLLOW_THEME, PRIVATE_UNFOLLOW_THEME } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { ITheme } from '@components/Home/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -92,10 +92,7 @@ const ThemesItem = (props: IProps) => {
   }, [theme?.isSubsribed]);
   const useSubcribe = useRequest(
     (code: string) => {
-      return privateRequest(
-        requestPist.post,
-        API_PATH.PRIVATE_FOLLOW_THEME + `?themeCodes=${code}`,
-      );
+      return privateRequest(requestPist.post, PRIVATE_FOLLOW_THEME + `?themeCodes=${code}`);
     },
     {
       manual: true,
@@ -119,10 +116,7 @@ const ThemesItem = (props: IProps) => {
   );
   const useUnSubcribe = useRequest(
     (code: string) => {
-      return privateRequest(
-        requestPist.put,
-        API_PATH.PRIVATE_UNFOLLOW_THEME + `?themeCodes=${code}`,
-      );
+      return privateRequest(requestPist.put, PRIVATE_UNFOLLOW_THEME + `?themeCodes=${code}`);
     },
     {
       manual: true,
@@ -197,8 +191,8 @@ const ThemesItem = (props: IProps) => {
               alt=''
               className='absolute right-[0] top-[0] h-full w-full cursor-pointer rounded-[10px]'
               onClick={() => router.push(ROUTE_PATH.THEME_DETAIL(id))}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
+              // blurDataURL="data:..." automatically provided
+              // placeholder="blur" // Optional blur-up while loading
             />
           )}
           <CustomLink href={ROUTE_PATH.THEME_DETAIL(id)}>

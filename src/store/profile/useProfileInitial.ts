@@ -1,13 +1,13 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { USER_PROFILE } from '@api/constant';
 import { privateRequest, requestPist } from '@api/request';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { getAccessToken } from '@store/auth';
 import { USERTYPE } from 'src/constant';
 
 const serviceGetUserProfile = async () => {
-  const requestProfile = await privateRequest(requestPist.get, API_PATH.USER_PROFILE);
+  const requestProfile = await privateRequest(requestPist.get, USER_PROFILE);
 
   return requestProfile;
 };

@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 import { useAtom } from 'jotai';
 
-import { API_PATH } from '@api/constant';
+import { PUBLIC_THEME } from '@api/constant';
 import { requestCommunity } from '@api/request';
 
 import { postThemeAtom } from './theme';
@@ -11,7 +11,7 @@ export const usePostThemeInitial = () => {
 
   const requestGetTheme = useRequest(
     async () => {
-      return requestCommunity.get(API_PATH.PUBLIC_THEME);
+      return requestCommunity.get(PUBLIC_THEME);
     },
     {
       onSuccess: (res) => {

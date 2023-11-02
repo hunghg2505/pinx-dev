@@ -1,10 +1,10 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import { PRIVATE_TOPIC_ALL, PRIVATE_TOPIC_SELECTED } from '@api/constant';
 import { IOptions, privateRequest, requestPist } from '@api/request';
 
 const requestGetSuggestTopic = async (limit?: number) => {
-  return privateRequest(requestPist.get, API_PATH.PRIVATE_TOPIC_ALL(limit));
+  return privateRequest(requestPist.get, PRIVATE_TOPIC_ALL(limit));
 };
 
 export const useSuggestTopic = () => {
@@ -29,7 +29,7 @@ export const useSuggestTopic = () => {
 };
 
 const requestSelectTopic = async (topicCodes: string) => {
-  return privateRequest(requestPist.post, API_PATH.PRIVATE_TOPIC_SELECTED, {
+  return privateRequest(requestPist.post, PRIVATE_TOPIC_SELECTED, {
     data: {
       topicCodes,
     },

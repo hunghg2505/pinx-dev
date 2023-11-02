@@ -1,6 +1,17 @@
 import { useRequest } from 'ahooks';
 
-import { API_PATH } from '@api/constant';
+import {
+  PRIVATE_GET_THEME_DETAIL,
+  PUBLIC_GET_THEME_DETAIL,
+  PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME,
+  PRIVATE_GET_COMMUNITY_THEME_DETAIL,
+  SUGGESTION_PEOPLE,
+  PRIVATE_GET_LIST_ACTIVITIES_THEME,
+  PUBLIC_GET_LIST_ACTIVITIES,
+  PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME,
+  PUBLIC_SEO_PAGE_V2,
+  PUBLIC_GET_THEME_DETAIL_V2,
+} from '@api/constant';
 import {
   PREFIX_API_IP_COMMUNITY,
   privateRequest,
@@ -57,8 +68,8 @@ export const useGetThemeDetail = (code: any, option = {}) => {
     () => {
       const isLogin = !!getAccessToken();
       return isLogin
-        ? privateRequest(requestPist.get, API_PATH.PRIVATE_GET_THEME_DETAIL(code))
-        : requestPist.get(API_PATH.PUBLIC_GET_THEME_DETAIL(code));
+        ? privateRequest(requestPist.get, PRIVATE_GET_THEME_DETAIL(code))
+        : requestPist.get(PUBLIC_GET_THEME_DETAIL(code));
     },
     {
       ...option,
@@ -74,10 +85,7 @@ export const useGetThemeDetail = (code: any, option = {}) => {
 export const useGetCustomerTheme = (code: string) => {
   const { data, run } = useRequest(
     () => {
-      return privateRequest(
-        requestPist.get,
-        API_PATH.PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME(code),
-      );
+      return privateRequest(requestPist.get, PRIVATE_GET_ALL_CUSTOMER_SUBSCRIBE_THEME(code));
     },
     {
       manual: true,
@@ -94,7 +102,7 @@ const getAllCommunity = (code: string, page?: number, pageSize?: number) => {
     pageSize: pageSize || 30,
   };
 
-  return privateRequest(requestPist.get, API_PATH.PRIVATE_GET_COMMUNITY_THEME_DETAIL(code), {
+  return privateRequest(requestPist.get, PRIVATE_GET_COMMUNITY_THEME_DETAIL(code), {
     params,
   });
 };
@@ -128,7 +136,7 @@ export const useGetCommunity = (code: string, option = {}) => {
 export const useSuggestPeopleTheme = () => {
   const requestGetPeople = useRequest(
     async (last?: string) => {
-      return privateRequest(requestCommunity.get, API_PATH.SUGGESTION_PEOPLE, {
+      return privateRequest(requestCommunity.get, SUGGESTION_PEOPLE, {
         params: {
           last: last || '',
           limit: 20,
@@ -166,10 +174,10 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
       const isLogin = !!getAccessToken();
 
       return isLogin
-        ? privateRequest(requestCommunity.get, API_PATH.PRIVATE_GET_LIST_ACTIVITIES_THEME, {
+        ? privateRequest(requestCommunity.get, PRIVATE_GET_LIST_ACTIVITIES_THEME, {
             params,
           })
-        : requestCommunity.get(API_PATH.PUBLIC_GET_LIST_ACTIVITIES(code));
+        : requestCommunity.get(PUBLIC_GET_LIST_ACTIVITIES(code));
     },
     {
       manual: true,
@@ -185,7 +193,7 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
 
 export const serviceGetThemeDetailFromServer = async (code: any, ctx: any): Promise<any> => {
   try {
-    const res = await requestFromServer(ctx, API_PATH.PRIVATE_GET_THEME_DETAIL(code));
+    const res = await requestFromServer(ctx, PRIVATE_GET_THEME_DETAIL(code));
     return {
       orderDetail: {
         ...res,
@@ -197,7 +205,7 @@ export const serviceGetThemeDetailFromServer = async (code: any, ctx: any): Prom
 };
 
 export async function getCommunity(page: number, code: string): Promise<any> {
-  const r = await requestPist.get(API_PATH.PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME(code), {
+  const r = await requestPist.get(PUBLIC_GET_SUBSCRIBED_CUSTOMERS_THEME(code), {
     params: {
       page,
       pageSize: 10,
@@ -214,8 +222,8 @@ export async function getCommunity(page: number, code: string): Promise<any> {
 export const fetchSeoDataFromServer = async (textSearch: string) => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_SEO_PAGE_V2(textSearch)}`).then(
-      (data: any) => data.json(),
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUBLIC_SEO_PAGE_V2(textSearch)}`).then((data: any) =>
+      data.json(),
     );
   } catch {
     return {
@@ -227,7 +235,7 @@ export const fetchSeoDataFromServer = async (textSearch: string) => {
 export const fetchThemeDetailFromServer = async (code: string) => {
   // PREFIX_API_IP_COMMUNITY
   try {
-    return fetch(`${PREFIX_API_IP_COMMUNITY}${API_PATH.PUBLIC_GET_THEME_DETAIL_V2(code)}`).then(
+    return fetch(`${PREFIX_API_IP_COMMUNITY}${PUBLIC_GET_THEME_DETAIL_V2(code)}`).then(
       (data: any) => data.json(),
     );
   } catch {
