@@ -12,9 +12,7 @@ const PopupHomeNoti = dynamic(() => import('@components/Home/PopupHomeNoti/Popup
 const FooterSignUp = dynamic(() => import('@components/Home/PopupHomeNoti/PopupHomeNoti'), {
   ssr: false,
 });
-const HomeNewFeed = dynamic(() => import('@components/Home/HomeNewFeed/HomeNewFeed'), {
-  ssr: false,
-});
+const HomeNewFeed = dynamic(() => import('@components/Home/HomeNewFeed/HomeNewFeed'));
 
 const Home = () => {
   return (
