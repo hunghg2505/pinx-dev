@@ -157,7 +157,8 @@ const NotificationItem = ({
 
 const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () => void }) => {
   const { t } = useTranslation('common');
-  const defaultActiveTab = 'userNoti';
+  const [notiStore] = useAtom(notificationAtom);
+  const defaultActiveTab = notiStore.defaultNotiTab;
   const [, setNotiStore] = useAtom(notificationAtom);
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
   const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({

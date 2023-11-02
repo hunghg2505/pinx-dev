@@ -12,7 +12,7 @@ import { firebaseCloudMessaging } from 'src/firebase';
 
 const InitialNotification = () => {
   const [isShowNotificationMobile] = useAtom(notificationMobileAtom);
-  const [notiStore] = useAtom(notificationAtom);
+  const [notiStore, setNotiStore] = useAtom(notificationAtom);
   const requestGetNotificationToken = useGetNotificationToken({});
   const { isLogin } = useLogin();
 
@@ -44,7 +44,26 @@ const InitialNotification = () => {
     try {
       const token = await firebaseCloudMessaging.init();
       if (token && isLogin) {
-        firebaseCloudMessaging.onMessage(updateNoti);
+        firebaseCloudMessaging.onMessage((payload: any) => {
+          const dataString = payload.data.data;
+          const notiData: any = JSON.parse(dataString);
+          if (notiData?.actionType === 'PINETREE_MKT') {
+            setNotiStore((prev) => (
+              {
+                ...prev,
+                defaultNotiTab: 'pinetreeNoti'
+              }
+            ));
+          } else {
+            setNotiStore((prev) => (
+              {
+                ...prev,
+                defaultNotiTab: 'userNoti'
+              }
+            ));
+          }
+          updateNoti();
+        });
         requestGetNotificationToken.run({
           deviceToken: token as string,
         });
