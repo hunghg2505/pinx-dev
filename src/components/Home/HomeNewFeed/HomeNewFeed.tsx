@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -13,9 +13,7 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 // import UserPosting from '@components/Home/UserPosting/UserPosting';
-import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 // import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
-import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
@@ -93,11 +91,11 @@ const HomeNewFeed = () => {
     clearCache('data-pin-post');
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
   }, [filterType]);
-  React.useEffect(() => {
-    if (postDetailStatus?.isRefreshHome) {
-      initialHomePostData();
-    }
-  }, [postDetailStatus?.isRefreshHome]);
+  // React.useEffect(() => {
+  //   if (postDetailStatus?.isRefreshHome) {
+  //     initialHomePostData();
+  //   }
+  // }, [postDetailStatus?.isRefreshHome]);
   useEffect(() => {
     if (isHaveStockWatchList) {
       setSelectTab('1');
@@ -197,7 +195,7 @@ const HomeNewFeed = () => {
     }
   }, [postDetailStatus.idPostDetail]);
 
-  const handleTracking = () => {
+  const handleTracking = useCallback(() => {
     // tracking event view wl
     const stockCodes = isHaveStockWatchList
       ? watchList?.[0]?.stocks?.map((item: any) => item.stockCode)
@@ -213,7 +211,7 @@ const HomeNewFeed = () => {
 
     // tracking event get more info
     getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
-  };
+  }, []);
 
   return (
     <div className='relative desktop:pt-0'>

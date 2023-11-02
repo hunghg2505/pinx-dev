@@ -97,7 +97,7 @@ const Editor = (props: IProps, ref?: any) => {
         'Shift-Enter': () => {
           return this.editor.commands.setHardBreak();
         },
-        Enter: () => this.editor.commands.blur(),
+        Enter: () => this.editor.commands.focus(),
       };
     },
   });
@@ -205,8 +205,11 @@ const Editor = (props: IProps, ref?: any) => {
         class: ' focus:outline-none',
       },
     },
+    onUpdate({ editor }) {
+      editor.commands.scrollIntoView();
+    },
   });
-  const textComment = editor?.getText();
+  const textComment = editor?.getText().trim();
 
   const useUploadImage = useRequest(
     (formData: any) => {
@@ -515,6 +518,16 @@ const Editor = (props: IProps, ref?: any) => {
     }
   }, [elementRef?.current?.clientHeight]);
 
+  const handleKeyDown = (event: any) => {
+    if (
+      event.key === 'Enter' &&
+      !event.shiftKey && // event.preventDefault();
+      textComment
+    ) {
+      onSend(editor, statusUser);
+    }
+  };
+
   return (
     <>
       <div
@@ -611,12 +624,7 @@ const Editor = (props: IProps, ref?: any) => {
                     'mt-[3px]': isFocus || !canExpand,
                   },
                 )}
-                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    onSend(editor, statusUser);
-                  }
-                }}
+                onKeyDown={handleKeyDown}
               />
               <Upload
                 className={classNames({
