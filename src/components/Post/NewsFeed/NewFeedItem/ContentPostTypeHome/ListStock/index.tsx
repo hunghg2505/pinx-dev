@@ -43,13 +43,7 @@ const ListStock = ({
       {listStock?.map((item: string) => {
         return (
           <SplideSlide key={`ItemInfluence-${item}`}>
-            <div
-              style={{
-                display: 'inline-block',
-              }}
-            >
-              <ItemStock onTrackingViewTicker={onTrackingViewTicker} data={item} />
-            </div>
+            <ItemStock onTrackingViewTicker={onTrackingViewTicker} data={item} />
           </SplideSlide>
         );
       })}
