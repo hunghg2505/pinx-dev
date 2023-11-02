@@ -6,10 +6,11 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Placeholder from '@tiptap/extension-placeholder';
 import Text from '@tiptap/extension-text';
 import { PluginKey } from '@tiptap/pm/state';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import { useDeepCompareEffect, useRequest } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { RcFile } from 'rc-upload/lib/interface';
@@ -77,6 +78,8 @@ type TMeta = Array<{
   property?: string;
   content?: string;
 }>;
+
+const EditorContainer = dynamic(() => import('@components/Compose/EditorContainer'));
 
 const Compose = (props: IProps) => {
   const { t } = useTranslation(['common', 'home']);
@@ -848,7 +851,7 @@ const Compose = (props: IProps) => {
   return (
     <>
       <div className='relative'>
-        <EditorContent
+        <EditorContainer
           editor={editor}
           className={classNames(
             'relative z-10 min-h-[250px] overflow-y-auto p-4 px-[5px] galaxy-max:p-2 desktop:min-h-[360px]',
