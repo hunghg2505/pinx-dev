@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/no-useless-spread */
+import { useEffect } from 'react';
+
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
@@ -14,7 +16,7 @@ import { useDeleteAllNotification, useReadAllNotification } from '../service';
 
 const NotificationOverlay = ({ onCloseNotiDropdown }: { onCloseNotiDropdown: () => void }) => {
   const { t } = useTranslation('common');
-  const [notiStore] = useAtom(notificationAtom);
+  const [notiStore, setNotiStore] = useAtom(notificationAtom);
   const isHaveNotiList =
     (notiStore?.userNoti && notiStore?.userNoti?.length > 0) ||
     (notiStore?.pinetreeNoti && notiStore?.pinetreeNoti?.length > 0);
@@ -42,6 +44,13 @@ const NotificationOverlay = ({ onCloseNotiDropdown }: { onCloseNotiDropdown: () 
   const deleteAllNoti = () => {
     isHaveNotiList && requestDeleteAllNotification.run();
   };
+
+  useEffect(() => {
+    setNotiStore((prev) => ({
+      ...prev,
+      defaultNotiTab: 'userNoti'
+    }));
+  }, []);
 
   return (
     <div className='w-[375px] rounded-lg border-none bg-white py-[20px] shadow-[0px_9px_28px_8px_rgba(0,_0,_0,_0.05),_0px_6px_16px_0px_rgba(0,_0,_0,_0.08),_0px_3px_6px_-4px_rgba(0,_0,_0,_0.12)]'>
