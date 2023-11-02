@@ -16,7 +16,7 @@ const MenuMobile = lazyLoadHydrate(
   () => import('@layout/components/MainHeader/MenuMobile'),
   false,
   () => (
-    <div className='tablet:none flex w-[96vw] items-center justify-between px-[10px]'>
+    <div className='flex w-[96vw] items-center justify-between px-[10px] tablet:hidden'>
       <div className='h-[32px] w-[32px] bg-[#589dc1]'></div>
       <div className='h-[40px] w-[90px] bg-[#B1D5F1]'></div>
     </div>
