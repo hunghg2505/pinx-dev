@@ -3,19 +3,13 @@ import { memo } from 'react';
 import dynamic from 'next/dynamic';
 
 import ContentRightFake from '@components/Home/ContentRight/ContentRightFake';
-// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import MainHeaderFake from '@layout/components/MainHeader/MainHeaderFake';
 import SideBarFake from '@layout/MainLayout/SideBar/SideBarFake';
 
-// import DesktopSidebar from './DesktopSidebar';
-
 const MainHeader = dynamic(() => import('../components/MainHeader'), {
-  ssr: false,
   loading: () => <MainHeaderFake />,
 });
-
-// const DesktopSidebar = dynamic(() => import('./DesktopSidebar'), { ssr: false });
 
 const ModalPage = dynamic(() => import('@components/ModalPage'), {
   ssr: false,

@@ -1,17 +1,18 @@
-.tabMobile {
-  :global {
-    .rc-tabs-tab-btn {
-      @media (max-width: 768px) {
-        font-size: 14px !important;
-      }
-    }
+.tabWrap {
+  border-bottom: 1px solid #b1d5f1;
+}
 
-    .rc-tabs-ink-bar.rc-tabs-ink-bar-animated {
-      display: none;
-    }
+.tabItem {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  color: #b3b3b3;
+  border-bottom: 1px solid #999999;
+}
 
-    .rc-tabs-nav-operations {
-      display: none;
-    }
-  }
+.tabItemActive {
+  color: #0d0d0d;
+  font-weight: 600;
+  border-bottom: 3px solid #1f6eac;
 }

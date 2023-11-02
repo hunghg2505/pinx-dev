@@ -1,66 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
-// import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import Text from '@components/UI/Text';
 import { useGetDataStockHome } from '@store/stockMarketHome/useGetDataStockHome';
 import { useStockMarketHome } from '@store/stockMarketHome/useStockMarketHome';
 
 import styles from './index.module.scss';
 
-const enum MARKET_STATUS {
-  P = 'market_status.ato_session',
-  O = 'market_status.continuous_session',
-  I = 'market_status.time_break',
-  A = 'market_status.atc_session',
-  Z = 'market_status.put_through_session',
-  C = 'market_status.market_closed',
-  S = 'market_status.market_paused',
-  W = 'market_status.market_closed2',
-  L = 'market_status.plo_session',
-  WO = 'market_status.waiting_open',
-}
+const MARKET_STATUS = {
+  P: 'market_status.ato_session',
+  O: 'market_status.continuous_session',
+  I: 'market_status.time_break',
+  A: 'market_status.atc_session',
+  Z: 'market_status.put_through_session',
+  C: 'market_status.market_closed',
+  S: 'market_status.market_paused',
+  W: 'market_status.market_closed2',
+  L: 'market_status.plo_session',
+  WO: 'market_status.waiting_open',
+} as any;
 
 const Market = () => {
   const { t } = useTranslation('home');
   const { dataStockIndex, findIndex } = useGetDataStockHome();
   const { closeSocket } = useStockMarketHome();
 
-  const renderMarketStatus = (type: string) => {
-    if (type === 'P') {
-      return t(MARKET_STATUS.P);
-    }
-    if (type === 'O') {
-      return t(MARKET_STATUS.O);
-    }
-    if (type === 'I') {
-      return t(MARKET_STATUS.I);
-    }
-    if (type === 'A') {
-      return t(MARKET_STATUS.A);
-    }
-    if (type === 'Z') {
-      return t(MARKET_STATUS.Z);
-    }
-    if (type === 'C') {
-      return t(MARKET_STATUS.C);
-    }
-    if (type === 'S') {
-      return t(MARKET_STATUS.S);
-    }
-    if (type === 'W') {
-      return t(MARKET_STATUS.W);
-    }
-    if (type === 'L') {
-      return t(MARKET_STATUS.L);
-    }
-    if (type === 'WO') {
-      return t(MARKET_STATUS.WO);
-    }
-  };
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       closeSocket();
     };
@@ -69,11 +36,11 @@ const Market = () => {
   if (!dataStockIndex?.length) {
     return (
       <div className='mt-[24px] desktop:px-[16px]'>
-        <div className='grid grid-cols-2 flex-wrap items-center gap-[16px]'>
+        <div className='grid min-h-[476px] grid-cols-2 flex-wrap items-center gap-[16px]'>
           {[1, 2, 3, 4].map((item) => (
             <div
-              key={item}
-              className='h-[230px] w-full rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
+              key={`skeleton-market-${item}`}
+              className='h-[230px] w-full rounded-[8px] bg-[#e1edf4] tablet:w-[163px]'
             />
           ))}
         </div>
@@ -82,7 +49,6 @@ const Market = () => {
   }
 
   return (
-    // <LoadCompVisible>
     <div className='mt-[24px] desktop:px-[16px]'>
       <div className='grid grid-cols-2 flex-wrap items-center gap-[16px] galaxy-max:gap-[8px]'>
         {dataStockIndex?.map((item: any, index: number) => {
@@ -103,7 +69,7 @@ const Market = () => {
 
           return (
             <div
-              key={index}
+              key={item}
               className='rounded-[8px] bg-[#FFFFFF] [box-shadow:0px_3px_6px_-4px_rgba(0,_0,_0,_0.12),_0px_6px_16px_rgba(0,_0,_0,_0.08),_0px_9px_28px_8px_rgba(0,_0,_0,_0.05)] tablet:w-[163px]'
             >
               <div className='item px-[12px] py-[20px] text-left galaxy-max:p-[12px] ' key={index}>
@@ -111,7 +77,7 @@ const Market = () => {
                   {item?.displayName}
                 </Text>
                 <Text type='body-12-regular' color='neutral-4' className='mt-[4px]'>
-                  {renderMarketStatus(item.status)}
+                  {t(MARKET_STATUS[item.status])}
                 </Text>
                 <Text
                   type='body-24-regular'
@@ -159,14 +125,13 @@ const Market = () => {
               <iframe
                 src={`https://price.pinetree.vn/chart-index/market-chart?marketCode=${item.mc}`}
                 loading='lazy'
-                className='h-[70px] w-full rounded-[8px]'
+                className='h-[70px] w-full rounded-[8px] bg-[#e1edf4]'
               ></iframe>
             </div>
           );
         })}
       </div>
     </div>
-    // </LoadCompVisible>
   );
 };
 export default Market;

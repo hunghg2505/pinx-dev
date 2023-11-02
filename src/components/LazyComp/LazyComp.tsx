@@ -218,7 +218,7 @@ const withHydrationOnDemand = (options = {}) => {
   return withHydrationOnDemandServerSide;
 };
 
-export default function lazyLoadHydrate(module, ssr = false, loading = () => <span>Loading</span>) {
+export default function lazyLoadHydrate(module, ssr = false, loading = () => <i></i>) {
   return withHydrationOnDemand({
     on: ['visible'],
     onBefore: module, // Make sure we load component before hydrating it

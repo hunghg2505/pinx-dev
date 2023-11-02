@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -8,34 +8,26 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
+import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import { IPost } from '@components/Post/service';
-import CustomLink from '@components/UI/CustomLink';
-import Text from '@components/UI/Text';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
 import { postDetailStatusAtom } from '@store/postDetail/postDetail';
 import { usePostHomePage } from '@store/postHomePage/postHomePage';
 import { ROUTE_PATH, getQueryFromUrl, removeCurClickedHomePostId } from '@utils/common';
-import {
-  filterNewsTracking,
-  getMoreInfoTracking,
-  viewWatchListTracking,
-} from 'src/mixpanel/mixpanel';
-
-import TabMobileSkeleton from './TabMobileSkeleton';
-import { useGetWatchList } from '../service';
+import { filterNewsTracking } from 'src/mixpanel/mixpanel';
 
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
 const PostList = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PostList'));
 
-const TabMobile = lazyLoadHydrate(
-  () => import('@components/Home/HomeNewFeed/TabMobile'),
-  false,
-  () => <TabMobileSkeleton />,
-);
+// const TabMobile = lazyLoadHydrate(
+//   () => import('@components/Home/HomeNewFeed/TabMobile'),
+//   true,
+//   () => <TabMobileSkeleton />,
+// );
 const UserPosting = lazyLoadHydrate(
   () => import('@components/Home/UserPosting/UserPosting'),
   false,
@@ -51,10 +43,6 @@ const HomeNewFeed = () => {
   const { userType, isReadTerms } = useUserLoginInfo();
 
   const filterType = useMemo(() => router?.query?.filterType, [router?.query?.filterType]);
-
-  const { watchList } = useGetWatchList();
-  const isHaveStockWatchList = !!(watchList?.[0]?.stocks?.length > 0);
-  const [selectTab, setSelectTab] = useState<string>('2');
 
   const { loadingPosts, dataPosts, run, runAsync, mutate, initialHomePostData } = usePostHomePage();
   const { firstPost, fourPost, postsNext } = useMemo(() => {
@@ -93,7 +81,7 @@ const HomeNewFeed = () => {
     clearCache('data-pin-post');
     run('', query?.filterType || FILTER_TYPE.MOST_RECENT);
   }, [filterType]);
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   if (postDetailStatus?.isRefreshHome) {
   //     initialHomePostData();
   //   }
@@ -103,12 +91,6 @@ const HomeNewFeed = () => {
       // initialHomePostData();
     }
   }, [postDetailStatus?.isRefreshHome]);
-
-  useEffect(() => {
-    if (isHaveStockWatchList) {
-      setSelectTab('1');
-    }
-  }, [isHaveStockWatchList]);
 
   useEffect(() => {
     if (!!userType && !isReadTerms) {
@@ -144,10 +126,6 @@ const HomeNewFeed = () => {
     });
   };
 
-  const onChangeTab = (key: string) => {
-    setSelectTab(key);
-  };
-
   const onAddNewPost = (newData: IPost) => {
     mutate({
       // @ts-ignore
@@ -168,7 +146,7 @@ const HomeNewFeed = () => {
     });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const findIndex = dataPosts?.list?.findIndex(
       (item) => item?.id === postDetailStatus?.themeWatchlist?.id,
     );
@@ -177,7 +155,7 @@ const HomeNewFeed = () => {
     }
   }, [postDetailStatus?.themeWatchlist]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // after follow stock
     const findIndex = dataPosts?.list?.findIndex(
       (item) => item?.id === postDetailStatus?.stockWatchList?.id,
@@ -186,7 +164,7 @@ const HomeNewFeed = () => {
       onAddNewPost(postDetailStatus?.stockWatchList);
     }
   }, [postDetailStatus.stockWatchList]);
-  React.useEffect(() => {
+  useEffect(() => {
     if (postDetailStatus.idPostDetail !== '') {
       const newData =
         dataPosts?.list &&
@@ -197,67 +175,21 @@ const HomeNewFeed = () => {
     }
   }, [postDetailStatus.idPostDetail]);
 
-  const handleTracking = useCallback(() => {
-    // tracking event view wl
-    const stockCodes = isHaveStockWatchList
-      ? watchList?.[0]?.stocks?.map((item: any) => item.stockCode)
-      : [];
-
-    viewWatchListTracking(
-      'Personal Watchlist',
-      'Personal Watchlist',
-      stockCodes,
-      stockCodes.length,
-      'Home screen',
-    );
-
-    // tracking event get more info
-    getMoreInfoTracking('Home screen', 'Watchlist', 'My watchlist');
-  }, []);
-
   return (
     <div className='relative desktop:pt-0'>
-      <div className='relative tablet:hidden'>
-        {selectTab === '1' && isHaveStockWatchList && (
-          <CustomLink
-            className='absolute right-[0] top-[3px] z-50 flex flex-row items-center'
-            href={ROUTE_PATH.WATCHLIST}
-            onClick={handleTracking}
-          >
-            <Text
-              type='body-12-medium'
-              className='galaxy-max:hidden tablet:text-[14px]'
-              color='primary-1'
-            >
-              {t('see_all')}
-            </Text>
-            <img
-              src='/static/icons/iconNext.svg'
-              width={5}
-              height={5}
-              alt=''
-              className='ml-[11px] w-[10px]'
-            />
-          </CustomLink>
-        )}
-        <TabMobile selectTab={selectTab} onChangeTab={onChangeTab} />
+      <div className='relative tablet:hidden [&>section]:h-full'>
+        <TabMobile />
       </div>
 
-      <>
-        <UserPosting onAddNewPost={onAddNewPost} />
-      </>
+      <UserPosting onAddNewPost={onAddNewPost} />
 
-      <>
-        <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
-      </>
+      <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />
 
-      <>
-        <PinPost
-          onTrackingViewTickerCmt={(stockCode: string) =>
-            handleTrackingViewTicker(stockCode, 'Comment')
-          }
-        />
-      </>
+      <PinPost
+        onTrackingViewTickerCmt={(stockCode: string) =>
+          handleTrackingViewTicker(stockCode, 'Comment')
+        }
+      />
 
       <PostList
         // size={size}

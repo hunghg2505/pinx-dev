@@ -4,17 +4,15 @@ import { useHydrateAtoms } from 'jotai/utils';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-// import { fetchPinedPostFromServer } from '@components/Home/service';
 import { API_PATH } from '@api/constant';
 import { requestCommunity } from '@api/request';
-// import SEO from '@components/SEO';
-// import MainLayout from '@layout/MainLayout';
 import { atomSSRPinPost } from '@store/pinPost/pinPost';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Home = dynamic(() => import('@components/Home'));
 const SEO = dynamic(() => import('@components/SEO'));
 const MainLayout = dynamic(() => import('@layout/MainLayout'));
+const Schema = dynamic(() => import('@components/SEO/Schema'));
 
 const homePageKW = [
   'Cộng đồng đầu tư chứng khoán PineX',
@@ -50,9 +48,9 @@ const HomePage = ({ dataSSRPinPost }: any) => {
       <SEO
         title='Cộng đồng đầu tư chứng khoán PineX'
         description='Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư'
-        schema={schema}
         keywords={homePageKW}
       />
+      <Schema schema={schema} />
       <Home />
     </>
   );
