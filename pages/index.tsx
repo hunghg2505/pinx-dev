@@ -7,39 +7,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { PUBLIC_PINNED_POST } from '@api/constant';
 import { requestCommunity } from '@api/request';
 import { atomSSRPinPost } from '@store/pinPost/pinPost';
-
+import { homePageKW, schema } from 'src/constant';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Home = dynamic(() => import('@components/Home'));
 const SEO = dynamic(() => import('@components/SEO'));
 const MainLayout = dynamic(() => import('@layout/MainLayout'));
-const Schema = dynamic(() => import('@components/SEO/Schema'));
-
-const homePageKW = [
-  'Cộng đồng đầu tư chứng khoán PineX',
-  'Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc',
-  '0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn',
-  'cộng đồng nhà đầu tư',
-  'Bản tin',
-  'Ngôi sao đầu tư',
-  'Chủ đề',
-  'Khám phá',
-  'Quà tặng',
-  'Danh mục theo dõi',
-  'tài sản',
-  'Cài đặt',
-  'Thị trường',
-  'Xu hướng',
-];
-
-const schema = {
-  '@context': 'https://schema.org/',
-  '@type': 'WebPage',
-  name: 'PineX - Cộng đồng đầu tư chứng khoán',
-  url: 'https://pinex.vn/',
-  description:
-    'Nền tảng giao dịch chứng khoán của CK Pinetree - Hàn Quốc. 0 phí giao dịch trọn đời, nhiều khuyến mại hấp dẫn, cộng đồng nhà đầu tư',
-};
+const Schema = dynamic(() => import('@components/SEO/Schema'), { ssr: false });
 
 const HomePage = ({ dataSSRPinPost }: any) => {
   useHydrateAtoms([[atomSSRPinPost, dataSSRPinPost]]);

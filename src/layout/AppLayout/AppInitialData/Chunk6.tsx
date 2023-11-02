@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import useScript from '@hooks/useScript';
 import { atomSplide } from '@store/Splide/Splide';
 
-const Chunk5 = () => {
+const Chunk6 = () => {
   const [, setSplide] = useAtom(atomSplide);
   const status = useScript(
     'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js',
@@ -19,4 +19,4 @@ const Chunk5 = () => {
   return <></>;
 };
 
-export default Chunk5;
+export default Chunk6;

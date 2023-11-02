@@ -12,6 +12,7 @@ const Chunk3 = dynamic(() => import('@layout/AppLayout/AppInitialData/Chunk3'));
 const Chunk4 = dynamic(() => import('@layout/AppLayout/AppInitialData/Chunk4'));
 const Chunk5 = dynamic(() => import('@layout/AppLayout/AppInitialData/Chunk5'));
 const Chunk6 = dynamic(() => import('@layout/AppLayout/AppInitialData/Chunk6'));
+const Chunk7 = dynamic(() => import('@layout/AppLayout/AppInitialData/Chunk7'));
 
 const AppInitialData = () => {
   const { toasts } = useToasterStore();
@@ -33,6 +34,7 @@ const AppInitialData = () => {
       <Chunk4 />
       <Chunk5 />
       <Chunk6 />
+      <Chunk7 />
       <Toaster />
     </>
   );

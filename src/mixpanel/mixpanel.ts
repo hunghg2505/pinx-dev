@@ -1,16 +1,24 @@
-import mixpanel from 'mixpanel-browser';
+// load mixpanel-browser from CDN assing to window
+// import mixpanel from 'mixpanel-browser';
+
+const getMixpanel = () => {
+  try {
+    // @ts-nocheck
+    return (window as any).mixpanel;
+  } catch {}
+};
 
 export const openWebTracking = (isLogged: boolean, cif?: string, lastTimeVisit?: string) => {
-  mixpanel.track('Open App', {
+  getMixpanel()?.track('Open App', {
     'Time of Last Visit': lastTimeVisit,
   });
-  mixpanel.register({
+  getMixpanel()?.register({
     Platform: 'PineX Website',
     'Login Status': isLogged ? 'Login' : 'Not login',
     'Implementation Method': 'Client-Side',
     CIF: cif,
   });
-  mixpanel.people.set({
+  getMixpanel()?.people.set({
     'Time of Last Visit': lastTimeVisit,
   });
 };
@@ -23,19 +31,19 @@ export const loginTracking = (
   time: Date,
   loginId: string,
 ) => {
-  mixpanel.register({
+  getMixpanel()?.register({
     'Login Status': loginStatus,
     CIF: cif,
     'KYC Status': kycStatus,
   });
 
-  mixpanel.track('Login', {
+  getMixpanel()?.track('Login', {
     Username: username,
     'Login ID': loginId,
     'Login Method': 'Password',
   });
 
-  mixpanel.people.set({
+  getMixpanel()?.people.set({
     Username: username,
     'Time of Last Visit': time,
     $name: cif,
@@ -43,24 +51,24 @@ export const loginTracking = (
 };
 
 export const logoutTracking = (time: Date) => {
-  mixpanel.register({
+  getMixpanel()?.register({
     'Login Status': 'Not Login',
   });
-  mixpanel.track('Logout', {});
-  mixpanel.people.set({
+  getMixpanel()?.track('Logout', {});
+  getMixpanel()?.people.set({
     'Last Seen Time': time,
     'Last Seen App': 'PineX Website',
   });
 };
 
 export const navigateSectionTracking = (navigate: string) => {
-  mixpanel.track('Navigate Section', {
+  getMixpanel()?.track('Navigate Section', {
     'Navigate To': navigate,
   });
 };
 
 export const getMoreInfoTracking = (screenName: string, infoGroup: string, infoDetail: string) => {
-  mixpanel.track('Get More Info', {
+  getMixpanel()?.track('Get More Info', {
     'Screen Name': screenName,
     'Info Group': infoGroup,
     'Info Detail': infoDetail,
@@ -72,10 +80,10 @@ export const registerTracking = (
   CTALocation: string,
   CTAType: string,
 ) => {
-  mixpanel.register({
+  getMixpanel()?.register({
     'KYC Status': 'Start Register Account',
   });
-  mixpanel.track('Register', {
+  getMixpanel()?.track('Register', {
     'CTA Type': CTAType,
     'Register CTA Location': CTALocation,
     'Start Registration Date': startRegistration,
@@ -90,10 +98,10 @@ export const completeBasicInfoTracking = (
   phone: string,
   userName: string,
 ) => {
-  mixpanel.register({
+  getMixpanel()?.register({
     'KYC Status': 'Complete Basic Info',
   });
-  mixpanel.track('Complete Basic Info', {
+  getMixpanel()?.track('Complete Basic Info', {
     'Submit Status': submitStatus,
     'Error Code': errCode,
     'Error Message': errMessage,
@@ -109,10 +117,10 @@ export const createLoginNameTracking = (
   errMessage: string,
   errCode: string,
 ) => {
-  mixpanel.register({
+  getMixpanel()?.register({
     'KYC Status': 'Complete Basic Info',
   });
-  mixpanel.track('Create Login Name', {
+  getMixpanel()?.track('Create Login Name', {
     Username: username,
     'Submit Status': submitStatus,
     'Error Message': errMessage,
@@ -131,15 +139,15 @@ export const confirmPhoneNumberTracking = (
   phone: string,
   username: string,
 ) => {
-  mixpanel.register({
+  getMixpanel()?.register({
     'KYC Status': 'Confirm Phone Number',
   });
-  mixpanel.track('Confirm Phone Number', {
+  getMixpanel()?.track('Confirm Phone Number', {
     'Submit Status': submitStatus,
     'Error Message': errMessage,
     'Error Code': errCode,
   });
-  mixpanel.people.set({
+  getMixpanel()?.people.set({
     'KYC Status': 'Confirm Phone Number',
     'Registration Platform': 'PineX Website',
     'Phone Verified': phoneVerified,
@@ -152,16 +160,16 @@ export const confirmPhoneNumberTracking = (
 };
 
 export const resendSMSTracking = () => {
-  mixpanel.track('Resend SMS');
+  getMixpanel()?.track('Resend SMS');
 };
 
 export const investmentPreferenceTracking = (company: any, industry: any, topic: any) => {
-  mixpanel.track('Investment Preference', {
+  getMixpanel()?.track('Investment Preference', {
     'Company Of Interest': company,
     'Industry Of Interest': industry,
     'Topic Of Interest': topic,
   });
-  mixpanel.people.set({
+  getMixpanel()?.people.set({
     'Company Of Interest': company,
     'Industry Of Interest': industry,
     'Topic Of Interest': topic,
@@ -175,7 +183,7 @@ export const removeTickerTracking = (
   watchListName: string,
   nameOfTickerInWL: number | string,
 ) => {
-  mixpanel.track('Remove Ticker', {
+  getMixpanel()?.track('Remove Ticker', {
     Ticker: ticker,
     'Ticker Type': tickerType,
     'Button Location': buttonLocation,
@@ -191,7 +199,7 @@ export const addTickerTracking = (
   watchListName: string,
   numberOfTicker: number | string,
 ) => {
-  mixpanel.track('Add Ticker', {
+  getMixpanel()?.track('Add Ticker', {
     Ticker: ticker,
     'Ticker Type': tickerType,
     'Button Location': buttonLocation,
@@ -207,7 +215,7 @@ export const modifyWatchListTracking = (
   watchListTicker: string[],
   numberOfTicker: number,
 ) => {
-  mixpanel.track('Modify Watchlist', {
+  getMixpanel()?.track('Modify Watchlist', {
     'Ticker Added': tickerAdded,
     'Ticker Removed': tickerRemoved,
     'Watchlist Name': watchListName,
@@ -223,7 +231,7 @@ export const viewWatchListTracking = (
   numberOfTicker: number,
   watchListViewLocation: string,
 ) => {
-  mixpanel.track('View Watchlist', {
+  getMixpanel()?.track('View Watchlist', {
     'Watchlist Name': watchListName,
     'Watchlist Type': watchListType,
     'Ticker List': tickerList,
@@ -238,7 +246,7 @@ export const viewStockListTracking = (
   listFeature: string,
   listLocation: string,
 ) => {
-  mixpanel.track('View Stock List', {
+  getMixpanel()?.track('View Stock List', {
     'Preset Name': presetName,
     'Preset Group': presetGroup,
     'List Feature': listFeature,
@@ -252,7 +260,7 @@ export const viewTickerInfoTracking = (
   tickerLocationDetail: string,
   tickerType: string,
 ) => {
-  mixpanel.track('View Ticker Info', {
+  getMixpanel()?.track('View Ticker Info', {
     Ticker: ticker,
     'Ticker Location': tickerLocation,
     'Ticker Location Detail': tickerLocationDetail,
@@ -261,7 +269,7 @@ export const viewTickerInfoTracking = (
 };
 
 export const analyzeTickerTracking = (ticker: string, infoType: string, infoGroup: string) => {
-  mixpanel.track('Analyze Ticker', {
+  getMixpanel()?.track('Analyze Ticker', {
     Ticker: ticker,
     'Info Type': infoType,
     'Info Group': infoGroup,
@@ -275,7 +283,7 @@ export const readNewsTracking = (
   tags: string[],
   newsLocation: string,
 ) => {
-  mixpanel.track('Read News', {
+  getMixpanel()?.track('Read News', {
     'News Type': newsType,
     'News Source': newsSource,
     'News Category': newsCategory,
@@ -285,7 +293,7 @@ export const readNewsTracking = (
 };
 
 export const filterNewsTracking = (filterType: string) => {
-  mixpanel.track('Filter News', {
+  getMixpanel()?.track('Filter News', {
     'Filter Type': filterType,
   });
 };
@@ -297,7 +305,7 @@ export const contactPinetreeTracking = (
   feedbackType: string[],
   hasScreenshot: boolean,
 ) => {
-  mixpanel.track('Contact Pinetree', {
+  getMixpanel()?.track('Contact Pinetree', {
     'Contact Email': contactEmail,
     'Contact Phone': contactPhone,
     'Contact Fullname': contactFullName,
@@ -313,7 +321,7 @@ export const searchTracking = (
   searchBarLocation: string,
   filter?: string[],
 ) => {
-  mixpanel.track('Search', {
+  getMixpanel()?.track('Search', {
     'Search Term': searchTerm,
     Ticker: ticker,
     'Number of Result': numberOfResult,
@@ -323,20 +331,20 @@ export const searchTracking = (
 };
 
 export const viewAssetTracking = (buttonLocation: string, assetDetail: string) => {
-  mixpanel.track('View Asset', {
+  getMixpanel()?.track('View Asset', {
     'Button Location': buttonLocation,
     'Asset Detail': assetDetail,
   });
 };
 
 export const analyzeAssetTracking = (assetInfo: string) => {
-  mixpanel.track('AnalyzeAsset', {
+  getMixpanel()?.track('AnalyzeAsset', {
     'Asset Info': assetInfo,
   });
 };
 
 export const getDepositInfoTracking = () => {
-  mixpanel.track('Get Deposit Info');
+  getMixpanel()?.track('Get Deposit Info');
 };
 
 export const clickAPostTracking = (
@@ -348,7 +356,7 @@ export const clickAPostTracking = (
   theme: string,
   location: string,
 ) => {
-  mixpanel.track('Click a Post', {
+  getMixpanel()?.track('Click a Post', {
     'Post ID': postId,
     'Post Type': postType,
     'Hastag #': hashtag,
@@ -360,16 +368,16 @@ export const clickAPostTracking = (
 };
 
 export const allowNotificationTracking = (allowNotification: string) => {
-  mixpanel.people.set({
+  getMixpanel()?.people.set({
     'PineX Web Notification': allowNotification,
   });
-  mixpanel.track('Allow Notification', {
+  getMixpanel()?.track('Allow Notification', {
     'App Notification': allowNotification,
   });
 };
 
 export const downloadPineXAppTracking = (CTAType?: string, registerCTALocation?: string) => {
-  mixpanel.track('Download PineX App', {
+  getMixpanel()?.track('Download PineX App', {
     'KYC Status': 'Start Activate VSD Account',
     'CTA Type': CTAType,
     'Register CTA Location': registerCTALocation,
@@ -377,10 +385,10 @@ export const downloadPineXAppTracking = (CTAType?: string, registerCTALocation?:
 };
 
 export const closeWebTracking = () => {
-  mixpanel.track('Close App');
+  getMixpanel()?.track('Close App');
 };
 
 // identify user
 export const mixpanelIdentifyUser = (cif: string) => {
-  mixpanel.identify(cif);
+  getMixpanel()?.identify(cif);
 };

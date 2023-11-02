@@ -25,6 +25,18 @@ const nextConfig = {
   // Back scroll postion
   experimental: {
     scrollRestoration: true,
+    optimizePackageImports: [
+      'next-i18next',
+      'react-easy-crop',
+      'react-hot-toast',
+      'tippy.js',
+      'react-cropper',
+      'react-beautiful-dnd',
+      'react-intersection-observer',
+      'react-lazy-load-image-component',
+      'react-player',
+      'ahooks',
+    ],
   },
   compiler,
   // config env

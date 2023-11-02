@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unicorn/consistent-function-scoping */
 // @ts-nocheck
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
@@ -70,11 +71,13 @@ const withHydrationOnDemandClientSide =
         if (onBefore) {
           await onBefore();
         }
+
         setIsHydrated(true);
       };
 
+      // @ts-ignore
       const initDOMEvent = (type, getTarget = () => rootRef.current) => {
-        const target = getTarget();
+        const target = window;
         target.addEventListener(type, hydrate, eventListenerOptions);
         cleanupFunctions.current.push(() => {
           if (!target) {
@@ -84,7 +87,7 @@ const withHydrationOnDemandClientSide =
         });
       };
 
-      const initTimeout = (delay = 2000) => {
+      const initTimeout = (delay = 3000) => {
         if (delay <= 0) {
           return;
         }
@@ -161,18 +164,15 @@ const withHydrationOnDemandClientSide =
         if (isHydrated) {
           return;
         }
-
         if (forceHydration) {
           hydrate();
-          return;
         }
+        // const wasRenderedServerSide = !!rootRef.current.dataset.hydrationOnDemand;
+        // const shouldHydrate = !wasRenderedServerSide && !disableFallback;
 
-        const wasRenderedServerSide = !!rootRef.current.dataset.hydrationOnDemand;
-        const shouldHydrate = !wasRenderedServerSide && !disableFallback;
-
-        if (shouldHydrate) {
-          hydrate();
-        }
+        // if (shouldHydrate) {
+        //   hydrate();
+        // }
       }, [forceHydration]);
 
       useEffect(() => {
@@ -222,5 +222,14 @@ export default function lazyLoadHydrate(module, ssr = false, loading = () => <i>
   return withHydrationOnDemand({
     on: ['visible'],
     onBefore: module, // Make sure we load component before hydrating it
+    forceHydration: ssr,
+  })(dynamic(module, { loading, ssr }));
+}
+
+export function lazyLoadHydrateScroll(module, ssr = false, loading = () => <i></i>) {
+  return withHydrationOnDemand({
+    on: ['scroll'],
+    onBefore: module, // Make sure we load component before hydrating it
+    forceHydration: ssr,
   })(dynamic(module, { loading, ssr }));
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { clearCache, useUpdateEffect } from 'ahooks';
 import { useAtom } from 'jotai';
@@ -11,7 +11,7 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
-import lazyLoadHydrate from '@components/LazyComp/LazyComp';
+import lazyLoadHydrate, { lazyLoadHydrateScroll } from '@components/LazyComp/LazyComp';
 import { IPost } from '@components/Post/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -22,7 +22,7 @@ import { HOME } from 'src/constant/route';
 import { filterNewsTracking } from 'src/mixpanel/mixpanel';
 
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
-const PostList = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/PostList'));
+const PostList = lazyLoadHydrateScroll(() => import('@components/Home/HomeNewFeed/PostList'));
 
 // const TabMobile = lazyLoadHydrate(
 //   () => import('@components/Home/HomeNewFeed/TabMobile'),

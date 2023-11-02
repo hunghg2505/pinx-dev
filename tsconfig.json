@@ -22,9 +22,9 @@
       "@layout/*": ["src/layout/*"],
       "@store/*": ["src/store/*"],
       "@utils/*": ["src/utils/*"],
-      "@services/*": ["src/services/*"],
+      "@services/*": ["src/services/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/ReadMore.js","*.svg", "src/components/common/Modal."],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/ReadMore.js", "*.svg"],
   "exclude": ["node_modules"]
 }

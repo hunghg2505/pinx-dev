@@ -17,8 +17,7 @@ const ScrollWrap = ({ children }: IPropsScrollWrap) => {
   useEffect(() => {
     let lastScrollTop = 0;
 
-    const onScroll = (e: any) => {
-      e.preventDefault();
+    const onScroll = () => {
       if (window?.innerWidth > 600) {
         return;
       }

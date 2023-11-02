@@ -1,17 +1,15 @@
 import React, { useRef } from 'react';
 
 import { useAtom } from 'jotai';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';
 
+import ModalCompose from '@components/Home/ModalCompose';
 import Notification from '@components/UI/Notification';
 import { useUserType } from '@hooks/useUserType';
 import { popupStatusAtom } from '@store/popup/popup';
 import { USERTYPE } from 'src/constant';
-
-const ModalCompose = dynamic(() => import('@components/Home/ModalCompose'));
 
 const NotFound = ({ refresh }: any) => {
   const { t } = useTranslation(['profile', 'common']);
@@ -49,7 +47,7 @@ const NotFound = ({ refresh }: any) => {
               {t('post_empty')}
             </p>
             <button
-              onClick={() => onClickWrite()}
+              onClick={onClickWrite}
               className='line-[18px] block w-full  max-w-[260px] rounded-[8px] bg-gradient-to-l from-[#1D6CAB] to-[#589DC0] px-[24px] py-[12px] text-[14px] font-[600] text-white'
             >
               {t('write_now')}

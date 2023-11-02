@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
 import Image from 'next/image';
 
-import Fade from '@components/UI/Fade';
 import { postThemeAtom } from '@store/postTheme/theme';
 
 export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, ref: any) => {
@@ -35,7 +34,7 @@ export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, re
           />
         </div>
 
-        <Fade visible={isShowMore}>
+        {isShowMore && (
           <div className={classNames('whitespace-nowrap text-left')}>
             <div
               className={classNames(
@@ -67,7 +66,7 @@ export const ListTheme = forwardRef(({ onSelectThemeId, themeActiveId }: any, re
               );
             })}
           </div>
-        </Fade>
+        )}
       </div>
     </div>
   );

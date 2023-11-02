@@ -1,4 +1,4 @@
-import React, { ReactNode, forwardRef, memo, useImperativeHandle, useState } from 'react';
+import React, { ReactNode, forwardRef, useImperativeHandle, useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -30,7 +30,7 @@ const BaseModal = forwardRef(({ children }: { children: ReactNode }, ref) => {
       {render && (
         <div
           className={classNames(
-            'fixed left-0 top-0 z-[9999] flex bottom-0 right-0 items-center justify-center py-6 duration-300 ease-in-out',
+            'fixed bottom-0 left-0 right-0 top-0 z-[9999] flex items-center justify-center py-6 duration-300 ease-in-out',
             { 'bg-[black]/[0.35]': visible },
           )}
         >
@@ -47,4 +47,4 @@ const BaseModal = forwardRef(({ children }: { children: ReactNode }, ref) => {
   );
 });
 
-export default memo(BaseModal);
+export default BaseModal;

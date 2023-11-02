@@ -2,11 +2,12 @@ import { useMemo } from 'react';
 
 import classNames from 'classnames';
 import { useAtom, useAtomValue } from 'jotai';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Menu from 'rc-menu';
-import StickyBox from 'react-sticky-box';
+// import StickyBox from 'react-sticky-box';
 
 import { ProfileTabKey } from '@components/MyProfile/TabsContent/Desktop/type';
 import CustomLink from '@components/UI/CustomLink';
@@ -47,6 +48,8 @@ import {
   IconWatchList,
   IconWatchListACtive,
 } from './icon';
+
+const StickyBox = dynamic(() => import('react-sticky-box'));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const MenuItem = ({ children, href, ...props }: any) => <div {...props}>{children}</div>;

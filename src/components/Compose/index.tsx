@@ -27,7 +27,6 @@ import { ModalAddLink } from '@components/Compose/ModalAddLink/ModalAddLink';
 import { UploadImage } from '@components/Compose/UploadImage';
 import { ISearch, TYPESEARCH } from '@components/Home/service';
 import { IPost, TYPEPOST, getPostDetail } from '@components/Post/service';
-import Fade from '@components/UI/Fade';
 import IconHashTag from '@components/UI/Icon/IconHashTag';
 import { IconSend } from '@components/UI/Icon/IconSend';
 import Loading from '@components/UI/Loading';
@@ -731,22 +730,26 @@ const Compose = (props: IProps) => {
 
     return (
       <>
-        <Fade visible={!themeSelected?.id}>
-          <UploadImage
-            themeActive={themeActive}
-            isUpdateActivities={isUpdateActivities}
-            onStart={onStart}
-            beforeUpload={beforeUpload}
-          />
-        </Fade>
+        {!themeSelected?.id && (
+          <div>
+            <UploadImage
+              themeActive={themeActive}
+              isUpdateActivities={isUpdateActivities}
+              onStart={onStart}
+              beforeUpload={beforeUpload}
+            />
+          </div>
+        )}
 
-        <Fade visible={!themeSelected?.id}>
-          <ModalAddLink
-            urlLinkInitial={url}
-            isUpdateActivities={isUpdateActivities}
-            getDataOG={getDataOG}
-          />
-        </Fade>
+        {!themeSelected?.id && (
+          <div>
+            <ModalAddLink
+              urlLinkInitial={url}
+              isUpdateActivities={isUpdateActivities}
+              getDataOG={getDataOG}
+            />
+          </div>
+        )}
       </>
     );
   }, [themeSelected?.id, hiddenThemeSelected]);
@@ -776,24 +779,26 @@ const Compose = (props: IProps) => {
     }
 
     return (
-      <Fade visible={!!imageUploaded?.url && themeActiveId === 'default'}>
-        <div className='relative flex items-center justify-between overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB]'>
-          <Image
-            src={imageUploaded?.url || ''}
-            alt=''
-            width='0'
-            height='0'
-            sizes='100vw'
-            className='max-h-[280px] w-full rounded-[8px] object-contain'
-          />
-          <img
-            src='/static/icons/explore/iconClose.svg'
-            alt=''
-            className='absolute right-[10px] top-[10px] z-[2] h-[20px] w-[20px] cursor-pointer'
-            onClick={() => setImageUploaded({ file: '', url: '' })}
-          />
-        </div>
-      </Fade>
+      <>
+        {!!imageUploaded?.url && themeActiveId === 'default' && (
+          <div className='relative flex items-center justify-between overflow-hidden rounded-[9px] border-[1px] border-solid border-[#EBEBEB]'>
+            <Image
+              src={imageUploaded?.url || ''}
+              alt=''
+              width='0'
+              height='0'
+              sizes='100vw'
+              className='max-h-[280px] w-full rounded-[8px] object-contain'
+            />
+            <img
+              src='/static/icons/explore/iconClose.svg'
+              alt=''
+              className='absolute right-[10px] top-[10px] z-[2] h-[20px] w-[20px] cursor-pointer'
+              onClick={() => setImageUploaded({ file: '', url: '' })}
+            />
+          </div>
+        )}
+      </>
     );
   }, [hiddenThemeSelected, themeSelected, imageUploaded?.url, themeActiveId]);
 
@@ -807,9 +812,13 @@ const Compose = (props: IProps) => {
     }
 
     return (
-      <Fade visible={!!metaData?.length && themeActiveId === 'default'}>
-        <Metatags metaData={metaData as TMeta} setMetaData={setMetaData} />
-      </Fade>
+      <>
+        {!!metaData?.length && themeActiveId === 'default' && (
+          <div>
+            <Metatags metaData={metaData as TMeta} setMetaData={setMetaData} />
+          </div>
+        )}
+      </>
     );
   }, [hiddenThemeSelected, themeSelected, metaData, themeActiveId]);
   // const onHandleOnKeyup = (e: any) => {
@@ -864,9 +873,11 @@ const Compose = (props: IProps) => {
           style={getStyles() as any}
         />
 
-        <Fade visible={hiddenThemeSelected}>
-          <ImageTheme themeActiveId={themeActiveId} />
-        </Fade>
+        {hiddenThemeSelected && (
+          <div>
+            <ImageTheme themeActiveId={themeActiveId} />
+          </div>
+        )}
       </div>
       {!isShowImageActivities && (
         <>
@@ -876,14 +887,18 @@ const Compose = (props: IProps) => {
         </>
       )}
 
-      <Fade visible={hiddenThemeSelected && !isShowImageActivities}>
-        <ListTheme themeActiveId={themeActiveId} onSelectThemeId={onSelectThemeId} />
-      </Fade>
+      {hiddenThemeSelected && !isShowImageActivities && (
+        <div>
+          <ListTheme themeActiveId={themeActiveId} onSelectThemeId={onSelectThemeId} />
+        </div>
+      )}
 
-      <Fade visible={isShowImageActivities}>
-        {postType === TYPEPOST.ActivityTheme && <ActivityTheme postDetail={postDetail} />}
-        {postType === TYPEPOST.ActivityWatchlist && <ActivityWatchlist postDetail={postDetail} />}
-      </Fade>
+      {isShowImageActivities && (
+        <div>
+          {postType === TYPEPOST.ActivityTheme && <ActivityTheme postDetail={postDetail} />}
+          {postType === TYPEPOST.ActivityWatchlist && <ActivityWatchlist postDetail={postDetail} />}
+        </div>
+      )}
 
       <div className='my-[16px] block h-[2px] w-full bg-[#EEF5F9]'></div>
 

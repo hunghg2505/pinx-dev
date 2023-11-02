@@ -38,7 +38,7 @@ let DEFAULT = [
     displayName: 'VNINDEX',
     oIndex: 1039.66,
     cIndex: 1075.47,
-    isFake: true,
+    img: '/static/blur/market.png',
   },
   {
     id: 1101,
@@ -54,7 +54,7 @@ let DEFAULT = [
     displayName: 'VN30',
     oIndex: 1051.65,
     cIndex: 1087.5,
-    isFake: true,
+    img: '/static/blur/market.png',
   },
   {
     id: 1101,
@@ -70,7 +70,7 @@ let DEFAULT = [
     displayName: 'HNX',
     oIndex: 209.65,
     cIndex: 217.97,
-    isFake: true,
+    img: '/static/blur/market.png',
   },
   {
     id: 1101,
@@ -86,7 +86,7 @@ let DEFAULT = [
     displayName: 'UPCOM',
     oIndex: 81.7,
     cIndex: 83.97,
-    isFake: true,
+    img: '/static/blur/market.png',
   },
 ];
 
@@ -199,11 +199,13 @@ const Market = () => {
                 </div>
               </div>
 
-              {item?.isFake ? (
-                <div className='h-[70px] w-full rounded-[8px] bg-[#e1edf4]'></div>
+              {item?.img ? (
+                <div className='h-[70px] w-full rounded-[8px] bg-[#e1edf4]'>
+                  <img src={item.img} alt='' className='h-full w-full object-cover' />
+                </div>
               ) : (
                 <iframe
-                  src={`https://price.pinetree.vn/chart-index/market-chart?marketCode=${item.mc}`}
+                  src={'https://price.pinetree.vn/chart-index/market-chart?marketCode=03'}
                   loading='lazy'
                   className='h-[70px] w-full rounded-[8px] bg-[#e1edf4]'
                 ></iframe>

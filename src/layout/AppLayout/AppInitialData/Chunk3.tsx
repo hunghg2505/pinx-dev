@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import { useAtomValue } from 'jotai';
+
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { useLogin } from '@store/auth/hydrateAuth';
+import { atomMixpanel } from '@store/mixpanel/mixpanel';
 import { localStorageUtils } from '@utils/local-storage-utils';
 import { closeWebTracking, mixpanelIdentifyUser, openWebTracking } from 'src/mixpanel/mixpanel';
 import { initMixpanel } from 'src/mixpanel/mixpanelInitial';
@@ -10,6 +13,7 @@ const Chunk3 = () => {
   const { isLogin } = useLogin();
   const { userLoginInfo } = useUserLoginInfo();
   const [isTrackingOpenWeb, setIsTrackingOpenWeb] = useState(false);
+  const mixpanel = useAtomValue(atomMixpanel);
 
   useEffect(() => {
     // tracking event close web
@@ -28,7 +32,7 @@ const Chunk3 = () => {
   }, []);
 
   useEffect(() => {
-    if (userLoginInfo?.loading || isTrackingOpenWeb) {
+    if (userLoginInfo?.loading || isTrackingOpenWeb || !mixpanel) {
       return;
     }
 
@@ -43,7 +47,7 @@ const Chunk3 = () => {
       openWebTracking(isLogin, cif, lastTimeVisit);
       setIsTrackingOpenWeb(true);
     });
-  }, [isTrackingOpenWeb, userLoginInfo]);
+  }, [mixpanel, isTrackingOpenWeb, userLoginInfo]);
 
   return <></>;
 };
