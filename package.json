@@ -16,7 +16,6 @@
     "partytown": "partytown copylib public/~partytown"
   },
   "dependencies": {
-    "@builder.io/partytown": "^0.8.1",
     "ahooks": "^3.5.1",
     "brainless-token-manager": "^1.2.6",
     "browser-image-compression": "^2.0.2",
