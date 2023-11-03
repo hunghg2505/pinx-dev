@@ -201,7 +201,7 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
 
 
   const detectDefaultTab = () => {
-    if (lastUserNoti && lastPinetreeNoti && dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))) {
+    if (lastUserNoti.time && lastPinetreeNoti.time && dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))) {
       setNotiStore((prev) => ({
         ...prev,
         defaultNotiTab: 'pinetreeNoti',
@@ -233,7 +233,7 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
   }, [userNoti, pinetreeNoti]);
 
   return (
-    <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
+    <Tabs activeKey={curTab} className={styles.tabNoti} onChange={handleChangeTab}>
       <TabPane tab={t('latest')} key='userNoti'>
         {userNoti?.data?.length > 0 ? (
           <div className={styles.notiList}>
