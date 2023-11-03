@@ -5,11 +5,11 @@ import { useHydrateAtoms } from 'jotai/utils';
 import dynamic from 'next/dynamic';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { PRIVATE_PINNED_POST, PUBLIC_PINNED_POST } from '@api/constant';
-import { privateRequest, requestCommunity } from '@api/request';
+import { PUBLIC_PINNED_POST } from '@api/constant';
+import { requestCommunity } from '@api/request';
 import { atomSSRPinPost } from '@store/pinPost/pinPost';
-import { homePageKW, schema } from 'src/constant';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { homePageKW, schema } from 'src/constant';
 
 const Home = dynamic(() => import('@components/Home'));
 const SEO = dynamic(() => import('@components/SEO'));
@@ -40,12 +40,8 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getServerSideProps({ locale, req }: any) {
-  const token = req.cookies.accessToken;
-
-  const responsePinnedPost = token
-    ? await privateRequest(requestCommunity.get, PRIVATE_PINNED_POST, { token })
-    : await requestCommunity.get(PUBLIC_PINNED_POST);
+export async function getStaticProps({ locale }: any) {
+  const responsePinnedPost = await requestCommunity.get(PUBLIC_PINNED_POST);
 
   return {
     props: {
@@ -55,5 +51,20 @@ export async function getServerSideProps({ locale, req }: any) {
     },
   };
 }
+// export async function getServerSideProps({ locale, req }: any) {
+//   const token = req.cookies.accessToken;
+
+//   const responsePinnedPost = token
+//     ? await privateRequest(requestCommunity.get, PRIVATE_PINNED_POST, { token })
+//     : await requestCommunity.get(PUBLIC_PINNED_POST);
+
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(locale || 'en', ['common', 'home', 'profile', 'theme'])),
+//       dataSSRPinPost: responsePinnedPost?.data?.length ? responsePinnedPost?.data?.slice(0, 1) : [],
+//       // Will be passed to the page component as props
+//     },
+//   };
+// }
 
 export default HomePage;
