@@ -39,10 +39,10 @@ const AppInitialData = () => {
     requestProfleSetting();
     // getInitDataStockWatchlistHome();
     getUserProfile();
-    const t = setTimeout(() => {
-      getInitDataStockMarketHome();
-      clearTimeout(t);
-    }, 7000);
+    // const t = setTimeout(() => {
+    // getInitDataStockMarketHome();
+    // }, 7000);
+    getInitDataStockMarketHome();
     // initFirebaseToken();
   });
 
