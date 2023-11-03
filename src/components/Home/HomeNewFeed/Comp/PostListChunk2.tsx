@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import useObserver from '@hooks/useObserver';
@@ -14,7 +15,7 @@ const PostListChunk2 = ({ postsNext, serviceLoadMorePost, onCommentPost }: any) 
   const { refLastElement } = useObserver();
 
   return (
-    <>
+    <LoadCompVisible>
       {postsNext?.map((item: IPost, idx: number) => {
         if (idx === postsNext?.length - 1) {
           return (
@@ -52,7 +53,7 @@ const PostListChunk2 = ({ postsNext, serviceLoadMorePost, onCommentPost }: any) 
           />
         );
       })}
-    </>
+    </LoadCompVisible>
   );
 };
 

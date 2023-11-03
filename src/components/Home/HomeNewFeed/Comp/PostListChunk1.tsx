@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
+import LoadCompVisible from '@components/LoadCompVisible/LoadCompVisible';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
@@ -23,7 +24,7 @@ const PostListChunk1 = ({ firstPost, onCommentPost, fourPost, loadingPosts }: an
   const { t } = useTranslation('home');
 
   return (
-    <>
+    <LoadCompVisible>
       {firstPost ? (
         <NewsFeed
           onTrackingViewTickerCmt={(stockCode: any) =>
@@ -104,7 +105,7 @@ const PostListChunk1 = ({ firstPost, onCommentPost, fourPost, loadingPosts }: an
         </Text>
         <ListTheme />
       </div>
-    </>
+    </LoadCompVisible>
   );
 };
 
