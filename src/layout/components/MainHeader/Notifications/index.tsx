@@ -32,7 +32,7 @@ const NotiCount = forwardRef((_, ref: any) => {
 
   return notiCount > 0 ? (
     <div className='absolute right-[-5px] top-0 rounded-full bg-[#FF3B3B]'>
-      <Text className='px-1 text-[10px] font-[700] text-white'>{notiCount}</Text>
+      <Text className='px-1 text-[10px] font-[700] text-white'>{notiCount > 99 ? '99+' : notiCount}</Text>
     </div>
   ) : (
     <></>
