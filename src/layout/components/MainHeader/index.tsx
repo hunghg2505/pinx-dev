@@ -19,7 +19,7 @@ const Notifications = lazyLoadHydrate(
   () => import('@layout/components/MainHeader/Notifications'),
   false,
 );
-const Profile = lazyLoadHydrate(() => import('@layout/components/MainHeader/Profile'), true);
+const Profile = dynamic(() => import('@layout/components/MainHeader/Profile'));
 const ScrollWrap = dynamic(() => import('@layout/components/MainHeader/ScrollWrap'));
 const DownloadApp = dynamic(() => import('@layout/components/MainHeader/DownloadApp'), {
   loading: () => <div className='h-[58px] bg-[#eaf4fb]'></div>,

@@ -17,12 +17,12 @@ const FooterSignUp = dynamic(() => import('@components/Home/PopupHomeNoti/PopupH
   ssr: false,
 });
 const HomeNewFeed = dynamic(() => import('@components/Home/HomeNewFeed/HomeNewFeed'));
-const TabMobile = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/TabMobile'), true);
+const TabMobile = dynamic(() => import('@components/Home/HomeNewFeed/TabMobile'));
 
 const Home = () => {
   return (
     <>
-      <div className='relative tablet:hidden [&>section]:h-full'>
+      <div className='tablet:hidden [&>section]:h-full'>
         <TabMobile />
       </div>
       <HomeNewFeed />
