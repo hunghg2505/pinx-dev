@@ -48,7 +48,7 @@ const ScrollWrap = ({ children }: IPropsScrollWrap) => {
 
   return (
     <div
-      className=' sticky left-0 top-0 z-[999] border-b-[1px] border-solid border-[#EBEBEB] bg-white transition-all duration-[350ms] ease-in-out  desktop:h-[84px]'
+      className=' sticky left-0 top-0 z-[999999] border-b-[1px] border-solid border-[#EBEBEB] bg-white transition-all duration-[350ms] ease-in-out  desktop:h-[84px]'
       ref={refHeader}
     >
       {children}

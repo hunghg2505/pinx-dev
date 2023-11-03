@@ -228,7 +228,7 @@ export default function lazyLoadHydrate(module, ssr = false, loading = () => <i>
 
 export function lazyLoadHydrateScroll(module, ssr = false, loading = () => <i></i>) {
   return withHydrationOnDemand({
-    on: ['scroll'],
+    on: ['scroll', 'visible'],
     onBefore: module, // Make sure we load component before hydrating it
     forceHydration: ssr,
   })(dynamic(module, { loading, ssr }));

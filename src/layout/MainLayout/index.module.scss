@@ -1,0 +1,56 @@
+.sidebarContainer {
+  @media (max-width: 1200px) {
+    position: fixed;
+    left: -100%;
+    z-index: 9999;
+    width: 100%;
+    background: #fff;
+    padding-bottom: 30px;
+    padding-top: 12px;
+    transition: 0.3s;
+    overflow: overlay;
+    max-width: 100%;
+
+    > div {
+      position: unset !important;
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .sidebarContainer {
+    position: fixed;
+    left: -100%;
+    z-index: 9999;
+    width: 100%;
+    background: #fff;
+    padding-bottom: 30px;
+    padding-top: 12px;
+    transition: 0.3s;
+    overflow: overlay;
+
+    > div > div {
+      max-width: 100% !important;
+      position: fixed;
+      z-index: 9999;
+    }
+  }
+
+  .sidebarContainerShow {
+    left: 0;
+  }
+
+  .sidebarRouteSetting {
+    top: 55px;
+  }
+
+  .sidebarNotRouteSetting {
+    top: 55px;
+    height: calc(100vh);
+    @media (max-width: 768px) {
+      top: 115px;
+      height: calc(100vh - 115px);
+    }
+  }
+}

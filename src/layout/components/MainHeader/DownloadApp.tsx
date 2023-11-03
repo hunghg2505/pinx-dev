@@ -4,11 +4,17 @@ import { useTranslation } from 'next-i18next';
 
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
+import { useRouteSetting } from '@hooks/useRouteSetting';
 import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
 const DownloadApp = () => {
   const { t } = useTranslation('common');
+  const { isRouteSetting } = useRouteSetting();
+
+  if (isRouteSetting) {
+    return null;
+  }
 
   return (
     <div className='flex justify-between bg-[#EAF4FB] p-[10px] tablet:hidden'>

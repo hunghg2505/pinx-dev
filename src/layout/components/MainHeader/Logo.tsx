@@ -1,21 +1,18 @@
 import { useMount } from 'ahooks';
-import classNames from 'classnames';
 import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import lazyLoadHydrate from '@components/LazyComp/LazyComp';
+import CustomLink from '@components/UI/CustomLink';
 import { IconCloseMenu } from '@components/UI/Icon/IconCloseMenu';
-import { useRouteSetting } from '@hooks/useRouteSetting';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
+import { HOME } from 'src/constant/route';
 
-const SideBar = lazyLoadHydrate(() => import('@layout/MainLayout/SideBar'));
-
-const MenuMobile = () => {
+const Logo = () => {
   const [isShowNavigate, setIsShowNavigate] = useSidebarMobile();
   const router = useRouter();
   const [, setOpenProfileMenu] = useAtom(openProfileAtom);
-  const { isRouteSetting } = useRouteSetting();
 
   useMount(() => {
     router.events.on('routeChangeStart', () => {
@@ -33,6 +30,27 @@ const MenuMobile = () => {
 
   return (
     <>
+      <CustomLink
+        onClick={() => globalThis?.sessionStorage.removeItem('scrollPosition')}
+        href={HOME}
+      >
+        <div className='flex items-center'>
+          <img
+            src='/static/logo/logo.png'
+            alt='Cộng đồng đầu tư chứng khoán PineX'
+            className='hidden h-[40px] w-[40px] object-contain desktop:block desktop:h-[52px] desktop:w-[52px]'
+          />
+
+          <Image
+            width={85}
+            height={32}
+            src='/static/logo/logo-website-pinetree.svg'
+            alt='Logo pinetree'
+            className='ml-[12px] hidden h-[32px] desktop:block'
+          />
+        </div>
+      </CustomLink>
+
       <span className='flex cursor-pointer items-center desktop:hidden' onClick={onShowNavigate}>
         {isShowNavigate ? (
           <IconCloseMenu />
@@ -44,24 +62,8 @@ const MenuMobile = () => {
           />
         )}
       </span>
-      <div
-        className={classNames(
-          'overflow-overlay fixed left-[-100%] z-[9999] w-full bg-[#fff] pb-[30px] pt-[12px] [transition:0.3s] desktop:hidden ',
-          {
-            'left-[0]': isShowNavigate,
-            'top-[55px]': isRouteSetting,
-            'h-[calc(100vh-56px)]': isRouteSetting,
-            'top-[115px]': !isRouteSetting,
-            'h-[calc(100vh-115px)]': !isRouteSetting,
-          },
-        )}
-      >
-        <div className='mt-[12px]'>
-          <SideBar />
-        </div>
-      </div>
     </>
   );
 };
 
-export default MenuMobile;
+export default Logo;
