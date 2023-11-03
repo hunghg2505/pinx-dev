@@ -8,6 +8,7 @@ const Chunk6 = () => {
   const [, setSplide] = useAtom(atomSplide);
   const status = useScript(
     'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js',
+    3000,
   );
 
   useUpdateEffect(() => {

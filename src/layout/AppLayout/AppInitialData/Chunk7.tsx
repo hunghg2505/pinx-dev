@@ -8,6 +8,7 @@ const Chunk7 = () => {
   const [, setMixpanel] = useAtom(atomMixpanel);
   const status = useScript(
     'https://cdn.jsdelivr.net/npm/mixpanel-browser@2.47.0/dist/mixpanel.umd.js',
+    5000,
   );
 
   useUpdateEffect(() => {
