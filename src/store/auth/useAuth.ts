@@ -1,8 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import mixpanel from 'mixpanel-browser';
-
 import { HOME } from 'src/constant/route';
-import { logoutTracking } from 'src/mixpanel/mixpanel';
+import { logoutTracking, reset } from 'src/mixpanel/mixpanel';
 
 import { deleteAuthCookies, setAuthCookies, setRegisterCookies } from '.';
 
@@ -22,7 +20,7 @@ export const useAuth = () => {
       localStorage.clear();
       window.location.href = navigatePath || HOME;
       logoutTracking(date);
-      mixpanel.reset();
+      reset();
       // navigator.serviceWorker.getRegistrations().then(function (registrations) {
       //   for (const registration of registrations) {
       //     registration.unregister();

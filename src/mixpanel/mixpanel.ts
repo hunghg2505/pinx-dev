@@ -61,6 +61,10 @@ export const logoutTracking = (time: Date) => {
   });
 };
 
+export const reset = () => {
+  getMixpanel()?.reset();
+};
+
 export const navigateSectionTracking = (navigate: string) => {
   getMixpanel()?.track('Navigate Section', {
     'Navigate To': navigate,

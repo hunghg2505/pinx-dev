@@ -1,10 +1,7 @@
-/* eslint-disable no-console */
-// import { getAnalytics } from 'firebase/analytics';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-// import firebase from 'firebase/compat/app';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
-import localforage from 'localforage';
 
+import { decodeFcmToken, encodeFcmToken } from '@utils/common/fcmEncrypt';
 import { ENV } from '@utils/env';
 
 import { allowNotificationTracking } from './mixpanel/mixpanel';
@@ -24,12 +21,13 @@ export const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 const firebaseCloudMessaging = {
-  tokenInLocalForage: async () => {
-    const token = await localforage.getItem('fcm_token_client');
-    return token;
+  tokenInLocalForage: () => {
+    const token = localStorage.getItem('fcm_token_client');
+    const decode = token ? decodeFcmToken(token) : null;
+    return decode;
   },
-  removeFcmToken: async () => {
-    await localforage.removeItem('fcm_token_client');
+  removeFcmToken: () => {
+    localStorage.removeItem('fcm_token_client');
   },
   onMessage: async (onCallback: any) => {
     try {
@@ -42,10 +40,8 @@ const firebaseCloudMessaging = {
     try {
       let fcmToken = await this.tokenInLocalForage();
       if (fcmToken !== null) {
-        console.log('xxx fcm_token_client', fcmToken);
         return fcmToken;
       }
-      // const analytics = getAnalytics(app);
 
       const isSupport = await isSupported();
 
@@ -64,8 +60,7 @@ const firebaseCloudMessaging = {
       if (fcmToken) {
         // Send the token to your server and update the UI if necessary
         // save the token in your database
-        localforage.setItem('fcm_token_client', fcmToken);
-        console.log('xxx fcm_token_client', fcmToken);
+        localStorage.setItem('fcm_token_client', encodeFcmToken(fcmToken));
         allowNotificationTracking('Allow');
 
         return fcmToken;

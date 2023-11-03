@@ -3,14 +3,12 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import { getLocaleCookie } from '@store/locale';
-import { usePostThemeInitial } from '@store/postTheme/useGetPostTheme';
 import { useStockWatchlistHome } from '@store/stockWatchlistHome/useStockWatchlistHome';
 import { storeQueryToSession } from '@utils/common';
 import { HOME } from 'src/constant/route';
 
 const Chunk4 = () => {
   const router = useRouter();
-  usePostThemeInitial();
 
   const { getInitDataStockWatchlistHome } = useStockWatchlistHome();
 
