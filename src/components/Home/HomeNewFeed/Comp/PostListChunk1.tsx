@@ -1,24 +1,23 @@
+import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
-import { lazyLoadHydrateScroll } from '@components/LazyComp/LazyComp';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
 import { PEOPLEINSPOTLIGHT } from 'src/constant/route';
 
-const Trending = lazyLoadHydrateScroll(() => import('../../Trending'), false);
-const Influencer = lazyLoadHydrateScroll(() => import('../../People/Influencer'), false);
+const Trending = dynamic(() => import('../../Trending'), { ssr: false });
+const Influencer = dynamic(() => import('../../People/Influencer'), { ssr: false });
 
-const SuggestionPeople = lazyLoadHydrateScroll(() => import('../SuggestionPeople'), false);
+const SuggestionPeople = dynamic(() => import('../SuggestionPeople'), { ssr: false });
 
-const NewsFeed = lazyLoadHydrateScroll(
-  () => import('../../../Post/NewsFeed'),
-  false,
-  () => <NewsFeedSkeleton />,
-);
-const ListTheme = lazyLoadHydrateScroll(() => import('@components/Home/ListTheme'), false);
+const NewsFeed = dynamic(() => import('../../../Post/NewsFeed'), {
+  ssr: false,
+  loading: () => <NewsFeedSkeleton />,
+});
+const ListTheme = dynamic(() => import('@components/Home/ListTheme'), { ssr: false });
 
 const PostListChunk1 = ({ firstPost, onCommentPost, fourPost, loadingPosts }: any) => {
   const { t } = useTranslation('home');

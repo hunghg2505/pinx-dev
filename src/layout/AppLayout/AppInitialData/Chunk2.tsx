@@ -12,7 +12,7 @@ const Chunk2 = () => {
     const t = setTimeout(() => {
       getInitDataStockMarketHome();
       clearTimeout(t);
-    }, 12_000);
+    }, 10_000);
   }, []);
 
   return <></>;

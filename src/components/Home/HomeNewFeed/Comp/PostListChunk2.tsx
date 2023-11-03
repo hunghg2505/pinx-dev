@@ -1,14 +1,14 @@
+import dynamic from 'next/dynamic';
+
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
-import { lazyLoadHydrateScroll } from '@components/LazyComp/LazyComp';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 import { IPost } from '@components/Post/service';
 import useObserver from '@hooks/useObserver';
 
-const NewsFeed = lazyLoadHydrateScroll(
-  () => import('../../../Post/NewsFeed'),
-  false,
-  () => <NewsFeedSkeleton />,
-);
+const NewsFeed = dynamic(() => import('../../../Post/NewsFeed'), {
+  ssr: false,
+  loading: () => <NewsFeedSkeleton />,
+});
 
 const PostListChunk2 = ({ postsNext, serviceLoadMorePost, onCommentPost }: any) => {
   const { refLastElement } = useObserver();

@@ -1,10 +1,11 @@
+import dynamic from 'next/dynamic';
+
 import { lazyLoadHydrateScroll } from '@components/LazyComp/LazyComp';
 import NewsFeedSkeleton from '@components/Post/NewsFeed/NewsFeedSkeleton';
 
-const PostListChunk1 = lazyLoadHydrateScroll(
-  () => import('@components/Home/HomeNewFeed/Comp/PostListChunk1'),
-  false,
-);
+const PostListChunk1 = dynamic(() => import('@components/Home/HomeNewFeed/Comp/PostListChunk1'), {
+  ssr: false,
+});
 
 const PostListChunk2 = lazyLoadHydrateScroll(
   () => import('@components/Home/HomeNewFeed/Comp/PostListChunk2'),

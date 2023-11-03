@@ -11,7 +11,7 @@ import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
 // import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
-import lazyLoadHydrate, { lazyLoadHydrateScroll } from '@components/LazyComp/LazyComp';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import { IPost } from '@components/Post/service';
 import { useUserLoginInfo } from '@hooks/useUserLoginInfo';
 import { popupStatusAtom } from '@store/popup/popup';
@@ -22,7 +22,7 @@ import { HOME } from 'src/constant/route';
 import { filterNewsTracking } from 'src/mixpanel/mixpanel';
 
 const PinPost = dynamic(() => import('@components/Home/HomeNewFeed/PinPost'));
-const PostList = lazyLoadHydrateScroll(() => import('@components/Home/HomeNewFeed/PostList'));
+const PostList = dynamic(() => import('@components/Home/HomeNewFeed/PostList'));
 
 // const TabMobile = lazyLoadHydrate(
 //   () => import('@components/Home/HomeNewFeed/TabMobile'),
@@ -178,10 +178,6 @@ const HomeNewFeed = () => {
 
   return (
     <div className='relative desktop:pt-0'>
-      {/* <div className='relative tablet:hidden [&>section]:h-full'>
-        <TabMobile />
-      </div> */}
-
       <UserPosting onAddNewPost={onAddNewPost} />
 
       <HomeFeedFilter filterType={filterType as string} onFilter={onFilter as any} />

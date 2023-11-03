@@ -1,4 +1,5 @@
 import { isArray } from './isArray';
+import { set } from './set';
 import { toArray } from './toArray';
 
 export function remove(names: string | string[]) {

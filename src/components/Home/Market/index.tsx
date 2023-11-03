@@ -200,8 +200,8 @@ const Market = () => {
               </div>
 
               {item?.img ? (
-                <div className='h-[70px] w-full rounded-[8px] bg-[#e1edf4]'>
-                  <img src={item.img} alt='' className='h-full w-full object-cover' />
+                <div className='h-[70px] w-full rounded-[8px] bg-[#e1edf480]'>
+                  {/* <img src={item.img} alt='' className='h-full w-full object-cover' /> */}
                 </div>
               ) : (
                 <iframe
