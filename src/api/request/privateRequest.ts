@@ -1,6 +1,5 @@
 import TokenManager from 'brainless-token-manager';
 
-import { PREFIX_API_COMMUNITY } from '@api/request/constant';
 import { getAccessToken } from '@store/auth';
 
 export interface IOptions {
@@ -37,12 +36,4 @@ export const privateRequest = async (request: any, suffixUrl: string, configs?: 
       ...configs,
     });
   }
-};
-
-export const requestFromServer = async (ctx: any, suffixUrl: string) => {
-  const token = getAccessToken(ctx?.res, ctx?.req);
-
-  return privateRequest(fetch, `${PREFIX_API_COMMUNITY}${suffixUrl}`, {
-    token,
-  }).then((r) => r.json());
 };

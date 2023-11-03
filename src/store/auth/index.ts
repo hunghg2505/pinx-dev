@@ -1,99 +1,69 @@
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { get, remove, set } from '@utils/cookies';
 
-export const getAccessToken = (res?: any, req?: any) => {
-  if (res && req) {
-    return getCookie('accessToken', { req, res });
-  }
-  return getCookie('accessToken') || '';
+export const getAccessToken = () => {
+  return get('accessToken') || '';
 };
 
-export const getRefreshToken = (res?: any, req?: any) => {
-  if (res && req) {
-    return getCookie('accessRefreshToken', { req, res });
-  }
-  return getCookie('accessRefreshToken') || '';
+export const getRefreshToken = () => {
+  return get('accessRefreshToken') || '';
 };
 
-export const setAuthCookies = (
-  {
-    token,
-    refreshToken,
-    expiredTime,
-  }: {
-    token: string;
-    refreshToken: string;
-    expiredTime?: number;
-  },
-  reqOnServer?: any,
-) => {
-  setCookie('accessToken', token, {
-    maxAge: 2_147_483_647,
-    res: reqOnServer?.res,
-    req: reqOnServer?.req,
+export const setAuthCookies = ({
+  token,
+  refreshToken,
+  expiredTime,
+}: {
+  token: string;
+  refreshToken: string;
+  expiredTime?: number;
+}) => {
+  set('accessToken', token, {
+    expires: 365,
   });
-  setCookie('accessRefreshToken', refreshToken, {
-    maxAge: 2_147_483_647,
-    res: reqOnServer?.res,
-    req: reqOnServer?.req,
+  set('accessRefreshToken', refreshToken, {
+    expires: 365,
   });
-  setCookie('tokenExpiredTime', expiredTime, {
-    maxAge: 2_147_483_647,
-    res: reqOnServer?.res,
-    req: reqOnServer?.req,
+  set('tokenExpiredTime', expiredTime || 0, {
+    expires: 365,
   });
 };
 
 export const deleteAuthCookies = () => {
-  deleteCookie('accessToken');
-  deleteCookie('accessRefreshToken');
-  deleteCookie('tokenExpiredTime');
+  remove('accessToken');
+  remove('accessRefreshToken');
+  remove('tokenExpiredTime');
 };
 
-export const getRegisterToken = (res?: any, req?: any) => {
-  if (res && req) {
-    return getCookie('registerToken', { req, res });
-  }
-  return getCookie('registerToken') || '';
+export const getRegisterToken = () => {
+  return get('registerToken') || '';
 };
 
-export const getRefreshRegisterToken = (res?: any, req?: any) => {
-  if (res && req) {
-    return getCookie('refreshRegisterToken', { req, res });
-  }
-  return getCookie('refreshRegisterToken') || '';
+export const getRefreshRegisterToken = () => {
+  return get('refreshRegisterToken') || '';
 };
 
-export const setRegisterCookies = (
-  {
-    token,
-    refreshToken,
-    expiredTime,
-  }: {
-    token: string;
-    refreshToken: string;
-    expiredTime?: number;
-  },
-  reqOnServer?: any,
-) => {
-  setCookie('registerToken', token, {
-    maxAge: 2_147_483_647,
-    res: reqOnServer?.res,
-    req: reqOnServer?.req,
+export const setRegisterCookies = ({
+  token,
+  refreshToken,
+  expiredTime,
+}: {
+  token: string;
+  refreshToken: string;
+  expiredTime?: number;
+}) => {
+  set('registerToken', token, {
+    expires: 365,
   });
-  setCookie('refreshRegisterToken', refreshToken, {
-    maxAge: 2_147_483_647,
-    res: reqOnServer?.res,
-    req: reqOnServer?.req,
+  set('refreshRegisterToken', refreshToken, {
+    expires: 365,
   });
-  setCookie('registertokenExpiredTime', expiredTime, {
-    maxAge: 2_147_483_647,
-    res: reqOnServer?.res,
-    req: reqOnServer?.req,
+  set('registertokenExpiredTime', expiredTime || 0, {
+    expires: 365,
   });
 };
 
 export const deleteRegisterCookies = () => {
-  deleteCookie('registerToken');
-  deleteCookie('refreshRegisterToken');
-  deleteCookie('registertokenExpiredTime');
+  remove('registerToken');
+  remove('refreshRegisterToken');
+  remove('registertokenExpiredTime');
 };

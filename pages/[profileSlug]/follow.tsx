@@ -26,8 +26,8 @@ ProfileFollowPage.getLayout = (page: ReactElement) => {
   return <MainLayout>{page}</MainLayout>;
 };
 
-export async function getServerSideProps({ locale, params, req, res }: GetServerSidePropsContext) {
-  const { isMyProfile } = checkProfilePath(params, req, res);
+export async function getServerSideProps({ locale, params, req }: GetServerSidePropsContext) {
+  const { isMyProfile } = checkProfilePath(params, req);
 
   return {
     props: {

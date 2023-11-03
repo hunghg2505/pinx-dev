@@ -24,7 +24,7 @@ const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData/Ap
 const InitialSocket = dynamic(() => import('@layout/AppLayout/InitialSocket'), {
   ssr: false,
 });
-const InitialNotification = dynamic(() => import('@layout/AppLayout/InitialNotification'), {
+const NotificationWrap = dynamic(() => import('@layout/AppLayout/NotificationWrap'), {
   ssr: false,
 });
 
@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       <ErrorBoundary>
         <AppInitialData />
-        <InitialNotification />
+        <NotificationWrap />
         <InitialSocket />
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>

@@ -1,20 +1,17 @@
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { get, remove, set } from '@utils/cookies';
 
 export const PINEX_LOCALE = 'PINEX_LOCALE';
 
-export const getLocaleCookie = (res?: any, req?: any) => {
-  if (res && req) {
-    return getCookie(PINEX_LOCALE, { req, res });
-  }
-  return getCookie(PINEX_LOCALE) || '';
+export const getLocaleCookie = () => {
+  return get(PINEX_LOCALE) || '';
 };
 
 export const setLocaleCookie = (locale: string) => {
-  setCookie(PINEX_LOCALE, locale, {
-    maxAge: 253_388_249_370,
+  set(PINEX_LOCALE, locale, {
+    expires: 365,
   });
 };
 
 export const deleteLocaleCookie = () => {
-  deleteCookie(PINEX_LOCALE);
+  remove(PINEX_LOCALE);
 };

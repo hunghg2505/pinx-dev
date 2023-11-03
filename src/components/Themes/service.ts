@@ -16,7 +16,6 @@ import {
   PREFIX_API_IP_COMMUNITY,
   privateRequest,
   requestCommunity,
-  requestFromServer,
   requestPist,
 } from '@api/request';
 import { ILatestSubscribe } from '@components/Home/service';
@@ -189,19 +188,6 @@ export const useGetListActivitiesTheme = (code: string, limit?: number) => {
     refresh,
     loading,
   };
-};
-
-export const serviceGetThemeDetailFromServer = async (code: any, ctx: any): Promise<any> => {
-  try {
-    const res = await requestFromServer(ctx, PRIVATE_GET_THEME_DETAIL(code));
-    return {
-      orderDetail: {
-        ...res,
-      },
-    };
-  } catch {
-    return {};
-  }
 };
 
 export async function getCommunity(page: number, code: string): Promise<any> {
