@@ -7,7 +7,7 @@ import Text from '@components/UI/Text';
 import { DEEP_LINK } from 'src/constant';
 import { downloadPineXAppTracking } from 'src/mixpanel/mixpanel';
 
-const DownloadApp = ({ isMobile }: any) => {
+const DownloadApp = () => {
   const { t } = useTranslation('common');
 
   return (
@@ -23,7 +23,7 @@ const DownloadApp = ({ isMobile }: any) => {
           className='h-[35px] w-[35px]'
         />
         <div className='ml-[8px]'>
-          <Text type={isMobile ? 'body-10-regular' : 'body-14-regular'} color='primary-5'>
+          <Text type={'body-10-regular'} color='primary-5'>
             {t('try_full_experience_on')}
           </Text>
           <CustomLink

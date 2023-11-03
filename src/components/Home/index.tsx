@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
 import dynamic from 'next/dynamic';
+
+// import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 
 // import FooterSignUp from '@components/FooterSignup';
 // import HomeNewFeed from '@components/Home/HomeNewFeed/HomeNewFeed';
@@ -13,13 +17,17 @@ const FooterSignUp = dynamic(() => import('@components/Home/PopupHomeNoti/PopupH
   ssr: false,
 });
 const HomeNewFeed = dynamic(() => import('@components/Home/HomeNewFeed/HomeNewFeed'));
+const TabMobile = lazyLoadHydrate(() => import('@components/Home/HomeNewFeed/TabMobile'), true);
 
 const Home = () => {
   return (
     <>
-      <PopupHomeNoti />
-
+      <div className='relative tablet:hidden [&>section]:h-full'>
+        <TabMobile />
+      </div>
       <HomeNewFeed />
+
+      <PopupHomeNoti />
 
       <FooterSignUp />
     </>

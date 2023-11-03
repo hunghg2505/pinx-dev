@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactElement } from 'react';
 
 import { useHydrateAtoms } from 'jotai/utils';
@@ -39,7 +40,7 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export async function getStaticProps({ locale }: any) {
+export async function getServerSideProps({ locale }: any) {
   const responsePinnedPost = await requestCommunity.get(PUBLIC_PINNED_POST);
 
   return {
@@ -47,7 +48,6 @@ export async function getStaticProps({ locale }: any) {
       ...(await serverSideTranslations(locale || 'en', ['common', 'home', 'profile', 'theme'])),
       dataSSRPinPost: responsePinnedPost?.data?.length ? responsePinnedPost?.data?.slice(0, 1) : [],
       // Will be passed to the page component as props
-      revalidate: 10,
     },
   };
 }

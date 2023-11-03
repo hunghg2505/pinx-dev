@@ -1,15 +1,15 @@
 import { useMount } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import { IconCloseMenu } from '@components/UI/Icon/IconCloseMenu';
 import { useRouteSetting } from '@hooks/useRouteSetting';
 import { openProfileAtom } from '@store/profile/profile';
 import { useSidebarMobile } from '@store/sidebarMobile/sidebarMobile';
 
-const SideBar = dynamic(() => import('@layout/MainLayout/SideBar'));
+const SideBar = lazyLoadHydrate(() => import('@layout/MainLayout/SideBar'));
 
 const MenuMobile = () => {
   const [isShowNavigate, setIsShowNavigate] = useSidebarMobile();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useUpdateEffect } from 'ahooks';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -6,8 +7,6 @@ import { useRouter } from 'next/router';
 import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import CustomLink from '@components/UI/CustomLink';
 import Text from '@components/UI/Text';
-import { useResponsive } from '@hooks/useResponsive';
-import { useRouteSetting } from '@hooks/useRouteSetting';
 import { getAccessToken } from '@store/auth';
 import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch';
 import { HOME } from 'src/constant/route';
@@ -35,21 +34,21 @@ const DownloadApp = dynamic(() => import('@layout/components/MainHeader/Download
 });
 
 const MainHeader = () => {
-  const { isRouteSetting } = useRouteSetting();
-  const { isMobile } = useResponsive();
-  const token = getAccessToken();
-  const router = useRouter();
+  // const token = getAccessToken();
+  // const router = useRouter();
   const [isShowSearch] = useHeaderSearch();
   const [isOpenSearch] = useOpenSearch();
   const isLogin = getAccessToken();
 
-  useUpdateEffect(() => {
-    router.reload();
-  }, [token]);
+  // useUpdateEffect(() => {
+  //   if (token) {
+  //     router.reload();
+  //   }
+  // }, [token]);
 
   return (
     <ScrollWrap>
-      {!isRouteSetting && <DownloadApp isMobile={isMobile} />}
+      <DownloadApp />
 
       <div className='relative mx-auto flex h-[56px] max-w-[1355px] flex-row items-center justify-between gap-[24px] px-[10px] galaxy-max:gap-[12px] desktop:h-[84px] desktop:px-[0]'>
         <div className='flex flex-none items-center desktop:w-[218px] desktop:gap-[16px]'>
@@ -82,14 +81,14 @@ const MainHeader = () => {
           <MenuMobile />
         </div>
 
-        {isShowSearch && !isMobile && (
+        {isShowSearch && (
           <div className='ml-auto max-w-[740px] tablet-max:hidden laptop:ml-[initial] laptop:w-full'>
             <SearchInput />
           </div>
         )}
 
         <div className='z-10 flex  flex-none items-center justify-end gap-[12px] galaxy-max:gap-[2px] desktop:w-[350px]'>
-          {isMobile && isShowSearch && <SearchInput />}
+          {isShowSearch && <SearchInput />}
           {!isOpenSearch && isLogin && <Notifications />}
           {!isOpenSearch && <Profile />}
         </div>

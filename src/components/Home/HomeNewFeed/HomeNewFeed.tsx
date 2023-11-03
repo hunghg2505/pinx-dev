@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 import HomeFeedFilter from '@components/Home/HomeNewFeed/ModalFilter';
-import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
+// import TabMobile from '@components/Home/HomeNewFeed/TabMobile';
 import { handleTrackingViewTicker } from '@components/Home/HomeNewFeed/utilts';
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import lazyLoadHydrate, { lazyLoadHydrateScroll } from '@components/LazyComp/LazyComp';
@@ -178,9 +178,9 @@ const HomeNewFeed = () => {
 
   return (
     <div className='relative desktop:pt-0'>
-      <div className='relative tablet:hidden [&>section]:h-full'>
+      {/* <div className='relative tablet:hidden [&>section]:h-full'>
         <TabMobile />
-      </div>
+      </div> */}
 
       <UserPosting onAddNewPost={onAddNewPost} />
 
