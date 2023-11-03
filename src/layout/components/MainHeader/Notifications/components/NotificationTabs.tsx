@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-useless-spread */
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -157,9 +157,8 @@ const NotificationItem = ({
 
 const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () => void }) => {
   const { t } = useTranslation('common');
-  const [notiStore] = useAtom(notificationAtom);
+  const [notiStore, setNotiStore] = useAtom(notificationAtom);
   const defaultActiveTab = notiStore.defaultNotiTab;
-  const [, setNotiStore] = useAtom(notificationAtom);
   const [curTab, setCurTab] = useState<string>(defaultActiveTab);
   const { data: userNoti, refresh: refreshNotiData } = useGetNotificationList({
     onSuccess: (res: any) => {
@@ -183,10 +182,55 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
       });
     },
   });
+  const tempUserNoti = userNoti && [...userNoti.data];
+  const tempPinetreeNoti = pinetreeNoti && [...pinetreeNoti.data];
+  const lastUserNoti = tempUserNoti?.reduce((_: any, cur: any, __: any, arr: any) => {
+    if (!cur.readStatus) {
+      arr.splice(1);
+      return cur;
+    }
+    return null;
+  }, {});
+  const lastPinetreeNoti = tempPinetreeNoti?.reduce((_: any, cur: any, __: any, arr: any) => {
+    if (!cur.readStatus) {
+      arr.splice(1);
+      return cur;
+    }
+    return null;
+  }, {});
+
+
+  const detectDefaultTab = () => {
+    if (lastUserNoti && lastPinetreeNoti && dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))) {
+      setNotiStore((prev) => ({
+        ...prev,
+        defaultNotiTab: 'pinetreeNoti',
+        initNotiTab: true,
+      }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('pinetreeNoti');
+      }
+    } else {
+      setNotiStore((prev) => ({
+        ...prev,
+        defaultNotiTab: 'userNoti',
+        initNotiTab: true,
+      }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('userNoti');
+      }
+    }
+  };
 
   const handleChangeTab = (tabKey: string) => {
     setCurTab(tabKey);
   };
+
+  useEffect(() => {
+    if (userNoti && pinetreeNoti) {
+      detectDefaultTab();
+    }
+  }, [userNoti, pinetreeNoti]);
 
   return (
     <Tabs activeKey={curTab} className={styles.tabLogin} onChange={handleChangeTab}>
