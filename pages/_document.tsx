@@ -1,15 +1,13 @@
-import { Partytown } from '@builder.io/partytown/react';
 import { Head, Html, Main, NextScript } from 'next/document';
-import Script from 'next/script';
+// import Script from 'next/script';
 
-import { ENV } from '@utils/env';
+// import { ENV } from '@utils/env';
 
 export default function Document() {
   return (
     <Html>
       <Head>
-        <Partytown forward={['dataLayer.push']} />
-        <Script
+        {/* <Script
           id='gtag'
           strategy='afterInteractive'
           dangerouslySetInnerHTML={{
@@ -20,15 +18,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${ENV.GOOGLE_TAG_MANAGER_ID}');`,
           }}
           type='text/partytown'
-        ></Script>
+        ></Script> */}
       </Head>
       <body>
-        <noscript
+        {/* <noscript
           dangerouslySetInnerHTML={{
             __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${ENV.GOOGLE_TAG_MANAGER_ID}"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
           }}
-        ></noscript>
+        ></noscript> */}
         <Main />
         <NextScript />
       </body>
