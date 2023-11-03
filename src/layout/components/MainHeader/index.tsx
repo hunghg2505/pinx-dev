@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import lazyLoadHydrate from '@components/LazyComp/LazyComp';
 import FakeLogo from '@layout/components/MainHeader/Comp/FakeLogo';
 import ButtonSearch from '@layout/components/MainHeader/FormSearch/ButtonSearch';
-import { getAccessToken } from '@store/auth';
+import { useLogin } from '@store/auth/hydrateAuth';
 import { useHeaderSearch, useOpenSearch } from '@store/headerSearch/headerSearch';
 
 const Logo = dynamic(() => import('@layout/components/MainHeader/Logo'), {
@@ -30,7 +30,7 @@ const MainHeader = () => {
   // const router = useRouter();
   const [isShowSearch] = useHeaderSearch();
   const [isOpenSearch] = useOpenSearch();
-  const isLogin = getAccessToken();
+  const { isLogin } = useLogin();
 
   // useUpdateEffect(() => {
   //   if (token) {

@@ -153,7 +153,7 @@ const Market = () => {
                   {item?.displayName}
                 </Text>
                 <Text type='body-12-regular' color='neutral-4' className='mt-[4px]'>
-                  {t(MARKET_STATUS[item.status])}
+                  {item?.img ? '--' : t(MARKET_STATUS[item.status])}
                 </Text>
                 <Text
                   type='body-24-regular'
@@ -168,7 +168,7 @@ const Market = () => {
                     },
                   )}
                 >
-                  {item?.cIndex?.toLocaleString('en-US')}
+                  {item?.img ? '--' : item?.cIndex?.toLocaleString('en-US')}
                 </Text>
                 <div
                   className={classNames(
@@ -192,9 +192,9 @@ const Market = () => {
                       [styles.isIncrease]: isIncrease && isChange,
                     })}
                   >
-                    {unit}
-                    {item?.change || change} / {unit}
-                    {item?.changePercent || changePercent}
+                    {item?.img ? '--' : unit}
+                    {item?.img ? '--' : item?.change || change} / {unit}
+                    {item?.img ? '--' : item?.changePercent || changePercent}
                   </Text>
                 </div>
               </div>
