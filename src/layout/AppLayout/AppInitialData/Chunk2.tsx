@@ -9,7 +9,10 @@ const Chunk2 = () => {
 
   useEffect(() => {
     getUserProfile();
-    getInitDataStockMarketHome();
+    const t = setTimeout(() => {
+      getInitDataStockMarketHome();
+      clearTimeout(t);
+    }, 12_000);
   }, []);
 
   return <></>;
