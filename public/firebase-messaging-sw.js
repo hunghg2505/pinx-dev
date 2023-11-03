@@ -25,7 +25,7 @@ if (typeof window === 'undefined') {
       const notificationTitle = payload.notification.title;
       const notificationOptions = {
         body: payload.notification.body,
-        icon: './static/icons/pinex_logo.png',
+        icon: './static/images/pinex_logo.png',
         data: payload.data.data,
       };
       console.log('xxx notificationOptions', notificationOptions);
