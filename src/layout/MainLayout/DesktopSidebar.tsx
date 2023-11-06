@@ -9,7 +9,7 @@ const SideBar = dynamic(() => import('./SideBar'));
 
 const DesktopSidebar = () => {
   const { isMobile } = useResponsive();
-  return isMobile ? null : <SideBar />;
+  return isMobile ? null : <SideBar isDesktop />;
 };
 
 export default DesktopSidebar;
