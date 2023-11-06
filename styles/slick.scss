@@ -56,3 +56,34 @@
 .slick-list {
   width: 100%;
 }
+.splide__arrow {
+  background: white !important;
+  opacity: 0.8 !important;
+  width: 2.3em !important;
+  height: 2.3em !important;
+  border: 1px solid #eff2f5 !important;
+}
+.splide__arrow--prev {
+  left: -13.5px !important;
+}
+.splide__arrow--next {
+  right: -13.5px !important;
+}
+.splide__pagination {
+  bottom: -2em !important;
+}
+.splide__pagination li {
+  width: 41px !important;
+  height: 6px !important;
+  margin-right: 12px !important;
+}
+.splide__pagination__page {
+  width: 100% !important;
+  height: 6px !important;
+  background: #d8ebfc !important;
+  border-radius: 12px !important;
+}
+.splide__pagination__page.is-active {
+  background: linear-gradient(270deg, #1d6cab 0%, #589dc0 100%) !important;
+  transform: none !important;
+}

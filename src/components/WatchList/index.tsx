@@ -14,6 +14,7 @@ import { socket } from 'src/socket/socket';
 
 import { useGetInterest, useGetYourWatchList } from './service';
 import WatchListSkeletonLoading from './YourWatchList/SkeletonLoading';
+import '@splidejs/react-splide/css';
 
 const YourWatchList = dynamic(() => import('@components/WatchList/YourWatchList'), {
   ssr: false,

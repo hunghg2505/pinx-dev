@@ -1,30 +1,13 @@
 import React from 'react';
 
-import Slider from 'react-slick';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 
 import { ISuggestionPeople } from '@components/Home/service';
 
 // import PeopleLoading from './Skeleton';
+
 import ItemPeople from '../ItemPeople';
 
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 300,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 interface IProps {
   data: ISuggestionPeople[];
   refreshList: () => void;
@@ -33,7 +16,19 @@ interface IProps {
 }
 const PeopleList = (props: IProps) => {
   const { data, refreshList, refresh } = props;
-
+  const splideOptions = {
+    type: 'slide',
+    perPage: 3,
+    speed: 500,
+    gap: '16px',
+    pagination: false,
+    arrows: false,
+    breakpoints: {
+      300: {
+        perPage: 2,
+      },
+    },
+  };
   // if (loading) {
   //   return (
   //     <div className='overflow-x-hidden whitespace-nowrap'>
@@ -47,17 +42,18 @@ const PeopleList = (props: IProps) => {
   // }
 
   return (
-    <div className='ml-[12px] max-w-[700px] overflow-hidden  '>
-      <Slider {...settings} className=''>
-        {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
-          return (
-            <div key={`people-list-${item.id}`} className='outline-none'>
+    <Splide aria-label="My Favorite Images" options={splideOptions}>
+      {data?.slice(0, 3)?.map((item: ISuggestionPeople) => {
+        return (
+          <SplideSlide key={`people-list-${item.id}`}>
+            <div className='outline-none'>
               <ItemPeople refresh={refresh} data={item} refreshList={refreshList} />
             </div>
-          );
-        })}
-      </Slider>
-    </div>
+          </SplideSlide>
+
+        );
+      })}
+    </Splide>
   );
 };
 export default PeopleList;

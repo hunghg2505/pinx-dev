@@ -1,18 +1,11 @@
 import React from 'react';
 
-import Slider from 'react-slick';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
+
+import useSpildeOptions from '@hooks/useSplideOptions';
 
 import ItemStock from './ItemStock';
 
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 const ListStock = ({
   listStock,
   onTrackingViewTicker,
@@ -20,12 +13,18 @@ const ListStock = ({
   listStock: string[];
   onTrackingViewTicker?: (stockCode: string) => void;
 }) => {
+  const { listStockSplideOptions } = useSpildeOptions();
   return (
-    <Slider {...settings} className='slidePostAdmin' variableWidth>
+    <Splide options={listStockSplideOptions}>
       {listStock?.map((item: string, index: number) => {
-        return <ItemStock onTrackingViewTicker={onTrackingViewTicker} key={index} data={item} />;
+        return (
+          <SplideSlide key={index}>
+            <ItemStock onTrackingViewTicker={onTrackingViewTicker} data={item} />
+          </SplideSlide>
+        );
       })}
-    </Slider>
+    </Splide>
+
   );
 };
 export default ListStock;
