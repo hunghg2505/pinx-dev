@@ -37,7 +37,6 @@ const EmptyNotification = () => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const NotificationItem = ({
   notification,
   onCloseNotiDropdown,
@@ -229,10 +228,7 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
         defaultNotiTab: 'pinetreeNoti',
         initNotiTab: true,
       }));
-      if (!notiStore.initNotiTab) {
-        setCurTab('pinetreeNoti');
-      }
-    } else if (lastUserNoti?.time && lastPinetreeNoti?.time) {
+    } else {
       setNotiStore((prev) => ({
         ...prev,
         defaultNotiTab: 'userNoti',
