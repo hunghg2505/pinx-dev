@@ -24,9 +24,9 @@ const AppInitialData = dynamic(() => import('@layout/AppLayout/AppInitialData'),
 const InitialSocket = dynamic(() => import('@layout/AppLayout/InitialSocket'), {
   ssr: false,
 });
-const InitialNotification = dynamic(() => import('@layout/AppLayout/InitialNotification'), {
-  ssr: false,
-});
+// const InitialNotification = dynamic(() => import('@layout/AppLayout/InitialNotification'), {
+//   ssr: false,
+// });
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       <ErrorBoundary>
         <AppInitialData />
-        <InitialNotification />
+        {/* <InitialNotification /> */}
         <InitialSocket />
         <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
       </ErrorBoundary>
