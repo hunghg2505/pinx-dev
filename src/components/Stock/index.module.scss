@@ -119,3 +119,11 @@ $small-mobile: 300px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.stockProductSplide {
+  :global {
+    .splide__arrow {
+      transform: translateY(-100%);
+    }
+  }
+}

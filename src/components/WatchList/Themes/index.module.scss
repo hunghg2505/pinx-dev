@@ -1,10 +1,14 @@
-.sliderTheme{
+.watchlistThemeSplide {
   :global {
-    .slick-arrow{
-      display: block !important;
-      &.slick-prev{
-        left: 0;
-      }
+    .splide__arrow {
+      height: 2em !important;
+      width: 2em !important;
+    }
+    .splide__arrow--next {
+      right: 0.5em !important;
+    }
+    .splide__arrow--prev {
+      left: 0.5em !important;
     }
   }
 }

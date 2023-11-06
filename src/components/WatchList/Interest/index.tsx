@@ -1,13 +1,14 @@
 import React from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
 import { IWatchListItem } from '@components/Home/service';
 import Text from '@components/UI/Text';
 import { useResponsive } from '@hooks/useResponsive';
+import useSpildeOptions from '@hooks/useSplideOptions';
 import { socket } from 'src/socket/socket';
 
 import styles from './index.module.scss';
@@ -21,13 +22,6 @@ interface IProps {
   totalStock: number;
   onTrackingViewTickerInfo?: (stockCode: string, location: string) => void;
 }
-const settings = {
-  dots: false,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 5,
-  slidesToScroll: 5,
-};
 
 const Empty = dynamic(() => import('@components/UI/Empty'), {
   ssr: false,
@@ -45,6 +39,7 @@ const Interest = (props: IProps) => {
   } = props;
   const { t } = useTranslation('watchlist');
   const { isDesktop, isMobile } = useResponsive();
+  const { interestWatchlistSplideOptions } = useSpildeOptions();
 
   React.useEffect(() => {
     const getDataSocket = (message: any) => {
@@ -109,26 +104,28 @@ const Interest = (props: IProps) => {
           )}
           {isDesktop && interestStock?.length > 0 && (
             <>
-              <Slider {...settings} className={classNames('', styles.slickSlider)} draggable>
+              <Splide options={interestWatchlistSplideOptions} className={styles.interstSplide}>
                 {dataFormat?.map((item: IWatchListItem, index: number) => {
                   const isChangeColor = isChangeStockPrice && findIndex === index;
                   return (
-                    <div
-                      key={`desktop-${index}`}
-                      className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
-                    >
-                      <InterestItem
-                        onTrackingViewTickerInfo={onTrackingViewTickerInfo}
-                        totalStock={totalStock}
-                        data={item}
-                        refresh={refreshInterest}
-                        refreshYourWatchList={refreshYourWatchList}
-                        isChangeColor={isChangeColor}
-                      />
-                    </div>
+                    <SplideSlide key={`desktop-${index}`}>
+                      <div
+                        className='relative min-h-[172px] flex-none rounded-[12px] bg-[#f9f9f9] px-[14px] pb-[12px] pt-[16px]'
+                      >
+                        <InterestItem
+                          onTrackingViewTickerInfo={onTrackingViewTickerInfo}
+                          totalStock={totalStock}
+                          data={item}
+                          refresh={refreshInterest}
+                          refreshYourWatchList={refreshYourWatchList}
+                          isChangeColor={isChangeColor}
+                        />
+                      </div>
+                    </SplideSlide>
                   );
                 })}
-              </Slider>
+
+              </Splide>
             </>
           )}
         </div>

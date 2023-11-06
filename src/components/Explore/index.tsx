@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import Slider from 'react-slick';
 
 import { FILTER_TYPE } from '@components/Home/ModalFilter/modal-filter';
 import Influencer from '@components/Home/People/Influencer';
@@ -13,6 +13,7 @@ import { ExploreButton } from '@components/UI/Button';
 import CustomLink from '@components/UI/CustomLink';
 import { Skeleton } from '@components/UI/Skeleton';
 import Text from '@components/UI/Text';
+import useSpildeOptions from '@hooks/useSplideOptions';
 import { ROUTE_PATH } from '@utils/common';
 import {
   getMoreInfoTracking,
@@ -35,43 +36,11 @@ import {
 import SuggestionPeople from './SuggestionPeople';
 import TrendingOnnPinex from './TrendingOnPinex/inndex';
 import WatchingStock from './WatchingStock';
+import '@splidejs/react-splide/css';
 
 const ThemesItem = dynamic(() => import('@components/Themes/ThemesItem'), {
   ssr: false,
 });
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 3,
-  swipeToSlide: true,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 3,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-  // autoplay: true,
-  // autoplaySpeed: 1000,
-};
 
 const handleTrackingViewListStock = (presetName: string, presetGroup = '') => {
   viewStockListTracking(presetName, presetGroup, 'Basic category', 'Explore screen');
@@ -88,11 +57,10 @@ const handleTrackingGetMoreInfo = (infoGroup: string, infoDetail: string) => {
 };
 
 const Explore = () => {
+  const { defaultSplideOptions } = useSpildeOptions();
   const { t } = useTranslation(['theme', 'explore']);
   const [isShowMoreKeyword, setIsShowMoreKeyword] = React.useState<boolean>(false);
   const refClick: any = React.useRef(null);
-  const refSlideTheme: any = React.useRef();
-  const refSlidePinex: any = React.useRef();
 
   const { theme, refresh: refreshTheme, fetchTheme } = useGetTheme();
   const { keyWords, loading: loadingKeywords, mutate } = useGetKeyWordsTop();
@@ -261,63 +229,23 @@ const Explore = () => {
         <Text
           type='body-20-semibold'
           color='neutral-1'
-          className='mb-[16px] galaxy-max:text-[18px] '
+          className='mb-[16px] galaxy-max:text-[18px]'
         >
           {t('themes')}
         </Text>
 
-        {/* {loadingThemes ? (
-          <>
-            <div className='flex overflow-x-hidden'>
-              <Skeleton
-                rows={4}
-                wrapClassName='!flex-row gap-x-[16px]'
-                width={161}
-                height={252}
-                className='!rounded-[10px]'
-              />
-            </div>
-
-            <Skeleton className='mt-[16px] !h-[45px] !w-full !rounded-[8px]' />
-          </>
-        ) : (
-          <> */}
         <div className='relative mb-[16px]'>
-          <div
-            onClick={refSlideTheme?.current?.slickPrev}
-            className='absolute -left-[14px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayPrev.svg'
-              alt='Icon prev'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
-
-          <div className='slideTheme max-w-[700px] overflow-hidden'>
-            <Slider {...settings} variableWidth ref={refSlideTheme}>
-              {theme?.map((theme: ITheme, index: number) => {
-                return (
-                  <div key={index}>
-                    <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
-                      <ThemesItem refresh={refreshTheme} theme={theme} />
-                    </div>
+          <Splide options={defaultSplideOptions}>
+            {theme?.map((theme: ITheme, index: number) => {
+              return (
+                <SplideSlide key={index}>
+                  <div className='mr-[16px] w-[161px] mobile-max:mr-[16px]'>
+                    <ThemesItem refresh={refreshTheme} theme={theme} />
                   </div>
-                );
-              })}
-            </Slider>
-          </div>
-
-          <div
-            onClick={refSlideTheme?.current?.slickNext}
-            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayNext.svg'
-              alt='Icon next'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
+                </SplideSlide>
+              );
+            })}
+          </Splide>
         </div>
         <CustomLink
           href={ROUTE_PATH.THEME}
@@ -329,8 +257,6 @@ const Explore = () => {
             </Text>
           </ExploreButton>
         </CustomLink>
-        {/* </>
-        )} */}
       </div>
 
       <div className='box-shadow card-style'>
@@ -443,42 +369,19 @@ const Explore = () => {
           {t('pinex_top_20')}
         </Text>
         <div className='relative mb-[16px]'>
-          <div
-            onClick={refSlidePinex?.current?.slickPrev}
-            className='absolute -left-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayPrev.svg'
-              alt='Icon prev'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
-
-          <div className='pinexTop20 max-w-[700px]  overflow-hidden'>
-            <Slider {...settings} variableWidth ref={refSlidePinex}>
-              {optionTab?.map((item: any) => (
+          <Splide options={defaultSplideOptions}>
+            {optionTab?.map((item: any) => (
+              <SplideSlide key={item.value}>
                 <PinexTop
                   onClick={() =>
                     handleTrackingViewListStock(t(`explore:${item.label}`), 'Top 20 pinex')
                   }
                   label={t(`explore:${item.label}`)}
                   value={item.value}
-                  key={item.value}
                 />
-              ))}
-            </Slider>
-          </div>
-
-          <div
-            onClick={refSlidePinex?.current?.slickNext}
-            className='absolute -right-[12px] top-2/4 z-10 flex h-[38px] w-[38px] -translate-y-2/4 transform cursor-pointer select-none items-center justify-center rounded-full border border-solid border-primary_blue_light bg-white tablet-max:hidden'
-          >
-            <img
-              src='/static/icons/iconGrayNext.svg'
-              alt='Icon next'
-              className='h-[16px] w-[7px] object-contain'
-            />
-          </div>
+              </SplideSlide>
+            ))}
+          </Splide>
         </div>
 
         <CustomLink href={ROUTE_PATH.PINEX_TOP_20}>
