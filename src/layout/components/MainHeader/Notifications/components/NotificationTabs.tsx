@@ -228,6 +228,9 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
         defaultNotiTab: 'pinetreeNoti',
         initNotiTab: true,
       }));
+      if (!notiStore.initNotiTab) {
+        setCurTab('pinetreeNoti');
+      }
     } else {
       setNotiStore((prev) => ({
         ...prev,
