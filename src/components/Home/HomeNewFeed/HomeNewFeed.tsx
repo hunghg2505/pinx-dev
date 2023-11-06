@@ -43,8 +43,6 @@ const HomeNewFeed = () => {
   const { t } = useTranslation('home');
   const router = useRouter();
 
-  console.log(123)
-
   const [popupStatus, setPopupStatus] = useAtom(popupStatusAtom);
   const [postDetailStatus] = useAtom(postDetailStatusAtom);
   const { userType, isReadTerms } = useUserLoginInfo();
