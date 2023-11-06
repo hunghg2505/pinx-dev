@@ -345,7 +345,7 @@ const Profile = () => {
           </Dropdown>
         </div>
 
-        <CustomImage
+        <img
           width='0'
           height='0'
           sizes='100vw'

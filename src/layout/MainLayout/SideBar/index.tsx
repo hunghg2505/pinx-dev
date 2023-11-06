@@ -43,7 +43,7 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const MenuItem = ({ children, href, ...props }: any) => <div {...props}>{children}</div>;
 
-const SideBar = () => {
+const SideBar = ({ isDesktop = false }: { isDesktop?: boolean }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const { profileSlug }: any = router.query;
@@ -247,7 +247,7 @@ const SideBar = () => {
             width={218}
             height={400}
             className='mt-[16px] h-[400px] w-[218px] object-contain laptop-max:px-[10px]'
-            priority
+            priority={isDesktop}
           />
         </a>
 

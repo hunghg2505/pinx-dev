@@ -199,9 +199,12 @@ const NotificationTabs = ({ onCloseNotiDropdown }: { onCloseNotiDropdown?: () =>
     return null;
   }, {});
 
-
   const detectDefaultTab = () => {
-    if (lastUserNoti.time && lastPinetreeNoti.time && dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))) {
+    if (
+      lastUserNoti?.time &&
+      lastPinetreeNoti?.time &&
+      dayjs(lastUserNoti?.time).isBefore(dayjs(lastPinetreeNoti?.time))
+    ) {
       setNotiStore((prev) => ({
         ...prev,
         defaultNotiTab: 'pinetreeNoti',
